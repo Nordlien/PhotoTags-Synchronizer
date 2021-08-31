@@ -1264,22 +1264,22 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region GUI - Select all, none, toggle in ListView
-        private void buttonWebScrapingSelectAll_Click(object sender, EventArgs e)
-        {
-            foreach (ListViewItem listViewItem in listViewLinks.Items) listViewItem.Checked = true;            
-        }
-
-        private void buttonWebScrapingSelectNotRead_Click(object sender, EventArgs e)
+        private void buttonSpecNavigatorCategoriesSelectEmpty_Click(object sender, EventArgs e)
         {
             foreach (ListViewItem listViewItem in listViewLinks.Items) listViewItem.Checked = !(listViewItem.SubItems[itemViewSubItemLinksReadDate].Tag is DateTime);
         }
 
-        private void buttonWebScrapingToggle_Click(object sender, EventArgs e)
+        private void buttonSpecNavigatorCategoriesSelectAll_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem listViewItem in listViewLinks.Items) listViewItem.Checked = true;
+        }
+
+        private void buttonSpecNavigatorCategoriesSelectToggle_Click(object sender, EventArgs e)
         {
             foreach (ListViewItem listViewItem in listViewLinks.Items) listViewItem.Checked = !listViewItem.Checked;
         }
 
-        private void buttonWebScrapingSelectNone_Click(object sender, EventArgs e)
+        private void buttonSpecNavigatorCategoriesSelectNone_Click(object sender, EventArgs e)
         {
             foreach (ListViewItem listViewItem in listViewLinks.Items) listViewItem.Checked = false;
         }
@@ -1491,12 +1491,12 @@ namespace PhotoTagsSynchronizer
             buttonWebScrapingLoadPackage.Enabled = true;
             buttonWebScrapingSave.Enabled = true;
         }
-        
+
 
         #endregion
 
         #region GUI - Delete WebScraping DataSet
-        private void buttonWebScrapingDataSetDelete_Click(object sender, EventArgs e)
+        private void buttonSpecNavigatorDataSetSelectDelete_Click(object sender, EventArgs e)
         {
             buttonWebScrapingDataSetDelete.Enabled = false;
 
@@ -1510,7 +1510,7 @@ namespace PhotoTagsSynchronizer
                     DateTime packageDateTime = (DateTime)listViewItem.Tag;
 
                     int rowsAffected = DatabaseAndCacheMetadataExiftool.DeleteDirectoryAndHistory(MetadataBrokerType.WebScraping, webScrapingName, packageDateTime);
-                    fastColoredTextBoxJavaScriptResult.Text += rowsAffected.ToString() + " rows deleted for date: "  + packageDateTime.ToString() + "\r\n";
+                    fastColoredTextBoxJavaScriptResult.Text += rowsAffected.ToString() + " rows deleted for date: " + packageDateTime.ToString() + "\r\n";
                 }
             }
             DatabaseAndCacheMetadataExiftool.TransactionCommitBatch(true);
@@ -1524,17 +1524,18 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region GUI - WebScrapingCategoryGroup - Select - All/Toggle/None
-        private void buttonWebScrapingCategoryGroupSelectAll_Click(object sender, EventArgs e)
+
+        private void buttonSpecNavigatorDataSetSelectAll_Click(object sender, EventArgs e)
         {
             foreach (ListViewItem listViewItem in listViewDataSetDates.Items) listViewItem.Checked = true;
         }
 
-        private void buttonWebScrapingCategoryGroupSelectToggle_Click(object sender, EventArgs e)
+        private void buttonSpecNavigatorDataSetSelectToggle_Click(object sender, EventArgs e)
         {
             foreach (ListViewItem listViewItem in listViewDataSetDates.Items) listViewItem.Checked = !listViewItem.Checked;
         }
 
-        private void buttonWebScrapingCategoryGroupSelectNone_Click(object sender, EventArgs e)
+        private void buttonSpecNavigatorDataSetSelectNone_Click(object sender, EventArgs e)
         {
             foreach (ListViewItem listViewItem in listViewDataSetDates.Items) listViewItem.Checked = false;
         }
@@ -1555,8 +1556,14 @@ namespace PhotoTagsSynchronizer
         }
 
 
+
+
+
+
+
         #endregion
 
+        
     }
 
 

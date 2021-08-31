@@ -31,26 +31,12 @@ namespace PhotoTagsSynchronizer
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormWebScraper));
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.panelBrowser = new System.Windows.Forms.Panel();
             this.textBoxBrowserURL = new Krypton.Toolkit.KryptonTextBox();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.fastColoredTextBoxJavaScript = new FastColoredTextBoxNS.FastColoredTextBox();
             this.fastColoredTextBoxJavaScriptResult = new FastColoredTextBoxNS.FastColoredTextBox();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.buttonWebScrapingClearDataSet = new Krypton.Toolkit.KryptonButton();
-            this.buttonWebScrapingDataSetDelete = new Krypton.Toolkit.KryptonButton();
             this.label3 = new Krypton.Toolkit.KryptonLabel();
-            this.label2 = new Krypton.Toolkit.KryptonLabel();
-            this.buttonWebScrapingDataSetSelectNone = new Krypton.Toolkit.KryptonButton();
-            this.buttonWebScrapingDataSetSelectToggle = new Krypton.Toolkit.KryptonButton();
-            this.buttonWebScrapingDataSetSelectAll = new Krypton.Toolkit.KryptonButton();
             this.listViewDataSetDates = new System.Windows.Forms.ListView();
             this.columnHeaderSavedDate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderDataSetName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -61,7 +47,6 @@ namespace PhotoTagsSynchronizer
             this.columnHeaderDataSetCountKeywords = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderDataSetCountRegions = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.buttonWebScrapingLoadPackage = new Krypton.Toolkit.KryptonButton();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.buttonWebScrapingStop = new Krypton.Toolkit.KryptonButton();
             this.buttonWebScrapingStart = new Krypton.Toolkit.KryptonButton();
             this.buttonWebScrapingSave = new Krypton.Toolkit.KryptonButton();
@@ -77,12 +62,6 @@ namespace PhotoTagsSynchronizer
             this.columnHeaderCountKeywords = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderCountRegions = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.buttonWebScrapingCategories = new Krypton.Toolkit.KryptonButton();
-            this.buttonWebScrapingSelectNotRead = new Krypton.Toolkit.KryptonButton();
-            this.label1 = new Krypton.Toolkit.KryptonLabel();
-            this.buttonWebScrapingSelectNone = new Krypton.Toolkit.KryptonButton();
-            this.buttonWebScrapingSelectAll = new Krypton.Toolkit.KryptonButton();
-            this.buttonWebScrapingToggle = new Krypton.Toolkit.KryptonButton();
-            this.groupBoxDevTools = new System.Windows.Forms.GroupBox();
             this.buttonRunJavaScript = new Krypton.Toolkit.KryptonButton();
             this.buttonBrowserShowDevTool = new Krypton.Toolkit.KryptonButton();
             this.buttonSaveJavaScript = new Krypton.Toolkit.KryptonButton();
@@ -92,22 +71,28 @@ namespace PhotoTagsSynchronizer
             this.kryptonPage2 = new Krypton.Navigator.KryptonPage();
             this.kryptonPage4 = new Krypton.Navigator.KryptonPage();
             this.kryptonPage6 = new Krypton.Navigator.KryptonPage();
-            this.kryptonWorkspace1 = new Krypton.Workspace.KryptonWorkspace();
-            this.kryptonPageDataSet = new Krypton.Navigator.KryptonPage();
+            this.kryptonWorkspaceMain = new Krypton.Workspace.KryptonWorkspace();
+            this.kryptonPageBrowser = new Krypton.Navigator.KryptonPage();
             this.kryptonWorkspaceSequence1 = new Krypton.Workspace.KryptonWorkspaceSequence();
             this.kryptonWorkspaceSequence2 = new Krypton.Workspace.KryptonWorkspaceSequence();
             this.kryptonWorkspaceCellBrowser = new Krypton.Workspace.KryptonWorkspaceCell();
-            this.kryptonPageBrowser = new Krypton.Navigator.KryptonPage();
             this.kryptonWorkspaceCellBrowserUrl = new Krypton.Workspace.KryptonWorkspaceCell();
             this.kryptonPageBrowserUrl = new Krypton.Navigator.KryptonPage();
             this.kryptonWorkspaceCellJavaScript = new Krypton.Workspace.KryptonWorkspaceCell();
             this.kryptonPageJavaScript = new Krypton.Navigator.KryptonPage();
+            this.kryptonWorkspaceCellJavaScriptResult = new Krypton.Workspace.KryptonWorkspaceCell();
+            this.kryptonPageJavaScriptResult = new Krypton.Navigator.KryptonPage();
             this.kryptonWorkspaceSequence3 = new Krypton.Workspace.KryptonWorkspaceSequence();
             this.kryptonWorkspaceCellDevTools = new Krypton.Workspace.KryptonWorkspaceCell();
             this.kryptonPageDevTools = new Krypton.Navigator.KryptonPage();
             this.kryptonWorkspaceCellDataSetActions = new Krypton.Workspace.KryptonWorkspaceCell();
             this.kryptonPageDataSetActions = new Krypton.Navigator.KryptonPage();
             this.kryptonWorkspaceCellDataSet = new Krypton.Workspace.KryptonWorkspaceCell();
+            this.kryptonPageDataSet = new Krypton.Navigator.KryptonPage();
+            this.kryptonWorkspaceCellWebScrapingActions = new Krypton.Workspace.KryptonWorkspaceCell();
+            this.kryptonPageWebScrapingActions = new Krypton.Navigator.KryptonPage();
+            this.kryptonWorkspaceCellCategories = new Krypton.Workspace.KryptonWorkspaceCell();
+            this.kryptonPageCategories = new Krypton.Navigator.KryptonPage();
             this.kryptonPage3 = new Krypton.Navigator.KryptonPage();
             this.kryptonPage7 = new Krypton.Navigator.KryptonPage();
             this.kryptonPage9 = new Krypton.Navigator.KryptonPage();
@@ -120,64 +105,61 @@ namespace PhotoTagsSynchronizer
             this.kryptonPage14 = new Krypton.Navigator.KryptonPage();
             this.kryptonPage15 = new Krypton.Navigator.KryptonPage();
             this.kryptonPage21 = new Krypton.Navigator.KryptonPage();
-            this.kryptonWorkspaceCellJavaScriptResult = new Krypton.Workspace.KryptonWorkspaceCell();
-            this.kryptonPageJavaScriptResult = new Krypton.Navigator.KryptonPage();
             this.kryptonPage18 = new Krypton.Navigator.KryptonPage();
-            this.kryptonWorkspaceCellWebScrapingActions = new Krypton.Workspace.KryptonWorkspaceCell();
-            this.kryptonPageWebScrapingActions = new Krypton.Navigator.KryptonPage();
             this.kryptonPage5 = new Krypton.Navigator.KryptonPage();
-            this.kryptonWorkspaceCellCategories = new Krypton.Workspace.KryptonWorkspaceCell();
-            this.kryptonPageCategories = new Krypton.Navigator.KryptonPage();
             this.kryptonPage10 = new Krypton.Navigator.KryptonPage();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
-            this.splitContainer2.Panel1.SuspendLayout();
-            this.splitContainer2.Panel2.SuspendLayout();
-            this.splitContainer2.SuspendLayout();
-            this.panel2.SuspendLayout();
-            this.panel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
-            this.splitContainer3.Panel1.SuspendLayout();
-            this.splitContainer3.Panel2.SuspendLayout();
-            this.splitContainer3.SuspendLayout();
+            this.buttonSpecNavigatorDataSetSelectDelete = new Krypton.Navigator.ButtonSpecNavigator();
+            this.buttonSpecNavigatorDataSetSelectAll = new Krypton.Navigator.ButtonSpecNavigator();
+            this.buttonSpecNavigatorDataSetSelectToggle = new Krypton.Navigator.ButtonSpecNavigator();
+            this.buttonSpecNavigatorDataSetSelectNone = new Krypton.Navigator.ButtonSpecNavigator();
+            this.buttonSpecNavigatorCategoriesSelectEmpty = new Krypton.Navigator.ButtonSpecNavigator();
+            this.buttonSpecNavigatorCategoriesSelectAll = new Krypton.Navigator.ButtonSpecNavigator();
+            this.buttonSpecNavigatorCategoriesSelectToggle = new Krypton.Navigator.ButtonSpecNavigator();
+            this.buttonSpecNavigatorCategoriesSelectNone = new Krypton.Navigator.ButtonSpecNavigator();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxJavaScript)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxJavaScriptResult)).BeginInit();
-            this.panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
-            this.splitContainer4.Panel1.SuspendLayout();
-            this.splitContainer4.Panel2.SuspendLayout();
-            this.splitContainer4.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBoxDevTools.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspace1)).BeginInit();
-            this.kryptonWorkspace1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageDataSet)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceMain)).BeginInit();
+            this.kryptonWorkspaceMain.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageBrowser)).BeginInit();
+            this.kryptonPageBrowser.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellBrowser)).BeginInit();
             this.kryptonWorkspaceCellBrowser.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageBrowser)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellBrowserUrl)).BeginInit();
             this.kryptonWorkspaceCellBrowserUrl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageBrowserUrl)).BeginInit();
+            this.kryptonPageBrowserUrl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellJavaScript)).BeginInit();
             this.kryptonWorkspaceCellJavaScript.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageJavaScript)).BeginInit();
+            this.kryptonPageJavaScript.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellJavaScriptResult)).BeginInit();
+            this.kryptonWorkspaceCellJavaScriptResult.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageJavaScriptResult)).BeginInit();
+            this.kryptonPageJavaScriptResult.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellDevTools)).BeginInit();
             this.kryptonWorkspaceCellDevTools.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageDevTools)).BeginInit();
+            this.kryptonPageDevTools.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellDataSetActions)).BeginInit();
             this.kryptonWorkspaceCellDataSetActions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageDataSetActions)).BeginInit();
+            this.kryptonPageDataSetActions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellDataSet)).BeginInit();
             this.kryptonWorkspaceCellDataSet.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageDataSet)).BeginInit();
+            this.kryptonPageDataSet.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellWebScrapingActions)).BeginInit();
+            this.kryptonWorkspaceCellWebScrapingActions.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageWebScrapingActions)).BeginInit();
+            this.kryptonPageWebScrapingActions.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellCategories)).BeginInit();
+            this.kryptonWorkspaceCellCategories.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageCategories)).BeginInit();
+            this.kryptonPageCategories.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage9)).BeginInit();
@@ -191,140 +173,31 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage14)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage15)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage21)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellJavaScriptResult)).BeginInit();
-            this.kryptonWorkspaceCellJavaScriptResult.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageJavaScriptResult)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage18)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellWebScrapingActions)).BeginInit();
-            this.kryptonWorkspaceCellWebScrapingActions.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageWebScrapingActions)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellCategories)).BeginInit();
-            this.kryptonWorkspaceCellCategories.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageCategories)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage10)).BeginInit();
             this.SuspendLayout();
             // 
-            // panel1
-            // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.Controls.Add(this.splitContainer1);
-            this.panel1.Location = new System.Drawing.Point(560, 133);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(858, 581);
-            this.panel1.TabIndex = 0;
-            // 
-            // splitContainer1
-            // 
-            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainer1.Location = new System.Drawing.Point(3, 3);
-            this.splitContainer1.Name = "splitContainer1";
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.splitContainer2);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.panel3);
-            this.splitContainer1.Size = new System.Drawing.Size(852, 575);
-            this.splitContainer1.SplitterDistance = 591;
-            this.splitContainer1.TabIndex = 0;
-            // 
-            // splitContainer2
-            // 
-            this.splitContainer2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer2.Name = "splitContainer2";
-            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer2.Panel1
-            // 
-            this.splitContainer2.Panel1.Controls.Add(this.panel2);
-            // 
-            // splitContainer2.Panel2
-            // 
-            this.splitContainer2.Panel2.Controls.Add(this.panel4);
-            this.splitContainer2.Size = new System.Drawing.Size(589, 575);
-            this.splitContainer2.SplitterDistance = 414;
-            this.splitContainer2.TabIndex = 0;
-            // 
-            // panel2
-            // 
-            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel2.Controls.Add(this.panelBrowser);
-            this.panel2.Controls.Add(this.textBoxBrowserURL);
-            this.panel2.Location = new System.Drawing.Point(-3, -3);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(592, 415);
-            this.panel2.TabIndex = 0;
-            // 
             // panelBrowser
             // 
-            this.panelBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelBrowser.Location = new System.Drawing.Point(3, 3);
+            this.panelBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelBrowser.Location = new System.Drawing.Point(0, 0);
             this.panelBrowser.Name = "panelBrowser";
-            this.panelBrowser.Size = new System.Drawing.Size(584, 379);
+            this.panelBrowser.Size = new System.Drawing.Size(688, 259);
             this.panelBrowser.TabIndex = 0;
             // 
             // textBoxBrowserURL
             // 
             this.textBoxBrowserURL.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxBrowserURL.Location = new System.Drawing.Point(3, 388);
+            this.textBoxBrowserURL.Location = new System.Drawing.Point(2, 3);
             this.textBoxBrowserURL.Name = "textBoxBrowserURL";
-            this.textBoxBrowserURL.Size = new System.Drawing.Size(584, 23);
+            this.textBoxBrowserURL.Size = new System.Drawing.Size(682, 23);
             this.textBoxBrowserURL.TabIndex = 1;
             this.textBoxBrowserURL.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxBrowserURL_KeyPress);
             // 
-            // panel4
-            // 
-            this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel4.Controls.Add(this.splitContainer3);
-            this.panel4.Location = new System.Drawing.Point(0, 0);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(589, 157);
-            this.panel4.TabIndex = 0;
-            // 
-            // splitContainer3
-            // 
-            this.splitContainer3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainer3.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer3.Name = "splitContainer3";
-            this.splitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer3.Panel1
-            // 
-            this.splitContainer3.Panel1.Controls.Add(this.fastColoredTextBoxJavaScript);
-            // 
-            // splitContainer3.Panel2
-            // 
-            this.splitContainer3.Panel2.Controls.Add(this.fastColoredTextBoxJavaScriptResult);
-            this.splitContainer3.Size = new System.Drawing.Size(588, 156);
-            this.splitContainer3.SplitterDistance = 77;
-            this.splitContainer3.TabIndex = 0;
-            // 
             // fastColoredTextBoxJavaScript
             // 
-            this.fastColoredTextBoxJavaScript.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.fastColoredTextBoxJavaScript.AutoCompleteBracketsList = new char[] {
         '(',
         ')',
@@ -344,6 +217,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxJavaScript.CharWidth = 8;
             this.fastColoredTextBoxJavaScript.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxJavaScript.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxJavaScript.Dock = System.Windows.Forms.DockStyle.Fill;
             this.fastColoredTextBoxJavaScript.IsReplaceMode = false;
             this.fastColoredTextBoxJavaScript.Language = FastColoredTextBoxNS.Language.JS;
             this.fastColoredTextBoxJavaScript.LeftBracket = '(';
@@ -355,16 +229,13 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxJavaScript.RightBracket2 = '}';
             this.fastColoredTextBoxJavaScript.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.fastColoredTextBoxJavaScript.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fastColoredTextBoxJavaScript.ServiceColors")));
-            this.fastColoredTextBoxJavaScript.Size = new System.Drawing.Size(584, 74);
+            this.fastColoredTextBoxJavaScript.Size = new System.Drawing.Size(688, 103);
             this.fastColoredTextBoxJavaScript.TabIndex = 0;
             this.fastColoredTextBoxJavaScript.WordWrap = true;
             this.fastColoredTextBoxJavaScript.Zoom = 100;
             // 
             // fastColoredTextBoxJavaScriptResult
             // 
-            this.fastColoredTextBoxJavaScriptResult.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.fastColoredTextBoxJavaScriptResult.AutoCompleteBracketsList = new char[] {
         '(',
         ')',
@@ -384,6 +255,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxJavaScriptResult.CommentPrefix = null;
             this.fastColoredTextBoxJavaScriptResult.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxJavaScriptResult.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxJavaScriptResult.Dock = System.Windows.Forms.DockStyle.Fill;
             this.fastColoredTextBoxJavaScriptResult.IsReplaceMode = false;
             this.fastColoredTextBoxJavaScriptResult.Language = FastColoredTextBoxNS.Language.XML;
             this.fastColoredTextBoxJavaScriptResult.LeftBracket = '<';
@@ -395,135 +267,30 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxJavaScriptResult.RightBracket2 = ')';
             this.fastColoredTextBoxJavaScriptResult.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.fastColoredTextBoxJavaScriptResult.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fastColoredTextBoxJavaScriptResult.ServiceColors")));
-            this.fastColoredTextBoxJavaScriptResult.Size = new System.Drawing.Size(584, 68);
+            this.fastColoredTextBoxJavaScriptResult.Size = new System.Drawing.Size(688, 104);
             this.fastColoredTextBoxJavaScriptResult.TabIndex = 0;
             this.fastColoredTextBoxJavaScriptResult.WordWrap = true;
             this.fastColoredTextBoxJavaScriptResult.Zoom = 100;
             // 
-            // panel3
-            // 
-            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel3.Controls.Add(this.splitContainer4);
-            this.panel3.Controls.Add(this.groupBoxDevTools);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(0, 0);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(257, 575);
-            this.panel3.TabIndex = 0;
-            // 
-            // splitContainer4
-            // 
-            this.splitContainer4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainer4.Location = new System.Drawing.Point(2, 97);
-            this.splitContainer4.MinimumSize = new System.Drawing.Size(424, 610);
-            this.splitContainer4.Name = "splitContainer4";
-            this.splitContainer4.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer4.Panel1
-            // 
-            this.splitContainer4.Panel1.Controls.Add(this.groupBox1);
-            // 
-            // splitContainer4.Panel2
-            // 
-            this.splitContainer4.Panel2.Controls.Add(this.groupBox2);
-            this.splitContainer4.Size = new System.Drawing.Size(424, 610);
-            this.splitContainer4.SplitterDistance = 263;
-            this.splitContainer4.TabIndex = 1;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.buttonWebScrapingClearDataSet);
-            this.groupBox1.Controls.Add(this.buttonWebScrapingDataSetDelete);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.buttonWebScrapingDataSetSelectNone);
-            this.groupBox1.Controls.Add(this.buttonWebScrapingDataSetSelectToggle);
-            this.groupBox1.Controls.Add(this.buttonWebScrapingDataSetSelectAll);
-            this.groupBox1.Controls.Add(this.listViewDataSetDates);
-            this.groupBox1.Controls.Add(this.buttonWebScrapingLoadPackage);
-            this.groupBox1.Location = new System.Drawing.Point(3, 8);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(417, 252);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "WebScraping - DataSet";
-            // 
             // buttonWebScrapingClearDataSet
             // 
-            this.buttonWebScrapingClearDataSet.Location = new System.Drawing.Point(4, 52);
+            this.buttonWebScrapingClearDataSet.Location = new System.Drawing.Point(3, 31);
             this.buttonWebScrapingClearDataSet.Name = "buttonWebScrapingClearDataSet";
             this.buttonWebScrapingClearDataSet.Size = new System.Drawing.Size(203, 25);
             this.buttonWebScrapingClearDataSet.TabIndex = 2;
             this.buttonWebScrapingClearDataSet.Values.Text = "Clear DataSet";
             this.buttonWebScrapingClearDataSet.Click += new System.EventHandler(this.buttonWebScrapingClearDataSet_Click);
             // 
-            // buttonWebScrapingDataSetDelete
-            // 
-            this.buttonWebScrapingDataSetDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonWebScrapingDataSetDelete.BackgroundImage = global::PhotoTagsSynchronizer.Properties.Resources.Delete;
-            this.buttonWebScrapingDataSetDelete.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.buttonWebScrapingDataSetDelete.Location = new System.Drawing.Point(293, 84);
-            this.buttonWebScrapingDataSetDelete.Name = "buttonWebScrapingDataSetDelete";
-            this.buttonWebScrapingDataSetDelete.Size = new System.Drawing.Size(25, 25);
-            this.buttonWebScrapingDataSetDelete.TabIndex = 3;
-            this.buttonWebScrapingDataSetDelete.Click += new System.EventHandler(this.buttonWebScrapingDataSetDelete_Click);
-            // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(213, 21);
+            this.label3.Location = new System.Drawing.Point(212, 4);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(172, 20);
             this.label3.TabIndex = 1;
             this.label3.Values.Text = "Load dataset to append more";
             // 
-            // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(6, 85);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(227, 20);
-            this.label2.TabIndex = 5;
-            this.label2.Values.Text = "Last dataset will be use for AutoCorrect.";
-            // 
-            // buttonWebScrapingDataSetSelectNone
-            // 
-            this.buttonWebScrapingDataSetSelectNone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonWebScrapingDataSetSelectNone.BackgroundImage = global::PhotoTagsSynchronizer.Properties.Resources.CheckNone;
-            this.buttonWebScrapingDataSetSelectNone.Location = new System.Drawing.Point(386, 84);
-            this.buttonWebScrapingDataSetSelectNone.Name = "buttonWebScrapingDataSetSelectNone";
-            this.buttonWebScrapingDataSetSelectNone.Size = new System.Drawing.Size(25, 25);
-            this.buttonWebScrapingDataSetSelectNone.TabIndex = 4;
-            this.buttonWebScrapingDataSetSelectNone.Click += new System.EventHandler(this.buttonWebScrapingCategoryGroupSelectNone_Click);
-            // 
-            // buttonWebScrapingDataSetSelectToggle
-            // 
-            this.buttonWebScrapingDataSetSelectToggle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonWebScrapingDataSetSelectToggle.BackgroundImage = global::PhotoTagsSynchronizer.Properties.Resources.CheckToggle;
-            this.buttonWebScrapingDataSetSelectToggle.Location = new System.Drawing.Point(355, 84);
-            this.buttonWebScrapingDataSetSelectToggle.Name = "buttonWebScrapingDataSetSelectToggle";
-            this.buttonWebScrapingDataSetSelectToggle.Size = new System.Drawing.Size(25, 25);
-            this.buttonWebScrapingDataSetSelectToggle.TabIndex = 25;
-            this.buttonWebScrapingDataSetSelectToggle.Click += new System.EventHandler(this.buttonWebScrapingCategoryGroupSelectToggle_Click);
-            // 
-            // buttonWebScrapingDataSetSelectAll
-            // 
-            this.buttonWebScrapingDataSetSelectAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonWebScrapingDataSetSelectAll.BackgroundImage = global::PhotoTagsSynchronizer.Properties.Resources.CheckAll;
-            this.buttonWebScrapingDataSetSelectAll.Location = new System.Drawing.Point(324, 84);
-            this.buttonWebScrapingDataSetSelectAll.Name = "buttonWebScrapingDataSetSelectAll";
-            this.buttonWebScrapingDataSetSelectAll.Size = new System.Drawing.Size(25, 25);
-            this.buttonWebScrapingDataSetSelectAll.TabIndex = 24;
-            this.buttonWebScrapingDataSetSelectAll.Click += new System.EventHandler(this.buttonWebScrapingCategoryGroupSelectAll_Click);
-            // 
             // listViewDataSetDates
             // 
-            this.listViewDataSetDates.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.listViewDataSetDates.CheckBoxes = true;
             this.listViewDataSetDates.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeaderSavedDate,
@@ -534,10 +301,11 @@ namespace PhotoTagsSynchronizer
             this.columnHeaderDataSetCountLocationNames,
             this.columnHeaderDataSetCountKeywords,
             this.columnHeaderDataSetCountRegions});
+            this.listViewDataSetDates.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listViewDataSetDates.HideSelection = false;
-            this.listViewDataSetDates.Location = new System.Drawing.Point(6, 115);
+            this.listViewDataSetDates.Location = new System.Drawing.Point(0, 0);
             this.listViewDataSetDates.Name = "listViewDataSetDates";
-            this.listViewDataSetDates.Size = new System.Drawing.Size(407, 131);
+            this.listViewDataSetDates.Size = new System.Drawing.Size(418, 99);
             this.listViewDataSetDates.TabIndex = 6;
             this.listViewDataSetDates.UseCompatibleStateImageBehavior = false;
             this.listViewDataSetDates.View = System.Windows.Forms.View.Details;
@@ -585,38 +353,16 @@ namespace PhotoTagsSynchronizer
             // 
             // buttonWebScrapingLoadPackage
             // 
-            this.buttonWebScrapingLoadPackage.Location = new System.Drawing.Point(4, 21);
+            this.buttonWebScrapingLoadPackage.Location = new System.Drawing.Point(3, 0);
             this.buttonWebScrapingLoadPackage.Name = "buttonWebScrapingLoadPackage";
             this.buttonWebScrapingLoadPackage.Size = new System.Drawing.Size(203, 25);
             this.buttonWebScrapingLoadPackage.TabIndex = 0;
             this.buttonWebScrapingLoadPackage.Values.Text = "Load/Merge DataSet";
             this.buttonWebScrapingLoadPackage.Click += new System.EventHandler(this.buttonWebScrapingLoadPackage_Click);
             // 
-            // groupBox2
-            // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.buttonWebScrapingStop);
-            this.groupBox2.Controls.Add(this.buttonWebScrapingStart);
-            this.groupBox2.Controls.Add(this.buttonWebScrapingSave);
-            this.groupBox2.Controls.Add(this.listViewLinks);
-            this.groupBox2.Controls.Add(this.buttonWebScrapingCategories);
-            this.groupBox2.Controls.Add(this.buttonWebScrapingSelectNotRead);
-            this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Controls.Add(this.buttonWebScrapingSelectNone);
-            this.groupBox2.Controls.Add(this.buttonWebScrapingSelectAll);
-            this.groupBox2.Controls.Add(this.buttonWebScrapingToggle);
-            this.groupBox2.Location = new System.Drawing.Point(4, 3);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(416, 333);
-            this.groupBox2.TabIndex = 0;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "WebScraping";
-            // 
             // buttonWebScrapingStop
             // 
-            this.buttonWebScrapingStop.Location = new System.Drawing.Point(4, 52);
+            this.buttonWebScrapingStop.Location = new System.Drawing.Point(3, 34);
             this.buttonWebScrapingStop.Name = "buttonWebScrapingStop";
             this.buttonWebScrapingStop.Size = new System.Drawing.Size(203, 25);
             this.buttonWebScrapingStop.TabIndex = 2;
@@ -625,7 +371,7 @@ namespace PhotoTagsSynchronizer
             // 
             // buttonWebScrapingStart
             // 
-            this.buttonWebScrapingStart.Location = new System.Drawing.Point(4, 21);
+            this.buttonWebScrapingStart.Location = new System.Drawing.Point(3, 3);
             this.buttonWebScrapingStart.Name = "buttonWebScrapingStart";
             this.buttonWebScrapingStart.Size = new System.Drawing.Size(203, 25);
             this.buttonWebScrapingStart.TabIndex = 0;
@@ -634,7 +380,7 @@ namespace PhotoTagsSynchronizer
             // 
             // buttonWebScrapingSave
             // 
-            this.buttonWebScrapingSave.Location = new System.Drawing.Point(213, 52);
+            this.buttonWebScrapingSave.Location = new System.Drawing.Point(210, 34);
             this.buttonWebScrapingSave.Name = "buttonWebScrapingSave";
             this.buttonWebScrapingSave.Size = new System.Drawing.Size(203, 25);
             this.buttonWebScrapingSave.TabIndex = 3;
@@ -643,9 +389,6 @@ namespace PhotoTagsSynchronizer
             // 
             // listViewLinks
             // 
-            this.listViewLinks.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.listViewLinks.CheckBoxes = true;
             this.listViewLinks.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeaderCategoryName,
@@ -658,10 +401,11 @@ namespace PhotoTagsSynchronizer
             this.columnHeaderCountLocationNames,
             this.columnHeaderCountKeywords,
             this.columnHeaderCountRegions});
+            this.listViewLinks.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listViewLinks.HideSelection = false;
-            this.listViewLinks.Location = new System.Drawing.Point(6, 119);
+            this.listViewLinks.Location = new System.Drawing.Point(0, 0);
             this.listViewLinks.Name = "listViewLinks";
-            this.listViewLinks.Size = new System.Drawing.Size(404, 208);
+            this.listViewLinks.Size = new System.Drawing.Size(418, 100);
             this.listViewLinks.TabIndex = 6;
             this.listViewLinks.UseCompatibleStateImageBehavior = false;
             this.listViewLinks.View = System.Windows.Forms.View.Details;
@@ -714,80 +458,16 @@ namespace PhotoTagsSynchronizer
             // 
             // buttonWebScrapingCategories
             // 
-            this.buttonWebScrapingCategories.Location = new System.Drawing.Point(211, 21);
+            this.buttonWebScrapingCategories.Location = new System.Drawing.Point(210, 3);
             this.buttonWebScrapingCategories.Name = "buttonWebScrapingCategories";
             this.buttonWebScrapingCategories.Size = new System.Drawing.Size(203, 25);
             this.buttonWebScrapingCategories.TabIndex = 1;
             this.buttonWebScrapingCategories.Values.Text = "Fetch categories";
             this.buttonWebScrapingCategories.Click += new System.EventHandler(this.WebScrapingCategoryLinks_Click);
             // 
-            // buttonWebScrapingSelectNotRead
-            // 
-            this.buttonWebScrapingSelectNotRead.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonWebScrapingSelectNotRead.BackgroundImage = global::PhotoTagsSynchronizer.Properties.Resources.CheckEmpty;
-            this.buttonWebScrapingSelectNotRead.Location = new System.Drawing.Point(292, 88);
-            this.buttonWebScrapingSelectNotRead.Name = "buttonWebScrapingSelectNotRead";
-            this.buttonWebScrapingSelectNotRead.Size = new System.Drawing.Size(25, 25);
-            this.buttonWebScrapingSelectNotRead.TabIndex = 5;
-            this.buttonWebScrapingSelectNotRead.Click += new System.EventHandler(this.buttonWebScrapingSelectNotRead_Click);
-            // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.Location = new System.Drawing.Point(3, 92);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(211, 20);
-            this.label1.TabIndex = 4;
-            this.label1.Values.Text = "What categories to do WebScraping:";
-            // 
-            // buttonWebScrapingSelectNone
-            // 
-            this.buttonWebScrapingSelectNone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonWebScrapingSelectNone.BackgroundImage = global::PhotoTagsSynchronizer.Properties.Resources.CheckNone;
-            this.buttonWebScrapingSelectNone.Location = new System.Drawing.Point(385, 88);
-            this.buttonWebScrapingSelectNone.Name = "buttonWebScrapingSelectNone";
-            this.buttonWebScrapingSelectNone.Size = new System.Drawing.Size(25, 25);
-            this.buttonWebScrapingSelectNone.TabIndex = 17;
-            this.buttonWebScrapingSelectNone.Click += new System.EventHandler(this.buttonWebScrapingSelectNone_Click);
-            // 
-            // buttonWebScrapingSelectAll
-            // 
-            this.buttonWebScrapingSelectAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonWebScrapingSelectAll.BackgroundImage = global::PhotoTagsSynchronizer.Properties.Resources.CheckAll;
-            this.buttonWebScrapingSelectAll.Location = new System.Drawing.Point(323, 88);
-            this.buttonWebScrapingSelectAll.Name = "buttonWebScrapingSelectAll";
-            this.buttonWebScrapingSelectAll.Size = new System.Drawing.Size(25, 25);
-            this.buttonWebScrapingSelectAll.TabIndex = 15;
-            this.buttonWebScrapingSelectAll.Click += new System.EventHandler(this.buttonWebScrapingSelectAll_Click);
-            // 
-            // buttonWebScrapingToggle
-            // 
-            this.buttonWebScrapingToggle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonWebScrapingToggle.BackgroundImage = global::PhotoTagsSynchronizer.Properties.Resources.CheckToggle;
-            this.buttonWebScrapingToggle.Location = new System.Drawing.Point(354, 88);
-            this.buttonWebScrapingToggle.Name = "buttonWebScrapingToggle";
-            this.buttonWebScrapingToggle.Size = new System.Drawing.Size(25, 25);
-            this.buttonWebScrapingToggle.TabIndex = 16;
-            this.buttonWebScrapingToggle.Click += new System.EventHandler(this.buttonWebScrapingToggle_Click);
-            // 
-            // groupBoxDevTools
-            // 
-            this.groupBoxDevTools.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBoxDevTools.Controls.Add(this.buttonRunJavaScript);
-            this.groupBoxDevTools.Controls.Add(this.buttonBrowserShowDevTool);
-            this.groupBoxDevTools.Controls.Add(this.buttonSaveJavaScript);
-            this.groupBoxDevTools.Location = new System.Drawing.Point(2, 3);
-            this.groupBoxDevTools.Name = "groupBoxDevTools";
-            this.groupBoxDevTools.Size = new System.Drawing.Size(250, 88);
-            this.groupBoxDevTools.TabIndex = 0;
-            this.groupBoxDevTools.TabStop = false;
-            this.groupBoxDevTools.Text = "DevTools";
-            // 
             // buttonRunJavaScript
             // 
-            this.buttonRunJavaScript.Location = new System.Drawing.Point(4, 50);
+            this.buttonRunJavaScript.Location = new System.Drawing.Point(3, 32);
             this.buttonRunJavaScript.Name = "buttonRunJavaScript";
             this.buttonRunJavaScript.Size = new System.Drawing.Size(203, 25);
             this.buttonRunJavaScript.TabIndex = 1;
@@ -796,7 +476,7 @@ namespace PhotoTagsSynchronizer
             // 
             // buttonBrowserShowDevTool
             // 
-            this.buttonBrowserShowDevTool.Location = new System.Drawing.Point(4, 21);
+            this.buttonBrowserShowDevTool.Location = new System.Drawing.Point(3, 3);
             this.buttonBrowserShowDevTool.Name = "buttonBrowserShowDevTool";
             this.buttonBrowserShowDevTool.Size = new System.Drawing.Size(203, 25);
             this.buttonBrowserShowDevTool.TabIndex = 0;
@@ -805,7 +485,7 @@ namespace PhotoTagsSynchronizer
             // 
             // buttonSaveJavaScript
             // 
-            this.buttonSaveJavaScript.Location = new System.Drawing.Point(213, 50);
+            this.buttonSaveJavaScript.Location = new System.Drawing.Point(212, 32);
             this.buttonSaveJavaScript.Name = "buttonSaveJavaScript";
             this.buttonSaveJavaScript.Size = new System.Drawing.Size(203, 25);
             this.buttonSaveJavaScript.TabIndex = 2;
@@ -817,9 +497,9 @@ namespace PhotoTagsSynchronizer
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabelStatus});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 717);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 670);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1418, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1115, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -865,37 +545,39 @@ namespace PhotoTagsSynchronizer
             this.kryptonPage6.ToolTipTitle = "Page ToolTip";
             this.kryptonPage6.UniqueName = "684936f98b6b4bb3b2d37315d9779d73";
             // 
-            // kryptonWorkspace1
+            // kryptonWorkspaceMain
             // 
-            this.kryptonWorkspace1.ActivePage = this.kryptonPageBrowser;
-            this.kryptonWorkspace1.Location = new System.Drawing.Point(12, 26);
-            this.kryptonWorkspace1.Name = "kryptonWorkspace1";
+            this.kryptonWorkspaceMain.ActivePage = this.kryptonPageBrowser;
+            this.kryptonWorkspaceMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kryptonWorkspaceMain.Location = new System.Drawing.Point(0, 0);
+            this.kryptonWorkspaceMain.Name = "kryptonWorkspaceMain";
             // 
             // 
             // 
-            this.kryptonWorkspace1.Root.Children.AddRange(new System.ComponentModel.Component[] {
+            this.kryptonWorkspaceMain.Root.Children.AddRange(new System.ComponentModel.Component[] {
             this.kryptonWorkspaceSequence1});
-            this.kryptonWorkspace1.Root.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.kryptonWorkspace1.Root.UniqueName = "fb297038a4e84d0eaf1b5a17ff707b3b";
-            this.kryptonWorkspace1.Root.WorkspaceControl = this.kryptonWorkspace1;
-            this.kryptonWorkspace1.SeparatorStyle = Krypton.Toolkit.SeparatorStyle.HighProfile;
-            this.kryptonWorkspace1.Size = new System.Drawing.Size(521, 678);
-            this.kryptonWorkspace1.TabIndex = 2;
-            this.kryptonWorkspace1.TabStop = true;
+            this.kryptonWorkspaceMain.Root.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.kryptonWorkspaceMain.Root.UniqueName = "fb297038a4e84d0eaf1b5a17ff707b3b";
+            this.kryptonWorkspaceMain.Root.WorkspaceControl = this.kryptonWorkspaceMain;
+            this.kryptonWorkspaceMain.SeparatorStyle = Krypton.Toolkit.SeparatorStyle.HighProfile;
+            this.kryptonWorkspaceMain.Size = new System.Drawing.Size(1115, 670);
+            this.kryptonWorkspaceMain.TabIndex = 2;
+            this.kryptonWorkspaceMain.TabStop = true;
             // 
-            // kryptonPageDataSet
+            // kryptonPageBrowser
             // 
-            this.kryptonPageDataSet.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageDataSet.Flags = 65534;
-            this.kryptonPageDataSet.LastVisibleSet = true;
-            this.kryptonPageDataSet.MinimumSize = new System.Drawing.Size(50, 50);
-            this.kryptonPageDataSet.Name = "kryptonPageDataSet";
-            this.kryptonPageDataSet.Size = new System.Drawing.Size(256, 105);
-            this.kryptonPageDataSet.Text = "DataSet";
-            this.kryptonPageDataSet.TextDescription = "Result of scraping is store in a DataSet. ";
-            this.kryptonPageDataSet.TextTitle = "DataSet";
-            this.kryptonPageDataSet.ToolTipTitle = "Page ToolTip";
-            this.kryptonPageDataSet.UniqueName = "2754d0f30ae64e77acbb51e1e691653f";
+            this.kryptonPageBrowser.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageBrowser.Controls.Add(this.panelBrowser);
+            this.kryptonPageBrowser.Flags = 65534;
+            this.kryptonPageBrowser.LastVisibleSet = true;
+            this.kryptonPageBrowser.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageBrowser.Name = "kryptonPageBrowser";
+            this.kryptonPageBrowser.Size = new System.Drawing.Size(688, 259);
+            this.kryptonPageBrowser.Text = "Browser";
+            this.kryptonPageBrowser.TextDescription = "The browser used for scraping";
+            this.kryptonPageBrowser.TextTitle = "Scraping Browser";
+            this.kryptonPageBrowser.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageBrowser.UniqueName = "5872039a9a3547e39c182c1422b85cd5";
             // 
             // kryptonWorkspaceSequence1
             // 
@@ -908,8 +590,8 @@ namespace PhotoTagsSynchronizer
             // kryptonWorkspaceSequence2
             // 
             this.kryptonWorkspaceSequence2.Children.AddRange(new System.ComponentModel.Component[] {
-            this.kryptonWorkspaceCellBrowser,
             this.kryptonWorkspaceCellBrowserUrl,
+            this.kryptonWorkspaceCellBrowser,
             this.kryptonWorkspaceCellJavaScript,
             this.kryptonWorkspaceCellJavaScriptResult});
             this.kryptonWorkspaceSequence2.Orientation = System.Windows.Forms.Orientation.Vertical;
@@ -925,24 +607,12 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceCellBrowser.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
             this.kryptonWorkspaceCellBrowser.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCellBrowser.Name = "kryptonWorkspaceCellBrowser";
+            this.kryptonWorkspaceCellBrowser.NavigatorMode = Krypton.Navigator.NavigatorMode.HeaderGroup;
             this.kryptonWorkspaceCellBrowser.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
             this.kryptonPageBrowser});
             this.kryptonWorkspaceCellBrowser.SelectedIndex = 0;
+            this.kryptonWorkspaceCellBrowser.StarSize = "50*,100*";
             this.kryptonWorkspaceCellBrowser.UniqueName = "27ac97d2678d4043a4d6bdaa21ecc24b";
-            // 
-            // kryptonPageBrowser
-            // 
-            this.kryptonPageBrowser.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageBrowser.Flags = 65534;
-            this.kryptonPageBrowser.LastVisibleSet = true;
-            this.kryptonPageBrowser.MinimumSize = new System.Drawing.Size(50, 50);
-            this.kryptonPageBrowser.Name = "kryptonPageBrowser";
-            this.kryptonPageBrowser.Size = new System.Drawing.Size(256, 138);
-            this.kryptonPageBrowser.Text = "Browser";
-            this.kryptonPageBrowser.TextDescription = "The browser used for scraping";
-            this.kryptonPageBrowser.TextTitle = "Scraping Browser";
-            this.kryptonPageBrowser.ToolTipTitle = "Page ToolTip";
-            this.kryptonPageBrowser.UniqueName = "5872039a9a3547e39c182c1422b85cd5";
             // 
             // kryptonWorkspaceCellBrowserUrl
             // 
@@ -953,19 +623,22 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceCellBrowserUrl.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
             this.kryptonWorkspaceCellBrowserUrl.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCellBrowserUrl.Name = "kryptonWorkspaceCellBrowserUrl";
+            this.kryptonWorkspaceCellBrowserUrl.NavigatorMode = Krypton.Navigator.NavigatorMode.Group;
             this.kryptonWorkspaceCellBrowserUrl.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
             this.kryptonPageBrowserUrl});
             this.kryptonWorkspaceCellBrowserUrl.SelectedIndex = 0;
+            this.kryptonWorkspaceCellBrowserUrl.StarSize = "50*,30";
             this.kryptonWorkspaceCellBrowserUrl.UniqueName = "2e68550e613b4013be72453e3865aad0";
             // 
             // kryptonPageBrowserUrl
             // 
             this.kryptonPageBrowserUrl.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageBrowserUrl.Controls.Add(this.textBoxBrowserURL);
             this.kryptonPageBrowserUrl.Flags = 65534;
             this.kryptonPageBrowserUrl.LastVisibleSet = true;
             this.kryptonPageBrowserUrl.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPageBrowserUrl.Name = "kryptonPageBrowserUrl";
-            this.kryptonPageBrowserUrl.Size = new System.Drawing.Size(256, 139);
+            this.kryptonPageBrowserUrl.Size = new System.Drawing.Size(688, 50);
             this.kryptonPageBrowserUrl.Text = "URL";
             this.kryptonPageBrowserUrl.TextDescription = "URL uses for WebScraping";
             this.kryptonPageBrowserUrl.TextTitle = "URL";
@@ -981,6 +654,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceCellJavaScript.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
             this.kryptonWorkspaceCellJavaScript.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCellJavaScript.Name = "kryptonWorkspaceCellJavaScript";
+            this.kryptonWorkspaceCellJavaScript.NavigatorMode = Krypton.Navigator.NavigatorMode.HeaderGroup;
             this.kryptonWorkspaceCellJavaScript.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
             this.kryptonPageJavaScript});
             this.kryptonWorkspaceCellJavaScript.SelectedIndex = 0;
@@ -989,16 +663,47 @@ namespace PhotoTagsSynchronizer
             // kryptonPageJavaScript
             // 
             this.kryptonPageJavaScript.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageJavaScript.Controls.Add(this.fastColoredTextBoxJavaScript);
             this.kryptonPageJavaScript.Flags = 65534;
             this.kryptonPageJavaScript.LastVisibleSet = true;
             this.kryptonPageJavaScript.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPageJavaScript.Name = "kryptonPageJavaScript";
-            this.kryptonPageJavaScript.Size = new System.Drawing.Size(256, 139);
+            this.kryptonPageJavaScript.Size = new System.Drawing.Size(688, 103);
             this.kryptonPageJavaScript.Text = "JavaScript";
             this.kryptonPageJavaScript.TextDescription = "The JavaScript injected into each page";
             this.kryptonPageJavaScript.TextTitle = "JavaScript";
             this.kryptonPageJavaScript.ToolTipTitle = "Page ToolTip";
             this.kryptonPageJavaScript.UniqueName = "84f228ea755b4b7abba2e48328bb7967";
+            // 
+            // kryptonWorkspaceCellJavaScriptResult
+            // 
+            this.kryptonWorkspaceCellJavaScriptResult.AllowPageDrag = true;
+            this.kryptonWorkspaceCellJavaScriptResult.AllowTabFocus = false;
+            this.kryptonWorkspaceCellJavaScriptResult.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonWorkspaceCellJavaScriptResult.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCellJavaScriptResult.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
+            this.kryptonWorkspaceCellJavaScriptResult.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCellJavaScriptResult.Name = "kryptonWorkspaceCellJavaScriptResult";
+            this.kryptonWorkspaceCellJavaScriptResult.NavigatorMode = Krypton.Navigator.NavigatorMode.HeaderGroup;
+            this.kryptonWorkspaceCellJavaScriptResult.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
+            this.kryptonPageJavaScriptResult});
+            this.kryptonWorkspaceCellJavaScriptResult.SelectedIndex = 0;
+            this.kryptonWorkspaceCellJavaScriptResult.UniqueName = "b85f55f51b9a4d81b28e4302c4d1d009";
+            // 
+            // kryptonPageJavaScriptResult
+            // 
+            this.kryptonPageJavaScriptResult.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageJavaScriptResult.Controls.Add(this.fastColoredTextBoxJavaScriptResult);
+            this.kryptonPageJavaScriptResult.Flags = 65534;
+            this.kryptonPageJavaScriptResult.LastVisibleSet = true;
+            this.kryptonPageJavaScriptResult.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageJavaScriptResult.Name = "kryptonPageJavaScriptResult";
+            this.kryptonPageJavaScriptResult.Size = new System.Drawing.Size(688, 104);
+            this.kryptonPageJavaScriptResult.Text = "JavaScript result";
+            this.kryptonPageJavaScriptResult.TextDescription = "Result of the JavaScript and WebScraping";
+            this.kryptonPageJavaScriptResult.TextTitle = "JavaScript result";
+            this.kryptonPageJavaScriptResult.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageJavaScriptResult.UniqueName = "8e0d176492ae44eca0171f8f5d53f567";
             // 
             // kryptonWorkspaceSequence3
             // 
@@ -1009,6 +714,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceCellWebScrapingActions,
             this.kryptonWorkspaceCellCategories});
             this.kryptonWorkspaceSequence3.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.kryptonWorkspaceSequence3.StarSize = "420,50*";
             this.kryptonWorkspaceSequence3.UniqueName = "db14802596c24ab3bbf87cb8fad04576";
             this.kryptonWorkspaceSequence3.WorkspaceControl = null;
             // 
@@ -1021,19 +727,24 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceCellDevTools.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
             this.kryptonWorkspaceCellDevTools.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCellDevTools.Name = "kryptonWorkspaceCellDevTools";
+            this.kryptonWorkspaceCellDevTools.NavigatorMode = Krypton.Navigator.NavigatorMode.HeaderGroup;
             this.kryptonWorkspaceCellDevTools.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
             this.kryptonPageDevTools});
             this.kryptonWorkspaceCellDevTools.SelectedIndex = 0;
+            this.kryptonWorkspaceCellDevTools.StarSize = "50*,115";
             this.kryptonWorkspaceCellDevTools.UniqueName = "6df1d1e7248142ffaab00b43fe1b8e63";
             // 
             // kryptonPageDevTools
             // 
             this.kryptonPageDevTools.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageDevTools.Controls.Add(this.buttonRunJavaScript);
+            this.kryptonPageDevTools.Controls.Add(this.buttonBrowserShowDevTool);
+            this.kryptonPageDevTools.Controls.Add(this.buttonSaveJavaScript);
             this.kryptonPageDevTools.Flags = 65534;
             this.kryptonPageDevTools.LastVisibleSet = true;
             this.kryptonPageDevTools.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPageDevTools.Name = "kryptonPageDevTools";
-            this.kryptonPageDevTools.Size = new System.Drawing.Size(256, 104);
+            this.kryptonPageDevTools.Size = new System.Drawing.Size(418, 62);
             this.kryptonPageDevTools.Text = "DevTools";
             this.kryptonPageDevTools.TextDescription = "Developer Tools for used for scraping and testing script";
             this.kryptonPageDevTools.TextTitle = "DevTools";
@@ -1049,19 +760,24 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceCellDataSetActions.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
             this.kryptonWorkspaceCellDataSetActions.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCellDataSetActions.Name = "kryptonWorkspaceCellDataSetActions";
+            this.kryptonWorkspaceCellDataSetActions.NavigatorMode = Krypton.Navigator.NavigatorMode.HeaderGroup;
             this.kryptonWorkspaceCellDataSetActions.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
             this.kryptonPageDataSetActions});
             this.kryptonWorkspaceCellDataSetActions.SelectedIndex = 0;
+            this.kryptonWorkspaceCellDataSetActions.StarSize = "50*,115";
             this.kryptonWorkspaceCellDataSetActions.UniqueName = "597598d80a354f34af23a0e4edafd13b";
             // 
             // kryptonPageDataSetActions
             // 
             this.kryptonPageDataSetActions.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageDataSetActions.Controls.Add(this.buttonWebScrapingClearDataSet);
+            this.kryptonPageDataSetActions.Controls.Add(this.buttonWebScrapingLoadPackage);
+            this.kryptonPageDataSetActions.Controls.Add(this.label3);
             this.kryptonPageDataSetActions.Flags = 65534;
             this.kryptonPageDataSetActions.LastVisibleSet = true;
             this.kryptonPageDataSetActions.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPageDataSetActions.Name = "kryptonPageDataSetActions";
-            this.kryptonPageDataSetActions.Size = new System.Drawing.Size(256, 104);
+            this.kryptonPageDataSetActions.Size = new System.Drawing.Size(418, 62);
             this.kryptonPageDataSetActions.Text = "DataSet actions";
             this.kryptonPageDataSetActions.TextDescription = "Select what to do with dataset; save, load or clear result ";
             this.kryptonPageDataSetActions.TextTitle = "DataSet actions";
@@ -1072,15 +788,105 @@ namespace PhotoTagsSynchronizer
             // 
             this.kryptonWorkspaceCellDataSet.AllowPageDrag = true;
             this.kryptonWorkspaceCellDataSet.AllowTabFocus = false;
+            this.kryptonWorkspaceCellDataSet.Button.ButtonSpecs.AddRange(new Krypton.Navigator.ButtonSpecNavigator[] {
+            this.buttonSpecNavigatorDataSetSelectDelete,
+            this.buttonSpecNavigatorDataSetSelectAll,
+            this.buttonSpecNavigatorDataSetSelectToggle,
+            this.buttonSpecNavigatorDataSetSelectNone});
             this.kryptonWorkspaceCellDataSet.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
             this.kryptonWorkspaceCellDataSet.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCellDataSet.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
             this.kryptonWorkspaceCellDataSet.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCellDataSet.Name = "kryptonWorkspaceCellDataSet";
+            this.kryptonWorkspaceCellDataSet.NavigatorMode = Krypton.Navigator.NavigatorMode.HeaderGroup;
             this.kryptonWorkspaceCellDataSet.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
             this.kryptonPageDataSet});
             this.kryptonWorkspaceCellDataSet.SelectedIndex = 0;
             this.kryptonWorkspaceCellDataSet.UniqueName = "f2255e900d8240888cd384ec53d9e36a";
+            // 
+            // kryptonPageDataSet
+            // 
+            this.kryptonPageDataSet.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageDataSet.Controls.Add(this.listViewDataSetDates);
+            this.kryptonPageDataSet.Flags = 65534;
+            this.kryptonPageDataSet.LastVisibleSet = true;
+            this.kryptonPageDataSet.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageDataSet.Name = "kryptonPageDataSet";
+            this.kryptonPageDataSet.Size = new System.Drawing.Size(418, 99);
+            this.kryptonPageDataSet.Text = "DataSet";
+            this.kryptonPageDataSet.TextDescription = "Result of scraping is store in a DataSet. ";
+            this.kryptonPageDataSet.TextTitle = "DataSet";
+            this.kryptonPageDataSet.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageDataSet.UniqueName = "2754d0f30ae64e77acbb51e1e691653f";
+            // 
+            // kryptonWorkspaceCellWebScrapingActions
+            // 
+            this.kryptonWorkspaceCellWebScrapingActions.AllowPageDrag = true;
+            this.kryptonWorkspaceCellWebScrapingActions.AllowTabFocus = false;
+            this.kryptonWorkspaceCellWebScrapingActions.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonWorkspaceCellWebScrapingActions.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCellWebScrapingActions.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
+            this.kryptonWorkspaceCellWebScrapingActions.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCellWebScrapingActions.Name = "kryptonWorkspaceCellWebScrapingActions";
+            this.kryptonWorkspaceCellWebScrapingActions.NavigatorMode = Krypton.Navigator.NavigatorMode.HeaderGroup;
+            this.kryptonWorkspaceCellWebScrapingActions.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
+            this.kryptonPageWebScrapingActions});
+            this.kryptonWorkspaceCellWebScrapingActions.SelectedIndex = 0;
+            this.kryptonWorkspaceCellWebScrapingActions.StarSize = "50*,115";
+            this.kryptonWorkspaceCellWebScrapingActions.UniqueName = "42d455acb83745d5b9127748de185677";
+            // 
+            // kryptonPageWebScrapingActions
+            // 
+            this.kryptonPageWebScrapingActions.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageWebScrapingActions.Controls.Add(this.buttonWebScrapingStop);
+            this.kryptonPageWebScrapingActions.Controls.Add(this.buttonWebScrapingStart);
+            this.kryptonPageWebScrapingActions.Controls.Add(this.buttonWebScrapingCategories);
+            this.kryptonPageWebScrapingActions.Controls.Add(this.buttonWebScrapingSave);
+            this.kryptonPageWebScrapingActions.Flags = 65534;
+            this.kryptonPageWebScrapingActions.LastVisibleSet = true;
+            this.kryptonPageWebScrapingActions.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageWebScrapingActions.Name = "kryptonPageWebScrapingActions";
+            this.kryptonPageWebScrapingActions.Size = new System.Drawing.Size(418, 62);
+            this.kryptonPageWebScrapingActions.Text = "WebScraping actions";
+            this.kryptonPageWebScrapingActions.TextDescription = "Here you can start the WebScraping";
+            this.kryptonPageWebScrapingActions.TextTitle = "WebScraping actions";
+            this.kryptonPageWebScrapingActions.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageWebScrapingActions.UniqueName = "35c3744f86844b90bc84eab6d86dd3a6";
+            // 
+            // kryptonWorkspaceCellCategories
+            // 
+            this.kryptonWorkspaceCellCategories.AllowPageDrag = true;
+            this.kryptonWorkspaceCellCategories.AllowTabFocus = false;
+            this.kryptonWorkspaceCellCategories.Button.ButtonSpecs.AddRange(new Krypton.Navigator.ButtonSpecNavigator[] {
+            this.buttonSpecNavigatorCategoriesSelectEmpty,
+            this.buttonSpecNavigatorCategoriesSelectAll,
+            this.buttonSpecNavigatorCategoriesSelectToggle,
+            this.buttonSpecNavigatorCategoriesSelectNone});
+            this.kryptonWorkspaceCellCategories.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonWorkspaceCellCategories.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCellCategories.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
+            this.kryptonWorkspaceCellCategories.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCellCategories.Name = "kryptonWorkspaceCellCategories";
+            this.kryptonWorkspaceCellCategories.NavigatorMode = Krypton.Navigator.NavigatorMode.HeaderGroup;
+            this.kryptonWorkspaceCellCategories.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
+            this.kryptonPageCategories});
+            this.kryptonWorkspaceCellCategories.SelectedIndex = 0;
+            this.kryptonWorkspaceCellCategories.UniqueName = "57abc6e7cd3640d5ab9ad6e79a0467ac";
+            // 
+            // kryptonPageCategories
+            // 
+            this.kryptonPageCategories.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageCategories.Controls.Add(this.listViewLinks);
+            this.kryptonPageCategories.Flags = 65534;
+            this.kryptonPageCategories.LastVisibleSet = true;
+            this.kryptonPageCategories.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageCategories.Name = "kryptonPageCategories";
+            this.kryptonPageCategories.Size = new System.Drawing.Size(418, 100);
+            this.kryptonPageCategories.Text = "Categories";
+            this.kryptonPageCategories.TextDescription = "Select what categories you want scraping";
+            this.kryptonPageCategories.TextTitle = "Categories";
+            this.kryptonPageCategories.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageCategories.UniqueName = "b9e9917fe5924aa1ad155f3027ecd80b";
             // 
             // kryptonPage3
             // 
@@ -1148,7 +954,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonPage12.LastVisibleSet = true;
             this.kryptonPage12.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPage12.Name = "kryptonPage12";
-            this.kryptonPage12.Size = new System.Drawing.Size(100, 100);
+            this.kryptonPage12.Size = new System.Drawing.Size(248, 123);
             this.kryptonPage12.Text = "kryptonPage12";
             this.kryptonPage12.ToolTipTitle = "Page ToolTip";
             this.kryptonPage12.UniqueName = "3438340db3534745afad622b86084bc8";
@@ -1188,7 +994,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonPage14.LastVisibleSet = true;
             this.kryptonPage14.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPage14.Name = "kryptonPage14";
-            this.kryptonPage14.Size = new System.Drawing.Size(100, 100);
+            this.kryptonPage14.Size = new System.Drawing.Size(248, 123);
             this.kryptonPage14.Text = "kryptonPage14";
             this.kryptonPage14.ToolTipTitle = "Page ToolTip";
             this.kryptonPage14.UniqueName = "94d9ca06af714e68a77dd47361c44139";
@@ -1217,33 +1023,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonPage21.ToolTipTitle = "Page ToolTip";
             this.kryptonPage21.UniqueName = "5e2c546f1efe459a949439cb3aa44fc7";
             // 
-            // kryptonWorkspaceCellJavaScriptResult
-            // 
-            this.kryptonWorkspaceCellJavaScriptResult.AllowPageDrag = true;
-            this.kryptonWorkspaceCellJavaScriptResult.AllowTabFocus = false;
-            this.kryptonWorkspaceCellJavaScriptResult.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
-            this.kryptonWorkspaceCellJavaScriptResult.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
-            this.kryptonWorkspaceCellJavaScriptResult.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
-            this.kryptonWorkspaceCellJavaScriptResult.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
-            this.kryptonWorkspaceCellJavaScriptResult.Name = "kryptonWorkspaceCellJavaScriptResult";
-            this.kryptonWorkspaceCellJavaScriptResult.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
-            this.kryptonPageJavaScriptResult});
-            this.kryptonWorkspaceCellJavaScriptResult.SelectedIndex = 0;
-            this.kryptonWorkspaceCellJavaScriptResult.UniqueName = "b85f55f51b9a4d81b28e4302c4d1d009";
-            // 
-            // kryptonPageJavaScriptResult
-            // 
-            this.kryptonPageJavaScriptResult.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageJavaScriptResult.Flags = 65534;
-            this.kryptonPageJavaScriptResult.LastVisibleSet = true;
-            this.kryptonPageJavaScriptResult.MinimumSize = new System.Drawing.Size(50, 50);
-            this.kryptonPageJavaScriptResult.Name = "kryptonPageJavaScriptResult";
-            this.kryptonPageJavaScriptResult.Size = new System.Drawing.Size(256, 139);
-            this.kryptonPageJavaScriptResult.Text = "JavaScript result";
-            this.kryptonPageJavaScriptResult.TextTitle = "Result of the WebScraping";
-            this.kryptonPageJavaScriptResult.ToolTipTitle = "Page ToolTip";
-            this.kryptonPageJavaScriptResult.UniqueName = "8e0d176492ae44eca0171f8f5d53f567";
-            // 
             // kryptonPage18
             // 
             this.kryptonPage18.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
@@ -1255,34 +1034,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonPage18.Text = "kryptonPage18";
             this.kryptonPage18.ToolTipTitle = "Page ToolTip";
             this.kryptonPage18.UniqueName = "c8f5ab09700f49b4883e273227620ae3";
-            // 
-            // kryptonWorkspaceCellWebScrapingActions
-            // 
-            this.kryptonWorkspaceCellWebScrapingActions.AllowPageDrag = true;
-            this.kryptonWorkspaceCellWebScrapingActions.AllowTabFocus = false;
-            this.kryptonWorkspaceCellWebScrapingActions.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
-            this.kryptonWorkspaceCellWebScrapingActions.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
-            this.kryptonWorkspaceCellWebScrapingActions.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
-            this.kryptonWorkspaceCellWebScrapingActions.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
-            this.kryptonWorkspaceCellWebScrapingActions.Name = "kryptonWorkspaceCellWebScrapingActions";
-            this.kryptonWorkspaceCellWebScrapingActions.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
-            this.kryptonPageWebScrapingActions});
-            this.kryptonWorkspaceCellWebScrapingActions.SelectedIndex = 0;
-            this.kryptonWorkspaceCellWebScrapingActions.UniqueName = "42d455acb83745d5b9127748de185677";
-            // 
-            // kryptonPageWebScrapingActions
-            // 
-            this.kryptonPageWebScrapingActions.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageWebScrapingActions.Flags = 65534;
-            this.kryptonPageWebScrapingActions.LastVisibleSet = true;
-            this.kryptonPageWebScrapingActions.MinimumSize = new System.Drawing.Size(50, 50);
-            this.kryptonPageWebScrapingActions.Name = "kryptonPageWebScrapingActions";
-            this.kryptonPageWebScrapingActions.Size = new System.Drawing.Size(256, 105);
-            this.kryptonPageWebScrapingActions.Text = "WebScraping actions";
-            this.kryptonPageWebScrapingActions.TextDescription = "Here you can start the WebScraping";
-            this.kryptonPageWebScrapingActions.TextTitle = "WebScraping actions";
-            this.kryptonPageWebScrapingActions.ToolTipTitle = "Page ToolTip";
-            this.kryptonPageWebScrapingActions.UniqueName = "35c3744f86844b90bc84eab6d86dd3a6";
             // 
             // kryptonPage5
             // 
@@ -1296,34 +1047,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonPage5.ToolTipTitle = "Page ToolTip";
             this.kryptonPage5.UniqueName = "19d79feb07d340f48992e72c26aeaeec";
             // 
-            // kryptonWorkspaceCellCategories
-            // 
-            this.kryptonWorkspaceCellCategories.AllowPageDrag = true;
-            this.kryptonWorkspaceCellCategories.AllowTabFocus = false;
-            this.kryptonWorkspaceCellCategories.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
-            this.kryptonWorkspaceCellCategories.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
-            this.kryptonWorkspaceCellCategories.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
-            this.kryptonWorkspaceCellCategories.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
-            this.kryptonWorkspaceCellCategories.Name = "kryptonWorkspaceCellCategories";
-            this.kryptonWorkspaceCellCategories.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
-            this.kryptonPageCategories});
-            this.kryptonWorkspaceCellCategories.SelectedIndex = 0;
-            this.kryptonWorkspaceCellCategories.UniqueName = "57abc6e7cd3640d5ab9ad6e79a0467ac";
-            // 
-            // kryptonPageCategories
-            // 
-            this.kryptonPageCategories.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageCategories.Flags = 65534;
-            this.kryptonPageCategories.LastVisibleSet = true;
-            this.kryptonPageCategories.MinimumSize = new System.Drawing.Size(50, 50);
-            this.kryptonPageCategories.Name = "kryptonPageCategories";
-            this.kryptonPageCategories.Size = new System.Drawing.Size(256, 105);
-            this.kryptonPageCategories.Text = "Categories";
-            this.kryptonPageCategories.TextDescription = "Select what categories you want scraping";
-            this.kryptonPageCategories.TextTitle = "Categories";
-            this.kryptonPageCategories.ToolTipTitle = "Page ToolTip";
-            this.kryptonPageCategories.UniqueName = "b9e9917fe5924aa1ad155f3027ecd80b";
-            // 
             // kryptonPage10
             // 
             this.kryptonPage10.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
@@ -1336,74 +1059,123 @@ namespace PhotoTagsSynchronizer
             this.kryptonPage10.ToolTipTitle = "Page ToolTip";
             this.kryptonPage10.UniqueName = "3d0928b650a04ca58fb37c9da3c97546";
             // 
+            // buttonSpecNavigatorDataSetSelectDelete
+            // 
+            this.buttonSpecNavigatorDataSetSelectDelete.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckDelete;
+            this.buttonSpecNavigatorDataSetSelectDelete.ToolTipBody = "Delete dataset";
+            this.buttonSpecNavigatorDataSetSelectDelete.UniqueName = "0598199c66394fc799af5c8f3e7a64b1";
+            this.buttonSpecNavigatorDataSetSelectDelete.Click += new System.EventHandler(this.buttonSpecNavigatorDataSetSelectDelete_Click);
+            // 
+            // buttonSpecNavigatorDataSetSelectAll
+            // 
+            this.buttonSpecNavigatorDataSetSelectAll.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckAll;
+            this.buttonSpecNavigatorDataSetSelectAll.ToolTipBody = "Select all DataSet";
+            this.buttonSpecNavigatorDataSetSelectAll.UniqueName = "3dbc37b9ca3c4bf9b9d85c076f5ea9bd";
+            this.buttonSpecNavigatorDataSetSelectAll.Click += new System.EventHandler(this.buttonSpecNavigatorDataSetSelectAll_Click);
+            // 
+            // buttonSpecNavigatorDataSetSelectToggle
+            // 
+            this.buttonSpecNavigatorDataSetSelectToggle.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckToggle;
+            this.buttonSpecNavigatorDataSetSelectToggle.ToolTipBody = "Toogle select of DataSet";
+            this.buttonSpecNavigatorDataSetSelectToggle.UniqueName = "d4d65cef436c405c85bfee678cefb27d";
+            this.buttonSpecNavigatorDataSetSelectToggle.Click += new System.EventHandler(this.buttonSpecNavigatorDataSetSelectToggle_Click);
+            // 
+            // buttonSpecNavigatorDataSetSelectNone
+            // 
+            this.buttonSpecNavigatorDataSetSelectNone.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckNone;
+            this.buttonSpecNavigatorDataSetSelectNone.ToolTipBody = "Select None DataSet";
+            this.buttonSpecNavigatorDataSetSelectNone.UniqueName = "1a4019c476b546b2a2dc25f98136af59";
+            this.buttonSpecNavigatorDataSetSelectNone.Click += new System.EventHandler(this.buttonSpecNavigatorDataSetSelectNone_Click);
+            // 
+            // buttonSpecNavigatorCategoriesSelectEmpty
+            // 
+            this.buttonSpecNavigatorCategoriesSelectEmpty.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckEmpty;
+            this.buttonSpecNavigatorCategoriesSelectEmpty.ToolTipBody = "Select categories that has never been updated";
+            this.buttonSpecNavigatorCategoriesSelectEmpty.UniqueName = "94d99ef48ad14ba48fee1a0fd49253ce";
+            this.buttonSpecNavigatorCategoriesSelectEmpty.Click += new System.EventHandler(this.buttonSpecNavigatorCategoriesSelectEmpty_Click);
+            // 
+            // buttonSpecNavigatorCategoriesSelectAll
+            // 
+            this.buttonSpecNavigatorCategoriesSelectAll.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckAll;
+            this.buttonSpecNavigatorCategoriesSelectAll.ToolTipBody = "Select all categories";
+            this.buttonSpecNavigatorCategoriesSelectAll.UniqueName = "cb43b9f1b40947e29fb0d7fed70dd009";
+            this.buttonSpecNavigatorCategoriesSelectAll.Click += new System.EventHandler(this.buttonSpecNavigatorCategoriesSelectAll_Click);
+            // 
+            // buttonSpecNavigatorCategoriesSelectToggle
+            // 
+            this.buttonSpecNavigatorCategoriesSelectToggle.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckToggle;
+            this.buttonSpecNavigatorCategoriesSelectToggle.ToolTipBody = "Toogle select categories";
+            this.buttonSpecNavigatorCategoriesSelectToggle.UniqueName = "6bf50bdffe4448bdb4a0c3bcb3efb436";
+            this.buttonSpecNavigatorCategoriesSelectToggle.Click += new System.EventHandler(this.buttonSpecNavigatorCategoriesSelectToggle_Click);
+            // 
+            // buttonSpecNavigatorCategoriesSelectNone
+            // 
+            this.buttonSpecNavigatorCategoriesSelectNone.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckNone;
+            this.buttonSpecNavigatorCategoriesSelectNone.ToolTipBody = "Select none categories";
+            this.buttonSpecNavigatorCategoriesSelectNone.UniqueName = "bfa24b2e4542487cafa48a770d457ac2";
+            this.buttonSpecNavigatorCategoriesSelectNone.Click += new System.EventHandler(this.buttonSpecNavigatorCategoriesSelectNone_Click);
+            // 
             // FormWebScraper
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.ClientSize = new System.Drawing.Size(1418, 739);
-            this.Controls.Add(this.kryptonWorkspace1);
+            this.ClientSize = new System.Drawing.Size(1115, 692);
+            this.Controls.Add(this.kryptonWorkspaceMain);
             this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormWebScraper";
             this.Text = "FormWebScraper";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormWebScraper_FormClosing);
             this.Load += new System.EventHandler(this.FormWebScraper_Load);
             this.Shown += new System.EventHandler(this.FormWebScraper_Shown);
-            this.panel1.ResumeLayout(false);
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
-            this.splitContainer2.Panel1.ResumeLayout(false);
-            this.splitContainer2.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
-            this.splitContainer2.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
-            this.panel4.ResumeLayout(false);
-            this.splitContainer3.Panel1.ResumeLayout(false);
-            this.splitContainer3.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
-            this.splitContainer3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxJavaScript)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxJavaScriptResult)).EndInit();
-            this.panel3.ResumeLayout(false);
-            this.splitContainer4.Panel1.ResumeLayout(false);
-            this.splitContainer4.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
-            this.splitContainer4.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.groupBoxDevTools.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspace1)).EndInit();
-            this.kryptonWorkspace1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageDataSet)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceMain)).EndInit();
+            this.kryptonWorkspaceMain.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageBrowser)).EndInit();
+            this.kryptonPageBrowser.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellBrowser)).EndInit();
             this.kryptonWorkspaceCellBrowser.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageBrowser)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellBrowserUrl)).EndInit();
             this.kryptonWorkspaceCellBrowserUrl.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageBrowserUrl)).EndInit();
+            this.kryptonPageBrowserUrl.ResumeLayout(false);
+            this.kryptonPageBrowserUrl.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellJavaScript)).EndInit();
             this.kryptonWorkspaceCellJavaScript.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageJavaScript)).EndInit();
+            this.kryptonPageJavaScript.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellJavaScriptResult)).EndInit();
+            this.kryptonWorkspaceCellJavaScriptResult.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageJavaScriptResult)).EndInit();
+            this.kryptonPageJavaScriptResult.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellDevTools)).EndInit();
             this.kryptonWorkspaceCellDevTools.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageDevTools)).EndInit();
+            this.kryptonPageDevTools.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellDataSetActions)).EndInit();
             this.kryptonWorkspaceCellDataSetActions.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageDataSetActions)).EndInit();
+            this.kryptonPageDataSetActions.ResumeLayout(false);
+            this.kryptonPageDataSetActions.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellDataSet)).EndInit();
             this.kryptonWorkspaceCellDataSet.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageDataSet)).EndInit();
+            this.kryptonPageDataSet.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellWebScrapingActions)).EndInit();
+            this.kryptonWorkspaceCellWebScrapingActions.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageWebScrapingActions)).EndInit();
+            this.kryptonPageWebScrapingActions.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellCategories)).EndInit();
+            this.kryptonWorkspaceCellCategories.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageCategories)).EndInit();
+            this.kryptonPageCategories.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage9)).EndInit();
@@ -1417,17 +1189,8 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage14)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage15)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage21)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellJavaScriptResult)).EndInit();
-            this.kryptonWorkspaceCellJavaScriptResult.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageJavaScriptResult)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage18)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellWebScrapingActions)).EndInit();
-            this.kryptonWorkspaceCellWebScrapingActions.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageWebScrapingActions)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellCategories)).EndInit();
-            this.kryptonWorkspaceCellCategories.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageCategories)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage10)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1435,49 +1198,28 @@ namespace PhotoTagsSynchronizer
         }
 
         #endregion
-
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.SplitContainer splitContainer2;
         private Krypton.Toolkit.KryptonTextBox textBoxBrowserURL;
         private System.Windows.Forms.Panel panelBrowser;
         private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBoxJavaScript;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Panel panel4;
         private Krypton.Toolkit.KryptonButton buttonBrowserShowDevTool;
         private Krypton.Toolkit.KryptonButton buttonRunJavaScript;
-        private System.Windows.Forms.SplitContainer splitContainer3;
         private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBoxJavaScriptResult;
         private System.Windows.Forms.ListView listViewLinks;
         private System.Windows.Forms.ColumnHeader columnHeaderCategoryName;
         private System.Windows.Forms.ColumnHeader columnHeaderCategoryLink;
         private Krypton.Toolkit.KryptonButton buttonWebScrapingStart;
-        private Krypton.Toolkit.KryptonLabel label1;
         private Krypton.Toolkit.KryptonButton buttonWebScrapingCategories;
         private Krypton.Toolkit.KryptonButton buttonSaveJavaScript;
         private System.Windows.Forms.ColumnHeader columnHeaderCategoryType;
-        private Krypton.Toolkit.KryptonButton buttonWebScrapingSelectAll;
-        private Krypton.Toolkit.KryptonButton buttonWebScrapingSelectNone;
-        private Krypton.Toolkit.KryptonButton buttonWebScrapingToggle;
         private Krypton.Toolkit.KryptonButton buttonWebScrapingSave;
         private Krypton.Toolkit.KryptonButton buttonWebScrapingStop;
         private Krypton.Toolkit.KryptonButton buttonWebScrapingLoadPackage;
         private System.Windows.Forms.ColumnHeader columnHeaderCategoryDate;
-        private Krypton.Toolkit.KryptonButton buttonWebScrapingSelectNotRead;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private Krypton.Toolkit.KryptonButton buttonWebScrapingDataSetSelectNone;
-        private Krypton.Toolkit.KryptonButton buttonWebScrapingDataSetSelectToggle;
-        private Krypton.Toolkit.KryptonButton buttonWebScrapingDataSetSelectAll;
         private System.Windows.Forms.ListView listViewDataSetDates;
         private System.Windows.Forms.ColumnHeader columnHeaderSavedDate;
-        private System.Windows.Forms.GroupBox groupBoxDevTools;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelStatus;
-        private Krypton.Toolkit.KryptonLabel label2;
         private Krypton.Toolkit.KryptonLabel label3;
-        private Krypton.Toolkit.KryptonButton buttonWebScrapingDataSetDelete;
         private Krypton.Toolkit.KryptonButton buttonWebScrapingClearDataSet;
         private System.Windows.Forms.ColumnHeader columnHeaderCountMediaFiles;
         private System.Windows.Forms.ColumnHeader columnHeaderCountTitles;
@@ -1492,12 +1234,11 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ColumnHeader columnHeaderDataSetCountLocationNames;
         private System.Windows.Forms.ColumnHeader columnHeaderDataSetCountKeywords;
         private System.Windows.Forms.ColumnHeader columnHeaderDataSetCountRegions;
-        private System.Windows.Forms.SplitContainer splitContainer4;
         private Krypton.Toolkit.KryptonManager kryptonManager1;
         private Krypton.Navigator.KryptonPage kryptonPage2;
         private Krypton.Navigator.KryptonPage kryptonPage4;
         private Krypton.Navigator.KryptonPage kryptonPage6;
-        private Krypton.Workspace.KryptonWorkspace kryptonWorkspace1;
+        private Krypton.Workspace.KryptonWorkspace kryptonWorkspaceMain;
         private Krypton.Navigator.KryptonPage kryptonPageBrowserUrl;
         private Krypton.Workspace.KryptonWorkspaceSequence kryptonWorkspaceSequence1;
         private Krypton.Workspace.KryptonWorkspaceCell kryptonWorkspaceCellBrowser;
@@ -1534,5 +1275,13 @@ namespace PhotoTagsSynchronizer
         private Krypton.Navigator.KryptonPage kryptonPageCategories;
         private Krypton.Navigator.KryptonPage kryptonPage5;
         private Krypton.Navigator.KryptonPage kryptonPage10;
+        private Krypton.Navigator.ButtonSpecNavigator buttonSpecNavigatorDataSetSelectAll;
+        private Krypton.Navigator.ButtonSpecNavigator buttonSpecNavigatorDataSetSelectToggle;
+        private Krypton.Navigator.ButtonSpecNavigator buttonSpecNavigatorDataSetSelectNone;
+        private Krypton.Navigator.ButtonSpecNavigator buttonSpecNavigatorDataSetSelectDelete;
+        private Krypton.Navigator.ButtonSpecNavigator buttonSpecNavigatorCategoriesSelectEmpty;
+        private Krypton.Navigator.ButtonSpecNavigator buttonSpecNavigatorCategoriesSelectAll;
+        private Krypton.Navigator.ButtonSpecNavigator buttonSpecNavigatorCategoriesSelectToggle;
+        private Krypton.Navigator.ButtonSpecNavigator buttonSpecNavigatorCategoriesSelectNone;
     }
 }
