@@ -1498,7 +1498,7 @@ namespace PhotoTagsSynchronizer
         #region GUI - Delete WebScraping DataSet
         private void buttonSpecNavigatorDataSetSelectDelete_Click(object sender, EventArgs e)
         {
-            buttonWebScrapingDataSetDelete.Enabled = false;
+            buttonSpecNavigatorDataSetSelectDelete.Enabled = ButtonEnabled.False;
 
             fastColoredTextBoxJavaScriptResult.Text = "Deleteing DataSet\r\n";
 
@@ -1519,7 +1519,7 @@ namespace PhotoTagsSynchronizer
             _webScrapingDataSet = WebScrapingDataSetStatusRead(webScrapingDataSetDates);
             UpdatedWebScrapingDataSetList(_webScrapingDataSet);
 
-            buttonWebScrapingDataSetDelete.Enabled = true;
+            buttonSpecNavigatorDataSetSelectDelete.Enabled = ButtonEnabled.True; 
         }
         #endregion
 
