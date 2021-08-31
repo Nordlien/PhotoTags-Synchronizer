@@ -183,37 +183,37 @@ namespace PhotoTagsSynchronizer
                             Image thumbnailWithCloudIfFromCloud = Utility.ThumbnailFromImage(thumbnail, ThumbnailMaxUpsize, Color.White, true);
                             if (isFileInCloud) //If Media is in cloud, show Icon
                             {
-                                using (Graphics g = Graphics.FromImage(thumbnailWithCloudIfFromCloud)) { g.DrawImage(Properties.Resources.FileInCloud, 0, 0); }
+                                using (Graphics g = Graphics.FromImage(thumbnailWithCloudIfFromCloud)) { g.DrawImage(Properties.Resources.ImageListViewStatusFileInCloud, 0, 0); }
                             }
                             e.Thumbnail = thumbnailWithCloudIfFromCloud;
                         }
                         else
                         {
-                            if (FileHandler.IsFileVirtual(fileEntry.FileFullPath)) e.Thumbnail = (Image)Properties.Resources.load_image_error_onedrive;
-                            else if (isFileInCloud) e.Thumbnail = (Image)Properties.Resources.load_image_error_in_cloud;
-                            else e.Thumbnail = (Image)Properties.Resources.load_image_error_thumbnail;
+                            if (FileHandler.IsFileVirtual(fileEntry.FileFullPath)) e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorOneDriveNotRunning;
+                            else if (isFileInCloud) e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorFileInCloud;
+                            else e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorNoThumbnail;
                         }
                     }
                     catch (IOException ioe)
                     {
                         Logger.Error(ioe, "Load image error, OneDrive issues");
-                        e.Thumbnail = (Image)Properties.Resources.load_image_error_onedrive;
+                        e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorOneDriveNotRunning;
                     }
                     catch (Exception ex)
                     {
                         Logger.Warn(ex, "Load image error");
-                        e.Thumbnail = (Image)Properties.Resources.load_image_error_general;
+                        e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorGeneral;
                     }
                 }
                 else
                 {
                     Logger.Warn("File not exist: " + e.FileName);
-                    e.Thumbnail = (Image)Properties.Resources.load_image_error_file_not_exist;
+                    e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorFileNotExist;
                 }
             } catch (Exception ex)
             {
                 Logger.Warn(ex, "imageListView1_RetrieveItemThumbnail failed on: " + e.FileName);
-                e.Thumbnail = (Image)Properties.Resources.load_image_error_general;
+                e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorGeneral;
             }
         }
         #endregion
@@ -248,7 +248,7 @@ namespace PhotoTagsSynchronizer
                 //2. When OneDrive had chrased, lot of stranger errors occured
                 catch (OutOfMemoryException)
                 {
-                    e.LoadedImage = (Image)Properties.Resources.load_image_error_memory;
+                    e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorOutOfMemory;
                     e.WasImageReadFromFile = false;
                     e.DidErrorOccourLoadMedia = true;
                     
@@ -268,19 +268,19 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (IOException) //Set an error picture, OneDrive problems
                 {
-                    e.LoadedImage = (Image)Properties.Resources.load_image_error_onedrive;
+                    e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorOneDriveNotRunning;
                     e.WasImageReadFromFile = false;
                     e.DidErrorOccourLoadMedia = true;
                 }
                 catch (Exception)
                 {
-                    e.LoadedImage = (Image)Properties.Resources.load_image_error_general;
+                    e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorGeneral;
                     e.WasImageReadFromFile = false;
                     e.DidErrorOccourLoadMedia = true;
                 }
                 if (e.LoadedImage == null && FileHandler.IsFileInCloud(e.FullFilePath))
                 {
-                    e.LoadedImage = (Image)Properties.Resources.load_image_error_onedrive;
+                    e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorOneDriveNotRunning;
                     e.WasImageReadFromFile = false;
                     e.DidErrorOccourLoadMedia = true;
                 }
