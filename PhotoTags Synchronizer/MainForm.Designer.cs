@@ -451,15 +451,27 @@ namespace PhotoTagsSynchronizer
             this.kryptonPage6 = new Krypton.Navigator.KryptonPage();
             this.kryptonPage9 = new Krypton.Navigator.KryptonPage();
             this.kryptonRibbonMain = new Krypton.Ribbon.KryptonRibbon();
+            this.kryptonRibbonQATButtonSave = new Krypton.Ribbon.KryptonRibbonQATButton();
             this.kryptonRibbonTabView = new Krypton.Ribbon.KryptonRibbonTab();
-            this.kryptonRibbonTabEdit = new Krypton.Ribbon.KryptonRibbonTab();
             this.kryptonRibbonGroupSearchAndFilters = new Krypton.Ribbon.KryptonRibbonGroup();
+            this.kryptonRibbonGroupTriple5 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.kryptonRibbonGroupButton10 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButton11 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButton12 = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupImageListView = new Krypton.Ribbon.KryptonRibbonGroup();
-            this.kryptonRibbonGroupTriple1 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
-            this.kryptonRibbonGroupButton1 = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupTriple2 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButton3 = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButton4 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButton2 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupTriple1 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.kryptonRibbonGroupButton1 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupComboBox2 = new Krypton.Ribbon.KryptonRibbonGroupComboBox();
+            this.kryptonRibbonGroupLines1 = new Krypton.Ribbon.KryptonRibbonGroupLines();
+            this.kryptonRibbonGroupButton13 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButton14 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButton15 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButton16 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButton17 = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupToolbox = new Krypton.Ribbon.KryptonRibbonGroup();
             this.kryptonRibbonGroupTriple3 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButton5 = new Krypton.Ribbon.KryptonRibbonGroupButton();
@@ -468,23 +480,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupTriple4 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButton8 = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButton9 = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupTriple5 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
-            this.kryptonRibbonGroupButton10 = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupButton11 = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupButton12 = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupComboBox2 = new Krypton.Ribbon.KryptonRibbonGroupComboBox();
-            this.kryptonRibbonGroupButton2 = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupLines1 = new Krypton.Ribbon.KryptonRibbonGroupLines();
-            this.kryptonRibbonGroupButton13 = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupButton14 = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupButton15 = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupButton16 = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupButton17 = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonTabTools = new Krypton.Ribbon.KryptonRibbonTab();
-            this.kryptonRibbonGroupToolsMain = new Krypton.Ribbon.KryptonRibbonGroup();
-            this.kryptonRibbonGroupTriple6 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
-            this.kryptonRibbonGroupButton18 = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupButton19 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonTabEdit = new Krypton.Ribbon.KryptonRibbonTab();
             this.kryptonRibbonGroupImageListViewSelect = new Krypton.Ribbon.KryptonRibbonGroup();
             this.kryptonRibbonGroupTriple7 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButton20 = new Krypton.Ribbon.KryptonRibbonGroupButton();
@@ -502,7 +498,11 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupRadioButton7 = new Krypton.Ribbon.KryptonRibbonGroupRadioButton();
             this.kryptonRibbonGroupRadioButton8 = new Krypton.Ribbon.KryptonRibbonGroupRadioButton();
             this.kryptonRibbonGroupRadioButton9 = new Krypton.Ribbon.KryptonRibbonGroupRadioButton();
-            this.kryptonRibbonQATButtonSave = new Krypton.Ribbon.KryptonRibbonQATButton();
+            this.kryptonRibbonTabTools = new Krypton.Ribbon.KryptonRibbonTab();
+            this.kryptonRibbonGroupToolsMain = new Krypton.Ribbon.KryptonRibbonGroup();
+            this.kryptonRibbonGroupTriple6 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.kryptonRibbonGroupButton18 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButton19 = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.toolStripContainerMainForm.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainerMainForm.ContentPanel.SuspendLayout();
             this.toolStripContainerMainForm.TopToolStripPanel.SuspendLayout();
@@ -923,7 +923,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxSearchTags.Panel.Controls.Add(this.comboBoxSearchLocationCountry);
             this.groupBoxSearchTags.Panel.Controls.Add(this.label12);
             this.groupBoxSearchTags.Panel.Controls.Add(this.label7);
-            this.groupBoxSearchTags.Size = new System.Drawing.Size(353, 277);
+            this.groupBoxSearchTags.Size = new System.Drawing.Size(336, 277);
             this.groupBoxSearchTags.TabIndex = 9;
             this.groupBoxSearchTags.Values.Heading = "Search inside text field tags:";
             // 
@@ -957,7 +957,7 @@ namespace PhotoTagsSynchronizer
             "List of States"});
             this.comboBoxSearchLocationState.Location = new System.Drawing.Point(108, 165);
             this.comboBoxSearchLocationState.Name = "comboBoxSearchLocationState";
-            this.comboBoxSearchLocationState.Size = new System.Drawing.Size(221, 21);
+            this.comboBoxSearchLocationState.Size = new System.Drawing.Size(204, 21);
             this.comboBoxSearchLocationState.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxSearchLocationState.TabIndex = 41;
             this.comboBoxSearchLocationState.Tag = "State";
@@ -976,7 +976,7 @@ namespace PhotoTagsSynchronizer
             "List of Albums"});
             this.comboBoxSearchAlbum.Location = new System.Drawing.Point(108, 2);
             this.comboBoxSearchAlbum.Name = "comboBoxSearchAlbum";
-            this.comboBoxSearchAlbum.Size = new System.Drawing.Size(221, 21);
+            this.comboBoxSearchAlbum.Size = new System.Drawing.Size(204, 21);
             this.comboBoxSearchAlbum.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxSearchAlbum.TabIndex = 35;
             this.comboBoxSearchAlbum.Tag = "Album";
@@ -995,7 +995,7 @@ namespace PhotoTagsSynchronizer
             "List of Comments"});
             this.comboBoxSearchComments.Location = new System.Drawing.Point(108, 83);
             this.comboBoxSearchComments.Name = "comboBoxSearchComments";
-            this.comboBoxSearchComments.Size = new System.Drawing.Size(221, 21);
+            this.comboBoxSearchComments.Size = new System.Drawing.Size(204, 21);
             this.comboBoxSearchComments.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxSearchComments.TabIndex = 38;
             this.comboBoxSearchComments.Tag = "Comments";
@@ -1014,7 +1014,7 @@ namespace PhotoTagsSynchronizer
             "List of Titles"});
             this.comboBoxSearchTitle.Location = new System.Drawing.Point(108, 30);
             this.comboBoxSearchTitle.Name = "comboBoxSearchTitle";
-            this.comboBoxSearchTitle.Size = new System.Drawing.Size(221, 21);
+            this.comboBoxSearchTitle.Size = new System.Drawing.Size(204, 21);
             this.comboBoxSearchTitle.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxSearchTitle.TabIndex = 36;
             this.comboBoxSearchTitle.Tag = "Title";
@@ -1049,7 +1049,7 @@ namespace PhotoTagsSynchronizer
             "List of Locations"});
             this.comboBoxSearchLocationName.Location = new System.Drawing.Point(108, 110);
             this.comboBoxSearchLocationName.Name = "comboBoxSearchLocationName";
-            this.comboBoxSearchLocationName.Size = new System.Drawing.Size(221, 21);
+            this.comboBoxSearchLocationName.Size = new System.Drawing.Size(204, 21);
             this.comboBoxSearchLocationName.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxSearchLocationName.TabIndex = 39;
             this.comboBoxSearchLocationName.Tag = "Location";
@@ -1068,7 +1068,7 @@ namespace PhotoTagsSynchronizer
             "List of Cities"});
             this.comboBoxSearchLocationCity.Location = new System.Drawing.Point(108, 138);
             this.comboBoxSearchLocationCity.Name = "comboBoxSearchLocationCity";
-            this.comboBoxSearchLocationCity.Size = new System.Drawing.Size(221, 21);
+            this.comboBoxSearchLocationCity.Size = new System.Drawing.Size(204, 21);
             this.comboBoxSearchLocationCity.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxSearchLocationCity.TabIndex = 40;
             this.comboBoxSearchLocationCity.Tag = "City";
@@ -1095,7 +1095,7 @@ namespace PhotoTagsSynchronizer
             "List of Desxriptions"});
             this.comboBoxSearchDescription.Location = new System.Drawing.Point(108, 56);
             this.comboBoxSearchDescription.Name = "comboBoxSearchDescription";
-            this.comboBoxSearchDescription.Size = new System.Drawing.Size(221, 21);
+            this.comboBoxSearchDescription.Size = new System.Drawing.Size(204, 21);
             this.comboBoxSearchDescription.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxSearchDescription.TabIndex = 37;
             this.comboBoxSearchDescription.Tag = "Description";
@@ -1130,7 +1130,7 @@ namespace PhotoTagsSynchronizer
             "List of Contries"});
             this.comboBoxSearchLocationCountry.Location = new System.Drawing.Point(108, 192);
             this.comboBoxSearchLocationCountry.Name = "comboBoxSearchLocationCountry";
-            this.comboBoxSearchLocationCountry.Size = new System.Drawing.Size(221, 21);
+            this.comboBoxSearchLocationCountry.Size = new System.Drawing.Size(204, 21);
             this.comboBoxSearchLocationCountry.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxSearchLocationCountry.TabIndex = 42;
             this.comboBoxSearchLocationCountry.Tag = "Country";
@@ -1163,7 +1163,7 @@ namespace PhotoTagsSynchronizer
             // groupBoxSearchPeople.Panel
             // 
             this.groupBoxSearchPeople.Panel.Controls.Add(this.panel5);
-            this.groupBoxSearchPeople.Size = new System.Drawing.Size(353, 274);
+            this.groupBoxSearchPeople.Size = new System.Drawing.Size(336, 274);
             this.groupBoxSearchPeople.TabIndex = 27;
             this.groupBoxSearchPeople.Values.Heading = "People:";
             // 
@@ -1176,7 +1176,7 @@ namespace PhotoTagsSynchronizer
             this.panel5.Location = new System.Drawing.Point(0, 0);
             this.panel5.Margin = new System.Windows.Forms.Padding(0);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(349, 250);
+            this.panel5.Size = new System.Drawing.Size(332, 250);
             this.panel5.TabIndex = 16;
             // 
             // checkedListBoxSearchPeople
@@ -1186,7 +1186,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.checkedListBoxSearchPeople.Location = new System.Drawing.Point(5, 53);
             this.checkedListBoxSearchPeople.Name = "checkedListBoxSearchPeople";
-            this.checkedListBoxSearchPeople.Size = new System.Drawing.Size(323, 180);
+            this.checkedListBoxSearchPeople.Size = new System.Drawing.Size(306, 180);
             this.checkedListBoxSearchPeople.TabIndex = 45;
             this.checkedListBoxSearchPeople.Tag = "SearchPeople";
             // 
@@ -1223,7 +1223,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxSearchMediaTaken.Panel.Controls.Add(this.dateTimePickerSearchDateFrom);
             this.groupBoxSearchMediaTaken.Panel.Controls.Add(this.dateTimePickerSearchDateTo);
             this.groupBoxSearchMediaTaken.Panel.Controls.Add(this.label17);
-            this.groupBoxSearchMediaTaken.Size = new System.Drawing.Size(353, 110);
+            this.groupBoxSearchMediaTaken.Size = new System.Drawing.Size(336, 110);
             this.groupBoxSearchMediaTaken.TabIndex = 9;
             this.groupBoxSearchMediaTaken.Values.Heading = "Media taken:";
             // 
@@ -1255,7 +1255,7 @@ namespace PhotoTagsSynchronizer
             this.dateTimePickerSearchDateFrom.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
             this.dateTimePickerSearchDateFrom.Name = "dateTimePickerSearchDateFrom";
             this.dateTimePickerSearchDateFrom.ShowCheckBox = true;
-            this.dateTimePickerSearchDateFrom.Size = new System.Drawing.Size(221, 21);
+            this.dateTimePickerSearchDateFrom.Size = new System.Drawing.Size(204, 21);
             this.dateTimePickerSearchDateFrom.TabIndex = 38;
             this.dateTimePickerSearchDateFrom.Tag = "DateTakenFrom";
             // 
@@ -1270,7 +1270,7 @@ namespace PhotoTagsSynchronizer
             this.dateTimePickerSearchDateTo.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
             this.dateTimePickerSearchDateTo.Name = "dateTimePickerSearchDateTo";
             this.dateTimePickerSearchDateTo.ShowCheckBox = true;
-            this.dateTimePickerSearchDateTo.Size = new System.Drawing.Size(220, 21);
+            this.dateTimePickerSearchDateTo.Size = new System.Drawing.Size(203, 21);
             this.dateTimePickerSearchDateTo.TabIndex = 41;
             this.dateTimePickerSearchDateTo.Tag = "DateTakenTo";
             // 
@@ -1299,7 +1299,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxSearchRating.Panel.Controls.Add(this.checkBoxSearchRating4);
             this.groupBoxSearchRating.Panel.Controls.Add(this.checkBoxSearchRating2);
             this.groupBoxSearchRating.Panel.Controls.Add(this.checkBoxSearchRating3);
-            this.groupBoxSearchRating.Size = new System.Drawing.Size(353, 53);
+            this.groupBoxSearchRating.Size = new System.Drawing.Size(336, 53);
             this.groupBoxSearchRating.TabIndex = 10;
             this.groupBoxSearchRating.Values.Heading = "Rating";
             // 
@@ -1374,7 +1374,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxSearchKeywords.Panel.Controls.Add(this.checkBoxSearchNeedAllKeywords);
             this.groupBoxSearchKeywords.Panel.Controls.Add(this.checkBoxSearchWithoutKeyword);
             this.groupBoxSearchKeywords.Panel.Controls.Add(this.comboBoxSearchKeyword);
-            this.groupBoxSearchKeywords.Size = new System.Drawing.Size(353, 136);
+            this.groupBoxSearchKeywords.Size = new System.Drawing.Size(336, 136);
             this.groupBoxSearchKeywords.TabIndex = 9;
             this.groupBoxSearchKeywords.Values.Heading = "Keywords";
             // 
@@ -1423,7 +1423,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxSearchKeyword.IntegralHeight = false;
             this.comboBoxSearchKeyword.Location = new System.Drawing.Point(108, 2);
             this.comboBoxSearchKeyword.Name = "comboBoxSearchKeyword";
-            this.comboBoxSearchKeyword.Size = new System.Drawing.Size(220, 21);
+            this.comboBoxSearchKeyword.Size = new System.Drawing.Size(203, 21);
             this.comboBoxSearchKeyword.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxSearchKeyword.TabIndex = 46;
             this.comboBoxSearchKeyword.Tag = "Keywords";
@@ -1439,7 +1439,7 @@ namespace PhotoTagsSynchronizer
             // groupBoxSearchExtra.Panel
             // 
             this.groupBoxSearchExtra.Panel.Controls.Add(this.checkBoxSearchHasWarning);
-            this.groupBoxSearchExtra.Size = new System.Drawing.Size(353, 55);
+            this.groupBoxSearchExtra.Size = new System.Drawing.Size(336, 55);
             this.groupBoxSearchExtra.TabIndex = 9;
             this.groupBoxSearchExtra.Values.Heading = "Attributes:";
             // 
@@ -4438,7 +4438,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripContainerStripMainForm.Location = new System.Drawing.Point(3, 0);
             this.toolStripContainerStripMainForm.Name = "toolStripContainerStripMainForm";
             this.toolStripContainerStripMainForm.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStripContainerStripMainForm.Size = new System.Drawing.Size(947, 27);
+            this.toolStripContainerStripMainForm.Size = new System.Drawing.Size(978, 27);
             this.toolStripContainerStripMainForm.TabIndex = 0;
             // 
             // thumbnailsToolStripButton
@@ -5421,7 +5421,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonTabView,
             this.kryptonRibbonTabEdit,
             this.kryptonRibbonTabTools});
-            this.kryptonRibbonMain.SelectedContext = null;
             this.kryptonRibbonMain.SelectedTab = this.kryptonRibbonTabView;
             this.kryptonRibbonMain.Size = new System.Drawing.Size(1214, 115);
             this.kryptonRibbonMain.TabIndex = 9;
@@ -5434,17 +5433,18 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupToolbox});
             this.kryptonRibbonTabView.Text = "View";
             // 
-            // kryptonRibbonTabEdit
-            // 
-            this.kryptonRibbonTabEdit.Groups.AddRange(new Krypton.Ribbon.KryptonRibbonGroup[] {
-            this.kryptonRibbonGroupImageListViewSelect});
-            this.kryptonRibbonTabEdit.Text = "Edit";
-            // 
             // kryptonRibbonGroupSearchAndFilters
             // 
             this.kryptonRibbonGroupSearchAndFilters.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
             this.kryptonRibbonGroupTriple5});
             this.kryptonRibbonGroupSearchAndFilters.TextLine1 = "Search and Filters";
+            // 
+            // kryptonRibbonGroupTriple5
+            // 
+            this.kryptonRibbonGroupTriple5.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupButton10,
+            this.kryptonRibbonGroupButton11,
+            this.kryptonRibbonGroupButton12});
             // 
             // kryptonRibbonGroupImageListView
             // 
@@ -5454,18 +5454,54 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupLines1});
             this.kryptonRibbonGroupImageListView.TextLine1 = "Media view";
             // 
-            // kryptonRibbonGroupTriple1
-            // 
-            this.kryptonRibbonGroupTriple1.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
-            this.kryptonRibbonGroupButton1,
-            this.kryptonRibbonGroupComboBox2});
-            // 
             // kryptonRibbonGroupTriple2
             // 
             this.kryptonRibbonGroupTriple2.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
             this.kryptonRibbonGroupButton3,
             this.kryptonRibbonGroupButton4,
             this.kryptonRibbonGroupButton2});
+            // 
+            // kryptonRibbonGroupTriple1
+            // 
+            this.kryptonRibbonGroupTriple1.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupButton1,
+            this.kryptonRibbonGroupComboBox2});
+            // 
+            // kryptonRibbonGroupComboBox2
+            // 
+            this.kryptonRibbonGroupComboBox2.DropDownWidth = 121;
+            this.kryptonRibbonGroupComboBox2.FormattingEnabled = false;
+            this.kryptonRibbonGroupComboBox2.ItemHeight = 15;
+            this.kryptonRibbonGroupComboBox2.Text = "";
+            // 
+            // kryptonRibbonGroupLines1
+            // 
+            this.kryptonRibbonGroupLines1.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupButton13,
+            this.kryptonRibbonGroupButton14,
+            this.kryptonRibbonGroupButton15,
+            this.kryptonRibbonGroupButton16,
+            this.kryptonRibbonGroupButton17});
+            // 
+            // kryptonRibbonGroupButton13
+            // 
+            this.kryptonRibbonGroupButton13.TextLine1 = "XLarge";
+            // 
+            // kryptonRibbonGroupButton14
+            // 
+            this.kryptonRibbonGroupButton14.TextLine1 = "Large";
+            // 
+            // kryptonRibbonGroupButton15
+            // 
+            this.kryptonRibbonGroupButton15.TextLine1 = "Normal";
+            // 
+            // kryptonRibbonGroupButton16
+            // 
+            this.kryptonRibbonGroupButton16.TextLine1 = "Small";
+            // 
+            // kryptonRibbonGroupButton17
+            // 
+            this.kryptonRibbonGroupButton17.TextLine1 = "XSmall";
             // 
             // kryptonRibbonGroupToolbox
             // 
@@ -5508,76 +5544,11 @@ namespace PhotoTagsSynchronizer
             // 
             this.kryptonRibbonGroupButton9.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.GridErrorColumn;
             // 
-            // kryptonRibbonGroupTriple5
+            // kryptonRibbonTabEdit
             // 
-            this.kryptonRibbonGroupTriple5.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
-            this.kryptonRibbonGroupButton10,
-            this.kryptonRibbonGroupButton11,
-            this.kryptonRibbonGroupButton12});
-            // 
-            // kryptonRibbonGroupComboBox2
-            // 
-            this.kryptonRibbonGroupComboBox2.DropDownWidth = 121;
-            this.kryptonRibbonGroupComboBox2.FormattingEnabled = false;
-            this.kryptonRibbonGroupComboBox2.ItemHeight = 15;
-            this.kryptonRibbonGroupComboBox2.Text = "";
-            // 
-            // kryptonRibbonGroupLines1
-            // 
-            this.kryptonRibbonGroupLines1.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
-            this.kryptonRibbonGroupButton13,
-            this.kryptonRibbonGroupButton14,
-            this.kryptonRibbonGroupButton15,
-            this.kryptonRibbonGroupButton16,
-            this.kryptonRibbonGroupButton17});
-            // 
-            // kryptonRibbonGroupButton13
-            // 
-            this.kryptonRibbonGroupButton13.TextLine1 = "XLarge";
-            // 
-            // kryptonRibbonGroupButton14
-            // 
-            this.kryptonRibbonGroupButton14.TextLine1 = "Large";
-            // 
-            // kryptonRibbonGroupButton15
-            // 
-            this.kryptonRibbonGroupButton15.TextLine1 = "Normal";
-            // 
-            // kryptonRibbonGroupButton16
-            // 
-            this.kryptonRibbonGroupButton16.TextLine1 = "Small";
-            // 
-            // kryptonRibbonGroupButton17
-            // 
-            this.kryptonRibbonGroupButton17.TextLine1 = "XSmall";
-            // 
-            // kryptonRibbonTabTools
-            // 
-            this.kryptonRibbonTabTools.Groups.AddRange(new Krypton.Ribbon.KryptonRibbonGroup[] {
-            this.kryptonRibbonGroupToolsMain});
-            this.kryptonRibbonTabTools.Text = "Tools";
-            // 
-            // kryptonRibbonGroupToolsMain
-            // 
-            this.kryptonRibbonGroupToolsMain.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
-            this.kryptonRibbonGroupTriple6});
-            this.kryptonRibbonGroupToolsMain.TextLine1 = "Tools";
-            // 
-            // kryptonRibbonGroupTriple6
-            // 
-            this.kryptonRibbonGroupTriple6.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
-            this.kryptonRibbonGroupButton18,
-            this.kryptonRibbonGroupButton19});
-            // 
-            // kryptonRibbonGroupButton18
-            // 
-            this.kryptonRibbonGroupButton18.TextLine1 = "Import";
-            this.kryptonRibbonGroupButton18.TextLine2 = "Locations";
-            // 
-            // kryptonRibbonGroupButton19
-            // 
-            this.kryptonRibbonGroupButton19.TextLine1 = "Web";
-            this.kryptonRibbonGroupButton19.TextLine2 = "Scraping";
+            this.kryptonRibbonTabEdit.Groups.AddRange(new Krypton.Ribbon.KryptonRibbonGroup[] {
+            this.kryptonRibbonGroupImageListViewSelect});
+            this.kryptonRibbonTabEdit.Text = "Edit";
             // 
             // kryptonRibbonGroupImageListViewSelect
             // 
@@ -5659,6 +5630,34 @@ namespace PhotoTagsSynchronizer
             // 
             this.kryptonRibbonGroupRadioButton9.TextLine1 = "Select max";
             this.kryptonRibbonGroupRadioButton9.TextLine2 = "100 files";
+            // 
+            // kryptonRibbonTabTools
+            // 
+            this.kryptonRibbonTabTools.Groups.AddRange(new Krypton.Ribbon.KryptonRibbonGroup[] {
+            this.kryptonRibbonGroupToolsMain});
+            this.kryptonRibbonTabTools.Text = "Tools";
+            // 
+            // kryptonRibbonGroupToolsMain
+            // 
+            this.kryptonRibbonGroupToolsMain.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
+            this.kryptonRibbonGroupTriple6});
+            this.kryptonRibbonGroupToolsMain.TextLine1 = "Tools";
+            // 
+            // kryptonRibbonGroupTriple6
+            // 
+            this.kryptonRibbonGroupTriple6.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupButton18,
+            this.kryptonRibbonGroupButton19});
+            // 
+            // kryptonRibbonGroupButton18
+            // 
+            this.kryptonRibbonGroupButton18.TextLine1 = "Import";
+            this.kryptonRibbonGroupButton18.TextLine2 = "Locations";
+            // 
+            // kryptonRibbonGroupButton19
+            // 
+            this.kryptonRibbonGroupButton19.TextLine1 = "Web";
+            this.kryptonRibbonGroupButton19.TextLine2 = "Scraping";
             // 
             // MainForm
             // 
