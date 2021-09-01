@@ -17,13 +17,14 @@ namespace PhotoTagsSynchronizer
         private bool isPopulating = true;
         public FormChooseColumns()
         {
-            InitializeComponent();
-            
+            InitializeComponent();            
         }
 
-        public void Populate()
+        public void Populate(int selectedIndex)
         {
             isPopulating = true;
+            this.kryptonWorkspaceCell1.SelectedIndex = selectedIndex;
+
             PopulateComboBox(comboBoxTitleLine1);
             comboBoxTitleLine1.Text = Properties.Settings.Default.ImageListViewTitleLine1;
             imageListView.TitleLine1 = GetColumnTypeByText(Properties.Settings.Default.ImageListViewTitleLine1);
@@ -68,6 +69,12 @@ namespace PhotoTagsSynchronizer
             foreach (ImageListView.ImageListViewColumnHeader column in imageListView.Columns)
             {
                 int index = checkedListBox.Items.Add(column.Text);
+
+                foreach (ImageListView.ImageListViewColumnHeader item in imageListView.Columns)
+                {
+                    if (column.Visible && column.Text == item.Text) checkedListBox.SetItemChecked(index, true);
+                }
+
             }
         }
 

@@ -264,6 +264,7 @@ namespace PhotoTagsSynchronizer
                 }
             }
             GlobalData.IsSaveButtonPushed = false;
+            this.Enabled = true;
         }
         #endregion
 
@@ -273,12 +274,16 @@ namespace PhotoTagsSynchronizer
         #region ToolStrip - Save All Metadata - Click 
         private void toolStripButtonSaveAllMetadata_Click(object sender, EventArgs e)
         {
+            
+        }
+
+        private void kryptonRibbonQATButtonSave_Click(object sender, EventArgs e)
+        {
             try
             {
                 this.Activate();
                 this.Validate(); //Get the latest changes, that are text in edit mode
                 SaveActiveTabData();
-                this.Enabled = true;
             }
             catch (Exception ex)
             {
@@ -617,7 +622,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ToolStrip - Switch Renderers - Click
         private struct RendererItem
         {
             public Type Type;
@@ -632,143 +636,71 @@ namespace PhotoTagsSynchronizer
             }
         }
 
-        private void SetImageListViewRender()
+        #region ToolStrip - InageListView - Switch Renderers 
+        private void SetImageListViewRender(Manina.Windows.Forms.View imageListViewViewMode, RendererItem selectedRender)
         {
-            // Change the renderer
             try
             {
+                Properties.Settings.Default.ImageListViewRendererName = selectedRender.Type.FullName;
+                Properties.Settings.Default.ImageListViewViewMode = (int)imageListViewViewMode;
+                
+                imageListView1.View = imageListViewViewMode;                
                 Assembly assembly = Assembly.GetAssembly(typeof(ImageListView));
-                RendererItem item = (RendererItem)renderertoolStripComboBox.SelectedItem;
-                ImageListView.ImageListViewRenderer renderer = assembly.CreateInstance(item.Type.FullName) as ImageListView.ImageListViewRenderer;
+                ImageListView.ImageListViewRenderer renderer = assembly.CreateInstance(selectedRender.Type.FullName) as ImageListView.ImageListViewRenderer;
                 imageListView1.SetRenderer(renderer);
                 imageListView1.Focus();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Can't change render");
-            }
-        }
-
-        private void renderertoolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (isFormLoading) return;
-            
-            try
-            {
-                Properties.Settings.Default.RenderertoolStripComboBox = renderertoolStripComboBox.SelectedIndex;
-                Properties.Settings.Default.Save();
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "Can't save settings");
-                MessageBox.Show(ex.Message, "Can't save settings");
-            }
-
-            try
-            {
-                SetImageListViewRender();
-            }
-            catch (Exception ex)
-            {
                 Logger.Error(ex, "");
                 MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
             }
         }
+
+        private void KryptonContextMenuItem_Click(object sender, EventArgs e)
+        {
+            KryptonContextMenuItem kryptonContextMenuItem = (KryptonContextMenuItem)sender;
+            SetImageListViewRender(Manina.Windows.Forms.View.Thumbnails, (RendererItem)kryptonContextMenuItem.Tag);           
+        }
+
         #endregion
 
-        #region ToolStrip - Switch View Modes - Click
-        private void thumbnailsToolStripButton_Click(object sender, EventArgs e)
+        #region ToolStrip - ImageListView - Switch View Modes
+        
+        private void kryptonRibbonGroupButtonImageListViewModeGallery_Click(object sender, EventArgs e)
         {
-            try
-            {
-                imageListView1.View = Manina.Windows.Forms.View.Thumbnails;
-                rendererToolStripLabel.Visible = true;
-                renderertoolStripComboBox.Visible = true;
-                toolStripSeparatorRenderer.Visible = true;
-
-                renderertoolStripComboBox.SelectedIndex = Properties.Settings.Default.RenderertoolStripComboBox;
-                renderertoolStripComboBox_SelectedIndexChanged(null, null);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            SetImageListViewRender(Manina.Windows.Forms.View.Gallery, imageListViewSelectedRenderer);
         }
 
-        private void galleryToolStripButton_Click(object sender, EventArgs e)
+        private void kryptonRibbonGroupButtonImageListViewModeDetails_Click(object sender, EventArgs e)
         {
-            try
-            {
-                imageListView1.View = Manina.Windows.Forms.View.Gallery;
-                rendererToolStripLabel.Visible = false;
-                renderertoolStripComboBox.Visible = false;
-                toolStripSeparatorRenderer.Visible = false;
-
-                Assembly assembly = Assembly.GetAssembly(typeof(ImageListView));
-                ImageListView.ImageListViewRenderer renderer = assembly.CreateInstance(defaultImageListViewRenderer.Type.FullName) as ImageListView.ImageListViewRenderer;
-                imageListView1.SetRenderer(renderer);
-                imageListView1.Focus();
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            SetImageListViewRender(Manina.Windows.Forms.View.Details, imageListViewSelectedRenderer);
         }
 
-        private void paneToolStripButton_Click(object sender, EventArgs e)
+        private void kryptonRibbonGroupButtonImageListViewModePane_Click(object sender, EventArgs e)
         {
-
-            try
-            {
-                imageListView1.View = Manina.Windows.Forms.View.Pane;
-                rendererToolStripLabel.Visible = false;
-                renderertoolStripComboBox.Visible = false;
-                toolStripSeparatorRenderer.Visible = false;
-
-                Assembly assembly = Assembly.GetAssembly(typeof(ImageListView));
-                ImageListView.ImageListViewRenderer renderer = assembly.CreateInstance(defaultImageListViewRenderer.Type.FullName) as ImageListView.ImageListViewRenderer;
-                imageListView1.SetRenderer(renderer);
-                imageListView1.Focus();
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            SetImageListViewRender(Manina.Windows.Forms.View.Pane, imageListViewSelectedRenderer);
         }
 
-        private void detailsToolStripButton_Click(object sender, EventArgs e)
+        private void kryptonRibbonGroupButtonImageListViewModeThumbnails_Click(object sender, EventArgs e)
         {
-            try
-            {
-                imageListView1.View = Manina.Windows.Forms.View.Details;
-                rendererToolStripLabel.Visible = false;
-                renderertoolStripComboBox.Visible = false;
-                toolStripSeparatorRenderer.Visible = false;
-
-                Assembly assembly = Assembly.GetAssembly(typeof(ImageListView));
-                ImageListView.ImageListViewRenderer renderer = assembly.CreateInstance(defaultImageListViewRenderer.Type.FullName) as ImageListView.ImageListViewRenderer;
-                imageListView1.SetRenderer(renderer);
-                imageListView1.Focus();
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            SetImageListViewRender(Manina.Windows.Forms.View.Thumbnails, imageListViewSelectedRenderer);
         }
+
+        
         #endregion
 
-        #region ToolStrip - Modify Column Headers - Click
-        private void columnsToolStripButton_Click(object sender, EventArgs e)
+        #region ToolStrip - ImageListView - Modify Column Headers - Click
+        private void kryptonRibbonGroupButtonImageListViewDetailviewColumns_Click(object sender, EventArgs e)
         {
             try
             {
                 FormChooseColumns form = new FormChooseColumns();
                 form.imageListView = imageListView1;
-                form.Populate();
+                int index = 0;
+                if (imageListView1.View == Manina.Windows.Forms.View.Thumbnails) index = 1;
+                form.Populate(index);
                 form.ShowDialog();
             }
             catch (Exception ex)
@@ -781,73 +713,41 @@ namespace PhotoTagsSynchronizer
 
         #region ToolStrip - Change Thumbnail Size - Click
 
-        private void toolStripButtonThumbnailSize1_Click(object sender, EventArgs e)
+        private void SetThumbnailSize (int size)
         {
-            imageListView1.ThumbnailSize = thumbnailSizes[4];
-            Properties.Settings.Default.ThumbmailViewSizeIndex = 4;
-            try
-            {
-                Properties.Settings.Default.Save();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Can't save settings");
-            }
+            imageListView1.ThumbnailSize = thumbnailSizes[size];
+            Properties.Settings.Default.ThumbmailViewSizeIndex = size;
+            kryptonRibbonGroupButtonThumbnailSizeXLarge.Checked = (size == 4);
+            kryptonRibbonGroupButtonThumbnailSizeLarge.Checked = (size == 3);
+            kryptonRibbonGroupButtonThumbnailSizeMedium.Checked = (size == 2);
+            kryptonRibbonGroupButtonThumbnailSizeSmall.Checked = (size == 1);
+            kryptonRibbonGroupButtonThumbnailSizeXSmall.Checked = (size == 0);
         }
 
-        private void toolStripButtonThumbnailSize2_Click(object sender, EventArgs e)
+        
+        private void kryptonRibbonGroupButtonThumbnailSizeXLarge_Click(object sender, EventArgs e)
         {
-            imageListView1.ThumbnailSize = thumbnailSizes[3];
-            Properties.Settings.Default.ThumbmailViewSizeIndex = 3;
-            try
-            {
-                Properties.Settings.Default.Save();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Can't save settings");
-            }
+            SetThumbnailSize(4);            
         }
 
-        private void toolStripButtonThumbnailSize3_Click(object sender, EventArgs e)
+        private void kryptonRibbonGroupButtonThumbnailSizeLarge_Click(object sender, EventArgs e)
         {
-            imageListView1.ThumbnailSize = thumbnailSizes[2];
-            Properties.Settings.Default.ThumbmailViewSizeIndex = 2;
-            try
-            {
-                Properties.Settings.Default.Save();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Can't save settings");
-            }
+            SetThumbnailSize(3);           
         }
 
-        private void toolStripButtonThumbnailSize4_Click(object sender, EventArgs e)
+        private void kryptonRibbonGroupButtonThumbnailSizeMedium_Click(object sender, EventArgs e)
         {
-            imageListView1.ThumbnailSize = thumbnailSizes[1];
-            Properties.Settings.Default.ThumbmailViewSizeIndex = 1;
-            try {
-                Properties.Settings.Default.Save();
-            } catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Can't save settings");
-            }
-    
+            SetThumbnailSize(2);
         }
 
-        private void toolStripButtonThumbnailSize5_Click(object sender, EventArgs e)
+        private void kryptonRibbonGroupButtonThumbnailSizeSmall_Click(object sender, EventArgs e)
         {
-            imageListView1.ThumbnailSize = thumbnailSizes[0];
-            Properties.Settings.Default.ThumbmailViewSizeIndex = 0;
-            try
-            {
-                Properties.Settings.Default.Save();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Can't save settings");
-            }
+            SetThumbnailSize(1);
+        }
+
+        private void kryptonRibbonGroupButtonThumbnailSizeXSmall_Click(object sender, EventArgs e)
+        {
+            SetThumbnailSize(0);
         }
         #endregion
 

@@ -32,9 +32,6 @@
     <Setting Name="ComboBoxMapZoomLevel" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">13</Value>
     </Setting>
-    <Setting Name="RenderertoolStripComboBox" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">1</Value>
-    </Setting>
     <Setting Name="CloseWarningWindowsAutomatically" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
@@ -1157,6 +1154,12 @@ Dimensions</Value>
     </Setting>
     <Setting Name="WorkspaceCellToolboxTagsKeywordsStarSize" Type="System.String" Scope="User">
       <Value Profile="(Default)">50*,510*</Value>
+    </Setting>
+    <Setting Name="ImageListViewRendererName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">RendererDefault</Value>
+    </Setting>
+    <Setting Name="ImageListViewViewMode" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">3</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -144,18 +144,6 @@ namespace PhotoTagsSynchronizer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public int RenderertoolStripComboBox {
-            get {
-                return ((int)(this["RenderertoolStripComboBox"]));
-            }
-            set {
-                this["RenderertoolStripComboBox"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool CloseWarningWindowsAutomatically {
             get {
@@ -2366,6 +2354,30 @@ explorer ms-photos?filename=""{FileFullPath}""")]
             }
             set {
                 this["WorkspaceCellToolboxTagsKeywordsStarSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("RendererDefault")]
+        public string ImageListViewRendererName {
+            get {
+                return ((string)(this["ImageListViewRendererName"]));
+            }
+            set {
+                this["ImageListViewRendererName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3")]
+        public int ImageListViewViewMode {
+            get {
+                return ((int)(this["ImageListViewViewMode"]));
+            }
+            set {
+                this["ImageListViewViewMode"] = value;
             }
         }
     }

@@ -342,22 +342,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageToolboxConvertAndMerge = new Krypton.Navigator.KryptonPage();
             this.dataGridViewConvertAndMerge = new System.Windows.Forms.DataGridView();
             this.toolStripContainerStripMainForm = new System.Windows.Forms.ToolStrip();
-            this.thumbnailsToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.galleryToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.detailsToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.paneToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparatorRenderer = new System.Windows.Forms.ToolStripSeparator();
-            this.rendererToolStripLabel = new System.Windows.Forms.ToolStripLabel();
-            this.renderertoolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.columnsToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButtonThumbnailSize1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonThumbnailSize2 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonThumbnailSize3 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonThumbnailSize4 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonThumbnailSize5 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.rotateCCWToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.rotate180ToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.rotateCWToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -474,10 +458,11 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonImageListViewModeGallery = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButtonImageListViewModeDetails = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButtonImageListViewModePane = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupSeparator3 = new Krypton.Ribbon.KryptonRibbonGroupSeparator();
             this.kryptonRibbonGroupTriple1 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButtonImageListViewModeThumbnails = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupButton14 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButtonImageListViewModeThumbnailRenders = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonContextMenuImageListViewModeThumbnailRenders = new Krypton.Toolkit.KryptonContextMenu();
+            this.kryptonContextMenuItems3 = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonRibbonGroupSeparator4 = new Krypton.Ribbon.KryptonRibbonGroupSeparator();
             this.kryptonRibbonGroupTriple5 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButtonImageListViewDetailviewColumns = new Krypton.Ribbon.KryptonRibbonGroupButton();
@@ -541,6 +526,17 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupTriple8 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButton1 = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButton2 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonContextMenuItems1 = new Krypton.Toolkit.KryptonContextMenuItems();
+            this.kryptonContextMenuItems2 = new Krypton.Toolkit.KryptonContextMenuItems();
+            this.kryptonContextMenuItem1 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItem2 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItem3 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuHeading1 = new Krypton.Toolkit.KryptonContextMenuHeading();
+            this.kryptonContextMenuMonthCalendar1 = new Krypton.Toolkit.KryptonContextMenuMonthCalendar();
+            this.kryptonContextMenuMonthCalendar2 = new Krypton.Toolkit.KryptonContextMenuMonthCalendar();
+            this.kryptonContextMenuImageSelect1 = new Krypton.Toolkit.KryptonContextMenuImageSelect();
+            this.kryptonContextMenuItems4 = new Krypton.Toolkit.KryptonContextMenuItems();
+            this.kryptonContextMenuItem4 = new Krypton.Toolkit.KryptonContextMenuItem();
             this.toolStripContainerMainForm.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainerMainForm.ContentPanel.SuspendLayout();
             this.toolStripContainerMainForm.TopToolStripPanel.SuspendLayout();
@@ -4434,22 +4430,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripContainerStripMainForm.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStripContainerStripMainForm.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStripContainerStripMainForm.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.thumbnailsToolStripButton,
-            this.galleryToolStripButton,
-            this.detailsToolStripButton,
-            this.paneToolStripButton,
-            this.toolStripSeparatorRenderer,
-            this.rendererToolStripLabel,
-            this.renderertoolStripComboBox,
-            this.toolStripSeparator3,
-            this.columnsToolStripButton,
-            this.toolStripSeparator1,
-            this.toolStripButtonThumbnailSize1,
-            this.toolStripButtonThumbnailSize2,
-            this.toolStripButtonThumbnailSize3,
-            this.toolStripButtonThumbnailSize4,
-            this.toolStripButtonThumbnailSize5,
-            this.toolStripSeparator5,
             this.rotateCCWToolStripButton,
             this.rotate180ToolStripButton,
             this.rotateCWToolStripButton,
@@ -4476,144 +4456,8 @@ namespace PhotoTagsSynchronizer
             this.toolStripContainerStripMainForm.Location = new System.Drawing.Point(3, 0);
             this.toolStripContainerStripMainForm.Name = "toolStripContainerStripMainForm";
             this.toolStripContainerStripMainForm.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStripContainerStripMainForm.Size = new System.Drawing.Size(947, 27);
+            this.toolStripContainerStripMainForm.Size = new System.Drawing.Size(520, 27);
             this.toolStripContainerStripMainForm.TabIndex = 0;
-            // 
-            // thumbnailsToolStripButton
-            // 
-            this.thumbnailsToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.thumbnailsToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("thumbnailsToolStripButton.Image")));
-            this.thumbnailsToolStripButton.ImageTransparentColor = System.Drawing.Color.Transparent;
-            this.thumbnailsToolStripButton.Name = "thumbnailsToolStripButton";
-            this.thumbnailsToolStripButton.Size = new System.Drawing.Size(24, 24);
-            this.thumbnailsToolStripButton.Text = "Thumbnails";
-            this.thumbnailsToolStripButton.Click += new System.EventHandler(this.thumbnailsToolStripButton_Click);
-            // 
-            // galleryToolStripButton
-            // 
-            this.galleryToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.galleryToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("galleryToolStripButton.Image")));
-            this.galleryToolStripButton.ImageTransparentColor = System.Drawing.Color.Transparent;
-            this.galleryToolStripButton.Name = "galleryToolStripButton";
-            this.galleryToolStripButton.Size = new System.Drawing.Size(24, 24);
-            this.galleryToolStripButton.Text = "Gallery";
-            this.galleryToolStripButton.Click += new System.EventHandler(this.galleryToolStripButton_Click);
-            // 
-            // detailsToolStripButton
-            // 
-            this.detailsToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.detailsToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("detailsToolStripButton.Image")));
-            this.detailsToolStripButton.ImageTransparentColor = System.Drawing.Color.Transparent;
-            this.detailsToolStripButton.Name = "detailsToolStripButton";
-            this.detailsToolStripButton.Size = new System.Drawing.Size(24, 24);
-            this.detailsToolStripButton.Text = "Details";
-            this.detailsToolStripButton.Click += new System.EventHandler(this.detailsToolStripButton_Click);
-            // 
-            // paneToolStripButton
-            // 
-            this.paneToolStripButton.AutoSize = false;
-            this.paneToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.paneToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("paneToolStripButton.Image")));
-            this.paneToolStripButton.ImageTransparentColor = System.Drawing.Color.Transparent;
-            this.paneToolStripButton.Name = "paneToolStripButton";
-            this.paneToolStripButton.Size = new System.Drawing.Size(29, 24);
-            this.paneToolStripButton.Text = "Pane";
-            this.paneToolStripButton.Click += new System.EventHandler(this.paneToolStripButton_Click);
-            // 
-            // toolStripSeparatorRenderer
-            // 
-            this.toolStripSeparatorRenderer.Name = "toolStripSeparatorRenderer";
-            this.toolStripSeparatorRenderer.Size = new System.Drawing.Size(6, 23);
-            // 
-            // rendererToolStripLabel
-            // 
-            this.rendererToolStripLabel.Name = "rendererToolStripLabel";
-            this.rendererToolStripLabel.Size = new System.Drawing.Size(35, 15);
-            this.rendererToolStripLabel.Text = "View:";
-            this.rendererToolStripLabel.ToolTipText = "View layout for Image Liste viewer";
-            // 
-            // renderertoolStripComboBox
-            // 
-            this.renderertoolStripComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.renderertoolStripComboBox.Name = "renderertoolStripComboBox";
-            this.renderertoolStripComboBox.Size = new System.Drawing.Size(121, 23);
-            this.renderertoolStripComboBox.ToolTipText = "Select view mode for Image List Viwer";
-            this.renderertoolStripComboBox.SelectedIndexChanged += new System.EventHandler(this.renderertoolStripComboBox_SelectedIndexChanged);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 23);
-            // 
-            // columnsToolStripButton
-            // 
-            this.columnsToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.columnsToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("columnsToolStripButton.Image")));
-            this.columnsToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.columnsToolStripButton.Name = "columnsToolStripButton";
-            this.columnsToolStripButton.Size = new System.Drawing.Size(24, 24);
-            this.columnsToolStripButton.Text = "Choose Columns for the Image View...";
-            this.columnsToolStripButton.Click += new System.EventHandler(this.columnsToolStripButton_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 23);
-            // 
-            // toolStripButtonThumbnailSize1
-            // 
-            this.toolStripButtonThumbnailSize1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonThumbnailSize1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonThumbnailSize1.Image")));
-            this.toolStripButtonThumbnailSize1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonThumbnailSize1.Name = "toolStripButtonThumbnailSize1";
-            this.toolStripButtonThumbnailSize1.Size = new System.Drawing.Size(24, 24);
-            this.toolStripButtonThumbnailSize1.Text = "Thumbnail size 200x200";
-            this.toolStripButtonThumbnailSize1.Click += new System.EventHandler(this.toolStripButtonThumbnailSize1_Click);
-            // 
-            // toolStripButtonThumbnailSize2
-            // 
-            this.toolStripButtonThumbnailSize2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonThumbnailSize2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonThumbnailSize2.Image")));
-            this.toolStripButtonThumbnailSize2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonThumbnailSize2.Name = "toolStripButtonThumbnailSize2";
-            this.toolStripButtonThumbnailSize2.Size = new System.Drawing.Size(24, 24);
-            this.toolStripButtonThumbnailSize2.Text = "Thumbnail size 150x150";
-            this.toolStripButtonThumbnailSize2.Click += new System.EventHandler(this.toolStripButtonThumbnailSize2_Click);
-            // 
-            // toolStripButtonThumbnailSize3
-            // 
-            this.toolStripButtonThumbnailSize3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonThumbnailSize3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonThumbnailSize3.Image")));
-            this.toolStripButtonThumbnailSize3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonThumbnailSize3.Name = "toolStripButtonThumbnailSize3";
-            this.toolStripButtonThumbnailSize3.Size = new System.Drawing.Size(24, 24);
-            this.toolStripButtonThumbnailSize3.Text = "Thumbnail size 120x120";
-            this.toolStripButtonThumbnailSize3.Click += new System.EventHandler(this.toolStripButtonThumbnailSize3_Click);
-            // 
-            // toolStripButtonThumbnailSize4
-            // 
-            this.toolStripButtonThumbnailSize4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonThumbnailSize4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonThumbnailSize4.Image")));
-            this.toolStripButtonThumbnailSize4.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonThumbnailSize4.Name = "toolStripButtonThumbnailSize4";
-            this.toolStripButtonThumbnailSize4.Size = new System.Drawing.Size(24, 24);
-            this.toolStripButtonThumbnailSize4.Text = "Thumbnail size 96x96";
-            this.toolStripButtonThumbnailSize4.Click += new System.EventHandler(this.toolStripButtonThumbnailSize4_Click);
-            // 
-            // toolStripButtonThumbnailSize5
-            // 
-            this.toolStripButtonThumbnailSize5.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonThumbnailSize5.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonThumbnailSize5.Image")));
-            this.toolStripButtonThumbnailSize5.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonThumbnailSize5.Name = "toolStripButtonThumbnailSize5";
-            this.toolStripButtonThumbnailSize5.Size = new System.Drawing.Size(24, 24);
-            this.toolStripButtonThumbnailSize5.Text = "Thumbnail size 48x48";
-            this.toolStripButtonThumbnailSize5.Click += new System.EventHandler(this.toolStripButtonThumbnailSize5_Click);
-            // 
-            // toolStripSeparator5
-            // 
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 23);
             // 
             // rotateCCWToolStripButton
             // 
@@ -5480,6 +5324,7 @@ namespace PhotoTagsSynchronizer
             // kryptonRibbonQATButtonSave
             // 
             this.kryptonRibbonQATButtonSave.Image = global::PhotoTagsSynchronizer.Properties.Resources.ToolsSave16x16;
+            this.kryptonRibbonQATButtonSave.Click += new System.EventHandler(this.kryptonRibbonQATButtonSave_Click);
             // 
             // kryptonRibbonTab1
             // 
@@ -5577,7 +5422,6 @@ namespace PhotoTagsSynchronizer
             // 
             this.kryptonRibbonGroupImageListView.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
             this.kryptonRibbonGroupTriple2,
-            this.kryptonRibbonGroupSeparator3,
             this.kryptonRibbonGroupTriple1,
             this.kryptonRibbonGroupSeparator4,
             this.kryptonRibbonGroupTriple5});
@@ -5618,7 +5462,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.kryptonRibbonGroupTriple1.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
             this.kryptonRibbonGroupButtonImageListViewModeThumbnails,
-            this.kryptonRibbonGroupButton14});
+            this.kryptonRibbonGroupButtonImageListViewModeThumbnailRenders});
             // 
             // kryptonRibbonGroupButtonImageListViewModeThumbnails
             // 
@@ -5628,14 +5472,20 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonImageListViewModeThumbnails.TextLine1 = "Thumbnails";
             this.kryptonRibbonGroupButtonImageListViewModeThumbnails.Click += new System.EventHandler(this.kryptonRibbonGroupButtonImageListViewModeThumbnails_Click);
             // 
-            // kryptonRibbonGroupButton14
+            // kryptonRibbonGroupButtonImageListViewModeThumbnailRenders
             // 
-            this.kryptonRibbonGroupButton14.ButtonType = Krypton.Ribbon.GroupButtonType.DropDown;
-            this.kryptonRibbonGroupButton14.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.ImageListViewViewModesThumbnail;
-            this.kryptonRibbonGroupButton14.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.ImageListViewViewModesThumbnail;
-            this.kryptonRibbonGroupButton14.KeyTip = "V";
-            this.kryptonRibbonGroupButton14.TextLine1 = "Thumbnails";
-            this.kryptonRibbonGroupButton14.TextLine2 = "View mode";
+            this.kryptonRibbonGroupButtonImageListViewModeThumbnailRenders.ButtonType = Krypton.Ribbon.GroupButtonType.DropDown;
+            this.kryptonRibbonGroupButtonImageListViewModeThumbnailRenders.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.ImageListViewViewModesThumbnail;
+            this.kryptonRibbonGroupButtonImageListViewModeThumbnailRenders.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.ImageListViewViewModesThumbnail;
+            this.kryptonRibbonGroupButtonImageListViewModeThumbnailRenders.KeyTip = "V";
+            this.kryptonRibbonGroupButtonImageListViewModeThumbnailRenders.KryptonContextMenu = this.kryptonContextMenuImageListViewModeThumbnailRenders;
+            this.kryptonRibbonGroupButtonImageListViewModeThumbnailRenders.TextLine1 = "Thumbnails";
+            this.kryptonRibbonGroupButtonImageListViewModeThumbnailRenders.TextLine2 = "View mode";
+            // 
+            // kryptonContextMenuImageListViewModeThumbnailRenders
+            // 
+            this.kryptonContextMenuImageListViewModeThumbnailRenders.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonContextMenuItems3});
             // 
             // kryptonRibbonGroupTriple5
             // 
@@ -5647,7 +5497,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonImageListViewDetailviewColumns.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.ImageListViewModeColumns;
             this.kryptonRibbonGroupButtonImageListViewDetailviewColumns.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.ImageListViewModeColumns;
             this.kryptonRibbonGroupButtonImageListViewDetailviewColumns.KeyTip = "C";
-            this.kryptonRibbonGroupButtonImageListViewDetailviewColumns.TextLine1 = "Detailview";
+            this.kryptonRibbonGroupButtonImageListViewDetailviewColumns.TextLine1 = "View";
             this.kryptonRibbonGroupButtonImageListViewDetailviewColumns.TextLine2 = "Columns";
             this.kryptonRibbonGroupButtonImageListViewDetailviewColumns.Click += new System.EventHandler(this.kryptonRibbonGroupButtonImageListViewDetailviewColumns_Click);
             // 
@@ -5668,24 +5518,30 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonRibbonGroupButtonThumbnailSizeXLarge
             // 
+            this.kryptonRibbonGroupButtonThumbnailSizeXLarge.ButtonType = Krypton.Ribbon.GroupButtonType.Check;
             this.kryptonRibbonGroupButtonThumbnailSizeXLarge.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.ThumbnailSizeXL;
             this.kryptonRibbonGroupButtonThumbnailSizeXLarge.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.ThumbnailSizeXL;
             this.kryptonRibbonGroupButtonThumbnailSizeXLarge.KeyTip = "5";
             this.kryptonRibbonGroupButtonThumbnailSizeXLarge.TextLine1 = "XLarge";
+            this.kryptonRibbonGroupButtonThumbnailSizeXLarge.Click += new System.EventHandler(this.kryptonRibbonGroupButtonThumbnailSizeXLarge_Click);
             // 
             // kryptonRibbonGroupButtonThumbnailSizeLarge
             // 
+            this.kryptonRibbonGroupButtonThumbnailSizeLarge.ButtonType = Krypton.Ribbon.GroupButtonType.Check;
             this.kryptonRibbonGroupButtonThumbnailSizeLarge.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.ThumbnailSizeL;
             this.kryptonRibbonGroupButtonThumbnailSizeLarge.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.ThumbnailSizeL;
             this.kryptonRibbonGroupButtonThumbnailSizeLarge.KeyTip = "4";
             this.kryptonRibbonGroupButtonThumbnailSizeLarge.TextLine1 = "Large";
+            this.kryptonRibbonGroupButtonThumbnailSizeLarge.Click += new System.EventHandler(this.kryptonRibbonGroupButtonThumbnailSizeLarge_Click);
             // 
             // kryptonRibbonGroupButtonThumbnailSizeMedium
             // 
+            this.kryptonRibbonGroupButtonThumbnailSizeMedium.ButtonType = Krypton.Ribbon.GroupButtonType.Check;
             this.kryptonRibbonGroupButtonThumbnailSizeMedium.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.ThumbnailSizeM;
             this.kryptonRibbonGroupButtonThumbnailSizeMedium.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.ThumbnailSizeM;
             this.kryptonRibbonGroupButtonThumbnailSizeMedium.KeyTip = "3";
             this.kryptonRibbonGroupButtonThumbnailSizeMedium.TextLine1 = "Medium";
+            this.kryptonRibbonGroupButtonThumbnailSizeMedium.Click += new System.EventHandler(this.kryptonRibbonGroupButtonThumbnailSizeMedium_Click);
             // 
             // kryptonRibbonGroupTriple13
             // 
@@ -5696,17 +5552,21 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonRibbonGroupButtonThumbnailSizeSmall
             // 
+            this.kryptonRibbonGroupButtonThumbnailSizeSmall.ButtonType = Krypton.Ribbon.GroupButtonType.Check;
             this.kryptonRibbonGroupButtonThumbnailSizeSmall.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.ThumbnailSizeS;
             this.kryptonRibbonGroupButtonThumbnailSizeSmall.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.ThumbnailSizeS;
             this.kryptonRibbonGroupButtonThumbnailSizeSmall.KeyTip = "2";
             this.kryptonRibbonGroupButtonThumbnailSizeSmall.TextLine1 = "Small";
+            this.kryptonRibbonGroupButtonThumbnailSizeSmall.Click += new System.EventHandler(this.kryptonRibbonGroupButtonThumbnailSizeSmall_Click);
             // 
             // kryptonRibbonGroupButtonThumbnailSizeXSmall
             // 
+            this.kryptonRibbonGroupButtonThumbnailSizeXSmall.ButtonType = Krypton.Ribbon.GroupButtonType.Check;
             this.kryptonRibbonGroupButtonThumbnailSizeXSmall.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.ThumbnailSizeXS;
             this.kryptonRibbonGroupButtonThumbnailSizeXSmall.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.ThumbnailSizeXS;
             this.kryptonRibbonGroupButtonThumbnailSizeXSmall.KeyTip = "1";
             this.kryptonRibbonGroupButtonThumbnailSizeXSmall.TextLine1 = "XSmall";
+            this.kryptonRibbonGroupButtonThumbnailSizeXSmall.Click += new System.EventHandler(this.kryptonRibbonGroupButtonThumbnailSizeXSmall_Click);
             // 
             // kryptonRibbonGroupToolbox
             // 
@@ -5993,6 +5853,26 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButton2.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.ToolsAbout;
             this.kryptonRibbonGroupButton2.TextLine1 = "About";
             // 
+            // kryptonContextMenuItem1
+            // 
+            this.kryptonContextMenuItem1.Text = "Menu Item";
+            // 
+            // kryptonContextMenuItem2
+            // 
+            this.kryptonContextMenuItem2.Text = "Menu Item";
+            // 
+            // kryptonContextMenuItem3
+            // 
+            this.kryptonContextMenuItem3.Text = "Menu Item";
+            // 
+            // kryptonContextMenuHeading1
+            // 
+            this.kryptonContextMenuHeading1.ExtraText = "";
+            // 
+            // kryptonContextMenuItem4
+            // 
+            this.kryptonContextMenuItem4.Text = "Menu Item";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -6225,24 +6105,13 @@ namespace PhotoTagsSynchronizer
 
         private System.Windows.Forms.ToolStripContainer toolStripContainerMainForm;
         private System.Windows.Forms.ToolStrip toolStripContainerStripMainForm;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripLabel rendererToolStripLabel;
-        private System.Windows.Forms.ToolStripComboBox renderertoolStripComboBox;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripButton detailsToolStripButton;
-        private System.Windows.Forms.ToolStripButton thumbnailsToolStripButton;
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusFilesAndSelected;
         private System.Windows.Forms.Timer timerShowErrorMessage;
-        private System.Windows.Forms.ToolStripButton columnsToolStripButton;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripButton galleryToolStripButton;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparatorRenderer;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripButton rotateCCWToolStripButton;
         private System.Windows.Forms.ToolStripButton rotateCWToolStripButton;
-        private System.Windows.Forms.ToolStripButton paneToolStripButton;
         private ImageListView imageListView1;
         private Furty.Windows.Forms.FolderTreeView folderTreeViewFolder;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusThreadQueueCount;
@@ -6260,11 +6129,6 @@ namespace PhotoTagsSynchronizer
         private Krypton.Toolkit.KryptonTextBox textBoxBrowserURL;
         private Krypton.Toolkit.KryptonPanel panelBrowser;
         private Krypton.Toolkit.KryptonComboBox comboBoxMapZoomLevel;
-        private System.Windows.Forms.ToolStripButton toolStripButtonThumbnailSize1;
-        private System.Windows.Forms.ToolStripButton toolStripButtonThumbnailSize2;
-        private System.Windows.Forms.ToolStripButton toolStripButtonThumbnailSize3;
-        private System.Windows.Forms.ToolStripButton toolStripButtonThumbnailSize4;
-        private System.Windows.Forms.ToolStripButton toolStripButtonThumbnailSize5;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ToolStripButton toolStripButtonImportGoogleLocation;
         private System.Windows.Forms.DataGridView dataGridViewExifToolWarning;
@@ -6650,7 +6514,6 @@ namespace PhotoTagsSynchronizer
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonImageListViewModePane;
         private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple1;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonImageListViewModeThumbnails;
-        private Krypton.Ribbon.KryptonRibbonGroupSeparator kryptonRibbonGroupSeparator3;
         private Krypton.Ribbon.KryptonRibbonGroupSeparator kryptonRibbonGroupSeparator4;
         private Krypton.Ribbon.KryptonRibbonGroup kryptonRibbonGroupToolbox;
         private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple3;
@@ -6728,7 +6591,20 @@ namespace PhotoTagsSynchronizer
         private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple14;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton3;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton13;
-        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton14;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonImageListViewModeThumbnailRenders;
+        private Krypton.Toolkit.KryptonContextMenu kryptonContextMenuImageListViewModeThumbnailRenders;
+        private Krypton.Toolkit.KryptonContextMenuItems kryptonContextMenuItems3;
+        private Krypton.Toolkit.KryptonContextMenuItems kryptonContextMenuItems1;
+        private Krypton.Toolkit.KryptonContextMenuItems kryptonContextMenuItems2;
+        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItem1;
+        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItem2;
+        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItem3;
+        private Krypton.Toolkit.KryptonContextMenuHeading kryptonContextMenuHeading1;
+        private Krypton.Toolkit.KryptonContextMenuMonthCalendar kryptonContextMenuMonthCalendar1;
+        private Krypton.Toolkit.KryptonContextMenuMonthCalendar kryptonContextMenuMonthCalendar2;
+        private Krypton.Toolkit.KryptonContextMenuImageSelect kryptonContextMenuImageSelect1;
+        private Krypton.Toolkit.KryptonContextMenuItems kryptonContextMenuItems4;
+        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItem4;
     }
 }
 

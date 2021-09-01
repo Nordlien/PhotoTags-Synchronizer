@@ -81,7 +81,7 @@
             this.checkedListBox.FormattingEnabled = true;
             this.checkedListBox.Location = new System.Drawing.Point(0, 0);
             this.checkedListBox.Name = "checkedListBox";
-            this.checkedListBox.Size = new System.Drawing.Size(496, 183);
+            this.checkedListBox.Size = new System.Drawing.Size(496, 195);
             this.checkedListBox.TabIndex = 2;
             this.checkedListBox.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBox_ItemCheck);
             // 
@@ -89,14 +89,14 @@
             // 
             this.comboBoxTitleLine5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxTitleLine5.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.comboBoxTitleLine5.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.comboBoxTitleLine5.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxTitleLine5.DropDownWidth = 374;
             this.comboBoxTitleLine5.FormattingEnabled = true;
             this.comboBoxTitleLine5.IntegralHeight = false;
             this.comboBoxTitleLine5.Location = new System.Drawing.Point(106, 128);
             this.comboBoxTitleLine5.Name = "comboBoxTitleLine5";
-            this.comboBoxTitleLine5.Size = new System.Drawing.Size(374, 25);
+            this.comboBoxTitleLine5.Size = new System.Drawing.Size(374, 21);
             this.comboBoxTitleLine5.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxTitleLine5.TabIndex = 9;
             this.comboBoxTitleLine5.SelectionChangeCommitted += new System.EventHandler(this.comboBoxTitleLine5_SelectionChangeCommitted);
@@ -105,14 +105,14 @@
             // 
             this.comboBoxTitleLine4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxTitleLine4.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.comboBoxTitleLine4.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.comboBoxTitleLine4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxTitleLine4.DropDownWidth = 374;
             this.comboBoxTitleLine4.FormattingEnabled = true;
             this.comboBoxTitleLine4.IntegralHeight = false;
             this.comboBoxTitleLine4.Location = new System.Drawing.Point(106, 98);
             this.comboBoxTitleLine4.Name = "comboBoxTitleLine4";
-            this.comboBoxTitleLine4.Size = new System.Drawing.Size(374, 25);
+            this.comboBoxTitleLine4.Size = new System.Drawing.Size(374, 21);
             this.comboBoxTitleLine4.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxTitleLine4.TabIndex = 8;
             this.comboBoxTitleLine4.SelectionChangeCommitted += new System.EventHandler(this.comboBoxTitleLine4_SelectionChangeCommitted);
@@ -121,14 +121,14 @@
             // 
             this.comboBoxTitleLine3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxTitleLine3.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.comboBoxTitleLine3.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.comboBoxTitleLine3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxTitleLine3.DropDownWidth = 374;
             this.comboBoxTitleLine3.FormattingEnabled = true;
             this.comboBoxTitleLine3.IntegralHeight = false;
             this.comboBoxTitleLine3.Location = new System.Drawing.Point(106, 68);
             this.comboBoxTitleLine3.Name = "comboBoxTitleLine3";
-            this.comboBoxTitleLine3.Size = new System.Drawing.Size(374, 25);
+            this.comboBoxTitleLine3.Size = new System.Drawing.Size(374, 21);
             this.comboBoxTitleLine3.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxTitleLine3.TabIndex = 7;
             this.comboBoxTitleLine3.SelectionChangeCommitted += new System.EventHandler(this.comboBoxTitleLine3_SelectionChangeCommitted);
@@ -137,14 +137,14 @@
             // 
             this.comboBoxTitleLine2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxTitleLine2.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.comboBoxTitleLine2.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.comboBoxTitleLine2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxTitleLine2.DropDownWidth = 374;
             this.comboBoxTitleLine2.FormattingEnabled = true;
             this.comboBoxTitleLine2.IntegralHeight = false;
             this.comboBoxTitleLine2.Location = new System.Drawing.Point(106, 38);
             this.comboBoxTitleLine2.Name = "comboBoxTitleLine2";
-            this.comboBoxTitleLine2.Size = new System.Drawing.Size(374, 25);
+            this.comboBoxTitleLine2.Size = new System.Drawing.Size(374, 21);
             this.comboBoxTitleLine2.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxTitleLine2.TabIndex = 6;
             this.comboBoxTitleLine2.SelectionChangeCommitted += new System.EventHandler(this.comboBoxTitleLine2_SelectionChangeCommitted);
@@ -153,14 +153,14 @@
             // 
             this.comboBoxTitleLine1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxTitleLine1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.comboBoxTitleLine1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.comboBoxTitleLine1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxTitleLine1.DropDownWidth = 374;
             this.comboBoxTitleLine1.FormattingEnabled = true;
             this.comboBoxTitleLine1.IntegralHeight = false;
             this.comboBoxTitleLine1.Location = new System.Drawing.Point(106, 8);
             this.comboBoxTitleLine1.Name = "comboBoxTitleLine1";
-            this.comboBoxTitleLine1.Size = new System.Drawing.Size(374, 25);
+            this.comboBoxTitleLine1.Size = new System.Drawing.Size(374, 21);
             this.comboBoxTitleLine1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxTitleLine1.TabIndex = 5;
             this.comboBoxTitleLine1.SelectionChangeCommitted += new System.EventHandler(this.comboBoxTitleLine1_SelectionChangeCommitted);
@@ -169,7 +169,7 @@
             // 
             this.label5.Location = new System.Drawing.Point(6, 131);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(88, 24);
+            this.label5.Size = new System.Drawing.Size(72, 20);
             this.label5.TabIndex = 4;
             this.label5.Values.Text = "Title Line 5:";
             // 
@@ -177,7 +177,7 @@
             // 
             this.label4.Location = new System.Drawing.Point(6, 101);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(88, 24);
+            this.label4.Size = new System.Drawing.Size(72, 20);
             this.label4.TabIndex = 3;
             this.label4.Values.Text = "Title Line 4:";
             // 
@@ -185,7 +185,7 @@
             // 
             this.label3.Location = new System.Drawing.Point(6, 71);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(88, 24);
+            this.label3.Size = new System.Drawing.Size(72, 20);
             this.label3.TabIndex = 2;
             this.label3.Values.Text = "Title Line 3:";
             // 
@@ -193,7 +193,7 @@
             // 
             this.label2.Location = new System.Drawing.Point(6, 41);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(88, 24);
+            this.label2.Size = new System.Drawing.Size(72, 20);
             this.label2.TabIndex = 1;
             this.label2.Values.Text = "Title Line 2:";
             // 
@@ -201,7 +201,7 @@
             // 
             this.label1.Location = new System.Drawing.Point(6, 11);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(88, 24);
+            this.label1.Size = new System.Drawing.Size(72, 20);
             this.label1.TabIndex = 0;
             this.label1.Values.Text = "Title Line 1:";
             // 
@@ -225,7 +225,7 @@
             this.kryptonPage1.LastVisibleSet = true;
             this.kryptonPage1.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPage1.Name = "kryptonPage1";
-            this.kryptonPage1.Size = new System.Drawing.Size(496, 183);
+            this.kryptonPage1.Size = new System.Drawing.Size(496, 195);
             this.kryptonPage1.Text = "Details view";
             this.kryptonPage1.ToolTipTitle = "Page ToolTip";
             this.kryptonPage1.UniqueName = "6a8d7e1c119d4e0c965434f7a974308e";
@@ -239,7 +239,7 @@
             this.kryptonWorkspaceCell1.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
             this.kryptonPage1,
             this.kryptonPage3});
-            this.kryptonWorkspaceCell1.SelectedIndex = 0;
+            this.kryptonWorkspaceCell1.SelectedIndex = 1;
             this.kryptonWorkspaceCell1.UniqueName = "5031c46464724822988aa7904bf69154";
             // 
             // kryptonPage3
@@ -259,14 +259,14 @@
             this.kryptonPage3.LastVisibleSet = true;
             this.kryptonPage3.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPage3.Name = "kryptonPage3";
-            this.kryptonPage3.Size = new System.Drawing.Size(496, 183);
-            this.kryptonPage3.Text = "Title view";
+            this.kryptonPage3.Size = new System.Drawing.Size(496, 195);
+            this.kryptonPage3.Text = "Thumbnail view -  Renderer Tiles";
             this.kryptonPage3.ToolTipTitle = "Page ToolTip";
             this.kryptonPage3.UniqueName = "ed00181f201d4b8f8b9240a929d8e829";
             // 
             // kryptonWorkspaceChooseColumns
             // 
-            this.kryptonWorkspaceChooseColumns.ActivePage = this.kryptonPage1;
+            this.kryptonWorkspaceChooseColumns.ActivePage = this.kryptonPage3;
             this.kryptonWorkspaceChooseColumns.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -285,12 +285,14 @@
             this.kryptonWorkspaceChooseColumns.TabIndex = 6;
             this.kryptonWorkspaceChooseColumns.TabStop = true;
             // 
+            // kryptonManager1
+            // 
+            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteModeManager.Office2007Blue;
+            // 
             // FormChooseColumns
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            //this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-
             this.CancelButton = this.btnClose;
             this.ClientSize = new System.Drawing.Size(519, 306);
             this.Controls.Add(this.kryptonWorkspaceChooseColumns);
