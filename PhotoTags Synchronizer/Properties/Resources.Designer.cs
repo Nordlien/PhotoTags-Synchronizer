@@ -433,6 +433,26 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap GridEqual {
+            get {
+                object obj = ResourceManager.GetObject("GridEqual", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap GridFavorite {
+            get {
+                object obj = ResourceManager.GetObject("GridFavorite", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ImageListViewIconDefault {
             get {
                 object obj = ResourceManager.GetObject("ImageListViewIconDefault", resourceCulture);
@@ -576,6 +596,16 @@ namespace PhotoTagsSynchronizer.Properties {
         internal static System.Drawing.Bitmap ImageListViewStatusFileInCloud {
             get {
                 object obj = ResourceManager.GetObject("ImageListViewStatusFileInCloud", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ImageListViewViewModesThumbnail {
+            get {
+                object obj = ResourceManager.GetObject("ImageListViewViewModesThumbnail", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -976,6 +1006,16 @@ namespace PhotoTagsSynchronizer.Properties {
         internal static System.Drawing.Bitmap ToolsSave {
             get {
                 object obj = ResourceManager.GetObject("ToolsSave", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ToolsSave16x16 {
+            get {
+                object obj = ResourceManager.GetObject("ToolsSave16x16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
