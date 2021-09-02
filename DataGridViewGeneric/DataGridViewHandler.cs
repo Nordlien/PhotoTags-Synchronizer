@@ -1055,9 +1055,9 @@ namespace DataGridViewGeneric
         {
             int columnIndex = GetColumnIndex(dataGridView, fileEntryAttribute); //Find column Index for Filename and date last written
             bool isErrorColumn = fileEntryAttribute.FileEntryVersion == FileEntryVersion.Error;
-            bool showErrorColumns = (showWhatColumns & ShowWhatColumns.ErrorColumns) > 0;
+            bool showErrorColumns = ShowWhatColumnHandler.ShowErrorColumns(showWhatColumns);
             bool isHistoryColumn = (fileEntryAttribute.FileEntryVersion == FileEntryVersion.Historical);
-            bool showHirstoryColumns = (showWhatColumns & ShowWhatColumns.HistoryColumns) > 0;
+            bool showHirstoryColumns = ShowWhatColumnHandler.ShowHirstoryColumns(showWhatColumns);
 
             bool isMetadataAlreadyAgregated = false;
 

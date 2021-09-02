@@ -367,13 +367,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemSelectSameCountry = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripButtonSelectNext = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButtonGridBig = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonGridNormal = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonGridSmall = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButtonHistortyColumns = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonErrorColumns = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonImportGoogleLocation = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonSaveAllMetadata = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -441,9 +434,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonTab1 = new Krypton.Ribbon.KryptonRibbonTab();
             this.kryptonRibbonGroup5 = new Krypton.Ribbon.KryptonRibbonGroup();
             this.kryptonRibbonGroupTriple9 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
-            this.kryptonRibbonGroupButton4 = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupButton10 = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupButton11 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButtonMediaFileRotate90CCW = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButtonMediaFileRotate180 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButtonMediaFileRotate90CW = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroup6 = new Krypton.Ribbon.KryptonRibbonGroup();
             this.kryptonRibbonGroupTriple10 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButton22 = new Krypton.Ribbon.KryptonRibbonGroupButton();
@@ -476,17 +469,17 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonThumbnailSizeXSmall = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupToolbox = new Krypton.Ribbon.KryptonRibbonGroup();
             this.kryptonRibbonGroupTriple3 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
-            this.kryptonRibbonGroupButton5 = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupButton6 = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupButton7 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButtonDataGridViewCellSizeBig = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButtonDataGridViewCellSizeMedium = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButtonDataGridViewCellSizeSmall = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroup3 = new Krypton.Ribbon.KryptonRibbonGroup();
             this.kryptonRibbonGroupTriple4 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
-            this.kryptonRibbonGroupButton8 = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupButton9 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButtonDataGridViewColumnsHistory = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButtonDataGridViewColumnsErrors = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroup10 = new Krypton.Ribbon.KryptonRibbonGroup();
             this.kryptonRibbonGroupTriple14 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
-            this.kryptonRibbonGroupButton3 = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupButton13 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButtonDataGridViewRowsFavorite = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButtonDataGridViewRowsHideEqual = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonTabSelect = new Krypton.Ribbon.KryptonRibbonTab();
             this.kryptonRibbonGroupImageListViewSelect = new Krypton.Ribbon.KryptonRibbonGroup();
             this.kryptonRibbonGroupTriple7 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
@@ -4439,13 +4432,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripDropDownButtonSelectGroupBy,
             this.toolStripButtonSelectNext,
             this.toolStripSeparator11,
-            this.toolStripButtonGridBig,
-            this.toolStripButtonGridNormal,
-            this.toolStripButtonGridSmall,
-            this.toolStripSeparator7,
-            this.toolStripButtonHistortyColumns,
-            this.toolStripButtonErrorColumns,
-            this.toolStripSeparator6,
             this.toolStripButtonImportGoogleLocation,
             this.toolStripButtonSaveAllMetadata,
             this.toolStripSeparator4,
@@ -4456,7 +4442,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripContainerStripMainForm.Location = new System.Drawing.Point(3, 0);
             this.toolStripContainerStripMainForm.Name = "toolStripContainerStripMainForm";
             this.toolStripContainerStripMainForm.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStripContainerStripMainForm.Size = new System.Drawing.Size(520, 27);
+            this.toolStripContainerStripMainForm.Size = new System.Drawing.Size(388, 27);
             this.toolStripContainerStripMainForm.TabIndex = 0;
             // 
             // rotateCCWToolStripButton
@@ -4663,72 +4649,6 @@ namespace PhotoTagsSynchronizer
             // 
             this.toolStripSeparator11.Name = "toolStripSeparator11";
             this.toolStripSeparator11.Size = new System.Drawing.Size(6, 23);
-            // 
-            // toolStripButtonGridBig
-            // 
-            this.toolStripButtonGridBig.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonGridBig.Image = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewBig;
-            this.toolStripButtonGridBig.ImageTransparentColor = System.Drawing.Color.Transparent;
-            this.toolStripButtonGridBig.Name = "toolStripButtonGridBig";
-            this.toolStripButtonGridBig.Size = new System.Drawing.Size(24, 24);
-            this.toolStripButtonGridBig.Text = "Big Grid";
-            this.toolStripButtonGridBig.Click += new System.EventHandler(this.toolStripButtonGridBig_Click);
-            // 
-            // toolStripButtonGridNormal
-            // 
-            this.toolStripButtonGridNormal.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonGridNormal.Image = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewNormal;
-            this.toolStripButtonGridNormal.ImageTransparentColor = System.Drawing.Color.Transparent;
-            this.toolStripButtonGridNormal.Name = "toolStripButtonGridNormal";
-            this.toolStripButtonGridNormal.Size = new System.Drawing.Size(24, 24);
-            this.toolStripButtonGridNormal.Text = "Normal Grid";
-            this.toolStripButtonGridNormal.Click += new System.EventHandler(this.toolStripButtonGridNormal_Click);
-            // 
-            // toolStripButtonGridSmall
-            // 
-            this.toolStripButtonGridSmall.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonGridSmall.Image = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewSmall;
-            this.toolStripButtonGridSmall.ImageTransparentColor = System.Drawing.Color.Transparent;
-            this.toolStripButtonGridSmall.Name = "toolStripButtonGridSmall";
-            this.toolStripButtonGridSmall.Size = new System.Drawing.Size(24, 24);
-            this.toolStripButtonGridSmall.Text = "Small Grid";
-            this.toolStripButtonGridSmall.Click += new System.EventHandler(this.toolStripButtonGridSmall_Click);
-            // 
-            // toolStripSeparator7
-            // 
-            this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(6, 23);
-            // 
-            // toolStripButtonHistortyColumns
-            // 
-            this.toolStripButtonHistortyColumns.Checked = true;
-            this.toolStripButtonHistortyColumns.CheckOnClick = true;
-            this.toolStripButtonHistortyColumns.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.toolStripButtonHistortyColumns.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonHistortyColumns.Image = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewHistoryColumn;
-            this.toolStripButtonHistortyColumns.ImageTransparentColor = System.Drawing.Color.Transparent;
-            this.toolStripButtonHistortyColumns.Name = "toolStripButtonHistortyColumns";
-            this.toolStripButtonHistortyColumns.Size = new System.Drawing.Size(24, 24);
-            this.toolStripButtonHistortyColumns.Text = "Show or Hide Historty Columns";
-            this.toolStripButtonHistortyColumns.CheckedChanged += new System.EventHandler(this.toolStripButtonHistortyColumns_CheckedChanged);
-            // 
-            // toolStripButtonErrorColumns
-            // 
-            this.toolStripButtonErrorColumns.Checked = true;
-            this.toolStripButtonErrorColumns.CheckOnClick = true;
-            this.toolStripButtonErrorColumns.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.toolStripButtonErrorColumns.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonErrorColumns.Image = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewErrorColumn;
-            this.toolStripButtonErrorColumns.ImageTransparentColor = System.Drawing.Color.Transparent;
-            this.toolStripButtonErrorColumns.Name = "toolStripButtonErrorColumns";
-            this.toolStripButtonErrorColumns.Size = new System.Drawing.Size(24, 24);
-            this.toolStripButtonErrorColumns.Text = "Show or Hide Error Columns";
-            this.toolStripButtonErrorColumns.CheckedChanged += new System.EventHandler(this.toolStripButtonErrorColumns_CheckedChanged);
-            // 
-            // toolStripSeparator6
-            // 
-            this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 23);
             // 
             // toolStripButtonImportGoogleLocation
             // 
@@ -5342,24 +5262,24 @@ namespace PhotoTagsSynchronizer
             // kryptonRibbonGroupTriple9
             // 
             this.kryptonRibbonGroupTriple9.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
-            this.kryptonRibbonGroupButton4,
-            this.kryptonRibbonGroupButton10,
-            this.kryptonRibbonGroupButton11});
+            this.kryptonRibbonGroupButtonMediaFileRotate90CCW,
+            this.kryptonRibbonGroupButtonMediaFileRotate180,
+            this.kryptonRibbonGroupButtonMediaFileRotate90CW});
             // 
-            // kryptonRibbonGroupButton4
+            // kryptonRibbonGroupButtonMediaFileRotate90CCW
             // 
-            this.kryptonRibbonGroupButton4.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.Rotate90CCW;
-            this.kryptonRibbonGroupButton4.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.Rotate90CCW;
+            this.kryptonRibbonGroupButtonMediaFileRotate90CCW.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.Rotate90CCW;
+            this.kryptonRibbonGroupButtonMediaFileRotate90CCW.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.Rotate90CCW;
             // 
-            // kryptonRibbonGroupButton10
+            // kryptonRibbonGroupButtonMediaFileRotate180
             // 
-            this.kryptonRibbonGroupButton10.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.Rotate180;
-            this.kryptonRibbonGroupButton10.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.Rotate180;
+            this.kryptonRibbonGroupButtonMediaFileRotate180.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.Rotate180;
+            this.kryptonRibbonGroupButtonMediaFileRotate180.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.Rotate180;
             // 
-            // kryptonRibbonGroupButton11
+            // kryptonRibbonGroupButtonMediaFileRotate90CW
             // 
-            this.kryptonRibbonGroupButton11.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.Rotate90CW;
-            this.kryptonRibbonGroupButton11.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.Rotate90CW;
+            this.kryptonRibbonGroupButtonMediaFileRotate90CW.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.Rotate90CW;
+            this.kryptonRibbonGroupButtonMediaFileRotate90CW.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.Rotate90CW;
             // 
             // kryptonRibbonGroup6
             // 
@@ -5577,48 +5497,61 @@ namespace PhotoTagsSynchronizer
             // kryptonRibbonGroupTriple3
             // 
             this.kryptonRibbonGroupTriple3.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
-            this.kryptonRibbonGroupButton5,
-            this.kryptonRibbonGroupButton6,
-            this.kryptonRibbonGroupButton7});
+            this.kryptonRibbonGroupButtonDataGridViewCellSizeBig,
+            this.kryptonRibbonGroupButtonDataGridViewCellSizeMedium,
+            this.kryptonRibbonGroupButtonDataGridViewCellSizeSmall});
             // 
-            // kryptonRibbonGroupButton5
+            // kryptonRibbonGroupButtonDataGridViewCellSizeBig
             // 
-            this.kryptonRibbonGroupButton5.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewBig;
-            this.kryptonRibbonGroupButton5.TextLine1 = "Big";
+            this.kryptonRibbonGroupButtonDataGridViewCellSizeBig.ButtonType = Krypton.Ribbon.GroupButtonType.Check;
+            this.kryptonRibbonGroupButtonDataGridViewCellSizeBig.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewBig;
+            this.kryptonRibbonGroupButtonDataGridViewCellSizeBig.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewBig;
+            this.kryptonRibbonGroupButtonDataGridViewCellSizeBig.TextLine1 = "Big";
+            this.kryptonRibbonGroupButtonDataGridViewCellSizeBig.Click += new System.EventHandler(this.kryptonRibbonGroupButtonDataGridViewCellSizeBig_Click);
             // 
-            // kryptonRibbonGroupButton6
+            // kryptonRibbonGroupButtonDataGridViewCellSizeMedium
             // 
-            this.kryptonRibbonGroupButton6.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewNormal;
-            this.kryptonRibbonGroupButton6.TextLine1 = "Medim";
+            this.kryptonRibbonGroupButtonDataGridViewCellSizeMedium.ButtonType = Krypton.Ribbon.GroupButtonType.Check;
+            this.kryptonRibbonGroupButtonDataGridViewCellSizeMedium.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewNormal;
+            this.kryptonRibbonGroupButtonDataGridViewCellSizeMedium.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewNormal;
+            this.kryptonRibbonGroupButtonDataGridViewCellSizeMedium.TextLine1 = "Medim";
+            this.kryptonRibbonGroupButtonDataGridViewCellSizeMedium.Click += new System.EventHandler(this.kryptonRibbonGroupButtonDataGridViewCellSizeMedium_Click);
             // 
-            // kryptonRibbonGroupButton7
+            // kryptonRibbonGroupButtonDataGridViewCellSizeSmall
             // 
-            this.kryptonRibbonGroupButton7.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewSmall;
-            this.kryptonRibbonGroupButton7.TextLine1 = "Small";
+            this.kryptonRibbonGroupButtonDataGridViewCellSizeSmall.ButtonType = Krypton.Ribbon.GroupButtonType.Check;
+            this.kryptonRibbonGroupButtonDataGridViewCellSizeSmall.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewSmall;
+            this.kryptonRibbonGroupButtonDataGridViewCellSizeSmall.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewSmall;
+            this.kryptonRibbonGroupButtonDataGridViewCellSizeSmall.TextLine1 = "Small";
+            this.kryptonRibbonGroupButtonDataGridViewCellSizeSmall.Click += new System.EventHandler(this.kryptonRibbonGroupButtonDataGridViewCellSizeSmall_Click);
             // 
             // kryptonRibbonGroup3
             // 
             this.kryptonRibbonGroup3.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
             this.kryptonRibbonGroupTriple4});
-            this.kryptonRibbonGroup3.TextLine1 = "Extras";
+            this.kryptonRibbonGroup3.TextLine1 = "Columns";
             // 
             // kryptonRibbonGroupTriple4
             // 
             this.kryptonRibbonGroupTriple4.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
-            this.kryptonRibbonGroupButton8,
-            this.kryptonRibbonGroupButton9});
+            this.kryptonRibbonGroupButtonDataGridViewColumnsHistory,
+            this.kryptonRibbonGroupButtonDataGridViewColumnsErrors});
             // 
-            // kryptonRibbonGroupButton8
+            // kryptonRibbonGroupButtonDataGridViewColumnsHistory
             // 
-            this.kryptonRibbonGroupButton8.ButtonType = Krypton.Ribbon.GroupButtonType.Check;
-            this.kryptonRibbonGroupButton8.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewHistoryColumn;
-            this.kryptonRibbonGroupButton8.TextLine1 = "History";
+            this.kryptonRibbonGroupButtonDataGridViewColumnsHistory.ButtonType = Krypton.Ribbon.GroupButtonType.Check;
+            this.kryptonRibbonGroupButtonDataGridViewColumnsHistory.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewHistoryColumn;
+            this.kryptonRibbonGroupButtonDataGridViewColumnsHistory.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewHistoryColumn;
+            this.kryptonRibbonGroupButtonDataGridViewColumnsHistory.TextLine1 = "History";
+            this.kryptonRibbonGroupButtonDataGridViewColumnsHistory.Click += new System.EventHandler(this.kryptonRibbonGroupButtonDataGridViewColumnsHistory_Click);
             // 
-            // kryptonRibbonGroupButton9
+            // kryptonRibbonGroupButtonDataGridViewColumnsErrors
             // 
-            this.kryptonRibbonGroupButton9.ButtonType = Krypton.Ribbon.GroupButtonType.Check;
-            this.kryptonRibbonGroupButton9.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewErrorColumn;
-            this.kryptonRibbonGroupButton9.TextLine1 = "Errors";
+            this.kryptonRibbonGroupButtonDataGridViewColumnsErrors.ButtonType = Krypton.Ribbon.GroupButtonType.Check;
+            this.kryptonRibbonGroupButtonDataGridViewColumnsErrors.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewErrorColumn;
+            this.kryptonRibbonGroupButtonDataGridViewColumnsErrors.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewErrorColumn;
+            this.kryptonRibbonGroupButtonDataGridViewColumnsErrors.TextLine1 = "Errors";
+            this.kryptonRibbonGroupButtonDataGridViewColumnsErrors.Click += new System.EventHandler(this.kryptonRibbonGroupButtonDataGridViewColumnsErrors_Click);
             // 
             // kryptonRibbonGroup10
             // 
@@ -5629,20 +5562,24 @@ namespace PhotoTagsSynchronizer
             // kryptonRibbonGroupTriple14
             // 
             this.kryptonRibbonGroupTriple14.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
-            this.kryptonRibbonGroupButton3,
-            this.kryptonRibbonGroupButton13});
+            this.kryptonRibbonGroupButtonDataGridViewRowsFavorite,
+            this.kryptonRibbonGroupButtonDataGridViewRowsHideEqual});
             // 
-            // kryptonRibbonGroupButton3
+            // kryptonRibbonGroupButtonDataGridViewRowsFavorite
             // 
-            this.kryptonRibbonGroupButton3.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.GridFavorite;
-            this.kryptonRibbonGroupButton3.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.GridFavorite;
-            this.kryptonRibbonGroupButton3.TextLine1 = "Favourite";
+            this.kryptonRibbonGroupButtonDataGridViewRowsFavorite.ButtonType = Krypton.Ribbon.GroupButtonType.Check;
+            this.kryptonRibbonGroupButtonDataGridViewRowsFavorite.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.GridFavorite;
+            this.kryptonRibbonGroupButtonDataGridViewRowsFavorite.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.GridFavorite;
+            this.kryptonRibbonGroupButtonDataGridViewRowsFavorite.TextLine1 = "Favourite";
+            this.kryptonRibbonGroupButtonDataGridViewRowsFavorite.Click += new System.EventHandler(this.kryptonRibbonGroupButtonDataGridViewRowsFavorite_Click);
             // 
-            // kryptonRibbonGroupButton13
+            // kryptonRibbonGroupButtonDataGridViewRowsHideEqual
             // 
-            this.kryptonRibbonGroupButton13.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.GridEqual;
-            this.kryptonRibbonGroupButton13.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.GridEqual;
-            this.kryptonRibbonGroupButton13.TextLine1 = "Equal";
+            this.kryptonRibbonGroupButtonDataGridViewRowsHideEqual.ButtonType = Krypton.Ribbon.GroupButtonType.Check;
+            this.kryptonRibbonGroupButtonDataGridViewRowsHideEqual.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.GridEqual;
+            this.kryptonRibbonGroupButtonDataGridViewRowsHideEqual.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.GridEqual;
+            this.kryptonRibbonGroupButtonDataGridViewRowsHideEqual.TextLine1 = "Equal";
+            this.kryptonRibbonGroupButtonDataGridViewRowsHideEqual.Click += new System.EventHandler(this.kryptonRibbonGroupButtonDataGridViewRowsHideEqual_Click);
             // 
             // kryptonRibbonTabSelect
             // 
@@ -5868,6 +5805,18 @@ namespace PhotoTagsSynchronizer
             // kryptonContextMenuHeading1
             // 
             this.kryptonContextMenuHeading1.ExtraText = "";
+            // 
+            // kryptonContextMenuMonthCalendar1
+            // 
+            this.kryptonContextMenuMonthCalendar1.SelectionEnd = new System.DateTime(2021, 9, 1, 0, 0, 0, 0);
+            this.kryptonContextMenuMonthCalendar1.SelectionStart = new System.DateTime(2021, 9, 1, 0, 0, 0, 0);
+            this.kryptonContextMenuMonthCalendar1.TodayDate = new System.DateTime(2021, 9, 1, 0, 0, 0, 0);
+            // 
+            // kryptonContextMenuMonthCalendar2
+            // 
+            this.kryptonContextMenuMonthCalendar2.SelectionEnd = new System.DateTime(2021, 9, 1, 0, 0, 0, 0);
+            this.kryptonContextMenuMonthCalendar2.SelectionStart = new System.DateTime(2021, 9, 1, 0, 0, 0, 0);
+            this.kryptonContextMenuMonthCalendar2.TodayDate = new System.DateTime(2021, 9, 1, 0, 0, 0, 0);
             // 
             // kryptonContextMenuItem4
             // 
@@ -6181,9 +6130,6 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemMapCopyNotOverwrite;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemMapCopyAndOverwrite;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-        private System.Windows.Forms.ToolStripButton toolStripButtonGridBig;
-        private System.Windows.Forms.ToolStripButton toolStripButtonGridNormal;
-        private System.Windows.Forms.ToolStripButton toolStripButtonGridSmall;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleRemovePeopleTag;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleTogglePeopleTag;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripPeople;
@@ -6201,14 +6147,10 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleShowFavorite;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleHideEqualRows;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleSelectPeopleTag;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripButton toolStripButtonConfig;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleRenameFromAll;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemPeopleSelected;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleRenameSelected;
-        private System.Windows.Forms.ToolStripButton toolStripButtonErrorColumns;
-        private System.Windows.Forms.ToolStripButton toolStripButtonHistortyColumns;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.DataGridView dataGridViewRename;
         private Krypton.Toolkit.KryptonLabel label2;
         private Krypton.Toolkit.KryptonLabel label1;
@@ -6517,12 +6459,12 @@ namespace PhotoTagsSynchronizer
         private Krypton.Ribbon.KryptonRibbonGroupSeparator kryptonRibbonGroupSeparator4;
         private Krypton.Ribbon.KryptonRibbonGroup kryptonRibbonGroupToolbox;
         private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple3;
-        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton5;
-        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton6;
-        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton7;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonDataGridViewCellSizeBig;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonDataGridViewCellSizeMedium;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonDataGridViewCellSizeSmall;
         private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple4;
-        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton8;
-        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton9;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonDataGridViewColumnsHistory;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonDataGridViewColumnsErrors;
         private Krypton.Ribbon.KryptonRibbonTab kryptonRibbonTabSelect;
         private Krypton.Ribbon.KryptonRibbonGroup kryptonRibbonGroupImageListViewSelect;
         private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple7;
@@ -6558,9 +6500,9 @@ namespace PhotoTagsSynchronizer
         private Krypton.Ribbon.KryptonRibbonTab kryptonRibbonTab1;
         private Krypton.Ribbon.KryptonRibbonGroup kryptonRibbonGroup5;
         private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple9;
-        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton4;
-        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton10;
-        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton11;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonMediaFileRotate90CCW;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonMediaFileRotate180;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonMediaFileRotate90CW;
         private Krypton.Ribbon.KryptonRibbonGroup kryptonRibbonGroup6;
         private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple10;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton22;
@@ -6589,8 +6531,8 @@ namespace PhotoTagsSynchronizer
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonThumbnailSizeXSmall;
         private Krypton.Ribbon.KryptonRibbonGroup kryptonRibbonGroup10;
         private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple14;
-        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton3;
-        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton13;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonDataGridViewRowsFavorite;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonDataGridViewRowsHideEqual;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonImageListViewModeThumbnailRenders;
         private Krypton.Toolkit.KryptonContextMenu kryptonContextMenuImageListViewModeThumbnailRenders;
         private Krypton.Toolkit.KryptonContextMenuItems kryptonContextMenuItems3;

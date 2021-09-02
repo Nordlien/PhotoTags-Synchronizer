@@ -2380,5 +2380,17 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["ImageListViewViewMode"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        public int CellSizeConvertAndMerge {
+            get {
+                return ((int)(this["CellSizeConvertAndMerge"]));
+            }
+            set {
+                this["CellSizeConvertAndMerge"] = value;
+            }
+        }
     }
 }

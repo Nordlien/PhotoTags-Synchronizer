@@ -1161,5 +1161,8 @@ Dimensions</Value>
     <Setting Name="ImageListViewViewMode" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">3</Value>
     </Setting>
+    <Setting Name="CellSizeConvertAndMerge" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

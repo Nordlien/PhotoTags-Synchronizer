@@ -534,7 +534,7 @@ namespace PhotoTagsSynchronizer
             GlobalData.dataGridViewHandlerRename.ShowMediaPosterWindowToolStripMenuItemSelectedEvent += DataGridViewHandlerConvertAndMerge_ShowMediaPosterWindowToolStripMenuItemSelectedEvent;
 
             kryptonPageToolboxConvertAndMerge.Tag = LinkTabAndDataGridViewNameConvertAndMerge;
-            GlobalData.dataGridViewHandlerConvertAndMerge = new DataGridViewHandler(dataGridViewConvertAndMerge, LinkTabAndDataGridViewNameConvertAndMerge, "Full path of media file", ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize));
+            GlobalData.dataGridViewHandlerConvertAndMerge = new DataGridViewHandler(dataGridViewConvertAndMerge, LinkTabAndDataGridViewNameConvertAndMerge, "Full path of media file", ((DataGridViewSize)Properties.Settings.Default.CellSizeConvertAndMerge | DataGridViewSize.RenameConvertAndMergeSize));
             GlobalData.dataGridViewHandlerConvertAndMerge.ShowMediaPosterWindowToolStripMenuItemSelectedEvent += DataGridViewHandlerConvertAndMerge_ShowMediaPosterWindowToolStripMenuItemSelectedEvent;
             #endregion
 
@@ -591,10 +591,10 @@ namespace PhotoTagsSynchronizer
             kryptonWorkspaceCellToolboxTagsKeywords.StarSize = Properties.Settings.Default.WorkspaceCellToolboxTagsKeywordsStarSize; //"50*,510*"
             #endregion 
             this.SuspendLayout();
-            #region Initialize layout setup - Show/Hide error and History
-            toolStripButtonHistortyColumns.Checked = Properties.Settings.Default.ShowHistortyColumns;
-            toolStripButtonErrorColumns.Checked = Properties.Settings.Default.ShowErrorColumns;
-            showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(toolStripButtonHistortyColumns.Checked, toolStripButtonErrorColumns.Checked);
+            
+            #region Initialize layout setup - Show/Hide error and History            
+            SetRibbonGridViewColumnsButtonsHistoricalAndError(Properties.Settings.Default.ShowHistortyColumns, Properties.Settings.Default.ShowErrorColumns);
+            showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(kryptonRibbonGroupButtonDataGridViewColumnsHistory.Checked, kryptonRibbonGroupButtonDataGridViewColumnsErrors.Checked);
             #endregion
 
             timerShowErrorMessage.Enabled = true;
@@ -919,10 +919,12 @@ namespace PhotoTagsSynchronizer
             PopulateImageListView_FromFolderSelected(false, true);
             FilesSelected();
         }
+
+
+
+
         #endregion
 
-        
-        
 
         
     }

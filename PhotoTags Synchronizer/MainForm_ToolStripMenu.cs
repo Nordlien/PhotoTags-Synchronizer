@@ -641,7 +641,7 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                Properties.Settings.Default.ImageListViewRendererName = selectedRender.Type.FullName;
+                Properties.Settings.Default.ImageListViewRendererName = selectedRender.Type.Name;
                 Properties.Settings.Default.ImageListViewViewMode = (int)imageListViewViewMode;
                 
                 imageListView1.View = imageListViewViewMode;                
@@ -1223,8 +1223,39 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region ToolStrip - SetGridViewSize Small Medium Big - Click
+        private void SetRibbonDataGridViewSizeBottons(DataGridViewSize size, bool enabled)
+        {
+            switch (size)
+            {
+                case DataGridViewSize.ConfigSize:
+                    break;
+                case DataGridViewSize.RenameConvertAndMergeSize:
+                    break;
+                case DataGridViewSize.Large:
+                    kryptonRibbonGroupButtonDataGridViewCellSizeBig.Checked = true;
+                    kryptonRibbonGroupButtonDataGridViewCellSizeMedium.Checked = false;
+                    kryptonRibbonGroupButtonDataGridViewCellSizeSmall.Checked = false;
+                    break;
+                case DataGridViewSize.Medium:
+                    kryptonRibbonGroupButtonDataGridViewCellSizeBig.Checked = false;
+                    kryptonRibbonGroupButtonDataGridViewCellSizeMedium.Checked = true;
+                    kryptonRibbonGroupButtonDataGridViewCellSizeSmall.Checked = false;
+                    break;
+                case DataGridViewSize.Small:
+                    kryptonRibbonGroupButtonDataGridViewCellSizeBig.Checked = false;
+                    kryptonRibbonGroupButtonDataGridViewCellSizeMedium.Checked = false;
+                    kryptonRibbonGroupButtonDataGridViewCellSizeSmall.Checked = true;
+                    break;
+            }
+            kryptonRibbonGroupButtonDataGridViewCellSizeBig.Enabled = enabled;
+            kryptonRibbonGroupButtonDataGridViewCellSizeMedium.Enabled = enabled;
+            kryptonRibbonGroupButtonDataGridViewCellSizeSmall.Enabled = enabled;
+        }
+
         private void SetGridViewSize(DataGridViewSize size)
         {
+            SetRibbonDataGridViewSizeBottons(size, true);
+
             switch (GetActiveTabTag())
             {
                 case LinkTabAndDataGridViewNameTags:
@@ -1259,11 +1290,16 @@ namespace PhotoTagsSynchronizer
                     DataGridViewHandler.SetCellSize(dataGridViewRename, (size | DataGridViewSize.RenameConvertAndMergeSize), false);
                     Properties.Settings.Default.CellSizeRename = (int)size;
                     break;
-                //default: throw new Exception("Not implemented");
+                case LinkTabAndDataGridViewNameConvertAndMerge:
+                    DataGridViewHandler.SetCellSize(dataGridViewRename, (size | DataGridViewSize.RenameConvertAndMergeSize), false);
+                    Properties.Settings.Default.CellSizeConvertAndMerge= (int)size;
+                    break;
+                default: throw new Exception("Not implemented");
             }
         }
 
-        private void toolStripButtonGridBig_Click(object sender, EventArgs e)
+
+        private void kryptonRibbonGroupButtonDataGridViewCellSizeBig_Click(object sender, EventArgs e)
         {
             try
             {
@@ -1276,7 +1312,7 @@ namespace PhotoTagsSynchronizer
             }
         }
 
-        private void toolStripButtonGridNormal_Click(object sender, EventArgs e)
+        private void kryptonRibbonGroupButtonDataGridViewCellSizeMedium_Click(object sender, EventArgs e)
         {
             try
             {
@@ -1289,7 +1325,7 @@ namespace PhotoTagsSynchronizer
             }
         }
 
-        private void toolStripButtonGridSmall_Click(object sender, EventArgs e)
+        private void kryptonRibbonGroupButtonDataGridViewCellSizeSmall_Click(object sender, EventArgs e)
         {
             try
             {
@@ -1301,6 +1337,7 @@ namespace PhotoTagsSynchronizer
                 MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
         #endregion
 
         #region ToolStrip - Show Config Window - Click
@@ -1362,13 +1399,41 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ToolStrip - Show/Hide Historiy Columns - Click
-        private void toolStripButtonHistortyColumns_CheckedChanged(object sender, EventArgs e)
+        #region ToolStrip - Show/Hide Historiy / Error Columns - Click
+        private void SetRibbonDataGridViewShowWhatColumns(ShowWhatColumns showWhatColumns, bool enabled = true)
+        {
+            SetRibbonGridViewColumnsButtonsHistoricalAndError(ShowWhatColumnHandler.ShowHirstoryColumns(showWhatColumns), ShowWhatColumnHandler.ShowErrorColumns(showWhatColumns));
+            kryptonRibbonGroupButtonDataGridViewColumnsHistory.Enabled = enabled;
+            kryptonRibbonGroupButtonDataGridViewColumnsErrors.Enabled = enabled;
+        }
+
+        private void SetRibbonGridViewColumnsButtonsHistoricalAndError(bool showHistorical, bool showErrors)
+        {
+            kryptonRibbonGroupButtonDataGridViewColumnsHistory.Checked = showHistorical;
+            kryptonRibbonGroupButtonDataGridViewColumnsErrors.Checked = showErrors;            
+        }
+
+        private void kryptonRibbonGroupButtonDataGridViewColumnsHistory_Click(object sender, EventArgs e)
         {
             try
             {
-                Properties.Settings.Default.ShowHistortyColumns = toolStripButtonHistortyColumns.Checked;
-                showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(toolStripButtonHistortyColumns.Checked, toolStripButtonErrorColumns.Checked);
+                Properties.Settings.Default.ShowHistortyColumns = kryptonRibbonGroupButtonDataGridViewColumnsHistory.Checked;
+                showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(kryptonRibbonGroupButtonDataGridViewColumnsHistory.Checked, kryptonRibbonGroupButtonDataGridViewColumnsErrors.Checked);
+                LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListView1.SelectedItems);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void kryptonRibbonGroupButtonDataGridViewColumnsErrors_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Properties.Settings.Default.ShowErrorColumns = kryptonRibbonGroupButtonDataGridViewColumnsErrors.Checked;
+                showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(kryptonRibbonGroupButtonDataGridViewColumnsHistory.Checked, kryptonRibbonGroupButtonDataGridViewColumnsErrors.Checked);
                 LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListView1.SelectedItems);
             }
             catch (Exception ex)
@@ -1379,22 +1444,23 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ToolStrip - Show/Hide Error Columns - Click
-        private void toolStripButtonErrorColumns_CheckedChanged(object sender, EventArgs e)
+        #region 
+
+        
+
+        private void kryptonRibbonGroupButtonDataGridViewRowsFavorite_Click(object sender, EventArgs e)
         {
-            try
-            {
-                Properties.Settings.Default.ShowErrorColumns = toolStripButtonErrorColumns.Checked;
-                showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(toolStripButtonHistortyColumns.Checked, toolStripButtonErrorColumns.Checked);
-                LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListView1.SelectedItems);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+
         }
-        #endregion
+
+
+
+        private void kryptonRibbonGroupButtonDataGridViewRowsHideEqual_Click(object sender, EventArgs e)
+        {
+
+        }
+        #endregion 
+
 
         #region ToolStrip - OpenWith Dialog - Click
         private void openWithDialogToolStripMenuItem_Click(object sender, EventArgs e)

@@ -359,6 +359,61 @@ namespace PhotoTagsSynchronizer
             {
                 DataGridView dataGridView = GetActiveTabDataGridView();
 
+                DataGridViewSize dataGridViewSize;
+                ShowWhatColumns showWhatColumnsForTab;
+                bool isSizeEnabled = imageListViewSelectItems.Count > 0;
+                bool isColumnsEnabled = imageListViewSelectItems.Count > 0;
+                switch (GetActiveTabTag())
+                {
+                    case LinkTabAndDataGridViewNameTags:
+                        dataGridViewSize = (DataGridViewSize)Properties.Settings.Default.CellSizeKeywords;
+                        showWhatColumnsForTab = showWhatColumns;                       
+                        break;
+                    case LinkTabAndDataGridViewNameMap:
+                        dataGridViewSize = (DataGridViewSize)Properties.Settings.Default.CellSizeMap;
+                        showWhatColumnsForTab = showWhatColumns;
+                        break;
+                    case LinkTabAndDataGridViewNamePeople:
+                        dataGridViewSize = (DataGridViewSize)Properties.Settings.Default.CellSizePeoples;
+                        showWhatColumnsForTab = showWhatColumns; 
+                        break;
+                    case LinkTabAndDataGridViewNameDates:
+                        dataGridViewSize = (DataGridViewSize)Properties.Settings.Default.CellSizeDates;
+                        showWhatColumnsForTab = showWhatColumns; 
+                        break;
+                    case LinkTabAndDataGridViewNameExiftool:
+                        dataGridViewSize = (DataGridViewSize)Properties.Settings.Default.CellSizeExiftool;
+                        showWhatColumnsForTab = showWhatColumns; 
+                        break;
+                    case LinkTabAndDataGridViewNameWarnings:
+                        dataGridViewSize = (DataGridViewSize)Properties.Settings.Default.CellSizeWarnings;
+                        showWhatColumnsForTab = showWhatColumns; 
+                        break;
+                    case LinkTabAndDataGridViewNameProperties:
+                        dataGridViewSize = (DataGridViewSize)Properties.Settings.Default.CellSizeProperties;
+                        showWhatColumnsForTab = ShowWhatColumns.HistoryColumns | ShowWhatColumns.ErrorColumns;
+                        //isSizeEnabled = false;
+                        isColumnsEnabled = false;
+                        break;
+                    case LinkTabAndDataGridViewNameRename:
+                        dataGridViewSize = ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize);
+                        showWhatColumnsForTab = ShowWhatColumns.HistoryColumns | ShowWhatColumns.ErrorColumns;
+                        //isSizeEnabled = false;
+                        isColumnsEnabled = false;
+                        break;
+                    case LinkTabAndDataGridViewNameConvertAndMerge:
+                        dataGridViewSize = ((DataGridViewSize)Properties.Settings.Default.CellSizeConvertAndMerge | DataGridViewSize.RenameConvertAndMergeSize);
+                        showWhatColumnsForTab = ShowWhatColumns.HistoryColumns | ShowWhatColumns.ErrorColumns;
+                        //isSizeEnabled = false;
+                        isColumnsEnabled = false;
+                        break;
+                    default: throw new NotImplementedException();
+
+                }
+                SetRibbonDataGridViewSizeBottons(dataGridViewSize, isSizeEnabled);
+                SetRibbonDataGridViewShowWhatColumns(showWhatColumns, isColumnsEnabled);
+
+
                 if (dataGridView == null || DataGridViewHandler.GetIsAgregated(dataGridView)) return;
 
                 using (new WaitCursor())
@@ -366,6 +421,7 @@ namespace PhotoTagsSynchronizer
                     List<FileEntryAttribute> lazyLoading;
                     DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, true);
                     
+
                     switch (GetActiveTabTag())
                     {
                         case LinkTabAndDataGridViewNameTags:
@@ -375,7 +431,7 @@ namespace PhotoTagsSynchronizer
                             DataGridViewHandlerTagsAndKeywords.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
                             DataGridViewHandlerTagsAndKeywords.DatabaseAndCacheMetadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery;
                             DataGridViewHandlerTagsAndKeywords.DatabaseAndCacheMetadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos;
-                            DataGridViewHandlerTagsAndKeywords.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeKeywords, showWhatColumns);
+                            DataGridViewHandlerTagsAndKeywords.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, dataGridViewSize, showWhatColumnsForTab);
                             LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListViewSelectItems);
 
                             break;
@@ -390,7 +446,7 @@ namespace PhotoTagsSynchronizer
                             DataGridViewHandlerMap.DatabaseGoogleLocationHistory = databaseGoogleLocationHistory;
                             DataGridViewHandlerMap.DatabaseAndCacheLocationAddress = databaseLocationAddress;
                             DataGridViewHandlerMap.DatabaseAndCacheCameraOwner = databaseAndCahceCameraOwner;
-                            DataGridViewHandlerMap.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeMap, showWhatColumns);
+                            DataGridViewHandlerMap.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, dataGridViewSize, showWhatColumnsForTab);
                             LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListViewSelectItems);
                             break;
                         case LinkTabAndDataGridViewNamePeople:
@@ -401,7 +457,7 @@ namespace PhotoTagsSynchronizer
                             DataGridViewHandlerPeople.DatabaseAndCacheMetadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos;
                             DataGridViewHandlerPeople.SuggestRegionNameNearbyDays = Properties.Settings.Default.SuggestRegionNameNearbyDays;
                             DataGridViewHandlerPeople.SuggestRegionNameTopMostCount = Properties.Settings.Default.SuggestRegionNameTopMostCount;
-                            DataGridViewHandlerPeople.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizePeoples, showWhatColumns);
+                            DataGridViewHandlerPeople.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, dataGridViewSize, showWhatColumnsForTab);
                             LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListViewSelectItems);
                             break;
                         case LinkTabAndDataGridViewNameDates:
@@ -413,14 +469,14 @@ namespace PhotoTagsSynchronizer
                             DataGridViewHandlerDate.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
                             DataGridViewHandlerDate.DatabaseAndCacheMetadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery;
                             DataGridViewHandlerDate.DatabaseAndCacheMetadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos;
-                            DataGridViewHandlerDate.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeDates, showWhatColumns);
+                            DataGridViewHandlerDate.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, dataGridViewSize, showWhatColumnsForTab);
                             LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListViewSelectItems);
                             break;
                         case LinkTabAndDataGridViewNameExiftool:
                             DataGridViewHandlerExiftool.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
                             DataGridViewHandlerExiftool.DatabaseExiftoolData = databaseExiftoolData;
                             DataGridViewHandlerExiftool.exiftoolReader = exiftoolReader;
-                            lazyLoading = DataGridViewHandlerExiftool.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeExiftool, showWhatColumns);
+                            lazyLoading = DataGridViewHandlerExiftool.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, dataGridViewSize, showWhatColumnsForTab);
                             AddQueueLazyLoadningDataGridViewMetadataLock(lazyLoading);
                             AddQueueLazyLoadningDataGridViewThumbnailLock(lazyLoading);
                             break;
@@ -428,13 +484,13 @@ namespace PhotoTagsSynchronizer
                             DataGridViewHandlerExiftoolWarnings.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
                             DataGridViewHandlerExiftoolWarnings.DatabaseExiftoolWarning = databaseExiftoolWarning;
                             DataGridViewHandlerExiftoolWarnings.exiftoolReader = exiftoolReader;
-                            lazyLoading = DataGridViewHandlerExiftoolWarnings.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeWarnings, showWhatColumns);
+                            lazyLoading = DataGridViewHandlerExiftoolWarnings.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, dataGridViewSize, showWhatColumnsForTab);
                             AddQueueLazyLoadningDataGridViewMetadataLock(lazyLoading);
                             AddQueueLazyLoadningDataGridViewThumbnailLock(lazyLoading);
                             break;
                         case LinkTabAndDataGridViewNameProperties:
                             DataGridViewHandlerProperties.WindowsPropertyReader = new WindowsPropertyReader();
-                            DataGridViewHandlerProperties.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeProperties, showWhatColumns);
+                            DataGridViewHandlerProperties.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, dataGridViewSize, showWhatColumnsForTab);
                             PopulateDataGridViewForSelectedItemsExtrasDelayed();
                             break;
                         case LinkTabAndDataGridViewNameRename:
@@ -442,14 +498,14 @@ namespace PhotoTagsSynchronizer
                             DataGridViewHandlerRename.RenameVaribale = Properties.Settings.Default.RenameVariable;
                             DataGridViewHandlerRename.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
                             DataGridViewHandlerRename.FilesCutCopyPasteDrag = filesCutCopyPasteDrag;
-                            DataGridViewHandlerRename.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize), ShowWhatColumns.HistoryColumns | ShowWhatColumns.ErrorColumns);
+                            DataGridViewHandlerRename.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, dataGridViewSize, showWhatColumnsForTab);
                             break;
                         case LinkTabAndDataGridViewNameConvertAndMerge:
                             DataGridViewHandlerConvertAndMerge.FileDateTimeFormats = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
                             DataGridViewHandlerConvertAndMerge.RenameVaribale = Properties.Settings.Default.RenameVariable;
                             DataGridViewHandlerConvertAndMerge.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
                             DataGridViewHandlerConvertAndMerge.FilesCutCopyPasteDrag = filesCutCopyPasteDrag;
-                            DataGridViewHandlerConvertAndMerge.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize), ShowWhatColumns.HistoryColumns | ShowWhatColumns.ErrorColumns);
+                            DataGridViewHandlerConvertAndMerge.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, dataGridViewSize, showWhatColumnsForTab);
                             break;
                         default: throw new NotImplementedException();
 

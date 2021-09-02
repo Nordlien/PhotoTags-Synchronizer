@@ -42,6 +42,15 @@ namespace PhotoTagsSynchronizer
                 rotate180ToolStripMenuItem.Enabled = false;
                 rotateCWToolStripButton.Enabled = false;
                 rotateCW90ToolStripMenuItem.Enabled = false;
+
+                //View
+                kryptonRibbonGroupButtonDataGridViewCellSizeBig.Enabled = false;
+                kryptonRibbonGroupButtonDataGridViewCellSizeMedium.Enabled = false;
+                kryptonRibbonGroupButtonDataGridViewCellSizeSmall.Enabled = false;
+                kryptonRibbonGroupButtonDataGridViewColumnsHistory.Enabled = false;
+                kryptonRibbonGroupButtonDataGridViewColumnsErrors.Enabled = false;
+                kryptonRibbonGroupButtonDataGridViewRowsFavorite.Enabled = false;
+                kryptonRibbonGroupButtonDataGridViewRowsHideEqual.Enabled = false;
             }
             else
             {
@@ -71,6 +80,15 @@ namespace PhotoTagsSynchronizer
                 rotate180ToolStripMenuItem.Enabled = true;
                 rotateCWToolStripButton.Enabled = true;
                 rotateCW90ToolStripMenuItem.Enabled = true;
+
+                //View
+                kryptonRibbonGroupButtonDataGridViewCellSizeBig.Enabled = true;
+                kryptonRibbonGroupButtonDataGridViewCellSizeMedium.Enabled = true;
+                kryptonRibbonGroupButtonDataGridViewCellSizeSmall.Enabled = true;
+                kryptonRibbonGroupButtonDataGridViewColumnsHistory.Enabled = true;
+                kryptonRibbonGroupButtonDataGridViewColumnsErrors.Enabled = true;
+                kryptonRibbonGroupButtonDataGridViewRowsFavorite.Enabled = true;
+                kryptonRibbonGroupButtonDataGridViewRowsHideEqual.Enabled = true;
             }
             #endregion 
 
