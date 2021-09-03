@@ -31,10 +31,10 @@ namespace PhotoTagsSynchronizer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Filter");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Filter");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.toolStripContainerMainForm = new System.Windows.Forms.ToolStripContainer();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusFilesAndSelected = new System.Windows.Forms.ToolStripStatusLabel();
@@ -890,13 +890,12 @@ namespace PhotoTagsSynchronizer
             this.folderTreeViewFolder.ContextMenuStrip = this.contextMenuStripTreeViewFolder;
             this.folderTreeViewFolder.Dock = System.Windows.Forms.DockStyle.Fill;
             this.folderTreeViewFolder.HideSelection = false;
-            this.folderTreeViewFolder.ItemHeight = 16;
             this.folderTreeViewFolder.Location = new System.Drawing.Point(0, 0);
             this.folderTreeViewFolder.Name = "folderTreeViewFolder";
             this.folderTreeViewFolder.Size = new System.Drawing.Size(399, 600);
             this.folderTreeViewFolder.TabIndex = 0;
-            this.folderTreeViewFolder.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.folderTreeViewFolder_ItemDrag);
             this.folderTreeViewFolder.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.folderTreeView1_AfterSelect);
+            this.folderTreeViewFolder.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.folderTreeViewFolder_ItemDrag);
             this.folderTreeViewFolder.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.folderTreeViewFolder_NodeMouseClick);
             this.folderTreeViewFolder.DragDrop += new System.Windows.Forms.DragEventHandler(this.folderTreeViewFolder_DragDrop);
             this.folderTreeViewFolder.DragEnter += new System.Windows.Forms.DragEventHandler(this.folderTreeViewFolder_DragEnter);
@@ -1726,11 +1725,11 @@ namespace PhotoTagsSynchronizer
             this.treeViewFilter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeViewFilter.Location = new System.Drawing.Point(0, 0);
             this.treeViewFilter.Name = "treeViewFilter";
-            treeNode2.Name = "NodeFolder";
-            treeNode2.Tag = "Filter";
-            treeNode2.Text = "Filter";
+            treeNode1.Name = "NodeFolder";
+            treeNode1.Tag = "Filter";
+            treeNode1.Text = "Filter";
             this.treeViewFilter.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode2});
+            treeNode1});
             this.treeViewFilter.Size = new System.Drawing.Size(399, 709);
             this.treeViewFilter.TabIndex = 0;
             this.treeViewFilter.BeforeCheck += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeViewFilter_BeforeCheck);
@@ -3250,14 +3249,14 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewMap.AllowUserToAddRows = false;
             this.dataGridViewMap.AllowUserToDeleteRows = false;
             this.dataGridViewMap.AllowUserToResizeRows = false;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewMap.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewMap.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridViewMap.ColumnHeadersHeight = 29;
             this.dataGridViewMap.ContextMenuStrip = this.contextMenuStripMap;
             this.dataGridViewMap.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -3988,14 +3987,14 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewExifToolWarning.AllowUserToAddRows = false;
             this.dataGridViewExifToolWarning.ColumnHeadersHeight = 29;
             this.dataGridViewExifToolWarning.ContextMenuStrip = this.contextMenuStripExiftoolWarning;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewExifToolWarning.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewExifToolWarning.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridViewExifToolWarning.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewExifToolWarning.Location = new System.Drawing.Point(0, 0);
             this.dataGridViewExifToolWarning.Name = "dataGridViewExifToolWarning";
@@ -5236,7 +5235,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonTabView,
             this.kryptonRibbonTabSelect,
             this.kryptonRibbonTabTools});
-            this.kryptonRibbonMain.SelectedContext = null;
             this.kryptonRibbonMain.SelectedTab = this.kryptonRibbonTabView;
             this.kryptonRibbonMain.Size = new System.Drawing.Size(1214, 115);
             this.kryptonRibbonMain.TabIndex = 12;
