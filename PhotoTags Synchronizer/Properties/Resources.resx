@@ -130,7 +130,7 @@
   <data name="ImageListViewLoadErrorNoThumbnail" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\load_image_error_thumbnail.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="SubfoldersFolder" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="FolderSubfolders" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SubfoldersFolder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ThumbnailSizeXL" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -154,7 +154,7 @@
   <data name="TriStateSwitchAddAndDelete" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\tri_state_switch_add_delete.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Rotate90CW" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="MediaRotate90CW" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Rotate90CW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="FavoriteSelect" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -190,10 +190,10 @@
   <data name="EditCut" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Cut.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ToolsSave" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="MediaSave" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\save-32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MediaPrevious" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="MediaPlayerPrevious" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Media_Previous.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="CheckDelete" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -205,19 +205,19 @@
   <data name="ToolsAssociationFiletype" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Association-Filetype.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MediaClose" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="MediaPlayerClose" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Media_Close.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MediaFastForward" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="MediaPlayerFastForward" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Media_FastForward.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ToolsMediaOpen" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="MediaOpen" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Image-Open.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="DataGridViewNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\gridnormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ToolsMediaEdit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="MediaEdit" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Image-Edit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="EditTextCopyAndReplace" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -259,10 +259,10 @@
   <data name="ThumbnailSizeS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ThumbnailSize4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ToolsAutoCorrect" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="MediaMetadataAutoCorrect" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\autocorrect.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="RefreshFolder" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="FolderRefresh" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RefreshFolder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="TriStateSwitchOnAdd" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -304,7 +304,7 @@
   <data name="CheckNone" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CheckNone.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MediaNext" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="MediaPlayerNext" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Media_Next.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ToolsSave16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -334,7 +334,7 @@
   <data name="ToolsPreviewSlideShowMenu_Image" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ToolsPreviewSlideShowMenu.Image.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Rotate180" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="MediaRotate180" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Rotate180.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="error404" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -343,22 +343,22 @@
   <data name="LocationSearch" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\LocationSearch.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MediaStop" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="MediaPlayerStop" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Media_Stop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Reload" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="ThumbnailMetadataReload" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Reload.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Rotate90CCW" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="MediaRotate90CCW" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Rotate90CCW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ToolsMediaPreview" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="MediaPreview" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Media_Preview.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ThumbnailSizeM" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ThumbnailSize3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MediaPlay" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="MediaPlayerPlay" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Media_Play.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ImageListViewIconDefault" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -382,7 +382,7 @@
   <data name="CheckEmpty" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CheckEmpty.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ToolsRunCommand" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="MediaRunCommand" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Run-Command.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="CheckToggle" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -391,13 +391,13 @@
   <data name="EditMapCopyAndOverwrite" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DataGridViewMapCopyAndOverwrite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="FileDeleteHistory" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="ThumbnailMetadataDeleteHistory" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DeleteHistory.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="EditRedo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Redo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ToolsChromecast" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="MediaPlayerChromecast" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Chromecast.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="EditTagsBrokerCopyText" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -406,7 +406,7 @@
   <data name="GridEqual" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GridEqual.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MediaFastBackward" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="MediaPlayerFastBackward" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Media_FastBackward.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="BrowserSearch" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -418,13 +418,13 @@
   <data name="ImageListViewModeDetails" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ImageListViewModeDetails.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MediaPause" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="MediaPlayerPause" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Media_Pause.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ToolsConfig" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Config.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ToolboxRegionSelector" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="MediaRegionSelector" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RegionSelector.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="star" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -432,5 +432,8 @@
   </data>
   <data name="ImageListViewViewModesThumbnail" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ImageListViewViewModesThumbnail.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AutoCorrectForm" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AutoCorrectForm.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

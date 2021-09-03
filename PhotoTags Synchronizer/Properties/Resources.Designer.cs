@@ -73,6 +73,16 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap AutoCorrectForm {
+            get {
+                object obj = ResourceManager.GetObject("AutoCorrectForm", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap BrowserSearch {
             get {
                 object obj = ResourceManager.GetObject("BrowserSearch", resourceCulture);
@@ -413,9 +423,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap FileDeleteHistory {
+        internal static System.Drawing.Bitmap FileExplorer {
             get {
-                object obj = ResourceManager.GetObject("FileDeleteHistory", resourceCulture);
+                object obj = ResourceManager.GetObject("FileExplorer", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -423,9 +433,19 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap FileExplorer {
+        internal static System.Drawing.Bitmap FolderRefresh {
             get {
-                object obj = ResourceManager.GetObject("FileExplorer", resourceCulture);
+                object obj = ResourceManager.GetObject("FolderRefresh", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap FolderSubfolders {
+            get {
+                object obj = ResourceManager.GetObject("FolderSubfolders", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -633,9 +653,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap MediaClose {
+        internal static System.Drawing.Bitmap MediaEdit {
             get {
-                object obj = ResourceManager.GetObject("MediaClose", resourceCulture);
+                object obj = ResourceManager.GetObject("MediaEdit", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -643,9 +663,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap MediaFastBackward {
+        internal static System.Drawing.Bitmap MediaMetadataAutoCorrect {
             get {
-                object obj = ResourceManager.GetObject("MediaFastBackward", resourceCulture);
+                object obj = ResourceManager.GetObject("MediaMetadataAutoCorrect", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -653,9 +673,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap MediaFastForward {
+        internal static System.Drawing.Bitmap MediaOpen {
             get {
-                object obj = ResourceManager.GetObject("MediaFastForward", resourceCulture);
+                object obj = ResourceManager.GetObject("MediaOpen", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -663,9 +683,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap MediaNext {
+        internal static System.Drawing.Bitmap MediaPlayerChromecast {
             get {
-                object obj = ResourceManager.GetObject("MediaNext", resourceCulture);
+                object obj = ResourceManager.GetObject("MediaPlayerChromecast", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -673,9 +693,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap MediaPause {
+        internal static System.Drawing.Bitmap MediaPlayerClose {
             get {
-                object obj = ResourceManager.GetObject("MediaPause", resourceCulture);
+                object obj = ResourceManager.GetObject("MediaPlayerClose", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -683,9 +703,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap MediaPlay {
+        internal static System.Drawing.Bitmap MediaPlayerFastBackward {
             get {
-                object obj = ResourceManager.GetObject("MediaPlay", resourceCulture);
+                object obj = ResourceManager.GetObject("MediaPlayerFastBackward", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -693,9 +713,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap MediaPrevious {
+        internal static System.Drawing.Bitmap MediaPlayerFastForward {
             get {
-                object obj = ResourceManager.GetObject("MediaPrevious", resourceCulture);
+                object obj = ResourceManager.GetObject("MediaPlayerFastForward", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -703,9 +723,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap MediaStop {
+        internal static System.Drawing.Bitmap MediaPlayerNext {
             get {
-                object obj = ResourceManager.GetObject("MediaStop", resourceCulture);
+                object obj = ResourceManager.GetObject("MediaPlayerNext", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -713,9 +733,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap RefreshFolder {
+        internal static System.Drawing.Bitmap MediaPlayerPause {
             get {
-                object obj = ResourceManager.GetObject("RefreshFolder", resourceCulture);
+                object obj = ResourceManager.GetObject("MediaPlayerPause", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -723,9 +743,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Reload {
+        internal static System.Drawing.Bitmap MediaPlayerPlay {
             get {
-                object obj = ResourceManager.GetObject("Reload", resourceCulture);
+                object obj = ResourceManager.GetObject("MediaPlayerPlay", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -733,9 +753,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Rotate180 {
+        internal static System.Drawing.Bitmap MediaPlayerPrevious {
             get {
-                object obj = ResourceManager.GetObject("Rotate180", resourceCulture);
+                object obj = ResourceManager.GetObject("MediaPlayerPrevious", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -743,9 +763,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Rotate90CCW {
+        internal static System.Drawing.Bitmap MediaPlayerStop {
             get {
-                object obj = ResourceManager.GetObject("Rotate90CCW", resourceCulture);
+                object obj = ResourceManager.GetObject("MediaPlayerStop", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -753,9 +773,69 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Rotate90CW {
+        internal static System.Drawing.Bitmap MediaPreview {
             get {
-                object obj = ResourceManager.GetObject("Rotate90CW", resourceCulture);
+                object obj = ResourceManager.GetObject("MediaPreview", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MediaRegionSelector {
+            get {
+                object obj = ResourceManager.GetObject("MediaRegionSelector", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MediaRotate180 {
+            get {
+                object obj = ResourceManager.GetObject("MediaRotate180", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MediaRotate90CCW {
+            get {
+                object obj = ResourceManager.GetObject("MediaRotate90CCW", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MediaRotate90CW {
+            get {
+                object obj = ResourceManager.GetObject("MediaRotate90CW", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MediaRunCommand {
+            get {
+                object obj = ResourceManager.GetObject("MediaRunCommand", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MediaSave {
+            get {
+                object obj = ResourceManager.GetObject("MediaSave", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -813,9 +893,19 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap SubfoldersFolder {
+        internal static System.Drawing.Bitmap ThumbnailMetadataDeleteHistory {
             get {
-                object obj = ResourceManager.GetObject("SubfoldersFolder", resourceCulture);
+                object obj = ResourceManager.GetObject("ThumbnailMetadataDeleteHistory", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ThumbnailMetadataReload {
+            get {
+                object obj = ResourceManager.GetObject("ThumbnailMetadataReload", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -883,16 +973,6 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ToolboxRegionSelector {
-            get {
-                object obj = ResourceManager.GetObject("ToolboxRegionSelector", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap ToolsAbout {
             get {
                 object obj = ResourceManager.GetObject("ToolsAbout", resourceCulture);
@@ -906,26 +986,6 @@ namespace PhotoTagsSynchronizer.Properties {
         internal static System.Drawing.Bitmap ToolsAssociationFiletype {
             get {
                 object obj = ResourceManager.GetObject("ToolsAssociationFiletype", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap ToolsAutoCorrect {
-            get {
-                object obj = ResourceManager.GetObject("ToolsAutoCorrect", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap ToolsChromecast {
-            get {
-                object obj = ResourceManager.GetObject("ToolsChromecast", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -953,59 +1013,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ToolsMediaEdit {
-            get {
-                object obj = ResourceManager.GetObject("ToolsMediaEdit", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap ToolsMediaOpen {
-            get {
-                object obj = ResourceManager.GetObject("ToolsMediaOpen", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap ToolsMediaPreview {
-            get {
-                object obj = ResourceManager.GetObject("ToolsMediaPreview", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap ToolsPreviewSlideShowMenu_Image {
             get {
                 object obj = ResourceManager.GetObject("ToolsPreviewSlideShowMenu_Image", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap ToolsRunCommand {
-            get {
-                object obj = ResourceManager.GetObject("ToolsRunCommand", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap ToolsSave {
-            get {
-                object obj = ResourceManager.GetObject("ToolsSave", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
