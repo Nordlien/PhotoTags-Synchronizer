@@ -15,5 +15,8 @@ namespace DataGridViewGeneric
         public string TopCellName { get; set; } = "";
         public string DataGridViewName { get; set; } = "";
         public DataGridViewSize CellSize { get; set; } = DataGridViewSize.Medium;
+
+        public bool ShowFavouriteColumns { get; set; } = false;
+        public bool HideEqualColumns { get; set; } = false;
     }
 }

@@ -126,10 +126,12 @@ namespace ApplicationAssociations
                 if (commonExtentionApplications == null) //Build a common list to start with
                 {
                     commonExtentionApplications = new List<ApplicationData>();
-
-                    foreach (ApplicationData applicationData in extentionApplications[extention])
+                    if (extentionApplications.ContainsKey(extention))
                     {
-                        commonExtentionApplications.Add(applicationData);
+                        foreach (ApplicationData applicationData in extentionApplications[extention])
+                        {
+                            commonExtentionApplications.Add(applicationData);
+                        }
                     }
                 }
                 else //Removed from common list to that is not common for all

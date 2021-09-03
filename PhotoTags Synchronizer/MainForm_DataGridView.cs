@@ -359,6 +359,9 @@ namespace PhotoTagsSynchronizer
             {
                 DataGridView dataGridView = GetActiveTabDataGridView();
 
+                kryptonRibbonGroupButtonDataGridViewRowsFavorite.Checked = DataGridViewHandler.ShowFavouriteColumns(dataGridView);
+                kryptonRibbonGroupButtonDataGridViewRowsHideEqual.Checked = DataGridViewHandler.HideEqualColumns(dataGridView);
+
                 DataGridViewSize dataGridViewSize;
                 ShowWhatColumns showWhatColumnsForTab;
                 bool isSizeEnabled = imageListViewSelectItems.Count > 0;

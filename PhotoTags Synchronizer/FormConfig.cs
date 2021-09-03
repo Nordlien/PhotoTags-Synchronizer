@@ -1655,8 +1655,11 @@ namespace PhotoTagsSynchronizer
         private void toolStripMenuItemMapShowFavorite_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewLocationNames;
-            DataGridViewHandler.ActionToggleStripMenuItem(dataGridView, toolStripMenuItemMapShowFavorite);
-            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, toolStripMenuItemMapHideEqual.Checked, toolStripMenuItemMapShowFavorite.Checked);
+            if (!dataGridView.Enabled) return;
+
+            DataGridViewHandler.SetShowFavouriteColumns(dataGridView, !DataGridViewHandler.ShowFavouriteColumns(dataGridView));
+            DataGridViewHandler.UpdatedStripMenuItem(dataGridView, (ToolStripMenuItem)sender, DataGridViewHandler.ShowFavouriteColumns(dataGridView));
+            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, DataGridViewHandler.HideEqualColumns(dataGridView), DataGridViewHandler.ShowFavouriteColumns(dataGridView));
         }
         #endregion
 
@@ -1664,8 +1667,11 @@ namespace PhotoTagsSynchronizer
         private void toolStripMenuItemMapHideEqual_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewLocationNames;
-            DataGridViewHandler.ActionToggleStripMenuItem(dataGridView, toolStripMenuItemMapHideEqual);
-            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, toolStripMenuItemMapHideEqual.Checked, toolStripMenuItemMapShowFavorite.Checked);
+            if (!dataGridView.Enabled) return;
+
+            DataGridViewHandler.SetHideEqualColumns(dataGridView, !DataGridViewHandler.HideEqualColumns(dataGridView));
+            DataGridViewHandler.UpdatedStripMenuItem(dataGridView, (ToolStripMenuItem)sender, DataGridViewHandler.HideEqualColumns(dataGridView));
+            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, DataGridViewHandler.HideEqualColumns(dataGridView), DataGridViewHandler.ShowFavouriteColumns(dataGridView));
         }
         #endregion
 
@@ -2108,8 +2114,11 @@ namespace PhotoTagsSynchronizer
         private void toolStripMenuItemMetadataReadShowFavorite_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMetadataReadPriority;
-            DataGridViewHandler.ActionToggleStripMenuItem(dataGridView, toolStripMenuItemMetadataReadShowFavorite);
-            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, false, toolStripMenuItemMetadataReadShowFavorite.Checked);
+            if (!dataGridView.Enabled) return;
+
+            DataGridViewHandler.SetShowFavouriteColumns(dataGridView, !DataGridViewHandler.ShowFavouriteColumns(dataGridView));
+            DataGridViewHandler.UpdatedStripMenuItem(dataGridView, (ToolStripMenuItem)sender, DataGridViewHandler.ShowFavouriteColumns(dataGridView));
+            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, DataGridViewHandler.HideEqualColumns(dataGridView), DataGridViewHandler.ShowFavouriteColumns(dataGridView));
         }
         #endregion
 

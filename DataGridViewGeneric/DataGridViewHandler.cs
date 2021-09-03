@@ -621,6 +621,36 @@ namespace DataGridViewGeneric
         }
         #endregion
 
+        #region
+        public static bool ShowFavouriteColumns(DataGridView dataGridView)
+        {
+            DataGridViewGenericData dataGridViewGenericData = GetDataGridViewGenericData(dataGridView);
+            if (dataGridViewGenericData == null) return false;
+            return dataGridViewGenericData.ShowFavouriteColumns;
+        }
+
+        public static bool HideEqualColumns(DataGridView dataGridView)
+        {
+            DataGridViewGenericData dataGridViewGenericData = GetDataGridViewGenericData(dataGridView);
+            if (dataGridViewGenericData == null) return false;
+            return dataGridViewGenericData.HideEqualColumns;
+        }
+
+        public static void SetShowFavouriteColumns(DataGridView dataGridView, bool showFavouriteColumns)
+        {
+            DataGridViewGenericData dataGridViewGenericData = GetDataGridViewGenericData(dataGridView);
+            if (dataGridViewGenericData == null) return;
+            dataGridViewGenericData.ShowFavouriteColumns = showFavouriteColumns;
+        }
+
+        public static void SetHideEqualColumns(DataGridView dataGridView, bool hideEqualColumns)
+        {
+            DataGridViewGenericData dataGridViewGenericData = GetDataGridViewGenericData(dataGridView);
+            if (dataGridViewGenericData == null) return;
+            dataGridViewGenericData.HideEqualColumns = hideEqualColumns;
+        }
+        #endregion 
+
         #region DataGridView Handling - SetCellSize
         public static void SetCellSize(DataGridView dataGridView, DataGridViewSize cellSize, bool changeCellRowsHeight)
         {
@@ -2843,8 +2873,10 @@ namespace DataGridViewGeneric
         private void toggleHideEqualRowsValuesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!dataGridView.Enabled) return;
-            ActionToggleStripMenuItem(dataGridView, toggleHideEqualRowsValuesToolStripMenuItem);
-            SetRowsVisbleStatus(dataGridView, toggleHideEqualRowsValuesToolStripMenuItem.Checked, toggleShowFavouriteRowsToolStripMenuItem.Checked);
+
+            DataGridViewHandler.SetHideEqualColumns(dataGridView, !DataGridViewHandler.HideEqualColumns(dataGridView));
+            DataGridViewHandler.UpdatedStripMenuItem(dataGridView, (ToolStripMenuItem)sender, DataGridViewHandler.HideEqualColumns(dataGridView));
+            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, DataGridViewHandler.HideEqualColumns(dataGridView), DataGridViewHandler.ShowFavouriteColumns(dataGridView));
         }
         #endregion
 
@@ -2852,26 +2884,31 @@ namespace DataGridViewGeneric
         private void toggleShowFavouriteRowsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!dataGridView.Enabled) return;
-            ActionToggleStripMenuItem(dataGridView, toggleShowFavouriteRowsToolStripMenuItem);
-            SetRowsVisbleStatus(dataGridView, toggleHideEqualRowsValuesToolStripMenuItem.Checked, toggleShowFavouriteRowsToolStripMenuItem.Checked);
+
+            DataGridViewHandler.SetShowFavouriteColumns(dataGridView, !DataGridViewHandler.ShowFavouriteColumns(dataGridView));
+            DataGridViewHandler.UpdatedStripMenuItem(dataGridView, (ToolStripMenuItem)sender, DataGridViewHandler.ShowFavouriteColumns(dataGridView));
+            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, DataGridViewHandler.HideEqualColumns(dataGridView), DataGridViewHandler.ShowFavouriteColumns(dataGridView));
         }
         #endregion
 
         #region ToolStripMenuItem Handling - Toogle handler - For hide/show Favorite and Hide/Show Equals
-        public static void ActionToggleStripMenuItem(DataGridView dataGridView, ToolStripMenuItem toolStripMenuItem)
+        
+
+        public static void UpdatedStripMenuItem(DataGridView dataGridView, ToolStripMenuItem toolStripMenuItem, bool isChecked)
         {
             if (!dataGridView.Enabled) return;
-            if (toolStripMenuItem.Checked)
-            {
-                toolStripMenuItem.Checked = false;
-                toolStripMenuItem.CheckState = CheckState.Unchecked;
-            }
-            else
+            if (isChecked)
             {
                 toolStripMenuItem.Checked = true;
                 toolStripMenuItem.CheckState = CheckState.Checked;
             }
+            else
+            {
+                toolStripMenuItem.Checked = false;
+                toolStripMenuItem.CheckState = CheckState.Unchecked;
+            }            
         }
+
         #endregion
 
         #endregion

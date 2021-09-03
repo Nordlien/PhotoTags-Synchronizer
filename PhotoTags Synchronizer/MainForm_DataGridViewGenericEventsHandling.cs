@@ -766,13 +766,68 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Show only Favorite 
-        
+
+        private void UpdateBottonsEqualAndFavorite(bool hideEqualColumns, bool showFavouriteColumns)
+        {
+            kryptonRibbonGroupButtonDataGridViewRowsHideEqual.Checked = hideEqualColumns;
+            kryptonRibbonGroupButtonDataGridViewRowsFavorite.Checked = showFavouriteColumns;
+
+            DataGridView dataGridView = GetActiveTabDataGridView();
+            switch (GetActiveTabTag())
+            {
+                case LinkTabAndDataGridViewNameTags:
+                    DataGridViewHandler.UpdatedStripMenuItem(dataGridView, toolStripMenuItemKeywordsHideEqualRows, DataGridViewHandler.HideEqualColumns(dataGridView));
+                    DataGridViewHandler.UpdatedStripMenuItem(dataGridView, toolStripMenuItemKeywordsShowFavoriteRows, DataGridViewHandler.ShowFavouriteColumns(dataGridView));
+                    break;
+                case LinkTabAndDataGridViewNameMap:
+                    DataGridViewHandler.UpdatedStripMenuItem(dataGridView, toolStripMenuItemMapHideEqual, DataGridViewHandler.HideEqualColumns(dataGridView));
+                    DataGridViewHandler.UpdatedStripMenuItem(dataGridView, toolStripMenuItemMapShowFavorite, DataGridViewHandler.ShowFavouriteColumns(dataGridView));
+                    break;
+                case LinkTabAndDataGridViewNamePeople:
+                    DataGridViewHandler.UpdatedStripMenuItem(dataGridView, toolStripMenuItemPeopleHideEqualRows, DataGridViewHandler.HideEqualColumns(dataGridView));
+                    DataGridViewHandler.UpdatedStripMenuItem(dataGridView, toolStripMenuItemPeopleShowFavorite, DataGridViewHandler.ShowFavouriteColumns(dataGridView));
+                    break;
+                case LinkTabAndDataGridViewNameDates:
+                    DataGridViewHandler.UpdatedStripMenuItem(dataGridView, toolStripMenuItemDateHideEqualRows, DataGridViewHandler.HideEqualColumns(dataGridView));
+                    DataGridViewHandler.UpdatedStripMenuItem(dataGridView, toolStripMenuItemDateShowFavorite, DataGridViewHandler.ShowFavouriteColumns(dataGridView));
+                    break;
+                case LinkTabAndDataGridViewNameExiftool:
+                    DataGridViewHandler.UpdatedStripMenuItem(dataGridView, toolStripMenuItemExiftoolHideEqual, DataGridViewHandler.HideEqualColumns(dataGridView));
+                    DataGridViewHandler.UpdatedStripMenuItem(dataGridView, toolStripMenuItemExiftoolSHowFavorite, DataGridViewHandler.ShowFavouriteColumns(dataGridView));
+                    break;
+                case LinkTabAndDataGridViewNameWarnings:
+                    DataGridViewHandler.UpdatedStripMenuItem(dataGridView, toolStripMenuItemExiftoolWarningHideEqual, DataGridViewHandler.HideEqualColumns(dataGridView));
+                    DataGridViewHandler.UpdatedStripMenuItem(dataGridView, toolStripMenuItemExiftoolWarningShowFavorite, DataGridViewHandler.ShowFavouriteColumns(dataGridView));
+                    break;
+                case LinkTabAndDataGridViewNameProperties:
+                    //ee.Checked = hideEqualColumns;
+                    //ff.Checked = hideEqualColumns;
+                    throw new NotImplementedException();
+                    break;
+                case LinkTabAndDataGridViewNameRename:
+                    //ee.Checked = hideEqualColumns;
+                    //ff.Checked = hideEqualColumns;
+                    throw new NotImplementedException();
+                    break;
+                case LinkTabAndDataGridViewNameConvertAndMerge:
+                    //ee.Checked = hideEqualColumns;
+                    //ff.Checked = hideEqualColumns;
+                    throw new NotImplementedException();
+                    break;
+                default: throw new NotImplementedException();
+            }
+        }
+
+
         #region Date
         private void toolStripMenuItemShowFavorite_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewDate;
-            DataGridViewHandler.ActionToggleStripMenuItem(dataGridView, toolStripMenuItemDateShowFavorite);
-            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, toolStripMenuItemDateHideEqualRows.Checked, toolStripMenuItemDateShowFavorite.Checked);
+            if (!dataGridView.Enabled) return;
+
+            DataGridViewHandler.SetShowFavouriteColumns(dataGridView, !DataGridViewHandler.ShowFavouriteColumns(dataGridView));
+            UpdateBottonsEqualAndFavorite(DataGridViewHandler.HideEqualColumns(dataGridView), DataGridViewHandler.ShowFavouriteColumns(dataGridView));
+            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, DataGridViewHandler.HideEqualColumns(dataGridView), DataGridViewHandler.ShowFavouriteColumns(dataGridView));
         }
         #endregion 
 
@@ -780,8 +835,11 @@ namespace PhotoTagsSynchronizer
         private void toolStripMenuItemExiftoolShowFavorite_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewExifTool;
-            DataGridViewHandler.ActionToggleStripMenuItem(dataGridView, toolStripMenuItemExiftoolSHowFavorite);
-            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, toolStripMenuItemExiftoolHideEqual.Checked, toolStripMenuItemExiftoolSHowFavorite.Checked);
+            if (!dataGridView.Enabled) return;
+
+            DataGridViewHandler.SetShowFavouriteColumns(dataGridView, !DataGridViewHandler.ShowFavouriteColumns(dataGridView));
+            UpdateBottonsEqualAndFavorite(DataGridViewHandler.HideEqualColumns(dataGridView), DataGridViewHandler.ShowFavouriteColumns(dataGridView));
+            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, DataGridViewHandler.HideEqualColumns(dataGridView), DataGridViewHandler.ShowFavouriteColumns(dataGridView));
         }
         #endregion
 
@@ -789,8 +847,11 @@ namespace PhotoTagsSynchronizer
         private void toolStripMenuItemExiftoolWarningShowFavorite_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewExifToolWarning;
-            DataGridViewHandler.ActionToggleStripMenuItem(dataGridView, toolStripMenuItemExiftoolWarningShowFavorite);
-            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, toolStripMenuItemExiftoolWarningHideEqual.Checked, toolStripMenuItemExiftoolWarningShowFavorite.Checked);
+            if (!dataGridView.Enabled) return;
+
+            DataGridViewHandler.SetShowFavouriteColumns(dataGridView, !DataGridViewHandler.ShowFavouriteColumns(dataGridView));
+            UpdateBottonsEqualAndFavorite(DataGridViewHandler.HideEqualColumns(dataGridView), DataGridViewHandler.ShowFavouriteColumns(dataGridView));
+            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, DataGridViewHandler.HideEqualColumns(dataGridView), DataGridViewHandler.ShowFavouriteColumns(dataGridView));
         }
         #endregion
 
@@ -798,8 +859,11 @@ namespace PhotoTagsSynchronizer
         private void toolStripMenuItemMapShowFavorite_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMap;
-            DataGridViewHandler.ActionToggleStripMenuItem(dataGridView, toolStripMenuItemMapShowFavorite);
-            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, toolStripMenuItemMapHideEqual.Checked, toolStripMenuItemMapShowFavorite.Checked);
+            if (!dataGridView.Enabled) return;
+            
+            DataGridViewHandler.SetShowFavouriteColumns(dataGridView, !DataGridViewHandler.ShowFavouriteColumns(dataGridView));
+            UpdateBottonsEqualAndFavorite(DataGridViewHandler.HideEqualColumns(dataGridView), DataGridViewHandler.ShowFavouriteColumns(dataGridView));
+            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, DataGridViewHandler.HideEqualColumns(dataGridView), DataGridViewHandler.ShowFavouriteColumns(dataGridView));
         }
         #endregion
 
@@ -807,8 +871,11 @@ namespace PhotoTagsSynchronizer
         private void toolStripMenuItemPeopleShowFavorite_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewPeople;
-            DataGridViewHandler.ActionToggleStripMenuItem(dataGridView, toolStripMenuItemPeopleShowFavorite);
-            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, toolStripMenuItemPeopleHideEqualRows.Checked, toolStripMenuItemPeopleShowFavorite.Checked);
+            if (!dataGridView.Enabled) return;
+
+            DataGridViewHandler.SetShowFavouriteColumns(dataGridView, !DataGridViewHandler.ShowFavouriteColumns(dataGridView));
+            UpdateBottonsEqualAndFavorite(DataGridViewHandler.HideEqualColumns(dataGridView), DataGridViewHandler.ShowFavouriteColumns(dataGridView));
+            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, DataGridViewHandler.HideEqualColumns(dataGridView), DataGridViewHandler.ShowFavouriteColumns(dataGridView));
         }
         #endregion
 
@@ -818,8 +885,11 @@ namespace PhotoTagsSynchronizer
         private void showFavoriteRowsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
-            DataGridViewHandler.ActionToggleStripMenuItem(dataGridView, toolStripMenuItemKeywordsShowFavoriteRows);
-            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, toolStripMenuItemKeywordsHideEqualRows.Checked, toolStripMenuItemKeywordsShowFavoriteRows.Checked);
+            if (!dataGridView.Enabled) return;
+
+            DataGridViewHandler.SetShowFavouriteColumns(dataGridView, !DataGridViewHandler.ShowFavouriteColumns(dataGridView));
+            UpdateBottonsEqualAndFavorite(DataGridViewHandler.HideEqualColumns(dataGridView), DataGridViewHandler.ShowFavouriteColumns(dataGridView));
+            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, DataGridViewHandler.HideEqualColumns(dataGridView), DataGridViewHandler.ShowFavouriteColumns(dataGridView));
         }
         #endregion
 
@@ -830,8 +900,11 @@ namespace PhotoTagsSynchronizer
         private void toolStripMenuItemDateHideEqualRows_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewDate;
-            DataGridViewHandler.ActionToggleStripMenuItem(dataGridView, toolStripMenuItemDateHideEqualRows);
-            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, toolStripMenuItemDateHideEqualRows.Checked, toolStripMenuItemDateShowFavorite.Checked);
+            if (!dataGridView.Enabled) return;
+
+            DataGridViewHandler.SetHideEqualColumns(dataGridView, !DataGridViewHandler.HideEqualColumns(dataGridView));
+            UpdateBottonsEqualAndFavorite(DataGridViewHandler.HideEqualColumns(dataGridView), DataGridViewHandler.ShowFavouriteColumns(dataGridView));
+            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, DataGridViewHandler.HideEqualColumns(dataGridView), DataGridViewHandler.ShowFavouriteColumns(dataGridView));
         }
         #endregion
 
@@ -839,8 +912,11 @@ namespace PhotoTagsSynchronizer
         private void toolStripMenuItemExiftoolHideEqual_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewExifTool;
-            DataGridViewHandler.ActionToggleStripMenuItem(dataGridView, toolStripMenuItemExiftoolHideEqual);
-            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, toolStripMenuItemExiftoolHideEqual.Checked, toolStripMenuItemExiftoolSHowFavorite.Checked);
+            if (!dataGridView.Enabled) return;
+
+            DataGridViewHandler.SetHideEqualColumns(dataGridView, !DataGridViewHandler.HideEqualColumns(dataGridView));
+            UpdateBottonsEqualAndFavorite(DataGridViewHandler.HideEqualColumns(dataGridView), DataGridViewHandler.ShowFavouriteColumns(dataGridView));
+            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, DataGridViewHandler.HideEqualColumns(dataGridView), DataGridViewHandler.ShowFavouriteColumns(dataGridView));
         }
         #endregion
 
@@ -848,8 +924,12 @@ namespace PhotoTagsSynchronizer
         private void toolStripMenuItemExiftoolWarningHideEqual_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewExifToolWarning;
-            DataGridViewHandler.ActionToggleStripMenuItem(dataGridView, toolStripMenuItemExiftoolWarningHideEqual);
-            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, toolStripMenuItemExiftoolWarningHideEqual.Checked, toolStripMenuItemExiftoolWarningShowFavorite.Checked);
+            if (!dataGridView.Enabled) return;
+
+            DataGridViewHandler.SetHideEqualColumns(dataGridView, !DataGridViewHandler.HideEqualColumns(dataGridView));
+            DataGridViewHandler.UpdatedStripMenuItem(dataGridView, (ToolStripMenuItem)sender, DataGridViewHandler.HideEqualColumns(dataGridView));
+            kryptonRibbonGroupButtonDataGridViewRowsHideEqual.Checked = DataGridViewHandler.HideEqualColumns(dataGridView);
+            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, DataGridViewHandler.HideEqualColumns(dataGridView), DataGridViewHandler.ShowFavouriteColumns(dataGridView));
         }
         #endregion
 
@@ -857,8 +937,12 @@ namespace PhotoTagsSynchronizer
         private void toolStripMenuItemMapHideEqual_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMap;
-            DataGridViewHandler.ActionToggleStripMenuItem(dataGridView, toolStripMenuItemMapHideEqual);
-            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, toolStripMenuItemMapHideEqual.Checked, toolStripMenuItemMapShowFavorite.Checked);
+            if (!dataGridView.Enabled) return;
+
+            DataGridViewHandler.SetHideEqualColumns(dataGridView, !DataGridViewHandler.HideEqualColumns(dataGridView));
+            DataGridViewHandler.UpdatedStripMenuItem(dataGridView, (ToolStripMenuItem)sender, DataGridViewHandler.HideEqualColumns(dataGridView));
+            kryptonRibbonGroupButtonDataGridViewRowsHideEqual.Checked = DataGridViewHandler.HideEqualColumns(dataGridView);
+            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, DataGridViewHandler.HideEqualColumns(dataGridView), DataGridViewHandler.ShowFavouriteColumns(dataGridView));
         }
         #endregion
 
@@ -866,8 +950,11 @@ namespace PhotoTagsSynchronizer
         private void toolStripMenuItemPeopleHideEqualRows_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewPeople;
-            DataGridViewHandler.ActionToggleStripMenuItem(dataGridView, toolStripMenuItemPeopleHideEqualRows);
-            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, toolStripMenuItemPeopleHideEqualRows.Checked, toolStripMenuItemPeopleShowFavorite.Checked);
+            if (!dataGridView.Enabled) return;
+
+            DataGridViewHandler.SetHideEqualColumns(dataGridView, !DataGridViewHandler.HideEqualColumns(dataGridView));
+            UpdateBottonsEqualAndFavorite(DataGridViewHandler.HideEqualColumns(dataGridView), DataGridViewHandler.ShowFavouriteColumns(dataGridView));
+            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, DataGridViewHandler.HideEqualColumns(dataGridView), DataGridViewHandler.ShowFavouriteColumns(dataGridView));
         }
         #endregion
 
@@ -877,8 +964,11 @@ namespace PhotoTagsSynchronizer
         private void hideEqualRowsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
-            DataGridViewHandler.ActionToggleStripMenuItem(dataGridView, toolStripMenuItemKeywordsHideEqualRows);
-            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, toolStripMenuItemKeywordsHideEqualRows.Checked, toolStripMenuItemKeywordsShowFavoriteRows.Checked);
+            if (!dataGridView.Enabled) return;
+
+            DataGridViewHandler.SetHideEqualColumns(dataGridView, !DataGridViewHandler.HideEqualColumns(dataGridView));
+            UpdateBottonsEqualAndFavorite(DataGridViewHandler.HideEqualColumns(dataGridView), DataGridViewHandler.ShowFavouriteColumns(dataGridView));
+            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, DataGridViewHandler.HideEqualColumns(dataGridView), DataGridViewHandler.ShowFavouriteColumns(dataGridView));
         }
         #endregion
 
