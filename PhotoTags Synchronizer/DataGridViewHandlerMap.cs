@@ -10,6 +10,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using Thumbnails;
 using static Manina.Windows.Forms.ImageListView;
+using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
@@ -44,7 +45,7 @@ namespace PhotoTagsSynchronizer
         public const string tagCountry = "Country";
 
         #region GetUserInputChanges
-        public static void GetUserInputChanges(ref DataGridView dataGridView, Metadata metadata, FileEntryAttribute fileEntry)
+        public static void GetUserInputChanges(ref KryptonDataGridView dataGridView, Metadata metadata, FileEntryAttribute fileEntry)
         {
             int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, fileEntry);
             //DataGridViewHandler.ClearFileBeenUpdated(dataGridView, columnIndex);

@@ -7,6 +7,7 @@ using Manina.Windows.Forms;
 using System.Collections.Generic;
 using System;
 using Thumbnails;
+using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
@@ -25,7 +26,7 @@ namespace PhotoTagsSynchronizer
         public static int SuggestRegionNameTopMostCount { get; set; } = 10;
         public static int SuggestRegionNameNearbyDays { get; set; } = 10;
 
-        public static void GetUserInputChanges(ref DataGridView dataGridView, Metadata metadata, FileEntryAttribute fileEntry)
+        public static void GetUserInputChanges(ref KryptonDataGridView dataGridView, Metadata metadata, FileEntryAttribute fileEntry)
         {
             int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, fileEntry);
             //DataGridViewHandler.ClearFileBeenUpdated(dataGridView, columnIndex);

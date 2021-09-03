@@ -143,7 +143,7 @@ namespace PhotoTagsSynchronizer
             this.radioButtonDateTakenDoNotChange = new Krypton.Toolkit.KryptonRadioButton();
             this.imageListViewOrderDateTaken = new PhotoTagsCommonComponets.ImageListViewOrder();
             this.textBoxHelpAutoCorrect = new Krypton.Toolkit.KryptonTextBox();
-            this.dataGridViewAutoKeywords = new System.Windows.Forms.DataGridView();
+            this.dataGridViewAutoKeywords = new Krypton.Toolkit.KryptonDataGridView();
             this.LocationName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Album = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -161,8 +161,8 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemFind = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemReplace = new System.Windows.Forms.ToolStripMenuItem();
             this.textBoxLocationCameraOwnerHelp = new Krypton.Toolkit.KryptonTextBox();
-            this.dataGridViewCameraOwner = new System.Windows.Forms.DataGridView();
-            this.dataGridViewLocationNames = new System.Windows.Forms.DataGridView();
+            this.dataGridViewCameraOwner = new Krypton.Toolkit.KryptonDataGridView();
+            this.dataGridViewLocationNames = new Krypton.Toolkit.KryptonDataGridView();
             this.contextMenuStripLocationNames = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemMapCut = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemMapCopy = new System.Windows.Forms.ToolStripMenuItem();
@@ -219,7 +219,7 @@ namespace PhotoTagsSynchronizer
             this.labelApplicationThumbnailSizeHelp = new Krypton.Toolkit.KryptonLabel();
             this.comboBoxApplicationThumbnailSizes = new Krypton.Toolkit.KryptonComboBox();
             this.labelApplicationPosterThumbnailSize = new Krypton.Toolkit.KryptonLabel();
-            this.dataGridViewMetadataReadPriority = new System.Windows.Forms.DataGridView();
+            this.dataGridViewMetadataReadPriority = new Krypton.Toolkit.KryptonDataGridView();
             this.contextMenuStripMetadataRead = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemMetadataReadMove = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemMetadataReadCut = new System.Windows.Forms.ToolStripMenuItem();
@@ -7568,7 +7568,7 @@ namespace PhotoTagsSynchronizer
         }
 
         #endregion
-        private System.Windows.Forms.DataGridView dataGridViewMetadataReadPriority;
+        private Krypton.Toolkit.KryptonDataGridView dataGridViewMetadataReadPriority;
         private Krypton.Toolkit.KryptonButton buttonConfigSave;
         private Krypton.Toolkit.KryptonButton buttonConfigCancel;
         private Krypton.Toolkit.KryptonTextBox textBoxMetadataWriteHelpText;
@@ -7712,10 +7712,10 @@ namespace PhotoTagsSynchronizer
         private Krypton.Toolkit.KryptonCheckBox checkBoxApplicationAvoidReadMediaFromCloud;
         private Krypton.Toolkit.KryptonCheckBox checkBoxApplicationImageListViewCacheModeOnDemand;
         private Krypton.Toolkit.KryptonCheckBox checkBoxWriteFileAttributeCreatedDate;
-        private System.Windows.Forms.DataGridView dataGridViewCameraOwner;
+        private Krypton.Toolkit.KryptonDataGridView dataGridViewCameraOwner;
         private Krypton.Toolkit.KryptonTextBox textBoxLocationCameraOwnerHelp;
         private Krypton.Toolkit.KryptonTextBox textBoxLocationLocationNamesHelp;
-        private System.Windows.Forms.DataGridView dataGridViewLocationNames;
+        private Krypton.Toolkit.KryptonDataGridView dataGridViewLocationNames;
         private Krypton.Toolkit.KryptonPanel panelBrowser;
         private Krypton.Toolkit.KryptonTextBox textBoxBrowserURL;
         private System.Windows.Forms.PictureBox pictureBox1;
@@ -7785,7 +7785,7 @@ namespace PhotoTagsSynchronizer
         private Krypton.Toolkit.KryptonCheckBox checkBoxAutoCorrectTrackChanges;
         private Krypton.Toolkit.KryptonCheckBox checkBoxKeywordBackupFileCreatedBefore;
         private Krypton.Toolkit.KryptonCheckBox checkBoxKeywordBackupFileCreatedAfter;
-        private System.Windows.Forms.DataGridView dataGridViewAutoKeywords;
+        private Krypton.Toolkit.KryptonDataGridView dataGridViewAutoKeywords;
         private Krypton.Toolkit.KryptonCheckBox checkBoxKeywordsAddAutoKeywords;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripAutoKeyword;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemAutoKeywordCut;

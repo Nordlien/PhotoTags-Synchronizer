@@ -33,8 +33,6 @@ namespace PhotoTagsSynchronizer
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Filter");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.toolStripContainerMainForm = new System.Windows.Forms.ToolStripContainer();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusFilesAndSelected = new System.Windows.Forms.ToolStripStatusLabel();
@@ -187,7 +185,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceCellToolboxTagsDetails = new Krypton.Workspace.KryptonWorkspaceCell();
             this.kryptonWorkspaceCellToolboxTagsKeywords = new Krypton.Workspace.KryptonWorkspaceCell();
             this.kryptonPageToolboxTagsKeywords = new Krypton.Navigator.KryptonPage();
-            this.dataGridViewTagsAndKeywords = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTagsAndKeywords = new Krypton.Toolkit.KryptonDataGridView();
             this.contextMenuStripTagsAndKeywords = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cutToolStripMenuTagsBrokerCut = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuTagsBrokerCopy = new System.Windows.Forms.ToolStripMenuItem();
@@ -211,7 +209,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemShowPosterWindowKeywords = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemTagsAndKeywordMediaPreview = new System.Windows.Forms.ToolStripMenuItem();
             this.kryptonPageToolboxPeople = new Krypton.Navigator.KryptonPage();
-            this.dataGridViewPeople = new System.Windows.Forms.DataGridView();
+            this.dataGridViewPeople = new Krypton.Toolkit.KryptonDataGridView();
             this.contextMenuStripPeople = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemPeopleRenameFromLast1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemPeopleRenameFromLast2 = new System.Windows.Forms.ToolStripMenuItem();
@@ -247,7 +245,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceCellToolboxMapProperties = new Krypton.Workspace.KryptonWorkspaceCell();
             this.kryptonWorkspaceCellToolboxMapDetails = new Krypton.Workspace.KryptonWorkspaceCell();
             this.kryptonPageToolboxMapDetails = new Krypton.Navigator.KryptonPage();
-            this.dataGridViewMap = new System.Windows.Forms.DataGridView();
+            this.dataGridViewMap = new Krypton.Toolkit.KryptonDataGridView();
             this.contextMenuStripMap = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemMapCut = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemMapCopy = new System.Windows.Forms.ToolStripMenuItem();
@@ -279,7 +277,7 @@ namespace PhotoTagsSynchronizer
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.comboBoxMapZoomLevel = new Krypton.Toolkit.KryptonComboBox();
             this.kryptonPageToolboxDates = new Krypton.Navigator.KryptonPage();
-            this.dataGridViewDate = new System.Windows.Forms.DataGridView();
+            this.dataGridViewDate = new Krypton.Toolkit.KryptonDataGridView();
             this.contextMenuStripDate = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemDateCut = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemDateCopy = new System.Windows.Forms.ToolStripMenuItem();
@@ -298,7 +296,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemShowPosterWindowDate = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemDateMediaPreview = new System.Windows.Forms.ToolStripMenuItem();
             this.kryptonPageToolboxExiftool = new Krypton.Navigator.KryptonPage();
-            this.dataGridViewExifTool = new System.Windows.Forms.DataGridView();
+            this.dataGridViewExifTool = new Krypton.Toolkit.KryptonDataGridView();
             this.contextMenuStripExifTool = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemExiftoolAssignCompositeTag = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemExiftoolCopy = new System.Windows.Forms.ToolStripMenuItem();
@@ -311,7 +309,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemShowPosterWindowExiftool = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemMediaPreview = new System.Windows.Forms.ToolStripMenuItem();
             this.kryptonPageToolboxWarnings = new Krypton.Navigator.KryptonPage();
-            this.dataGridViewExifToolWarning = new System.Windows.Forms.DataGridView();
+            this.dataGridViewExifToolWarning = new Krypton.Toolkit.KryptonDataGridView();
             this.contextMenuStripExiftoolWarning = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemtoolExiftoolWarningAssignCompositeTag = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemExiftoolWarningCopy = new System.Windows.Forms.ToolStripMenuItem();
@@ -324,7 +322,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemShowPosterWindowWarnings = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemExiftoolWarningMediaPreview = new System.Windows.Forms.ToolStripMenuItem();
             this.kryptonPageToolboxProperties = new Krypton.Navigator.KryptonPage();
-            this.dataGridViewProperties = new System.Windows.Forms.DataGridView();
+            this.dataGridViewProperties = new Krypton.Toolkit.KryptonDataGridView();
             this.kryptonPageToolboxRename = new Krypton.Navigator.KryptonPage();
             this.kryptonWorkspaceToolboxRename = new Krypton.Workspace.KryptonWorkspace();
             this.kryptonPageToolboxRenameVariables = new Krypton.Navigator.KryptonPage();
@@ -338,9 +336,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceCellToolboxRenameVariables = new Krypton.Workspace.KryptonWorkspaceCell();
             this.kryptonWorkspaceCellToolboxRenameResult = new Krypton.Workspace.KryptonWorkspaceCell();
             this.kryptonPageToolboxRenameResult = new Krypton.Navigator.KryptonPage();
-            this.dataGridViewRename = new System.Windows.Forms.DataGridView();
+            this.dataGridViewRename = new Krypton.Toolkit.KryptonDataGridView();
             this.kryptonPageToolboxConvertAndMerge = new Krypton.Navigator.KryptonPage();
-            this.dataGridViewConvertAndMerge = new System.Windows.Forms.DataGridView();
+            this.dataGridViewConvertAndMerge = new Krypton.Toolkit.KryptonDataGridView();
             this.toolStripContainerStripMainForm = new System.Windows.Forms.ToolStrip();
             this.rotateCCWToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.rotate180ToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -3249,18 +3247,9 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewMap.AllowUserToAddRows = false;
             this.dataGridViewMap.AllowUserToDeleteRows = false;
             this.dataGridViewMap.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewMap.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridViewMap.ColumnHeadersHeight = 29;
             this.dataGridViewMap.ContextMenuStrip = this.contextMenuStripMap;
             this.dataGridViewMap.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridViewMap.GridColor = System.Drawing.SystemColors.AppWorkspace;
             this.dataGridViewMap.Location = new System.Drawing.Point(0, 0);
             this.dataGridViewMap.Name = "dataGridViewMap";
             this.dataGridViewMap.RowHeadersWidth = 51;
@@ -3987,14 +3976,6 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewExifToolWarning.AllowUserToAddRows = false;
             this.dataGridViewExifToolWarning.ColumnHeadersHeight = 29;
             this.dataGridViewExifToolWarning.ContextMenuStrip = this.contextMenuStripExiftoolWarning;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewExifToolWarning.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridViewExifToolWarning.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewExifToolWarning.Location = new System.Drawing.Point(0, 0);
             this.dataGridViewExifToolWarning.Name = "dataGridViewExifToolWarning";
@@ -5235,6 +5216,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonTabView,
             this.kryptonRibbonTabSelect,
             this.kryptonRibbonTabTools});
+            this.kryptonRibbonMain.SelectedContext = null;
             this.kryptonRibbonMain.SelectedTab = this.kryptonRibbonTabView;
             this.kryptonRibbonMain.Size = new System.Drawing.Size(1214, 115);
             this.kryptonRibbonMain.TabIndex = 12;
@@ -6062,8 +6044,8 @@ namespace PhotoTagsSynchronizer
         private ImageListView imageListView1;
         private Furty.Windows.Forms.FolderTreeView folderTreeViewFolder;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusThreadQueueCount;
-        private System.Windows.Forms.DataGridView dataGridViewExifTool;
-        private System.Windows.Forms.DataGridView dataGridViewTagsAndKeywords;
+        private Krypton.Toolkit.KryptonDataGridView dataGridViewExifTool;
+        private Krypton.Toolkit.KryptonDataGridView dataGridViewTagsAndKeywords;
         private Krypton.Toolkit.KryptonLabel label5;
         private Krypton.Toolkit.KryptonGroupBox groupBoxRating;
         private Krypton.Toolkit.KryptonRadioButton radioButtonRating5;
@@ -6071,14 +6053,14 @@ namespace PhotoTagsSynchronizer
         private Krypton.Toolkit.KryptonRadioButton radioButtonRating3;
         private Krypton.Toolkit.KryptonRadioButton radioButtonRating2;
         private Krypton.Toolkit.KryptonRadioButton radioButtonRating1;
-        private System.Windows.Forms.DataGridView dataGridViewPeople;
-        private System.Windows.Forms.DataGridView dataGridViewMap;
+        private Krypton.Toolkit.KryptonDataGridView dataGridViewPeople;
+        private Krypton.Toolkit.KryptonDataGridView dataGridViewMap;
         private Krypton.Toolkit.KryptonTextBox textBoxBrowserURL;
         private Krypton.Toolkit.KryptonPanel panelBrowser;
         private Krypton.Toolkit.KryptonComboBox comboBoxMapZoomLevel;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ToolStripButton toolStripButtonImportGoogleLocation;
-        private System.Windows.Forms.DataGridView dataGridViewExifToolWarning;
+        private Krypton.Toolkit.KryptonDataGridView dataGridViewExifToolWarning;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripTagsAndKeywords;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemTagsBrokerCopyText;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemTagsAndKeywordsBrokerOverwriteText;
@@ -6091,7 +6073,7 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemImageListViewPaste;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemImageListViewDelete;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemImageListViewReloadThumbnailAndMetadata;
-        private System.Windows.Forms.DataGridView dataGridViewDate;
+        private Krypton.Toolkit.KryptonDataGridView dataGridViewDate;
         private System.Windows.Forms.ToolStripButton toolStripButtonAbout;
         private System.Windows.Forms.ToolStripMenuItem cutToolStripMenuTagsBrokerCut;
         private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuTagsBrokerCopy;
@@ -6100,7 +6082,7 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripMenuItem toggleTagsAndKeywordsSelectionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuTags;
         private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuTags;
-        private System.Windows.Forms.DataGridView dataGridViewProperties;
+        private Krypton.Toolkit.KryptonDataGridView dataGridViewProperties;
         private System.Windows.Forms.ToolStripMenuItem findToolStripMenuTag;
         private System.Windows.Forms.ToolStripMenuItem replaceToolStripMenuTag;
         private System.Windows.Forms.ToolStripMenuItem selectTagsAndKeywordsToolStripMenuItem;
@@ -6149,7 +6131,7 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleRenameFromAll;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemPeopleSelected;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleRenameSelected;
-        private System.Windows.Forms.DataGridView dataGridViewRename;
+        private Krypton.Toolkit.KryptonDataGridView dataGridViewRename;
         private Krypton.Toolkit.KryptonLabel label2;
         private Krypton.Toolkit.KryptonLabel label1;
         private Krypton.Toolkit.KryptonTextBox textBoxRenameNewName;
@@ -6237,7 +6219,7 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
         private System.Windows.Forms.ToolStripLabel toolStripLabelMediaPreviewStatus;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
-        private System.Windows.Forms.DataGridView dataGridViewConvertAndMerge;
+        private Krypton.Toolkit.KryptonDataGridView dataGridViewConvertAndMerge;
         private System.Windows.Forms.ToolStripButton toolStripButtonMediaPreviewStop;
         private System.Windows.Forms.ToolStripButton rotate180ToolStripButton;
         private System.Windows.Forms.Timer timerFindGoogleCast;

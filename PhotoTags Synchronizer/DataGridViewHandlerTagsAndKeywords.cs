@@ -8,6 +8,7 @@ using System.IO;
 using System.Windows.Forms;
 using Thumbnails;
 using static Manina.Windows.Forms.ImageListView;
+using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
@@ -38,7 +39,7 @@ namespace PhotoTagsSynchronizer
 
 
         //Check what data has been updated by users
-        public static void GetUserInputChanges(ref DataGridView dataGridView, Metadata metadata, FileEntryAttribute fileEntryColumn)
+        public static void GetUserInputChanges(ref KryptonDataGridView dataGridView, Metadata metadata, FileEntryAttribute fileEntryColumn)
         {
             int keywordsStarts = DataGridViewHandler.GetRowHeaderItemStarts(dataGridView, headerKeywords);
             int keywordsEnds = DataGridViewHandler.GetRowHeaderItemsEnds(dataGridView, headerKeywords);
