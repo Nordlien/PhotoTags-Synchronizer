@@ -887,7 +887,6 @@ namespace PhotoTagsSynchronizer
             // folderTreeViewFolder
             // 
             this.folderTreeViewFolder.AllowDrop = true;
-            this.folderTreeViewFolder.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.folderTreeViewFolder.ContextMenuStrip = this.contextMenuStripTreeViewFolder;
             this.folderTreeViewFolder.Dock = System.Windows.Forms.DockStyle.Fill;
             this.folderTreeViewFolder.HideSelection = false;
@@ -5237,6 +5236,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonTabView,
             this.kryptonRibbonTabSelect,
             this.kryptonRibbonTabTools});
+            this.kryptonRibbonMain.SelectedContext = null;
             this.kryptonRibbonMain.SelectedTab = this.kryptonRibbonTabView;
             this.kryptonRibbonMain.Size = new System.Drawing.Size(1214, 115);
             this.kryptonRibbonMain.TabIndex = 12;

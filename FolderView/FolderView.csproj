@@ -69,9 +69,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="FolderTreeView.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Update="FolderTreeView.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
@@ -80,5 +78,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FileHandeling\FileHandeling.csproj" />
+    <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2019.csproj" />
   </ItemGroup>
 </Project>

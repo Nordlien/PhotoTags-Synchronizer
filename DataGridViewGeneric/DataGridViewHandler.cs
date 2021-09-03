@@ -2892,8 +2892,6 @@ namespace DataGridViewGeneric
         #endregion
 
         #region ToolStripMenuItem Handling - Toogle handler - For hide/show Favorite and Hide/Show Equals
-        
-
         public static void UpdatedStripMenuItem(DataGridView dataGridView, ToolStripMenuItem toolStripMenuItem, bool isChecked)
         {
             if (!dataGridView.Enabled) return;

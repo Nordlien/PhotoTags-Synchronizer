@@ -38,14 +38,13 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.IO;
 using FileHandeling;
-
-
+using Krypton.Toolkit;
 
 namespace Furty.Windows.Forms
 {
 	#region FolderTreeView Class
 
-	public class FolderTreeView : System.Windows.Forms.TreeView
+	public class FolderTreeView : KryptonTreeView
 	{
 		private System.Windows.Forms.ImageList folderTreeViewImageList;
 		private System.Globalization.CultureInfo cultureInfo = System.Globalization.CultureInfo.CurrentCulture;
@@ -446,7 +445,7 @@ namespace Furty.Windows.Forms
 		#endregion
 
 		#region Populate Tree
-		public static void PopulateTree(TreeView tree, ImageList imageList)
+		public static void PopulateTree(KryptonTreeView tree, ImageList imageList)
 		{
 			int imageCount = imageList.Images.Count -1;
 			tree.Nodes.Clear();
@@ -462,7 +461,7 @@ namespace Furty.Windows.Forms
 		#endregion
 
 		#region Add Root Node
-		private static void AddRootNode(TreeView tree, ref int imageCount, ImageList imageList, ShellFolder shellFolder, bool getIcons)
+		private static void AddRootNode(KryptonTreeView tree, ref int imageCount, ImageList imageList, ShellFolder shellFolder, bool getIcons)
 		{
             try
             {
