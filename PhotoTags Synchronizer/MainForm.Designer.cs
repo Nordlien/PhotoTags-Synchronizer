@@ -31,7 +31,7 @@ namespace PhotoTagsSynchronizer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Filter");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Filter");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.toolStripContainerMainForm = new System.Windows.Forms.ToolStripContainer();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
@@ -436,15 +436,29 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButton22 = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButton23 = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroup13 = new Krypton.Ribbon.KryptonRibbonGroup();
-            this.kryptonRibbonGroupTriple17 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
-            this.kryptonRibbonGroupButton7 = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupButton8 = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupTriple11 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButton24 = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButton25 = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupTriple20 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButton11 = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButton13 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupTriple19 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.kryptonRibbonGroupButton45 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButton9 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButton10 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupTriple21 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.kryptonRibbonGroupButton14 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButton15 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButton16 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroup21 = new Krypton.Ribbon.KryptonRibbonGroup();
+            this.kryptonRibbonGroupTriple27 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.kryptonRibbonGroupButton38 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButton39 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButton43 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupTriple28 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.kryptonRibbonGroupButton40 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButton41 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButton42 = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroup5 = new Krypton.Ribbon.KryptonRibbonGroup();
             this.kryptonRibbonGroupTriple9 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButtonMediaFileRotate90CCW = new Krypton.Ribbon.KryptonRibbonGroupButton();
@@ -459,13 +473,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButton5 = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButton6 = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroup15 = new Krypton.Ribbon.KryptonRibbonGroup();
-            this.kryptonRibbonGroupTriple19 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
-            this.kryptonRibbonGroupButton9 = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupButton10 = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupTriple21 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
-            this.kryptonRibbonGroupButton14 = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupButton15 = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupButton16 = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonTabView = new Krypton.Ribbon.KryptonRibbonTab();
             this.kryptonRibbonGroupImageListView = new Krypton.Ribbon.KryptonRibbonGroup();
             this.kryptonRibbonGroupTriple2 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
@@ -544,6 +551,35 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupTriple8 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButton1 = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButton2 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonTabPreview = new Krypton.Ribbon.KryptonRibbonTab();
+            this.kryptonRibbonGroup16 = new Krypton.Ribbon.KryptonRibbonGroup();
+            this.kryptonRibbonGroupTriple23 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.kryptonRibbonGroupButton28 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroup17 = new Krypton.Ribbon.KryptonRibbonGroup();
+            this.kryptonRibbonGroupTriple22 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.kryptonRibbonGroupButton17 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButton26 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButton27 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupTriple24 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.kryptonRibbonGroupButton29 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButton30 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButton31 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupLines5 = new Krypton.Ribbon.KryptonRibbonGroupLines();
+            this.kryptonRibbonGroupTrackBar1 = new Krypton.Ribbon.KryptonRibbonGroupTrackBar();
+            this.kryptonRibbonGroup18 = new Krypton.Ribbon.KryptonRibbonGroup();
+            this.kryptonRibbonGroupTriple25 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.kryptonRibbonGroupButton32 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButton33 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButton34 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroup20 = new Krypton.Ribbon.KryptonRibbonGroup();
+            this.kryptonRibbonGroupTriple26 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.kryptonRibbonGroupButton35 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButton36 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButton37 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroup19 = new Krypton.Ribbon.KryptonRibbonGroup();
+            this.kryptonRibbonGroupLines1 = new Krypton.Ribbon.KryptonRibbonGroupLines();
+            this.kryptonRibbonGroupLabel1 = new Krypton.Ribbon.KryptonRibbonGroupLabel();
+            this.kryptonRibbonGroupLabel2 = new Krypton.Ribbon.KryptonRibbonGroupLabel();
             this.kryptonContextMenuItems1 = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonContextMenuItems2 = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonContextMenuItem1 = new Krypton.Toolkit.KryptonContextMenuItem();
@@ -555,33 +591,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuImageSelect1 = new Krypton.Toolkit.KryptonContextMenuImageSelect();
             this.kryptonContextMenuItems4 = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonContextMenuItem4 = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonRibbonTabPreview = new Krypton.Ribbon.KryptonRibbonTab();
-            this.kryptonRibbonGroup16 = new Krypton.Ribbon.KryptonRibbonGroup();
-            this.kryptonRibbonGroup17 = new Krypton.Ribbon.KryptonRibbonGroup();
-            this.kryptonRibbonGroupTriple22 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
-            this.kryptonRibbonGroupButton17 = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupButton26 = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupButton27 = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupTriple23 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
-            this.kryptonRibbonGroupButton28 = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupTriple24 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
-            this.kryptonRibbonGroupButton29 = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupButton30 = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupButton31 = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroup18 = new Krypton.Ribbon.KryptonRibbonGroup();
-            this.kryptonRibbonGroupTriple25 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
-            this.kryptonRibbonGroupButton32 = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupButton33 = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupButton34 = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroup19 = new Krypton.Ribbon.KryptonRibbonGroup();
-            this.kryptonRibbonGroupLines1 = new Krypton.Ribbon.KryptonRibbonGroupLines();
-            this.kryptonRibbonGroupLabel1 = new Krypton.Ribbon.KryptonRibbonGroupLabel();
-            this.kryptonRibbonGroupLabel2 = new Krypton.Ribbon.KryptonRibbonGroupLabel();
-            this.kryptonRibbonGroup20 = new Krypton.Ribbon.KryptonRibbonGroup();
-            this.kryptonRibbonGroupTriple26 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
-            this.kryptonRibbonGroupButton35 = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupButton36 = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupButton37 = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.toolStripContainerMainForm.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainerMainForm.ContentPanel.SuspendLayout();
             this.toolStripContainerMainForm.TopToolStripPanel.SuspendLayout();
@@ -1778,11 +1787,11 @@ namespace PhotoTagsSynchronizer
             this.treeViewFilter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeViewFilter.Location = new System.Drawing.Point(0, 0);
             this.treeViewFilter.Name = "treeViewFilter";
-            treeNode2.Name = "NodeFolder";
-            treeNode2.Tag = "Filter";
-            treeNode2.Text = "Filter";
+            treeNode1.Name = "NodeFolder";
+            treeNode1.Tag = "Filter";
+            treeNode1.Text = "Filter";
             this.treeViewFilter.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode2});
+            treeNode1});
             this.treeViewFilter.Size = new System.Drawing.Size(399, 709);
             this.treeViewFilter.TabIndex = 0;
             this.treeViewFilter.BeforeCheck += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeViewFilter_BeforeCheck);
@@ -5007,35 +5016,35 @@ namespace PhotoTagsSynchronizer
             // toolStripMenuItemPreviewSlideShow2sec
             // 
             this.toolStripMenuItemPreviewSlideShow2sec.Name = "toolStripMenuItemPreviewSlideShow2sec";
-            this.toolStripMenuItemPreviewSlideShow2sec.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemPreviewSlideShow2sec.Size = new System.Drawing.Size(163, 22);
             this.toolStripMenuItemPreviewSlideShow2sec.Text = "SlideShow 2 sec";
             this.toolStripMenuItemPreviewSlideShow2sec.Click += new System.EventHandler(this.toolStripMenuItemPreviewSlideShow2sec_Click);
             // 
             // toolStripMenuItemPreviewSlideShow4sec
             // 
             this.toolStripMenuItemPreviewSlideShow4sec.Name = "toolStripMenuItemPreviewSlideShow4sec";
-            this.toolStripMenuItemPreviewSlideShow4sec.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemPreviewSlideShow4sec.Size = new System.Drawing.Size(163, 22);
             this.toolStripMenuItemPreviewSlideShow4sec.Text = "SlideShow 4 sec";
             this.toolStripMenuItemPreviewSlideShow4sec.Click += new System.EventHandler(this.toolStripMenuItemPreviewSlideShow4sec_Click);
             // 
             // toolStripMenuItemPreviewSlideShow6sec
             // 
             this.toolStripMenuItemPreviewSlideShow6sec.Name = "toolStripMenuItemPreviewSlideShow6sec";
-            this.toolStripMenuItemPreviewSlideShow6sec.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemPreviewSlideShow6sec.Size = new System.Drawing.Size(163, 22);
             this.toolStripMenuItemPreviewSlideShow6sec.Text = "SlideShow 6 sec";
             this.toolStripMenuItemPreviewSlideShow6sec.Click += new System.EventHandler(this.toolStripMenuItemPreviewSlideShow6sec_Click);
             // 
             // toolStripMenuItemPreviewSlideShow8sec
             // 
             this.toolStripMenuItemPreviewSlideShow8sec.Name = "toolStripMenuItemPreviewSlideShow8sec";
-            this.toolStripMenuItemPreviewSlideShow8sec.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemPreviewSlideShow8sec.Size = new System.Drawing.Size(163, 22);
             this.toolStripMenuItemPreviewSlideShow8sec.Text = "SlideShow 8 sec";
             this.toolStripMenuItemPreviewSlideShow8sec.Click += new System.EventHandler(this.toolStripMenuItemPreviewSlideShow8sec_Click);
             // 
             // toolStripMenuItemPreviewSlideShow10sec
             // 
             this.toolStripMenuItemPreviewSlideShow10sec.Name = "toolStripMenuItemPreviewSlideShow10sec";
-            this.toolStripMenuItemPreviewSlideShow10sec.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemPreviewSlideShow10sec.Size = new System.Drawing.Size(163, 22);
             this.toolStripMenuItemPreviewSlideShow10sec.Text = "SlideShow 10 sec";
             this.toolStripMenuItemPreviewSlideShow10sec.Click += new System.EventHandler(this.toolStripMenuItemPreviewSlideShow10sec_Click);
             // 
@@ -5043,7 +5052,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.toolStripMenuItemPreviewSlideShowStop.Enabled = false;
             this.toolStripMenuItemPreviewSlideShowStop.Name = "toolStripMenuItemPreviewSlideShowStop";
-            this.toolStripMenuItemPreviewSlideShowStop.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemPreviewSlideShowStop.Size = new System.Drawing.Size(163, 22);
             this.toolStripMenuItemPreviewSlideShowStop.Text = "SlideShow stop";
             this.toolStripMenuItemPreviewSlideShowStop.Click += new System.EventHandler(this.toolStripMenuItemPreviewSlideShowStop_Click);
             // 
@@ -5273,7 +5282,8 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonTabSelect,
             this.kryptonRibbonTabTools,
             this.kryptonRibbonTabPreview});
-            this.kryptonRibbonMain.SelectedTab = this.kryptonRibbonTabPreview;
+            this.kryptonRibbonMain.SelectedContext = null;
+            this.kryptonRibbonMain.SelectedTab = this.kryptonRibbonTabHome;
             this.kryptonRibbonMain.Size = new System.Drawing.Size(1214, 115);
             this.kryptonRibbonMain.TabIndex = 12;
             // 
@@ -5287,6 +5297,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonTabHome.Groups.AddRange(new Krypton.Ribbon.KryptonRibbonGroup[] {
             this.kryptonRibbonGroup6,
             this.kryptonRibbonGroup13,
+            this.kryptonRibbonGroup21,
             this.kryptonRibbonGroup5,
             this.kryptonRibbonGroup11,
             this.kryptonRibbonGroup12,
@@ -5328,31 +5339,11 @@ namespace PhotoTagsSynchronizer
             // kryptonRibbonGroup13
             // 
             this.kryptonRibbonGroup13.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
-            this.kryptonRibbonGroupTriple17,
             this.kryptonRibbonGroupTriple11,
-            this.kryptonRibbonGroupTriple20});
+            this.kryptonRibbonGroupTriple20,
+            this.kryptonRibbonGroupTriple19,
+            this.kryptonRibbonGroupTriple21});
             this.kryptonRibbonGroup13.TextLine1 = "Manage";
-            // 
-            // kryptonRibbonGroupTriple17
-            // 
-            this.kryptonRibbonGroupTriple17.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
-            this.kryptonRibbonGroupButton7,
-            this.kryptonRibbonGroupButton8});
-            this.kryptonRibbonGroupTriple17.MaximumSize = Krypton.Ribbon.GroupItemSize.Medium;
-            // 
-            // kryptonRibbonGroupButton7
-            // 
-            this.kryptonRibbonGroupButton7.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.EditCopy;
-            this.kryptonRibbonGroupButton7.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.EditCopy;
-            this.kryptonRibbonGroupButton7.TextLine1 = "Copy";
-            this.kryptonRibbonGroupButton7.TextLine2 = "text";
-            // 
-            // kryptonRibbonGroupButton8
-            // 
-            this.kryptonRibbonGroupButton8.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.FileDelete;
-            this.kryptonRibbonGroupButton8.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.FileDelete;
-            this.kryptonRibbonGroupButton8.TextLine1 = "Delete";
-            this.kryptonRibbonGroupButton8.TextLine2 = "path";
             // 
             // kryptonRibbonGroupTriple11
             // 
@@ -5391,6 +5382,120 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButton13.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.EditReplace;
             this.kryptonRibbonGroupButton13.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.EditReplace;
             this.kryptonRibbonGroupButton13.TextLine1 = "Replace";
+            // 
+            // kryptonRibbonGroupTriple19
+            // 
+            this.kryptonRibbonGroupTriple19.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupButton45,
+            this.kryptonRibbonGroupButton9,
+            this.kryptonRibbonGroupButton10});
+            // 
+            // kryptonRibbonGroupButton45
+            // 
+            this.kryptonRibbonGroupButton45.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.EditCopyText;
+            this.kryptonRibbonGroupButton45.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.EditCopyText;
+            this.kryptonRibbonGroupButton45.TextLine1 = "Copy";
+            this.kryptonRibbonGroupButton45.TextLine2 = "path";
+            // 
+            // kryptonRibbonGroupButton9
+            // 
+            this.kryptonRibbonGroupButton9.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.EditTextCopy;
+            this.kryptonRibbonGroupButton9.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.EditTextCopy;
+            this.kryptonRibbonGroupButton9.TextLine1 = "Fast copy";
+            this.kryptonRibbonGroupButton9.TextLine2 = "No overwrite";
+            // 
+            // kryptonRibbonGroupButton10
+            // 
+            this.kryptonRibbonGroupButton10.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.EditTextCopyAndReplace;
+            this.kryptonRibbonGroupButton10.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.EditTextCopyAndReplace;
+            this.kryptonRibbonGroupButton10.TextLine1 = "Fast Copy";
+            this.kryptonRibbonGroupButton10.TextLine2 = "and Replace";
+            // 
+            // kryptonRibbonGroupTriple21
+            // 
+            this.kryptonRibbonGroupTriple21.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupButton14,
+            this.kryptonRibbonGroupButton15,
+            this.kryptonRibbonGroupButton16});
+            this.kryptonRibbonGroupTriple21.MaximumSize = Krypton.Ribbon.GroupItemSize.Medium;
+            // 
+            // kryptonRibbonGroupButton14
+            // 
+            this.kryptonRibbonGroupButton14.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.EditTriStateSelect;
+            this.kryptonRibbonGroupButton14.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.EditTriStateSelect;
+            this.kryptonRibbonGroupButton14.TextLine1 = "Select";
+            // 
+            // kryptonRibbonGroupButton15
+            // 
+            this.kryptonRibbonGroupButton15.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.EditTriStateToggle;
+            this.kryptonRibbonGroupButton15.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.EditTriStateToggle;
+            this.kryptonRibbonGroupButton15.TextLine1 = "Toggle";
+            // 
+            // kryptonRibbonGroupButton16
+            // 
+            this.kryptonRibbonGroupButton16.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.EditTriStateDelete;
+            this.kryptonRibbonGroupButton16.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.EditTriStateDelete;
+            this.kryptonRibbonGroupButton16.TextLine1 = "Remove";
+            // 
+            // kryptonRibbonGroup21
+            // 
+            this.kryptonRibbonGroup21.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
+            this.kryptonRibbonGroupTriple27,
+            this.kryptonRibbonGroupTriple28});
+            this.kryptonRibbonGroup21.TextLine1 = "Organise";
+            // 
+            // kryptonRibbonGroupTriple27
+            // 
+            this.kryptonRibbonGroupTriple27.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupButton38,
+            this.kryptonRibbonGroupButton39,
+            this.kryptonRibbonGroupButton43});
+            this.kryptonRibbonGroupTriple27.MaximumSize = Krypton.Ribbon.GroupItemSize.Medium;
+            // 
+            // kryptonRibbonGroupButton38
+            // 
+            this.kryptonRibbonGroupButton38.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.FileDelete;
+            this.kryptonRibbonGroupButton38.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.FileDelete;
+            this.kryptonRibbonGroupButton38.TextLine1 = "Delete";
+            this.kryptonRibbonGroupButton38.TextLine2 = "path";
+            // 
+            // kryptonRibbonGroupButton39
+            // 
+            this.kryptonRibbonGroupButton39.TextLine1 = "Rename";
+            this.kryptonRibbonGroupButton39.TextLine2 = "path";
+            // 
+            // kryptonRibbonGroupButton43
+            // 
+            this.kryptonRibbonGroupButton43.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.FolderRefresh;
+            this.kryptonRibbonGroupButton43.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.FolderRefresh;
+            this.kryptonRibbonGroupButton43.TextLine1 = "Refresh";
+            this.kryptonRibbonGroupButton43.TextLine2 = "path";
+            // 
+            // kryptonRibbonGroupTriple28
+            // 
+            this.kryptonRibbonGroupTriple28.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupButton40,
+            this.kryptonRibbonGroupButton41,
+            this.kryptonRibbonGroupButton42});
+            // 
+            // kryptonRibbonGroupButton40
+            // 
+            this.kryptonRibbonGroupButton40.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MediaOpen;
+            this.kryptonRibbonGroupButton40.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaOpen;
+            this.kryptonRibbonGroupButton40.TextLine1 = "Open";
+            // 
+            // kryptonRibbonGroupButton41
+            // 
+            this.kryptonRibbonGroupButton41.ButtonType = Krypton.Ribbon.GroupButtonType.DropDown;
+            this.kryptonRibbonGroupButton41.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MediaOpenWith;
+            this.kryptonRibbonGroupButton41.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaOpenWith;
+            this.kryptonRibbonGroupButton41.TextLine1 = "Open with";
+            // 
+            // kryptonRibbonGroupButton42
+            // 
+            this.kryptonRibbonGroupButton42.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MediaEdit;
+            this.kryptonRibbonGroupButton42.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaEdit;
+            this.kryptonRibbonGroupButton42.TextLine1 = "Edit";
             // 
             // kryptonRibbonGroup5
             // 
@@ -5476,55 +5581,7 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonRibbonGroup15
             // 
-            this.kryptonRibbonGroup15.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
-            this.kryptonRibbonGroupTriple19,
-            this.kryptonRibbonGroupTriple21});
             this.kryptonRibbonGroup15.TextLine1 = "Grid";
-            // 
-            // kryptonRibbonGroupTriple19
-            // 
-            this.kryptonRibbonGroupTriple19.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
-            this.kryptonRibbonGroupButton9,
-            this.kryptonRibbonGroupButton10});
-            // 
-            // kryptonRibbonGroupButton9
-            // 
-            this.kryptonRibbonGroupButton9.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.EditTextCopy;
-            this.kryptonRibbonGroupButton9.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.EditTextCopy;
-            this.kryptonRibbonGroupButton9.TextLine1 = "Fast copy";
-            this.kryptonRibbonGroupButton9.TextLine2 = "No overwrite";
-            // 
-            // kryptonRibbonGroupButton10
-            // 
-            this.kryptonRibbonGroupButton10.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.EditTextCopyAndReplace;
-            this.kryptonRibbonGroupButton10.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.EditTextCopyAndReplace;
-            this.kryptonRibbonGroupButton10.TextLine1 = "Fast Copy";
-            this.kryptonRibbonGroupButton10.TextLine2 = "and Replace";
-            // 
-            // kryptonRibbonGroupTriple21
-            // 
-            this.kryptonRibbonGroupTriple21.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
-            this.kryptonRibbonGroupButton14,
-            this.kryptonRibbonGroupButton15,
-            this.kryptonRibbonGroupButton16});
-            // 
-            // kryptonRibbonGroupButton14
-            // 
-            this.kryptonRibbonGroupButton14.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.EditTriStateSelect;
-            this.kryptonRibbonGroupButton14.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.EditTriStateSelect;
-            this.kryptonRibbonGroupButton14.TextLine1 = "Select";
-            // 
-            // kryptonRibbonGroupButton15
-            // 
-            this.kryptonRibbonGroupButton15.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.EditTriStateToggle;
-            this.kryptonRibbonGroupButton15.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.EditTriStateToggle;
-            this.kryptonRibbonGroupButton15.TextLine1 = "Toggle";
-            // 
-            // kryptonRibbonGroupButton16
-            // 
-            this.kryptonRibbonGroupButton16.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.EditTriStateDelete;
-            this.kryptonRibbonGroupButton16.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.EditTriStateDelete;
-            this.kryptonRibbonGroupButton16.TextLine1 = "Remove";
             // 
             // kryptonRibbonTabView
             // 
@@ -6024,6 +6081,183 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButton2.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.ToolsAbout;
             this.kryptonRibbonGroupButton2.TextLine1 = "About";
             // 
+            // kryptonRibbonTabPreview
+            // 
+            this.kryptonRibbonTabPreview.Groups.AddRange(new Krypton.Ribbon.KryptonRibbonGroup[] {
+            this.kryptonRibbonGroup16,
+            this.kryptonRibbonGroup17,
+            this.kryptonRibbonGroup18,
+            this.kryptonRibbonGroup20,
+            this.kryptonRibbonGroup19});
+            this.kryptonRibbonTabPreview.Text = "Preview";
+            // 
+            // kryptonRibbonGroup16
+            // 
+            this.kryptonRibbonGroup16.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
+            this.kryptonRibbonGroupTriple23});
+            this.kryptonRibbonGroup16.TextLine1 = "Preview";
+            // 
+            // kryptonRibbonGroupTriple23
+            // 
+            this.kryptonRibbonGroupTriple23.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupButton28});
+            // 
+            // kryptonRibbonGroupButton28
+            // 
+            this.kryptonRibbonGroupButton28.ButtonType = Krypton.Ribbon.GroupButtonType.Check;
+            this.kryptonRibbonGroupButton28.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MediaPreview;
+            this.kryptonRibbonGroupButton28.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaPreview;
+            this.kryptonRibbonGroupButton28.TextLine1 = "Preview";
+            // 
+            // kryptonRibbonGroup17
+            // 
+            this.kryptonRibbonGroup17.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
+            this.kryptonRibbonGroupTriple22,
+            this.kryptonRibbonGroupTriple24,
+            this.kryptonRibbonGroupLines5});
+            this.kryptonRibbonGroup17.TextLine1 = "Navigate";
+            // 
+            // kryptonRibbonGroupTriple22
+            // 
+            this.kryptonRibbonGroupTriple22.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupButton17,
+            this.kryptonRibbonGroupButton26,
+            this.kryptonRibbonGroupButton27});
+            // 
+            // kryptonRibbonGroupButton17
+            // 
+            this.kryptonRibbonGroupButton17.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerPrevious;
+            this.kryptonRibbonGroupButton17.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerPrevious;
+            // 
+            // kryptonRibbonGroupButton26
+            // 
+            this.kryptonRibbonGroupButton26.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerNext;
+            this.kryptonRibbonGroupButton26.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerNext;
+            // 
+            // kryptonRibbonGroupButton27
+            // 
+            this.kryptonRibbonGroupButton27.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerPause;
+            this.kryptonRibbonGroupButton27.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerPause;
+            // 
+            // kryptonRibbonGroupTriple24
+            // 
+            this.kryptonRibbonGroupTriple24.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupButton29,
+            this.kryptonRibbonGroupButton30,
+            this.kryptonRibbonGroupButton31});
+            // 
+            // kryptonRibbonGroupButton29
+            // 
+            this.kryptonRibbonGroupButton29.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerFastBackward;
+            this.kryptonRibbonGroupButton29.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerFastBackward;
+            // 
+            // kryptonRibbonGroupButton30
+            // 
+            this.kryptonRibbonGroupButton30.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerFastForward;
+            this.kryptonRibbonGroupButton30.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerFastForward;
+            // 
+            // kryptonRibbonGroupButton31
+            // 
+            this.kryptonRibbonGroupButton31.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerStop;
+            this.kryptonRibbonGroupButton31.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerStop;
+            // 
+            // kryptonRibbonGroupLines5
+            // 
+            this.kryptonRibbonGroupLines5.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupTrackBar1});
+            // 
+            // kryptonRibbonGroupTrackBar1
+            // 
+            this.kryptonRibbonGroupTrackBar1.MaximumLength = 55;
+            this.kryptonRibbonGroupTrackBar1.MinimumLength = 55;
+            // 
+            // kryptonRibbonGroup18
+            // 
+            this.kryptonRibbonGroup18.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
+            this.kryptonRibbonGroupTriple25});
+            this.kryptonRibbonGroup18.TextLine1 = "Rotate";
+            // 
+            // kryptonRibbonGroupTriple25
+            // 
+            this.kryptonRibbonGroupTriple25.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupButton32,
+            this.kryptonRibbonGroupButton33,
+            this.kryptonRibbonGroupButton34});
+            // 
+            // kryptonRibbonGroupButton32
+            // 
+            this.kryptonRibbonGroupButton32.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate90CCW;
+            this.kryptonRibbonGroupButton32.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate90CCW;
+            this.kryptonRibbonGroupButton32.TextLine1 = "90° CCW";
+            // 
+            // kryptonRibbonGroupButton33
+            // 
+            this.kryptonRibbonGroupButton33.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate180;
+            this.kryptonRibbonGroupButton33.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate180;
+            this.kryptonRibbonGroupButton33.TextLine1 = "180°";
+            // 
+            // kryptonRibbonGroupButton34
+            // 
+            this.kryptonRibbonGroupButton34.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate90CW;
+            this.kryptonRibbonGroupButton34.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate90CW;
+            this.kryptonRibbonGroupButton34.TextLine1 = "90° CW";
+            // 
+            // kryptonRibbonGroup20
+            // 
+            this.kryptonRibbonGroup20.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
+            this.kryptonRibbonGroupTriple26});
+            this.kryptonRibbonGroup20.TextLine1 = "Slideshow";
+            // 
+            // kryptonRibbonGroupTriple26
+            // 
+            this.kryptonRibbonGroupTriple26.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupButton35,
+            this.kryptonRibbonGroupButton36,
+            this.kryptonRibbonGroupButton37});
+            // 
+            // kryptonRibbonGroupButton35
+            // 
+            this.kryptonRibbonGroupButton35.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MediaPreviewSlideshow;
+            this.kryptonRibbonGroupButton35.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaPreviewSlideshow;
+            this.kryptonRibbonGroupButton35.TextLine1 = "Slideshow";
+            // 
+            // kryptonRibbonGroupButton36
+            // 
+            this.kryptonRibbonGroupButton36.ButtonType = Krypton.Ribbon.GroupButtonType.DropDown;
+            this.kryptonRibbonGroupButton36.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MediaPreviewSlideshowInterval;
+            this.kryptonRibbonGroupButton36.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaPreviewSlideshowInterval;
+            this.kryptonRibbonGroupButton36.TextLine1 = "Time";
+            this.kryptonRibbonGroupButton36.TextLine2 = "Interval";
+            // 
+            // kryptonRibbonGroupButton37
+            // 
+            this.kryptonRibbonGroupButton37.ButtonType = Krypton.Ribbon.GroupButtonType.DropDown;
+            this.kryptonRibbonGroupButton37.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerChromecast;
+            this.kryptonRibbonGroupButton37.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerChromecast;
+            this.kryptonRibbonGroupButton37.TextLine1 = "Chromecast";
+            // 
+            // kryptonRibbonGroup19
+            // 
+            this.kryptonRibbonGroup19.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
+            this.kryptonRibbonGroupLines1});
+            this.kryptonRibbonGroup19.TextLine1 = "Status";
+            // 
+            // kryptonRibbonGroupLines1
+            // 
+            this.kryptonRibbonGroupLines1.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupLabel1,
+            this.kryptonRibbonGroupLabel2});
+            // 
+            // kryptonRibbonGroupLabel1
+            // 
+            this.kryptonRibbonGroupLabel1.TextLine1 = "Timer:";
+            this.kryptonRibbonGroupLabel1.TextLine2 = "00:00";
+            // 
+            // kryptonRibbonGroupLabel2
+            // 
+            this.kryptonRibbonGroupLabel2.TextLine1 = "Status:";
+            this.kryptonRibbonGroupLabel2.TextLine2 = "Waiting";
+            // 
             // kryptonContextMenuItem1
             // 
             this.kryptonContextMenuItem1.Text = "Menu Item";
@@ -6055,147 +6289,6 @@ namespace PhotoTagsSynchronizer
             // kryptonContextMenuItem4
             // 
             this.kryptonContextMenuItem4.Text = "Menu Item";
-            // 
-            // kryptonRibbonTabPreview
-            // 
-            this.kryptonRibbonTabPreview.Groups.AddRange(new Krypton.Ribbon.KryptonRibbonGroup[] {
-            this.kryptonRibbonGroup16,
-            this.kryptonRibbonGroup17,
-            this.kryptonRibbonGroup18,
-            this.kryptonRibbonGroup19,
-            this.kryptonRibbonGroup20});
-            this.kryptonRibbonTabPreview.Text = "Preview";
-            // 
-            // kryptonRibbonGroup16
-            // 
-            this.kryptonRibbonGroup16.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
-            this.kryptonRibbonGroupTriple23});
-            // 
-            // kryptonRibbonGroup17
-            // 
-            this.kryptonRibbonGroup17.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
-            this.kryptonRibbonGroupTriple22,
-            this.kryptonRibbonGroupTriple24});
-            // 
-            // kryptonRibbonGroupTriple22
-            // 
-            this.kryptonRibbonGroupTriple22.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
-            this.kryptonRibbonGroupButton17,
-            this.kryptonRibbonGroupButton26,
-            this.kryptonRibbonGroupButton27});
-            // 
-            // kryptonRibbonGroupButton17
-            // 
-            this.kryptonRibbonGroupButton17.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerPrevious;
-            this.kryptonRibbonGroupButton17.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerPrevious;
-            // 
-            // kryptonRibbonGroupButton26
-            // 
-            this.kryptonRibbonGroupButton26.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerNext;
-            this.kryptonRibbonGroupButton26.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerNext;
-            // 
-            // kryptonRibbonGroupButton27
-            // 
-            this.kryptonRibbonGroupButton27.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerPause;
-            this.kryptonRibbonGroupButton27.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerPause;
-            // 
-            // kryptonRibbonGroupTriple23
-            // 
-            this.kryptonRibbonGroupTriple23.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
-            this.kryptonRibbonGroupButton28});
-            // 
-            // kryptonRibbonGroupButton28
-            // 
-            this.kryptonRibbonGroupButton28.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MediaPreview;
-            this.kryptonRibbonGroupButton28.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaPreview;
-            // 
-            // kryptonRibbonGroupTriple24
-            // 
-            this.kryptonRibbonGroupTriple24.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
-            this.kryptonRibbonGroupButton29,
-            this.kryptonRibbonGroupButton30,
-            this.kryptonRibbonGroupButton31});
-            // 
-            // kryptonRibbonGroupButton29
-            // 
-            this.kryptonRibbonGroupButton29.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerFastBackward;
-            this.kryptonRibbonGroupButton29.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerFastBackward;
-            // 
-            // kryptonRibbonGroupButton30
-            // 
-            this.kryptonRibbonGroupButton30.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerFastForward;
-            this.kryptonRibbonGroupButton30.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerFastForward;
-            // 
-            // kryptonRibbonGroupButton31
-            // 
-            this.kryptonRibbonGroupButton31.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerStop;
-            this.kryptonRibbonGroupButton31.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerStop;
-            // 
-            // kryptonRibbonGroup18
-            // 
-            this.kryptonRibbonGroup18.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
-            this.kryptonRibbonGroupTriple25});
-            // 
-            // kryptonRibbonGroupTriple25
-            // 
-            this.kryptonRibbonGroupTriple25.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
-            this.kryptonRibbonGroupButton32,
-            this.kryptonRibbonGroupButton33,
-            this.kryptonRibbonGroupButton34});
-            // 
-            // kryptonRibbonGroupButton32
-            // 
-            this.kryptonRibbonGroupButton32.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate90CCW;
-            this.kryptonRibbonGroupButton32.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate90CCW;
-            // 
-            // kryptonRibbonGroupButton33
-            // 
-            this.kryptonRibbonGroupButton33.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate180;
-            this.kryptonRibbonGroupButton33.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate180;
-            // 
-            // kryptonRibbonGroupButton34
-            // 
-            this.kryptonRibbonGroupButton34.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate90CW;
-            this.kryptonRibbonGroupButton34.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate90CW;
-            // 
-            // kryptonRibbonGroup19
-            // 
-            this.kryptonRibbonGroup19.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
-            this.kryptonRibbonGroupLines1});
-            // 
-            // kryptonRibbonGroupLines1
-            // 
-            this.kryptonRibbonGroupLines1.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
-            this.kryptonRibbonGroupLabel1,
-            this.kryptonRibbonGroupLabel2});
-            // 
-            // kryptonRibbonGroup20
-            // 
-            this.kryptonRibbonGroup20.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
-            this.kryptonRibbonGroupTriple26});
-            // 
-            // kryptonRibbonGroupTriple26
-            // 
-            this.kryptonRibbonGroupTriple26.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
-            this.kryptonRibbonGroupButton35,
-            this.kryptonRibbonGroupButton36,
-            this.kryptonRibbonGroupButton37});
-            // 
-            // kryptonRibbonGroupButton35
-            // 
-            this.kryptonRibbonGroupButton35.TextLine1 = "Slideshow";
-            // 
-            // kryptonRibbonGroupButton36
-            // 
-            this.kryptonRibbonGroupButton36.ButtonType = Krypton.Ribbon.GroupButtonType.DropDown;
-            this.kryptonRibbonGroupButton36.TextLine1 = "Time";
-            this.kryptonRibbonGroupButton36.TextLine2 = "Interval";
-            // 
-            // kryptonRibbonGroupButton37
-            // 
-            this.kryptonRibbonGroupButton37.ButtonType = Krypton.Ribbon.GroupButtonType.DropDown;
-            this.kryptonRibbonGroupButton37.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerChromecast;
-            this.kryptonRibbonGroupButton37.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerChromecast;
             // 
             // MainForm
             // 
@@ -6929,9 +7022,6 @@ namespace PhotoTagsSynchronizer
         private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple16;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton5;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton6;
-        private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple17;
-        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton7;
-        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton8;
         private Krypton.Ribbon.KryptonRibbonGroup kryptonRibbonGroup13;
         private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple20;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton11;
@@ -6976,6 +7066,18 @@ namespace PhotoTagsSynchronizer
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton35;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton36;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton37;
+        private Krypton.Ribbon.KryptonRibbonGroupLines kryptonRibbonGroupLines5;
+        private Krypton.Ribbon.KryptonRibbonGroupTrackBar kryptonRibbonGroupTrackBar1;
+        private Krypton.Ribbon.KryptonRibbonGroup kryptonRibbonGroup21;
+        private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple27;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton38;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton39;
+        private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple28;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton40;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton41;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton42;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton43;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton45;
     }
 }
 

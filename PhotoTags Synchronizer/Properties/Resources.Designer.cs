@@ -203,6 +203,16 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap EditCopyText {
+            get {
+                object obj = ResourceManager.GetObject("EditCopyText", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap EditCut {
             get {
                 object obj = ResourceManager.GetObject("EditCut", resourceCulture);
@@ -683,6 +693,16 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap MediaOpenWith {
+            get {
+                object obj = ResourceManager.GetObject("MediaOpenWith", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap MediaPlayerChromecast {
             get {
                 object obj = ResourceManager.GetObject("MediaPlayerChromecast", resourceCulture);
@@ -776,6 +796,26 @@ namespace PhotoTagsSynchronizer.Properties {
         internal static System.Drawing.Bitmap MediaPreview {
             get {
                 object obj = ResourceManager.GetObject("MediaPreview", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MediaPreviewSlideshow {
+            get {
+                object obj = ResourceManager.GetObject("MediaPreviewSlideshow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MediaPreviewSlideshowInterval {
+            get {
+                object obj = ResourceManager.GetObject("MediaPreviewSlideshowInterval", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
