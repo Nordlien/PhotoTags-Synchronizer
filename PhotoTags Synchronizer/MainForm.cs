@@ -33,16 +33,8 @@ namespace PhotoTagsSynchronizer
 
     public partial class MainForm : KryptonForm
     {
-        public const string LinkTabAndDataGridViewNameTags = "Tags";
-        public const string LinkTabAndDataGridViewNameMap = "Map";
-        public const string LinkTabAndDataGridViewNamePeople = "People";
-        public const string LinkTabAndDataGridViewNameDates = "Dates";
-        public const string LinkTabAndDataGridViewNameExiftool = "Exiftool";
-        public const string LinkTabAndDataGridViewNameWarnings = "MetadataWarning";
-        public const string LinkTabAndDataGridViewNameProperties = "Properties";
-        public const string LinkTabAndDataGridViewNameRename = "Rename";
-        public const string LinkTabAndDataGridViewNameConvertAndMerge = "Convert and Merge";
         
+        #region DarkMode
         public void UpdateColorControls(Control control, bool useDarkMode)
         {
             if (useDarkMode)
@@ -220,7 +212,18 @@ namespace PhotoTagsSynchronizer
                 UpdateColorControlsRecursive(subControls, useDarkMode);
             }
         }
+        #endregion
 
+        #region Global Variables
+        public const string LinkTabAndDataGridViewNameTags = "Tags";
+        public const string LinkTabAndDataGridViewNameMap = "Map";
+        public const string LinkTabAndDataGridViewNamePeople = "People";
+        public const string LinkTabAndDataGridViewNameDates = "Dates";
+        public const string LinkTabAndDataGridViewNameExiftool = "Exiftool";
+        public const string LinkTabAndDataGridViewNameWarnings = "MetadataWarning";
+        public const string LinkTabAndDataGridViewNameProperties = "Properties";
+        public const string LinkTabAndDataGridViewNameRename = "Rename";
+        public const string LinkTabAndDataGridViewNameConvertAndMerge = "Convert and Merge";
 
         private ShowWhatColumns showWhatColumns;
 
@@ -281,10 +284,13 @@ namespace PhotoTagsSynchronizer
         private FormWindowState _previousWindowsState = FormWindowState.Normal;
         bool isSlideShowRunning = false;
         int slideShowIntervalMs = 0;
+        #endregion 
 
         #region Constructor - MainForm()
         public MainForm()
         {
+            
+            
             #region Initialize VLC player
             FormSplash.UpdateStatus("Initialize VLC player...");
             try
@@ -304,7 +310,28 @@ namespace PhotoTagsSynchronizer
             InitializeComponent();
             #endregion
 
-           
+            this.kryptonContextMenuItemGenericCut.Click += KryptonContextMenuItemGenericCut_Click;
+            this.kryptonContextMenuItemGenericCopy.Click += KryptonContextMenuItemGenericCopy_Click;
+            this.kryptonContextMenuItemGenericCopyText.Click += KryptonContextMenuItemGenericCopyText_Click;
+            this.kryptonContextMenuItemGenericPaste.Click += KryptonContextMenuItemGenericPaste_Click;
+            this.kryptonContextMenuItemGenericDelete.Click += KryptonContextMenuItemGenericDelete_Click;
+            this.kryptonContextMenuItemGenericRename.Click += KryptonContextMenuItemGenericRename_Click;
+            this.kryptonContextMenuItemGenericUndo.Click += KryptonContextMenuItemGenericUndo_Click;
+            this.kryptonContextMenuItemGenericRedo.Click += KryptonContextMenuItemGenericRedo_Click;
+            this.kryptonContextMenuItemGenericFind.Click += KryptonContextMenuItemGenericFind_Click;
+            this.kryptonContextMenuItemGenericReplace.Click += KryptonContextMenuItemGenericReplace_Click;
+            this.kryptonContextMenuItemGenericSave.Click += KryptonContextMenuItemGenericSave_Click;
+            this.kryptonContextMenuItemGenericFavoriteAdd.Click += KryptonContextMenuItemGenericFavoriteAdd_Click;
+            this.kryptonContextMenuItemGenericFavoriteDelete.Click += KryptonContextMenuItemGenericFavoriteDelete_Click;
+            this.kryptonContextMenuItemFavoriteToggle.Click += KryptonContextMenuItemFavoriteToggle_Click;
+            this.kryptonContextMenuItemGenericRowShowFavorite.Click += KryptonContextMenuItemGenericRowShowFavorite_Click;
+            this.kryptonContextMenuItemGenericRowHideEqual.Click += KryptonContextMenuItemGenericRowHideEqual_Click;
+            this.kryptonContextMenuItemGenericTriStateOn.Click += KryptonContextMenuItemGenericTriStateOn_Click;
+            this.kryptonContextMenuItemGenericTriStateOff.Click += KryptonContextMenuItemGenericTriStateOff_Click;
+            this.kryptonContextMenuItemGenericTriStateToggle.Click += KryptonContextMenuItemGenericTriStateToggle_Click;
+            this.kryptonContextMenuItemGenericMediaViewAsPoster.Click += KryptonContextMenuItemGenericMediaViewAsPoster_Click;
+            this.kryptonContextMenuItemGenericMediaViewAsFull.Click += KryptonContextMenuItemGenericMediaViewAsFull_Click;
+
 
             this.toolStripContainerStripMainForm.RenderMode = ToolStripRenderMode.Professional;
             this.toolStripContainerStripMainForm.Renderer = new PhotoTagsCommonComponets.ToolStripProfessionalRendererWithoutLines();
@@ -652,12 +679,7 @@ namespace PhotoTagsSynchronizer
                 Logger.Error(ex);
             }
             #endregion
-
-
-            
         }
-
-        
         #endregion
 
 
@@ -919,15 +941,28 @@ namespace PhotoTagsSynchronizer
             PopulateImageListView_FromFolderSelected(false, true);
             FilesSelected();
         }
-
-
-
-
-
-
         #endregion
 
-       
+        
+
+    }
+
+    enum ActiveKryptonContextMenuItemGeneric
+    {
+        None,
+        kryptonWorkspaceCellFolderSearchFilter,
+        kryptonPageFolderSearchFilterSearch,
+        kryptonPageFolderSearchFilterFilter,
+        kryptonWorkspaceCellMediaFiles,
+        kryptonPageToolboxTags,
+        kryptonPageToolboxPeople,
+        kryptonPageToolboxMap,
+        kryptonPageToolboxDates,
+        kryptonPageToolboxExiftool,
+        kryptonPageToolboxWarnings,
+        kryptonPageToolboxProperties,
+        kryptonPageToolboxRename,
+        kryptonPageToolboxConvertAndMerge        
     }
 
 

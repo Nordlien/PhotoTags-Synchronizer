@@ -12,6 +12,75 @@ namespace PhotoTagsSynchronizer
 
     public partial class MainForm : KryptonForm
     {
+        #region ActiveKryptonContextMenuItemGeneric
+        private ActiveKryptonContextMenuItemGeneric ActiveKryptonContextMenuItemGeneric = ActiveKryptonContextMenuItemGeneric.None;
+        
+        private void kryptonWorkspaceCellFolderSearchFilter_Enter(object sender, EventArgs e)
+        {
+            ActiveKryptonContextMenuItemGeneric = ActiveKryptonContextMenuItemGeneric.kryptonWorkspaceCellFolderSearchFilter;
+        }
+
+        private void kryptonPageFolderSearchFilterSearch_Enter(object sender, EventArgs e)
+        {
+            ActiveKryptonContextMenuItemGeneric = ActiveKryptonContextMenuItemGeneric.kryptonPageFolderSearchFilterSearch;
+        }
+
+        private void kryptonPageFolderSearchFilterFilter_Enter(object sender, EventArgs e)
+        {
+            ActiveKryptonContextMenuItemGeneric = ActiveKryptonContextMenuItemGeneric.kryptonPageFolderSearchFilterFilter;
+        }
+
+        private void kryptonWorkspaceCellMediaFiles_Enter(object sender, EventArgs e)
+        {
+            ActiveKryptonContextMenuItemGeneric = ActiveKryptonContextMenuItemGeneric.kryptonWorkspaceCellMediaFiles;
+        }
+
+        private void kryptonPageToolboxTags_Enter(object sender, EventArgs e)
+        {
+            ActiveKryptonContextMenuItemGeneric = ActiveKryptonContextMenuItemGeneric.kryptonPageToolboxTags;
+        }
+
+        private void kryptonPageToolboxPeople_Enter(object sender, EventArgs e)
+        {
+            ActiveKryptonContextMenuItemGeneric = ActiveKryptonContextMenuItemGeneric.kryptonPageToolboxPeople;
+        }
+
+        private void kryptonPageToolboxMap_Enter(object sender, EventArgs e)
+        {
+            ActiveKryptonContextMenuItemGeneric = ActiveKryptonContextMenuItemGeneric.kryptonPageToolboxMap;
+        }
+
+        private void kryptonPageToolboxDates_Enter(object sender, EventArgs e)
+        {
+            ActiveKryptonContextMenuItemGeneric = ActiveKryptonContextMenuItemGeneric.kryptonPageToolboxDates;
+        }
+
+        private void kryptonPageToolboxExiftool_Enter(object sender, EventArgs e)
+        {
+            ActiveKryptonContextMenuItemGeneric = ActiveKryptonContextMenuItemGeneric.kryptonPageToolboxExiftool;
+        }
+
+        private void kryptonPageToolboxWarnings_Enter(object sender, EventArgs e)
+        {
+            ActiveKryptonContextMenuItemGeneric = ActiveKryptonContextMenuItemGeneric.kryptonPageToolboxWarnings;
+        }
+
+        private void kryptonPageToolboxProperties_Enter(object sender, EventArgs e)
+        {
+            ActiveKryptonContextMenuItemGeneric = ActiveKryptonContextMenuItemGeneric.kryptonPageToolboxProperties;
+        }
+
+        private void kryptonPageToolboxRename_Enter(object sender, EventArgs e)
+        {
+            ActiveKryptonContextMenuItemGeneric = ActiveKryptonContextMenuItemGeneric.kryptonPageToolboxRename;
+        }
+
+        private void kryptonPageToolboxConvertAndMerge_Enter(object sender, EventArgs e)
+        {
+            ActiveKryptonContextMenuItemGeneric = ActiveKryptonContextMenuItemGeneric.kryptonPageToolboxConvertAndMerge;
+        }
+        #endregion
+
         //Convert and Merge
         //Date
         //Exiftool
@@ -22,10 +91,159 @@ namespace PhotoTagsSynchronizer
         //Rename
         //TagsAndKeywords
 
+        private void KryptonContextMenuItemGenericCut_Click(object sender, EventArgs e)
+        {
+            ActionCut();
+        }
+
+        private void KryptonContextMenuItemGenericCopy_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void KryptonContextMenuItemGenericCopyText_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void KryptonContextMenuItemGenericPaste_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void KryptonContextMenuItemGenericDelete_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void KryptonContextMenuItemGenericRename_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void KryptonContextMenuItemGenericUndo_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void KryptonContextMenuItemGenericRedo_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void KryptonContextMenuItemGenericFind_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void KryptonContextMenuItemGenericReplace_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void KryptonContextMenuItemGenericSave_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void KryptonContextMenuItemGenericFavoriteAdd_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void KryptonContextMenuItemGenericFavoriteDelete_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void KryptonContextMenuItemFavoriteToggle_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void KryptonContextMenuItemGenericRowShowFavorite_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void KryptonContextMenuItemGenericRowHideEqual_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void KryptonContextMenuItemGenericTriStateOn_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void KryptonContextMenuItemGenericTriStateOff_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void KryptonContextMenuItemGenericTriStateToggle_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void KryptonContextMenuItemGenericMediaViewAsPoster_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void KryptonContextMenuItemGenericMediaViewAsFull_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         #region Cut
+
+        #region ActionCut()
+        private void ActionCut()
+        {
+            switch (ActiveKryptonContextMenuItemGeneric)
+            {
+                case ActiveKryptonContextMenuItemGeneric.None:
+                    break;
+                case ActiveKryptonContextMenuItemGeneric.kryptonWorkspaceCellFolderSearchFilter:
+                    break;
+                case ActiveKryptonContextMenuItemGeneric.kryptonPageFolderSearchFilterSearch:
+                    break;
+                case ActiveKryptonContextMenuItemGeneric.kryptonPageFolderSearchFilterFilter:
+                    break;
+                case ActiveKryptonContextMenuItemGeneric.kryptonWorkspaceCellMediaFiles:
+                    break;
+                case ActiveKryptonContextMenuItemGeneric.kryptonPageToolboxTags:
+                    KeywordsCut_Click();
+                    break;
+                case ActiveKryptonContextMenuItemGeneric.kryptonPageToolboxPeople:
+                    PeopleCut_Click();
+                    break;
+                case ActiveKryptonContextMenuItemGeneric.kryptonPageToolboxMap:
+                    MapCut_Click();
+                    break;
+                case ActiveKryptonContextMenuItemGeneric.kryptonPageToolboxDates:
+                    DateCut_Click();
+                    break;
+                case ActiveKryptonContextMenuItemGeneric.kryptonPageToolboxExiftool:
+                    break;
+                case ActiveKryptonContextMenuItemGeneric.kryptonPageToolboxWarnings:
+                    break;
+                case ActiveKryptonContextMenuItemGeneric.kryptonPageToolboxProperties:
+                    break;
+                case ActiveKryptonContextMenuItemGeneric.kryptonPageToolboxRename:
+                    break;
+                case ActiveKryptonContextMenuItemGeneric.kryptonPageToolboxConvertAndMerge:
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+        #endregion 
+
         //Convert and Merge
         #region Date
-        private void toolStripMenuItemDateCut_Click(object sender, EventArgs e)
+        private void DateCut_Click()
         {
             DataGridView dataGridView = dataGridViewDate;
             if (!dataGridView.Enabled) return;
@@ -41,7 +259,7 @@ namespace PhotoTagsSynchronizer
         //ExiftoolWarning
 
         #region Map
-        private void toolStripMenuItemMapCut_Click(object sender, EventArgs e)
+        private void MapCut_Click()
         {
             DataGridView dataGridView = dataGridViewMap;
             if (!dataGridView.Enabled) return;
@@ -54,7 +272,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region People
-        private void toolStripMenuItemPeopleCut_Click(object sender, EventArgs e)
+        private void PeopleCut_Click()
         {
             DataGridView dataGridView = dataGridViewPeople;
             if (!dataGridView.Enabled) return;
@@ -72,7 +290,7 @@ namespace PhotoTagsSynchronizer
         //Rename
         
         #region TagsAndKeywords
-        private void cutToolStripMenuTagsBrokerCut_Click(object sender, EventArgs e)
+        private void KeywordsCut_Click()
         {
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
             if (!dataGridView.Enabled) return;
