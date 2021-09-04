@@ -120,11 +120,14 @@
   <metadata name="statusStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>882, 19</value>
   </metadata>
+  <metadata name="toolStripContainerStripMainForm.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>402, 17</value>
+  </metadata>
   <metadata name="contextMenuStripTreeViewFolder.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 95</value>
+    <value>546, 173</value>
   </metadata>
   <metadata name="contextMenuStripImageListView.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>984, 95</value>
+    <value>953, 95</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="imageListView1.DefaultImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -159,7 +162,7 @@
 </value>
   </data>
   <metadata name="contextMenuStripTagsAndKeywords.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>861, 134</value>
+    <value>669, 134</value>
   </metadata>
   <data name="toolStripMenuItemTagsBrokerCopyText.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -221,7 +224,7 @@
     <value>678, 56</value>
   </metadata>
   <metadata name="contextMenuStripMap.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>250, 95</value>
+    <value>219, 95</value>
   </metadata>
   <data name="toolStripMenuItemMapCopyNotOverwrite.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -299,9 +302,6 @@
         AAAAAElFTkSuQmCC
 </value>
   </data>
-  <metadata name="contextMenuStripDate.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>253, 173</value>
-  </metadata>
   <data name="kryptonPageToolboxDates.ToolTipTitle" xml:space="preserve">
     <value>For JPEG-EXIF images, the DateTimeOriginal does not include the time zone suffix and should be rendered in local time which the photo was taken.
 
@@ -312,14 +312,14 @@ With use of GPS locations, it’s possible to estimate the time zone. However, w
 When enter a date and time in   HYPERLINK "https://www.w3.org/TR/NOTE-datetime" W3CDTF profile of ISO 8601 format (exmaple: 2020-10-17T14:11:04-05:00). The local time for where photo or video was created will be stored in “Media Created Date and Time” and GPS Date and Time record will be used to store UTC date and time.
 </value>
   </data>
+  <metadata name="contextMenuStripDate.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>1154, 134</value>
+  </metadata>
   <metadata name="contextMenuStripExifTool.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 134</value>
+    <value>1180, 95</value>
   </metadata>
   <metadata name="contextMenuStripExiftoolWarning.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 173</value>
-  </metadata>
-  <metadata name="toolStripContainerStripMainForm.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>402, 17</value>
+    <value>918, 134</value>
   </metadata>
   <data name="toolStripDropDownButtonSelectGroupBy.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -796,7 +796,7 @@ When enter a date and time in   HYPERLINK "https://www.w3.org/TR/NOTE-datetime"
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAAAs
-        CwAAAk1TRnQBSQFMAgEBBQEAAdgBDQHYAQ0BEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
+        CwAAAk1TRnQBSQFMAgEBBQEAAeABDQHgAQ0BEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
         AwABQAMAASADAAEBAQABCAYAAQgYAAGAAgABgAMAAoABAAGAAwABgAEAAYABAAKAAgADwAEAAcAB3AHA
         AQAB8AHKAaYBAAEzBQABMwEAATMBAAEzAQACMwIAAxYBAAMcAQADIgEAAykBAANVAQADTQEAA0IBAAM5
         AQABgAF8Af8BAAJQAf8BAAGTAQAB1gEAAf8B7AHMAQABxgHWAe8BAAHWAucBAAGQAakBrQIAAf8BMwMA
@@ -853,16 +853,16 @@ When enter a date and time in   HYPERLINK "https://www.w3.org/TR/NOTE-datetime"
     <value>All image files (*.bmp, *.gif, *.jpg, *.jepg, *.jpe, *.jif, *.png, *.tif, *.tiff, *.tga)|*.bmp;*.gif;*.jpg;*.jepg;*.jpe;*.jif;*.png;*.tif;*.tiff;*.tga|BMP (*.bmp)|*.bmp|GIF (*.gif)|*.gif|JPEG (*.jpg, *.jepg, *.jpe, *.jif)|*.jpg;*.jepg;*.jpe;*.jif|PNG (*.png)|*.png|TIFF (*.tif, *.tiff)|*.tif;*.tiff|TGA (*.tga)|*.tga|All files (*.*)|*.*</value>
   </data>
   <metadata name="timerShowErrorMessage.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>209, 134</value>
+    <value>17, 134</value>
   </metadata>
   <metadata name="timerShowStatusText_RemoveTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>615, 134</value>
+    <value>423, 134</value>
   </metadata>
   <metadata name="timerStartThread.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>841, 95</value>
+    <value>810, 95</value>
   </metadata>
   <metadata name="timerShowExiftoolSaveProgress.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>393, 134</value>
+    <value>201, 134</value>
   </metadata>
   <metadata name="timerStatusThreadQueue.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>1030, 56</value>
@@ -892,16 +892,19 @@ When enter a date and time in   HYPERLINK "https://www.w3.org/TR/NOTE-datetime"
     <value>864, 56</value>
   </metadata>
   <metadata name="timerPreviewNextTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>662, 95</value>
+    <value>631, 95</value>
   </metadata>
   <metadata name="timerSaveProgessRemoveProgress.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>423, 95</value>
+    <value>392, 95</value>
   </metadata>
   <metadata name="kryptonManager1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>427, 173</value>
+    <value>17, 173</value>
   </metadata>
   <metadata name="kryptonContextMenuImageListViewModeThumbnailRenders.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>628, 180</value>
+    <value>166, 173</value>
+  </metadata>
+  <metadata name="kryptonContextMenuGeneric.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>792, 177</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>124</value>

@@ -833,6 +833,16 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap MediaRename {
+            get {
+                object obj = ResourceManager.GetObject("MediaRename", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap MediaRotate180 {
             get {
                 object obj = ResourceManager.GetObject("MediaRotate180", resourceCulture);
