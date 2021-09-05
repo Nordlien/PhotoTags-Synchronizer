@@ -1567,7 +1567,7 @@ namespace PhotoTagsSynchronizer
                 if (!gridViewGenericDataRow.IsHeader && e.ColumnIndex > -1)
                 {
                     MetadataLibrary.RegionStructure region = DataGridViewHandler.GetCellRegionStructure(dataGridView, e.ColumnIndex, e.RowIndex);
-                    Image regionThumbnail = (Image)Properties.Resources.FaceLoading;
+                    Image regionThumbnail = (Image)Properties.Resources.RegionLoading;
                     if (region == null)
                     {
                         e.Handled = false;

@@ -180,7 +180,7 @@ namespace PhotoTagsSynchronizer
                             if (regionStructure != null)
                             {
                                 if (imageCoverArt != null) regionStructure.Thumbnail = RegionThumbnailHandler.CopyRegionFromImage(imageCoverArt, regionStructure);
-                                else regionStructure.Thumbnail = (Image)Properties.Resources.FaceLoading;
+                                else regionStructure.Thumbnail = (Image)Properties.Resources.RegionLoading;
                             }
                         } else
                         {

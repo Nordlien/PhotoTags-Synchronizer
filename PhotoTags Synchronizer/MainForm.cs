@@ -941,10 +941,11 @@ namespace PhotoTagsSynchronizer
             PopulateImageListView_FromFolderSelected(false, true);
             FilesSelected();
         }
+
+
         #endregion
 
         
-
     }
 
     enum ActiveKryptonContextMenuItemGeneric

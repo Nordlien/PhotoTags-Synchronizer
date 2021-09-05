@@ -63,9 +63,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap AppIcon {
+        internal static System.Drawing.Bitmap _FileSystemOpenWIthAssociationApp32x32 {
             get {
-                object obj = ResourceManager.GetObject("AppIcon", resourceCulture);
+                object obj = ResourceManager.GetObject("_FileSystemOpenWIthAssociationApp32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap AutoCorrectForm {
+        internal static System.Drawing.Bitmap AppIcon {
             get {
-                object obj = ResourceManager.GetObject("AutoCorrectForm", resourceCulture);
+                object obj = ResourceManager.GetObject("AppIcon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -93,9 +93,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap CheckAll {
+        internal static System.Drawing.Bitmap CheckAll16x16 {
             get {
-                object obj = ResourceManager.GetObject("CheckAll", resourceCulture);
+                object obj = ResourceManager.GetObject("CheckAll16x16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -103,9 +103,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap CheckDelete {
+        internal static System.Drawing.Bitmap CheckDelete16x16 {
             get {
-                object obj = ResourceManager.GetObject("CheckDelete", resourceCulture);
+                object obj = ResourceManager.GetObject("CheckDelete16x16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -113,9 +113,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap CheckEmpty {
+        internal static System.Drawing.Bitmap CheckEmpty16x16 {
             get {
-                object obj = ResourceManager.GetObject("CheckEmpty", resourceCulture);
+                object obj = ResourceManager.GetObject("CheckEmpty16x16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -123,9 +123,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap CheckNone {
+        internal static System.Drawing.Bitmap CheckNone16x16 {
             get {
-                object obj = ResourceManager.GetObject("CheckNone", resourceCulture);
+                object obj = ResourceManager.GetObject("CheckNone16x16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -133,9 +133,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap CheckToggle {
+        internal static System.Drawing.Bitmap CheckToggle16x16 {
             get {
-                object obj = ResourceManager.GetObject("CheckToggle", resourceCulture);
+                object obj = ResourceManager.GetObject("CheckToggle16x16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -143,9 +143,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap DataGridViewBig {
+        internal static System.Drawing.Bitmap DataGridViewBig32x32 {
             get {
-                object obj = ResourceManager.GetObject("DataGridViewBig", resourceCulture);
+                object obj = ResourceManager.GetObject("DataGridViewBig32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -153,9 +153,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap DataGridViewErrorColumn {
+        internal static System.Drawing.Bitmap DataGridViewErrorColumn32x32 {
             get {
-                object obj = ResourceManager.GetObject("DataGridViewErrorColumn", resourceCulture);
+                object obj = ResourceManager.GetObject("DataGridViewErrorColumn32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -163,9 +163,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap DataGridViewHistoryColumn {
+        internal static System.Drawing.Bitmap DataGridViewHistoryColumn32x32 {
             get {
-                object obj = ResourceManager.GetObject("DataGridViewHistoryColumn", resourceCulture);
+                object obj = ResourceManager.GetObject("DataGridViewHistoryColumn32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -173,9 +173,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap DataGridViewNormal {
+        internal static System.Drawing.Bitmap DataGridViewNormal32x32 {
             get {
-                object obj = ResourceManager.GetObject("DataGridViewNormal", resourceCulture);
+                object obj = ResourceManager.GetObject("DataGridViewNormal32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -183,9 +183,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap DataGridViewSmall {
+        internal static System.Drawing.Bitmap DataGridViewSmall32x32 {
             get {
-                object obj = ResourceManager.GetObject("DataGridViewSmall", resourceCulture);
+                object obj = ResourceManager.GetObject("DataGridViewSmall32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -193,9 +193,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap EditCopy {
+        internal static System.Drawing.Bitmap EditCopy32x32 {
             get {
-                object obj = ResourceManager.GetObject("EditCopy", resourceCulture);
+                object obj = ResourceManager.GetObject("EditCopy32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -203,9 +203,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap EditCopyText {
+        internal static System.Drawing.Bitmap EditCopyText32x32 {
             get {
-                object obj = ResourceManager.GetObject("EditCopyText", resourceCulture);
+                object obj = ResourceManager.GetObject("EditCopyText32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -213,9 +213,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap EditCut {
+        internal static System.Drawing.Bitmap EditCut32x32 {
             get {
-                object obj = ResourceManager.GetObject("EditCut", resourceCulture);
+                object obj = ResourceManager.GetObject("EditCut32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -223,9 +223,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap EditFind {
+        internal static System.Drawing.Bitmap EditFastTextCopyAndReplace32x32 {
             get {
-                object obj = ResourceManager.GetObject("EditFind", resourceCulture);
+                object obj = ResourceManager.GetObject("EditFastTextCopyAndReplace32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -233,9 +233,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap EditMapCopyAndOverwrite {
+        internal static System.Drawing.Bitmap EditFastTextCopyNotOverwrite32x32 {
             get {
-                object obj = ResourceManager.GetObject("EditMapCopyAndOverwrite", resourceCulture);
+                object obj = ResourceManager.GetObject("EditFastTextCopyNotOverwrite32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -243,9 +243,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap EditMapCopyNotOverwrite_ {
+        internal static System.Drawing.Bitmap EditFind32x32 {
             get {
-                object obj = ResourceManager.GetObject("EditMapCopyNotOverwrite_", resourceCulture);
+                object obj = ResourceManager.GetObject("EditFind32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -253,9 +253,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap EditPaste {
+        internal static System.Drawing.Bitmap EditPaste32x32 {
             get {
-                object obj = ResourceManager.GetObject("EditPaste", resourceCulture);
+                object obj = ResourceManager.GetObject("EditPaste32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -263,9 +263,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap EditRedo {
+        internal static System.Drawing.Bitmap EditRedo32x32 {
             get {
-                object obj = ResourceManager.GetObject("EditRedo", resourceCulture);
+                object obj = ResourceManager.GetObject("EditRedo32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -273,9 +273,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap EditReplace {
+        internal static System.Drawing.Bitmap EditReplace32x32 {
             get {
-                object obj = ResourceManager.GetObject("EditReplace", resourceCulture);
+                object obj = ResourceManager.GetObject("EditReplace32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -283,9 +283,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap EditTagsAndKeywordsBrokerOverwriteText {
+        internal static System.Drawing.Bitmap EditTriStateDelete32x32 {
             get {
-                object obj = ResourceManager.GetObject("EditTagsAndKeywordsBrokerOverwriteText", resourceCulture);
+                object obj = ResourceManager.GetObject("EditTriStateDelete32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -293,9 +293,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap EditTagsBrokerCopyText {
+        internal static System.Drawing.Bitmap EditTriStateSelect32x32 {
             get {
-                object obj = ResourceManager.GetObject("EditTagsBrokerCopyText", resourceCulture);
+                object obj = ResourceManager.GetObject("EditTriStateSelect32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -303,9 +303,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap EditTextCopy {
+        internal static System.Drawing.Bitmap EditTriStateToggle32x32 {
             get {
-                object obj = ResourceManager.GetObject("EditTextCopy", resourceCulture);
+                object obj = ResourceManager.GetObject("EditTriStateToggle32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -313,49 +313,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap EditTextCopyAndReplace {
+        internal static System.Drawing.Bitmap EditUndo32x32 {
             get {
-                object obj = ResourceManager.GetObject("EditTextCopyAndReplace", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap EditTriStateDelete {
-            get {
-                object obj = ResourceManager.GetObject("EditTriStateDelete", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap EditTriStateSelect {
-            get {
-                object obj = ResourceManager.GetObject("EditTriStateSelect", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap EditTriStateToggle {
-            get {
-                object obj = ResourceManager.GetObject("EditTriStateToggle", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap EditUndo {
-            get {
-                object obj = ResourceManager.GetObject("EditUndo", resourceCulture);
+                object obj = ResourceManager.GetObject("EditUndo32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -373,9 +333,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap FaceLoading {
+        internal static System.Drawing.Bitmap Favorite32x32 {
             get {
-                object obj = ResourceManager.GetObject("FaceLoading", resourceCulture);
+                object obj = ResourceManager.GetObject("Favorite32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -383,9 +343,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Favorite {
+        internal static System.Drawing.Bitmap FavoriteRemove32x32 {
             get {
-                object obj = ResourceManager.GetObject("Favorite", resourceCulture);
+                object obj = ResourceManager.GetObject("FavoriteRemove32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -393,9 +353,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap FavoriteRemove {
+        internal static System.Drawing.Bitmap FavoriteSelect32x32 {
             get {
-                object obj = ResourceManager.GetObject("FavoriteRemove", resourceCulture);
+                object obj = ResourceManager.GetObject("FavoriteSelect32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -403,9 +363,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap FavoriteSelect {
+        internal static System.Drawing.Bitmap FavoriteToggle32x32 {
             get {
-                object obj = ResourceManager.GetObject("FavoriteSelect", resourceCulture);
+                object obj = ResourceManager.GetObject("FavoriteToggle32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -413,9 +373,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap FavoriteToggle {
+        internal static System.Drawing.Bitmap FileSystemDelete32x32 {
             get {
-                object obj = ResourceManager.GetObject("FavoriteToggle", resourceCulture);
+                object obj = ResourceManager.GetObject("FileSystemDelete32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -423,9 +383,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap FileDelete {
+        internal static System.Drawing.Bitmap FileSystemEdit {
             get {
-                object obj = ResourceManager.GetObject("FileDelete", resourceCulture);
+                object obj = ResourceManager.GetObject("FileSystemEdit", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -433,9 +393,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap FileExplorer {
+        internal static System.Drawing.Bitmap FileSystemExplorer32x32 {
             get {
-                object obj = ResourceManager.GetObject("FileExplorer", resourceCulture);
+                object obj = ResourceManager.GetObject("FileSystemExplorer32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -443,9 +403,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap FolderRefresh {
+        internal static System.Drawing.Bitmap FileSystemOpen {
             get {
-                object obj = ResourceManager.GetObject("FolderRefresh", resourceCulture);
+                object obj = ResourceManager.GetObject("FileSystemOpen", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -453,9 +413,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap FolderSubfolders {
+        internal static System.Drawing.Bitmap FileSystemOpenWith {
             get {
-                object obj = ResourceManager.GetObject("FolderSubfolders", resourceCulture);
+                object obj = ResourceManager.GetObject("FileSystemOpenWith", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -463,9 +423,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap GridEqual {
+        internal static System.Drawing.Bitmap FileSystemRefresh32x32 {
             get {
-                object obj = ResourceManager.GetObject("GridEqual", resourceCulture);
+                object obj = ResourceManager.GetObject("FileSystemRefresh32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -473,9 +433,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap GridFavorite {
+        internal static System.Drawing.Bitmap FileSystemRename {
             get {
-                object obj = ResourceManager.GetObject("GridFavorite", resourceCulture);
+                object obj = ResourceManager.GetObject("FileSystemRename", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -483,9 +443,19 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ImageListViewIconDefault {
+        internal static System.Drawing.Bitmap GridEqual32x32 {
             get {
-                object obj = ResourceManager.GetObject("ImageListViewIconDefault", resourceCulture);
+                object obj = ResourceManager.GetObject("GridEqual32x32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap GridFavorite32x32 {
+            get {
+                object obj = ResourceManager.GetObject("GridFavorite32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -553,9 +523,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ImageListViewModeColumns {
+        internal static System.Drawing.Bitmap ImageListViewModeColumns32x32 {
             get {
-                object obj = ResourceManager.GetObject("ImageListViewModeColumns", resourceCulture);
+                object obj = ResourceManager.GetObject("ImageListViewModeColumns32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -563,9 +533,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ImageListViewModeDetails {
+        internal static System.Drawing.Bitmap ImageListViewModeDetails32x32 {
             get {
-                object obj = ResourceManager.GetObject("ImageListViewModeDetails", resourceCulture);
+                object obj = ResourceManager.GetObject("ImageListViewModeDetails32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -573,9 +543,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ImageListViewModeGallery {
+        internal static System.Drawing.Bitmap ImageListViewModeGallery32x32 {
             get {
-                object obj = ResourceManager.GetObject("ImageListViewModeGallery", resourceCulture);
+                object obj = ResourceManager.GetObject("ImageListViewModeGallery32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -583,9 +553,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ImageListViewModePane {
+        internal static System.Drawing.Bitmap ImageListViewModePane32x32 {
             get {
-                object obj = ResourceManager.GetObject("ImageListViewModePane", resourceCulture);
+                object obj = ResourceManager.GetObject("ImageListViewModePane32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -593,9 +563,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ImageListViewModeThumbnail {
+        internal static System.Drawing.Bitmap ImageListViewModeThumbnail32x32 {
             get {
-                object obj = ResourceManager.GetObject("ImageListViewModeThumbnail", resourceCulture);
+                object obj = ResourceManager.GetObject("ImageListViewModeThumbnail32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -603,9 +573,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ImageListViewPictureLoading {
+        internal static System.Drawing.Bitmap ImageListViewPictureLoading32x32 {
             get {
-                object obj = ResourceManager.GetObject("ImageListViewPictureLoading", resourceCulture);
+                object obj = ResourceManager.GetObject("ImageListViewPictureLoading32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -633,9 +603,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ImageListViewViewModesThumbnail {
+        internal static System.Drawing.Bitmap ImageListViewViewModesThumbnail32x32 {
             get {
-                object obj = ResourceManager.GetObject("ImageListViewViewModesThumbnail", resourceCulture);
+                object obj = ResourceManager.GetObject("ImageListViewViewModesThumbnail32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -656,46 +626,6 @@ namespace PhotoTagsSynchronizer.Properties {
         internal static System.Drawing.Bitmap LocationSearch {
             get {
                 object obj = ResourceManager.GetObject("LocationSearch", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap MediaEdit {
-            get {
-                object obj = ResourceManager.GetObject("MediaEdit", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap MediaMetadataAutoCorrect {
-            get {
-                object obj = ResourceManager.GetObject("MediaMetadataAutoCorrect", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap MediaOpen {
-            get {
-                object obj = ResourceManager.GetObject("MediaOpen", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap MediaOpenWith {
-            get {
-                object obj = ResourceManager.GetObject("MediaOpenWith", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -833,16 +763,6 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap MediaRename {
-            get {
-                object obj = ResourceManager.GetObject("MediaRename", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap MediaRotate180 {
             get {
                 object obj = ResourceManager.GetObject("MediaRotate180", resourceCulture);
@@ -873,9 +793,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap MediaRunCommand {
+        internal static System.Drawing.Bitmap MetadataAddSubfolders32x32 {
             get {
-                object obj = ResourceManager.GetObject("MediaRunCommand", resourceCulture);
+                object obj = ResourceManager.GetObject("MetadataAddSubfolders32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -883,9 +803,149 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap MediaSave {
+        internal static System.Drawing.Bitmap MetadataAutoCorrectForm32x32 {
             get {
-                object obj = ResourceManager.GetObject("MediaSave", resourceCulture);
+                object obj = ResourceManager.GetObject("MetadataAutoCorrectForm32x32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MetadataAutoCorrectRun32x32 {
+            get {
+                object obj = ResourceManager.GetObject("MetadataAutoCorrectRun32x32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MetadataDeleteHistory {
+            get {
+                object obj = ResourceManager.GetObject("MetadataDeleteHistory", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MetadataReload {
+            get {
+                object obj = ResourceManager.GetObject("MetadataReload", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MetadataSave16x16 {
+            get {
+                object obj = ResourceManager.GetObject("MetadataSave16x16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MetadataSave32x32 {
+            get {
+                object obj = ResourceManager.GetObject("MetadataSave32x32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RatingStarCheckedDisabled {
+            get {
+                object obj = ResourceManager.GetObject("RatingStarCheckedDisabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RatingStarCheckedNormal {
+            get {
+                object obj = ResourceManager.GetObject("RatingStarCheckedNormal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RatingStarCheckedPressed {
+            get {
+                object obj = ResourceManager.GetObject("RatingStarCheckedPressed", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RatingStarCheckedTracking {
+            get {
+                object obj = ResourceManager.GetObject("RatingStarCheckedTracking", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RatingStarUncheckedDisabled {
+            get {
+                object obj = ResourceManager.GetObject("RatingStarUncheckedDisabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RatingStarUncheckedNormal {
+            get {
+                object obj = ResourceManager.GetObject("RatingStarUncheckedNormal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RatingStarUncheckedPressed {
+            get {
+                object obj = ResourceManager.GetObject("RatingStarUncheckedPressed", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RatingStarUncheckedTracking {
+            get {
+                object obj = ResourceManager.GetObject("RatingStarUncheckedTracking", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RegionLoading {
+            get {
+                object obj = ResourceManager.GetObject("RegionLoading", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -933,9 +993,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap star {
+        internal static System.Drawing.Bitmap ThumbnailSizeLarge32x32 {
             get {
-                object obj = ResourceManager.GetObject("star", resourceCulture);
+                object obj = ResourceManager.GetObject("ThumbnailSizeLarge32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -943,9 +1003,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ThumbnailMetadataDeleteHistory {
+        internal static System.Drawing.Bitmap ThumbnailSizeMedium32x32 {
             get {
-                object obj = ResourceManager.GetObject("ThumbnailMetadataDeleteHistory", resourceCulture);
+                object obj = ResourceManager.GetObject("ThumbnailSizeMedium32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -953,9 +1013,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ThumbnailMetadataReload {
+        internal static System.Drawing.Bitmap ThumbnailSizeSmall32x32 {
             get {
-                object obj = ResourceManager.GetObject("ThumbnailMetadataReload", resourceCulture);
+                object obj = ResourceManager.GetObject("ThumbnailSizeSmall32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -963,9 +1023,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ThumbnailSizeL {
+        internal static System.Drawing.Bitmap ThumbnailSizeXLarge32x32 {
             get {
-                object obj = ResourceManager.GetObject("ThumbnailSizeL", resourceCulture);
+                object obj = ResourceManager.GetObject("ThumbnailSizeXLarge32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -973,9 +1033,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ThumbnailSizeM {
+        internal static System.Drawing.Bitmap ThumbnailSizeXSmall32x32 {
             get {
-                object obj = ResourceManager.GetObject("ThumbnailSizeM", resourceCulture);
+                object obj = ResourceManager.GetObject("ThumbnailSizeXSmall32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -983,9 +1043,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ThumbnailSizeS {
+        internal static System.Drawing.Bitmap ToolsAbout32x32 {
             get {
-                object obj = ResourceManager.GetObject("ThumbnailSizeS", resourceCulture);
+                object obj = ResourceManager.GetObject("ToolsAbout32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -993,9 +1053,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ThumbnailSizeXL {
+        internal static System.Drawing.Bitmap ToolsConfig32x32 {
             get {
-                object obj = ResourceManager.GetObject("ThumbnailSizeXL", resourceCulture);
+                object obj = ResourceManager.GetObject("ToolsConfig32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1003,9 +1063,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ThumbnailSizeXS {
+        internal static System.Drawing.Bitmap ToolsImportGoogleLocation32x32 {
             get {
-                object obj = ResourceManager.GetObject("ThumbnailSizeXS", resourceCulture);
+                object obj = ResourceManager.GetObject("ToolsImportGoogleLocation32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1013,9 +1073,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Toggle {
+        internal static System.Drawing.Bitmap ToolsRunCommand32x32 {
             get {
-                object obj = ResourceManager.GetObject("Toggle", resourceCulture);
+                object obj = ResourceManager.GetObject("ToolsRunCommand32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1023,9 +1083,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ToolsAbout {
+        internal static System.Drawing.Bitmap ToolsWebScraping32x32 {
             get {
-                object obj = ResourceManager.GetObject("ToolsAbout", resourceCulture);
+                object obj = ResourceManager.GetObject("ToolsWebScraping32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1033,9 +1093,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ToolsAssociationFiletype {
+        internal static System.Drawing.Bitmap TriStateSwitchAddAndDelete32x20 {
             get {
-                object obj = ResourceManager.GetObject("ToolsAssociationFiletype", resourceCulture);
+                object obj = ResourceManager.GetObject("TriStateSwitchAddAndDelete32x20", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1043,9 +1103,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ToolsConfig {
+        internal static System.Drawing.Bitmap TriStateSwitchOff32x20 {
             get {
-                object obj = ResourceManager.GetObject("ToolsConfig", resourceCulture);
+                object obj = ResourceManager.GetObject("TriStateSwitchOff32x20", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1053,9 +1113,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ToolsImportGoogleLocation {
+        internal static System.Drawing.Bitmap TriStateSwitchOffRemove32x20 {
             get {
-                object obj = ResourceManager.GetObject("ToolsImportGoogleLocation", resourceCulture);
+                object obj = ResourceManager.GetObject("TriStateSwitchOffRemove32x20", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1063,9 +1123,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ToolsPreviewSlideShowMenu_Image {
+        internal static System.Drawing.Bitmap TriStateSwitchOn32x20 {
             get {
-                object obj = ResourceManager.GetObject("ToolsPreviewSlideShowMenu_Image", resourceCulture);
+                object obj = ResourceManager.GetObject("TriStateSwitchOn32x20", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1073,9 +1133,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ToolsSave16x16 {
+        internal static System.Drawing.Bitmap TriStateSwitchOnAdd32x20 {
             get {
-                object obj = ResourceManager.GetObject("ToolsSave16x16", resourceCulture);
+                object obj = ResourceManager.GetObject("TriStateSwitchOnAdd32x20", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1083,9 +1143,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ToolsWebScraping {
+        internal static System.Drawing.Bitmap TriStateSwitchOnAddAll32x20 {
             get {
-                object obj = ResourceManager.GetObject("ToolsWebScraping", resourceCulture);
+                object obj = ResourceManager.GetObject("TriStateSwitchOnAddAll32x20", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1093,9 +1153,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap TriStateSwitchAddAndDelete {
+        internal static System.Drawing.Bitmap TriStateSwitchOnDeleteAll32x20 {
             get {
-                object obj = ResourceManager.GetObject("TriStateSwitchAddAndDelete", resourceCulture);
+                object obj = ResourceManager.GetObject("TriStateSwitchOnDeleteAll32x20", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1103,69 +1163,9 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap TriStateSwitchOff {
+        internal static System.Drawing.Bitmap TriStateSwitchPartial32x20 {
             get {
-                object obj = ResourceManager.GetObject("TriStateSwitchOff", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap TriStateSwitchOffRemove {
-            get {
-                object obj = ResourceManager.GetObject("TriStateSwitchOffRemove", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap TriStateSwitchOn {
-            get {
-                object obj = ResourceManager.GetObject("TriStateSwitchOn", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap TriStateSwitchOnAdd {
-            get {
-                object obj = ResourceManager.GetObject("TriStateSwitchOnAdd", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap TriStateSwitchOnAddAll {
-            get {
-                object obj = ResourceManager.GetObject("TriStateSwitchOnAddAll", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap TriStateSwitchOnDeleteAll {
-            get {
-                object obj = ResourceManager.GetObject("TriStateSwitchOnDeleteAll", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap TriStateSwitchPartial {
-            get {
-                object obj = ResourceManager.GetObject("TriStateSwitchPartial", resourceCulture);
+                object obj = ResourceManager.GetObject("TriStateSwitchPartial32x20", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -120,7 +120,6 @@
     <Content Include="Resources\Silent.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Resources\tag_source_webscraping%3b.png" />
     <Content Include="x64\sqlite3.def">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

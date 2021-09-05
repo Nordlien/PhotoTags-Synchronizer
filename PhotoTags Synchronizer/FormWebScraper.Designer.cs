@@ -1061,56 +1061,56 @@ namespace PhotoTagsSynchronizer
             // 
             // buttonSpecNavigatorDataSetSelectDelete
             // 
-            this.buttonSpecNavigatorDataSetSelectDelete.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckDelete;
+            this.buttonSpecNavigatorDataSetSelectDelete.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckDelete16x16;
             this.buttonSpecNavigatorDataSetSelectDelete.ToolTipBody = "Delete dataset";
             this.buttonSpecNavigatorDataSetSelectDelete.UniqueName = "0598199c66394fc799af5c8f3e7a64b1";
             this.buttonSpecNavigatorDataSetSelectDelete.Click += new System.EventHandler(this.buttonSpecNavigatorDataSetSelectDelete_Click);
             // 
             // buttonSpecNavigatorDataSetSelectAll
             // 
-            this.buttonSpecNavigatorDataSetSelectAll.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckAll;
+            this.buttonSpecNavigatorDataSetSelectAll.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckAll16x16;
             this.buttonSpecNavigatorDataSetSelectAll.ToolTipBody = "Select all DataSet";
             this.buttonSpecNavigatorDataSetSelectAll.UniqueName = "3dbc37b9ca3c4bf9b9d85c076f5ea9bd";
             this.buttonSpecNavigatorDataSetSelectAll.Click += new System.EventHandler(this.buttonSpecNavigatorDataSetSelectAll_Click);
             // 
             // buttonSpecNavigatorDataSetSelectToggle
             // 
-            this.buttonSpecNavigatorDataSetSelectToggle.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckToggle;
+            this.buttonSpecNavigatorDataSetSelectToggle.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckToggle16x16;
             this.buttonSpecNavigatorDataSetSelectToggle.ToolTipBody = "Toogle select of DataSet";
             this.buttonSpecNavigatorDataSetSelectToggle.UniqueName = "d4d65cef436c405c85bfee678cefb27d";
             this.buttonSpecNavigatorDataSetSelectToggle.Click += new System.EventHandler(this.buttonSpecNavigatorDataSetSelectToggle_Click);
             // 
             // buttonSpecNavigatorDataSetSelectNone
             // 
-            this.buttonSpecNavigatorDataSetSelectNone.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckNone;
+            this.buttonSpecNavigatorDataSetSelectNone.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckNone16x16;
             this.buttonSpecNavigatorDataSetSelectNone.ToolTipBody = "Select None DataSet";
             this.buttonSpecNavigatorDataSetSelectNone.UniqueName = "1a4019c476b546b2a2dc25f98136af59";
             this.buttonSpecNavigatorDataSetSelectNone.Click += new System.EventHandler(this.buttonSpecNavigatorDataSetSelectNone_Click);
             // 
             // buttonSpecNavigatorCategoriesSelectEmpty
             // 
-            this.buttonSpecNavigatorCategoriesSelectEmpty.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckEmpty;
+            this.buttonSpecNavigatorCategoriesSelectEmpty.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckEmpty16x16;
             this.buttonSpecNavigatorCategoriesSelectEmpty.ToolTipBody = "Select categories that has never been updated";
             this.buttonSpecNavigatorCategoriesSelectEmpty.UniqueName = "94d99ef48ad14ba48fee1a0fd49253ce";
             this.buttonSpecNavigatorCategoriesSelectEmpty.Click += new System.EventHandler(this.buttonSpecNavigatorCategoriesSelectEmpty_Click);
             // 
             // buttonSpecNavigatorCategoriesSelectAll
             // 
-            this.buttonSpecNavigatorCategoriesSelectAll.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckAll;
+            this.buttonSpecNavigatorCategoriesSelectAll.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckAll16x16;
             this.buttonSpecNavigatorCategoriesSelectAll.ToolTipBody = "Select all categories";
             this.buttonSpecNavigatorCategoriesSelectAll.UniqueName = "cb43b9f1b40947e29fb0d7fed70dd009";
             this.buttonSpecNavigatorCategoriesSelectAll.Click += new System.EventHandler(this.buttonSpecNavigatorCategoriesSelectAll_Click);
             // 
             // buttonSpecNavigatorCategoriesSelectToggle
             // 
-            this.buttonSpecNavigatorCategoriesSelectToggle.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckToggle;
+            this.buttonSpecNavigatorCategoriesSelectToggle.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckToggle16x16;
             this.buttonSpecNavigatorCategoriesSelectToggle.ToolTipBody = "Toogle select categories";
             this.buttonSpecNavigatorCategoriesSelectToggle.UniqueName = "6bf50bdffe4448bdb4a0c3bcb3efb436";
             this.buttonSpecNavigatorCategoriesSelectToggle.Click += new System.EventHandler(this.buttonSpecNavigatorCategoriesSelectToggle_Click);
             // 
             // buttonSpecNavigatorCategoriesSelectNone
             // 
-            this.buttonSpecNavigatorCategoriesSelectNone.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckNone;
+            this.buttonSpecNavigatorCategoriesSelectNone.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckNone16x16;
             this.buttonSpecNavigatorCategoriesSelectNone.ToolTipBody = "Select none categories";
             this.buttonSpecNavigatorCategoriesSelectNone.UniqueName = "bfa24b2e4542487cafa48a770d457ac2";
             this.buttonSpecNavigatorCategoriesSelectNone.Click += new System.EventHandler(this.buttonSpecNavigatorCategoriesSelectNone_Click);

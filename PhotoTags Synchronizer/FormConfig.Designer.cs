@@ -2021,7 +2021,7 @@ namespace PhotoTagsSynchronizer
             // 
             // toolStripMenuItemAutoKeywordCut
             // 
-            this.toolStripMenuItemAutoKeywordCut.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditCut;
+            this.toolStripMenuItemAutoKeywordCut.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditCut32x32;
             this.toolStripMenuItemAutoKeywordCut.Name = "toolStripMenuItemAutoKeywordCut";
             this.toolStripMenuItemAutoKeywordCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
             this.toolStripMenuItemAutoKeywordCut.Size = new System.Drawing.Size(162, 26);
@@ -2030,7 +2030,7 @@ namespace PhotoTagsSynchronizer
             // 
             // toolStripMenuItemAutoKeywordCopy
             // 
-            this.toolStripMenuItemAutoKeywordCopy.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditCopy;
+            this.toolStripMenuItemAutoKeywordCopy.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditCopy32x32;
             this.toolStripMenuItemAutoKeywordCopy.Name = "toolStripMenuItemAutoKeywordCopy";
             this.toolStripMenuItemAutoKeywordCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
             this.toolStripMenuItemAutoKeywordCopy.Size = new System.Drawing.Size(162, 26);
@@ -2039,7 +2039,7 @@ namespace PhotoTagsSynchronizer
             // 
             // toolStripMenuItemAutoKeywordPaste
             // 
-            this.toolStripMenuItemAutoKeywordPaste.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditPaste;
+            this.toolStripMenuItemAutoKeywordPaste.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditPaste32x32;
             this.toolStripMenuItemAutoKeywordPaste.Name = "toolStripMenuItemAutoKeywordPaste";
             this.toolStripMenuItemAutoKeywordPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
             this.toolStripMenuItemAutoKeywordPaste.Size = new System.Drawing.Size(162, 26);
@@ -2048,7 +2048,7 @@ namespace PhotoTagsSynchronizer
             // 
             // toolStripMenuItemAutoKeywordDelete
             // 
-            this.toolStripMenuItemAutoKeywordDelete.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileDelete;
+            this.toolStripMenuItemAutoKeywordDelete.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemDelete32x32;
             this.toolStripMenuItemAutoKeywordDelete.Name = "toolStripMenuItemAutoKeywordDelete";
             this.toolStripMenuItemAutoKeywordDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
             this.toolStripMenuItemAutoKeywordDelete.Size = new System.Drawing.Size(162, 26);
@@ -2057,7 +2057,7 @@ namespace PhotoTagsSynchronizer
             // 
             // toolStripMenuItemAutoKeywordUndo
             // 
-            this.toolStripMenuItemAutoKeywordUndo.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditUndo;
+            this.toolStripMenuItemAutoKeywordUndo.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditUndo32x32;
             this.toolStripMenuItemAutoKeywordUndo.Name = "toolStripMenuItemAutoKeywordUndo";
             this.toolStripMenuItemAutoKeywordUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
             this.toolStripMenuItemAutoKeywordUndo.Size = new System.Drawing.Size(162, 26);
@@ -2066,7 +2066,7 @@ namespace PhotoTagsSynchronizer
             // 
             // toolStripMenuItemRedo
             // 
-            this.toolStripMenuItemRedo.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditRedo;
+            this.toolStripMenuItemRedo.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditRedo32x32;
             this.toolStripMenuItemRedo.Name = "toolStripMenuItemRedo";
             this.toolStripMenuItemRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
             this.toolStripMenuItemRedo.Size = new System.Drawing.Size(162, 26);
@@ -2075,7 +2075,7 @@ namespace PhotoTagsSynchronizer
             // 
             // toolStripMenuItemFind
             // 
-            this.toolStripMenuItemFind.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditFind;
+            this.toolStripMenuItemFind.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditFind32x32;
             this.toolStripMenuItemFind.Name = "toolStripMenuItemFind";
             this.toolStripMenuItemFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
             this.toolStripMenuItemFind.Size = new System.Drawing.Size(162, 26);
@@ -2084,7 +2084,7 @@ namespace PhotoTagsSynchronizer
             // 
             // toolStripMenuItemReplace
             // 
-            this.toolStripMenuItemReplace.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditReplace;
+            this.toolStripMenuItemReplace.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditReplace32x32;
             this.toolStripMenuItemReplace.Name = "toolStripMenuItemReplace";
             this.toolStripMenuItemReplace.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
             this.toolStripMenuItemReplace.Size = new System.Drawing.Size(162, 26);
@@ -2169,7 +2169,7 @@ namespace PhotoTagsSynchronizer
             // 
             // toolStripMenuItemMapCut
             // 
-            this.toolStripMenuItemMapCut.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditCut;
+            this.toolStripMenuItemMapCut.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditCut32x32;
             this.toolStripMenuItemMapCut.Name = "toolStripMenuItemMapCut";
             this.toolStripMenuItemMapCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
             this.toolStripMenuItemMapCut.Size = new System.Drawing.Size(365, 26);
@@ -2178,7 +2178,7 @@ namespace PhotoTagsSynchronizer
             // 
             // toolStripMenuItemMapCopy
             // 
-            this.toolStripMenuItemMapCopy.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditCopy;
+            this.toolStripMenuItemMapCopy.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditCopy32x32;
             this.toolStripMenuItemMapCopy.Name = "toolStripMenuItemMapCopy";
             this.toolStripMenuItemMapCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
             this.toolStripMenuItemMapCopy.Size = new System.Drawing.Size(365, 26);
@@ -2187,7 +2187,7 @@ namespace PhotoTagsSynchronizer
             // 
             // toolStripMenuItemMapPaste
             // 
-            this.toolStripMenuItemMapPaste.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditPaste;
+            this.toolStripMenuItemMapPaste.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditPaste32x32;
             this.toolStripMenuItemMapPaste.Name = "toolStripMenuItemMapPaste";
             this.toolStripMenuItemMapPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
             this.toolStripMenuItemMapPaste.Size = new System.Drawing.Size(365, 26);
@@ -2196,7 +2196,7 @@ namespace PhotoTagsSynchronizer
             // 
             // toolStripMenuItemMapDelete
             // 
-            this.toolStripMenuItemMapDelete.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileDelete;
+            this.toolStripMenuItemMapDelete.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemDelete32x32;
             this.toolStripMenuItemMapDelete.Name = "toolStripMenuItemMapDelete";
             this.toolStripMenuItemMapDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
             this.toolStripMenuItemMapDelete.Size = new System.Drawing.Size(365, 26);
@@ -2205,7 +2205,7 @@ namespace PhotoTagsSynchronizer
             // 
             // toolStripMenuItemMapUndo
             // 
-            this.toolStripMenuItemMapUndo.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditUndo;
+            this.toolStripMenuItemMapUndo.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditUndo32x32;
             this.toolStripMenuItemMapUndo.Name = "toolStripMenuItemMapUndo";
             this.toolStripMenuItemMapUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
             this.toolStripMenuItemMapUndo.Size = new System.Drawing.Size(365, 26);
@@ -2214,7 +2214,7 @@ namespace PhotoTagsSynchronizer
             // 
             // toolStripMenuItemMapRedo
             // 
-            this.toolStripMenuItemMapRedo.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditRedo;
+            this.toolStripMenuItemMapRedo.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditRedo32x32;
             this.toolStripMenuItemMapRedo.Name = "toolStripMenuItemMapRedo";
             this.toolStripMenuItemMapRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
             this.toolStripMenuItemMapRedo.Size = new System.Drawing.Size(365, 26);
@@ -2223,7 +2223,7 @@ namespace PhotoTagsSynchronizer
             // 
             // toolStripMenuItemMapFind
             // 
-            this.toolStripMenuItemMapFind.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditFind;
+            this.toolStripMenuItemMapFind.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditFind32x32;
             this.toolStripMenuItemMapFind.Name = "toolStripMenuItemMapFind";
             this.toolStripMenuItemMapFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Space)));
             this.toolStripMenuItemMapFind.Size = new System.Drawing.Size(365, 26);
@@ -2232,7 +2232,7 @@ namespace PhotoTagsSynchronizer
             // 
             // toolStripMenuItemMapReplace
             // 
-            this.toolStripMenuItemMapReplace.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditReplace;
+            this.toolStripMenuItemMapReplace.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditReplace32x32;
             this.toolStripMenuItemMapReplace.Name = "toolStripMenuItemMapReplace";
             this.toolStripMenuItemMapReplace.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
             this.toolStripMenuItemMapReplace.Size = new System.Drawing.Size(365, 26);
@@ -2241,7 +2241,7 @@ namespace PhotoTagsSynchronizer
             // 
             // toolStripMenuItemMapMarkFavorite
             // 
-            this.toolStripMenuItemMapMarkFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteSelect;
+            this.toolStripMenuItemMapMarkFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteSelect32x32;
             this.toolStripMenuItemMapMarkFavorite.Name = "toolStripMenuItemMapMarkFavorite";
             this.toolStripMenuItemMapMarkFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
             this.toolStripMenuItemMapMarkFavorite.Size = new System.Drawing.Size(365, 26);
@@ -2250,7 +2250,7 @@ namespace PhotoTagsSynchronizer
             // 
             // toolStripMenuItemMapRemoveFavorite
             // 
-            this.toolStripMenuItemMapRemoveFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteRemove;
+            this.toolStripMenuItemMapRemoveFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteRemove32x32;
             this.toolStripMenuItemMapRemoveFavorite.Name = "toolStripMenuItemMapRemoveFavorite";
             this.toolStripMenuItemMapRemoveFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.D)));
@@ -2260,7 +2260,7 @@ namespace PhotoTagsSynchronizer
             // 
             // toolStripMenuItemMapToggleFavorite
             // 
-            this.toolStripMenuItemMapToggleFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteToggle;
+            this.toolStripMenuItemMapToggleFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteToggle32x32;
             this.toolStripMenuItemMapToggleFavorite.Name = "toolStripMenuItemMapToggleFavorite";
             this.toolStripMenuItemMapToggleFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
             | System.Windows.Forms.Keys.D)));
@@ -3069,7 +3069,7 @@ namespace PhotoTagsSynchronizer
             // 
             // toolStripMenuItemMetadataReadCut
             // 
-            this.toolStripMenuItemMetadataReadCut.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditCut;
+            this.toolStripMenuItemMetadataReadCut.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditCut32x32;
             this.toolStripMenuItemMetadataReadCut.Name = "toolStripMenuItemMetadataReadCut";
             this.toolStripMenuItemMetadataReadCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
             this.toolStripMenuItemMetadataReadCut.Size = new System.Drawing.Size(178, 26);
@@ -3078,7 +3078,7 @@ namespace PhotoTagsSynchronizer
             // 
             // toolStripMenuItemMetadataReadCopy
             // 
-            this.toolStripMenuItemMetadataReadCopy.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditCopy;
+            this.toolStripMenuItemMetadataReadCopy.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditCopy32x32;
             this.toolStripMenuItemMetadataReadCopy.Name = "toolStripMenuItemMetadataReadCopy";
             this.toolStripMenuItemMetadataReadCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
             this.toolStripMenuItemMetadataReadCopy.Size = new System.Drawing.Size(178, 26);
@@ -3087,7 +3087,7 @@ namespace PhotoTagsSynchronizer
             // 
             // toolStripMenuItemMetadataReadPaste
             // 
-            this.toolStripMenuItemMetadataReadPaste.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditPaste;
+            this.toolStripMenuItemMetadataReadPaste.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditPaste32x32;
             this.toolStripMenuItemMetadataReadPaste.Name = "toolStripMenuItemMetadataReadPaste";
             this.toolStripMenuItemMetadataReadPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
             this.toolStripMenuItemMetadataReadPaste.Size = new System.Drawing.Size(178, 26);
@@ -3096,7 +3096,7 @@ namespace PhotoTagsSynchronizer
             // 
             // toolStripMenuItemMetadataReadDelete
             // 
-            this.toolStripMenuItemMetadataReadDelete.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileDelete;
+            this.toolStripMenuItemMetadataReadDelete.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemDelete32x32;
             this.toolStripMenuItemMetadataReadDelete.Name = "toolStripMenuItemMetadataReadDelete";
             this.toolStripMenuItemMetadataReadDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
             this.toolStripMenuItemMetadataReadDelete.Size = new System.Drawing.Size(178, 26);
@@ -3105,7 +3105,7 @@ namespace PhotoTagsSynchronizer
             // 
             // toolStripMenuItemMetadataReadUndo
             // 
-            this.toolStripMenuItemMetadataReadUndo.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditUndo;
+            this.toolStripMenuItemMetadataReadUndo.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditUndo32x32;
             this.toolStripMenuItemMetadataReadUndo.Name = "toolStripMenuItemMetadataReadUndo";
             this.toolStripMenuItemMetadataReadUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
             this.toolStripMenuItemMetadataReadUndo.Size = new System.Drawing.Size(178, 26);
@@ -3114,7 +3114,7 @@ namespace PhotoTagsSynchronizer
             // 
             // toolStripMenuItemMetadataReadRedo
             // 
-            this.toolStripMenuItemMetadataReadRedo.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditRedo;
+            this.toolStripMenuItemMetadataReadRedo.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditRedo32x32;
             this.toolStripMenuItemMetadataReadRedo.Name = "toolStripMenuItemMetadataReadRedo";
             this.toolStripMenuItemMetadataReadRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
             this.toolStripMenuItemMetadataReadRedo.Size = new System.Drawing.Size(178, 26);
@@ -3123,7 +3123,7 @@ namespace PhotoTagsSynchronizer
             // 
             // toolStripMenuItemMetadataReadFind
             // 
-            this.toolStripMenuItemMetadataReadFind.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditFind;
+            this.toolStripMenuItemMetadataReadFind.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditFind32x32;
             this.toolStripMenuItemMetadataReadFind.Name = "toolStripMenuItemMetadataReadFind";
             this.toolStripMenuItemMetadataReadFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
             this.toolStripMenuItemMetadataReadFind.Size = new System.Drawing.Size(178, 26);
@@ -3132,7 +3132,7 @@ namespace PhotoTagsSynchronizer
             // 
             // toolStripMenuItemMetadataReadReplace
             // 
-            this.toolStripMenuItemMetadataReadReplace.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditReplace;
+            this.toolStripMenuItemMetadataReadReplace.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditReplace32x32;
             this.toolStripMenuItemMetadataReadReplace.Name = "toolStripMenuItemMetadataReadReplace";
             this.toolStripMenuItemMetadataReadReplace.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
             this.toolStripMenuItemMetadataReadReplace.Size = new System.Drawing.Size(178, 26);
@@ -3141,7 +3141,7 @@ namespace PhotoTagsSynchronizer
             // 
             // toolStripMenuItemMetadataReadMarkFavorite
             // 
-            this.toolStripMenuItemMetadataReadMarkFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteSelect;
+            this.toolStripMenuItemMetadataReadMarkFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteSelect32x32;
             this.toolStripMenuItemMetadataReadMarkFavorite.Name = "toolStripMenuItemMetadataReadMarkFavorite";
             this.toolStripMenuItemMetadataReadMarkFavorite.Size = new System.Drawing.Size(178, 26);
             this.toolStripMenuItemMetadataReadMarkFavorite.Text = "Mark as favorite";
@@ -3149,7 +3149,7 @@ namespace PhotoTagsSynchronizer
             // 
             // toolStripMenuItemMetadataReadRemoveFavorite
             // 
-            this.toolStripMenuItemMetadataReadRemoveFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteRemove;
+            this.toolStripMenuItemMetadataReadRemoveFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteRemove32x32;
             this.toolStripMenuItemMetadataReadRemoveFavorite.Name = "toolStripMenuItemMetadataReadRemoveFavorite";
             this.toolStripMenuItemMetadataReadRemoveFavorite.Size = new System.Drawing.Size(178, 26);
             this.toolStripMenuItemMetadataReadRemoveFavorite.Text = "Remove as favorite";
@@ -3157,7 +3157,7 @@ namespace PhotoTagsSynchronizer
             // 
             // toolStripMenuItemMetadataReadToggleFavorite
             // 
-            this.toolStripMenuItemMetadataReadToggleFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteToggle;
+            this.toolStripMenuItemMetadataReadToggleFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteToggle32x32;
             this.toolStripMenuItemMetadataReadToggleFavorite.Name = "toolStripMenuItemMetadataReadToggleFavorite";
             this.toolStripMenuItemMetadataReadToggleFavorite.Size = new System.Drawing.Size(178, 26);
             this.toolStripMenuItemMetadataReadToggleFavorite.Text = "Toggle favorite";
