@@ -321,7 +321,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuItemGenericSave.Click += KryptonContextMenuItemGenericSave_Click;
             this.kryptonContextMenuItemGenericFavoriteAdd.Click += KryptonContextMenuItemGenericFavoriteAdd_Click;
             this.kryptonContextMenuItemGenericFavoriteDelete.Click += KryptonContextMenuItemGenericFavoriteDelete_Click;
-            this.kryptonContextMenuItemFavoriteToggle.Click += KryptonContextMenuItemFavoriteToggle_Click;
+            this.kryptonContextMenuItemGenericFavoriteToggle.Click += KryptonContextMenuItemFavoriteToggle_Click;
             this.kryptonContextMenuItemGenericRowShowFavorite.Click += KryptonContextMenuItemGenericRowShowFavorite_Click;
             this.kryptonContextMenuItemGenericRowHideEqual.Click += KryptonContextMenuItemGenericRowHideEqual_Click;
             this.kryptonContextMenuItemGenericTriStateOn.Click += KryptonContextMenuItemGenericTriStateOn_Click;
@@ -331,7 +331,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuItemGenericMediaViewAsFull.Click += KryptonContextMenuItemGenericMediaViewAsFull_Click;
 
 
-            this.folderTreeViewFolder.KryptonContextMenu = kryptonContextMenuGeneric;
+            this.folderTreeViewFolder.KryptonContextMenu = kryptonContextMenuGenericBase;
             #endregion
 
             this.toolStripContainerStripMainForm.RenderMode = ToolStripRenderMode.Professional;

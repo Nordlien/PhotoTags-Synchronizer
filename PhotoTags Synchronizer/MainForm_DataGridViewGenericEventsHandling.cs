@@ -29,98 +29,328 @@ namespace PhotoTagsSynchronizer
 
     public partial class MainForm : KryptonForm
     {
-
-        private void kryptonContextMenuGeneric_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        private void ContextMenuGenericRename(bool visible)
         {
+            #region  Region Rename
+            this.kryptonContextMenuItemGenericRegionRename1.Visible = visible;
+            this.kryptonContextMenuItemGenericRegionRename2.Visible = visible;
+            this.kryptonContextMenuItemGenericRegionRename3.Visible = visible;
+            this.kryptonContextMenuItemGenericRegionRenameFromLastUsed.Visible = visible;
+            //this.kryptonContextMenuItemsGenericRegionRenameFromLastUsedList.Visible = visible; //GenericRegionRenameFromLastUsed
+            //this.kryptonContextMenuItemGenericRegionRenameFormLastUsedExample.Visible = visible; //GenericRegionRenameFromLastUsed
+            this.kryptonContextMenuItemGenericRegionRenameListAll.Visible = visible;
+            //this.kryptonContextMenuItemsGenericRegionRenameListAllList.Visible = visible; //GenericRegionRenameListAll
+            //this.kryptonContextMenuItemGenericRegionRenameListAllExample.Visible = visible; //GenericRegionRenameListAll
+            this.kryptonContextMenuSeparatorGenericEndOfRegionRename.Visible = visible;
+            #endregion
+        }
+
+        private void ContextMenuGenericClipboard(bool visible)
+        {
+            ContextMenuGenericClipboard(visible, visible, visible, visible, visible, visible, visible, visible);
+        }
+
+        private void ContextMenuGenericClipboard(bool visibleCutCopyPaste = false, bool visibleUndoRedo = false, bool visibleCopyText = false, bool visibleFind = false, bool visibleReplace = false, 
+             bool visibleDelete = false, bool visibleRename = false, bool visibleSave = false)
+        {
+            #region Clipboard
+            this.kryptonContextMenuItemGenericCut.Visible = visibleCutCopyPaste;
+            this.kryptonContextMenuItemGenericCopy.Visible = visibleCutCopyPaste;
+            this.kryptonContextMenuItemGenericCopyText.Visible = visibleCopyText;
+            this.kryptonContextMenuItemGenericPaste.Visible = visibleCutCopyPaste;
+            this.kryptonContextMenuItemGenericDelete.Visible = visibleDelete;
+            this.kryptonContextMenuItemGenericRename.Visible = visibleRename;
+            this.kryptonContextMenuItemGenericUndo.Visible = visibleUndoRedo;
+            this.kryptonContextMenuItemGenericRedo.Visible = visibleUndoRedo;
+            this.kryptonContextMenuItemGenericFind.Visible = visibleFind;
+            this.kryptonContextMenuItemGenericReplace.Visible = visibleReplace;
+            this.kryptonContextMenuItemGenericSave.Visible = visibleSave;
+            this.kryptonContextMenuSeparatorGenericEndOfClipboard.Visible = 
+                visibleCutCopyPaste || visibleUndoRedo || visibleFind || visibleReplace || visibleCopyText || visibleDelete || visibleRename || visibleSave;
+            #endregion
+        }
+
+        private void ContextMenuGenericFileSystem(bool visible) 
+        {
+            ContextMenuGenericFileSystem(visible, visible, visible, visible);
+        }
+        private void ContextMenuGenericFileSystem(bool visibleRefreshFolder = false, bool visibleReadSubfolders = false, bool visibleOpenBrowserOnLocation = false, bool visibleOpenRunEdit = false)
+        {
+            #region FileSystem
+            this.kryptonContextMenuItemGenericRefreshFolder.Visible = visibleRefreshFolder;
+            this.kryptonContextMenuItemGenericReadSubfolders.Visible = visibleReadSubfolders;
+            this.kryptonContextMenuItemGenericOpenFolderLocation.Visible = visibleOpenBrowserOnLocation;
+            this.kryptonContextMenuItemGenericOpen.Visible = visibleOpenRunEdit;
+            this.kryptonContextMenuItemGenericOpenWith.Visible = visibleOpenRunEdit;
+            //this.kryptonContextMenuItemsGenericOpenWithAppList.Visible = visibleOpenRunEdit; //GenericOpenWith
+            //this.kryptonContextMenuItemsGenericOpenWithAppListExample.Visible = visibleOpenRunEdit; //GenericOpenWith
+            this.kryptonContextMenuItemGenericOpenVerbEdit.Visible = visibleOpenRunEdit;
+            this.kryptonContextMenuItemGenericRunCommand.Visible = visibleOpenRunEdit;
+            this.kryptonContextMenuSeparatorGenericEndOfFileSystem.Visible = visibleRefreshFolder || visibleReadSubfolders || visibleOpenBrowserOnLocation || visibleOpenRunEdit;
+            #endregion
+        }
+
+        private void ContextMenuGenericMetadata(bool visible)
+        {
+            #region Metadata
+            this.kryptonContextMenuItemGenericAutoCorrectRun.Visible = visible;
+            this.kryptonContextMenuItemGenericAutoCorrectForm.Visible = visible;
+            this.kryptonContextMenuItemGenericMetadataRefreshLast.Visible = visible;
+            this.kryptonContextMenuItemGenericMetadataDeleteHistory.Visible = visible;
+            this.kryptonContextMenuSeparatorGenericEndOfMetadata.Visible = visible;
+            #endregion
+        }
+
+        private void ContextMenuGenericRotate(bool visible)
+        {
+            #region Rotate
+            this.kryptonContextMenuItemGenericRotate270.Visible = visible;
+            this.kryptonContextMenuItemGenericRotate180.Visible = visible;
+            this.kryptonContextMenuItemGenericRotate90.Visible = visible;
+            this.kryptonContextMenuSeparatorEndOfRotate.Visible = visible;
+            #endregion
+        }
+
+        private void ContextMenuGenericFavorite(bool visible)
+        {
+            #region Favorite
+            this.kryptonContextMenuItemGenericFavoriteAdd.Visible = visible;
+            this.kryptonContextMenuItemGenericFavoriteDelete.Visible = visible;
+            this.kryptonContextMenuItemGenericFavoriteToggle.Visible = visible;
+            this.kryptonContextMenuSeparatorGenericEndOfFavorite.Visible = visible;
+            #endregion
+        }
+
+        private void ContextMenuGenericShowHideRows(bool visible)
+        {
+            #region SHow&Hide rows
+            this.kryptonContextMenuItemGenericRowShowFavorite.Visible = visible;
+            this.kryptonContextMenuItemGenericRowHideEqual.Visible = visible;
+            this.kryptonContextMenuSeparatorGenericEndOfShowHideRows.Visible = visible;
+            #endregion
+        }
+
+        private void ContextMenuGenericTriState(bool visible)
+        {
+            #region TriState
+            this.kryptonContextMenuItemGenericTriStateOn.Visible = visible;
+            this.kryptonContextMenuItemGenericTriStateOff.Visible = visible;
+            this.kryptonContextMenuItemGenericTriStateToggle.Visible = visible;
+            this.kryptonContextMenuSeparatorGenericEndOfTriState.Visible = visible;
+            #endregion
+        }
+
+        private void ContextMenuGenericMediaView(bool visible)
+        {
+            #region MediaView
+            this.kryptonContextMenuItemGenericMediaViewAsPoster.Visible = visible;
+            this.kryptonContextMenuItemGenericMediaViewAsFull.Visible = visible;
+            #endregion
+        }
+
+        private void kryptonContextMenuGenericBase_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {            
             switch (ActiveKryptonPage)
             {
                 case KryptonPages.None:
-                    this.kryptonContextMenuItemGenericCut.Visible = false;
-                    this.kryptonContextMenuItemGenericCopy.Visible = false;
-                    this.kryptonContextMenuItemGenericCopyText.Visible = false;
-                    this.kryptonContextMenuItemGenericPaste.Visible = false;
-                    this.kryptonContextMenuItemGenericDelete.Visible = false;
-                    this.kryptonContextMenuItemGenericRename.Visible = false;
-                    this.kryptonContextMenuItemGenericUndo.Visible = false;
-                    this.kryptonContextMenuItemGenericRedo.Visible = false;
-                    this.kryptonContextMenuItemGenericFind.Visible = false;
-                    this.kryptonContextMenuItemGenericReplace.Visible = false;
-                    this.kryptonContextMenuItemGenericSave.Visible = false;
-                    this.kryptonContextMenuItemGenericFavoriteAdd.Visible = false;
-                    this.kryptonContextMenuItemGenericFavoriteDelete.Visible = false;
-                    this.kryptonContextMenuItemFavoriteToggle.Visible = false;
-                    this.kryptonContextMenuItemGenericRowShowFavorite.Visible = false;
-                    this.kryptonContextMenuItemGenericRowHideEqual.Visible = false;
-                    this.kryptonContextMenuItemGenericTriStateOn.Visible = false;
-                    this.kryptonContextMenuItemGenericTriStateOff.Visible = false;
-                    this.kryptonContextMenuItemGenericTriStateToggle.Visible = false;
-                    this.kryptonContextMenuItemGenericMediaViewAsPoster.Visible = false;
-                    this.kryptonContextMenuItemGenericMediaViewAsFull.Visible = false;
+                    ContextMenuGenericRename(false);
+                    ContextMenuGenericClipboard(false);
+                    ContextMenuGenericFileSystem(false);
+                    ContextMenuGenericMetadata(false);
+                    ContextMenuGenericRotate(false);
+                    ContextMenuGenericFavorite(false);
+                    ContextMenuGenericShowHideRows(false);
+                    ContextMenuGenericTriState(false);
+                    ContextMenuGenericMediaView(false);
 
-                    this.kryptonContextMenuItemGenericOpen.Visible = false;
-                    this.kryptonContextMenuItemGenericOpenWith.Visible = false;
-                    //this.kryptonContextMenuItemsOpenWithAppList.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {this.kryptonContextMenuItemsOpenWithAppListExample});
-                    //this.kryptonContextMenuItemsOpenWithAppListExample.Text = "Open with example";
-                    this.kryptonContextMenuItemGenericOpenVerbEdit.Visible = false;
-                    this.kryptonContextMenuItemGenericRunCommand.Visible = false;
-
-                    this.kryptonContextMenuItemGenericAutoCorrectRun.Visible = false;
-                    this.kryptonContextMenuItemGenericAutoCorrectForm.Visible = false;
-                    this.kryptonContextMenuItemGenericRotate270.Visible = false;
-                    this.kryptonContextMenuItemGenericRotate180.Visible = false;
-                    this.kryptonContextMenuItemGenericRotate90.Visible = false;
-                    this.kryptonContextMenuItemGenericMetadataRefreshLast.Visible = false;
-                    this.kryptonContextMenuItemGenericMetadataDeleteHistory.Visible = false;
-
-                    
-                    
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFolder:
-                    this.kryptonContextMenuItemGenericCut.Visible = true;
-                    this.kryptonContextMenuItemGenericCopy.Visible = true;
-                    this.kryptonContextMenuItemGenericCopyText.Visible = true;
-                    this.kryptonContextMenuItemGenericPaste.Visible = true;
-                    this.kryptonContextMenuItemGenericDelete.Visible = true;
-                    this.kryptonContextMenuItemGenericRename.Visible = false;
-                    this.kryptonContextMenuItemGenericUndo.Visible = false;
-                    this.kryptonContextMenuItemGenericRedo.Visible = false;
-                    this.kryptonContextMenuItemGenericFind.Visible = false;
-                    this.kryptonContextMenuItemGenericReplace.Visible = false;
-                    this.kryptonContextMenuItemGenericSave.Visible = false;
-                    this.kryptonContextMenuItemGenericFavoriteAdd.Visible = false;
-                    this.kryptonContextMenuItemGenericFavoriteDelete.Visible = false;
-                    this.kryptonContextMenuItemFavoriteToggle.Visible = false;
-                    this.kryptonContextMenuItemGenericRowShowFavorite.Visible = false;
-                    this.kryptonContextMenuItemGenericRowHideEqual.Visible = false;
-                    this.kryptonContextMenuItemGenericTriStateOn.Visible = false;
-                    this.kryptonContextMenuItemGenericTriStateOff.Visible = false;
-                    this.kryptonContextMenuItemGenericTriStateToggle.Visible = false;
-                    this.kryptonContextMenuItemGenericMediaViewAsPoster.Visible = false;
-                    this.kryptonContextMenuItemGenericMediaViewAsFull.Visible = false;
+                    ContextMenuGenericRename(false);
+                    ContextMenuGenericClipboard(
+                        visibleCutCopyPaste: true, visibleUndoRedo: false, visibleCopyText: true, 
+                        visibleFind: false, visibleReplace: false, 
+                        visibleDelete: true, visibleRename: true, visibleSave: false);
+                    ContextMenuGenericFileSystem(
+                        visibleRefreshFolder: true, visibleReadSubfolders: true, visibleOpenBrowserOnLocation: true, visibleOpenRunEdit: false);
+                    ContextMenuGenericMetadata(true);
+                    ContextMenuGenericRotate(true);
+                    ContextMenuGenericFavorite(false);
+                    ContextMenuGenericShowHideRows(false);
+                    ContextMenuGenericTriState(false);
+                    ContextMenuGenericMediaView(true);
+
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterSearch:
+                    ContextMenuGenericRename(false);
+                    ContextMenuGenericClipboard(false);
+                    ContextMenuGenericFileSystem(false);
+                    ContextMenuGenericMetadata(false);
+                    ContextMenuGenericRotate(false);
+                    ContextMenuGenericFavorite(false);
+                    ContextMenuGenericShowHideRows(false);
+                    ContextMenuGenericTriState(false);
+                    ContextMenuGenericMediaView(false);
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFilter:
+                    ContextMenuGenericRename(false);
+                    ContextMenuGenericClipboard(false);
+                    ContextMenuGenericFileSystem(false);
+                    ContextMenuGenericMetadata(false);
+                    ContextMenuGenericRotate(false);
+                    ContextMenuGenericFavorite(false);
+                    ContextMenuGenericShowHideRows(false);
+                    ContextMenuGenericTriState(false);
+                    ContextMenuGenericMediaView(false);
                     break;
                 case KryptonPages.kryptonPageMediaFiles:
+                    ContextMenuGenericRename(true);
+                    ContextMenuGenericClipboard(
+                        visibleCutCopyPaste: true, visibleUndoRedo: false, visibleCopyText: true,
+                        visibleFind: false, visibleReplace: false,
+                        visibleDelete: true, visibleRename: true, visibleSave: false);
+                    ContextMenuGenericFileSystem(
+                        visibleRefreshFolder: true, visibleReadSubfolders: false, visibleOpenBrowserOnLocation: true, visibleOpenRunEdit: true);
+                    ContextMenuGenericMetadata(true);
+                    ContextMenuGenericRotate(true);
+                    ContextMenuGenericFavorite(false);
+                    ContextMenuGenericShowHideRows(false);
+                    ContextMenuGenericTriState(false);
+                    ContextMenuGenericMediaView(true);
                     break;
                 case KryptonPages.kryptonPageToolboxTags:
+                    ContextMenuGenericRename(false);
+                    ContextMenuGenericClipboard(
+                        visibleCutCopyPaste: true, visibleUndoRedo: true, visibleCopyText: false,
+                        visibleFind: true, visibleReplace: true,
+                        visibleDelete: false, visibleRename: false, visibleSave: false);
+                    ContextMenuGenericFileSystem(
+                        visibleRefreshFolder: false, visibleReadSubfolders: false, visibleOpenBrowserOnLocation: false, visibleOpenRunEdit: false);
+                    ContextMenuGenericMetadata(false);
+                    ContextMenuGenericRotate(false);
+                    ContextMenuGenericFavorite(true);
+                    ContextMenuGenericShowHideRows(true);
+                    ContextMenuGenericTriState(true);
+                    ContextMenuGenericMediaView(true);
                     break;
                 case KryptonPages.kryptonPageToolboxPeople:
+                    ContextMenuGenericRename(true);
+                    ContextMenuGenericClipboard(
+                        visibleCutCopyPaste: true, visibleUndoRedo: true, visibleCopyText: false,
+                        visibleFind: true, visibleReplace: true,
+                        visibleDelete: false, visibleRename: false, visibleSave: false);
+                    ContextMenuGenericFileSystem(
+                        visibleRefreshFolder: false, visibleReadSubfolders: false, visibleOpenBrowserOnLocation: false, visibleOpenRunEdit: false);
+                    ContextMenuGenericMetadata(false);
+                    ContextMenuGenericRotate(false);
+                    ContextMenuGenericFavorite(true);
+                    ContextMenuGenericShowHideRows(true);
+                    ContextMenuGenericTriState(true);
+                    ContextMenuGenericMediaView(true);
                     break;
                 case KryptonPages.kryptonPageToolboxMap:
+                    ContextMenuGenericRename(false);
+                    ContextMenuGenericClipboard(
+                        visibleCutCopyPaste: true, visibleUndoRedo: true, visibleCopyText: false,
+                        visibleFind: true, visibleReplace: true,
+                        visibleDelete: false, visibleRename: false, visibleSave: false);
+                    ContextMenuGenericFileSystem(
+                        visibleRefreshFolder: false, visibleReadSubfolders: false, visibleOpenBrowserOnLocation: false, visibleOpenRunEdit: false);
+                    ContextMenuGenericMetadata(false);
+                    ContextMenuGenericRotate(false);
+                    ContextMenuGenericFavorite(true);
+                    ContextMenuGenericShowHideRows(true);
+                    ContextMenuGenericTriState(false);
+                    ContextMenuGenericMediaView(true);
                     break;
                 case KryptonPages.kryptonPageToolboxDates:
+                    ContextMenuGenericRename(false);
+                    ContextMenuGenericClipboard(
+                        visibleCutCopyPaste: true, visibleUndoRedo: true, visibleCopyText: false,
+                        visibleFind: true, visibleReplace: true,
+                        visibleDelete: false, visibleRename: false, visibleSave: false);
+                    ContextMenuGenericFileSystem(
+                        visibleRefreshFolder: false, visibleReadSubfolders: false, visibleOpenBrowserOnLocation: false, visibleOpenRunEdit: false);
+                    ContextMenuGenericMetadata(false);
+                    ContextMenuGenericRotate(false);
+                    ContextMenuGenericFavorite(true);
+                    ContextMenuGenericShowHideRows(true);
+                    ContextMenuGenericTriState(false);
+                    ContextMenuGenericMediaView(true);
                     break;
                 case KryptonPages.kryptonPageToolboxExiftool:
+                    ContextMenuGenericRename(false);
+                    ContextMenuGenericClipboard(
+                        visibleCutCopyPaste: true, visibleUndoRedo: true, visibleCopyText: false,
+                        visibleFind: true, visibleReplace: false,
+                        visibleDelete: false, visibleRename: false, visibleSave: false);
+                    ContextMenuGenericFileSystem(
+                        visibleRefreshFolder: false, visibleReadSubfolders: false, visibleOpenBrowserOnLocation: false, visibleOpenRunEdit: false);
+                    ContextMenuGenericMetadata(false);
+                    ContextMenuGenericRotate(false);
+                    ContextMenuGenericFavorite(true);
+                    ContextMenuGenericShowHideRows(true);
+                    ContextMenuGenericTriState(false);
+                    ContextMenuGenericMediaView(true);
                     break;
                 case KryptonPages.kryptonPageToolboxWarnings:
+                    ContextMenuGenericRename(false);
+                    ContextMenuGenericClipboard(
+                        visibleCutCopyPaste: true, visibleUndoRedo: true, visibleCopyText: false,
+                        visibleFind: true, visibleReplace: false,
+                        visibleDelete: false, visibleRename: false, visibleSave: false);
+                    ContextMenuGenericFileSystem(
+                        visibleRefreshFolder: false, visibleReadSubfolders: false, visibleOpenBrowserOnLocation: false, visibleOpenRunEdit: false);
+                    ContextMenuGenericMetadata(false);
+                    ContextMenuGenericRotate(false);
+                    ContextMenuGenericFavorite(true);
+                    ContextMenuGenericShowHideRows(true);
+                    ContextMenuGenericTriState(false);
+                    ContextMenuGenericMediaView(true);
                     break;
                 case KryptonPages.kryptonPageToolboxProperties:
+                    ContextMenuGenericRename(false);
+                    ContextMenuGenericClipboard(
+                        visibleCutCopyPaste: true, visibleUndoRedo: true, visibleCopyText: false,
+                        visibleFind: true, visibleReplace: false,
+                        visibleDelete: false, visibleRename: false, visibleSave: false);
+                    ContextMenuGenericFileSystem(
+                        visibleRefreshFolder: false, visibleReadSubfolders: false, visibleOpenBrowserOnLocation: false, visibleOpenRunEdit: false);
+                    ContextMenuGenericMetadata(false);
+                    ContextMenuGenericRotate(false);
+                    ContextMenuGenericFavorite(true);
+                    ContextMenuGenericShowHideRows(true);
+                    ContextMenuGenericTriState(false);
+                    ContextMenuGenericMediaView(true);
                     break;
                 case KryptonPages.kryptonPageToolboxRename:
+                    ContextMenuGenericRename(false);
+                    ContextMenuGenericClipboard(
+                        visibleCutCopyPaste: true, visibleUndoRedo: true, visibleCopyText: false,
+                        visibleFind: true, visibleReplace: false,
+                        visibleDelete: false, visibleRename: false, visibleSave: false);
+                    ContextMenuGenericFileSystem(
+                        visibleRefreshFolder: false, visibleReadSubfolders: false, visibleOpenBrowserOnLocation: false, visibleOpenRunEdit: false);
+                    ContextMenuGenericMetadata(false);
+                    ContextMenuGenericRotate(false);
+                    ContextMenuGenericFavorite(true);
+                    ContextMenuGenericShowHideRows(true);
+                    ContextMenuGenericTriState(false);
+                    ContextMenuGenericMediaView(true);
                     break;
                 case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                    ContextMenuGenericRename(false);
+                    ContextMenuGenericClipboard(
+                        visibleCutCopyPaste: true, visibleUndoRedo: true, visibleCopyText: false,
+                        visibleFind: true, visibleReplace: false,
+                        visibleDelete: false, visibleRename: false, visibleSave: false);
+                    ContextMenuGenericFileSystem(
+                        visibleRefreshFolder: false, visibleReadSubfolders: false, visibleOpenBrowserOnLocation: false, visibleOpenRunEdit: false);
+                    ContextMenuGenericMetadata(false);
+                    ContextMenuGenericRotate(false);
+                    ContextMenuGenericFavorite(true);
+                    ContextMenuGenericShowHideRows(true);
+                    ContextMenuGenericTriState(false);
+                    ContextMenuGenericMediaView(true);
                     break;
                 default:
                     throw new NotImplementedException();
