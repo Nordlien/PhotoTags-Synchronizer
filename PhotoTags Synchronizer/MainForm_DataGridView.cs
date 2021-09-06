@@ -16,6 +16,23 @@ namespace PhotoTagsSynchronizer
 
     public partial class MainForm : KryptonForm
     {
+        #region 
+        private void kryptonWorkspaceCellToolbox_SelectedPageChanged(object sender, EventArgs e)
+        {
+            if (isFormLoading) return;
+            try
+            {
+
+                PopulateDataGridViewForSelectedItemsThread(imageListView1.SelectedItems);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Was not able to to populate data grid view");
+                Logger.Error(ex);
+            }
+        }
+        #endregion
+
         #region DataGridView - GetDataGridViewForTag
         private DataGridView GetDataGridViewForTag(string tag)
         {

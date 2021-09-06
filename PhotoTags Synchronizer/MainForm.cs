@@ -289,8 +289,6 @@ namespace PhotoTagsSynchronizer
         #region Constructor - MainForm()
         public MainForm()
         {
-            
-            
             #region Initialize VLC player
             FormSplash.UpdateStatus("Initialize VLC player...");
             try
@@ -306,10 +304,10 @@ namespace PhotoTagsSynchronizer
 
             #region Initialize components
             FormSplash.UpdateStatus("Initialize components...");
-
             InitializeComponent();
             #endregion
 
+            #region InitializeComponent - Krypton
             this.kryptonContextMenuItemGenericCut.Click += KryptonContextMenuItemGenericCut_Click;
             this.kryptonContextMenuItemGenericCopy.Click += KryptonContextMenuItemGenericCopy_Click;
             this.kryptonContextMenuItemGenericCopyText.Click += KryptonContextMenuItemGenericCopyText_Click;
@@ -333,12 +331,16 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuItemGenericMediaViewAsFull.Click += KryptonContextMenuItemGenericMediaViewAsFull_Click;
 
 
+            this.folderTreeViewFolder.KryptonContextMenu = kryptonContextMenuGeneric;
+            #endregion
+
             this.toolStripContainerStripMainForm.RenderMode = ToolStripRenderMode.Professional;
             this.toolStripContainerStripMainForm.Renderer = new PhotoTagsCommonComponets.ToolStripProfessionalRendererWithoutLines();
             this.toolStripContainerStripMediaPreview.RenderMode = ToolStripRenderMode.Professional;
             this.toolStripContainerStripMediaPreview.Renderer = new PhotoTagsCommonComponets.ToolStripProfessionalRendererWithoutLines();
-            //this.toolStripContainer1.TopToolStripPanel.RowMargin = new Padding(0);
+
             if (Properties.Settings.Default.ApplicationDarkMode == true) UpdateColorControls(this, Properties.Settings.Default.ApplicationDarkMode);
+            
 
 
             #region Initialize VLC player
@@ -682,22 +684,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-
-        private void kryptonWorkspaceCellToolbox_SelectedPageChanged(object sender, EventArgs e)
-        {
-            if (isFormLoading) return;
-            try
-            {
-                
-                PopulateDataGridViewForSelectedItemsThread(imageListView1.SelectedItems);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Was not able to to populate data grid view");
-                Logger.Error(ex);
-            }
-        }
-
         #region Resize and restore windows size when reopen application
         private void MainForm_Resize(object sender, EventArgs e)
         {
@@ -943,28 +929,15 @@ namespace PhotoTagsSynchronizer
         }
 
 
+
+
+
+
+
         #endregion
-
-        
     }
 
-    enum ActiveKryptonContextMenuItemGeneric
-    {
-        None,
-        kryptonWorkspaceCellFolderSearchFilter,
-        kryptonPageFolderSearchFilterSearch,
-        kryptonPageFolderSearchFilterFilter,
-        kryptonWorkspaceCellMediaFiles,
-        kryptonPageToolboxTags,
-        kryptonPageToolboxPeople,
-        kryptonPageToolboxMap,
-        kryptonPageToolboxDates,
-        kryptonPageToolboxExiftool,
-        kryptonPageToolboxWarnings,
-        kryptonPageToolboxProperties,
-        kryptonPageToolboxRename,
-        kryptonPageToolboxConvertAndMerge        
-    }
+    
 
 
 }
