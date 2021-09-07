@@ -30,7 +30,7 @@ namespace PhotoTagsSynchronizer
     public partial class MainForm : KryptonForm
     {
         
-        #region KryptonPages - Remober what's active page
+        #region KryptonPages - Remeber what's active page
         private KryptonPages activeKryptonPage = KryptonPages.None;
         private KryptonPages ActiveKryptonPage
         {
@@ -43,8 +43,7 @@ namespace PhotoTagsSynchronizer
                 activeKryptonPage = value; 
                 WorkspaceChanged(); 
             }
-        } 
-        
+        }
 
         private void kryptonPageFolderSearchFilterFolder_Enter(object sender, EventArgs e)
         {
@@ -236,9 +235,39 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #endregion
+
         #region kryptonContextMenuGenericBase_Opening
         private void kryptonContextMenuGenericBase_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            if (sender is Krypton.Toolkit.KryptonContextMenu)
+            {
+                if (((Krypton.Toolkit.KryptonContextMenu)sender).Caller is Krypton.Toolkit.KryptonDataGridView)
+                {
+                    DataGridView dataGridView = (Krypton.Toolkit.KryptonDataGridView)((Krypton.Toolkit.KryptonContextMenu)sender).Caller;
+                    if (dataGridView.Name == nameDataGridViewConvertAndMerge) ActiveKryptonPage = KryptonPages.kryptonPageToolboxConvertAndMerge;
+                    if (dataGridView.Name == nameDataGridViewDate) ActiveKryptonPage = KryptonPages.kryptonPageToolboxDates;
+                    if (dataGridView.Name == nameDataGridViewExifTool) ActiveKryptonPage = KryptonPages.kryptonPageToolboxExiftool;
+                    if (dataGridView.Name == nameDataGridViewExifToolWarning) ActiveKryptonPage = KryptonPages.kryptonPageToolboxWarnings;
+                    if (dataGridView.Name == nameDataGridViewMap) ActiveKryptonPage = KryptonPages.kryptonPageToolboxMap;
+                    if (dataGridView.Name == nameDataGridViewPeople) ActiveKryptonPage = KryptonPages.kryptonPageToolboxPeople;
+                    if (dataGridView.Name == nameDataGridViewProperties) ActiveKryptonPage = KryptonPages.kryptonPageToolboxProperties;
+                    if (dataGridView.Name == nameDataGridViewRename) ActiveKryptonPage = KryptonPages.kryptonPageToolboxRename;
+                    if (dataGridView.Name == nameDataGridViewTagsAndKeywords) ActiveKryptonPage = KryptonPages.kryptonPageToolboxTags;
+                }
+                if (((Krypton.Toolkit.KryptonContextMenu)sender).Caller is Furty.Windows.Forms.FolderTreeView)
+                {
+                    Furty.Windows.Forms.FolderTreeView folderTreeView = (Furty.Windows.Forms.FolderTreeView)((Krypton.Toolkit.KryptonContextMenu)sender).Caller;
+                    if (folderTreeView.Name == nameFolderTreeViewFolder) ActiveKryptonPage = KryptonPages.kryptonPageFolderSearchFilterFolder;
+                }
+                
+                if (((Krypton.Toolkit.KryptonContextMenu)sender).Caller is Manina.Windows.Forms.ImageListView)
+                {
+                    Manina.Windows.Forms.ImageListView imageListView = (Manina.Windows.Forms.ImageListView)((Krypton.Toolkit.KryptonContextMenu)sender).Caller;
+                    if (imageListView.Name == nameImageListView) ActiveKryptonPage = KryptonPages.kryptonPageMediaFiles;
+                }
+            }
+
             switch (ActiveKryptonPage)
             {
                 case KryptonPages.None:
@@ -447,8 +476,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #endregion
-
         #region Ribbons - WorkspaceChanged - Enable / Disable ribbons buttons
 
         private void RibbonGroupButtonHomeClipboard (bool enabled)
@@ -521,8 +548,9 @@ namespace PhotoTagsSynchronizer
             kryptonRibbonGroupButtonHomeTagSelectToggle.Enabled = enabledTriState;
             kryptonRibbonGroupButtonHomeTagSelectOff.Enabled = enabledTriState;
         }
+        #endregion
 
-        
+        #region WorkspaceChanged()
         private void WorkspaceChanged()
         {
             bool isSomethingSelected = (imageListView1.SelectedItems.Count >= 1);
@@ -796,7 +824,7 @@ namespace PhotoTagsSynchronizer
 
         private void KryptonContextMenuItemGenericCopy_Click(object sender, EventArgs e)
         {
-            
+            ActionCopy();
         }
 
         private void KryptonContextMenuItemGenericCopyText_Click(object sender, EventArgs e)
@@ -914,7 +942,7 @@ namespace PhotoTagsSynchronizer
                 case KryptonPages.kryptonPageMediaFiles:
                     break;
                 case KryptonPages.kryptonPageToolboxTags:
-                    KeywordsCut_Click();
+                    TagsAndKeywordsCut_Click();
                     break;
                 case KryptonPages.kryptonPageToolboxPeople:
                     PeopleCut_Click();
@@ -926,52 +954,79 @@ namespace PhotoTagsSynchronizer
                     DateCut_Click();
                     break;
                 case KryptonPages.kryptonPageToolboxExiftool:
+                    ExiftoolCut_Click();
                     break;
                 case KryptonPages.kryptonPageToolboxWarnings:
+                    ExiftoolWarningCut_Click();
                     break;
                 case KryptonPages.kryptonPageToolboxProperties:
+                    PropertiesCut_Click();
                     break;
                 case KryptonPages.kryptonPageToolboxRename:
+                    RenameCut_Click();
                     break;
                 case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                    ConvertAndMergeCut_Click();
                     break;
                 default:
                     throw new NotImplementedException();
             }
         }
-        #endregion 
+        #endregion
 
-        //Convert and Merge
-        #region Date
+        #region DataGridGeneric_Cut
+        private void DataGridGeneric_Cut(DataGridView dataGridView)
+        {
+            if (!dataGridView.Enabled) return;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
+            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, true);
+            ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
+            DataGridViewHandler.Refresh(dataGridView);
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
+        }
+        #endregion
+
+        #region ConvertAndMergeCut_Click
+        private void ConvertAndMergeCut_Click()
+        {
+            DataGridView dataGridView = dataGridViewConvertAndMerge;
+            DataGridGeneric_Cut(dataGridView);
+        }
+        #endregion
+
+        #region DateCut_Click
         private void DateCut_Click()
         {
             DataGridView dataGridView = dataGridViewDate;
-            if (!dataGridView.Enabled) return;
-            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
-
-            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, true);
-            ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
-            DataGridViewHandler.Refresh(dataGridView);
-            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
+            DataGridGeneric_Cut(dataGridView);
         }
         #endregion
-        //Exiftool
-        //ExiftoolWarning
 
-        #region Map
+        #region ExiftoolCut_Click
+        private void ExiftoolCut_Click()
+        {
+            DataGridView dataGridView = dataGridViewExifTool;
+            DataGridGeneric_Cut(dataGridView);
+        }
+        #endregion
+
+        #region ExiftoolWarningCut_Click
+        private void ExiftoolWarningCut_Click()
+        {
+            DataGridView dataGridView = dataGridViewExifToolWarning;
+            DataGridGeneric_Cut(dataGridView);
+        }
+        #endregion
+
+        #region MapCut_Click
         private void MapCut_Click()
         {
             DataGridView dataGridView = dataGridViewMap;
-            if (!dataGridView.Enabled) return;
-            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
-            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, true);
-            ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
-            DataGridViewHandler.Refresh(dataGridView);
-            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
+            DataGridGeneric_Cut(dataGridView);
         }
         #endregion
 
-        #region People
+        #region PeopleCut_Click
         private void PeopleCut_Click()
         {
             DataGridView dataGridView = dataGridViewPeople;
@@ -986,11 +1041,24 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        //Properties
-        //Rename
-        
-        #region TagsAndKeywords
-        private void KeywordsCut_Click()
+        #region PropertiesCut_Click
+        private void PropertiesCut_Click()
+        {
+            DataGridView dataGridView = dataGridViewProperties;
+            DataGridGeneric_Cut(dataGridView);
+        }
+        #endregion
+
+        #region RenameCut_Click
+        private void RenameCut_Click()
+        {
+            DataGridView dataGridView = dataGridViewRename;
+            DataGridGeneric_Cut(dataGridView);
+        }
+        #endregion
+
+        #region TagsAndKeywordsCut_Click
+        private void TagsAndKeywordsCut_Click()
         {
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
             if (!dataGridView.Enabled) return;
@@ -1014,71 +1082,133 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Copy
-        //Convert and Merge
-        #region Date
-        private void toolStripMenuItemDateCopy_Click(object sender, EventArgs e)
+
+        #region ActionCopy()
+        private void ActionCopy()
+        {
+            switch (ActiveKryptonPage)
+            {
+                case KryptonPages.None:
+                    break;
+                case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                    break;
+                case KryptonPages.kryptonPageFolderSearchFilterSearch:
+                    break;
+                case KryptonPages.kryptonPageFolderSearchFilterFilter:
+                    break;
+                case KryptonPages.kryptonPageMediaFiles:
+                    break;
+                case KryptonPages.kryptonPageToolboxTags:
+                    TagsAndKeywordsCopy_Click();
+                    break;
+                case KryptonPages.kryptonPageToolboxPeople:
+                    PeopleCopy_Click();
+                    break;
+                case KryptonPages.kryptonPageToolboxMap:
+                    MapCopy_Click();
+                    break;
+                case KryptonPages.kryptonPageToolboxDates:
+                    DateCopy_Click();
+                    break;
+                case KryptonPages.kryptonPageToolboxExiftool:
+                    ExiftoolCopy_Click();
+                    break;
+                case KryptonPages.kryptonPageToolboxWarnings:
+                    ExiftoolWarningCopy_Click();
+                    break;
+                case KryptonPages.kryptonPageToolboxProperties:
+                    PropertiesCopy_Click();
+                    break;
+                case KryptonPages.kryptonPageToolboxRename:
+                    RenameCopy_Click();
+                    break;
+                case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                    ConvertAndMergeCopy_Click();
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+        #endregion
+
+        #region DataGridGeneric_Copy
+        private void DataGridGeneric_Copy(DataGridView dataGridView)
+        {
+            if (!dataGridView.Enabled) return;
+            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, false);
+            DataGridViewHandler.Refresh(dataGridView);
+        }
+        #endregion
+
+        #region ConvertAndMergeCopy_Click
+        private void ConvertAndMergeCopy_Click()
+        {
+            DataGridView dataGridView = dataGridViewConvertAndMerge;
+            DataGridGeneric_Copy(dataGridView);
+        }
+        #endregion
+
+        #region DateCopy_Click
+        private void DateCopy_Click()
         {
             DataGridView dataGridView = dataGridViewDate;
-            if (!dataGridView.Enabled) return;
-
-            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, false);
+            DataGridGeneric_Copy(dataGridView);
         }
         #endregion
 
-        #region Exiftool
-        private void toolStripMenuItemExiftoolCopy_Click(object sender, EventArgs e)
+        #region ExiftoolCopy_Click
+        private void ExiftoolCopy_Click()
         {
             DataGridView dataGridView = dataGridViewExifTool;
-            if (!dataGridView.Enabled) return;
-
-            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, false);
-            DataGridViewHandler.Refresh(dataGridView);
+            DataGridGeneric_Copy(dataGridView);
         }
         #endregion
 
-        #region ExiftoolWarning
-        private void toolStripMenuItemExiftoolWarningCopy_Click(object sender, EventArgs e)
+        #region ExiftoolWarningCopy_Click
+        private void ExiftoolWarningCopy_Click()
         {
             DataGridView dataGridView = dataGridViewExifToolWarning;
-            if (!dataGridView.Enabled) return;
-
-            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, false);
-            DataGridViewHandler.Refresh(dataGridView);
+            DataGridGeneric_Copy(dataGridView);
         }
         #endregion
 
-        #region Map
-        private void toolStripMenuItemMapCopy_Click(object sender, EventArgs e)
+        #region MapCopy_Click
+        private void MapCopy_Click()
         {
             DataGridView dataGridView = dataGridViewMap;
-            if (!dataGridView.Enabled) return;
-
-            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, false);
-            DataGridViewHandler.Refresh(dataGridView);
+            DataGridGeneric_Copy(dataGridView);
         }
         #endregion
 
-        #region People
-        private void toolStripMenuItemPeopleCopy_Click(object sender, EventArgs e)
+        #region PeopleCopy_Click
+        private void PeopleCopy_Click()
         {
             DataGridView dataGridView = dataGridViewPeople;
-            if (!dataGridView.Enabled) return;
-
-            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, false);
-            DataGridViewHandler.Refresh(dataGridView);
+            DataGridGeneric_Copy(dataGridView);  
         }
         #endregion
 
-        //Properties
-        //Rename
+        #region PropertiesCopy_Click
+        private void PropertiesCopy_Click()
+        {
+            DataGridView dataGridView = dataGridViewProperties;
+            DataGridGeneric_Copy(dataGridView);
+        }
+        #endregion
+
+        #region RenameCopy_Click
+        private void RenameCopy_Click()
+        {
+            DataGridView dataGridView = dataGridViewRename;
+            DataGridGeneric_Copy(dataGridView);
+        }
+        #endregion 
 
         #region TagsAndKeywords
-        private void copyToolStripMenuTagsBrokerCopy_Click(object sender, EventArgs e)
+        private void TagsAndKeywordsCopy_Click()
         {
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
-            if (!dataGridView.Enabled) return;
-
-            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, false);
+            DataGridGeneric_Copy(dataGridView);
         }
         #endregion
 

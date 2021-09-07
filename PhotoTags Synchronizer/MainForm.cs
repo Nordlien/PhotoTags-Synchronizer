@@ -225,6 +225,19 @@ namespace PhotoTagsSynchronizer
         public const string LinkTabAndDataGridViewNameRename = "Rename";
         public const string LinkTabAndDataGridViewNameConvertAndMerge = "Convert and Merge";
 
+        private string nameImageListView;
+        private string nameFolderTreeViewFolder;
+        private string nameDataGridViewConvertAndMerge;
+        private string nameDataGridViewDate;
+        private string nameDataGridViewExifTool;
+        private string nameDataGridViewExifToolWarning;
+        private string nameDataGridViewMap;
+        private string nameDataGridViewPeople;
+        private string nameDataGridViewProperties;
+        private string nameDataGridViewRename;
+        private string nameDataGridViewTagsAndKeywords;
+
+
         private ShowWhatColumns showWhatColumns;
 
         private readonly Size[] thumbnailSizes =
@@ -330,8 +343,30 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuItemGenericMediaViewAsPoster.Click += KryptonContextMenuItemGenericMediaViewAsPoster_Click;
             this.kryptonContextMenuItemGenericMediaViewAsFull.Click += KryptonContextMenuItemGenericMediaViewAsFull_Click;
 
-
+            this.imageListView1.ContextMenu = kryptonContextMenuGenericBase;
             this.folderTreeViewFolder.KryptonContextMenu = kryptonContextMenuGenericBase;
+            this.dataGridViewConvertAndMerge.KryptonContextMenu = kryptonContextMenuGenericBase;
+            this.dataGridViewDate.KryptonContextMenu = kryptonContextMenuGenericBase;
+            this.dataGridViewExifTool.KryptonContextMenu = kryptonContextMenuGenericBase;
+            this.dataGridViewExifToolWarning.KryptonContextMenu = kryptonContextMenuGenericBase;
+            this.dataGridViewMap.KryptonContextMenu = kryptonContextMenuGenericBase;
+            this.dataGridViewPeople.KryptonContextMenu = kryptonContextMenuGenericBase;
+            this.dataGridViewProperties.KryptonContextMenu = kryptonContextMenuGenericBase;
+            this.dataGridViewRename.KryptonContextMenu = kryptonContextMenuGenericBase;
+            this.dataGridViewTagsAndKeywords.KryptonContextMenu = kryptonContextMenuGenericBase;
+
+            nameImageListView = this.imageListView1.Name;
+            nameFolderTreeViewFolder = this.folderTreeViewFolder.Name;
+            nameDataGridViewConvertAndMerge = this.dataGridViewConvertAndMerge.Name;
+            nameDataGridViewDate = this.dataGridViewDate.Name;
+            nameDataGridViewExifTool = this.dataGridViewExifTool.Name;
+            nameDataGridViewExifToolWarning = this.dataGridViewExifToolWarning.Name;
+            nameDataGridViewMap = this.dataGridViewMap.Name;
+            nameDataGridViewPeople = this.dataGridViewPeople.Name;
+            nameDataGridViewProperties = this.dataGridViewProperties.Name;
+            nameDataGridViewRename = this.dataGridViewRename.Name;
+            nameDataGridViewTagsAndKeywords = this.dataGridViewTagsAndKeywords.Name;
+            
             #endregion
 
             this.toolStripContainerStripMainForm.RenderMode = ToolStripRenderMode.Professional;
