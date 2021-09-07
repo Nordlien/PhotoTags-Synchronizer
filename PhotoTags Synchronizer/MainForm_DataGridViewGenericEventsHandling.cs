@@ -29,9 +29,96 @@ namespace PhotoTagsSynchronizer
 
     public partial class MainForm : KryptonForm
     {
+        
+        #region KryptonPages - Remober what's active page
+        private KryptonPages activeKryptonPage = KryptonPages.None;
+        private KryptonPages ActiveKryptonPage
+        {
+            get 
+            { 
+                return activeKryptonPage; 
+            }
+            set 
+            { 
+                activeKryptonPage = value; 
+                WorkspaceChanged(); 
+            }
+        } 
+        
+
+        private void kryptonPageFolderSearchFilterFolder_Enter(object sender, EventArgs e)
+        {
+            ActiveKryptonPage = KryptonPages.kryptonPageFolderSearchFilterFolder;
+        }
+
+
+        private void kryptonPageFolderSearchFilterSearch_Enter(object sender, EventArgs e)
+        {
+            ActiveKryptonPage = KryptonPages.kryptonPageFolderSearchFilterSearch;
+        }
+
+        private void kryptonPageFolderSearchFilterFilter_Enter(object sender, EventArgs e)
+        {
+            ActiveKryptonPage = KryptonPages.kryptonPageFolderSearchFilterFilter;
+        }
+
+        private void kryptonPageMediaFiles_Enter(object sender, EventArgs e)
+        {
+            ActiveKryptonPage = KryptonPages.kryptonPageMediaFiles;
+        }
+
+        private void kryptonPageToolboxTags_Enter(object sender, EventArgs e)
+        {
+            ActiveKryptonPage = KryptonPages.kryptonPageToolboxTags;
+        }
+
+        private void kryptonPageToolboxPeople_Enter(object sender, EventArgs e)
+        {
+            ActiveKryptonPage = KryptonPages.kryptonPageToolboxPeople;
+        }
+
+        private void kryptonPageToolboxMap_Enter(object sender, EventArgs e)
+        {
+            ActiveKryptonPage = KryptonPages.kryptonPageToolboxMap;
+        }
+
+        private void kryptonPageToolboxDates_Enter(object sender, EventArgs e)
+        {
+            ActiveKryptonPage = KryptonPages.kryptonPageToolboxDates;
+        }
+
+        private void kryptonPageToolboxExiftool_Enter(object sender, EventArgs e)
+        {
+            ActiveKryptonPage = KryptonPages.kryptonPageToolboxExiftool;
+        }
+
+        private void kryptonPageToolboxWarnings_Enter(object sender, EventArgs e)
+        {
+            ActiveKryptonPage = KryptonPages.kryptonPageToolboxWarnings;
+        }
+
+        private void kryptonPageToolboxProperties_Enter(object sender, EventArgs e)
+        {
+            ActiveKryptonPage = KryptonPages.kryptonPageToolboxProperties;
+        }
+
+        private void kryptonPageToolboxRename_Enter(object sender, EventArgs e)
+        {
+            ActiveKryptonPage = KryptonPages.kryptonPageToolboxRename;
+        }
+
+        private void kryptonPageToolboxConvertAndMerge_Enter(object sender, EventArgs e)
+        {
+            ActiveKryptonPage = KryptonPages.kryptonPageToolboxConvertAndMerge;
+        }
+        #endregion
+
+        #region ContextMenuGenericRename - Turn on / off
+
+        #region  Region Rename
         private void ContextMenuGenericRename(bool visible)
         {
-            #region  Region Rename
+            
             this.kryptonContextMenuItemGenericRegionRename1.Visible = visible;
             this.kryptonContextMenuItemGenericRegionRename2.Visible = visible;
             this.kryptonContextMenuItemGenericRegionRename3.Visible = visible;
@@ -41,19 +128,19 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuItemGenericRegionRenameListAll.Visible = visible;
             //this.kryptonContextMenuItemsGenericRegionRenameListAllList.Visible = visible; //GenericRegionRenameListAll
             //this.kryptonContextMenuItemGenericRegionRenameListAllExample.Visible = visible; //GenericRegionRenameListAll
-            this.kryptonContextMenuSeparatorGenericEndOfRegionRename.Visible = visible;
-            #endregion
+            this.kryptonContextMenuSeparatorGenericEndOfRegionRename.Visible = visible;            
         }
+        #endregion
 
+        #region Clipboard
         private void ContextMenuGenericClipboard(bool visible)
         {
             ContextMenuGenericClipboard(visible, visible, visible, visible, visible, visible, visible, visible);
         }
 
-        private void ContextMenuGenericClipboard(bool visibleCutCopyPaste = false, bool visibleUndoRedo = false, bool visibleCopyText = false, bool visibleFind = false, bool visibleReplace = false, 
+        private void ContextMenuGenericClipboard(bool visibleCutCopyPaste = false, bool visibleUndoRedo = false, bool visibleCopyText = false, bool visibleFind = false, bool visibleReplace = false,
              bool visibleDelete = false, bool visibleRename = false, bool visibleSave = false)
-        {
-            #region Clipboard
+        {            
             this.kryptonContextMenuItemGenericCut.Visible = visibleCutCopyPaste;
             this.kryptonContextMenuItemGenericCopy.Visible = visibleCutCopyPaste;
             this.kryptonContextMenuItemGenericCopyText.Visible = visibleCopyText;
@@ -65,18 +152,19 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuItemGenericFind.Visible = visibleFind;
             this.kryptonContextMenuItemGenericReplace.Visible = visibleReplace;
             this.kryptonContextMenuItemGenericSave.Visible = visibleSave;
-            this.kryptonContextMenuSeparatorGenericEndOfClipboard.Visible = 
-                visibleCutCopyPaste || visibleUndoRedo || visibleFind || visibleReplace || visibleCopyText || visibleDelete || visibleRename || visibleSave;
-            #endregion
+            this.kryptonContextMenuSeparatorGenericEndOfClipboard.Visible =
+                visibleCutCopyPaste || visibleUndoRedo || visibleFind || visibleReplace || visibleCopyText || visibleDelete || visibleRename || visibleSave;            
         }
+        #endregion
 
-        private void ContextMenuGenericFileSystem(bool visible) 
+        #region FileSystem
+        private void ContextMenuGenericFileSystem(bool visible)
         {
             ContextMenuGenericFileSystem(visible, visible, visible, visible);
         }
+
         private void ContextMenuGenericFileSystem(bool visibleRefreshFolder = false, bool visibleReadSubfolders = false, bool visibleOpenBrowserOnLocation = false, bool visibleOpenRunEdit = false)
         {
-            #region FileSystem
             this.kryptonContextMenuItemGenericRefreshFolder.Visible = visibleRefreshFolder;
             this.kryptonContextMenuItemGenericReadSubfolders.Visible = visibleReadSubfolders;
             this.kryptonContextMenuItemGenericOpenFolderLocation.Visible = visibleOpenBrowserOnLocation;
@@ -87,69 +175,70 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuItemGenericOpenVerbEdit.Visible = visibleOpenRunEdit;
             this.kryptonContextMenuItemGenericRunCommand.Visible = visibleOpenRunEdit;
             this.kryptonContextMenuSeparatorGenericEndOfFileSystem.Visible = visibleRefreshFolder || visibleReadSubfolders || visibleOpenBrowserOnLocation || visibleOpenRunEdit;
-            #endregion
         }
+        #endregion
 
+        #region Metadata
         private void ContextMenuGenericMetadata(bool visible)
-        {
-            #region Metadata
+        {            
             this.kryptonContextMenuItemGenericAutoCorrectRun.Visible = visible;
             this.kryptonContextMenuItemGenericAutoCorrectForm.Visible = visible;
             this.kryptonContextMenuItemGenericMetadataRefreshLast.Visible = visible;
             this.kryptonContextMenuItemGenericMetadataDeleteHistory.Visible = visible;
-            this.kryptonContextMenuSeparatorGenericEndOfMetadata.Visible = visible;
-            #endregion
+            this.kryptonContextMenuSeparatorGenericEndOfMetadata.Visible = visible;            
         }
+        #endregion
 
+        #region Rotate
         private void ContextMenuGenericRotate(bool visible)
-        {
-            #region Rotate
+        {            
             this.kryptonContextMenuItemGenericRotate270.Visible = visible;
             this.kryptonContextMenuItemGenericRotate180.Visible = visible;
             this.kryptonContextMenuItemGenericRotate90.Visible = visible;
-            this.kryptonContextMenuSeparatorEndOfRotate.Visible = visible;
-            #endregion
+            this.kryptonContextMenuSeparatorEndOfRotate.Visible = visible;            
         }
+        #endregion
 
+        #region Favorite
         private void ContextMenuGenericFavorite(bool visible)
-        {
-            #region Favorite
+        {            
             this.kryptonContextMenuItemGenericFavoriteAdd.Visible = visible;
             this.kryptonContextMenuItemGenericFavoriteDelete.Visible = visible;
             this.kryptonContextMenuItemGenericFavoriteToggle.Visible = visible;
-            this.kryptonContextMenuSeparatorGenericEndOfFavorite.Visible = visible;
-            #endregion
+            this.kryptonContextMenuSeparatorGenericEndOfFavorite.Visible = visible;            
         }
+        #endregion
 
+        #region Show&Hide rows
         private void ContextMenuGenericShowHideRows(bool visible)
         {
-            #region SHow&Hide rows
             this.kryptonContextMenuItemGenericRowShowFavorite.Visible = visible;
             this.kryptonContextMenuItemGenericRowHideEqual.Visible = visible;
-            this.kryptonContextMenuSeparatorGenericEndOfShowHideRows.Visible = visible;
-            #endregion
+            this.kryptonContextMenuSeparatorGenericEndOfShowHideRows.Visible = visible;            
         }
+        #endregion
 
+        #region TriState
         private void ContextMenuGenericTriState(bool visible)
         {
-            #region TriState
             this.kryptonContextMenuItemGenericTriStateOn.Visible = visible;
             this.kryptonContextMenuItemGenericTriStateOff.Visible = visible;
             this.kryptonContextMenuItemGenericTriStateToggle.Visible = visible;
-            this.kryptonContextMenuSeparatorGenericEndOfTriState.Visible = visible;
-            #endregion
+            this.kryptonContextMenuSeparatorGenericEndOfTriState.Visible = visible;            
         }
+        #endregion
 
+        #region MediaView
         private void ContextMenuGenericMediaView(bool visible)
-        {
-            #region MediaView
-            this.kryptonContextMenuItemGenericMediaViewAsPoster.Visible = visible;
-            this.kryptonContextMenuItemGenericMediaViewAsFull.Visible = visible;
-            #endregion
-        }
-
-        private void kryptonContextMenuGenericBase_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {            
+            this.kryptonContextMenuItemGenericMediaViewAsPoster.Visible = visible;
+            this.kryptonContextMenuItemGenericMediaViewAsFull.Visible = visible;            
+        }
+        #endregion
+
+        #region kryptonContextMenuGenericBase_Opening
+        private void kryptonContextMenuGenericBase_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
             switch (ActiveKryptonPage)
             {
                 case KryptonPages.None:
@@ -167,8 +256,8 @@ namespace PhotoTagsSynchronizer
                 case KryptonPages.kryptonPageFolderSearchFilterFolder:
                     ContextMenuGenericRename(false);
                     ContextMenuGenericClipboard(
-                        visibleCutCopyPaste: true, visibleUndoRedo: false, visibleCopyText: true, 
-                        visibleFind: false, visibleReplace: false, 
+                        visibleCutCopyPaste: true, visibleUndoRedo: false, visibleCopyText: true,
+                        visibleFind: false, visibleReplace: false,
                         visibleDelete: true, visibleRename: true, visibleSave: false);
                     ContextMenuGenericFileSystem(
                         visibleRefreshFolder: true, visibleReadSubfolders: true, visibleOpenBrowserOnLocation: true, visibleOpenRunEdit: false);
@@ -356,871 +445,332 @@ namespace PhotoTagsSynchronizer
                     throw new NotImplementedException();
             }
         }
-
-
-        #region KryptonPages
-        private KryptonPages activeKryptonPage = KryptonPages.None;
-        private KryptonPages ActiveKryptonPage
-        {
-            get 
-            { 
-                return activeKryptonPage; 
-            }
-            set 
-            { 
-                activeKryptonPage = value; 
-                WorkspaceChanged(); 
-            }
-        } 
-        
-
-        private void kryptonPageFolderSearchFilterFolder_Enter(object sender, EventArgs e)
-        {
-            ActiveKryptonPage = KryptonPages.kryptonPageFolderSearchFilterFolder;
-        }
-
-
-        private void kryptonPageFolderSearchFilterSearch_Enter(object sender, EventArgs e)
-        {
-            ActiveKryptonPage = KryptonPages.kryptonPageFolderSearchFilterSearch;
-        }
-
-        private void kryptonPageFolderSearchFilterFilter_Enter(object sender, EventArgs e)
-        {
-            ActiveKryptonPage = KryptonPages.kryptonPageFolderSearchFilterFilter;
-        }
-
-        private void kryptonPageMediaFiles_Enter(object sender, EventArgs e)
-        {
-            ActiveKryptonPage = KryptonPages.kryptonPageMediaFiles;
-        }
-
-        private void kryptonPageToolboxTags_Enter(object sender, EventArgs e)
-        {
-            ActiveKryptonPage = KryptonPages.kryptonPageToolboxTags;
-        }
-
-        private void kryptonPageToolboxPeople_Enter(object sender, EventArgs e)
-        {
-            ActiveKryptonPage = KryptonPages.kryptonPageToolboxPeople;
-        }
-
-        private void kryptonPageToolboxMap_Enter(object sender, EventArgs e)
-        {
-            ActiveKryptonPage = KryptonPages.kryptonPageToolboxMap;
-        }
-
-        private void kryptonPageToolboxDates_Enter(object sender, EventArgs e)
-        {
-            ActiveKryptonPage = KryptonPages.kryptonPageToolboxDates;
-        }
-
-        private void kryptonPageToolboxExiftool_Enter(object sender, EventArgs e)
-        {
-            ActiveKryptonPage = KryptonPages.kryptonPageToolboxExiftool;
-        }
-
-        private void kryptonPageToolboxWarnings_Enter(object sender, EventArgs e)
-        {
-            ActiveKryptonPage = KryptonPages.kryptonPageToolboxWarnings;
-        }
-
-        private void kryptonPageToolboxProperties_Enter(object sender, EventArgs e)
-        {
-            ActiveKryptonPage = KryptonPages.kryptonPageToolboxProperties;
-        }
-
-        private void kryptonPageToolboxRename_Enter(object sender, EventArgs e)
-        {
-            ActiveKryptonPage = KryptonPages.kryptonPageToolboxRename;
-        }
-
-        private void kryptonPageToolboxConvertAndMerge_Enter(object sender, EventArgs e)
-        {
-            ActiveKryptonPage = KryptonPages.kryptonPageToolboxConvertAndMerge;
-        }
         #endregion
 
-        #region Ribbons - WorkspaceChanged
+        #endregion
+
+        #region Ribbons - WorkspaceChanged - Enable / Disable ribbons buttons
+
+        private void RibbonGroupButtonHomeClipboard (bool enabled)
+        {
+            RibbonGroupButtonHomeClipboard(enabled, enabled);
+        }
+
+        private void RibbonGroupButtonHomeClipboard (bool enabledCopy = false, bool enabledCutPaste = false, bool enabledUndoRedo = false)
+        {
+            //Home - Clipboard
+            kryptonRibbonGroupButtonHomeCopy.Enabled = enabledCopy;
+            kryptonRibbonGroupButtonHomeCut.Enabled = enabledCutPaste;
+            kryptonRibbonGroupButtonHomePaste.Enabled = enabledCutPaste;
+            kryptonRibbonGroupButtonHomeUndo.Enabled = enabledUndoRedo;
+            kryptonRibbonGroupButtonRedo.Enabled = enabledUndoRedo;
+        }
+
+        private void RibbonGroupButtonHomeFileSystem(bool enabled)
+        {
+            RibbonGroupButtonHomeFileSystem(enabled, enabled, enabled, enabled);
+        }
+        private void RibbonGroupButtonHomeFileSystem(bool enabledDelete = false, bool enabledRename = false, bool enabledRefresh = false, bool enabledOpenWithEdit = false)
+        {
+            //Home - FileSystem
+            kryptonRibbonGroupButtonHomeFileSystemDelete.Enabled = enabledDelete;
+            kryptonRibbonGroupButtonHomeFileSystemRename.Enabled = enabledRename;
+
+            kryptonRibbonGroupButtonHomeFileSystemRefresh.Enabled = enabledRefresh;
+
+            kryptonRibbonGroupButtonHomeFileSystemOpen.Enabled = enabledOpenWithEdit;
+            kryptonRibbonGroupButtonHomeFileSystemOpenWith.Enabled = enabledOpenWithEdit;
+            kryptonRibbonGroupButtonFileSystemOpenAssociateDialog.Enabled = enabledOpenWithEdit;
+            kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.Enabled = enabledOpenWithEdit;
+            kryptonRibbonGroupButtonFileSystemRunCommand.Enabled = enabledOpenWithEdit;
+            kryptonRibbonGroupButtonHomeFileSystemEdit.Enabled = enabledOpenWithEdit;
+        }
+
+        private void RibbonGroupButtonHomeFastCopytext(bool enabledFastCopyPathText = false, bool enabledFastCopyGridOverwrite = false)
+        {
+            kryptonRibbonGroupButtonHomeCopyText.Enabled = enabledFastCopyPathText;        
+            kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.Enabled = enabledFastCopyGridOverwrite;
+            kryptonRibbonGroupButtonHomeFastCopyOverwrite.Enabled = enabledFastCopyGridOverwrite;
+        }
+
+        private void RibbonGroupButtonHomeFineAndReplace(bool enabledFind = false, bool enabledRplace = false)
+        {
+            kryptonRibbonGroupButtonHomeFind.Enabled = enabledFind;
+            kryptonRibbonGroupButtonHomeReplace.Enabled = enabledRplace;
+        }
+
+        private void RibbonGroupButtonHomeRotate(bool enabled = false)
+        {
+            kryptonRibbonGroupButtonMediaFileRotate90CCW.Enabled = enabled;
+            kryptonRibbonGroupButtonMediaFileRotate180.Enabled = enabled;
+            kryptonRibbonGroupButtonMediaFileRotate90CW.Enabled = enabled;
+        }
+
+        private void RibbonGroupButtonHomeMetadata(bool enabledAutoCorrect = false, bool enabledDeleteHistoryRefresh = false, bool enabledTriState = false)
+        {
+            //Home - Metadata - AutoCorrect
+            kryptonRibbonGroupButtonHomeAutoCorrectRun.Enabled = enabledAutoCorrect;
+            kryptonRibbonGroupButtonHomeAutoCorrectForm.Enabled = enabledAutoCorrect;
+
+            //Home - Metadata - Refresh/Reload
+            kryptonRibbonGroupButtonHomeMetadataRefresh.Enabled = enabledDeleteHistoryRefresh;
+            kryptonRibbonGroupButtonHomeMetadataReload.Enabled = enabledDeleteHistoryRefresh;
+
+            //Home - Metadata - Tag Select
+            kryptonRibbonGroupButtonHomeTagSelectOn.Enabled = enabledTriState;
+            kryptonRibbonGroupButtonHomeTagSelectToggle.Enabled = enabledTriState;
+            kryptonRibbonGroupButtonHomeTagSelectOff.Enabled = enabledTriState;
+        }
+
+        
         private void WorkspaceChanged()
-        {            
+        {
+            bool isSomethingSelected = (imageListView1.SelectedItems.Count >= 1);
+            bool isMoreThatOneSelected = (imageListView1.SelectedItems.Count > 1);
+
             switch (ActiveKryptonPage)
             {
                 case KryptonPages.None:
                     //Home - Clipboard
-                    kryptonRibbonGroupButtonHomeCopy.Enabled = false;
-                    kryptonRibbonGroupButtonHomeCut.Enabled = false;
-                    kryptonRibbonGroupButtonHomePaste.Enabled = false;
-                    kryptonRibbonGroupButtonHomeUndo.Enabled = false;
-                    kryptonRibbonGroupButtonRedo.Enabled = false;
-
-                    //Home - Fast Copy text
-                    kryptonRibbonGroupButtonHomeCopyText.Enabled = false;
-                    kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "Text";
-
-                    //Home - FastCopyNoOverwrite / Overwrite
-                    kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFastCopyOverwrite.Enabled = false;
-
+                    RibbonGroupButtonHomeClipboard(enabledCopy: false, enabledCutPaste: false, enabledUndoRedo: false);
+                    //Home - Fast copy text
+                    RibbonGroupButtonHomeFastCopytext(false);
+                    kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "TxT";
                     //Home - Find and Replace
-                    kryptonRibbonGroupButtonHomeFind.Enabled = false;
-                    kryptonRibbonGroupButtonHomeReplace.Enabled = false;
-
+                    RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: false, enabledFastCopyGridOverwrite: false);
                     //Home - FileSystem
-                    kryptonRibbonGroupButtonHomeFileSystemDelete.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemRename.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemRefresh.Enabled = false;
-
-                    kryptonRibbonGroupButtonHomeFileSystemOpen.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemOpenWith.Enabled = false;
-                    kryptonRibbonGroupButtonFileSystemOpenAssociateDialog.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.Enabled = false;
-                    kryptonRibbonGroupButtonFileSystemRunCommand.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemEdit.Enabled = false;
-
+                    RibbonGroupButtonHomeFileSystem(enabledDelete: false, enabledRename: false, enabledRefresh: false, enabledOpenWithEdit: false);
+                    kryptonRibbonGroupButtonHomeFileSystemDelete.TextLine2 = "";
+                    kryptonRibbonGroupButtonHomeFileSystemRename.TextLine2 = "";
+                    kryptonRibbonGroupButtonHomeFileSystemRefresh.TextLine2 = "";
                     //Home - Rotate
-                    kryptonRibbonGroupButtonMediaFileRotate90CCW.Enabled = false;
-                    kryptonRibbonGroupButtonMediaFileRotate180.Enabled = false;
-                    kryptonRibbonGroupButtonMediaFileRotate90CW.Enabled = false;
-
-                    //Home - Metadata - AutoCorrect
-                    kryptonRibbonGroupButtonHomeAutoCorrectRun.Enabled = false;
-                    kryptonRibbonGroupButtonHomeAutoCorrectForm.Enabled = false;
-
-                    //Home - Metadata - Refresh/Reload
-                    kryptonRibbonGroupButtonHomeMetadataRefresh.Enabled = false;
-                    kryptonRibbonGroupButtonHomeMetadataReload.Enabled = false;
-
-                    //Home - Metadata - Tag Select
-                    kryptonRibbonGroupButtonHomeTagSelectOn.Enabled = false;
-                    kryptonRibbonGroupButtonHomeTagSelectToggle.Enabled = false;
-                    kryptonRibbonGroupButtonHomeTagSelectOff.Enabled = false;
-
+                    RibbonGroupButtonHomeRotate(enabled: false);
+                    //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
+                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false);
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFolder:
                     //Home - Clipboard
-                    kryptonRibbonGroupButtonHomeCopy.Enabled = true;
-                    kryptonRibbonGroupButtonHomeCut.Enabled = true;
-                    kryptonRibbonGroupButtonHomePaste.Enabled = true;
-                    kryptonRibbonGroupButtonHomeUndo.Enabled = false;
-                    kryptonRibbonGroupButtonRedo.Enabled = false;
-
-                    //Home - Fast Copy text
-                    kryptonRibbonGroupButtonHomeCopyText.Enabled = true;
+                    RibbonGroupButtonHomeClipboard(enabledCopy: true, enabledCutPaste: true, enabledUndoRedo: false);
+                    //Home - Fast copy text
+                    RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: false, enabledFastCopyGridOverwrite: false);
                     kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "Path";
-
-                    //Home - FastCopyNoOverwrite / Overwrite
-                    kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFastCopyOverwrite.Enabled = false;
-
                     //Home - Find and Replace
-                    kryptonRibbonGroupButtonHomeFind.Enabled = false;
-                    kryptonRibbonGroupButtonHomeReplace.Enabled = false;
-
+                    RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: false, enabledFastCopyGridOverwrite: false);
                     //Home - FileSystem
-                    kryptonRibbonGroupButtonHomeFileSystemDelete.Enabled = true;
+                    RibbonGroupButtonHomeFileSystem(enabledDelete: true, enabledRename: false, enabledRefresh:  false, enabledOpenWithEdit: false);
                     kryptonRibbonGroupButtonHomeFileSystemDelete.TextLine2 = "Folder";
-                    kryptonRibbonGroupButtonHomeFileSystemRename.Enabled = false;
                     kryptonRibbonGroupButtonHomeFileSystemRename.TextLine2 = "Folder";
-                    kryptonRibbonGroupButtonHomeFileSystemRefresh.Enabled = true;
                     kryptonRibbonGroupButtonHomeFileSystemRefresh.TextLine2 = "Folders";
-
-                    kryptonRibbonGroupButtonHomeFileSystemOpen.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemOpenWith.Enabled = false;
-                    kryptonRibbonGroupButtonFileSystemOpenAssociateDialog.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.Enabled = false;
-                    kryptonRibbonGroupButtonFileSystemRunCommand.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemEdit.Enabled = false;
-
                     //Home - Rotate
-                    kryptonRibbonGroupButtonMediaFileRotate90CCW.Enabled = false;
-                    kryptonRibbonGroupButtonMediaFileRotate180.Enabled = false;
-                    kryptonRibbonGroupButtonMediaFileRotate90CW.Enabled = false;
-
-                    //Home - Metadata - AutoCorrect
-                    kryptonRibbonGroupButtonHomeAutoCorrectRun.Enabled = true;
-                    kryptonRibbonGroupButtonHomeAutoCorrectForm.Enabled = true;
-
-                    //Home - Metadata - Refresh/Reload
-                    kryptonRibbonGroupButtonHomeMetadataRefresh.Enabled = true;
-                    kryptonRibbonGroupButtonHomeMetadataReload.Enabled = true;
-
-                    //Home - Metadata - Tag Select
-                    kryptonRibbonGroupButtonHomeTagSelectOn.Enabled = false;
-                    kryptonRibbonGroupButtonHomeTagSelectToggle.Enabled = false;
-                    kryptonRibbonGroupButtonHomeTagSelectOff.Enabled = false;
+                    RibbonGroupButtonHomeRotate(enabled: false);
+                    //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
+                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: true, enabledTriState: false);
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterSearch:
                     //Home - Clipboard
-                    kryptonRibbonGroupButtonHomeCopy.Enabled = false;
-                    kryptonRibbonGroupButtonHomeCut.Enabled = false;
-                    kryptonRibbonGroupButtonHomePaste.Enabled = false;
-                    kryptonRibbonGroupButtonHomeUndo.Enabled = false;
-                    kryptonRibbonGroupButtonRedo.Enabled = false;
-
+                    RibbonGroupButtonHomeClipboard(enabledCopy: false, enabledCutPaste: false, enabledUndoRedo: false);
                     //Home - Fast Copy text
-                    kryptonRibbonGroupButtonHomeCopyText.Enabled = false;
+                    RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: false, enabledFastCopyGridOverwrite: false);
                     kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "Text";
-
-                    //Home - FastCopyNoOverwrite / Overwrite
-                    kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFastCopyOverwrite.Enabled = false;
-
                     //Home - Find and Replace
-                    kryptonRibbonGroupButtonHomeFind.Enabled = false;
-                    kryptonRibbonGroupButtonHomeReplace.Enabled = false;
-
+                    RibbonGroupButtonHomeFineAndReplace(enabledFind: false, enabledRplace: false);
                     //Home - FileSystem
-                    kryptonRibbonGroupButtonHomeFileSystemDelete.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemRename.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemRefresh.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemOpen.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemOpenWith.Enabled = false;
-                    kryptonRibbonGroupButtonFileSystemOpenAssociateDialog.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.Enabled = false;
-                    kryptonRibbonGroupButtonFileSystemRunCommand.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemEdit.Enabled = false;
-
+                    RibbonGroupButtonHomeFileSystem(enabledDelete: false, enabledRename: false, enabledRefresh: false, enabledOpenWithEdit: false);
                     //Home - Rotate
-                    kryptonRibbonGroupButtonMediaFileRotate90CCW.Enabled = false;
-                    kryptonRibbonGroupButtonMediaFileRotate180.Enabled = false;
-                    kryptonRibbonGroupButtonMediaFileRotate90CW.Enabled = false;
-
-                    //Home - Metadata - AutoCorrect
-                    kryptonRibbonGroupButtonHomeAutoCorrectRun.Enabled = false;
-                    kryptonRibbonGroupButtonHomeAutoCorrectForm.Enabled = false;
-
-                    //Home - Metadata - Refresh/Reload
-                    kryptonRibbonGroupButtonHomeMetadataRefresh.Enabled = false;
-                    kryptonRibbonGroupButtonHomeMetadataReload.Enabled = false;
-
-                    //Home - Metadata - Tag Select
-                    kryptonRibbonGroupButtonHomeTagSelectOn.Enabled = false;
-                    kryptonRibbonGroupButtonHomeTagSelectToggle.Enabled = false;
-                    kryptonRibbonGroupButtonHomeTagSelectOff.Enabled = false;
+                    RibbonGroupButtonHomeRotate(enabled: false);
+                    //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
+                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false);
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFilter:
                     //Home - Clipboard
-                    kryptonRibbonGroupButtonHomeCopy.Enabled = false;
-                    kryptonRibbonGroupButtonHomeCut.Enabled = false;
-                    kryptonRibbonGroupButtonHomePaste.Enabled = false;
-                    kryptonRibbonGroupButtonHomeUndo.Enabled = false;
-                    kryptonRibbonGroupButtonRedo.Enabled = false;
-
+                    RibbonGroupButtonHomeClipboard(enabledCopy: false, enabledCutPaste: false, enabledUndoRedo: false);
                     //Home - Fast Copy text
-                    kryptonRibbonGroupButtonHomeCopyText.Enabled = false;
+                    RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: false, enabledFastCopyGridOverwrite: false);
                     kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "Text";
-
-                    //Home - FastCopyNoOverwrite / Overwrite
-                    kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFastCopyOverwrite.Enabled = false;
-
                     //Home - Find and Replace
-                    kryptonRibbonGroupButtonHomeFind.Enabled = false;
-                    kryptonRibbonGroupButtonHomeReplace.Enabled = false;
-
+                    RibbonGroupButtonHomeFineAndReplace(enabledFind: false, enabledRplace: false);
                     //Home - FileSystem
-                    kryptonRibbonGroupButtonHomeFileSystemDelete.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemRename.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemRefresh.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemOpen.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemOpenWith.Enabled = false;
-                    kryptonRibbonGroupButtonFileSystemOpenAssociateDialog.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.Enabled = false;
-                    kryptonRibbonGroupButtonFileSystemRunCommand.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemEdit.Enabled = false;
-
+                    RibbonGroupButtonHomeFileSystem(enabledDelete: false, enabledRename: false, enabledRefresh: false, enabledOpenWithEdit: false);
                     //Home - Rotate
-                    kryptonRibbonGroupButtonMediaFileRotate90CCW.Enabled = false;
-                    kryptonRibbonGroupButtonMediaFileRotate180.Enabled = false;
-                    kryptonRibbonGroupButtonMediaFileRotate90CW.Enabled = false;
-
-                    //Home - Metadata - AutoCorrect
-                    kryptonRibbonGroupButtonHomeAutoCorrectRun.Enabled = false;
-                    kryptonRibbonGroupButtonHomeAutoCorrectForm.Enabled = false;
-
-                    //Home - Metadata - Refresh/Reload
-                    kryptonRibbonGroupButtonHomeMetadataRefresh.Enabled = false;
-                    kryptonRibbonGroupButtonHomeMetadataReload.Enabled = false;
-
-                    //Home - Metadata - Tag Select
-                    kryptonRibbonGroupButtonHomeTagSelectOn.Enabled = false;
-                    kryptonRibbonGroupButtonHomeTagSelectToggle.Enabled = false;
-                    kryptonRibbonGroupButtonHomeTagSelectOff.Enabled = false;
+                    RibbonGroupButtonHomeRotate(enabled: false);
+                    //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
+                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false);
                     break;
                 case KryptonPages.kryptonPageMediaFiles:
+                    
+
                     //Home - Clipboard
-                    kryptonRibbonGroupButtonHomeCopy.Enabled = true;
-                    kryptonRibbonGroupButtonHomeCut.Enabled = true;
-                    kryptonRibbonGroupButtonHomePaste.Enabled = true;
-                    kryptonRibbonGroupButtonHomeUndo.Enabled = false;
-                    kryptonRibbonGroupButtonRedo.Enabled = false;
-
+                    RibbonGroupButtonHomeClipboard(enabledCopy: isSomethingSelected, enabledCutPaste: isSomethingSelected, enabledUndoRedo: false);
                     //Home - Fast Copy text
-                    if (imageListView1.SelectedItems.Count == 0)
-                    {
-                        kryptonRibbonGroupButtonHomeCopyText.Enabled = false;
-                        kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "Filenames";
-                    }
-                    else if (imageListView1.SelectedItems.Count == 1)
-                    {
-                        kryptonRibbonGroupButtonHomeCopyText.Enabled = true;
-                        kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "Filename";
-                    }
-                    else
-                    {
-                        kryptonRibbonGroupButtonHomeCopyText.Enabled = true;
-                        kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "Filenames";
-                    }
-
-                    //Home - FastCopyNoOverwrite / Overwrite
-                    kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFastCopyOverwrite.Enabled = false;
-
+                    RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: isSomethingSelected, enabledFastCopyGridOverwrite: false);
+                    if (isMoreThatOneSelected) kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "Filenames";
+                    else if (isSomethingSelected) kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "Filename";
+                    else kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "Filenames";
                     //Home - Find and Replace
-                    kryptonRibbonGroupButtonHomeFind.Enabled = false;
-                    kryptonRibbonGroupButtonHomeReplace.Enabled = false;
+                    RibbonGroupButtonHomeFineAndReplace(enabledFind: false, enabledRplace: false);
+                    RibbonGroupButtonHomeFileSystem(
+                        enabledDelete: isSomethingSelected, enabledRename: isSomethingSelected, 
+                        enabledRefresh: isSomethingSelected, enabledOpenWithEdit: isSomethingSelected);
 
-                    //Home - FileSystem
-                    if (imageListView1.SelectedItems.Count == 0)
+                    if (isMoreThatOneSelected)
                     {
-                        kryptonRibbonGroupButtonHomeFileSystemDelete.Enabled = false;
-                        kryptonRibbonGroupButtonHomeFileSystemDelete.TextLine2 = "File(s)";
-                        kryptonRibbonGroupButtonHomeFileSystemRename.Enabled = false;
-                        kryptonRibbonGroupButtonHomeFileSystemRename.TextLine2 = "File(s)";
-                        kryptonRibbonGroupButtonHomeFileSystemRefresh.Enabled = false;
-                        kryptonRibbonGroupButtonHomeFileSystemRefresh.TextLine2 = "Files";
-                    }
-                    else if (imageListView1.SelectedItems.Count == 1)
-                    {
-                        kryptonRibbonGroupButtonHomeFileSystemDelete.Enabled = true;
-                        kryptonRibbonGroupButtonHomeFileSystemDelete.TextLine2 = "File";
-                        kryptonRibbonGroupButtonHomeFileSystemRename.Enabled = true;
-                        kryptonRibbonGroupButtonHomeFileSystemRename.TextLine2 = "File";
-                        kryptonRibbonGroupButtonHomeFileSystemRefresh.Enabled = true;
-                        kryptonRibbonGroupButtonHomeFileSystemRefresh.TextLine2 = "Files";
-                    } else
-                    {
-                        kryptonRibbonGroupButtonHomeFileSystemDelete.Enabled = true;
                         kryptonRibbonGroupButtonHomeFileSystemDelete.TextLine2 = "Files";
-                        kryptonRibbonGroupButtonHomeFileSystemRename.Enabled = true;
                         kryptonRibbonGroupButtonHomeFileSystemRename.TextLine2 = "Files";
-                        kryptonRibbonGroupButtonHomeFileSystemRefresh.Enabled = true;
                         kryptonRibbonGroupButtonHomeFileSystemRefresh.TextLine2 = "Files";
                     }
-
-                    if (imageListView1.SelectedItems.Count == 0)
+                    if (isSomethingSelected)
                     {
-                        kryptonRibbonGroupButtonHomeFileSystemOpen.Enabled = false;
-                        kryptonRibbonGroupButtonHomeFileSystemOpenWith.Enabled = false;
-                        kryptonRibbonGroupButtonFileSystemOpenAssociateDialog.Enabled = false;
-                        kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.Enabled = false;
-                        kryptonRibbonGroupButtonFileSystemRunCommand.Enabled = false;
-                        kryptonRibbonGroupButtonHomeFileSystemEdit.Enabled = false;
+                        kryptonRibbonGroupButtonHomeFileSystemDelete.TextLine2 = "File";
+                        kryptonRibbonGroupButtonHomeFileSystemRename.TextLine2 = "File";
+                        kryptonRibbonGroupButtonHomeFileSystemRefresh.TextLine2 = "Files";
                     }
-                    else
+                    else  
                     {
-                        kryptonRibbonGroupButtonHomeFileSystemOpen.Enabled = true;
-                        kryptonRibbonGroupButtonHomeFileSystemOpenWith.Enabled = true;
-                        kryptonRibbonGroupButtonFileSystemOpenAssociateDialog.Enabled = true;
-                        kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.Enabled = true;
-                        kryptonRibbonGroupButtonFileSystemRunCommand.Enabled = true;
-                        kryptonRibbonGroupButtonHomeFileSystemEdit.Enabled = true;
+                        kryptonRibbonGroupButtonHomeFileSystemDelete.TextLine2 = "File(s)";
+                        kryptonRibbonGroupButtonHomeFileSystemRename.TextLine2 = "File(s)";
+                        kryptonRibbonGroupButtonHomeFileSystemRefresh.TextLine2 = "Files";
                     }
 
                     //Home - Rotate
-                    if (imageListView1.SelectedItems.Count == 0)
-                    {
-                        kryptonRibbonGroupButtonMediaFileRotate90CCW.Enabled = false;
-                        kryptonRibbonGroupButtonMediaFileRotate180.Enabled = false;
-                        kryptonRibbonGroupButtonMediaFileRotate90CW.Enabled = false;
-                    }
-                    else
-                    {
-                        kryptonRibbonGroupButtonMediaFileRotate90CCW.Enabled = true;
-                        kryptonRibbonGroupButtonMediaFileRotate180.Enabled = true;
-                        kryptonRibbonGroupButtonMediaFileRotate90CW.Enabled = true;
-                    }
-
-                    //Home - Metadata - AutoCorrect
-                    if (imageListView1.SelectedItems.Count == 0)
-                    {
-                        kryptonRibbonGroupButtonHomeAutoCorrectRun.Enabled = false;
-                        kryptonRibbonGroupButtonHomeAutoCorrectForm.Enabled = false;
-                    }
-                    else
-                    {
-                        kryptonRibbonGroupButtonHomeAutoCorrectRun.Enabled = true;
-                        kryptonRibbonGroupButtonHomeAutoCorrectForm.Enabled = true;
-                    }
-
-                    //Home - Metadata - Refresh/Reload
-                    if (imageListView1.SelectedItems.Count == 0)
-                    {
-                        kryptonRibbonGroupButtonHomeMetadataRefresh.Enabled = false;
-                        kryptonRibbonGroupButtonHomeMetadataReload.Enabled = false;
-                    }
-                    else
-                    {
-                        kryptonRibbonGroupButtonHomeMetadataRefresh.Enabled = true;
-                        kryptonRibbonGroupButtonHomeMetadataReload.Enabled = true;
-                    }
-
-                    //Home - Metadata - 
-                    if (imageListView1.SelectedItems.Count == 0)
-                    {
-                        kryptonRibbonGroupButtonHomeTagSelectOn.Enabled = false;
-                        kryptonRibbonGroupButtonHomeTagSelectToggle.Enabled = false;
-                        kryptonRibbonGroupButtonHomeTagSelectOff.Enabled = false;
-                    } 
-                    else
-                    {
-                        kryptonRibbonGroupButtonHomeTagSelectOn.Enabled = true;
-                        kryptonRibbonGroupButtonHomeTagSelectToggle.Enabled = true;
-                        kryptonRibbonGroupButtonHomeTagSelectOff.Enabled = true;
-                    }
+                    RibbonGroupButtonHomeRotate(enabled: isSomethingSelected);
+                    //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
+                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: isSomethingSelected, enabledDeleteHistoryRefresh: isSomethingSelected, enabledTriState: false);
 
                     break;
                 case KryptonPages.kryptonPageToolboxTags:
                     //Home - Clipboard
-                    kryptonRibbonGroupButtonHomeCopy.Enabled = true;
-                    kryptonRibbonGroupButtonHomeCut.Enabled = true;
-                    kryptonRibbonGroupButtonHomePaste.Enabled = true;
-                    kryptonRibbonGroupButtonHomeUndo.Enabled = true;
-                    kryptonRibbonGroupButtonRedo.Enabled = true;
-
+                    RibbonGroupButtonHomeClipboard(enabledCopy: isSomethingSelected, enabledCutPaste: isSomethingSelected, enabledUndoRedo: isSomethingSelected);
                     //Home - Fast Copy text
-                    kryptonRibbonGroupButtonHomeCopyText.Enabled = false;
+                    RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: false, enabledFastCopyGridOverwrite: isSomethingSelected);
                     kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "Text";
-
-                    //Home - FastCopyNoOverwrite / Overwrite
-                    kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.Enabled = true;
-                    kryptonRibbonGroupButtonHomeFastCopyOverwrite.Enabled = true;
-
                     //Home - Find and Replace
-                    kryptonRibbonGroupButtonHomeFind.Enabled = true;
-                    kryptonRibbonGroupButtonHomeReplace.Enabled = true;
-
+                    RibbonGroupButtonHomeFineAndReplace(enabledFind: isSomethingSelected, enabledRplace: isSomethingSelected);
                     //Home - FileSystem
-                    kryptonRibbonGroupButtonHomeFileSystemDelete.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemRename.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemRefresh.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemOpen.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemOpenWith.Enabled = false;
-                    kryptonRibbonGroupButtonFileSystemOpenAssociateDialog.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.Enabled = false;
-                    kryptonRibbonGroupButtonFileSystemRunCommand.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemEdit.Enabled = false;
-
+                    RibbonGroupButtonHomeFileSystem(enabledDelete: false, enabledRename: false, enabledRefresh: false, enabledOpenWithEdit: false);
                     //Home - Rotate
-                    kryptonRibbonGroupButtonMediaFileRotate90CCW.Enabled = false;
-                    kryptonRibbonGroupButtonMediaFileRotate180.Enabled = false;
-                    kryptonRibbonGroupButtonMediaFileRotate90CW.Enabled = false;
-
-                    //Home - Metadata - AutoCorrect
-                    kryptonRibbonGroupButtonHomeAutoCorrectRun.Enabled = false;
-                    kryptonRibbonGroupButtonHomeAutoCorrectForm.Enabled = false;
-
-                    //Home - Metadata - Refresh/Reload
-                    kryptonRibbonGroupButtonHomeMetadataRefresh.Enabled = false;
-                    kryptonRibbonGroupButtonHomeMetadataReload.Enabled = false;
-
-                    //Home - Metadata - Tag Select
-                    kryptonRibbonGroupButtonHomeTagSelectOn.Enabled = true;
-                    kryptonRibbonGroupButtonHomeTagSelectToggle.Enabled = true;
-                    kryptonRibbonGroupButtonHomeTagSelectOff.Enabled = true;
+                    RibbonGroupButtonHomeRotate(enabled: false);
+                    //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
+                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: isSomethingSelected);
                     break;
                 case KryptonPages.kryptonPageToolboxPeople:
                     //Home - Clipboard
-                    kryptonRibbonGroupButtonHomeCopy.Enabled = true;
-                    kryptonRibbonGroupButtonHomeCut.Enabled = true;
-                    kryptonRibbonGroupButtonHomePaste.Enabled = true;
-                    kryptonRibbonGroupButtonHomeUndo.Enabled = true;
-                    kryptonRibbonGroupButtonRedo.Enabled = true;
-
+                    RibbonGroupButtonHomeClipboard(enabledCopy: isSomethingSelected, enabledCutPaste: isSomethingSelected, enabledUndoRedo: isSomethingSelected);
                     //Home - Fast Copy text
-                    kryptonRibbonGroupButtonHomeCopyText.Enabled = false;
+                    RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: false, enabledFastCopyGridOverwrite: false);
                     kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "Text";
-
-                    //Home - FastCopyNoOverwrite / Overwrite
-                    kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFastCopyOverwrite.Enabled = false;
-
                     //Home - Find and Replace
-                    kryptonRibbonGroupButtonHomeFind.Enabled = true;
-                    kryptonRibbonGroupButtonHomeReplace.Enabled = true;
-
+                    RibbonGroupButtonHomeFineAndReplace(enabledFind: isSomethingSelected, enabledRplace: isSomethingSelected);
                     //Home - FileSystem
-                    kryptonRibbonGroupButtonHomeFileSystemDelete.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemRename.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemRefresh.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemOpen.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemOpenWith.Enabled = false;
-                    kryptonRibbonGroupButtonFileSystemOpenAssociateDialog.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.Enabled = false;
-                    kryptonRibbonGroupButtonFileSystemRunCommand.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemEdit.Enabled = false;
-
+                    RibbonGroupButtonHomeFileSystem(enabledDelete: false, enabledRename: false, enabledRefresh: false, enabledOpenWithEdit: false);
                     //Home - Rotate
-                    kryptonRibbonGroupButtonMediaFileRotate90CCW.Enabled = false;
-                    kryptonRibbonGroupButtonMediaFileRotate180.Enabled = false;
-                    kryptonRibbonGroupButtonMediaFileRotate90CW.Enabled = false;
-
-                    //Home - Metadata - AutoCorrect
-                    kryptonRibbonGroupButtonHomeAutoCorrectRun.Enabled = false;
-                    kryptonRibbonGroupButtonHomeAutoCorrectForm.Enabled = false;
-
-                    //Home - Metadata - Refresh/Reload
-                    kryptonRibbonGroupButtonHomeMetadataRefresh.Enabled = false;
-                    kryptonRibbonGroupButtonHomeMetadataReload.Enabled = false;
-
-                    //Home - Metadata - Tag Select
-                    kryptonRibbonGroupButtonHomeTagSelectOn.Enabled = true;
-                    kryptonRibbonGroupButtonHomeTagSelectToggle.Enabled = true;
-                    kryptonRibbonGroupButtonHomeTagSelectOff.Enabled = true;
+                    RibbonGroupButtonHomeRotate(enabled: false);
+                    //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
+                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: isSomethingSelected);
                     break;
                 case KryptonPages.kryptonPageToolboxMap:
                     //Home - Clipboard
-                    kryptonRibbonGroupButtonHomeCopy.Enabled = true;
-                    kryptonRibbonGroupButtonHomeCut.Enabled = true;
-                    kryptonRibbonGroupButtonHomePaste.Enabled = true;
-                    kryptonRibbonGroupButtonHomeUndo.Enabled = true;
-                    kryptonRibbonGroupButtonRedo.Enabled = true;
-
+                    RibbonGroupButtonHomeClipboard(enabledCopy: isSomethingSelected, enabledCutPaste: isSomethingSelected, enabledUndoRedo: isSomethingSelected);
                     //Home - Fast Copy text
-                    kryptonRibbonGroupButtonHomeCopyText.Enabled = false;
+                    RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: false, enabledFastCopyGridOverwrite: isSomethingSelected);
                     kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "Text";
-
-                    //Home - FastCopyNoOverwrite / Overwrite
-                    kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.Enabled = true;
-                    kryptonRibbonGroupButtonHomeFastCopyOverwrite.Enabled = true;
-
                     //Home - Find and Replace
-                    kryptonRibbonGroupButtonHomeFind.Enabled = true;
-                    kryptonRibbonGroupButtonHomeReplace.Enabled = true;
-
+                    RibbonGroupButtonHomeFineAndReplace(enabledFind: isSomethingSelected, enabledRplace: isSomethingSelected);
                     //Home - FileSystem
-                    kryptonRibbonGroupButtonHomeFileSystemDelete.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemRename.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemRefresh.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemOpen.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemOpenWith.Enabled = false;
-                    kryptonRibbonGroupButtonFileSystemOpenAssociateDialog.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.Enabled = false;
-                    kryptonRibbonGroupButtonFileSystemRunCommand.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemEdit.Enabled = false;
-
+                    RibbonGroupButtonHomeFileSystem(enabledDelete: false, enabledRename: false, enabledRefresh: false, enabledOpenWithEdit: false);
                     //Home - Rotate
-                    kryptonRibbonGroupButtonMediaFileRotate90CCW.Enabled = false;
-                    kryptonRibbonGroupButtonMediaFileRotate180.Enabled = false;
-                    kryptonRibbonGroupButtonMediaFileRotate90CW.Enabled = false;
-
-                    //Home - Metadata - AutoCorrect
-                    kryptonRibbonGroupButtonHomeAutoCorrectRun.Enabled = false;
-                    kryptonRibbonGroupButtonHomeAutoCorrectForm.Enabled = false;
-
-                    //Home - Metadata - Refresh/Reload
-                    kryptonRibbonGroupButtonHomeMetadataRefresh.Enabled = false;
-                    kryptonRibbonGroupButtonHomeMetadataReload.Enabled = false;
-
-                    //Home - Metadata - Tag Select
-                    kryptonRibbonGroupButtonHomeTagSelectOn.Enabled = false;
-                    kryptonRibbonGroupButtonHomeTagSelectToggle.Enabled = false;
-                    kryptonRibbonGroupButtonHomeTagSelectOff.Enabled = false;
+                    RibbonGroupButtonHomeRotate(enabled: false);
+                    //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
+                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false);
                     break;
                 case KryptonPages.kryptonPageToolboxDates:
                     //Home - Clipboard
-                    kryptonRibbonGroupButtonHomeCopy.Enabled = true;
-                    kryptonRibbonGroupButtonHomeCut.Enabled = true;
-                    kryptonRibbonGroupButtonHomePaste.Enabled = true;
-                    kryptonRibbonGroupButtonHomeUndo.Enabled = true;
-                    kryptonRibbonGroupButtonRedo.Enabled = true;
-
+                    RibbonGroupButtonHomeClipboard(enabledCopy: isSomethingSelected, enabledCutPaste: isSomethingSelected, enabledUndoRedo: isSomethingSelected);
                     //Home - Fast Copy text
-                    kryptonRibbonGroupButtonHomeCopyText.Enabled = false;
+                    RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: false, enabledFastCopyGridOverwrite: false);
                     kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "Text";
-
-                    //Home - FastCopyNoOverwrite / Overwrite
-                    kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFastCopyOverwrite.Enabled = false;
-
                     //Home - Find and Replace
-                    kryptonRibbonGroupButtonHomeFind.Enabled = true;
-                    kryptonRibbonGroupButtonHomeReplace.Enabled = true;
-
+                    RibbonGroupButtonHomeFineAndReplace(enabledFind: isSomethingSelected, enabledRplace: isSomethingSelected);
                     //Home - FileSystem
-                    kryptonRibbonGroupButtonHomeFileSystemDelete.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemRename.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemRefresh.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemOpen.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemOpenWith.Enabled = false;
-                    kryptonRibbonGroupButtonFileSystemOpenAssociateDialog.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.Enabled = false;
-                    kryptonRibbonGroupButtonFileSystemRunCommand.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemEdit.Enabled = false;
-
+                    RibbonGroupButtonHomeFileSystem(enabledDelete: false, enabledRename: false, enabledRefresh: false, enabledOpenWithEdit: false);
                     //Home - Rotate
-                    kryptonRibbonGroupButtonMediaFileRotate90CCW.Enabled = false;
-                    kryptonRibbonGroupButtonMediaFileRotate180.Enabled = false;
-                    kryptonRibbonGroupButtonMediaFileRotate90CW.Enabled = false;
-
-                    //Home - Metadata - AutoCorrect
-                    kryptonRibbonGroupButtonHomeAutoCorrectRun.Enabled = false;
-                    kryptonRibbonGroupButtonHomeAutoCorrectForm.Enabled = false;
-
-                    //Home - Metadata - Refresh/Reload
-                    kryptonRibbonGroupButtonHomeMetadataRefresh.Enabled = false;
-                    kryptonRibbonGroupButtonHomeMetadataReload.Enabled = false;
-
-                    //Home - Metadata - Tag Select
-                    kryptonRibbonGroupButtonHomeTagSelectOn.Enabled = false;
-                    kryptonRibbonGroupButtonHomeTagSelectToggle.Enabled = false;
-                    kryptonRibbonGroupButtonHomeTagSelectOff.Enabled = false;
+                    RibbonGroupButtonHomeRotate(enabled: false);
+                    //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
+                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false);
                     break;
                 case KryptonPages.kryptonPageToolboxExiftool:
                     //Home - Clipboard
-                    kryptonRibbonGroupButtonHomeCopy.Enabled = true;
-                    kryptonRibbonGroupButtonHomeCut.Enabled = true;
-                    kryptonRibbonGroupButtonHomePaste.Enabled = true;
-                    kryptonRibbonGroupButtonHomeUndo.Enabled = true;
-                    kryptonRibbonGroupButtonRedo.Enabled = true;
-
+                    RibbonGroupButtonHomeClipboard(enabledCopy: isSomethingSelected, enabledCutPaste: false, enabledUndoRedo: false);
                     //Home - Fast Copy text
-                    kryptonRibbonGroupButtonHomeCopyText.Enabled = false;
+                    RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: false, enabledFastCopyGridOverwrite: false);
                     kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "Text";
-
-                    //Home - FastCopyNoOverwrite / Overwrite
-                    kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFastCopyOverwrite.Enabled = false;
-
                     //Home - Find and Replace
-                    kryptonRibbonGroupButtonHomeFind.Enabled = true;
-                    kryptonRibbonGroupButtonHomeReplace.Enabled = true;
-
+                    RibbonGroupButtonHomeFineAndReplace(enabledFind: isSomethingSelected, enabledRplace: false);
                     //Home - FileSystem
-                    kryptonRibbonGroupButtonHomeFileSystemDelete.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemRename.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemRefresh.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemOpen.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemOpenWith.Enabled = false;
-                    kryptonRibbonGroupButtonFileSystemOpenAssociateDialog.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.Enabled = false;
-                    kryptonRibbonGroupButtonFileSystemRunCommand.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemEdit.Enabled = false;
-
+                    RibbonGroupButtonHomeFileSystem(enabledDelete: false, enabledRename: false, enabledRefresh: false, enabledOpenWithEdit: false);
                     //Home - Rotate
-                    kryptonRibbonGroupButtonMediaFileRotate90CCW.Enabled = false;
-                    kryptonRibbonGroupButtonMediaFileRotate180.Enabled = false;
-                    kryptonRibbonGroupButtonMediaFileRotate90CW.Enabled = false;
-
-                    //Home - Metadata - AutoCorrect
-                    kryptonRibbonGroupButtonHomeAutoCorrectRun.Enabled = false;
-                    kryptonRibbonGroupButtonHomeAutoCorrectForm.Enabled = false;
-
-                    //Home - Metadata - Refresh/Reload
-                    kryptonRibbonGroupButtonHomeMetadataRefresh.Enabled = false;
-                    kryptonRibbonGroupButtonHomeMetadataReload.Enabled = false;
-
-                    //Home - Metadata - Tag Select
-                    kryptonRibbonGroupButtonHomeTagSelectOn.Enabled = false;
-                    kryptonRibbonGroupButtonHomeTagSelectToggle.Enabled = false;
-                    kryptonRibbonGroupButtonHomeTagSelectOff.Enabled = false;
+                    RibbonGroupButtonHomeRotate(enabled: false);
+                    //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
+                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false);
                     break;
                 case KryptonPages.kryptonPageToolboxWarnings:
                     //Home - Clipboard
-                    kryptonRibbonGroupButtonHomeCopy.Enabled = true;
-                    kryptonRibbonGroupButtonHomeCut.Enabled = false;
-                    kryptonRibbonGroupButtonHomePaste.Enabled = false;
-                    kryptonRibbonGroupButtonHomeUndo.Enabled = false;
-                    kryptonRibbonGroupButtonRedo.Enabled = false;
-
+                    RibbonGroupButtonHomeClipboard(enabledCopy: isSomethingSelected, enabledCutPaste: false, enabledUndoRedo: false);
                     //Home - Fast Copy text
-                    kryptonRibbonGroupButtonHomeCopyText.Enabled = false;
+                    RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: false, enabledFastCopyGridOverwrite: false);
                     kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "Text";
-
-                    //Home - FastCopyNoOverwrite / Overwrite
-                    kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFastCopyOverwrite.Enabled = false;
-
                     //Home - Find and Replace
-                    kryptonRibbonGroupButtonHomeFind.Enabled = true;
-                    kryptonRibbonGroupButtonHomeReplace.Enabled = true;
-
+                    RibbonGroupButtonHomeFineAndReplace(enabledFind: isSomethingSelected, enabledRplace: false);
                     //Home - FileSystem
-                    kryptonRibbonGroupButtonHomeFileSystemDelete.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemRename.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemRefresh.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemOpen.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemOpenWith.Enabled = false;
-                    kryptonRibbonGroupButtonFileSystemOpenAssociateDialog.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.Enabled = false;
-                    kryptonRibbonGroupButtonFileSystemRunCommand.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemEdit.Enabled = false;
-
+                    RibbonGroupButtonHomeFileSystem(enabledDelete: false, enabledRename: false, enabledRefresh: false, enabledOpenWithEdit: false);
                     //Home - Rotate
-                    kryptonRibbonGroupButtonMediaFileRotate90CCW.Enabled = false;
-                    kryptonRibbonGroupButtonMediaFileRotate180.Enabled = false;
-                    kryptonRibbonGroupButtonMediaFileRotate90CW.Enabled = false;
-
-                    //Home - Metadata - AutoCorrect
-                    kryptonRibbonGroupButtonHomeAutoCorrectRun.Enabled = false;
-                    kryptonRibbonGroupButtonHomeAutoCorrectForm.Enabled = false;
-
-                    //Home - Metadata - Refresh/Reload
-                    kryptonRibbonGroupButtonHomeMetadataRefresh.Enabled = false;
-                    kryptonRibbonGroupButtonHomeMetadataReload.Enabled = false;
-
-                    //Home - Metadata - Tag Select
-                    kryptonRibbonGroupButtonHomeTagSelectOn.Enabled = false;
-                    kryptonRibbonGroupButtonHomeTagSelectToggle.Enabled = false;
-                    kryptonRibbonGroupButtonHomeTagSelectOff.Enabled = false;
+                    RibbonGroupButtonHomeRotate(enabled: false);
+                    //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
+                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false);
                     break;
                 case KryptonPages.kryptonPageToolboxProperties:
                     //Home - Clipboard
-                    kryptonRibbonGroupButtonHomeCopy.Enabled = true;
-                    kryptonRibbonGroupButtonHomeCut.Enabled = false;
-                    kryptonRibbonGroupButtonHomePaste.Enabled = false;
-                    kryptonRibbonGroupButtonHomeUndo.Enabled = false;
-                    kryptonRibbonGroupButtonRedo.Enabled = false;
-
+                    RibbonGroupButtonHomeClipboard(enabledCopy: isSomethingSelected, enabledCutPaste: false, enabledUndoRedo: false);
                     //Home - Fast Copy text
-                    kryptonRibbonGroupButtonHomeCopyText.Enabled = false;
+                    RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: false, enabledFastCopyGridOverwrite: false);
                     kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "Text";
-
-                    //Home - FastCopyNoOverwrite / Overwrite
-                    kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFastCopyOverwrite.Enabled = false;
-
                     //Home - Find and Replace
-                    kryptonRibbonGroupButtonHomeFind.Enabled = true;
-                    kryptonRibbonGroupButtonHomeReplace.Enabled = true;
-
+                    RibbonGroupButtonHomeFineAndReplace(enabledFind: isSomethingSelected, enabledRplace: isSomethingSelected);
                     //Home - FileSystem
-                    kryptonRibbonGroupButtonHomeFileSystemDelete.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemRename.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemRefresh.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemOpen.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemOpenWith.Enabled = false;
-                    kryptonRibbonGroupButtonFileSystemOpenAssociateDialog.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.Enabled = false;
-                    kryptonRibbonGroupButtonFileSystemRunCommand.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemEdit.Enabled = false;
-
+                    RibbonGroupButtonHomeFileSystem(enabledDelete: false, enabledRename: false, enabledRefresh: false, enabledOpenWithEdit: false);
                     //Home - Rotate
-                    kryptonRibbonGroupButtonMediaFileRotate90CCW.Enabled = false;
-                    kryptonRibbonGroupButtonMediaFileRotate180.Enabled = false;
-                    kryptonRibbonGroupButtonMediaFileRotate90CW.Enabled = false;
-
-                    //Home - Metadata - AutoCorrect
-                    kryptonRibbonGroupButtonHomeAutoCorrectRun.Enabled = false;
-                    kryptonRibbonGroupButtonHomeAutoCorrectForm.Enabled = false;
-
-                    //Home - Metadata - Refresh/Reload
-                    kryptonRibbonGroupButtonHomeMetadataRefresh.Enabled = false;
-                    kryptonRibbonGroupButtonHomeMetadataReload.Enabled = false;
-
-                    //Home - Metadata - Tag Select
-                    kryptonRibbonGroupButtonHomeTagSelectOn.Enabled = false;
-                    kryptonRibbonGroupButtonHomeTagSelectToggle.Enabled = false;
-                    kryptonRibbonGroupButtonHomeTagSelectOff.Enabled = false;
+                    RibbonGroupButtonHomeRotate(enabled: false);
+                    //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
+                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false);
                     break;
                 case KryptonPages.kryptonPageToolboxRename:
                     //Home - Clipboard
-                    kryptonRibbonGroupButtonHomeCopy.Enabled = true;
-                    kryptonRibbonGroupButtonHomeCut.Enabled = false;
-                    kryptonRibbonGroupButtonHomePaste.Enabled = false;
-                    kryptonRibbonGroupButtonHomeUndo.Enabled = false;
-                    kryptonRibbonGroupButtonRedo.Enabled = false;
-
+                    RibbonGroupButtonHomeClipboard(enabledCopy: isSomethingSelected, enabledCutPaste: isSomethingSelected, enabledUndoRedo: isSomethingSelected);
                     //Home - Fast Copy text
-                    kryptonRibbonGroupButtonHomeCopyText.Enabled = false;
+                    RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: false, enabledFastCopyGridOverwrite: false);
                     kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "Text";
-
-                    //Home - FastCopyNoOverwrite / Overwrite
-                    kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFastCopyOverwrite.Enabled = false;
-
                     //Home - Find and Replace
-                    kryptonRibbonGroupButtonHomeFind.Enabled = true;
-                    kryptonRibbonGroupButtonHomeReplace.Enabled = true;
-
+                    RibbonGroupButtonHomeFineAndReplace(enabledFind: isSomethingSelected, enabledRplace: isSomethingSelected);
                     //Home - FileSystem
-                    kryptonRibbonGroupButtonHomeFileSystemDelete.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemRename.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemRefresh.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemOpen.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemOpenWith.Enabled = false;
-                    kryptonRibbonGroupButtonFileSystemOpenAssociateDialog.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.Enabled = false;
-                    kryptonRibbonGroupButtonFileSystemRunCommand.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemEdit.Enabled = false;
-
+                    RibbonGroupButtonHomeFileSystem(enabledDelete: false, enabledRename: false, enabledRefresh: false, enabledOpenWithEdit: false);
                     //Home - Rotate
-                    kryptonRibbonGroupButtonMediaFileRotate90CCW.Enabled = false;
-                    kryptonRibbonGroupButtonMediaFileRotate180.Enabled = false;
-                    kryptonRibbonGroupButtonMediaFileRotate90CW.Enabled = false;
-
-                    //Home - Metadata - AutoCorrect
-                    kryptonRibbonGroupButtonHomeAutoCorrectRun.Enabled = false;
-                    kryptonRibbonGroupButtonHomeAutoCorrectForm.Enabled = false;
-
-                    //Home - Metadata - Refresh/Reload
-                    kryptonRibbonGroupButtonHomeMetadataRefresh.Enabled = false;
-                    kryptonRibbonGroupButtonHomeMetadataReload.Enabled = false;
-
-                    //Home - Metadata - Tag Select
-                    kryptonRibbonGroupButtonHomeTagSelectOn.Enabled = false;
-                    kryptonRibbonGroupButtonHomeTagSelectToggle.Enabled = false;
-                    kryptonRibbonGroupButtonHomeTagSelectOff.Enabled = false;
+                    RibbonGroupButtonHomeRotate(enabled: false);
+                    //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
+                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false);
                     break;
                 case KryptonPages.kryptonPageToolboxConvertAndMerge:
                     //Home - Clipboard
-                    kryptonRibbonGroupButtonHomeCopy.Enabled = true;
-                    kryptonRibbonGroupButtonHomeCut.Enabled = false;
-                    kryptonRibbonGroupButtonHomePaste.Enabled = false;
-                    kryptonRibbonGroupButtonHomeUndo.Enabled = false;
-                    kryptonRibbonGroupButtonRedo.Enabled = false;
-
+                    RibbonGroupButtonHomeClipboard(enabledCopy: isSomethingSelected, enabledCutPaste: isSomethingSelected, enabledUndoRedo: isSomethingSelected);
                     //Home - Fast Copy text
-                    kryptonRibbonGroupButtonHomeCopyText.Enabled = false;
+                    RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: false, enabledFastCopyGridOverwrite: false);
                     kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "Text";
-
-                    //Home - FastCopyNoOverwrite / Overwrite
-                    kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFastCopyOverwrite.Enabled = false;
-
                     //Home - Find and Replace
-                    kryptonRibbonGroupButtonHomeFind.Enabled = true;
-                    kryptonRibbonGroupButtonHomeReplace.Enabled = true;
-
+                    RibbonGroupButtonHomeFineAndReplace(enabledFind: isSomethingSelected, enabledRplace: isSomethingSelected);
                     //Home - FileSystem
-                    kryptonRibbonGroupButtonHomeFileSystemDelete.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemRename.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemRefresh.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemOpen.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemOpenWith.Enabled = false;
-                    kryptonRibbonGroupButtonFileSystemOpenAssociateDialog.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.Enabled = false;
-                    kryptonRibbonGroupButtonFileSystemRunCommand.Enabled = false;
-                    kryptonRibbonGroupButtonHomeFileSystemEdit.Enabled = false;
-
+                    RibbonGroupButtonHomeFileSystem(enabledDelete: false, enabledRename: false, enabledRefresh: false, enabledOpenWithEdit: false);
                     //Home - Rotate
-                    kryptonRibbonGroupButtonMediaFileRotate90CCW.Enabled = false;
-                    kryptonRibbonGroupButtonMediaFileRotate180.Enabled = false;
-                    kryptonRibbonGroupButtonMediaFileRotate90CW.Enabled = false;
-
-                    //Home - Metadata - AutoCorrect
-                    kryptonRibbonGroupButtonHomeAutoCorrectRun.Enabled = false;
-                    kryptonRibbonGroupButtonHomeAutoCorrectForm.Enabled = false;
-
-                    //Home - Metadata - Refresh/Reload
-                    kryptonRibbonGroupButtonHomeMetadataRefresh.Enabled = false;
-                    kryptonRibbonGroupButtonHomeMetadataReload.Enabled = false;
-
-                    //Home - Metadata - Tag Select
-                    kryptonRibbonGroupButtonHomeTagSelectOn.Enabled = false;
-                    kryptonRibbonGroupButtonHomeTagSelectToggle.Enabled = false;
-                    kryptonRibbonGroupButtonHomeTagSelectOff.Enabled = false;
+                    RibbonGroupButtonHomeRotate(enabled: false);
+                    //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
+                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false);
                     break;
                 default:
                     throw new NotImplementedException();
