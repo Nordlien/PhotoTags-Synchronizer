@@ -31,7 +31,7 @@ namespace PhotoTagsSynchronizer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Filter");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Filter");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.toolStripContainerMainForm = new System.Windows.Forms.ToolStripContainer();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
@@ -1737,11 +1737,11 @@ namespace PhotoTagsSynchronizer
             this.treeViewFilter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeViewFilter.Location = new System.Drawing.Point(0, 0);
             this.treeViewFilter.Name = "treeViewFilter";
-            treeNode1.Name = "NodeFolder";
-            treeNode1.Tag = "Filter";
-            treeNode1.Text = "Filter";
+            treeNode2.Name = "NodeFolder";
+            treeNode2.Tag = "Filter";
+            treeNode2.Text = "Filter";
             this.treeViewFilter.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1});
+            treeNode2});
             this.treeViewFilter.Size = new System.Drawing.Size(399, 600);
             this.treeViewFilter.TabIndex = 0;
             this.treeViewFilter.BeforeCheck += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeViewFilter_BeforeCheck);
@@ -1785,12 +1785,12 @@ namespace PhotoTagsSynchronizer
             this.imageListView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.imageListView1.CacheLimit = "0";
             this.imageListView1.CacheMode = Manina.Windows.Forms.CacheMode.Continuous;
-            this.imageListView1.ContextMenuStrip = this.contextMenuStripImageListView;
             this.imageListView1.DefaultImage = ((System.Drawing.Image)(resources.GetObject("imageListView1.DefaultImage")));
             this.imageListView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.imageListView1.ErrorImage = ((System.Drawing.Image)(resources.GetObject("imageListView1.ErrorImage")));
             this.imageListView1.HeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.imageListView1.ImeMode = System.Windows.Forms.ImeMode.Katakana;
+            this.imageListView1.KryptonContextMenu = null;
             this.imageListView1.Location = new System.Drawing.Point(0, 0);
             this.imageListView1.Name = "imageListView1";
             this.imageListView1.RetryOnError = false;
@@ -5717,7 +5717,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonTabSelect,
             this.kryptonRibbonTabTools,
             this.kryptonRibbonTabPreview});
-            this.kryptonRibbonMain.SelectedContext = null;
             this.kryptonRibbonMain.SelectedTab = this.kryptonRibbonTabHome;
             this.kryptonRibbonMain.Size = new System.Drawing.Size(1214, 115);
             this.kryptonRibbonMain.TabIndex = 12;

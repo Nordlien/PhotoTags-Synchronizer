@@ -255,17 +255,18 @@ namespace PhotoTagsSynchronizer
                     if (dataGridView.Name == nameDataGridViewRename) ActiveKryptonPage = KryptonPages.kryptonPageToolboxRename;
                     if (dataGridView.Name == nameDataGridViewTagsAndKeywords) ActiveKryptonPage = KryptonPages.kryptonPageToolboxTags;
                 }
-                if (((Krypton.Toolkit.KryptonContextMenu)sender).Caller is Furty.Windows.Forms.FolderTreeView)
+                else if (((Krypton.Toolkit.KryptonContextMenu)sender).Caller is Furty.Windows.Forms.FolderTreeView)
                 {
                     Furty.Windows.Forms.FolderTreeView folderTreeView = (Furty.Windows.Forms.FolderTreeView)((Krypton.Toolkit.KryptonContextMenu)sender).Caller;
                     if (folderTreeView.Name == nameFolderTreeViewFolder) ActiveKryptonPage = KryptonPages.kryptonPageFolderSearchFilterFolder;
                 }
-                
-                if (((Krypton.Toolkit.KryptonContextMenu)sender).Caller is Manina.Windows.Forms.ImageListView)
+                else if (((Krypton.Toolkit.KryptonContextMenu)sender).Caller is Manina.Windows.Forms.ImageListView)
                 {
                     Manina.Windows.Forms.ImageListView imageListView = (Manina.Windows.Forms.ImageListView)((Krypton.Toolkit.KryptonContextMenu)sender).Caller;
                     if (imageListView.Name == nameImageListView) ActiveKryptonPage = KryptonPages.kryptonPageMediaFiles;
                 }
+                else throw new NotImplementedException();
+
             }
 
             switch (ActiveKryptonPage)
@@ -321,7 +322,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericMediaView(false);
                     break;
                 case KryptonPages.kryptonPageMediaFiles:
-                    ContextMenuGenericRename(true);
+                    ContextMenuGenericRename(false);
                     ContextMenuGenericClipboard(
                         visibleCutCopyPaste: true, visibleUndoRedo: false, visibleCopyText: true,
                         visibleFind: false, visibleReplace: false,

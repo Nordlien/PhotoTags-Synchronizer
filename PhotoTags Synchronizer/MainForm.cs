@@ -343,7 +343,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuItemGenericMediaViewAsPoster.Click += KryptonContextMenuItemGenericMediaViewAsPoster_Click;
             this.kryptonContextMenuItemGenericMediaViewAsFull.Click += KryptonContextMenuItemGenericMediaViewAsFull_Click;
 
-            this.imageListView1.ContextMenu = kryptonContextMenuGenericBase;
+            this.imageListView1.KryptonContextMenu = kryptonContextMenuGenericBase;
             this.folderTreeViewFolder.KryptonContextMenu = kryptonContextMenuGenericBase;
             this.dataGridViewConvertAndMerge.KryptonContextMenu = kryptonContextMenuGenericBase;
             this.dataGridViewDate.KryptonContextMenu = kryptonContextMenuGenericBase;
@@ -970,6 +970,7 @@ namespace PhotoTagsSynchronizer
 
 
         #endregion
+
     }
 
     

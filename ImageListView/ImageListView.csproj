@@ -64,30 +64,14 @@
     <Reference Include="System.Transactions" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="HitInfo.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="ImageListView.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="ImageListViewColumnHeader.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="ImageListViewColumnHeaderCollection.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="ImageListViewItemCollection.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="ImageListViewRenderer.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="ImageListViewSelectedItemCollection.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="ImageListViewNavigationManager.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Update="HitInfo.cs" />
+    <Compile Update="ImageListView.cs" />
+    <Compile Update="ImageListViewColumnHeader.cs" />
+    <Compile Update="ImageListViewColumnHeaderCollection.cs" />
+    <Compile Update="ImageListViewItemCollection.cs" />
+    <Compile Update="ImageListViewRenderer.cs" />
+    <Compile Update="ImageListViewSelectedItemCollection.cs" />
+    <Compile Update="ImageListViewNavigationManager.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
@@ -104,5 +88,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FolderView\FolderView.csproj" />
+    <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2019.csproj" />
   </ItemGroup>
 </Project>

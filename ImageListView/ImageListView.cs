@@ -23,6 +23,7 @@ using System.Drawing;
 using System.ComponentModel.Design.Serialization;
 using System.Resources;
 using System.Reflection;
+using Krypton.Toolkit;
 
 namespace Manina.Windows.Forms
 {
@@ -526,6 +527,10 @@ namespace Manina.Windows.Forms
                 return p;
             }
         }
+
+        public KryptonContextMenu KryptonContextMenu { get; set; }
+
+        
 
         #endregion
 
@@ -1048,17 +1053,27 @@ namespace Manina.Windows.Forms
             if (!disposed && mRenderer != null)
                 mRenderer.Refresh(e.Graphics, forceRefresh);
         }
+
         /// <summary>
         /// Handles the MouseDown event.
         /// </summary>
         protected override void OnMouseDown(MouseEventArgs e)
         {
             // Capture focus if right clicked
-            if (!Focused && (e.Button & MouseButtons.Right) == MouseButtons.Right)
-                Focus();
+            if (!Focused && (e.Button & MouseButtons.Right) == MouseButtons.Right) Focus();
 
             navigationManager.MouseDown(e);
-            base.OnMouseDown(e);
+
+            if ((e.Button & MouseButtons.Right) == MouseButtons.Right && KryptonContextMenu != null)
+            {
+                //JTN Added support for KryptonContextMenu
+                if (e.Location.X > this.Width / 2) 
+                    KryptonContextMenu.Show(this, this.PointToScreen(e.Location), KryptonContextMenuPositionH.Left, KryptonContextMenuPositionV.Below);
+                else
+                    KryptonContextMenu.Show(this, this.PointToScreen(e.Location), KryptonContextMenuPositionH.Right, KryptonContextMenuPositionV.Below);
+            }
+
+            base.OnMouseDown(e);            
         }
         /// <summary>
         /// Handles the MouseUp event.
