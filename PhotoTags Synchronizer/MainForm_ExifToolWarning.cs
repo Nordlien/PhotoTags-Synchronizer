@@ -81,7 +81,7 @@ namespace PhotoTagsSynchronizer
 
         private void exiftoolWarningCompositeTagsPrioityToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DataGridView dataGridView = dataGridViewExifToolWarning;
+            DataGridView dataGridView = dataGridViewExiftoolWarning;
             MetadataPriorityValues metadataPriorityValues = (MetadataPriorityValues)(((ToolStripMenuItem)sender).Tag);
 
             List<int> rows = DataGridViewHandler.GetRowSelected(dataGridView);
@@ -120,13 +120,13 @@ namespace PhotoTagsSynchronizer
 
         private void dataGridViewExifToolWarning_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
-            DataGridView dataGridView = dataGridViewExifToolWarning;
+            DataGridView dataGridView = dataGridViewExiftoolWarning;
             RegionSelectorLoadAndSelect(dataGridView, e.RowIndex, e.ColumnIndex);
         }
 
         private void toolStripMenuItemShowPosterWindowWarnings_Click(object sender, EventArgs e)
         {
-            DataGridView dataGridView = dataGridViewExifToolWarning;
+            DataGridView dataGridView = dataGridViewExiftoolWarning;
             OpenRegionSelector();
             RegionSelectorLoadAndSelect(dataGridView);
         }

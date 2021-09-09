@@ -321,34 +321,62 @@ namespace PhotoTagsSynchronizer
             #endregion
 
             #region InitializeComponent - Krypton
+            this.kryptonContextMenuItemGenericRegionRename1.Click += KryptonContextMenuItemGenericRegionRename1_Click;
+            this.kryptonContextMenuItemGenericRegionRename2.Click += KryptonContextMenuItemGenericRegionRename2_Click;
+            this.kryptonContextMenuItemGenericRegionRename3.Click += KryptonContextMenuItemGenericRegionRename3_Click;
+            this.kryptonContextMenuItemGenericRegionRenameFromLastUsed.Click += KryptonContextMenuItemGenericRegionRenameFromLastUsed_Click;
+            this.kryptonContextMenuItemGenericRegionRenameListAll.Click += KryptonContextMenuItemGenericRegionRenameListAll_Click;
+            //this.kryptonContextMenuSeparatorGenericEndOfRegionRename
             this.kryptonContextMenuItemGenericCut.Click += KryptonContextMenuItemGenericCut_Click;
             this.kryptonContextMenuItemGenericCopy.Click += KryptonContextMenuItemGenericCopy_Click;
             this.kryptonContextMenuItemGenericCopyText.Click += KryptonContextMenuItemGenericCopyText_Click;
             this.kryptonContextMenuItemGenericPaste.Click += KryptonContextMenuItemGenericPaste_Click;
-            this.kryptonContextMenuItemGenericDelete.Click += KryptonContextMenuItemGenericDelete_Click;
-            this.kryptonContextMenuItemGenericRename.Click += KryptonContextMenuItemGenericRename_Click;
+            this.kryptonContextMenuItemGenericDelete.Click += KryptonContextMenuItemGenericFileSystemDelete_Click;
+            this.kryptonContextMenuItemGenericRename.Click += KryptonContextMenuItemGenericFileSystemRename_Click;
             this.kryptonContextMenuItemGenericUndo.Click += KryptonContextMenuItemGenericUndo_Click;
             this.kryptonContextMenuItemGenericRedo.Click += KryptonContextMenuItemGenericRedo_Click;
             this.kryptonContextMenuItemGenericFind.Click += KryptonContextMenuItemGenericFind_Click;
             this.kryptonContextMenuItemGenericReplace.Click += KryptonContextMenuItemGenericReplace_Click;
-            this.kryptonContextMenuItemGenericSave.Click += KryptonContextMenuItemGenericSave_Click;
+            this.kryptonContextMenuItemGenericSave.Click += KryptonContextMenuItemGenericSave_Click;                                                          
+            //this.kryptonContextMenuSeparatorGenericEndOfClipboard
+            this.kryptonContextMenuItemGenericRefreshFolder.Click += KryptonContextMenuItemGenericFileSystemRefreshFolder_Click;
+            this.kryptonContextMenuItemGenericReadSubfolders.Click += KryptonContextMenuItemGenericReadSubfolders_Click;
+            this.kryptonContextMenuItemGenericOpenFolderLocation.Click += KryptonContextMenuItemGenericOpenExplorerLocation_Click;
+            this.kryptonContextMenuItemGenericOpen.Click += KryptonContextMenuItemGenericOpen_Click;
+            this.kryptonContextMenuItemGenericOpenWith.Click += KryptonContextMenuItemGenericOpenWith_Click;
+            this.kryptonContextMenuItemGenericOpenVerbEdit.Click += KryptonContextMenuItemGenericFileSystemVerbEdit_Click;
+            this.kryptonContextMenuItemGenericRunCommand.Click += KryptonContextMenuItemGenericFileSystemRunCommand_Click;
+            //this.kryptonContextMenuSeparatorGenericEndOfFileSystem,
+            this.kryptonContextMenuItemGenericAutoCorrectRun.Click += KryptonContextMenuItemGenericAutoCorrectRun_Click;
+            this.kryptonContextMenuItemGenericAutoCorrectForm.Click += KryptonContextMenuItemGenericAutoCorrectForm_Click;
+            this.kryptonContextMenuItemGenericMetadataRefreshLast.Click += KryptonContextMenuItemGenericMetadataRefreshLast_Click;
+            this.kryptonContextMenuItemGenericMetadataDeleteHistory.Click += KryptonContextMenuItemGenericMetadataReloadDeleteHistory_Click;
+            //this.kryptonContextMenuSeparatorGenericEndOfMetadata,
+            this.kryptonContextMenuItemGenericRotate270.Click += KryptonContextMenuItemGenericRotate270_Click;
+            this.kryptonContextMenuItemGenericRotate180.Click += KryptonContextMenuItemGenericRotate180_Click;
+            this.kryptonContextMenuItemGenericRotate90.Click += KryptonContextMenuItemGenericRotate90_Click;
+            //this.kryptonContextMenuSeparatorEndOfRotate,
             this.kryptonContextMenuItemGenericFavoriteAdd.Click += KryptonContextMenuItemGenericFavoriteAdd_Click;
             this.kryptonContextMenuItemGenericFavoriteDelete.Click += KryptonContextMenuItemGenericFavoriteDelete_Click;
             this.kryptonContextMenuItemGenericFavoriteToggle.Click += KryptonContextMenuItemFavoriteToggle_Click;
+            //this.kryptonContextMenuSeparatorGenericEndOfFavorite,
             this.kryptonContextMenuItemGenericRowShowFavorite.Click += KryptonContextMenuItemGenericRowShowFavorite_Click;
             this.kryptonContextMenuItemGenericRowHideEqual.Click += KryptonContextMenuItemGenericRowHideEqual_Click;
+            //this.kryptonContextMenuSeparatorGenericEndOfShowHideRows,
             this.kryptonContextMenuItemGenericTriStateOn.Click += KryptonContextMenuItemGenericTriStateOn_Click;
             this.kryptonContextMenuItemGenericTriStateOff.Click += KryptonContextMenuItemGenericTriStateOff_Click;
             this.kryptonContextMenuItemGenericTriStateToggle.Click += KryptonContextMenuItemGenericTriStateToggle_Click;
+            //this.kryptonContextMenuSeparatorGenericEndOfTriState,
             this.kryptonContextMenuItemGenericMediaViewAsPoster.Click += KryptonContextMenuItemGenericMediaViewAsPoster_Click;
             this.kryptonContextMenuItemGenericMediaViewAsFull.Click += KryptonContextMenuItemGenericMediaViewAsFull_Click;
+            
 
             this.imageListView1.KryptonContextMenu = kryptonContextMenuGenericBase;
             this.folderTreeViewFolder.KryptonContextMenu = kryptonContextMenuGenericBase;
             this.dataGridViewConvertAndMerge.KryptonContextMenu = kryptonContextMenuGenericBase;
             this.dataGridViewDate.KryptonContextMenu = kryptonContextMenuGenericBase;
-            this.dataGridViewExifTool.KryptonContextMenu = kryptonContextMenuGenericBase;
-            this.dataGridViewExifToolWarning.KryptonContextMenu = kryptonContextMenuGenericBase;
+            this.dataGridViewExiftool.KryptonContextMenu = kryptonContextMenuGenericBase;
+            this.dataGridViewExiftoolWarning.KryptonContextMenu = kryptonContextMenuGenericBase;
             this.dataGridViewMap.KryptonContextMenu = kryptonContextMenuGenericBase;
             this.dataGridViewPeople.KryptonContextMenu = kryptonContextMenuGenericBase;
             this.dataGridViewProperties.KryptonContextMenu = kryptonContextMenuGenericBase;
@@ -359,8 +387,8 @@ namespace PhotoTagsSynchronizer
             nameFolderTreeViewFolder = this.folderTreeViewFolder.Name;
             nameDataGridViewConvertAndMerge = this.dataGridViewConvertAndMerge.Name;
             nameDataGridViewDate = this.dataGridViewDate.Name;
-            nameDataGridViewExifTool = this.dataGridViewExifTool.Name;
-            nameDataGridViewExifToolWarning = this.dataGridViewExifToolWarning.Name;
+            nameDataGridViewExifTool = this.dataGridViewExiftool.Name;
+            nameDataGridViewExifToolWarning = this.dataGridViewExiftoolWarning.Name;
             nameDataGridViewMap = this.dataGridViewMap.Name;
             nameDataGridViewPeople = this.dataGridViewPeople.Name;
             nameDataGridViewProperties = this.dataGridViewProperties.Name;
@@ -584,22 +612,19 @@ namespace PhotoTagsSynchronizer
             GlobalData.dataGridViewHandlerDates = new DataGridViewHandler(dataGridViewDate, LinkTabAndDataGridViewNameDates, "Name/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeDates);
 
             kryptonPageToolboxExiftool.Tag = LinkTabAndDataGridViewNameExiftool;
-            GlobalData.dataGridViewHandlerExiftoolTags = new DataGridViewHandler(dataGridViewExifTool, LinkTabAndDataGridViewNameExiftool, "File/Tag Description", (DataGridViewSize)Properties.Settings.Default.CellSizeExiftool);
+            GlobalData.dataGridViewHandlerExiftoolTags = new DataGridViewHandler(dataGridViewExiftool, LinkTabAndDataGridViewNameExiftool, "File/Tag Description", (DataGridViewSize)Properties.Settings.Default.CellSizeExiftool);
 
             kryptonPageToolboxWarnings.Tag = LinkTabAndDataGridViewNameWarnings;
-            GlobalData.dataGridViewHandlerExiftoolWarning = new DataGridViewHandler(dataGridViewExifToolWarning, LinkTabAndDataGridViewNameWarnings, "File and version/Tag region and command", (DataGridViewSize)Properties.Settings.Default.CellSizeWarnings);
+            GlobalData.dataGridViewHandlerExiftoolWarning = new DataGridViewHandler(dataGridViewExiftoolWarning, LinkTabAndDataGridViewNameWarnings, "File and version/Tag region and command", (DataGridViewSize)Properties.Settings.Default.CellSizeWarnings);
 
             kryptonPageToolboxProperties.Tag = LinkTabAndDataGridViewNameProperties;
             GlobalData.dataGridViewHandlerProperties = new DataGridViewHandler(dataGridViewProperties, LinkTabAndDataGridViewNameProperties, "File/Properties", (DataGridViewSize)Properties.Settings.Default.CellSizeProperties);
-            GlobalData.dataGridViewHandlerProperties.ShowMediaPosterWindowToolStripMenuItemSelectedEvent += DataGridViewHandlerConvertAndMerge_ShowMediaPosterWindowToolStripMenuItemSelectedEvent;
-
+            
             kryptonPageToolboxRename.Tag = LinkTabAndDataGridViewNameRename;
             GlobalData.dataGridViewHandlerRename = new DataGridViewHandler(dataGridViewRename, LinkTabAndDataGridViewNameRename, "Filename/Values", ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize));
-            GlobalData.dataGridViewHandlerRename.ShowMediaPosterWindowToolStripMenuItemSelectedEvent += DataGridViewHandlerConvertAndMerge_ShowMediaPosterWindowToolStripMenuItemSelectedEvent;
-
+            
             kryptonPageToolboxConvertAndMerge.Tag = LinkTabAndDataGridViewNameConvertAndMerge;
             GlobalData.dataGridViewHandlerConvertAndMerge = new DataGridViewHandler(dataGridViewConvertAndMerge, LinkTabAndDataGridViewNameConvertAndMerge, "Full path of media file", ((DataGridViewSize)Properties.Settings.Default.CellSizeConvertAndMerge | DataGridViewSize.RenameConvertAndMergeSize));
-            GlobalData.dataGridViewHandlerConvertAndMerge.ShowMediaPosterWindowToolStripMenuItemSelectedEvent += DataGridViewHandlerConvertAndMerge_ShowMediaPosterWindowToolStripMenuItemSelectedEvent;
             #endregion
 
             isSettingDefaultComboxValues = true;
@@ -717,6 +742,21 @@ namespace PhotoTagsSynchronizer
             }
             #endregion
         }
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
         #endregion
 
         #region Resize and restore windows size when reopen application
@@ -962,12 +1002,6 @@ namespace PhotoTagsSynchronizer
             PopulateImageListView_FromFolderSelected(false, true);
             FilesSelected();
         }
-
-
-
-
-
-
 
         #endregion
 

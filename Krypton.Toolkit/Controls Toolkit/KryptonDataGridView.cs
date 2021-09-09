@@ -1056,6 +1056,27 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Protected Override
+    
+        /*
+        /// <summary>
+        /// Processes a command key.
+        /// </summary>
+        /// <param name="msg">A Message, passed by reference, that represents the window message to process.</param>
+        /// <param name="keyData">One of the Keys values that represents the key to process.</param>
+        /// <returns>True is handled; otherwise false.</returns>
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            // If we have a defined context menu then need to check for matching shortcut
+            if (KryptonContextMenu != null)
+            {
+                if (KryptonContextMenu.ProcessShortcut(keyData))
+                {
+                    return true;
+                }
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
+        }*/
         /// <summary>
         /// Raises the PaintBackground event.  
         /// </summary>

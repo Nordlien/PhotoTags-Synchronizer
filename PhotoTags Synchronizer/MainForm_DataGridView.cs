@@ -49,9 +49,9 @@ namespace PhotoTagsSynchronizer
                     case LinkTabAndDataGridViewNameDates:
                         return dataGridViewDate;
                     case LinkTabAndDataGridViewNameExiftool:
-                        return dataGridViewExifTool;
+                        return dataGridViewExiftool;
                     case LinkTabAndDataGridViewNameWarnings:
-                        return dataGridViewExifToolWarning;
+                        return dataGridViewExiftoolWarning;
                     case LinkTabAndDataGridViewNameProperties:
                         return dataGridViewProperties;
                     case LinkTabAndDataGridViewNameRename:

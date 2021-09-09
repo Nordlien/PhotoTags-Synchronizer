@@ -39,6 +39,7 @@ namespace DataGridViewGeneric
 
         private DataGridView dataGridView;
 
+        /*
         private System.ComponentModel.IContainer components = null;
 
         private ContextMenuStrip contextMenuStripDataGridViewGeneric;
@@ -60,6 +61,7 @@ namespace DataGridViewGeneric
 
         public delegate void ShowMediaPosterWindowToolStripMenuItemSelected(object sender, EventArgs e);
         public event ShowMediaPosterWindowToolStripMenuItemSelected ShowMediaPosterWindowToolStripMenuItemSelectedEvent;
+        */
 
         #region DataGridView events handling
 
@@ -161,6 +163,18 @@ namespace DataGridViewGeneric
             if (dataGridViewGenericColumn != null) dataGridViewGenericColumn.IsDirty = true;
         }
         #endregion
+
+        private void DataGridView_KeyDown(object sender, KeyEventArgs e)
+        {
+            Krypton.Toolkit.KryptonDataGridView kryptonDataGridView = (Krypton.Toolkit.KryptonDataGridView)sender;
+            
+            // If we have a defined context menu then need to check for matching shortcut
+            if (kryptonDataGridView.KryptonContextMenu != null)
+            {
+                kryptonDataGridView.KryptonContextMenu.ProcessShortcut(e.KeyData);
+                //if (kryptonDataGridView.KryptonContextMenu.ProcessShortcut(e.KeyData)) e.Handled = true;                
+            }
+        }
 
         #region DataGridView events handling - CellMouseDown - Select correct Cell when Right Click Mouse button
         private void DataGridView_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
@@ -267,14 +281,18 @@ namespace DataGridViewGeneric
             dataGridView.UserDeletingRow += DataGridView_UserDeletingRow;
             dataGridView.CellMouseDown += DataGridView_CellMouseDown;
             dataGridView.CurrentCellDirtyStateChanged += DataGridView_CurrentCellDirtyStateChanged;
-
-
+            dataGridView.KeyDown += DataGridView_KeyDown;
+            
+            /*
             if (dataGridView.ContextMenuStrip == null)
             {
                 InitializeComponent(this.dataGridView);
                 dataGridView.ContextMenuStrip = contextMenuStripDataGridViewGeneric;
             }
+            */
         }
+
+        
         #endregion
 
         #region DataGridView Handling - Clear
@@ -297,10 +315,12 @@ namespace DataGridViewGeneric
         }
         #endregion
 
+        /*
         #region DataGridView Handling - InitializeComponent
         public void InitializeComponent(DataGridView dataGridView)
         {
             components = new System.ComponentModel.Container();
+            
             contextMenuStripDataGridViewGeneric = new System.Windows.Forms.ContextMenuStrip(components);
             cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -476,10 +496,12 @@ namespace DataGridViewGeneric
             showMediaPosterWindowToolStripMenuItem.Click += new System.EventHandler(showMediaPosterWindowToolStripMenuItem_Click);
 
             contextMenuStripDataGridViewGeneric.ResumeLayout();
-
+            
         }
         #endregion
+        */
 
+        /*
         #region Event Handling
         private void showMediaPosterWindowToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -487,6 +509,7 @@ namespace DataGridViewGeneric
             if (ShowMediaPosterWindowToolStripMenuItemSelectedEvent != null) ShowMediaPosterWindowToolStripMenuItemSelectedEvent.Invoke(dataGridView, e);
         }
         #endregion 
+        */
 
         #region DataGridView Handling - GetTopColumnHeaderHeigth
         //DataGridView Size for Column and Row Header, Row / Column size and resize 
@@ -874,8 +897,9 @@ namespace DataGridViewGeneric
 
         #endregion
 
+        
         #region Action Handling
-
+        /*
         #region Action Handling - Cut
         public static void ActionCut(DataGridView dataGridView)
         {
@@ -918,6 +942,7 @@ namespace DataGridViewGeneric
             ClipboardUtility.RedoDataGridView(dataGridView);
         }
         #endregion
+        */
 
         #region Action Handling - ActionFindAndReplace
         static FindAndReplaceForm m_FindAndReplaceForm;
@@ -956,6 +981,7 @@ namespace DataGridViewGeneric
         #endregion 
 
         #endregion 
+        
 
         #region DataGridViewGenericData handling
 
@@ -980,6 +1006,7 @@ namespace DataGridViewGeneric
         #endregion
 
         #endregion
+        
 
         #region Column handling
 
@@ -2761,6 +2788,7 @@ namespace DataGridViewGeneric
 
         #endregion
 
+        /*
         #region ToolStripMenuItem Handling 
 
         #region ToolStripMenuItem Handling - cut
@@ -2910,7 +2938,9 @@ namespace DataGridViewGeneric
         #endregion
 
         #endregion
-
+        */
+        
+        /*
         #region KeyDownEventHandler
 
         #region KeyDownEventHandler - call none static KeyDownEventHandler
@@ -2922,6 +2952,7 @@ namespace DataGridViewGeneric
         }
         #endregion
 
+        
         #region KeyDownEventHandler - KeyDownEventHandler
         public static void KeyDownEventHandler(DataGridView dataGridView, KeyEventArgs e)
         {
@@ -2973,9 +3004,12 @@ namespace DataGridViewGeneric
             }
         }
         #endregion
+        
 
         #endregion
+        */
 
+        /*
         #region DataGridView - Refresh - InvalidateCell for MediaFullFilename
         public static void RefreshImageForMediaFullFilename(DataGridView dataGridView, string fullFilePath)
         {
@@ -2992,6 +3026,7 @@ namespace DataGridViewGeneric
         }
 
         #endregion
+        */
 
         #region DataGridView - Update Image - for FileEntryImage
         public static void SetDataGridImageOnFileEntryAttribute(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, Image image)

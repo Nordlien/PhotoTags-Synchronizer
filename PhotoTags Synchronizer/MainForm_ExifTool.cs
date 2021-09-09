@@ -84,7 +84,7 @@ namespace PhotoTagsSynchronizer
 
         private void exiftoolCompositeTagsPrioityToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DataGridView dataGridView = dataGridViewExifTool;
+            DataGridView dataGridView = dataGridViewExiftool;
             MetadataPriorityValues metadataPriorityValues = (MetadataPriorityValues)(((ToolStripMenuItem)sender).Tag);
 
             List<int> rows = DataGridViewHandler.GetRowSelected(dataGridView);
@@ -124,12 +124,12 @@ namespace PhotoTagsSynchronizer
 
         private void dataGridViewExifTool_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
-            DataGridView dataGridView = dataGridViewExifTool;
+            DataGridView dataGridView = dataGridViewExiftool;
             RegionSelectorLoadAndSelect(dataGridView, e.RowIndex, e.ColumnIndex);
         }
         private void toolStripMenuItemShowPosterWindowExiftool_Click(object sender, EventArgs e)
         {
-            DataGridView dataGridView = dataGridViewExifTool;
+            DataGridView dataGridView = dataGridViewExiftool;
             OpenRegionSelector();
             RegionSelectorLoadAndSelect(dataGridView);
         }

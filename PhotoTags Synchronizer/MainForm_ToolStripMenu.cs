@@ -230,142 +230,10 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Save - SaveActiveTabData
-        private void SaveActiveTabData()
-        {
-            if (GlobalData.IsPopulatingAnything()) return;
-            if (GlobalData.IsSaveButtonPushed) return;
-            GlobalData.IsSaveButtonPushed = true;
-            this.Enabled = false;
-            using (new WaitCursor())
-            {
-                switch (GetActiveTabTag())
-                {
-                    case "ExifTool":
-                    case "Warning":
-                        //Nothing
-                        break;
-                    case "Tags":
-                    case "Map":
-                    case "People":
-                    case "Date":
-                        SaveDataGridViewMetadata();
-                        GlobalData.IsAgregatedProperties = false;
-                        break;
-                    case "Properties":
-                        SaveProperties();
-                        break;
-                    case "Rename":
-                        MessageBox.Show("Not implemented");
-                        break;
-                    case "ConvertAndMerge":
-                        SaveConvertAndMerge();
-                        break;
-                }
-            }
-            GlobalData.IsSaveButtonPushed = false;
-            this.Enabled = true;
-        }
-        #endregion
+        
 
         #endregion
 
-        #region ToolStrip - Save
-        #region ToolStrip - Save All Metadata - Click 
-        private void toolStripButtonSaveAllMetadata_Click(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void kryptonRibbonQATButtonSave_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                this.Activate();
-                this.Validate(); //Get the latest changes, that are text in edit mode
-                SaveActiveTabData();
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        #endregion
-
-        #region ToolStrip - Save People - Click
-        private void toolStripMenuItemPeopleSave_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                this.Activate();
-                this.Validate(); //Get the latest changes, that are text in edit mode
-                SaveActiveTabData();
-                this.Enabled = true;
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        #endregion
-
-        #region ToolStrip - Save Tags - Click
-        private void toolStripMenuTagsBrokerSave_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                this.Activate();
-                this.Validate(); //Get the latest changes, that are text in edit mode
-                SaveActiveTabData();
-                this.Enabled = true;
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        #endregion
-
-        #region ToolStrip - Save Date - Click
-        private void toolStripMenuItemDateSave_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                this.Activate();
-                this.Validate(); //Get the latest changes, that are text in edit mode
-                SaveActiveTabData();
-                this.Enabled = true;
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        #endregion 
-
-        #region ToolStrip - Save Map - Click
-        private void toolStripMenuItemMapSave_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                this.Activate();
-                this.Validate(); //Get the latest changes, that are text in edit mode
-                SaveActiveTabData();
-                this.Enabled = true;
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        #endregion
-
-        #endregion
 
         #region ToolStrip - AutoCorrect - Folder - Click
         private void toolStripMenuItemTreeViewFolderAutoCorrectMetadata_Click(object sender, EventArgs e)
@@ -1275,11 +1143,11 @@ namespace PhotoTagsSynchronizer
                     Properties.Settings.Default.CellSizeDates = (int)size;
                     break;
                 case LinkTabAndDataGridViewNameExiftool:
-                    DataGridViewHandler.SetCellSize(dataGridViewExifTool, size, false);
+                    DataGridViewHandler.SetCellSize(dataGridViewExiftool, size, false);
                     Properties.Settings.Default.CellSizeExiftool = (int)size;
                     break;
                 case LinkTabAndDataGridViewNameWarnings:
-                    DataGridViewHandler.SetCellSize(dataGridViewExifToolWarning, size, false);
+                    DataGridViewHandler.SetCellSize(dataGridViewExiftoolWarning, size, false);
                     Properties.Settings.Default.CellSizeWarnings = (int)size;
                     break;
                 case LinkTabAndDataGridViewNameProperties:
@@ -1443,29 +1311,6 @@ namespace PhotoTagsSynchronizer
             }
         }
         #endregion
-
-        #region ToolsStrip - Show/Hide Favourite / Equal
-        private void kryptonRibbonGroupButtonDataGridViewRowsFavorite_Click(object sender, EventArgs e)
-        {
-            DataGridView dataGridView = GetActiveTabDataGridView();
-            if (!dataGridView.Enabled) return;
-
-            DataGridViewHandler.SetShowFavouriteColumns(dataGridView, !DataGridViewHandler.ShowFavouriteColumns(dataGridView));
-            UpdateBottonsEqualAndFavorite(DataGridViewHandler.HideEqualColumns(dataGridView), DataGridViewHandler.ShowFavouriteColumns(dataGridView));
-            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, DataGridViewHandler.HideEqualColumns(dataGridView), DataGridViewHandler.ShowFavouriteColumns(dataGridView));
-        }
-
-        private void kryptonRibbonGroupButtonDataGridViewRowsHideEqual_Click(object sender, EventArgs e)
-        {
-            DataGridView dataGridView = GetActiveTabDataGridView();
-            if (!dataGridView.Enabled) return;
-
-            DataGridViewHandler.SetHideEqualColumns(dataGridView, !DataGridViewHandler.HideEqualColumns(dataGridView));
-            UpdateBottonsEqualAndFavorite(DataGridViewHandler.HideEqualColumns(dataGridView), DataGridViewHandler.ShowFavouriteColumns(dataGridView));
-            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, DataGridViewHandler.HideEqualColumns(dataGridView), DataGridViewHandler.ShowFavouriteColumns(dataGridView));
-        }
-        #endregion 
-
 
         #region ToolStrip - OpenWith Dialog - Click
         private void openWithDialogToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1838,51 +1683,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ToolStrip - Delete Files - Items - Click
-        private void toolStripMenuItemDelete_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (GlobalData.IsPopulatingAnything()) return;
-                folderTreeViewFolder.Enabled = false;
-                imageListView1.Enabled = false;
-
-                try
-                {
-                    if (IsFileInThreadQueueLock(imageListView1))
-                    {
-                        MessageBox.Show("Can't delete files. Files are being used, you need wait until process is finished.");
-                        return;
-                    }
-
-                    if (MessageBox.Show("Are you sure you will delete the files", "Files will be deleted!", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    {
-                        using (new WaitCursor())
-                        {
-                            UpdateStatusAction("Deleing files and all record about files in database....");
-                            filesCutCopyPasteDrag.DeleteSelectedFiles(this, imageListView1);
-                            FilesSelected();
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-
-                folderTreeViewFolder.Enabled = true;
-                imageListView1.Enabled = true;
-                imageListView1.Focus();
-                DisplayAllQueueStatus();
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-        }
-        #endregion
+        
 
         #region ToolStrip - OpenWith - Click
         private void ToolStripMenuItemOpenWith_Click(object sender, EventArgs e)
@@ -2025,59 +1826,7 @@ namespace PhotoTagsSynchronizer
 
         #region FoldeTree
 
-        #region FolderTreeView - Delete Files - Directory - Click
-        private void toolStripMenuItemTreeViewFolderDelete_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                string folder = folderTreeViewFolder.GetSelectedNodePath();
-
-                if (IsFolderInThreadQueueLock(folder))
-                {
-                    MessageBox.Show("Can't delete folder. Files in folder is been used, you need wait until process is finished.");
-                    return;
-                }
-                try
-                {
-                    string[] fileAndFolderEntriesCount = Directory.EnumerateFiles(folder, "*", SearchOption.AllDirectories).Take(51).ToArray();
-                    if (MessageBox.Show("You are about to delete the folder:\r\n\r\n" +
-                        folder + "\r\n\r\n" +
-                        "There are " + (fileAndFolderEntriesCount.Length == 51 ? " over 50+" : fileAndFolderEntriesCount.Length.ToString()) + " files found.\r\n\r\n" +
-                        "Procced?", "Are you sure?", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
-                    {
-                        using (new WaitCursor())
-                        {
-                            UpdateStatusAction("Delete all record about files in database....");
-                            int recordAffected = filesCutCopyPasteDrag.DeleteFilesInFolder(this, folderTreeViewFolder, folder);
-                            UpdateStatusAction(recordAffected + " records was delete from database....");
-                            PopulateImageListView_FromFolderSelected(false, true);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Logger.Error(ex, "Error when delete folder.");
-
-                    AddError(
-                        folder,
-                        AddErrorFileSystemRegion, AddErrorFileSystemDeleteFolder, folder, folder,
-                        "Was not able to delete folder with files and subfolder!\r\n\r\n" +
-                        "From: " + folder + "\r\n\r\n" +
-                        "Error message:\r\n" + ex.Message + "\r\n");
-                }
-                finally
-                {
-                    GlobalData.DoNotRefreshImageListView = false;
-                }
-                folderTreeViewFolder.Focus();
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        #endregion
+        
 
         #region FolderTree - Cut - Click
         private void toolStripMenuItemTreeViewFolderCut_Click(object sender, EventArgs e)
