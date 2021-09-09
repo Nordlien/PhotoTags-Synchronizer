@@ -1049,7 +1049,8 @@ namespace PhotoTagsSynchronizer
         #region Camera owner - KeyDown
         private void dataGridViewCameraOwner_KeyDown(object sender, KeyEventArgs e)
         {
-            DataGridViewHandler.KeyDownEventHandler(sender, e);
+            throw new NotImplementedException(); //JTN: Need add back
+            //DataGridViewHandler.KeyDownEventHandler(sender, e);
         }
         #endregion 
 
@@ -1355,7 +1356,8 @@ namespace PhotoTagsSynchronizer
         #region Location names - DataGridView - KeyDown
         private void dataGridViewLocationNames_KeyDown(object sender, KeyEventArgs e)
         {
-            DataGridViewHandler.KeyDownEventHandler(sender, e);
+            throw new NotImplementedException(); //JTN: Need add back
+            //DataGridViewHandler.KeyDownEventHandler(sender, e);
         }
         #endregion 
 
@@ -1654,11 +1656,12 @@ namespace PhotoTagsSynchronizer
         #region Location names - ShowFavorite_Click
         private void toolStripMenuItemMapShowFavorite_Click(object sender, EventArgs e)
         {
+            throw new NotImplementedException(); //JTN: Need add back
             DataGridView dataGridView = dataGridViewLocationNames;
             if (!dataGridView.Enabled) return;
 
             DataGridViewHandler.SetShowFavouriteColumns(dataGridView, !DataGridViewHandler.ShowFavouriteColumns(dataGridView));
-            DataGridViewHandler.UpdatedStripMenuItem(dataGridView, (ToolStripMenuItem)sender, DataGridViewHandler.ShowFavouriteColumns(dataGridView));
+            //DataGridViewHandler.UpdatedStripMenuItem(dataGridView, (ToolStripMenuItem)sender, DataGridViewHandler.ShowFavouriteColumns(dataGridView));
             DataGridViewHandler.SetRowsVisbleStatus(dataGridView, DataGridViewHandler.HideEqualColumns(dataGridView), DataGridViewHandler.ShowFavouriteColumns(dataGridView));
         }
         #endregion
@@ -1666,11 +1669,12 @@ namespace PhotoTagsSynchronizer
         #region Location names - HideEqual_Click
         private void toolStripMenuItemMapHideEqual_Click(object sender, EventArgs e)
         {
+            throw new NotImplementedException(); //JTN: Need add back
             DataGridView dataGridView = dataGridViewLocationNames;
             if (!dataGridView.Enabled) return;
 
             DataGridViewHandler.SetHideEqualColumns(dataGridView, !DataGridViewHandler.HideEqualColumns(dataGridView));
-            DataGridViewHandler.UpdatedStripMenuItem(dataGridView, (ToolStripMenuItem)sender, DataGridViewHandler.HideEqualColumns(dataGridView));
+            //DataGridViewHandler.UpdatedStripMenuItem(dataGridView, (ToolStripMenuItem)sender, DataGridViewHandler.HideEqualColumns(dataGridView));
             DataGridViewHandler.SetRowsVisbleStatus(dataGridView, DataGridViewHandler.HideEqualColumns(dataGridView), DataGridViewHandler.ShowFavouriteColumns(dataGridView));
         }
         #endregion
@@ -1995,7 +1999,8 @@ namespace PhotoTagsSynchronizer
         #region AutoKeywords - KeyDown
         private void dataGridViewAutoKeywords_KeyDown(object sender, KeyEventArgs e)
         {
-            DataGridViewHandler.KeyDownEventHandler(sender, e);
+            throw new NotImplementedException(); //JTN: Need add back
+            //DataGridViewHandler.KeyDownEventHandler(sender, e);
         }
         #endregion
 
@@ -2113,11 +2118,12 @@ namespace PhotoTagsSynchronizer
         #region Metadata Read - ShowFavorite
         private void toolStripMenuItemMetadataReadShowFavorite_Click(object sender, EventArgs e)
         {
+            throw new NotImplementedException(); //JTN: Need add back
             DataGridView dataGridView = dataGridViewMetadataReadPriority;
             if (!dataGridView.Enabled) return;
 
             DataGridViewHandler.SetShowFavouriteColumns(dataGridView, !DataGridViewHandler.ShowFavouriteColumns(dataGridView));
-            DataGridViewHandler.UpdatedStripMenuItem(dataGridView, (ToolStripMenuItem)sender, DataGridViewHandler.ShowFavouriteColumns(dataGridView));
+            //DataGridViewHandler.UpdatedStripMenuItem(dataGridView, (ToolStripMenuItem)sender, DataGridViewHandler.ShowFavouriteColumns(dataGridView));
             DataGridViewHandler.SetRowsVisbleStatus(dataGridView, DataGridViewHandler.HideEqualColumns(dataGridView), DataGridViewHandler.ShowFavouriteColumns(dataGridView));
         }
         #endregion
@@ -2125,7 +2131,8 @@ namespace PhotoTagsSynchronizer
         #region Metadata Read - KeyDown
         private void dataGridViewMetadataReadPriority_KeyDown(object sender, KeyEventArgs e)
         {
-            DataGridViewHandler.KeyDownEventHandler(sender, e);
+            throw new NotImplementedException(); //JTN: Need add back
+            //DataGridViewHandler.KeyDownEventHandler(sender, e);
         }
         #endregion
 
