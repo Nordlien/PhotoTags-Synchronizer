@@ -1743,7 +1743,7 @@ namespace MetadataLibrary
         /// <param name="checkIfHasExifWarning">When true, check if has warning</param>
         /// <param name="maxRowsInResult">Maximum rows in result set</param>
         /// <returns></returns>
-        public HashSet<FileEntry> ListAllSearch(MetadataBrokerType broker, bool useAndBetweenGrups,
+        public HashSet<FileEntry> ListAllSearch(MetadataBrokerType broker, bool useAndBetweenGrups, bool useRegEx,
             bool useMediaTakenFrom, DateTime mediaTakenFrom, bool useMediaTakenTo, DateTime mediaTakenTo, bool isMediaTakenNull,
             bool useAndBetweenTextTags,
             bool usePersonalAlbum, string personalAlbum,
@@ -1757,13 +1757,17 @@ namespace MetadataLibrary
             bool useLocationCountry, string locationCountry,
             bool useRegionNameList, bool needAlRegionNames, List<string> regionNameList, bool withoutRegions,
             bool useKeywordList, bool needAllKeywords, List<string> keywords, bool withoutKeywords,
-            bool checkIfHasExifWarning, int maxRowsInResult
+            bool checkIfHasExifWarning, int maxRowsInResult,
+            bool useFileDirectory, string fileDirectory,
+            bool useFileName, string fileName
             )
         {
 
             HashSet<FileEntry> listing = new HashSet<FileEntry>();
 
             string sqlCommandBasicSelect = "SELECT DISTINCT MediaMetadata.Broker, MediaMetadata.FileDirectory, MediaMetadata.FileName, MediaMetadata.FileDateModified FROM MediaMetadata ";
+            string likeOrRegEx = (useRegEx ? "REGEXP" : "LIKE");
+            
 
             #region Warning
             if (checkIfHasExifWarning) sqlCommandBasicSelect +=
@@ -1790,14 +1794,22 @@ namespace MetadataLibrary
 
             #region Text field tags
             string sqlTextTags = "";
-            if (usePersonalAlbum) sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (personalAlbum == null ? "PersonalAlbum IS NULL " : "PersonalAlbum LIKE @PersonalAlbum ");
-            if (usePersonalTitle) sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (personalTitle == null ? "PersonalTitle IS NULL " : "PersonalTitle LIKE @PersonalTitle ");
-            if (usePersonalComments) sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (personalComments == null ? "PersonalComments IS NULL " : "PersonalComments LIKE @PersonalComments ");
-            if (usePersonalDescription) sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (personalDescription == null ? "PersonalDescription IS NULL " : "PersonalDescription LIKE @PersonalDescription ");
-            if (useLocationName) sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (locationName == null ? "LocationName IS NULL " : "LocationName LIKE @LocationName ");
-            if (useLocationCity) sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (locationCity == null ? "LocationCity IS NULL " : "LocationCity LIKE @LocationCity ");
-            if (useLocationState) sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (locationState == null ? "LocationState IS NULL " : "LocationState LIKE @LocationState ");
-            if (useLocationCountry) sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (locationCountry == null ? "LocationCountry IS NULL " : "LocationCountry LIKE @LocationCountry ");
+            if (usePersonalAlbum) sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (personalAlbum == null ? "PersonalAlbum IS NULL " : "PersonalAlbum " + likeOrRegEx + " @PersonalAlbum ");
+            if (usePersonalTitle) sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (personalTitle == null ? "PersonalTitle IS NULL " : "PersonalTitle " + likeOrRegEx + " @PersonalTitle ");
+            if (usePersonalComments) sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (personalComments == null ? "PersonalComments IS NULL " : "PersonalComments " + likeOrRegEx + " @PersonalComments ");
+            if (usePersonalDescription) sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (personalDescription == null ? "PersonalDescription IS NULL " : "PersonalDescription " + likeOrRegEx + " @PersonalDescription ");
+            if (useLocationName) sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (locationName == null ? "LocationName IS NULL " : "LocationName " + likeOrRegEx + " @LocationName ");
+            if (useLocationCity) sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (locationCity == null ? "LocationCity IS NULL " : "LocationCity " + likeOrRegEx + " @LocationCity ");
+            if (useLocationState) sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (locationState == null ? "LocationState IS NULL " : "LocationState " + likeOrRegEx + " @LocationState ");
+            if (useLocationCountry) sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (locationCountry == null ? "LocationCountry IS NULL " : "LocationCountry " + likeOrRegEx + " @LocationCountry ");
+
+            if (useFileDirectory && useFileName)
+                sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + "(FileDirectory " + likeOrRegEx + " @FileDirectory AND FileName " + likeOrRegEx + " @FileName) ";
+            else if (useFileDirectory)
+                sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + "FileDirectory " + likeOrRegEx + " @FileDirectory ";
+            else if (useFileName) 
+                sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + "FileName " + likeOrRegEx + " @FileName ";
+
             if (sqlTextTags != "") sqlCommand += (sqlCommand == "" ? "" : useAndBetweenGrups ? "AND " : "OR ") + "(" + sqlTextTags + ") ";
             #endregion
 
@@ -1840,7 +1852,7 @@ namespace MetadataLibrary
                             "MediaPersonalRegions.FileDirectory = MediaMetadata.FileDirectory AND " +
                             "MediaPersonalRegions.FileName = MediaMetadata.FileName AND " +
                             "MediaPersonalRegions.FileDateModified = MediaMetadata.FileDateModified AND " +
-                            "MediaPersonalRegions.Name " + (regionNameList[index] == null ? "IS NULL) = 1" : "LIKE @MediaPersonalRegionsName" + index.ToString() + ") = 1");
+                            "MediaPersonalRegions.Name " + (regionNameList[index] == null ? "IS NULL) = 1" : likeOrRegEx + " @MediaPersonalRegionsName" + index.ToString() + ") = 1");
                     }
                 }
                 sqlRegionNames =
@@ -1876,7 +1888,7 @@ namespace MetadataLibrary
                              "MediaPersonalKeywords.FileDirectory = MediaMetadata.FileDirectory AND " +
                              "MediaPersonalKeywords.FileName = MediaMetadata.FileName AND " +
                              "MediaPersonalKeywords.FileDateModified = MediaMetadata.FileDateModified AND " +
-                             "MediaPersonalKeywords.Keyword " + (keywords[index] == null ? "IS NULL) = 1" : "LIKE @MediaPersonalKeywordsKeyword" + index.ToString() + ") = 1");
+                             "MediaPersonalKeywords.Keyword " + (keywords[index] == null ? "IS NULL) = 1" : likeOrRegEx + " @MediaPersonalKeywordsKeyword" + index.ToString() + ") = 1");
                     }
                 }
 
@@ -1915,6 +1927,8 @@ namespace MetadataLibrary
                 if (useLocationCity) commandDatabase.Parameters.AddWithValue("@LocationCity", locationCity);
                 if (useLocationState) commandDatabase.Parameters.AddWithValue("@LocationState", locationState);
                 if (useLocationCountry) commandDatabase.Parameters.AddWithValue("@LocationCountry", locationCountry);
+                if (useFileDirectory) commandDatabase.Parameters.AddWithValue("@FileDirectory", fileDirectory);
+                if (useFileName) commandDatabase.Parameters.AddWithValue("@FileName", fileName);
                 #endregion
 
                 #region Region names

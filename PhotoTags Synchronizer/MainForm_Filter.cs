@@ -421,6 +421,11 @@ namespace PhotoTagsSynchronizer
         #region Filter - Search - click
         private void buttonFilterSearch_Click(object sender, EventArgs e)
         {
+            buttonFilterSearch_Click();
+        }
+
+        private void buttonFilterSearch_Click()
+        {
             #region DateTaken
             bool useMediaTakenFrom = dateTimePickerSearchDateFrom.Checked;
             DateTime mediaTakenFrom = dateTimePickerSearchDateFrom.Value;
@@ -493,9 +498,18 @@ namespace PhotoTagsSynchronizer
             bool useAndBetweenGroups = checkBoxSerachFitsAllValues.Checked;
             #endregion 
 
+            
+            string searchDirectory = kryptonTextBoxSearchDirectory.Text;
+            bool useSearchDirectory = !string.IsNullOrWhiteSpace(searchDirectory);
+            string searchFilename = kryptonTextBoxSearchFilename.Text;
+            bool useSearchFilename = !string.IsNullOrWhiteSpace(searchFilename);
+
+            bool useRegEx = kryptonCheckBoxSearchUseRegEx.Checked;
+
             int maxRowsInResult = Properties.Settings.Default.MaxRowsInSearchResult;
 
-            GlobalData.SerachFilterResult = databaseAndCacheMetadataExiftool.ListAllSearch(MetadataBrokerType.ExifTool, useAndBetweenGroups, 
+            GlobalData.SerachFilterResult = databaseAndCacheMetadataExiftool.ListAllSearch(MetadataBrokerType.ExifTool, 
+                useAndBetweenGroups, useRegEx, 
                 useMediaTakenFrom, mediaTakenFrom, useMediaTakenTo, mediaTakenTo, isMediaTakenNull,
                 useAndBetweenTextTagFields,
                 usePersonalAlbum, personalAlbum,
@@ -509,7 +523,9 @@ namespace PhotoTagsSynchronizer
                 useLocationCountry, locationCountry,
                 useRegionNameList, needAllRegionNames, regionNameList, withoutRegions,
                 useKeywordList, needAllKeywords, keywords, withoutKeywords,
-                checkIfHasExifWarning, maxRowsInResult);
+                checkIfHasExifWarning, maxRowsInResult,
+                useSearchDirectory, searchDirectory,
+                useSearchFilename, searchFilename);
             GlobalData.SearchFolder = false;
             PopulateImageListView_FromSearchTab(GlobalData.SerachFilterResult, true);
         }

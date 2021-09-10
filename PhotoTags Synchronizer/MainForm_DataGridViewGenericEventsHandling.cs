@@ -348,8 +348,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region WorkspaceChanged()
-        private void WorkspaceChanged()
+        #region UpdateRibbonsWhenWorkspaceChanged()
+        private void UpdateRibbonsWhenWorkspaceChanged()
         {
             bool isSomethingSelected = (imageListView1.SelectedItems.Count >= 1);
             bool isMoreThatOneSelected = (imageListView1.SelectedItems.Count > 1);
@@ -363,7 +363,7 @@ namespace PhotoTagsSynchronizer
                     RibbonGroupButtonHomeFastCopytext(false);
                     kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "TxT";
                     //Home - Find and Replace
-                    RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: false, enabledFastCopyGridOverwrite: false);
+                    RibbonGroupButtonHomeFineAndReplace(enabledFind: false, enabledRplace: false);
                     //Home - FileSystem
                     RibbonGroupButtonHomeFileSystem(enabledDelete: false, enabledRename: false, enabledRefresh: false, enabledOpenWithEdit: false);
                     kryptonRibbonGroupButtonHomeFileSystemDelete.TextLine2 = "";
@@ -378,10 +378,10 @@ namespace PhotoTagsSynchronizer
                     //Home - Clipboard
                     RibbonGroupButtonHomeClipboard(enabledCopy: true, enabledCutPaste: true, enabledUndoRedo: false);
                     //Home - Fast copy text
-                    RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: false, enabledFastCopyGridOverwrite: false);
+                    RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: true, enabledFastCopyGridOverwrite: false);
                     kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "Path";
                     //Home - Find and Replace
-                    RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: true, enabledFastCopyGridOverwrite: false);
+                    RibbonGroupButtonHomeFineAndReplace(enabledFind: true, enabledRplace: false);
                     //Home - FileSystem
                     RibbonGroupButtonHomeFileSystem(enabledDelete: true, enabledRename: true, enabledRefresh: false, enabledOpenWithEdit: false);
                     kryptonRibbonGroupButtonHomeFileSystemDelete.TextLine2 = "Folder";
@@ -423,8 +423,6 @@ namespace PhotoTagsSynchronizer
                     RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false);
                     break;
                 case KryptonPages.kryptonPageMediaFiles:
-
-
                     //Home - Clipboard
                     RibbonGroupButtonHomeClipboard(enabledCopy: isSomethingSelected, enabledCutPaste: isSomethingSelected, enabledUndoRedo: false);
                     //Home - Fast Copy text
@@ -433,7 +431,8 @@ namespace PhotoTagsSynchronizer
                     else if (isSomethingSelected) kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "Filename";
                     else kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "Filenames";
                     //Home - Find and Replace
-                    RibbonGroupButtonHomeFineAndReplace(enabledFind: false, enabledRplace: false);
+                    RibbonGroupButtonHomeFineAndReplace(enabledFind: true, enabledRplace: false);
+                    //Home - FileSystem
                     RibbonGroupButtonHomeFileSystem(
                         enabledDelete: isSomethingSelected, enabledRename: isSomethingSelected,
                         enabledRefresh: isSomethingSelected, enabledOpenWithEdit: isSomethingSelected);
@@ -456,7 +455,6 @@ namespace PhotoTagsSynchronizer
                         kryptonRibbonGroupButtonHomeFileSystemRename.TextLine2 = "File(s)";
                         kryptonRibbonGroupButtonHomeFileSystemRefresh.TextLine2 = "Files";
                     }
-
                     //Home - Rotate
                     RibbonGroupButtonHomeRotate(enabled: isSomethingSelected);
                     //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
@@ -1068,7 +1066,7 @@ namespace PhotoTagsSynchronizer
             set 
             { 
                 activeKryptonPage = value; 
-                WorkspaceChanged(); 
+                UpdateRibbonsWhenWorkspaceChanged(); 
             }
         }
 
@@ -2323,17 +2321,21 @@ namespace PhotoTagsSynchronizer
 
         private void FolderSearchFilterFolderFind_Click()
         {
-            //Open search, add folder name
+            kryptonWorkspaceCellFolderSearchFilter.SelectedPage = kryptonPageFolderSearchFilterSearch;
+            kryptonTextBoxSearchDirectory.Text = folderTreeViewFolder.GetSelectedNodePath();
+            //if (imageListView1.SelectedItems.Count == 1) kryptonTextBoxSearchFilename.Text = imageListView1.SelectedItems[0].Text;
         }
 
         private void FolderSearchFilterSearchFind_Click()
         {
-            //Click search
+            buttonFilterSearch_Click();
         }
 
         private void MediaFilesFind_Click()
         {
-
+            kryptonWorkspaceCellFolderSearchFilter.SelectedPage = kryptonPageFolderSearchFilterSearch;
+            kryptonTextBoxSearchDirectory.Text = folderTreeViewFolder.GetSelectedNodePath();
+            if (imageListView1.SelectedItems.Count == 1) kryptonTextBoxSearchFilename.Text = imageListView1.SelectedItems[0].Text;
         }
 
 
@@ -2435,9 +2437,9 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        #region FindAndReplace
+        #region ActionFindAndReplace
 
-        #region ActionFind
+        #region ActionFindAndReplace
         private void ActionFindAndReplace()
         {
             switch (ActiveKryptonPage)
@@ -3766,6 +3768,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region ActionRename
+        #region ActionRename
         private void ActionFileSystemRename()
         {
             switch (ActiveKryptonPage)
@@ -3814,7 +3817,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region 
+        #region CellRename
         private void CellRename()
         {
             DataGridView dataGridView = GetActiveTabDataGridView();
@@ -3822,18 +3825,20 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region 
+        #region MediafilesRename
         private void MediafilesRename()
         {
             kryptonWorkspaceCellToolbox.SelectedPage = kryptonPageToolboxRename;
         }
         #endregion 
 
-        #region 
+        #region FolderRename
         private void FolderRename()
         {
             folderTreeViewFolder.SelectedNode.BeginEdit();
         }
+        #endregion
+
         #endregion 
 
 
