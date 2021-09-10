@@ -1007,75 +1007,7 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        private void folderTreeView1_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-
-        }
-
-        private void folderTreeViewFolder_ItemDrag(object sender, ItemDragEventArgs e)
-        {
-
-        }
-
-        private void folderTreeViewFolder_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
-        {
-
-        }
-
-        private void folderTreeViewFolder_DragDrop(object sender, DragEventArgs e)
-        {
-
-        }
-
-        private void folderTreeViewFolder_DragEnter(object sender, DragEventArgs e)
-        {
-
-        }
-
-        private void folderTreeViewFolder_DragOver(object sender, DragEventArgs e)
-        {
-
-        }
-
-        private void folderTreeViewFolder_DragLeave(object sender, EventArgs e)
-        {
-
-        }
-
-        private void imageListView1_ItemHover(object sender, ItemHoverEventArgs e)
-        {
-
-        }
-
-        private void imageListView1_ItemDoubleClick(object sender, ItemClickEventArgs e)
-        {
-
-        }
-
-        private void imageListView1_SelectionChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void imageListView1_ThumbnailCaching(object sender, ItemEventArgs e)
-        {
-
-        }
-
-        private void imageListView1_RetrieveImage(object sender, RetrieveItemImageEventArgs e)
-        {
-
-        }
-
-        private void imageListView1_RetrieveItemThumbnail(object sender, RetrieveItemThumbnailEventArgs e)
-        {
-
-        }
-
-        private void imageListView1_RetrieveItemMetadataDetails(object sender, RetrieveItemMetadataDetailsEventArgs e)
-        {
-
-        }
+        
     }
 
     
