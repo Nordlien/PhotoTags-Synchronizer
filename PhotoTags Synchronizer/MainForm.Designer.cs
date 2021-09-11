@@ -5367,7 +5367,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonHomeFileSystemDelete.KeyTip = "OD";
             this.kryptonRibbonGroupButtonHomeFileSystemDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
             this.kryptonRibbonGroupButtonHomeFileSystemDelete.TextLine1 = "Delete";
-            this.kryptonRibbonGroupButtonHomeFileSystemDelete.TextLine2 = "path";
+            this.kryptonRibbonGroupButtonHomeFileSystemDelete.TextLine2 = "folder";
             this.kryptonRibbonGroupButtonHomeFileSystemDelete.ToolTipBody = "Delete selected content";
             this.kryptonRibbonGroupButtonHomeFileSystemDelete.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemDelete32x32;
             this.kryptonRibbonGroupButtonHomeFileSystemDelete.ToolTipTitle = "Delete (Del)";
@@ -5380,7 +5380,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonHomeFileSystemRename.KeyTip = "ON";
             this.kryptonRibbonGroupButtonHomeFileSystemRename.ShortcutKeys = System.Windows.Forms.Keys.F2;
             this.kryptonRibbonGroupButtonHomeFileSystemRename.TextLine1 = "Rename";
-            this.kryptonRibbonGroupButtonHomeFileSystemRename.TextLine2 = "path";
+            this.kryptonRibbonGroupButtonHomeFileSystemRename.TextLine2 = "folder name";
             this.kryptonRibbonGroupButtonHomeFileSystemRename.ToolTipBody = "Rename selected content";
             this.kryptonRibbonGroupButtonHomeFileSystemRename.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemRename;
             this.kryptonRibbonGroupButtonHomeFileSystemRename.ToolTipTitle = "Rename (F2)";
@@ -5392,7 +5392,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonHomeFileSystemRefresh.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemRefresh32x32;
             this.kryptonRibbonGroupButtonHomeFileSystemRefresh.KeyTip = "OF";
             this.kryptonRibbonGroupButtonHomeFileSystemRefresh.TextLine1 = "Refresh";
-            this.kryptonRibbonGroupButtonHomeFileSystemRefresh.TextLine2 = "path";
+            this.kryptonRibbonGroupButtonHomeFileSystemRefresh.TextLine2 = "folder";
             this.kryptonRibbonGroupButtonHomeFileSystemRefresh.ToolTipBody = "Refresh the view with current information in the FileSystem";
             this.kryptonRibbonGroupButtonHomeFileSystemRefresh.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemRefresh32x32;
             this.kryptonRibbonGroupButtonHomeFileSystemRefresh.ToolTipTitle = "Refresh (F5)";
@@ -6659,7 +6659,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemImageListViewReloadThumbnailAndMetadata.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.F5)));
             this.toolStripMenuItemImageListViewReloadThumbnailAndMetadata.Size = new System.Drawing.Size(324, 26);
             this.toolStripMenuItemImageListViewReloadThumbnailAndMetadata.Text = "Reload thumbnail and metadata";
-            this.toolStripMenuItemImageListViewReloadThumbnailAndMetadata.Click += new System.EventHandler(this.toolStripMenuItemReloadThumbnailAndMetadata_Click);
             // 
             // toolStripMenuItemImageListViewReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory
             // 
@@ -6668,8 +6667,7 @@ namespace PhotoTagsSynchronizer
     "History";
             this.toolStripMenuItemImageListViewReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F5)));
             this.toolStripMenuItemImageListViewReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory.Size = new System.Drawing.Size(324, 26);
-            this.toolStripMenuItemImageListViewReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory.Text = "Clear thumbnail and metadata history";
-            this.toolStripMenuItemImageListViewReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory.Click += new System.EventHandler(this.toolStripMenuItemReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory_Click);
+            this.toolStripMenuItemImageListViewReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory.Text = "Clear thumbnail and metadata history";            
             // 
             // toolStripMenuItemImageListViewSelectAll
             // 
@@ -6687,7 +6685,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemImageListViewAutoCorrect.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.T)));
             this.toolStripMenuItemImageListViewAutoCorrect.Size = new System.Drawing.Size(324, 26);
             this.toolStripMenuItemImageListViewAutoCorrect.Text = "AutoCorrect metadata";
-            this.toolStripMenuItemImageListViewAutoCorrect.Click += new System.EventHandler(this.toolStripMenuItemImageListViewAutoCorrect_Click);
             // 
             // toolStripMenuItemImageListViewAutoCorrectForm
             // 
@@ -6697,7 +6694,6 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.Keys.T)));
             this.toolStripMenuItemImageListViewAutoCorrectForm.Size = new System.Drawing.Size(324, 26);
             this.toolStripMenuItemImageListViewAutoCorrectForm.Text = "AutoCorrect metadata form...";
-            this.toolStripMenuItemImageListViewAutoCorrectForm.Click += new System.EventHandler(this.toolStripMenuItemImageListViewAutoCorrectForm_Click);
             // 
             // openFileWithAssociatedApplicationToolStripMenuItem
             // 
@@ -6706,7 +6702,6 @@ namespace PhotoTagsSynchronizer
             this.openFileWithAssociatedApplicationToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3;
             this.openFileWithAssociatedApplicationToolStripMenuItem.Size = new System.Drawing.Size(324, 26);
             this.openFileWithAssociatedApplicationToolStripMenuItem.Text = "Open";
-            this.openFileWithAssociatedApplicationToolStripMenuItem.Click += new System.EventHandler(this.openFileWithAssociatedApplicationToolStripMenuItem_Click);
             // 
             // editFileWithAssociatedApplicationToolStripMenuItem
             // 
@@ -6715,7 +6710,6 @@ namespace PhotoTagsSynchronizer
             this.editFileWithAssociatedApplicationToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F4;
             this.editFileWithAssociatedApplicationToolStripMenuItem.Size = new System.Drawing.Size(324, 26);
             this.editFileWithAssociatedApplicationToolStripMenuItem.Text = "Edit";
-            this.editFileWithAssociatedApplicationToolStripMenuItem.Click += new System.EventHandler(this.editFileWithAssociatedApplicationToolStripMenuItem_Click);
             // 
             // runSelectedToolStripMenuItem1
             // 
@@ -6724,7 +6718,6 @@ namespace PhotoTagsSynchronizer
             this.runSelectedToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.R)));
             this.runSelectedToolStripMenuItem1.Size = new System.Drawing.Size(324, 26);
             this.runSelectedToolStripMenuItem1.Text = "Run batch app or command...";
-            this.runSelectedToolStripMenuItem1.Click += new System.EventHandler(this.runSelectedLocationToolStripMenuItem_Click);
             // 
             // openWithDialogToolStripMenuItem
             // 
@@ -6733,7 +6726,6 @@ namespace PhotoTagsSynchronizer
             this.openWithDialogToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.openWithDialogToolStripMenuItem.Size = new System.Drawing.Size(324, 26);
             this.openWithDialogToolStripMenuItem.Text = "Open and associate with dialog...";
-            this.openWithDialogToolStripMenuItem.Click += new System.EventHandler(this.openWithDialogToolStripMenuItem_Click);
             // 
             // openFileLocationToolStripMenuItem
             // 
@@ -6829,7 +6821,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemTreeViewFolderCopyFolderNameToClipboard.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.C)));
             this.toolStripMenuItemTreeViewFolderCopyFolderNameToClipboard.Size = new System.Drawing.Size(324, 26);
-            this.toolStripMenuItemTreeViewFolderCopyFolderNameToClipboard.Text = "Copy folder name to Clipboard";
+            this.toolStripMenuItemTreeViewFolderCopyFolderNameToClipboard.Text = "Copy folder path to Clipboard";
             // 
             // toolStripMenuItemTreeViewFolderPaste
             // 
@@ -6872,7 +6864,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemTreeViewFolderReload.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.F5)));
             this.toolStripMenuItemTreeViewFolderReload.Size = new System.Drawing.Size(324, 26);
             this.toolStripMenuItemTreeViewFolderReload.Text = "Reload thumbnail and metadata";
-            this.toolStripMenuItemTreeViewFolderReload.Click += new System.EventHandler(this.toolStripMenuItemTreeViewFolderReload_Click);
             // 
             // toolStripMenuItemTreeViewFolderClearCache
             // 
@@ -6881,7 +6872,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemTreeViewFolderClearCache.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F5)));
             this.toolStripMenuItemTreeViewFolderClearCache.Size = new System.Drawing.Size(324, 26);
             this.toolStripMenuItemTreeViewFolderClearCache.Text = "Clear thumbnail and metadata history";
-            this.toolStripMenuItemTreeViewFolderClearCache.Click += new System.EventHandler(this.toolStripMenuItemTreeViewFolderClearCache_Click);
             // 
             // toolStripMenuItemTreeViewFolderAutoCorrectMetadata
             // 
@@ -6890,7 +6880,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.T)));
             this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata.Size = new System.Drawing.Size(324, 26);
             this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata.Text = "AutoCorrect metadata";
-            this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata.Click += new System.EventHandler(this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata_Click);
             // 
             // openFolderLocationToolStripMenuItem
             // 
