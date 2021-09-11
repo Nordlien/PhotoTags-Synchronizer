@@ -6608,7 +6608,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemImageListViewCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
             this.toolStripMenuItemImageListViewCut.Size = new System.Drawing.Size(324, 26);
             this.toolStripMenuItemImageListViewCut.Text = "Cut";
-            this.toolStripMenuItemImageListViewCut.Click += new System.EventHandler(this.toolStripMenuItemImageListViewCut_Click);
             // 
             // toolStripMenuItemImageListViewCopy
             // 
@@ -6617,7 +6616,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemImageListViewCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
             this.toolStripMenuItemImageListViewCopy.Size = new System.Drawing.Size(324, 26);
             this.toolStripMenuItemImageListViewCopy.Text = "Copy";
-            this.toolStripMenuItemImageListViewCopy.Click += new System.EventHandler(this.toolStripMenuItemImageListViewCopy_Click);
             // 
             // copyFileNamesToClipboardToolStripMenuItem
             // 
@@ -6636,7 +6634,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemImageListViewPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
             this.toolStripMenuItemImageListViewPaste.Size = new System.Drawing.Size(324, 26);
             this.toolStripMenuItemImageListViewPaste.Text = "Paste";
-            this.toolStripMenuItemImageListViewPaste.Click += new System.EventHandler(this.toolStripMenuItemImageListViewPaste_Click);
             // 
             // toolStripMenuItemImageListViewDelete
             // 
@@ -6816,7 +6813,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemTreeViewFolderCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
             this.toolStripMenuItemTreeViewFolderCut.Size = new System.Drawing.Size(324, 26);
             this.toolStripMenuItemTreeViewFolderCut.Text = "Cut";
-            this.toolStripMenuItemTreeViewFolderCut.Click += new System.EventHandler(this.toolStripMenuItemTreeViewFolderCut_Click);
             // 
             // toolStripMenuItemTreeViewFolderCopy
             // 
@@ -6825,7 +6821,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemTreeViewFolderCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
             this.toolStripMenuItemTreeViewFolderCopy.Size = new System.Drawing.Size(324, 26);
             this.toolStripMenuItemTreeViewFolderCopy.Text = "Copy";
-            this.toolStripMenuItemTreeViewFolderCopy.Click += new System.EventHandler(this.toolStripMenuItemTreeViewFolderCopy_Click);
             // 
             // toolStripMenuItemTreeViewFolderCopyFolderNameToClipboard
             // 
@@ -6835,7 +6830,6 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.Keys.C)));
             this.toolStripMenuItemTreeViewFolderCopyFolderNameToClipboard.Size = new System.Drawing.Size(324, 26);
             this.toolStripMenuItemTreeViewFolderCopyFolderNameToClipboard.Text = "Copy folder name to Clipboard";
-            this.toolStripMenuItemTreeViewFolderCopyFolderNameToClipboard.Click += new System.EventHandler(this.toolStripMenuItemTreeViewFolderCopyFolderNameToClipboard_Click);
             // 
             // toolStripMenuItemTreeViewFolderPaste
             // 
@@ -6844,7 +6838,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemTreeViewFolderPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
             this.toolStripMenuItemTreeViewFolderPaste.Size = new System.Drawing.Size(324, 26);
             this.toolStripMenuItemTreeViewFolderPaste.Text = "Paste";
-            this.toolStripMenuItemTreeViewFolderPaste.Click += new System.EventHandler(this.toolStripMenuItemTreeViewFolderPaste_Click);
             // 
             // toolStripMenuItemTreeViewFolderDelete
             // 

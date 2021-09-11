@@ -11,6 +11,8 @@ using Exiftool;
 using MetadataLibrary;
 using Thumbnails;
 using Manina.Windows.Forms;
+using ApplicationAssociations;
+using System.Collections.Specialized;
 
 namespace PhotoTagsSynchronizer
 {
@@ -883,6 +885,7 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
+        
         //Done
         #region Cut
 
@@ -906,12 +909,14 @@ namespace PhotoTagsSynchronizer
                 case KryptonPages.None:
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                    FolderCut_Click();
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterSearch:
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFilter:
                     break;
                 case KryptonPages.kryptonPageMediaFiles:
+                    MediaFilesCut_Click();
                     break;
                 case KryptonPages.kryptonPageToolboxTags:
                     TagsAndKeywordsCut_Click();
@@ -943,6 +948,53 @@ namespace PhotoTagsSynchronizer
                 default:
                     throw new NotImplementedException();
             }
+        }
+        #endregion
+
+        #region MediaFilesCut_Click
+        private void MediaFilesCut_Click()
+        {
+            try
+            {
+                var droplist = new StringCollection();
+                using (new WaitCursor())
+                {
+                    foreach (ImageListViewItem item in imageListView1.SelectedItems) droplist.Add(item.FileFullPath);
+
+                    DataObject data = new DataObject();
+                    data.SetFileDropList(droplist);
+                    data.SetData("Preferred DropEffect", DragDropEffects.Move);
+
+                    Clipboard.Clear();
+                    Clipboard.SetDataObject(data, true);
+                }
+                imageListView1.Focus();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        #endregion
+
+        #region FolderCut_Click
+        private void FolderCut_Click()
+        {
+            string folder = Furty.Windows.Forms.ShellOperations.GetFileDirectory(currentNodeWhenStartDragging); // folderTreeViewFolder.GetSelectedNodePath();
+            var droplist = new StringCollection();
+            using (new WaitCursor())
+            {
+                droplist.Add(folder);
+
+                DataObject data = new DataObject();
+                data.SetFileDropList(droplist);
+                data.SetData("Preferred DropEffect", DragDropEffects.Move);
+
+                Clipboard.Clear();
+                Clipboard.SetDataObject(data, true);
+            }
+            folderTreeViewFolder.Focus();
         }
         #endregion
 
@@ -1075,12 +1127,14 @@ namespace PhotoTagsSynchronizer
                 case KryptonPages.None:
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                    FolderCopy_Click();
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterSearch:
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFilter:
                     break;
                 case KryptonPages.kryptonPageMediaFiles:
+                    MediaFilesCopy_Click();
                     break;
                 case KryptonPages.kryptonPageToolboxTags:
                     TagsAndKeywordsCopy_Click();
@@ -1112,6 +1166,62 @@ namespace PhotoTagsSynchronizer
                 default:
                     throw new NotImplementedException();
             }
+        }
+        #endregion
+
+        #region MediaFilesCopy_Click
+        private void MediaFilesCopy_Click()
+        {
+            try
+            {
+                StringCollection droplist = new StringCollection();
+                using (new WaitCursor())
+                {
+                    foreach (ImageListViewItem item in imageListView1.SelectedItems) droplist.Add(item.FileFullPath);
+
+                    DataObject data = new DataObject();
+                    data.SetFileDropList(droplist);
+                    data.SetData("Preferred DropEffect", DragDropEffects.Copy);
+
+                    Clipboard.Clear();
+                    Clipboard.SetDataObject(data, true);
+                }
+                imageListView1.Focus();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        #endregion 
+        
+        #region FolderTree - Copy - Click
+        private void FolderCopy_Click()
+        {
+            try
+            {
+                string folder = Furty.Windows.Forms.ShellOperations.GetFileDirectory(currentNodeWhenStartDragging); // folderTreeViewFolder.GetSelectedNodePath();
+                StringCollection droplist = new StringCollection();
+                using (new WaitCursor())
+                {
+                    droplist.Add(folder);
+
+                    DataObject data = new DataObject();
+                    data.SetFileDropList(droplist);
+                    data.SetData("Preferred DropEffect", DragDropEffects.Copy);
+
+                    Clipboard.Clear();
+                    Clipboard.SetDataObject(data, true);
+                }
+                folderTreeViewFolder.Focus();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
         #endregion
 
@@ -1219,12 +1329,14 @@ namespace PhotoTagsSynchronizer
                 case KryptonPages.None:
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                    FolderPaste_Click();
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterSearch:
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFilter:
                     break;
                 case KryptonPages.kryptonPageMediaFiles:
+                    MediaFilesPaste_Click();
                     break;
                 case KryptonPages.kryptonPageToolboxTags:
                     TagsAndKeywordsPaste_Click();
@@ -1255,6 +1367,61 @@ namespace PhotoTagsSynchronizer
                     break;
                 default:
                     throw new NotImplementedException();
+            }
+        }
+        #endregion
+
+        #region MediaFilesPaste_Click
+        private void MediaFilesPaste_Click()
+        {
+            try
+            {
+                StringCollection files = Clipboard.GetFileDropList();
+                using (new WaitCursor())
+                {
+                    foreach (string fullFilename in files)
+                    {
+                        bool fileFound = false;
+
+
+                        foreach (ImageListViewItem item in imageListView1.Items)
+                        {
+                            if (item.FileFullPath == fullFilename)
+                            {
+                                fileFound = true;
+                                break;
+                            }
+                        }
+
+                        if (!fileFound) imageListView1.Items.Add(fullFilename);
+                    }
+                }
+                imageListView1.Focus();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        #endregion
+
+        #region FolderPaste_Click
+        private void FolderPaste_Click()
+        {
+            try
+            {
+                DragDropEffects dragDropEffects = DetectCopyOrMove();
+                using (new WaitCursor())
+                {
+                    CopyOrMove(dragDropEffects, currentNodeWhenStartDragging, Clipboard.GetFileDropList(), Furty.Windows.Forms.ShellOperations.GetFileDirectory(currentNodeWhenStartDragging));
+                    folderTreeViewFolder.Focus();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -3014,13 +3181,6 @@ namespace PhotoTagsSynchronizer
 
         #region CopyText
 
-        #region ActionCopyText
-        private void ActionCopyText()
-        {
-
-        }
-        #endregion
-
         #region CopyText - Click Events Sources
         private void kryptonRibbonGroupButtonHomeCopyText_Click(object sender, EventArgs e)
         {
@@ -3032,6 +3192,80 @@ namespace PhotoTagsSynchronizer
             ActionCopyText();
         }
         #endregion
+
+        #region ActionCopyText
+        private void ActionCopyText()
+        {
+            switch (ActiveKryptonPage)
+            {
+                case KryptonPages.None:
+                    break;
+                case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                    FolderCopyNameToClipboard_Click();
+                    break;
+                case KryptonPages.kryptonPageFolderSearchFilterSearch:
+                    break;
+                case KryptonPages.kryptonPageFolderSearchFilterFilter:
+                    break;
+                case KryptonPages.kryptonPageMediaFiles:
+                    MediaFilesCopyNameToClipboard_Click();
+                    break;
+                case KryptonPages.kryptonPageToolboxTags:
+                    break;
+                case KryptonPages.kryptonPageToolboxPeople:
+                    break;
+                case KryptonPages.kryptonPageToolboxMap:
+                    break;
+                case KryptonPages.kryptonPageToolboxDates:
+                    break;
+                case KryptonPages.kryptonPageToolboxExiftool:
+                    break;
+                case KryptonPages.kryptonPageToolboxWarnings:
+                    break;
+                case KryptonPages.kryptonPageToolboxProperties:
+                    break;
+                case KryptonPages.kryptonPageToolboxRename:
+                    break;
+                case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+        #endregion
+
+        #region FolderCopyFolderNameToClipboard_Click
+        private void FolderCopyNameToClipboard_Click()
+        {
+            try
+            {
+                string folder = Furty.Windows.Forms.ShellOperations.GetFileDirectory(currentNodeWhenStartDragging); // folderTreeViewFolder.GetSelectedNodePath();
+                Clipboard.SetText(folder);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        #endregion 
+
+        #region MediaFilesCopyNameToClipboard_Click
+        private void MediaFilesCopyNameToClipboard_Click()
+        {
+            try
+            {
+                string filenames = "";
+                foreach (ImageListViewItem item in imageListView1.SelectedItems) filenames += (string.IsNullOrWhiteSpace(filenames) ? "" : "\r\n") + item.Text;
+                Clipboard.SetText(filenames);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        #endregion 
 
         #endregion 
 
@@ -3081,13 +3315,10 @@ namespace PhotoTagsSynchronizer
                 case KryptonPages.kryptonPageToolboxWarnings:
                     break;
                 case KryptonPages.kryptonPageToolboxProperties:
-                    SaveProperties();
                     break;
                 case KryptonPages.kryptonPageToolboxRename:
-                    MessageBox.Show("Not implemented");
                     break;
                 case KryptonPages.kryptonPageToolboxConvertAndMerge:
-                    SaveConvertAndMerge();
                     break;
                 default:
                     throw new NotImplementedException();
@@ -3166,13 +3397,10 @@ namespace PhotoTagsSynchronizer
                 case KryptonPages.kryptonPageToolboxWarnings:
                     break;
                 case KryptonPages.kryptonPageToolboxProperties:
-                    SaveProperties();
                     break;
                 case KryptonPages.kryptonPageToolboxRename:
-                    MessageBox.Show("Not implemented");
                     break;
                 case KryptonPages.kryptonPageToolboxConvertAndMerge:
-                    SaveConvertAndMerge();
                     break;
                 default:
                     throw new NotImplementedException();
@@ -3246,13 +3474,10 @@ namespace PhotoTagsSynchronizer
                 case KryptonPages.kryptonPageToolboxWarnings:
                     break;
                 case KryptonPages.kryptonPageToolboxProperties:
-                    SaveProperties();
                     break;
                 case KryptonPages.kryptonPageToolboxRename:
-                    MessageBox.Show("Not implemented");
                     break;
                 case KryptonPages.kryptonPageToolboxConvertAndMerge:
-                    SaveConvertAndMerge();
                     break;
                 default:
                     throw new NotImplementedException();
@@ -3308,7 +3533,51 @@ namespace PhotoTagsSynchronizer
             {
                 this.Activate();
                 this.Validate(); //Get the latest changes, that are text in edit mode
-                SaveActiveTabData();
+
+                if (GlobalData.IsPopulatingAnything()) return;
+                if (GlobalData.IsSaveButtonPushed) return;
+                GlobalData.IsSaveButtonPushed = true;
+                this.Enabled = false;
+                using (new WaitCursor())
+                {
+                    switch (ActiveKryptonPage)
+                    {
+                        case KryptonPages.None:
+                            break;
+                        case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                            break;
+                        case KryptonPages.kryptonPageFolderSearchFilterSearch:
+                            break;
+                        case KryptonPages.kryptonPageFolderSearchFilterFilter:
+                            break;
+                        case KryptonPages.kryptonPageMediaFiles:
+                            break;
+                        case KryptonPages.kryptonPageToolboxTags:
+                        case KryptonPages.kryptonPageToolboxPeople:
+                        case KryptonPages.kryptonPageToolboxMap:
+                        case KryptonPages.kryptonPageToolboxDates:
+                            SaveDataGridViewMetadata();
+                            GlobalData.IsAgregatedProperties = false;
+                            break;
+                        case KryptonPages.kryptonPageToolboxExiftool:
+                            break;
+                        case KryptonPages.kryptonPageToolboxWarnings:
+                            break;
+                        case KryptonPages.kryptonPageToolboxProperties:
+                            SaveProperties();
+                            break;
+                        case KryptonPages.kryptonPageToolboxRename:
+                            SaveRename();
+                            break;
+                        case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                            SaveConvertAndMerge();
+                            break;
+                        default:
+                            throw new NotImplementedException();
+                    }
+                }
+                GlobalData.IsSaveButtonPushed = false;
+                this.Enabled = true;
             }
             catch (Exception ex)
             {
@@ -3317,56 +3586,6 @@ namespace PhotoTagsSynchronizer
             }
         }
         #endregion
-
-        #region SaveActiveTabData()
-        private void SaveActiveTabData()
-        {
-            if (GlobalData.IsPopulatingAnything()) return;
-            if (GlobalData.IsSaveButtonPushed) return;
-            GlobalData.IsSaveButtonPushed = true;
-            this.Enabled = false;
-            using (new WaitCursor())
-            {
-                switch (ActiveKryptonPage)
-                {
-                    case KryptonPages.None:
-                        break;
-                    case KryptonPages.kryptonPageFolderSearchFilterFolder:
-                        break;
-                    case KryptonPages.kryptonPageFolderSearchFilterSearch:
-                        break;
-                    case KryptonPages.kryptonPageFolderSearchFilterFilter:
-                        break;
-                    case KryptonPages.kryptonPageMediaFiles:
-                        break;
-                    case KryptonPages.kryptonPageToolboxTags:
-                    case KryptonPages.kryptonPageToolboxPeople:
-                    case KryptonPages.kryptonPageToolboxMap:
-                    case KryptonPages.kryptonPageToolboxDates:
-                        SaveDataGridViewMetadata();
-                        GlobalData.IsAgregatedProperties = false;
-                        break;
-                    case KryptonPages.kryptonPageToolboxExiftool:
-                        break;
-                    case KryptonPages.kryptonPageToolboxWarnings:
-                        break;
-                    case KryptonPages.kryptonPageToolboxProperties:
-                        SaveProperties();
-                        break;
-                    case KryptonPages.kryptonPageToolboxRename:
-                        SaveRename();
-                        break;
-                    case KryptonPages.kryptonPageToolboxConvertAndMerge:
-                        SaveConvertAndMerge();
-                        break;
-                    default:
-                        throw new NotImplementedException();
-                }
-            }
-            GlobalData.IsSaveButtonPushed = false;
-            this.Enabled = true;
-        }
-        #endregion 
 
         #region Save - IsAnyDataUnsaved
         private bool IsAnyDataUnsaved()
@@ -3569,7 +3788,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region FastCopyNoOverwrite
+        #region ActionFastCopyNoOverwrite
         private void ActionFastCopyNoOverwrite()
         {
             switch (ActiveKryptonPage)
@@ -3723,7 +3942,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //Done
+        //NOT Done - Missing Rename Folder name
         #region Rename
 
         #region Rename - Click Events Sources
@@ -3809,7 +4028,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //
+        //Done
         #region Rotate270
 
         #region ActionRotate270
@@ -3881,7 +4100,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //
+        //Done
         #region Rotate180
 
         #region Rotate180 - Click Events Sources
@@ -3954,7 +4173,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //
+        //Done
         #region Rotate90
 
         #region Rotate90 - Click Events Sources
@@ -4494,6 +4713,18 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region ActionFileSystemOpen
+        private void imageListView1_ItemDoubleClick(object sender, ItemClickEventArgs e)
+        {
+            try
+            {
+                ApplicationActivation.ProcessRunOpenFile(e.Item.FileFullPath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Failed to start application process...", MessageBoxButtons.OK);
+            }
+        }
+
         private void kryptonRibbonGroupButtonHomeFileSystemOpen_Click(object sender, EventArgs e)
         {
 
