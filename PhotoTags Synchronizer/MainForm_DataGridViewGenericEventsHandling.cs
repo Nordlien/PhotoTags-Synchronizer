@@ -835,6 +835,7 @@ namespace PhotoTagsSynchronizer
         //Rename
         //TagsAndKeywords
 
+        // -----------------------------------------------------------------------
         #region RegionRename1
 
         #region RegionRename1 - Click Events Sources
@@ -3265,9 +3266,12 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                string filenames = "";
-                foreach (ImageListViewItem item in imageListView1.SelectedItems) filenames += (string.IsNullOrWhiteSpace(filenames) ? "" : "\r\n") + item.FileFullPath;
-                Clipboard.SetText(filenames);
+                if (imageListView1.SelectedItems.Count > 0)
+                {
+                    string filenames = "";
+                    foreach (ImageListViewItem item in imageListView1.SelectedItems) filenames += (string.IsNullOrWhiteSpace(filenames) ? "" : "\r\n") + item.FileFullPath;
+                    Clipboard.SetText(filenames);
+                }
             }
             catch (Exception ex)
             {
@@ -4680,26 +4684,25 @@ namespace PhotoTagsSynchronizer
 
 
         #endregion
+        //Done - not tested
+        #region RefreshFolderAndFiles
 
-        
-
-        #region FileSystemRefreshFolder
-
-
-        #region ActionFileSystemRefreshFolder
-        private void ActionFileSystemRefreshFolder()
+        #region ActionRefreshFolderAndFiles
+        private void ActionRefreshFolderAndFiles()
         {
             switch (ActiveKryptonPage)
             {
                 case KryptonPages.None:
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                    FolderRefresh_Click();
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterSearch:
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFilter:
                     break;
                 case KryptonPages.kryptonPageMediaFiles:
+                    MediaFilesRefresh_Click();
                     break;
                 case KryptonPages.kryptonPageToolboxTags:
                     break;
@@ -4725,22 +4728,59 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region FileSystemRefreshFolder - Click Events Sources
+        #region RefreshFolderAndFiles - Click Events Sources
         private void kryptonRibbonGroupButtonHomeFileSystemRefreshFolder_Click(object sender, EventArgs e)
         {
-
+            ActionRefreshFolderAndFiles();
         }
+
         private void KryptonContextMenuItemGenericFileSystemRefreshFolder_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            ActionRefreshFolderAndFiles();
+        }
+        #endregion
+
+        #region FolderRefresh_Click
+        private void FolderRefresh_Click()
+        {
+            try
+            {
+                GlobalData.DoNotRefreshImageListView = true;
+                TreeNode selectedNode = folderTreeViewFolder.SelectedNode;
+                filesCutCopyPasteDrag.RefeshFolderTree(folderTreeViewFolder, selectedNode);
+                GlobalData.DoNotRefreshImageListView = false;
+                PopulateImageListView_FromFolderSelected(false, true);
+                folderTreeViewFolder.Focus();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        #endregion
+
+        #region MediaFilesRefresh_Click
+        private void MediaFilesRefresh_Click()
+        {
+            try
+            {
+                PopulateImageListView_FromFolderSelected(false, true);
+                folderTreeViewFolder.Focus();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion
 
         #endregion
 
-        //KryptonContextMenuItemGenericRefreshFolder_Click;
-        //kryptonRibbonGroupButtonHomeFileSystemRefresh_Click
         
+
+        //Done - not tested
         #region ReadSubfolders
 
         #region ActionReadSubfolders
@@ -4751,6 +4791,7 @@ namespace PhotoTagsSynchronizer
                 case KryptonPages.None:
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                    FolderReadSubfolders_Click();
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterSearch:
                     break;
@@ -4785,29 +4826,47 @@ namespace PhotoTagsSynchronizer
         #region ReadSubfolders - Click Events Sources
         private void KryptonContextMenuItemGenericReadSubfolders_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            ActionReadSubfolders();
+        }
+        #endregion
+
+        #region ToolStrip - Refresh - Items in listview 
+        private void FolderReadSubfolders_Click()
+        {
+            try
+            {
+                PopulateImageListView_FromFolderSelected(true, true);
+                folderTreeViewFolder.Focus();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion
 
         #endregion
 
+        //Done - not tested
+        #region OpenExplorerLocation
 
-        #region FileSystemOpenExplorerLocation
-
-        #region ActionFileSystemOpenExplorerLocation
-        private void ActionFileSystemOpenExplorerLocation()
+        #region OpenExplorerLocation
+        private void ActionOpenExplorerLocation()
         {
             switch (ActiveKryptonPage)
             {
                 case KryptonPages.None:
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                    FolderOpenExplorerLocation_Click();
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterSearch:
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFilter:
                     break;
                 case KryptonPages.kryptonPageMediaFiles:
+                    MediaFilesOpenExplorerLocation_Click();
                     break;
                 case KryptonPages.kryptonPageToolboxTags:
                     break;
@@ -4836,12 +4895,41 @@ namespace PhotoTagsSynchronizer
         #region FileSystemOpenExplorerLocation - Click Events Sources
         private void kryptonRibbonGroupButtonHomeFileSystemOpenExplorerLocation_Click(object sender, EventArgs e)
         {
-
+            ActionOpenExplorerLocation();
         }
 
         private void KryptonContextMenuItemGenericOpenExplorerLocation_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            ActionOpenExplorerLocation();
+        }
+        #endregion
+
+        #region MediaFilesOpenExplorerLocation_Click
+        private void MediaFilesOpenExplorerLocation_Click()
+        {
+            string errorMessage = "";
+
+            foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
+            {
+                try
+                {
+                    ApplicationActivation.ShowFileInExplorer(imageListViewItem.FileFullPath);
+                }
+                catch (Exception ex) { errorMessage += (errorMessage == "" ? "" : "\r\n") + ex.Message; }
+            }
+
+            if (errorMessage != "") MessageBox.Show(errorMessage, "Failed to start application process...", MessageBoxButtons.OK);
+        }
+        #endregion
+
+        #region FolderOpenExplorerLocation_Click
+        private void FolderOpenExplorerLocation_Click()
+        {
+            try
+            {
+                ApplicationActivation.ShowFolderInEplorer(folderTreeViewFolder.GetSelectedNodePath());
+            }
+            catch (Exception ex) { MessageBox.Show(ex.Message, "Failed to start application process...", MessageBoxButtons.OK); }
         }
         #endregion
 
@@ -5578,7 +5666,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //Done - not tested
+        //Done
         #region MetadataRefreshLast
 
         #region ActionMetadataRefreshLast
@@ -5593,10 +5681,10 @@ namespace PhotoTagsSynchronizer
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterSearch:
                     break;
-                case KryptonPages.kryptonPageFolderSearchFilterFilter:
-                    MediaFilesMetadataRefreshLast_Click();
+                case KryptonPages.kryptonPageFolderSearchFilterFilter:                    
                     break;
                 case KryptonPages.kryptonPageMediaFiles:
+                    MediaFilesMetadataRefreshLast_Click();
                     break;
                 case KryptonPages.kryptonPageToolboxTags:
                     break;
@@ -5669,7 +5757,7 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #endregion
-        //Done - not tested
+        //Done
         #region MetadataReloadDeleteHistory
 
         #region ActionMetadataReloadDeleteHistory
@@ -5966,6 +6054,16 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion 
+
+
+
+
+
+
+        
+
+
+
 
         //----
         #region SetGridViewSize Small / Medium / Big - Click

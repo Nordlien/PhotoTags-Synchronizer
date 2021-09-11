@@ -25,21 +25,7 @@ namespace PhotoTagsSynchronizer
 
         
 
-        #region ToolStrip - Refreh Folder - Click
-        private void toolStripMenuItemRefreshFolder_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                PopulateImageListView_FromFolderSelected(false, true);
-                folderTreeViewFolder.Focus();
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        #endregion
+        
 
         #region ToolStrip - Select all Items - Click
         private void toolStripMenuItemSelectAll_Click(object sender, EventArgs e)
@@ -392,100 +378,6 @@ namespace PhotoTagsSynchronizer
 
         
         
-
-        
-
-        
-        #region ToolStrip - Open File Location - Click
-        private void openFileLocationToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            string errorMessage = "";
-
-            foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
-            {
-                try
-                {
-                    ApplicationActivation.ShowFileInExplorer(imageListViewItem.FileFullPath);
-                }
-                catch (Exception ex) { errorMessage += (errorMessage == "" ? "" : "\r\n") + ex.Message; }
-            }
-
-            if (errorMessage != "") MessageBox.Show(errorMessage, "Failed to start application process...", MessageBoxButtons.OK);
-        }
-        #endregion
-
-        #region ToolStrip - Open Folder Location - Click
-        private void openFolderLocationToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                ApplicationActivation.ShowFolderInEplorer(folderTreeViewFolder.GetSelectedNodePath());
-            }
-            catch (Exception ex) { MessageBox.Show(ex.Message, "Failed to start application process...", MessageBoxButtons.OK); }
-        }
-        #endregion
-
-        #region ToolStrip - Copy Filenames to Clipboard - Click
-        private void copyFileNamesToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (imageListView1.SelectedItems.Count > 0)
-                {
-                    string text = "";
-
-                    foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
-                    {
-                        text = text + (text == "" ? "" : "\r\n") + imageListViewItem.FileFullPath;
-                    }
-
-                    Clipboard.SetText(text);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        #endregion
-
-        
-        #region ToolStrip - Refresh - Folder tree - Click
-        private void toolStripMenuItemTreeViewFolderRefreshFolder_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                GlobalData.DoNotRefreshImageListView = true;
-                TreeNode selectedNode = folderTreeViewFolder.SelectedNode;
-                filesCutCopyPasteDrag.RefeshFolderTree(folderTreeViewFolder, selectedNode);
-                GlobalData.DoNotRefreshImageListView = false;
-                PopulateImageListView_FromFolderSelected(false, true);
-                folderTreeViewFolder.Focus();
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        #endregion
-
-        #region ToolStrip - Refresh - Items in listview 
-        private void toolStripMenuItemTreeViewFolderReadSubfolders_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                PopulateImageListView_FromFolderSelected(true, true);
-                folderTreeViewFolder.Focus();
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        #endregion
 
         #region ToolStrip - Reload Metadata - Delete Last Mediadata And Reload
         void DeleteLastMediadataAndReload(ImageListView imageListView, bool updatedOnlySelected)

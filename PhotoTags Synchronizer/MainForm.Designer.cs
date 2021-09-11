@@ -5123,6 +5123,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonTabSelect,
             this.kryptonRibbonTabTools,
             this.kryptonRibbonTabPreview});
+            this.kryptonRibbonMain.SelectedContext = null;
             this.kryptonRibbonMain.SelectedTab = this.kryptonRibbonTabHome;
             this.kryptonRibbonMain.Size = new System.Drawing.Size(1214, 115);
             this.kryptonRibbonMain.TabIndex = 12;
@@ -6625,7 +6626,6 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.Keys.C)));
             this.copyFileNamesToClipboardToolStripMenuItem.Size = new System.Drawing.Size(324, 26);
             this.copyFileNamesToClipboardToolStripMenuItem.Text = "Copy file names to Clipboard";
-            this.copyFileNamesToClipboardToolStripMenuItem.Click += new System.EventHandler(this.copyFileNamesToClipboardToolStripMenuItem_Click);
             // 
             // toolStripMenuItemImageListViewPaste
             // 
@@ -6650,7 +6650,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemImageListViewRefreshFolder.ShortcutKeys = System.Windows.Forms.Keys.F5;
             this.toolStripMenuItemImageListViewRefreshFolder.Size = new System.Drawing.Size(324, 26);
             this.toolStripMenuItemImageListViewRefreshFolder.Text = "Refresh folder";
-            this.toolStripMenuItemImageListViewRefreshFolder.Click += new System.EventHandler(this.toolStripMenuItemRefreshFolder_Click);
             // 
             // toolStripMenuItemImageListViewReloadThumbnailAndMetadata
             // 
@@ -6667,7 +6666,7 @@ namespace PhotoTagsSynchronizer
     "History";
             this.toolStripMenuItemImageListViewReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F5)));
             this.toolStripMenuItemImageListViewReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory.Size = new System.Drawing.Size(324, 26);
-            this.toolStripMenuItemImageListViewReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory.Text = "Clear thumbnail and metadata history";            
+            this.toolStripMenuItemImageListViewReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory.Text = "Clear thumbnail and metadata history";
             // 
             // toolStripMenuItemImageListViewSelectAll
             // 
@@ -6734,7 +6733,6 @@ namespace PhotoTagsSynchronizer
             this.openFileLocationToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.L)));
             this.openFileLocationToolStripMenuItem.Size = new System.Drawing.Size(324, 26);
             this.openFileLocationToolStripMenuItem.Text = "Open file Location";
-            this.openFileLocationToolStripMenuItem.Click += new System.EventHandler(this.openFileLocationToolStripMenuItem_Click);
             // 
             // rotateCW90ToolStripMenuItem
             // 
@@ -6846,7 +6844,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemTreeViewFolderRefreshFolder.ShortcutKeys = System.Windows.Forms.Keys.F5;
             this.toolStripMenuItemTreeViewFolderRefreshFolder.Size = new System.Drawing.Size(324, 26);
             this.toolStripMenuItemTreeViewFolderRefreshFolder.Text = "Refresh folder";
-            this.toolStripMenuItemTreeViewFolderRefreshFolder.Click += new System.EventHandler(this.toolStripMenuItemTreeViewFolderRefreshFolder_Click);
             // 
             // toolStripMenuItemTreeViewFolderReadSubfolders
             // 
@@ -6855,7 +6852,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemTreeViewFolderReadSubfolders.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
             this.toolStripMenuItemTreeViewFolderReadSubfolders.Size = new System.Drawing.Size(324, 26);
             this.toolStripMenuItemTreeViewFolderReadSubfolders.Text = "Read subfolders";
-            this.toolStripMenuItemTreeViewFolderReadSubfolders.Click += new System.EventHandler(this.toolStripMenuItemTreeViewFolderReadSubfolders_Click);
             // 
             // toolStripMenuItemTreeViewFolderReload
             // 
@@ -6888,7 +6884,6 @@ namespace PhotoTagsSynchronizer
             this.openFolderLocationToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.L)));
             this.openFolderLocationToolStripMenuItem.Size = new System.Drawing.Size(324, 26);
             this.openFolderLocationToolStripMenuItem.Text = "Open Folder Location";
-            this.openFolderLocationToolStripMenuItem.Click += new System.EventHandler(this.openFolderLocationToolStripMenuItem_Click);
             // 
             // MainForm
             // 
