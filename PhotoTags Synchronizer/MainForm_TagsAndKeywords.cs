@@ -127,13 +127,6 @@ namespace PhotoTagsSynchronizer
             RegionSelectorLoadAndSelect(dataGridView, e.RowIndex, e.ColumnIndex);
         }
 
-        private void toolStripMenuItemShowPosterWindowKeywords_Click(object sender, EventArgs e)
-        {
-            DataGridView dataGridView = dataGridViewTagsAndKeywords;
-            OpenRegionSelector();
-            RegionSelectorLoadAndSelect(dataGridView);
-        }
-
         #region TriState Click / Begin Edit / End Edit
         private void dataGridViewTagsAndKeywords_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {

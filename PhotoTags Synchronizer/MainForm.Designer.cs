@@ -31,7 +31,7 @@ namespace PhotoTagsSynchronizer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Filter");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Filter");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.toolStripContainerMainForm = new System.Windows.Forms.ToolStripContainer();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
@@ -263,9 +263,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageToolboxConvertAndMerge = new Krypton.Navigator.KryptonPage();
             this.dataGridViewConvertAndMerge = new Krypton.Toolkit.KryptonDataGridView();
             this.toolStripContainerStripMainForm = new System.Windows.Forms.ToolStrip();
-            this.rotateCCWToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.rotate180ToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.rotateCWToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonPreview = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonSelectPrevious = new System.Windows.Forms.ToolStripButton();
@@ -289,7 +286,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonSelectNext = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonImportGoogleLocation = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonSaveAllMetadata = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonConfig = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonWebScraper = new System.Windows.Forms.ToolStripButton();
@@ -486,6 +482,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonHomeTagSelectOn = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButtonHomeTagSelectToggle = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButtonHomeTagSelectOff = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupHomeSave = new Krypton.Ribbon.KryptonRibbonGroup();
+            this.kryptonRibbonGroupTriple29 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.kryptonRibbonGroupButtonHomeSaveSave = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonTabView = new Krypton.Ribbon.KryptonRibbonTab();
             this.kryptonRibbonGroupViewViewModes = new Krypton.Ribbon.KryptonRibbonGroup();
             this.kryptonRibbonGroupTriple2 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
@@ -1812,11 +1811,11 @@ namespace PhotoTagsSynchronizer
             this.treeViewFilter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeViewFilter.Location = new System.Drawing.Point(0, 0);
             this.treeViewFilter.Name = "treeViewFilter";
-            treeNode1.Name = "NodeFolder";
-            treeNode1.Tag = "Filter";
-            treeNode1.Text = "Filter";
+            treeNode2.Name = "NodeFolder";
+            treeNode2.Tag = "Filter";
+            treeNode2.Text = "Filter";
             this.treeViewFilter.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1});
+            treeNode2});
             this.treeViewFilter.Size = new System.Drawing.Size(399, 600);
             this.treeViewFilter.TabIndex = 0;
             this.treeViewFilter.BeforeCheck += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeViewFilter_BeforeCheck);
@@ -3171,7 +3170,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemShowPosterWindowExiftool.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
             this.toolStripMenuItemShowPosterWindowExiftool.Size = new System.Drawing.Size(267, 26);
             this.toolStripMenuItemShowPosterWindowExiftool.Text = "Show Media Poster Window";
-            this.toolStripMenuItemShowPosterWindowExiftool.Click += new System.EventHandler(this.toolStripMenuItemShowPosterWindowExiftool_Click);
             // 
             // toolStripMenuItemMediaPreview
             // 
@@ -3306,7 +3304,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemShowPosterWindowWarnings.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
             this.toolStripMenuItemShowPosterWindowWarnings.Size = new System.Drawing.Size(267, 26);
             this.toolStripMenuItemShowPosterWindowWarnings.Text = "Show Media Poster Window";
-            this.toolStripMenuItemShowPosterWindowWarnings.Click += new System.EventHandler(this.toolStripMenuItemShowPosterWindowWarnings_Click);
             // 
             // toolStripMenuItemExiftoolWarningMediaPreview
             // 
@@ -3626,9 +3623,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripContainerStripMainForm.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStripContainerStripMainForm.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStripContainerStripMainForm.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.rotateCCWToolStripButton,
-            this.rotate180ToolStripButton,
-            this.rotateCWToolStripButton,
             this.toolStripButtonPreview,
             this.toolStripSeparator2,
             this.toolStripButtonSelectPrevious,
@@ -3636,7 +3630,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonSelectNext,
             this.toolStripSeparator11,
             this.toolStripButtonImportGoogleLocation,
-            this.toolStripButtonSaveAllMetadata,
             this.toolStripSeparator4,
             this.toolStripButtonConfig,
             this.toolStripButtonWebScraper,
@@ -3645,38 +3638,8 @@ namespace PhotoTagsSynchronizer
             this.toolStripContainerStripMainForm.Location = new System.Drawing.Point(3, 0);
             this.toolStripContainerStripMainForm.Name = "toolStripContainerStripMainForm";
             this.toolStripContainerStripMainForm.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStripContainerStripMainForm.Size = new System.Drawing.Size(388, 27);
+            this.toolStripContainerStripMainForm.Size = new System.Drawing.Size(323, 27);
             this.toolStripContainerStripMainForm.TabIndex = 0;
-            // 
-            // rotateCCWToolStripButton
-            // 
-            this.rotateCCWToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.rotateCCWToolStripButton.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate90CCW;
-            this.rotateCCWToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.rotateCCWToolStripButton.Name = "rotateCCWToolStripButton";
-            this.rotateCCWToolStripButton.Size = new System.Drawing.Size(24, 24);
-            this.rotateCCWToolStripButton.Text = "Rotate Counter-clockwise";
-            this.rotateCCWToolStripButton.Click += new System.EventHandler(this.rotateCCWToolStripButton_Click);
-            // 
-            // rotate180ToolStripButton
-            // 
-            this.rotate180ToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.rotate180ToolStripButton.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate180;
-            this.rotate180ToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.rotate180ToolStripButton.Name = "rotate180ToolStripButton";
-            this.rotate180ToolStripButton.Size = new System.Drawing.Size(24, 24);
-            this.rotate180ToolStripButton.Text = "Rotate 180°";
-            this.rotate180ToolStripButton.Click += new System.EventHandler(this.rotate180ToolStripButton_Click);
-            // 
-            // rotateCWToolStripButton
-            // 
-            this.rotateCWToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.rotateCWToolStripButton.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate90CW;
-            this.rotateCWToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.rotateCWToolStripButton.Name = "rotateCWToolStripButton";
-            this.rotateCWToolStripButton.Size = new System.Drawing.Size(24, 24);
-            this.rotateCWToolStripButton.Text = "Rotate Clockwise";
-            this.rotateCWToolStripButton.Click += new System.EventHandler(this.rotateCWToolStripButton_Click);
             // 
             // toolStripButtonPreview
             // 
@@ -3862,15 +3825,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonImportGoogleLocation.Size = new System.Drawing.Size(24, 24);
             this.toolStripButtonImportGoogleLocation.Text = "Import Google Locations";
             this.toolStripButtonImportGoogleLocation.Click += new System.EventHandler(this.toolStripButtonImportGoogleLocation_Click);
-            // 
-            // toolStripButtonSaveAllMetadata
-            // 
-            this.toolStripButtonSaveAllMetadata.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonSaveAllMetadata.Image = global::PhotoTagsSynchronizer.Properties.Resources.MetadataSave32x32;
-            this.toolStripButtonSaveAllMetadata.ImageTransparentColor = System.Drawing.Color.Transparent;
-            this.toolStripButtonSaveAllMetadata.Name = "toolStripButtonSaveAllMetadata";
-            this.toolStripButtonSaveAllMetadata.Size = new System.Drawing.Size(24, 24);
-            this.toolStripButtonSaveAllMetadata.Text = "Save changes";
             // 
             // toolStripSeparator4
             // 
@@ -4099,7 +4053,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemShowPosterWindowKeywords.Name = "toolStripMenuItemShowPosterWindowKeywords";
             this.toolStripMenuItemShowPosterWindowKeywords.Size = new System.Drawing.Size(427, 26);
             this.toolStripMenuItemShowPosterWindowKeywords.Text = "Show Media Poster Window";
-            this.toolStripMenuItemShowPosterWindowKeywords.Click += new System.EventHandler(this.toolStripMenuItemShowPosterWindowKeywords_Click);
             // 
             // toolStripMenuItemTagsAndKeywordMediaPreview
             // 
@@ -4340,7 +4293,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemPeopleShowRegionSelector.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
             this.toolStripMenuItemPeopleShowRegionSelector.Size = new System.Drawing.Size(301, 26);
             this.toolStripMenuItemPeopleShowRegionSelector.Text = "Show Region Selector Window";
-            this.toolStripMenuItemPeopleShowRegionSelector.Click += new System.EventHandler(this.toolStripMenuItemPeopleShowRegionSelector_Click);
             // 
             // toolStripMenuItemPeopleMediaPreview
             // 
@@ -4547,7 +4499,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemShowPosterWindowMap.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
             this.toolStripMenuItemShowPosterWindowMap.Size = new System.Drawing.Size(427, 26);
             this.toolStripMenuItemShowPosterWindowMap.Text = "Show Media Poster Window";
-            this.toolStripMenuItemShowPosterWindowMap.Click += new System.EventHandler(this.toolStripMenuItemShowPosterWindowMap_Click);
             // 
             // toolStripMenuItemMapMediaPreview
             // 
@@ -4698,7 +4649,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemShowPosterWindowDate.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
             this.toolStripMenuItemShowPosterWindowDate.Size = new System.Drawing.Size(267, 26);
             this.toolStripMenuItemShowPosterWindowDate.Text = "Show Media Poster Window";
-            this.toolStripMenuItemShowPosterWindowDate.Click += new System.EventHandler(this.toolStripMenuItemShowPosterWindowDate_Click);
             // 
             // toolStripMenuItemDateMediaPreview
             // 
@@ -4707,7 +4657,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemDateMediaPreview.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
             this.toolStripMenuItemDateMediaPreview.Size = new System.Drawing.Size(267, 26);
             this.toolStripMenuItemDateMediaPreview.Text = "Media Preview";
-            this.toolStripMenuItemDateMediaPreview.Click += new System.EventHandler(this.toolStripMenuItemDateMediaPreview_Click);
             // 
             // imageListFilter
             // 
@@ -4976,35 +4925,35 @@ namespace PhotoTagsSynchronizer
             // toolStripMenuItemPreviewSlideShow2sec
             // 
             this.toolStripMenuItemPreviewSlideShow2sec.Name = "toolStripMenuItemPreviewSlideShow2sec";
-            this.toolStripMenuItemPreviewSlideShow2sec.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemPreviewSlideShow2sec.Size = new System.Drawing.Size(163, 22);
             this.toolStripMenuItemPreviewSlideShow2sec.Text = "SlideShow 2 sec";
             this.toolStripMenuItemPreviewSlideShow2sec.Click += new System.EventHandler(this.toolStripMenuItemPreviewSlideShow2sec_Click);
             // 
             // toolStripMenuItemPreviewSlideShow4sec
             // 
             this.toolStripMenuItemPreviewSlideShow4sec.Name = "toolStripMenuItemPreviewSlideShow4sec";
-            this.toolStripMenuItemPreviewSlideShow4sec.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemPreviewSlideShow4sec.Size = new System.Drawing.Size(163, 22);
             this.toolStripMenuItemPreviewSlideShow4sec.Text = "SlideShow 4 sec";
             this.toolStripMenuItemPreviewSlideShow4sec.Click += new System.EventHandler(this.toolStripMenuItemPreviewSlideShow4sec_Click);
             // 
             // toolStripMenuItemPreviewSlideShow6sec
             // 
             this.toolStripMenuItemPreviewSlideShow6sec.Name = "toolStripMenuItemPreviewSlideShow6sec";
-            this.toolStripMenuItemPreviewSlideShow6sec.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemPreviewSlideShow6sec.Size = new System.Drawing.Size(163, 22);
             this.toolStripMenuItemPreviewSlideShow6sec.Text = "SlideShow 6 sec";
             this.toolStripMenuItemPreviewSlideShow6sec.Click += new System.EventHandler(this.toolStripMenuItemPreviewSlideShow6sec_Click);
             // 
             // toolStripMenuItemPreviewSlideShow8sec
             // 
             this.toolStripMenuItemPreviewSlideShow8sec.Name = "toolStripMenuItemPreviewSlideShow8sec";
-            this.toolStripMenuItemPreviewSlideShow8sec.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemPreviewSlideShow8sec.Size = new System.Drawing.Size(163, 22);
             this.toolStripMenuItemPreviewSlideShow8sec.Text = "SlideShow 8 sec";
             this.toolStripMenuItemPreviewSlideShow8sec.Click += new System.EventHandler(this.toolStripMenuItemPreviewSlideShow8sec_Click);
             // 
             // toolStripMenuItemPreviewSlideShow10sec
             // 
             this.toolStripMenuItemPreviewSlideShow10sec.Name = "toolStripMenuItemPreviewSlideShow10sec";
-            this.toolStripMenuItemPreviewSlideShow10sec.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemPreviewSlideShow10sec.Size = new System.Drawing.Size(163, 22);
             this.toolStripMenuItemPreviewSlideShow10sec.Text = "SlideShow 10 sec";
             this.toolStripMenuItemPreviewSlideShow10sec.Click += new System.EventHandler(this.toolStripMenuItemPreviewSlideShow10sec_Click);
             // 
@@ -5012,7 +4961,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.toolStripMenuItemPreviewSlideShowStop.Enabled = false;
             this.toolStripMenuItemPreviewSlideShowStop.Name = "toolStripMenuItemPreviewSlideShowStop";
-            this.toolStripMenuItemPreviewSlideShowStop.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemPreviewSlideShowStop.Size = new System.Drawing.Size(163, 22);
             this.toolStripMenuItemPreviewSlideShowStop.Text = "SlideShow stop";
             this.toolStripMenuItemPreviewSlideShowStop.Click += new System.EventHandler(this.toolStripMenuItemPreviewSlideShowStop_Click);
             // 
@@ -5258,7 +5207,8 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupHomeManage,
             this.kryptonRibbonGroupHomeFileSystem,
             this.kryptonRibbonGroupHomeRotate,
-            this.kryptonRibbonGroupHomeMetadata});
+            this.kryptonRibbonGroupHomeMetadata,
+            this.kryptonRibbonGroupHomeSave});
             this.kryptonRibbonTabHome.KeyTip = "H";
             this.kryptonRibbonTabHome.Text = "Home";
             // 
@@ -5748,6 +5698,26 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonHomeTagSelectOff.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.EditTriStateDelete32x32;
             this.kryptonRibbonGroupButtonHomeTagSelectOff.ToolTipTitle = "Turn off (Ctrl+Del)";
             this.kryptonRibbonGroupButtonHomeTagSelectOff.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeTriStateOff_Click);
+            // 
+            // kryptonRibbonGroupHomeSave
+            // 
+            this.kryptonRibbonGroupHomeSave.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
+            this.kryptonRibbonGroupTriple29});
+            this.kryptonRibbonGroupHomeSave.TextLine1 = "Save";
+            // 
+            // kryptonRibbonGroupTriple29
+            // 
+            this.kryptonRibbonGroupTriple29.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupButtonHomeSaveSave});
+            // 
+            // kryptonRibbonGroupButtonHomeSaveSave
+            // 
+            this.kryptonRibbonGroupButtonHomeSaveSave.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MetadataSave32x32;
+            this.kryptonRibbonGroupButtonHomeSaveSave.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MetadataSave32x32;
+            this.kryptonRibbonGroupButtonHomeSaveSave.TextLine1 = "Save";
+            this.kryptonRibbonGroupButtonHomeSaveSave.ToolTipBody = "Save you changes";
+            this.kryptonRibbonGroupButtonHomeSaveSave.ToolTipTitle = "Save";
+            this.kryptonRibbonGroupButtonHomeSaveSave.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeSaveSave_Click);
             // 
             // kryptonRibbonTabView
             // 
@@ -6784,7 +6754,6 @@ namespace PhotoTagsSynchronizer
             this.rotateCW90ToolStripMenuItem.Size = new System.Drawing.Size(324, 26);
             this.rotateCW90ToolStripMenuItem.Text = "Rotate CW - 90°";
             this.rotateCW90ToolStripMenuItem.ToolTipText = "Rotate CW - 90°";
-            this.rotateCW90ToolStripMenuItem.Click += new System.EventHandler(this.rotateCW90ToolStripMenuItem_Click);
             // 
             // rotate180ToolStripMenuItem
             // 
@@ -6794,7 +6763,6 @@ namespace PhotoTagsSynchronizer
             this.rotate180ToolStripMenuItem.Size = new System.Drawing.Size(324, 26);
             this.rotate180ToolStripMenuItem.Text = "Rotate 180°";
             this.rotate180ToolStripMenuItem.ToolTipText = "Rotate 180°";
-            this.rotate180ToolStripMenuItem.Click += new System.EventHandler(this.rotate180ToolStripMenuItem_Click);
             // 
             // ratateCCW270ToolStripMenuItem
             // 
@@ -6804,7 +6772,6 @@ namespace PhotoTagsSynchronizer
             this.ratateCCW270ToolStripMenuItem.Size = new System.Drawing.Size(324, 26);
             this.ratateCCW270ToolStripMenuItem.Text = "Ratate CCW - 270°";
             this.ratateCCW270ToolStripMenuItem.ToolTipText = "Ratate CCW - 270°";
-            this.ratateCCW270ToolStripMenuItem.Click += new System.EventHandler(this.ratateCCW270ToolStripMenuItem_Click);
             // 
             // showMediaPosterToolStripMenuItem
             // 
@@ -6813,7 +6780,6 @@ namespace PhotoTagsSynchronizer
             this.showMediaPosterToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
             this.showMediaPosterToolStripMenuItem.Size = new System.Drawing.Size(324, 26);
             this.showMediaPosterToolStripMenuItem.Text = "Show Media Poster Window";
-            this.showMediaPosterToolStripMenuItem.Click += new System.EventHandler(this.showMediaPosterToolStripMenuItem_Click);
             // 
             // mediaPreviewToolStripMenuItem
             // 
@@ -6822,7 +6788,6 @@ namespace PhotoTagsSynchronizer
             this.mediaPreviewToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
             this.mediaPreviewToolStripMenuItem.Size = new System.Drawing.Size(324, 26);
             this.mediaPreviewToolStripMenuItem.Text = "Media preview";
-            this.mediaPreviewToolStripMenuItem.Click += new System.EventHandler(this.mediaPreviewToolStripMenuItem_Click);
             // 
             // contextMenuStripImageListView
             // 
@@ -7215,8 +7180,6 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusFilesAndSelected;
         private System.Windows.Forms.Timer timerShowErrorMessage;
-        private System.Windows.Forms.ToolStripButton rotateCCWToolStripButton;
-        private System.Windows.Forms.ToolStripButton rotateCWToolStripButton;
         private Manina.Windows.Forms.ImageListView imageListView1;
         private Furty.Windows.Forms.FolderTreeView folderTreeViewFolder;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusThreadQueueCount;
@@ -7237,7 +7200,6 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ToolStripButton toolStripButtonImportGoogleLocation;
         private Krypton.Toolkit.KryptonDataGridView dataGridViewExiftoolWarning;
-        private System.Windows.Forms.ToolStripButton toolStripButtonSaveAllMetadata;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusAction;
         private System.Windows.Forms.Timer timerShowStatusText_RemoveTimer;
         private Krypton.Toolkit.KryptonDataGridView dataGridViewDate;
@@ -7285,7 +7247,6 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
         private Krypton.Toolkit.KryptonDataGridView dataGridViewConvertAndMerge;
         private System.Windows.Forms.ToolStripButton toolStripButtonMediaPreviewStop;
-        private System.Windows.Forms.ToolStripButton rotate180ToolStripButton;
         private System.Windows.Forms.Timer timerFindGoogleCast;
         private System.Windows.Forms.ToolStripDropDownButton toolStripMenuItemPreviewSlideShowMenu;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPreviewSlideShow2sec;
@@ -7838,6 +7799,9 @@ namespace PhotoTagsSynchronizer
         private Krypton.Toolkit.KryptonTextBox kryptonTextBoxSearchFilename;
         private Krypton.Toolkit.KryptonTextBox kryptonTextBoxSearchDirectory;
         private Krypton.Toolkit.KryptonCheckBox kryptonCheckBoxSearchUseRegEx;
+        private Krypton.Ribbon.KryptonRibbonGroup kryptonRibbonGroupHomeSave;
+        private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple29;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonHomeSaveSave;
     }
 }
 

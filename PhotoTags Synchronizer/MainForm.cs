@@ -745,18 +745,6 @@ namespace PhotoTagsSynchronizer
 
         
 
-
-
-
-
-
-
-
-
-
-
-
-
         #endregion
 
         #region Resize and restore windows size when reopen application
@@ -1005,9 +993,11 @@ namespace PhotoTagsSynchronizer
 
 
 
+
+
         #endregion
 
-        
+      
     }
 
     

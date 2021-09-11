@@ -122,12 +122,6 @@ namespace PhotoTagsSynchronizer
             RegionSelectorLoadAndSelect(dataGridView, e.RowIndex, e.ColumnIndex);
         }
 
-        private void toolStripMenuItemShowPosterWindowDate_Click(object sender, EventArgs e)
-        {
-            DataGridView dataGridView = dataGridViewDate;
-            OpenRegionSelector();
-            RegionSelectorLoadAndSelect(dataGridView);
-        }
 
         private void dataGridViewDate_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {

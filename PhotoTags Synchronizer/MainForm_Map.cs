@@ -366,13 +366,6 @@ namespace PhotoTagsSynchronizer
             RegionSelectorLoadAndSelect(dataGridView, e.RowIndex, e.ColumnIndex);
         }
 
-        private void toolStripMenuItemShowPosterWindowMap_Click(object sender, EventArgs e)
-        {
-            DataGridView dataGridView = dataGridViewMap;
-            OpenRegionSelector();
-            RegionSelectorLoadAndSelect(dataGridView);
-        }
-
         private void dataGridViewMap_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             DataGridView dataGridView = ((DataGridView)sender);

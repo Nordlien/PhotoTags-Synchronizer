@@ -57,7 +57,8 @@ namespace PhotoTagsSynchronizer
                 MessageBox.Show("Was not able to updated name on files.\r\n" + ex.Message, "Update name on files failed.");
             }
         }
-        private void buttonRenameSave_Click(object sender, EventArgs e)
+
+        private void SaveRename()
         {
             try
             {
@@ -76,11 +77,17 @@ namespace PhotoTagsSynchronizer
 
                     FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems);
                 }
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 Logger.Error(ex, "Was not able to rename files");
                 MessageBox.Show("Was not able to rename files.\r\n" + ex.Message, "Rename files failed.");
             }
+        }
+
+        private void buttonRenameSave_Click(object sender, EventArgs e)
+        {
+            SaveRename();
         }
 
         private void dataGridViewRename_CellEnter(object sender, DataGridViewCellEventArgs e)

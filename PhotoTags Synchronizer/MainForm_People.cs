@@ -670,15 +670,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region FormRegionSelect - PeopleShowRegionSelector_Click
-        private void toolStripMenuItemPeopleShowRegionSelector_Click(object sender, EventArgs e)
-        {
-            DataGridView dataGridView = dataGridViewPeople;
-            OpenRegionSelector();
-            RegionSelectorLoadAndSelect(dataGridView);
-        }
-        #endregion 
-
         #region FormRegionSelect - FormRegionSelect_OnRegionSelected
         private void FormRegionSelect_OnRegionSelected(object sender, RegionSelectedEventArgs e)
         {

@@ -7,6 +7,8 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Exiftool;
+using MetadataLibrary;
 
 namespace PhotoTagsSynchronizer
 {
@@ -611,241 +613,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Actions triggers
-
-        #region Context Menu Only - ActoinRegionRename1
-        private void KryptonContextMenuItemGenericRegionRename1_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
-
-        #region Context Menu Only - ActoinRegionRename2
-        private void KryptonContextMenuItemGenericRegionRename2_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
-
-        #region Context Menu Only - ActoinRegionRename3
-        private void KryptonContextMenuItemGenericRegionRename3_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
-
-        #region Context Menu Only - ActoinRegionRenameFromLastUsed
-        private void KryptonContextMenuItemGenericRegionRenameFromLastUsed_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
-
-        #region Context Menu Only - ActoinRegionRenameListAll
-        private void KryptonContextMenuItemGenericRegionRenameListAll_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion 
-
-        
-
-        #region ActionFileSystemRename
-        private void kryptonRibbonGroupButtonHomeFileSystemRename_Click(object sender, EventArgs e)
-        {
-            ActionFileSystemRename();
-        }
-        private void KryptonContextMenuItemGenericFileSystemRename_Click(object sender, EventArgs e)
-        {
-            ActionFileSystemRename();
-        }
-        #endregion 
-
-
-        
-       
-        //KryptonContextMenuItemGenericRefreshFolder_Click;
-        //kryptonRibbonGroupButtonHomeFileSystemRefresh_Click
-        
-        private void kryptonRibbonGroupButtonFileSystemOpenAssociateDialog_Click(object sender, EventArgs e)
-        {
-
-        }
-
-
-        #region ActionFileSystemRefreshFolder
-        private void kryptonRibbonGroupButtonHomeFileSystemRefreshFolder_Click(object sender, EventArgs e)
-        {
-
-        }
-        private void KryptonContextMenuItemGenericFileSystemRefreshFolder_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
-
-        #region Context Menu Only - ReadSubfolders
-        private void KryptonContextMenuItemGenericReadSubfolders_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion 
-
-        #region ActionFileSystemOpenExplorerLocation
-        private void kryptonRibbonGroupButtonHomeFileSystemOpenExplorerLocation_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void KryptonContextMenuItemGenericOpenExplorerLocation_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
-
-        #region ActionFileSystemOpen
-        private void kryptonRibbonGroupButtonHomeFileSystemOpen_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void KryptonContextMenuItemGenericOpen_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
-
-        #region ActionFileSystemOpenWith
-        private void kryptonRibbonGroupButtonHomeFileSystemOpenWith_Click(object sender, EventArgs e)
-        {
-
-        }
-        private void KryptonContextMenuItemGenericOpenWith_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
-
-        #region ActionFileSystemVerbEdit
-        private void kryptonRibbonGroupButtonHomeFileSystemVerbEdit_Click(object sender, EventArgs e)
-        {
-
-        }
-        private void KryptonContextMenuItemGenericFileSystemVerbEdit_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
-
-        #region FileSystemRunCommand
-        private void kryptonRibbonGroupButtonFileSystemRunCommand_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void KryptonContextMenuItemGenericFileSystemRunCommand_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
-
-        #region ActionAutoCorrectRun
-        private void KryptonContextMenuItemGenericAutoCorrectRun_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-        private void kryptonRibbonGroupButtonHomeAutoCorrectRun_Click(object sender, EventArgs e)
-        {
-
-        }
-        #endregion
-
-        #region ActionAutoCorrectFrom
-        private void kryptonRibbonGroupButtonHomeAutoCorrectForm_Click(object sender, EventArgs e)
-        {
-
-        }
-        private void KryptonContextMenuItemGenericAutoCorrectForm_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
-
-        #region ActionMetadataRefreshLast
-        private void kryptonRibbonGroupButtonHomeMetadataRefreshLast_Click(object sender, EventArgs e)
-        {
-
-        }
-        private void KryptonContextMenuItemGenericMetadataRefreshLast_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
-
-        #region ActionMetadataReloadDeleteHistory
-        private void kryptonRibbonGroupButtonHomeMetadataReloadDeleteHistory_Click(object sender, EventArgs e)
-        {
-
-        }
-        private void KryptonContextMenuItemGenericMetadataReloadDeleteHistory_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion 
-
-        #region ActionRotate270
-        private void kryptonRibbonGroupButtonMediaFileRotate90CCW_Click(object sender, EventArgs e)
-        {
-
-        }
-        private void KryptonContextMenuItemGenericRotate270_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
-
-        #region ActionRotate180
-        private void KryptonContextMenuItemGenericRotate180_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void kryptonRibbonGroupButtonMediaFileRotate180_Click(object sender, EventArgs e)
-        {
-
-        }
-        #endregion
-
-        #region ActionRotate90
-        private void kryptonRibbonGroupButtonMediaFileRotate90CW_Click(object sender, EventArgs e)
-        {
-
-        }
-        private void KryptonContextMenuItemGenericRotate90_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
-
-
-        
-
-        #region Context Menu Only - KryptonContextMenuItemGenericMediaViewAsPoster_Click
-        private void KryptonContextMenuItemGenericMediaViewAsPoster_Click(object sender, EventArgs e)
-        {
-            ActionMediaViewAsPoster();
-        }
-        #endregion 
-
-        #region Context Menu Only - KryptonContextMenuItemGenericMediaViewAsFull_Click
-        private void KryptonContextMenuItemGenericMediaViewAsFull_Click(object sender, EventArgs e)
-        {
-            ActionMediaViewAsFull();
-        }
-        #endregion 
-
-        #endregion 
-
         #region KryptonPages - Remeber what's active page
         private KryptonPages activeKryptonPage = KryptonPages.None;
         private KryptonPages ActiveKryptonPage
@@ -1062,6 +829,57 @@ namespace PhotoTagsSynchronizer
         //Properties
         //Rename
         //TagsAndKeywords
+
+        #region RegionRename1
+
+        #region RegionRename1 - Click
+        private void KryptonContextMenuItemGenericRegionRename1_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #endregion
+        
+        #region RegionRename2
+
+        #region RegionRename2 - Click
+        private void KryptonContextMenuItemGenericRegionRename2_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #endregion
+
+        #region RegionRename3 - Click
+        private void KryptonContextMenuItemGenericRegionRename3_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #region RegionRenameFromLastUsed
+
+        #region RegionRenameFromLastUsed - Click
+        private void KryptonContextMenuItemGenericRegionRenameFromLastUsed_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #endregion
+        
+        #region RegionRenameListAll
+        
+        #region RegionRenameListAll - Click
+        private void KryptonContextMenuItemGenericRegionRenameListAll_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #endregion
 
         //Done
         #region Cut
@@ -3213,9 +3031,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        
-
         #endregion 
+
 
         //Done
         #region TriStateToggle
@@ -3462,12 +3279,16 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-
+        //Done
         #region Save
-
 
         #region Save - Click
         private void kryptonRibbonQATButtonSave_Click(object sender, EventArgs e)
+        {
+            ActionSave();
+        }
+
+        private void kryptonRibbonGroupButtonHomeSaveSave_Click(object sender, EventArgs e)
         {
             ActionSave();
         }
@@ -3531,7 +3352,7 @@ namespace PhotoTagsSynchronizer
                         SaveProperties();
                         break;
                     case KryptonPages.kryptonPageToolboxRename:
-                        MessageBox.Show("Not implemented");
+                        SaveRename();
                         break;
                     case KryptonPages.kryptonPageToolboxConvertAndMerge:
                         SaveConvertAndMerge();
@@ -3545,9 +3366,197 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
+        #region Save - IsAnyDataUnsaved
+        private bool IsAnyDataUnsaved()
+        {
+            bool isAnyDataUnsaved = false;
+            if (GlobalData.IsAgregatedTags) isAnyDataUnsaved = DataGridViewHandler.IsDataGridViewDirty(dataGridViewTagsAndKeywords);
+            if (isAnyDataUnsaved) return isAnyDataUnsaved;
+            if (GlobalData.IsAgregatedMap) isAnyDataUnsaved = DataGridViewHandler.IsDataGridViewDirty(dataGridViewMap);
+            if (isAnyDataUnsaved) return isAnyDataUnsaved;
+            if (GlobalData.IsAgregatedPeople) isAnyDataUnsaved = DataGridViewHandler.IsDataGridViewDirty(dataGridViewPeople);
+            if (isAnyDataUnsaved) return isAnyDataUnsaved;
+            if (GlobalData.IsAgregatedDate) isAnyDataUnsaved = DataGridViewHandler.IsDataGridViewDirty(dataGridViewDate);
+            if (isAnyDataUnsaved) return isAnyDataUnsaved;
+            if (GlobalData.IsAgregatedProperties) isAnyDataUnsaved = DataGridViewHandler.IsDataGridViewDirty(dataGridViewProperties);
+            if (isAnyDataUnsaved) return isAnyDataUnsaved;
+
+            GetDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView);
+
+            //Find what columns are updated / changed by user
+            List<int> listOfUpdates = ExiftoolWriter.GetListOfMetadataChangedByUser(metadataListOriginalExiftool, metadataListFromDataGridView);
+            return (listOfUpdates.Count > 0);
+        }
         #endregion
 
+        #region Save - ClearDataGridDirtyFlag
+        private void ClearDataGridDirtyFlag()
+        {
+            if (GlobalData.IsAgregatedTags) DataGridViewHandler.ClearDataGridViewDirty(dataGridViewTagsAndKeywords);
+            if (GlobalData.IsAgregatedMap) DataGridViewHandler.ClearDataGridViewDirty(dataGridViewMap);
+            if (GlobalData.IsAgregatedPeople) DataGridViewHandler.ClearDataGridViewDirty(dataGridViewPeople);
+            if (GlobalData.IsAgregatedDate) DataGridViewHandler.ClearDataGridViewDirty(dataGridViewDate);
+        }
+        #endregion
 
+        #region Save - GetDataGridViewData
+        private void GetDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView)
+        {
+            metadataListOriginalExiftool = new List<Metadata>();
+            metadataListFromDataGridView = new List<Metadata>();
+
+            DataGridView dataGridView = GetActiveTabDataGridView();
+            List<DataGridViewGenericColumn> dataGridViewGenericColumnList = DataGridViewHandler.GetColumnDataGridViewGenericColumnList(dataGridView, true);
+            foreach (DataGridViewGenericColumn dataGridViewGenericColumn in dataGridViewGenericColumnList)
+            {
+                if (dataGridViewGenericColumn.Metadata == null) continue;
+
+                Metadata metadataFromDataGridView = new Metadata(dataGridViewGenericColumn.Metadata);
+
+                if (GlobalData.IsAgregatedTags) DataGridViewHandlerTagsAndKeywords.GetUserInputChanges(ref dataGridViewTagsAndKeywords, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryAttribute);
+                if (GlobalData.IsAgregatedMap) DataGridViewHandlerMap.GetUserInputChanges(ref dataGridViewMap, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryAttribute);
+                if (GlobalData.IsAgregatedPeople) DataGridViewHandlerPeople.GetUserInputChanges(ref dataGridViewPeople, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryAttribute);
+                if (GlobalData.IsAgregatedDate) DataGridViewHandlerDate.GetUserInputChanges(ref dataGridViewDate, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryAttribute);
+
+                metadataListFromDataGridView.Add(new Metadata(metadataFromDataGridView));
+                metadataListOriginalExiftool.Add(new Metadata(dataGridViewGenericColumn.Metadata));
+
+                dataGridViewGenericColumn.Metadata = metadataFromDataGridView; //Updated the column with Metadata according to the user input
+            }
+        }
+        #endregion
+
+        #region Save - SaveDataGridViewMetadata
+        private void SaveDataGridViewMetadata()
+        {
+            if (GlobalData.IsPopulatingAnything())
+            {
+                MessageBox.Show("Data is populating, please try a bit later.");
+                return;
+            }
+            if (!GlobalData.IsAgredagedGridViewAny())
+            {
+                MessageBox.Show("No metadata are updated.");
+                return;
+            }
+
+            GetDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView);
+
+            //Find what columns are updated / changed by user
+            List<int> listOfUpdates = ExiftoolWriter.GetListOfMetadataChangedByUser(metadataListOriginalExiftool, metadataListFromDataGridView);
+            if (listOfUpdates.Count == 0)
+            {
+                MessageBox.Show("Can't find any value that was changed. Nothing is saved...");
+                return;
+            }
+
+            ClearDataGridDirtyFlag(); //Clear before save; To track if become dirty during save process
+            foreach (int updatedRecord in listOfUpdates)
+            {
+                //Add only metadata to save queue that that has changed by users
+                AddQueueSaveMetadataUpdatedByUserLock(metadataListFromDataGridView[updatedRecord], metadataListOriginalExiftool[updatedRecord]);
+            }
+            ThreadSaveMetadata();
+        }
+        #endregion
+
+        #region Save - SaveProperties
+        private void SaveProperties()
+        {
+            using (new WaitCursor())
+            {
+                DataGridView dataGridView = dataGridViewProperties;
+                int columnCount = DataGridViewHandler.GetColumnCount(dataGridView);
+                for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
+                {
+                    DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+                    if (dataGridViewGenericColumn != null)
+                    {
+                        try
+                        {
+                            DataGridViewHandlerProperties.Write(dataGridView, columnIndex);
+                        }
+                        catch (Exception ex)
+                        {
+                            string writeErrorDesciption =
+                                "Error writing properties to file.\r\n\r\n" +
+                                "File: " + dataGridViewGenericColumn.FileEntryAttribute.FileFullPath + "\r\n\r\n" +
+                                "Error message: " + ex.Message + "\r\n";
+
+                            AddError(
+                                dataGridViewGenericColumn.FileEntryAttribute.Directory,
+                                dataGridViewGenericColumn.FileEntryAttribute.FileName,
+                                dataGridViewGenericColumn.FileEntryAttribute.LastWriteDateTime,
+                                AddErrorPropertiesRegion, AddErrorPropertiesCommandWrite, AddErrorPropertiesParameterWrite, AddErrorPropertiesParameterWrite,
+                                writeErrorDesciption);
+                            Logger.Error(ex, "SaveProperties");
+                        }
+                    }
+                }
+
+                GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
+                //ImageListViewReloadThumbnailInvoke(imageListView1, null); //Why null
+                LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListView1.SelectedItems);
+                FilesSelected();
+            }
+        }
+        #endregion
+
+        #region Save - SaveConvertAndMerge
+        private void SaveConvertAndMerge()
+        {
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            //saveFileDialog1.InitialDirectory = @"C:\";      
+            saveFileDialog1.Title = "Where to save converted and merged video file";
+            saveFileDialog1.CheckFileExists = false;
+            saveFileDialog1.CheckPathExists = true;
+            saveFileDialog1.DefaultExt = "mp4";
+            saveFileDialog1.Filter = "Video file (*.mp4)|*.mp4|All files (*.*)|*.*";
+            saveFileDialog1.FilterIndex = 1;
+            saveFileDialog1.RestoreDirectory = true;
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                using (new WaitCursor())
+                {
+                    string outputFile = saveFileDialog1.FileName;
+
+                    DataGridView dataGridView = dataGridViewConvertAndMerge;
+                    DataGridViewHandlerConvertAndMerge.Write(dataGridView,
+                        Properties.Settings.Default.ConvertAndMergeExecute,
+                        Properties.Settings.Default.ConvertAndMergeMusic,
+                        (int)Properties.Settings.Default.ConvertAndMergeImageDuration,
+                        (int)Properties.Settings.Default.ConvertAndMergeOutputWidth,
+                        (int)Properties.Settings.Default.ConvertAndMergeOutputHeight,
+                        Properties.Settings.Default.ConvertAndMergeOutputTempfileExtension,
+
+                        Properties.Settings.Default.ConvertAndMergeConcatVideosArguments,
+                        Properties.Settings.Default.ConvertAndMergeConcatVideosArguFile,
+
+                        Properties.Settings.Default.ConvertAndMergeConcatImagesArguments,
+                        Properties.Settings.Default.ConvertAndMergeConcatImagesArguFile,
+
+                        Properties.Settings.Default.ConvertAndMergeConvertVideosArguments,
+                        outputFile);
+
+                    GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
+
+                    bool found = false;
+                    try
+                    {
+                        if (File.Exists(outputFile) && new FileInfo(outputFile).Length > 0) found = true;
+                    }
+                    catch
+                    {
+                    }
+                    if (found) ImageListViewAddItem(outputFile);
+                }
+            }
+
+
+        }
+        #endregion
+
+        #endregion
         //Done
         #region FastCopyNoOverwrite
 
@@ -3712,14 +3721,20 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
+        //Done
+        #region Rename
 
-        
+        #region Rename - Click
+        private void kryptonRibbonGroupButtonHomeFileSystemRename_Click(object sender, EventArgs e)
+        {
+            ActionFileSystemRename();
+        }
+        private void KryptonContextMenuItemGenericFileSystemRename_Click(object sender, EventArgs e)
+        {
+            ActionFileSystemRename();
+        }
+        #endregion 
 
-
-        
-
-
-        #region ActionRename
         #region ActionRename
         private void ActionFileSystemRename()
         {
@@ -3791,17 +3806,586 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #endregion
+        //
+        #region Rotate270
+
+        #region ActionRotate270
+        private void kryptonRibbonGroupButtonMediaFileRotate90CCW_Click(object sender, EventArgs e)
+        {
+            ActionRotate270();
+        }
+        private void KryptonContextMenuItemGenericRotate270_Click(object sender, EventArgs e)
+        {
+            ActionRotate270();
+        }
+        #endregion
+
+        #region ActionRotate270
+        private void ActionRotate270()
+        {
+            switch (ActiveKryptonPage)
+            {
+                case KryptonPages.None:
+                    break;
+                case KryptonPages.kryptonPageFolderSearchFilterFolder:                   
+                    break;
+                case KryptonPages.kryptonPageFolderSearchFilterSearch:
+                    break;
+                case KryptonPages.kryptonPageFolderSearchFilterFilter:
+                    break;
+                case KryptonPages.kryptonPageMediaFiles:
+                    MediaRotate270_Click();
+                    break;
+                case KryptonPages.kryptonPageToolboxTags:
+                    break;
+                case KryptonPages.kryptonPageToolboxPeople:
+                    break;
+                case KryptonPages.kryptonPageToolboxMap:
+                    break;
+                case KryptonPages.kryptonPageToolboxDates:
+                    break;
+                case KryptonPages.kryptonPageToolboxExiftool:
+                    break;
+                case KryptonPages.kryptonPageToolboxWarnings:
+                    break;
+                case KryptonPages.kryptonPageToolboxProperties:
+                    break;
+                case KryptonPages.kryptonPageToolboxRename:
+                    break;
+                case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+
+            
+        }
+        #endregion
+
+        #region MediaRotate270_Click
+        private void MediaRotate270_Click()
+        {
+            try
+            {
+                RotateInit(imageListView1, 270);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        #endregion
+
+        #endregion
+        //
+        #region Rotate180
+
+        #region Rotate180 - Click
+        private void KryptonContextMenuItemGenericRotate180_Click(object sender, EventArgs e)
+        {
+            ActionRotate180();
+        }
+
+        private void kryptonRibbonGroupButtonMediaFileRotate180_Click(object sender, EventArgs e)
+        {
+            ActionRotate180();
+        }
+
+        #endregion
+
+        #region ActionRotate180
+        private void ActionRotate180()
+        {
+            switch (ActiveKryptonPage)
+            {
+                case KryptonPages.None:
+                    break;
+                case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                    break;
+                case KryptonPages.kryptonPageFolderSearchFilterSearch:
+                    break;
+                case KryptonPages.kryptonPageFolderSearchFilterFilter:
+                    break;
+                case KryptonPages.kryptonPageMediaFiles:
+                    MediaRotate180_Click();
+                    break;
+                case KryptonPages.kryptonPageToolboxTags:
+                    break;
+                case KryptonPages.kryptonPageToolboxPeople:
+                    break;
+                case KryptonPages.kryptonPageToolboxMap:
+                    break;
+                case KryptonPages.kryptonPageToolboxDates:
+                    break;
+                case KryptonPages.kryptonPageToolboxExiftool:
+                    break;
+                case KryptonPages.kryptonPageToolboxWarnings:
+                    break;
+                case KryptonPages.kryptonPageToolboxProperties:
+                    break;
+                case KryptonPages.kryptonPageToolboxRename:
+                    break;
+                case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+
+        }
+        #endregion
+
+        #region MediaRotate180_Click
+        private void MediaRotate180_Click()
+        {
+            try
+            {
+                RotateInit(imageListView1, 180);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        #endregion
+
+        #endregion
+        //
+        #region Rotate90
+
+        #region Rotate90 - Click
+        private void kryptonRibbonGroupButtonMediaFileRotate90CW_Click(object sender, EventArgs e)
+        {
+            ActionRotate90();
+        }
+        private void KryptonContextMenuItemGenericRotate90_Click(object sender, EventArgs e)
+        {
+            ActionRotate90();
+        }
+        #endregion
+
+        #region ActionRotate90
+        private void ActionRotate90()
+        {
+            switch (ActiveKryptonPage)
+            {
+                case KryptonPages.None:
+                    break;
+                case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                    break;
+                case KryptonPages.kryptonPageFolderSearchFilterSearch:
+                    break;
+                case KryptonPages.kryptonPageFolderSearchFilterFilter:
+                    break;
+                case KryptonPages.kryptonPageMediaFiles:
+                    MediaRotate90_Click();
+                    break;
+                case KryptonPages.kryptonPageToolboxTags:
+                    break;
+                case KryptonPages.kryptonPageToolboxPeople:
+                    break;
+                case KryptonPages.kryptonPageToolboxMap:
+                    break;
+                case KryptonPages.kryptonPageToolboxDates:
+                    break;
+                case KryptonPages.kryptonPageToolboxExiftool:
+                    break;
+                case KryptonPages.kryptonPageToolboxWarnings:
+                    break;
+                case KryptonPages.kryptonPageToolboxProperties:
+                    break;
+                case KryptonPages.kryptonPageToolboxRename:
+                    break;
+                case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+        #endregion
+
+        #region MediaRotate90_Click
+        private void MediaRotate90_Click()
+        {
+            try
+            {
+                RotateInit(imageListView1, 90);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        #endregion
+
+        #endregion
+
+        #region MediaViewAsPoster
+
+        #region MediaViewAsPoster - Click
+        private void KryptonContextMenuItemGenericMediaViewAsPoster_Click(object sender, EventArgs e)
+        {
+            ActionMediaViewAsPoster();
+        }
+        #endregion
+
+        #region ActionMediaViewAsPoster
+        private void ActionMediaViewAsPoster()
+        {
+            switch (ActiveKryptonPage)
+            {
+                case KryptonPages.None:
+                    break;
+                case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                    //AllMediaViewAsPoster_Click();
+                    break;
+                case KryptonPages.kryptonPageFolderSearchFilterSearch:
+                    break;
+                case KryptonPages.kryptonPageFolderSearchFilterFilter:
+                    break;
+                case KryptonPages.kryptonPageMediaFiles:
+                    //AllMediaViewAsPoster_Click();
+                    break;
+                case KryptonPages.kryptonPageToolboxTags:
+                    TagsAndKeywordsMediaViewAsPoster_Click();
+                    break;
+                case KryptonPages.kryptonPageToolboxPeople:
+                    PeopleMediaViewAsPoster_Click();
+                    break;
+                case KryptonPages.kryptonPageToolboxMap:
+                    MapMediaViewAsPoster_Click();
+                    break;
+                case KryptonPages.kryptonPageToolboxDates:
+                    DateMediaViewAsPoster_Click();
+                    break;
+                case KryptonPages.kryptonPageToolboxExiftool:
+                    ExiftoolMediaViewAsPoster_Click();
+                    break;
+                case KryptonPages.kryptonPageToolboxWarnings:
+                    ExiftoolWarningMediaViewAsPoster_Click();
+                    break;
+                case KryptonPages.kryptonPageToolboxProperties:
+                    PropertiesMediaViewAsPoster_Click();
+                    break;
+                case KryptonPages.kryptonPageToolboxRename:
+                    RenameMediaViewAsPoster_Click();
+                    break;
+                case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                    ConvertAndMergeMediaViewAsPoster_Click();
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+        #endregion
+
+        #region MediaViewAsPoster_Click
+        private void GenericMediaViewAsPoster_Click(DataGridView dataGridView)
+        {
+            try
+            {
+                OpenRegionSelector();
+                RegionSelectorLoadAndSelect(dataGridView);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        #endregion
+
+        #region DateMediaViewAsPoster_Click
+        private void DateMediaViewAsPoster_Click()
+        {
+            DataGridView dataGridView = dataGridViewDate;
+            GenericMediaViewAsPoster_Click(dataGridView);
+        }
+        #endregion
+
+        #region ExiftoolMediaViewAsPoster_Click
+        private void ExiftoolMediaViewAsPoster_Click()
+        {
+            DataGridView dataGridView = dataGridViewExiftool;
+            GenericMediaViewAsPoster_Click(dataGridView);
+        }
+        #endregion
+
+        #region ExiftoolWarningMediaViewAsPoster_Click
+        private void ExiftoolWarningMediaViewAsPoster_Click()
+        {
+            DataGridView dataGridView = dataGridViewExiftoolWarning;
+            GenericMediaViewAsPoster_Click(dataGridView);
+        }
+        #endregion
+
+        #region MapMediaViewAsPoster_Click
+        private void MapMediaViewAsPoster_Click()
+        {
+            DataGridView dataGridView = dataGridViewMap;
+            GenericMediaViewAsPoster_Click(dataGridView);
+        }
+        #endregion
+
+        #region PeopleMediaViewAsPoster_Click
+        private void PeopleMediaViewAsPoster_Click()
+        {
+            DataGridView dataGridView = dataGridViewPeople;
+            GenericMediaViewAsPoster_Click(dataGridView);
+        }
+        #endregion
+
+        #region TagsAndKeywordsMediaViewAsPoster_Click
+        private void TagsAndKeywordsMediaViewAsPoster_Click()
+        {
+            DataGridView dataGridView = dataGridViewTagsAndKeywords;
+            GenericMediaViewAsPoster_Click(dataGridView);
+        }
+        #endregion
+
+        #region PropertiesMediaViewAsPoster_Click
+        private void PropertiesMediaViewAsPoster_Click()
+        {
+            DataGridView dataGridView = dataGridViewProperties;
+            GenericMediaViewAsPoster_Click(dataGridView);
+        }
+        #endregion
+
+        #region RenameMediaViewAsPoster_Click
+        private void RenameMediaViewAsPoster_Click()
+        {
+            try
+            {
+                DataGridView dataGridView = dataGridViewRename;
+                OpenRegionSelector();
+                RegionSelectorLoadAndSelect(dataGridView, dataGridView.CurrentCell.RowIndex, dataGridView.CurrentCell.ColumnIndex);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        #endregion
+
+        #region ConvertAndMergeMediaViewAsPoster_Click
+        private void ConvertAndMergeMediaViewAsPoster_Click()
+        {
+            try
+            {
+                DataGridView dataGridView = dataGridViewConvertAndMerge;
+                OpenRegionSelector();
+                RegionSelectorLoadAndSelect(dataGridView, dataGridView.CurrentCell.RowIndex, dataGridView.CurrentCell.ColumnIndex);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        #endregion
+
+        #endregion
+
+
+        #region MediaViewAsFull
+
+        #region MediaViewAsFull - Click
+        private void KryptonContextMenuItemGenericMediaViewAsFull_Click(object sender, EventArgs e)
+        {
+            ActionMediaViewAsFull();
+        }
+        #endregion 
+
+        #region ActionMediaViewAsFull
+        private void ActionMediaViewAsFull()
+        {
+            switch (ActiveKryptonPage)
+            {
+                case KryptonPages.None:
+                    break;
+                case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                    AllMediaViewAsFull_Click();
+                    break;
+                case KryptonPages.kryptonPageFolderSearchFilterSearch:
+                    break;
+                case KryptonPages.kryptonPageFolderSearchFilterFilter:
+                    break;
+                case KryptonPages.kryptonPageMediaFiles:
+                    AllMediaViewAsFull_Click();
+                    break;
+                case KryptonPages.kryptonPageToolboxTags:
+                    AllMediaViewAsFull_Click();
+                    break;
+                case KryptonPages.kryptonPageToolboxPeople:
+                    AllMediaViewAsFull_Click();
+                    break;
+                case KryptonPages.kryptonPageToolboxMap:
+                    AllMediaViewAsFull_Click();
+                    break;
+                case KryptonPages.kryptonPageToolboxDates:
+                    AllMediaViewAsFull_Click();
+                    break;
+                case KryptonPages.kryptonPageToolboxExiftool:
+                    AllMediaViewAsFull_Click();
+                    break;
+                case KryptonPages.kryptonPageToolboxWarnings:
+                    AllMediaViewAsFull_Click();
+                    break;
+                case KryptonPages.kryptonPageToolboxProperties:
+                    AllMediaViewAsFull_Click();
+                    break;
+                case KryptonPages.kryptonPageToolboxRename:
+                    AllMediaViewAsFull_Click();
+                    break;
+                case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                    AllMediaViewAsFull_Click();
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+        #endregion       
+
+        #region AllMediaViewAsFull_Click
+        private void AllMediaViewAsFull_Click()
+        {
+        }
+        #endregion
+
+        #endregion
+
+        //KryptonContextMenuItemGenericRefreshFolder_Click;
+        //kryptonRibbonGroupButtonHomeFileSystemRefresh_Click
+
+        private void kryptonRibbonGroupButtonFileSystemOpenAssociateDialog_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+        #region ActionFileSystemRefreshFolder
+        private void kryptonRibbonGroupButtonHomeFileSystemRefreshFolder_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void KryptonContextMenuItemGenericFileSystemRefreshFolder_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #region Context Menu Only - ReadSubfolders
+        private void KryptonContextMenuItemGenericReadSubfolders_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion 
+
+        #region ActionFileSystemOpenExplorerLocation
+        private void kryptonRibbonGroupButtonHomeFileSystemOpenExplorerLocation_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void KryptonContextMenuItemGenericOpenExplorerLocation_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #region ActionFileSystemOpen
+        private void kryptonRibbonGroupButtonHomeFileSystemOpen_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void KryptonContextMenuItemGenericOpen_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #region ActionFileSystemOpenWith
+        private void kryptonRibbonGroupButtonHomeFileSystemOpenWith_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void KryptonContextMenuItemGenericOpenWith_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #region ActionFileSystemVerbEdit
+        private void kryptonRibbonGroupButtonHomeFileSystemVerbEdit_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void KryptonContextMenuItemGenericFileSystemVerbEdit_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #region FileSystemRunCommand
+        private void kryptonRibbonGroupButtonFileSystemRunCommand_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void KryptonContextMenuItemGenericFileSystemRunCommand_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #region ActionAutoCorrectRun
+        private void KryptonContextMenuItemGenericAutoCorrectRun_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+        private void kryptonRibbonGroupButtonHomeAutoCorrectRun_Click(object sender, EventArgs e)
+        {
+
+        }
+        #endregion
+
+        #region ActionAutoCorrectFrom
+        private void kryptonRibbonGroupButtonHomeAutoCorrectForm_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void KryptonContextMenuItemGenericAutoCorrectForm_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #region ActionMetadataRefreshLast
+        private void kryptonRibbonGroupButtonHomeMetadataRefreshLast_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void KryptonContextMenuItemGenericMetadataRefreshLast_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #region ActionMetadataReloadDeleteHistory
+        private void kryptonRibbonGroupButtonHomeMetadataReloadDeleteHistory_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void KryptonContextMenuItemGenericMetadataReloadDeleteHistory_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
         #endregion 
 
 
-        private void ActionMediaViewAsPoster()
-        {
-
-        }
-
-        private void ActionMediaViewAsFull()
-        {
-        }
+        //----
 
         #region DataGridView Keydown
 

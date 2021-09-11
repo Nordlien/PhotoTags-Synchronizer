@@ -124,12 +124,6 @@ namespace PhotoTagsSynchronizer
             RegionSelectorLoadAndSelect(dataGridView, e.RowIndex, e.ColumnIndex);
         }
 
-        private void toolStripMenuItemShowPosterWindowWarnings_Click(object sender, EventArgs e)
-        {
-            DataGridView dataGridView = dataGridViewExiftoolWarning;
-            OpenRegionSelector();
-            RegionSelectorLoadAndSelect(dataGridView);
-        }
 
         private void dataGridViewExifToolWarning_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
