@@ -344,6 +344,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuItemGenericOpenFolderLocation.Click += KryptonContextMenuItemGenericOpenExplorerLocation_Click;
             this.kryptonContextMenuItemGenericOpen.Click += KryptonContextMenuItemGenericOpen_Click;
             this.kryptonContextMenuItemGenericOpenWith.Click += KryptonContextMenuItemGenericOpenWith_Click;
+            this.kryptonContextMenuItemOpenAndAssociateWithDialog.Click += KryptonContextMenuItemOpenAndAssociateWithDialog_Click;
             this.kryptonContextMenuItemGenericOpenVerbEdit.Click += KryptonContextMenuItemGenericFileSystemVerbEdit_Click;
             this.kryptonContextMenuItemGenericRunCommand.Click += KryptonContextMenuItemGenericFileSystemRunCommand_Click;
             //this.kryptonContextMenuSeparatorGenericEndOfFileSystem,
@@ -431,7 +432,7 @@ namespace PhotoTagsSynchronizer
                     KryptonContextMenuItem kryptonContextMenuItem = new KryptonContextMenuItem();
                     kryptonContextMenuItem.Text = t.Name;
                     kryptonContextMenuItem.Tag = new RendererItem(t);
-                    kryptonContextMenuItem.Click += KryptonContextMenuItem_Click;
+                    kryptonContextMenuItem.Click += KryptonContextMenuItemRenderers_Click;
                     kryptonContextMenuItems.Items.Add(kryptonContextMenuItem);
 
                     if (!isDefaultRendererAssigned || !isRendererAssigned) imageListViewSelectedRenderer = (RendererItem)kryptonContextMenuItem.Tag;
@@ -745,6 +746,8 @@ namespace PhotoTagsSynchronizer
 
         
 
+
+
         #endregion
 
         #region Resize and restore windows size when reopen application
@@ -998,9 +1001,9 @@ namespace PhotoTagsSynchronizer
 
 
 
+
         #endregion
 
-       
     }
 
     

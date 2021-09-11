@@ -85,7 +85,7 @@ namespace PhotoTagsSynchronizer
             }
         }
 
-        private void KryptonContextMenuItem_Click(object sender, EventArgs e)
+        private void KryptonContextMenuItemRenderers_Click(object sender, EventArgs e)
         {
             KryptonContextMenuItem kryptonContextMenuItem = (KryptonContextMenuItem)sender;
             SetImageListViewRender(Manina.Windows.Forms.View.Thumbnails, (RendererItem)kryptonContextMenuItem.Tag);           

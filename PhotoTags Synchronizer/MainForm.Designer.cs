@@ -31,7 +31,7 @@ namespace PhotoTagsSynchronizer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Filter");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Filter");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.toolStripContainerMainForm = new System.Windows.Forms.ToolStripContainer();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
@@ -174,6 +174,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuItemGenericOpenWith = new Krypton.Toolkit.KryptonContextMenuItem();
             this.kryptonContextMenuItemsGenericOpenWithAppList = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonContextMenuItemsGenericOpenWithAppListExample = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemOpenAndAssociateWithDialog = new Krypton.Toolkit.KryptonContextMenuItem();
             this.kryptonContextMenuItemGenericOpenVerbEdit = new Krypton.Toolkit.KryptonContextMenuItem();
             this.kryptonContextMenuItemGenericRunCommand = new Krypton.Toolkit.KryptonContextMenuItem();
             this.kryptonContextMenuSeparatorGenericEndOfFileSystem = new Krypton.Toolkit.KryptonContextMenuSeparator();
@@ -1808,11 +1809,11 @@ namespace PhotoTagsSynchronizer
             this.treeViewFilter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeViewFilter.Location = new System.Drawing.Point(0, 0);
             this.treeViewFilter.Name = "treeViewFilter";
-            treeNode1.Name = "NodeFolder";
-            treeNode1.Tag = "Filter";
-            treeNode1.Text = "Filter";
+            treeNode2.Name = "NodeFolder";
+            treeNode2.Tag = "Filter";
+            treeNode2.Text = "Filter";
             this.treeViewFilter.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1});
+            treeNode2});
             this.treeViewFilter.Size = new System.Drawing.Size(399, 600);
             this.treeViewFilter.TabIndex = 0;
             this.treeViewFilter.BeforeCheck += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeViewFilter_BeforeCheck);
@@ -2400,6 +2401,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuItemGenericOpenFolderLocation,
             this.kryptonContextMenuItemGenericOpen,
             this.kryptonContextMenuItemGenericOpenWith,
+            this.kryptonContextMenuItemOpenAndAssociateWithDialog,
             this.kryptonContextMenuItemGenericOpenVerbEdit,
             this.kryptonContextMenuItemGenericRunCommand,
             this.kryptonContextMenuSeparatorGenericEndOfFileSystem,
@@ -2575,6 +2577,12 @@ namespace PhotoTagsSynchronizer
             // kryptonContextMenuItemsGenericOpenWithAppListExample
             // 
             this.kryptonContextMenuItemsGenericOpenWithAppListExample.Text = "Open with example";
+            // 
+            // kryptonContextMenuItemOpenAndAssociateWithDialog
+            // 
+            this.kryptonContextMenuItemOpenAndAssociateWithDialog.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemOpenWIthAssociationApp32x32;
+            this.kryptonContextMenuItemOpenAndAssociateWithDialog.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.kryptonContextMenuItemOpenAndAssociateWithDialog.Text = "Open and associate with dialog...";
             // 
             // kryptonContextMenuItemGenericOpenVerbEdit
             // 
@@ -5430,8 +5438,8 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonRibbonGroupButtonFileSystemOpenAssociateDialog
             // 
-            this.kryptonRibbonGroupButtonFileSystemOpenAssociateDialog.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemEdit;
-            this.kryptonRibbonGroupButtonFileSystemOpenAssociateDialog.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemEdit;
+            this.kryptonRibbonGroupButtonFileSystemOpenAssociateDialog.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemOpenWIthAssociationApp32x32;
+            this.kryptonRibbonGroupButtonFileSystemOpenAssociateDialog.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemOpenWIthAssociationApp32x32;
             this.kryptonRibbonGroupButtonFileSystemOpenAssociateDialog.KeyTip = "OA";
             this.kryptonRibbonGroupButtonFileSystemOpenAssociateDialog.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.kryptonRibbonGroupButtonFileSystemOpenAssociateDialog.TextLine1 = "Associate dialog";
@@ -6720,7 +6728,7 @@ namespace PhotoTagsSynchronizer
             // 
             // openWithDialogToolStripMenuItem
             // 
-            this.openWithDialogToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources._FileSystemOpenWIthAssociationApp32x32;
+            this.openWithDialogToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemOpenWIthAssociationApp32x32;
             this.openWithDialogToolStripMenuItem.Name = "openWithDialogToolStripMenuItem";
             this.openWithDialogToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.openWithDialogToolStripMenuItem.Size = new System.Drawing.Size(324, 26);
@@ -7746,6 +7754,7 @@ namespace PhotoTagsSynchronizer
         private Krypton.Ribbon.KryptonRibbonQATButton kryptonRibbonQATButtonViewMediaPreview;
         private Krypton.Ribbon.KryptonRibbonQATButton kryptonRibbonQATButtonMediaPreview;
         private Krypton.Ribbon.KryptonRibbonQATButton kryptonRibbonQATButtonMediaPoster;
+        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItemOpenAndAssociateWithDialog;
     }
 }
 

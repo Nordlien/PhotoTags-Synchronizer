@@ -287,7 +287,7 @@ namespace PhotoTagsSynchronizer
         {
             RibbonGroupButtonHomeClipboard(enabled, enabled);
         }
-        
+
         private void RibbonGroupButtonHomeClipboard(bool enabledCopy = false, bool enabledCutPaste = false, bool enabledUndoRedo = false)
         {
             //Home - Clipboard
@@ -390,7 +390,7 @@ namespace PhotoTagsSynchronizer
                     //Home - Find and Replace
                     RibbonGroupButtonHomeFineAndReplace(enabledFind: true, enabledRplace: false);
                     //Home - FileSystem
-                    RibbonGroupButtonHomeFileSystem(enabledDelete: true, enabledRename: true, enabledRefresh: false, enabledOpenWithEdit: false);
+                    RibbonGroupButtonHomeFileSystem(enabledDelete: true, enabledRename: true, enabledRefresh: true, enabledOpenWithEdit: false);
                     kryptonRibbonGroupButtonHomeFileSystemDelete.TextLine2 = "Folder";
                     kryptonRibbonGroupButtonHomeFileSystemRename.TextLine2 = "Folder";
                     kryptonRibbonGroupButtonHomeFileSystemRefresh.TextLine2 = "Folders";
@@ -622,14 +622,14 @@ namespace PhotoTagsSynchronizer
         private KryptonPages activeKryptonPage = KryptonPages.None;
         private KryptonPages ActiveKryptonPage
         {
-            get 
-            { 
-                return activeKryptonPage; 
+            get
+            {
+                return activeKryptonPage;
             }
-            set 
-            { 
-                activeKryptonPage = value; 
-                UpdateRibbonsWhenWorkspaceChanged(); 
+            set
+            {
+                activeKryptonPage = value;
+                UpdateRibbonsWhenWorkspaceChanged();
             }
         }
 
@@ -705,7 +705,7 @@ namespace PhotoTagsSynchronizer
         #region  Region Rename
         private void ContextMenuGenericRegionNameRename(bool visible)
         {
-            
+
             this.kryptonContextMenuItemGenericRegionRename1.Visible = visible;
             this.kryptonContextMenuItemGenericRegionRename2.Visible = visible;
             this.kryptonContextMenuItemGenericRegionRename3.Visible = visible;
@@ -715,7 +715,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuItemGenericRegionRenameListAll.Visible = visible;
             //this.kryptonContextMenuItemsGenericRegionRenameListAllList.Visible = visible; //GenericRegionRenameListAll
             //this.kryptonContextMenuItemGenericRegionRenameListAllExample.Visible = visible; //GenericRegionRenameListAll
-            this.kryptonContextMenuSeparatorGenericEndOfRegionRename.Visible = visible;            
+            this.kryptonContextMenuSeparatorGenericEndOfRegionRename.Visible = visible;
         }
         #endregion
 
@@ -727,7 +727,7 @@ namespace PhotoTagsSynchronizer
 
         private void ContextMenuGenericClipboard(bool visibleCopy = false, bool visibleCutPaste = false, bool visibleUndoRedo = false, bool visibleCopyText = false, bool visibleFind = false, bool visibleReplace = false,
              bool visibleDelete = false, bool visibleRenameEdit = false, bool visibleSave = false)
-        {            
+        {
             this.kryptonContextMenuItemGenericCut.Visible = visibleCutPaste;
             this.kryptonContextMenuItemGenericCopy.Visible = visibleCopy;
             this.kryptonContextMenuItemGenericPaste.Visible = visibleCutPaste;
@@ -740,7 +740,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuItemGenericReplace.Visible = visibleReplace;
             this.kryptonContextMenuItemGenericSave.Visible = visibleSave;
             this.kryptonContextMenuSeparatorGenericEndOfClipboard.Visible =
-                visibleCopy || visibleCutPaste || visibleUndoRedo || visibleFind || visibleReplace || visibleCopyText || visibleDelete || visibleRenameEdit || visibleSave;            
+                visibleCopy || visibleCutPaste || visibleUndoRedo || visibleFind || visibleReplace || visibleCopyText || visibleDelete || visibleRenameEdit || visibleSave;
         }
         #endregion
 
@@ -767,32 +767,32 @@ namespace PhotoTagsSynchronizer
 
         #region Metadata
         private void ContextMenuGenericMetadata(bool visible)
-        {            
+        {
             this.kryptonContextMenuItemGenericAutoCorrectRun.Visible = visible;
             this.kryptonContextMenuItemGenericAutoCorrectForm.Visible = visible;
             this.kryptonContextMenuItemGenericMetadataRefreshLast.Visible = visible;
             this.kryptonContextMenuItemGenericMetadataDeleteHistory.Visible = visible;
-            this.kryptonContextMenuSeparatorGenericEndOfMetadata.Visible = visible;            
+            this.kryptonContextMenuSeparatorGenericEndOfMetadata.Visible = visible;
         }
         #endregion
 
         #region Rotate
         private void ContextMenuGenericRotate(bool visible)
-        {            
+        {
             this.kryptonContextMenuItemGenericRotate270.Visible = visible;
             this.kryptonContextMenuItemGenericRotate180.Visible = visible;
             this.kryptonContextMenuItemGenericRotate90.Visible = visible;
-            this.kryptonContextMenuSeparatorEndOfRotate.Visible = visible;            
+            this.kryptonContextMenuSeparatorEndOfRotate.Visible = visible;
         }
         #endregion
 
         #region Favorite
         private void ContextMenuGenericFavorite(bool visible)
-        {            
+        {
             this.kryptonContextMenuItemGenericFavoriteAdd.Visible = visible;
             this.kryptonContextMenuItemGenericFavoriteDelete.Visible = visible;
             this.kryptonContextMenuItemGenericFavoriteToggle.Visible = visible;
-            this.kryptonContextMenuSeparatorGenericEndOfFavorite.Visible = visible;            
+            this.kryptonContextMenuSeparatorGenericEndOfFavorite.Visible = visible;
         }
         #endregion
 
@@ -801,7 +801,7 @@ namespace PhotoTagsSynchronizer
         {
             this.kryptonContextMenuItemGenericRowShowFavorite.Visible = visible;
             this.kryptonContextMenuItemGenericRowHideEqual.Visible = visible;
-            this.kryptonContextMenuSeparatorGenericEndOfShowHideRows.Visible = visible;            
+            this.kryptonContextMenuSeparatorGenericEndOfShowHideRows.Visible = visible;
         }
         #endregion
 
@@ -811,15 +811,15 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuItemGenericTriStateOn.Visible = visible;
             this.kryptonContextMenuItemGenericTriStateOff.Visible = visible;
             this.kryptonContextMenuItemGenericTriStateToggle.Visible = visible;
-            this.kryptonContextMenuSeparatorGenericEndOfTriState.Visible = visible;            
+            this.kryptonContextMenuSeparatorGenericEndOfTriState.Visible = visible;
         }
         #endregion
 
         #region MediaView
         private void ContextMenuGenericMediaView(bool visible)
-        {            
+        {
             this.kryptonContextMenuItemGenericMediaViewAsPoster.Visible = visible;
-            this.kryptonContextMenuItemGenericMediaViewAsFull.Visible = visible;            
+            this.kryptonContextMenuItemGenericMediaViewAsFull.Visible = visible;
         }
         #endregion
 
@@ -846,7 +846,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        
+
         #region RegionRename2
 
         #region RegionRename2 - Click Events Sources
@@ -875,9 +875,9 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        
+
         #region RegionRenameListAll
-        
+
         #region RegionRenameListAll - Click Events Sources
         private void KryptonContextMenuItemGenericRegionRenameListAll_Click(object sender, EventArgs e)
         {
@@ -887,7 +887,7 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        
+
         //Done
         #region Cut
 
@@ -1089,8 +1089,8 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
             if (!dataGridView.Enabled) return;
 
-            if (dataGridView.CurrentCell.IsInEditMode)  
-            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
+            if (dataGridView.CurrentCell.IsInEditMode)
+                GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
 
             string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
 
@@ -1196,8 +1196,8 @@ namespace PhotoTagsSynchronizer
                 MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        #endregion 
-        
+        #endregion
+
         #region FolderTree - Copy - Click
         private void FolderCopy_Click()
         {
@@ -1280,7 +1280,7 @@ namespace PhotoTagsSynchronizer
         private void PeopleCopy_Click()
         {
             DataGridView dataGridView = dataGridViewPeople;
-            DataGridGeneric_Copy(dataGridView);  
+            DataGridGeneric_Copy(dataGridView);
         }
         #endregion
 
@@ -1501,7 +1501,7 @@ namespace PhotoTagsSynchronizer
             DataGridViewGenrericPaste(dataGridView);
         }
         #endregion
- 
+
         #region Rename
         private void RenamePaste_Click()
         {
@@ -1766,7 +1766,7 @@ namespace PhotoTagsSynchronizer
             DataGridViewGenrericDelete(dataGridView);
         }
         #endregion
-        
+
         #region RenameDelete_Click
         private void RenameDelete_Click()
         {
@@ -1928,7 +1928,7 @@ namespace PhotoTagsSynchronizer
             DataGridViewGenrericUndo(dataGridView);
         }
         #endregion
-        
+
         #region RenameUndo_Click
         private void RenameUndo_Click()
         {
@@ -1936,7 +1936,7 @@ namespace PhotoTagsSynchronizer
             DataGridViewGenrericUndo(dataGridView);
         }
         #endregion
-        
+
         #region TagsAndKeywords
         private void TagsAndKeywordsUndo_Click()
         {
@@ -1965,8 +1965,8 @@ namespace PhotoTagsSynchronizer
         {
             ActionRedo();
         }
-        #endregion 
-        
+        #endregion
+
         #region ActionRedo
         private void ActionRedo()
         {
@@ -2286,7 +2286,7 @@ namespace PhotoTagsSynchronizer
 
         #region TagsAndKeywordsFind_Click
         private void TagsAndKeywordsFind_Click()
-        {            
+        {
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
             if (!dataGridView.Enabled) return;
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
@@ -2720,7 +2720,7 @@ namespace PhotoTagsSynchronizer
             DataGridViewGenrericFavoriteDelete(dataGridView);
         }
         #endregion
-        
+
         #region RenameFavoriteDelete_Click
         private void RenameFavoriteDelete_Click()
         {
@@ -2859,7 +2859,7 @@ namespace PhotoTagsSynchronizer
             DataGridViewGenrericFavoriteToogle(dataGridView);
         }
         #endregion
-        
+
         #region RenameFavoriteToogle_Click
         private void RenameFavoriteToogle_Click()
         {
@@ -2897,7 +2897,7 @@ namespace PhotoTagsSynchronizer
         {
             kryptonRibbonGroupButtonDataGridViewRowsHideEqual.Checked = hideEqualColumns;
             kryptonRibbonGroupButtonDataGridViewRowsFavorite.Checked = showFavouriteColumns;
-            DataGridView dataGridView = GetActiveTabDataGridView();            
+            DataGridView dataGridView = GetActiveTabDataGridView();
         }
         #endregion 
 
@@ -3351,7 +3351,7 @@ namespace PhotoTagsSynchronizer
         #region TagsAndKeywordsTriStateToggle_Click 
         private void TagsAndKeywordsTriStateToggle_Click()
         {
-            DataGridView dataGridView = dataGridViewTagsAndKeywords;            
+            DataGridView dataGridView = dataGridViewTagsAndKeywords;
             DataGridViewGenericTagActionToggle(dataGridView, DataGridViewHandlerTagsAndKeywords.headerKeywords, NewState.Toggle);
         }
         #endregion
@@ -3503,7 +3503,7 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
             if (!dataGridView.Enabled) return;
 
-            DataGridViewGenericTagActionToggle(dataGridView, DataGridViewHandlerTagsAndKeywords.headerKeywords,NewState.Remove);
+            DataGridViewGenericTagActionToggle(dataGridView, DataGridViewHandlerTagsAndKeywords.headerKeywords, NewState.Remove);
         }
         #endregion
 
@@ -4061,7 +4061,7 @@ namespace PhotoTagsSynchronizer
             {
                 case KryptonPages.None:
                     break;
-                case KryptonPages.kryptonPageFolderSearchFilterFolder:                   
+                case KryptonPages.kryptonPageFolderSearchFilterFolder:
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterSearch:
                     break;
@@ -4092,7 +4092,7 @@ namespace PhotoTagsSynchronizer
                     throw new NotImplementedException();
             }
 
-            
+
         }
         #endregion
 
@@ -4614,7 +4614,7 @@ namespace PhotoTagsSynchronizer
         private void TagsAndKeywordMediaPreview_Click()
         {
             DataGridView dataGridView = GetActiveTabDataGridView();
-            GenericMediaPreviewSelectedInDataGridView(dataGridView);            
+            GenericMediaPreviewSelectedInDataGridView(dataGridView);
         }
         #endregion
 
@@ -4684,7 +4684,7 @@ namespace PhotoTagsSynchronizer
 
 
         #endregion
-        //Done - not tested
+        //Done
         #region RefreshFolderAndFiles
 
         #region ActionRefreshFolderAndFiles
@@ -4777,10 +4777,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-
-        
-
-        //Done - not tested
+        //Done 
         #region ReadSubfolders
 
         #region ActionReadSubfolders
@@ -4847,8 +4844,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-
-        //Done - not tested
+        //Done 
         #region OpenExplorerLocation
 
         #region OpenExplorerLocation
@@ -4934,56 +4930,6 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-
-        #region OpenAssociateDialog
-
-        #region ActionOpenAssociateDialog
-        private void ActionOpenAssociateDialog()
-        {
-            switch (ActiveKryptonPage)
-            {
-                case KryptonPages.None:
-                    break;
-                case KryptonPages.kryptonPageFolderSearchFilterFolder:
-                    break;
-                case KryptonPages.kryptonPageFolderSearchFilterSearch:
-                    break;
-                case KryptonPages.kryptonPageFolderSearchFilterFilter:
-                    break;
-                case KryptonPages.kryptonPageMediaFiles:
-                    break;
-                case KryptonPages.kryptonPageToolboxTags:
-                    break;
-                case KryptonPages.kryptonPageToolboxPeople:
-                    break;
-                case KryptonPages.kryptonPageToolboxMap:
-                    break;
-                case KryptonPages.kryptonPageToolboxDates:
-                    break;
-                case KryptonPages.kryptonPageToolboxExiftool:
-                    break;
-                case KryptonPages.kryptonPageToolboxWarnings:
-                    break;
-                case KryptonPages.kryptonPageToolboxProperties:
-                    break;
-                case KryptonPages.kryptonPageToolboxRename:
-                    break;
-                case KryptonPages.kryptonPageToolboxConvertAndMerge:
-                    break;
-                default:
-                    throw new NotImplementedException();
-            }
-        }
-        #endregion
-
-        #region OpenAssociateDialog - Click Events Source
-        private void kryptonRibbonGroupButtonFileSystemOpenAssociateDialog_Click(object sender, EventArgs e)
-        {
-
-        }
-        #endregion
-
-        #endregion
         //Done
         #region FileSystemVerbOpen
 
@@ -5030,7 +4976,7 @@ namespace PhotoTagsSynchronizer
         #region FileSystemVerbOpen - Click Events Sources
         private void imageListView1_ItemDoubleClick(object sender, ItemClickEventArgs e)
         {
-            ActionFileSystemVerbOpen();         
+            ActionFileSystemVerbOpen();
         }
 
         private void kryptonRibbonGroupButtonHomeFileSystemOpen_Click(object sender, EventArgs e)
@@ -5063,8 +5009,8 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //Done - not tested
-        #region FileSystemOpenWith
+        //Done 
+        #region OpenWith - Selected Verb
 
         #region ActionFileSystemOpenWith
         private void ActionFileSystemOpenWith()
@@ -5080,7 +5026,95 @@ namespace PhotoTagsSynchronizer
                 case KryptonPages.kryptonPageFolderSearchFilterFilter:
                     break;
                 case KryptonPages.kryptonPageMediaFiles:
-                    MediaFilesOpenWithDialog_Click();
+                    //MediaFilesOpenWithDialog_Click();
+                    break;
+                case KryptonPages.kryptonPageToolboxTags:
+                    break;
+                case KryptonPages.kryptonPageToolboxPeople:
+                    break;
+                case KryptonPages.kryptonPageToolboxMap:
+                    break;
+                case KryptonPages.kryptonPageToolboxDates:
+                    break;
+                case KryptonPages.kryptonPageToolboxExiftool:
+                    break;
+                case KryptonPages.kryptonPageToolboxWarnings:
+                    break;
+                case KryptonPages.kryptonPageToolboxProperties:
+                    break;
+                case KryptonPages.kryptonPageToolboxRename:
+                    break;
+                case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                    break;
+                default:
+                    throw new NotImplementedException();
+            } 
+        }
+        #endregion
+
+        #region FileSystemOpenWith - Click Events Sources
+        private void kryptonRibbonGroupButtonHomeFileSystemOpenWith_Click(object sender, EventArgs e)
+        {
+            ActionFileSystemOpenWith();
+        }
+        private void KryptonContextMenuItemGenericOpenWith_Click(object sender, EventArgs e)
+        {
+            ActionFileSystemOpenWith();
+        }
+        #endregion
+
+        #region OpenWithSelectedVerb
+        private void OpenWithSelectedVerb(ApplicationData applicationData)
+        {          
+            foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
+            {
+                try
+                {
+                    if (applicationData.VerbLinks.Count >= 1) ApplicationActivation.ProcessRun(applicationData.VerbLinks[0].Command, applicationData.ApplicationId, imageListViewItem.FileFullPath, applicationData.VerbLinks[0].Verb, false);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Can execute file. Error: " + ex.Message, "Can execute file", MessageBoxButtons.OK);
+                }
+            }   
+        }
+        #endregion 
+
+        #region KryptonContextMenuItemOpenWithSelectedVerb_Click
+        private void KryptonContextMenuItemOpenWithSelectedVerb_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItem = (Krypton.Toolkit.KryptonContextMenuItem)sender;
+                if (kryptonContextMenuItem.Tag is ApplicationData applicationData) OpenWithSelectedVerb(applicationData);                
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        #endregion
+
+        #endregion
+        //Done
+        #region OpenAndAssociateWithDialog
+
+        #region ActionOpenAndAssociateWithDialog
+        private void ActionOpenAndAssociateWithDialog()
+        {
+            switch (ActiveKryptonPage)
+            {
+                case KryptonPages.None:
+                    break;
+                case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                    break;
+                case KryptonPages.kryptonPageFolderSearchFilterSearch:
+                    break;
+                case KryptonPages.kryptonPageFolderSearchFilterFilter:
+                    break;
+                case KryptonPages.kryptonPageMediaFiles:
+                    MediaFilesOpenAndAssociateWithDialog_Click();
                     break;
                 case KryptonPages.kryptonPageToolboxTags:
                     break;
@@ -5106,52 +5140,20 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region FileSystemOpenWith - Click Events Sources
-        private void kryptonRibbonGroupButtonHomeFileSystemOpenWith_Click(object sender, EventArgs e)
+        #region ActionOpenAndAssociateWithDialog - Click Events Sources
+        private void KryptonContextMenuItemOpenAndAssociateWithDialog_Click(object sender, EventArgs e)
         {
-            ActionFileSystemOpenWith();
+            ActionOpenAndAssociateWithDialog();
         }
-        private void KryptonContextMenuItemGenericOpenWith_Click(object sender, EventArgs e)
+
+        private void kryptonRibbonGroupButtonFileSystemOpenAssociateDialog_Click(object sender, EventArgs e)
         {
-            ActionFileSystemOpenWith();
-        }
-        #endregion
-
-        #region ToolStrip - OpenWith - Click
-        private void ToolStripMenuItemOpenWith_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                ToolStripMenuItem toolStripMenuItem = (ToolStripMenuItem)sender;
-                if (toolStripMenuItem.Tag is ApplicationData applicationData)
-                {
-
-                    foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
-                    {
-                        try
-                        {
-                            if (applicationData.VerbLinks.Count >= 1) ApplicationActivation.ProcessRun(applicationData.VerbLinks[0].Command, applicationData.ApplicationId, imageListViewItem.FileFullPath, applicationData.VerbLinks[0].Verb, false);
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show("Can execute file. Error: " + ex.Message, "Can execute file", MessageBoxButtons.OK);
-                        }
-                    }
-
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            ActionOpenAndAssociateWithDialog();
         }
         #endregion
-        #endregion
-
 
         #region MediaFilesOpenWithDialog_Click()
-        private void MediaFilesOpenWithDialog_Click()
+        private void MediaFilesOpenAndAssociateWithDialog_Click()
         {
             try
             {
@@ -5169,6 +5171,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #endregion
         //Done - not tested
         #region FileSystemVerbEdit
 

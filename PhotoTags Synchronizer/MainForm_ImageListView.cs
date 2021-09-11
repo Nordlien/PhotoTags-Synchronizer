@@ -457,10 +457,6 @@ namespace PhotoTagsSynchronizer
                 return;
             }
 
-
-            if (imageListViewSelectedFileEntryItems.Count == 1) openWithDialogToolStripMenuItem.Visible = true;
-            else openWithDialogToolStripMenuItem.Visible = false;
-
             List<string> extentions = new List<string>();
 
             foreach (FileEntry fileEntry in imageListViewSelectedFileEntryItems)
@@ -472,7 +468,13 @@ namespace PhotoTagsSynchronizer
             ApplicationAssociationsHandler applicationAssociationsHandler = new ApplicationAssociationsHandler();
             List<ApplicationData> listOfCommonOpenWith = applicationAssociationsHandler.OpenWithInCommon(extentions);
 
-            openMediaFilesWithToolStripMenuItem.DropDownItems.Clear();
+            KryptonContextMenu kryptonContextMenu = new KryptonContextMenu();
+            KryptonContextMenuItems kryptonContextMenuItems = new KryptonContextMenuItems();
+            kryptonContextMenu.Items.Add(kryptonContextMenuItems);
+
+            kryptonContextMenuItemsGenericOpenWithAppList.Items.Clear();
+            kryptonRibbonGroupButtonHomeFileSystemOpenWith.KryptonContextMenu = null;
+
             if (listOfCommonOpenWith != null && listOfCommonOpenWith.Count > 0)
             {
                 openMediaFilesWithToolStripMenuItem.Visible = true;
@@ -489,15 +491,20 @@ namespace PhotoTagsSynchronizer
                         singelVerbApplicationData.ProgId = data.ProgId;
                         singelVerbApplicationData.AddVerb(verbLink.Verb, verbLink.Command);
 
-                        ToolStripMenuItem toolStripMenuItemOpenWith = new ToolStripMenuItem(singelVerbApplicationData.FriendlyAppName.Replace("&", "&&") + " - " + verbLink.Verb, singelVerbApplicationData.Icon.ToBitmap());
-                        toolStripMenuItemOpenWith.Tag = singelVerbApplicationData;
-                        toolStripMenuItemOpenWith.Click += ToolStripMenuItemOpenWith_Click;
-                        openMediaFilesWithToolStripMenuItem.DropDownItems.Add(toolStripMenuItemOpenWith);
+                        Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItem = new Krypton.Toolkit.KryptonContextMenuItem();
+                        kryptonContextMenuItem.Text = singelVerbApplicationData.FriendlyAppName.Replace("&", "&&") + " - " + verbLink.Verb;
+                        kryptonContextMenuItem.Image = new Bitmap(singelVerbApplicationData.Icon.ToBitmap(), new Size(32,32));
+                        kryptonContextMenuItem.Tag = singelVerbApplicationData;
+                        kryptonContextMenuItem.Click += KryptonContextMenuItemOpenWithSelectedVerb_Click;
+                        kryptonContextMenuItemsGenericOpenWithAppList.Items.Add(kryptonContextMenuItem);
+                        kryptonContextMenuItems.Items.Add(kryptonContextMenuItem);
                     }
                 }
+                kryptonRibbonGroupButtonHomeFileSystemOpenWith.KryptonContextMenu = kryptonContextMenu;
             }
-            else openMediaFilesWithToolStripMenuItem.Visible = false;
         }
+
+        
         #endregion
 
         #region ImageListView - Add - Item

@@ -63,16 +63,6 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap _FileSystemOpenWIthAssociationApp32x32 {
-            get {
-                object obj = ResourceManager.GetObject("_FileSystemOpenWIthAssociationApp32x32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap AppIcon {
             get {
                 object obj = ResourceManager.GetObject("AppIcon", resourceCulture);
@@ -416,6 +406,16 @@ namespace PhotoTagsSynchronizer.Properties {
         internal static System.Drawing.Bitmap FileSystemOpenWith {
             get {
                 object obj = ResourceManager.GetObject("FileSystemOpenWith", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap FileSystemOpenWIthAssociationApp32x32 {
+            get {
+                object obj = ResourceManager.GetObject("FileSystemOpenWIthAssociationApp32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
