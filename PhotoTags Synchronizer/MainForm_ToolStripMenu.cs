@@ -186,61 +186,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ToolStrip - About - Click
-        private void toolStripButtonAbout_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                FormAbout form = new FormAbout();
-                form.ShowDialog();
-                form.Dispose();
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        #endregion
-
-        #region ToolStrip - Import Google Locations - Click
-        private void toolStripButtonImportGoogleLocation_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                bool showLocationForm = true;
-                if (IsAnyDataUnsaved())
-                {
-                    if (MessageBox.Show("Will you continue, all unsaved data will be lost?", "You have unsaved data", MessageBoxButtons.OKCancel) == DialogResult.Cancel)
-                        showLocationForm = false;
-                }
-
-                if (showLocationForm)
-                {
-                    LocationHistoryImportForm form = new LocationHistoryImportForm();
-                    using (new WaitCursor())
-                    {
-                        form.databaseTools = databaseUtilitiesSqliteMetadata;
-                        form.databaseAndCahceCameraOwner = databaseAndCahceCameraOwner;
-                        form.Init();
-                    }
-                    if (form.ShowDialog() == DialogResult.OK)
-                    {
-                        databaseAndCahceCameraOwner.CameraMakeModelAndOwnerMakeDirty();
-                        databaseAndCahceCameraOwner.MakeCameraOwnersDirty();
-                        //Update DataGridViews
-                        FilesSelected();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        #endregion
-
         #region ToolStrip - Refreh Folder - Click
         private void toolStripMenuItemRefreshFolder_Click(object sender, EventArgs e)
         {
@@ -278,6 +223,9 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+
+
+        #region ToolStrip - InageListView - Switch Renderers 
         private struct RendererItem
         {
             public Type Type;
@@ -291,8 +239,6 @@ namespace PhotoTagsSynchronizer
                 Type = type;
             }
         }
-
-        #region ToolStrip - InageListView - Switch Renderers 
         private void SetImageListViewRender(Manina.Windows.Forms.View imageListViewViewMode, RendererItem selectedRender)
         {
             try
@@ -408,194 +354,6 @@ namespace PhotoTagsSynchronizer
         #endregion
 
        
-
-        #region ToolStrip - WebScraper_Click
-        private void toolStripButtonWebScraper_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                FormWebScraper formWebScraper = new FormWebScraper();
-                formWebScraper.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
-                formWebScraper.ShowDialog();
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        #endregion 
-
-        #region Media Preview
-        private static string imageListViewHoverItem = "";
-        private void imageListView1_ItemHover(object sender, ItemHoverEventArgs e)
-        {
-            try
-            {
-                if (e.Item != null) imageListViewHoverItem = e.Item.FileFullPath;
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void MediaPreviewFoldeOrFilterResult(string selectedMediaFilePullPath)
-        {
-            List<string> listOfMediaFiles = new List<string>();
-            for (int itemIndex = 0; itemIndex < imageListView1.SelectedItems.Count; itemIndex++) listOfMediaFiles.Add(imageListView1.SelectedItems[itemIndex].FileFullPath);
-            MediaPreviewInit(listOfMediaFiles, selectedMediaFilePullPath);
-        }
-
-        private void toolStripButtonPreview_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (imageListView1.SelectedItems.Count > 1) MediaPreviewFoldeOrFilterResult("");
-                else
-                {
-                    List<string> listOfMediaFiles = new List<string>();
-                    for (int itemIndex = 0; itemIndex < imageListView1.Items.Count; itemIndex++) listOfMediaFiles.Add(imageListView1.Items[itemIndex].FileFullPath);
-                    string selectedMediaFilePullPath = "";
-                    if (imageListView1.SelectedItems.Count == 1) selectedMediaFilePullPath = imageListView1.SelectedItems[0].FileFullPath;
-                    MediaPreviewInit(listOfMediaFiles, selectedMediaFilePullPath);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void mediaPreviewToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                MediaPreviewFoldeOrFilterResult(imageListViewHoverItem);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void MediaPreviewSelectedInDataGridView(DataGridView dataGridView)
-        {
-            List<string> listOfMediaFiles = new List<string>();
-
-            List<int> selectedColumns = DataGridViewHandler.GetColumnSelected(dataGridView);
-
-            if (selectedColumns.Count <= 1)
-            {
-                int columnCount = DataGridViewHandler.GetColumnCount(dataGridView);
-                for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
-                {
-                    DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-                    if (dataGridViewGenericColumn?.Metadata?.FileFullPath != null) listOfMediaFiles.Add(dataGridViewGenericColumn?.Metadata?.FileFullPath);
-                }
-            }
-            else
-            {
-                foreach (int columnIndex in selectedColumns)
-                {
-                    DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-                    if (dataGridViewGenericColumn?.Metadata?.FileFullPath != null) listOfMediaFiles.Add(dataGridViewGenericColumn?.Metadata?.FileFullPath);
-                }
-            }
-
-            string selectedMediaFilePullPath = "";
-            DataGridViewCell dataGridViewCell = DataGridViewHandler.GetCellCurrent(dataGridView);
-            DataGridViewGenericColumn dataGridViewGenericColumnCurrent = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, dataGridViewCell.ColumnIndex);
-            if (dataGridViewGenericColumnCurrent?.Metadata?.FileFullPath != null) selectedMediaFilePullPath = dataGridViewGenericColumnCurrent?.Metadata?.FileFullPath;
-
-            MediaPreviewInit(listOfMediaFiles, selectedMediaFilePullPath);
-        }
-
-        private void toolStripMenuItemTagsAndKeywordMediaPreview_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                MediaPreviewSelectedInDataGridView(GetActiveTabDataGridView());
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void toolStripMenuItemDateMediaPreview_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                MediaPreviewSelectedInDataGridView(GetActiveTabDataGridView());
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void toolStripMenuItemPeopleMediaPreview_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                MediaPreviewSelectedInDataGridView(GetActiveTabDataGridView());
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void toolStripMenuItemMapMediaPreview_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                MediaPreviewSelectedInDataGridView(GetActiveTabDataGridView());
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void toolStripMenuItemMediaPreview_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                MediaPreviewSelectedInDataGridView(GetActiveTabDataGridView());
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void toolStripMenuItemExiftoolWarningMediaPreview_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                MediaPreviewSelectedInDataGridView(GetActiveTabDataGridView());
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-
-
-
-        #endregion
 
         #region ImageListView Sort
         private void ImageListViewSortColumn(ImageListView imageListView, ColumnType columnToSort)
@@ -913,64 +671,7 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        #region ToolStrip - Show Config Window - Click
-        private void toolStripButtonConfig_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                using (FormConfig config = new FormConfig())
-                {
-                    using (new WaitCursor())
-                    {
-                        LocationNameLookUpCache databaseLocationNames = new LocationNameLookUpCache(databaseUtilitiesSqliteMetadata, Properties.Settings.Default.ApplicationPreferredLanguages);
-
-                        exiftoolReader.MetadataReadPrioity.ReadOnlyOnce();
-                        config.MetadataReadPrioity = exiftoolReader.MetadataReadPrioity;
-                        config.ThumbnailSizes = thumbnailSizes;
-                        config.DatabaseAndCacheCameraOwner = databaseAndCahceCameraOwner;
-                        config.DatabaseLocationNames = databaseLocationNames;
-                        config.DatabaseAndCacheLocationAddress = databaseLocationAddress;
-                        config.DatabaseUtilitiesSqliteMetadata = databaseUtilitiesSqliteMetadata;
-                        config.Init();
-                    }
-                    if (config.ShowDialog() != DialogResult.Cancel)
-                    {
-                        ThumbnailSaveSize = Properties.Settings.Default.ApplicationThumbnail;
-                        RegionThumbnailHandler.FaceThumbnailSize = Properties.Settings.Default.ApplicationRegionThumbnail;
-
-                        databaseLocationAddress.PreferredLanguagesString = Properties.Settings.Default.ApplicationPreferredLanguages;
-                        RegionStructure.SetAcceptRegionMissmatchProcent((float)Properties.Settings.Default.RegionMissmatchProcent);
-
-                        autoKeywordConvertions = AutoKeywordHandler.PopulateList(AutoKeywordHandler.ReadDataSetFromXML());
-                        //Cache config
-                        cacheNumberOfPosters = (int)Properties.Settings.Default.CacheNumberOfPosters;
-                        cacheAllMetadatas = Properties.Settings.Default.CacheAllMetadatas;
-                        cacheAllThumbnails = Properties.Settings.Default.CacheAllThumbnails;
-                        cacheAllWebScraperDataSets = Properties.Settings.Default.CacheAllWebScraperDataSets;
-                        cacheFolderMetadatas = Properties.Settings.Default.CacheFolderMetadatas;
-                        cacheFolderThumbnails = Properties.Settings.Default.CacheFolderThumbnails;
-                        cacheFolderWebScraperDataSets = Properties.Settings.Default.CacheFolderWebScraperDataSets;
-
-                        //
-                        folderTreeViewFolder.Enabled = false;
-                        imageListView1.Enabled = false;
-                        FilesSelected();
-                        folderTreeViewFolder.Enabled = true;
-                        imageListView1.Enabled = true;
-                        imageListView1.Focus();
-
-                        UpdateColorControls(this, Properties.Settings.Default.ApplicationDarkMode);
-                        
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        #endregion
+        
 
         #region ToolStrip - Show/Hide Historiy / Error Columns - Click
         private void SetRibbonDataGridViewShowWhatColumns(ShowWhatColumns showWhatColumns, bool enabled = true)

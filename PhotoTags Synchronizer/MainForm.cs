@@ -337,7 +337,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuItemGenericRedo.Click += KryptonContextMenuItemGenericRedo_Click;
             this.kryptonContextMenuItemGenericFind.Click += KryptonContextMenuItemGenericFind_Click;
             this.kryptonContextMenuItemGenericReplace.Click += KryptonContextMenuItemGenericReplace_Click;
-            this.kryptonContextMenuItemGenericSave.Click += KryptonContextMenuItemGenericSave_Click;                                                          
+            this.kryptonContextMenuItemGenericSave.Click += KryptonContextMenuItemGenericSave_Click;               
             //this.kryptonContextMenuSeparatorGenericEndOfClipboard
             this.kryptonContextMenuItemGenericRefreshFolder.Click += KryptonContextMenuItemGenericFileSystemRefreshFolder_Click;
             this.kryptonContextMenuItemGenericReadSubfolders.Click += KryptonContextMenuItemGenericReadSubfolders_Click;
@@ -995,9 +995,12 @@ namespace PhotoTagsSynchronizer
 
 
 
+
+
+
         #endregion
 
-      
+       
     }
 
     

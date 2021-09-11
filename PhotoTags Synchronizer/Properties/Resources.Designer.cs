@@ -733,6 +733,16 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap MediaPreview16x16 {
+            get {
+                object obj = ResourceManager.GetObject("MediaPreview16x16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap MediaPreviewSlideshow {
             get {
                 object obj = ResourceManager.GetObject("MediaPreviewSlideshow", resourceCulture);
@@ -756,6 +766,16 @@ namespace PhotoTagsSynchronizer.Properties {
         internal static System.Drawing.Bitmap MediaRegionSelector {
             get {
                 object obj = ResourceManager.GetObject("MediaRegionSelector", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MediaRegionSelector16x16 {
+            get {
+                object obj = ResourceManager.GetObject("MediaRegionSelector16x16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
