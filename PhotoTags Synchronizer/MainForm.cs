@@ -370,7 +370,25 @@ namespace PhotoTagsSynchronizer
             //this.kryptonContextMenuSeparatorGenericEndOfTriState,
             this.kryptonContextMenuItemGenericMediaViewAsPoster.Click += KryptonContextMenuItemGenericMediaViewAsPoster_Click;
             this.kryptonContextMenuItemGenericMediaViewAsFull.Click += KryptonContextMenuItemGenericMediaViewAsFull_Click;
-            
+
+            //
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortFilename.Click += KryptonContextMenuRadioButtonFileSystemColumnSortFilename_Click;
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortFileCreateDate.Click += KryptonContextMenuRadioButtonFileSystemColumnSortFileCreateDate_Click;
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortFileModifiedDate.Click += KryptonContextMenuRadioButtonFileSystemColumnSortFileModifiedDate_Click;
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaDateTaken.Click += KryptonContextMenuRadioButtonFileSystemColumnSortMediaDateTaken_Click;
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaAlbum.Click += KryptonContextMenuRadioButtonFileSystemColumnSortMediaAlbum_Click;
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaTitle.Click += KryptonContextMenuRadioButtonFileSystemColumnSortMediaTitle_Click;
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaDescription.Click += KryptonContextMenuRadioButtonFileSystemColumnSortMediaDescription_Click;
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaComments.Click += KryptonContextMenuRadioButtonFileSystemColumnSortMediaComments_Click;
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaAuthor.Click += KryptonContextMenuRadioButtonFileSystemColumnSortMediaAuthor_Click;
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaRating.Click += KryptonContextMenuRadioButtonFileSystemColumnSortMediaRating_Click;
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationName.Click += KryptonContextMenuRadioButtonFileSystemColumnSortLocationName_Click;
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationRegionState.Click += KryptonContextMenuRadioButtonFileSystemColumnSortLocationRegionState_Click;
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationCity.Click += KryptonContextMenuRadioButtonFileSystemColumnSortLocationCity_Click;
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationCountry.Click += KryptonContextMenuRadioButtonFileSystemColumnSortLocationCountry_Click;
+            //this.kryptonContextMenuItemsCloseMenuList
+
+
 
             this.imageListView1.KryptonContextMenu = kryptonContextMenuGenericBase;
             this.folderTreeViewFolder.KryptonContextMenu = kryptonContextMenuGenericBase;
@@ -744,10 +762,7 @@ namespace PhotoTagsSynchronizer
             #endregion
         }
 
-        
-
-
-
+       
         #endregion
 
         #region Resize and restore windows size when reopen application

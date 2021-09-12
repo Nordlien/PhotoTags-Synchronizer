@@ -120,25 +120,6 @@
   <metadata name="statusStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>737, 17</value>
   </metadata>
-  <metadata name="toolStripContainerStripMainForm.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>251, 17</value>
-  </metadata>
-  <metadata name="kryptonContextMenuGenericBase.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <data name="kryptonPageToolboxDates.ToolTipTitle" xml:space="preserve">
-    <value>For JPEG-EXIF images, the DateTimeOriginal does not include the time zone suffix and should be rendered in local time which the photo was taken.
-
-Both MP4 and Quicktime (.mov) video files can store time zone; however, many cameras don’t have local time setting, and doesn't have time zone information.
-
-With use of GPS locations, it’s possible to estimate the time zone. However, when you forget to change camera into local time, it will be harder. Therefore, alternative adjustment for using local time on “travel” are created as suggestion.
-
-When enter a date and time in   HYPERLINK "https://www.w3.org/TR/NOTE-datetime" W3CDTF profile of ISO 8601 format (exmaple: 2020-10-17T14:11:04-05:00). The local time for where photo or video was created will be stored in “Media Created Date and Time” and GPS Date and Time record will be used to store UTC date and time.
-</value>
-  </data>
-  <metadata name="contextMenuStripExifTool.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>244, 95</value>
-  </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="imageListView1.DefaultImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -801,6 +782,9 @@ When enter a date and time in   HYPERLINK "https://www.w3.org/TR/NOTE-datetime"
         vPq3LN0Fzj9gNBrvT05OvrBarddY+i/Q4EGMG7j/EpWx4jzeHwQ0xDo44yOlAAAAAElFTkSuQmCC
 </value>
   </data>
+  <metadata name="kryptonContextMenuGenericBase.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <data name="pictureBox1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
@@ -821,8 +805,24 @@ When enter a date and time in   HYPERLINK "https://www.w3.org/TR/NOTE-datetime"
         AAAAAElFTkSuQmCC
 </value>
   </data>
+  <data name="kryptonPageToolboxDates.ToolTipTitle" xml:space="preserve">
+    <value>For JPEG-EXIF images, the DateTimeOriginal does not include the time zone suffix and should be rendered in local time which the photo was taken.
+
+Both MP4 and Quicktime (.mov) video files can store time zone; however, many cameras don’t have local time setting, and doesn't have time zone information.
+
+With use of GPS locations, it’s possible to estimate the time zone. However, when you forget to change camera into local time, it will be harder. Therefore, alternative adjustment for using local time on “travel” are created as suggestion.
+
+When enter a date and time in   HYPERLINK "https://www.w3.org/TR/NOTE-datetime" W3CDTF profile of ISO 8601 format (exmaple: 2020-10-17T14:11:04-05:00). The local time for where photo or video was created will be stored in “Media Created Date and Time” and GPS Date and Time record will be used to store UTC date and time.
+</value>
+  </data>
+  <metadata name="contextMenuStripExifTool.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>244, 95</value>
+  </metadata>
   <metadata name="contextMenuStripExiftoolWarning.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 134</value>
+  </metadata>
+  <metadata name="toolStripContainerStripMainForm.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>251, 17</value>
   </metadata>
   <data name="toolStripDropDownButtonSelectGroupBy.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -970,55 +970,55 @@ When enter a date and time in   HYPERLINK "https://www.w3.org/TR/NOTE-datetime"
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
-        ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAAAs
-        CwAAAk1TRnQBSQFMAgEBBQEAAdgBDwHYAQ8BEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
-        AwABQAMAASADAAEBAQABCAYAAQgYAAGAAgABgAMAAoABAAGAAwABgAEAAYABAAKAAgADwAEAAcAB3AHA
-        AQAB8AHKAaYBAAEzBQABMwEAATMBAAEzAQACMwIAAxYBAAMcAQADIgEAAykBAANVAQADTQEAA0IBAAM5
-        AQABgAF8Af8BAAJQAf8BAAGTAQAB1gEAAf8B7AHMAQABxgHWAe8BAAHWAucBAAGQAakBrQIAAf8BMwMA
-        AWYDAAGZAwABzAIAATMDAAIzAgABMwFmAgABMwGZAgABMwHMAgABMwH/AgABZgMAAWYBMwIAAmYCAAFm
-        AZkCAAFmAcwCAAFmAf8CAAGZAwABmQEzAgABmQFmAgACmQIAAZkBzAIAAZkB/wIAAcwDAAHMATMCAAHM
-        AWYCAAHMAZkCAALMAgABzAH/AgAB/wFmAgAB/wGZAgAB/wHMAQABMwH/AgAB/wEAATMBAAEzAQABZgEA
-        ATMBAAGZAQABMwEAAcwBAAEzAQAB/wEAAf8BMwIAAzMBAAIzAWYBAAIzAZkBAAIzAcwBAAIzAf8BAAEz
-        AWYCAAEzAWYBMwEAATMCZgEAATMBZgGZAQABMwFmAcwBAAEzAWYB/wEAATMBmQIAATMBmQEzAQABMwGZ
-        AWYBAAEzApkBAAEzAZkBzAEAATMBmQH/AQABMwHMAgABMwHMATMBAAEzAcwBZgEAATMBzAGZAQABMwLM
-        AQABMwHMAf8BAAEzAf8BMwEAATMB/wFmAQABMwH/AZkBAAEzAf8BzAEAATMC/wEAAWYDAAFmAQABMwEA
-        AWYBAAFmAQABZgEAAZkBAAFmAQABzAEAAWYBAAH/AQABZgEzAgABZgIzAQABZgEzAWYBAAFmATMBmQEA
-        AWYBMwHMAQABZgEzAf8BAAJmAgACZgEzAQADZgEAAmYBmQEAAmYBzAEAAWYBmQIAAWYBmQEzAQABZgGZ
-        AWYBAAFmApkBAAFmAZkBzAEAAWYBmQH/AQABZgHMAgABZgHMATMBAAFmAcwBmQEAAWYCzAEAAWYBzAH/
-        AQABZgH/AgABZgH/ATMBAAFmAf8BmQEAAWYB/wHMAQABzAEAAf8BAAH/AQABzAEAApkCAAGZATMBmQEA
-        AZkBAAGZAQABmQEAAcwBAAGZAwABmQIzAQABmQEAAWYBAAGZATMBzAEAAZkBAAH/AQABmQFmAgABmQFm
-        ATMBAAGZATMBZgEAAZkBZgGZAQABmQFmAcwBAAGZATMB/wEAApkBMwEAApkBZgEAA5kBAAKZAcwBAAKZ
-        Af8BAAGZAcwCAAGZAcwBMwEAAWYBzAFmAQABmQHMAZkBAAGZAswBAAGZAcwB/wEAAZkB/wIAAZkB/wEz
-        AQABmQHMAWYBAAGZAf8BmQEAAZkB/wHMAQABmQL/AQABzAMAAZkBAAEzAQABzAEAAWYBAAHMAQABmQEA
-        AcwBAAHMAQABmQEzAgABzAIzAQABzAEzAWYBAAHMATMBmQEAAcwBMwHMAQABzAEzAf8BAAHMAWYCAAHM
-        AWYBMwEAAZkCZgEAAcwBZgGZAQABzAFmAcwBAAGZAWYB/wEAAcwBmQIAAcwBmQEzAQABzAGZAWYBAAHM
-        ApkBAAHMAZkBzAEAAcwBmQH/AQACzAIAAswBMwEAAswBZgEAAswBmQEAA8wBAALMAf8BAAHMAf8CAAHM
-        Af8BMwEAAZkB/wFmAQABzAH/AZkBAAHMAf8BzAEAAcwC/wEAAcwBAAEzAQAB/wEAAWYBAAH/AQABmQEA
-        AcwBMwIAAf8CMwEAAf8BMwFmAQAB/wEzAZkBAAH/ATMBzAEAAf8BMwH/AQAB/wFmAgAB/wFmATMBAAHM
-        AmYBAAH/AWYBmQEAAf8BZgHMAQABzAFmAf8BAAH/AZkCAAH/AZkBMwEAAf8BmQFmAQAB/wKZAQAB/wGZ
-        AcwBAAH/AZkB/wEAAf8BzAIAAf8BzAEzAQAB/wHMAWYBAAH/AcwBmQEAAf8CzAEAAf8BzAH/AQAC/wEz
-        AQABzAH/AWYBAAL/AZkBAAL/AcwBAAJmAf8BAAFmAf8BZgEAAWYC/wEAAf8CZgEAAf8BZgH/AQAC/wFm
-        AQABIQEAAaUBAANfAQADdwEAA4YBAAOWAQADywEAA7IBAAPXAQAD3QEAA+MBAAPqAQAD8QEAA/gBAAHw
-        AfsB/wEAAaQCoAEAA4ADAAH/AgAB/wMAAv8BAAH/AwAB/wEAAf8BAAL/AgAD/wEAEP8wABD/MAAQ/zAA
-        EP8wABD/MAAQ/zAAEP8wABD/MAAQ/zAAEP8wABD/MAAQ/zAAEP8wABD/MAAQ/zAAEP8wACBDBQABBwHt
-        AuwB7QEHBQAB7AEQAe8KAAHvARAB7AFDDv8CQw7/AUMDAAG8ARMBDwQOAQ8BEwG8AwABFQEOAewKAAHs
-        AQ4BFQFDDv8CQw7/AUMCAAHvARACAAEOAg8BDgIAARAB7wIAAUMBDgHsCgAB7AEOAkMO/wJDBP8B9AEH
-        CP8BQwEAAQcBEAEAAQ4B6gGSAu8BkgHqAQ4BAAEQAQcBAAEVAQAB6wMABAEDAAHrAQABFQFDDv8CQwP/
-        AfQBbQFDAe0H/wFDAQABEwEAAQ4B7AEABAEBAAHsAQ4BAAETAQABFAEAAW0CAAEBBAABAQIAAW0BAAEU
-        AUMO/wJDAv8B9AFtARQB7AFDAe0G/wFDAe8BDgEAAW0BAAEBBCwBAQEAAW0BAAEOAe8BEwEAAW0CAAEB
-        BAABAQIAAW0BAAETAUMO/wJDAf8B9AFtARQB8gH/Ae0BQwHtBf8BQwHsAQ4BDwHvAQABAQQsAQEBAAHv
-        AQ8BDgHsARIBAAHqAgAGAQIAAeoBAAESAUMO/wJDAf8B7wEUAfID/wHtAUMB7QT/AUMBbQEAARUB8QEA
-        BgEBAAHxARUBAAJtAQABEgIAAQEELAEBAgABEgEAAW0BQw7/AkMC/wHzBf8B7QFDAe0D/wFDAW0BAAES
-        AgABAQQsAQECAAESAQACbQEAARUB8QEABgEBAAHxARUBAAFtAUMO/wJDCf8B7QFDAe0C/wFDARIBAAHq
-        AgAGAQIAAeoBAAESAewBDgEPAe8BAAEBBAABAQEAAe8BDwEOAewBQw7/AkMK/wHtAUMB7wH/AUMBEwEA
-        AW0CAAEBBCwBAQIAAW0BAAETAe8BDgEAAW0BAAEBBAABAQEAAW0BAAEOAe8BQw7/AkML/wHvAfQB/wFD
-        ARQBAAFtAgABAQQsAQECAAFtAQABFAEAARMBAAEOAewBAAQBAQAB7AEOAQABEwEAAUMO/wJDDv8BQwEV
-        AQAB6wMABAEDAAHrAQABFQEAAQcBEAEAAQ4B6gGSAu8BkgHqAQ4BAAEQAQcBAAFDDv8CQw7/AkMBDgHs
-        CgAB7AEOAUMCAAHvARACAAEOAg8BDgIAARAB7wIAAUMO/wJDDv8BQwEVAQ4B7AoAAewBDgEVAwABvAET
-        AQ8EDgEPARMBvAMAIEMB7AEQAe8KAAHvARAB7AUAAQcB7QLsAe0BBwUAAUIBTQE+BwABPgMAASgDAAFA
-        AwABIAMAAQEBAAEBBgABARYAA/+FAAH4Ah8B+AQAAeABBwEfAfgEAAHAAQMBHwH4BAABgAEBARwBOAQA
-        AYQBIQEbAdgEAAEIARABGwHYBAABCAEQAhgEAAEIARACGAQAAhgBCAEQBAACGAELAdAEAAIYAQsB0AQA
-        AhgBhAEhBAABHAE4AYABAQQAAR8B+AHAAQMEAAEfAfgB4AEHBAABHwL4AR8L
+        ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAAAk
+        CwAAAk1TRnQBSQFMAgEBBQEABRABAAEQAQAE/wEJAQAI/wFCAU0BNgEEBgABNgEEAgABKAMAAUADAAEg
+        AwABAQEAAQgGAAEIGAABgAIAAYADAAKAAQABgAMAAYABAAGAAQACgAIAA8ABAAHAAdwBwAEAAfABygGm
+        AQABMwUAATMBAAEzAQABMwEAAjMCAAMWAQADHAEAAyIBAAMpAQADVQEAA00BAANCAQADOQEAAYABfAH/
+        AQACUAH/AQABkwEAAdYBAAH/AewBzAEAAcYB1gHvAQAB1gLnAQABkAGpAa0CAAH/ATMDAAFmAwABmQMA
+        AcwCAAEzAwACMwIAATMBZgIAATMBmQIAATMBzAIAATMB/wIAAWYDAAFmATMCAAJmAgABZgGZAgABZgHM
+        AgABZgH/AgABmQMAAZkBMwIAAZkBZgIAApkCAAGZAcwCAAGZAf8CAAHMAwABzAEzAgABzAFmAgABzAGZ
+        AgACzAIAAcwB/wIAAf8BZgIAAf8BmQIAAf8BzAEAATMB/wIAAf8BAAEzAQABMwEAAWYBAAEzAQABmQEA
+        ATMBAAHMAQABMwEAAf8BAAH/ATMCAAMzAQACMwFmAQACMwGZAQACMwHMAQACMwH/AQABMwFmAgABMwFm
+        ATMBAAEzAmYBAAEzAWYBmQEAATMBZgHMAQABMwFmAf8BAAEzAZkCAAEzAZkBMwEAATMBmQFmAQABMwKZ
+        AQABMwGZAcwBAAEzAZkB/wEAATMBzAIAATMBzAEzAQABMwHMAWYBAAEzAcwBmQEAATMCzAEAATMBzAH/
+        AQABMwH/ATMBAAEzAf8BZgEAATMB/wGZAQABMwH/AcwBAAEzAv8BAAFmAwABZgEAATMBAAFmAQABZgEA
+        AWYBAAGZAQABZgEAAcwBAAFmAQAB/wEAAWYBMwIAAWYCMwEAAWYBMwFmAQABZgEzAZkBAAFmATMBzAEA
+        AWYBMwH/AQACZgIAAmYBMwEAA2YBAAJmAZkBAAJmAcwBAAFmAZkCAAFmAZkBMwEAAWYBmQFmAQABZgKZ
+        AQABZgGZAcwBAAFmAZkB/wEAAWYBzAIAAWYBzAEzAQABZgHMAZkBAAFmAswBAAFmAcwB/wEAAWYB/wIA
+        AWYB/wEzAQABZgH/AZkBAAFmAf8BzAEAAcwBAAH/AQAB/wEAAcwBAAKZAgABmQEzAZkBAAGZAQABmQEA
+        AZkBAAHMAQABmQMAAZkCMwEAAZkBAAFmAQABmQEzAcwBAAGZAQAB/wEAAZkBZgIAAZkBZgEzAQABmQEz
+        AWYBAAGZAWYBmQEAAZkBZgHMAQABmQEzAf8BAAKZATMBAAKZAWYBAAOZAQACmQHMAQACmQH/AQABmQHM
+        AgABmQHMATMBAAFmAcwBZgEAAZkBzAGZAQABmQLMAQABmQHMAf8BAAGZAf8CAAGZAf8BMwEAAZkBzAFm
+        AQABmQH/AZkBAAGZAf8BzAEAAZkC/wEAAcwDAAGZAQABMwEAAcwBAAFmAQABzAEAAZkBAAHMAQABzAEA
+        AZkBMwIAAcwCMwEAAcwBMwFmAQABzAEzAZkBAAHMATMBzAEAAcwBMwH/AQABzAFmAgABzAFmATMBAAGZ
+        AmYBAAHMAWYBmQEAAcwBZgHMAQABmQFmAf8BAAHMAZkCAAHMAZkBMwEAAcwBmQFmAQABzAKZAQABzAGZ
+        AcwBAAHMAZkB/wEAAswCAALMATMBAALMAWYBAALMAZkBAAPMAQACzAH/AQABzAH/AgABzAH/ATMBAAGZ
+        Af8BZgEAAcwB/wGZAQABzAH/AcwBAAHMAv8BAAHMAQABMwEAAf8BAAFmAQAB/wEAAZkBAAHMATMCAAH/
+        AjMBAAH/ATMBZgEAAf8BMwGZAQAB/wEzAcwBAAH/ATMB/wEAAf8BZgIAAf8BZgEzAQABzAJmAQAB/wFm
+        AZkBAAH/AWYBzAEAAcwBZgH/AQAB/wGZAgAB/wGZATMBAAH/AZkBZgEAAf8CmQEAAf8BmQHMAQAB/wGZ
+        Af8BAAH/AcwCAAH/AcwBMwEAAf8BzAFmAQAB/wHMAZkBAAH/AswBAAH/AcwB/wEAAv8BMwEAAcwB/wFm
+        AQAC/wGZAQAC/wHMAQACZgH/AQABZgH/AWYBAAFmAv8BAAH/AmYBAAH/AWYB/wEAAv8BZgEAASEBAAGl
+        AQADXwEAA3cBAAOGAQADlgEAA8sBAAOyAQAD1wEAA90BAAPjAQAD6gEAA/EBAAP4AQAB8AH7Af8BAAGk
+        AqABAAOAAwAB/wIAAf8DAAL/AQAB/wMAAf8BAAH/AQAC/wIAA/8BABD/MAAQ/zAAEP8wABD/MAAQ/zAA
+        EP8wABD/MAAQ/zAAEP8wABD/MAAQ/zAAEP8wABD/MAAQ/zAAEP8wABD/MAAgQwUAAQcB7QLsAe0BBwUA
+        AewBEAHvCgAB7wEQAewBQw7/AkMO/wFDAwABvAETAQ8EDgEPARMBvAMAARUBDgHsCgAB7AEOARUBQw7/
+        AkMO/wFDAgAB7wEQAgABDgIPAQ4CAAEQAe8CAAFDAQ4B7AoAAewBDgJDDv8CQwT/AfQBBwj/AUMBAAEH
+        ARABAAEOAeoBkgLvAZIB6gEOAQABEAEHAQABFQEAAesDAAQBAwAB6wEAARUBQw7/AkMD/wH0AW0BQwHt
+        B/8BQwEAARMBAAEOAewBAAQBAQAB7AEOAQABEwEAARQBAAFtAgABAQQAAQECAAFtAQABFAFDDv8CQwL/
+        AfQBbQEUAewBQwHtBv8BQwHvAQ4BAAFtAQABAQQsAQEBAAFtAQABDgHvARMBAAFtAgABAQQAAQECAAFt
+        AQABEwFDDv8CQwH/AfQBbQEUAfIB/wHtAUMB7QX/AUMB7AEOAQ8B7wEAAQEELAEBAQAB7wEPAQ4B7AES
+        AQAB6gIABgECAAHqAQABEgFDDv8CQwH/Ae8BFAHyA/8B7QFDAe0E/wFDAW0BAAEVAfEBAAYBAQAB8QEV
+        AQACbQEAARICAAEBBCwBAQIAARIBAAFtAUMO/wJDAv8B8wX/Ae0BQwHtA/8BQwFtAQABEgIAAQEELAEB
+        AgABEgEAAm0BAAEVAfEBAAYBAQAB8QEVAQABbQFDDv8CQwn/Ae0BQwHtAv8BQwESAQAB6gIABgECAAHq
+        AQABEgHsAQ4BDwHvAQABAQQAAQEBAAHvAQ8BDgHsAUMO/wJDCv8B7QFDAe8B/wFDARMBAAFtAgABAQQs
+        AQECAAFtAQABEwHvAQ4BAAFtAQABAQQAAQEBAAFtAQABDgHvAUMO/wJDC/8B7wH0Af8BQwEUAQABbQIA
+        AQEELAEBAgABbQEAARQBAAETAQABDgHsAQAEAQEAAewBDgEAARMBAAFDDv8CQw7/AUMBFQEAAesDAAQB
+        AwAB6wEAARUBAAEHARABAAEOAeoBkgLvAZIB6gEOAQABEAEHAQABQw7/AkMO/wJDAQ4B7AoAAewBDgFD
+        AgAB7wEQAgABDgIPAQ4CAAEQAe8CAAFDDv8CQw7/AUMBFQEOAewKAAHsAQ4BFQMAAbwBEwEPBA4BDwET
+        AbwDACBDAewBEAHvCgAB7wEQAewFAAEHAe0C7AHtAQcFAAFCAU0BPgcAAT4DAAEoAwABQAMAASADAAEB
+        AQABAQYAAQEWAAP/hQAB+AIfAfgEAAHgAQcBHwH4BAABwAEDAR8B+AQAAYABAQEcATgEAAGEASEBGwHY
+        BAABCAEQARsB2AQAAQgBEAIYBAABCAEQAhgEAAIYAQgBEAQAAhgBCwHQBAACGAELAdAEAAIYAYQBIQQA
+        ARwBOAGAAQEEAAEfAfgBwAEDBAABHwH4AeABBwQAAR8C+AEfCw==
 </value>
   </data>
   <metadata name="openFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
@@ -1094,6 +1094,9 @@ Microsoft Photos / Title -&gt; Your Media / Title
 Already existing text will BE overwritten.
 </value>
   </data>
+  <metadata name="kryptonContextMenuFileSystemColumnSort.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 173</value>
+  </metadata>
   <data name="kryptonRibbonGroupButtonToolsImportLocations.ToolTipBody" xml:space="preserve">
     <value>Import GPS locations. 
 For example import locationg from your GPS tracker og Google Location History.

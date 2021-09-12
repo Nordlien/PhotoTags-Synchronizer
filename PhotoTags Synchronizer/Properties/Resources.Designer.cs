@@ -363,6 +363,16 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap FileSystemColumnSort {
+            get {
+                object obj = ResourceManager.GetObject("FileSystemColumnSort", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap FileSystemDelete32x32 {
             get {
                 object obj = ResourceManager.GetObject("FileSystemDelete32x32", resourceCulture);

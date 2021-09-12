@@ -14,6 +14,7 @@ using Manina.Windows.Forms;
 using ApplicationAssociations;
 using System.Collections.Specialized;
 using ImageAndMovieFileExtentions;
+using System.Reflection;
 
 namespace PhotoTagsSynchronizer
 {
@@ -824,16 +825,6 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-
-        //Convert and Merge
-        //Date
-        //Exiftool
-        //ExiftoolWarning
-        //Map
-        //People
-        //Properties
-        //Rename
-        //TagsAndKeywords
 
         // -----------------------------------------------------------------------
         #region RegionRename1
@@ -5680,7 +5671,7 @@ namespace PhotoTagsSynchronizer
                 case KryptonPages.None:
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFolder:
-                    FolderMetadataRefreshLast();
+                    FolderMetadataRefreshLast_Click();
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterSearch:
                     break;
@@ -5725,7 +5716,51 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ToolStrip - Reload Metadata - Selected items - Click
+        #region DeleteLastMediadataAndReload
+        void DeleteLastMediadataAndReload(ImageListView imageListView, bool updatedOnlySelected)
+        {
+            try
+            {
+                if (GlobalData.IsPopulatingAnything()) return;
+
+                using (new WaitCursor())
+                {
+                    GlobalData.IsPopulatingButtonAction = true;
+                    GlobalData.IsPopulatingImageListView = true; //Avoid one and one select item getting refreshed
+                    GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
+                    folderTreeViewFolder.Enabled = false;
+                    ImageListViewSuspendLayoutInvoke(imageListView);
+
+                    //Clean up ImageListView and other queues
+                    ImageListViewClearThumbnailCache(imageListView1);
+                    //imageListView1.Refresh();
+                    ClearAllQueues();
+
+                    UpdateStatusAction("Delete all data and files...");
+                    lock (GlobalData.ReloadAllowedFromCloudLock)
+                    {
+                        GlobalData.ReloadAllowedFromCloud = filesCutCopyPasteDrag.DeleteFileEntriesBeforeReload(imageListView.Items, updatedOnlySelected);
+                    }
+                    filesCutCopyPasteDrag.ImageListViewReload(imageListView.Items, updatedOnlySelected);
+
+                    folderTreeViewFolder.Enabled = true;
+                    ImageListViewResumeLayoutInvoke(imageListView);
+                    GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
+                    GlobalData.IsPopulatingButtonAction = false;
+                    GlobalData.IsPopulatingImageListView = false;
+
+                    FilesSelected();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        #endregion 
+
+        #region MediaFilesMetadataRefreshLast_Click
         private void MediaFilesMetadataRefreshLast_Click()
         {
             try
@@ -5743,8 +5778,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region ToolStrip - Reload Metadata - Folder - Click
-        private void FolderMetadataRefreshLast()
+        #region FolderMetadataRefreshLast_Click
+        private void FolderMetadataRefreshLast_Click()
         {
             try
             {
@@ -6056,20 +6091,15 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #endregion 
-
-
-
-
-
-
-        
-
+        #endregion
 
 
 
         //----
-        #region SetGridViewSize Small / Medium / Big - Click
+
+        #region DataGridView - SetGridViewSize Small / Medium / Big - Click
+
+        #region SetRibbonDataGridViewSizeBottons
         private void SetRibbonDataGridViewSizeBottons(DataGridViewSize size, bool enabled)
         {
             switch (size)
@@ -6098,7 +6128,9 @@ namespace PhotoTagsSynchronizer
             kryptonRibbonGroupButtonDataGridViewCellSizeMedium.Enabled = enabled;
             kryptonRibbonGroupButtonDataGridViewCellSizeSmall.Enabled = enabled;
         }
+        #endregion
 
+        #region SetGridViewSize
         private void SetGridViewSize(DataGridViewSize size)
         {
             SetRibbonDataGridViewSizeBottons(size, true);
@@ -6144,8 +6176,9 @@ namespace PhotoTagsSynchronizer
                 default: throw new Exception("Not implemented");
             }
         }
+        #endregion
 
-
+        #region DataGridViewCellSizeXYZ_Click
         private void kryptonRibbonGroupButtonDataGridViewCellSizeBig_Click(object sender, EventArgs e)
         {
             try
@@ -6184,25 +6217,30 @@ namespace PhotoTagsSynchronizer
                 MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        #endregion
 
         #endregion
 
-        //----
+        #region DataGridView - Show/Hide Historiy / Error Columns - Click
 
-        #region Show/Hide Historiy / Error Columns - Click
+        #region SetRibbonDataGridViewShowWhatColumns
         private void SetRibbonDataGridViewShowWhatColumns(ShowWhatColumns showWhatColumns, bool enabled = true)
         {
             SetRibbonGridViewColumnsButtonsHistoricalAndError(ShowWhatColumnHandler.ShowHirstoryColumns(showWhatColumns), ShowWhatColumnHandler.ShowErrorColumns(showWhatColumns));
             kryptonRibbonGroupButtonDataGridViewColumnsHistory.Enabled = enabled;
             kryptonRibbonGroupButtonDataGridViewColumnsErrors.Enabled = enabled;
         }
+        #endregion
 
+        #region SetRibbonGridViewColumnsButtonsHistoricalAndError
         private void SetRibbonGridViewColumnsButtonsHistoricalAndError(bool showHistorical, bool showErrors)
         {
             kryptonRibbonGroupButtonDataGridViewColumnsHistory.Checked = showHistorical;
             kryptonRibbonGroupButtonDataGridViewColumnsErrors.Checked = showErrors;
         }
+        #endregion
 
+        #region DataGridViewColumnsXyz_Click
         private void kryptonRibbonGroupButtonDataGridViewColumnsHistory_Click(object sender, EventArgs e)
         {
             try
@@ -6234,6 +6272,248 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #endregion
+
+        #region ImageListView - Switch Renderers 
+
+        #region RendererItem
+        private struct RendererItem
+        {
+            public Type Type;
+            public override string ToString()
+            {
+                return Type.Name;
+            }
+
+            public RendererItem(Type type)
+            {
+                Type = type;
+            }
+        }
+        #endregion
+
+        #region SetImageListViewRender
+        private void SetImageListViewRender(Manina.Windows.Forms.View imageListViewViewMode, RendererItem selectedRender)
+        {
+            try
+            {
+                Properties.Settings.Default.ImageListViewRendererName = selectedRender.Type.Name;
+                Properties.Settings.Default.ImageListViewViewMode = (int)imageListViewViewMode;
+
+                imageListView1.View = imageListViewViewMode;
+                Assembly assembly = Assembly.GetAssembly(typeof(ImageListView));
+                ImageListView.ImageListViewRenderer renderer = assembly.CreateInstance(selectedRender.Type.FullName) as ImageListView.ImageListViewRenderer;
+                imageListView1.SetRenderer(renderer);
+                imageListView1.Focus();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+        }
+        #endregion
+
+        #region SwitchRenderers_Click
+        private void KryptonContextMenuItemRenderers_Click(object sender, EventArgs e)
+        {
+            KryptonContextMenuItem kryptonContextMenuItem = (KryptonContextMenuItem)sender;
+            SetImageListViewRender(Manina.Windows.Forms.View.Thumbnails, (RendererItem)kryptonContextMenuItem.Tag);
+        }
+
+        private void kryptonRibbonGroupButtonImageListViewModeGallery_Click(object sender, EventArgs e)
+        {
+            SetImageListViewRender(Manina.Windows.Forms.View.Gallery, imageListViewSelectedRenderer);
+        }
+
+        private void kryptonRibbonGroupButtonImageListViewModeDetails_Click(object sender, EventArgs e)
+        {
+            SetImageListViewRender(Manina.Windows.Forms.View.Details, imageListViewSelectedRenderer);
+        }
+
+        private void kryptonRibbonGroupButtonImageListViewModePane_Click(object sender, EventArgs e)
+        {
+            SetImageListViewRender(Manina.Windows.Forms.View.Pane, imageListViewSelectedRenderer);
+        }
+
+        private void kryptonRibbonGroupButtonImageListViewModeThumbnails_Click(object sender, EventArgs e)
+        {
+            SetImageListViewRender(Manina.Windows.Forms.View.Thumbnails, imageListViewSelectedRenderer);
+        }
+
+        #endregion
+
+        #endregion
+
+        #region ImageListView - ChooseColumns
+        private void kryptonRibbonGroupButtonImageListViewDetailviewColumns_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                FormChooseColumns form = new FormChooseColumns();
+                form.imageListView = imageListView1;
+                int index = 0;
+                if (imageListView1.View == Manina.Windows.Forms.View.Thumbnails) index = 1;
+                form.Populate(index);
+                form.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        #endregion
+
+        #region ImageListView - Change Thumbnail Size 
+
+        #region SetThumbnailSize
+        private void SetThumbnailSize(int size)
+        {
+            imageListView1.ThumbnailSize = thumbnailSizes[size];
+            Properties.Settings.Default.ThumbmailViewSizeIndex = size;
+            kryptonRibbonGroupButtonThumbnailSizeXLarge.Checked = (size == 4);
+            kryptonRibbonGroupButtonThumbnailSizeLarge.Checked = (size == 3);
+            kryptonRibbonGroupButtonThumbnailSizeMedium.Checked = (size == 2);
+            kryptonRibbonGroupButtonThumbnailSizeSmall.Checked = (size == 1);
+            kryptonRibbonGroupButtonThumbnailSizeXSmall.Checked = (size == 0);
+        }
+        #endregion
+
+        #region ThumbnailSizeZYZ_Click
+        private void kryptonRibbonGroupButtonThumbnailSizeXLarge_Click(object sender, EventArgs e)
+        {
+            SetThumbnailSize(4);
+        }
+
+        private void kryptonRibbonGroupButtonThumbnailSizeLarge_Click(object sender, EventArgs e)
+        {
+            SetThumbnailSize(3);
+        }
+
+        private void kryptonRibbonGroupButtonThumbnailSizeMedium_Click(object sender, EventArgs e)
+        {
+            SetThumbnailSize(2);
+        }
+
+        private void kryptonRibbonGroupButtonThumbnailSizeSmall_Click(object sender, EventArgs e)
+        {
+            SetThumbnailSize(1);
+        }
+
+        private void kryptonRibbonGroupButtonThumbnailSizeXSmall_Click(object sender, EventArgs e)
+        {
+            SetThumbnailSize(0);
+        }
+        #endregion
+
+        #endregion
+
+
+        #region ImageListView - Sort
+
+        #region ImageListViewSortColumn
+        private void ImageListViewSortColumn(ImageListView imageListView, ColumnType columnToSort)
+        {
+            try
+            {
+                if (imageListView.SortColumn == columnToSort)
+                {
+                    if (imageListView.SortOrder == SortOrder.Descending) imageListView.SortOrder = SortOrder.Ascending;
+                    else imageListView.SortOrder = SortOrder.Descending;
+                }
+                else
+                {
+                    imageListView.SortColumn = columnToSort;
+                    imageListView.SortOrder = SortOrder.Ascending;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        #endregion
+
+        #region FileSystemColumnSortXyz_Click
+        private void KryptonContextMenuRadioButtonFileSystemColumnSortFilename_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.FileName);
+        }
+
+        private void KryptonContextMenuRadioButtonFileSystemColumnSortFileCreateDate_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.FileDateCreated);
+        }
+
+        private void KryptonContextMenuRadioButtonFileSystemColumnSortFileModifiedDate_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.FileDateModified);
+        }
+
+        private void KryptonContextMenuRadioButtonFileSystemColumnSortMediaDateTaken_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.MediaDateTaken);
+        }
+
+        private void KryptonContextMenuRadioButtonFileSystemColumnSortMediaAlbum_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.MediaAlbum);
+        }
+
+        private void KryptonContextMenuRadioButtonFileSystemColumnSortMediaTitle_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.MediaTitle);
+        }
+
+        private void KryptonContextMenuRadioButtonFileSystemColumnSortMediaDescription_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.MediaDescription);
+        }
+
+        private void KryptonContextMenuRadioButtonFileSystemColumnSortMediaComments_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.MediaComment);
+        }
+
+        private void KryptonContextMenuRadioButtonFileSystemColumnSortMediaAuthor_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.MediaAuthor);
+        }
+
+        private void KryptonContextMenuRadioButtonFileSystemColumnSortMediaRating_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.MediaRating);
+        }
+
+        private void KryptonContextMenuRadioButtonFileSystemColumnSortLocationName_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.LocationName);
+        }
+
+        private void KryptonContextMenuRadioButtonFileSystemColumnSortLocationRegionState_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.LocationRegionState);
+        }
+
+        private void KryptonContextMenuRadioButtonFileSystemColumnSortLocationCity_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.LocationCity);
+        }
+
+        private void KryptonContextMenuRadioButtonFileSystemColumnSortLocationCountry_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.LocationCountry);
+        }
+        #endregion
+
+        #endregion
+
+        //--
+
         //----
         #region DataGridView Keydown
 
@@ -6252,7 +6532,6 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-
 
         #region Cell BeginEdit
 
