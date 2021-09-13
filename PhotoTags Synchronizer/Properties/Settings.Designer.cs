@@ -1594,18 +1594,6 @@ explorer ms-photos?filename=""{FileFullPath}""")]
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool SelectGroupFileCreatedFallback {
-            get {
-                return ((bool)(this["SelectGroupFileCreatedFallback"]));
-            }
-            set {
-                this["SelectGroupFileCreatedFallback"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool WriteMetadataCreatedDateFileAttribute {
             get {
                 return ((bool)(this["WriteMetadataCreatedDateFileAttribute"]));
@@ -2390,6 +2378,54 @@ explorer ms-photos?filename=""{FileFullPath}""")]
             }
             set {
                 this["CellSizeConvertAndMerge"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SelectGroupFileCreated {
+            get {
+                return ((bool)(this["SelectGroupFileCreated"]));
+            }
+            set {
+                this["SelectGroupFileCreated"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SelectGroupMediaTaken {
+            get {
+                return ((bool)(this["SelectGroupMediaTaken"]));
+            }
+            set {
+                this["SelectGroupMediaTaken"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SelectGroupCheckAllDates {
+            get {
+                return ((bool)(this["SelectGroupCheckAllDates"]));
+            }
+            set {
+                this["SelectGroupCheckAllDates"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SelectGroupCheckAllLocations {
+            get {
+                return ((bool)(this["SelectGroupCheckAllLocations"]));
+            }
+            set {
+                this["SelectGroupCheckAllLocations"] = value;
             }
         }
     }

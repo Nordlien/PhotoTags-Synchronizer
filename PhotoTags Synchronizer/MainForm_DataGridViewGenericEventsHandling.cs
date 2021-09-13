@@ -6410,7 +6410,6 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-
         #region ImageListView - Sort
 
         #region ImageListViewSortColumn
@@ -6513,6 +6512,120 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         //--
+        #region ImageListView - Select all 
+
+        #region ActionSelectAll
+        private void ActionSelectAll()
+        {
+            try
+            {
+                GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
+                using (new WaitCursor())
+                {
+                    imageListView1.SelectAll();
+                }
+                GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
+                FilesSelected();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        #endregion
+
+        #region SelectAll_Click
+        private void kryptonRibbonQATButtonSelectAll_Click(object sender, EventArgs e)
+        {
+            ActionSelectAll();
+        }
+
+        private void kryptonRibbonGroupButtonSelectAll_Click(object sender, EventArgs e)
+        {
+            ActionSelectAll();
+        }
+        #endregion
+
+        #endregion 
+
+        #region ImageListView - Select None
+
+        #region ActionSelectNone
+        private void ActionSelectNone()
+        {
+            try
+            {
+                GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
+                using (new WaitCursor())
+                {
+                    imageListView1.ClearSelection();
+                }
+                GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
+                FilesSelected();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        #endregion
+
+        #region SelectNone_Click
+        private void kryptonRibbonQATButtonSelectNone_Click(object sender, EventArgs e)
+        {
+            ActionSelectNone();
+        }
+
+        private void kryptonRibbonGroupButtonSelectNone_Click(object sender, EventArgs e)
+        {
+            ActionSelectNone();
+        }
+        #endregion
+
+        #endregion
+
+        #region ImageListView - Select Toggle
+
+        #region ActionSelectToggle
+        private void ActionSelectToggle()
+        {
+            try
+            {
+                GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
+                using (new WaitCursor())
+                {
+                    imageListView1.SuspendLayout();
+                    foreach (ImageListViewItem imageListViewItem in imageListView1.Items) imageListViewItem.Selected = !imageListViewItem.Selected;
+                    imageListView1.ResumeLayout();
+                }
+                GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
+                FilesSelected();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        #endregion
+
+        #region SelectToggle_Click
+        private void kryptonRibbonGroupButtonSelectToggle_Click(object sender, EventArgs e)
+        {
+            ActionSelectToggle();
+        }
+
+        private void kryptonRibbonQATButtonSelectToggle_Click(object sender, EventArgs e)
+        {
+            ActionSelectToggle();
+        }
+        #endregion
+
+        #endregion
+
+        
 
         //----
         #region DataGridView Keydown

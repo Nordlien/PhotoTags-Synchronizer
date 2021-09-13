@@ -1010,15 +1010,9 @@ namespace PhotoTagsSynchronizer
         }
 
 
-
-
-
-
-
-
-
         #endregion
 
+        
     }
 
     

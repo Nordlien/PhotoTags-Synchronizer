@@ -460,4 +460,34 @@
   <data name="FileSystemColumnSort" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FileSystemColumnSort.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="SelectAll" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\select_all.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SelectNone" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\select_none.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SelectToggle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\select_toggle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SelectAll16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\select_all16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SelectNext16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\select_next16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SelectNone16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\select_none16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SelectPrevious16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\select_previous16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SelectToggle16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\select_toggle16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SelectEqual" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\select_equal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SelectEqual16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\select_equal16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

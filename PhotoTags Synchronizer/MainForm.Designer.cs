@@ -31,7 +31,7 @@ namespace PhotoTagsSynchronizer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Filter");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Filter");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.toolStripContainerMainForm = new System.Windows.Forms.ToolStripContainer();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
@@ -432,6 +432,12 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonQATButtonSave = new Krypton.Ribbon.KryptonRibbonQATButton();
             this.kryptonRibbonQATButtonMediaPreview = new Krypton.Ribbon.KryptonRibbonQATButton();
             this.kryptonRibbonQATButtonMediaPoster = new Krypton.Ribbon.KryptonRibbonQATButton();
+            this.kryptonRibbonQATButtonSelectPrevius = new Krypton.Ribbon.KryptonRibbonQATButton();
+            this.kryptonRibbonQATButtonSelectNext = new Krypton.Ribbon.KryptonRibbonQATButton();
+            this.kryptonRibbonQATButtonSelectEqual = new Krypton.Ribbon.KryptonRibbonQATButton();
+            this.kryptonRibbonQATButtonSelectAll = new Krypton.Ribbon.KryptonRibbonQATButton();
+            this.kryptonRibbonQATButtonSelectNone = new Krypton.Ribbon.KryptonRibbonQATButton();
+            this.kryptonRibbonQATButtonSelectToggle = new Krypton.Ribbon.KryptonRibbonQATButton();
             this.kryptonRibbonTabHome = new Krypton.Ribbon.KryptonRibbonTab();
             this.kryptonRibbonGroupHomeClipboard = new Krypton.Ribbon.KryptonRibbonGroup();
             this.kryptonRibbonGroupTripleHomeCopyCutPaste = new Krypton.Ribbon.KryptonRibbonGroupTriple();
@@ -465,6 +471,8 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationRegionState = new Krypton.Toolkit.KryptonContextMenuRadioButton();
             this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationCity = new Krypton.Toolkit.KryptonContextMenuRadioButton();
             this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationCountry = new Krypton.Toolkit.KryptonContextMenuRadioButton();
+            this.kryptonContextMenuItemsCloseMenuList = new Krypton.Toolkit.KryptonContextMenuItems();
+            this.kryptonContextMenuItemCloseMenu = new Krypton.Toolkit.KryptonContextMenuItem();
             this.kryptonRibbonGroupHomeFileSystem = new Krypton.Ribbon.KryptonRibbonGroup();
             this.kryptonRibbonGroupTripleHomeDeleteRenameRefresh = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButtonHomeFileSystemDelete = new Krypton.Ribbon.KryptonRibbonGroupButton();
@@ -499,35 +507,35 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonHomeSaveSave = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonTabView = new Krypton.Ribbon.KryptonRibbonTab();
             this.kryptonRibbonGroupViewViewModes = new Krypton.Ribbon.KryptonRibbonGroup();
-            this.kryptonRibbonGroupTriple2 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.kryptonRibbonGroupTripleViewGalleryDetailsPane = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButtonImageListViewModeGallery = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButtonImageListViewModeDetails = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButtonImageListViewModePane = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupTriple1 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.kryptonRibbonGroupTripleViewThumbnailsMode = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButtonImageListViewModeThumbnails = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButtonImageListViewModeThumbnailRenders = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupSeparator4 = new Krypton.Ribbon.KryptonRibbonGroupSeparator();
-            this.kryptonRibbonGroupTriple5 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.kryptonRibbonGroupTripleViewColumnsSort = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButtonImageListViewDetailviewColumns = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupViewThumbnailSize = new Krypton.Ribbon.KryptonRibbonGroup();
-            this.kryptonRibbonGroupTriple12 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.kryptonRibbonGroupTripleViewTumbnailSizeLargeMedium = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButtonThumbnailSizeXLarge = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButtonThumbnailSizeLarge = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButtonThumbnailSizeMedium = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupTriple13 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.kryptonRibbonGroupTripleViewThumbnailSizeXSmall = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButtonThumbnailSizeSmall = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButtonThumbnailSizeXSmall = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupViewCellSize = new Krypton.Ribbon.KryptonRibbonGroup();
-            this.kryptonRibbonGroupTriple3 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.kryptonRibbonGroupTripleViewGridSize = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButtonDataGridViewCellSizeBig = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButtonDataGridViewCellSizeMedium = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButtonDataGridViewCellSizeSmall = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupViewColumns = new Krypton.Ribbon.KryptonRibbonGroup();
-            this.kryptonRibbonGroupTriple4 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.kryptonRibbonGroupTripleViewShowHideColumns = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButtonDataGridViewColumnsHistory = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButtonDataGridViewColumnsErrors = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupViewRows = new Krypton.Ribbon.KryptonRibbonGroup();
-            this.kryptonRibbonGroupTriple14 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.kryptonRibbonGroupTripleViewShowHideRows = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButtonDataGridViewRowsFavorite = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButtonDataGridViewRowsHideEqual = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroup14 = new Krypton.Ribbon.KryptonRibbonGroup();
@@ -537,33 +545,39 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonDataGridViewFavouriteDelete = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonTabSelect = new Krypton.Ribbon.KryptonRibbonTab();
             this.kryptonRibbonGroupImageListViewSelect = new Krypton.Ribbon.KryptonRibbonGroup();
-            this.kryptonRibbonGroupTriple7 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
-            this.kryptonRibbonGroupButton20 = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupButton21 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupTripleSelectForwardBackwards = new Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.kryptonRibbonGroupButtonSelectBackwards = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButtonSelectForwards = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButtonSelectEqual = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupSeparator2 = new Krypton.Ribbon.KryptonRibbonGroupSeparator();
+            this.kryptonRibbonGroupTripleSelectAllNoneToggle = new Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.kryptonRibbonGroupButtonSelectAll = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButtonSelectNone = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButtonSelectToggle = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroup2 = new Krypton.Ribbon.KryptonRibbonGroup();
+            this.kryptonRibbonGroupLinesLocatonDatePriorities = new Krypton.Ribbon.KryptonRibbonGroupLines();
+            this.kryptonRibbonGroupCheckBoxSelectFileCreated = new Krypton.Ribbon.KryptonRibbonGroupCheckBox();
+            this.kryptonRibbonGroupCheckBoxSelectMediaTaken = new Krypton.Ribbon.KryptonRibbonGroupCheckBox();
+            this.kryptonRibbonGroupCheckBoxSelectCheckAllDates = new Krypton.Ribbon.KryptonRibbonGroupCheckBox();
             this.kryptonRibbonGroupLinesSelectByDateInterval = new Krypton.Ribbon.KryptonRibbonGroupLines();
-            this.kryptonRibbonGroupRadioButton1 = new Krypton.Ribbon.KryptonRibbonGroupRadioButton();
-            this.kryptonRibbonGroupRadioButton2 = new Krypton.Ribbon.KryptonRibbonGroupRadioButton();
-            this.kryptonRibbonGroupRadioButton3 = new Krypton.Ribbon.KryptonRibbonGroupRadioButton();
-            this.kryptonRibbonGroupRadioButton4 = new Krypton.Ribbon.KryptonRibbonGroupRadioButton();
-            this.kryptonRibbonGroupRadioButton5 = new Krypton.Ribbon.KryptonRibbonGroupRadioButton();
-            this.kryptonRibbonGroup9 = new Krypton.Ribbon.KryptonRibbonGroup();
-            this.kryptonRibbonGroupLines4 = new Krypton.Ribbon.KryptonRibbonGroupLines();
-            this.kryptonRibbonGroupRadioButton10 = new Krypton.Ribbon.KryptonRibbonGroupRadioButton();
-            this.kryptonRibbonGroupRadioButton11 = new Krypton.Ribbon.KryptonRibbonGroupRadioButton();
-            this.kryptonRibbonGroup7 = new Krypton.Ribbon.KryptonRibbonGroup();
-            this.kryptonRibbonGroupLines2 = new Krypton.Ribbon.KryptonRibbonGroupLines();
-            this.kryptonRibbonGroupRadioButton6 = new Krypton.Ribbon.KryptonRibbonGroupRadioButton();
-            this.kryptonRibbonGroupRadioButton7 = new Krypton.Ribbon.KryptonRibbonGroupRadioButton();
-            this.kryptonRibbonGroupRadioButton8 = new Krypton.Ribbon.KryptonRibbonGroupRadioButton();
-            this.kryptonRibbonGroupRadioButton9 = new Krypton.Ribbon.KryptonRibbonGroupRadioButton();
+            this.kryptonRibbonGroupRadioButtonSelectDateRange1 = new Krypton.Ribbon.KryptonRibbonGroupRadioButton();
+            this.kryptonRibbonGroupRadioButtonSelectDateRange3 = new Krypton.Ribbon.KryptonRibbonGroupRadioButton();
+            this.kryptonRibbonGroupRadioButtonSelectDateRange7 = new Krypton.Ribbon.KryptonRibbonGroupRadioButton();
+            this.kryptonRibbonGroupRadioButtonSelectDateRange14 = new Krypton.Ribbon.KryptonRibbonGroupRadioButton();
+            this.kryptonRibbonGroupRadioButtonSelectDateRange30 = new Krypton.Ribbon.KryptonRibbonGroupRadioButton();
             this.kryptonRibbonGroup8 = new Krypton.Ribbon.KryptonRibbonGroup();
-            this.kryptonRibbonGroupLines3 = new Krypton.Ribbon.KryptonRibbonGroupLines();
-            this.kryptonRibbonGroupCheckBox1 = new Krypton.Ribbon.KryptonRibbonGroupCheckBox();
-            this.kryptonRibbonGroupCheckBox2 = new Krypton.Ribbon.KryptonRibbonGroupCheckBox();
-            this.kryptonRibbonGroupCheckBox3 = new Krypton.Ribbon.KryptonRibbonGroupCheckBox();
-            this.kryptonRibbonGroupCheckBox4 = new Krypton.Ribbon.KryptonRibbonGroupCheckBox();
+            this.kryptonRibbonGroupLinesSelectLocation = new Krypton.Ribbon.KryptonRibbonGroupLines();
+            this.kryptonRibbonGroupCheckBoxSelectLocationName = new Krypton.Ribbon.KryptonRibbonGroupCheckBox();
+            this.kryptonRibbonGroupCheckBoxSelectLocationCity = new Krypton.Ribbon.KryptonRibbonGroupCheckBox();
+            this.kryptonRibbonGroupCheckBoxSelectLocationStateRegion = new Krypton.Ribbon.KryptonRibbonGroupCheckBox();
+            this.kryptonRibbonGroupCheckBoxSelectLocationCountry = new Krypton.Ribbon.KryptonRibbonGroupCheckBox();
+            this.kryptonRibbonGroupCheckBoxSelectCheckAllLocations = new Krypton.Ribbon.KryptonRibbonGroupCheckBox();
+            this.kryptonRibbonGroup7 = new Krypton.Ribbon.KryptonRibbonGroup();
+            this.kryptonRibbonGroupLinesLocationAmount = new Krypton.Ribbon.KryptonRibbonGroupLines();
+            this.kryptonRibbonGroupRadioButtonSelectMediaAmount10 = new Krypton.Ribbon.KryptonRibbonGroupRadioButton();
+            this.kryptonRibbonGroupRadioButtonSelectMediaAmount30 = new Krypton.Ribbon.KryptonRibbonGroupRadioButton();
+            this.kryptonRibbonGroupRadioButtonSelectMediaAmount50 = new Krypton.Ribbon.KryptonRibbonGroupRadioButton();
+            this.kryptonRibbonGroupRadioButtonSelectMediaAmount100 = new Krypton.Ribbon.KryptonRibbonGroupRadioButton();
             this.kryptonRibbonTabTools = new Krypton.Ribbon.KryptonRibbonTab();
             this.kryptonRibbonGroupToolsMain = new Krypton.Ribbon.KryptonRibbonGroup();
             this.kryptonRibbonGroupTriple6 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
@@ -676,8 +690,6 @@ namespace PhotoTagsSynchronizer
             this.openFolderLocationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.kryptonRibbonQATButtonViewMediaPoster = new Krypton.Ribbon.KryptonRibbonQATButton();
             this.kryptonRibbonQATButtonViewMediaPreview = new Krypton.Ribbon.KryptonRibbonQATButton();
-            this.kryptonContextMenuItemsCloseMenuList = new Krypton.Toolkit.KryptonContextMenuItems();
-            this.kryptonContextMenuItemCloseMenu = new Krypton.Toolkit.KryptonContextMenuItem();
             this.toolStripContainerMainForm.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainerMainForm.ContentPanel.SuspendLayout();
             this.toolStripContainerMainForm.TopToolStripPanel.SuspendLayout();
@@ -877,10 +889,10 @@ namespace PhotoTagsSynchronizer
             // 
             this.toolStripContainerMainForm.ContentPanel.AutoScroll = true;
             this.toolStripContainerMainForm.ContentPanel.Controls.Add(this.panelMain);
-            this.toolStripContainerMainForm.ContentPanel.Size = new System.Drawing.Size(1214, 728);
+            this.toolStripContainerMainForm.ContentPanel.Size = new System.Drawing.Size(1214, 701);
             this.toolStripContainerMainForm.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainerMainForm.LeftToolStripPanelVisible = false;
-            this.toolStripContainerMainForm.Location = new System.Drawing.Point(0, 115);
+            this.toolStripContainerMainForm.Location = new System.Drawing.Point(0, 142);
             this.toolStripContainerMainForm.Margin = new System.Windows.Forms.Padding(0);
             this.toolStripContainerMainForm.Name = "toolStripContainerMainForm";
             // 
@@ -889,7 +901,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripContainerMainForm.RightToolStripPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.toolStripContainerMainForm.RightToolStripPanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.toolStripContainerMainForm.RightToolStripPanelVisible = false;
-            this.toolStripContainerMainForm.Size = new System.Drawing.Size(1214, 779);
+            this.toolStripContainerMainForm.Size = new System.Drawing.Size(1214, 752);
             this.toolStripContainerMainForm.TabIndex = 0;
             this.toolStripContainerMainForm.Text = "toolStripContainer1";
             // 
@@ -998,7 +1010,7 @@ namespace PhotoTagsSynchronizer
             this.panelMain.Location = new System.Drawing.Point(0, 0);
             this.panelMain.Margin = new System.Windows.Forms.Padding(0);
             this.panelMain.Name = "panelMain";
-            this.panelMain.Size = new System.Drawing.Size(1214, 728);
+            this.panelMain.Size = new System.Drawing.Size(1214, 701);
             this.panelMain.TabIndex = 2;
             // 
             // kryptonWorkspaceMain
@@ -1017,7 +1029,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceMain.Root.UniqueName = "f0dd7d6331c4426ab0a5c0a429f4ea9b";
             this.kryptonWorkspaceMain.Root.WorkspaceControl = this.kryptonWorkspaceMain;
             this.kryptonWorkspaceMain.SeparatorStyle = Krypton.Toolkit.SeparatorStyle.HighProfile;
-            this.kryptonWorkspaceMain.Size = new System.Drawing.Size(1214, 728);
+            this.kryptonWorkspaceMain.Size = new System.Drawing.Size(1214, 701);
             this.kryptonWorkspaceMain.TabIndex = 0;
             this.kryptonWorkspaceMain.TabStop = true;
             // 
@@ -1029,7 +1041,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageFolderSearchFilterFolder.LastVisibleSet = true;
             this.kryptonPageFolderSearchFilterFolder.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPageFolderSearchFilterFolder.Name = "kryptonPageFolderSearchFilterFolder";
-            this.kryptonPageFolderSearchFilterFolder.Size = new System.Drawing.Size(399, 601);
+            this.kryptonPageFolderSearchFilterFolder.Size = new System.Drawing.Size(399, 574);
             this.kryptonPageFolderSearchFilterFolder.Text = "Folder";
             this.kryptonPageFolderSearchFilterFolder.TextDescription = "Browse folders on your device";
             this.kryptonPageFolderSearchFilterFolder.TextTitle = "Folder";
@@ -1045,7 +1057,7 @@ namespace PhotoTagsSynchronizer
             this.folderTreeViewFolder.LabelEdit = true;
             this.folderTreeViewFolder.Location = new System.Drawing.Point(0, 0);
             this.folderTreeViewFolder.Name = "folderTreeViewFolder";
-            this.folderTreeViewFolder.Size = new System.Drawing.Size(399, 601);
+            this.folderTreeViewFolder.Size = new System.Drawing.Size(399, 574);
             this.folderTreeViewFolder.TabIndex = 0;
             this.folderTreeViewFolder.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.folderTreeView1_AfterSelect);
             this.folderTreeViewFolder.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.folderTreeViewFolder_ItemDrag);
@@ -1827,11 +1839,11 @@ namespace PhotoTagsSynchronizer
             this.treeViewFilter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeViewFilter.Location = new System.Drawing.Point(0, 0);
             this.treeViewFilter.Name = "treeViewFilter";
-            treeNode1.Name = "NodeFolder";
-            treeNode1.Tag = "Filter";
-            treeNode1.Text = "Filter";
+            treeNode3.Name = "NodeFolder";
+            treeNode3.Tag = "Filter";
+            treeNode3.Text = "Filter";
             this.treeViewFilter.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1});
+            treeNode3});
             this.treeViewFilter.Size = new System.Drawing.Size(399, 600);
             this.treeViewFilter.TabIndex = 0;
             this.treeViewFilter.BeforeCheck += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeViewFilter_BeforeCheck);
@@ -1860,7 +1872,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageMediaFiles.LastVisibleSet = true;
             this.kryptonPageMediaFiles.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPageMediaFiles.Name = "kryptonPageMediaFiles";
-            this.kryptonPageMediaFiles.Size = new System.Drawing.Size(399, 684);
+            this.kryptonPageMediaFiles.Size = new System.Drawing.Size(399, 657);
             this.kryptonPageMediaFiles.Text = "Media files";
             this.kryptonPageMediaFiles.TextDescription = "List of media files from search result or selected folder";
             this.kryptonPageMediaFiles.TextTitle = "Media files";
@@ -1884,7 +1896,7 @@ namespace PhotoTagsSynchronizer
             this.imageListView1.Location = new System.Drawing.Point(0, 0);
             this.imageListView1.Name = "imageListView1";
             this.imageListView1.RetryOnError = false;
-            this.imageListView1.Size = new System.Drawing.Size(399, 684);
+            this.imageListView1.Size = new System.Drawing.Size(399, 657);
             this.imageListView1.SortColumn = Manina.Windows.Forms.ColumnType.FileName;
             this.imageListView1.TabIndex = 1;
             this.imageListView1.Text = "";
@@ -1929,7 +1941,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageToolboxTags.LastVisibleSet = true;
             this.kryptonPageToolboxTags.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPageToolboxTags.Name = "kryptonPageToolboxTags";
-            this.kryptonPageToolboxTags.Size = new System.Drawing.Size(400, 701);
+            this.kryptonPageToolboxTags.Size = new System.Drawing.Size(400, 674);
             this.kryptonPageToolboxTags.Tag = "Tags";
             this.kryptonPageToolboxTags.Text = "Tags";
             this.kryptonPageToolboxTags.TextDescription = "Edit tags and keywords";
@@ -1955,7 +1967,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceToolboxTags.Root.UniqueName = "5a3ba2c5cc184db6ac82fbd639c9f04f";
             this.kryptonWorkspaceToolboxTags.Root.WorkspaceControl = this.kryptonWorkspaceToolboxTags;
             this.kryptonWorkspaceToolboxTags.SeparatorStyle = Krypton.Toolkit.SeparatorStyle.HighProfile;
-            this.kryptonWorkspaceToolboxTags.Size = new System.Drawing.Size(400, 701);
+            this.kryptonWorkspaceToolboxTags.Size = new System.Drawing.Size(400, 674);
             this.kryptonWorkspaceToolboxTags.TabIndex = 0;
             this.kryptonWorkspaceToolboxTags.TabStop = true;
             // 
@@ -1970,7 +1982,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageToolboxTagsDetails.LastVisibleSet = true;
             this.kryptonPageToolboxTagsDetails.MinimumSize = new System.Drawing.Size(240, 100);
             this.kryptonPageToolboxTagsDetails.Name = "kryptonPageToolboxTagsDetails";
-            this.kryptonPageToolboxTagsDetails.Size = new System.Drawing.Size(398, 304);
+            this.kryptonPageToolboxTagsDetails.Size = new System.Drawing.Size(398, 290);
             this.kryptonPageToolboxTagsDetails.Text = "Tags Details";
             this.kryptonPageToolboxTagsDetails.TextDescription = "Edit media details";
             this.kryptonPageToolboxTagsDetails.TextTitle = "Tags Details";
@@ -2318,7 +2330,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageToolboxTagsKeywords.LastVisibleSet = true;
             this.kryptonPageToolboxTagsKeywords.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPageToolboxTagsKeywords.Name = "kryptonPageToolboxTagsKeywords";
-            this.kryptonPageToolboxTagsKeywords.Size = new System.Drawing.Size(398, 304);
+            this.kryptonPageToolboxTagsKeywords.Size = new System.Drawing.Size(398, 291);
             this.kryptonPageToolboxTagsKeywords.Text = "Keywords";
             this.kryptonPageToolboxTagsKeywords.TextDescription = "Edit media keywords";
             this.kryptonPageToolboxTagsKeywords.TextTitle = "Keywords";
@@ -2336,7 +2348,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewTagsAndKeywords.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridViewTagsAndKeywords.ShowCellErrors = false;
             this.dataGridViewTagsAndKeywords.ShowRowErrors = false;
-            this.dataGridViewTagsAndKeywords.Size = new System.Drawing.Size(398, 304);
+            this.dataGridViewTagsAndKeywords.Size = new System.Drawing.Size(398, 291);
             this.dataGridViewTagsAndKeywords.TabIndex = 9;
             this.dataGridViewTagsAndKeywords.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewTagsAndKeywords_CellBeginEdit);
             this.dataGridViewTagsAndKeywords.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewTagsAndKeywords_CellEnter);
@@ -3673,7 +3685,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonSelectPrevious.Name = "toolStripButtonSelectPrevious";
             this.toolStripButtonSelectPrevious.Size = new System.Drawing.Size(24, 24);
             this.toolStripButtonSelectPrevious.Text = "Select Previous Group";
-            this.toolStripButtonSelectPrevious.Click += new System.EventHandler(this.toolStripButtonSelectPrevious_Click);
             // 
             // toolStripDropDownButtonSelectGroupBy
             // 
@@ -3706,42 +3717,36 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemSelectSameDay.Name = "toolStripMenuItemSelectSameDay";
             this.toolStripMenuItemSelectSameDay.Size = new System.Drawing.Size(313, 22);
             this.toolStripMenuItemSelectSameDay.Text = "Select on same Day";
-            this.toolStripMenuItemSelectSameDay.Click += new System.EventHandler(this.toolStripMenuItemSelectSameDay_Click);
             // 
             // toolStripMenuItemSelectSame3Day
             // 
             this.toolStripMenuItemSelectSame3Day.Name = "toolStripMenuItemSelectSame3Day";
             this.toolStripMenuItemSelectSame3Day.Size = new System.Drawing.Size(313, 22);
             this.toolStripMenuItemSelectSame3Day.Text = "Select within 3 Day range";
-            this.toolStripMenuItemSelectSame3Day.Click += new System.EventHandler(this.toolStripMenuItemSelectSame3Day_Click);
             // 
             // toolStripMenuItemSelectSameWeek
             // 
             this.toolStripMenuItemSelectSameWeek.Name = "toolStripMenuItemSelectSameWeek";
             this.toolStripMenuItemSelectSameWeek.Size = new System.Drawing.Size(313, 22);
             this.toolStripMenuItemSelectSameWeek.Text = "Select within Week range (7 days)";
-            this.toolStripMenuItemSelectSameWeek.Click += new System.EventHandler(this.toolStripMenuItemSelectSameWeek_Click);
             // 
             // toolStripMenuItemSelectSame2week
             // 
             this.toolStripMenuItemSelectSame2week.Name = "toolStripMenuItemSelectSame2week";
             this.toolStripMenuItemSelectSame2week.Size = new System.Drawing.Size(313, 22);
             this.toolStripMenuItemSelectSame2week.Text = "Select within 2 weeks range (14 days)";
-            this.toolStripMenuItemSelectSame2week.Click += new System.EventHandler(this.toolStripMenuItemSelectSame2week_Click);
             // 
             // toolStripMenuItemSelectSameMonth
             // 
             this.toolStripMenuItemSelectSameMonth.Name = "toolStripMenuItemSelectSameMonth";
             this.toolStripMenuItemSelectSameMonth.Size = new System.Drawing.Size(313, 22);
             this.toolStripMenuItemSelectSameMonth.Text = "Select within Month range (30 days)";
-            this.toolStripMenuItemSelectSameMonth.Click += new System.EventHandler(this.toolStripMenuItemSelectSameMonth_Click);
             // 
             // toolStripMenuItemSelectFallbackOnFileCreated
             // 
             this.toolStripMenuItemSelectFallbackOnFileCreated.Name = "toolStripMenuItemSelectFallbackOnFileCreated";
             this.toolStripMenuItemSelectFallbackOnFileCreated.Size = new System.Drawing.Size(313, 22);
             this.toolStripMenuItemSelectFallbackOnFileCreated.Text = "Use Date Taken with Fall back to Date Created";
-            this.toolStripMenuItemSelectFallbackOnFileCreated.Click += new System.EventHandler(this.toolStripMenuItemSelectFallbackOnFileCreated_Click);
             // 
             // toolStripSeparator13
             // 
@@ -3753,28 +3758,24 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemSelectMax10items.Name = "toolStripMenuItemSelectMax10items";
             this.toolStripMenuItemSelectMax10items.Size = new System.Drawing.Size(313, 22);
             this.toolStripMenuItemSelectMax10items.Text = "Select max 10 media files";
-            this.toolStripMenuItemSelectMax10items.Click += new System.EventHandler(this.toolStripMenuItemSelectMax10items_Click);
             // 
             // toolStripMenuItemSelectMax30items
             // 
             this.toolStripMenuItemSelectMax30items.Name = "toolStripMenuItemSelectMax30items";
             this.toolStripMenuItemSelectMax30items.Size = new System.Drawing.Size(313, 22);
             this.toolStripMenuItemSelectMax30items.Text = "Select max 30 media files";
-            this.toolStripMenuItemSelectMax30items.Click += new System.EventHandler(this.toolStripMenuItemSelectMax30items_Click);
             // 
             // toolStripMenuItemSelectMax50items
             // 
             this.toolStripMenuItemSelectMax50items.Name = "toolStripMenuItemSelectMax50items";
             this.toolStripMenuItemSelectMax50items.Size = new System.Drawing.Size(313, 22);
             this.toolStripMenuItemSelectMax50items.Text = "Select max 50 media files";
-            this.toolStripMenuItemSelectMax50items.Click += new System.EventHandler(this.toolStripMenuItemSelectMax50items_Click);
             // 
             // toolStripMenuItemSelectMax100items
             // 
             this.toolStripMenuItemSelectMax100items.Name = "toolStripMenuItemSelectMax100items";
             this.toolStripMenuItemSelectMax100items.Size = new System.Drawing.Size(313, 22);
             this.toolStripMenuItemSelectMax100items.Text = "Select max 100 media files";
-            this.toolStripMenuItemSelectMax100items.Click += new System.EventHandler(this.toolStripMenuItemSelectMax100items_Click);
             // 
             // toolStripSeparator12
             // 
@@ -3786,28 +3787,24 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemSelectSameLocationName.Name = "toolStripMenuItemSelectSameLocationName";
             this.toolStripMenuItemSelectSameLocationName.Size = new System.Drawing.Size(313, 22);
             this.toolStripMenuItemSelectSameLocationName.Text = "Select same Location Name";
-            this.toolStripMenuItemSelectSameLocationName.Click += new System.EventHandler(this.toolStripMenuItemSelectSameLocationName_Click);
             // 
             // toolStripMenuItemSelectSameCity
             // 
             this.toolStripMenuItemSelectSameCity.Name = "toolStripMenuItemSelectSameCity";
             this.toolStripMenuItemSelectSameCity.Size = new System.Drawing.Size(313, 22);
             this.toolStripMenuItemSelectSameCity.Text = "Select same City";
-            this.toolStripMenuItemSelectSameCity.Click += new System.EventHandler(this.toolStripMenuItemSelectSameCity_Click);
             // 
             // toolStripMenuItemSelectSameDistrict
             // 
             this.toolStripMenuItemSelectSameDistrict.Name = "toolStripMenuItemSelectSameDistrict";
             this.toolStripMenuItemSelectSameDistrict.Size = new System.Drawing.Size(313, 22);
             this.toolStripMenuItemSelectSameDistrict.Text = "Select same District";
-            this.toolStripMenuItemSelectSameDistrict.Click += new System.EventHandler(this.toolStripMenuItemSelectSameDistrict_Click);
             // 
             // toolStripMenuItemSelectSameCountry
             // 
             this.toolStripMenuItemSelectSameCountry.Name = "toolStripMenuItemSelectSameCountry";
             this.toolStripMenuItemSelectSameCountry.Size = new System.Drawing.Size(313, 22);
             this.toolStripMenuItemSelectSameCountry.Text = "Select same Country";
-            this.toolStripMenuItemSelectSameCountry.Click += new System.EventHandler(this.toolStripMenuItemSelectSameCountry_Click);
             // 
             // toolStripButtonSelectNext
             // 
@@ -3817,7 +3814,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonSelectNext.Name = "toolStripButtonSelectNext";
             this.toolStripButtonSelectNext.Size = new System.Drawing.Size(24, 24);
             this.toolStripButtonSelectNext.Text = "Select Next Group";
-            this.toolStripButtonSelectNext.Click += new System.EventHandler(this.toolStripButtonSelectNext_Click);
             // 
             // contextMenuStripTagsAndKeywords
             // 
@@ -5140,7 +5136,14 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonMain.QATButtons.AddRange(new System.ComponentModel.Component[] {
             this.kryptonRibbonQATButtonSave,
             this.kryptonRibbonQATButtonMediaPreview,
-            this.kryptonRibbonQATButtonMediaPoster});
+            this.kryptonRibbonQATButtonMediaPoster,
+            this.kryptonRibbonQATButtonSelectPrevius,
+            this.kryptonRibbonQATButtonSelectNext,
+            this.kryptonRibbonQATButtonSelectEqual,
+            this.kryptonRibbonQATButtonSelectAll,
+            this.kryptonRibbonQATButtonSelectNone,
+            this.kryptonRibbonQATButtonSelectToggle});
+            this.kryptonRibbonMain.QATLocation = Krypton.Ribbon.QATLocation.Below;
             this.kryptonRibbonMain.QATUserChange = false;
             this.kryptonRibbonMain.RibbonAppButton.AppButtonImage = global::PhotoTagsSynchronizer.Properties.Resources.AppIcon;
             this.kryptonRibbonMain.RibbonTabs.AddRange(new Krypton.Ribbon.KryptonRibbonTab[] {
@@ -5149,14 +5152,16 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonTabSelect,
             this.kryptonRibbonTabTools,
             this.kryptonRibbonTabPreview});
-            this.kryptonRibbonMain.SelectedTab = this.kryptonRibbonTabHome;
-            this.kryptonRibbonMain.Size = new System.Drawing.Size(1214, 115);
+            this.kryptonRibbonMain.SelectedContext = null;
+            this.kryptonRibbonMain.SelectedTab = this.kryptonRibbonTabSelect;
+            this.kryptonRibbonMain.Size = new System.Drawing.Size(1214, 142);
             this.kryptonRibbonMain.TabIndex = 12;
             // 
             // kryptonRibbonQATButtonSave
             // 
             this.kryptonRibbonQATButtonSave.Image = global::PhotoTagsSynchronizer.Properties.Resources.MetadataSave16x16;
             this.kryptonRibbonQATButtonSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.kryptonRibbonQATButtonSave.ToolTipBody = "Save your changes back to media files.";
             this.kryptonRibbonQATButtonSave.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MetadataSave32x32;
             this.kryptonRibbonQATButtonSave.ToolTipTitle = "Save (Ctrl+S)";
             this.kryptonRibbonQATButtonSave.Click += new System.EventHandler(this.kryptonRibbonQATButtonSave_Click);
@@ -5179,6 +5184,63 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonQATButtonMediaPoster.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MediaRegionSelector;
             this.kryptonRibbonQATButtonMediaPoster.ToolTipTitle = "Show media poster and Region selector (Ctrl+R)";
             this.kryptonRibbonQATButtonMediaPoster.Click += new System.EventHandler(this.kryptonRibbonQATButtonMediaPoster_Click);
+            // 
+            // kryptonRibbonQATButtonSelectPrevius
+            // 
+            this.kryptonRibbonQATButtonSelectPrevius.Image = global::PhotoTagsSynchronizer.Properties.Resources.SelectPrevious16x16;
+            this.kryptonRibbonQATButtonSelectPrevius.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.Left)));
+            this.kryptonRibbonQATButtonSelectPrevius.ToolTipBody = "Select Previous group of media files. Using the properties set in this ribbon.";
+            this.kryptonRibbonQATButtonSelectPrevius.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.SelectPrevious;
+            this.kryptonRibbonQATButtonSelectPrevius.ToolTipTitle = "Select Previous (Ctrl+Shift+Left)";
+            this.kryptonRibbonQATButtonSelectPrevius.Click += new System.EventHandler(this.kryptonRibbonQATButtonSelectPrevius_Click);
+            // 
+            // kryptonRibbonQATButtonSelectNext
+            // 
+            this.kryptonRibbonQATButtonSelectNext.Image = global::PhotoTagsSynchronizer.Properties.Resources.SelectNext16x16;
+            this.kryptonRibbonQATButtonSelectNext.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.Right)));
+            this.kryptonRibbonQATButtonSelectNext.ToolTipBody = "Select Next group of media files. Using the properties set in this ribbon.";
+            this.kryptonRibbonQATButtonSelectNext.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.SelectNext;
+            this.kryptonRibbonQATButtonSelectNext.ToolTipTitle = "Select Next (Ctrl+Shift+Right)";
+            this.kryptonRibbonQATButtonSelectNext.Click += new System.EventHandler(this.kryptonRibbonQATButtonSelectNext_Click);
+            // 
+            // kryptonRibbonQATButtonSelectEqual
+            // 
+            this.kryptonRibbonQATButtonSelectEqual.Image = global::PhotoTagsSynchronizer.Properties.Resources.SelectEqual16x16;
+            this.kryptonRibbonQATButtonSelectEqual.ToolTipBody = "Select all media files that match criterias from selected files.";
+            this.kryptonRibbonQATButtonSelectEqual.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.SelectEqual;
+            this.kryptonRibbonQATButtonSelectEqual.ToolTipTitle = "Select match (Ctrl+Shift+Alt+A)";
+            this.kryptonRibbonQATButtonSelectEqual.Click += new System.EventHandler(this.kryptonRibbonQATButtonSelectEqual_Click);
+            // 
+            // kryptonRibbonQATButtonSelectAll
+            // 
+            this.kryptonRibbonQATButtonSelectAll.Image = global::PhotoTagsSynchronizer.Properties.Resources.SelectAll16x16;
+            this.kryptonRibbonQATButtonSelectAll.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
+            this.kryptonRibbonQATButtonSelectAll.ToolTipBody = "Select all media files";
+            this.kryptonRibbonQATButtonSelectAll.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.SelectAll;
+            this.kryptonRibbonQATButtonSelectAll.ToolTipTitle = "Select All (Ctrl+A)";
+            this.kryptonRibbonQATButtonSelectAll.Click += new System.EventHandler(this.kryptonRibbonQATButtonSelectAll_Click);
+            // 
+            // kryptonRibbonQATButtonSelectNone
+            // 
+            this.kryptonRibbonQATButtonSelectNone.Image = global::PhotoTagsSynchronizer.Properties.Resources.SelectNone16x16;
+            this.kryptonRibbonQATButtonSelectNone.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.A)));
+            this.kryptonRibbonQATButtonSelectNone.ToolTipBody = "Deselect / Select none of the media files";
+            this.kryptonRibbonQATButtonSelectNone.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.SelectNone;
+            this.kryptonRibbonQATButtonSelectNone.ToolTipTitle = "Select None (Ctrl+Shift+A)";
+            this.kryptonRibbonQATButtonSelectNone.Click += new System.EventHandler(this.kryptonRibbonQATButtonSelectNone_Click);
+            // 
+            // kryptonRibbonQATButtonSelectToggle
+            // 
+            this.kryptonRibbonQATButtonSelectToggle.Image = global::PhotoTagsSynchronizer.Properties.Resources.SelectToggle16x16;
+            this.kryptonRibbonQATButtonSelectToggle.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.A)));
+            this.kryptonRibbonQATButtonSelectToggle.ToolTipBody = "Invert selection of the media files.";
+            this.kryptonRibbonQATButtonSelectToggle.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.SelectToggle;
+            this.kryptonRibbonQATButtonSelectToggle.ToolTipTitle = "Invert Selection (Ctrl+Alt+A)";
+            this.kryptonRibbonQATButtonSelectToggle.Click += new System.EventHandler(this.kryptonRibbonQATButtonSelectToggle_Click);
             // 
             // kryptonRibbonTabHome
             // 
@@ -5469,6 +5531,15 @@ namespace PhotoTagsSynchronizer
             // 
             this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationCountry.ExtraText = "";
             this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationCountry.Text = "LocationCountry";
+            // 
+            // kryptonContextMenuItemsCloseMenuList
+            // 
+            this.kryptonContextMenuItemsCloseMenuList.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonContextMenuItemCloseMenu});
+            // 
+            // kryptonContextMenuItemCloseMenu
+            // 
+            this.kryptonContextMenuItemCloseMenu.Text = "Close menu";
             // 
             // kryptonRibbonGroupHomeFileSystem
             // 
@@ -5816,15 +5887,15 @@ namespace PhotoTagsSynchronizer
             // kryptonRibbonGroupViewViewModes
             // 
             this.kryptonRibbonGroupViewViewModes.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
-            this.kryptonRibbonGroupTriple2,
-            this.kryptonRibbonGroupTriple1,
+            this.kryptonRibbonGroupTripleViewGalleryDetailsPane,
+            this.kryptonRibbonGroupTripleViewThumbnailsMode,
             this.kryptonRibbonGroupSeparator4,
-            this.kryptonRibbonGroupTriple5});
+            this.kryptonRibbonGroupTripleViewColumnsSort});
             this.kryptonRibbonGroupViewViewModes.TextLine1 = "Media view";
             // 
-            // kryptonRibbonGroupTriple2
+            // kryptonRibbonGroupTripleViewGalleryDetailsPane
             // 
-            this.kryptonRibbonGroupTriple2.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupTripleViewGalleryDetailsPane.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
             this.kryptonRibbonGroupButtonImageListViewModeGallery,
             this.kryptonRibbonGroupButtonImageListViewModeDetails,
             this.kryptonRibbonGroupButtonImageListViewModePane});
@@ -5853,9 +5924,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonImageListViewModePane.TextLine1 = "Pane";
             this.kryptonRibbonGroupButtonImageListViewModePane.Click += new System.EventHandler(this.kryptonRibbonGroupButtonImageListViewModePane_Click);
             // 
-            // kryptonRibbonGroupTriple1
+            // kryptonRibbonGroupTripleViewThumbnailsMode
             // 
-            this.kryptonRibbonGroupTriple1.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupTripleViewThumbnailsMode.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
             this.kryptonRibbonGroupButtonImageListViewModeThumbnails,
             this.kryptonRibbonGroupButtonImageListViewModeThumbnailRenders});
             // 
@@ -5876,9 +5947,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonImageListViewModeThumbnailRenders.TextLine1 = "Thumbnails";
             this.kryptonRibbonGroupButtonImageListViewModeThumbnailRenders.TextLine2 = "View mode";
             // 
-            // kryptonRibbonGroupTriple5
+            // kryptonRibbonGroupTripleViewColumnsSort
             // 
-            this.kryptonRibbonGroupTriple5.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupTripleViewColumnsSort.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
             this.kryptonRibbonGroupButtonImageListViewDetailviewColumns});
             // 
             // kryptonRibbonGroupButtonImageListViewDetailviewColumns
@@ -5893,17 +5964,17 @@ namespace PhotoTagsSynchronizer
             // kryptonRibbonGroupViewThumbnailSize
             // 
             this.kryptonRibbonGroupViewThumbnailSize.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
-            this.kryptonRibbonGroupTriple12,
-            this.kryptonRibbonGroupTriple13});
+            this.kryptonRibbonGroupTripleViewTumbnailSizeLargeMedium,
+            this.kryptonRibbonGroupTripleViewThumbnailSizeXSmall});
             this.kryptonRibbonGroupViewThumbnailSize.TextLine1 = "Thumbnail size";
             // 
-            // kryptonRibbonGroupTriple12
+            // kryptonRibbonGroupTripleViewTumbnailSizeLargeMedium
             // 
-            this.kryptonRibbonGroupTriple12.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupTripleViewTumbnailSizeLargeMedium.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
             this.kryptonRibbonGroupButtonThumbnailSizeXLarge,
             this.kryptonRibbonGroupButtonThumbnailSizeLarge,
             this.kryptonRibbonGroupButtonThumbnailSizeMedium});
-            this.kryptonRibbonGroupTriple12.MaximumSize = Krypton.Ribbon.GroupItemSize.Medium;
+            this.kryptonRibbonGroupTripleViewTumbnailSizeLargeMedium.MaximumSize = Krypton.Ribbon.GroupItemSize.Medium;
             // 
             // kryptonRibbonGroupButtonThumbnailSizeXLarge
             // 
@@ -5932,12 +6003,12 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonThumbnailSizeMedium.TextLine1 = "Medium";
             this.kryptonRibbonGroupButtonThumbnailSizeMedium.Click += new System.EventHandler(this.kryptonRibbonGroupButtonThumbnailSizeMedium_Click);
             // 
-            // kryptonRibbonGroupTriple13
+            // kryptonRibbonGroupTripleViewThumbnailSizeXSmall
             // 
-            this.kryptonRibbonGroupTriple13.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupTripleViewThumbnailSizeXSmall.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
             this.kryptonRibbonGroupButtonThumbnailSizeSmall,
             this.kryptonRibbonGroupButtonThumbnailSizeXSmall});
-            this.kryptonRibbonGroupTriple13.MaximumSize = Krypton.Ribbon.GroupItemSize.Medium;
+            this.kryptonRibbonGroupTripleViewThumbnailSizeXSmall.MaximumSize = Krypton.Ribbon.GroupItemSize.Medium;
             // 
             // kryptonRibbonGroupButtonThumbnailSizeSmall
             // 
@@ -5960,12 +6031,12 @@ namespace PhotoTagsSynchronizer
             // kryptonRibbonGroupViewCellSize
             // 
             this.kryptonRibbonGroupViewCellSize.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
-            this.kryptonRibbonGroupTriple3});
+            this.kryptonRibbonGroupTripleViewGridSize});
             this.kryptonRibbonGroupViewCellSize.TextLine1 = "Cell size";
             // 
-            // kryptonRibbonGroupTriple3
+            // kryptonRibbonGroupTripleViewGridSize
             // 
-            this.kryptonRibbonGroupTriple3.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupTripleViewGridSize.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
             this.kryptonRibbonGroupButtonDataGridViewCellSizeBig,
             this.kryptonRibbonGroupButtonDataGridViewCellSizeMedium,
             this.kryptonRibbonGroupButtonDataGridViewCellSizeSmall});
@@ -5999,12 +6070,12 @@ namespace PhotoTagsSynchronizer
             // kryptonRibbonGroupViewColumns
             // 
             this.kryptonRibbonGroupViewColumns.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
-            this.kryptonRibbonGroupTriple4});
+            this.kryptonRibbonGroupTripleViewShowHideColumns});
             this.kryptonRibbonGroupViewColumns.TextLine1 = "Columns";
             // 
-            // kryptonRibbonGroupTriple4
+            // kryptonRibbonGroupTripleViewShowHideColumns
             // 
-            this.kryptonRibbonGroupTriple4.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupTripleViewShowHideColumns.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
             this.kryptonRibbonGroupButtonDataGridViewColumnsHistory,
             this.kryptonRibbonGroupButtonDataGridViewColumnsErrors});
             // 
@@ -6029,12 +6100,12 @@ namespace PhotoTagsSynchronizer
             // kryptonRibbonGroupViewRows
             // 
             this.kryptonRibbonGroupViewRows.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
-            this.kryptonRibbonGroupTriple14});
+            this.kryptonRibbonGroupTripleViewShowHideRows});
             this.kryptonRibbonGroupViewRows.TextLine1 = "Rows";
             // 
-            // kryptonRibbonGroupTriple14
+            // kryptonRibbonGroupTripleViewShowHideRows
             // 
-            this.kryptonRibbonGroupTriple14.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupTripleViewShowHideRows.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
             this.kryptonRibbonGroupButtonDataGridViewRowsFavorite,
             this.kryptonRibbonGroupButtonDataGridViewRowsHideEqual});
             // 
@@ -6097,156 +6168,269 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonTabSelect.Groups.AddRange(new Krypton.Ribbon.KryptonRibbonGroup[] {
             this.kryptonRibbonGroupImageListViewSelect,
             this.kryptonRibbonGroup2,
-            this.kryptonRibbonGroup9,
-            this.kryptonRibbonGroup7,
-            this.kryptonRibbonGroup8});
+            this.kryptonRibbonGroup8,
+            this.kryptonRibbonGroup7});
             this.kryptonRibbonTabSelect.KeyTip = "S";
             this.kryptonRibbonTabSelect.Text = "Select";
             // 
             // kryptonRibbonGroupImageListViewSelect
             // 
             this.kryptonRibbonGroupImageListViewSelect.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
-            this.kryptonRibbonGroupTriple7,
-            this.kryptonRibbonGroupSeparator2});
+            this.kryptonRibbonGroupTripleSelectForwardBackwards,
+            this.kryptonRibbonGroupSeparator2,
+            this.kryptonRibbonGroupTripleSelectAllNoneToggle});
             this.kryptonRibbonGroupImageListViewSelect.TextLine1 = "Select group";
             // 
-            // kryptonRibbonGroupTriple7
+            // kryptonRibbonGroupTripleSelectForwardBackwards
             // 
-            this.kryptonRibbonGroupTriple7.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
-            this.kryptonRibbonGroupButton20,
-            this.kryptonRibbonGroupButton21});
+            this.kryptonRibbonGroupTripleSelectForwardBackwards.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupButtonSelectBackwards,
+            this.kryptonRibbonGroupButtonSelectForwards,
+            this.kryptonRibbonGroupButtonSelectEqual});
             // 
-            // kryptonRibbonGroupButton20
+            // kryptonRibbonGroupButtonSelectBackwards
             // 
-            this.kryptonRibbonGroupButton20.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.SelectPrevious;
-            this.kryptonRibbonGroupButton20.TextLine1 = "Select";
-            this.kryptonRibbonGroupButton20.TextLine2 = "Backwards";
+            this.kryptonRibbonGroupButtonSelectBackwards.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.SelectPrevious;
+            this.kryptonRibbonGroupButtonSelectBackwards.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.SelectPrevious;
+            this.kryptonRibbonGroupButtonSelectBackwards.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.Left)));
+            this.kryptonRibbonGroupButtonSelectBackwards.TextLine1 = "Select";
+            this.kryptonRibbonGroupButtonSelectBackwards.TextLine2 = "Backwards";
+            this.kryptonRibbonGroupButtonSelectBackwards.ToolTipBody = "Select Previous group of media files. Using the properties set in this ribbon.";
+            this.kryptonRibbonGroupButtonSelectBackwards.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.SelectPrevious;
+            this.kryptonRibbonGroupButtonSelectBackwards.ToolTipTitle = "Select Backwards (Ctrl+Shift+Left)";
+            this.kryptonRibbonGroupButtonSelectBackwards.Click += new System.EventHandler(this.kryptonRibbonGroupButtonSelectBackwards_Click);
             // 
-            // kryptonRibbonGroupButton21
+            // kryptonRibbonGroupButtonSelectForwards
             // 
-            this.kryptonRibbonGroupButton21.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.SelectNext;
-            this.kryptonRibbonGroupButton21.TextLine1 = "Select";
-            this.kryptonRibbonGroupButton21.TextLine2 = "Forwards";
+            this.kryptonRibbonGroupButtonSelectForwards.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.SelectNext;
+            this.kryptonRibbonGroupButtonSelectForwards.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.SelectNext;
+            this.kryptonRibbonGroupButtonSelectForwards.KeyTip = "F";
+            this.kryptonRibbonGroupButtonSelectForwards.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.Right)));
+            this.kryptonRibbonGroupButtonSelectForwards.TextLine1 = "Select";
+            this.kryptonRibbonGroupButtonSelectForwards.TextLine2 = "Forwards";
+            this.kryptonRibbonGroupButtonSelectForwards.ToolTipBody = "Select Next group of media files. Using the properties set in this ribbon.";
+            this.kryptonRibbonGroupButtonSelectForwards.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.SelectNext;
+            this.kryptonRibbonGroupButtonSelectForwards.ToolTipTitle = "Select Forwards (Ctrl+Shift+Right)";
+            this.kryptonRibbonGroupButtonSelectForwards.Click += new System.EventHandler(this.kryptonRibbonGroupButtonSelectForwards_Click);
+            // 
+            // kryptonRibbonGroupButtonSelectEqual
+            // 
+            this.kryptonRibbonGroupButtonSelectEqual.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.SelectEqual;
+            this.kryptonRibbonGroupButtonSelectEqual.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.SelectEqual;
+            this.kryptonRibbonGroupButtonSelectEqual.ShortcutKeys = ((System.Windows.Forms.Keys)((((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.A)));
+            this.kryptonRibbonGroupButtonSelectEqual.TextLine1 = "Select";
+            this.kryptonRibbonGroupButtonSelectEqual.TextLine2 = "match";
+            this.kryptonRibbonGroupButtonSelectEqual.ToolTipBody = "Select all media files that match criterias from selected files.";
+            this.kryptonRibbonGroupButtonSelectEqual.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.SelectEqual;
+            this.kryptonRibbonGroupButtonSelectEqual.ToolTipTitle = "Select match (Ctrl+Alt+Shift+A)";
+            this.kryptonRibbonGroupButtonSelectEqual.Click += new System.EventHandler(this.kryptonRibbonGroupButtonSelectEqual_Click);
+            // 
+            // kryptonRibbonGroupTripleSelectAllNoneToggle
+            // 
+            this.kryptonRibbonGroupTripleSelectAllNoneToggle.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupButtonSelectAll,
+            this.kryptonRibbonGroupButtonSelectNone,
+            this.kryptonRibbonGroupButtonSelectToggle});
+            // 
+            // kryptonRibbonGroupButtonSelectAll
+            // 
+            this.kryptonRibbonGroupButtonSelectAll.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.SelectAll;
+            this.kryptonRibbonGroupButtonSelectAll.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.SelectAll;
+            this.kryptonRibbonGroupButtonSelectAll.KeyTip = "A";
+            this.kryptonRibbonGroupButtonSelectAll.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
+            this.kryptonRibbonGroupButtonSelectAll.TextLine1 = "Select";
+            this.kryptonRibbonGroupButtonSelectAll.TextLine2 = "all";
+            this.kryptonRibbonGroupButtonSelectAll.ToolTipBody = "Select all media files";
+            this.kryptonRibbonGroupButtonSelectAll.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.SelectAll;
+            this.kryptonRibbonGroupButtonSelectAll.ToolTipTitle = "Select all (Ctrl+A)";
+            this.kryptonRibbonGroupButtonSelectAll.Click += new System.EventHandler(this.kryptonRibbonGroupButtonSelectAll_Click);
+            // 
+            // kryptonRibbonGroupButtonSelectNone
+            // 
+            this.kryptonRibbonGroupButtonSelectNone.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.SelectNone;
+            this.kryptonRibbonGroupButtonSelectNone.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.SelectNone;
+            this.kryptonRibbonGroupButtonSelectNone.KeyTip = "N";
+            this.kryptonRibbonGroupButtonSelectNone.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.A)));
+            this.kryptonRibbonGroupButtonSelectNone.TextLine1 = "Select ";
+            this.kryptonRibbonGroupButtonSelectNone.TextLine2 = "none";
+            this.kryptonRibbonGroupButtonSelectNone.ToolTipBody = "Deselect / Select none of the media files";
+            this.kryptonRibbonGroupButtonSelectNone.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.SelectNone;
+            this.kryptonRibbonGroupButtonSelectNone.ToolTipTitle = "Select All (Ctrl+Shift+A)";
+            this.kryptonRibbonGroupButtonSelectNone.Click += new System.EventHandler(this.kryptonRibbonGroupButtonSelectNone_Click);
+            // 
+            // kryptonRibbonGroupButtonSelectToggle
+            // 
+            this.kryptonRibbonGroupButtonSelectToggle.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.SelectToggle;
+            this.kryptonRibbonGroupButtonSelectToggle.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.SelectToggle;
+            this.kryptonRibbonGroupButtonSelectToggle.KeyTip = "I";
+            this.kryptonRibbonGroupButtonSelectToggle.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.A)));
+            this.kryptonRibbonGroupButtonSelectToggle.TextLine1 = "Invert ";
+            this.kryptonRibbonGroupButtonSelectToggle.TextLine2 = "selection";
+            this.kryptonRibbonGroupButtonSelectToggle.ToolTipBody = "Invert selection of the media files.";
+            this.kryptonRibbonGroupButtonSelectToggle.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.SelectToggle;
+            this.kryptonRibbonGroupButtonSelectToggle.ToolTipTitle = "Invert selection (Ctrl+Alt+A)";
+            this.kryptonRibbonGroupButtonSelectToggle.Click += new System.EventHandler(this.kryptonRibbonGroupButtonSelectToggle_Click);
             // 
             // kryptonRibbonGroup2
             // 
             this.kryptonRibbonGroup2.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
+            this.kryptonRibbonGroupLinesLocatonDatePriorities,
             this.kryptonRibbonGroupLinesSelectByDateInterval});
             this.kryptonRibbonGroup2.TextLine1 = "Date range";
+            // 
+            // kryptonRibbonGroupLinesLocatonDatePriorities
+            // 
+            this.kryptonRibbonGroupLinesLocatonDatePriorities.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupCheckBoxSelectFileCreated,
+            this.kryptonRibbonGroupCheckBoxSelectMediaTaken,
+            this.kryptonRibbonGroupCheckBoxSelectCheckAllDates});
+            // 
+            // kryptonRibbonGroupCheckBoxSelectFileCreated
+            // 
+            this.kryptonRibbonGroupCheckBoxSelectFileCreated.KeyTip = "PF";
+            this.kryptonRibbonGroupCheckBoxSelectFileCreated.TextLine1 = "File Created";
+            this.kryptonRibbonGroupCheckBoxSelectFileCreated.Click += new System.EventHandler(this.kryptonRibbonGroupCheckBoxSelectFileCreated_Click);
+            // 
+            // kryptonRibbonGroupCheckBoxSelectMediaTaken
+            // 
+            this.kryptonRibbonGroupCheckBoxSelectMediaTaken.KeyTip = "PM";
+            this.kryptonRibbonGroupCheckBoxSelectMediaTaken.TextLine1 = "Media taken";
+            // 
+            // kryptonRibbonGroupCheckBoxSelectCheckAllDates
+            // 
+            this.kryptonRibbonGroupCheckBoxSelectCheckAllDates.TextLine1 = "Match all (otherwise minimum one)";
+            this.kryptonRibbonGroupCheckBoxSelectCheckAllDates.Click += new System.EventHandler(this.kryptonRibbonGroupCheckBoxSelectCheckAllDates_Click);
             // 
             // kryptonRibbonGroupLinesSelectByDateInterval
             // 
             this.kryptonRibbonGroupLinesSelectByDateInterval.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
-            this.kryptonRibbonGroupRadioButton1,
-            this.kryptonRibbonGroupRadioButton2,
-            this.kryptonRibbonGroupRadioButton3,
-            this.kryptonRibbonGroupRadioButton4,
-            this.kryptonRibbonGroupRadioButton5});
+            this.kryptonRibbonGroupRadioButtonSelectDateRange1,
+            this.kryptonRibbonGroupRadioButtonSelectDateRange3,
+            this.kryptonRibbonGroupRadioButtonSelectDateRange7,
+            this.kryptonRibbonGroupRadioButtonSelectDateRange14,
+            this.kryptonRibbonGroupRadioButtonSelectDateRange30});
             // 
-            // kryptonRibbonGroupRadioButton1
+            // kryptonRibbonGroupRadioButtonSelectDateRange1
             // 
-            this.kryptonRibbonGroupRadioButton1.TextLine1 = "1 day";
+            this.kryptonRibbonGroupRadioButtonSelectDateRange1.KeyTip = "D1";
+            this.kryptonRibbonGroupRadioButtonSelectDateRange1.TextLine1 = "1 day";
+            this.kryptonRibbonGroupRadioButtonSelectDateRange1.Click += new System.EventHandler(this.kryptonRibbonGroupRadioButtonSelectDateRange1_Click);
             // 
-            // kryptonRibbonGroupRadioButton2
+            // kryptonRibbonGroupRadioButtonSelectDateRange3
             // 
-            this.kryptonRibbonGroupRadioButton2.TextLine1 = "3 days";
+            this.kryptonRibbonGroupRadioButtonSelectDateRange3.KeyTip = "D3";
+            this.kryptonRibbonGroupRadioButtonSelectDateRange3.TextLine1 = "3 days";
+            this.kryptonRibbonGroupRadioButtonSelectDateRange3.Click += new System.EventHandler(this.kryptonRibbonGroupRadioButtonSelectDateRange3_Click);
             // 
-            // kryptonRibbonGroupRadioButton3
+            // kryptonRibbonGroupRadioButtonSelectDateRange7
             // 
-            this.kryptonRibbonGroupRadioButton3.TextLine1 = "Week";
+            this.kryptonRibbonGroupRadioButtonSelectDateRange7.KeyTip = "DW";
+            this.kryptonRibbonGroupRadioButtonSelectDateRange7.TextLine1 = "Week";
+            this.kryptonRibbonGroupRadioButtonSelectDateRange7.Click += new System.EventHandler(this.kryptonRibbonGroupRadioButtonSelectDateRange7_Click);
             // 
-            // kryptonRibbonGroupRadioButton4
+            // kryptonRibbonGroupRadioButtonSelectDateRange14
             // 
-            this.kryptonRibbonGroupRadioButton4.TextLine1 = "2 weeks";
+            this.kryptonRibbonGroupRadioButtonSelectDateRange14.KeyTip = "D2";
+            this.kryptonRibbonGroupRadioButtonSelectDateRange14.TextLine1 = "2 weeks";
+            this.kryptonRibbonGroupRadioButtonSelectDateRange14.Click += new System.EventHandler(this.kryptonRibbonGroupRadioButtonSelectDateRange14_Click);
             // 
-            // kryptonRibbonGroupRadioButton5
+            // kryptonRibbonGroupRadioButtonSelectDateRange30
             // 
-            this.kryptonRibbonGroupRadioButton5.TextLine1 = "Month";
-            // 
-            // kryptonRibbonGroup9
-            // 
-            this.kryptonRibbonGroup9.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
-            this.kryptonRibbonGroupLines4});
-            this.kryptonRibbonGroup9.TextLine1 = "Date Priorities";
-            // 
-            // kryptonRibbonGroupLines4
-            // 
-            this.kryptonRibbonGroupLines4.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
-            this.kryptonRibbonGroupRadioButton10,
-            this.kryptonRibbonGroupRadioButton11});
-            // 
-            // kryptonRibbonGroupRadioButton10
-            // 
-            this.kryptonRibbonGroupRadioButton10.TextLine1 = "File created";
-            // 
-            // kryptonRibbonGroupRadioButton11
-            // 
-            this.kryptonRibbonGroupRadioButton11.TextLine1 = "Media taken";
-            this.kryptonRibbonGroupRadioButton11.TextLine2 = "(if exist)";
-            // 
-            // kryptonRibbonGroup7
-            // 
-            this.kryptonRibbonGroup7.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
-            this.kryptonRibbonGroupLines2});
-            this.kryptonRibbonGroup7.TextLine1 = "Media amount";
-            // 
-            // kryptonRibbonGroupLines2
-            // 
-            this.kryptonRibbonGroupLines2.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
-            this.kryptonRibbonGroupRadioButton6,
-            this.kryptonRibbonGroupRadioButton7,
-            this.kryptonRibbonGroupRadioButton8,
-            this.kryptonRibbonGroupRadioButton9});
-            // 
-            // kryptonRibbonGroupRadioButton6
-            // 
-            this.kryptonRibbonGroupRadioButton6.TextLine1 = "Select max";
-            this.kryptonRibbonGroupRadioButton6.TextLine2 = "10 files";
-            // 
-            // kryptonRibbonGroupRadioButton7
-            // 
-            this.kryptonRibbonGroupRadioButton7.TextLine1 = "Select max";
-            this.kryptonRibbonGroupRadioButton7.TextLine2 = "30 files";
-            // 
-            // kryptonRibbonGroupRadioButton8
-            // 
-            this.kryptonRibbonGroupRadioButton8.TextLine1 = "Select max";
-            this.kryptonRibbonGroupRadioButton8.TextLine2 = "50 files";
-            // 
-            // kryptonRibbonGroupRadioButton9
-            // 
-            this.kryptonRibbonGroupRadioButton9.TextLine1 = "Select max";
-            this.kryptonRibbonGroupRadioButton9.TextLine2 = "100 files";
+            this.kryptonRibbonGroupRadioButtonSelectDateRange30.KeyTip = "DM";
+            this.kryptonRibbonGroupRadioButtonSelectDateRange30.TextLine1 = "Month";
+            this.kryptonRibbonGroupRadioButtonSelectDateRange30.Click += new System.EventHandler(this.kryptonRibbonGroupRadioButtonSelectDateRange30_Click);
             // 
             // kryptonRibbonGroup8
             // 
             this.kryptonRibbonGroup8.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
-            this.kryptonRibbonGroupLines3});
+            this.kryptonRibbonGroupLinesSelectLocation});
             this.kryptonRibbonGroup8.TextLine1 = "Location";
             // 
-            // kryptonRibbonGroupLines3
+            // kryptonRibbonGroupLinesSelectLocation
             // 
-            this.kryptonRibbonGroupLines3.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
-            this.kryptonRibbonGroupCheckBox1,
-            this.kryptonRibbonGroupCheckBox2,
-            this.kryptonRibbonGroupCheckBox3,
-            this.kryptonRibbonGroupCheckBox4});
+            this.kryptonRibbonGroupLinesSelectLocation.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupCheckBoxSelectLocationName,
+            this.kryptonRibbonGroupCheckBoxSelectLocationCity,
+            this.kryptonRibbonGroupCheckBoxSelectLocationStateRegion,
+            this.kryptonRibbonGroupCheckBoxSelectLocationCountry,
+            this.kryptonRibbonGroupCheckBoxSelectCheckAllLocations});
             // 
-            // kryptonRibbonGroupCheckBox1
+            // kryptonRibbonGroupCheckBoxSelectLocationName
             // 
-            this.kryptonRibbonGroupCheckBox1.TextLine1 = "Location name";
+            this.kryptonRibbonGroupCheckBoxSelectLocationName.KeyTip = "LN";
+            this.kryptonRibbonGroupCheckBoxSelectLocationName.TextLine1 = "Location name";
+            this.kryptonRibbonGroupCheckBoxSelectLocationName.Click += new System.EventHandler(this.kryptonRibbonGroupCheckBoxSelectLocationName_Click);
             // 
-            // kryptonRibbonGroupCheckBox2
+            // kryptonRibbonGroupCheckBoxSelectLocationCity
             // 
-            this.kryptonRibbonGroupCheckBox2.TextLine1 = "City";
+            this.kryptonRibbonGroupCheckBoxSelectLocationCity.KeyTip = "LI";
+            this.kryptonRibbonGroupCheckBoxSelectLocationCity.TextLine1 = "City";
+            this.kryptonRibbonGroupCheckBoxSelectLocationCity.Click += new System.EventHandler(this.kryptonRibbonGroupCheckBoxSelectLocationCity_Click);
             // 
-            // kryptonRibbonGroupCheckBox3
+            // kryptonRibbonGroupCheckBoxSelectLocationStateRegion
             // 
-            this.kryptonRibbonGroupCheckBox3.TextLine1 = "State/Region";
+            this.kryptonRibbonGroupCheckBoxSelectLocationStateRegion.KeyTip = "LS";
+            this.kryptonRibbonGroupCheckBoxSelectLocationStateRegion.TextLine1 = "State/Region";
+            this.kryptonRibbonGroupCheckBoxSelectLocationStateRegion.Click += new System.EventHandler(this.kryptonRibbonGroupCheckBoxSelectLocationStateRegion_Click);
             // 
-            // kryptonRibbonGroupCheckBox4
+            // kryptonRibbonGroupCheckBoxSelectLocationCountry
             // 
-            this.kryptonRibbonGroupCheckBox4.TextLine1 = "Country";
+            this.kryptonRibbonGroupCheckBoxSelectLocationCountry.KeyTip = "LO";
+            this.kryptonRibbonGroupCheckBoxSelectLocationCountry.TextLine1 = "Country";
+            this.kryptonRibbonGroupCheckBoxSelectLocationCountry.Click += new System.EventHandler(this.kryptonRibbonGroupCheckBoxSelectLocationCountry_Click);
+            // 
+            // kryptonRibbonGroupCheckBoxSelectCheckAllLocations
+            // 
+            this.kryptonRibbonGroupCheckBoxSelectCheckAllLocations.TextLine1 = "Match all (otherwise minimum one)";
+            this.kryptonRibbonGroupCheckBoxSelectCheckAllLocations.Click += new System.EventHandler(this.kryptonRibbonGroupCheckBoxSelectCheckAllLocations_Click);
+            // 
+            // kryptonRibbonGroup7
+            // 
+            this.kryptonRibbonGroup7.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
+            this.kryptonRibbonGroupLinesLocationAmount});
+            this.kryptonRibbonGroup7.TextLine1 = "Media amount";
+            // 
+            // kryptonRibbonGroupLinesLocationAmount
+            // 
+            this.kryptonRibbonGroupLinesLocationAmount.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupRadioButtonSelectMediaAmount10,
+            this.kryptonRibbonGroupRadioButtonSelectMediaAmount30,
+            this.kryptonRibbonGroupRadioButtonSelectMediaAmount50,
+            this.kryptonRibbonGroupRadioButtonSelectMediaAmount100});
+            // 
+            // kryptonRibbonGroupRadioButtonSelectMediaAmount10
+            // 
+            this.kryptonRibbonGroupRadioButtonSelectMediaAmount10.KeyTip = "M1";
+            this.kryptonRibbonGroupRadioButtonSelectMediaAmount10.TextLine1 = "Select max";
+            this.kryptonRibbonGroupRadioButtonSelectMediaAmount10.TextLine2 = "10 files";
+            this.kryptonRibbonGroupRadioButtonSelectMediaAmount10.Click += new System.EventHandler(this.kryptonRibbonGroupRadioButtonSelectMediaAmount10_Click);
+            // 
+            // kryptonRibbonGroupRadioButtonSelectMediaAmount30
+            // 
+            this.kryptonRibbonGroupRadioButtonSelectMediaAmount30.KeyTip = "M3";
+            this.kryptonRibbonGroupRadioButtonSelectMediaAmount30.TextLine1 = "Select max";
+            this.kryptonRibbonGroupRadioButtonSelectMediaAmount30.TextLine2 = "30 files";
+            this.kryptonRibbonGroupRadioButtonSelectMediaAmount30.Click += new System.EventHandler(this.kryptonRibbonGroupRadioButtonSelectMediaAmount30_Click);
+            // 
+            // kryptonRibbonGroupRadioButtonSelectMediaAmount50
+            // 
+            this.kryptonRibbonGroupRadioButtonSelectMediaAmount50.KeyTip = "M5";
+            this.kryptonRibbonGroupRadioButtonSelectMediaAmount50.TextLine1 = "Select max";
+            this.kryptonRibbonGroupRadioButtonSelectMediaAmount50.TextLine2 = "50 files";
+            this.kryptonRibbonGroupRadioButtonSelectMediaAmount50.Click += new System.EventHandler(this.kryptonRibbonGroupRadioButtonSelectMediaAmount50_Click);
+            // 
+            // kryptonRibbonGroupRadioButtonSelectMediaAmount100
+            // 
+            this.kryptonRibbonGroupRadioButtonSelectMediaAmount100.KeyTip = "S0";
+            this.kryptonRibbonGroupRadioButtonSelectMediaAmount100.TextLine1 = "Select max";
+            this.kryptonRibbonGroupRadioButtonSelectMediaAmount100.TextLine2 = "100 files";
+            this.kryptonRibbonGroupRadioButtonSelectMediaAmount100.Click += new System.EventHandler(this.kryptonRibbonGroupRadioButtonSelectMediaAmount100_Click);
             // 
             // kryptonRibbonTabTools
             // 
@@ -6788,7 +6972,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemImageListViewSelectAll.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
             this.toolStripMenuItemImageListViewSelectAll.Size = new System.Drawing.Size(324, 26);
             this.toolStripMenuItemImageListViewSelectAll.Text = "Select All";
-            this.toolStripMenuItemImageListViewSelectAll.Click += new System.EventHandler(this.toolStripMenuItemSelectAll_Click);
             // 
             // toolStripMenuItemImageListViewAutoCorrect
             // 
@@ -6997,15 +7180,6 @@ namespace PhotoTagsSynchronizer
             this.openFolderLocationToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.L)));
             this.openFolderLocationToolStripMenuItem.Size = new System.Drawing.Size(324, 26);
             this.openFolderLocationToolStripMenuItem.Text = "Open Folder Location";
-            // 
-            // kryptonContextMenuItems7
-            // 
-            this.kryptonContextMenuItemsCloseMenuList.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
-            this.kryptonContextMenuItemCloseMenu});
-            // 
-            // kryptonContextMenuItem9
-            // 
-            this.kryptonContextMenuItemCloseMenu.Text = "Close menu";
             // 
             // MainForm
             // 
@@ -7468,38 +7642,38 @@ namespace PhotoTagsSynchronizer
         private Krypton.Ribbon.KryptonRibbonQATButton kryptonRibbonQATButtonSave;
         private Krypton.Ribbon.KryptonRibbonTab kryptonRibbonTabView;
         private Krypton.Ribbon.KryptonRibbonGroup kryptonRibbonGroupViewViewModes;
-        private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple2;
+        private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTripleViewGalleryDetailsPane;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonImageListViewModeGallery;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonImageListViewModeDetails;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonImageListViewModePane;
-        private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple1;
+        private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTripleViewThumbnailsMode;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonImageListViewModeThumbnails;
         private Krypton.Ribbon.KryptonRibbonGroupSeparator kryptonRibbonGroupSeparator4;
         private Krypton.Ribbon.KryptonRibbonGroup kryptonRibbonGroupViewCellSize;
-        private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple3;
+        private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTripleViewGridSize;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonDataGridViewCellSizeBig;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonDataGridViewCellSizeMedium;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonDataGridViewCellSizeSmall;
-        private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple4;
+        private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTripleViewShowHideColumns;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonDataGridViewColumnsHistory;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonDataGridViewColumnsErrors;
         private Krypton.Ribbon.KryptonRibbonTab kryptonRibbonTabSelect;
         private Krypton.Ribbon.KryptonRibbonGroup kryptonRibbonGroupImageListViewSelect;
-        private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple7;
-        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton20;
-        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton21;
+        private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTripleSelectForwardBackwards;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonSelectBackwards;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonSelectForwards;
         private Krypton.Ribbon.KryptonRibbonGroupLines kryptonRibbonGroupLinesSelectByDateInterval;
-        private Krypton.Ribbon.KryptonRibbonGroupRadioButton kryptonRibbonGroupRadioButton1;
-        private Krypton.Ribbon.KryptonRibbonGroupRadioButton kryptonRibbonGroupRadioButton2;
-        private Krypton.Ribbon.KryptonRibbonGroupRadioButton kryptonRibbonGroupRadioButton3;
-        private Krypton.Ribbon.KryptonRibbonGroupRadioButton kryptonRibbonGroupRadioButton4;
-        private Krypton.Ribbon.KryptonRibbonGroupRadioButton kryptonRibbonGroupRadioButton5;
+        private Krypton.Ribbon.KryptonRibbonGroupRadioButton kryptonRibbonGroupRadioButtonSelectDateRange1;
+        private Krypton.Ribbon.KryptonRibbonGroupRadioButton kryptonRibbonGroupRadioButtonSelectDateRange3;
+        private Krypton.Ribbon.KryptonRibbonGroupRadioButton kryptonRibbonGroupRadioButtonSelectDateRange7;
+        private Krypton.Ribbon.KryptonRibbonGroupRadioButton kryptonRibbonGroupRadioButtonSelectDateRange14;
+        private Krypton.Ribbon.KryptonRibbonGroupRadioButton kryptonRibbonGroupRadioButtonSelectDateRange30;
         private Krypton.Ribbon.KryptonRibbonGroupSeparator kryptonRibbonGroupSeparator2;
-        private Krypton.Ribbon.KryptonRibbonGroupLines kryptonRibbonGroupLines2;
-        private Krypton.Ribbon.KryptonRibbonGroupRadioButton kryptonRibbonGroupRadioButton6;
-        private Krypton.Ribbon.KryptonRibbonGroupRadioButton kryptonRibbonGroupRadioButton7;
-        private Krypton.Ribbon.KryptonRibbonGroupRadioButton kryptonRibbonGroupRadioButton8;
-        private Krypton.Ribbon.KryptonRibbonGroupRadioButton kryptonRibbonGroupRadioButton9;
+        private Krypton.Ribbon.KryptonRibbonGroupLines kryptonRibbonGroupLinesLocationAmount;
+        private Krypton.Ribbon.KryptonRibbonGroupRadioButton kryptonRibbonGroupRadioButtonSelectMediaAmount10;
+        private Krypton.Ribbon.KryptonRibbonGroupRadioButton kryptonRibbonGroupRadioButtonSelectMediaAmount30;
+        private Krypton.Ribbon.KryptonRibbonGroupRadioButton kryptonRibbonGroupRadioButtonSelectMediaAmount50;
+        private Krypton.Ribbon.KryptonRibbonGroupRadioButton kryptonRibbonGroupRadioButtonSelectMediaAmount100;
         private Krypton.Ribbon.KryptonRibbonTab kryptonRibbonTabTools;
         private Krypton.Ribbon.KryptonRibbonGroup kryptonRibbonGroupToolsMain;
         private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple6;
@@ -7510,7 +7684,7 @@ namespace PhotoTagsSynchronizer
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonToolsConfig;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonToolsAbout;
         private Krypton.Ribbon.KryptonRibbonGroup kryptonRibbonGroup2;
-        private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple5;
+        private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTripleViewColumnsSort;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonImageListViewDetailviewColumns;
         private Krypton.Ribbon.KryptonRibbonGroup kryptonRibbonGroupViewThumbnailSize;
         private Krypton.Ribbon.KryptonRibbonGroup kryptonRibbonGroupViewColumns;
@@ -7528,26 +7702,23 @@ namespace PhotoTagsSynchronizer
         private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTripleHomeUndoRedo;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonHomeUndo;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonRedo;
-        private Krypton.Ribbon.KryptonRibbonGroup kryptonRibbonGroup9;
-        private Krypton.Ribbon.KryptonRibbonGroupLines kryptonRibbonGroupLines4;
-        private Krypton.Ribbon.KryptonRibbonGroupRadioButton kryptonRibbonGroupRadioButton10;
-        private Krypton.Ribbon.KryptonRibbonGroupRadioButton kryptonRibbonGroupRadioButton11;
+        private Krypton.Ribbon.KryptonRibbonGroupLines kryptonRibbonGroupLinesLocatonDatePriorities;
         private Krypton.Ribbon.KryptonRibbonGroup kryptonRibbonGroup7;
         private Krypton.Ribbon.KryptonRibbonGroup kryptonRibbonGroup8;
-        private Krypton.Ribbon.KryptonRibbonGroupLines kryptonRibbonGroupLines3;
-        private Krypton.Ribbon.KryptonRibbonGroupCheckBox kryptonRibbonGroupCheckBox1;
-        private Krypton.Ribbon.KryptonRibbonGroupCheckBox kryptonRibbonGroupCheckBox2;
-        private Krypton.Ribbon.KryptonRibbonGroupCheckBox kryptonRibbonGroupCheckBox3;
-        private Krypton.Ribbon.KryptonRibbonGroupCheckBox kryptonRibbonGroupCheckBox4;
-        private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple12;
+        private Krypton.Ribbon.KryptonRibbonGroupLines kryptonRibbonGroupLinesSelectLocation;
+        private Krypton.Ribbon.KryptonRibbonGroupCheckBox kryptonRibbonGroupCheckBoxSelectLocationName;
+        private Krypton.Ribbon.KryptonRibbonGroupCheckBox kryptonRibbonGroupCheckBoxSelectLocationCity;
+        private Krypton.Ribbon.KryptonRibbonGroupCheckBox kryptonRibbonGroupCheckBoxSelectLocationStateRegion;
+        private Krypton.Ribbon.KryptonRibbonGroupCheckBox kryptonRibbonGroupCheckBoxSelectLocationCountry;
+        private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTripleViewTumbnailSizeLargeMedium;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonThumbnailSizeXLarge;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonThumbnailSizeLarge;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonThumbnailSizeMedium;
-        private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple13;
+        private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTripleViewThumbnailSizeXSmall;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonThumbnailSizeSmall;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonThumbnailSizeXSmall;
         private Krypton.Ribbon.KryptonRibbonGroup kryptonRibbonGroupViewRows;
-        private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple14;
+        private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTripleViewShowHideRows;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonDataGridViewRowsFavorite;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonDataGridViewRowsHideEqual;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonImageListViewModeThumbnailRenders;
@@ -7887,6 +8058,21 @@ namespace PhotoTagsSynchronizer
         private Krypton.Toolkit.KryptonContextMenuRadioButton kryptonContextMenuRadioButtonFileSystemColumnSortLocationCountry;
         private Krypton.Toolkit.KryptonContextMenuItems kryptonContextMenuItemsCloseMenuList;
         private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItemCloseMenu;
+        private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTripleSelectAllNoneToggle;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonSelectAll;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonSelectNone;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonSelectToggle;
+        private Krypton.Ribbon.KryptonRibbonQATButton kryptonRibbonQATButtonSelectPrevius;
+        private Krypton.Ribbon.KryptonRibbonQATButton kryptonRibbonQATButtonSelectNext;
+        private Krypton.Ribbon.KryptonRibbonQATButton kryptonRibbonQATButtonSelectAll;
+        private Krypton.Ribbon.KryptonRibbonQATButton kryptonRibbonQATButtonSelectNone;
+        private Krypton.Ribbon.KryptonRibbonQATButton kryptonRibbonQATButtonSelectToggle;
+        private Krypton.Ribbon.KryptonRibbonGroupCheckBox kryptonRibbonGroupCheckBoxSelectMediaTaken;
+        private Krypton.Ribbon.KryptonRibbonGroupCheckBox kryptonRibbonGroupCheckBoxSelectFileCreated;
+        private Krypton.Ribbon.KryptonRibbonGroupCheckBox kryptonRibbonGroupCheckBoxSelectCheckAllLocations;
+        private Krypton.Ribbon.KryptonRibbonGroupCheckBox kryptonRibbonGroupCheckBoxSelectCheckAllDates;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonSelectEqual;
+        private Krypton.Ribbon.KryptonRibbonQATButton kryptonRibbonQATButtonSelectEqual;
     }
 }
 
