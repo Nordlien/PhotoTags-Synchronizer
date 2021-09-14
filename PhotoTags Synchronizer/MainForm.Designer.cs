@@ -31,7 +31,7 @@ namespace PhotoTagsSynchronizer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Filter");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Filter");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.toolStripContainerMainForm = new System.Windows.Forms.ToolStripContainer();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
@@ -303,9 +303,6 @@ namespace PhotoTagsSynchronizer
             this.imageBoxPreview = new Cyotek.Windows.Forms.ImageBox();
             this.videoView1 = new LibVLCSharp.WinForms.VideoView();
             this.toolStripContainerStripMediaPreview = new System.Windows.Forms.ToolStrip();
-            this.toolStripButtonMediaPreviewPrevious = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonMediaPreviewNext = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonMediaPreviewPlay = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonMediaPreviewPause = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonMediaPreviewFastBackward = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonMediaPreviewFastForward = new System.Windows.Forms.ToolStripButton();
@@ -321,9 +318,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemPreviewSlideShow8sec = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemPreviewSlideShow10sec = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemPreviewSlideShowStop = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripButtonMediaPreviewRotateCCW = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonMediaPreviewRotate180 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonMediaPreviewRotateCW = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonMediaPreviewClose = new System.Windows.Forms.ToolStripButton();
             this.toolStripTraceBarItemMediaPreviewTimer = new PhotoTagsCommonComponets.ToolStripTraceBarItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
@@ -513,6 +507,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupTriplePreviewSkipPrevNext = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButtonPreviewSkipPrev = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButtonPreviewSkipNext = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupTriplePreviewPlayPause = new Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.kryptonRibbonGroupButtonPreviewPlay = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButtonPreviewPause = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupTriplePreviewRewindForwardStop = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButtonPreviewRewind = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButtonPreviewForward = new Krypton.Ribbon.KryptonRibbonGroupButton();
@@ -529,12 +526,12 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonPreviewSlideshow = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButtonPreviewSlideshowTimeInterval = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonContextMenuPreviewSlideshowInterval = new Krypton.Toolkit.KryptonContextMenu();
+            this.kryptonContextMenuRadioButtonSlideshow2sec = new Krypton.Toolkit.KryptonContextMenuRadioButton();
+            this.kryptonContextMenuRadioButtonSlideshow4sec = new Krypton.Toolkit.KryptonContextMenuRadioButton();
+            this.kryptonContextMenuRadioButtonSlideshow6sec = new Krypton.Toolkit.KryptonContextMenuRadioButton();
+            this.kryptonContextMenuRadioButtonSlideshow8sec = new Krypton.Toolkit.KryptonContextMenuRadioButton();
+            this.kryptonContextMenuRadioButtonSlideshow10sec = new Krypton.Toolkit.KryptonContextMenuRadioButton();
             this.kryptonContextMenuItemsPreviewSlideshowIntervalList = new Krypton.Toolkit.KryptonContextMenuItems();
-            this.kryptonContextMenuItemPreviewSlideshowInterval2sec = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemPreviewSlideshowInterval4sec = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemPreviewSlideshowInterval6sec = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemPreviewSlideshowInterval8sec = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemPreviewSlideshowInterval10sec = new Krypton.Toolkit.KryptonContextMenuItem();
             this.kryptonContextMenuItemPreviewSlideshowIntervalStop = new Krypton.Toolkit.KryptonContextMenuItem();
             this.kryptonRibbonGroupButtonPreviewChromecast = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupPreviewStatus = new Krypton.Ribbon.KryptonRibbonGroup();
@@ -564,9 +561,12 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuItem8 = new Krypton.Toolkit.KryptonContextMenuItem();
             this.kryptonRibbonQATButtonViewMediaPoster = new Krypton.Ribbon.KryptonRibbonQATButton();
             this.kryptonRibbonQATButtonViewMediaPreview = new Krypton.Ribbon.KryptonRibbonQATButton();
-            this.kryptonRibbonGroupTriplePreviewPlayPause = new Krypton.Ribbon.KryptonRibbonGroupTriple();
-            this.kryptonRibbonGroupButtonPreviewPlay = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupButtonPreviewPause = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonContextMenuRadioButton1 = new Krypton.Toolkit.KryptonContextMenuRadioButton();
+            this.kryptonContextMenuRadioButton2 = new Krypton.Toolkit.KryptonContextMenuRadioButton();
+            this.kryptonContextMenuRadioButton3 = new Krypton.Toolkit.KryptonContextMenuRadioButton();
+            this.kryptonContextMenuRadioButton4 = new Krypton.Toolkit.KryptonContextMenuRadioButton();
+            this.kryptonContextMenuRadioButton5 = new Krypton.Toolkit.KryptonContextMenuRadioButton();
+            this.kryptonContextMenuRadioButton6 = new Krypton.Toolkit.KryptonContextMenuRadioButton();
             this.toolStripContainerMainForm.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainerMainForm.ContentPanel.SuspendLayout();
             this.toolStripContainerMainForm.TopToolStripPanel.SuspendLayout();
@@ -1049,7 +1049,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.kryptonTextBoxSearchFilename.Location = new System.Drawing.Point(114, 32);
             this.kryptonTextBoxSearchFilename.Name = "kryptonTextBoxSearchFilename";
-            this.kryptonTextBoxSearchFilename.Size = new System.Drawing.Size(122, 21);
+            this.kryptonTextBoxSearchFilename.Size = new System.Drawing.Size(122, 20);
             this.kryptonTextBoxSearchFilename.TabIndex = 1;
             // 
             // kryptonTextBoxSearchDirectory
@@ -1058,7 +1058,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.kryptonTextBoxSearchDirectory.Location = new System.Drawing.Point(114, 3);
             this.kryptonTextBoxSearchDirectory.Name = "kryptonTextBoxSearchDirectory";
-            this.kryptonTextBoxSearchDirectory.Size = new System.Drawing.Size(122, 21);
+            this.kryptonTextBoxSearchDirectory.Size = new System.Drawing.Size(122, 20);
             this.kryptonTextBoxSearchDirectory.TabIndex = 0;
             // 
             // groupBoxSearchTags
@@ -1122,7 +1122,7 @@ namespace PhotoTagsSynchronizer
             "List of States"});
             this.comboBoxSearchLocationState.Location = new System.Drawing.Point(108, 165);
             this.comboBoxSearchLocationState.Name = "comboBoxSearchLocationState";
-            this.comboBoxSearchLocationState.Size = new System.Drawing.Size(129, 21);
+            this.comboBoxSearchLocationState.Size = new System.Drawing.Size(129, 18);
             this.comboBoxSearchLocationState.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxSearchLocationState.TabIndex = 41;
             this.comboBoxSearchLocationState.Tag = "State";
@@ -1141,7 +1141,7 @@ namespace PhotoTagsSynchronizer
             "List of Albums"});
             this.comboBoxSearchAlbum.Location = new System.Drawing.Point(108, 2);
             this.comboBoxSearchAlbum.Name = "comboBoxSearchAlbum";
-            this.comboBoxSearchAlbum.Size = new System.Drawing.Size(129, 21);
+            this.comboBoxSearchAlbum.Size = new System.Drawing.Size(129, 18);
             this.comboBoxSearchAlbum.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxSearchAlbum.TabIndex = 35;
             this.comboBoxSearchAlbum.Tag = "Album";
@@ -1160,7 +1160,7 @@ namespace PhotoTagsSynchronizer
             "List of Comments"});
             this.comboBoxSearchComments.Location = new System.Drawing.Point(108, 83);
             this.comboBoxSearchComments.Name = "comboBoxSearchComments";
-            this.comboBoxSearchComments.Size = new System.Drawing.Size(129, 21);
+            this.comboBoxSearchComments.Size = new System.Drawing.Size(129, 18);
             this.comboBoxSearchComments.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxSearchComments.TabIndex = 38;
             this.comboBoxSearchComments.Tag = "Comments";
@@ -1179,7 +1179,7 @@ namespace PhotoTagsSynchronizer
             "List of Titles"});
             this.comboBoxSearchTitle.Location = new System.Drawing.Point(108, 30);
             this.comboBoxSearchTitle.Name = "comboBoxSearchTitle";
-            this.comboBoxSearchTitle.Size = new System.Drawing.Size(129, 21);
+            this.comboBoxSearchTitle.Size = new System.Drawing.Size(129, 18);
             this.comboBoxSearchTitle.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxSearchTitle.TabIndex = 36;
             this.comboBoxSearchTitle.Tag = "Title";
@@ -1214,7 +1214,7 @@ namespace PhotoTagsSynchronizer
             "List of Locations"});
             this.comboBoxSearchLocationName.Location = new System.Drawing.Point(108, 110);
             this.comboBoxSearchLocationName.Name = "comboBoxSearchLocationName";
-            this.comboBoxSearchLocationName.Size = new System.Drawing.Size(129, 21);
+            this.comboBoxSearchLocationName.Size = new System.Drawing.Size(129, 18);
             this.comboBoxSearchLocationName.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxSearchLocationName.TabIndex = 39;
             this.comboBoxSearchLocationName.Tag = "Location";
@@ -1233,7 +1233,7 @@ namespace PhotoTagsSynchronizer
             "List of Cities"});
             this.comboBoxSearchLocationCity.Location = new System.Drawing.Point(108, 138);
             this.comboBoxSearchLocationCity.Name = "comboBoxSearchLocationCity";
-            this.comboBoxSearchLocationCity.Size = new System.Drawing.Size(129, 21);
+            this.comboBoxSearchLocationCity.Size = new System.Drawing.Size(129, 18);
             this.comboBoxSearchLocationCity.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxSearchLocationCity.TabIndex = 40;
             this.comboBoxSearchLocationCity.Tag = "City";
@@ -1260,7 +1260,7 @@ namespace PhotoTagsSynchronizer
             "List of Desxriptions"});
             this.comboBoxSearchDescription.Location = new System.Drawing.Point(108, 56);
             this.comboBoxSearchDescription.Name = "comboBoxSearchDescription";
-            this.comboBoxSearchDescription.Size = new System.Drawing.Size(129, 21);
+            this.comboBoxSearchDescription.Size = new System.Drawing.Size(129, 18);
             this.comboBoxSearchDescription.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxSearchDescription.TabIndex = 37;
             this.comboBoxSearchDescription.Tag = "Description";
@@ -1295,7 +1295,7 @@ namespace PhotoTagsSynchronizer
             "List of Contries"});
             this.comboBoxSearchLocationCountry.Location = new System.Drawing.Point(108, 192);
             this.comboBoxSearchLocationCountry.Name = "comboBoxSearchLocationCountry";
-            this.comboBoxSearchLocationCountry.Size = new System.Drawing.Size(129, 21);
+            this.comboBoxSearchLocationCountry.Size = new System.Drawing.Size(129, 18);
             this.comboBoxSearchLocationCountry.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxSearchLocationCountry.TabIndex = 42;
             this.comboBoxSearchLocationCountry.Tag = "Country";
@@ -1351,7 +1351,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.checkedListBoxSearchPeople.Location = new System.Drawing.Point(5, 53);
             this.checkedListBoxSearchPeople.Name = "checkedListBoxSearchPeople";
-            this.checkedListBoxSearchPeople.Size = new System.Drawing.Size(231, 180);
+            this.checkedListBoxSearchPeople.Size = new System.Drawing.Size(231, 164);
             this.checkedListBoxSearchPeople.TabIndex = 45;
             this.checkedListBoxSearchPeople.Tag = "SearchPeople";
             // 
@@ -1588,7 +1588,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxSearchKeyword.IntegralHeight = false;
             this.comboBoxSearchKeyword.Location = new System.Drawing.Point(108, 2);
             this.comboBoxSearchKeyword.Name = "comboBoxSearchKeyword";
-            this.comboBoxSearchKeyword.Size = new System.Drawing.Size(128, 21);
+            this.comboBoxSearchKeyword.Size = new System.Drawing.Size(128, 18);
             this.comboBoxSearchKeyword.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxSearchKeyword.TabIndex = 46;
             this.comboBoxSearchKeyword.Tag = "Keywords";
@@ -1710,11 +1710,11 @@ namespace PhotoTagsSynchronizer
             this.treeViewFilter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeViewFilter.Location = new System.Drawing.Point(0, 0);
             this.treeViewFilter.Name = "treeViewFilter";
-            treeNode3.Name = "NodeFolder";
-            treeNode3.Tag = "Filter";
-            treeNode3.Text = "Filter";
+            treeNode5.Name = "NodeFolder";
+            treeNode5.Tag = "Filter";
+            treeNode5.Text = "Filter";
             this.treeViewFilter.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode3});
+            treeNode5});
             this.treeViewFilter.Size = new System.Drawing.Size(399, 600);
             this.treeViewFilter.TabIndex = 0;
             this.treeViewFilter.BeforeCheck += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeViewFilter_BeforeCheck);
@@ -1904,7 +1904,7 @@ namespace PhotoTagsSynchronizer
             "a"});
             this.comboBoxAuthor.Location = new System.Drawing.Point(99, 108);
             this.comboBoxAuthor.Name = "comboBoxAuthor";
-            this.comboBoxAuthor.Size = new System.Drawing.Size(136, 21);
+            this.comboBoxAuthor.Size = new System.Drawing.Size(136, 18);
             this.comboBoxAuthor.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxAuthor.TabIndex = 29;
             this.comboBoxAuthor.Tag = "Author";
@@ -1930,7 +1930,7 @@ namespace PhotoTagsSynchronizer
             "sdd"});
             this.comboBoxAlbum.Location = new System.Drawing.Point(99, 3);
             this.comboBoxAlbum.Name = "comboBoxAlbum";
-            this.comboBoxAlbum.Size = new System.Drawing.Size(136, 21);
+            this.comboBoxAlbum.Size = new System.Drawing.Size(136, 18);
             this.comboBoxAlbum.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxAlbum.TabIndex = 25;
             this.comboBoxAlbum.Tag = "Album";
@@ -1948,7 +1948,7 @@ namespace PhotoTagsSynchronizer
             "a"});
             this.comboBoxDescription.Location = new System.Drawing.Point(99, 54);
             this.comboBoxDescription.Name = "comboBoxDescription";
-            this.comboBoxDescription.Size = new System.Drawing.Size(136, 21);
+            this.comboBoxDescription.Size = new System.Drawing.Size(136, 18);
             this.comboBoxDescription.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxDescription.TabIndex = 27;
             this.comboBoxDescription.Tag = "Description";
@@ -1966,7 +1966,7 @@ namespace PhotoTagsSynchronizer
             "a"});
             this.comboBoxComments.Location = new System.Drawing.Point(99, 81);
             this.comboBoxComments.Name = "comboBoxComments";
-            this.comboBoxComments.Size = new System.Drawing.Size(136, 21);
+            this.comboBoxComments.Size = new System.Drawing.Size(136, 18);
             this.comboBoxComments.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxComments.TabIndex = 28;
             this.comboBoxComments.Tag = "Comments";
@@ -2000,7 +2000,7 @@ namespace PhotoTagsSynchronizer
             "a"});
             this.comboBoxTitle.Location = new System.Drawing.Point(99, 29);
             this.comboBoxTitle.Name = "comboBoxTitle";
-            this.comboBoxTitle.Size = new System.Drawing.Size(136, 21);
+            this.comboBoxTitle.Size = new System.Drawing.Size(136, 18);
             this.comboBoxTitle.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxTitle.TabIndex = 26;
             this.comboBoxTitle.Tag = "Title";
@@ -2054,7 +2054,7 @@ namespace PhotoTagsSynchronizer
             "10% Confidence"});
             this.comboBoxMediaAiConfidence.Location = new System.Drawing.Point(96, 4);
             this.comboBoxMediaAiConfidence.Name = "comboBoxMediaAiConfidence";
-            this.comboBoxMediaAiConfidence.Size = new System.Drawing.Size(134, 21);
+            this.comboBoxMediaAiConfidence.Size = new System.Drawing.Size(134, 18);
             this.comboBoxMediaAiConfidence.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxMediaAiConfidence.TabIndex = 8;
             this.comboBoxMediaAiConfidence.SelectedIndexChanged += new System.EventHandler(this.comboBoxMediaAiConfidence_SelectedIndexChanged);
@@ -2676,7 +2676,7 @@ namespace PhotoTagsSynchronizer
             "10 days"});
             this.comboBoxGoogleLocationInterval.Location = new System.Drawing.Point(130, 3);
             this.comboBoxGoogleLocationInterval.Name = "comboBoxGoogleLocationInterval";
-            this.comboBoxGoogleLocationInterval.Size = new System.Drawing.Size(127, 21);
+            this.comboBoxGoogleLocationInterval.Size = new System.Drawing.Size(127, 18);
             this.comboBoxGoogleLocationInterval.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxGoogleLocationInterval.TabIndex = 14;
             this.comboBoxGoogleLocationInterval.SelectedIndexChanged += new System.EventHandler(this.comboBoxGoogleLocationInterval_SelectedIndexChanged);
@@ -2715,7 +2715,7 @@ namespace PhotoTagsSynchronizer
             "Time zone 12"});
             this.comboBoxGoogleTimeZoneShift.Location = new System.Drawing.Point(2, 3);
             this.comboBoxGoogleTimeZoneShift.Name = "comboBoxGoogleTimeZoneShift";
-            this.comboBoxGoogleTimeZoneShift.Size = new System.Drawing.Size(122, 21);
+            this.comboBoxGoogleTimeZoneShift.Size = new System.Drawing.Size(122, 18);
             this.comboBoxGoogleTimeZoneShift.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxGoogleTimeZoneShift.TabIndex = 13;
             this.comboBoxGoogleTimeZoneShift.SelectedIndexChanged += new System.EventHandler(this.comboBoxGoogleTimeZoneShift_SelectedIndexChanged);
@@ -2871,7 +2871,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxBrowserURL.Location = new System.Drawing.Point(132, 6);
             this.textBoxBrowserURL.Name = "textBoxBrowserURL";
-            this.textBoxBrowserURL.Size = new System.Drawing.Size(252, 21);
+            this.textBoxBrowserURL.Size = new System.Drawing.Size(252, 20);
             this.textBoxBrowserURL.TabIndex = 9;
             this.textBoxBrowserURL.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxBrowserURL_KeyPress);
             // 
@@ -2912,7 +2912,7 @@ namespace PhotoTagsSynchronizer
             "Zoom 18"});
             this.comboBoxMapZoomLevel.Location = new System.Drawing.Point(41, 6);
             this.comboBoxMapZoomLevel.Name = "comboBoxMapZoomLevel";
-            this.comboBoxMapZoomLevel.Size = new System.Drawing.Size(85, 21);
+            this.comboBoxMapZoomLevel.Size = new System.Drawing.Size(85, 18);
             this.comboBoxMapZoomLevel.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxMapZoomLevel.TabIndex = 15;
             this.comboBoxMapZoomLevel.SelectedIndexChanged += new System.EventHandler(this.comboBoxMapZoomLevel_SelectedIndexChanged);
@@ -3354,7 +3354,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxRenameNewName.Location = new System.Drawing.Point(118, 31);
             this.textBoxRenameNewName.Name = "textBoxRenameNewName";
-            this.textBoxRenameNewName.Size = new System.Drawing.Size(270, 21);
+            this.textBoxRenameNewName.Size = new System.Drawing.Size(270, 20);
             this.textBoxRenameNewName.TabIndex = 1;
             this.textBoxRenameNewName.Leave += new System.EventHandler(this.textBoxRenameNewName_Leave);
             // 
@@ -3412,7 +3412,7 @@ namespace PhotoTagsSynchronizer
             "%LocationCity%"});
             this.comboBoxRenameVariableList.Location = new System.Drawing.Point(118, 2);
             this.comboBoxRenameVariableList.Name = "comboBoxRenameVariableList";
-            this.comboBoxRenameVariableList.Size = new System.Drawing.Size(270, 21);
+            this.comboBoxRenameVariableList.Size = new System.Drawing.Size(270, 18);
             this.comboBoxRenameVariableList.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxRenameVariableList.TabIndex = 0;
             this.comboBoxRenameVariableList.SelectionChangeCommitted += new System.EventHandler(this.comboBoxRenameVariableList_SelectionChangeCommitted);
@@ -3877,9 +3877,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripContainerStripMediaPreview.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStripContainerStripMediaPreview.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStripContainerStripMediaPreview.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButtonMediaPreviewPrevious,
-            this.toolStripButtonMediaPreviewNext,
-            this.toolStripButtonMediaPreviewPlay,
             this.toolStripButtonMediaPreviewPause,
             this.toolStripButtonMediaPreviewFastBackward,
             this.toolStripButtonMediaPreviewFastForward,
@@ -3887,9 +3884,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripDropDownButtonChromecastList,
             this.toolStripDropDownButtonMediaList,
             this.toolStripMenuItemPreviewSlideShowMenu,
-            this.toolStripButtonMediaPreviewRotateCCW,
-            this.toolStripButtonMediaPreviewRotate180,
-            this.toolStripButtonMediaPreviewRotateCW,
             this.toolStripButtonMediaPreviewClose,
             this.toolStripTraceBarItemMediaPreviewTimer,
             this.toolStripSeparator8,
@@ -3900,40 +3894,9 @@ namespace PhotoTagsSynchronizer
             this.toolStripContainerStripMediaPreview.Location = new System.Drawing.Point(3, 0);
             this.toolStripContainerStripMediaPreview.Name = "toolStripContainerStripMediaPreview";
             this.toolStripContainerStripMediaPreview.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.toolStripContainerStripMediaPreview.Size = new System.Drawing.Size(728, 48);
+            this.toolStripContainerStripMediaPreview.Size = new System.Drawing.Size(584, 48);
             this.toolStripContainerStripMediaPreview.TabIndex = 0;
             this.toolStripContainerStripMediaPreview.Text = "toolStrip1";
-            // 
-            // toolStripButtonMediaPreviewPrevious
-            // 
-            this.toolStripButtonMediaPreviewPrevious.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonMediaPreviewPrevious.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerPrevious;
-            this.toolStripButtonMediaPreviewPrevious.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonMediaPreviewPrevious.Name = "toolStripButtonMediaPreviewPrevious";
-            this.toolStripButtonMediaPreviewPrevious.Size = new System.Drawing.Size(24, 45);
-            this.toolStripButtonMediaPreviewPrevious.Text = "Previous media";
-            this.toolStripButtonMediaPreviewPrevious.Click += new System.EventHandler(this.toolStripButtonMediaPreviewPrevious_Click);
-            // 
-            // toolStripButtonMediaPreviewNext
-            // 
-            this.toolStripButtonMediaPreviewNext.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonMediaPreviewNext.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerNext;
-            this.toolStripButtonMediaPreviewNext.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonMediaPreviewNext.Name = "toolStripButtonMediaPreviewNext";
-            this.toolStripButtonMediaPreviewNext.Size = new System.Drawing.Size(24, 45);
-            this.toolStripButtonMediaPreviewNext.Text = "Next media";
-            this.toolStripButtonMediaPreviewNext.Click += new System.EventHandler(this.toolStripButtonMediaPreviewNext_Click);
-            // 
-            // toolStripButtonMediaPreviewPlay
-            // 
-            this.toolStripButtonMediaPreviewPlay.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonMediaPreviewPlay.Enabled = false;
-            this.toolStripButtonMediaPreviewPlay.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerPlay;
-            this.toolStripButtonMediaPreviewPlay.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonMediaPreviewPlay.Name = "toolStripButtonMediaPreviewPlay";
-            this.toolStripButtonMediaPreviewPlay.Size = new System.Drawing.Size(24, 45);
-            this.toolStripButtonMediaPreviewPlay.Text = "Play";
-            this.toolStripButtonMediaPreviewPlay.Click += new System.EventHandler(this.toolStripButtonMediaPreviewPlay_Click);
             // 
             // toolStripButtonMediaPreviewPause
             // 
@@ -3944,7 +3907,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonMediaPreviewPause.Name = "toolStripButtonMediaPreviewPause";
             this.toolStripButtonMediaPreviewPause.Size = new System.Drawing.Size(24, 45);
             this.toolStripButtonMediaPreviewPause.Text = "Pause";
-            this.toolStripButtonMediaPreviewPause.Click += new System.EventHandler(this.toolStripButtonMediaPreviewPause_Click);
             // 
             // toolStripButtonMediaPreviewFastBackward
             // 
@@ -3955,7 +3917,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonMediaPreviewFastBackward.Name = "toolStripButtonMediaPreviewFastBackward";
             this.toolStripButtonMediaPreviewFastBackward.Size = new System.Drawing.Size(24, 45);
             this.toolStripButtonMediaPreviewFastBackward.Text = "Fast Backward";
-            this.toolStripButtonMediaPreviewFastBackward.Click += new System.EventHandler(this.toolStripButtonMediaPreviewFastBackward_Click);
             // 
             // toolStripButtonMediaPreviewFastForward
             // 
@@ -3966,7 +3927,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonMediaPreviewFastForward.Name = "toolStripButtonMediaPreviewFastForward";
             this.toolStripButtonMediaPreviewFastForward.Size = new System.Drawing.Size(24, 45);
             this.toolStripButtonMediaPreviewFastForward.Text = "Fast Forward";
-            this.toolStripButtonMediaPreviewFastForward.Click += new System.EventHandler(this.toolStripButtonMediaPreviewFastForward_Click);
             // 
             // toolStripButtonMediaPreviewStop
             // 
@@ -3977,7 +3937,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonMediaPreviewStop.Name = "toolStripButtonMediaPreviewStop";
             this.toolStripButtonMediaPreviewStop.Size = new System.Drawing.Size(24, 45);
             this.toolStripButtonMediaPreviewStop.Text = "Stop chromecast application";
-            this.toolStripButtonMediaPreviewStop.Click += new System.EventHandler(this.toolStripButtonMediaPreviewStop_Click);
             // 
             // toolStripDropDownButtonChromecastList
             // 
@@ -4035,35 +3994,30 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemPreviewSlideShow2sec.Name = "toolStripMenuItemPreviewSlideShow2sec";
             this.toolStripMenuItemPreviewSlideShow2sec.Size = new System.Drawing.Size(163, 22);
             this.toolStripMenuItemPreviewSlideShow2sec.Text = "SlideShow 2 sec";
-            this.toolStripMenuItemPreviewSlideShow2sec.Click += new System.EventHandler(this.toolStripMenuItemPreviewSlideShow2sec_Click);
             // 
             // toolStripMenuItemPreviewSlideShow4sec
             // 
             this.toolStripMenuItemPreviewSlideShow4sec.Name = "toolStripMenuItemPreviewSlideShow4sec";
             this.toolStripMenuItemPreviewSlideShow4sec.Size = new System.Drawing.Size(163, 22);
             this.toolStripMenuItemPreviewSlideShow4sec.Text = "SlideShow 4 sec";
-            this.toolStripMenuItemPreviewSlideShow4sec.Click += new System.EventHandler(this.toolStripMenuItemPreviewSlideShow4sec_Click);
             // 
             // toolStripMenuItemPreviewSlideShow6sec
             // 
             this.toolStripMenuItemPreviewSlideShow6sec.Name = "toolStripMenuItemPreviewSlideShow6sec";
             this.toolStripMenuItemPreviewSlideShow6sec.Size = new System.Drawing.Size(163, 22);
             this.toolStripMenuItemPreviewSlideShow6sec.Text = "SlideShow 6 sec";
-            this.toolStripMenuItemPreviewSlideShow6sec.Click += new System.EventHandler(this.toolStripMenuItemPreviewSlideShow6sec_Click);
             // 
             // toolStripMenuItemPreviewSlideShow8sec
             // 
             this.toolStripMenuItemPreviewSlideShow8sec.Name = "toolStripMenuItemPreviewSlideShow8sec";
             this.toolStripMenuItemPreviewSlideShow8sec.Size = new System.Drawing.Size(163, 22);
             this.toolStripMenuItemPreviewSlideShow8sec.Text = "SlideShow 8 sec";
-            this.toolStripMenuItemPreviewSlideShow8sec.Click += new System.EventHandler(this.toolStripMenuItemPreviewSlideShow8sec_Click);
             // 
             // toolStripMenuItemPreviewSlideShow10sec
             // 
             this.toolStripMenuItemPreviewSlideShow10sec.Name = "toolStripMenuItemPreviewSlideShow10sec";
             this.toolStripMenuItemPreviewSlideShow10sec.Size = new System.Drawing.Size(163, 22);
             this.toolStripMenuItemPreviewSlideShow10sec.Text = "SlideShow 10 sec";
-            this.toolStripMenuItemPreviewSlideShow10sec.Click += new System.EventHandler(this.toolStripMenuItemPreviewSlideShow10sec_Click);
             // 
             // toolStripMenuItemPreviewSlideShowStop
             // 
@@ -4071,37 +4025,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemPreviewSlideShowStop.Name = "toolStripMenuItemPreviewSlideShowStop";
             this.toolStripMenuItemPreviewSlideShowStop.Size = new System.Drawing.Size(163, 22);
             this.toolStripMenuItemPreviewSlideShowStop.Text = "SlideShow stop";
-            this.toolStripMenuItemPreviewSlideShowStop.Click += new System.EventHandler(this.toolStripMenuItemPreviewSlideShowStop_Click);
-            // 
-            // toolStripButtonMediaPreviewRotateCCW
-            // 
-            this.toolStripButtonMediaPreviewRotateCCW.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonMediaPreviewRotateCCW.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate90CCW;
-            this.toolStripButtonMediaPreviewRotateCCW.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonMediaPreviewRotateCCW.Name = "toolStripButtonMediaPreviewRotateCCW";
-            this.toolStripButtonMediaPreviewRotateCCW.Size = new System.Drawing.Size(24, 45);
-            this.toolStripButtonMediaPreviewRotateCCW.Text = "Rotate CCW";
-            this.toolStripButtonMediaPreviewRotateCCW.Click += new System.EventHandler(this.toolStripButtonMediaPreviewRotateCCW_Click);
-            // 
-            // toolStripButtonMediaPreviewRotate180
-            // 
-            this.toolStripButtonMediaPreviewRotate180.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonMediaPreviewRotate180.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate180;
-            this.toolStripButtonMediaPreviewRotate180.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonMediaPreviewRotate180.Name = "toolStripButtonMediaPreviewRotate180";
-            this.toolStripButtonMediaPreviewRotate180.Size = new System.Drawing.Size(24, 45);
-            this.toolStripButtonMediaPreviewRotate180.Text = "Rotate 180";
-            this.toolStripButtonMediaPreviewRotate180.Click += new System.EventHandler(this.toolStripButtonMediaPreviewRotate180_Click);
-            // 
-            // toolStripButtonMediaPreviewRotateCW
-            // 
-            this.toolStripButtonMediaPreviewRotateCW.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonMediaPreviewRotateCW.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate90CW;
-            this.toolStripButtonMediaPreviewRotateCW.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonMediaPreviewRotateCW.Name = "toolStripButtonMediaPreviewRotateCW";
-            this.toolStripButtonMediaPreviewRotateCW.Size = new System.Drawing.Size(24, 45);
-            this.toolStripButtonMediaPreviewRotateCW.Text = "Rotate CW";
-            this.toolStripButtonMediaPreviewRotateCW.Click += new System.EventHandler(this.toolStripButtonMediaPreviewRotateCW_Click);
             // 
             // toolStripButtonMediaPreviewClose
             // 
@@ -4111,7 +4034,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonMediaPreviewClose.Name = "toolStripButtonMediaPreviewClose";
             this.toolStripButtonMediaPreviewClose.Size = new System.Drawing.Size(24, 45);
             this.toolStripButtonMediaPreviewClose.Text = "Close preview media";
-            this.toolStripButtonMediaPreviewClose.Click += new System.EventHandler(this.toolStripButtonMediaPreviewClose_Click);
             // 
             // toolStripTraceBarItemMediaPreviewTimer
             // 
@@ -4119,7 +4041,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripTraceBarItemMediaPreviewTimer.Size = new System.Drawing.Size(200, 45);
             this.toolStripTraceBarItemMediaPreviewTimer.Text = "Video timer";
             this.toolStripTraceBarItemMediaPreviewTimer.ToolTipText = "Video timer";
-            this.toolStripTraceBarItemMediaPreviewTimer.ValueChanged += new System.EventHandler(this.toolStripTraceBarItemSeekPosition_ValueChanged);
             // 
             // toolStripSeparator8
             // 
@@ -4309,6 +4230,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonTabSelect,
             this.kryptonRibbonTabTools,
             this.kryptonRibbonTabPreview});
+            this.kryptonRibbonMain.SelectedContext = null;
             this.kryptonRibbonMain.SelectedTab = this.kryptonRibbonTabPreview;
             this.kryptonRibbonMain.Size = new System.Drawing.Size(1214, 142);
             this.kryptonRibbonMain.TabIndex = 12;
@@ -5739,6 +5661,28 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonPreviewSkipNext.TextLine2 = "Next";
             this.kryptonRibbonGroupButtonPreviewSkipNext.Click += new System.EventHandler(this.kryptonRibbonGroupButtonPreviewSkipNext_Click);
             // 
+            // kryptonRibbonGroupTriplePreviewPlayPause
+            // 
+            this.kryptonRibbonGroupTriplePreviewPlayPause.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupButtonPreviewPlay,
+            this.kryptonRibbonGroupButtonPreviewPause});
+            // 
+            // kryptonRibbonGroupButtonPreviewPlay
+            // 
+            this.kryptonRibbonGroupButtonPreviewPlay.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerPlay;
+            this.kryptonRibbonGroupButtonPreviewPlay.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerPlay;
+            this.kryptonRibbonGroupButtonPreviewPlay.TextLine1 = "Play";
+            this.kryptonRibbonGroupButtonPreviewPlay.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerPlay;
+            this.kryptonRibbonGroupButtonPreviewPlay.Click += new System.EventHandler(this.kryptonRibbonGroupButtonPreviewPlay_Click);
+            // 
+            // kryptonRibbonGroupButtonPreviewPause
+            // 
+            this.kryptonRibbonGroupButtonPreviewPause.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerPause;
+            this.kryptonRibbonGroupButtonPreviewPause.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerPause;
+            this.kryptonRibbonGroupButtonPreviewPause.TextLine1 = "Pause";
+            this.kryptonRibbonGroupButtonPreviewPause.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerPause;
+            this.kryptonRibbonGroupButtonPreviewPause.Click += new System.EventHandler(this.kryptonRibbonGroupButtonPreviewPause_Click);
+            // 
             // kryptonRibbonGroupTriplePreviewRewindForwardStop
             // 
             this.kryptonRibbonGroupTriplePreviewRewindForwardStop.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
@@ -5794,24 +5738,27 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonRibbonGroupButtonPreviewRotate270
             // 
+            this.kryptonRibbonGroupButtonPreviewRotate270.ButtonType = Krypton.Ribbon.GroupButtonType.Check;
             this.kryptonRibbonGroupButtonPreviewRotate270.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate90CCW;
             this.kryptonRibbonGroupButtonPreviewRotate270.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate90CCW;
             this.kryptonRibbonGroupButtonPreviewRotate270.TextLine1 = "90° CCW";
-            this.kryptonRibbonGroupButtonPreviewRotate270.DropDown += new System.EventHandler<Krypton.Toolkit.ContextMenuArgs>(this.kryptonRibbonGroupButtonPreviewRotate270_DropDown);
+            this.kryptonRibbonGroupButtonPreviewRotate270.Click += new System.EventHandler(this.kryptonRibbonGroupButtonPreviewRotate270_Click);
             // 
             // kryptonRibbonGroupButtonPreviewRotate180
             // 
+            this.kryptonRibbonGroupButtonPreviewRotate180.ButtonType = Krypton.Ribbon.GroupButtonType.Check;
             this.kryptonRibbonGroupButtonPreviewRotate180.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate180;
             this.kryptonRibbonGroupButtonPreviewRotate180.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate180;
             this.kryptonRibbonGroupButtonPreviewRotate180.TextLine1 = "180°";
-            this.kryptonRibbonGroupButtonPreviewRotate180.DropDown += new System.EventHandler<Krypton.Toolkit.ContextMenuArgs>(this.kryptonRibbonGroupButtonPreviewRotate180_DropDown);
+            this.kryptonRibbonGroupButtonPreviewRotate180.Click += new System.EventHandler(this.kryptonRibbonGroupButtonPreviewRotate180_Click);
             // 
             // kryptonRibbonGroupButtonPreviewRotate90
             // 
+            this.kryptonRibbonGroupButtonPreviewRotate90.ButtonType = Krypton.Ribbon.GroupButtonType.Check;
             this.kryptonRibbonGroupButtonPreviewRotate90.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate90CW;
             this.kryptonRibbonGroupButtonPreviewRotate90.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate90CW;
             this.kryptonRibbonGroupButtonPreviewRotate90.TextLine1 = "90° CW";
-            this.kryptonRibbonGroupButtonPreviewRotate90.DropDown += new System.EventHandler<Krypton.Toolkit.ContextMenuArgs>(this.kryptonRibbonGroupButtonPreviewRotate90_DropDown);
+            this.kryptonRibbonGroupButtonPreviewRotate90.Click += new System.EventHandler(this.kryptonRibbonGroupButtonPreviewRotate90_Click);
             // 
             // kryptonRibbonGroupPreviewSlideshow
             // 
@@ -5846,37 +5793,42 @@ namespace PhotoTagsSynchronizer
             // kryptonContextMenuPreviewSlideshowInterval
             // 
             this.kryptonContextMenuPreviewSlideshowInterval.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonContextMenuRadioButtonSlideshow2sec,
+            this.kryptonContextMenuRadioButtonSlideshow4sec,
+            this.kryptonContextMenuRadioButtonSlideshow6sec,
+            this.kryptonContextMenuRadioButtonSlideshow8sec,
+            this.kryptonContextMenuRadioButtonSlideshow10sec,
             this.kryptonContextMenuItemsPreviewSlideshowIntervalList});
+            // 
+            // kryptonContextMenuRadioButtonSlideshow2sec
+            // 
+            this.kryptonContextMenuRadioButtonSlideshow2sec.ExtraText = "";
+            this.kryptonContextMenuRadioButtonSlideshow2sec.Text = "Slideshow 2 sec";
+            // 
+            // kryptonContextMenuRadioButtonSlideshow4sec
+            // 
+            this.kryptonContextMenuRadioButtonSlideshow4sec.ExtraText = "";
+            this.kryptonContextMenuRadioButtonSlideshow4sec.Text = "Slideshow 4 sec";
+            // 
+            // kryptonContextMenuRadioButtonSlideshow6sec
+            // 
+            this.kryptonContextMenuRadioButtonSlideshow6sec.ExtraText = "";
+            this.kryptonContextMenuRadioButtonSlideshow6sec.Text = "Slideshow 6 sec";
+            // 
+            // kryptonContextMenuRadioButtonSlideshow8sec
+            // 
+            this.kryptonContextMenuRadioButtonSlideshow8sec.ExtraText = "";
+            this.kryptonContextMenuRadioButtonSlideshow8sec.Text = "Slideshow8 sec";
+            // 
+            // kryptonContextMenuRadioButtonSlideshow10sec
+            // 
+            this.kryptonContextMenuRadioButtonSlideshow10sec.ExtraText = "";
+            this.kryptonContextMenuRadioButtonSlideshow10sec.Text = "Slideshow 10 sec";
             // 
             // kryptonContextMenuItemsPreviewSlideshowIntervalList
             // 
             this.kryptonContextMenuItemsPreviewSlideshowIntervalList.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
-            this.kryptonContextMenuItemPreviewSlideshowInterval2sec,
-            this.kryptonContextMenuItemPreviewSlideshowInterval4sec,
-            this.kryptonContextMenuItemPreviewSlideshowInterval6sec,
-            this.kryptonContextMenuItemPreviewSlideshowInterval8sec,
-            this.kryptonContextMenuItemPreviewSlideshowInterval10sec,
             this.kryptonContextMenuItemPreviewSlideshowIntervalStop});
-            // 
-            // kryptonContextMenuItemPreviewSlideshowInterval2sec
-            // 
-            this.kryptonContextMenuItemPreviewSlideshowInterval2sec.Text = "Slideshow 2 sec";
-            // 
-            // kryptonContextMenuItemPreviewSlideshowInterval4sec
-            // 
-            this.kryptonContextMenuItemPreviewSlideshowInterval4sec.Text = "Slideshow 4 sec";
-            // 
-            // kryptonContextMenuItemPreviewSlideshowInterval6sec
-            // 
-            this.kryptonContextMenuItemPreviewSlideshowInterval6sec.Text = "Slideshow 6 sec";
-            // 
-            // kryptonContextMenuItemPreviewSlideshowInterval8sec
-            // 
-            this.kryptonContextMenuItemPreviewSlideshowInterval8sec.Text = "Slideshow 8 sec";
-            // 
-            // kryptonContextMenuItemPreviewSlideshowInterval10sec
-            // 
-            this.kryptonContextMenuItemPreviewSlideshowInterval10sec.Text = "Slideshow 10 sec";
             // 
             // kryptonContextMenuItemPreviewSlideshowIntervalStop
             // 
@@ -5970,27 +5922,29 @@ namespace PhotoTagsSynchronizer
             // 
             this.kryptonContextMenuItem8.Text = "Menu Item";
             // 
-            // kryptonRibbonGroupTriplePreviewPlayPause
+            // kryptonContextMenuRadioButton1
             // 
-            this.kryptonRibbonGroupTriplePreviewPlayPause.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
-            this.kryptonRibbonGroupButtonPreviewPlay,
-            this.kryptonRibbonGroupButtonPreviewPause});
+            this.kryptonContextMenuRadioButton1.ExtraText = "";
             // 
-            // kryptonRibbonGroupButtonPreviewPlay
+            // kryptonContextMenuRadioButton2
             // 
-            this.kryptonRibbonGroupButtonPreviewPlay.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerPlay;
-            this.kryptonRibbonGroupButtonPreviewPlay.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerPlay;
-            this.kryptonRibbonGroupButtonPreviewPlay.TextLine1 = "Play";
-            this.kryptonRibbonGroupButtonPreviewPlay.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerPlay;
-            this.kryptonRibbonGroupButtonPreviewPlay.Click += new System.EventHandler(this.kryptonRibbonGroupButtonPreviewPlay_Click);
+            this.kryptonContextMenuRadioButton2.ExtraText = "";
             // 
-            // kryptonRibbonGroupButtonPreviewPause
+            // kryptonContextMenuRadioButton3
             // 
-            this.kryptonRibbonGroupButtonPreviewPause.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerPause;
-            this.kryptonRibbonGroupButtonPreviewPause.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerPause;
-            this.kryptonRibbonGroupButtonPreviewPause.TextLine1 = "Pause";
-            this.kryptonRibbonGroupButtonPreviewPause.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerPause;
-            this.kryptonRibbonGroupButtonPreviewPause.Click += new System.EventHandler(this.kryptonRibbonGroupButtonPreviewPause_Click);
+            this.kryptonContextMenuRadioButton3.ExtraText = "";
+            // 
+            // kryptonContextMenuRadioButton4
+            // 
+            this.kryptonContextMenuRadioButton4.ExtraText = "";
+            // 
+            // kryptonContextMenuRadioButton5
+            // 
+            this.kryptonContextMenuRadioButton5.ExtraText = "";
+            // 
+            // kryptonContextMenuRadioButton6
+            // 
+            this.kryptonContextMenuRadioButton6.ExtraText = "";
             // 
             // MainForm
             // 
@@ -6266,9 +6220,6 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.Timer timerLazyLoadingDataGridViewProgressRemoveProgessbar;
         private Krypton.Toolkit.KryptonPanel panelMediaPreview;
         private System.Windows.Forms.ToolStrip toolStripContainerStripMediaPreview;
-        private System.Windows.Forms.ToolStripButton toolStripButtonMediaPreviewPrevious;
-        private System.Windows.Forms.ToolStripButton toolStripButtonMediaPreviewNext;
-        private System.Windows.Forms.ToolStripButton toolStripButtonMediaPreviewPlay;
         private System.Windows.Forms.ToolStripButton toolStripButtonMediaPreviewPause;
         private System.Windows.Forms.ToolStripButton toolStripButtonMediaPreviewClose;
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButtonChromecastList;
@@ -6297,9 +6248,6 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPreviewSlideShow10sec;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPreviewSlideShowStop;
         private System.Windows.Forms.Timer timerPreviewNextTimer;
-        private System.Windows.Forms.ToolStripButton toolStripButtonMediaPreviewRotateCCW;
-        private System.Windows.Forms.ToolStripButton toolStripButtonMediaPreviewRotate180;
-        private System.Windows.Forms.ToolStripButton toolStripButtonMediaPreviewRotateCW;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBarSaveProgress;
         private System.Windows.Forms.Timer timerSaveProgessRemoveProgress;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBarThreadQueue;
@@ -6745,15 +6693,21 @@ namespace PhotoTagsSynchronizer
         private Krypton.Ribbon.KryptonRibbonQATButton kryptonRibbonQATButtonSelectEqual;
         private Krypton.Toolkit.KryptonContextMenu kryptonContextMenuPreviewSlideshowInterval;
         private Krypton.Toolkit.KryptonContextMenuItems kryptonContextMenuItemsPreviewSlideshowIntervalList;
-        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItemPreviewSlideshowInterval2sec;
-        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItemPreviewSlideshowInterval4sec;
-        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItemPreviewSlideshowInterval6sec;
-        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItemPreviewSlideshowInterval8sec;
-        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItemPreviewSlideshowInterval10sec;
         private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItemPreviewSlideshowIntervalStop;
         private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriplePreviewPlayPause;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonPreviewPlay;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonPreviewPause;
+        private Krypton.Toolkit.KryptonContextMenuRadioButton kryptonContextMenuRadioButtonSlideshow2sec;
+        private Krypton.Toolkit.KryptonContextMenuRadioButton kryptonContextMenuRadioButtonSlideshow4sec;
+        private Krypton.Toolkit.KryptonContextMenuRadioButton kryptonContextMenuRadioButtonSlideshow6sec;
+        private Krypton.Toolkit.KryptonContextMenuRadioButton kryptonContextMenuRadioButtonSlideshow8sec;
+        private Krypton.Toolkit.KryptonContextMenuRadioButton kryptonContextMenuRadioButtonSlideshow10sec;
+        private Krypton.Toolkit.KryptonContextMenuRadioButton kryptonContextMenuRadioButton1;
+        private Krypton.Toolkit.KryptonContextMenuRadioButton kryptonContextMenuRadioButton2;
+        private Krypton.Toolkit.KryptonContextMenuRadioButton kryptonContextMenuRadioButton3;
+        private Krypton.Toolkit.KryptonContextMenuRadioButton kryptonContextMenuRadioButton4;
+        private Krypton.Toolkit.KryptonContextMenuRadioButton kryptonContextMenuRadioButton5;
+        private Krypton.Toolkit.KryptonContextMenuRadioButton kryptonContextMenuRadioButton6;
     }
 }
 

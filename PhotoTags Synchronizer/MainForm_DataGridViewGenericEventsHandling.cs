@@ -362,6 +362,8 @@ namespace PhotoTagsSynchronizer
             bool isSomethingSelected = (imageListView1.SelectedItems.Count >= 1);
             bool isMoreThatOneSelected = (imageListView1.SelectedItems.Count > 1);
 
+            SetPreviewRibbonEnabledStatus(previewStartEnabled: isSomethingSelected, enabled: false);
+
             switch (ActiveKryptonPage)
             {
                 case KryptonPages.None:

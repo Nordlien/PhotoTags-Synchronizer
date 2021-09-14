@@ -388,11 +388,11 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationCountry.Click += KryptonContextMenuRadioButtonFileSystemColumnSortLocationCountry_Click;
             //this.kryptonContextMenuItemsCloseMenuList
 
-            this.kryptonContextMenuItemPreviewSlideshowInterval2sec.Click += KryptonContextMenuItemPreviewSlideshowInterval2sec_Click;
-            this.kryptonContextMenuItemPreviewSlideshowInterval4sec.Click += KryptonContextMenuItemPreviewSlideshowInterval4sec_Click;
-            this.kryptonContextMenuItemPreviewSlideshowInterval6sec.Click += KryptonContextMenuItemPreviewSlideshowInterval6sec_Click;
-            this.kryptonContextMenuItemPreviewSlideshowInterval8sec.Click += KryptonContextMenuItemPreviewSlideshowInterval8sec_Click;
-            this.kryptonContextMenuItemPreviewSlideshowInterval10sec.Click += KryptonContextMenuItemPreviewSlideshowInterval10sec_Click;
+            this.kryptonContextMenuRadioButtonSlideshow2sec.Click += KryptonContextMenuRadioButtonSlideshow2sec_Click;
+            this.kryptonContextMenuRadioButtonSlideshow4sec.Click += KryptonContextMenuRadioButtonSlideshow4sec_Click;
+            this.kryptonContextMenuRadioButtonSlideshow6sec.Click += KryptonContextMenuRadioButtonSlideshow6sec_Click;
+            this.kryptonContextMenuRadioButtonSlideshow8sec.Click += KryptonContextMenuRadioButtonSlideshow8sec_Click;
+            this.kryptonContextMenuRadioButtonSlideshow10sec.Click += KryptonContextMenuRadioButtonSlideshow10sec_Click;
             this.kryptonContextMenuItemPreviewSlideshowIntervalStop.Click += KryptonContextMenuItemPreviewSlideshowIntervalStop_Click;
             //this.kryptonContextMenuItemsPreviewSlideshowIntervalList.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
 
@@ -422,7 +422,7 @@ namespace PhotoTagsSynchronizer
 
             #endregion
 
-            SetPreviewRibbonEnabledStatus(false);
+            SetPreviewRibbonEnabledStatus(previewStartEnabled: false, enabled: false);
             this.toolStripContainerStripMainForm.RenderMode = ToolStripRenderMode.Professional;
             this.toolStripContainerStripMainForm.Renderer = new PhotoTagsCommonComponets.ToolStripProfessionalRendererWithoutLines();
             this.toolStripContainerStripMediaPreview.RenderMode = ToolStripRenderMode.Professional;
@@ -772,6 +772,8 @@ namespace PhotoTagsSynchronizer
         
 
 
+
+
         #endregion
 
         #region Resize and restore windows size when reopen application
@@ -1017,6 +1019,8 @@ namespace PhotoTagsSynchronizer
             PopulateImageListView_FromFolderSelected(false, true);
             FilesSelected();
         }
+
+
 
 
 
