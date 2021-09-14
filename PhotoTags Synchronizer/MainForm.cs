@@ -32,188 +32,7 @@ namespace PhotoTagsSynchronizer
 {
 
     public partial class MainForm : KryptonForm
-    {
-        
-        #region DarkMode
-        public void UpdateColorControls(Control control, bool useDarkMode)
-        {
-            if (useDarkMode)
-            {
-                //kryptonManager1.GlobalPaletteMode = PaletteModeManager.Office2010Black;
-            }
-            else
-            {
-                //kryptonManager1.GlobalPaletteMode = PaletteModeManager.Office2007Silver;
-            }
-            /*
-            Color LighterColor(Color color, float correctionfactory = 50f)
-            {
-                correctionfactory = correctionfactory / 100f;
-                const float rgb255 = 255f;
-                return Color.FromArgb(
-                    (int)((float)color.R + ((rgb255 - (float)color.R) * correctionfactory)), 
-                    (int)((float)color.G + ((rgb255 - (float)color.G) * correctionfactory)), 
-                    (int)((float)color.B + ((rgb255 - (float)color.B) * correctionfactory))
-                    );
-            }
-
-            Color DarkerColor(Color color, float correctionfactory = 50f)
-            {
-                const float hundredpercent = 100f;
-                return Color.FromArgb(
-                    (int)(((float)color.R / hundredpercent) * (hundredpercent - correctionfactory)),
-                    (int)(((float)color.G / hundredpercent) * (hundredpercent - correctionfactory)), 
-                    (int)(((float)color.B / hundredpercent) * (hundredpercent - correctionfactory))
-                    );
-            }
-            if (useDarkMode)
-            {
-                DataGridViewHandler.ColorCellEditable = SystemColors.ControlDarkDark;
-                DataGridViewHandler.ColorFavourite = LighterColor(SystemColors.ControlDarkDark, 20);
-                DataGridViewHandler.ColorReadOnly = DarkerColor(SystemColors.ControlDarkDark, 20);                
-                DataGridViewHandler.ColorReadOnlyFavourite = DarkerColor(SystemColors.ControlDarkDark, 10);
-                DataGridViewHandler.ColorError = Color.FromArgb(128, 32, 32);
-          
-                
-                DataGridViewHandler.ColorHeader = Color.Black;
-                
-                DataGridViewHandler.ColorHeaderImage = SystemColors.ControlDarkDark;
-                DataGridViewHandler.ColorHeaderError = Color.Red;
-                DataGridViewHandler.ColorHeaderWarning = Color.Yellow;
-                DataGridViewHandler.ColorRegionFace = Color.Black;
-            }
-            else
-            {
-                DataGridViewHandler.ColorReadOnly = SystemColors.GradientInactiveCaption;
-                DataGridViewHandler.ColorError = Color.FromArgb(255, 192, 192);
-                DataGridViewHandler.ColorFavourite = SystemColors.ControlLight;
-                DataGridViewHandler.ColorReadOnlyFavourite = SystemColors.MenuHighlight;
-                DataGridViewHandler.ColorHeader = SystemColors.Control;
-                DataGridViewHandler.ColorCellEditable = SystemColors.ControlLightLight;
-                DataGridViewHandler.ColorHeaderImage = Color.LightSteelBlue;
-                DataGridViewHandler.ColorHeaderError = Color.Red;
-                DataGridViewHandler.ColorHeaderWarning = Color.Yellow;
-                DataGridViewHandler.ColorRegionFace = Color.White;
-            }
-            UpdateColorControlsRecursive(control, useDarkMode);
-            //this.Refresh();
-            */
-        }
-
-        public void UpdateColorControlsRecursive(Control control, bool useDarkMode)
-        {
-            if (control is Button ||
-                control is CheckBox ||
-                control is CheckedListBox ||
-                
-                control is DateTimePicker ||
-                //control is Form ||
-                control is GroupBox ||
-                control is HScrollBar || control is VScrollBar ||
-                control is Panel ||
-                control is ProgressBar ||
-                control is PictureBox ||
-                control is Label ||
-                control is MdiClient ||
-                control is RadioButton ||
-                control is TabControl ||
-                control is TabPage ||
-                control is TrackBar ||
-                control is TextBox ||
-                control is ToolStrip ||                
-                control is ToolStripContainer ||
-                control is ToolStripContentPanel ||
-                control is ToolStripPanel ||
-                control is SplitContainer ||
-
-                control is CefSharp.WinForms.ChromiumWebBrowser ||
-                control is Cyotek.Windows.Forms.ImageBox ||
-                control is PhotoTagsCommonComponets.TreeViewWithoutDoubleClick ||
-                control is Furty.Windows.Forms.FolderTreeView ||
-                control is LibVLCSharp.WinForms.VideoView ||
-                control is Manina.Windows.Forms.ImageListView 
-                
-                )
-            {
-                if (useDarkMode)
-                {
-                    control.BackColor = Color.Black;
-                    control.ForeColor = Color.Gray;
-                } else
-                {
-                    control.BackColor = SystemColors.Control;
-                    control.ForeColor = SystemColors.ControlText;
-                }
-            }
-            else if (control is Form)
-            {
-                
-                //DefaultSkin skin = DefaultSkin.Office2007Luna;
-                
-               
-            }
-            else if (control is DataGridView)
-            {
-                if (useDarkMode)
-                {
-                    DataGridView MyDgv = (DataGridView)control;
-                    MyDgv.BackgroundColor = SystemColors.ControlDarkDark;
-                    MyDgv.GridColor = SystemColors.ControlDark;
-
-                    MyDgv.ColumnHeadersDefaultCellStyle.BackColor = Color.Black;
-                    MyDgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.Gray;
-                    MyDgv.RowHeadersDefaultCellStyle.BackColor = Color.Black;
-                    MyDgv.RowHeadersDefaultCellStyle.ForeColor = Color.Gray;
-
-                    MyDgv.DefaultCellStyle.BackColor = Color.DarkGray;
-                    MyDgv.DefaultCellStyle.ForeColor = SystemColors.ControlText;
-                    MyDgv.DefaultCellStyle.SelectionBackColor = SystemColors.Highlight;
-                    MyDgv.DefaultCellStyle.SelectionForeColor = SystemColors.HighlightText;
-                }
-                else
-                {
-                    DataGridView MyDgv = (DataGridView)control;
-                    MyDgv.BackgroundColor = SystemColors.AppWorkspace;
-                    MyDgv.GridColor = SystemColors.ControlDark;
-
-                    MyDgv.ColumnHeadersDefaultCellStyle.BackColor = SystemColors.Control;
-                    MyDgv.ColumnHeadersDefaultCellStyle.ForeColor = SystemColors.WindowText;
-                    MyDgv.RowHeadersDefaultCellStyle.BackColor = SystemColors.Control;
-                    MyDgv.RowHeadersDefaultCellStyle.ForeColor = SystemColors.WindowText;
-
-                    MyDgv.DefaultCellStyle.BackColor = SystemColors.Window;
-                    MyDgv.DefaultCellStyle.ForeColor = SystemColors.ControlText;
-                    MyDgv.DefaultCellStyle.SelectionBackColor = SystemColors.Highlight;
-                    MyDgv.DefaultCellStyle.SelectionForeColor = SystemColors.HighlightText;
-                }
-            }
-            else if (control is PhotoTagsCommonComponets.ComboBoxCustom)
-            {
-                if (useDarkMode)
-                {
-                    ((ComboBoxCustom)control).BorderColor = SystemColors.ControlDarkDark;
-                    ((ComboBoxCustom)control).BackColor = Color.Black;
-                    ((ComboBoxCustom)control).ForeColor = Color.Gray;
-                }
-                else
-                {
-                    ((ComboBoxCustom)control).BorderColor = SystemColors.Control;
-                    ((ComboBoxCustom)control).BackColor = SystemColors.ControlDarkDark; ;
-                    ((ComboBoxCustom)control).ForeColor = SystemColors.ControlText;
-                }
-            }
-            else
-            {
-                // Any other non-standard controls should be implemented here aswell...
-            }
-
-            foreach (Control subControls in control.Controls)
-            {
-                UpdateColorControlsRecursive(subControls, useDarkMode);
-            }
-        }
-        #endregion
-
+    {      
         #region Global Variables
         public const string LinkTabAndDataGridViewNameTags = "Tags";
         public const string LinkTabAndDataGridViewNameMap = "Map";
@@ -423,15 +242,7 @@ namespace PhotoTagsSynchronizer
             #endregion
 
             SetPreviewRibbonEnabledStatus(previewStartEnabled: false, enabled: false);
-            this.toolStripContainerStripMainForm.RenderMode = ToolStripRenderMode.Professional;
-            this.toolStripContainerStripMainForm.Renderer = new PhotoTagsCommonComponets.ToolStripProfessionalRendererWithoutLines();
-            this.toolStripContainerStripMediaPreview.RenderMode = ToolStripRenderMode.Professional;
-            this.toolStripContainerStripMediaPreview.Renderer = new PhotoTagsCommonComponets.ToolStripProfessionalRendererWithoutLines();
-
-            if (Properties.Settings.Default.ApplicationDarkMode == true) UpdateColorControls(this, Properties.Settings.Default.ApplicationDarkMode);
             
-
-
             #region Initialize VLC player
             FormSplash.UpdateStatus("Staring VLC player...");
             
@@ -1019,6 +830,7 @@ namespace PhotoTagsSynchronizer
             PopulateImageListView_FromFolderSelected(false, true);
             FilesSelected();
         }
+
 
 
 

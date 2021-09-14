@@ -4521,13 +4521,18 @@ namespace PhotoTagsSynchronizer
             for (int itemIndex = 0; itemIndex < imageListView1.SelectedItems.Count; itemIndex++) listOfMediaFiles.Add(imageListView1.SelectedItems[itemIndex].FileFullPath);
             MediaPreviewInit(listOfMediaFiles, selectedMediaFilePullPath);
         }
-        #endregion 
+        #endregion
 
-        #region FolderMediaViewAsFull_Click
-        private void FolderMediaViewAsFull_Click()
+        #region PreviewPreviewOpen / Close
+
+
+        #region ActionPreviewPreviewOpen
+        private void ActionPreviewPreviewOpen()
         {
             try
             {
+                SetPreviewRibbonEnabledStatus(previewStartEnabled: true, enabled: true);
+                SetPreviewRibbonPreviewButtonChecked(true);
                 if (imageListView1.SelectedItems.Count > 1) GenericMediaPreviewFoldeOrMediaList("");
                 else
                 {
@@ -4544,6 +4549,36 @@ namespace PhotoTagsSynchronizer
                 MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        #endregion
+
+        #region ActionPreviewPreviewClose
+        private void ActionPreviewPreviewClose()
+        {
+            SetPreviewRibbonEnabledStatus(previewStartEnabled: true, enabled: false);
+            SetPreviewRibbonPreviewButtonChecked(false);
+            timerFindGoogleCast.Stop();
+            PreviewStop();
+            panelMediaPreview.Visible = false;
+        }
+        #endregion
+
+        #region PreviewPreviewOpenClose - Click
+        private void kryptonRibbonGroupButtonPreviewPreview_Click(object sender, EventArgs e)
+        {
+            if (kryptonRibbonGroupButtonPreviewPreview.Checked) ActionPreviewPreviewOpen(); else ActionPreviewPreviewClose();
+        }
+
+        private void FolderMediaViewAsFull_Click()
+        {
+            ActionPreviewPreviewOpen();
+        }
+
+        private void kryptonRibbonMain_SelectedTabChanged(object sender, EventArgs e)
+        {
+            ActionPreviewPreviewClose();
+        }
+        #endregion 
+
         #endregion
 
         #region MediaviewHoveredItemMediaViewAsFull_Click
@@ -6051,9 +6086,6 @@ namespace PhotoTagsSynchronizer
                         folderTreeViewFolder.Enabled = true;
                         imageListView1.Enabled = true;
                         imageListView1.Focus();
-
-                        UpdateColorControls(this, Properties.Settings.Default.ApplicationDarkMode);
-
                     }
                 }
             }

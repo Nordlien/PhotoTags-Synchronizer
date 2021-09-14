@@ -176,17 +176,20 @@ namespace PhotoTagsSynchronizer
         #region Preview - Init - Controls
         private void PreviewInitControls(List<string> listOfMediaFiles, string imageListViewLastHoverFullfilename)
         {
-            toolStripDropDownButtonChromecastList.DropDownItems.Clear();
-            toolStripDropDownButtonChromecastList.Enabled = false;
+            //Chromecast
+            KryptonContextMenu kryptonContextMenuChromecast = new KryptonContextMenu();
+            KryptonContextMenuItems kryptonContextMenuItemsChromecast = new KryptonContextMenuItems();
+            kryptonContextMenuChromecast.Items.Add(kryptonContextMenuItemsChromecast);
+            kryptonRibbonGroupButtonPreviewChromecast.Enabled = false;
+            kryptonRibbonGroupButtonPreviewChromecast.KryptonContextMenu = kryptonContextMenuChromecast;
+
 
             stopwachVlcMediaPositionChanged.Restart();
             stopwachMediaTimeChanged.Restart();
 
-            toolStripTraceBarItemMediaPreviewTimer.TrackBar.Maximum = 0;
-            toolStripTraceBarItemMediaPreviewTimer.TrackBar.Maximum = 100;
-            toolStripTraceBarItemMediaPreviewTimer.TrackBar.Height = 26;
-            toolStripTraceBarItemMediaPreviewTimer.TrackBar.Width = 204;
-
+            kryptonRibbonGroupTrackBarPreviewTimer.Minimum = 0;
+            kryptonRibbonGroupTrackBarPreviewTimer.Maximum = 100;
+            
             panelMediaPreview.Dock = DockStyle.Fill;
             panelMediaPreview.Visible = true;
 
@@ -198,26 +201,34 @@ namespace PhotoTagsSynchronizer
 
             previewMediaShowItemIndex = 0;
             previewMediaItemFilenames.Clear();
-            toolStripDropDownButtonMediaList.DropDownItems.Clear();
+
+            KryptonContextMenu kryptonContextMenuMediafiles = new KryptonContextMenu();
+            KryptonContextMenuItems kryptonContextMenuItemsMediafiles = new KryptonContextMenuItems();
+            kryptonContextMenuMediafiles.Items.Add(kryptonContextMenuItemsMediafiles);
+            kryptonRibbonGroupButtonPreviewSlideshow.KryptonContextMenu = kryptonContextMenuMediafiles;
 
             foreach (string fileFullPath in listOfMediaFiles)
             {
                 previewMediaItemFilenames.Add(fileFullPath);
                 if (fileFullPath == imageListViewLastHoverFullfilename) previewMediaShowItemIndex = previewMediaItemFilenames.Count - 1;
-                ToolStripMenuItem toolStripDropDownItem = new ToolStripMenuItem();
-                toolStripDropDownItem.Click += ToolStripDropDownItemPreviewMedia_Click;
-                toolStripDropDownItem.Text = fileFullPath;
-                toolStripDropDownItem.Tag = previewMediaItemFilenames.Count - 1;
-                toolStripDropDownButtonMediaList.DropDownItems.Add(toolStripDropDownItem);
+                
+                KryptonContextMenuItem kryptonContextMenuItemMediaFiles = new KryptonContextMenuItem();
+
+                kryptonContextMenuItemMediaFiles.Click += KryptonContextMenuItemMediaFiles_Click;
+                kryptonContextMenuItemMediaFiles.Text = fileFullPath;
+                kryptonContextMenuItemMediaFiles.Tag = previewMediaItemFilenames.Count - 1;
+                kryptonContextMenuItemsMediafiles.Items.Add(kryptonContextMenuItemMediaFiles);
             }
 
             if (previewMediaItemFilenames.Count > 0)
-            {
-                
+            {                
                 Preview_LoadAndShowItem(previewMediaItemFilenames[previewMediaShowItemIndex]);
             }
         }
-        #endregion 
+
+        
+
+        #endregion
 
         #region Preview - GoogleCast - Init sender vaiables
         private bool GooglecastInitSender()
@@ -254,15 +265,18 @@ namespace PhotoTagsSynchronizer
                 MessageBox.Show("Was not able to start serivce FindReceiversAsync\r\n" + ex.Message);
             }
 
-            toolStripDropDownButtonChromecastList.Enabled = false;
+            kryptonRibbonGroupButtonPreviewChromecast.Enabled = false;
+            KryptonContextMenuItems kryptonContextMenuItemsChromecastList = (KryptonContextMenuItems)kryptonRibbonGroupButtonPreviewChromecast.KryptonContextMenu.Items[0];
+            kryptonContextMenuItemsChromecastList.Items.Clear();
+            
+            //toolStripDropDownButtonChromecastList.Enabled = false;
             //toolStripDropDownButtonChromecastList.DropDownItems.Clear();
-
-            foreach (ToolStripItem toolStripItem in toolStripDropDownButtonChromecastList.DropDownItems) toolStripItem.Enabled = false;
+            //foreach (ToolStripItem toolStripItem in toolStripDropDownButtonChromecastList.DropDownItems) toolStripItem.Enabled = false;
 
             foreach (GoogleCast.IReceiver googleCast_receiver in googleCast_receivers)
             {
                 bool itemFound = false;
-                foreach (ToolStripItem toolStripItem in toolStripDropDownButtonChromecastList.DropDownItems)
+                foreach (KryptonContextMenuItem toolStripItem in kryptonContextMenuItemsChromecastList.Items)
                 {
                     if ((toolStripItem.Tag as GoogleCast.IReceiver)?.Id == googleCast_receiver.Id)
                     {
@@ -272,20 +286,22 @@ namespace PhotoTagsSynchronizer
                 }
                 if (!itemFound)
                 {
-                    ToolStripMenuItem toolStripDropDownItem = new ToolStripMenuItem();
-                    toolStripDropDownItem.Click += ToolStripDropDownItemPreviewChromecast_Click;
-                    toolStripDropDownItem.Text = googleCast_receiver.FriendlyName;
-                    toolStripDropDownItem.Tag = googleCast_receiver;
-                    toolStripDropDownButtonChromecastList.DropDownItems.Add(toolStripDropDownItem);
+                    KryptonContextMenuItem kryptonContextMenuItemChromecast = new KryptonContextMenuItem();
+                    kryptonContextMenuItemChromecast.Click += KryptonContextMenuItemChromecast_Click;
+                    kryptonContextMenuItemChromecast.Text = googleCast_receiver.FriendlyName;
+                    kryptonContextMenuItemChromecast.Tag = googleCast_receiver;
+                    kryptonContextMenuItemsChromecastList.Items.Add(kryptonContextMenuItemChromecast);
                 }
             }
 
             ToolStripDropDownCheckReceiver(googleCast_SelectedReceiver);
-            if (toolStripDropDownButtonChromecastList.DropDownItems.Count > 0) toolStripDropDownButtonChromecastList.Enabled = true;
-            else toolStripDropDownButtonChromecastList.Enabled = false;
+            if (kryptonContextMenuItemsChromecastList.Items.Count > 0) kryptonRibbonGroupButtonPreviewChromecast.Enabled = true;
+            else kryptonRibbonGroupButtonPreviewChromecast.Enabled = false;
 
             timerFindGoogleCast.Start();
         }
+
+        
 
         private void timerFindGoogleCast_Tick(object sender, EventArgs e)
         {
@@ -803,7 +819,7 @@ namespace PhotoTagsSynchronizer
                 this.BeginInvoke(new Action<object, HttpExceptionEventArgs>(NHttpServer_UnhandledException), sender, e);
                 return;
             }
-            toolStripLabelMediaPreviewStatus.Text = "nHTTP server unhandled exception...";
+            kryptonRibbonGroupLabelPreviewStatus.TextLine2 = "nHTTP server unhandled exception...";
             Logger.Error(e.Request.ToString());
         }
         #endregion 
@@ -816,7 +832,7 @@ namespace PhotoTagsSynchronizer
                 this.BeginInvoke(new Action<object, EventArgs>(NHttpServer_StateChanged), sender, e);
                 return;
             }
-            if (nHttpServer != null) toolStripLabelMediaPreviewStatus.Text = "nHTTP server new state: " + nHttpServer.State.ToString();
+            if (nHttpServer != null) kryptonRibbonGroupLabelPreviewStatus.TextLine2 = "nHTTP server new state: " + nHttpServer.State.ToString();
             Logger.Info("nHTTP server new state: " + nHttpServer.State.ToString());
         }
         #endregion 
@@ -950,10 +966,10 @@ namespace PhotoTagsSynchronizer
                     switch (vlcChromecast)
                     {
                         case MediaPlaybackEventsSource.ScreenVlcMediaPlayer:
-                            toolStripLabelMediaPreviewStatus.Text = "VLC player starting...";
+                            kryptonRibbonGroupLabelPreviewStatus.TextLine2 = "VLC player starting...";
                             break;
                         case MediaPlaybackEventsSource.Googlecast:
-                            toolStripLabelMediaPreviewStatus.Text = "Chromecast starting...";
+                            kryptonRibbonGroupLabelPreviewStatus.TextLine2 = "Chromecast starting...";
                             break;
                     }
 
@@ -968,14 +984,14 @@ namespace PhotoTagsSynchronizer
                     switch (vlcChromecast)
                     {
                         case MediaPlaybackEventsSource.ScreenVlcMediaPlayer:
-                            toolStripLabelMediaPreviewStatus.Text = "VLC player loading media...";
+                            kryptonRibbonGroupLabelPreviewStatus.TextLine2 = "VLC player loading media...";
                             break;
                         case MediaPlaybackEventsSource.Googlecast:
-                            toolStripLabelMediaPreviewStatus.Text = "Chromecast loading media...";
+                            kryptonRibbonGroupLabelPreviewStatus.TextLine2 = "Chromecast loading media...";
                             isGooglecasting = true;
                             break;
                         case MediaPlaybackEventsSource.ScreenImageViewer:
-                            toolStripLabelMediaPreviewStatus.Text = "Image loading...";
+                            kryptonRibbonGroupLabelPreviewStatus.TextLine2 = "Image loading...";
                             break;
                     }
 
@@ -991,10 +1007,10 @@ namespace PhotoTagsSynchronizer
                     switch (vlcChromecast)
                     {
                         case MediaPlaybackEventsSource.ScreenVlcMediaPlayer:
-                            toolStripLabelMediaPreviewStatus.Text = "VLC player playing...";
+                            kryptonRibbonGroupLabelPreviewStatus.TextLine2 = "VLC player playing...";
                             break;
                         case MediaPlaybackEventsSource.Googlecast:
-                            toolStripLabelMediaPreviewStatus.Text = "Chromecast playing...";
+                            kryptonRibbonGroupLabelPreviewStatus.TextLine2 = "Chromecast playing...";
                             isGooglecasting = true;
                             break;
                     }
@@ -1021,10 +1037,10 @@ namespace PhotoTagsSynchronizer
                     switch (vlcChromecast)
                     {
                         case MediaPlaybackEventsSource.ScreenVlcMediaPlayer:
-                            toolStripLabelMediaPreviewStatus.Text = "VLC player paused...";
+                            kryptonRibbonGroupLabelPreviewStatus.TextLine2 = "VLC player paused...";
                             break;
                         case MediaPlaybackEventsSource.Googlecast:
-                            toolStripLabelMediaPreviewStatus.Text = "Chromecast paused...";
+                            kryptonRibbonGroupLabelPreviewStatus.TextLine2 = "Chromecast paused...";
                             isGooglecasting = true;
                             break;
                     }
@@ -1041,28 +1057,28 @@ namespace PhotoTagsSynchronizer
 
                         SetPreviewRibbonEnabledStatusPlayButtons(playEnabled: playEnabled, pauseEnabled: false, moveEnabled: false, stopEnabled: stopEnabled);
 
-                        toolStripTraceBarItemMediaPreviewTimer.Enabled = false;
+                        kryptonRibbonGroupTrackBarPreviewTimer.Enabled = false;
                     }
                     break;
                 #endregion
 
                 #region Cancelled
                 case ButtonStateVlcChromcastState.Cancelled: //Chromecast
-                    toolStripLabelMediaPreviewStatus.Text = "Chromecast command cancelled...";
+                    kryptonRibbonGroupLabelPreviewStatus.TextLine2 = "Chromecast command cancelled...";
                     break;
                 #endregion
 
                 #region Stopped
                 case ButtonStateVlcChromcastState.Stopped: //Vlc
-                    toolStripLabelMediaPreviewStatus.Text = "VLC player stopped...";
-                    toolStripTraceBarItemMediaPreviewTimer.Enabled = false;
+                    kryptonRibbonGroupLabelPreviewStatus.TextLine2 = "VLC player stopped...";
+                    kryptonRibbonGroupTrackBarPreviewTimer.Enabled = false;
                     SetPreviewRibbonEnabledStatusPlayButtons(playEnabled: false, pauseEnabled: false, moveEnabled: false, stopEnabled: false);
                     break;
                 #endregion
 
                 #region Interrupted
                 case ButtonStateVlcChromcastState.Interrupted: //Chromecast
-                    //toolStripLabelMediaPreviewStatus.Text = "Chromecast command interrupted...";
+                    //kryptonRibbonGroupLabelPreviewStatus.TextLine2 = "Chromecast command interrupted...";
                     break;
                 #endregion
 
@@ -1073,15 +1089,15 @@ namespace PhotoTagsSynchronizer
                     switch (vlcChromecast)
                     {
                         case MediaPlaybackEventsSource.ScreenVlcMediaPlayer:
-                            toolStripLabelMediaPreviewStatus.Text = "VLC player video end reached...";
+                            kryptonRibbonGroupLabelPreviewStatus.TextLine2 = "VLC player video end reached...";
                             useTimer = false;
                             break;
                         case MediaPlaybackEventsSource.Googlecast:
-                            toolStripLabelMediaPreviewStatus.Text = "Chromecast video end reached...";
+                            kryptonRibbonGroupLabelPreviewStatus.TextLine2 = "Chromecast video end reached...";
                             useTimer = false;
                             break;
                         case MediaPlaybackEventsSource.ScreenImageViewer:
-                            toolStripLabelMediaPreviewStatus.Text = "Image loaded...";
+                            kryptonRibbonGroupLabelPreviewStatus.TextLine2 = "Image loaded...";
                             useTimer = true;
                             break;
                     }
@@ -1112,14 +1128,14 @@ namespace PhotoTagsSynchronizer
 
                 #region Connecting
                 case ButtonStateVlcChromcastState.Connecting: //Chromecast
-                    toolStripLabelMediaPreviewStatus.Text = "Connecting to chromecsat...";
+                    kryptonRibbonGroupLabelPreviewStatus.TextLine2 = "Connecting to chromecsat...";
                     isGooglecasting = false;
                     break;
                 #endregion
 
                 #region Connected
                 case ButtonStateVlcChromcastState.Connected: //Chromecast
-                    toolStripLabelMediaPreviewStatus.Text = "Chromecast connected...";
+                    kryptonRibbonGroupLabelPreviewStatus.TextLine2 = "Chromecast connected...";
                     isGooglecasting = true;
                     break;
                 #endregion
@@ -1127,7 +1143,7 @@ namespace PhotoTagsSynchronizer
                 #region Disconnected
                 case ButtonStateVlcChromcastState.Disconnected: //Chromecast
                     isGooglecasting = false;
-                    toolStripLabelMediaPreviewStatus.Text = "Chromecast disconnected...";
+                    kryptonRibbonGroupLabelPreviewStatus.TextLine2 = "Chromecast disconnected...";
                     SetPreviewRibbonEnabledStatusPlayButtons(playEnabled: false, pauseEnabled: false, moveEnabled: false, stopEnabled: false);
                     break;
                 #endregion 
@@ -1137,10 +1153,10 @@ namespace PhotoTagsSynchronizer
                     switch (vlcChromecast)
                     {
                         case MediaPlaybackEventsSource.ScreenVlcMediaPlayer:
-                            toolStripLabelMediaPreviewStatus.Text = "VLC player buffering...";
+                            kryptonRibbonGroupLabelPreviewStatus.TextLine2 = "VLC player buffering...";
                             break;
                         case MediaPlaybackEventsSource.Googlecast:
-                            toolStripLabelMediaPreviewStatus.Text = "Chromecast buffering...";
+                            kryptonRibbonGroupLabelPreviewStatus.TextLine2 = "Chromecast buffering...";
                             break;
                     }
                     break;
@@ -1148,13 +1164,13 @@ namespace PhotoTagsSynchronizer
 
                 #region Backward
                 case ButtonStateVlcChromcastState.Backward: //Vlc
-                    toolStripLabelMediaPreviewStatus.Text = "VLC player backward...";
+                    kryptonRibbonGroupLabelPreviewStatus.TextLine2 = "VLC player backward...";
                     break;
                 #endregion
 
                 #region Forward
                 case ButtonStateVlcChromcastState.Forward: //Vlc
-                    toolStripLabelMediaPreviewStatus.Text = "VLC player forward...";
+                    kryptonRibbonGroupLabelPreviewStatus.TextLine2 = "VLC player forward...";
                     break;
                 #endregion
 
@@ -1209,12 +1225,12 @@ namespace PhotoTagsSynchronizer
 
                         if (!isGooglecasting || (isGooglecasting && vlcChromecast == MediaPlaybackEventsSource.Googlecast))
                         {
-                            toolStripLabelMediaPreviewTimer.Text = ConvertMsToHuman((long)lastKnownChromeCastCurrentTime * 1000);
+                            kryptonRibbonGroupLabelPreviewTimer.TextLine2 = ConvertMsToHuman((long)lastKnownChromeCastCurrentTime * 1000);
                         }
                         else
                         {
-                            if (videoView1.MediaPlayer.Length == -1) toolStripLabelMediaPreviewTimer.Text = "Timer: No video";
-                            else toolStripLabelMediaPreviewTimer.Text = ConvertMsToHuman(vlcTime) + "/" + ConvertMsToHuman(videoView1.MediaPlayer.Length);
+                            if (videoView1.MediaPlayer.Length == -1) kryptonRibbonGroupLabelPreviewTimer.TextLine2 = "No video";
+                            else kryptonRibbonGroupLabelPreviewTimer.TextLine2 = ConvertMsToHuman(vlcTime) + "/" + ConvertMsToHuman(videoView1.MediaPlayer.Length);
                         }
                         /*switch (vlcChromecast)
                         {
@@ -1240,21 +1256,21 @@ namespace PhotoTagsSynchronizer
                         if (videoView1.MediaPlayer.Length == -1)
                         {
                             toolStripTraceBarItemMediaPreviewTimerUpdating = true;
-                            toolStripTraceBarItemMediaPreviewTimer.TrackBar.SuspendLayout();
+                            //kryptonRibbonGroupTrackBarPreviewTimer.SuspendLayout();
 
 
-                            toolStripTraceBarItemMediaPreviewTimer.TrackBar.Value = 0;
-                            toolStripTraceBarItemMediaPreviewTimer.TrackBar.ResumeLayout();
+                            kryptonRibbonGroupTrackBarPreviewTimer.Value = 0;
+                            //kryptonRibbonGroupTrackBarPreviewTimer.ResumeLayout();
                             toolStripTraceBarItemMediaPreviewTimerUpdating = false;
                         }
                         else
                         {
                             toolStripTraceBarItemMediaPreviewTimerUpdating = true;
-                            toolStripTraceBarItemMediaPreviewTimer.TrackBar.SuspendLayout();
+                            //kryptonRibbonGroupTrackBarPreviewTimer.SuspendLayout();
 
 
-                            toolStripTraceBarItemMediaPreviewTimer.Value = (int)(vlcPosition * 100);
-                            toolStripTraceBarItemMediaPreviewTimer.TrackBar.ResumeLayout();
+                            kryptonRibbonGroupTrackBarPreviewTimer.Value = (int)(vlcPosition * 100);
+                            //kryptonRibbonGroupTrackBarPreviewTimer.ResumeLayout();
                             toolStripTraceBarItemMediaPreviewTimerUpdating = false;
                         }
                     }
@@ -1266,10 +1282,10 @@ namespace PhotoTagsSynchronizer
                     switch (vlcChromecast)
                     {
                         case MediaPlaybackEventsSource.ScreenVlcMediaPlayer:
-                            toolStripLabelMediaPreviewStatus.Text = "VLC player error encountered...";
+                            kryptonRibbonGroupLabelPreviewStatus.TextLine2 = "VLC player error encountered...";
                             break;
                         case MediaPlaybackEventsSource.Googlecast:
-                            toolStripLabelMediaPreviewStatus.Text = "Chromecast error encountered...";
+                            kryptonRibbonGroupLabelPreviewStatus.TextLine2 = "Chromecast error encountered...";
                             break;
                     }              
                     SetPreviewRibbonEnabledStatusPlayButtons(playEnabled: false, pauseEnabled: false, moveEnabled: false, stopEnabled: false);
@@ -1470,15 +1486,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region Preview - MediaButton Action -  Close      
-        private void kryptonRibbonGroupButtonPreviewPreview_Click(object sender, EventArgs e)
-        {
-            SetPreviewRibbonEnabledStatus(kryptonRibbonGroupButtonPreviewPreview.Checked);
-            timerFindGoogleCast.Stop();
-            PreviewStop();
-            panelMediaPreview.Visible = false;
-        }
-        #endregion
+        
 
         #region Preview - MediaButton Action - SeekPosition ValueChanged 
         private bool toolStripTraceBarItemMediaPreviewTimerUpdating = false;        
@@ -1540,23 +1548,27 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Preview - MediaButton Action - DropDown - Media Selected
-        private void ToolStripDropDownItemPreviewMedia_Click(object sender, EventArgs e)
-        {
-            ToolStripMenuItem clickedToolStripMenuItem = (ToolStripMenuItem)sender;
+        private void KryptonContextMenuItemMediaFiles_Click(object sender, EventArgs e)
+        {        
+            KryptonContextMenuItem clickedToolStripMenuItem = (KryptonContextMenuItem)sender;
             previewMediaShowItemIndex = (int)clickedToolStripMenuItem.Tag;
             SetPreviewRibbonRotateDegress(0);
             Preview_LoadAndShowCurrentIndex();
         }
-
         #endregion
 
         #region Preview - Mark as Checked on selected Receiver
         private void ToolStripDropDownCheckReceiver(GoogleCast.IReceiver receiver)
-        {
-            foreach (ToolStripMenuItem toolStripDropDownItem in toolStripDropDownButtonChromecastList.DropDownItems)
+        {            
+            if (kryptonRibbonGroupButtonPreviewChromecast.KryptonContextMenu != null && kryptonRibbonGroupButtonPreviewChromecast.KryptonContextMenu.Items.Count >= 1)
             {
-                if (toolStripDropDownItem.Tag == receiver) toolStripDropDownItem.Checked = true;
-                else toolStripDropDownItem.Checked = false;
+                KryptonContextMenuItems kryptonContextMenuItems = (KryptonContextMenuItems)kryptonRibbonGroupButtonPreviewChromecast.KryptonContextMenu.Items[0];
+
+                foreach (KryptonContextMenuItem kryptonContextMenuItem in kryptonContextMenuItems.Items)
+                {
+                    if (kryptonContextMenuItem.Tag == receiver) kryptonContextMenuItem.Checked = true;
+                    else kryptonContextMenuItem.Checked = false;
+                }
             }
         }
         #endregion
@@ -1568,7 +1580,8 @@ namespace PhotoTagsSynchronizer
             ChromecastingSwitchOn(selectedReceiver);
             Preview_LoadAndShowCurrentIndex();
         }
-        private void ToolStripDropDownItemPreviewChromecast_Click(object sender, EventArgs e)
+
+        private void KryptonContextMenuItemChromecast_Click(object sender, EventArgs e)
         {
             if (previewMediaItemFilenames.Count == 0)
             {
@@ -1581,6 +1594,7 @@ namespace PhotoTagsSynchronizer
 
             ChromecastingSelected((GoogleCast.IReceiver)clickedToolStripMenuItem.Tag);
         }
+        
         #endregion
 
         #region Preview - Load And Show Current Index 
@@ -1963,6 +1977,22 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region SetPreviewRibbonPreviewButtonChecked
+        private void SetPreviewRibbonPreviewButtonChecked(bool check)
+        {
+            kryptonRibbonGroupButtonPreviewPreview.Checked = check;
+        }
+        #endregion
+
+        #region SetPreviewRibbonEnabledRotate
+        private void SetPreviewRibbonEnabledRotate(bool enabled = false)
+        {
+            kryptonRibbonGroupButtonPreviewRotate270.Enabled = enabled;
+            kryptonRibbonGroupButtonPreviewRotate180.Enabled = enabled;
+            kryptonRibbonGroupButtonPreviewRotate90.Enabled = enabled;
+        }
+        #endregion
+
         #region SetPreviewRibbonEnabledStatus
         private void SetPreviewRibbonEnabledStatus(bool previewStartEnabled = true, bool enabled = false)
         {
@@ -1972,9 +2002,7 @@ namespace PhotoTagsSynchronizer
             SetPreviewRibbonEnabledStatusPlayButtons(playEnabled: enabled, pauseEnabled: enabled, moveEnabled: enabled, stopEnabled: enabled);
 
             kryptonRibbonGroupTrackBarPreviewTimer.Enabled = enabled;
-            kryptonRibbonGroupButtonPreviewRotate270.Enabled = enabled;
-            kryptonRibbonGroupButtonPreviewRotate180.Enabled = enabled;
-            kryptonRibbonGroupButtonPreviewRotate90.Enabled = enabled;
+            SetPreviewRibbonEnabledRotate(enabled);
             kryptonRibbonGroupButtonPreviewSlideshow.Enabled = enabled;
             kryptonRibbonGroupButtonPreviewSlideshowTimeInterval.Enabled = enabled;            
             kryptonContextMenuItemPreviewSlideshowIntervalStop.Enabled = enabled;
