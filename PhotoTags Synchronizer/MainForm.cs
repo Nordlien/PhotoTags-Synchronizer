@@ -388,7 +388,13 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationCountry.Click += KryptonContextMenuRadioButtonFileSystemColumnSortLocationCountry_Click;
             //this.kryptonContextMenuItemsCloseMenuList
 
-
+            this.kryptonContextMenuItemPreviewSlideshowInterval2sec.Click += KryptonContextMenuItemPreviewSlideshowInterval2sec_Click;
+            this.kryptonContextMenuItemPreviewSlideshowInterval4sec.Click += KryptonContextMenuItemPreviewSlideshowInterval4sec_Click;
+            this.kryptonContextMenuItemPreviewSlideshowInterval6sec.Click += KryptonContextMenuItemPreviewSlideshowInterval6sec_Click;
+            this.kryptonContextMenuItemPreviewSlideshowInterval8sec.Click += KryptonContextMenuItemPreviewSlideshowInterval8sec_Click;
+            this.kryptonContextMenuItemPreviewSlideshowInterval10sec.Click += KryptonContextMenuItemPreviewSlideshowInterval10sec_Click;
+            this.kryptonContextMenuItemPreviewSlideshowIntervalStop.Click += KryptonContextMenuItemPreviewSlideshowIntervalStop_Click;
+            //this.kryptonContextMenuItemsPreviewSlideshowIntervalList.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
 
             this.imageListView1.KryptonContextMenu = kryptonContextMenuGenericBase;
             this.folderTreeViewFolder.KryptonContextMenu = kryptonContextMenuGenericBase;
@@ -413,9 +419,10 @@ namespace PhotoTagsSynchronizer
             nameDataGridViewProperties = this.dataGridViewProperties.Name;
             nameDataGridViewRename = this.dataGridViewRename.Name;
             nameDataGridViewTagsAndKeywords = this.dataGridViewTagsAndKeywords.Name;
-            
+
             #endregion
 
+            SetPreviewRibbonEnabledStatus(false);
             this.toolStripContainerStripMainForm.RenderMode = ToolStripRenderMode.Professional;
             this.toolStripContainerStripMainForm.Renderer = new PhotoTagsCommonComponets.ToolStripProfessionalRendererWithoutLines();
             this.toolStripContainerStripMediaPreview.RenderMode = ToolStripRenderMode.Professional;
@@ -762,7 +769,9 @@ namespace PhotoTagsSynchronizer
             #endregion
         }
 
-       
+        
+
+
         #endregion
 
         #region Resize and restore windows size when reopen application
@@ -1010,12 +1019,14 @@ namespace PhotoTagsSynchronizer
         }
 
 
+
+
         #endregion
 
         
     }
 
-    
+
 
 
 }

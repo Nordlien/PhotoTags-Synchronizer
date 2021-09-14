@@ -1469,6 +1469,22 @@ namespace PhotoTagsSynchronizer
                     throw new NotImplementedException();
             }
         }
+
+        private void kryptonRibbonGroupButtonPreviewRotate270_DropDown(object sender, ContextMenuArgs e)
+        {
+
+        }
+
+        private void kryptonRibbonGroupButtonPreviewRotate180_DropDown(object sender, ContextMenuArgs e)
+        {
+
+        }
+
+        private void kryptonRibbonGroupButtonPreviewRotate90_DropDown(object sender, ContextMenuArgs e)
+        {
+
+        }
+
         private void toolStripButtonMediaPreviewRotateCCW_Click(object sender, EventArgs e)
         {
             if (toolStripButtonMediaPreviewRotateCCW.Checked) 
@@ -1527,6 +1543,10 @@ namespace PhotoTagsSynchronizer
             PreviewResumePlay();
         }
         #endregion
+        private void kryptonRibbonGroupButtonPreviewPlay_Click(object sender, EventArgs e)
+        {
+
+        }
 
         #region Preview - MediaButton Action - Pause
         private void toolStripButtonMediaPreviewPause_Click(object sender, EventArgs e)
@@ -1538,6 +1558,10 @@ namespace PhotoTagsSynchronizer
             }
         }
         #endregion
+        private void kryptonRibbonGroupButtonPreviewPause_Click(object sender, EventArgs e)
+        {
+
+        }
 
         #region Preview - MediaButton Action - Stop
         private async void PreviewStop()
@@ -1553,6 +1577,10 @@ namespace PhotoTagsSynchronizer
             PreviewStop();
         }
         #endregion 
+        private void kryptonRibbonGroupButtonPreviewStop_Click(object sender, EventArgs e)
+        {
+
+        }
 
         #region Preview - MediaButton Action -  Close
         private void toolStripButtonMediaPreviewClose_Click(object sender, EventArgs e)
@@ -1562,6 +1590,10 @@ namespace PhotoTagsSynchronizer
             panelMediaPreview.Visible = false;
         }
         #endregion
+        private void kryptonRibbonGroupButtonPreviewPreview_Click(object sender, EventArgs e)
+        {
+            SetPreviewRibbonEnabledStatus(kryptonRibbonGroupButtonPreviewPreview.Checked);
+        }
 
         #region Preview - MediaButton Action - SeekPosition ValueChanged 
         private bool toolStripTraceBarItemMediaPreviewTimerUpdating = false;
@@ -1571,6 +1603,10 @@ namespace PhotoTagsSynchronizer
             if (videoView1.MediaPlayer.IsSeekable) videoView1.MediaPlayer.Position = (float)toolStripTraceBarItemMediaPreviewTimer.TrackBar.Value / 100;
         }
         #endregion
+        private void kryptonRibbonGroupTrackBarPreviewTimer_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
 
         #region Preview - MediaButton Action - FastBackward_Click
         private void toolStripButtonMediaPreviewFastBackward_Click(object sender, EventArgs e)
@@ -1578,6 +1614,10 @@ namespace PhotoTagsSynchronizer
             videoView1.MediaPlayer.Time -= 10000;
         }
         #endregion
+        private void kryptonRibbonGroupButtonPreviewRewind_Click(object sender, EventArgs e)
+        {
+
+        }
 
         #region Preview - MediaButton Action - FastForward_Click
         private void toolStripButtonMediaPreviewFastForward_Click(object sender, EventArgs e)
@@ -1585,6 +1625,11 @@ namespace PhotoTagsSynchronizer
             videoView1.MediaPlayer.Time += 10000;
         }
         #endregion
+        private void kryptonRibbonGroupButtonPreviewForward_Click(object sender, EventArgs e)
+        {
+
+        }
+
 
         #region Preview - MediaButton Action - Previous
         private void toolStripButtonMediaPreviewPrevious_Click(object sender, EventArgs e)
@@ -1597,6 +1642,10 @@ namespace PhotoTagsSynchronizer
             Preview_LoadAndShowCurrentIndex();
         }
         #endregion 
+        private void kryptonRibbonGroupButtonPreviewSkipPrev_Click(object sender, EventArgs e)
+        {
+
+        }
 
         #region Preview - MediaButton Action - Next
         private void PreviewNext()
@@ -1614,6 +1663,10 @@ namespace PhotoTagsSynchronizer
             PreviewNext();
         }
         #endregion
+        private void kryptonRibbonGroupButtonPreviewSkipNext_Click(object sender, EventArgs e)
+        {
+
+        }
 
         #region Preview - MediaButton Action - DropDown - Media Selected
         private void ToolStripDropDownItemPreviewMedia_Click(object sender, EventArgs e)
@@ -1953,6 +2006,36 @@ namespace PhotoTagsSynchronizer
 
         }
 
+        private void KryptonContextMenuItemPreviewSlideshowInterval2sec_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void KryptonContextMenuItemPreviewSlideshowInterval4sec_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void KryptonContextMenuItemPreviewSlideshowInterval6sec_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void KryptonContextMenuItemPreviewSlideshowInterval8sec_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void KryptonContextMenuItemPreviewSlideshowInterval10sec_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void KryptonContextMenuItemPreviewSlideshowIntervalStop_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         private void toolStripMenuItemPreviewSlideShow2sec_Click(object sender, EventArgs e)
         {
             SlideShowInit(2000);
@@ -2015,5 +2098,42 @@ namespace PhotoTagsSynchronizer
             if (isSlideShowRunning) PreviewNext();
         }
         #endregion
+
+        private void SetPreviewRibbonEnabledStatus(bool enabled)
+        {
+            //kryptonRibbonGroupButtonPreviewPreview.Enabled = enabled;
+            kryptonRibbonGroupButtonPreviewSkipPrev.Enabled = enabled;
+            kryptonRibbonGroupButtonPreviewSkipNext.Enabled = enabled;
+            kryptonRibbonGroupButtonPreviewPause.Enabled = enabled;
+            kryptonRibbonGroupButtonPreviewRewind.Enabled = enabled;
+            kryptonRibbonGroupButtonPreviewForward.Enabled = enabled;
+            kryptonRibbonGroupButtonPreviewStop.Enabled = enabled;
+            kryptonRibbonGroupTrackBarPreviewTimer.Enabled = enabled;
+            kryptonRibbonGroupButtonPreviewRotate270.Enabled = enabled;
+            kryptonRibbonGroupButtonPreviewRotate180.Enabled = enabled;
+            kryptonRibbonGroupButtonPreviewRotate90.Enabled = enabled;
+            kryptonRibbonGroupButtonPreviewSlideshow.Enabled = enabled;
+            kryptonRibbonGroupButtonPreviewSlideshowTimeInterval.Enabled = enabled;
+            //KryptonContextMenuItemPreviewSlideshowInterval2sec.Enabled = enabled;
+            //KryptonContextMenuItemPreviewSlideshowInterval4sec.Enabled = enabled;
+            //KryptonContextMenuItemPreviewSlideshowInterval6sec.Enabled = enabled;
+            //KryptonContextMenuItemPreviewSlideshowInterval8sec.Enabled = enabled;
+            //KryptonContextMenuItemPreviewSlideshowInterval10sec.Enabled = enabled;
+            //KryptonContextMenuItemPreviewSlideshowIntervalStop.Enabled = enabled;
+            kryptonRibbonGroupButtonPreviewChromecast.Enabled = enabled;
+            kryptonRibbonGroupLabelPreviewTimer.Enabled = enabled;
+            kryptonRibbonGroupLabelPreviewStatus.Enabled = enabled;
+        }
+        
+        
+
+        //kryptonRibbonGroupButtonPreviewSlideshow
+        //kryptonRibbonGroupButtonPreviewSlideshowTimeInterval
+
+        
+
+        //kryptonRibbonGroupButtonPreviewChromecast
+        //kryptonRibbonGroupLabelPreviewTimer
+        //kryptonRibbonGroupLabelPreviewStatus
     }
 }

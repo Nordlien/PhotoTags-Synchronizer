@@ -477,7 +477,6 @@ namespace PhotoTagsSynchronizer
 
             if (listOfCommonOpenWith != null && listOfCommonOpenWith.Count > 0)
             {
-                openMediaFilesWithToolStripMenuItem.Visible = true;
                 foreach (ApplicationData data in listOfCommonOpenWith)
                 {
                     foreach (VerbLink verbLink in data.VerbLinks)

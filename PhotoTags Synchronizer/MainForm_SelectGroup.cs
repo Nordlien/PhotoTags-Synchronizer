@@ -56,9 +56,6 @@ namespace PhotoTagsSynchronizer
                 GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
                 folderTreeViewFolder.Enabled = false;
                 imageListView.Enabled = false;
-                toolStripButtonSelectPrevious.Enabled = false;
-                toolStripDropDownButtonSelectGroupBy.Enabled = false;
-                toolStripButtonSelectNext.Enabled = false;
 
                 ImageListViewSuspendLayoutInvoke(imageListView);
 
@@ -90,15 +87,8 @@ namespace PhotoTagsSynchronizer
 
                     if (isItemsEqual) imageListViewItem.Selected = true; else imageListViewItem.Selected = false;
                 }
-
-                //imageListView.EnsureVisible();
-                //imageListView.EnsureVisible();
-
             }
 
-            toolStripButtonSelectPrevious.Enabled = true;
-            toolStripDropDownButtonSelectGroupBy.Enabled = true;
-            toolStripButtonSelectNext.Enabled = true;
             imageListView.Enabled = true;
             folderTreeViewFolder.Enabled = true;
 
@@ -147,9 +137,6 @@ namespace PhotoTagsSynchronizer
                     GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
                     folderTreeViewFolder.Enabled = false;
                     imageListView.Enabled = false;
-                    toolStripButtonSelectPrevious.Enabled = false;
-                    toolStripDropDownButtonSelectGroupBy.Enabled = false;
-                    toolStripButtonSelectNext.Enabled = false;
 
                     ImageListViewSuspendLayoutInvoke(imageListView);
 
@@ -195,9 +182,6 @@ namespace PhotoTagsSynchronizer
 
                 }
 
-                toolStripButtonSelectPrevious.Enabled = true;
-                toolStripDropDownButtonSelectGroupBy.Enabled = true;
-                toolStripButtonSelectNext.Enabled = true;
                 imageListView.Enabled = true;
                 folderTreeViewFolder.Enabled = true;
 
