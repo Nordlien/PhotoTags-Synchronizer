@@ -145,6 +145,9 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewPeople = new Krypton.Toolkit.KryptonDataGridView();
             this.kryptonContextMenuGenericBase = new Krypton.Toolkit.KryptonContextMenu();
             this.kryptonContextMenuItemsGenericBaseList = new Krypton.Toolkit.KryptonContextMenuItems();
+            this.kryptonContextMenuItemAssignCompositeTag = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemsAssignCompositeTagList = new Krypton.Toolkit.KryptonContextMenuItems();
+            this.kryptonContextMenuItemAssignCompositeTagExample = new Krypton.Toolkit.KryptonContextMenuItem();
             this.kryptonContextMenuItemGenericRegionRename1 = new Krypton.Toolkit.KryptonContextMenuItem();
             this.kryptonContextMenuItemGenericRegionRename2 = new Krypton.Toolkit.KryptonContextMenuItem();
             this.kryptonContextMenuItemGenericRegionRename3 = new Krypton.Toolkit.KryptonContextMenuItem();
@@ -221,17 +224,6 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewDate = new Krypton.Toolkit.KryptonDataGridView();
             this.kryptonPageToolboxExiftool = new Krypton.Navigator.KryptonPage();
             this.dataGridViewExiftool = new Krypton.Toolkit.KryptonDataGridView();
-            this.contextMenuStripExifTool = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItemExiftoolAssignCompositeTag = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExiftoolCopy = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExiftoolFind = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExiftoolMarkFavorite = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExiftoolRemoveFavorite = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExiftoolToggleFavorite = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExiftoolSHowFavorite = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExiftoolHideEqual = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemShowPosterWindowExiftool = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemMediaPreview = new System.Windows.Forms.ToolStripMenuItem();
             this.kryptonPageToolboxWarnings = new Krypton.Navigator.KryptonPage();
             this.dataGridViewExiftoolWarning = new Krypton.Toolkit.KryptonDataGridView();
             this.contextMenuStripExiftoolWarning = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -263,7 +255,6 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewRename = new Krypton.Toolkit.KryptonDataGridView();
             this.kryptonPageToolboxConvertAndMerge = new Krypton.Navigator.KryptonPage();
             this.dataGridViewConvertAndMerge = new Krypton.Toolkit.KryptonDataGridView();
-            this.imageListFilter = new System.Windows.Forms.ImageList(this.components);
             this.timerShowErrorMessage = new System.Windows.Forms.Timer(this.components);
             this.timerShowStatusText_RemoveTimer = new System.Windows.Forms.Timer(this.components);
             this.timerStartThread = new System.Windows.Forms.Timer(this.components);
@@ -651,7 +642,6 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageToolboxExiftool)).BeginInit();
             this.kryptonPageToolboxExiftool.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewExiftool)).BeginInit();
-            this.contextMenuStripExifTool.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageToolboxWarnings)).BeginInit();
             this.kryptonPageToolboxWarnings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewExiftoolWarning)).BeginInit();
@@ -1292,7 +1282,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.checkedListBoxSearchPeople.Location = new System.Drawing.Point(5, 53);
             this.checkedListBoxSearchPeople.Name = "checkedListBoxSearchPeople";
-            this.checkedListBoxSearchPeople.Size = new System.Drawing.Size(231, 164);
+            this.checkedListBoxSearchPeople.Size = new System.Drawing.Size(231, 148);
             this.checkedListBoxSearchPeople.TabIndex = 45;
             this.checkedListBoxSearchPeople.Tag = "SearchPeople";
             // 
@@ -2220,6 +2210,7 @@ namespace PhotoTagsSynchronizer
             // kryptonContextMenuItemsGenericBaseList
             // 
             this.kryptonContextMenuItemsGenericBaseList.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonContextMenuItemAssignCompositeTag,
             this.kryptonContextMenuItemGenericRegionRename1,
             this.kryptonContextMenuItemGenericRegionRename2,
             this.kryptonContextMenuItemGenericRegionRename3,
@@ -2269,6 +2260,21 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuSeparatorGenericEndOfTriState,
             this.kryptonContextMenuItemGenericMediaViewAsPoster,
             this.kryptonContextMenuItemGenericMediaViewAsFull});
+            // 
+            // kryptonContextMenuItemAssignCompositeTag
+            // 
+            this.kryptonContextMenuItemAssignCompositeTag.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonContextMenuItemsAssignCompositeTagList});
+            this.kryptonContextMenuItemAssignCompositeTag.Text = "Assign Composite Tag";
+            // 
+            // kryptonContextMenuItemsAssignCompositeTagList
+            // 
+            this.kryptonContextMenuItemsAssignCompositeTagList.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonContextMenuItemAssignCompositeTagExample});
+            // 
+            // kryptonContextMenuItemAssignCompositeTagExample
+            // 
+            this.kryptonContextMenuItemAssignCompositeTagExample.Text = "Assign Composite Tag Example";
             // 
             // kryptonContextMenuItemGenericRegionRename1
             // 
@@ -2866,7 +2872,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageToolboxDates.LastVisibleSet = true;
             this.kryptonPageToolboxDates.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPageToolboxDates.Name = "kryptonPageToolboxDates";
-            this.kryptonPageToolboxDates.Size = new System.Drawing.Size(400, 701);
+            this.kryptonPageToolboxDates.Size = new System.Drawing.Size(400, 703);
             this.kryptonPageToolboxDates.Tag = "Dates";
             this.kryptonPageToolboxDates.Text = "Dates";
             this.kryptonPageToolboxDates.TextDescription = "Edit dates for media files";
@@ -2884,7 +2890,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewDate.Name = "dataGridViewDate";
             this.dataGridViewDate.RowHeadersWidth = 51;
             this.dataGridViewDate.RowTemplate.Height = 24;
-            this.dataGridViewDate.Size = new System.Drawing.Size(400, 701);
+            this.dataGridViewDate.Size = new System.Drawing.Size(400, 703);
             this.dataGridViewDate.TabIndex = 0;
             this.dataGridViewDate.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewDate_CellBeginEdit);
             this.dataGridViewDate.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewDate_CellEndEdit);
@@ -2914,7 +2920,6 @@ namespace PhotoTagsSynchronizer
             // 
             this.dataGridViewExiftool.AllowUserToAddRows = false;
             this.dataGridViewExiftool.ColumnHeadersHeight = 29;
-            this.dataGridViewExiftool.ContextMenuStrip = this.contextMenuStripExifTool;
             this.dataGridViewExiftool.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewExiftool.KryptonContextMenu = this.kryptonContextMenuGenericBase;
             this.dataGridViewExiftool.Location = new System.Drawing.Point(0, 0);
@@ -2927,104 +2932,6 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewExiftool.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewExifTool_CellEnter);
             this.dataGridViewExiftool.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewExifTool_CellMouseClick);
             this.dataGridViewExiftool.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewExifTool_CellPainting);
-            // 
-            // contextMenuStripExifTool
-            // 
-            this.contextMenuStripExifTool.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-            this.contextMenuStripExifTool.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.contextMenuStripExifTool.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItemExiftoolAssignCompositeTag,
-            this.toolStripMenuItemExiftoolCopy,
-            this.toolStripMenuItemExiftoolFind,
-            this.toolStripMenuItemExiftoolMarkFavorite,
-            this.toolStripMenuItemExiftoolRemoveFavorite,
-            this.toolStripMenuItemExiftoolToggleFavorite,
-            this.toolStripMenuItemExiftoolSHowFavorite,
-            this.toolStripMenuItemExiftoolHideEqual,
-            this.toolStripMenuItemShowPosterWindowExiftool,
-            this.toolStripMenuItemMediaPreview});
-            this.contextMenuStripExifTool.Name = "contextMenuStripMap";
-            this.contextMenuStripExifTool.Size = new System.Drawing.Size(268, 264);
-            // 
-            // toolStripMenuItemExiftoolAssignCompositeTag
-            // 
-            this.toolStripMenuItemExiftoolAssignCompositeTag.Name = "toolStripMenuItemExiftoolAssignCompositeTag";
-            this.toolStripMenuItemExiftoolAssignCompositeTag.Size = new System.Drawing.Size(267, 26);
-            this.toolStripMenuItemExiftoolAssignCompositeTag.Text = "Assign Composite Tag";
-            // 
-            // toolStripMenuItemExiftoolCopy
-            // 
-            this.toolStripMenuItemExiftoolCopy.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditCopy32x32;
-            this.toolStripMenuItemExiftoolCopy.Name = "toolStripMenuItemExiftoolCopy";
-            this.toolStripMenuItemExiftoolCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.toolStripMenuItemExiftoolCopy.Size = new System.Drawing.Size(267, 26);
-            this.toolStripMenuItemExiftoolCopy.Text = "Copy";
-            // 
-            // toolStripMenuItemExiftoolFind
-            // 
-            this.toolStripMenuItemExiftoolFind.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditFind32x32;
-            this.toolStripMenuItemExiftoolFind.Name = "toolStripMenuItemExiftoolFind";
-            this.toolStripMenuItemExiftoolFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.toolStripMenuItemExiftoolFind.Size = new System.Drawing.Size(267, 26);
-            this.toolStripMenuItemExiftoolFind.Text = "Find";
-            // 
-            // toolStripMenuItemExiftoolMarkFavorite
-            // 
-            this.toolStripMenuItemExiftoolMarkFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteSelect32x32;
-            this.toolStripMenuItemExiftoolMarkFavorite.Name = "toolStripMenuItemExiftoolMarkFavorite";
-            this.toolStripMenuItemExiftoolMarkFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
-            this.toolStripMenuItemExiftoolMarkFavorite.Size = new System.Drawing.Size(267, 26);
-            this.toolStripMenuItemExiftoolMarkFavorite.Text = "Mark as favorite";
-            // 
-            // toolStripMenuItemExiftoolRemoveFavorite
-            // 
-            this.toolStripMenuItemExiftoolRemoveFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteRemove32x32;
-            this.toolStripMenuItemExiftoolRemoveFavorite.Name = "toolStripMenuItemExiftoolRemoveFavorite";
-            this.toolStripMenuItemExiftoolRemoveFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.D)));
-            this.toolStripMenuItemExiftoolRemoveFavorite.Size = new System.Drawing.Size(267, 26);
-            this.toolStripMenuItemExiftoolRemoveFavorite.Text = "Remove as favorite";
-            // 
-            // toolStripMenuItemExiftoolToggleFavorite
-            // 
-            this.toolStripMenuItemExiftoolToggleFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteToggle32x32;
-            this.toolStripMenuItemExiftoolToggleFavorite.Name = "toolStripMenuItemExiftoolToggleFavorite";
-            this.toolStripMenuItemExiftoolToggleFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
-            | System.Windows.Forms.Keys.D)));
-            this.toolStripMenuItemExiftoolToggleFavorite.Size = new System.Drawing.Size(267, 26);
-            this.toolStripMenuItemExiftoolToggleFavorite.Text = "Toggle favorite";
-            // 
-            // toolStripMenuItemExiftoolSHowFavorite
-            // 
-            this.toolStripMenuItemExiftoolSHowFavorite.Name = "toolStripMenuItemExiftoolSHowFavorite";
-            this.toolStripMenuItemExiftoolSHowFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.B)));
-            this.toolStripMenuItemExiftoolSHowFavorite.Size = new System.Drawing.Size(267, 26);
-            this.toolStripMenuItemExiftoolSHowFavorite.Text = "Show favorite rows";
-            // 
-            // toolStripMenuItemExiftoolHideEqual
-            // 
-            this.toolStripMenuItemExiftoolHideEqual.Name = "toolStripMenuItemExiftoolHideEqual";
-            this.toolStripMenuItemExiftoolHideEqual.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
-            | System.Windows.Forms.Keys.B)));
-            this.toolStripMenuItemExiftoolHideEqual.Size = new System.Drawing.Size(267, 26);
-            this.toolStripMenuItemExiftoolHideEqual.Text = "Hide equal rows";
-            // 
-            // toolStripMenuItemShowPosterWindowExiftool
-            // 
-            this.toolStripMenuItemShowPosterWindowExiftool.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaRegionSelector;
-            this.toolStripMenuItemShowPosterWindowExiftool.Name = "toolStripMenuItemShowPosterWindowExiftool";
-            this.toolStripMenuItemShowPosterWindowExiftool.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
-            this.toolStripMenuItemShowPosterWindowExiftool.Size = new System.Drawing.Size(267, 26);
-            this.toolStripMenuItemShowPosterWindowExiftool.Text = "Show Media Poster Window";
-            // 
-            // toolStripMenuItemMediaPreview
-            // 
-            this.toolStripMenuItemMediaPreview.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaPreview;
-            this.toolStripMenuItemMediaPreview.Name = "toolStripMenuItemMediaPreview";
-            this.toolStripMenuItemMediaPreview.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
-            this.toolStripMenuItemMediaPreview.Size = new System.Drawing.Size(267, 26);
-            this.toolStripMenuItemMediaPreview.Text = "Media Preview";
             // 
             // kryptonPageToolboxWarnings
             // 
@@ -3462,16 +3369,6 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewConvertAndMerge.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dataGridViewConvertAndMerge_MouseDown);
             this.dataGridViewConvertAndMerge.MouseMove += new System.Windows.Forms.MouseEventHandler(this.dataGridViewConvertAndMerge_MouseMove);
             // 
-            // imageListFilter
-            // 
-            this.imageListFilter.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListFilter.ImageStream")));
-            this.imageListFilter.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageListFilter.Images.SetKeyName(0, "Unchecked");
-            this.imageListFilter.Images.SetKeyName(1, "Checked");
-            this.imageListFilter.Images.SetKeyName(2, "Union");
-            this.imageListFilter.Images.SetKeyName(3, "Intersection");
-            this.imageListFilter.Images.SetKeyName(4, "Blank");
-            // 
             // timerShowErrorMessage
             // 
             this.timerShowErrorMessage.Interval = 1500;
@@ -3697,7 +3594,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonTabSelect,
             this.kryptonRibbonTabTools,
             this.kryptonRibbonTabPreview});
-            this.kryptonRibbonMain.SelectedContext = null;
             this.kryptonRibbonMain.SelectedTab = this.kryptonRibbonTabView;
             this.kryptonRibbonMain.Size = new System.Drawing.Size(1214, 115);
             this.kryptonRibbonMain.TabIndex = 12;
@@ -5587,7 +5483,6 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageToolboxExiftool)).EndInit();
             this.kryptonPageToolboxExiftool.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewExiftool)).EndInit();
-            this.contextMenuStripExifTool.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageToolboxWarnings)).EndInit();
             this.kryptonPageToolboxWarnings.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewExiftoolWarning)).EndInit();
@@ -5669,7 +5564,6 @@ namespace PhotoTagsSynchronizer
         private Krypton.Toolkit.KryptonPanel panelMain;
         private System.Windows.Forms.Timer timerStartThread;
         private System.Windows.Forms.Timer timerShowExiftoolSaveProgress;
-        private System.Windows.Forms.ImageList imageListFilter;
         private Krypton.Toolkit.KryptonButton buttonSearch;
         private Krypton.Toolkit.KryptonCheckBox checkBoxSerachFitsAllValues;
         private PhotoTagsCommonComponets.TreeViewWithoutDoubleClick treeViewFilter;
@@ -6029,17 +5923,6 @@ namespace PhotoTagsSynchronizer
         private Krypton.Toolkit.KryptonContextMenuItems kryptonContextMenuItemsGenericRegionRenameListAllList;
         private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItemGenericRegionRenameListAllExample;
         private Krypton.Toolkit.KryptonContextMenuSeparator kryptonContextMenuSeparatorGenericEndOfRegionRename;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStripExifTool;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExiftoolAssignCompositeTag;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExiftoolCopy;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExiftoolFind;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExiftoolMarkFavorite;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExiftoolRemoveFavorite;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExiftoolToggleFavorite;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExiftoolSHowFavorite;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExiftoolHideEqual;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemShowPosterWindowExiftool;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemMediaPreview;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripExiftoolWarning;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemtoolExiftoolWarningAssignCompositeTag;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExiftoolWarningCopy;
@@ -6115,6 +5998,9 @@ namespace PhotoTagsSynchronizer
         private Krypton.Toolkit.KryptonContextMenuRadioButton kryptonContextMenuRadioButton4;
         private Krypton.Toolkit.KryptonContextMenuRadioButton kryptonContextMenuRadioButton5;
         private Krypton.Toolkit.KryptonContextMenuRadioButton kryptonContextMenuRadioButton6;
+        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItemAssignCompositeTag;
+        private Krypton.Toolkit.KryptonContextMenuItems kryptonContextMenuItemsAssignCompositeTagList;
+        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItemAssignCompositeTagExample;
     }
 }
 

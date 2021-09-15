@@ -527,13 +527,8 @@ namespace PhotoTagsSynchronizer
             timerShowErrorMessage.Enabled = true;
 
             #region Initialize layout setup - Initialize layout toolstrip: Exiftool
-            FormSplash.UpdateStatus("Initialize layout toolstrip: Exiftool...");
+            FormSplash.UpdateStatus("Initialize layout toolstrip: Exiftool & ExiftoolWarnings...");
             PopulateExiftoolToolStripMenuItems();
-            #endregion 
-
-            #region Initialize layout setup - Initialize layout toolstrip: Warnings
-            FormSplash.UpdateStatus("Initialize layout toolstrip: Warnings...");
-            PopulateExiftoolWarningToolStripMenuItems();
             #endregion 
 
             #region Initialize layout setup - Initialize layout toolstrip: People
@@ -580,10 +575,6 @@ namespace PhotoTagsSynchronizer
             }
             #endregion
         }
-
-        
-
-
 
 
         #endregion

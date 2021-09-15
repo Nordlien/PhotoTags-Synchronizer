@@ -15,6 +15,7 @@ using ApplicationAssociations;
 using System.Collections.Specialized;
 using ImageAndMovieFileExtentions;
 using System.Reflection;
+using MetadataPriorityLibrary;
 
 namespace PhotoTagsSynchronizer
 {
@@ -73,6 +74,7 @@ namespace PhotoTagsSynchronizer
             switch (ActiveKryptonPage)
             {
                 case KryptonPages.None:
+                    ContextMenuGenericAssignCompositeTag(false);
                     ContextMenuGenericRegionNameRename(false);
                     ContextMenuGenericClipboard(false);
                     ContextMenuGenericFileSystem(false);
@@ -85,6 +87,7 @@ namespace PhotoTagsSynchronizer
 
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                    ContextMenuGenericAssignCompositeTag(false);
                     ContextMenuGenericRegionNameRename(false);
                     ContextMenuGenericClipboard(
                         visibleCopy: true, visibleCutPaste: true, visibleUndoRedo: false, visibleCopyText: true,
@@ -101,6 +104,7 @@ namespace PhotoTagsSynchronizer
 
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterSearch:
+                    ContextMenuGenericAssignCompositeTag(false);
                     ContextMenuGenericRegionNameRename(false);
                     ContextMenuGenericClipboard(false);
                     ContextMenuGenericClipboard(
@@ -116,6 +120,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericMediaView(false);
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFilter:
+                    ContextMenuGenericAssignCompositeTag(false);
                     ContextMenuGenericRegionNameRename(false);
                     ContextMenuGenericClipboard(false);
                     ContextMenuGenericFileSystem(false);
@@ -127,6 +132,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericMediaView(false);
                     break;
                 case KryptonPages.kryptonPageMediaFiles:
+                    ContextMenuGenericAssignCompositeTag(false);
                     ContextMenuGenericRegionNameRename(false);
                     ContextMenuGenericClipboard(
                         visibleCopy: true, visibleCutPaste: true, visibleUndoRedo: false, visibleCopyText: true,
@@ -142,6 +148,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericMediaView(true);
                     break;
                 case KryptonPages.kryptonPageToolboxTags:
+                    ContextMenuGenericAssignCompositeTag(false);
                     ContextMenuGenericRegionNameRename(false);
                     ContextMenuGenericClipboard(
                         visibleCopy: true, visibleCutPaste: true, visibleUndoRedo: true, visibleCopyText: false,
@@ -157,6 +164,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericMediaView(true);
                     break;
                 case KryptonPages.kryptonPageToolboxPeople:
+                    ContextMenuGenericAssignCompositeTag(false);
                     ContextMenuGenericRegionNameRename(true);
                     ContextMenuGenericClipboard(
                         visibleCopy: true, visibleCutPaste: true, visibleUndoRedo: true, visibleCopyText: false,
@@ -172,6 +180,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericMediaView(true);
                     break;
                 case KryptonPages.kryptonPageToolboxMap:
+                    ContextMenuGenericAssignCompositeTag(false);
                     ContextMenuGenericRegionNameRename(false);
                     ContextMenuGenericClipboard(
                         visibleCopy: true, visibleCutPaste: true, visibleUndoRedo: true, visibleCopyText: false,
@@ -187,6 +196,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericMediaView(true);
                     break;
                 case KryptonPages.kryptonPageToolboxDates:
+                    ContextMenuGenericAssignCompositeTag(false);
                     ContextMenuGenericRegionNameRename(false);
                     ContextMenuGenericClipboard(
                         visibleCopy: true, visibleCutPaste: true, visibleUndoRedo: true, visibleCopyText: false,
@@ -202,6 +212,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericMediaView(true);
                     break;
                 case KryptonPages.kryptonPageToolboxExiftool:
+                    ContextMenuGenericAssignCompositeTag(true);
                     ContextMenuGenericRegionNameRename(false);
                     ContextMenuGenericClipboard(
                         visibleCopy: true, visibleCutPaste: false, visibleUndoRedo: true, visibleCopyText: false,
@@ -217,6 +228,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericMediaView(true);
                     break;
                 case KryptonPages.kryptonPageToolboxWarnings:
+                    ContextMenuGenericAssignCompositeTag(true);
                     ContextMenuGenericRegionNameRename(false);
                     ContextMenuGenericClipboard(
                         visibleCopy: true, visibleCutPaste: false, visibleUndoRedo: true, visibleCopyText: false,
@@ -232,6 +244,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericMediaView(true);
                     break;
                 case KryptonPages.kryptonPageToolboxProperties:
+                    ContextMenuGenericAssignCompositeTag(false);
                     ContextMenuGenericRegionNameRename(false);
                     ContextMenuGenericClipboard(
                         visibleCopy: true, visibleCutPaste: true, visibleUndoRedo: true, visibleCopyText: false,
@@ -247,6 +260,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericMediaView(true);
                     break;
                 case KryptonPages.kryptonPageToolboxRename:
+                    ContextMenuGenericAssignCompositeTag(false);
                     ContextMenuGenericRegionNameRename(false);
                     ContextMenuGenericClipboard(
                         visibleCopy: true, visibleCutPaste: true, visibleUndoRedo: true, visibleCopyText: false,
@@ -262,6 +276,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericMediaView(true);
                     break;
                 case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                    ContextMenuGenericAssignCompositeTag(false);
                     ContextMenuGenericRegionNameRename(false);
                     ContextMenuGenericClipboard(
                         visibleCopy: true, visibleCutPaste: false, visibleUndoRedo: false, visibleCopyText: false,
@@ -705,6 +720,13 @@ namespace PhotoTagsSynchronizer
 
         #region ContextMenuGenericRename - Turn on / off
 
+        #region  AssignCompositeTag
+        private void ContextMenuGenericAssignCompositeTag (bool visible)
+        {
+            this.kryptonContextMenuItemAssignCompositeTag.Visible = visible;
+        }
+        #endregion
+
         #region  Region Rename
         private void ContextMenuGenericRegionNameRename(bool visible)
         {
@@ -760,6 +782,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuItemGenericOpenFolderLocation.Visible = visibleOpenBrowserOnLocation;
             this.kryptonContextMenuItemGenericOpen.Visible = visibleOpenRunEdit;
             this.kryptonContextMenuItemGenericOpenWith.Visible = visibleOpenRunEdit;
+            this.kryptonContextMenuItemOpenAndAssociateWithDialog.Visible = visibleOpenRunEdit;
             //this.kryptonContextMenuItemsGenericOpenWithAppList.Visible = visibleOpenRunEdit; //GenericOpenWith
             //this.kryptonContextMenuItemsGenericOpenWithAppListExample.Visible = visibleOpenRunEdit; //GenericOpenWith
             this.kryptonContextMenuItemGenericOpenVerbEdit.Visible = visibleOpenRunEdit;
@@ -6079,6 +6102,167 @@ namespace PhotoTagsSynchronizer
         #endregion
 
 
+
+        //----
+        #region AssignCompositeTag 
+
+        #region PopulateExiftoolToolStripMenuItems
+        public void PopulateExiftoolToolStripMenuItems()
+        {
+            kryptonContextMenuItemsAssignCompositeTagList.Items.Clear();
+            //toolStripMenuItemExiftoolAssignCompositeTag.DropDownItems.Clear();
+
+            SortedDictionary<string, string> listAllTags = new CompositeTags().ListAllTags();
+            foreach (KeyValuePair<string, string> tag in listAllTags.OrderBy(key => key.Value))
+            {
+                KryptonContextMenuItem kryptonContextMenuItemAssignCompositeTag;
+                KryptonContextMenuItems kryptonContextMenuItemAssignCompositeTagSubList;
+
+
+                switch (tag.Value)
+                {
+                    case CompositeTags.NotDefined:
+                        kryptonContextMenuItemAssignCompositeTag = new KryptonContextMenuItem();
+                        kryptonContextMenuItemAssignCompositeTag.Text = tag.Value;
+                        kryptonContextMenuItemAssignCompositeTag.Tag = new MetadataPriorityValues(tag.Value, 25);
+                        kryptonContextMenuItemAssignCompositeTag.Click += KryptonContextMenuItemAssignCompositeTag_Click;
+                        kryptonContextMenuItemsAssignCompositeTagList.Items.Add(kryptonContextMenuItemAssignCompositeTag);
+                        break;
+                    case CompositeTags.Ignore:
+                        kryptonContextMenuItemAssignCompositeTag = new KryptonContextMenuItem();
+                        kryptonContextMenuItemAssignCompositeTag.Text = tag.Value;
+                        kryptonContextMenuItemAssignCompositeTag.Tag = new MetadataPriorityValues(tag.Value, 25);
+                        kryptonContextMenuItemAssignCompositeTag.Click += KryptonContextMenuItemAssignCompositeTag_Click;
+                        kryptonContextMenuItemsAssignCompositeTagList.Items.Add(kryptonContextMenuItemAssignCompositeTag);
+
+                        break;
+                    default:
+                        kryptonContextMenuItemAssignCompositeTagSubList = new KryptonContextMenuItems();
+
+                        kryptonContextMenuItemAssignCompositeTag = new KryptonContextMenuItem();
+                        kryptonContextMenuItemAssignCompositeTag.Text = tag.Value;
+                        kryptonContextMenuItemsAssignCompositeTagList.Items.Add(kryptonContextMenuItemAssignCompositeTag);
+                        kryptonContextMenuItemAssignCompositeTag.Items.Add(kryptonContextMenuItemAssignCompositeTagSubList);
+
+
+                        kryptonContextMenuItemAssignCompositeTag = new KryptonContextMenuItem();
+                        kryptonContextMenuItemAssignCompositeTag.Text = "Prioity low - 25";
+                        kryptonContextMenuItemAssignCompositeTag.Tag = new MetadataPriorityValues(tag.Value, 25);
+                        kryptonContextMenuItemAssignCompositeTag.Click += KryptonContextMenuItemAssignCompositeTag_Click;
+                        kryptonContextMenuItemAssignCompositeTagSubList.Items.Add(kryptonContextMenuItemAssignCompositeTag);
+
+                        kryptonContextMenuItemAssignCompositeTag = new KryptonContextMenuItem();
+                        kryptonContextMenuItemAssignCompositeTag.Text = "Prioity medium low - 50";
+                        kryptonContextMenuItemAssignCompositeTag.Tag = new MetadataPriorityValues(tag.Value, 50);
+                        kryptonContextMenuItemAssignCompositeTag.Click += KryptonContextMenuItemAssignCompositeTag_Click;
+                        kryptonContextMenuItemAssignCompositeTagSubList.Items.Add(kryptonContextMenuItemAssignCompositeTag);
+
+                        kryptonContextMenuItemAssignCompositeTag = new KryptonContextMenuItem();
+                        kryptonContextMenuItemAssignCompositeTag.Text = "Prioity normal - 100";
+                        kryptonContextMenuItemAssignCompositeTag.Tag = new MetadataPriorityValues(tag.Value, 100);
+                        kryptonContextMenuItemAssignCompositeTag.Click += KryptonContextMenuItemAssignCompositeTag_Click;
+                        kryptonContextMenuItemAssignCompositeTagSubList.Items.Add(kryptonContextMenuItemAssignCompositeTag);
+
+                        kryptonContextMenuItemAssignCompositeTag = new KryptonContextMenuItem();
+                        kryptonContextMenuItemAssignCompositeTag.Text = "Prioity medium high - 150";
+                        kryptonContextMenuItemAssignCompositeTag.Tag = new MetadataPriorityValues(tag.Value, 150);
+                        kryptonContextMenuItemAssignCompositeTag.Click += KryptonContextMenuItemAssignCompositeTag_Click;
+                        kryptonContextMenuItemAssignCompositeTagSubList.Items.Add(kryptonContextMenuItemAssignCompositeTag);
+
+                        kryptonContextMenuItemAssignCompositeTag = new KryptonContextMenuItem();
+                        kryptonContextMenuItemAssignCompositeTag.Text = "Prioity high - 200";
+                        kryptonContextMenuItemAssignCompositeTag.Tag = new MetadataPriorityValues(tag.Value, 200);
+                        kryptonContextMenuItemAssignCompositeTag.Click += KryptonContextMenuItemAssignCompositeTag_Click;
+                        kryptonContextMenuItemAssignCompositeTagSubList.Items.Add(kryptonContextMenuItemAssignCompositeTag);
+                        break;
+                }
+            }
+        }
+        #endregion
+
+        #region ActionAssignCompositeTag
+        private void ActionAssignCompositeTag(DataGridView dataGridView, MetadataPriorityValues metadataPriorityValues)
+        {           
+            List<int> rows = DataGridViewHandler.GetRowSelected(dataGridView);
+            foreach (int rowIndex in rows)
+            {
+                DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
+                if (dataGridViewGenericRow != null && !dataGridViewGenericRow.IsHeader && dataGridViewGenericRow.MetadataPriorityKey != null)
+                {
+                    exiftoolReader.MetadataReadPrioity.MetadataPrioityDictionary[dataGridViewGenericRow.MetadataPriorityKey] = metadataPriorityValues;
+
+                    MetadataPriorityGroup metadataPriorityGroup = new MetadataPriorityGroup(
+                        dataGridViewGenericRow.MetadataPriorityKey,
+                        exiftoolReader.MetadataReadPrioity.MetadataPrioityDictionary[dataGridViewGenericRow.MetadataPriorityKey]);
+
+                    bool priorityKeyExisit = exiftoolReader.MetadataReadPrioity.MetadataPrioityDictionary.ContainsKey(dataGridViewGenericRow.MetadataPriorityKey);
+                    if (exiftoolReader.MetadataReadPrioity.MetadataPrioityDictionary[dataGridViewGenericRow.MetadataPriorityKey].Composite == CompositeTags.NotDefined) priorityKeyExisit = false;
+
+                    if (priorityKeyExisit)
+                        DataGridViewHandler.SetRowToolTipText(dataGridView, rowIndex, metadataPriorityGroup.ToString());
+                    else
+                        DataGridViewHandler.SetRowToolTipText(dataGridView, rowIndex, "");
+
+                    DataGridViewHandler.SetRowHeaderNameAndFontStyle(dataGridView, rowIndex,
+                        new DataGridViewGenericRow(
+                            dataGridViewGenericRow.HeaderName,
+                            dataGridViewGenericRow.RowName,
+                            dataGridViewGenericRow.IsMultiLine,
+                            dataGridViewGenericRow.MetadataPriorityKey));
+                    DataGridViewHandler.SetRowFavoriteFlag(dataGridView, rowIndex);
+                    DataGridViewHandler.SetCellBackGroundColorForRow(dataGridView, rowIndex);
+                }
+            }
+            DataGridViewHandler.Refresh(dataGridView);
+            exiftoolReader.MetadataReadPrioity.WriteAlways();
+        }
+        #endregion
+
+        #region KryptonContextMenuItemAssignCompositeTag_Click
+        private void KryptonContextMenuItemAssignCompositeTag_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = GetActiveTabDataGridView();
+            MetadataPriorityValues metadataPriorityValues = (MetadataPriorityValues)(((KryptonContextMenuItem)sender).Tag);
+            
+            switch (ActiveKryptonPage)
+            {
+                case KryptonPages.None:
+                    break;
+                case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                    break;
+                case KryptonPages.kryptonPageFolderSearchFilterSearch:
+                    break;
+                case KryptonPages.kryptonPageFolderSearchFilterFilter:
+                    break;
+                case KryptonPages.kryptonPageMediaFiles:
+                    break;
+                case KryptonPages.kryptonPageToolboxTags:
+                    break;
+                case KryptonPages.kryptonPageToolboxPeople:
+                    break;
+                case KryptonPages.kryptonPageToolboxMap:
+                    break;
+                case KryptonPages.kryptonPageToolboxDates:
+                    break;
+                case KryptonPages.kryptonPageToolboxExiftool:
+                    ActionAssignCompositeTag(dataGridView, metadataPriorityValues);
+                    break;
+                case KryptonPages.kryptonPageToolboxWarnings:
+                    ActionAssignCompositeTag(dataGridView, metadataPriorityValues);
+                    break;
+                case KryptonPages.kryptonPageToolboxProperties:
+                    break;
+                case KryptonPages.kryptonPageToolboxRename:
+                    break;
+                case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+        #endregion
+
+        #endregion 
 
         //----
 
