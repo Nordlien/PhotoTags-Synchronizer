@@ -829,56 +829,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         // -----------------------------------------------------------------------
-        #region RegionRename1
-
-        #region RegionRename1 - Click Events Sources
-        private void KryptonContextMenuItemGenericRegionRename1_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
-
-        #endregion
-
-        #region RegionRename2
-
-        #region RegionRename2 - Click Events Sources
-        private void KryptonContextMenuItemGenericRegionRename2_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
-
-        #endregion
-
-        #region RegionRename3 - Click Events Sources
-        private void KryptonContextMenuItemGenericRegionRename3_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
-
-        #region RegionRenameFromLastUsed
-
-        #region RegionRenameFromLastUsed - Click Events Sources
-        private void KryptonContextMenuItemGenericRegionRenameFromLastUsed_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
-
-        #endregion
-
-        #region RegionRenameListAll
-
-        #region RegionRenameListAll - Click Events Sources
-        private void KryptonContextMenuItemGenericRegionRenameListAll_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
-
-        #endregion
+        
 
 
         //Done

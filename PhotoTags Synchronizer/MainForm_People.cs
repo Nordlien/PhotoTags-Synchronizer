@@ -328,31 +328,32 @@ namespace PhotoTagsSynchronizer
 
             if (lastUsedNames.Count > 0)
             {
-                SetPeopleStripToolMenu(toolStripMenuItemPeopleRenameFromLast1, 1, lastUsedNames[0]);
-                toolStripMenuItemPeopleRenameFromLast1.Visible = true;
+                SetPeopleStripToolMenu(kryptonContextMenuItemGenericRegionRename1, 1, lastUsedNames[0]);
+                kryptonContextMenuItemGenericRegionRename1.Visible = true;
             }
-            else toolStripMenuItemPeopleRenameFromLast1.Visible = false;
+            else kryptonContextMenuItemGenericRegionRename1.Visible = false;
 
             if (lastUsedNames.Count > 1)
             {
-                SetPeopleStripToolMenu(toolStripMenuItemPeopleRenameFromLast2, 2, lastUsedNames[1]);
-                toolStripMenuItemPeopleRenameFromLast2.Visible = true;
-            } else toolStripMenuItemPeopleRenameFromLast2.Visible = false;
+                SetPeopleStripToolMenu(kryptonContextMenuItemGenericRegionRename2, 2, lastUsedNames[1]);
+                kryptonContextMenuItemGenericRegionRename2.Visible = true;
+            } else kryptonContextMenuItemGenericRegionRename2.Visible = false;
 
             if (lastUsedNames.Count > 2)
             {
-                SetPeopleStripToolMenu(toolStripMenuItemPeopleRenameFromLast3, 3, lastUsedNames[2]);
-                toolStripMenuItemPeopleRenameFromLast3.Visible = true;
+                SetPeopleStripToolMenu(kryptonContextMenuItemGenericRegionRename3, 3, lastUsedNames[2]);
+                kryptonContextMenuItemGenericRegionRename3.Visible = true;
             }
-            else toolStripMenuItemPeopleRenameFromLast3.Visible = false;
+            else kryptonContextMenuItemGenericRegionRename3.Visible = false;
         }
         #endregion
 
         #region People name suggestion - SetPeopleStripToolMenu
-        private void SetPeopleStripToolMenu(ToolStripMenuItem toolStripMenuItem, int number, string name)
+        private void SetPeopleStripToolMenu(KryptonContextMenuItem toolStripMenuItem, int number, string name)
         {
             toolStripMenuItem.Tag = name;
-            toolStripMenuItem.Text = "Rename #" + number + " " + name;
+            toolStripMenuItem.Text = "Rename #" + number;
+            toolStripMenuItem.ExtraText = name;
             Properties.Settings.Default.PeopleRename = string.Join("\r\n", lastUsedNames.ToArray());
         }
         #endregion 
@@ -362,34 +363,31 @@ namespace PhotoTagsSynchronizer
 
         #region People name suggestion - PopulatePeopleToolStripMenuItems
         public void PopulatePeopleToolStripMenuItems()
-        {            
-            toolStripMenuItemPeopleRenameFromAll.DropDownItems.Clear();
-            toolStripMenuItemPeopleRenameFromMostUsed.DropDownItems.Clear();
-            toolStripMenuItemPeopleRenameFromLast1.DropDownItems.Clear();
-            toolStripMenuItemPeopleRenameFromLast2.DropDownItems.Clear();
-            toolStripMenuItemPeopleRenameFromLast3.DropDownItems.Clear();
+        {
+            kryptonContextMenuItemsGenericRegionRenameListAllList.Items.Clear();
+            kryptonContextMenuItemsGenericRegionRenameFromLastUsedList.Items.Clear();
 
             List<string> regioNames;
             regioNames = databaseAndCacheMetadataExiftool.ListAllPersonalRegionNameTopCountCache(MetadataBrokerType.ExifTool, Properties.Settings.Default.SuggestRegionNameTopMostCount);
             foreach (string name in regioNames)
             {
                 regionNamesRenameFromTopCoundAdded.Add(name);
-                ToolStripMenuItem newTagSubItem = new ToolStripMenuItem();
-                newTagSubItem.Name = name;
-                newTagSubItem.Text = name;
-                newTagSubItem.Click += new System.EventHandler(this.toolStripMenuItemPeopleRenameSelected_Click);
-                toolStripMenuItemPeopleRenameFromMostUsed.DropDownItems.Add(newTagSubItem);
+                KryptonContextMenuItem kryptonContextMenuItemGenericRegionRenameFromLastUsed = new KryptonContextMenuItem();
+                kryptonContextMenuItemGenericRegionRenameFromLastUsed.Tag = name;
+                kryptonContextMenuItemGenericRegionRenameFromLastUsed.Text = name;
+                kryptonContextMenuItemGenericRegionRenameFromLastUsed.Click += KryptonContextMenuItemRegionRenameGeneric_Click;
+                this.kryptonContextMenuItemsGenericRegionRenameFromLastUsedList.Items.Add(kryptonContextMenuItemGenericRegionRenameFromLastUsed);
             }
 
             regioNames = databaseAndCacheMetadataExiftool.ListAllPersonalRegionsCache();
             foreach (string name in regioNames)
             {
                 regionNamesRenameFromAllAdded.Add(name);
-                ToolStripMenuItem newTagSubItem = new ToolStripMenuItem();
-                newTagSubItem.Name = name;
-                newTagSubItem.Text = name;
-                newTagSubItem.Click += new System.EventHandler(this.toolStripMenuItemPeopleRenameSelected_Click);
-                toolStripMenuItemPeopleRenameFromAll.DropDownItems.Add(newTagSubItem);
+                KryptonContextMenuItem kryptonContextMenuItemGenericRegionRenameFromListAll = new KryptonContextMenuItem();
+                kryptonContextMenuItemGenericRegionRenameFromListAll.Tag = name;
+                kryptonContextMenuItemGenericRegionRenameFromListAll.Text = name;
+                kryptonContextMenuItemGenericRegionRenameFromListAll.Click += KryptonContextMenuItemRegionRenameGeneric_Click;
+                kryptonContextMenuItemsGenericRegionRenameListAllList.Items.Add(kryptonContextMenuItemGenericRegionRenameFromListAll);
             }
 
             string[] renameNames = Properties.Settings.Default.PeopleRename.Replace("\r", "").Split('\n');
@@ -399,12 +397,12 @@ namespace PhotoTagsSynchronizer
                 PeopleAddNewLastUseName(renameNames[i]);
             }
         }
-        #endregion
+
+        
 
         #endregion
 
         #region People rename
-        
         private bool PeopleRenameCell(DataGridView dataGridView, DataGridViewCell cell, string nameSelected, Dictionary<CellLocation, DataGridViewGenericCell> updatedCells)
         {
             bool cellUpdated = false;
@@ -460,46 +458,37 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region People rename - PeopleRenameSelected_Click
-        private void toolStripMenuItemPeopleRenameSelected_Click(object sender, EventArgs e)
+        private void KryptonContextMenuItemRegionRenameGeneric_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewPeople;
             if (!dataGridView.Enabled) return;
-            PeopleRenameSelected(dataGridView, ((ToolStripMenuItem)sender).Name);
+            PeopleRenameSelected(dataGridView, (string)((KryptonContextMenuItem)sender).Tag);
+            DataGridViewHandler.Refresh(dataGridView);
+        }
+
+        #endregion
+
+        #region ActionRegionRename
+        private void ActionRegionRename(string name)
+        {
+            DataGridView dataGridView = dataGridViewPeople;
+            if (!dataGridView.Enabled) return;
+            PeopleRenameSelected(dataGridView, name);
             DataGridViewHandler.Refresh(dataGridView);
         }
         #endregion
 
-        #region People rename - PeopleRenameFromLast1_Click
-        private void toolStripMenuItemPeopleRenameFromLast1_Click(object sender, EventArgs e)
+        #region RegionRename1, 2, 3 - Click Events Sources
+        private void KryptonContextMenuItemGenericRegionRenameGeneric_Click(object sender, EventArgs e)
         {
-            DataGridView dataGridView = dataGridViewPeople;
-            if (!dataGridView.Enabled) return;
-            PeopleRenameSelected(dataGridView, (string)toolStripMenuItemPeopleRenameFromLast1.Tag);
-            DataGridViewHandler.Refresh(dataGridView);
+            ActionRegionRename((string)((KryptonContextMenuItem)sender).Tag);
         }
         #endregion
 
-        #region People rename - PeopleRenameFromLast2_Click
-        private void toolStripMenuItemPeopleRenameFromLast2_Click(object sender, EventArgs e)
-        {
-            DataGridView dataGridView = dataGridViewPeople;
-            if (!dataGridView.Enabled) return;
-            PeopleRenameSelected(dataGridView, (string)toolStripMenuItemPeopleRenameFromLast2.Tag);
-            DataGridViewHandler.Refresh(dataGridView);
-        }
-        #endregion
-
-        #region People rename - PeopleRenameFromLast3_Click
-        private void toolStripMenuItemPeopleRenameFromLast3_Click(object sender, EventArgs e)
-        {
-            DataGridView dataGridView = dataGridViewPeople;
-            if (!dataGridView.Enabled) return;
-            PeopleRenameSelected(dataGridView, (string)toolStripMenuItemPeopleRenameFromLast3.Tag);
-            DataGridViewHandler.Refresh(dataGridView);
-        }
-        #endregion
 
         #endregion
+
+        #endregion 
 
         #region CheckRowAndSetDefaults
         private void CheckRowAndSetDefaults(DataGridView dataGridView, int columnIndex, int rowIndex)

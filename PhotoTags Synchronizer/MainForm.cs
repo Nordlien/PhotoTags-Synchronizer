@@ -140,11 +140,11 @@ namespace PhotoTagsSynchronizer
             #endregion
 
             #region InitializeComponent - Krypton
-            this.kryptonContextMenuItemGenericRegionRename1.Click += KryptonContextMenuItemGenericRegionRename1_Click;
-            this.kryptonContextMenuItemGenericRegionRename2.Click += KryptonContextMenuItemGenericRegionRename2_Click;
-            this.kryptonContextMenuItemGenericRegionRename3.Click += KryptonContextMenuItemGenericRegionRename3_Click;
-            this.kryptonContextMenuItemGenericRegionRenameFromLastUsed.Click += KryptonContextMenuItemGenericRegionRenameFromLastUsed_Click;
-            this.kryptonContextMenuItemGenericRegionRenameListAll.Click += KryptonContextMenuItemGenericRegionRenameListAll_Click;
+            this.kryptonContextMenuItemGenericRegionRename1.Click += KryptonContextMenuItemGenericRegionRenameGeneric_Click;
+            this.kryptonContextMenuItemGenericRegionRename2.Click += KryptonContextMenuItemGenericRegionRenameGeneric_Click;
+            this.kryptonContextMenuItemGenericRegionRename3.Click += KryptonContextMenuItemGenericRegionRenameGeneric_Click;
+            //this.kryptonContextMenuItemGenericRegionRenameFromLastUsed.Click += KryptonContextMenuItemRegionRenameGeneric_Click;
+            //this.kryptonContextMenuItemGenericRegionRenameListAll.Click += KryptonContextMenuItemRegionRenameGeneric_Click;
             //this.kryptonContextMenuSeparatorGenericEndOfRegionRename
             this.kryptonContextMenuItemGenericCut.Click += KryptonContextMenuItemGenericCut_Click;
             this.kryptonContextMenuItemGenericCopy.Click += KryptonContextMenuItemGenericCopy_Click;

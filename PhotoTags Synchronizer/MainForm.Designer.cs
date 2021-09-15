@@ -31,7 +31,7 @@ namespace PhotoTagsSynchronizer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Filter");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Filter");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.toolStripContainerMainForm = new System.Windows.Forms.ToolStripContainer();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
@@ -263,33 +263,6 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewRename = new Krypton.Toolkit.KryptonDataGridView();
             this.kryptonPageToolboxConvertAndMerge = new Krypton.Navigator.KryptonPage();
             this.dataGridViewConvertAndMerge = new Krypton.Toolkit.KryptonDataGridView();
-            this.contextMenuStripPeople = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItemPeopleRenameFromLast1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemPeopleRenameFromLast2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemPeopleRenameFromLast3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemPeopleRenameFromMostUsed = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemPeopleRenameFromAll = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItemPeopleSelected = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemPeopleRenameSelected = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemPeopleCut = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemPeopleCopy = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemPeoplePaste = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemPeopleDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemPeopleUndo = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemPeopleRedo = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemPeopleFind = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemPeopleReplace = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemPeopleSave = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemPeopleMarkFavorite = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemPeopleRemoveFavorite = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemPeopleToggleFavorite = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemPeopleShowFavorite = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemPeopleHideEqualRows = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemPeopleTogglePeopleTag = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemPeopleSelectPeopleTag = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemPeopleRemovePeopleTag = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemPeopleShowRegionSelector = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemPeopleMediaPreview = new System.Windows.Forms.ToolStripMenuItem();
             this.imageListFilter = new System.Windows.Forms.ImageList(this.components);
             this.timerShowErrorMessage = new System.Windows.Forms.Timer(this.components);
             this.timerShowStatusText_RemoveTimer = new System.Windows.Forms.Timer(this.components);
@@ -401,6 +374,8 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupTripleViewThumbnailsMode = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButtonImageListViewModeThumbnails = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButtonImageListViewModeThumbnailRenders = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonContextMenuImageListViewModeThumbnailRenders = new Krypton.Toolkit.KryptonContextMenu();
+            this.kryptonContextMenuItems3 = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonRibbonGroupSeparator4 = new Krypton.Ribbon.KryptonRibbonGroupSeparator();
             this.kryptonRibbonGroupTripleViewColumnsSort = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButtonImageListViewDetailviewColumns = new Krypton.Ribbon.KryptonRibbonGroupButton();
@@ -513,8 +488,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupLinesPreviewStatus = new Krypton.Ribbon.KryptonRibbonGroupLines();
             this.kryptonRibbonGroupLabelPreviewTimer = new Krypton.Ribbon.KryptonRibbonGroupLabel();
             this.kryptonRibbonGroupLabelPreviewStatus = new Krypton.Ribbon.KryptonRibbonGroupLabel();
-            this.kryptonContextMenuImageListViewModeThumbnailRenders = new Krypton.Toolkit.KryptonContextMenu();
-            this.kryptonContextMenuItems3 = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonContextMenuItems1 = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonContextMenuItems2 = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonContextMenuItem1 = new Krypton.Toolkit.KryptonContextMenuItem();
@@ -703,7 +676,6 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageToolboxConvertAndMerge)).BeginInit();
             this.kryptonPageToolboxConvertAndMerge.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewConvertAndMerge)).BeginInit();
-            this.contextMenuStripPeople.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.panelMediaPreview)).BeginInit();
             this.panelMediaPreview.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.videoView1)).BeginInit();
@@ -1679,11 +1651,11 @@ namespace PhotoTagsSynchronizer
             this.treeViewFilter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeViewFilter.Location = new System.Drawing.Point(0, 0);
             this.treeViewFilter.Name = "treeViewFilter";
-            treeNode3.Name = "NodeFolder";
-            treeNode3.Tag = "Filter";
-            treeNode3.Text = "Filter";
+            treeNode1.Name = "NodeFolder";
+            treeNode1.Tag = "Filter";
+            treeNode1.Text = "Filter";
             this.treeViewFilter.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode3});
+            treeNode1});
             this.treeViewFilter.Size = new System.Drawing.Size(399, 600);
             this.treeViewFilter.TabIndex = 0;
             this.treeViewFilter.BeforeCheck += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeViewFilter_BeforeCheck);
@@ -3490,245 +3462,6 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewConvertAndMerge.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dataGridViewConvertAndMerge_MouseDown);
             this.dataGridViewConvertAndMerge.MouseMove += new System.Windows.Forms.MouseEventHandler(this.dataGridViewConvertAndMerge_MouseMove);
             // 
-            // contextMenuStripPeople
-            // 
-            this.contextMenuStripPeople.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-            this.contextMenuStripPeople.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.contextMenuStripPeople.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItemPeopleRenameFromLast1,
-            this.toolStripMenuItemPeopleRenameFromLast2,
-            this.toolStripMenuItemPeopleRenameFromLast3,
-            this.toolStripMenuItemPeopleRenameFromMostUsed,
-            this.toolStripMenuItemPeopleRenameFromAll,
-            this.toolStripMenuItemPeopleCut,
-            this.toolStripMenuItemPeopleCopy,
-            this.toolStripMenuItemPeoplePaste,
-            this.toolStripMenuItemPeopleDelete,
-            this.toolStripMenuItemPeopleUndo,
-            this.toolStripMenuItemPeopleRedo,
-            this.toolStripMenuItemPeopleFind,
-            this.toolStripMenuItemPeopleReplace,
-            this.toolStripMenuItemPeopleSave,
-            this.toolStripMenuItemPeopleMarkFavorite,
-            this.toolStripMenuItemPeopleRemoveFavorite,
-            this.toolStripMenuItemPeopleToggleFavorite,
-            this.toolStripMenuItemPeopleShowFavorite,
-            this.toolStripMenuItemPeopleHideEqualRows,
-            this.toolStripMenuItemPeopleTogglePeopleTag,
-            this.toolStripMenuItemPeopleSelectPeopleTag,
-            this.toolStripMenuItemPeopleRemovePeopleTag,
-            this.toolStripMenuItemPeopleShowRegionSelector,
-            this.toolStripMenuItemPeopleMediaPreview});
-            this.contextMenuStripPeople.Name = "contextMenuStripMap";
-            this.contextMenuStripPeople.Size = new System.Drawing.Size(302, 628);
-            // 
-            // toolStripMenuItemPeopleRenameFromLast1
-            // 
-            this.toolStripMenuItemPeopleRenameFromLast1.Name = "toolStripMenuItemPeopleRenameFromLast1";
-            this.toolStripMenuItemPeopleRenameFromLast1.Size = new System.Drawing.Size(301, 26);
-            this.toolStripMenuItemPeopleRenameFromLast1.Tag = "Unknown 1";
-            this.toolStripMenuItemPeopleRenameFromLast1.Text = "Rename #1 - Unknown 1";
-            this.toolStripMenuItemPeopleRenameFromLast1.Click += new System.EventHandler(this.toolStripMenuItemPeopleRenameFromLast1_Click);
-            // 
-            // toolStripMenuItemPeopleRenameFromLast2
-            // 
-            this.toolStripMenuItemPeopleRenameFromLast2.Name = "toolStripMenuItemPeopleRenameFromLast2";
-            this.toolStripMenuItemPeopleRenameFromLast2.Size = new System.Drawing.Size(301, 26);
-            this.toolStripMenuItemPeopleRenameFromLast2.Tag = "Unknown 2";
-            this.toolStripMenuItemPeopleRenameFromLast2.Text = "Rename #2 - Unknown 2";
-            this.toolStripMenuItemPeopleRenameFromLast2.Click += new System.EventHandler(this.toolStripMenuItemPeopleRenameFromLast2_Click);
-            // 
-            // toolStripMenuItemPeopleRenameFromLast3
-            // 
-            this.toolStripMenuItemPeopleRenameFromLast3.Name = "toolStripMenuItemPeopleRenameFromLast3";
-            this.toolStripMenuItemPeopleRenameFromLast3.Size = new System.Drawing.Size(301, 26);
-            this.toolStripMenuItemPeopleRenameFromLast3.Tag = "Unknown 3";
-            this.toolStripMenuItemPeopleRenameFromLast3.Text = "Rename #3 - Unknown 3";
-            this.toolStripMenuItemPeopleRenameFromLast3.Click += new System.EventHandler(this.toolStripMenuItemPeopleRenameFromLast3_Click);
-            // 
-            // toolStripMenuItemPeopleRenameFromMostUsed
-            // 
-            this.toolStripMenuItemPeopleRenameFromMostUsed.Name = "toolStripMenuItemPeopleRenameFromMostUsed";
-            this.toolStripMenuItemPeopleRenameFromMostUsed.Size = new System.Drawing.Size(301, 26);
-            this.toolStripMenuItemPeopleRenameFromMostUsed.Text = "Rename - From most used";
-            // 
-            // toolStripMenuItemPeopleRenameFromAll
-            // 
-            this.toolStripMenuItemPeopleRenameFromAll.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ToolStripMenuItemPeopleSelected,
-            this.toolStripMenuItemPeopleRenameSelected});
-            this.toolStripMenuItemPeopleRenameFromAll.Name = "toolStripMenuItemPeopleRenameFromAll";
-            this.toolStripMenuItemPeopleRenameFromAll.Size = new System.Drawing.Size(301, 26);
-            this.toolStripMenuItemPeopleRenameFromAll.Text = "Rename - List all";
-            // 
-            // ToolStripMenuItemPeopleSelected
-            // 
-            this.ToolStripMenuItemPeopleSelected.Name = "ToolStripMenuItemPeopleSelected";
-            this.ToolStripMenuItemPeopleSelected.Size = new System.Drawing.Size(133, 22);
-            this.ToolStripMenuItemPeopleSelected.Text = "(Unknown)";
-            // 
-            // toolStripMenuItemPeopleRenameSelected
-            // 
-            this.toolStripMenuItemPeopleRenameSelected.Name = "toolStripMenuItemPeopleRenameSelected";
-            this.toolStripMenuItemPeopleRenameSelected.Size = new System.Drawing.Size(133, 22);
-            this.toolStripMenuItemPeopleRenameSelected.Text = "Me";
-            this.toolStripMenuItemPeopleRenameSelected.Click += new System.EventHandler(this.toolStripMenuItemPeopleRenameSelected_Click);
-            // 
-            // toolStripMenuItemPeopleCut
-            // 
-            this.toolStripMenuItemPeopleCut.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditCut32x32;
-            this.toolStripMenuItemPeopleCut.Name = "toolStripMenuItemPeopleCut";
-            this.toolStripMenuItemPeopleCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.toolStripMenuItemPeopleCut.Size = new System.Drawing.Size(301, 26);
-            this.toolStripMenuItemPeopleCut.Text = "Cut";
-            // 
-            // toolStripMenuItemPeopleCopy
-            // 
-            this.toolStripMenuItemPeopleCopy.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditCopy32x32;
-            this.toolStripMenuItemPeopleCopy.Name = "toolStripMenuItemPeopleCopy";
-            this.toolStripMenuItemPeopleCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.toolStripMenuItemPeopleCopy.Size = new System.Drawing.Size(301, 26);
-            this.toolStripMenuItemPeopleCopy.Text = "Copy";
-            // 
-            // toolStripMenuItemPeoplePaste
-            // 
-            this.toolStripMenuItemPeoplePaste.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditPaste32x32;
-            this.toolStripMenuItemPeoplePaste.Name = "toolStripMenuItemPeoplePaste";
-            this.toolStripMenuItemPeoplePaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.toolStripMenuItemPeoplePaste.Size = new System.Drawing.Size(301, 26);
-            this.toolStripMenuItemPeoplePaste.Text = "Paste";
-            // 
-            // toolStripMenuItemPeopleDelete
-            // 
-            this.toolStripMenuItemPeopleDelete.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemDelete32x32;
-            this.toolStripMenuItemPeopleDelete.Name = "toolStripMenuItemPeopleDelete";
-            this.toolStripMenuItemPeopleDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.toolStripMenuItemPeopleDelete.Size = new System.Drawing.Size(301, 26);
-            this.toolStripMenuItemPeopleDelete.Text = "Delete";
-            // 
-            // toolStripMenuItemPeopleUndo
-            // 
-            this.toolStripMenuItemPeopleUndo.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditUndo32x32;
-            this.toolStripMenuItemPeopleUndo.Name = "toolStripMenuItemPeopleUndo";
-            this.toolStripMenuItemPeopleUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.toolStripMenuItemPeopleUndo.Size = new System.Drawing.Size(301, 26);
-            this.toolStripMenuItemPeopleUndo.Text = "Undo";
-            // 
-            // toolStripMenuItemPeopleRedo
-            // 
-            this.toolStripMenuItemPeopleRedo.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditRedo32x32;
-            this.toolStripMenuItemPeopleRedo.Name = "toolStripMenuItemPeopleRedo";
-            this.toolStripMenuItemPeopleRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.toolStripMenuItemPeopleRedo.Size = new System.Drawing.Size(301, 26);
-            this.toolStripMenuItemPeopleRedo.Text = "Redo";
-            // 
-            // toolStripMenuItemPeopleFind
-            // 
-            this.toolStripMenuItemPeopleFind.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditFind32x32;
-            this.toolStripMenuItemPeopleFind.Name = "toolStripMenuItemPeopleFind";
-            this.toolStripMenuItemPeopleFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.toolStripMenuItemPeopleFind.Size = new System.Drawing.Size(301, 26);
-            this.toolStripMenuItemPeopleFind.Text = "Find";
-            // 
-            // toolStripMenuItemPeopleReplace
-            // 
-            this.toolStripMenuItemPeopleReplace.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditReplace32x32;
-            this.toolStripMenuItemPeopleReplace.Name = "toolStripMenuItemPeopleReplace";
-            this.toolStripMenuItemPeopleReplace.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
-            this.toolStripMenuItemPeopleReplace.Size = new System.Drawing.Size(301, 26);
-            this.toolStripMenuItemPeopleReplace.Text = "Replace";
-            // 
-            // toolStripMenuItemPeopleSave
-            // 
-            this.toolStripMenuItemPeopleSave.Image = global::PhotoTagsSynchronizer.Properties.Resources.MetadataSave32x32;
-            this.toolStripMenuItemPeopleSave.Name = "toolStripMenuItemPeopleSave";
-            this.toolStripMenuItemPeopleSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.toolStripMenuItemPeopleSave.Size = new System.Drawing.Size(301, 26);
-            this.toolStripMenuItemPeopleSave.Text = "Save";
-            // 
-            // toolStripMenuItemPeopleMarkFavorite
-            // 
-            this.toolStripMenuItemPeopleMarkFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteSelect32x32;
-            this.toolStripMenuItemPeopleMarkFavorite.Name = "toolStripMenuItemPeopleMarkFavorite";
-            this.toolStripMenuItemPeopleMarkFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
-            this.toolStripMenuItemPeopleMarkFavorite.Size = new System.Drawing.Size(301, 26);
-            this.toolStripMenuItemPeopleMarkFavorite.Text = "Mark as favorite";
-            // 
-            // toolStripMenuItemPeopleRemoveFavorite
-            // 
-            this.toolStripMenuItemPeopleRemoveFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteRemove32x32;
-            this.toolStripMenuItemPeopleRemoveFavorite.Name = "toolStripMenuItemPeopleRemoveFavorite";
-            this.toolStripMenuItemPeopleRemoveFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.D)));
-            this.toolStripMenuItemPeopleRemoveFavorite.Size = new System.Drawing.Size(301, 26);
-            this.toolStripMenuItemPeopleRemoveFavorite.Text = "Remove as favorite";
-            // 
-            // toolStripMenuItemPeopleToggleFavorite
-            // 
-            this.toolStripMenuItemPeopleToggleFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteToggle32x32;
-            this.toolStripMenuItemPeopleToggleFavorite.Name = "toolStripMenuItemPeopleToggleFavorite";
-            this.toolStripMenuItemPeopleToggleFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
-            | System.Windows.Forms.Keys.D)));
-            this.toolStripMenuItemPeopleToggleFavorite.Size = new System.Drawing.Size(301, 26);
-            this.toolStripMenuItemPeopleToggleFavorite.Text = "Toggle favorite";
-            // 
-            // toolStripMenuItemPeopleShowFavorite
-            // 
-            this.toolStripMenuItemPeopleShowFavorite.Name = "toolStripMenuItemPeopleShowFavorite";
-            this.toolStripMenuItemPeopleShowFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.B)));
-            this.toolStripMenuItemPeopleShowFavorite.Size = new System.Drawing.Size(301, 26);
-            this.toolStripMenuItemPeopleShowFavorite.Text = "Show favorite rows";
-            // 
-            // toolStripMenuItemPeopleHideEqualRows
-            // 
-            this.toolStripMenuItemPeopleHideEqualRows.Name = "toolStripMenuItemPeopleHideEqualRows";
-            this.toolStripMenuItemPeopleHideEqualRows.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
-            | System.Windows.Forms.Keys.B)));
-            this.toolStripMenuItemPeopleHideEqualRows.Size = new System.Drawing.Size(301, 26);
-            this.toolStripMenuItemPeopleHideEqualRows.Text = "Hide equal rows";
-            // 
-            // toolStripMenuItemPeopleTogglePeopleTag
-            // 
-            this.toolStripMenuItemPeopleTogglePeopleTag.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditTriStateToggle32x32;
-            this.toolStripMenuItemPeopleTogglePeopleTag.Name = "toolStripMenuItemPeopleTogglePeopleTag";
-            this.toolStripMenuItemPeopleTogglePeopleTag.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Space)));
-            this.toolStripMenuItemPeopleTogglePeopleTag.Size = new System.Drawing.Size(301, 26);
-            this.toolStripMenuItemPeopleTogglePeopleTag.Text = "Toggle selected people tag";
-            // 
-            // toolStripMenuItemPeopleSelectPeopleTag
-            // 
-            this.toolStripMenuItemPeopleSelectPeopleTag.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditTriStateSelect32x32;
-            this.toolStripMenuItemPeopleSelectPeopleTag.Name = "toolStripMenuItemPeopleSelectPeopleTag";
-            this.toolStripMenuItemPeopleSelectPeopleTag.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.Space)));
-            this.toolStripMenuItemPeopleSelectPeopleTag.Size = new System.Drawing.Size(301, 26);
-            this.toolStripMenuItemPeopleSelectPeopleTag.Text = "Set selected people tags";
-            // 
-            // toolStripMenuItemPeopleRemovePeopleTag
-            // 
-            this.toolStripMenuItemPeopleRemovePeopleTag.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditTriStateDelete32x32;
-            this.toolStripMenuItemPeopleRemovePeopleTag.Name = "toolStripMenuItemPeopleRemovePeopleTag";
-            this.toolStripMenuItemPeopleRemovePeopleTag.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Delete)));
-            this.toolStripMenuItemPeopleRemovePeopleTag.Size = new System.Drawing.Size(301, 26);
-            this.toolStripMenuItemPeopleRemovePeopleTag.Text = "Remove selected people tags";
-            // 
-            // toolStripMenuItemPeopleShowRegionSelector
-            // 
-            this.toolStripMenuItemPeopleShowRegionSelector.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaRegionSelector;
-            this.toolStripMenuItemPeopleShowRegionSelector.Name = "toolStripMenuItemPeopleShowRegionSelector";
-            this.toolStripMenuItemPeopleShowRegionSelector.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
-            this.toolStripMenuItemPeopleShowRegionSelector.Size = new System.Drawing.Size(301, 26);
-            this.toolStripMenuItemPeopleShowRegionSelector.Text = "Show Region Selector Window";
-            // 
-            // toolStripMenuItemPeopleMediaPreview
-            // 
-            this.toolStripMenuItemPeopleMediaPreview.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaPreview;
-            this.toolStripMenuItemPeopleMediaPreview.Name = "toolStripMenuItemPeopleMediaPreview";
-            this.toolStripMenuItemPeopleMediaPreview.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
-            this.toolStripMenuItemPeopleMediaPreview.Size = new System.Drawing.Size(301, 26);
-            this.toolStripMenuItemPeopleMediaPreview.Text = "Media Preview";
-            // 
             // imageListFilter
             // 
             this.imageListFilter.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListFilter.ImageStream")));
@@ -3964,6 +3697,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonTabSelect,
             this.kryptonRibbonTabTools,
             this.kryptonRibbonTabPreview});
+            this.kryptonRibbonMain.SelectedContext = null;
             this.kryptonRibbonMain.SelectedTab = this.kryptonRibbonTabView;
             this.kryptonRibbonMain.Size = new System.Drawing.Size(1214, 115);
             this.kryptonRibbonMain.TabIndex = 12;
@@ -4766,6 +4500,11 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonImageListViewModeThumbnailRenders.KryptonContextMenu = this.kryptonContextMenuImageListViewModeThumbnailRenders;
             this.kryptonRibbonGroupButtonImageListViewModeThumbnailRenders.TextLine1 = "Thumbnails";
             this.kryptonRibbonGroupButtonImageListViewModeThumbnailRenders.TextLine2 = "View mode";
+            // 
+            // kryptonContextMenuImageListViewModeThumbnailRenders
+            // 
+            this.kryptonContextMenuImageListViewModeThumbnailRenders.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonContextMenuItems3});
             // 
             // kryptonRibbonGroupTripleViewColumnsSort
             // 
@@ -5600,11 +5339,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupLabelPreviewStatus.TextLine1 = "Status:";
             this.kryptonRibbonGroupLabelPreviewStatus.TextLine2 = "Waiting";
             // 
-            // kryptonContextMenuImageListViewModeThumbnailRenders
-            // 
-            this.kryptonContextMenuImageListViewModeThumbnailRenders.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
-            this.kryptonContextMenuItems3});
-            // 
             // kryptonContextMenuItem1
             // 
             this.kryptonContextMenuItem1.Text = "Menu Item";
@@ -5879,7 +5613,6 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageToolboxConvertAndMerge)).EndInit();
             this.kryptonPageToolboxConvertAndMerge.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewConvertAndMerge)).EndInit();
-            this.contextMenuStripPeople.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.panelMediaPreview)).EndInit();
             this.panelMediaPreview.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.videoView1)).EndInit();
@@ -6296,33 +6029,6 @@ namespace PhotoTagsSynchronizer
         private Krypton.Toolkit.KryptonContextMenuItems kryptonContextMenuItemsGenericRegionRenameListAllList;
         private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItemGenericRegionRenameListAllExample;
         private Krypton.Toolkit.KryptonContextMenuSeparator kryptonContextMenuSeparatorGenericEndOfRegionRename;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStripPeople;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleRenameFromLast1;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleRenameFromLast2;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleRenameFromLast3;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleRenameFromMostUsed;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleRenameFromAll;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemPeopleSelected;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleRenameSelected;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleCut;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleCopy;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeoplePaste;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleDelete;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleUndo;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleRedo;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleFind;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleReplace;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleSave;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleMarkFavorite;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleRemoveFavorite;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleToggleFavorite;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleShowFavorite;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleHideEqualRows;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleTogglePeopleTag;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleSelectPeopleTag;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleRemovePeopleTag;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleShowRegionSelector;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleMediaPreview;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripExifTool;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExiftoolAssignCompositeTag;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExiftoolCopy;
