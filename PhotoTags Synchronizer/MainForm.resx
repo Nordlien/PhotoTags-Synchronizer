@@ -912,6 +912,9 @@ When enter a date and time in   HYPERLINK "https://www.w3.org/TR/NOTE-datetime"
   <metadata name="kryptonManager1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>632, 17</value>
   </metadata>
+  <metadata name="kryptonContextMenuImageListViewModeThumbnailRenders.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 95</value>
+  </metadata>
   <data name="kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.ToolTipBody" xml:space="preserve">
     <value>
 Select one and many cells.
@@ -942,9 +945,6 @@ The locations can be found when matching UTC time and date between media file an
   </data>
   <metadata name="kryptonContextMenuPreviewSlideshowInterval.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>608, 134</value>
-  </metadata>
-  <metadata name="kryptonContextMenuImageListViewModeThumbnailRenders.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 95</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>166</value>

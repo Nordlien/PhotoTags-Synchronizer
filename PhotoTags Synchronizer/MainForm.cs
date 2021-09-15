@@ -257,6 +257,7 @@ namespace PhotoTagsSynchronizer
             Manina.Windows.Forms.View listViewSelectedMode;
 
             KryptonContextMenuItems kryptonContextMenuItems = (KryptonContextMenuItems)kryptonContextMenuImageListViewModeThumbnailRenders.Items[0];
+            kryptonRibbonGroupButtonImageListViewModeThumbnailRenders.KryptonContextMenu = kryptonContextMenuImageListViewModeThumbnailRenders;
 
             bool isRendererAssigned = false;
             bool isDefaultRendererAssigned = false;
