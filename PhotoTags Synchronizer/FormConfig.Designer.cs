@@ -4111,6 +4111,8 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonWorkspaceConfig
             // 
+            this.kryptonWorkspaceConfig.AllowPageDrag = false;
+            this.kryptonWorkspaceConfig.ContextMenus.ShowContextMenu = false;
             this.kryptonWorkspaceConfig.ActivePage = this.kryptonPageApplication;
             this.kryptonWorkspaceConfig.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
@@ -4143,6 +4145,8 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonWorkspaceConfigApplication
             // 
+            this.kryptonWorkspaceConfigApplication.AllowPageDrag = false;
+            this.kryptonWorkspaceConfigApplication.ContextMenus.ShowContextMenu = false;
             this.kryptonWorkspaceConfigApplication.ActivePage = this.kryptonPageThemes;
             this.kryptonWorkspaceConfigApplication.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonWorkspaceConfigApplication.Location = new System.Drawing.Point(0, 0);
@@ -4174,6 +4178,8 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonWorkspaceApplicationThemes
             // 
+            this.kryptonWorkspaceApplicationThemes.AllowPageDrag = false;
+            this.kryptonWorkspaceApplicationThemes.ContextMenus.ShowContextMenu = false;
             this.kryptonWorkspaceApplicationThemes.ActivePage = this.kryptonPageApplicationThemesSelect;
             this.kryptonWorkspaceApplicationThemes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonWorkspaceApplicationThemes.Location = new System.Drawing.Point(0, 0);
@@ -5042,6 +5048,8 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonWorkspaceConfigMetadata
             // 
+            this.kryptonWorkspaceConfigMetadata.AllowPageDrag = false;
+            this.kryptonWorkspaceConfigMetadata.ContextMenus.ShowContextMenu = false;
             this.kryptonWorkspaceConfigMetadata.ActivePage = this.kryptonPageMetadataReadHelp;
             this.kryptonWorkspaceConfigMetadata.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonWorkspaceConfigMetadata.Location = new System.Drawing.Point(0, 0);
@@ -5258,6 +5266,8 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonWorkspaceWebScraper
             // 
+            this.kryptonWorkspaceWebScraper.AllowPageDrag = false;
+            this.kryptonWorkspaceWebScraper.ContextMenus.ShowContextMenu = false;
             this.kryptonWorkspaceWebScraper.ActivePage = this.kryptonPageWebScraperWebScrapingSettings;
             this.kryptonWorkspaceWebScraper.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonWorkspaceWebScraper.Location = new System.Drawing.Point(0, 0);
@@ -5350,6 +5360,8 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonWorkspaceAutoCorrect
             // 
+            this.kryptonWorkspaceAutoCorrect.AllowPageDrag = false;
+            this.kryptonWorkspaceAutoCorrect.ContextMenus.ShowContextMenu = false;
             this.kryptonWorkspaceAutoCorrect.ActivePage = this.kryptonPageAutoCorrectAutoCorrectHelp;
             this.kryptonWorkspaceAutoCorrect.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonWorkspaceAutoCorrect.Location = new System.Drawing.Point(0, 0);
@@ -5637,6 +5649,8 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonWorkspaceLocation
             // 
+            this.kryptonWorkspaceLocation.AllowPageDrag = false;
+            this.kryptonWorkspaceLocation.ContextMenus.ShowContextMenu = false;
             this.kryptonWorkspaceLocation.ActivePage = this.kryptonPageLocationCamerOwnerHelp;
             this.kryptonWorkspaceLocation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonWorkspaceLocation.Location = new System.Drawing.Point(0, 0);
@@ -5739,6 +5753,8 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonWorkspaceLocationLocationNames
             // 
+            this.kryptonWorkspaceLocationLocationNames.AllowPageDrag = false;
+            this.kryptonWorkspaceLocationLocationNames.ContextMenus.ShowContextMenu = false;
             this.kryptonWorkspaceLocationLocationNames.ActivePage = this.kryptonPageLocationLocationNameNames;
             this.kryptonWorkspaceLocationLocationNames.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonWorkspaceLocationLocationNames.Location = new System.Drawing.Point(0, 0);
@@ -5833,6 +5849,8 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonWorkspaceConvertAndMerge
             // 
+            this.kryptonWorkspaceConvertAndMerge.AllowPageDrag = false;
+            this.kryptonWorkspaceConvertAndMerge.ContextMenus.ShowContextMenu = false;
             this.kryptonWorkspaceConvertAndMerge.ActivePage = this.kryptonPageConvertAndMergeCommand;
             this.kryptonWorkspaceConvertAndMerge.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonWorkspaceConvertAndMerge.Location = new System.Drawing.Point(0, 0);
@@ -5906,6 +5924,8 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonWorkspaceConvertAndMergeImageToVideo
             // 
+            this.kryptonWorkspaceConvertAndMergeImageToVideo.AllowPageDrag = false;
+            this.kryptonWorkspaceConvertAndMergeImageToVideo.ContextMenus.ShowContextMenu = false;
             this.kryptonWorkspaceConvertAndMergeImageToVideo.ActivePage = this.kryptonPageConvertAndMergeCommandArgument;
             this.kryptonWorkspaceConvertAndMergeImageToVideo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonWorkspaceConvertAndMergeImageToVideo.Location = new System.Drawing.Point(0, 0);
@@ -6011,6 +6031,8 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonWorkspaceConvertAndMergeMergeVideos
             // 
+            this.kryptonWorkspaceConvertAndMergeMergeVideos.AllowPageDrag = false;
+            this.kryptonWorkspaceConvertAndMergeMergeVideos.ContextMenus.ShowContextMenu = false;
             this.kryptonWorkspaceConvertAndMergeMergeVideos.ActivePage = this.kryptonPageConvertAndMergeConcat;
             this.kryptonWorkspaceConvertAndMergeMergeVideos.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonWorkspaceConvertAndMergeMergeVideos.Location = new System.Drawing.Point(0, 0);
@@ -6101,7 +6123,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageChromecast.UniqueName = "97b0d2538d0a4fbca85fc1bb76fe8047";
             // 
             // kryptonWorkspaceChromecast
-            // 
+            //
+            this.kryptonWorkspaceChromecast.AllowPageDrag = false;
+            this.kryptonWorkspaceChromecast.ContextMenus.ShowContextMenu = false;
             this.kryptonWorkspaceChromecast.ActivePage = this.kryptonPageChromecastVLCstreamConfig;
             this.kryptonWorkspaceChromecast.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonWorkspaceChromecast.Location = new System.Drawing.Point(0, 0);
@@ -6461,6 +6485,8 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonWorkspaceLog
             // 
+            this.kryptonWorkspaceLog.AllowPageDrag = false;
+            this.kryptonWorkspaceLog.ContextMenus.ShowContextMenu = false;
             this.kryptonWorkspaceLog.ActivePage = this.kryptonPageLogApplication;
             this.kryptonWorkspaceLog.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonWorkspaceLog.Location = new System.Drawing.Point(0, 0);

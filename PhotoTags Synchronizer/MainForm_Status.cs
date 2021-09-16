@@ -253,6 +253,11 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
+        private string StatusFilesAndSelected
+        {
+            set { this.kryptonPageMediaFiles.TextDescription = value; }
+        }
+
         #region DisplayAllQueueStatus - Updated display
         private Stopwatch stopwatchLastDisplayed = new Stopwatch();
         private Stopwatch stopwatchLastDisplayedExiftoolWaitCloud = new Stopwatch();
@@ -269,7 +274,7 @@ namespace PhotoTagsSynchronizer
                 return;
             }
 
-            toolStripStatusFilesAndSelected.Text = string.Format("Files: {0} Selected {1} ", imageListView1.Items.Count, imageListView1.SelectedItems.Count);
+            StatusFilesAndSelected = string.Format("Files: {0} Selected {1} ", imageListView1.Items.Count, imageListView1.SelectedItems.Count);
 
             toolStripStatusThreadQueueCount.Text = "";
             

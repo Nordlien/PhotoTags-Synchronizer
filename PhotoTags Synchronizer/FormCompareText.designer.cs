@@ -171,6 +171,8 @@
             // 
             // kryptonWorkspaceCompareText
             // 
+            this.kryptonWorkspaceCompareText.AllowPageDrag = false;
+            this.kryptonWorkspaceCompareText.ContextMenus.ShowContextMenu = false;
             this.kryptonWorkspaceCompareText.ActivePage = this.kryptonPageSourceFirst;
             this.kryptonWorkspaceCompareText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
@@ -205,8 +207,13 @@
             // 
             // kryptonWorkspaceCellSourceFirst
             // 
-            this.kryptonWorkspaceCellSourceFirst.AllowPageDrag = true;
+            this.kryptonWorkspaceCellSourceFirst.AllowDroppingPages = false;
+            this.kryptonWorkspaceCellSourceFirst.AllowPageReorder = false;
             this.kryptonWorkspaceCellSourceFirst.AllowTabFocus = false;
+            this.kryptonWorkspaceCellSourceFirst.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonWorkspaceCellSourceFirst.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCellSourceFirst.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
+            this.kryptonWorkspaceCellSourceFirst.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCellSourceFirst.Name = "kryptonWorkspaceCellSourceFirst";
             this.kryptonWorkspaceCellSourceFirst.NavigatorMode = Krypton.Navigator.NavigatorMode.StackCheckButtonGroup;
             this.kryptonWorkspaceCellSourceFirst.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
@@ -216,8 +223,13 @@
             // 
             // kryptonWorkspaceCellSourceSecond
             // 
-            this.kryptonWorkspaceCellSourceSecond.AllowPageDrag = true;
+            this.kryptonWorkspaceCellSourceSecond.AllowDroppingPages = false;
+            this.kryptonWorkspaceCellSourceSecond.AllowPageReorder = false;
             this.kryptonWorkspaceCellSourceSecond.AllowTabFocus = false;
+            this.kryptonWorkspaceCellSourceSecond.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonWorkspaceCellSourceSecond.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCellSourceSecond.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
+            this.kryptonWorkspaceCellSourceSecond.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCellSourceSecond.Name = "kryptonWorkspaceCellSourceSecond";
             this.kryptonWorkspaceCellSourceSecond.NavigatorMode = Krypton.Navigator.NavigatorMode.StackCheckButtonGroup;
             this.kryptonWorkspaceCellSourceSecond.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {

@@ -547,6 +547,8 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonWorkspaceMain
             // 
+            this.kryptonWorkspaceMain.AllowPageDrag = false;
+            this.kryptonWorkspaceMain.ContextMenus.ShowContextMenu = false;
             this.kryptonWorkspaceMain.ActivePage = this.kryptonPageBrowser;
             this.kryptonWorkspaceMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonWorkspaceMain.Location = new System.Drawing.Point(0, 0);

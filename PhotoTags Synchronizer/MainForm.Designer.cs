@@ -31,11 +31,10 @@ namespace PhotoTagsSynchronizer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Filter");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Filter");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.toolStripContainerMainForm = new System.Windows.Forms.ToolStripContainer();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusFilesAndSelected = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripLabelLazyLoadingDataGridViewProgress = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripProgressBarLazyLoadingDataGridViewProgress = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabelSaveProgress = new System.Windows.Forms.ToolStripStatusLabel();
@@ -226,17 +225,6 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewExiftool = new Krypton.Toolkit.KryptonDataGridView();
             this.kryptonPageToolboxWarnings = new Krypton.Navigator.KryptonPage();
             this.dataGridViewExiftoolWarning = new Krypton.Toolkit.KryptonDataGridView();
-            this.contextMenuStripExiftoolWarning = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItemtoolExiftoolWarningAssignCompositeTag = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExiftoolWarningCopy = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExiftoolWarningFind = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExiftoolWarningMarkFavorite = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExiftoolWarningRemoveFavorite = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExiftoolWarningToggleFavorite = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExiftoolWarningShowFavorite = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExiftoolWarningHideEqual = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemShowPosterWindowWarnings = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExiftoolWarningMediaPreview = new System.Windows.Forms.ToolStripMenuItem();
             this.kryptonPageToolboxProperties = new Krypton.Navigator.KryptonPage();
             this.dataGridViewProperties = new Krypton.Toolkit.KryptonDataGridView();
             this.kryptonPageToolboxRename = new Krypton.Navigator.KryptonPage();
@@ -645,7 +633,6 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageToolboxWarnings)).BeginInit();
             this.kryptonPageToolboxWarnings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewExiftoolWarning)).BeginInit();
-            this.contextMenuStripExiftoolWarning.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageToolboxProperties)).BeginInit();
             this.kryptonPageToolboxProperties.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProperties)).BeginInit();
@@ -718,7 +705,6 @@ namespace PhotoTagsSynchronizer
             this.statusStrip.Dock = System.Windows.Forms.DockStyle.None;
             this.statusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusFilesAndSelected,
             this.toolStripLabelLazyLoadingDataGridViewProgress,
             this.toolStripProgressBarLazyLoadingDataGridViewProgress,
             this.toolStripStatusLabelSaveProgress,
@@ -731,12 +717,6 @@ namespace PhotoTagsSynchronizer
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(1214, 24);
             this.statusStrip.TabIndex = 0;
-            // 
-            // toolStripStatusFilesAndSelected
-            // 
-            this.toolStripStatusFilesAndSelected.Name = "toolStripStatusFilesAndSelected";
-            this.toolStripStatusFilesAndSelected.Size = new System.Drawing.Size(101, 19);
-            this.toolStripStatusFilesAndSelected.Text = "Files: 0 Selected: 0";
             // 
             // toolStripLabelLazyLoadingDataGridViewProgress
             // 
@@ -818,6 +798,8 @@ namespace PhotoTagsSynchronizer
             // kryptonWorkspaceMain
             // 
             this.kryptonWorkspaceMain.ActivePage = this.kryptonPageFolderSearchFilterFolder;
+            this.kryptonWorkspaceMain.AllowPageDrag = false;
+            this.kryptonWorkspaceMain.ContextMenus.ShowContextMenu = false;
             this.kryptonWorkspaceMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonWorkspaceMain.Location = new System.Drawing.Point(0, 0);
             this.kryptonWorkspaceMain.Name = "kryptonWorkspaceMain";
@@ -871,10 +853,13 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonWorkspaceCellFolderSearchFilter
             // 
-            this.kryptonWorkspaceCellFolderSearchFilter.AllowPageDrag = true;
+            this.kryptonWorkspaceCellFolderSearchFilter.AllowDroppingPages = false;
+            this.kryptonWorkspaceCellFolderSearchFilter.AllowPageReorder = false;
             this.kryptonWorkspaceCellFolderSearchFilter.AllowTabFocus = false;
             this.kryptonWorkspaceCellFolderSearchFilter.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
             this.kryptonWorkspaceCellFolderSearchFilter.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCellFolderSearchFilter.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
+            this.kryptonWorkspaceCellFolderSearchFilter.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCellFolderSearchFilter.Name = "kryptonWorkspaceCellFolderSearchFilter";
             this.kryptonWorkspaceCellFolderSearchFilter.NavigatorMode = Krypton.Navigator.NavigatorMode.OutlookFull;
             this.kryptonWorkspaceCellFolderSearchFilter.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
@@ -1549,10 +1534,13 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonWorkspaceCellSearchFiler
             // 
-            this.kryptonWorkspaceCellSearchFiler.AllowPageDrag = true;
+            this.kryptonWorkspaceCellSearchFiler.AllowDroppingPages = false;
+            this.kryptonWorkspaceCellSearchFiler.AllowPageReorder = false;
             this.kryptonWorkspaceCellSearchFiler.AllowTabFocus = false;
             this.kryptonWorkspaceCellSearchFiler.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
             this.kryptonWorkspaceCellSearchFiler.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCellSearchFiler.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
+            this.kryptonWorkspaceCellSearchFiler.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCellSearchFiler.Name = "kryptonWorkspaceCellSearchFiler";
             this.kryptonWorkspaceCellSearchFiler.NavigatorMode = Krypton.Navigator.NavigatorMode.Panel;
             this.kryptonWorkspaceCellSearchFiler.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
@@ -1562,8 +1550,13 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonWorkspaceCellSearchFilterAction
             // 
-            this.kryptonWorkspaceCellSearchFilterAction.AllowPageDrag = true;
+            this.kryptonWorkspaceCellSearchFilterAction.AllowDroppingPages = false;
+            this.kryptonWorkspaceCellSearchFilterAction.AllowPageReorder = false;
             this.kryptonWorkspaceCellSearchFilterAction.AllowTabFocus = false;
+            this.kryptonWorkspaceCellSearchFilterAction.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonWorkspaceCellSearchFilterAction.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCellSearchFilterAction.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
+            this.kryptonWorkspaceCellSearchFilterAction.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCellSearchFilterAction.Name = "kryptonWorkspaceCellSearchFilterAction";
             this.kryptonWorkspaceCellSearchFilterAction.NavigatorMode = Krypton.Navigator.NavigatorMode.Panel;
             this.kryptonWorkspaceCellSearchFilterAction.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
@@ -1641,11 +1634,11 @@ namespace PhotoTagsSynchronizer
             this.treeViewFilter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeViewFilter.Location = new System.Drawing.Point(0, 0);
             this.treeViewFilter.Name = "treeViewFilter";
-            treeNode1.Name = "NodeFolder";
-            treeNode1.Tag = "Filter";
-            treeNode1.Text = "Filter";
+            treeNode4.Name = "NodeFolder";
+            treeNode4.Tag = "Filter";
+            treeNode4.Text = "Filter";
             this.treeViewFilter.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1});
+            treeNode4});
             this.treeViewFilter.Size = new System.Drawing.Size(399, 600);
             this.treeViewFilter.TabIndex = 0;
             this.treeViewFilter.BeforeCheck += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeViewFilter_BeforeCheck);
@@ -1653,7 +1646,8 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonWorkspaceCellMediaFiles
             // 
-            this.kryptonWorkspaceCellMediaFiles.AllowPageDrag = true;
+            this.kryptonWorkspaceCellMediaFiles.AllowDroppingPages = false;
+            this.kryptonWorkspaceCellMediaFiles.AllowPageReorder = false;
             this.kryptonWorkspaceCellMediaFiles.AllowTabFocus = false;
             this.kryptonWorkspaceCellMediaFiles.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
             this.kryptonWorkspaceCellMediaFiles.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
@@ -1716,10 +1710,13 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonWorkspaceCellToolbox
             // 
-            this.kryptonWorkspaceCellToolbox.AllowPageDrag = true;
+            this.kryptonWorkspaceCellToolbox.AllowDroppingPages = false;
+            this.kryptonWorkspaceCellToolbox.AllowPageReorder = false;
             this.kryptonWorkspaceCellToolbox.AllowTabFocus = false;
             this.kryptonWorkspaceCellToolbox.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
             this.kryptonWorkspaceCellToolbox.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCellToolbox.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
+            this.kryptonWorkspaceCellToolbox.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCellToolbox.Name = "kryptonWorkspaceCellToolbox";
             this.kryptonWorkspaceCellToolbox.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
             this.kryptonPageToolboxTags,
@@ -2096,7 +2093,8 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonWorkspaceCellToolboxTagsDetails
             // 
-            this.kryptonWorkspaceCellToolboxTagsDetails.AllowPageDrag = true;
+            this.kryptonWorkspaceCellToolboxTagsDetails.AllowDroppingPages = false;
+            this.kryptonWorkspaceCellToolboxTagsDetails.AllowPageReorder = false;
             this.kryptonWorkspaceCellToolboxTagsDetails.AllowTabFocus = false;
             this.kryptonWorkspaceCellToolboxTagsDetails.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
             this.kryptonWorkspaceCellToolboxTagsDetails.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
@@ -2111,7 +2109,8 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonWorkspaceCellToolboxTagsKeywords
             // 
-            this.kryptonWorkspaceCellToolboxTagsKeywords.AllowPageDrag = true;
+            this.kryptonWorkspaceCellToolboxTagsKeywords.AllowDroppingPages = false;
+            this.kryptonWorkspaceCellToolboxTagsKeywords.AllowPageReorder = false;
             this.kryptonWorkspaceCellToolboxTagsKeywords.AllowTabFocus = false;
             this.kryptonWorkspaceCellToolboxTagsKeywords.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
             this.kryptonWorkspaceCellToolboxTagsKeywords.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
@@ -2669,7 +2668,8 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonWorkspaceCellToolboxMapProperties
             // 
-            this.kryptonWorkspaceCellToolboxMapProperties.AllowPageDrag = true;
+            this.kryptonWorkspaceCellToolboxMapProperties.AllowDroppingPages = false;
+            this.kryptonWorkspaceCellToolboxMapProperties.AllowPageReorder = false;
             this.kryptonWorkspaceCellToolboxMapProperties.AllowTabFocus = false;
             this.kryptonWorkspaceCellToolboxMapProperties.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
             this.kryptonWorkspaceCellToolboxMapProperties.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
@@ -2685,7 +2685,8 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonWorkspaceCellToolboxMapDetails
             // 
-            this.kryptonWorkspaceCellToolboxMapDetails.AllowPageDrag = true;
+            this.kryptonWorkspaceCellToolboxMapDetails.AllowDroppingPages = false;
+            this.kryptonWorkspaceCellToolboxMapDetails.AllowPageReorder = false;
             this.kryptonWorkspaceCellToolboxMapDetails.AllowTabFocus = false;
             this.kryptonWorkspaceCellToolboxMapDetails.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
             this.kryptonWorkspaceCellToolboxMapDetails.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
@@ -2740,7 +2741,8 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonWorkspaceCellToolboxMapBroswer
             // 
-            this.kryptonWorkspaceCellToolboxMapBroswer.AllowPageDrag = true;
+            this.kryptonWorkspaceCellToolboxMapBroswer.AllowDroppingPages = false;
+            this.kryptonWorkspaceCellToolboxMapBroswer.AllowPageReorder = false;
             this.kryptonWorkspaceCellToolboxMapBroswer.AllowTabFocus = false;
             this.kryptonWorkspaceCellToolboxMapBroswer.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
             this.kryptonWorkspaceCellToolboxMapBroswer.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
@@ -2781,7 +2783,8 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonWorkspaceCellToolboxMapBroswerProperties
             // 
-            this.kryptonWorkspaceCellToolboxMapBroswerProperties.AllowPageDrag = true;
+            this.kryptonWorkspaceCellToolboxMapBroswerProperties.AllowDroppingPages = false;
+            this.kryptonWorkspaceCellToolboxMapBroswerProperties.AllowPageReorder = false;
             this.kryptonWorkspaceCellToolboxMapBroswerProperties.AllowTabFocus = false;
             this.kryptonWorkspaceCellToolboxMapBroswerProperties.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
             this.kryptonWorkspaceCellToolboxMapBroswerProperties.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
@@ -2954,7 +2957,6 @@ namespace PhotoTagsSynchronizer
             // 
             this.dataGridViewExiftoolWarning.AllowUserToAddRows = false;
             this.dataGridViewExiftoolWarning.ColumnHeadersHeight = 29;
-            this.dataGridViewExiftoolWarning.ContextMenuStrip = this.contextMenuStripExiftoolWarning;
             this.dataGridViewExiftoolWarning.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewExiftoolWarning.Location = new System.Drawing.Point(0, 0);
             this.dataGridViewExiftoolWarning.Name = "dataGridViewExiftoolWarning";
@@ -2967,104 +2969,6 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewExiftoolWarning.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewExifToolWarning_CellEnter);
             this.dataGridViewExiftoolWarning.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewExifToolWarning_CellMouseClick);
             this.dataGridViewExiftoolWarning.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewExifToolWarning_CellPainting);
-            // 
-            // contextMenuStripExiftoolWarning
-            // 
-            this.contextMenuStripExiftoolWarning.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-            this.contextMenuStripExiftoolWarning.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.contextMenuStripExiftoolWarning.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItemtoolExiftoolWarningAssignCompositeTag,
-            this.toolStripMenuItemExiftoolWarningCopy,
-            this.toolStripMenuItemExiftoolWarningFind,
-            this.toolStripMenuItemExiftoolWarningMarkFavorite,
-            this.toolStripMenuItemExiftoolWarningRemoveFavorite,
-            this.toolStripMenuItemExiftoolWarningToggleFavorite,
-            this.toolStripMenuItemExiftoolWarningShowFavorite,
-            this.toolStripMenuItemExiftoolWarningHideEqual,
-            this.toolStripMenuItemShowPosterWindowWarnings,
-            this.toolStripMenuItemExiftoolWarningMediaPreview});
-            this.contextMenuStripExiftoolWarning.Name = "contextMenuStripMap";
-            this.contextMenuStripExiftoolWarning.Size = new System.Drawing.Size(268, 264);
-            // 
-            // toolStripMenuItemtoolExiftoolWarningAssignCompositeTag
-            // 
-            this.toolStripMenuItemtoolExiftoolWarningAssignCompositeTag.Name = "toolStripMenuItemtoolExiftoolWarningAssignCompositeTag";
-            this.toolStripMenuItemtoolExiftoolWarningAssignCompositeTag.Size = new System.Drawing.Size(267, 26);
-            this.toolStripMenuItemtoolExiftoolWarningAssignCompositeTag.Text = "Assign Composite Tag";
-            // 
-            // toolStripMenuItemExiftoolWarningCopy
-            // 
-            this.toolStripMenuItemExiftoolWarningCopy.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditCopy32x32;
-            this.toolStripMenuItemExiftoolWarningCopy.Name = "toolStripMenuItemExiftoolWarningCopy";
-            this.toolStripMenuItemExiftoolWarningCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.toolStripMenuItemExiftoolWarningCopy.Size = new System.Drawing.Size(267, 26);
-            this.toolStripMenuItemExiftoolWarningCopy.Text = "Copy";
-            // 
-            // toolStripMenuItemExiftoolWarningFind
-            // 
-            this.toolStripMenuItemExiftoolWarningFind.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditFind32x32;
-            this.toolStripMenuItemExiftoolWarningFind.Name = "toolStripMenuItemExiftoolWarningFind";
-            this.toolStripMenuItemExiftoolWarningFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.toolStripMenuItemExiftoolWarningFind.Size = new System.Drawing.Size(267, 26);
-            this.toolStripMenuItemExiftoolWarningFind.Text = "Find";
-            // 
-            // toolStripMenuItemExiftoolWarningMarkFavorite
-            // 
-            this.toolStripMenuItemExiftoolWarningMarkFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteSelect32x32;
-            this.toolStripMenuItemExiftoolWarningMarkFavorite.Name = "toolStripMenuItemExiftoolWarningMarkFavorite";
-            this.toolStripMenuItemExiftoolWarningMarkFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
-            this.toolStripMenuItemExiftoolWarningMarkFavorite.Size = new System.Drawing.Size(267, 26);
-            this.toolStripMenuItemExiftoolWarningMarkFavorite.Text = "Mark as favorite";
-            // 
-            // toolStripMenuItemExiftoolWarningRemoveFavorite
-            // 
-            this.toolStripMenuItemExiftoolWarningRemoveFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteRemove32x32;
-            this.toolStripMenuItemExiftoolWarningRemoveFavorite.Name = "toolStripMenuItemExiftoolWarningRemoveFavorite";
-            this.toolStripMenuItemExiftoolWarningRemoveFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.D)));
-            this.toolStripMenuItemExiftoolWarningRemoveFavorite.Size = new System.Drawing.Size(267, 26);
-            this.toolStripMenuItemExiftoolWarningRemoveFavorite.Text = "Remove as favorite";
-            // 
-            // toolStripMenuItemExiftoolWarningToggleFavorite
-            // 
-            this.toolStripMenuItemExiftoolWarningToggleFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteToggle32x32;
-            this.toolStripMenuItemExiftoolWarningToggleFavorite.Name = "toolStripMenuItemExiftoolWarningToggleFavorite";
-            this.toolStripMenuItemExiftoolWarningToggleFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
-            | System.Windows.Forms.Keys.D)));
-            this.toolStripMenuItemExiftoolWarningToggleFavorite.Size = new System.Drawing.Size(267, 26);
-            this.toolStripMenuItemExiftoolWarningToggleFavorite.Text = "Toggle favorite";
-            // 
-            // toolStripMenuItemExiftoolWarningShowFavorite
-            // 
-            this.toolStripMenuItemExiftoolWarningShowFavorite.Name = "toolStripMenuItemExiftoolWarningShowFavorite";
-            this.toolStripMenuItemExiftoolWarningShowFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.B)));
-            this.toolStripMenuItemExiftoolWarningShowFavorite.Size = new System.Drawing.Size(267, 26);
-            this.toolStripMenuItemExiftoolWarningShowFavorite.Text = "Show favorite rows";
-            // 
-            // toolStripMenuItemExiftoolWarningHideEqual
-            // 
-            this.toolStripMenuItemExiftoolWarningHideEqual.Name = "toolStripMenuItemExiftoolWarningHideEqual";
-            this.toolStripMenuItemExiftoolWarningHideEqual.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
-            | System.Windows.Forms.Keys.B)));
-            this.toolStripMenuItemExiftoolWarningHideEqual.Size = new System.Drawing.Size(267, 26);
-            this.toolStripMenuItemExiftoolWarningHideEqual.Text = "Hide equal rows";
-            // 
-            // toolStripMenuItemShowPosterWindowWarnings
-            // 
-            this.toolStripMenuItemShowPosterWindowWarnings.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaRegionSelector;
-            this.toolStripMenuItemShowPosterWindowWarnings.Name = "toolStripMenuItemShowPosterWindowWarnings";
-            this.toolStripMenuItemShowPosterWindowWarnings.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
-            this.toolStripMenuItemShowPosterWindowWarnings.Size = new System.Drawing.Size(267, 26);
-            this.toolStripMenuItemShowPosterWindowWarnings.Text = "Show Media Poster Window";
-            // 
-            // toolStripMenuItemExiftoolWarningMediaPreview
-            // 
-            this.toolStripMenuItemExiftoolWarningMediaPreview.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaPreview;
-            this.toolStripMenuItemExiftoolWarningMediaPreview.Name = "toolStripMenuItemExiftoolWarningMediaPreview";
-            this.toolStripMenuItemExiftoolWarningMediaPreview.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
-            this.toolStripMenuItemExiftoolWarningMediaPreview.Size = new System.Drawing.Size(267, 26);
-            this.toolStripMenuItemExiftoolWarningMediaPreview.Text = "Media Preview";
             // 
             // kryptonPageToolboxProperties
             // 
@@ -3267,7 +3171,8 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonWorkspaceCellToolboxRenameVariables
             // 
-            this.kryptonWorkspaceCellToolboxRenameVariables.AllowPageDrag = true;
+            this.kryptonWorkspaceCellToolboxRenameVariables.AllowDroppingPages = false;
+            this.kryptonWorkspaceCellToolboxRenameVariables.AllowPageReorder = false;
             this.kryptonWorkspaceCellToolboxRenameVariables.AllowTabFocus = false;
             this.kryptonWorkspaceCellToolboxRenameVariables.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
             this.kryptonWorkspaceCellToolboxRenameVariables.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
@@ -3283,7 +3188,8 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonWorkspaceCellToolboxRenameResult
             // 
-            this.kryptonWorkspaceCellToolboxRenameResult.AllowPageDrag = true;
+            this.kryptonWorkspaceCellToolboxRenameResult.AllowDroppingPages = false;
+            this.kryptonWorkspaceCellToolboxRenameResult.AllowPageReorder = false;
             this.kryptonWorkspaceCellToolboxRenameResult.AllowTabFocus = false;
             this.kryptonWorkspaceCellToolboxRenameResult.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
             this.kryptonWorkspaceCellToolboxRenameResult.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
@@ -3594,7 +3500,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonTabSelect,
             this.kryptonRibbonTabTools,
             this.kryptonRibbonTabPreview});
-            this.kryptonRibbonMain.SelectedTab = this.kryptonRibbonTabView;
+            this.kryptonRibbonMain.SelectedTab = this.kryptonRibbonTabTools;
             this.kryptonRibbonMain.Size = new System.Drawing.Size(1214, 115);
             this.kryptonRibbonMain.TabIndex = 12;
             this.kryptonRibbonMain.SelectedTabChanged += new System.EventHandler(this.kryptonRibbonMain_SelectedTabChanged);
@@ -5486,7 +5392,6 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageToolboxWarnings)).EndInit();
             this.kryptonPageToolboxWarnings.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewExiftoolWarning)).EndInit();
-            this.contextMenuStripExiftoolWarning.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageToolboxProperties)).EndInit();
             this.kryptonPageToolboxProperties.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProperties)).EndInit();
@@ -5530,7 +5435,6 @@ namespace PhotoTagsSynchronizer
 
         private System.Windows.Forms.ToolStripContainer toolStripContainerMainForm;
         private System.Windows.Forms.StatusStrip statusStrip;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusFilesAndSelected;
         private System.Windows.Forms.Timer timerShowErrorMessage;
         private Manina.Windows.Forms.ImageListView imageListView1;
         private Furty.Windows.Forms.FolderTreeView folderTreeViewFolder;
@@ -5923,17 +5827,6 @@ namespace PhotoTagsSynchronizer
         private Krypton.Toolkit.KryptonContextMenuItems kryptonContextMenuItemsGenericRegionRenameListAllList;
         private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItemGenericRegionRenameListAllExample;
         private Krypton.Toolkit.KryptonContextMenuSeparator kryptonContextMenuSeparatorGenericEndOfRegionRename;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStripExiftoolWarning;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemtoolExiftoolWarningAssignCompositeTag;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExiftoolWarningCopy;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExiftoolWarningFind;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExiftoolWarningMarkFavorite;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExiftoolWarningRemoveFavorite;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExiftoolWarningToggleFavorite;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExiftoolWarningShowFavorite;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExiftoolWarningHideEqual;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemShowPosterWindowWarnings;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExiftoolWarningMediaPreview;
         private Krypton.Toolkit.KryptonGroupBox groupBoxSearchFileSystem;
         private Krypton.Toolkit.KryptonLabel kryptonLabelSearchFilename;
         private Krypton.Toolkit.KryptonLabel kryptonLabelSearchDirectory;

@@ -1361,6 +1361,8 @@
             // 
             // kryptonWorkspaceOpenWith
             // 
+            this.kryptonWorkspaceOpenWith.AllowPageDrag = false;
+            this.kryptonWorkspaceOpenWith.ContextMenus.ShowContextMenu = false;
             this.kryptonWorkspaceOpenWith.ActivePage = this.kryptonPageOpenWithSelectedFiles;
             this.kryptonWorkspaceOpenWith.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
@@ -1397,10 +1399,13 @@
             // 
             // kryptonWorkspaceCellSelectedFiles
             // 
-            this.kryptonWorkspaceCellSelectedFiles.AllowPageDrag = true;
+            this.kryptonWorkspaceCellSelectedFiles.AllowDroppingPages = false;
+            this.kryptonWorkspaceCellSelectedFiles.AllowPageReorder = false;
             this.kryptonWorkspaceCellSelectedFiles.AllowTabFocus = false;
             this.kryptonWorkspaceCellSelectedFiles.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
             this.kryptonWorkspaceCellSelectedFiles.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCellSelectedFiles.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
+            this.kryptonWorkspaceCellSelectedFiles.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCellSelectedFiles.Name = "kryptonWorkspaceCellSelectedFiles";
             this.kryptonWorkspaceCellSelectedFiles.NavigatorMode = Krypton.Navigator.NavigatorMode.StackCheckButtonGroup;
             this.kryptonWorkspaceCellSelectedFiles.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
@@ -1428,10 +1433,13 @@
             // 
             // kryptonWorkspaceCell2
             // 
-            this.kryptonWorkspaceCell2.AllowPageDrag = true;
+            this.kryptonWorkspaceCell2.AllowDroppingPages = false;
+            this.kryptonWorkspaceCell2.AllowPageReorder = false;
             this.kryptonWorkspaceCell2.AllowTabFocus = false;
             this.kryptonWorkspaceCell2.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
             this.kryptonWorkspaceCell2.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCell2.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
+            this.kryptonWorkspaceCell2.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCell2.Name = "kryptonWorkspaceCell2";
             this.kryptonWorkspaceCell2.NavigatorMode = Krypton.Navigator.NavigatorMode.StackCheckButtonGroup;
             this.kryptonWorkspaceCell2.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
@@ -1454,10 +1462,13 @@
             // 
             // kryptonWorkspaceCell14
             // 
-            this.kryptonWorkspaceCell14.AllowPageDrag = true;
+            this.kryptonWorkspaceCell14.AllowDroppingPages = false;
+            this.kryptonWorkspaceCell14.AllowPageReorder = false;
             this.kryptonWorkspaceCell14.AllowTabFocus = false;
             this.kryptonWorkspaceCell14.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
             this.kryptonWorkspaceCell14.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCell14.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
+            this.kryptonWorkspaceCell14.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCell14.Name = "kryptonWorkspaceCell14";
             this.kryptonWorkspaceCell14.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
             this.kryptonPage32});
@@ -1591,10 +1602,13 @@
             // 
             // kryptonWorkspaceCell3
             // 
-            this.kryptonWorkspaceCell3.AllowPageDrag = true;
+            this.kryptonWorkspaceCell3.AllowDroppingPages = false;
+            this.kryptonWorkspaceCell3.AllowPageReorder = false;
             this.kryptonWorkspaceCell3.AllowTabFocus = false;
             this.kryptonWorkspaceCell3.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
             this.kryptonWorkspaceCell3.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCell3.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
+            this.kryptonWorkspaceCell3.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCell3.Name = "kryptonWorkspaceCell3";
             this.kryptonWorkspaceCell3.NavigatorMode = Krypton.Navigator.NavigatorMode.StackCheckButtonGroup;
             this.kryptonWorkspaceCell3.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
@@ -1617,10 +1631,13 @@
             // 
             // kryptonWorkspaceCell15
             // 
-            this.kryptonWorkspaceCell15.AllowPageDrag = true;
+            this.kryptonWorkspaceCell15.AllowDroppingPages = false;
+            this.kryptonWorkspaceCell15.AllowPageReorder = false;
             this.kryptonWorkspaceCell15.AllowTabFocus = false;
             this.kryptonWorkspaceCell15.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
             this.kryptonWorkspaceCell15.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCell15.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
+            this.kryptonWorkspaceCell15.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCell15.Name = "kryptonWorkspaceCell15";
             this.kryptonWorkspaceCell15.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
             this.kryptonPage34});
@@ -1757,6 +1774,8 @@
             // 
             // kryptonWorkspaceRunBatch
             // 
+            this.kryptonWorkspaceRunBatch.AllowPageDrag = false;
+            this.kryptonWorkspaceRunBatch.ContextMenus.ShowContextMenu = false;
             this.kryptonWorkspaceRunBatch.ActivePage = this.kryptonPage1;
             this.kryptonWorkspaceRunBatch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
@@ -1792,10 +1811,13 @@
             // 
             // kryptonWorkspaceCell1
             // 
-            this.kryptonWorkspaceCell1.AllowPageDrag = true;
+            this.kryptonWorkspaceCell1.AllowDroppingPages = false;
+            this.kryptonWorkspaceCell1.AllowPageReorder = false;
             this.kryptonWorkspaceCell1.AllowTabFocus = false;
             this.kryptonWorkspaceCell1.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
             this.kryptonWorkspaceCell1.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCell1.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
+            this.kryptonWorkspaceCell1.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCell1.Name = "kryptonWorkspaceCell1";
             this.kryptonWorkspaceCell1.NavigatorMode = Krypton.Navigator.NavigatorMode.StackCheckButtonGroup;
             this.kryptonWorkspaceCell1.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
@@ -1823,10 +1845,13 @@
             // 
             // kryptonWorkspaceCellRunBatchImage
             // 
-            this.kryptonWorkspaceCellRunBatchImage.AllowPageDrag = true;
+            this.kryptonWorkspaceCellRunBatchImage.AllowDroppingPages = false;
+            this.kryptonWorkspaceCellRunBatchImage.AllowPageReorder = false;
             this.kryptonWorkspaceCellRunBatchImage.AllowTabFocus = false;
             this.kryptonWorkspaceCellRunBatchImage.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
             this.kryptonWorkspaceCellRunBatchImage.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCellRunBatchImage.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
+            this.kryptonWorkspaceCellRunBatchImage.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCellRunBatchImage.Name = "kryptonWorkspaceCellRunBatchImage";
             this.kryptonWorkspaceCellRunBatchImage.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
             this.kryptonPageRunBatchCommandImage,
@@ -1875,10 +1900,13 @@
             // 
             // kryptonWorkspaceCell12
             // 
-            this.kryptonWorkspaceCell12.AllowPageDrag = true;
+            this.kryptonWorkspaceCell12.AllowDroppingPages = false;
+            this.kryptonWorkspaceCell12.AllowPageReorder = false;
             this.kryptonWorkspaceCell12.AllowTabFocus = false;
             this.kryptonWorkspaceCell12.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
             this.kryptonWorkspaceCell12.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCell12.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
+            this.kryptonWorkspaceCell12.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCell12.Name = "kryptonWorkspaceCell12";
             this.kryptonWorkspaceCell12.NavigatorMode = Krypton.Navigator.NavigatorMode.StackCheckButtonGroup;
             this.kryptonWorkspaceCell12.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
@@ -1910,10 +1938,13 @@
             // 
             // kryptonWorkspaceCellRunBatchVideo
             // 
-            this.kryptonWorkspaceCellRunBatchVideo.AllowPageDrag = true;
+            this.kryptonWorkspaceCellRunBatchVideo.AllowDroppingPages = false;
+            this.kryptonWorkspaceCellRunBatchVideo.AllowPageReorder = false;
             this.kryptonWorkspaceCellRunBatchVideo.AllowTabFocus = false;
             this.kryptonWorkspaceCellRunBatchVideo.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
             this.kryptonWorkspaceCellRunBatchVideo.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCellRunBatchVideo.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
+            this.kryptonWorkspaceCellRunBatchVideo.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCellRunBatchVideo.Name = "kryptonWorkspaceCellRunBatchVideo";
             this.kryptonWorkspaceCellRunBatchVideo.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
             this.kryptonPageRunBatchCommandVideo,
@@ -1962,10 +1993,13 @@
             // 
             // kryptonWorkspaceCell10
             // 
-            this.kryptonWorkspaceCell10.AllowPageDrag = true;
+            this.kryptonWorkspaceCell10.AllowDroppingPages = false;
+            this.kryptonWorkspaceCell10.AllowPageReorder = false;
             this.kryptonWorkspaceCell10.AllowTabFocus = false;
             this.kryptonWorkspaceCell10.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
             this.kryptonWorkspaceCell10.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCell10.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
+            this.kryptonWorkspaceCell10.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCell10.Name = "kryptonWorkspaceCell10";
             this.kryptonWorkspaceCell10.NavigatorMode = Krypton.Navigator.NavigatorMode.StackCheckButtonGroup;
             this.kryptonWorkspaceCell10.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
@@ -2005,6 +2039,8 @@
             // 
             // kryptonWorkspaceRunArgumentFile
             // 
+            this.kryptonWorkspaceRunArgumentFile.AllowPageDrag = false;
+            this.kryptonWorkspaceRunArgumentFile.ContextMenus.ShowContextMenu = false;
             this.kryptonWorkspaceRunArgumentFile.ActivePage = this.kryptonPage11;
             this.kryptonWorkspaceRunArgumentFile.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
@@ -2043,10 +2079,13 @@
             // 
             // kryptonWorkspaceCellRunArgumentFileRunCommandWithArgument
             // 
-            this.kryptonWorkspaceCellRunArgumentFileRunCommandWithArgument.AllowPageDrag = true;
+            this.kryptonWorkspaceCellRunArgumentFileRunCommandWithArgument.AllowDroppingPages = false;
+            this.kryptonWorkspaceCellRunArgumentFileRunCommandWithArgument.AllowPageReorder = false;
             this.kryptonWorkspaceCellRunArgumentFileRunCommandWithArgument.AllowTabFocus = false;
             this.kryptonWorkspaceCellRunArgumentFileRunCommandWithArgument.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
             this.kryptonWorkspaceCellRunArgumentFileRunCommandWithArgument.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCellRunArgumentFileRunCommandWithArgument.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
+            this.kryptonWorkspaceCellRunArgumentFileRunCommandWithArgument.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCellRunArgumentFileRunCommandWithArgument.Name = "kryptonWorkspaceCellRunArgumentFileRunCommandWithArgument";
             this.kryptonWorkspaceCellRunArgumentFileRunCommandWithArgument.NavigatorMode = Krypton.Navigator.NavigatorMode.StackCheckButtonGroup;
             this.kryptonWorkspaceCellRunArgumentFileRunCommandWithArgument.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
@@ -2064,10 +2103,13 @@
             // 
             // kryptonWorkspaceCellRunArgumentFileAutoCorrect
             // 
-            this.kryptonWorkspaceCellRunArgumentFileAutoCorrect.AllowPageDrag = true;
+            this.kryptonWorkspaceCellRunArgumentFileAutoCorrect.AllowDroppingPages = false;
+            this.kryptonWorkspaceCellRunArgumentFileAutoCorrect.AllowPageReorder = false;
             this.kryptonWorkspaceCellRunArgumentFileAutoCorrect.AllowTabFocus = false;
             this.kryptonWorkspaceCellRunArgumentFileAutoCorrect.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
             this.kryptonWorkspaceCellRunArgumentFileAutoCorrect.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCellRunArgumentFileAutoCorrect.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
+            this.kryptonWorkspaceCellRunArgumentFileAutoCorrect.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCellRunArgumentFileAutoCorrect.Name = "kryptonWorkspaceCellRunArgumentFileAutoCorrect";
             this.kryptonWorkspaceCellRunArgumentFileAutoCorrect.NavigatorMode = Krypton.Navigator.NavigatorMode.StackCheckButtonGroup;
             this.kryptonWorkspaceCellRunArgumentFileAutoCorrect.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
@@ -2123,6 +2165,8 @@
             // 
             // kryptonWorkspaceBuilder
             // 
+            this.kryptonWorkspaceBuilder.AllowPageDrag = false;
+            this.kryptonWorkspaceBuilder.ContextMenus.ShowContextMenu = false;
             this.kryptonWorkspaceBuilder.ActivePage = this.kryptonPage27;
             this.kryptonWorkspaceBuilder.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
@@ -2162,10 +2206,13 @@
             // 
             // kryptonWorkspaceCell13
             // 
-            this.kryptonWorkspaceCell13.AllowPageDrag = true;
+            this.kryptonWorkspaceCell13.AllowDroppingPages = false;
+            this.kryptonWorkspaceCell13.AllowPageReorder = false;
             this.kryptonWorkspaceCell13.AllowTabFocus = false;
             this.kryptonWorkspaceCell13.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
             this.kryptonWorkspaceCell13.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCell13.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
+            this.kryptonWorkspaceCell12.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCell13.Name = "kryptonWorkspaceCell13";
             this.kryptonWorkspaceCell13.NavigatorMode = Krypton.Navigator.NavigatorMode.StackCheckButtonGroup;
             this.kryptonWorkspaceCell13.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
@@ -2176,10 +2223,13 @@
             // 
             // kryptonWorkspaceCell16
             // 
-            this.kryptonWorkspaceCell16.AllowPageDrag = true;
+            this.kryptonWorkspaceCell16.AllowDroppingPages = false;
+            this.kryptonWorkspaceCell16.AllowPageReorder = false;
             this.kryptonWorkspaceCell16.AllowTabFocus = false;
             this.kryptonWorkspaceCell16.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
             this.kryptonWorkspaceCell16.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCell16.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
+            this.kryptonWorkspaceCell16.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCell16.Name = "kryptonWorkspaceCell16";
             this.kryptonWorkspaceCell16.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
             this.kryptonPage37,
@@ -2238,10 +2288,13 @@
             // 
             // kryptonWorkspaceCell17
             // 
-            this.kryptonWorkspaceCell17.AllowPageDrag = true;
+            this.kryptonWorkspaceCell17.AllowDroppingPages = false;
+            this.kryptonWorkspaceCell17.AllowPageReorder = false;
             this.kryptonWorkspaceCell17.AllowTabFocus = false;
             this.kryptonWorkspaceCell17.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
             this.kryptonWorkspaceCell17.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCell17.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
+            this.kryptonWorkspaceCell17.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCell17.Name = "kryptonWorkspaceCell17";
             this.kryptonWorkspaceCell17.NavigatorMode = Krypton.Navigator.NavigatorMode.StackCheckButtonGroup;
             this.kryptonWorkspaceCell17.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
@@ -2403,8 +2456,13 @@
             // 
             // kryptonWorkspaceCell4
             // 
-            this.kryptonWorkspaceCell4.AllowPageDrag = true;
+            this.kryptonWorkspaceCell4.AllowDroppingPages = false;
+            this.kryptonWorkspaceCell4.AllowPageReorder = false;
             this.kryptonWorkspaceCell4.AllowTabFocus = false;
+            this.kryptonWorkspaceCell4.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonWorkspaceCell4.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCell4.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
+            this.kryptonWorkspaceCell4.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCell4.Name = "kryptonWorkspaceCell4";
             this.kryptonWorkspaceCell4.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
             this.kryptonPage9,
@@ -2438,8 +2496,13 @@
             // 
             // kryptonWorkspaceCell6
             // 
-            this.kryptonWorkspaceCell6.AllowPageDrag = true;
+            this.kryptonWorkspaceCell6.AllowDroppingPages = false;
+            this.kryptonWorkspaceCell6.AllowPageReorder = false;
             this.kryptonWorkspaceCell6.AllowTabFocus = false;
+            this.kryptonWorkspaceCell6.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonWorkspaceCell6.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCell6.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
+            this.kryptonWorkspaceCell6.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCell6.Name = "kryptonWorkspaceCell6";
             this.kryptonWorkspaceCell6.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
             this.kryptonPage20,
@@ -2478,8 +2541,13 @@
             // 
             // kryptonWorkspaceCell9
             // 
-            this.kryptonWorkspaceCell9.AllowPageDrag = true;
+            this.kryptonWorkspaceCell9.AllowDroppingPages = false;
+            this.kryptonWorkspaceCell9.AllowPageReorder = false;
             this.kryptonWorkspaceCell9.AllowTabFocus = false;
+            this.kryptonWorkspaceCell9.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonWorkspaceCell9.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCell9.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
+            this.kryptonWorkspaceCell9.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCell9.Name = "kryptonWorkspaceCell9";
             this.kryptonWorkspaceCell9.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
             this.kryptonPage24,
