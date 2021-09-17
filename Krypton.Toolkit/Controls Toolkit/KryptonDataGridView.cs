@@ -2313,7 +2313,7 @@ namespace Krypton.Toolkit
         {
             Point currentCellAddress = CurrentCellAddress;
 
-            if (!((cell.RowIndex >= 0) && (cell.ColumnIndex == -1)))
+            //ADDED BY JTN: if (!((cell.RowIndex >= 0) && (cell.ColumnIndex == -1)))
             {
                 // Are we allowed to show a tooltip?
                 if (ShowCellToolTips &&

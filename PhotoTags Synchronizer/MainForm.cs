@@ -56,6 +56,9 @@ namespace PhotoTagsSynchronizer
         private string nameDataGridViewRename;
         private string nameDataGridViewTagsAndKeywords;
 
+        private ProgressBar progressBarBackground = new ProgressBar();
+        private ProgressBar progressBarSaveConvert = new ProgressBar();
+        private ProgressBar progressBarLazyLoading = new ProgressBar();
 
         private ShowWhatColumns showWhatColumns;
 
@@ -140,6 +143,10 @@ namespace PhotoTagsSynchronizer
             #endregion
 
             #region InitializeComponent - Krypton
+            this.kryptonRibbonGroupCustomControlToolsProgressBackground.CustomControl = progressBarBackground;
+            this.kryptonRibbonGroupCustomControlToolsProgressSave.CustomControl = progressBarSaveConvert;
+            this.kryptonRibbonGroupCustomControlToolsProgressLazyloading.CustomControl = progressBarLazyLoading;
+
             this.kryptonContextMenuItemGenericRegionRename1.Click += KryptonContextMenuItemGenericRegionRenameGeneric_Click;
             this.kryptonContextMenuItemGenericRegionRename2.Click += KryptonContextMenuItemGenericRegionRenameGeneric_Click;
             this.kryptonContextMenuItemGenericRegionRename3.Click += KryptonContextMenuItemGenericRegionRenameGeneric_Click;
@@ -829,9 +836,11 @@ namespace PhotoTagsSynchronizer
 
 
 
+
+
+
         #endregion
 
-        
     }
 
 

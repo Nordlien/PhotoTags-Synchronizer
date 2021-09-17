@@ -720,6 +720,8 @@ namespace PhotoTagsSynchronizer
 
         #region ContextMenuGenericRename - Turn on / off
 
+        
+
         #region  AssignCompositeTag
         private void ContextMenuGenericAssignCompositeTag (bool visible)
         {
@@ -6265,7 +6267,6 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         //----
-
         #region DataGridView - SetGridViewSize Small / Medium / Big - Click
 
         #region SetRibbonDataGridViewSizeBottons
@@ -6794,7 +6795,139 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        
+        //---- Tools Progress and Status 
+        #region StatusActionText
+        private string StatusActionText
+        {
+            get { return kryptonRibbonGroupLabelToolsCurrentActions.TextLine1; }
+            set { kryptonRibbonGroupLabelToolsCurrentActions.TextLine1 = value; }
+        }
+        #endregion
+
+        #region ProgressbarSaveAndConvertProgress
+
+        #region ProgressbarSaveAndConvertProgress(bool enabled, int value)
+        private void ProgressbarSaveAndConvertProgress(bool enabled, int value)
+        {
+            progressBarSaveConvert.Value = value;
+            ProgressbarSaveProgress(enabled);
+        }
+        #endregion
+
+        #region ProgressbarSaveProgress(bool enabled, int value, int minimum, int maximum, string descrption)
+        private void ProgressbarSaveAndConvertProgress(bool enabled, int value, int minimum, int maximum, string descrption)
+        {
+            progressBarSaveConvert.Minimum = minimum;
+            progressBarSaveConvert.Maximum = maximum;
+            progressBarSaveConvert.Value = value;
+            ProgressbarSaveProgress(enabled);
+        }
+        #endregion
+
+        #region ProgressbarSaveProgress(bool visible)
+        private void ProgressbarSaveProgress(bool visible)
+        {
+            kryptonRibbonGroupTripleProgressStatusSave.Visible = visible;
+            kryptonRibbonGroupCustomControlToolsProgressSave.Visible = visible;
+            kryptonRibbonGroupLabelToolsProgressSave.Visible = visible;
+            kryptonRibbonGroupLabelToolsProgressSaveText.Visible = visible;
+        }
+        #endregion
+
+        #endregion
+
+        #region ProgressbarBackgroundProgress
+
+        #region ProgressBackgroundStatusText
+        private string ProgressBackgroundStatusText
+        {
+            get
+            {
+                return kryptonRibbonGroupLabelToolsProgressBackgroundBackgroundProcessText.TextLine1;
+            }
+            set
+            {
+                kryptonRibbonGroupLabelToolsProgressBackgroundBackgroundProcessText.TextLine1 = value;
+            }
+        }
+        #endregion
+
+        #region ProgressbarBackgroundProgressQueueRemainding(int queueRemainding)
+        private void ProgressbarBackgroundProgressQueueRemainding(int queueRemainding)
+        {
+            if (queueRemainding > progressBarBackground.Maximum) progressBarBackground.Maximum = queueRemainding;
+            progressBarBackground.Value = progressBarBackground.Maximum - queueRemainding;
+        }
+        #endregion
+
+        #region ProgressbarBackgroundProgress(bool enabled, int value, int minimum, int maximum)
+        private void ProgressbarBackgroundProgress(bool enabled, int value, int minimum, int maximum)
+        {
+            progressBarBackground.Minimum = minimum;
+            progressBarBackground.Maximum = maximum;
+            progressBarBackground.Value = value;
+            ProgressbarSaveProgress(enabled);
+        }
+        #endregion
+
+        #region ProgressbarBackgroundProgress(bool enabled)
+        private void ProgressbarBackgroundProgress(bool enabled)
+        {
+            this.kryptonRibbonGroupLabelToolsProgressBackground.Enabled = enabled;
+            this.kryptonRibbonGroupCustomControlToolsProgressBackground.Enabled = enabled;
+            this.kryptonRibbonGroupLabelToolsProgressBackgroundBackgroundProcessText.Enabled = enabled;
+        }
+
+        #endregion
+
+
+        #endregion
+
+        #region Progress Laxy Loading for DataGridView
+
+        #region SeeProcessQueue_Clcik
+        private void kryptonRibbonGroupButtonToolsProgressLazyloadingShowStatus_Click(object sender, EventArgs e)
+        {
+            ActionSeeProcessQueue();
+        }
+        #endregion
+
+        #region ProgressbarLazyLoadingProgressLazyLoadingRemainding(int queueRemainding)
+        private int ProgressbarLazyLoadingProgressLazyLoadingRemainding(int queueRemainding)
+        {
+            if (queueRemainding > progressBarLazyLoading.Maximum) progressBarLazyLoading.Maximum = queueRemainding;
+            progressBarLazyLoading.Value = progressBarLazyLoading.Maximum - queueRemainding;
+            return progressBarLazyLoading.Value;
+        }
+        #endregion
+
+        #region ProgressbarLazyLoadingProgress(bool enabled, int value, int minimum, int maximum)
+        private void ProgressbarLazyLoadingProgress(bool enabled, int value, int minimum, int maximum)
+        {
+            progressBarLazyLoading.Minimum = minimum;
+            progressBarLazyLoading.Maximum = maximum;
+            progressBarLazyLoading.Value = value;
+            ProgressbarLazyLoadingProgress(enabled);
+        }
+        #endregion
+
+        #region ProgressbarLazyLoadingProgress(bool visible)
+        private void ProgressbarLazyLoadingProgress(bool visible)
+        {
+            kryptonRibbonGroupTripleToolsProgressStatusWork.Visible = visible;
+            kryptonRibbonGroupLabelToolsProgressLazyloading.Enabled = visible;
+            kryptonRibbonGroupCustomControlToolsProgressLazyloading.Enabled = visible;
+        }
+        #endregion
+
+        #region IsProgressbarLazyLoadingProgressVisible
+        private bool IsProgressbarLazyLoadingProgressVisible
+        {
+            get { return kryptonRibbonGroupTripleToolsProgressStatusWork.Visible; }
+        }
+        #endregion
+
+        #endregion
 
         //----
         #region DataGridView Keydown

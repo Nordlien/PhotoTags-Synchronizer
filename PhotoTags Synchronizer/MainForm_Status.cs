@@ -20,7 +20,7 @@ namespace PhotoTagsSynchronizer
         private void timerShowStatusText_RemoveTimer_Tick(object sender, EventArgs e)
         {
             timerShowStatusText_RemoveTimer.Stop();
-            toolStripStatusAction.Text = "Waiting actions...";
+            StatusActionText = "Waiting actions...";
         }
         #endregion
 
@@ -33,7 +33,7 @@ namespace PhotoTagsSynchronizer
                 return;
             }
 
-            toolStripStatusAction.Text = text;
+            StatusActionText = text;
             timerShowStatusText_RemoveTimer.Stop(); //Restart
             timerShowStatusText_RemoveTimer.Start();
         }
@@ -95,7 +95,7 @@ namespace PhotoTagsSynchronizer
             } 
         }
 
-        private void toolStripProgressBarThreadQueue_Click(object sender, EventArgs e)
+        private void ActionSeeProcessQueue()
         {
             Dictionary<string, List<string>> fileTasks = new Dictionary<string, List<string>>();
             string messageBoxQueuesInfo = "List of all process queues...\r\n";
@@ -117,7 +117,7 @@ namespace PhotoTagsSynchronizer
                 {
                     messageBoxQueuesInfo += "Read to cache:";
                     lock (_readToCacheQueuesLock)
-                        foreach (KeyValuePair<int, int> keyValuePair in readToCacheQueues) toolStripStatusThreadQueueCount.Text += " " + keyValuePair.Value;
+                        foreach (KeyValuePair<int, int> keyValuePair in readToCacheQueues) ProgressBackgroundStatusText += " " + keyValuePair.Value;
                     messageBoxQueuesInfo += "\r\n";
                 }
                 catch
@@ -141,7 +141,6 @@ namespace PhotoTagsSynchronizer
                 }
             }
             
-
             messageBoxQueuesInfo = "\r\n";
 
             try
@@ -251,12 +250,14 @@ namespace PhotoTagsSynchronizer
             catch { }
             
         }
-        #endregion 
+        #endregion
 
+        #region StatusFilesAndSelected
         private string StatusFilesAndSelected
         {
             set { this.kryptonPageMediaFiles.TextDescription = value; }
         }
+        #endregion 
 
         #region DisplayAllQueueStatus - Updated display
         private Stopwatch stopwatchLastDisplayed = new Stopwatch();
@@ -276,48 +277,47 @@ namespace PhotoTagsSynchronizer
 
             StatusFilesAndSelected = string.Format("Files: {0} Selected {1} ", imageListView1.Items.Count, imageListView1.SelectedItems.Count);
 
-            toolStripStatusThreadQueueCount.Text = "";
-            
+            string progressBackgroundStatusText = "";
             int threadQueuCount = 0;
 
             if (!string.IsNullOrWhiteSpace(FileHandler.FileLockedByProcess)) {
                 threadQueuCount++;
-                toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
+                progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
                     "Locked file: " + Path.GetFileName(FileHandler.FileLockedByProcess);
             }
 
             if (GetFileEntriesRotateMediaCountDirty() > 0) 
-                toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") + 
+                progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") + 
                     string.Format("Rotate: {0}", GetFileEntriesRotateMediaCountDirty());
             threadQueuCount += GetFileEntriesRotateMediaCountDirty();
 
             if (GlobalData.ProcessCounterDelete > 0)
-                toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") + 
+                progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") + 
                     string.Format("Delete: {0}", GlobalData.ProcessCounterDelete);
             threadQueuCount += GlobalData.ProcessCounterDelete;
 
             if (GlobalData.ProcessCounterReadProperties > 0)
-                toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
+                progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
                     string.Format("Properties: {0}", GlobalData.ProcessCounterReadProperties);
             threadQueuCount += GlobalData.ProcessCounterReadProperties;
 
             if (GlobalData.ProcessCounterRefresh > 0)
-                toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") + 
+                progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") + 
                     string.Format("Reload: {0}", GlobalData.ProcessCounterRefresh);
             threadQueuCount += GlobalData.ProcessCounterRefresh;
 
             if (CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountDirty() > 0)
-                toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
+                progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
                     string.Format("Read WLPG: {0}", CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountDirty());
             threadQueuCount += CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountDirty();
 
             if (CommonQueueReadMetadataFromMicrosoftPhotosCountDirty() > 0)
-                toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
+                progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
                     string.Format("Read MP: {0}", CommonQueueReadMetadataFromMicrosoftPhotosCountDirty());
             threadQueuCount += CommonQueueReadMetadataFromMicrosoftPhotosCountDirty();
 
             if (CommonQueueSaveThumbnailToDatabaseCountDirty() > 0)
-                toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
+                progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
                     string.Format("Save Thumbnails: {0}", CommonQueueSaveThumbnailToDatabaseCountDirty());
             threadQueuCount += CommonQueueSaveThumbnailToDatabaseCountDirty();
 
@@ -332,13 +332,13 @@ namespace PhotoTagsSynchronizer
             catch { }
 
             if (regionCount > 0)
-                toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
+                progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
                     string.Format("Save Regions: {0}", regionCount); 
             threadQueuCount += regionCount;
 
             if (CommonQueueReadMetadataFromExiftoolCountDirty() + MediaFilesNotInDatabaseCountDirty() > 0)
             {
-                toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
+                progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
                     string.Format("Exiftool: {0} in process: {1}", CommonQueueReadMetadataFromExiftoolCountDirty(), MediaFilesNotInDatabaseCountDirty());
                 threadQueuCount += CommonQueueReadMetadataFromExiftoolCountDirty();
                 if (!stopwatchLastDisplayedExiftoolWaitCloud.IsRunning) stopwatchLastDisplayedExiftoolWaitCloud.Start();
@@ -354,7 +354,7 @@ namespace PhotoTagsSynchronizer
                             if (FileHandler.IsFileVirtual(fileEntry.FileFullPath)) countWaitFileIsVirtual++;
                         }
                         if (countWaitFileInCloud + countWaitFileIsVirtual > 0) 
-                            toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
+                            progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
                                 string.Format("wait cloud:{0} virtual: {1}", countWaitFileInCloud, countWaitFileIsVirtual);
                     }
                     catch
@@ -369,14 +369,14 @@ namespace PhotoTagsSynchronizer
             {
                 try
                 {
-                    toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
+                    progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
                         string.Format("Caching: ");
 
                     lock (_readToCacheQueuesLock)
                     {
                         foreach (KeyValuePair<int, int> keyValuePair in readToCacheQueues)
                         {
-                            toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
+                            progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
                                 //"#" + keyValuePair.Key.ToString() + " " +
                                 keyValuePair.Value;
                             threadQueuCount += keyValuePair.Value;
@@ -390,14 +390,14 @@ namespace PhotoTagsSynchronizer
 
             if (deleteRecordQueues.Count > 0)
             {
-                toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") + "Delete: ";
+                progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") + "Delete: ";
                 try
                 {
                     lock (_deleteRecordQueuesLock)
                     {
                         foreach (KeyValuePair<int, int> keyValuePair in deleteRecordQueues)
                         {
-                            toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") + keyValuePair.Value;
+                            progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") + keyValuePair.Value;
                             threadQueuCount += keyValuePair.Value;
                         }
                     }
@@ -407,35 +407,28 @@ namespace PhotoTagsSynchronizer
                 }
             }
 
-            /*
-            if (MediaFilesNotInDatabaseCountDirty() > 0)
-                toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
-                    string.Format("Exiftool in process:{0}", MediaFilesNotInDatabaseCountDirty());
-                threadQueuCount += MediaFilesNotInDatabaseCountDirty();
-            */
-
             if (CountSaveQueueLock() > 0)
-                toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
+                progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
                      string.Format("Saving: {0}", CountSaveQueueLock());
             threadQueuCount += CountSaveQueueLock();
 
             if (CommonQueueMetadataWrittenByExiftoolReadyToVerifyCountDirty() > 0)
-                toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
+                progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
                     string.Format("Verify:{0}", CommonQueueMetadataWrittenByExiftoolReadyToVerifyCountDirty());            
             threadQueuCount += CommonQueueMetadataWrittenByExiftoolReadyToVerifyCountDirty();
 
             if (CommonQueueRenameCountDirty() > 0)
-                toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") + 
+                progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") + 
                     string.Format("Rename: {0}", CommonQueueRenameCountDirty());
             threadQueuCount += CommonQueueRenameCountDirty();
             
             if (CommonQueueLazyLoadingMetadataCountDirty() > 0)
-                toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
+                progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
                     string.Format("Metadata: {0}", CommonQueueLazyLoadingMetadataCountDirty());
             threadQueuCount += CommonQueueLazyLoadingMetadataCountDirty();
 
             if (CommonQueueLazyLoadingThumbnailCountDirty() > 0)
-                toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
+                progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
                     string.Format("Thumbnail: {0}", CommonQueueLazyLoadingThumbnailCountDirty());
             threadQueuCount += CommonQueueLazyLoadingThumbnailCountDirty();
 
@@ -443,26 +436,23 @@ namespace PhotoTagsSynchronizer
             if (lasyLoadingDataGridViewCount == 0) 
                 LazyLoadingDataGridViewProgressEndReached();
 
-            toolStripStatusThreadQueueCount.Text = "(" + threadQueuCount + ") " + toolStripStatusThreadQueueCount.Text;
+            if (threadQueuCount == 0) progressBackgroundStatusText = "Nothing...";
+            else progressBackgroundStatusText = "(" + threadQueuCount + ") " + progressBackgroundStatusText;
+            ProgressBackgroundStatusText = progressBackgroundStatusText;
 
             #region Updated progressbar
             try
             {
                 int queueRemainding = threadQueuCount;
-                if (queueRemainding > toolStripProgressBarThreadQueue.Maximum) toolStripProgressBarThreadQueue.Maximum = queueRemainding;
-                toolStripProgressBarThreadQueue.Value = toolStripProgressBarThreadQueue.Maximum - queueRemainding;
+                ProgressbarBackgroundProgressQueueRemainding(queueRemainding);
+
                 if (queueRemainding != 0)
                 {
-                    toolStripStatusThreadQueueCount.Visible = true;
-                    toolStripProgressBarThreadQueue.Visible = true;
-                    toolStripLabelThreadQueue.Visible = true;
+                    ProgressbarBackgroundProgress(true);
                 }
                 else
-                {
-                    toolStripStatusThreadQueueCount.Visible = false;
-                    toolStripLabelThreadQueue.Visible = false;
-                    toolStripProgressBarThreadQueue.Maximum = 1;
-                    toolStripProgressBarThreadQueue.Visible = false;
+                { 
+                    ProgressbarBackgroundProgress(false, 1, 0, 1);                    
                 }
             } catch (Exception ex)
             {
@@ -641,13 +631,11 @@ namespace PhotoTagsSynchronizer
         #region LazyLoadingDataGridViewProgress - Update Status
         public void LazyLoadingDataGridViewProgressUpdateStatus(int queueSize)
         {
-            if (queueSize > toolStripProgressBarLazyLoadingDataGridViewProgress.Maximum) toolStripProgressBarLazyLoadingDataGridViewProgress.Maximum = queueSize;
-            int queueCount = toolStripProgressBarLazyLoadingDataGridViewProgress.Maximum - queueSize;
-            toolStripProgressBarLazyLoadingDataGridViewProgress.Value = queueCount;
+            int queueCount = ProgressbarLazyLoadingProgressLazyLoadingRemainding(queueSize);
 
             if (queueSize > 1)
             {
-                if (!toolStripProgressBarLazyLoadingDataGridViewProgress.Visible) //Delayed visible
+                if (IsProgressbarLazyLoadingProgressVisible) //Delayed visible
                 {
                     if (stopwatchhDelayShowLazyLoadingDataGridViewProgressbar == null)
                     {
@@ -659,19 +647,13 @@ namespace PhotoTagsSynchronizer
 
                     if (stopwatchhDelayShowLazyLoadingDataGridViewProgressbar.IsRunning && stopwatchhDelayShowLazyLoadingDataGridViewProgressbar.ElapsedMilliseconds > 600)
                     {
-                        toolStripLabelLazyLoadingDataGridViewProgress.Visible = true;
-                        toolStripProgressBarLazyLoadingDataGridViewProgress.Visible = true;
-                        
+                        ProgressbarLazyLoadingProgress(true);
                     }
                 }
             } 
             else
-            {
-                toolStripProgressBarLazyLoadingDataGridViewProgress.Visible = false;
-                toolStripLabelLazyLoadingDataGridViewProgress.Visible = false;
-                toolStripProgressBarLazyLoadingDataGridViewProgress.Value = 0;
-                toolStripProgressBarLazyLoadingDataGridViewProgress.Maximum = 1;
-
+            {                
+                ProgressbarLazyLoadingProgress(false, 1, 0, 1);
             }
         }
         

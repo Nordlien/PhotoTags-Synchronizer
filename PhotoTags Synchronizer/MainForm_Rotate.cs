@@ -225,8 +225,7 @@ namespace PhotoTagsSynchronizer
         {
             if (stopwatchRemoveSaveProgressbar.Elapsed.TotalMilliseconds > 1000)
             {
-                toolStripProgressBarSaveProgress.Visible = false;
-                toolStripStatusLabelSaveProgress.Visible = false;
+                ProgressbarSaveProgress(false);
             }
         }
 
@@ -264,11 +263,7 @@ namespace PhotoTagsSynchronizer
                     }
                     if (didParase)
                     {
-                        toolStripProgressBarSaveProgress.Value = 0;
-                        toolStripProgressBarSaveProgress.Minimum = 0;
-                        toolStripProgressBarSaveProgress.Maximum = (int)durationMpegVideoConvertion.TotalMilliseconds / 100;
-                        toolStripProgressBarSaveProgress.Visible = true;
-                        toolStripStatusLabelSaveProgress.Visible = true;
+                        ProgressbarSaveAndConvertProgress(true, (int)durationMpegVideoConvertion.TotalMilliseconds / 100, 0, 100, "ffmmpeg rotate");
                     }
                 }
             }
@@ -297,9 +292,7 @@ namespace PhotoTagsSynchronizer
                     }
                     if (didParase)
                     {
-                        toolStripProgressBarSaveProgress.Value = (int)locationMpegVideoConvertion.TotalMilliseconds / 100;
-                        toolStripProgressBarSaveProgress.Visible = true;
-                        toolStripStatusLabelSaveProgress.Visible = true;
+                        ProgressbarSaveAndConvertProgress(true, (int)durationMpegVideoConvertion.TotalMilliseconds / 100);
                     }
                 }
             }
