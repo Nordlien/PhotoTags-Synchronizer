@@ -31,7 +31,7 @@ namespace PhotoTagsSynchronizer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Filter");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Filter");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.toolStripContainerMainForm = new System.Windows.Forms.ToolStripContainer();
             this.panelMain = new Krypton.Toolkit.KryptonPanel();
@@ -902,7 +902,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.kryptonTextBoxSearchFilename.Location = new System.Drawing.Point(114, 32);
             this.kryptonTextBoxSearchFilename.Name = "kryptonTextBoxSearchFilename";
-            this.kryptonTextBoxSearchFilename.Size = new System.Drawing.Size(122, 21);
+            this.kryptonTextBoxSearchFilename.Size = new System.Drawing.Size(122, 20);
             this.kryptonTextBoxSearchFilename.TabIndex = 1;
             // 
             // kryptonTextBoxSearchDirectory
@@ -911,7 +911,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.kryptonTextBoxSearchDirectory.Location = new System.Drawing.Point(114, 3);
             this.kryptonTextBoxSearchDirectory.Name = "kryptonTextBoxSearchDirectory";
-            this.kryptonTextBoxSearchDirectory.Size = new System.Drawing.Size(122, 21);
+            this.kryptonTextBoxSearchDirectory.Size = new System.Drawing.Size(122, 20);
             this.kryptonTextBoxSearchDirectory.TabIndex = 0;
             // 
             // groupBoxSearchTags
@@ -1613,11 +1613,11 @@ namespace PhotoTagsSynchronizer
             this.treeViewFilter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeViewFilter.Location = new System.Drawing.Point(0, 0);
             this.treeViewFilter.Name = "treeViewFilter";
-            treeNode1.Name = "NodeFolder";
-            treeNode1.Tag = "Filter";
-            treeNode1.Text = "Filter";
+            treeNode3.Name = "NodeFolder";
+            treeNode3.Tag = "Filter";
+            treeNode3.Text = "Filter";
             this.treeViewFilter.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1});
+            treeNode3});
             this.treeViewFilter.Size = new System.Drawing.Size(399, 600);
             this.treeViewFilter.TabIndex = 0;
             this.treeViewFilter.BeforeCheck += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeViewFilter_BeforeCheck);
@@ -1816,7 +1816,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonGroupBoxTagsDetails.Panel.Controls.Add(this.labelAuthor);
             this.kryptonGroupBoxTagsDetails.Panel.Controls.Add(this.comboBoxTitle);
             this.kryptonGroupBoxTagsDetails.Panel.Controls.Add(this.labelComments);
-            this.kryptonGroupBoxTagsDetails.Size = new System.Drawing.Size(255, 166);
+            this.kryptonGroupBoxTagsDetails.Size = new System.Drawing.Size(381, 166);
             this.kryptonGroupBoxTagsDetails.TabIndex = 20;
             // 
             // label4
@@ -1840,7 +1840,7 @@ namespace PhotoTagsSynchronizer
             "a"});
             this.comboBoxAuthor.Location = new System.Drawing.Point(99, 108);
             this.comboBoxAuthor.Name = "comboBoxAuthor";
-            this.comboBoxAuthor.Size = new System.Drawing.Size(136, 21);
+            this.comboBoxAuthor.Size = new System.Drawing.Size(262, 21);
             this.comboBoxAuthor.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxAuthor.TabIndex = 29;
             this.comboBoxAuthor.Tag = "Author";
@@ -1866,7 +1866,7 @@ namespace PhotoTagsSynchronizer
             "sdd"});
             this.comboBoxAlbum.Location = new System.Drawing.Point(99, 3);
             this.comboBoxAlbum.Name = "comboBoxAlbum";
-            this.comboBoxAlbum.Size = new System.Drawing.Size(136, 21);
+            this.comboBoxAlbum.Size = new System.Drawing.Size(262, 21);
             this.comboBoxAlbum.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxAlbum.TabIndex = 25;
             this.comboBoxAlbum.Tag = "Album";
@@ -1884,7 +1884,7 @@ namespace PhotoTagsSynchronizer
             "a"});
             this.comboBoxDescription.Location = new System.Drawing.Point(99, 54);
             this.comboBoxDescription.Name = "comboBoxDescription";
-            this.comboBoxDescription.Size = new System.Drawing.Size(136, 21);
+            this.comboBoxDescription.Size = new System.Drawing.Size(262, 21);
             this.comboBoxDescription.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxDescription.TabIndex = 27;
             this.comboBoxDescription.Tag = "Description";
@@ -1902,7 +1902,7 @@ namespace PhotoTagsSynchronizer
             "a"});
             this.comboBoxComments.Location = new System.Drawing.Point(99, 81);
             this.comboBoxComments.Name = "comboBoxComments";
-            this.comboBoxComments.Size = new System.Drawing.Size(136, 21);
+            this.comboBoxComments.Size = new System.Drawing.Size(262, 21);
             this.comboBoxComments.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxComments.TabIndex = 28;
             this.comboBoxComments.Tag = "Comments";
@@ -1936,7 +1936,7 @@ namespace PhotoTagsSynchronizer
             "a"});
             this.comboBoxTitle.Location = new System.Drawing.Point(99, 29);
             this.comboBoxTitle.Name = "comboBoxTitle";
-            this.comboBoxTitle.Size = new System.Drawing.Size(136, 21);
+            this.comboBoxTitle.Size = new System.Drawing.Size(262, 21);
             this.comboBoxTitle.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxTitle.TabIndex = 26;
             this.comboBoxTitle.Tag = "Title";
@@ -1964,7 +1964,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.kryptonGroupBoxToolboxTagsTags.Panel.Controls.Add(this.label5);
             this.kryptonGroupBoxToolboxTagsTags.Panel.Controls.Add(this.comboBoxMediaAiConfidence);
-            this.kryptonGroupBoxToolboxTagsTags.Size = new System.Drawing.Size(255, 58);
+            this.kryptonGroupBoxToolboxTagsTags.Size = new System.Drawing.Size(381, 58);
             this.kryptonGroupBoxToolboxTagsTags.TabIndex = 21;
             // 
             // label5
@@ -2016,7 +2016,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxRating.Panel.Controls.Add(this.radioButtonRating3);
             this.groupBoxRating.Panel.Controls.Add(this.radioButtonRating2);
             this.groupBoxRating.Panel.Controls.Add(this.radioButtonRating1);
-            this.groupBoxRating.Size = new System.Drawing.Size(255, 48);
+            this.groupBoxRating.Size = new System.Drawing.Size(381, 48);
             this.groupBoxRating.TabIndex = 5;
             this.groupBoxRating.Values.Heading = "Rating";
             // 
@@ -2883,7 +2883,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxBrowserURL.Location = new System.Drawing.Point(132, 6);
             this.textBoxBrowserURL.Name = "textBoxBrowserURL";
-            this.textBoxBrowserURL.Size = new System.Drawing.Size(252, 21);
+            this.textBoxBrowserURL.Size = new System.Drawing.Size(252, 20);
             this.textBoxBrowserURL.TabIndex = 9;
             this.textBoxBrowserURL.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxBrowserURL_KeyPress);
             // 
@@ -3168,7 +3168,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxRenameNewName.Location = new System.Drawing.Point(118, 31);
             this.textBoxRenameNewName.Name = "textBoxRenameNewName";
-            this.textBoxRenameNewName.Size = new System.Drawing.Size(270, 21);
+            this.textBoxRenameNewName.Size = new System.Drawing.Size(270, 20);
             this.textBoxRenameNewName.TabIndex = 1;
             this.textBoxRenameNewName.Leave += new System.EventHandler(this.textBoxRenameNewName_Leave);
             // 
@@ -3681,41 +3681,49 @@ namespace PhotoTagsSynchronizer
             // kryptonRibbonQATButtonMediaPlayerPrevious
             // 
             this.kryptonRibbonQATButtonMediaPlayerPrevious.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerPrevious16x16;
+            this.kryptonRibbonQATButtonMediaPlayerPrevious.Visible = false;
             this.kryptonRibbonQATButtonMediaPlayerPrevious.Click += new System.EventHandler(this.kryptonRibbonQATButtonMediaPlayerPrevious_Click);
             // 
             // kryptonRibbonQATButtonMediaPlayerNext
             // 
             this.kryptonRibbonQATButtonMediaPlayerNext.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerNext16x16;
+            this.kryptonRibbonQATButtonMediaPlayerNext.Visible = false;
             this.kryptonRibbonQATButtonMediaPlayerNext.Click += new System.EventHandler(this.kryptonRibbonQATButtonMediaPlayerNext_Click);
             // 
             // kryptonRibbonQATButtonMediaPlayerPlay
             // 
             this.kryptonRibbonQATButtonMediaPlayerPlay.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerPlay16x16;
+            this.kryptonRibbonQATButtonMediaPlayerPlay.Visible = false;
             this.kryptonRibbonQATButtonMediaPlayerPlay.Click += new System.EventHandler(this.kryptonRibbonQATButtonMediaPlayerPlay_Click);
             // 
             // kryptonRibbonQATButtonMediaPlayerPause
             // 
             this.kryptonRibbonQATButtonMediaPlayerPause.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerPause16x16;
+            this.kryptonRibbonQATButtonMediaPlayerPause.Visible = false;
             this.kryptonRibbonQATButtonMediaPlayerPause.Click += new System.EventHandler(this.kryptonRibbonQATButtonMediaPlayerPause_Click);
             // 
             // kryptonRibbonQATButtonMediaPlayerStop
             // 
             this.kryptonRibbonQATButtonMediaPlayerStop.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerStop16x16;
+            this.kryptonRibbonQATButtonMediaPlayerStop.Visible = false;
             this.kryptonRibbonQATButtonMediaPlayerStop.Click += new System.EventHandler(this.kryptonRibbonQATButtonMediaPlayerStop_Click);
             // 
             // kryptonRibbonQATButtonMediaPlayerFastBackwards
             // 
             this.kryptonRibbonQATButtonMediaPlayerFastBackwards.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerFastBackward16x16;
+            this.kryptonRibbonQATButtonMediaPlayerFastBackwards.Visible = false;
             this.kryptonRibbonQATButtonMediaPlayerFastBackwards.Click += new System.EventHandler(this.kryptonRibbonQATButtonMediaPlayerFastBackwards_Click);
             // 
             // kryptonRibbonQATButtonMediaPlayerFastForward
             // 
             this.kryptonRibbonQATButtonMediaPlayerFastForward.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerFastForward16x16;
+            this.kryptonRibbonQATButtonMediaPlayerFastForward.Visible = false;
             this.kryptonRibbonQATButtonMediaPlayerFastForward.Click += new System.EventHandler(this.kryptonRibbonQATButtonMediaPlayerFastForward_Click);
             // 
             // kryptonRibbonQATButtonMediaPlayerSlideshowPlay
             // 
             this.kryptonRibbonQATButtonMediaPlayerSlideshowPlay.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaPreviewSlideshowPlay16x16;
+            this.kryptonRibbonQATButtonMediaPlayerSlideshowPlay.Visible = false;
             this.kryptonRibbonQATButtonMediaPlayerSlideshowPlay.Click += new System.EventHandler(this.kryptonRibbonQATButtonMediaPlayerSlideshowPlay_Click);
             // 
             // kryptonRibbonTabHome
