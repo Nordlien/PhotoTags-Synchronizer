@@ -295,7 +295,7 @@ namespace PhotoTagsSynchronizer
             }
 
             ToolStripDropDownCheckReceiver(googleCast_SelectedReceiver);
-            if (kryptonContextMenuItemsChromecastList.Items.Count > 0) kryptonRibbonGroupButtonPreviewChromecast.Enabled = true;
+            if (kryptonContextMenuItemsChromecastList.Items.Count > 0) kryptonRibbonGroupButtonPreviewChromecast.Enabled = IsButtonPreviewPreviewEnabled;
             else kryptonRibbonGroupButtonPreviewChromecast.Enabled = false;
 
             timerFindGoogleCast.Start();
@@ -1072,7 +1072,7 @@ namespace PhotoTagsSynchronizer
                 case ButtonStateVlcChromcastState.Stopped: //Vlc
                     kryptonRibbonGroupLabelPreviewStatus.TextLine2 = "VLC player stopped...";
                     kryptonRibbonGroupTrackBarPreviewTimer.Enabled = false;
-                    SetPreviewRibbonEnabledStatusPlayButtons(playEnabled: true, pauseEnabled: false, moveEnabled: false, stopEnabled: false);
+                    SetPreviewRibbonEnabledStatusPlayButtons(playEnabled: IsButtonPreviewPreviewEnabled, pauseEnabled: false, moveEnabled: false, stopEnabled: false);
                     break;
                 #endregion
 
@@ -1223,26 +1223,19 @@ namespace PhotoTagsSynchronizer
                     {
                         stopwachMediaTimeChanged.Restart(); //Update only after 300ms
 
-                        if (!isGooglecasting || (isGooglecasting && vlcChromecast == MediaPlaybackEventsSource.Googlecast))
+                        if (isGooglecasting) // || (isGooglecasting && vlcChromecast == MediaPlaybackEventsSource.Googlecast))
                         {
-                            kryptonRibbonGroupLabelPreviewTimer.TextLine2 = ConvertMsToHuman((long)lastKnownChromeCastCurrentTime * 1000);
+                            //videoView1.MediaPlayer.Length - Video length
+                            //vlcTime - Vlc player video positiom
+                            //lastKnownChromeCastCurrentTime . chromecast postion
+                            kryptonRibbonGroupLabelPreviewTimer.TextLine2 = ConvertMsToHuman((long)lastKnownChromeCastCurrentTime * 1000) + "/" + ConvertMsToHuman(vlcTime);
                         }
                         else
                         {
                             if (videoView1.MediaPlayer.Length == -1) kryptonRibbonGroupLabelPreviewTimer.TextLine2 = "No video";
-                            else kryptonRibbonGroupLabelPreviewTimer.TextLine2 = ConvertMsToHuman(vlcTime) + "/" + ConvertMsToHuman(videoView1.MediaPlayer.Length);
+                            else kryptonRibbonGroupLabelPreviewTimer.TextLine2 = ConvertMsToHuman(vlcTime);                           
                         }
-                        /*switch (vlcChromecast)
-                        {
-                            case VlcChromecast.Vlc:
-                                if (videoView1.MediaPlayer.Length == -1) toolStripLabelMediaPreviewTimer.Text = "Timer: No video";
-                                else toolStripLabelMediaPreviewTimer.Text = ConvertMsToHuman(vlcTime) + "/" + ConvertMsToHuman(videoView1.MediaPlayer.Length);
-                                break;
-
-                            case VlcChromecast.Chromecast:
-                                toolStripLabelMediaPreviewTimer.Text = ConvertMsToHuman((long)lastKnownChromeCastCurrentTime * 1000);
-                                break;
-                        }*/
+                        
                     }
                     break;
                 #endregion
@@ -1875,7 +1868,7 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        #region SlideShow
+        #region SlideShow Start / Stop Click
 
         private void SlideShowInit(int intervalMs = 0)
         {            
@@ -2071,6 +2064,14 @@ namespace PhotoTagsSynchronizer
             kryptonRibbonGroupButtonPreviewRotate270.Enabled = enabled;
             kryptonRibbonGroupButtonPreviewRotate180.Enabled = enabled;
             kryptonRibbonGroupButtonPreviewRotate90.Enabled = enabled;
+        }
+        #endregion
+
+        #region
+
+        private bool IsButtonPreviewPreviewEnabled
+        {
+            get { return kryptonRibbonGroupButtonPreviewPreview.Checked; }
         }
         #endregion
 
