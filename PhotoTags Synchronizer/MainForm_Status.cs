@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using FileHandeling;
 using Krypton.Toolkit;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace PhotoTagsSynchronizer
 {
@@ -617,45 +619,88 @@ namespace PhotoTagsSynchronizer
 
         #region LazyLoadingDataGridViewProgress
 
-        private Stopwatch stopwatchhDelayShowLazyLoadingDataGridViewProgressbar = new Stopwatch();
+
 
         #region LazyLoadingDataGridViewProgress - End Reached
         public void LazyLoadingDataGridViewProgressEndReached()
         {
-            timerLazyLoadingDataGridViewProgressRemoveProgessbar.Interval = 1000;
-            timerLazyLoadingDataGridViewProgressRemoveProgessbar.Start();
             LazyLoadingDataGridViewProgressUpdateStatus(0);
+        }
+
+        private static Thread _ThreadDelayLazyLoadingHide = null;
+        public void LazyLoadingDataGridViewProgressHide()
+        {
+            if (IsProgressbarLazyLoadingProgressVisible) //Delayed visible
+            {
+                if (_ThreadDelayLazyLoadingHide == null)
+                {
+                    try
+                    {
+                        _ThreadDelayLazyLoadingHide = new Thread(() =>
+                        {
+                            Task.Delay(2000).Wait();
+                            if (lastQueueSize == 0) this.BeginInvoke(new Action<bool>(ProgressbarLazyLoadingProgress), false);
+                            _ThreadDelayLazyLoadingHide = null;
+                        });
+
+                        if (_ThreadDelayLazyLoadingHide != null) _ThreadDelayLazyLoadingHide.Start();
+                    }
+                    catch
+                    {
+                        _ThreadDelayLazyLoadingHide = null;
+                    }
+                }
+            }
+        }
+
+        #region LazyLoadingDataGridViewProgressStarted
+        private static Thread _ThreadDelayLazyLoadingShow = null;
+        public void LazyLoadingDataGridViewProgressShow()
+        {
+            if (!IsProgressbarLazyLoadingProgressVisible) //Delayed visible
+            {
+                if (_ThreadDelayLazyLoadingShow == null)
+                {
+                    try
+                    {
+                        _ThreadDelayLazyLoadingShow = new Thread(() =>
+                        {
+                            Task.Delay(1).Wait();
+                            //if (lastQueueSize > 0) 
+                                this.BeginInvoke(new Action<bool>(ProgressbarLazyLoadingProgress), true);                             
+                        });
+
+                        if (_ThreadDelayLazyLoadingShow != null) _ThreadDelayLazyLoadingShow.Start();
+                    }
+                    catch
+                    {
+                        _ThreadDelayLazyLoadingShow = null;
+                    }
+                }
+
+            }
         }
         #endregion
 
+        #endregion
+
         #region LazyLoadingDataGridViewProgress - Update Status
+
+        private static int lastQueueSize = 0;
         public void LazyLoadingDataGridViewProgressUpdateStatus(int queueSize)
         {
             int queueCount = ProgressbarLazyLoadingProgressLazyLoadingRemainding(queueSize);
+            lastQueueSize = queueSize;
 
             if (queueSize > 1)
             {
-                if (IsProgressbarLazyLoadingProgressVisible) //Delayed visible
-                {
-                    if (stopwatchhDelayShowLazyLoadingDataGridViewProgressbar == null)
-                    {
-                        stopwatchhDelayShowLazyLoadingDataGridViewProgressbar = new Stopwatch();
-                        stopwatchhDelayShowLazyLoadingDataGridViewProgressbar.Restart();
-                    }
-
-                    if (!stopwatchhDelayShowLazyLoadingDataGridViewProgressbar.IsRunning) stopwatchhDelayShowLazyLoadingDataGridViewProgressbar.Restart();
-
-                    if (stopwatchhDelayShowLazyLoadingDataGridViewProgressbar.IsRunning && stopwatchhDelayShowLazyLoadingDataGridViewProgressbar.ElapsedMilliseconds > 600)
-                    {
-                        ProgressbarLazyLoadingProgress(true);
-                    }
-                }
-            } 
-            else
-            {                
-                ProgressbarLazyLoadingProgress(false, 1, 0, 1);
+                LazyLoadingDataGridViewProgressShow();
             }
-        }
+            else
+            {
+                LazyLoadingDataGridViewProgressHide();
+            }
+        }        
         
         #endregion
         

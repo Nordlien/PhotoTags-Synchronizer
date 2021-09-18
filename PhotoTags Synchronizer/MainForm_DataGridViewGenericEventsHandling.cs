@@ -6885,6 +6885,32 @@ namespace PhotoTagsSynchronizer
 
         #region Progress Laxy Loading for DataGridView
 
+        #region GetProgressCircle(int procentage)
+        private Bitmap GetProgressCircle(int procentage)
+        {
+            if (procentage <= 6) 
+                return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle01_16x16;
+            else if (procentage <= 12) 
+                return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle02_16x16;
+            else if (procentage <= 18) 
+                return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle03_16x16;
+            else if (procentage <= 24) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle04_16x16;
+            else if (procentage <= 29) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle05_16x16;
+            else if (procentage <= 35) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle06_16x16;
+            else if (procentage <= 41) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle07_16x16;
+            else if (procentage <= 47) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle08_16x16;
+            else if (procentage <= 53) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle09_16x16;
+            else if (procentage <= 59) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle10_16x16;
+            else if (procentage <= 65) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle11_16x16;
+            else if (procentage <= 71) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle12_16x16;
+            else if (procentage <= 76) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle13_16x16;
+            else if (procentage <= 82) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle14_16x16;
+            else if (procentage <= 88) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle15_16x16;
+            else if (procentage <= 94) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle16_16x16;
+            return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle17_16x16;
+        }
+        #endregion
+
         #region SeeProcessQueue_Clcik
         private void kryptonRibbonGroupButtonToolsProgressLazyloadingShowStatus_Click(object sender, EventArgs e)
         {
@@ -6892,11 +6918,25 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region SetButtonSpecNavigator
+        private void SetButtonSpecNavigator(Krypton.Navigator.ButtonSpecNavigator buttonSpecNavigator, int value, int maximum)
+        {
+            int procentage = 0;
+            if (maximum == 0) procentage = 100;
+            else if (value > maximum) procentage = 100;
+            procentage = (int)(((double)value / (double)maximum) * 100);
+            buttonSpecNavigatorDataGridViewProgressCircle.Image = GetProgressCircle(procentage);
+            buttonSpecNavigatorDataGridViewProgressCircle.ImageStates.ImageNormal = GetProgressCircle(procentage);            
+        }
+
+        #endregion 
+
         #region ProgressbarLazyLoadingProgressLazyLoadingRemainding(int queueRemainding)
         private int ProgressbarLazyLoadingProgressLazyLoadingRemainding(int queueRemainding)
         {
             if (queueRemainding > progressBarLazyLoading.Maximum) progressBarLazyLoading.Maximum = queueRemainding;
             progressBarLazyLoading.Value = progressBarLazyLoading.Maximum - queueRemainding;
+            SetButtonSpecNavigator(buttonSpecNavigatorDataGridViewProgressCircle, progressBarLazyLoading.Value, progressBarLazyLoading.Maximum);
             return progressBarLazyLoading.Value;
         }
         #endregion
@@ -6907,6 +6947,7 @@ namespace PhotoTagsSynchronizer
             progressBarLazyLoading.Minimum = minimum;
             progressBarLazyLoading.Maximum = maximum;
             progressBarLazyLoading.Value = value;
+            SetButtonSpecNavigator(buttonSpecNavigatorDataGridViewProgressCircle, progressBarLazyLoading.Value, progressBarLazyLoading.Maximum);
             ProgressbarLazyLoadingProgress(enabled);
         }
         #endregion
@@ -6917,6 +6958,7 @@ namespace PhotoTagsSynchronizer
             kryptonRibbonGroupTripleToolsProgressStatusWork.Visible = visible;
             kryptonRibbonGroupLabelToolsProgressLazyloading.Enabled = visible;
             kryptonRibbonGroupCustomControlToolsProgressLazyloading.Enabled = visible;
+            buttonSpecNavigatorDataGridViewProgressCircle.Visible = visible;
         }
         #endregion
 

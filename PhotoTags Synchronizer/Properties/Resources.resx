@@ -493,4 +493,55 @@
   <data name="ToolsProcessQueue" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\toolsprocessqueue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="ProgressCircle01_16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ProgressCircle01-16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProgressCircle02_16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ProgressCircle02-16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProgressCircle03_16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ProgressCircle03-16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProgressCircle04_16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ProgressCircle04-16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProgressCircle05_16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ProgressCircle05-16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProgressCircle06_16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ProgressCircle06-16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProgressCircle07_16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ProgressCircle07-16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProgressCircle08_16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ProgressCircle08-16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProgressCircle09_16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ProgressCircle09-16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProgressCircle10_16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ProgressCircle10-16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProgressCircle11_16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ProgressCircle11-16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProgressCircle12_16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ProgressCircle12-16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProgressCircle13_16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ProgressCircle13-16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProgressCircle14_16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ProgressCircle14-16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProgressCircle15_16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ProgressCircle15-16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProgressCircle16_16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ProgressCircle16-16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProgressCircle17_16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ProgressCircle17-16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>
