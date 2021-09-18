@@ -1173,5 +1173,8 @@ Dimensions</Value>
     <Setting Name="SelectGroupCheckAllLocations" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="PreviewSlideshowInterval" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2000</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

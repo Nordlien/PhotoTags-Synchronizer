@@ -299,6 +299,29 @@ namespace PhotoTagsSynchronizer
 
         #region Ribbons - WorkspaceChanged - Enable / Disable ribbons buttons
 
+        private void RibbonsQTAVisiable(bool saveVisible = true, bool mediaSelectVisible = true, bool mediaPlayerVisible = false)
+        {
+            kryptonRibbonQATButtonSave.Visible = saveVisible;
+            kryptonRibbonQATButtonMediaPreview.Visible = mediaSelectVisible;
+            kryptonRibbonQATButtonMediaPoster.Visible = mediaSelectVisible;
+            kryptonRibbonQATButtonSelectPrevius.Visible = mediaSelectVisible;
+            kryptonRibbonQATButtonSelectNext.Visible = mediaSelectVisible;
+            kryptonRibbonQATButtonSelectEqual.Visible = mediaSelectVisible;
+            kryptonRibbonQATButtonSelectAll.Visible = mediaSelectVisible;
+            kryptonRibbonQATButtonSelectNone.Visible = mediaSelectVisible;
+            kryptonRibbonQATButtonSelectToggle.Visible = mediaSelectVisible;
+
+            kryptonRibbonQATButtonMediaPlayerPrevious.Visible = mediaPlayerVisible;
+            kryptonRibbonQATButtonMediaPlayerNext.Visible = mediaPlayerVisible;
+            kryptonRibbonQATButtonMediaPlayerPlay.Visible = mediaPlayerVisible;
+            kryptonRibbonQATButtonMediaPlayerPause.Visible = mediaPlayerVisible;
+            kryptonRibbonQATButtonMediaPlayerStop.Visible = mediaPlayerVisible;
+            kryptonRibbonQATButtonMediaPlayerFastBackwards.Visible = mediaPlayerVisible;
+            kryptonRibbonQATButtonMediaPlayerFastForward.Visible = mediaPlayerVisible;
+            kryptonRibbonQATButtonMediaPlayerSlideshowPlay.Visible = mediaPlayerVisible;
+        }
+
+ 
         private void RibbonGroupButtonHomeClipboard(bool enabled)
         {
             RibbonGroupButtonHomeClipboard(enabled, enabled);
@@ -854,10 +877,6 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         // -----------------------------------------------------------------------
-        
-
-
-        //Done
         #region Cut
 
         #region Cut - Click Events Sources       
@@ -1075,7 +1094,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //Done
+        
         #region Copy
 
         #region Copy - Click Events Sources
@@ -1278,7 +1297,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //Done
+        
         #region Paste
 
         #region Paste - Click Events Sources
@@ -1499,7 +1518,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //Done
+        
         #region Delete
 
         #region Delete - Click Events Sources
@@ -1763,7 +1782,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //Done
+        
         #region Undo
 
         #region Undo - Click Events Sources
@@ -1922,7 +1941,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //Done
+        
         #region Redo
 
         #region Redo - Click Events Sources
@@ -2082,7 +2101,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //Done
+        
         #region Find
 
         #region Find - Click Events Sources
@@ -2269,7 +2288,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //Done
+        
         #region FindAndReplace
 
         #region FindAndReplace - Click Events Sources
@@ -2429,7 +2448,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //Done
+        
         #region Favorite Add
 
         #region Favorite Add - Click Events Sources
@@ -2568,7 +2587,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //Done
+        
         #region Favorite Remove 
 
         #region Favorite Remove - Click Events Sources
@@ -2707,7 +2726,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //Done
+        
         #region Favorite Toogle 
 
         #region FavoriteToggle - Click Events Sources
@@ -2846,7 +2865,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //Done
+        
         #region ActionRowsShowFavoriteToggle 
 
         #region RowsShowFavoriteToggle - Click Events Sources
@@ -3002,7 +3021,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //Done
+        
         #region ActionRowsHideEqualToggle
 
         #region RowsHideEqualToggle - Click Events Sources
@@ -3149,7 +3168,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //Done
+        
         #region CopyText
 
         #region CopyText - Click Events Sources
@@ -3251,7 +3270,7 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #endregion 
-        //Done
+        
         #region TriStateToggle
 
         #region TriStateToggle - Click Events Sources
@@ -3334,7 +3353,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //Done
+        
         #region TriStateOn
 
         #region TriStateOn - Click Events Sources
@@ -3410,7 +3429,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion 
-        //Done
+        
         #region TriStateOff
 
         #region TriStateOff - Click Events Sources
@@ -3487,7 +3506,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //Done
+        
         #region Save
 
         #region Save - Click Events Sources
@@ -3759,7 +3778,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //Done
+        
         #region FastCopyNoOverwrite
 
         #region FastCopyNoOverwrite - Click Events Sources
@@ -3826,7 +3845,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //Done
+        
         #region FastCopyOverwrite
 
         #region FastCopyOverwrite - Click Events Sources
@@ -4009,7 +4028,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //Done
+        
         #region Rotate270
 
         #region ActionRotate270
@@ -4081,7 +4100,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //Done
+        
         #region Rotate180
 
         #region Rotate180 - Click Events Sources
@@ -4154,7 +4173,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //Done
+        
         #region Rotate90
 
         #region Rotate90 - Click Events Sources
@@ -4224,7 +4243,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //Done
+        
         #region MediaViewAsPoster
 
         #region MediaViewAsPoster - Click Events Sources
@@ -4409,7 +4428,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //Done
+        
         #region MediaViewAsFull
 
         #region MediaViewAsFull - Click Events Sources
@@ -4533,7 +4552,7 @@ namespace PhotoTagsSynchronizer
             SetPreviewRibbonEnabledStatus(previewStartEnabled: true, enabled: false);
             SetPreviewRibbonPreviewButtonChecked(false);
             timerFindGoogleCast.Stop();
-            PreviewStop();
+            ActionPreviewStop();
             panelMediaPreview.Visible = false;
         }
         #endregion
@@ -4549,9 +4568,20 @@ namespace PhotoTagsSynchronizer
             ActionPreviewPreviewOpen();
         }
 
+        private string lastSelectedTab = "";
         private void kryptonRibbonMain_SelectedTabChanged(object sender, EventArgs e)
         {
-            ActionPreviewPreviewClose();
+            if (kryptonRibbonMain.SelectedTab != null) lastSelectedTab = kryptonRibbonMain.SelectedTab.Text;
+    
+            if (lastSelectedTab == kryptonRibbonTabPreview.Text)
+            {
+                RibbonsQTAVisiable(saveVisible: false, mediaSelectVisible: false, mediaPlayerVisible: true);
+            }
+            else
+            {
+                RibbonsQTAVisiable(saveVisible: true, mediaSelectVisible: true, mediaPlayerVisible: false);
+                ActionPreviewPreviewClose();
+            }
         }
         #endregion 
 
@@ -4688,7 +4718,7 @@ namespace PhotoTagsSynchronizer
 
 
         #endregion
-        //Done
+        
         #region RefreshFolderAndFiles
 
         #region ActionRefreshFolderAndFiles
@@ -4781,7 +4811,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //Done 
+        
         #region ReadSubfolders
 
         #region ActionReadSubfolders
@@ -4848,7 +4878,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //Done 
+        
         #region OpenExplorerLocation
 
         #region OpenExplorerLocation
@@ -4934,7 +4964,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //Done
+        
         #region FileSystemVerbOpen
 
         #region ActionFileSystemOpen
@@ -5013,7 +5043,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //Done 
+        
         #region OpenWith - Selected Verb
 
         #region ActionFileSystemOpenWith
@@ -5101,7 +5131,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //Done
+        
         #region OpenAndAssociateWithDialog
 
         #region ActionOpenAndAssociateWithDialog
@@ -5673,7 +5703,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //Done
+        
         #region MetadataRefreshLast
 
         #region ActionMetadataRefreshLast
@@ -5808,7 +5838,7 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #endregion
-        //Done
+        
         #region MetadataReloadDeleteHistory
 
         #region ActionMetadataReloadDeleteHistory
@@ -5929,8 +5959,8 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        //----
-        //Done
+        //---- Tools
+        
         #region ImportLocations
 
         #region ImportLocations - Click Events Sources
@@ -5979,7 +6009,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //Done
+        
         #region WebScraper
 
         #region WebScraper - Click Events Sources
@@ -6007,7 +6037,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //Done
+        
         #region Config
 
         #region Config - Click Events Sources
@@ -6074,7 +6104,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //Done
+        
         #region About
 
         #region About - Click Event Sources
@@ -6102,7 +6132,6 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-
 
 
         //----

@@ -673,9 +673,29 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap MediaPlayerFastBackward16x16 {
+            get {
+                object obj = ResourceManager.GetObject("MediaPlayerFastBackward16x16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap MediaPlayerFastForward {
             get {
                 object obj = ResourceManager.GetObject("MediaPlayerFastForward", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MediaPlayerFastForward16x16 {
+            get {
+                object obj = ResourceManager.GetObject("MediaPlayerFastForward16x16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -693,9 +713,29 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap MediaPlayerNext16x16 {
+            get {
+                object obj = ResourceManager.GetObject("MediaPlayerNext16x16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap MediaPlayerPause {
             get {
                 object obj = ResourceManager.GetObject("MediaPlayerPause", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MediaPlayerPause16x16 {
+            get {
+                object obj = ResourceManager.GetObject("MediaPlayerPause16x16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -713,6 +753,16 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap MediaPlayerPlay16x16 {
+            get {
+                object obj = ResourceManager.GetObject("MediaPlayerPlay16x16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap MediaPlayerPrevious {
             get {
                 object obj = ResourceManager.GetObject("MediaPlayerPrevious", resourceCulture);
@@ -723,9 +773,29 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap MediaPlayerPrevious16x16 {
+            get {
+                object obj = ResourceManager.GetObject("MediaPlayerPrevious16x16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap MediaPlayerStop {
             get {
                 object obj = ResourceManager.GetObject("MediaPlayerStop", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MediaPlayerStop16x16 {
+            get {
+                object obj = ResourceManager.GetObject("MediaPlayerStop16x16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -766,6 +836,26 @@ namespace PhotoTagsSynchronizer.Properties {
         internal static System.Drawing.Bitmap MediaPreviewSlideshowInterval {
             get {
                 object obj = ResourceManager.GetObject("MediaPreviewSlideshowInterval", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MediaPreviewSlideshowPlay {
+            get {
+                object obj = ResourceManager.GetObject("MediaPreviewSlideshowPlay", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MediaPreviewSlideshowPlay16x16 {
+            get {
+                object obj = ResourceManager.GetObject("MediaPreviewSlideshowPlay16x16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

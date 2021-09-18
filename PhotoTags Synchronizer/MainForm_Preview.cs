@@ -1072,7 +1072,7 @@ namespace PhotoTagsSynchronizer
                 case ButtonStateVlcChromcastState.Stopped: //Vlc
                     kryptonRibbonGroupLabelPreviewStatus.TextLine2 = "VLC player stopped...";
                     kryptonRibbonGroupTrackBarPreviewTimer.Enabled = false;
-                    SetPreviewRibbonEnabledStatusPlayButtons(playEnabled: false, pauseEnabled: false, moveEnabled: false, stopEnabled: false);
+                    SetPreviewRibbonEnabledStatusPlayButtons(playEnabled: true, pauseEnabled: false, moveEnabled: false, stopEnabled: false);
                     break;
                 #endregion
 
@@ -1298,7 +1298,6 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-
         #region VlcMediaplayer - Events 
 
         #region VlcMediaplayer - Pause
@@ -1406,7 +1405,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Preview - MediaButton Action
-
+        
         #region Preview - MediaButton Action - Rotate
         private void kryptonRibbonGroupButtonPreviewRotate270_Click(object sender, EventArgs e)
         {
@@ -1429,7 +1428,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Preview - MediaButton Action - Play
-        private void PreviewResumePlay()
+        private void ActionPreviewResumePlay()
         {
             if (videoView1.MediaPlayer.Length != -1)
             {
@@ -1455,12 +1454,17 @@ namespace PhotoTagsSynchronizer
         
         private void kryptonRibbonGroupButtonPreviewPlay_Click(object sender, EventArgs e)
         {
-            PreviewResumePlay();
+            ActionPreviewResumePlay();
+        }        
+
+        private void kryptonRibbonQATButtonMediaPlayerPlay_Click(object sender, EventArgs e)
+        {
+            ActionPreviewResumePlay();
         }
         #endregion
 
-        #region Preview - MediaButton Action - Pause     
-        private void kryptonRibbonGroupButtonPreviewPause_Click(object sender, EventArgs e)
+        #region Preview - MediaButton Action - Pause    
+        private void ActionPreviewPause()
         {
             if (previewMediaIsCurrentMediaVideo)
             {
@@ -1468,10 +1472,19 @@ namespace PhotoTagsSynchronizer
                 GoogleCast_Command_Pause();
             }
         }
+        private void kryptonRibbonGroupButtonPreviewPause_Click(object sender, EventArgs e)
+        {
+            ActionPreviewPause();
+        }
+
+        private void kryptonRibbonQATButtonMediaPlayerPause_Click(object sender, EventArgs e)
+        {
+            ActionPreviewPause();
+        }
         #endregion
 
         #region Preview - MediaButton Action - Stop
-        private async void PreviewStop()
+        private async void ActionPreviewStop()
         {
             SlideShowInit(0); //Slideshow stop
 
@@ -1482,11 +1495,14 @@ namespace PhotoTagsSynchronizer
         
         private void kryptonRibbonGroupButtonPreviewStop_Click(object sender, EventArgs e)
         {
-            PreviewStop();
+            ActionPreviewStop();
         }
-        #endregion 
 
-        
+        private void kryptonRibbonQATButtonMediaPlayerStop_Click(object sender, EventArgs e)
+        {
+            ActionPreviewStop();
+        }
+        #endregion
 
         #region Preview - MediaButton Action - SeekPosition ValueChanged 
         private bool toolStripTraceBarItemMediaPreviewTimerUpdating = false;        
@@ -1498,22 +1514,40 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Preview - MediaButton Action - FastBackward_Click
-        private void kryptonRibbonGroupButtonPreviewRewind_Click(object sender, EventArgs e)
+        private void ActionPreviewRewind()
         {
             videoView1.MediaPlayer.Time -= 10000;
         }
-
-        #endregion
-
-        #region Preview - MediaButton Action - FastForward_Click
-        private void kryptonRibbonGroupButtonPreviewForward_Click(object sender, EventArgs e)
+        private void kryptonRibbonGroupButtonPreviewRewind_Click(object sender, EventArgs e)
         {
-            videoView1.MediaPlayer.Time += 10000;
+            ActionPreviewRewind();
+        }
+
+        private void kryptonRibbonQATButtonMediaPlayerFastBackwards_Click(object sender, EventArgs e)
+        {
+            ActionPreviewRewind();
         }
         #endregion
 
-        #region Preview - MediaButton Action - Previous
-        private void PreviewPrevious()
+        #region Preview - MediaButton Action - FastForward_Click
+        private void ActionPreviewForward()
+        {
+            videoView1.MediaPlayer.Time += 10000;
+        }
+
+        private void kryptonRibbonGroupButtonPreviewForward_Click(object sender, EventArgs e)
+        {
+            ActionPreviewForward();
+        }
+
+        private void kryptonRibbonQATButtonMediaPlayerFastForward_Click(object sender, EventArgs e)
+        {
+            ActionPreviewForward();
+        }
+        #endregion
+
+        #region Preview - MediaButton Action - Previous       
+        private void ActionPreviewPrevious()
         {
             if (previewMediaItemFilenames.Count == 0) return;
             previewMediaShowItemIndex--;
@@ -1525,13 +1559,17 @@ namespace PhotoTagsSynchronizer
 
         private void kryptonRibbonGroupButtonPreviewSkipPrev_Click(object sender, EventArgs e)
         {
-            PreviewPrevious();
+            ActionPreviewPrevious();
         }
 
+        private void kryptonRibbonQATButtonMediaPlayerPrevious_Click(object sender, EventArgs e)
+        {
+            ActionPreviewPrevious();
+        }
         #endregion
 
         #region Preview - MediaButton Action - Next
-        private void PreviewNext()
+        private void ActionPreviewNext()
         {
             if (previewMediaItemFilenames.Count == 0) return;
             previewMediaShowItemIndex++;
@@ -1543,7 +1581,12 @@ namespace PhotoTagsSynchronizer
         
         private void kryptonRibbonGroupButtonPreviewSkipNext_Click(object sender, EventArgs e)
         {
-            PreviewNext();
+            ActionPreviewNext();
+        }
+
+        private void kryptonRibbonQATButtonMediaPlayerNext_Click(object sender, EventArgs e)
+        {
+            ActionPreviewNext();
         }
         #endregion
 
@@ -1833,6 +1876,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region SlideShow
+
         private void SlideShowInit(int intervalMs = 0)
         {            
             timerPreviewNextTimer.Stop();
@@ -1844,6 +1888,7 @@ namespace PhotoTagsSynchronizer
                     //slideShowIntervalMs = 2000;
                     //kryptonContextMenuRadioButtonSlideshow2sec.Checked = true;
                     kryptonContextMenuItemPreviewSlideshowIntervalStop.Enabled = false;
+                    kryptonRibbonGroupButtonPreviewSlideshowPlay.Checked = false;
                     break;
                 case 2000:
                 case 4000:
@@ -1852,11 +1897,30 @@ namespace PhotoTagsSynchronizer
                 case 10000:
                     isSlideShowRunning = true;
                     slideShowIntervalMs = intervalMs;
+                    kryptonRibbonGroupButtonPreviewSlideshowPlay.Checked = true;
+                    Properties.Settings.Default.PreviewSlideshowInterval = intervalMs;
                     kryptonContextMenuItemPreviewSlideshowIntervalStop.Enabled = true;
-                    PreviewNext();
+                    ActionPreviewNext();
                     break;
             }
 
+        }
+
+        private void ActionStartStopPreviewSlideshow()
+        {
+            if (!kryptonRibbonGroupButtonPreviewSlideshowPlay.Checked) SlideShowInit(0);
+            else SlideShowInit(Properties.Settings.Default.PreviewSlideshowInterval);
+        }
+
+        private void kryptonRibbonGroupButtonPreviewSlideshowPlay_Click(object sender, EventArgs e)
+        {
+            ActionStartStopPreviewSlideshow();
+        }
+
+        private void kryptonRibbonQATButtonMediaPlayerSlideshowPlay_Click(object sender, EventArgs e)
+        {
+            kryptonRibbonGroupButtonPreviewSlideshowPlay.Checked = !kryptonRibbonGroupButtonPreviewSlideshowPlay.Checked;
+            ActionStartStopPreviewSlideshow();
         }
 
         private void KryptonContextMenuRadioButtonSlideshow2sec_Click(object sender, EventArgs e)
@@ -1909,7 +1973,7 @@ namespace PhotoTagsSynchronizer
                     timerPreviewNextTimer.Start();
                 }
                 else 
-                    PreviewNext();
+                    ActionPreviewNext();
             }
             else timerPreviewNextTimer.Stop();
         }
@@ -1920,7 +1984,7 @@ namespace PhotoTagsSynchronizer
             if (isNextMediaTiggered) return; //Avoid loop
             isNextMediaTiggered = true;
             PreviewSlideshowWait();
-            if (isSlideShowRunning) PreviewNext();
+            if (isSlideShowRunning) ActionPreviewNext();
         }
         #endregion
 
@@ -1961,7 +2025,12 @@ namespace PhotoTagsSynchronizer
         private void SetPreviewRibbonEnabledStatusSkipButtons(bool skipPrevEnabled = false, bool skipNextEnabled = false)
         {
             kryptonRibbonGroupButtonPreviewSkipPrev.Enabled = skipPrevEnabled;
+            kryptonRibbonQATButtonMediaPlayerPrevious.Enabled = skipPrevEnabled;
+
             kryptonRibbonGroupButtonPreviewSkipNext.Enabled = skipNextEnabled;
+            kryptonRibbonQATButtonMediaPlayerNext.Enabled = skipNextEnabled;
+
+            
         }
         #endregion
 
@@ -1969,11 +2038,23 @@ namespace PhotoTagsSynchronizer
         private void SetPreviewRibbonEnabledStatusPlayButtons(bool playEnabled = false, bool pauseEnabled = false, bool moveEnabled = false, bool stopEnabled = false)
         {
             kryptonRibbonGroupButtonPreviewPlay.Enabled = playEnabled;
+            kryptonRibbonQATButtonMediaPlayerPlay.Enabled = playEnabled;
+
             kryptonRibbonGroupButtonPreviewPause.Enabled = pauseEnabled;
+            kryptonRibbonQATButtonMediaPlayerPause.Enabled = pauseEnabled;
+
             kryptonRibbonGroupButtonPreviewRewind.Enabled = moveEnabled;
+            kryptonRibbonQATButtonMediaPlayerFastBackwards.Enabled = moveEnabled;
+
             kryptonRibbonGroupButtonPreviewForward.Enabled = moveEnabled;
+            kryptonRibbonQATButtonMediaPlayerFastForward.Enabled = moveEnabled;
+
             kryptonRibbonGroupTrackBarPreviewTimer.Enabled = moveEnabled;
-            kryptonRibbonGroupButtonPreviewStop.Enabled = stopEnabled;            
+
+            kryptonRibbonGroupButtonPreviewStop.Enabled = stopEnabled;
+            kryptonRibbonQATButtonMediaPlayerStop.Enabled = stopEnabled;
+
+            
         }
         #endregion
 
@@ -2004,6 +2085,8 @@ namespace PhotoTagsSynchronizer
             kryptonRibbonGroupTrackBarPreviewTimer.Enabled = enabled;
             SetPreviewRibbonEnabledRotate(enabled);
             kryptonRibbonGroupButtonPreviewSlideshow.Enabled = enabled;
+            kryptonRibbonGroupButtonPreviewSlideshowPlay.Enabled = enabled;
+            kryptonRibbonQATButtonMediaPlayerSlideshowPlay.Enabled = enabled;
             kryptonRibbonGroupButtonPreviewSlideshowTimeInterval.Enabled = enabled;            
             kryptonContextMenuItemPreviewSlideshowIntervalStop.Enabled = enabled;
             kryptonRibbonGroupButtonPreviewChromecast.Enabled = enabled;
@@ -2012,11 +2095,5 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        //kryptonRibbonGroupButtonPreviewSlideshow
-        //kryptonRibbonGroupButtonPreviewSlideshowTimeInterval
-
-        //kryptonRibbonGroupButtonPreviewChromecast
-        //kryptonRibbonGroupLabelPreviewTimer
-        //kryptonRibbonGroupLabelPreviewStatus
     }
 }

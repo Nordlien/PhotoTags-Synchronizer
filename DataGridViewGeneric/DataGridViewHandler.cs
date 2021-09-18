@@ -39,30 +39,6 @@ namespace DataGridViewGeneric
 
         private DataGridView dataGridView;
 
-        /*
-        private System.ComponentModel.IContainer components = null;
-
-        private ContextMenuStrip contextMenuStripDataGridViewGeneric;
-        private ToolStripMenuItem cutToolStripMenuItem;
-        private ToolStripMenuItem copyToolStripMenuItem;
-        private ToolStripMenuItem pasteToolStripMenuItem;
-        private ToolStripMenuItem deleteToolStripMenuItem;
-        private ToolStripMenuItem undoToolStripMenuItem;
-        private ToolStripMenuItem redoToolStripMenuItem;
-        private ToolStripMenuItem findToolStripMenuItem;
-        private ToolStripMenuItem replaceToolStripMenuItem;
-        private ToolStripMenuItem toolStripMenuItemMapSave;
-        private ToolStripMenuItem toggleRowsAsFavouriteToolStripMenuItem;
-        private ToolStripMenuItem toggleShowFavouriteRowsToolStripMenuItem;
-        private ToolStripMenuItem toggleHideEqualRowsValuesToolStripMenuItem;
-        private ToolStripMenuItem markAsFavoriteToolStripMenuItem;
-        private ToolStripMenuItem removeAsFavoriteToolStripMenuItem;
-        private ToolStripMenuItem showMediaPosterWindowToolStripMenuItem;
-
-        public delegate void ShowMediaPosterWindowToolStripMenuItemSelected(object sender, EventArgs e);
-        public event ShowMediaPosterWindowToolStripMenuItemSelected ShowMediaPosterWindowToolStripMenuItemSelectedEvent;
-        */
-
         #region DataGridView events handling
 
         #region DataGridView events handling - RowValidated - Speed hack

@@ -544,4 +544,31 @@
   <data name="ProgressCircle17_16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProgressCircle17-16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="MediaPlayerNext16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\media_next16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MediaPlayerPause16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\media_pause16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MediaPlayerPlay16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\media_play16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MediaPreviewSlideshowPlay" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\mediapreviewslideshowplay.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MediaPreviewSlideshowPlay16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\mediapreviewslideshowplay16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MediaPlayerStop16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\media_stop16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MediaPlayerFastBackward16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\media_fastbackward16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MediaPlayerFastForward16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\media_fastforward16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MediaPlayerPrevious16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\media_previous16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

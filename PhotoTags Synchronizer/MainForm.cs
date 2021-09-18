@@ -147,6 +147,19 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupCustomControlToolsProgressSave.CustomControl = progressBarSaveConvert;
             this.kryptonRibbonGroupCustomControlToolsProgressLazyloading.CustomControl = progressBarLazyLoading;
 
+            this.imageListView1.KryptonContextMenu = kryptonContextMenuGenericBase;
+            this.kryptonRibbonGroupButtonPreviewSlideshowTimeInterval.KryptonContextMenu = kryptonContextMenuPreviewSlideshowInterval;
+            this.folderTreeViewFolder.KryptonContextMenu = kryptonContextMenuGenericBase;
+            this.dataGridViewConvertAndMerge.KryptonContextMenu = kryptonContextMenuGenericBase;
+            this.dataGridViewDate.KryptonContextMenu = kryptonContextMenuGenericBase;
+            this.dataGridViewExiftool.KryptonContextMenu = kryptonContextMenuGenericBase;
+            this.dataGridViewExiftoolWarning.KryptonContextMenu = kryptonContextMenuGenericBase;
+            this.dataGridViewMap.KryptonContextMenu = kryptonContextMenuGenericBase;
+            this.dataGridViewPeople.KryptonContextMenu = kryptonContextMenuGenericBase;
+            this.dataGridViewProperties.KryptonContextMenu = kryptonContextMenuGenericBase;
+            this.dataGridViewRename.KryptonContextMenu = kryptonContextMenuGenericBase;
+            this.dataGridViewTagsAndKeywords.KryptonContextMenu = kryptonContextMenuGenericBase;
+
             this.kryptonContextMenuItemGenericRegionRename1.Click += KryptonContextMenuItemGenericRegionRenameGeneric_Click;
             this.kryptonContextMenuItemGenericRegionRename2.Click += KryptonContextMenuItemGenericRegionRenameGeneric_Click;
             this.kryptonContextMenuItemGenericRegionRename3.Click += KryptonContextMenuItemGenericRegionRenameGeneric_Click;
@@ -222,17 +235,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuItemPreviewSlideshowIntervalStop.Click += KryptonContextMenuItemPreviewSlideshowIntervalStop_Click;
             //this.kryptonContextMenuItemsPreviewSlideshowIntervalList.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
 
-            this.imageListView1.KryptonContextMenu = kryptonContextMenuGenericBase;
-            this.folderTreeViewFolder.KryptonContextMenu = kryptonContextMenuGenericBase;
-            this.dataGridViewConvertAndMerge.KryptonContextMenu = kryptonContextMenuGenericBase;
-            this.dataGridViewDate.KryptonContextMenu = kryptonContextMenuGenericBase;
-            this.dataGridViewExiftool.KryptonContextMenu = kryptonContextMenuGenericBase;
-            this.dataGridViewExiftoolWarning.KryptonContextMenu = kryptonContextMenuGenericBase;
-            this.dataGridViewMap.KryptonContextMenu = kryptonContextMenuGenericBase;
-            this.dataGridViewPeople.KryptonContextMenu = kryptonContextMenuGenericBase;
-            this.dataGridViewProperties.KryptonContextMenu = kryptonContextMenuGenericBase;
-            this.dataGridViewRename.KryptonContextMenu = kryptonContextMenuGenericBase;
-            this.dataGridViewTagsAndKeywords.KryptonContextMenu = kryptonContextMenuGenericBase;
+            
 
             nameImageListView = this.imageListView1.Name;
             nameFolderTreeViewFolder = this.folderTreeViewFolder.Name;
@@ -839,9 +842,11 @@ namespace PhotoTagsSynchronizer
 
 
 
+
+
         #endregion
 
-       
+        
     }
 
 

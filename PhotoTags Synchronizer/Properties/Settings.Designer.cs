@@ -2428,5 +2428,17 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["SelectGroupCheckAllLocations"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2000")]
+        public int PreviewSlideshowInterval {
+            get {
+                return ((int)(this["PreviewSlideshowInterval"]));
+            }
+            set {
+                this["PreviewSlideshowInterval"] = value;
+            }
+        }
     }
 }
