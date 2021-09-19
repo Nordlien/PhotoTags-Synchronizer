@@ -2593,96 +2593,78 @@ namespace PhotoTagsSynchronizer
             UseDropShadow = enabled;
         }
 
+        private void SetPalette(KryptonPalette newKryptonPalette, bool enableDropShadow)
+        {
+            KryptonPalette kryptonPalette = new KryptonPalette();
+            kryptonPalette.Import(newKryptonPalette.Export(false, true));
+
+            kryptonManager1.GlobalPaletteMode = PaletteModeManager.Custom;
+            kryptonManager1.GlobalPalette = kryptonPalette;
+
+            propertyGrid.SelectedObject = kryptonManager1.GlobalPalette;
+
+
+            EnableDropShadow(enableDropShadow);
+        }
+
         private void buttonOffice2010Blue_Click(object sender, EventArgs e)
         {
-            kryptonManager1.GlobalPalette = kryptonPaletteOffice2010Blue;
-            propertyGrid.SelectedObject = kryptonPaletteOffice2010Blue;
-
-            EnableDropShadow(true);
+            SetPalette(kryptonPaletteOffice2010Blue, true);
         }
 
         private void buttonOffice2010Silver_Click(object sender, EventArgs e)
         {
-            kryptonManager1.GlobalPalette = kryptonPaletteOffice2010Silver;
-            propertyGrid.SelectedObject = kryptonPaletteOffice2010Silver;
-
-            EnableDropShadow(true);
+            SetPalette(kryptonPaletteOffice2010Silver, true);
         }
 
         private void buttonOffice2010Black_Click(object sender, EventArgs e)
         {
-            kryptonManager1.GlobalPalette = kryptonPaletteOffice2010Black;
-            propertyGrid.SelectedObject = kryptonPaletteOffice2010Black;
-
-            EnableDropShadow(true);
+            SetPalette(kryptonPaletteOffice2010Black, true);
         }
 
         private void buttonOffice2007Blue_Click(object sender, EventArgs e)
         {
-            kryptonManager1.GlobalPalette = kryptonPaletteOffice2007Blue;
-            propertyGrid.SelectedObject = kryptonPaletteOffice2007Blue;
-
-            EnableDropShadow(true);
+            SetPalette(kryptonPaletteOffice2007Blue, true);
         }
 
         private void buttonOffice2007Silver_Click(object sender, EventArgs e)
         {
-            kryptonManager1.GlobalPalette = kryptonPaletteOffice2007Silver;
-            propertyGrid.SelectedObject = kryptonPaletteOffice2007Silver;
-
-            EnableDropShadow(true);
+            SetPalette(kryptonPaletteOffice2007Silver, true);
         }
 
         private void buttonOffice2007Black_Click(object sender, EventArgs e)
         {
-            kryptonManager1.GlobalPalette = kryptonPaletteOffice2007Black;
-            propertyGrid.SelectedObject = kryptonPaletteOffice2007Black;
-
-            EnableDropShadow(true);
+            SetPalette(kryptonPaletteOffice2007Black, true);
         }
 
         private void buttonOffice2003_Click(object sender, EventArgs e)
         {
-            kryptonManager1.GlobalPalette = kryptonPaletteOffice2003;
-            propertyGrid.SelectedObject = kryptonPaletteOffice2003;
-
-            EnableDropShadow(true);
+            SetPalette(kryptonPaletteOffice2003, true);
         }
 
         private void buttonSystem_Click(object sender, EventArgs e)
         {
-            kryptonManager1.GlobalPalette = kryptonPaletteSystem;
-            propertyGrid.SelectedObject = kryptonPaletteSystem;
-
-            EnableDropShadow(false);
+            SetPalette(kryptonPaletteSystem, false);
         }
 
         private void buttonSparkleBlue_Click(object sender, EventArgs e)
         {
-            kryptonManager1.GlobalPalette = kryptonPaletteSparkleBlue;
-            propertyGrid.SelectedObject = kryptonPaletteSparkleBlue;
-
-            EnableDropShadow(true);
+            SetPalette(kryptonPaletteSparkleBlue, true);
         }
 
         private void buttonSparkleOrange_Click(object sender, EventArgs e)
         {
-            kryptonManager1.GlobalPalette = kryptonPaletteSparkleOrange;
-            propertyGrid.SelectedObject = kryptonPaletteSparkleOrange;
-
-            EnableDropShadow(true);
+            SetPalette(kryptonPaletteSparkleOrange, true);
         }
 
         private void buttonSparklePurple_Click(object sender, EventArgs e)
         {
-            kryptonManager1.GlobalPalette = kryptonPaletteSparklePurple;
-            propertyGrid.SelectedObject = kryptonPaletteSparklePurple;
-
-            EnableDropShadow(true);
+            SetPalette(kryptonPaletteSparklePurple, true);
         }
 
         private void buttonCustom_Click(object sender, EventArgs e)
         {
+            
             kryptonManager1.GlobalPalette = kryptonPaletteCustom;
             propertyGrid.SelectedObject = kryptonPaletteCustom;
 
@@ -2699,8 +2681,8 @@ namespace PhotoTagsSynchronizer
             {
                 kryptonPaletteCustom.Import();
 
-                kryptonManager1.GlobalPalette = kryptonPaletteCustom;
                 kryptonManager1.GlobalPaletteMode = PaletteModeManager.Custom;
+                kryptonManager1.GlobalPalette = kryptonPaletteCustom;
 
                 /*
                 ThemeManager.SetTheme(kryptonComboBoxThemes.Text, kryptonManager1);

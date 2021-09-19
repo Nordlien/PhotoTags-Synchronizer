@@ -161,15 +161,6 @@ namespace PhotoTagsSynchronizer
             checkedListBoxSearchPeople.Items.Clear();
             checkedListBoxSearchPeople.Items.AddRange(peoples.ToArray());
 
-            //dateTimePickerSearchDateFrom.
-            //dateTimePickerSearchDateFrom.
-            //comboBoxSearch.Items.AddRange(.ToArray());
-            /*
-            List<string> dates = databaseAndCacheMetadataExiftool.ListAllMediaDateTakenYearAndMonth(MetadataBrokerType.ExifTool);
-            .Sort();
-            comboBoxSearch.Items.AddRange(.ToArray());
-            */
-
         }
         #endregion 
 
