@@ -34,13 +34,13 @@ namespace PhotoTagsSynchronizer
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormConfig));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
             this.labelApplicationRegionThumbnailSize = new Krypton.Toolkit.KryptonLabel();
             this.labelWebScraperJavaScriptExecuteTimeoutDescription = new Krypton.Toolkit.KryptonLabel();
             this.labelWebScraperWebScrapingRetryDescription = new Krypton.Toolkit.KryptonLabel();
@@ -300,12 +300,28 @@ namespace PhotoTagsSynchronizer
             this.labelConvertAndMergeCommandMusic = new Krypton.Toolkit.KryptonLabel();
             this.textBoxConvertAndMergeFFmpeg = new Krypton.Toolkit.KryptonTextBox();
             this.labelConvertAndMergeCommandPathExe = new Krypton.Toolkit.KryptonLabel();
-            this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
             this.kryptonWorkspaceConfig = new Krypton.Workspace.KryptonWorkspace();
             this.kryptonPageApplication = new Krypton.Navigator.KryptonPage();
             this.kryptonWorkspaceConfigApplication = new Krypton.Workspace.KryptonWorkspace();
             this.kryptonPageThemes = new Krypton.Navigator.KryptonPage();
             this.kryptonWorkspaceApplicationThemes = new Krypton.Workspace.KryptonWorkspace();
+            this.kryptonPageApplicationThemesSelect = new Krypton.Navigator.KryptonPage();
+            this.buttonOffice2007White = new Krypton.Toolkit.KryptonButton();
+            this.buttonOffice2010Black = new Krypton.Toolkit.KryptonButton();
+            this.buttonOffice2010Silver = new Krypton.Toolkit.KryptonButton();
+            this.buttonOffice2010Blue = new Krypton.Toolkit.KryptonButton();
+            this.buttonSparkleOrange = new Krypton.Toolkit.KryptonButton();
+            this.buttonSparklePurple = new Krypton.Toolkit.KryptonButton();
+            this.buttonSparkleBlue = new Krypton.Toolkit.KryptonButton();
+            this.buttonOffice2007Black = new Krypton.Toolkit.KryptonButton();
+            this.buttonOffice2007Silver = new Krypton.Toolkit.KryptonButton();
+            this.buttonOffice2007Blue = new Krypton.Toolkit.KryptonButton();
+            this.buttonSystem = new Krypton.Toolkit.KryptonButton();
+            this.buttonOffice2003 = new Krypton.Toolkit.KryptonButton();
+            this.kryptonButtonApplicationThemesExport = new Krypton.Toolkit.KryptonButton();
+            this.kryptonButtonApplicationThemesImport = new Krypton.Toolkit.KryptonButton();
+            this.kryptonWorkspaceCellApplicationThemesSelect = new Krypton.Workspace.KryptonWorkspaceCell();
+            this.kryptonWorkspaceCellApplicationThemesPreview = new Krypton.Workspace.KryptonWorkspaceCell();
             this.kryptonPageApplicationThemesPreview = new Krypton.Navigator.KryptonPage();
             this.kryptonCheckedListBox1 = new Krypton.Toolkit.KryptonCheckedListBox();
             this.kryptonDateTimePicker1 = new Krypton.Toolkit.KryptonDateTimePicker();
@@ -362,23 +378,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonLabelApplicationThemesTitle = new Krypton.Toolkit.KryptonLabel();
             this.kryptonButton1 = new Krypton.Toolkit.KryptonButton();
             this.kryptonButton2 = new Krypton.Toolkit.KryptonButton();
-            this.kryptonWorkspaceCellApplicationThemesSelect = new Krypton.Workspace.KryptonWorkspaceCell();
-            this.kryptonPageApplicationThemesSelect = new Krypton.Navigator.KryptonPage();
-            this.buttonOffice2010Black = new Krypton.Toolkit.KryptonButton();
-            this.buttonOffice2010Silver = new Krypton.Toolkit.KryptonButton();
-            this.buttonOffice2010Blue = new Krypton.Toolkit.KryptonButton();
-            this.buttonSparkleOrange = new Krypton.Toolkit.KryptonButton();
-            this.buttonSparklePurple = new Krypton.Toolkit.KryptonButton();
-            this.buttonSparkleBlue = new Krypton.Toolkit.KryptonButton();
-            this.buttonOffice2007Black = new Krypton.Toolkit.KryptonButton();
-            this.buttonOffice2007Silver = new Krypton.Toolkit.KryptonButton();
-            this.buttonOffice2007Blue = new Krypton.Toolkit.KryptonButton();
-            this.buttonCustom = new Krypton.Toolkit.KryptonButton();
-            this.buttonSystem = new Krypton.Toolkit.KryptonButton();
-            this.buttonOffice2003 = new Krypton.Toolkit.KryptonButton();
-            this.kryptonButtonApplicationThemesExport = new Krypton.Toolkit.KryptonButton();
-            this.kryptonButtonApplicationThemesImport = new Krypton.Toolkit.KryptonButton();
-            this.kryptonWorkspaceCellApplicationThemesPreview = new Krypton.Workspace.KryptonWorkspaceCell();
             this.kryptonWorkspaceCellApplicationThemesProperties = new Krypton.Workspace.KryptonWorkspaceCell();
             this.kryptonPageApplicationThemesProperties = new Krypton.Navigator.KryptonPage();
             this.propertyGrid = new System.Windows.Forms.PropertyGrid();
@@ -514,18 +513,14 @@ namespace PhotoTagsSynchronizer
             this.kryptonPage9 = new Krypton.Navigator.KryptonPage();
             this.kryptonPage11 = new Krypton.Navigator.KryptonPage();
             this.kryptonPage8 = new Krypton.Navigator.KryptonPage();
-            this.kryptonPaletteOffice2003 = new Krypton.Toolkit.KryptonPalette(this.components);
-            this.kryptonPaletteSparkleBlue = new Krypton.Toolkit.KryptonPalette(this.components);
-            this.kryptonPaletteSparklePurple = new Krypton.Toolkit.KryptonPalette(this.components);
-            this.kryptonPaletteOffice2007Blue = new Krypton.Toolkit.KryptonPalette(this.components);
-            this.kryptonPaletteCustom = new Krypton.Toolkit.KryptonPalette(this.components);
-            this.kryptonPaletteSparkleOrange = new Krypton.Toolkit.KryptonPalette(this.components);
-            this.kryptonPaletteSystem = new Krypton.Toolkit.KryptonPalette(this.components);
-            this.kryptonPaletteOffice2010Blue = new Krypton.Toolkit.KryptonPalette(this.components);
-            this.kryptonPaletteOffice2010Silver = new Krypton.Toolkit.KryptonPalette(this.components);
-            this.kryptonPaletteOffice2007Silver = new Krypton.Toolkit.KryptonPalette(this.components);
-            this.kryptonPaletteOffice2007Black = new Krypton.Toolkit.KryptonPalette(this.components);
-            this.kryptonPaletteOffice2010Black = new Krypton.Toolkit.KryptonPalette(this.components);
+            this.buttonDarkMode = new Krypton.Toolkit.KryptonButton();
+            this.buttonOffice2010White = new Krypton.Toolkit.KryptonButton();
+            this.buttonOffice2013 = new Krypton.Toolkit.KryptonButton();
+            this.buttonOffice2013White = new Krypton.Toolkit.KryptonButton();
+            this.buttonOffice365White = new Krypton.Toolkit.KryptonButton();
+            this.buttonOffice365Black = new Krypton.Toolkit.KryptonButton();
+            this.buttonOffice365Silver = new Krypton.Toolkit.KryptonButton();
+            this.buttonOffice365Blue = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWebScrapingPageDownCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWaitEventPageLoadedTimeout)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWaitEventPageStartLoadingTimeout)).BeginInit();
@@ -589,6 +584,12 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageThemes.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceApplicationThemes)).BeginInit();
             this.kryptonWorkspaceApplicationThemes.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationThemesSelect)).BeginInit();
+            this.kryptonPageApplicationThemesSelect.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellApplicationThemesSelect)).BeginInit();
+            this.kryptonWorkspaceCellApplicationThemesSelect.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellApplicationThemesPreview)).BeginInit();
+            this.kryptonWorkspaceCellApplicationThemesPreview.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationThemesPreview)).BeginInit();
             this.kryptonPageApplicationThemesPreview.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBox2)).BeginInit();
@@ -601,12 +602,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonPanelApplicationThemesExample.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellApplicationThemesSelect)).BeginInit();
-            this.kryptonWorkspaceCellApplicationThemesSelect.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationThemesSelect)).BeginInit();
-            this.kryptonPageApplicationThemesSelect.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellApplicationThemesPreview)).BeginInit();
-            this.kryptonWorkspaceCellApplicationThemesPreview.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellApplicationThemesProperties)).BeginInit();
             this.kryptonWorkspaceCellApplicationThemesProperties.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationThemesProperties)).BeginInit();
@@ -1240,7 +1235,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxRenameVariables.Location = new System.Drawing.Point(118, 23);
             this.comboBoxRenameVariables.Margin = new System.Windows.Forms.Padding(2);
             this.comboBoxRenameVariables.Name = "comboBoxRenameVariables";
-            this.comboBoxRenameVariables.Size = new System.Drawing.Size(534, 18);
+            this.comboBoxRenameVariables.Size = new System.Drawing.Size(534, 21);
             this.comboBoxRenameVariables.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxRenameVariables.TabIndex = 2;
             this.comboBoxRenameVariables.SelectionChangeCommitted += new System.EventHandler(this.comboBoxRenameVariables_SelectionChangeCommitted);
@@ -1437,7 +1432,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxKeywordsAiConfidence.Location = new System.Drawing.Point(144, 43);
             this.comboBoxKeywordsAiConfidence.Margin = new System.Windows.Forms.Padding(2);
             this.comboBoxKeywordsAiConfidence.Name = "comboBoxKeywordsAiConfidence";
-            this.comboBoxKeywordsAiConfidence.Size = new System.Drawing.Size(150, 18);
+            this.comboBoxKeywordsAiConfidence.Size = new System.Drawing.Size(150, 21);
             this.comboBoxKeywordsAiConfidence.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxKeywordsAiConfidence.TabIndex = 3;
             // 
@@ -1926,9 +1921,9 @@ namespace PhotoTagsSynchronizer
             // 
             // LocationName
             // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.LocationName.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle22.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.LocationName.DefaultCellStyle = dataGridViewCellStyle22;
             this.LocationName.HeaderText = "LocationName";
             this.LocationName.MinimumWidth = 6;
             this.LocationName.Name = "LocationName";
@@ -1936,9 +1931,9 @@ namespace PhotoTagsSynchronizer
             // 
             // Title
             // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Title.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle23.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Title.DefaultCellStyle = dataGridViewCellStyle23;
             this.Title.HeaderText = "Title";
             this.Title.MinimumWidth = 6;
             this.Title.Name = "Title";
@@ -1946,9 +1941,9 @@ namespace PhotoTagsSynchronizer
             // 
             // Album
             // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Album.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle24.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Album.DefaultCellStyle = dataGridViewCellStyle24;
             this.Album.HeaderText = "Album";
             this.Album.MinimumWidth = 6;
             this.Album.Name = "Album";
@@ -1956,9 +1951,9 @@ namespace PhotoTagsSynchronizer
             // 
             // Description
             // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Description.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle25.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Description.DefaultCellStyle = dataGridViewCellStyle25;
             this.Description.HeaderText = "Description";
             this.Description.MinimumWidth = 6;
             this.Description.Name = "Description";
@@ -1966,9 +1961,9 @@ namespace PhotoTagsSynchronizer
             // 
             // Comments
             // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Comments.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle26.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Comments.DefaultCellStyle = dataGridViewCellStyle26;
             this.Comments.HeaderText = "Comments";
             this.Comments.MinimumWidth = 6;
             this.Comments.Name = "Comments";
@@ -1976,9 +1971,9 @@ namespace PhotoTagsSynchronizer
             // 
             // Keywords
             // 
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Keywords.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle27.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Keywords.DefaultCellStyle = dataGridViewCellStyle27;
             this.Keywords.HeaderText = "Keywords";
             this.Keywords.MinimumWidth = 6;
             this.Keywords.Name = "Keywords";
@@ -1986,9 +1981,9 @@ namespace PhotoTagsSynchronizer
             // 
             // AddKeywords
             // 
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.AddKeywords.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle28.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.AddKeywords.DefaultCellStyle = dataGridViewCellStyle28;
             this.AddKeywords.HeaderText = "AddKeywords";
             this.AddKeywords.MinimumWidth = 6;
             this.AddKeywords.Name = "AddKeywords";
@@ -2136,6 +2131,7 @@ namespace PhotoTagsSynchronizer
             // 
             // contextMenuStripLocationNames
             // 
+            this.contextMenuStripLocationNames.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
             this.contextMenuStripLocationNames.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStripLocationNames.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemMapCut,
@@ -2364,7 +2360,7 @@ namespace PhotoTagsSynchronizer
             "Zoom 18"});
             this.comboBoxMapZoomLevel.Location = new System.Drawing.Point(47, 125);
             this.comboBoxMapZoomLevel.Name = "comboBoxMapZoomLevel";
-            this.comboBoxMapZoomLevel.Size = new System.Drawing.Size(97, 18);
+            this.comboBoxMapZoomLevel.Size = new System.Drawing.Size(97, 21);
             this.comboBoxMapZoomLevel.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxMapZoomLevel.TabIndex = 18;
             this.comboBoxMapZoomLevel.SelectedIndexChanged += new System.EventHandler(this.comboBoxMapZoomLevel_SelectedIndexChanged);
@@ -2915,7 +2911,7 @@ namespace PhotoTagsSynchronizer
             "zu - Zulu"});
             this.comboBoxApplicationLanguages.Location = new System.Drawing.Point(152, 24);
             this.comboBoxApplicationLanguages.Name = "comboBoxApplicationLanguages";
-            this.comboBoxApplicationLanguages.Size = new System.Drawing.Size(525, 18);
+            this.comboBoxApplicationLanguages.Size = new System.Drawing.Size(525, 21);
             this.comboBoxApplicationLanguages.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxApplicationLanguages.TabIndex = 0;
             this.comboBoxApplicationLanguages.SelectionChangeCommitted += new System.EventHandler(this.comboBoxApplicationLanguages_SelectionChangeCommitted);
@@ -2949,7 +2945,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxApplicationRegionThumbnailSizes.IntegralHeight = false;
             this.comboBoxApplicationRegionThumbnailSizes.Location = new System.Drawing.Point(152, 28);
             this.comboBoxApplicationRegionThumbnailSizes.Name = "comboBoxApplicationRegionThumbnailSizes";
-            this.comboBoxApplicationRegionThumbnailSizes.Size = new System.Drawing.Size(172, 18);
+            this.comboBoxApplicationRegionThumbnailSizes.Size = new System.Drawing.Size(172, 21);
             this.comboBoxApplicationRegionThumbnailSizes.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxApplicationRegionThumbnailSizes.TabIndex = 1;
             // 
@@ -2973,7 +2969,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxApplicationThumbnailSizes.IntegralHeight = false;
             this.comboBoxApplicationThumbnailSizes.Location = new System.Drawing.Point(152, 3);
             this.comboBoxApplicationThumbnailSizes.Name = "comboBoxApplicationThumbnailSizes";
-            this.comboBoxApplicationThumbnailSizes.Size = new System.Drawing.Size(172, 18);
+            this.comboBoxApplicationThumbnailSizes.Size = new System.Drawing.Size(172, 21);
             this.comboBoxApplicationThumbnailSizes.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxApplicationThumbnailSizes.TabIndex = 0;
             // 
@@ -3204,7 +3200,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxMetadataWriteKeywordAdd.IntegralHeight = false;
             this.comboBoxMetadataWriteKeywordAdd.Location = new System.Drawing.Point(372, 3);
             this.comboBoxMetadataWriteKeywordAdd.Name = "comboBoxMetadataWriteKeywordAdd";
-            this.comboBoxMetadataWriteKeywordAdd.Size = new System.Drawing.Size(283, 18);
+            this.comboBoxMetadataWriteKeywordAdd.Size = new System.Drawing.Size(283, 21);
             this.comboBoxMetadataWriteKeywordAdd.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxMetadataWriteKeywordAdd.TabIndex = 3;
             this.comboBoxMetadataWriteKeywordAdd.SelectionChangeCommitted += new System.EventHandler(this.comboBoxMetadataWriteKeywordAdd_SelectionChangeCommitted);
@@ -3288,7 +3284,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxMetadataWriteKeywordDelete.IntegralHeight = false;
             this.comboBoxMetadataWriteKeywordDelete.Location = new System.Drawing.Point(372, 3);
             this.comboBoxMetadataWriteKeywordDelete.Name = "comboBoxMetadataWriteKeywordDelete";
-            this.comboBoxMetadataWriteKeywordDelete.Size = new System.Drawing.Size(283, 18);
+            this.comboBoxMetadataWriteKeywordDelete.Size = new System.Drawing.Size(283, 21);
             this.comboBoxMetadataWriteKeywordDelete.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxMetadataWriteKeywordDelete.TabIndex = 1;
             this.comboBoxMetadataWriteKeywordDelete.SelectionChangeCommitted += new System.EventHandler(this.comboBoxMetadataWriteKeywordDelete_SelectionChangeCommitted);
@@ -3354,7 +3350,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxWriteXtraAtomVariables.IntegralHeight = false;
             this.comboBoxWriteXtraAtomVariables.Location = new System.Drawing.Point(370, 3);
             this.comboBoxWriteXtraAtomVariables.Name = "comboBoxWriteXtraAtomVariables";
-            this.comboBoxWriteXtraAtomVariables.Size = new System.Drawing.Size(283, 18);
+            this.comboBoxWriteXtraAtomVariables.Size = new System.Drawing.Size(283, 21);
             this.comboBoxWriteXtraAtomVariables.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxWriteXtraAtomVariables.TabIndex = 0;
             this.comboBoxWriteXtraAtomVariables.SelectionChangeCommitted += new System.EventHandler(this.comboBoxWriteXtraAtomVariables_SelectionChangeCommitted);
@@ -3611,7 +3607,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxMetadataWriteStandardTags.IntegralHeight = false;
             this.comboBoxMetadataWriteStandardTags.Location = new System.Drawing.Point(372, 3);
             this.comboBoxMetadataWriteStandardTags.Name = "comboBoxMetadataWriteStandardTags";
-            this.comboBoxMetadataWriteStandardTags.Size = new System.Drawing.Size(283, 18);
+            this.comboBoxMetadataWriteStandardTags.Size = new System.Drawing.Size(283, 21);
             this.comboBoxMetadataWriteStandardTags.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxMetadataWriteStandardTags.TabIndex = 1;
             this.comboBoxMetadataWriteStandardTags.SelectionChangeCommitted += new System.EventHandler(this.comboBoxMetadataWriteStandardTags_SelectionChangeCommitted);
@@ -3668,7 +3664,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxConvertAndMergeConvertVideoFilesVariables.IntegralHeight = false;
             this.comboBoxConvertAndMergeConvertVideoFilesVariables.Location = new System.Drawing.Point(405, 9);
             this.comboBoxConvertAndMergeConvertVideoFilesVariables.Name = "comboBoxConvertAndMergeConvertVideoFilesVariables";
-            this.comboBoxConvertAndMergeConvertVideoFilesVariables.Size = new System.Drawing.Size(352, 18);
+            this.comboBoxConvertAndMergeConvertVideoFilesVariables.Size = new System.Drawing.Size(352, 21);
             this.comboBoxConvertAndMergeConvertVideoFilesVariables.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxConvertAndMergeConvertVideoFilesVariables.TabIndex = 0;
             this.comboBoxConvertAndMergeConvertVideoFilesVariables.SelectionChangeCommitted += new System.EventHandler(this.comboBoxConvertAndMergeConvertVideoFilesVariables_SelectionChangeCommitted);
@@ -3723,7 +3719,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxConvertAndMergeConcatVideosArguFileVariables.IntegralHeight = false;
             this.comboBoxConvertAndMergeConcatVideosArguFileVariables.Location = new System.Drawing.Point(406, 9);
             this.comboBoxConvertAndMergeConcatVideosArguFileVariables.Name = "comboBoxConvertAndMergeConcatVideosArguFileVariables";
-            this.comboBoxConvertAndMergeConcatVideosArguFileVariables.Size = new System.Drawing.Size(352, 18);
+            this.comboBoxConvertAndMergeConcatVideosArguFileVariables.Size = new System.Drawing.Size(352, 21);
             this.comboBoxConvertAndMergeConcatVideosArguFileVariables.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxConvertAndMergeConcatVideosArguFileVariables.TabIndex = 2;
             this.comboBoxConvertAndMergeConcatVideosArguFileVariables.SelectionChangeCommitted += new System.EventHandler(this.comboBoxConvertAndMergeConcatVideosArguFileVariables_SelectionChangeCommitted);
@@ -3738,7 +3734,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxConvertAndMergeConcatVideoFilesVariables.IntegralHeight = false;
             this.comboBoxConvertAndMergeConcatVideoFilesVariables.Location = new System.Drawing.Point(406, 8);
             this.comboBoxConvertAndMergeConcatVideoFilesVariables.Name = "comboBoxConvertAndMergeConcatVideoFilesVariables";
-            this.comboBoxConvertAndMergeConcatVideoFilesVariables.Size = new System.Drawing.Size(352, 18);
+            this.comboBoxConvertAndMergeConcatVideoFilesVariables.Size = new System.Drawing.Size(352, 21);
             this.comboBoxConvertAndMergeConcatVideoFilesVariables.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxConvertAndMergeConcatVideoFilesVariables.TabIndex = 0;
             this.comboBoxConvertAndMergeConcatVideoFilesVariables.SelectionChangeCommitted += new System.EventHandler(this.comboBoxConvertAndMergeConcatVideoFilesVariables_SelectionChangeCommitted);
@@ -3833,7 +3829,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables.IntegralHeight = false;
             this.comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables.Location = new System.Drawing.Point(404, 9);
             this.comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables.Name = "comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables";
-            this.comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables.Size = new System.Drawing.Size(352, 18);
+            this.comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables.Size = new System.Drawing.Size(352, 21);
             this.comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables.TabIndex = 1;
             this.comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables.SelectionChangeCommitted += new System.EventHandler(this.comboBoxConvertAndMergeConcatImageAsVideoCommandVariables_SelectionChangeCommitted);
@@ -3888,7 +3884,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables.IntegralHeight = false;
             this.comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables.Location = new System.Drawing.Point(404, 9);
             this.comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables.Name = "comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables";
-            this.comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables.Size = new System.Drawing.Size(352, 18);
+            this.comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables.Size = new System.Drawing.Size(352, 21);
             this.comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables.TabIndex = 3;
             this.comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables.SelectionChangeCommitted += new System.EventHandler(this.comboBoxConvertAndMergeConcatImageAsVideoCommandArgumentVariables_SelectionChangeCommitted);
@@ -3948,7 +3944,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxConvertAndMergeTempfileExtension.IntegralHeight = false;
             this.comboBoxConvertAndMergeTempfileExtension.Location = new System.Drawing.Point(143, 109);
             this.comboBoxConvertAndMergeTempfileExtension.Name = "comboBoxConvertAndMergeTempfileExtension";
-            this.comboBoxConvertAndMergeTempfileExtension.Size = new System.Drawing.Size(77, 18);
+            this.comboBoxConvertAndMergeTempfileExtension.Size = new System.Drawing.Size(77, 21);
             this.comboBoxConvertAndMergeTempfileExtension.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxConvertAndMergeTempfileExtension.TabIndex = 7;
             // 
@@ -3985,7 +3981,7 @@ namespace PhotoTagsSynchronizer
             "240p: 426 x 240"});
             this.comboBoxConvertAndMergeOutputSize.Location = new System.Drawing.Point(143, 83);
             this.comboBoxConvertAndMergeOutputSize.Name = "comboBoxConvertAndMergeOutputSize";
-            this.comboBoxConvertAndMergeOutputSize.Size = new System.Drawing.Size(157, 18);
+            this.comboBoxConvertAndMergeOutputSize.Size = new System.Drawing.Size(157, 21);
             this.comboBoxConvertAndMergeOutputSize.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxConvertAndMergeOutputSize.TabIndex = 6;
             // 
@@ -4083,10 +4079,6 @@ namespace PhotoTagsSynchronizer
             this.labelConvertAndMergeCommandPathExe.TabIndex = 0;
             this.labelConvertAndMergeCommandPathExe.Values.Text = "Path to ffmpeg.exe:";
             // 
-            // kryptonManager1
-            // 
-            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteModeManager.ProfessionalSystem;
-            // 
             // kryptonWorkspaceConfig
             // 
             this.kryptonWorkspaceConfig.ActivePage = this.kryptonPageApplication;
@@ -4176,6 +4168,198 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceApplicationThemes.TabIndex = 13;
             this.kryptonWorkspaceApplicationThemes.TabStop = true;
             // 
+            // kryptonPageApplicationThemesSelect
+            // 
+            this.kryptonPageApplicationThemesSelect.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageApplicationThemesSelect.AutoScroll = true;
+            this.kryptonPageApplicationThemesSelect.Controls.Add(this.buttonOffice365White);
+            this.kryptonPageApplicationThemesSelect.Controls.Add(this.buttonOffice365Black);
+            this.kryptonPageApplicationThemesSelect.Controls.Add(this.buttonOffice365Silver);
+            this.kryptonPageApplicationThemesSelect.Controls.Add(this.buttonOffice365Blue);
+            this.kryptonPageApplicationThemesSelect.Controls.Add(this.buttonOffice2013White);
+            this.kryptonPageApplicationThemesSelect.Controls.Add(this.buttonOffice2013);
+            this.kryptonPageApplicationThemesSelect.Controls.Add(this.buttonOffice2010White);
+            this.kryptonPageApplicationThemesSelect.Controls.Add(this.buttonDarkMode);
+            this.kryptonPageApplicationThemesSelect.Controls.Add(this.buttonOffice2007White);
+            this.kryptonPageApplicationThemesSelect.Controls.Add(this.buttonOffice2010Black);
+            this.kryptonPageApplicationThemesSelect.Controls.Add(this.buttonOffice2010Silver);
+            this.kryptonPageApplicationThemesSelect.Controls.Add(this.buttonOffice2010Blue);
+            this.kryptonPageApplicationThemesSelect.Controls.Add(this.buttonSparkleOrange);
+            this.kryptonPageApplicationThemesSelect.Controls.Add(this.buttonSparklePurple);
+            this.kryptonPageApplicationThemesSelect.Controls.Add(this.buttonSparkleBlue);
+            this.kryptonPageApplicationThemesSelect.Controls.Add(this.buttonOffice2007Black);
+            this.kryptonPageApplicationThemesSelect.Controls.Add(this.buttonOffice2007Silver);
+            this.kryptonPageApplicationThemesSelect.Controls.Add(this.buttonOffice2007Blue);
+            this.kryptonPageApplicationThemesSelect.Controls.Add(this.buttonSystem);
+            this.kryptonPageApplicationThemesSelect.Controls.Add(this.buttonOffice2003);
+            this.kryptonPageApplicationThemesSelect.Controls.Add(this.kryptonButtonApplicationThemesExport);
+            this.kryptonPageApplicationThemesSelect.Controls.Add(this.kryptonButtonApplicationThemesImport);
+            this.kryptonPageApplicationThemesSelect.Flags = 65534;
+            this.kryptonPageApplicationThemesSelect.LastVisibleSet = true;
+            this.kryptonPageApplicationThemesSelect.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageApplicationThemesSelect.Name = "kryptonPageApplicationThemesSelect";
+            this.kryptonPageApplicationThemesSelect.Size = new System.Drawing.Size(148, 470);
+            this.kryptonPageApplicationThemesSelect.Text = "Themes";
+            this.kryptonPageApplicationThemesSelect.TextDescription = "Select, Import and export Themes";
+            this.kryptonPageApplicationThemesSelect.TextTitle = "Themes";
+            this.kryptonPageApplicationThemesSelect.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageApplicationThemesSelect.UniqueName = "0e93300d641c4e4e8207572c84f0acc7";
+            // 
+            // buttonOffice2007White
+            // 
+            this.buttonOffice2007White.Location = new System.Drawing.Point(8, 532);
+            this.buttonOffice2007White.Name = "buttonOffice2007White";
+            this.buttonOffice2007White.Size = new System.Drawing.Size(114, 27);
+            this.buttonOffice2007White.TabIndex = 24;
+            this.buttonOffice2007White.Values.Text = "Office 2007 - White";
+            this.buttonOffice2007White.Click += new System.EventHandler(this.buttonOffice2007White_Click);
+            // 
+            // buttonOffice2010Black
+            // 
+            this.buttonOffice2010Black.Location = new System.Drawing.Point(8, 315);
+            this.buttonOffice2010Black.Name = "buttonOffice2010Black";
+            this.buttonOffice2010Black.Size = new System.Drawing.Size(114, 27);
+            this.buttonOffice2010Black.TabIndex = 14;
+            this.buttonOffice2010Black.Values.Text = "Office 2010 - Black";
+            this.buttonOffice2010Black.Click += new System.EventHandler(this.buttonOffice2010Black_Click);
+            // 
+            // buttonOffice2010Silver
+            // 
+            this.buttonOffice2010Silver.Location = new System.Drawing.Point(8, 377);
+            this.buttonOffice2010Silver.Name = "buttonOffice2010Silver";
+            this.buttonOffice2010Silver.Size = new System.Drawing.Size(114, 27);
+            this.buttonOffice2010Silver.TabIndex = 13;
+            this.buttonOffice2010Silver.Values.Text = "Office 2010 - Silver";
+            this.buttonOffice2010Silver.Click += new System.EventHandler(this.buttonOffice2010Silver_Click);
+            // 
+            // buttonOffice2010Blue
+            // 
+            this.buttonOffice2010Blue.Location = new System.Drawing.Point(8, 346);
+            this.buttonOffice2010Blue.Name = "buttonOffice2010Blue";
+            this.buttonOffice2010Blue.Size = new System.Drawing.Size(114, 27);
+            this.buttonOffice2010Blue.TabIndex = 12;
+            this.buttonOffice2010Blue.Values.Text = "Office 2010 - Blue";
+            this.buttonOffice2010Blue.Click += new System.EventHandler(this.buttonOffice2010Blue_Click);
+            // 
+            // buttonSparkleOrange
+            // 
+            this.buttonSparkleOrange.Location = new System.Drawing.Point(8, 624);
+            this.buttonSparkleOrange.Name = "buttonSparkleOrange";
+            this.buttonSparkleOrange.Size = new System.Drawing.Size(114, 27);
+            this.buttonSparkleOrange.TabIndex = 20;
+            this.buttonSparkleOrange.Values.Text = "Sparkle - Orange";
+            this.buttonSparkleOrange.Click += new System.EventHandler(this.buttonSparkleOrange_Click);
+            // 
+            // buttonSparklePurple
+            // 
+            this.buttonSparklePurple.Location = new System.Drawing.Point(8, 654);
+            this.buttonSparklePurple.Name = "buttonSparklePurple";
+            this.buttonSparklePurple.Size = new System.Drawing.Size(114, 27);
+            this.buttonSparklePurple.TabIndex = 21;
+            this.buttonSparklePurple.Values.Text = "Sparkle - Purple";
+            this.buttonSparklePurple.Click += new System.EventHandler(this.buttonSparklePurple_Click);
+            // 
+            // buttonSparkleBlue
+            // 
+            this.buttonSparkleBlue.Location = new System.Drawing.Point(8, 594);
+            this.buttonSparkleBlue.Name = "buttonSparkleBlue";
+            this.buttonSparkleBlue.Size = new System.Drawing.Size(114, 27);
+            this.buttonSparkleBlue.TabIndex = 19;
+            this.buttonSparkleBlue.Values.Text = "Sparkle - Blue";
+            this.buttonSparkleBlue.Click += new System.EventHandler(this.buttonSparkleBlue_Click);
+            // 
+            // buttonOffice2007Black
+            // 
+            this.buttonOffice2007Black.Location = new System.Drawing.Point(8, 439);
+            this.buttonOffice2007Black.Name = "buttonOffice2007Black";
+            this.buttonOffice2007Black.Size = new System.Drawing.Size(114, 27);
+            this.buttonOffice2007Black.TabIndex = 17;
+            this.buttonOffice2007Black.Values.Text = "Office 2007 - Black";
+            this.buttonOffice2007Black.Click += new System.EventHandler(this.buttonOffice2007Black_Click);
+            // 
+            // buttonOffice2007Silver
+            // 
+            this.buttonOffice2007Silver.Location = new System.Drawing.Point(8, 501);
+            this.buttonOffice2007Silver.Name = "buttonOffice2007Silver";
+            this.buttonOffice2007Silver.Size = new System.Drawing.Size(114, 27);
+            this.buttonOffice2007Silver.TabIndex = 16;
+            this.buttonOffice2007Silver.Values.Text = "Office 2007 - Silver";
+            this.buttonOffice2007Silver.Click += new System.EventHandler(this.buttonOffice2007Silver_Click);
+            // 
+            // buttonOffice2007Blue
+            // 
+            this.buttonOffice2007Blue.Location = new System.Drawing.Point(8, 470);
+            this.buttonOffice2007Blue.Name = "buttonOffice2007Blue";
+            this.buttonOffice2007Blue.Size = new System.Drawing.Size(114, 27);
+            this.buttonOffice2007Blue.TabIndex = 15;
+            this.buttonOffice2007Blue.Values.Text = "Office 2007 - Blue";
+            this.buttonOffice2007Blue.Click += new System.EventHandler(this.buttonOffice2007Blue_Click);
+            // 
+            // buttonSystem
+            // 
+            this.buttonSystem.Location = new System.Drawing.Point(8, 67);
+            this.buttonSystem.Name = "buttonSystem";
+            this.buttonSystem.Size = new System.Drawing.Size(114, 27);
+            this.buttonSystem.TabIndex = 22;
+            this.buttonSystem.Values.Text = "System";
+            this.buttonSystem.Click += new System.EventHandler(this.buttonSystem_Click);
+            // 
+            // buttonOffice2003
+            // 
+            this.buttonOffice2003.Location = new System.Drawing.Point(8, 563);
+            this.buttonOffice2003.Name = "buttonOffice2003";
+            this.buttonOffice2003.Size = new System.Drawing.Size(114, 27);
+            this.buttonOffice2003.TabIndex = 18;
+            this.buttonOffice2003.Values.Text = "Office 2003";
+            this.buttonOffice2003.Click += new System.EventHandler(this.buttonOffice2003_Click);
+            // 
+            // kryptonButtonApplicationThemesExport
+            // 
+            this.kryptonButtonApplicationThemesExport.Location = new System.Drawing.Point(8, 5);
+            this.kryptonButtonApplicationThemesExport.Margin = new System.Windows.Forms.Padding(2);
+            this.kryptonButtonApplicationThemesExport.Name = "kryptonButtonApplicationThemesExport";
+            this.kryptonButtonApplicationThemesExport.Size = new System.Drawing.Size(114, 27);
+            this.kryptonButtonApplicationThemesExport.TabIndex = 3;
+            this.kryptonButtonApplicationThemesExport.Values.Text = "Export Theme";
+            this.kryptonButtonApplicationThemesExport.Click += new System.EventHandler(this.kryptonButtonApplicationThemesExport_Click);
+            // 
+            // kryptonButtonApplicationThemesImport
+            // 
+            this.kryptonButtonApplicationThemesImport.Location = new System.Drawing.Point(8, 36);
+            this.kryptonButtonApplicationThemesImport.Margin = new System.Windows.Forms.Padding(2);
+            this.kryptonButtonApplicationThemesImport.Name = "kryptonButtonApplicationThemesImport";
+            this.kryptonButtonApplicationThemesImport.Size = new System.Drawing.Size(114, 27);
+            this.kryptonButtonApplicationThemesImport.TabIndex = 4;
+            this.kryptonButtonApplicationThemesImport.Values.Text = "Import Theme";
+            this.kryptonButtonApplicationThemesImport.Click += new System.EventHandler(this.kryptonButtonApplicationThemesImport_Click);
+            // 
+            // kryptonWorkspaceCellApplicationThemesSelect
+            // 
+            this.kryptonWorkspaceCellApplicationThemesSelect.AllowPageDrag = true;
+            this.kryptonWorkspaceCellApplicationThemesSelect.AllowTabFocus = false;
+            this.kryptonWorkspaceCellApplicationThemesSelect.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonWorkspaceCellApplicationThemesSelect.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCellApplicationThemesSelect.Name = "kryptonWorkspaceCellApplicationThemesSelect";
+            this.kryptonWorkspaceCellApplicationThemesSelect.NavigatorMode = Krypton.Navigator.NavigatorMode.HeaderGroup;
+            this.kryptonWorkspaceCellApplicationThemesSelect.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
+            this.kryptonPageApplicationThemesSelect});
+            this.kryptonWorkspaceCellApplicationThemesSelect.SelectedIndex = 0;
+            this.kryptonWorkspaceCellApplicationThemesSelect.StarSize = "150,10*";
+            this.kryptonWorkspaceCellApplicationThemesSelect.UniqueName = "7933941339df4b21a8e5d81fb99e99af";
+            // 
+            // kryptonWorkspaceCellApplicationThemesPreview
+            // 
+            this.kryptonWorkspaceCellApplicationThemesPreview.AllowPageDrag = true;
+            this.kryptonWorkspaceCellApplicationThemesPreview.AllowTabFocus = false;
+            this.kryptonWorkspaceCellApplicationThemesPreview.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonWorkspaceCellApplicationThemesPreview.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCellApplicationThemesPreview.Name = "kryptonWorkspaceCellApplicationThemesPreview";
+            this.kryptonWorkspaceCellApplicationThemesPreview.NavigatorMode = Krypton.Navigator.NavigatorMode.HeaderGroup;
+            this.kryptonWorkspaceCellApplicationThemesPreview.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
+            this.kryptonPageApplicationThemesPreview});
+            this.kryptonWorkspaceCellApplicationThemesPreview.SelectedIndex = 0;
+            this.kryptonWorkspaceCellApplicationThemesPreview.UniqueName = "9dfb0ee646c348abbb862ac0b829be3e";
+            // 
             // kryptonPageApplicationThemesPreview
             // 
             this.kryptonPageApplicationThemesPreview.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
@@ -4213,6 +4397,7 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonDateTimePicker1
             // 
+            this.kryptonDateTimePicker1.CalendarTodayDate = new System.DateTime(2021, 9, 19, 0, 0, 0, 0);
             this.kryptonDateTimePicker1.Location = new System.Drawing.Point(19, 209);
             this.kryptonDateTimePicker1.Name = "kryptonDateTimePicker1";
             this.kryptonDateTimePicker1.Size = new System.Drawing.Size(122, 18);
@@ -4271,6 +4456,7 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonDateTimePicker2
             // 
+            this.kryptonDateTimePicker2.CalendarTodayDate = new System.DateTime(2021, 9, 19, 0, 0, 0, 0);
             this.kryptonDateTimePicker2.Location = new System.Drawing.Point(8, 73);
             this.kryptonDateTimePicker2.Name = "kryptonDateTimePicker2";
             this.kryptonDateTimePicker2.Size = new System.Drawing.Size(122, 18);
@@ -4689,189 +4875,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonButton2.Size = new System.Drawing.Size(70, 27);
             this.kryptonButton2.TabIndex = 4;
             this.kryptonButton2.Values.Text = "Cancel";
-            // 
-            // kryptonWorkspaceCellApplicationThemesSelect
-            // 
-            this.kryptonWorkspaceCellApplicationThemesSelect.AllowPageDrag = true;
-            this.kryptonWorkspaceCellApplicationThemesSelect.AllowTabFocus = false;
-            this.kryptonWorkspaceCellApplicationThemesSelect.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
-            this.kryptonWorkspaceCellApplicationThemesSelect.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
-            this.kryptonWorkspaceCellApplicationThemesSelect.Name = "kryptonWorkspaceCellApplicationThemesSelect";
-            this.kryptonWorkspaceCellApplicationThemesSelect.NavigatorMode = Krypton.Navigator.NavigatorMode.HeaderGroup;
-            this.kryptonWorkspaceCellApplicationThemesSelect.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
-            this.kryptonPageApplicationThemesSelect});
-            this.kryptonWorkspaceCellApplicationThemesSelect.SelectedIndex = 0;
-            this.kryptonWorkspaceCellApplicationThemesSelect.StarSize = "150,10*";
-            this.kryptonWorkspaceCellApplicationThemesSelect.UniqueName = "7933941339df4b21a8e5d81fb99e99af";
-            // 
-            // kryptonPageApplicationThemesSelect
-            // 
-            this.kryptonPageApplicationThemesSelect.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageApplicationThemesSelect.Controls.Add(this.buttonOffice2010Black);
-            this.kryptonPageApplicationThemesSelect.Controls.Add(this.buttonOffice2010Silver);
-            this.kryptonPageApplicationThemesSelect.Controls.Add(this.buttonOffice2010Blue);
-            this.kryptonPageApplicationThemesSelect.Controls.Add(this.buttonSparkleOrange);
-            this.kryptonPageApplicationThemesSelect.Controls.Add(this.buttonSparklePurple);
-            this.kryptonPageApplicationThemesSelect.Controls.Add(this.buttonSparkleBlue);
-            this.kryptonPageApplicationThemesSelect.Controls.Add(this.buttonOffice2007Black);
-            this.kryptonPageApplicationThemesSelect.Controls.Add(this.buttonOffice2007Silver);
-            this.kryptonPageApplicationThemesSelect.Controls.Add(this.buttonOffice2007Blue);
-            this.kryptonPageApplicationThemesSelect.Controls.Add(this.buttonCustom);
-            this.kryptonPageApplicationThemesSelect.Controls.Add(this.buttonSystem);
-            this.kryptonPageApplicationThemesSelect.Controls.Add(this.buttonOffice2003);
-            this.kryptonPageApplicationThemesSelect.Controls.Add(this.kryptonButtonApplicationThemesExport);
-            this.kryptonPageApplicationThemesSelect.Controls.Add(this.kryptonButtonApplicationThemesImport);
-            this.kryptonPageApplicationThemesSelect.Flags = 65534;
-            this.kryptonPageApplicationThemesSelect.LastVisibleSet = true;
-            this.kryptonPageApplicationThemesSelect.MinimumSize = new System.Drawing.Size(50, 50);
-            this.kryptonPageApplicationThemesSelect.Name = "kryptonPageApplicationThemesSelect";
-            this.kryptonPageApplicationThemesSelect.Size = new System.Drawing.Size(148, 470);
-            this.kryptonPageApplicationThemesSelect.Text = "Themes";
-            this.kryptonPageApplicationThemesSelect.TextDescription = "Select, Import and export Themes";
-            this.kryptonPageApplicationThemesSelect.TextTitle = "Themes";
-            this.kryptonPageApplicationThemesSelect.ToolTipTitle = "Page ToolTip";
-            this.kryptonPageApplicationThemesSelect.UniqueName = "0e93300d641c4e4e8207572c84f0acc7";
-            // 
-            // buttonOffice2010Black
-            // 
-            this.buttonOffice2010Black.Location = new System.Drawing.Point(19, 71);
-            this.buttonOffice2010Black.Name = "buttonOffice2010Black";
-            this.buttonOffice2010Black.Size = new System.Drawing.Size(114, 27);
-            this.buttonOffice2010Black.TabIndex = 14;
-            this.buttonOffice2010Black.Values.Text = "Office 2010 - Black";
-            this.buttonOffice2010Black.Click += new System.EventHandler(this.buttonOffice2010Black_Click);
-            // 
-            // buttonOffice2010Silver
-            // 
-            this.buttonOffice2010Silver.Location = new System.Drawing.Point(18, 41);
-            this.buttonOffice2010Silver.Name = "buttonOffice2010Silver";
-            this.buttonOffice2010Silver.Size = new System.Drawing.Size(114, 27);
-            this.buttonOffice2010Silver.TabIndex = 13;
-            this.buttonOffice2010Silver.Values.Text = "Office 2010 - Silver";
-            this.buttonOffice2010Silver.Click += new System.EventHandler(this.buttonOffice2010Silver_Click);
-            // 
-            // buttonOffice2010Blue
-            // 
-            this.buttonOffice2010Blue.Location = new System.Drawing.Point(18, 11);
-            this.buttonOffice2010Blue.Name = "buttonOffice2010Blue";
-            this.buttonOffice2010Blue.Size = new System.Drawing.Size(114, 27);
-            this.buttonOffice2010Blue.TabIndex = 12;
-            this.buttonOffice2010Blue.Values.Text = "Office 2010 - Blue";
-            this.buttonOffice2010Blue.Click += new System.EventHandler(this.buttonOffice2010Blue_Click);
-            // 
-            // buttonSparkleOrange
-            // 
-            this.buttonSparkleOrange.Location = new System.Drawing.Point(19, 251);
-            this.buttonSparkleOrange.Name = "buttonSparkleOrange";
-            this.buttonSparkleOrange.Size = new System.Drawing.Size(114, 27);
-            this.buttonSparkleOrange.TabIndex = 20;
-            this.buttonSparkleOrange.Values.Text = "Sparkle - Orange";
-            this.buttonSparkleOrange.Click += new System.EventHandler(this.buttonSparkleOrange_Click);
-            // 
-            // buttonSparklePurple
-            // 
-            this.buttonSparklePurple.Location = new System.Drawing.Point(19, 281);
-            this.buttonSparklePurple.Name = "buttonSparklePurple";
-            this.buttonSparklePurple.Size = new System.Drawing.Size(114, 27);
-            this.buttonSparklePurple.TabIndex = 21;
-            this.buttonSparklePurple.Values.Text = "Sparkle - Purple";
-            this.buttonSparklePurple.Click += new System.EventHandler(this.buttonSparklePurple_Click);
-            // 
-            // buttonSparkleBlue
-            // 
-            this.buttonSparkleBlue.Location = new System.Drawing.Point(19, 221);
-            this.buttonSparkleBlue.Name = "buttonSparkleBlue";
-            this.buttonSparkleBlue.Size = new System.Drawing.Size(114, 27);
-            this.buttonSparkleBlue.TabIndex = 19;
-            this.buttonSparkleBlue.Values.Text = "Sparkle - Blue";
-            this.buttonSparkleBlue.Click += new System.EventHandler(this.buttonSparkleBlue_Click);
-            // 
-            // buttonOffice2007Black
-            // 
-            this.buttonOffice2007Black.Location = new System.Drawing.Point(18, 161);
-            this.buttonOffice2007Black.Name = "buttonOffice2007Black";
-            this.buttonOffice2007Black.Size = new System.Drawing.Size(114, 27);
-            this.buttonOffice2007Black.TabIndex = 17;
-            this.buttonOffice2007Black.Values.Text = "Office 2007 - Black";
-            this.buttonOffice2007Black.Click += new System.EventHandler(this.buttonOffice2007Black_Click);
-            // 
-            // buttonOffice2007Silver
-            // 
-            this.buttonOffice2007Silver.Location = new System.Drawing.Point(19, 131);
-            this.buttonOffice2007Silver.Name = "buttonOffice2007Silver";
-            this.buttonOffice2007Silver.Size = new System.Drawing.Size(114, 27);
-            this.buttonOffice2007Silver.TabIndex = 16;
-            this.buttonOffice2007Silver.Values.Text = "Office 2007 - Silver";
-            this.buttonOffice2007Silver.Click += new System.EventHandler(this.buttonOffice2007Silver_Click);
-            // 
-            // buttonOffice2007Blue
-            // 
-            this.buttonOffice2007Blue.Location = new System.Drawing.Point(18, 101);
-            this.buttonOffice2007Blue.Name = "buttonOffice2007Blue";
-            this.buttonOffice2007Blue.Size = new System.Drawing.Size(114, 27);
-            this.buttonOffice2007Blue.TabIndex = 15;
-            this.buttonOffice2007Blue.Values.Text = "Office 2007 - Blue";
-            this.buttonOffice2007Blue.Click += new System.EventHandler(this.buttonOffice2007Blue_Click);
-            // 
-            // buttonCustom
-            // 
-            this.buttonCustom.Location = new System.Drawing.Point(19, 341);
-            this.buttonCustom.Name = "buttonCustom";
-            this.buttonCustom.Size = new System.Drawing.Size(114, 27);
-            this.buttonCustom.TabIndex = 23;
-            this.buttonCustom.Values.Text = "Custom";
-            this.buttonCustom.Click += new System.EventHandler(this.buttonCustom_Click);
-            // 
-            // buttonSystem
-            // 
-            this.buttonSystem.Location = new System.Drawing.Point(19, 311);
-            this.buttonSystem.Name = "buttonSystem";
-            this.buttonSystem.Size = new System.Drawing.Size(114, 27);
-            this.buttonSystem.TabIndex = 22;
-            this.buttonSystem.Values.Text = "System";
-            this.buttonSystem.Click += new System.EventHandler(this.buttonSystem_Click);
-            // 
-            // buttonOffice2003
-            // 
-            this.buttonOffice2003.Location = new System.Drawing.Point(19, 191);
-            this.buttonOffice2003.Name = "buttonOffice2003";
-            this.buttonOffice2003.Size = new System.Drawing.Size(114, 27);
-            this.buttonOffice2003.TabIndex = 18;
-            this.buttonOffice2003.Values.Text = "Office 2003";
-            this.buttonOffice2003.Click += new System.EventHandler(this.buttonOffice2003_Click);
-            // 
-            // kryptonButtonApplicationThemesExport
-            // 
-            this.kryptonButtonApplicationThemesExport.Location = new System.Drawing.Point(20, 402);
-            this.kryptonButtonApplicationThemesExport.Margin = new System.Windows.Forms.Padding(2);
-            this.kryptonButtonApplicationThemesExport.Name = "kryptonButtonApplicationThemesExport";
-            this.kryptonButtonApplicationThemesExport.Size = new System.Drawing.Size(114, 27);
-            this.kryptonButtonApplicationThemesExport.TabIndex = 3;
-            this.kryptonButtonApplicationThemesExport.Values.Text = "Export Theme";
-            this.kryptonButtonApplicationThemesExport.Click += new System.EventHandler(this.kryptonButtonApplicationThemesExport_Click);
-            // 
-            // kryptonButtonApplicationThemesImport
-            // 
-            this.kryptonButtonApplicationThemesImport.Location = new System.Drawing.Point(19, 371);
-            this.kryptonButtonApplicationThemesImport.Margin = new System.Windows.Forms.Padding(2);
-            this.kryptonButtonApplicationThemesImport.Name = "kryptonButtonApplicationThemesImport";
-            this.kryptonButtonApplicationThemesImport.Size = new System.Drawing.Size(114, 27);
-            this.kryptonButtonApplicationThemesImport.TabIndex = 4;
-            this.kryptonButtonApplicationThemesImport.Values.Text = "Import Theme";
-            this.kryptonButtonApplicationThemesImport.Click += new System.EventHandler(this.kryptonButtonApplicationThemesImport_Click);
-            // 
-            // kryptonWorkspaceCellApplicationThemesPreview
-            // 
-            this.kryptonWorkspaceCellApplicationThemesPreview.AllowPageDrag = true;
-            this.kryptonWorkspaceCellApplicationThemesPreview.AllowTabFocus = false;
-            this.kryptonWorkspaceCellApplicationThemesPreview.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
-            this.kryptonWorkspaceCellApplicationThemesPreview.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
-            this.kryptonWorkspaceCellApplicationThemesPreview.Name = "kryptonWorkspaceCellApplicationThemesPreview";
-            this.kryptonWorkspaceCellApplicationThemesPreview.NavigatorMode = Krypton.Navigator.NavigatorMode.HeaderGroup;
-            this.kryptonWorkspaceCellApplicationThemesPreview.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
-            this.kryptonPageApplicationThemesPreview});
-            this.kryptonWorkspaceCellApplicationThemesPreview.SelectedIndex = 0;
-            this.kryptonWorkspaceCellApplicationThemesPreview.UniqueName = "9dfb0ee646c348abbb862ac0b829be3e";
             // 
             // kryptonWorkspaceCellApplicationThemesProperties
             // 
@@ -7052,228 +7055,77 @@ namespace PhotoTagsSynchronizer
             this.kryptonPage8.ToolTipTitle = "Page ToolTip";
             this.kryptonPage8.UniqueName = "1b703c4a3c7446418dd6d96176cd98ff";
             // 
-            // kryptonPaletteOffice2003
+            // buttonDarkMode
             // 
-            this.kryptonPaletteOffice2003.BasePaletteMode = Krypton.Toolkit.PaletteMode.ProfessionalOffice2003;
-            this.kryptonPaletteOffice2003.CustomisedKryptonPaletteFilePath = null;
+            this.buttonDarkMode.Location = new System.Drawing.Point(8, 98);
+            this.buttonDarkMode.Name = "buttonDarkMode";
+            this.buttonDarkMode.Size = new System.Drawing.Size(114, 27);
+            this.buttonDarkMode.TabIndex = 25;
+            this.buttonDarkMode.Values.Text = "Dark mode";
+            this.buttonDarkMode.Click += new System.EventHandler(this.buttonDarkMode_Click);
             // 
-            // kryptonPaletteSparkleBlue
+            // buttonOffice2010White
             // 
-            this.kryptonPaletteSparkleBlue.BasePaletteMode = Krypton.Toolkit.PaletteMode.SparkleBlue;
-            this.kryptonPaletteSparkleBlue.CustomisedKryptonPaletteFilePath = null;
+            this.buttonOffice2010White.Location = new System.Drawing.Point(8, 408);
+            this.buttonOffice2010White.Name = "buttonOffice2010White";
+            this.buttonOffice2010White.Size = new System.Drawing.Size(114, 27);
+            this.buttonOffice2010White.TabIndex = 26;
+            this.buttonOffice2010White.Values.Text = "Office 2010 - White";
+            this.buttonOffice2010White.Click += new System.EventHandler(this.buttonOffice2010White_Click);
             // 
-            // kryptonPaletteSparklePurple
+            // buttonOffice2013
             // 
-            this.kryptonPaletteSparklePurple.BasePaletteMode = Krypton.Toolkit.PaletteMode.SparklePurple;
-            this.kryptonPaletteSparklePurple.CustomisedKryptonPaletteFilePath = null;
+            this.buttonOffice2013.Location = new System.Drawing.Point(8, 129);
+            this.buttonOffice2013.Name = "buttonOffice2013";
+            this.buttonOffice2013.Size = new System.Drawing.Size(114, 27);
+            this.buttonOffice2013.TabIndex = 27;
+            this.buttonOffice2013.Values.Text = "Office 2013";
+            this.buttonOffice2013.Click += new System.EventHandler(this.buttonOffice2013_Click);
             // 
-            // kryptonPaletteOffice2007Blue
+            // buttonOffice2013White
             // 
-            this.kryptonPaletteOffice2007Blue.BasePaletteMode = Krypton.Toolkit.PaletteMode.Office2007Blue;
-            this.kryptonPaletteOffice2007Blue.CustomisedKryptonPaletteFilePath = null;
+            this.buttonOffice2013White.Location = new System.Drawing.Point(8, 160);
+            this.buttonOffice2013White.Name = "buttonOffice2013White";
+            this.buttonOffice2013White.Size = new System.Drawing.Size(114, 27);
+            this.buttonOffice2013White.TabIndex = 28;
+            this.buttonOffice2013White.Values.Text = "Office 2013 White";
+            this.buttonOffice2013White.Click += new System.EventHandler(this.buttonOffice2013White_Click);
             // 
-            // kryptonPaletteCustom
+            // buttonOffice365White
             // 
-            this.kryptonPaletteCustom.AllowFormChrome = Krypton.Toolkit.InheritBool.False;
-            this.kryptonPaletteCustom.ButtonStyles.ButtonButtonSpec.StateDisabled.Border.Draw = Krypton.Toolkit.InheritBool.False;
-            this.kryptonPaletteCustom.ButtonStyles.ButtonButtonSpec.StateDisabled.Border.DrawBorders = ((Krypton.Toolkit.PaletteDrawBorders)((((Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom) 
-            | Krypton.Toolkit.PaletteDrawBorders.Left) 
-            | Krypton.Toolkit.PaletteDrawBorders.Right)));
-            this.kryptonPaletteCustom.ButtonStyles.ButtonButtonSpec.StateNormal.Back.Draw = Krypton.Toolkit.InheritBool.False;
-            this.kryptonPaletteCustom.ButtonStyles.ButtonButtonSpec.StateNormal.Border.Color1 = System.Drawing.Color.Transparent;
-            this.kryptonPaletteCustom.ButtonStyles.ButtonButtonSpec.StateNormal.Border.Draw = Krypton.Toolkit.InheritBool.True;
-            this.kryptonPaletteCustom.ButtonStyles.ButtonButtonSpec.StateNormal.Border.DrawBorders = ((Krypton.Toolkit.PaletteDrawBorders)((((Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom) 
-            | Krypton.Toolkit.PaletteDrawBorders.Left) 
-            | Krypton.Toolkit.PaletteDrawBorders.Right)));
-            this.kryptonPaletteCustom.ButtonStyles.ButtonButtonSpec.StateNormal.Content.LongText.Color1 = System.Drawing.Color.Black;
-            this.kryptonPaletteCustom.ButtonStyles.ButtonButtonSpec.StateNormal.Content.Padding = new System.Windows.Forms.Padding(3);
-            this.kryptonPaletteCustom.ButtonStyles.ButtonButtonSpec.StateNormal.Content.ShortText.Color1 = System.Drawing.Color.Black;
-            this.kryptonPaletteCustom.ButtonStyles.ButtonCommon.StateCheckedNormal.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.kryptonPaletteCustom.ButtonStyles.ButtonCommon.StateCheckedPressed.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(102)))), ((int)(((byte)(0)))));
-            this.kryptonPaletteCustom.ButtonStyles.ButtonCommon.StateCheckedPressed.Content.Padding = new System.Windows.Forms.Padding(5, 5, 1, 1);
-            this.kryptonPaletteCustom.ButtonStyles.ButtonCommon.StateCheckedTracking.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(102)))), ((int)(((byte)(0)))));
-            this.kryptonPaletteCustom.ButtonStyles.ButtonCommon.StateCommon.Back.ColorStyle = Krypton.Toolkit.PaletteColorStyle.Solid;
-            this.kryptonPaletteCustom.ButtonStyles.ButtonCommon.StateCommon.Border.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(51)))), ((int)(((byte)(102)))));
-            this.kryptonPaletteCustom.ButtonStyles.ButtonCommon.StateCommon.Border.ColorStyle = Krypton.Toolkit.PaletteColorStyle.Solid;
-            this.kryptonPaletteCustom.ButtonStyles.ButtonCommon.StateCommon.Border.DrawBorders = ((Krypton.Toolkit.PaletteDrawBorders)((((Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom) 
-            | Krypton.Toolkit.PaletteDrawBorders.Left) 
-            | Krypton.Toolkit.PaletteDrawBorders.Right)));
-            this.kryptonPaletteCustom.ButtonStyles.ButtonCommon.StateCommon.Border.GraphicsHint = Krypton.Toolkit.PaletteGraphicsHint.AntiAlias;
-            this.kryptonPaletteCustom.ButtonStyles.ButtonCommon.StateCommon.Border.Rounding = 3;
-            this.kryptonPaletteCustom.ButtonStyles.ButtonCommon.StateCommon.Border.Width = 2;
-            this.kryptonPaletteCustom.ButtonStyles.ButtonCommon.StateCommon.Content.LongText.Color1 = System.Drawing.Color.White;
-            this.kryptonPaletteCustom.ButtonStyles.ButtonCommon.StateCommon.Content.LongText.ColorStyle = Krypton.Toolkit.PaletteColorStyle.Solid;
-            this.kryptonPaletteCustom.ButtonStyles.ButtonCommon.StateCommon.Content.Padding = new System.Windows.Forms.Padding(3);
-            this.kryptonPaletteCustom.ButtonStyles.ButtonCommon.StateCommon.Content.ShortText.Color1 = System.Drawing.Color.White;
-            this.kryptonPaletteCustom.ButtonStyles.ButtonCommon.StateCommon.Content.ShortText.ColorStyle = Krypton.Toolkit.PaletteColorStyle.Solid;
-            this.kryptonPaletteCustom.ButtonStyles.ButtonCommon.StateDisabled.Border.Color1 = System.Drawing.Color.Silver;
-            this.kryptonPaletteCustom.ButtonStyles.ButtonCommon.StateDisabled.Border.DrawBorders = ((Krypton.Toolkit.PaletteDrawBorders)((((Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom) 
-            | Krypton.Toolkit.PaletteDrawBorders.Left) 
-            | Krypton.Toolkit.PaletteDrawBorders.Right)));
-            this.kryptonPaletteCustom.ButtonStyles.ButtonCommon.StateDisabled.Content.LongText.Color1 = System.Drawing.Color.Silver;
-            this.kryptonPaletteCustom.ButtonStyles.ButtonCommon.StateDisabled.Content.ShortText.Color1 = System.Drawing.Color.Silver;
-            this.kryptonPaletteCustom.ButtonStyles.ButtonCommon.StateNormal.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(102)))), ((int)(((byte)(204)))));
-            this.kryptonPaletteCustom.ButtonStyles.ButtonCommon.StatePressed.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.kryptonPaletteCustom.ButtonStyles.ButtonCommon.StatePressed.Content.Padding = new System.Windows.Forms.Padding(5, 5, 1, 1);
-            this.kryptonPaletteCustom.ButtonStyles.ButtonCommon.StateTracking.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.kryptonPaletteCustom.ButtonStyles.ButtonLowProfile.StateDisabled.Border.Draw = Krypton.Toolkit.InheritBool.False;
-            this.kryptonPaletteCustom.ButtonStyles.ButtonLowProfile.StateDisabled.Border.DrawBorders = ((Krypton.Toolkit.PaletteDrawBorders)((((Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom) 
-            | Krypton.Toolkit.PaletteDrawBorders.Left) 
-            | Krypton.Toolkit.PaletteDrawBorders.Right)));
-            this.kryptonPaletteCustom.ButtonStyles.ButtonLowProfile.StateNormal.Back.Draw = Krypton.Toolkit.InheritBool.False;
-            this.kryptonPaletteCustom.ButtonStyles.ButtonLowProfile.StateNormal.Border.Color1 = System.Drawing.Color.Transparent;
-            this.kryptonPaletteCustom.ButtonStyles.ButtonLowProfile.StateNormal.Border.Draw = Krypton.Toolkit.InheritBool.True;
-            this.kryptonPaletteCustom.ButtonStyles.ButtonLowProfile.StateNormal.Border.DrawBorders = ((Krypton.Toolkit.PaletteDrawBorders)((((Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom) 
-            | Krypton.Toolkit.PaletteDrawBorders.Left) 
-            | Krypton.Toolkit.PaletteDrawBorders.Right)));
-            this.kryptonPaletteCustom.ButtonStyles.ButtonLowProfile.StateNormal.Content.LongText.Color1 = System.Drawing.Color.Black;
-            this.kryptonPaletteCustom.ButtonStyles.ButtonLowProfile.StateNormal.Content.Padding = new System.Windows.Forms.Padding(3);
-            this.kryptonPaletteCustom.ButtonStyles.ButtonLowProfile.StateNormal.Content.ShortText.Color1 = System.Drawing.Color.Black;
-            this.kryptonPaletteCustom.ButtonStyles.ButtonStandalone.OverrideDefault.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(102)))), ((int)(((byte)(204)))));
-            this.kryptonPaletteCustom.ButtonStyles.ButtonStandalone.StateDisabled.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(237)))), ((int)(((byte)(227)))));
-            this.kryptonPaletteCustom.ControlStyles.ControlCommon.StateCommon.Border.ColorStyle = Krypton.Toolkit.PaletteColorStyle.Solid;
-            this.kryptonPaletteCustom.ControlStyles.ControlCommon.StateCommon.Border.DrawBorders = ((Krypton.Toolkit.PaletteDrawBorders)((((Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom) 
-            | Krypton.Toolkit.PaletteDrawBorders.Left) 
-            | Krypton.Toolkit.PaletteDrawBorders.Right)));
-            this.kryptonPaletteCustom.ControlStyles.ControlCommon.StateCommon.Border.GraphicsHint = Krypton.Toolkit.PaletteGraphicsHint.AntiAlias;
-            this.kryptonPaletteCustom.ControlStyles.ControlCommon.StateCommon.Border.Rounding = 9;
-            this.kryptonPaletteCustom.ControlStyles.ControlCommon.StateCommon.Border.Width = 3;
-            this.kryptonPaletteCustom.ControlStyles.ControlCommon.StateDisabled.Border.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.kryptonPaletteCustom.ControlStyles.ControlCommon.StateDisabled.Border.DrawBorders = ((Krypton.Toolkit.PaletteDrawBorders)((((Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom) 
-            | Krypton.Toolkit.PaletteDrawBorders.Left) 
-            | Krypton.Toolkit.PaletteDrawBorders.Right)));
-            this.kryptonPaletteCustom.ControlStyles.ControlCommon.StateNormal.Border.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(212)))), ((int)(((byte)(192)))));
-            this.kryptonPaletteCustom.ControlStyles.ControlCommon.StateNormal.Border.DrawBorders = ((Krypton.Toolkit.PaletteDrawBorders)((((Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom) 
-            | Krypton.Toolkit.PaletteDrawBorders.Left) 
-            | Krypton.Toolkit.PaletteDrawBorders.Right)));
-            this.kryptonPaletteCustom.CustomisedKryptonPaletteFilePath = null;
-            this.kryptonPaletteCustom.HeaderGroup.StateCommon.OverlayHeaders = Krypton.Toolkit.InheritBool.False;
-            this.kryptonPaletteCustom.HeaderGroup.StateCommon.PrimaryHeaderPadding = new System.Windows.Forms.Padding(3);
-            this.kryptonPaletteCustom.HeaderGroup.StateCommon.SecondaryHeaderPadding = new System.Windows.Forms.Padding(3);
-            this.kryptonPaletteCustom.HeaderStyles.HeaderCommon.StateCommon.Back.ColorStyle = Krypton.Toolkit.PaletteColorStyle.Linear;
-            this.kryptonPaletteCustom.HeaderStyles.HeaderCommon.StateCommon.Back.GraphicsHint = Krypton.Toolkit.PaletteGraphicsHint.AntiAlias;
-            this.kryptonPaletteCustom.HeaderStyles.HeaderCommon.StateCommon.Border.Draw = Krypton.Toolkit.InheritBool.False;
-            this.kryptonPaletteCustom.HeaderStyles.HeaderCommon.StateCommon.Border.DrawBorders = ((Krypton.Toolkit.PaletteDrawBorders)((((Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom) 
-            | Krypton.Toolkit.PaletteDrawBorders.Left) 
-            | Krypton.Toolkit.PaletteDrawBorders.Right)));
-            this.kryptonPaletteCustom.HeaderStyles.HeaderCommon.StateCommon.Border.Rounding = 7;
-            this.kryptonPaletteCustom.HeaderStyles.HeaderCommon.StateCommon.Border.Width = 3;
-            this.kryptonPaletteCustom.HeaderStyles.HeaderCommon.StateCommon.Content.AdjacentGap = 2;
-            this.kryptonPaletteCustom.HeaderStyles.HeaderCommon.StateCommon.Content.LongText.Color1 = System.Drawing.Color.Black;
-            this.kryptonPaletteCustom.HeaderStyles.HeaderCommon.StateCommon.Content.LongText.ColorStyle = Krypton.Toolkit.PaletteColorStyle.Solid;
-            this.kryptonPaletteCustom.HeaderStyles.HeaderCommon.StateCommon.Content.LongText.TextH = Krypton.Toolkit.PaletteRelativeAlign.Far;
-            this.kryptonPaletteCustom.HeaderStyles.HeaderCommon.StateCommon.Content.Padding = new System.Windows.Forms.Padding(10, 2, 10, 2);
-            this.kryptonPaletteCustom.HeaderStyles.HeaderCommon.StateCommon.Content.ShortText.Color1 = System.Drawing.Color.Black;
-            this.kryptonPaletteCustom.HeaderStyles.HeaderCommon.StateCommon.Content.ShortText.ColorStyle = Krypton.Toolkit.PaletteColorStyle.Solid;
-            this.kryptonPaletteCustom.HeaderStyles.HeaderCommon.StateCommon.Content.ShortText.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
-            this.kryptonPaletteCustom.HeaderStyles.HeaderCommon.StateDisabled.Content.LongText.Color1 = System.Drawing.Color.Silver;
-            this.kryptonPaletteCustom.HeaderStyles.HeaderCommon.StateDisabled.Content.ShortText.Color1 = System.Drawing.Color.Silver;
-            this.kryptonPaletteCustom.HeaderStyles.HeaderPrimary.StateDisabled.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.kryptonPaletteCustom.HeaderStyles.HeaderPrimary.StateDisabled.Back.Color2 = System.Drawing.Color.White;
-            this.kryptonPaletteCustom.HeaderStyles.HeaderPrimary.StateNormal.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(213)))), ((int)(((byte)(194)))));
-            this.kryptonPaletteCustom.HeaderStyles.HeaderPrimary.StateNormal.Back.Color2 = System.Drawing.Color.White;
-            this.kryptonPaletteCustom.HeaderStyles.HeaderSecondary.StateDisabled.Back.Color1 = System.Drawing.Color.White;
-            this.kryptonPaletteCustom.HeaderStyles.HeaderSecondary.StateDisabled.Back.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.kryptonPaletteCustom.HeaderStyles.HeaderSecondary.StateNormal.Back.Color1 = System.Drawing.Color.White;
-            this.kryptonPaletteCustom.HeaderStyles.HeaderSecondary.StateNormal.Back.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(213)))), ((int)(((byte)(194)))));
-            this.kryptonPaletteCustom.PanelStyles.PanelAlternate.StateCommon.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(212)))), ((int)(((byte)(192)))));
-            this.kryptonPaletteCustom.PanelStyles.PanelClient.StateCommon.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(237)))), ((int)(((byte)(227)))));
-            this.kryptonPaletteCustom.PanelStyles.PanelCommon.StateCommon.ColorStyle = Krypton.Toolkit.PaletteColorStyle.Solid;
-            this.kryptonPaletteCustom.ToolMenuStatus.Button.ButtonCheckedGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(102)))), ((int)(((byte)(0)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Button.ButtonCheckedGradientEnd = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(102)))), ((int)(((byte)(0)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Button.ButtonCheckedGradientMiddle = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(102)))), ((int)(((byte)(0)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Button.ButtonCheckedHighlight = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Button.ButtonCheckedHighlightBorder = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(51)))), ((int)(((byte)(102)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Button.ButtonPressedBorder = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(51)))), ((int)(((byte)(102)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Button.ButtonPressedGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Button.ButtonPressedGradientEnd = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Button.ButtonPressedGradientMiddle = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Button.ButtonPressedHighlight = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Button.ButtonPressedHighlightBorder = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(51)))), ((int)(((byte)(102)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Button.ButtonSelectedBorder = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(51)))), ((int)(((byte)(102)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Button.ButtonSelectedGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Button.ButtonSelectedGradientEnd = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Button.ButtonSelectedGradientMiddle = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Button.ButtonSelectedHighlight = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Button.ButtonSelectedHighlightBorder = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(51)))), ((int)(((byte)(102)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Button.CheckBackground = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(102)))), ((int)(((byte)(0)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Button.CheckPressedBackground = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Button.CheckSelectedBackground = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Button.OverflowButtonGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Button.OverflowButtonGradientEnd = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(77)))), ((int)(((byte)(144)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Button.OverflowButtonGradientMiddle = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(126)))), ((int)(((byte)(226)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Grip.GripDark = System.Drawing.Color.FromArgb(((int)(((byte)(72)))), ((int)(((byte)(133)))), ((int)(((byte)(215)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Grip.GripLight = System.Drawing.Color.Transparent;
-            this.kryptonPaletteCustom.ToolMenuStatus.Menu.ImageMarginGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Menu.ImageMarginGradientEnd = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(102)))), ((int)(((byte)(204)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Menu.ImageMarginGradientMiddle = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(126)))), ((int)(((byte)(226)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Menu.ImageMarginRevealedGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Menu.ImageMarginRevealedGradientEnd = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(102)))), ((int)(((byte)(204)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Menu.ImageMarginRevealedGradientMiddle = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(126)))), ((int)(((byte)(226)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Menu.MenuBorder = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(51)))), ((int)(((byte)(102)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Menu.MenuItemBorder = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(51)))), ((int)(((byte)(102)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Menu.MenuItemPressedGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Menu.MenuItemPressedGradientEnd = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(102)))), ((int)(((byte)(204)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Menu.MenuItemPressedGradientMiddle = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(102)))), ((int)(((byte)(204)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Menu.MenuItemSelected = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(102)))), ((int)(((byte)(0)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Menu.MenuItemSelectedGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Menu.MenuItemSelectedGradientEnd = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Menu.MenuItemText = System.Drawing.Color.White;
-            this.kryptonPaletteCustom.ToolMenuStatus.MenuStrip.MenuStripGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(51)))), ((int)(((byte)(102)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.MenuStrip.MenuStripGradientEnd = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(51)))), ((int)(((byte)(102)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.MenuStrip.MenuStripText = System.Drawing.Color.WhiteSmoke;
-            this.kryptonPaletteCustom.ToolMenuStatus.Rafting.RaftingContainerGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(51)))), ((int)(((byte)(102)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Rafting.RaftingContainerGradientEnd = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(51)))), ((int)(((byte)(102)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Separator.SeparatorDark = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(51)))), ((int)(((byte)(102)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.Separator.SeparatorLight = System.Drawing.Color.Transparent;
-            this.kryptonPaletteCustom.ToolMenuStatus.StatusStrip.StatusStripGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(51)))), ((int)(((byte)(102)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.StatusStrip.StatusStripGradientEnd = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(51)))), ((int)(((byte)(102)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.StatusStrip.StatusStripText = System.Drawing.Color.WhiteSmoke;
-            this.kryptonPaletteCustom.ToolMenuStatus.ToolStrip.ToolStripBorder = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(77)))), ((int)(((byte)(144)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.ToolStrip.ToolStripContentPanelGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(237)))), ((int)(((byte)(227)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.ToolStrip.ToolStripContentPanelGradientEnd = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(237)))), ((int)(((byte)(227)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.ToolStrip.ToolStripDropDownBackground = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.ToolStrip.ToolStripGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(77)))), ((int)(((byte)(144)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.ToolStrip.ToolStripGradientEnd = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(77)))), ((int)(((byte)(144)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.ToolStrip.ToolStripGradientMiddle = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(77)))), ((int)(((byte)(144)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.ToolStrip.ToolStripPanelGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(51)))), ((int)(((byte)(102)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.ToolStrip.ToolStripPanelGradientEnd = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(51)))), ((int)(((byte)(102)))));
-            this.kryptonPaletteCustom.ToolMenuStatus.ToolStrip.ToolStripText = System.Drawing.Color.WhiteSmoke;
-            this.kryptonPaletteCustom.ToolMenuStatus.UseRoundedEdges = Krypton.Toolkit.InheritBool.False;
+            this.buttonOffice365White.Location = new System.Drawing.Point(8, 284);
+            this.buttonOffice365White.Name = "buttonOffice365White";
+            this.buttonOffice365White.Size = new System.Drawing.Size(114, 27);
+            this.buttonOffice365White.TabIndex = 32;
+            this.buttonOffice365White.Values.Text = "Office 365 - White";
+            this.buttonOffice365White.Click += new System.EventHandler(this.buttonOffice365White_Click);
             // 
-            // kryptonPaletteSparkleOrange
+            // buttonOffice365Black
             // 
-            this.kryptonPaletteSparkleOrange.BasePaletteMode = Krypton.Toolkit.PaletteMode.SparkleOrange;
-            this.kryptonPaletteSparkleOrange.CustomisedKryptonPaletteFilePath = null;
+            this.buttonOffice365Black.Location = new System.Drawing.Point(8, 191);
+            this.buttonOffice365Black.Name = "buttonOffice365Black";
+            this.buttonOffice365Black.Size = new System.Drawing.Size(114, 27);
+            this.buttonOffice365Black.TabIndex = 31;
+            this.buttonOffice365Black.Values.Text = "Office 365 - Black";
+            this.buttonOffice365Black.Click += new System.EventHandler(this.buttonOffice365Black_Click);
             // 
-            // kryptonPaletteSystem
+            // buttonOffice365Silver
             // 
-            this.kryptonPaletteSystem.BasePaletteMode = Krypton.Toolkit.PaletteMode.ProfessionalSystem;
-            this.kryptonPaletteSystem.CustomisedKryptonPaletteFilePath = null;
+            this.buttonOffice365Silver.Location = new System.Drawing.Point(8, 253);
+            this.buttonOffice365Silver.Name = "buttonOffice365Silver";
+            this.buttonOffice365Silver.Size = new System.Drawing.Size(114, 27);
+            this.buttonOffice365Silver.TabIndex = 30;
+            this.buttonOffice365Silver.Values.Text = "Office 365 - Silver";
+            this.buttonOffice365Silver.Click += new System.EventHandler(this.buttonOffice365Silver_Click);
             // 
-            // kryptonPaletteOffice2010Blue
+            // buttonOffice365Blue
             // 
-            this.kryptonPaletteOffice2010Blue.CustomisedKryptonPaletteFilePath = null;
-            // 
-            // kryptonPaletteOffice2010Silver
-            // 
-            this.kryptonPaletteOffice2010Silver.BasePaletteMode = Krypton.Toolkit.PaletteMode.Office2010Silver;
-            this.kryptonPaletteOffice2010Silver.CustomisedKryptonPaletteFilePath = null;
-            // 
-            // kryptonPaletteOffice2007Silver
-            // 
-            this.kryptonPaletteOffice2007Silver.BasePaletteMode = Krypton.Toolkit.PaletteMode.Office2007Silver;
-            this.kryptonPaletteOffice2007Silver.CustomisedKryptonPaletteFilePath = null;
-            // 
-            // kryptonPaletteOffice2007Black
-            // 
-            this.kryptonPaletteOffice2007Black.BasePaletteMode = Krypton.Toolkit.PaletteMode.Office2007Black;
-            this.kryptonPaletteOffice2007Black.CustomisedKryptonPaletteFilePath = null;
-            // 
-            // kryptonPaletteOffice2010Black
-            // 
-            this.kryptonPaletteOffice2010Black.BasePaletteMode = Krypton.Toolkit.PaletteMode.Office2010Black;
-            this.kryptonPaletteOffice2010Black.CustomisedKryptonPaletteFilePath = null;
+            this.buttonOffice365Blue.Location = new System.Drawing.Point(8, 222);
+            this.buttonOffice365Blue.Name = "buttonOffice365Blue";
+            this.buttonOffice365Blue.Size = new System.Drawing.Size(114, 27);
+            this.buttonOffice365Blue.TabIndex = 29;
+            this.buttonOffice365Blue.Values.Text = "Office 365 - Blue";
+            this.buttonOffice365Blue.Click += new System.EventHandler(this.buttonOffice365Blue_Click);
             // 
             // FormConfig
             // 
@@ -7353,6 +7205,12 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageThemes.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceApplicationThemes)).EndInit();
             this.kryptonWorkspaceApplicationThemes.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationThemesSelect)).EndInit();
+            this.kryptonPageApplicationThemesSelect.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellApplicationThemesSelect)).EndInit();
+            this.kryptonWorkspaceCellApplicationThemesSelect.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellApplicationThemesPreview)).EndInit();
+            this.kryptonWorkspaceCellApplicationThemesPreview.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationThemesPreview)).EndInit();
             this.kryptonPageApplicationThemesPreview.ResumeLayout(false);
             this.kryptonPageApplicationThemesPreview.PerformLayout();
@@ -7370,12 +7228,6 @@ namespace PhotoTagsSynchronizer
             this.toolStrip1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellApplicationThemesSelect)).EndInit();
-            this.kryptonWorkspaceCellApplicationThemesSelect.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationThemesSelect)).EndInit();
-            this.kryptonPageApplicationThemesSelect.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellApplicationThemesPreview)).EndInit();
-            this.kryptonWorkspaceCellApplicationThemesPreview.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellApplicationThemesProperties)).EndInit();
             this.kryptonWorkspaceCellApplicationThemesProperties.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationThemesProperties)).EndInit();
@@ -7855,7 +7707,6 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.DataGridViewTextBoxColumn Keywords;
         private System.Windows.Forms.DataGridViewTextBoxColumn AddKeywords;
         private Krypton.Toolkit.KryptonCheckBox checkBoxWriteMetadataAddAutoKeywords;
-        private KryptonManager kryptonManager1;
         private Krypton.Workspace.KryptonWorkspace kryptonWorkspaceConfig;
         private Krypton.Navigator.KryptonPage kryptonPageApplication;
         private Krypton.Workspace.KryptonWorkspace kryptonWorkspaceConfigApplication;
@@ -8073,18 +7924,6 @@ namespace PhotoTagsSynchronizer
         private KryptonButton kryptonButtonApplicationThemesExport;
         private KryptonButton kryptonButtonApplicationThemesImport;
         private Krypton.Navigator.KryptonPage kryptonPage8;
-        private KryptonPalette kryptonPaletteOffice2003;
-        private KryptonPalette kryptonPaletteSparkleBlue;
-        private KryptonPalette kryptonPaletteSparklePurple;
-        private KryptonPalette kryptonPaletteOffice2007Blue;
-        private KryptonPalette kryptonPaletteCustom;
-        private KryptonPalette kryptonPaletteSparkleOrange;
-        private KryptonPalette kryptonPaletteSystem;
-        private KryptonPalette kryptonPaletteOffice2010Blue;
-        private KryptonPalette kryptonPaletteOffice2010Silver;
-        private KryptonPalette kryptonPaletteOffice2007Silver;
-        private KryptonPalette kryptonPaletteOffice2007Black;
-        private KryptonPalette kryptonPaletteOffice2010Black;
         private KryptonButton buttonOffice2010Black;
         private KryptonButton buttonOffice2010Silver;
         private KryptonButton buttonOffice2010Blue;
@@ -8094,7 +7933,6 @@ namespace PhotoTagsSynchronizer
         private KryptonButton buttonOffice2007Black;
         private KryptonButton buttonOffice2007Silver;
         private KryptonButton buttonOffice2007Blue;
-        private KryptonButton buttonCustom;
         private KryptonButton buttonSystem;
         private KryptonButton buttonOffice2003;
         private KryptonComboBox kryptonComboBox2;
@@ -8106,5 +7944,14 @@ namespace PhotoTagsSynchronizer
         private KryptonDateTimePicker kryptonDateTimePicker2;
         private KryptonLabel kryptonLabel1;
         private KryptonComboBox kryptonComboBox1;
+        private KryptonButton buttonOffice2007White;
+        private KryptonButton buttonOffice2010White;
+        private KryptonButton buttonDarkMode;
+        private KryptonButton buttonOffice2013White;
+        private KryptonButton buttonOffice2013;
+        private KryptonButton buttonOffice365White;
+        private KryptonButton buttonOffice365Black;
+        private KryptonButton buttonOffice365Silver;
+        private KryptonButton buttonOffice365Blue;
     }
 }

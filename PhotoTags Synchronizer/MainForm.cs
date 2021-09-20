@@ -30,7 +30,63 @@ using FileHandeling;
 
 namespace PhotoTagsSynchronizer
 {
+    public static class SetKryptonPalette
+    {
+        public static string PaletteFilename = "";
+        public static string PaletteName = "";
+        public static bool UseDropShadow = true;
 
+        #region 
+        public static void SetPalette(KryptonForm kryptonForm, KryptonManager kryptonManager, IPalette newKryptonPalette, bool enableDropShadow)
+        {
+            KryptonPalette kryptonPalette = new KryptonPalette();
+            kryptonPalette.Import(((KryptonPalette)newKryptonPalette).Export(false, true));
+            //kryptonManager.GlobalPaletteMode = PaletteModeManager.Custom;
+            kryptonManager.GlobalPalette = kryptonPalette;
+            kryptonForm.UseDropShadow = enableDropShadow;
+        }
+        #endregion
+
+        public static KryptonPalette Load(string filename, string paletteName)
+        {
+            PaletteFilename = filename;
+            PaletteName = paletteName;
+
+            KryptonPalette kryptonPalette = new KryptonPalette();
+            kryptonPalette.BasePaletteMode = PaletteMode.Office365Black;
+
+            if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2007Black)) kryptonPalette.BasePaletteMode = PaletteMode.Office2007Black;
+            if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2007Blue)) kryptonPalette.BasePaletteMode = PaletteMode.Office2007Blue;
+            if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2007Silver)) kryptonPalette.BasePaletteMode = PaletteMode.Office2007Silver;
+            if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2007White)) kryptonPalette.BasePaletteMode = PaletteMode.Office2007White;
+            if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2010Black)) kryptonPalette.BasePaletteMode = PaletteMode.Office2010Black;
+            if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2010Blue)) kryptonPalette.BasePaletteMode = PaletteMode.Office2010Blue;
+            if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2010Silver)) kryptonPalette.BasePaletteMode = PaletteMode.Office2010Silver;
+            if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2010White)) kryptonPalette.BasePaletteMode = PaletteMode.Office2010White;
+            if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2013)) kryptonPalette.BasePaletteMode = PaletteMode.Office2013;
+            if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2013White)) kryptonPalette.BasePaletteMode = PaletteMode.Office2013White;
+            if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office365Black)) kryptonPalette.BasePaletteMode = PaletteMode.Office365Black;
+            if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office365Blue)) kryptonPalette.BasePaletteMode = PaletteMode.Office365Blue;
+            if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office365Silver)) kryptonPalette.BasePaletteMode = PaletteMode.Office365Silver;
+            if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office365White)) kryptonPalette.BasePaletteMode = PaletteMode.Office365White;
+            if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.ProfessionalOffice2003)) kryptonPalette.BasePaletteMode = PaletteMode.ProfessionalOffice2003;
+            if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.ProfessionalSystem)) kryptonPalette.BasePaletteMode = PaletteMode.ProfessionalSystem;
+            if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.SparkleBlue)) kryptonPalette.BasePaletteMode = PaletteMode.SparkleBlue;
+            if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.SparkleOrange)) kryptonPalette.BasePaletteMode = PaletteMode.SparkleOrange;
+            if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.SparklePurple)) kryptonPalette.BasePaletteMode = PaletteMode.SparklePurple;
+            //if (paletteName == "Custom") kryptonPalette.BasePaletteMode = PaletteMode.Custom;
+            //if (paletteName == "Global") kryptonPalette.BasePaletteMode = PaletteMode.Global;
+
+            try
+            {
+                if (File.Exists(filename)) kryptonPalette.Import(filename, true);
+            } catch
+            {
+
+            }
+            return kryptonPalette;
+        }
+    }
     public partial class MainForm : KryptonForm
     {      
         #region Global Variables
@@ -119,7 +175,9 @@ namespace PhotoTagsSynchronizer
         private FormWindowState _previousWindowsState = FormWindowState.Normal;
         bool isSlideShowRunning = false;
         int slideShowIntervalMs = 0;
-        #endregion 
+        #endregion
+
+         
 
         #region Constructor - MainForm()
         public MainForm()
@@ -143,6 +201,11 @@ namespace PhotoTagsSynchronizer
             #endregion
 
             #region InitializeComponent - Krypton
+
+            KryptonPalette kryptonPalette = SetKryptonPalette.Load(Properties.Settings.Default.KryptonPaletteFullFilename, Properties.Settings.Default.KryptonPaletteName);            
+            SetKryptonPalette.SetPalette(this, kryptonManager1, kryptonPalette, Properties.Settings.Default.KryptonPaletteDropShadow);
+
+
             this.kryptonRibbonGroupCustomControlToolsProgressBackground.CustomControl = progressBarBackground;
             this.kryptonRibbonGroupCustomControlToolsProgressSave.CustomControl = progressBarSaveConvert;
             this.kryptonRibbonGroupCustomControlToolsProgressLazyloading.CustomControl = progressBarLazyLoading;

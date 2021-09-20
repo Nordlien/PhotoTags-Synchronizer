@@ -33,7 +33,7 @@ namespace PhotoTagsSynchronizer
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-        public MetadataReadPrioity MetadataReadPrioity { get; set; } 
+        public MetadataReadPrioity MetadataReadPrioity { get; set; }
         public CameraOwnersDatabaseCache DatabaseAndCacheCameraOwner { get; set; }
         public LocationNameLookUpCache DatabaseLocationNames { get; set; }
         public LocationNameLookUpCache DatabaseAndCacheLocationAddress { get; set; }
@@ -54,12 +54,20 @@ namespace PhotoTagsSynchronizer
         private FastColoredTextBoxHandler fastColoredTextBoxHandlerConvertAndMergeConcatVideoArgument = null;
         private FastColoredTextBoxHandler fastColoredTextBoxHandlerConvertAndMergeConcatVideoArguFile = null;
         private FastColoredTextBoxHandler fastColoredTextBoxHandlerConvertAndMergeConvertVideoArgument = null;
-
         private bool isPopulation = false;
 
-        public FormConfig()
+        private KryptonManager kryptonManager1;
+        public bool IsKryptonManagerChanged {get; set;} = false;
+
+        public FormConfig(KryptonManager kryptonManager)
         {
             InitializeComponent();
+
+            kryptonManager1 = kryptonManager;
+            LoadPaletteSettings();
+           
+            //SetPalette(kryptonPalette, enableDropShadow);
+
             browser = new ChromiumWebBrowser("https://www.openstreetmap.org/")
             {
                 Dock = DockStyle.Fill,
@@ -354,6 +362,8 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
+                SavePaletteSettings();
+
                 //Application
                 Properties.Settings.Default.ApplicationThumbnail = ThumbnailSizes[comboBoxApplicationThumbnailSizes.SelectedIndex];
                 Properties.Settings.Default.ApplicationRegionThumbnail = ThumbnailSizes[comboBoxApplicationRegionThumbnailSizes.SelectedIndex];
@@ -2591,107 +2601,142 @@ namespace PhotoTagsSynchronizer
         private void EnableDropShadow(bool enabled)
         {
             UseDropShadow = enabled;
+            SetKryptonPalette.UseDropShadow = enabled;
         }
 
-        private void SetPalette(KryptonPalette newKryptonPalette, bool enableDropShadow)
+        private void SavePaletteSettings()
         {
-            KryptonPalette kryptonPalette = new KryptonPalette();
-            kryptonPalette.Import(newKryptonPalette.Export(false, true));
-
-            kryptonManager1.GlobalPaletteMode = PaletteModeManager.Custom;
-            kryptonManager1.GlobalPalette = kryptonPalette;
-
-            propertyGrid.SelectedObject = kryptonManager1.GlobalPalette;
-
-
-            EnableDropShadow(enableDropShadow);
+            Properties.Settings.Default.KryptonPaletteDropShadow = SetKryptonPalette.UseDropShadow;
+            Properties.Settings.Default.KryptonPaletteFullFilename = SetKryptonPalette.PaletteFilename;
+            Properties.Settings.Default.KryptonPaletteName = SetKryptonPalette.PaletteName;
         }
 
+        private void LoadPaletteSettings()
+        {
+            SetKryptonPalette.PaletteFilename = Properties.Settings.Default.KryptonPaletteFullFilename;
+            SetKryptonPalette.PaletteName = Properties.Settings.Default.KryptonPaletteName;
+            SetKryptonPalette.UseDropShadow = Properties.Settings.Default.KryptonPaletteDropShadow;
+        }
+
+        private void SetPalette(IPalette newKryptonPalette, bool enableDropShadow)
+        {
+            IsKryptonManagerChanged = true;
+            SetKryptonPalette.SetPalette(this, kryptonManager1, newKryptonPalette, enableDropShadow);
+            propertyGrid.SelectedObject = kryptonManager1.GlobalPalette;
+        }
+
+        #region 
         private void buttonOffice2010Blue_Click(object sender, EventArgs e)
         {
-            SetPalette(kryptonPaletteOffice2010Blue, true);
+            SetPalette(SetKryptonPalette.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2010Blue)), true);
         }
 
         private void buttonOffice2010Silver_Click(object sender, EventArgs e)
         {
-            SetPalette(kryptonPaletteOffice2010Silver, true);
+            SetPalette(SetKryptonPalette.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2010Silver)), true);
         }
 
         private void buttonOffice2010Black_Click(object sender, EventArgs e)
         {
-            SetPalette(kryptonPaletteOffice2010Black, true);
+            SetPalette(SetKryptonPalette.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2010Black)), true);
+        }
+
+        private void buttonOffice2010White_Click(object sender, EventArgs e)
+        {
+            SetPalette(SetKryptonPalette.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2010White)), true);
         }
 
         private void buttonOffice2007Blue_Click(object sender, EventArgs e)
         {
-            SetPalette(kryptonPaletteOffice2007Blue, true);
+            SetPalette(SetKryptonPalette.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2007Blue)), true);
         }
 
         private void buttonOffice2007Silver_Click(object sender, EventArgs e)
         {
-            SetPalette(kryptonPaletteOffice2007Silver, true);
+            SetPalette(SetKryptonPalette.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2007Silver)), true);
         }
 
         private void buttonOffice2007Black_Click(object sender, EventArgs e)
         {
-            SetPalette(kryptonPaletteOffice2007Black, true);
+            SetPalette(SetKryptonPalette.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2007Black)), true);
+        }
+
+        private void buttonOffice2007White_Click(object sender, EventArgs e)
+        {
+            SetPalette(SetKryptonPalette.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2007White)), true);
         }
 
         private void buttonOffice2003_Click(object sender, EventArgs e)
         {
-            SetPalette(kryptonPaletteOffice2003, true);
+            SetPalette(SetKryptonPalette.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.ProfessionalOffice2003)), true);
         }
+      
 
         private void buttonSystem_Click(object sender, EventArgs e)
         {
-            SetPalette(kryptonPaletteSystem, false);
+            SetPalette(SetKryptonPalette.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.ProfessionalSystem)), false);
         }
 
         private void buttonSparkleBlue_Click(object sender, EventArgs e)
         {
-            SetPalette(kryptonPaletteSparkleBlue, true);
+            SetPalette(SetKryptonPalette.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.SparkleBlue)), true);
         }
 
         private void buttonSparkleOrange_Click(object sender, EventArgs e)
         {
-            SetPalette(kryptonPaletteSparkleOrange, true);
+            SetPalette(SetKryptonPalette.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.SparkleOrange)), true);
         }
 
         private void buttonSparklePurple_Click(object sender, EventArgs e)
         {
-            SetPalette(kryptonPaletteSparklePurple, true);
+            SetPalette(SetKryptonPalette.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.SparklePurple)), true);
         }
 
-        private void buttonCustom_Click(object sender, EventArgs e)
+        private void buttonOffice2013_Click(object sender, EventArgs e)
         {
-            
-            kryptonManager1.GlobalPalette = kryptonPaletteCustom;
-            propertyGrid.SelectedObject = kryptonPaletteCustom;
-
-            EnableDropShadow(false);
-
-            kryptonButtonApplicationThemesExport.Enabled = true;
+            SetPalette(SetKryptonPalette.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2013)), true);
         }
 
-        
+        private void buttonOffice2013White_Click(object sender, EventArgs e)
+        {
+            SetPalette(SetKryptonPalette.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2013White)), true);
+        }
+
+        private void buttonDarkMode_Click(object sender, EventArgs e)
+        {
+            SetPalette(SetKryptonPalette.Load("DarkMode", ""), true);
+        }
+
+        private void buttonOffice365Black_Click(object sender, EventArgs e)
+        {
+            SetPalette(SetKryptonPalette.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office365Black)), true);
+        }
+
+        private void buttonOffice365Blue_Click(object sender, EventArgs e)
+        {
+            SetPalette(SetKryptonPalette.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office365Blue)), true);
+        }
+
+        private void buttonOffice365Silver_Click(object sender, EventArgs e)
+        {
+            SetPalette(SetKryptonPalette.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office365Silver)), true);
+        }
+
+        private void buttonOffice365White_Click(object sender, EventArgs e)
+        {
+            SetPalette(SetKryptonPalette.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office365White)), true);
+        }
+        #endregion 
+
 
         private void kryptonButtonApplicationThemesImport_Click(object sender, EventArgs e)
         {
             try
             {
-                kryptonPaletteCustom.Import();
+                KryptonPalette kryptonPalette = new KryptonPalette();
+                string paletteFilename = kryptonPalette.Import();
+                if (!string.IsNullOrWhiteSpace(paletteFilename)) SetPalette(SetKryptonPalette.Load(paletteFilename, ""), true);
 
-                kryptonManager1.GlobalPaletteMode = PaletteModeManager.Custom;
-                kryptonManager1.GlobalPalette = kryptonPaletteCustom;
-
-                /*
-                ThemeManager.SetTheme(kryptonComboBoxThemes.Text, kryptonManager1);
-                ThemeManager.ApplyGlobalTheme(kryptonManager1, ThemeManager.GetPaletteMode(kryptonManager1));
-
-                IPalette palette = KryptonManager.CurrentGlobalPalette;
-                //Font font = palette.GetContentShortTextFont(PaletteContentStyle.LabelNormalControl, PaletteState.Normal);
-                //propertyGrid1.Font = font;
-                */
             }
             catch (Exception ex)
             {
@@ -2701,11 +2746,13 @@ namespace PhotoTagsSynchronizer
 
         private void kryptonButtonApplicationThemesExport_Click(object sender, EventArgs e)
         {
-            kryptonPaletteCustom.Export();
-
-            kryptonButtonApplicationThemesExport.Enabled = false;
+            ((KryptonPalette)kryptonManager1.GlobalPalette).Export();
+            //kryptonButtonApplicationThemesExport.Enabled = false;
         }
+
         #endregion
+
+        
     }
 }
 

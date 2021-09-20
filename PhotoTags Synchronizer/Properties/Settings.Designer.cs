@@ -2440,5 +2440,41 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["PreviewSlideshowInterval"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool KryptonPaletteDropShadow {
+            get {
+                return ((bool)(this["KryptonPaletteDropShadow"]));
+            }
+            set {
+                this["KryptonPaletteDropShadow"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string KryptonPaletteFullFilename {
+            get {
+                return ((string)(this["KryptonPaletteFullFilename"]));
+            }
+            set {
+                this["KryptonPaletteFullFilename"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string KryptonPaletteName {
+            get {
+                return ((string)(this["KryptonPaletteName"]));
+            }
+            set {
+                this["KryptonPaletteName"] = value;
+            }
+        }
     }
 }

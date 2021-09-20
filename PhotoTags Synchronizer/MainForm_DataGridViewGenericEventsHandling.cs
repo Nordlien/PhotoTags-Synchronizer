@@ -6052,7 +6052,7 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                using (FormConfig config = new FormConfig())
+                using (FormConfig config = new FormConfig(kryptonManager1))
                 {
                     using (new WaitCursor())
                     {
@@ -6069,6 +6069,7 @@ namespace PhotoTagsSynchronizer
                     }
                     if (config.ShowDialog() != DialogResult.Cancel)
                     {
+                        //Thumbnail
                         ThumbnailSaveSize = Properties.Settings.Default.ApplicationThumbnail;
                         RegionThumbnailHandler.FaceThumbnailSize = Properties.Settings.Default.ApplicationRegionThumbnail;
 
@@ -6092,6 +6093,12 @@ namespace PhotoTagsSynchronizer
                         folderTreeViewFolder.Enabled = true;
                         imageListView1.Enabled = true;
                         imageListView1.Focus();
+                    }
+                    //Palette
+                    if (config.IsKryptonManagerChanged)
+                    {
+                        KryptonPalette kryptonPalette = SetKryptonPalette.Load(Properties.Settings.Default.KryptonPaletteFullFilename, Properties.Settings.Default.KryptonPaletteName);
+                        SetKryptonPalette.SetPalette(this, kryptonManager1, kryptonPalette, Properties.Settings.Default.KryptonPaletteDropShadow);
                     }
                 }
             }
