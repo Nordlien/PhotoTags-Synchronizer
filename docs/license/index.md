@@ -65,6 +65,10 @@
 - Github: n/a
 - License: Apache License, Version 2.0, [https://opensource.org/licenses/apache2.0.php](https://opensource.org/licenses/apache2.0.php),  / [licenses-imagelistview.txt](licenses-imagelistview.txt)
 
+## Krypton Suite
+- Github [https://github.com/Krypton-Suite](https://github.com/Krypton-Suite)
+- License: [https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE](https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+
 ## LibVLCSharp
 - Homepage: [https://www.videolan.org/](https://www.videolan.org/)
 - Homepage: [https://code.videolan.org/videolan/LibVLCSharp](https://code.videolan.org/videolan/LibVLCSharp)
