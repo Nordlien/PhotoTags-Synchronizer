@@ -6097,8 +6097,8 @@ namespace PhotoTagsSynchronizer
                     //Palette
                     if (config.IsKryptonManagerChanged)
                     {
-                        KryptonPalette kryptonPalette = SetKryptonPalette.Load(Properties.Settings.Default.KryptonPaletteFullFilename, Properties.Settings.Default.KryptonPaletteName);
-                        SetKryptonPalette.SetPalette(this, kryptonManager1, kryptonPalette, Properties.Settings.Default.KryptonPaletteDropShadow);
+                        KryptonPalette kryptonPalette = KryptonPaletteHandler.Load(Properties.Settings.Default.KryptonPaletteFullFilename, Properties.Settings.Default.KryptonPaletteName);
+                        KryptonPaletteHandler.SetPalette(this, kryptonManager1, kryptonPalette, Properties.Settings.Default.KryptonPaletteDropShadow);
                     }
                 }
             }
@@ -7219,7 +7219,7 @@ namespace PhotoTagsSynchronizer
                         return;
                     }
                     else if (region.Thumbnail != null) regionThumbnail = region.Thumbnail;
-                    DataGridViewHandler.DrawImageAndSubText(sender, e, regionThumbnail, e.Value.ToString(), DataGridViewHandler.ColorHeaderImage);
+                    DataGridViewHandler.DrawImageAndSubText(sender, e, regionThumbnail, e.Value.ToString(), DataGridViewHandler.ColorBackHeaderImage(dataGridView));
 
                     e.Handled = true;
                 }

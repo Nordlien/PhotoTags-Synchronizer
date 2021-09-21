@@ -30,63 +30,6 @@ using FileHandeling;
 
 namespace PhotoTagsSynchronizer
 {
-    public static class SetKryptonPalette
-    {
-        public static string PaletteFilename = "";
-        public static string PaletteName = "";
-        public static bool UseDropShadow = true;
-
-        #region 
-        public static void SetPalette(KryptonForm kryptonForm, KryptonManager kryptonManager, IPalette newKryptonPalette, bool enableDropShadow)
-        {
-            KryptonPalette kryptonPalette = new KryptonPalette();
-            kryptonPalette.Import(((KryptonPalette)newKryptonPalette).Export(false, true));
-            //kryptonManager.GlobalPaletteMode = PaletteModeManager.Custom;
-            kryptonManager.GlobalPalette = kryptonPalette;
-            kryptonForm.UseDropShadow = enableDropShadow;
-        }
-        #endregion
-
-        public static KryptonPalette Load(string filename, string paletteName)
-        {
-            PaletteFilename = filename;
-            PaletteName = paletteName;
-
-            KryptonPalette kryptonPalette = new KryptonPalette();
-            kryptonPalette.BasePaletteMode = PaletteMode.Office365Black;
-
-            if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2007Black)) kryptonPalette.BasePaletteMode = PaletteMode.Office2007Black;
-            if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2007Blue)) kryptonPalette.BasePaletteMode = PaletteMode.Office2007Blue;
-            if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2007Silver)) kryptonPalette.BasePaletteMode = PaletteMode.Office2007Silver;
-            if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2007White)) kryptonPalette.BasePaletteMode = PaletteMode.Office2007White;
-            if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2010Black)) kryptonPalette.BasePaletteMode = PaletteMode.Office2010Black;
-            if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2010Blue)) kryptonPalette.BasePaletteMode = PaletteMode.Office2010Blue;
-            if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2010Silver)) kryptonPalette.BasePaletteMode = PaletteMode.Office2010Silver;
-            if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2010White)) kryptonPalette.BasePaletteMode = PaletteMode.Office2010White;
-            if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2013)) kryptonPalette.BasePaletteMode = PaletteMode.Office2013;
-            if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2013White)) kryptonPalette.BasePaletteMode = PaletteMode.Office2013White;
-            if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office365Black)) kryptonPalette.BasePaletteMode = PaletteMode.Office365Black;
-            if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office365Blue)) kryptonPalette.BasePaletteMode = PaletteMode.Office365Blue;
-            if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office365Silver)) kryptonPalette.BasePaletteMode = PaletteMode.Office365Silver;
-            if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office365White)) kryptonPalette.BasePaletteMode = PaletteMode.Office365White;
-            if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.ProfessionalOffice2003)) kryptonPalette.BasePaletteMode = PaletteMode.ProfessionalOffice2003;
-            if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.ProfessionalSystem)) kryptonPalette.BasePaletteMode = PaletteMode.ProfessionalSystem;
-            if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.SparkleBlue)) kryptonPalette.BasePaletteMode = PaletteMode.SparkleBlue;
-            if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.SparkleOrange)) kryptonPalette.BasePaletteMode = PaletteMode.SparkleOrange;
-            if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.SparklePurple)) kryptonPalette.BasePaletteMode = PaletteMode.SparklePurple;
-            //if (paletteName == "Custom") kryptonPalette.BasePaletteMode = PaletteMode.Custom;
-            //if (paletteName == "Global") kryptonPalette.BasePaletteMode = PaletteMode.Global;
-
-            try
-            {
-                if (File.Exists(filename)) kryptonPalette.Import(filename, true);
-            } catch
-            {
-
-            }
-            return kryptonPalette;
-        }
-    }
     public partial class MainForm : KryptonForm
     {      
         #region Global Variables
@@ -202,8 +145,8 @@ namespace PhotoTagsSynchronizer
 
             #region InitializeComponent - Krypton
 
-            KryptonPalette kryptonPalette = SetKryptonPalette.Load(Properties.Settings.Default.KryptonPaletteFullFilename, Properties.Settings.Default.KryptonPaletteName);            
-            SetKryptonPalette.SetPalette(this, kryptonManager1, kryptonPalette, Properties.Settings.Default.KryptonPaletteDropShadow);
+            KryptonPalette kryptonPalette = KryptonPaletteHandler.Load(Properties.Settings.Default.KryptonPaletteFullFilename, Properties.Settings.Default.KryptonPaletteName);
+            KryptonPaletteHandler.SetPalette(this, kryptonManager1, kryptonPalette, Properties.Settings.Default.KryptonPaletteDropShadow);
 
 
             this.kryptonRibbonGroupCustomControlToolsProgressBackground.CustomControl = progressBarBackground;
@@ -511,31 +454,31 @@ namespace PhotoTagsSynchronizer
             #region Setup Global Variables - Link Tab and DataGridView
             //kryptonPageToolboxTags
             kryptonPageToolboxTags.Tag = LinkTabAndDataGridViewNameTags;
-            GlobalData.dataGridViewHandlerTags = new DataGridViewHandler(dataGridViewTagsAndKeywords, LinkTabAndDataGridViewNameTags, "Metadata/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeKeywords);
+            GlobalData.dataGridViewHandlerTags = new DataGridViewHandler(dataGridViewTagsAndKeywords, (KryptonPalette)kryptonManager1.GlobalPalette, LinkTabAndDataGridViewNameTags, "Metadata/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeKeywords);
 
             kryptonPageToolboxMap.Tag = LinkTabAndDataGridViewNameMap;
-            GlobalData.dataGridViewHandlerMap = new DataGridViewHandler(dataGridViewMap, LinkTabAndDataGridViewNameMap, "Location/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeMap);
+            GlobalData.dataGridViewHandlerMap = new DataGridViewHandler(dataGridViewMap, (KryptonPalette)kryptonManager1.GlobalPalette, LinkTabAndDataGridViewNameMap, "Location/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeMap);
 
             kryptonPageToolboxPeople.Tag = LinkTabAndDataGridViewNamePeople;
-            GlobalData.dataGridViewHandlerPeople = new DataGridViewHandler(dataGridViewPeople, LinkTabAndDataGridViewNamePeople, "Name/Files", (DataGridViewSize)Properties.Settings.Default.CellSizePeoples);
+            GlobalData.dataGridViewHandlerPeople = new DataGridViewHandler(dataGridViewPeople, (KryptonPalette)kryptonManager1.GlobalPalette, LinkTabAndDataGridViewNamePeople, "Name/Files", (DataGridViewSize)Properties.Settings.Default.CellSizePeoples);
 
             kryptonPageToolboxDates.Tag = LinkTabAndDataGridViewNameDates;
-            GlobalData.dataGridViewHandlerDates = new DataGridViewHandler(dataGridViewDate, LinkTabAndDataGridViewNameDates, "Name/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeDates);
+            GlobalData.dataGridViewHandlerDates = new DataGridViewHandler(dataGridViewDate, (KryptonPalette)kryptonManager1.GlobalPalette, LinkTabAndDataGridViewNameDates, "Name/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeDates);
 
             kryptonPageToolboxExiftool.Tag = LinkTabAndDataGridViewNameExiftool;
-            GlobalData.dataGridViewHandlerExiftoolTags = new DataGridViewHandler(dataGridViewExiftool, LinkTabAndDataGridViewNameExiftool, "File/Tag Description", (DataGridViewSize)Properties.Settings.Default.CellSizeExiftool);
+            GlobalData.dataGridViewHandlerExiftoolTags = new DataGridViewHandler(dataGridViewExiftool, (KryptonPalette)kryptonManager1.GlobalPalette, LinkTabAndDataGridViewNameExiftool, "File/Tag Description", (DataGridViewSize)Properties.Settings.Default.CellSizeExiftool);
 
             kryptonPageToolboxWarnings.Tag = LinkTabAndDataGridViewNameWarnings;
-            GlobalData.dataGridViewHandlerExiftoolWarning = new DataGridViewHandler(dataGridViewExiftoolWarning, LinkTabAndDataGridViewNameWarnings, "File and version/Tag region and command", (DataGridViewSize)Properties.Settings.Default.CellSizeWarnings);
+            GlobalData.dataGridViewHandlerExiftoolWarning = new DataGridViewHandler(dataGridViewExiftoolWarning, (KryptonPalette)kryptonManager1.GlobalPalette, LinkTabAndDataGridViewNameWarnings, "File and version/Tag region and command", (DataGridViewSize)Properties.Settings.Default.CellSizeWarnings);
 
             kryptonPageToolboxProperties.Tag = LinkTabAndDataGridViewNameProperties;
-            GlobalData.dataGridViewHandlerProperties = new DataGridViewHandler(dataGridViewProperties, LinkTabAndDataGridViewNameProperties, "File/Properties", (DataGridViewSize)Properties.Settings.Default.CellSizeProperties);
+            GlobalData.dataGridViewHandlerProperties = new DataGridViewHandler(dataGridViewProperties, (KryptonPalette)kryptonManager1.GlobalPalette, LinkTabAndDataGridViewNameProperties, "File/Properties", (DataGridViewSize)Properties.Settings.Default.CellSizeProperties);
             
             kryptonPageToolboxRename.Tag = LinkTabAndDataGridViewNameRename;
-            GlobalData.dataGridViewHandlerRename = new DataGridViewHandler(dataGridViewRename, LinkTabAndDataGridViewNameRename, "Filename/Values", ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize));
+            GlobalData.dataGridViewHandlerRename = new DataGridViewHandler(dataGridViewRename, (KryptonPalette)kryptonManager1.GlobalPalette, LinkTabAndDataGridViewNameRename, "Filename/Values", ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize));
             
             kryptonPageToolboxConvertAndMerge.Tag = LinkTabAndDataGridViewNameConvertAndMerge;
-            GlobalData.dataGridViewHandlerConvertAndMerge = new DataGridViewHandler(dataGridViewConvertAndMerge, LinkTabAndDataGridViewNameConvertAndMerge, "Full path of media file", ((DataGridViewSize)Properties.Settings.Default.CellSizeConvertAndMerge | DataGridViewSize.RenameConvertAndMergeSize));
+            GlobalData.dataGridViewHandlerConvertAndMerge = new DataGridViewHandler(dataGridViewConvertAndMerge, (KryptonPalette)kryptonManager1.GlobalPalette, LinkTabAndDataGridViewNameConvertAndMerge, "Full path of media file", ((DataGridViewSize)Properties.Settings.Default.CellSizeConvertAndMerge | DataGridViewSize.RenameConvertAndMergeSize));
             #endregion
 
             isSettingDefaultComboxValues = true;

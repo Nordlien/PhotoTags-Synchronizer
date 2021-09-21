@@ -1,4 +1,5 @@
-﻿using MetadataLibrary;
+﻿using Krypton.Toolkit;
+using MetadataLibrary;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -25,19 +26,185 @@ namespace DataGridViewGeneric
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-        public static Color ColorReadOnly = SystemColors.GradientInactiveCaption;
-        public static Color ColorError = Color.FromArgb(255, 192, 192);
-        public static Color ColorFavourite = SystemColors.ControlLight;
-        public static Color ColorReadOnlyFavourite = SystemColors.MenuHighlight;
+        /*public static Color ColorCellReadOnly = SystemColors.GradientInactiveCaption;
+        public static Color ColorCellError = Color.FromArgb(255, 192, 192);
+        public static Color ColorCellFavourite = SystemColors.ControlLight;
+        public static Color ColorCellReadOnlyFavourite = SystemColors.MenuHighlight;
         public static Color ColorHeader = SystemColors.Control;
         public static Color ColorCellEditable = SystemColors.ControlLightLight;
         public static Color ColorHeaderImage = Color.LightSteelBlue;
         public static Color ColorHeaderError = Color.Red;
         public static Color ColorHeaderWarning = Color.Yellow;
-        public static Color ColorRegionFace = Color.White;
+        public static Color ColorCellRegionFace = Color.White;
+        */
 
+        #region Palette Colors
+
+        #region Color - Cell - Normal
+        public static Color ColorBackCellNormal(DataGridView dataGridView)
+        {
+            if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return SystemColors.ControlLightLight;
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCommon.StateNormal.DataCell.Back.Color1;
+        }
+
+
+        public static Color ColorTextCellNormal(DataGridView dataGridView)
+        {
+            if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return SystemColors.ControlText;
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCommon.StateNormal.DataCell.Content.Color1;
+        }
+        #endregion
+
+        #region Color - Cell - Favorite
+        public static Color ColorBackCellFavorite(DataGridView dataGridView)
+        {
+            if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return SystemColors.ControlLight;
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCommon.StateNormal.DataCell.Back.Color2;
+        }
+
+        public static Color ColorTextCellFavorite(DataGridView dataGridView)
+        {
+            if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return SystemColors.ControlText;
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCommon.StateNormal.DataCell.Content.Color2;
+        }
+        #endregion
+
+        #region Color - Cell - ReadOnly
+        public static Color ColorBackCellReadOnly(DataGridView dataGridView)
+        {
+            if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return SystemColors.GradientInactiveCaption;
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCommon.StateDisabled.DataCell.Back.Color1;
+        }
+
+        public static Color ColorTextCellReadOnly(DataGridView dataGridView)
+        {
+            if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return SystemColors.ControlText;
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCommon.StateDisabled.DataCell.Content.Color1;
+        }
+        #endregion
+
+        #region Color - Cell - Favorite - ReadOnly
+        public static Color ColorBackCellFavoriteReadOnly(DataGridView dataGridView)
+        {
+            if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return SystemColors.MenuHighlight;
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCommon.StateDisabled.DataCell.Back.Color2;
+        }
+
+        public static Color ColorTextCellFavoriteReadOnly(DataGridView dataGridView)
+        {
+            if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return SystemColors.ControlText;
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCommon.StateDisabled.DataCell.Content.Color2;
+        }
+        #endregion
+
+        #region Color - Cell - Error
+        public static Color ColorBackCellError(DataGridView dataGridView)
+        {
+            if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return Color.FromArgb(255, 192, 192);
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCustom2.StateNormal.DataCell.Back.Color1;
+        }
+
+        public static Color ColorTextCellError(DataGridView dataGridView)
+        {
+            if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return SystemColors.ControlText;
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCustom2.StateNormal.DataCell.Content.Color1;
+        }
+        #endregion
+
+        #region Color - Cell - Image
+        public static Color ColorBackCellImage(DataGridView dataGridView)
+        {
+            if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return Color.White;
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCustom3.StateNormal.DataCell.Back.Color1;
+        }
+
+        public static Color ColorTextCellImage(DataGridView dataGridView)
+        {
+            if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return SystemColors.ControlText;
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCustom3.StateNormal.DataCell.Content.Color1;
+        }
+        #endregion
+
+
+        /*
+        public static Color ColorCellEditable = SystemColors.ControlLightLight;         //GridCommon.StateNormal.DataCell.Back.Color1
+        public static Color ColorCellFavourite = SystemColors.ControlLight;             //GridCommon.StateNormal.DataCell.Back.Color2
+            
+        public static Color ColorCellReadOnly = SystemColors.GradientInactiveCaption;   //GridCommon.StateDisabled.DataCell.Back.Color1
+        public static Color ColorCellReadOnlyFavourite = SystemColors.MenuHighlight;    //GridCommon.StateDisabled.DataCell.Back.Color2
+
+        public static Color ColorCellError = Color.FromArgb(255, 192, 192);             //GridCustom2.StateNormal.DataCell.Back.Color1
+        public static Color ColorCellRegionFace = Color.White;                          //GridCustom3.StateNormal.DataCell.Back.Color1
+
+        public static Color ColorHeader = SystemColors.Control;                         //GridCommon.StateCommon.HeaderColumn.Back.Color1
+        public static Color ColorHeaderWarning = Color.Yellow;                          //GridCustom1.StateCommon.HeaderColumn.Back.Color1
+        public static Color ColorHeaderError = Color.Red;                               //GridCustom2.StateCommon.HeaderColumn.Back.Color1
+        public static Color ColorHeaderImage = Color.LightSteelBlue;                    //GridCustom3.StateCommon.HeaderColumn.Back.Color1            
+        */
+        #region Color - Header - Normal 
+        public static Color ColorBackHeaderNormal(DataGridView dataGridView)
+        {
+            if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return SystemColors.Control;
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCommon.StateCommon.HeaderColumn.Back.Color1;
+        }
+
+        public static Color ColorTextHeaderNormal(DataGridView dataGridView)
+        {
+            if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return SystemColors.ControlText;
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCommon.StateCommon.HeaderColumn.Content.Color1;
+        }
+        #endregion
+
+        #region Color - Header - Warning
+        public static Color ColorBackHeaderWarning(DataGridView dataGridView)
+        {
+            if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return Color.Yellow;
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCustom1.StateCommon.HeaderColumn.Back.Color1;
+        }
+
+        public static Color ColorTextHeaderWarning(DataGridView dataGridView)
+        {
+            if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return SystemColors.ControlText;
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCustom1.StateCommon.HeaderColumn.Content.Color1;
+        }
+        #endregion
+
+        #region Color - Header - Error
+        public static Color ColorBackHeaderError(DataGridView dataGridView)
+        {
+            if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return Color.Red;
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCustom2.StateCommon.HeaderColumn.Back.Color1;
+        }
+
+        public static Color ColorTextHeaderError(DataGridView dataGridView)
+        {
+            if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return SystemColors.ControlText;
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCustom2.StateCommon.HeaderColumn.Content.Color1;
+        }
+        #endregion
+
+        #region Color - Header - Image
+        public static Color ColorBackHeaderImage(DataGridView dataGridView)
+        {
+            if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return Color.LightSteelBlue;
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCustom3.StateCommon.HeaderColumn.Back.Color1;
+        }
+
+        public static Color ColorTextHeaderImage(DataGridView dataGridView)
+        {
+            if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return SystemColors.ControlText;
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCustom3.StateCommon.HeaderColumn.Content.Color1;
+        }
+        #endregion
+
+        #endregion
 
         private DataGridView dataGridView;
+
+        #region KryptonColors
+        
+
+        #endregion 
 
         #region DataGridView events handling
 
@@ -218,7 +385,7 @@ namespace DataGridViewGeneric
 
         #region DataGridView Handling - Constructor
 
-        public DataGridViewHandler(DataGridView dataGridView, string dataGridViewName, string topLeftHeaderCellName, DataGridViewSize cellSize)
+        public DataGridViewHandler(DataGridView dataGridView, KryptonPalette palette, string dataGridViewName, string topLeftHeaderCellName, DataGridViewSize cellSize)
         {
             this.dataGridView = dataGridView;
 
@@ -242,6 +409,7 @@ namespace DataGridViewGeneric
             dataGridView.ShowRowErrors = false;
 
             DataGridViewGenericData dataGridViewGenricData = new DataGridViewGenericData();
+            dataGridViewGenricData.KryptonPalette = palette;
             dataGridViewGenricData.TopCellName = topLeftHeaderCellName;
             dataGridViewGenricData.DataGridViewName = dataGridViewName;
             dataGridViewGenricData.FavoriteList = FavouriteRead(CreateFavoriteFilename(dataGridViewGenricData.DataGridViewName));
@@ -258,14 +426,6 @@ namespace DataGridViewGeneric
             dataGridView.CellMouseDown += DataGridView_CellMouseDown;
             dataGridView.CurrentCellDirtyStateChanged += DataGridView_CurrentCellDirtyStateChanged;
             dataGridView.KeyDown += DataGridView_KeyDown;
-            
-            /*
-            if (dataGridView.ContextMenuStrip == null)
-            {
-                InitializeComponent(this.dataGridView);
-                dataGridView.ContextMenuStrip = contextMenuStripDataGridViewGeneric;
-            }
-            */
         }
 
         
@@ -290,202 +450,6 @@ namespace DataGridViewGeneric
             dataGridView.EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2;
         }
         #endregion
-
-        /*
-        #region DataGridView Handling - InitializeComponent
-        public void InitializeComponent(DataGridView dataGridView)
-        {
-            components = new System.ComponentModel.Container();
-            
-            contextMenuStripDataGridViewGeneric = new System.Windows.Forms.ContextMenuStrip(components);
-            cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            findToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            replaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            toolStripMenuItemMapSave = new System.Windows.Forms.ToolStripMenuItem();
-            toggleRowsAsFavouriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            toggleShowFavouriteRowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            toggleHideEqualRowsValuesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            markAsFavoriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            removeAsFavoriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            showMediaPosterWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-
-            contextMenuStripDataGridViewGeneric.SuspendLayout();
-            // 
-            // contextMenuStripDataGridViewGeneric
-            // 
-            contextMenuStripDataGridViewGeneric.ImageScalingSize = new System.Drawing.Size(20, 20);
-            contextMenuStripDataGridViewGeneric.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            cutToolStripMenuItem,
-            copyToolStripMenuItem,
-            pasteToolStripMenuItem,
-            deleteToolStripMenuItem,
-            undoToolStripMenuItem,
-            redoToolStripMenuItem,
-            findToolStripMenuItem,
-            replaceToolStripMenuItem,
-            toolStripMenuItemMapSave,
-            markAsFavoriteToolStripMenuItem,
-            removeAsFavoriteToolStripMenuItem,
-            toggleRowsAsFavouriteToolStripMenuItem,
-            toggleShowFavouriteRowsToolStripMenuItem,
-            toggleHideEqualRowsValuesToolStripMenuItem,
-            showMediaPosterWindowToolStripMenuItem
-            });
-            contextMenuStripDataGridViewGeneric.Name = "contextMenuStripMap";
-            contextMenuStripDataGridViewGeneric.Size = new System.Drawing.Size(215, 370);
-            // 
-            // cutToolStripMenuItem
-            // 
-            cutToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.Cut;
-            cutToolStripMenuItem.Name = "cutToolStripMenuItem";
-            cutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            cutToolStripMenuItem.Size = new System.Drawing.Size(302, 26);
-            cutToolStripMenuItem.Text = "Cut";
-            cutToolStripMenuItem.Click += new System.EventHandler(cutToolStripMenuItem_Click);
-            // 
-            // copyToolStripMenuItem
-            // 
-            copyToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.Copy;
-            copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            copyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            copyToolStripMenuItem.Size = new System.Drawing.Size(302, 26);
-            copyToolStripMenuItem.Text = "Copy";
-            copyToolStripMenuItem.Click += new System.EventHandler(copyToolStripMenuItem_Click);
-            // 
-            // pasteToolStripMenuItem
-            // 
-            pasteToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.Paste;
-            pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
-            pasteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
-            pasteToolStripMenuItem.Size = new System.Drawing.Size(302, 26);
-            pasteToolStripMenuItem.Text = "Paste";
-            pasteToolStripMenuItem.Click += new System.EventHandler(pasteToolStripMenuItem_Click);
-            // 
-            // deleteToolStripMenuItem
-            // 
-            deleteToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.Delete;
-            deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            deleteToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            deleteToolStripMenuItem.Size = new System.Drawing.Size(302, 26);
-            deleteToolStripMenuItem.Text = "Delete";
-            deleteToolStripMenuItem.Click += new System.EventHandler(deleteToolStripMenuItem_Click);
-            // 
-            // undoToolStripMenuItem
-            // 
-            undoToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.Undo;
-            undoToolStripMenuItem.Name = "undoToolStripMenuItem";
-            undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            undoToolStripMenuItem.Size = new System.Drawing.Size(302, 26);
-            undoToolStripMenuItem.Text = "Undo";
-            undoToolStripMenuItem.Click += new System.EventHandler(undoToolStripMenuItem_Click);
-            // 
-            // redoToolStripMenuItem
-            // 
-            redoToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.Redo;
-            redoToolStripMenuItem.Name = "redoToolStripMenuItem";
-            redoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            redoToolStripMenuItem.Size = new System.Drawing.Size(302, 26);
-            redoToolStripMenuItem.Text = "Redo";
-            redoToolStripMenuItem.Click += new System.EventHandler(redoToolStripMenuItem_Click);
-            // 
-            // findToolStripMenuItem
-            // 
-            findToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.Find;
-            findToolStripMenuItem.Name = "findToolStripMenuItem";
-            findToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            findToolStripMenuItem.Size = new System.Drawing.Size(302, 26);
-            findToolStripMenuItem.Text = "Find";
-            findToolStripMenuItem.Click += new System.EventHandler(findToolStripMenuItem_Click);
-            // 
-            // replaceToolStripMenuItem
-            // 
-            replaceToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.Replace;
-            replaceToolStripMenuItem.Name = "replaceToolStripMenuItem";
-            replaceToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
-            replaceToolStripMenuItem.Size = new System.Drawing.Size(302, 26);
-            replaceToolStripMenuItem.Text = "Replace";
-            replaceToolStripMenuItem.Click += new System.EventHandler(replaceToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItemMapSave
-            // 
-            this.toolStripMenuItemMapSave.Image = global::DataGridViewGeneric.Properties.Resources.Save;
-            this.toolStripMenuItemMapSave.Name = "toolStripMenuItemMapSave";
-            this.toolStripMenuItemMapSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.toolStripMenuItemMapSave.Size = new System.Drawing.Size(240, 26);
-            this.toolStripMenuItemMapSave.Text = "Save";
-            this.toolStripMenuItemMapSave.Click += new System.EventHandler(this.toolStripMenuItemMapSave_Click);
-            // 
-            // toggleRowsAsFavouriteToolStripMenuItem
-            // 
-            toggleRowsAsFavouriteToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.FavoriteToggle;
-            toggleRowsAsFavouriteToolStripMenuItem.Name = "toggleRowsAsFavouriteToolStripMenuItem";
-            toggleRowsAsFavouriteToolStripMenuItem.Size = new System.Drawing.Size(214, 26);
-            toggleRowsAsFavouriteToolStripMenuItem.Text = "Toggle favorite";
-            toggleRowsAsFavouriteToolStripMenuItem.Click += new System.EventHandler(toggleRowsAsFavouriteToolStripMenuItem_Click);
-            // 
-            // toggleShowFavouriteRowsToolStripMenuItem
-            // 
-            toggleShowFavouriteRowsToolStripMenuItem.Checked = false;
-            toggleShowFavouriteRowsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Unchecked;
-            toggleShowFavouriteRowsToolStripMenuItem.Name = "toggleShowFavouriteRowsToolStripMenuItem";
-            toggleShowFavouriteRowsToolStripMenuItem.Size = new System.Drawing.Size(214, 26);
-            toggleShowFavouriteRowsToolStripMenuItem.Text = "Show favorite rows";
-            toggleShowFavouriteRowsToolStripMenuItem.Click += new System.EventHandler(toggleShowFavouriteRowsToolStripMenuItem_Click);
-            // 
-            // toggleHideEqualRowsValuesToolStripMenuItem
-            // 
-            toggleHideEqualRowsValuesToolStripMenuItem.Checked = false;
-            toggleHideEqualRowsValuesToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Unchecked;
-            toggleHideEqualRowsValuesToolStripMenuItem.Name = "toggleHideEqualRowsValuesToolStripMenuItem";
-            toggleHideEqualRowsValuesToolStripMenuItem.Size = new System.Drawing.Size(214, 26);
-            toggleHideEqualRowsValuesToolStripMenuItem.Text = "Hide equal rows";
-            toggleHideEqualRowsValuesToolStripMenuItem.Click += new System.EventHandler(toggleHideEqualRowsValuesToolStripMenuItem_Click);
-            // 
-            // markAsFavoriteToolStripMenuItem
-            // 
-            markAsFavoriteToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.FavoriteSelect;
-            markAsFavoriteToolStripMenuItem.Name = "markAsFavoriteToolStripMenuItem";
-            markAsFavoriteToolStripMenuItem.Size = new System.Drawing.Size(214, 26);
-            markAsFavoriteToolStripMenuItem.Text = "Mark as favorite";
-            markAsFavoriteToolStripMenuItem.Click += new System.EventHandler(markAsFavoriteToolStripMenuItem_Click);
-            // 
-            // removeAsFavoriteToolStripMenuItem
-            // 
-            removeAsFavoriteToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.FavoriteRemove;
-            removeAsFavoriteToolStripMenuItem.Name = "removeAsFavoriteToolStripMenuItem";
-            removeAsFavoriteToolStripMenuItem.Size = new System.Drawing.Size(214, 26);
-            removeAsFavoriteToolStripMenuItem.Text = "Remove as favorite";
-            removeAsFavoriteToolStripMenuItem.Click += new System.EventHandler(removeAsFavoriteToolStripMenuItem_Click);
-            // 
-            // showMediaPosterWindowToolStripMenuItem
-            // 
-            showMediaPosterWindowToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.RegionSelector;
-            showMediaPosterWindowToolStripMenuItem.Name = "showMediaPosterWindowToolStripMenuItem";
-            showMediaPosterWindowToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
-            showMediaPosterWindowToolStripMenuItem.Size = new System.Drawing.Size(318, 26);
-            showMediaPosterWindowToolStripMenuItem.Text = "Show Media Poster Window";
-            showMediaPosterWindowToolStripMenuItem.Click += new System.EventHandler(showMediaPosterWindowToolStripMenuItem_Click);
-
-            contextMenuStripDataGridViewGeneric.ResumeLayout();
-            
-        }
-        #endregion
-        */
-
-        /*
-        #region Event Handling
-        private void showMediaPosterWindowToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            
-            if (ShowMediaPosterWindowToolStripMenuItemSelectedEvent != null) ShowMediaPosterWindowToolStripMenuItemSelectedEvent.Invoke(dataGridView, e);
-        }
-        #endregion 
-        */
 
         #region DataGridView Handling - GetTopColumnHeaderHeigth
         //DataGridView Size for Column and Row Header, Row / Column size and resize 
@@ -2222,30 +2186,63 @@ namespace DataGridViewGeneric
             DataGridViewGenericRow dataGridViewGenericRow = GetRowDataGridViewGenericRow(dataGridView, rowIndex);
             DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
 
-            Color newColor = Color.Empty;
+            Color backColor = Color.Empty;
+            Color textColor = Color.Empty;
 
             if (dataGridViewGenericRow == null)
             {
-                if (dataGridView[columnIndex, rowIndex].ReadOnly) newColor = ColorReadOnly;
-                else newColor = ColorCellEditable;
+                if (dataGridView[columnIndex, rowIndex].ReadOnly)
+                {
+                    backColor = ColorBackCellReadOnly(dataGridView);
+                    textColor = ColorTextCellReadOnly(dataGridView);
+                }
+                else
+                {
+                    backColor = ColorBackCellNormal(dataGridView);
+                    textColor = ColorTextCellNormal(dataGridView);
+                }
             }
             else
             {
-                if (dataGridViewGenericRow.IsFavourite && !dataGridView[columnIndex, rowIndex].ReadOnly) newColor = ColorFavourite;
+                if (dataGridViewGenericRow.IsFavourite && !dataGridView[columnIndex, rowIndex].ReadOnly)
+                {
+                    backColor = ColorBackCellFavorite(dataGridView);
+                    textColor = ColorTextCellFavorite(dataGridView);
+                }
                 else if (!dataGridViewGenericRow.IsFavourite && dataGridView[columnIndex, rowIndex].ReadOnly)
                 {
-                    if (dataGridView[columnIndex, rowIndex].Style.BackColor != ColorReadOnly) newColor = ColorReadOnly;
+                    backColor = ColorBackCellReadOnly(dataGridView);
+                    textColor = ColorTextCellReadOnly(dataGridView);
+                    /*if (dataGridView[columnIndex, rowIndex].Style.BackColor != ColorCellReadOnly)
+                    {
+                        backColor = ColorCellReadOnly;
+                    }*/
                 }
-                else if (dataGridViewGenericRow.IsFavourite && dataGridView[columnIndex, rowIndex].ReadOnly) newColor = ColorReadOnlyFavourite;
-                else newColor = ColorCellEditable;
+                else if (dataGridViewGenericRow.IsFavourite && dataGridView[columnIndex, rowIndex].ReadOnly)
+                {
+                    backColor = ColorBackCellFavoriteReadOnly(dataGridView);
+                    textColor = ColorTextCellFavoriteReadOnly(dataGridView);
+                }
+                else
+                {
+                    backColor = ColorBackCellNormal(dataGridView);
+                    textColor = ColorTextCellNormal(dataGridView);
+                }
             }
 
-            if (dataGridViewGenericColumn != null && dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion == FileEntryVersion.Error) newColor = ColorError;
-
+            if (dataGridViewGenericColumn != null && dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion == FileEntryVersion.Error)
+            {
+                backColor = ColorBackCellError(dataGridView);
+                textColor = ColorTextCellError(dataGridView);
+            }
             //if (dataGridViewGenericColumn != null && dataGridViewGenericColumn.Metadata != null 
             //    && (dataGridViewGenericColumn.Metadata.Broker & MetadataBrokerType.ExifToolWriteError) == MetadataBrokerType.ExifToolWriteError) newColor = ColorError;
 
-            if (newColor != Color.Empty && newColor != dataGridView[columnIndex, rowIndex].Style.BackColor) dataGridView[columnIndex, rowIndex].Style.BackColor = newColor;
+            if (backColor != Color.Empty && backColor != dataGridView[columnIndex, rowIndex].Style.BackColor)
+            {
+                dataGridView[columnIndex, rowIndex].Style.BackColor = backColor;
+                dataGridView[columnIndex, rowIndex].Style.ForeColor = textColor;
+            }
         }
         #endregion
 
@@ -3429,9 +3426,9 @@ namespace DataGridViewGeneric
                 {
                     Image image = dataGridViewGenericColumn.thumbnailUnlock;
                     if (image == null) image = (Image)Properties.Resources.load_image;
-                    if (hasFileKnownErrors) DrawImageAndSubText(sender, e, image, cellText, ColorHeaderError);
-                    else if (dataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning) DrawImageAndSubText(sender, e, image, cellText, ColorHeaderWarning);
-                    else DrawImageAndSubText(sender, e, image, cellText, ColorHeaderImage);
+                    if (hasFileKnownErrors) DrawImageAndSubText(sender, e, image, cellText, ColorBackHeaderError(dataGridView));
+                    else if (dataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning) DrawImageAndSubText(sender, e, image, cellText, ColorBackHeaderWarning(dataGridView));
+                    else DrawImageAndSubText(sender, e, image, cellText, ColorBackHeaderImage(dataGridView));
                 }
             }
             

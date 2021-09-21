@@ -65,8 +65,9 @@ namespace PhotoTagsSynchronizer
 
             kryptonManager1 = kryptonManager;
             LoadPaletteSettings();
-           
-            //SetPalette(kryptonPalette, enableDropShadow);
+            AddDummyDataPaletteDataGridView();
+
+            propertyGrid.SelectedObject = kryptonManager1.GlobalPalette;
 
             browser = new ChromiumWebBrowser("https://www.openstreetmap.org/")
             {
@@ -196,10 +197,6 @@ namespace PhotoTagsSynchronizer
             DialogResult = DialogResult.Cancel;
 
             isPopulation = true;
-
-            //ThemeManager.PropagateThemeSelector(kryptonComboBoxThemes);
-
-
             PopulateApplication();
 
             //Metadata Filename Date formats
@@ -989,7 +986,7 @@ namespace PhotoTagsSynchronizer
         private void PopulateMetadataCameraOwner(DataGridView dataGridView)
         {
             isCellValueUpdating = true;
-            DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridView, "CameraMakeModelOwner", "Camera Make/Model", DataGridViewSize.ConfigSize);
+            DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridView, (KryptonPalette)kryptonManager1.GlobalPalette, "CameraMakeModelOwner", "Camera Make/Model", DataGridViewSize.ConfigSize);
             DataGridViewHandler.Clear(dataGridView, DataGridViewSize.ConfigSize);
             //contextMenuStripMetadataRead contextMenuStripMetadataRead
 
@@ -1171,7 +1168,7 @@ namespace PhotoTagsSynchronizer
         private void PopulateMetadataLocationNames(DataGridView dataGridView)
         {
             isCellValueUpdating = true;
-            DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridView, "LocationNames", "Location names", DataGridViewSize.ConfigSize);
+            DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridView, (KryptonPalette)kryptonManager1.GlobalPalette, "LocationNames", "Location names", DataGridViewSize.ConfigSize);
             DataGridViewHandler.Clear(dataGridView, DataGridViewSize.ConfigSize);
 
             DateTime dateTimeEditable = DateTime.Now;
@@ -1720,7 +1717,7 @@ namespace PhotoTagsSynchronizer
         private void PopulateMetadataRead(DataGridView dataGridView)
         {
             isCellValueUpdating = true;
-            DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridView, "Name", "Tags", DataGridViewSize.ConfigSize);
+            DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridView, (KryptonPalette)kryptonManager1.GlobalPalette, "Name", "Tags", DataGridViewSize.ConfigSize);
             DataGridViewHandler.Clear(dataGridView, DataGridViewSize.ConfigSize);
             //contextMenuStripMetadataRead contextMenuStripMetadataRead
 
@@ -2598,144 +2595,283 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Themes
-        private void EnableDropShadow(bool enabled)
+
+        /*public static Color MixColorsSubtractive(Color A, Color B)
         {
-            UseDropShadow = enabled;
-            SetKryptonPalette.UseDropShadow = enabled;
+            return new Color(A.R * B.R / 255, A.G * B.G / 255, A.B * B.B / 255, (1f / (255 * 255)) * A.A * B.A);
+        }*/
+
+
+        DataGridViewHandler dataGridViewHandlerPalette;
+        private void AddDummyDataPaletteDataGridView()
+        {
+            kryptonDataGridViewShowPalette.Rows.Clear();
+            dataGridViewHandlerPalette = new DataGridViewHandler(kryptonDataGridViewShowPalette, (KryptonPalette)kryptonManager1.GlobalPalette, "Palette", "Test", DataGridViewSize.Small);
+
+            //Header
+            kryptonDataGridViewShowPalette.Columns[0].HeaderCell.Style.BackColor = DataGridViewHandler.ColorBackHeaderNormal(kryptonDataGridViewShowPalette);            
+            kryptonDataGridViewShowPalette.Columns[0].HeaderCell.Style.ForeColor = DataGridViewHandler.ColorTextHeaderNormal(kryptonDataGridViewShowPalette);
+            kryptonDataGridViewShowPalette.Columns[0].HeaderCell.ToolTipText =
+                "Normal header (StateCommon=Normal)\r\n" +
+                "Back color: GridStyles.GridCommon.StateCommon.HeaderColumn.Back.Color1\r\n" +
+                "Fade color: GridStyles.GridCommon.StateCommon.HeaderColumn.Back.Color2\r\n" +
+                "Text color: GridStyles.GridCommon.StateCommon.HeaderColumn.Content.Color1";
+
+
+            kryptonDataGridViewShowPalette.Columns[1].HeaderCell.Style.BackColor = DataGridViewHandler.ColorBackHeaderNormal(kryptonDataGridViewShowPalette);
+            kryptonDataGridViewShowPalette.Columns[1].HeaderCell.Style.ForeColor = DataGridViewHandler.ColorTextHeaderNormal(kryptonDataGridViewShowPalette);
+            kryptonDataGridViewShowPalette.Columns[1].HeaderCell.ToolTipText =
+                "Normal header (StateCommon=Normal)\r\n" +
+                "Back color: GridStyles.GridCommon.StateCommon.HeaderColumn.Back.Color1\r\n" +
+                "Text color: GridStyles.GridCommon.StateCommon.HeaderColumn.Content.Color1";
+
+            kryptonDataGridViewShowPalette.Columns[2].HeaderCell.Style.BackColor = DataGridViewHandler.ColorBackHeaderError(kryptonDataGridViewShowPalette);
+            kryptonDataGridViewShowPalette.Columns[2].HeaderCell.Style.ForeColor = DataGridViewHandler.ColorTextHeaderError(kryptonDataGridViewShowPalette);
+            kryptonDataGridViewShowPalette.Columns[2].HeaderCell.ToolTipText =
+                "Error header (GridCustom2=Error)\r\n" +
+                "Back color: GridStyles.GridCustom2.StateCommon.HeaderColumn.Back.Color1\r\n" +
+                "Text color: GridStyles.GridCustom2.StateCommon.HeaderColumn.Content.Color";
+
+            kryptonDataGridViewShowPalette.Columns[3].HeaderCell.Style.BackColor = DataGridViewHandler.ColorBackHeaderWarning(kryptonDataGridViewShowPalette);
+            kryptonDataGridViewShowPalette.Columns[3].HeaderCell.Style.ForeColor = DataGridViewHandler.ColorTextHeaderWarning(kryptonDataGridViewShowPalette);
+            kryptonDataGridViewShowPalette.Columns[3].HeaderCell.ToolTipText =
+                "Warning header (GridCustom1=Warning)\r\n" +
+                "Back color: GridStyles.GridCustom1.StateCommon.HeaderColumn.Back.Color1\r\n" +
+                "Text color: GridStyles.GridCustom1.StateCommon.HeaderColumn.Content.Color1";
+
+            kryptonDataGridViewShowPalette.Columns[4].HeaderCell.Style.BackColor = DataGridViewHandler.ColorBackHeaderImage(kryptonDataGridViewShowPalette);
+            kryptonDataGridViewShowPalette.Columns[4].HeaderCell.Style.ForeColor = DataGridViewHandler.ColorTextHeaderImage(kryptonDataGridViewShowPalette);
+            kryptonDataGridViewShowPalette.Columns[4].HeaderCell.ToolTipText =
+                "Image header (GridCustom3=Image)\r\n" +
+                "Back color: GridStyles.GridCustom3.StateCommon.HeaderColumn.Back.Color1\r\n" +
+                "Text color: GridStyles.GridCustom3.StateCommon.HeaderColumn.Content.Color1";
+
+            //Row 1 
+            int row = kryptonDataGridViewShowPalette.Rows.Add("Edit", "ReadOnly", "Error", "Edit", "Edit");
+            kryptonDataGridViewShowPalette.Rows[row].HeaderCell.Value = "Normal";
+
+            kryptonDataGridViewShowPalette.Rows[row].Cells[0].Style.BackColor = DataGridViewHandler.ColorBackCellNormal(kryptonDataGridViewShowPalette);
+            kryptonDataGridViewShowPalette.Rows[row].Cells[0].Style.ForeColor = DataGridViewHandler.ColorTextCellNormal(kryptonDataGridViewShowPalette);
+            kryptonDataGridViewShowPalette.Rows[row].Cells[0].ToolTipText =
+                "Normal cell (GridCommon=Normal/StateNormal=Editable)\r\n" +
+                "Background color: GridStyles.GridCommon.StateNormal.DataCell.Back.Color1\r\n" +
+                "Text color: GridStyles.GridCommon.StateNormal.DataCell.Content.Color1";
+
+            kryptonDataGridViewShowPalette.Rows[row].Cells[1].ReadOnly = true;
+            kryptonDataGridViewShowPalette.Rows[row].Cells[1].Style.BackColor = DataGridViewHandler.ColorBackCellReadOnly(kryptonDataGridViewShowPalette);
+            kryptonDataGridViewShowPalette.Rows[row].Cells[1].Style.ForeColor = DataGridViewHandler.ColorTextCellReadOnly(kryptonDataGridViewShowPalette);
+            kryptonDataGridViewShowPalette.Rows[row].Cells[1].ToolTipText =
+                "Normal but readonly cell (GridCommon=Normal/StateDisabled=Readonly)\r\n" +
+                "Background color: GridStyles.GridCommon.StateDisabled.DataCell.Back.Color1\r\n" +
+                "Text color: GridStyles.GridCommon.StateDisabled.DataCell.Content.Color1";
+
+            kryptonDataGridViewShowPalette.Rows[row].Cells[2].Style.BackColor = DataGridViewHandler.ColorBackCellError(kryptonDataGridViewShowPalette);
+            kryptonDataGridViewShowPalette.Rows[row].Cells[2].Style.ForeColor = DataGridViewHandler.ColorTextCellError(kryptonDataGridViewShowPalette);
+            kryptonDataGridViewShowPalette.Rows[row].Cells[2].ToolTipText =
+                "Error cell (GridCustom2=Error)\r\n" +
+                "Back color: GridStyles.GridCustom2.StateNormal.DataCell.Back.Color1\r\n" +
+                "Text color: GridStyles.GridCustom2.StateNormal.DataCell.Content.Color1";
+
+            kryptonDataGridViewShowPalette.Rows[row].Cells[3].Style.BackColor = DataGridViewHandler.ColorBackCellNormal(kryptonDataGridViewShowPalette);
+            kryptonDataGridViewShowPalette.Rows[row].Cells[3].Style.ForeColor = DataGridViewHandler.ColorTextCellNormal(kryptonDataGridViewShowPalette);
+            kryptonDataGridViewShowPalette.Rows[row].Cells[3].ToolTipText =
+                "Normal cell (GridCommon=Normal/StateNormal=Editable)\r\n" +
+                "Back color: GridStyles.GridCommon.StateNormal.DataCell.Back.Color1\r\n" +
+                "Text color: GridStyles.GridCommon.StateNormal.DataCell.Content.Color1";
+
+            kryptonDataGridViewShowPalette.Rows[row].Cells[4].Style.BackColor = DataGridViewHandler.ColorBackCellNormal(kryptonDataGridViewShowPalette);
+            kryptonDataGridViewShowPalette.Rows[row].Cells[4].Style.ForeColor = DataGridViewHandler.ColorTextCellNormal(kryptonDataGridViewShowPalette);
+            kryptonDataGridViewShowPalette.Rows[row].Cells[4].ToolTipText =
+                "Normal cell (GridCommon=Normal/StateNormal=Editable)\r\n" +
+                "Back color: GridStyles.GridCommon.StateNormal.DataCell.Back.Color1\r\n" +
+                "Text color: GridStyles.GridCommon.StateNormal.DataCell.Content.Color1";
+
+            //Row 2
+            row = kryptonDataGridViewShowPalette.Rows.Add("Favorite", "FavoriteReadOnly", "Error", "Warning");
+            kryptonDataGridViewShowPalette.Rows[row].HeaderCell.Value = "Favorite";
+            kryptonDataGridViewShowPalette.Rows[row].Cells[0].Style.BackColor = DataGridViewHandler.ColorBackCellFavorite(kryptonDataGridViewShowPalette);
+            kryptonDataGridViewShowPalette.Rows[row].Cells[0].Style.ForeColor = DataGridViewHandler.ColorTextCellFavorite(kryptonDataGridViewShowPalette);
+            kryptonDataGridViewShowPalette.Rows[row].Cells[0].ToolTipText =
+                "Favorite cell (GridCommon=Normal,Color2=Favorite)\r\n" +
+                "Back color: GridStyles.GridCommon.StateNormal.DataCell.Back.Color2\r\n" +
+                "Text color: GridStyles.GridCommon.StateNormal.DataCell.Content.Color2";
+
+            kryptonDataGridViewShowPalette.Rows[row].Cells[1].ReadOnly = true;
+            kryptonDataGridViewShowPalette.Rows[row].Cells[1].Style.BackColor = DataGridViewHandler.ColorBackCellFavoriteReadOnly(kryptonDataGridViewShowPalette);
+            kryptonDataGridViewShowPalette.Rows[row].Cells[1].Style.ForeColor = DataGridViewHandler.ColorTextCellFavoriteReadOnly(kryptonDataGridViewShowPalette);
+            kryptonDataGridViewShowPalette.Rows[row].Cells[1].ToolTipText =
+                "Favorite and ReadOnly cell (GridCommon=Normal,StateDisabled=ReadOnly,Color2=Favorite)\r\n" +
+                "Back color: GridStyles.GridCommon.StateDisabled.DataCell.Back.Color2\r\n" +
+                "Text color: GridStyles.GridCommon.StateDisabled.DataCell.Content.Color2";
+
+            kryptonDataGridViewShowPalette.Rows[row].Cells[2].Style.BackColor = DataGridViewHandler.ColorBackCellError(kryptonDataGridViewShowPalette);
+            kryptonDataGridViewShowPalette.Rows[row].Cells[2].Style.ForeColor = DataGridViewHandler.ColorTextCellError(kryptonDataGridViewShowPalette);
+            kryptonDataGridViewShowPalette.Rows[row].Cells[2].ToolTipText =
+                "Error cell (GridCustom2=Error)\r\n" +
+                "Back color: GridStyles.GridCustom2.StateNormal.DataCell.Back.Color1\r\n" +
+                "Text color: GridStyles.GridCustom2.StateNormal.DataCell.Content.Color1";
+
+            kryptonDataGridViewShowPalette.Rows[row].Cells[3].Style.BackColor = DataGridViewHandler.ColorBackCellFavorite(kryptonDataGridViewShowPalette);
+            kryptonDataGridViewShowPalette.Rows[row].Cells[3].Style.ForeColor = DataGridViewHandler.ColorTextCellFavorite(kryptonDataGridViewShowPalette);
+            kryptonDataGridViewShowPalette.Rows[row].Cells[3].ToolTipText =
+                "Favorite cell (GridCommon=Normal,Color2=Favorite)\r\n" +
+                "Back color: GridStyles.GridCommon.StateNormal.DataCell.Back.Color2\r\n" +
+                "Text color: GridStyles.GridCommon.StateNormal.DataCell.Content.Color2";
+
+            kryptonDataGridViewShowPalette.Rows[row].Cells[4].Style.BackColor = DataGridViewHandler.ColorBackCellFavorite(kryptonDataGridViewShowPalette);
+            kryptonDataGridViewShowPalette.Rows[row].Cells[4].Style.ForeColor = DataGridViewHandler.ColorTextCellFavorite(kryptonDataGridViewShowPalette);
+            kryptonDataGridViewShowPalette.Rows[row].Cells[4].ToolTipText =
+                "Favorite cell (GridCommon=Normal,Color2=Favorite)\r\n" +
+                "Back color: GridStyles.GridCommon.StateNormal.DataCell.Back.Color2\r\n" +
+                "Text color: GridStyles.GridCommon.StateNormal.DataCell.Content.Color2";
         }
 
+        #region SavePaletteSettings
         private void SavePaletteSettings()
         {
-            Properties.Settings.Default.KryptonPaletteDropShadow = SetKryptonPalette.UseDropShadow;
-            Properties.Settings.Default.KryptonPaletteFullFilename = SetKryptonPalette.PaletteFilename;
-            Properties.Settings.Default.KryptonPaletteName = SetKryptonPalette.PaletteName;
-        }
+            if (isPaletteProperyChanged)
+            {
+                string paletteProperyFile = FileHandeling.FileHandler.GetLocalApplicationDataPath("Palette.xml", true);
+                ((KryptonPalette)kryptonManager1.GlobalPalette).Export(paletteProperyFile, true);
+                KryptonPaletteHandler.PaletteFilename = paletteProperyFile;
+            }
+            Properties.Settings.Default.KryptonPaletteDropShadow = KryptonPaletteHandler.UseDropShadow;
+            Properties.Settings.Default.KryptonPaletteFullFilename = KryptonPaletteHandler.PaletteFilename;
+            Properties.Settings.Default.KryptonPaletteName = KryptonPaletteHandler.PaletteName;
 
+        }
+        #endregion
+
+        #region LoadPaletteSettings
         private void LoadPaletteSettings()
         {
-            SetKryptonPalette.PaletteFilename = Properties.Settings.Default.KryptonPaletteFullFilename;
-            SetKryptonPalette.PaletteName = Properties.Settings.Default.KryptonPaletteName;
-            SetKryptonPalette.UseDropShadow = Properties.Settings.Default.KryptonPaletteDropShadow;
+            KryptonPaletteHandler.PaletteFilename = Properties.Settings.Default.KryptonPaletteFullFilename;
+            KryptonPaletteHandler.PaletteName = Properties.Settings.Default.KryptonPaletteName;
+            KryptonPaletteHandler.UseDropShadow = Properties.Settings.Default.KryptonPaletteDropShadow;
         }
+        #endregion
 
+        #region SetPalette
         private void SetPalette(IPalette newKryptonPalette, bool enableDropShadow)
         {
+            isPaletteProperyChanged = false;
             IsKryptonManagerChanged = true;
-            SetKryptonPalette.SetPalette(this, kryptonManager1, newKryptonPalette, enableDropShadow);
+            KryptonPaletteHandler.SetPalette(this, kryptonManager1, newKryptonPalette, enableDropShadow);
             propertyGrid.SelectedObject = kryptonManager1.GlobalPalette;
         }
+        #endregion
 
-        #region 
+        #region buttonPalette_Click
         private void buttonOffice2010Blue_Click(object sender, EventArgs e)
         {
-            SetPalette(SetKryptonPalette.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2010Blue)), true);
+            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2010Blue)), true);
         }
 
         private void buttonOffice2010Silver_Click(object sender, EventArgs e)
         {
-            SetPalette(SetKryptonPalette.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2010Silver)), true);
+            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2010Silver)), true);
         }
 
         private void buttonOffice2010Black_Click(object sender, EventArgs e)
         {
-            SetPalette(SetKryptonPalette.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2010Black)), true);
+            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2010Black)), true);
         }
 
         private void buttonOffice2010White_Click(object sender, EventArgs e)
         {
-            SetPalette(SetKryptonPalette.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2010White)), true);
+            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2010White)), true);
         }
 
         private void buttonOffice2007Blue_Click(object sender, EventArgs e)
         {
-            SetPalette(SetKryptonPalette.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2007Blue)), true);
+            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2007Blue)), true);
         }
 
         private void buttonOffice2007Silver_Click(object sender, EventArgs e)
         {
-            SetPalette(SetKryptonPalette.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2007Silver)), true);
+            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2007Silver)), true);
         }
 
         private void buttonOffice2007Black_Click(object sender, EventArgs e)
         {
-            SetPalette(SetKryptonPalette.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2007Black)), true);
+            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2007Black)), true);
         }
 
         private void buttonOffice2007White_Click(object sender, EventArgs e)
         {
-            SetPalette(SetKryptonPalette.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2007White)), true);
+            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2007White)), true);
         }
 
         private void buttonOffice2003_Click(object sender, EventArgs e)
         {
-            SetPalette(SetKryptonPalette.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.ProfessionalOffice2003)), true);
+            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.ProfessionalOffice2003)), true);
         }
       
 
         private void buttonSystem_Click(object sender, EventArgs e)
         {
-            SetPalette(SetKryptonPalette.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.ProfessionalSystem)), false);
+            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.ProfessionalSystem)), false);
         }
 
         private void buttonSparkleBlue_Click(object sender, EventArgs e)
         {
-            SetPalette(SetKryptonPalette.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.SparkleBlue)), true);
+            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.SparkleBlue)), true);
         }
 
         private void buttonSparkleOrange_Click(object sender, EventArgs e)
         {
-            SetPalette(SetKryptonPalette.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.SparkleOrange)), true);
+            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.SparkleOrange)), true);
         }
 
         private void buttonSparklePurple_Click(object sender, EventArgs e)
         {
-            SetPalette(SetKryptonPalette.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.SparklePurple)), true);
+            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.SparklePurple)), true);
         }
 
         private void buttonOffice2013_Click(object sender, EventArgs e)
         {
-            SetPalette(SetKryptonPalette.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2013)), true);
+            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2013)), true);
         }
 
         private void buttonOffice2013White_Click(object sender, EventArgs e)
         {
-            SetPalette(SetKryptonPalette.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2013White)), true);
+            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2013White)), true);
         }
 
         private void buttonDarkMode_Click(object sender, EventArgs e)
         {
-            SetPalette(SetKryptonPalette.Load("DarkMode", ""), true);
+            SetPalette(KryptonPaletteHandler.Load("DarkMode", ""), true);
         }
 
         private void buttonOffice365Black_Click(object sender, EventArgs e)
         {
-            SetPalette(SetKryptonPalette.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office365Black)), true);
+            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office365Black)), true);
         }
 
         private void buttonOffice365Blue_Click(object sender, EventArgs e)
         {
-            SetPalette(SetKryptonPalette.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office365Blue)), true);
+            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office365Blue)), true);
         }
 
         private void buttonOffice365Silver_Click(object sender, EventArgs e)
         {
-            SetPalette(SetKryptonPalette.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office365Silver)), true);
+            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office365Silver)), true);
         }
 
         private void buttonOffice365White_Click(object sender, EventArgs e)
         {
-            SetPalette(SetKryptonPalette.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office365White)), true);
+            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office365White)), true);
         }
-        #endregion 
+        #endregion
 
-
+        #region kryptonButtonApplicationThemesImport_Click
         private void kryptonButtonApplicationThemesImport_Click(object sender, EventArgs e)
         {
             try
             {
                 KryptonPalette kryptonPalette = new KryptonPalette();
                 string paletteFilename = kryptonPalette.Import();
-                if (!string.IsNullOrWhiteSpace(paletteFilename)) SetPalette(SetKryptonPalette.Load(paletteFilename, ""), true);
+                if (!string.IsNullOrWhiteSpace(paletteFilename)) SetPalette(KryptonPaletteHandler.Load(paletteFilename, ""), true);
 
             }
             catch (Exception ex)
@@ -2743,16 +2879,42 @@ namespace PhotoTagsSynchronizer
                 MessageBox.Show(ex.Message);
             }
         }
+        #endregion
 
+        #region kryptonButtonApplicationThemesExport_Click
         private void kryptonButtonApplicationThemesExport_Click(object sender, EventArgs e)
         {
-            ((KryptonPalette)kryptonManager1.GlobalPalette).Export();
-            //kryptonButtonApplicationThemesExport.Enabled = false;
+            try
+            {
+                string paletteFilename = ((KryptonPalette)kryptonManager1.GlobalPalette).Export();
+                if (!string.IsNullOrWhiteSpace(paletteFilename)) SetPalette(KryptonPaletteHandler.Load(paletteFilename, ""), true);
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
+        #endregion
+
+        #region kryptonButtonShowContectMenu_Click
+        private void ShowMenu(Control control, KryptonContextMenu kryptonContextMenu)
+        {
+            kryptonContextMenu.Show(control.RectangleToScreen(control.ClientRectangle), KryptonContextMenuPositionH.Left, KryptonContextMenuPositionV.Below);
+        }
+        private void kryptonButtonShowContectMenu_Click(object sender, EventArgs e)
+        {
+            ShowMenu((Control)sender, kryptonContextMenuPalette);
+        }
+        #endregion
 
         #endregion
 
-        
+        private bool isPaletteProperyChanged = false;
+        private void propertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        {
+            isPaletteProperyChanged = true;
+            AddDummyDataPaletteDataGridView();
+        }
+
     }
 }
 

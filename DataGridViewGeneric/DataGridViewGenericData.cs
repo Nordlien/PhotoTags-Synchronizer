@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Krypton.Toolkit;
+using System.Collections.Generic;
 
 namespace DataGridViewGeneric
 {
@@ -18,5 +19,7 @@ namespace DataGridViewGeneric
 
         public bool ShowFavouriteColumns { get; set; } = false;
         public bool HideEqualColumns { get; set; } = false;
+
+        public KryptonPalette KryptonPalette { get; set; } = null;
     }
 }
