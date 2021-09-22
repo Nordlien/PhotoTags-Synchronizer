@@ -11,7 +11,7 @@ namespace PhotoTagsSynchronizer
     public partial class MainForm : KryptonForm
     {
         #region PopulateImageListViewUsingFilters(TreeView treeView)
-        private void PopulateImageListViewFromFolderOrUsingFilters(TreeView treeView)
+        private void PopulateImageListViewFromFolderOrUsingFilters(KryptonTreeView treeView)
         {
             if (treeView.Nodes == null) return;
             if (treeView.Nodes[FilterVerifyer.Root] == null) return;

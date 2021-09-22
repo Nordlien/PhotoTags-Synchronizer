@@ -34,13 +34,13 @@ namespace PhotoTagsSynchronizer
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormConfig));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             this.labelApplicationRegionThumbnailSize = new Krypton.Toolkit.KryptonLabel();
             this.labelWebScraperJavaScriptExecuteTimeoutDescription = new Krypton.Toolkit.KryptonLabel();
             this.labelWebScraperWebScrapingRetryDescription = new Krypton.Toolkit.KryptonLabel();
@@ -498,6 +498,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonPage9 = new Krypton.Navigator.KryptonPage();
             this.kryptonPage11 = new Krypton.Navigator.KryptonPage();
             this.kryptonPage8 = new Krypton.Navigator.KryptonPage();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWebScrapingPageDownCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWaitEventPageLoadedTimeout)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWaitEventPageStartLoadingTimeout)).BeginInit();
@@ -779,11 +782,14 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage9)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage11)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage8)).BeginInit();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // labelApplicationRegionThumbnailSize
             // 
-            this.labelApplicationRegionThumbnailSize.Location = new System.Drawing.Point(3, 27);
+            this.labelApplicationRegionThumbnailSize.Location = new System.Drawing.Point(3, 30);
             this.labelApplicationRegionThumbnailSize.Name = "labelApplicationRegionThumbnailSize";
             this.labelApplicationRegionThumbnailSize.Size = new System.Drawing.Size(129, 18);
             this.labelApplicationRegionThumbnailSize.TabIndex = 4;
@@ -1102,6 +1108,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConfigFilenameDateFormats.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConfigFilenameDateFormats.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxConfigFilenameDateFormats.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fastColoredTextBoxConfigFilenameDateFormats.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConfigFilenameDateFormats.IsReplaceMode = false;
             this.fastColoredTextBoxConfigFilenameDateFormats.Location = new System.Drawing.Point(0, 0);
             this.fastColoredTextBoxConfigFilenameDateFormats.Name = "fastColoredTextBoxConfigFilenameDateFormats";
@@ -1895,9 +1902,9 @@ namespace PhotoTagsSynchronizer
             // 
             // LocationName
             // 
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.LocationName.DefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.LocationName.DefaultCellStyle = dataGridViewCellStyle1;
             this.LocationName.HeaderText = "LocationName";
             this.LocationName.MinimumWidth = 6;
             this.LocationName.Name = "LocationName";
@@ -1905,9 +1912,9 @@ namespace PhotoTagsSynchronizer
             // 
             // Title
             // 
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Title.DefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Title.DefaultCellStyle = dataGridViewCellStyle2;
             this.Title.HeaderText = "Title";
             this.Title.MinimumWidth = 6;
             this.Title.Name = "Title";
@@ -1915,9 +1922,9 @@ namespace PhotoTagsSynchronizer
             // 
             // Album
             // 
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Album.DefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Album.DefaultCellStyle = dataGridViewCellStyle3;
             this.Album.HeaderText = "Album";
             this.Album.MinimumWidth = 6;
             this.Album.Name = "Album";
@@ -1925,9 +1932,9 @@ namespace PhotoTagsSynchronizer
             // 
             // Description
             // 
-            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Description.DefaultCellStyle = dataGridViewCellStyle18;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Description.DefaultCellStyle = dataGridViewCellStyle4;
             this.Description.HeaderText = "Description";
             this.Description.MinimumWidth = 6;
             this.Description.Name = "Description";
@@ -1935,9 +1942,9 @@ namespace PhotoTagsSynchronizer
             // 
             // Comments
             // 
-            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle19.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Comments.DefaultCellStyle = dataGridViewCellStyle19;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Comments.DefaultCellStyle = dataGridViewCellStyle5;
             this.Comments.HeaderText = "Comments";
             this.Comments.MinimumWidth = 6;
             this.Comments.Name = "Comments";
@@ -1945,9 +1952,9 @@ namespace PhotoTagsSynchronizer
             // 
             // Keywords
             // 
-            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle20.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Keywords.DefaultCellStyle = dataGridViewCellStyle20;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Keywords.DefaultCellStyle = dataGridViewCellStyle6;
             this.Keywords.HeaderText = "Keywords";
             this.Keywords.MinimumWidth = 6;
             this.Keywords.Name = "Keywords";
@@ -1955,9 +1962,9 @@ namespace PhotoTagsSynchronizer
             // 
             // AddKeywords
             // 
-            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle21.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.AddKeywords.DefaultCellStyle = dataGridViewCellStyle21;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.AddKeywords.DefaultCellStyle = dataGridViewCellStyle7;
             this.AddKeywords.HeaderText = "AddKeywords";
             this.AddKeywords.MinimumWidth = 6;
             this.AddKeywords.Name = "AddKeywords";
@@ -2612,7 +2619,7 @@ namespace PhotoTagsSynchronizer
             // 
             // numericUpDownApplicationMaxRowsInSearchResult
             // 
-            this.numericUpDownApplicationMaxRowsInSearchResult.Location = new System.Drawing.Point(152, 3);
+            this.numericUpDownApplicationMaxRowsInSearchResult.Location = new System.Drawing.Point(150, 3);
             this.numericUpDownApplicationMaxRowsInSearchResult.Maximum = new decimal(new int[] {
             9999,
             0,
@@ -2642,7 +2649,7 @@ namespace PhotoTagsSynchronizer
             // 
             // labelApplicationNominatimPreferredLanguagesHelp
             // 
-            this.labelApplicationNominatimPreferredLanguagesHelp.Location = new System.Drawing.Point(152, 78);
+            this.labelApplicationNominatimPreferredLanguagesHelp.Location = new System.Drawing.Point(126, 80);
             this.labelApplicationNominatimPreferredLanguagesHelp.Name = "labelApplicationNominatimPreferredLanguagesHelp";
             this.labelApplicationNominatimPreferredLanguagesHelp.Size = new System.Drawing.Size(395, 31);
             this.labelApplicationNominatimPreferredLanguagesHelp.TabIndex = 6;
@@ -2651,7 +2658,7 @@ namespace PhotoTagsSynchronizer
             // 
             // labelApplicationNominatimTitle
             // 
-            this.labelApplicationNominatimTitle.Location = new System.Drawing.Point(152, 3);
+            this.labelApplicationNominatimTitle.Location = new System.Drawing.Point(126, 3);
             this.labelApplicationNominatimTitle.Name = "labelApplicationNominatimTitle";
             this.labelApplicationNominatimTitle.Size = new System.Drawing.Size(272, 18);
             this.labelApplicationNominatimTitle.TabIndex = 5;
@@ -2669,9 +2676,9 @@ namespace PhotoTagsSynchronizer
             // 
             this.textBoxApplicationPreferredLanguages.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxApplicationPreferredLanguages.Location = new System.Drawing.Point(152, 51);
+            this.textBoxApplicationPreferredLanguages.Location = new System.Drawing.Point(126, 54);
             this.textBoxApplicationPreferredLanguages.Name = "textBoxApplicationPreferredLanguages";
-            this.textBoxApplicationPreferredLanguages.Size = new System.Drawing.Size(525, 20);
+            this.textBoxApplicationPreferredLanguages.Size = new System.Drawing.Size(556, 20);
             this.textBoxApplicationPreferredLanguages.TabIndex = 1;
             // 
             // comboBoxApplicationLanguages
@@ -2883,9 +2890,9 @@ namespace PhotoTagsSynchronizer
             "xh - Xhosa",
             "ji - Yiddish",
             "zu - Zulu"});
-            this.comboBoxApplicationLanguages.Location = new System.Drawing.Point(152, 24);
+            this.comboBoxApplicationLanguages.Location = new System.Drawing.Point(126, 27);
             this.comboBoxApplicationLanguages.Name = "comboBoxApplicationLanguages";
-            this.comboBoxApplicationLanguages.Size = new System.Drawing.Size(525, 21);
+            this.comboBoxApplicationLanguages.Size = new System.Drawing.Size(556, 21);
             this.comboBoxApplicationLanguages.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxApplicationLanguages.TabIndex = 0;
             this.comboBoxApplicationLanguages.SelectionChangeCommitted += new System.EventHandler(this.comboBoxApplicationLanguages_SelectionChangeCommitted);
@@ -2894,9 +2901,9 @@ namespace PhotoTagsSynchronizer
             // 
             this.labelApplicationRegionThumbnailSizeDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelApplicationRegionThumbnailSizeDescription.Location = new System.Drawing.Point(330, 28);
+            this.labelApplicationRegionThumbnailSizeDescription.Location = new System.Drawing.Point(363, 30);
             this.labelApplicationRegionThumbnailSizeDescription.Name = "labelApplicationRegionThumbnailSizeDescription";
-            this.labelApplicationRegionThumbnailSizeDescription.Size = new System.Drawing.Size(238, 18);
+            this.labelApplicationRegionThumbnailSizeDescription.Size = new System.Drawing.Size(388, 18);
             this.labelApplicationRegionThumbnailSizeDescription.TabIndex = 7;
             this.labelApplicationRegionThumbnailSizeDescription.Values.Text = "Region can Face or other regions with names";
             // 
@@ -2904,9 +2911,9 @@ namespace PhotoTagsSynchronizer
             // 
             this.labelApplicationPosterThumbnailSizeDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelApplicationPosterThumbnailSizeDescription.Location = new System.Drawing.Point(330, 4);
+            this.labelApplicationPosterThumbnailSizeDescription.Location = new System.Drawing.Point(363, 3);
             this.labelApplicationPosterThumbnailSizeDescription.Name = "labelApplicationPosterThumbnailSizeDescription";
-            this.labelApplicationPosterThumbnailSizeDescription.Size = new System.Drawing.Size(245, 18);
+            this.labelApplicationPosterThumbnailSizeDescription.Size = new System.Drawing.Size(388, 18);
             this.labelApplicationPosterThumbnailSizeDescription.TabIndex = 6;
             this.labelApplicationPosterThumbnailSizeDescription.Values.Text = "Poster means; first frame of video or the image";
             // 
@@ -2917,7 +2924,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxApplicationRegionThumbnailSizes.DropDownWidth = 172;
             this.comboBoxApplicationRegionThumbnailSizes.FormattingEnabled = true;
             this.comboBoxApplicationRegionThumbnailSizes.IntegralHeight = false;
-            this.comboBoxApplicationRegionThumbnailSizes.Location = new System.Drawing.Point(152, 28);
+            this.comboBoxApplicationRegionThumbnailSizes.Location = new System.Drawing.Point(183, 30);
             this.comboBoxApplicationRegionThumbnailSizes.Name = "comboBoxApplicationRegionThumbnailSizes";
             this.comboBoxApplicationRegionThumbnailSizes.Size = new System.Drawing.Size(172, 21);
             this.comboBoxApplicationRegionThumbnailSizes.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
@@ -2927,7 +2934,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.labelApplicationThumbnailSizeHelp.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelApplicationThumbnailSizeHelp.Location = new System.Drawing.Point(3, 53);
+            this.labelApplicationThumbnailSizeHelp.Location = new System.Drawing.Point(363, 57);
             this.labelApplicationThumbnailSizeHelp.Name = "labelApplicationThumbnailSizeHelp";
             this.labelApplicationThumbnailSizeHelp.Size = new System.Drawing.Size(388, 31);
             this.labelApplicationThumbnailSizeHelp.TabIndex = 2;
@@ -2941,7 +2948,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxApplicationThumbnailSizes.DropDownWidth = 172;
             this.comboBoxApplicationThumbnailSizes.FormattingEnabled = true;
             this.comboBoxApplicationThumbnailSizes.IntegralHeight = false;
-            this.comboBoxApplicationThumbnailSizes.Location = new System.Drawing.Point(152, 3);
+            this.comboBoxApplicationThumbnailSizes.Location = new System.Drawing.Point(183, 3);
             this.comboBoxApplicationThumbnailSizes.Name = "comboBoxApplicationThumbnailSizes";
             this.comboBoxApplicationThumbnailSizes.Size = new System.Drawing.Size(172, 21);
             this.comboBoxApplicationThumbnailSizes.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
@@ -3201,6 +3208,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxMetadataWriteKeywordAdd.CharWidth = 8;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxMetadataWriteKeywordAdd.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxMetadataWriteKeywordAdd.IsReplaceMode = false;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Location = new System.Drawing.Point(-1, 28);
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Name = "fastColoredTextBoxMetadataWriteKeywordAdd";
@@ -3235,6 +3243,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxMetadataWriteKeywordDelete.CharWidth = 8;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxMetadataWriteKeywordDelete.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxMetadataWriteKeywordDelete.IsReplaceMode = false;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Location = new System.Drawing.Point(4, 58);
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Name = "fastColoredTextBoxMetadataWriteKeywordDelete";
@@ -3558,6 +3567,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxMetadataWriteTags.CharWidth = 8;
             this.fastColoredTextBoxMetadataWriteTags.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxMetadataWriteTags.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxMetadataWriteTags.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxMetadataWriteTags.IsReplaceMode = false;
             this.fastColoredTextBoxMetadataWriteTags.Location = new System.Drawing.Point(1, 28);
             this.fastColoredTextBoxMetadataWriteTags.Name = "fastColoredTextBoxMetadataWriteTags";
@@ -3667,6 +3677,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.CharWidth = 8;
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Location = new System.Drawing.Point(3, 35);
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Multiline = false;
@@ -3737,6 +3748,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.CharWidth = 8;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Location = new System.Drawing.Point(4, 36);
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Name = "fastColoredTextBoxConvertAndMergeConcatVideoArguFile";
@@ -3775,6 +3787,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.CharWidth = 8;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Location = new System.Drawing.Point(2, 36);
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Multiline = false;
@@ -3832,6 +3845,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.CharWidth = 8;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Location = new System.Drawing.Point(3, 38);
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Multiline = false;
@@ -3887,6 +3901,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.CharWidth = 8;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Location = new System.Drawing.Point(2, 39);
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Name = "fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile";
@@ -4090,7 +4105,7 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonWorkspaceConfigApplication
             // 
-            this.kryptonWorkspaceConfigApplication.ActivePage = this.kryptonPageThemes;
+            this.kryptonWorkspaceConfigApplication.ActivePage = this.kryptonPageApplicationSearch;
             this.kryptonWorkspaceConfigApplication.AllowPageDrag = false;
             this.kryptonWorkspaceConfigApplication.ContextMenus.ShowContextMenu = false;
             this.kryptonWorkspaceConfigApplication.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -4434,7 +4449,8 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonDataGridViewShowPalette
             // 
-            this.kryptonDataGridViewShowPalette.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.kryptonDataGridViewShowPalette.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.kryptonDataGridViewShowPalette.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
@@ -4442,10 +4458,10 @@ namespace PhotoTagsSynchronizer
             this.Column3,
             this.Column4,
             this.Column5});
-            this.kryptonDataGridViewShowPalette.Location = new System.Drawing.Point(9, 14);
+            this.kryptonDataGridViewShowPalette.Location = new System.Drawing.Point(9, 333);
             this.kryptonDataGridViewShowPalette.Name = "kryptonDataGridViewShowPalette";
             this.kryptonDataGridViewShowPalette.RowHeadersWidth = 80;
-            this.kryptonDataGridViewShowPalette.Size = new System.Drawing.Size(245, 113);
+            this.kryptonDataGridViewShowPalette.Size = new System.Drawing.Size(245, 127);
             this.kryptonDataGridViewShowPalette.TabIndex = 14;
             // 
             // Column1
@@ -4480,7 +4496,7 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonButtonShowContectMenu
             // 
-            this.kryptonButtonShowContectMenu.Location = new System.Drawing.Point(19, 171);
+            this.kryptonButtonShowContectMenu.Location = new System.Drawing.Point(20, 12);
             this.kryptonButtonShowContectMenu.Name = "kryptonButtonShowContectMenu";
             this.kryptonButtonShowContectMenu.Size = new System.Drawing.Size(215, 25);
             this.kryptonButtonShowContectMenu.TabIndex = 13;
@@ -4493,7 +4509,7 @@ namespace PhotoTagsSynchronizer
             "Item1",
             "Item2",
             "Item3"});
-            this.kryptonCheckedListBox1.Location = new System.Drawing.Point(152, 201);
+            this.kryptonCheckedListBox1.Location = new System.Drawing.Point(153, 42);
             this.kryptonCheckedListBox1.Name = "kryptonCheckedListBox1";
             this.kryptonCheckedListBox1.Size = new System.Drawing.Size(82, 88);
             this.kryptonCheckedListBox1.TabIndex = 12;
@@ -4501,7 +4517,7 @@ namespace PhotoTagsSynchronizer
             // kryptonDateTimePicker1
             // 
             this.kryptonDateTimePicker1.CalendarTodayDate = new System.DateTime(2021, 9, 19, 0, 0, 0, 0);
-            this.kryptonDateTimePicker1.Location = new System.Drawing.Point(19, 270);
+            this.kryptonDateTimePicker1.Location = new System.Drawing.Point(20, 111);
             this.kryptonDateTimePicker1.Name = "kryptonDateTimePicker1";
             this.kryptonDateTimePicker1.Size = new System.Drawing.Size(122, 18);
             this.kryptonDateTimePicker1.TabIndex = 11;
@@ -4515,7 +4531,7 @@ namespace PhotoTagsSynchronizer
             "Item 1",
             "Item 2 - lot of text, this is just to see a long line",
             "Item 3"});
-            this.kryptonComboBox2.Location = new System.Drawing.Point(19, 245);
+            this.kryptonComboBox2.Location = new System.Drawing.Point(20, 86);
             this.kryptonComboBox2.Name = "kryptonComboBox2";
             this.kryptonComboBox2.Size = new System.Drawing.Size(121, 21);
             this.kryptonComboBox2.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
@@ -4526,7 +4542,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.kryptonGroupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.kryptonGroupBox1.Location = new System.Drawing.Point(9, 295);
+            this.kryptonGroupBox1.Location = new System.Drawing.Point(10, 136);
             this.kryptonGroupBox1.Name = "kryptonGroupBox1";
             // 
             // kryptonGroupBox1.Panel
@@ -4595,15 +4611,15 @@ namespace PhotoTagsSynchronizer
             // 
             this.kryptonCheckButton1.AutoSize = true;
             this.kryptonCheckButton1.Checked = true;
-            this.kryptonCheckButton1.Location = new System.Drawing.Point(168, 422);
+            this.kryptonCheckButton1.Location = new System.Drawing.Point(133, 259);
             this.kryptonCheckButton1.Name = "kryptonCheckButton1";
-            this.kryptonCheckButton1.Size = new System.Drawing.Size(70, 27);
+            this.kryptonCheckButton1.Size = new System.Drawing.Size(110, 27);
             this.kryptonCheckButton1.TabIndex = 8;
-            this.kryptonCheckButton1.Values.Text = "Checked";
+            this.kryptonCheckButton1.Values.Text = "Checked Button";
             // 
             // kryptonLabelApplicationThemesNormalLabel
             // 
-            this.kryptonLabelApplicationThemesNormalLabel.Location = new System.Drawing.Point(19, 224);
+            this.kryptonLabelApplicationThemesNormalLabel.Location = new System.Drawing.Point(20, 65);
             this.kryptonLabelApplicationThemesNormalLabel.Name = "kryptonLabelApplicationThemesNormalLabel";
             this.kryptonLabelApplicationThemesNormalLabel.Size = new System.Drawing.Size(85, 18);
             this.kryptonLabelApplicationThemesNormalLabel.TabIndex = 6;
@@ -4612,7 +4628,7 @@ namespace PhotoTagsSynchronizer
             // kryptonLabelApplicationThemesTitle
             // 
             this.kryptonLabelApplicationThemesTitle.LabelStyle = Krypton.Toolkit.LabelStyle.TitleControl;
-            this.kryptonLabelApplicationThemesTitle.Location = new System.Drawing.Point(19, 201);
+            this.kryptonLabelApplicationThemesTitle.Location = new System.Drawing.Point(20, 42);
             this.kryptonLabelApplicationThemesTitle.Name = "kryptonLabelApplicationThemesTitle";
             this.kryptonLabelApplicationThemesTitle.Size = new System.Drawing.Size(73, 22);
             this.kryptonLabelApplicationThemesTitle.TabIndex = 5;
@@ -4621,20 +4637,19 @@ namespace PhotoTagsSynchronizer
             // kryptonButton1
             // 
             this.kryptonButton1.AutoSize = true;
-            this.kryptonButton1.Location = new System.Drawing.Point(14, 422);
+            this.kryptonButton1.Location = new System.Drawing.Point(17, 259);
             this.kryptonButton1.Name = "kryptonButton1";
-            this.kryptonButton1.Size = new System.Drawing.Size(70, 27);
+            this.kryptonButton1.Size = new System.Drawing.Size(110, 27);
             this.kryptonButton1.TabIndex = 3;
-            this.kryptonButton1.Values.Text = "OK";
             // 
             // kryptonButton2
             // 
             this.kryptonButton2.AutoSize = true;
-            this.kryptonButton2.Location = new System.Drawing.Point(91, 422);
+            this.kryptonButton2.Location = new System.Drawing.Point(17, 289);
             this.kryptonButton2.Name = "kryptonButton2";
-            this.kryptonButton2.Size = new System.Drawing.Size(70, 27);
+            this.kryptonButton2.Size = new System.Drawing.Size(110, 27);
             this.kryptonButton2.TabIndex = 4;
-            this.kryptonButton2.Values.Text = "Cancel";
+            this.kryptonButton2.Values.Text = "Cancel Button";
             // 
             // kryptonWorkspaceCellApplicationThemesProperties
             // 
@@ -4710,19 +4725,13 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageApplicationDateAndTimeInFilenames,
             this.kryptonPageAppliactionDateTimeFormatsInFilenamesHelp,
             this.kryptonPageThemes});
-            this.kryptonWorkspaceCellApplication.SelectedIndex = 9;
+            this.kryptonWorkspaceCellApplication.SelectedIndex = 2;
             this.kryptonWorkspaceCellApplication.UniqueName = "509b106994a8437cbec6056b8eeed6d9";
             // 
             // kryptonPageApplicationThumbnail
             // 
             this.kryptonPageApplicationThumbnail.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageApplicationThumbnail.Controls.Add(this.labelApplicationRegionThumbnailSize);
-            this.kryptonPageApplicationThumbnail.Controls.Add(this.labelApplicationRegionThumbnailSizeDescription);
-            this.kryptonPageApplicationThumbnail.Controls.Add(this.labelApplicationPosterThumbnailSizeDescription);
-            this.kryptonPageApplicationThumbnail.Controls.Add(this.labelApplicationPosterThumbnailSize);
-            this.kryptonPageApplicationThumbnail.Controls.Add(this.comboBoxApplicationRegionThumbnailSizes);
-            this.kryptonPageApplicationThumbnail.Controls.Add(this.comboBoxApplicationThumbnailSizes);
-            this.kryptonPageApplicationThumbnail.Controls.Add(this.labelApplicationThumbnailSizeHelp);
+            this.kryptonPageApplicationThumbnail.Controls.Add(this.tableLayoutPanel1);
             this.kryptonPageApplicationThumbnail.Flags = 65534;
             this.kryptonPageApplicationThumbnail.LastVisibleSet = true;
             this.kryptonPageApplicationThumbnail.MinimumSize = new System.Drawing.Size(50, 50);
@@ -4735,11 +4744,7 @@ namespace PhotoTagsSynchronizer
             // kryptonPageApplicationNominatim
             // 
             this.kryptonPageApplicationNominatim.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageApplicationNominatim.Controls.Add(this.labelApplicationNominatimTitle);
-            this.kryptonPageApplicationNominatim.Controls.Add(this.labelApplicationNominatimPreferredLanguagesHelp);
-            this.kryptonPageApplicationNominatim.Controls.Add(this.comboBoxApplicationLanguages);
-            this.kryptonPageApplicationNominatim.Controls.Add(this.textBoxApplicationPreferredLanguages);
-            this.kryptonPageApplicationNominatim.Controls.Add(this.labelApplicationPreferredLanguages);
+            this.kryptonPageApplicationNominatim.Controls.Add(this.tableLayoutPanel2);
             this.kryptonPageApplicationNominatim.Flags = 65534;
             this.kryptonPageApplicationNominatim.LastVisibleSet = true;
             this.kryptonPageApplicationNominatim.MinimumSize = new System.Drawing.Size(50, 50);
@@ -4752,8 +4757,7 @@ namespace PhotoTagsSynchronizer
             // kryptonPageApplicationSearch
             // 
             this.kryptonPageApplicationSearch.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageApplicationSearch.Controls.Add(this.numericUpDownApplicationMaxRowsInSearchResult);
-            this.kryptonPageApplicationSearch.Controls.Add(this.labelApplicationSearch);
+            this.kryptonPageApplicationSearch.Controls.Add(this.tableLayoutPanel3);
             this.kryptonPageApplicationSearch.Flags = 65534;
             this.kryptonPageApplicationSearch.LastVisibleSet = true;
             this.kryptonPageApplicationSearch.MinimumSize = new System.Drawing.Size(50, 50);
@@ -6374,6 +6378,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxShowLog.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxShowLog.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxShowLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fastColoredTextBoxShowLog.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxShowLog.HighlightingRangeType = FastColoredTextBoxNS.HighlightingRangeType.VisibleRange;
             this.fastColoredTextBoxShowLog.IsReplaceMode = false;
             this.fastColoredTextBoxShowLog.Location = new System.Drawing.Point(0, 0);
@@ -6439,6 +6444,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxShowPipe32Log.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxShowPipe32Log.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxShowPipe32Log.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fastColoredTextBoxShowPipe32Log.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxShowPipe32Log.HighlightingRangeType = FastColoredTextBoxNS.HighlightingRangeType.VisibleRange;
             this.fastColoredTextBoxShowPipe32Log.IsReplaceMode = false;
             this.fastColoredTextBoxShowPipe32Log.Location = new System.Drawing.Point(0, 0);
@@ -6872,6 +6878,67 @@ namespace PhotoTagsSynchronizer
             this.kryptonPage8.ToolTipTitle = "Page ToolTip";
             this.kryptonPage8.UniqueName = "1b703c4a3c7446418dd6d96176cd98ff";
             // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.AutoSize = true;
+            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.Controls.Add(this.labelApplicationPosterThumbnailSize, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.labelApplicationThumbnailSizeHelp, 2, 2);
+            this.tableLayoutPanel1.Controls.Add(this.labelApplicationRegionThumbnailSizeDescription, 2, 1);
+            this.tableLayoutPanel1.Controls.Add(this.labelApplicationRegionThumbnailSize, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.labelApplicationPosterThumbnailSizeDescription, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.comboBoxApplicationThumbnailSizes, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.comboBoxApplicationRegionThumbnailSizes, 1, 1);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 3;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(685, 514);
+            this.tableLayoutPanel1.TabIndex = 8;
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.AutoSize = true;
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel2.Controls.Add(this.labelApplicationNominatimTitle, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.labelApplicationNominatimPreferredLanguagesHelp, 1, 3);
+            this.tableLayoutPanel2.Controls.Add(this.comboBoxApplicationLanguages, 1, 1);
+            this.tableLayoutPanel2.Controls.Add(this.textBoxApplicationPreferredLanguages, 1, 2);
+            this.tableLayoutPanel2.Controls.Add(this.labelApplicationPreferredLanguages, 0, 2);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 4;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(685, 514);
+            this.tableLayoutPanel2.TabIndex = 7;
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 2;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel3.Controls.Add(this.labelApplicationSearch, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.numericUpDownApplicationMaxRowsInSearchResult, 1, 0);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 1;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(685, 514);
+            this.tableLayoutPanel3.TabIndex = 1;
+            // 
             // FormConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -6981,7 +7048,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageApplicationNominatim.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationSearch)).EndInit();
             this.kryptonPageApplicationSearch.ResumeLayout(false);
-            this.kryptonPageApplicationSearch.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationRegionSuggestion)).EndInit();
             this.kryptonPageApplicationRegionSuggestion.ResumeLayout(false);
             this.kryptonPageApplicationRegionSuggestion.PerformLayout();
@@ -7205,6 +7271,12 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage9)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage11)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage8)).EndInit();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel2.PerformLayout();
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -7669,5 +7741,8 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
     }
 }

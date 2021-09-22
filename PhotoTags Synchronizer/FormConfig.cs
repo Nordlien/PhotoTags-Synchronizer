@@ -57,13 +57,17 @@ namespace PhotoTagsSynchronizer
         private bool isPopulation = false;
 
         private KryptonManager kryptonManager1;
+        private Manina.Windows.Forms.ImageListView imageListView1;
+
         public bool IsKryptonManagerChanged {get; set;} = false;
 
-        public FormConfig(KryptonManager kryptonManager)
+        public FormConfig(KryptonManager kryptonManager, Manina.Windows.Forms.ImageListView imageListView)
         {
             InitializeComponent();
 
             kryptonManager1 = kryptonManager;
+            imageListView1 = imageListView;
+
             LoadPaletteSettings();
             AddDummyDataPaletteDataGridView();
 
@@ -2913,6 +2917,7 @@ namespace PhotoTagsSynchronizer
         {
             isPaletteProperyChanged = true;
             AddDummyDataPaletteDataGridView();
+            KryptonPaletteHandler.SetImageListViewPalettes(kryptonManager1, imageListView1);
         }
 
     }

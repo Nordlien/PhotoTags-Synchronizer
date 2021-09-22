@@ -10,7 +10,7 @@ namespace PhotoTagsSynchronizer
         public static string PaletteName = "";
         public static bool UseDropShadow = true;
 
-        #region 
+        #region SetPalette
         public static void SetPalette(KryptonForm kryptonForm, KryptonManager kryptonManager, IPalette newKryptonPalette, bool enableDropShadow)
         {
             KryptonPalette kryptonPalette = new KryptonPalette();
@@ -120,6 +120,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region KryptonPalette Load
         public static KryptonPalette Load(string filename, string paletteName)
         {
             PaletteFilename = filename;
@@ -159,6 +160,75 @@ namespace PhotoTagsSynchronizer
             }
             return kryptonPalette;
         }
+        #endregion
+
+        #region
+        public static void GetColor(KryptonManager kryptonManager)
+        {
+            KryptonPalette palette = (KryptonPalette)kryptonManager.GlobalPalette;
+            // Get the two colors and angle used to draw the fish area background
+            //Color fillColor1 = palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, buttonState);
+            //Color fillColor2 = palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, buttonState);
+            //float fillColorAngle = palette.GetBackColorAngle(PaletteBackStyle.ButtonStandalone, buttonState);
+
+            // Get the color used to draw the fish border
+            //Color borderColor = palette.GetBorderColor1(PaletteBorderStyle.ButtonStandalone, buttonState);
+
+            // Get the color and font used to draw the text
+            //Color textColor = palette.GetContentShortTextColor1(PaletteContentStyle.ButtonStandalone, buttonState);
+            //Font textFont = _palette.GetContentShortTextFont(PaletteContentStyle.ButtonStandalone, buttonState);
+            
+        }
+
+        /*
+            private PaletteState GetButtonState()
+        {
+            // Find the correct state when getting button values
+            if (!Enabled)
+            {
+                return PaletteState.Disabled;
+            }
+            else
+            {
+                if (_mouseOver)
+                {
+                    if (_mouseDown)
+                    {
+                        return PaletteState.Pressed;
+                    }
+                    else
+                    {
+                        return PaletteState.Tracking;
+                    }
+                }
+                else
+                {
+                    return PaletteState.Normal;
+                }
+            }
+        }
+
+
+            */
+        #endregion
+
+        #region 
+        public static void SetImageListViewPalettes(KryptonManager kryptonManager, Manina.Windows.Forms.ImageListView imageListView)
+        {
+            KryptonPalette palette = (KryptonPalette)kryptonManager.GlobalPalette;
+
+            // Get the two colors and angle used to draw the control background
+            //Color backColor1 = palette.GetBackColor1(PaletteBackStyle.ControlClient, imageListView.Enabled ? PaletteState.Normal : PaletteState.Disabled);
+            //Color backColor2 = palette.GetBackColor2(PaletteBackStyle.ControlClient, imageListView.Enabled ? PaletteState.Normal : PaletteState.Disabled);            
+            imageListView.BackColor = palette.GetBackColor1(PaletteBackStyle.ControlClient, imageListView.Enabled ? PaletteState.Normal : PaletteState.Disabled);
+            imageListView.ForeColor = palette.GetContentShortTextColor1(PaletteContentStyle.ButtonStandalone, PaletteState.Normal);
+            imageListView.Font = palette.GetContentShortTextNewFont(PaletteContentStyle.ButtonStandalone, PaletteState.Normal);
+            imageListView.HeaderFont = palette.GetContentLongTextNewFont(PaletteContentStyle.ButtonStandalone, PaletteState.Normal);
+            //imageListView.Font = palette.LabelStyles.LabelNormalControl.StateNormal.GetContentLongTextFont;
+            //imageListView.HeaderFont = palette.LabelStyles..GridCommon.StateDisabled.DataCell.Back.Color1;
+
+        }
+        #endregion 
     }
 
 

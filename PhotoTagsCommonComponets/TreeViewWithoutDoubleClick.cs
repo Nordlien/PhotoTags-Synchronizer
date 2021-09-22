@@ -1,8 +1,9 @@
 ﻿using System.Windows.Forms;
+using Krypton.Toolkit;
 
 namespace PhotoTagsCommonComponets
 {
-    public class TreeViewWithoutDoubleClick : TreeView
+    public class TreeViewWithoutDoubleClick : KryptonTreeView
 	{
 		protected override void WndProc(ref Message m)
 		{

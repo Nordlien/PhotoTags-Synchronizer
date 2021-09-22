@@ -40,8 +40,6 @@ namespace Manina.Windows.Forms
     public partial class ImageListView : Control
     {
         
-        
-
         public void StoppBackgroundThreads()
         {
             cacheManager.StoppBackgroundThreads();

@@ -6052,7 +6052,7 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                using (FormConfig config = new FormConfig(kryptonManager1))
+                using (FormConfig config = new FormConfig(kryptonManager1, imageListView1))
                 {
                     using (new WaitCursor())
                     {
@@ -6099,6 +6099,7 @@ namespace PhotoTagsSynchronizer
                     {
                         KryptonPalette kryptonPalette = KryptonPaletteHandler.Load(Properties.Settings.Default.KryptonPaletteFullFilename, Properties.Settings.Default.KryptonPaletteName);
                         KryptonPaletteHandler.SetPalette(this, kryptonManager1, kryptonPalette, Properties.Settings.Default.KryptonPaletteDropShadow);
+                        KryptonPaletteHandler.SetImageListViewPalettes(kryptonManager1, imageListView1);                        
                     }
                 }
             }

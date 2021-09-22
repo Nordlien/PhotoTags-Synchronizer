@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using System.Collections.Generic;
 using MetadataLibrary;
+using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
@@ -92,7 +93,7 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region ClearTreeViewNodes
-        public static void ClearTreeViewNodes(TreeView treeView)
+        public static void ClearTreeViewNodes(KryptonTreeView treeView)
         {
             GlobalData.IsPopulatingFilter = true;
             treeView.Nodes.Clear();
@@ -101,7 +102,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region PopulateTreeViewBasicNodes
-        public static void PopulateTreeViewBasicNodes(TreeView treeView, string rootNode)
+        public static void PopulateTreeViewBasicNodes(KryptonTreeView treeView, string rootNode)
         {
             GlobalData.IsPopulatingFilter = true;
             treeView.Nodes.Clear();
@@ -159,10 +160,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-
-
         #region PopulateTreeViewWithValues
-        public static void PopulateTreeViewWithValues(TreeView treeView, string keyRoot, string key, List<string> nodes)
+        public static void PopulateTreeViewWithValues(KryptonTreeView treeView, string keyRoot, string key, List<string> nodes)
         {
             foreach (string node in nodes)
             {
@@ -184,7 +183,7 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region Read Values - From One Tree Node
-        public int ReadValuesFromTreeNodes(TreeView treeView, string rootNode, string tagNode)
+        public int ReadValuesFromTreeNodes(KryptonTreeView treeView, string rootNode, string tagNode)
         {
             int valuesCountAdded = 0;
             if (treeView.Nodes[rootNode] == null) return valuesCountAdded;
@@ -208,7 +207,7 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region Read Values - From All Tree Nodes 
-        public int ReadValuesFromRootNodesWithChilds(TreeView treeView, string rootNode)
+        public int ReadValuesFromRootNodesWithChilds(KryptonTreeView treeView, string rootNode)
         {
             int valuesCountAdded = 0;
             IsAndBewteenFieldTags = (treeView.Nodes[rootNode] == null ? true : treeView.Nodes[rootNode].Checked);
