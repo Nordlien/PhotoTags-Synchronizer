@@ -52,4 +52,7 @@
     <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2019.csproj" />
     <ProjectReference Include="..\MetadataLibrary\MetadataLibrary.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Design" />
+  </ItemGroup>
 </Project>

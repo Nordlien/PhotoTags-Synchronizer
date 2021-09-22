@@ -29,11 +29,9 @@ namespace PhotoTagsSynchronizer
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormRegionSelect));
             this.panel1 = new Krypton.Toolkit.KryptonPanel();
             this.imageBox1 = new Cyotek.Windows.Forms.ImageBox();
-            this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.panel1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -64,10 +62,6 @@ namespace PhotoTagsSynchronizer
             this.imageBox1.Selecting += new System.EventHandler<Cyotek.Windows.Forms.ImageBoxCancelEventArgs>(this.imageBox1_Selecting);
             this.imageBox1.RegionChanged += new System.EventHandler(this.imageBox1_RegionChanged);
             // 
-            // kryptonManager1
-            // 
-            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteModeManager.ProfessionalSystem;
-            // 
             // FormRegionSelect
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -89,6 +83,5 @@ namespace PhotoTagsSynchronizer
 
         private Krypton.Toolkit.KryptonPanel panel1;
         private Cyotek.Windows.Forms.ImageBox imageBox1;
-        private Krypton.Toolkit.KryptonManager kryptonManager1;
     }
 }

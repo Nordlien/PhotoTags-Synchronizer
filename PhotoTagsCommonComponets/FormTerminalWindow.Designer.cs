@@ -29,11 +29,9 @@ namespace PhotoTagsCommonComponets
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormTerminalWindow));
             this.fastColoredTextBox1 = new FastColoredTextBoxNS.FastColoredTextBox();
             this.buttonScrollToEnd = new Krypton.Toolkit.KryptonButton();
-            this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -50,15 +48,16 @@ namespace PhotoTagsCommonComponets
         '\"',
         '\'',
         '\''};
-            this.fastColoredTextBox1.AutoScrollMinSize = new System.Drawing.Size(0, 18);
+            this.fastColoredTextBox1.AutoScrollMinSize = new System.Drawing.Size(0, 14);
             this.fastColoredTextBox1.BackBrush = null;
             this.fastColoredTextBox1.BackColor = System.Drawing.Color.Black;
             this.fastColoredTextBox1.CaretColor = System.Drawing.Color.White;
-            this.fastColoredTextBox1.CharHeight = 18;
-            this.fastColoredTextBox1.CharWidth = 10;
+            this.fastColoredTextBox1.CharHeight = 14;
+            this.fastColoredTextBox1.CharWidth = 8;
             this.fastColoredTextBox1.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBox1.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fastColoredTextBox1.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBox1.ForeColor = System.Drawing.Color.Yellow;
             this.fastColoredTextBox1.IsReplaceMode = false;
             this.fastColoredTextBox1.Location = new System.Drawing.Point(0, 0);
@@ -79,19 +78,13 @@ namespace PhotoTagsCommonComponets
             this.buttonScrollToEnd.Name = "buttonScrollToEnd";
             this.buttonScrollToEnd.Size = new System.Drawing.Size(155, 35);
             this.buttonScrollToEnd.TabIndex = 1;
-            this.buttonScrollToEnd.Text = "Scroll to end";
+            this.buttonScrollToEnd.Values.Text = "Scroll to end";
             this.buttonScrollToEnd.Click += new System.EventHandler(this.buttonScrollToEnd_Click);
-            // 
-            // kryptonManager1
-            // 
-            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteModeManager.Office2010Blue;
             // 
             // FormTerminalWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            //this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-
             this.ClientSize = new System.Drawing.Size(1483, 761);
             this.Controls.Add(this.buttonScrollToEnd);
             this.Controls.Add(this.fastColoredTextBox1);
@@ -108,6 +101,5 @@ namespace PhotoTagsCommonComponets
 
         private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBox1;
         private Krypton.Toolkit.KryptonButton buttonScrollToEnd;
-        private Krypton.Toolkit.KryptonManager kryptonManager1;
     }
 }

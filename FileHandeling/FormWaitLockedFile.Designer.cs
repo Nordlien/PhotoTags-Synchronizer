@@ -34,19 +34,20 @@ namespace FileHandeling
             this.buttonIgnor = new Krypton.Toolkit.KryptonButton();
             this.textBox1 = new Krypton.Toolkit.KryptonTextBox();
             this.panel1 = new Krypton.Toolkit.KryptonPanel();
-            this.groupBox3 = new Krypton.Toolkit.KryptonGroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.textBoxFilesLockedByProcess = new Krypton.Toolkit.KryptonTextBox();
             this.buttonCheck = new Krypton.Toolkit.KryptonButton();
             this.textBoxFiles = new Krypton.Toolkit.KryptonTextBox();
-            this.groupBox2 = new Krypton.Toolkit.KryptonGroupBox();
-            this.groupBox1 = new Krypton.Toolkit.KryptonGroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.panel1)).BeginInit();
             this.panel1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
@@ -57,7 +58,7 @@ namespace FileHandeling
             this.buttonRetry.Name = "buttonRetry";
             this.buttonRetry.Size = new System.Drawing.Size(131, 38);
             this.buttonRetry.TabIndex = 0;
-            this.buttonRetry.Text = "Retry";
+            this.buttonRetry.Values.Text = "Retry";
             this.buttonRetry.Click += new System.EventHandler(this.buttonRetry_Click);
             // 
             // buttonIgnor
@@ -67,12 +68,11 @@ namespace FileHandeling
             this.buttonIgnor.Name = "buttonIgnor";
             this.buttonIgnor.Size = new System.Drawing.Size(131, 38);
             this.buttonIgnor.TabIndex = 1;
-            this.buttonIgnor.Text = "Ignor";
+            this.buttonIgnor.Values.Text = "Ignor";
             this.buttonIgnor.Click += new System.EventHandler(this.buttonIgnor_Click);
             // 
             // textBox1
             // 
-            this.textBox1.InputControlStyle = Krypton.Toolkit.InputControlStyle.Standalone;
             this.textBox1.Location = new System.Drawing.Point(8, 38);
             this.textBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox1.Multiline = true;
@@ -93,17 +93,17 @@ namespace FileHandeling
             this.panel1.Location = new System.Drawing.Point(1, 1);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(783, 503);
+            this.panel1.Size = new System.Drawing.Size(1050, 503);
             this.panel1.TabIndex = 6;
             // 
             // groupBox3
             // 
-            this.groupBox3.Panel.Controls.Add(this.textBoxFilesLockedByProcess);
-            this.groupBox3.Panel.Controls.Add(this.buttonCheck);
-            this.groupBox3.Panel.Controls.Add(this.textBoxFiles);
-            this.groupBox3.Panel.Controls.Add(this.buttonIgnor);
-            this.groupBox3.Panel.Controls.Add(this.textBox1);
-            this.groupBox3.Panel.Controls.Add(this.buttonRetry);
+            this.groupBox3.Controls.Add(this.textBoxFilesLockedByProcess);
+            this.groupBox3.Controls.Add(this.buttonCheck);
+            this.groupBox3.Controls.Add(this.textBoxFiles);
+            this.groupBox3.Controls.Add(this.buttonIgnor);
+            this.groupBox3.Controls.Add(this.textBox1);
+            this.groupBox3.Controls.Add(this.buttonRetry);
             this.groupBox3.Location = new System.Drawing.Point(3, 5);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox3.Name = "groupBox3";
@@ -131,7 +131,7 @@ namespace FileHandeling
             this.buttonCheck.Name = "buttonCheck";
             this.buttonCheck.Size = new System.Drawing.Size(131, 38);
             this.buttonCheck.TabIndex = 5;
-            this.buttonCheck.Text = "Check who lock";
+            this.buttonCheck.Values.Text = "Check who lock";
             this.buttonCheck.Click += new System.EventHandler(this.buttonCheck_Click);
             // 
             // textBoxFiles
@@ -147,7 +147,7 @@ namespace FileHandeling
             // 
             // groupBox2
             // 
-            this.groupBox2.Panel.Controls.Add(this.pictureBox1);
+            this.groupBox2.Controls.Add(this.pictureBox1);
             this.groupBox2.Location = new System.Drawing.Point(427, 247);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox2.Name = "groupBox2";
@@ -157,9 +157,22 @@ namespace FileHandeling
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Backup and Sync from Google screenshot";
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox1.ErrorImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.ErrorImage")));
+            this.pictureBox1.Image = global::FileHandeling.Properties.Resources.Backup_And_Sync_From_Google_Pause;
+            this.pictureBox1.Location = new System.Drawing.Point(3, 15);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(341, 235);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 4;
+            this.pictureBox1.TabStop = false;
+            // 
             // groupBox1
             // 
-            this.groupBox1.Panel.Controls.Add(this.pictureBox2);
+            this.groupBox1.Controls.Add(this.pictureBox2);
             this.groupBox1.Location = new System.Drawing.Point(427, 5);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox1.Name = "groupBox1";
@@ -169,27 +182,14 @@ namespace FileHandeling
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "OneDrive sync screenshot";
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.ErrorImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.ErrorImage")));
-            this.pictureBox1.Image = global::FileHandeling.Properties.Resources.Backup_And_Sync_From_Google_Pause;
-            this.pictureBox1.Location = new System.Drawing.Point(3, 17);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(341, 233);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 4;
-            this.pictureBox1.TabStop = false;
-            // 
             // pictureBox2
             // 
             this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox2.Image = global::FileHandeling.Properties.Resources.OneDrive_Pause;
-            this.pictureBox2.Location = new System.Drawing.Point(3, 17);
+            this.pictureBox2.Location = new System.Drawing.Point(3, 15);
             this.pictureBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(341, 219);
+            this.pictureBox2.Size = new System.Drawing.Size(341, 221);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox2.TabIndex = 5;
             this.pictureBox2.TabStop = false;
@@ -198,22 +198,20 @@ namespace FileHandeling
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            //this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-
-            this.ClientSize = new System.Drawing.Size(787, 516);
+            this.ClientSize = new System.Drawing.Size(1054, 516);
             this.Controls.Add(this.panel1);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "FormWaitLockedFile";
             this.Text = "File is been locked by another process";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormWaitLockedFile_FormClosed);
             this.Shown += new System.EventHandler(this.FormWaitLockedFile_Shown);
+            ((System.ComponentModel.ISupportInitialize)(this.panel1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
 
@@ -227,9 +225,9 @@ namespace FileHandeling
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
         private Krypton.Toolkit.KryptonPanel panel1;
-        private Krypton.Toolkit.KryptonGroupBox groupBox3;
-        private Krypton.Toolkit.KryptonGroupBox groupBox2;
-        private Krypton.Toolkit.KryptonGroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox groupBox1;
         private Krypton.Toolkit.KryptonTextBox textBoxFiles;
         private Krypton.Toolkit.KryptonButton buttonCheck;
         private Krypton.Toolkit.KryptonTextBox textBoxFilesLockedByProcess;

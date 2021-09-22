@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormChooseColumns));
             this.btnClose = new Krypton.Toolkit.KryptonButton();
             this.checkedListBox = new Krypton.Toolkit.KryptonCheckedListBox();
@@ -47,7 +46,6 @@
             this.kryptonWorkspaceCell1 = new Krypton.Workspace.KryptonWorkspaceCell();
             this.kryptonPage3 = new Krypton.Navigator.KryptonPage();
             this.kryptonWorkspaceChooseColumns = new Krypton.Workspace.KryptonWorkspace();
-            this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxTitleLine5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxTitleLine4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxTitleLine3)).BeginInit();
@@ -285,10 +283,6 @@
             this.kryptonWorkspaceChooseColumns.TabIndex = 6;
             this.kryptonWorkspaceChooseColumns.TabStop = true;
             // 
-            // kryptonManager1
-            // 
-            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteModeManager.Office2007Blue;
-            // 
             // FormChooseColumns
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -343,6 +337,5 @@
         private Krypton.Workspace.KryptonWorkspaceCell kryptonWorkspaceCell1;
         private Krypton.Navigator.KryptonPage kryptonPage3;
         private Krypton.Workspace.KryptonWorkspace kryptonWorkspaceChooseColumns;
-        private Krypton.Toolkit.KryptonManager kryptonManager1;
     }
 }

@@ -28,10 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAbout));
             this.richTextBox1 = new Krypton.Toolkit.KryptonRichTextBox();
-            this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
             this.SuspendLayout();
             // 
             // richTextBox1
@@ -51,8 +49,6 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            //this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.richTextBox1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -65,6 +61,5 @@
         #endregion
 
         private Krypton.Toolkit.KryptonRichTextBox richTextBox1;
-        private Krypton.Toolkit.KryptonManager kryptonManager1;
     }
 }

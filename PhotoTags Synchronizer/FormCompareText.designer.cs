@@ -37,7 +37,6 @@
             this.ofdFile = new System.Windows.Forms.OpenFileDialog();
             this.fctb1 = new FastColoredTextBoxNS.FastColoredTextBox();
             this.fctb2 = new FastColoredTextBoxNS.FastColoredTextBox();
-            this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
             this.kryptonWorkspaceCompareText = new Krypton.Workspace.KryptonWorkspace();
             this.kryptonPageSourceFirst = new Krypton.Navigator.KryptonPage();
             this.kryptonWorkspaceCellSourceFirst = new Krypton.Workspace.KryptonWorkspaceCell();
@@ -60,10 +59,10 @@
             // label6
             // 
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label6.Location = new System.Drawing.Point(176, 505);
+            this.label6.Location = new System.Drawing.Point(176, 509);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(100, 24);
+            this.label6.Size = new System.Drawing.Size(81, 20);
             this.label6.TabIndex = 24;
             this.label6.Values.Text = "Deleted lines";
             // 
@@ -71,20 +70,20 @@
             // 
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label7.BackColor = System.Drawing.Color.Pink;
-            this.label7.Location = new System.Drawing.Point(157, 503);
+            this.label7.Location = new System.Drawing.Point(157, 507);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(11, 24);
+            this.label7.Size = new System.Drawing.Size(10, 20);
             this.label7.TabIndex = 23;
             this.label7.Values.Text = " ";
             // 
             // label5
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label5.Location = new System.Drawing.Point(1, 505);
+            this.label5.Location = new System.Drawing.Point(1, 509);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(102, 24);
+            this.label5.Size = new System.Drawing.Size(83, 20);
             this.label5.TabIndex = 22;
             this.label5.Values.Text = "Inserted lines";
             // 
@@ -92,10 +91,10 @@
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label4.BackColor = System.Drawing.Color.PaleGreen;
-            this.label4.Location = new System.Drawing.Point(16, 503);
+            this.label4.Location = new System.Drawing.Point(16, 507);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(11, 24);
+            this.label4.Size = new System.Drawing.Size(10, 20);
             this.label4.TabIndex = 21;
             this.label4.Values.Text = " ";
             // 
@@ -112,13 +111,14 @@
         '\"',
         '\'',
         '\''};
-            this.fctb1.AutoScrollMinSize = new System.Drawing.Size(221, 18);
+            this.fctb1.AutoScrollMinSize = new System.Drawing.Size(179, 14);
             this.fctb1.BackBrush = null;
-            this.fctb1.CharHeight = 18;
-            this.fctb1.CharWidth = 10;
+            this.fctb1.CharHeight = 14;
+            this.fctb1.CharWidth = 8;
             this.fctb1.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fctb1.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fctb1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fctb1.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fctb1.IsReplaceMode = false;
             this.fctb1.Location = new System.Drawing.Point(0, 0);
             this.fctb1.Margin = new System.Windows.Forms.Padding(4);
@@ -127,7 +127,7 @@
             this.fctb1.ReadOnly = true;
             this.fctb1.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.fctb1.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fctb1.ServiceColors")));
-            this.fctb1.Size = new System.Drawing.Size(476, 469);
+            this.fctb1.Size = new System.Drawing.Size(476, 475);
             this.fctb1.TabIndex = 26;
             this.fctb1.Text = "fastColoredTextBox1";
             this.fctb1.Zoom = 100;
@@ -147,13 +147,14 @@
         '\"',
         '\'',
         '\''};
-            this.fctb2.AutoScrollMinSize = new System.Drawing.Size(221, 18);
+            this.fctb2.AutoScrollMinSize = new System.Drawing.Size(179, 14);
             this.fctb2.BackBrush = null;
-            this.fctb2.CharHeight = 18;
-            this.fctb2.CharWidth = 10;
+            this.fctb2.CharHeight = 14;
+            this.fctb2.CharWidth = 8;
             this.fctb2.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fctb2.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fctb2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fctb2.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fctb2.IsReplaceMode = false;
             this.fctb2.Location = new System.Drawing.Point(0, 0);
             this.fctb2.Margin = new System.Windows.Forms.Padding(4);
@@ -162,7 +163,7 @@
             this.fctb2.ReadOnly = true;
             this.fctb2.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.fctb2.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fctb2.ServiceColors")));
-            this.fctb2.Size = new System.Drawing.Size(477, 469);
+            this.fctb2.Size = new System.Drawing.Size(477, 475);
             this.fctb2.TabIndex = 27;
             this.fctb2.Text = "fastColoredTextBox2";
             this.fctb2.Zoom = 100;
@@ -171,12 +172,12 @@
             // 
             // kryptonWorkspaceCompareText
             // 
-            this.kryptonWorkspaceCompareText.AllowPageDrag = false;
-            this.kryptonWorkspaceCompareText.ContextMenus.ShowContextMenu = false;
             this.kryptonWorkspaceCompareText.ActivePage = this.kryptonPageSourceFirst;
+            this.kryptonWorkspaceCompareText.AllowPageDrag = false;
             this.kryptonWorkspaceCompareText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.kryptonWorkspaceCompareText.ContextMenus.ShowContextMenu = false;
             this.kryptonWorkspaceCompareText.Location = new System.Drawing.Point(0, 0);
             this.kryptonWorkspaceCompareText.Name = "kryptonWorkspaceCompareText";
             // 
@@ -200,7 +201,7 @@
             this.kryptonPageSourceFirst.LastVisibleSet = true;
             this.kryptonPageSourceFirst.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPageSourceFirst.Name = "kryptonPageSourceFirst";
-            this.kryptonPageSourceFirst.Size = new System.Drawing.Size(476, 469);
+            this.kryptonPageSourceFirst.Size = new System.Drawing.Size(476, 475);
             this.kryptonPageSourceFirst.Text = "Source: first";
             this.kryptonPageSourceFirst.ToolTipTitle = "Page ToolTip";
             this.kryptonPageSourceFirst.UniqueName = "cd6063e74a1746f2a1963210d7142aa6";
@@ -208,6 +209,7 @@
             // kryptonWorkspaceCellSourceFirst
             // 
             this.kryptonWorkspaceCellSourceFirst.AllowDroppingPages = false;
+            this.kryptonWorkspaceCellSourceFirst.AllowPageDrag = true;
             this.kryptonWorkspaceCellSourceFirst.AllowPageReorder = false;
             this.kryptonWorkspaceCellSourceFirst.AllowTabFocus = false;
             this.kryptonWorkspaceCellSourceFirst.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
@@ -224,6 +226,7 @@
             // kryptonWorkspaceCellSourceSecond
             // 
             this.kryptonWorkspaceCellSourceSecond.AllowDroppingPages = false;
+            this.kryptonWorkspaceCellSourceSecond.AllowPageDrag = true;
             this.kryptonWorkspaceCellSourceSecond.AllowPageReorder = false;
             this.kryptonWorkspaceCellSourceSecond.AllowTabFocus = false;
             this.kryptonWorkspaceCellSourceSecond.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
@@ -245,7 +248,7 @@
             this.kryptonPageSourceSecond.LastVisibleSet = true;
             this.kryptonPageSourceSecond.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPageSourceSecond.Name = "kryptonPageSourceSecond";
-            this.kryptonPageSourceSecond.Size = new System.Drawing.Size(477, 469);
+            this.kryptonPageSourceSecond.Size = new System.Drawing.Size(477, 475);
             this.kryptonPageSourceSecond.Text = "Source: second";
             this.kryptonPageSourceSecond.ToolTipTitle = "Page ToolTip";
             this.kryptonPageSourceSecond.UniqueName = "c36efafd5d2b4e40a48624b6e1055fb7";
@@ -266,8 +269,6 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            //this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-
             this.ClientSize = new System.Drawing.Size(963, 538);
             this.Controls.Add(this.kryptonWorkspaceCompareText);
             this.Controls.Add(this.label6);
@@ -303,7 +304,6 @@
         private System.Windows.Forms.OpenFileDialog ofdFile;
         private FastColoredTextBoxNS.FastColoredTextBox fctb1;
         private FastColoredTextBoxNS.FastColoredTextBox fctb2;
-        private Krypton.Toolkit.KryptonManager kryptonManager1;
         private Krypton.Workspace.KryptonWorkspace kryptonWorkspaceCompareText;
         private Krypton.Navigator.KryptonPage kryptonPageSourceFirst;
         private Krypton.Workspace.KryptonWorkspaceCell kryptonWorkspaceCellSourceFirst;

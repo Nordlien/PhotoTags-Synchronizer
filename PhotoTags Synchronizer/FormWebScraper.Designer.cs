@@ -67,7 +67,6 @@ namespace PhotoTagsSynchronizer
             this.buttonSaveJavaScript = new Krypton.Toolkit.KryptonButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabelStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
             this.kryptonPage2 = new Krypton.Navigator.KryptonPage();
             this.kryptonPage4 = new Krypton.Navigator.KryptonPage();
             this.kryptonPage6 = new Krypton.Navigator.KryptonPage();
@@ -75,9 +74,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageBrowser = new Krypton.Navigator.KryptonPage();
             this.kryptonWorkspaceSequence1 = new Krypton.Workspace.KryptonWorkspaceSequence();
             this.kryptonWorkspaceSequence2 = new Krypton.Workspace.KryptonWorkspaceSequence();
-            this.kryptonWorkspaceCellBrowser = new Krypton.Workspace.KryptonWorkspaceCell();
             this.kryptonWorkspaceCellBrowserUrl = new Krypton.Workspace.KryptonWorkspaceCell();
             this.kryptonPageBrowserUrl = new Krypton.Navigator.KryptonPage();
+            this.kryptonWorkspaceCellBrowser = new Krypton.Workspace.KryptonWorkspaceCell();
             this.kryptonWorkspaceCellJavaScript = new Krypton.Workspace.KryptonWorkspaceCell();
             this.kryptonPageJavaScript = new Krypton.Navigator.KryptonPage();
             this.kryptonWorkspaceCellJavaScriptResult = new Krypton.Workspace.KryptonWorkspaceCell();
@@ -88,10 +87,18 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceCellDataSetActions = new Krypton.Workspace.KryptonWorkspaceCell();
             this.kryptonPageDataSetActions = new Krypton.Navigator.KryptonPage();
             this.kryptonWorkspaceCellDataSet = new Krypton.Workspace.KryptonWorkspaceCell();
+            this.buttonSpecNavigatorDataSetSelectDelete = new Krypton.Navigator.ButtonSpecNavigator();
+            this.buttonSpecNavigatorDataSetSelectAll = new Krypton.Navigator.ButtonSpecNavigator();
+            this.buttonSpecNavigatorDataSetSelectToggle = new Krypton.Navigator.ButtonSpecNavigator();
+            this.buttonSpecNavigatorDataSetSelectNone = new Krypton.Navigator.ButtonSpecNavigator();
             this.kryptonPageDataSet = new Krypton.Navigator.KryptonPage();
             this.kryptonWorkspaceCellWebScrapingActions = new Krypton.Workspace.KryptonWorkspaceCell();
             this.kryptonPageWebScrapingActions = new Krypton.Navigator.KryptonPage();
             this.kryptonWorkspaceCellCategories = new Krypton.Workspace.KryptonWorkspaceCell();
+            this.buttonSpecNavigatorCategoriesSelectEmpty = new Krypton.Navigator.ButtonSpecNavigator();
+            this.buttonSpecNavigatorCategoriesSelectAll = new Krypton.Navigator.ButtonSpecNavigator();
+            this.buttonSpecNavigatorCategoriesSelectToggle = new Krypton.Navigator.ButtonSpecNavigator();
+            this.buttonSpecNavigatorCategoriesSelectNone = new Krypton.Navigator.ButtonSpecNavigator();
             this.kryptonPageCategories = new Krypton.Navigator.KryptonPage();
             this.kryptonPage3 = new Krypton.Navigator.KryptonPage();
             this.kryptonPage7 = new Krypton.Navigator.KryptonPage();
@@ -108,14 +115,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonPage18 = new Krypton.Navigator.KryptonPage();
             this.kryptonPage5 = new Krypton.Navigator.KryptonPage();
             this.kryptonPage10 = new Krypton.Navigator.KryptonPage();
-            this.buttonSpecNavigatorDataSetSelectDelete = new Krypton.Navigator.ButtonSpecNavigator();
-            this.buttonSpecNavigatorDataSetSelectAll = new Krypton.Navigator.ButtonSpecNavigator();
-            this.buttonSpecNavigatorDataSetSelectToggle = new Krypton.Navigator.ButtonSpecNavigator();
-            this.buttonSpecNavigatorDataSetSelectNone = new Krypton.Navigator.ButtonSpecNavigator();
-            this.buttonSpecNavigatorCategoriesSelectEmpty = new Krypton.Navigator.ButtonSpecNavigator();
-            this.buttonSpecNavigatorCategoriesSelectAll = new Krypton.Navigator.ButtonSpecNavigator();
-            this.buttonSpecNavigatorCategoriesSelectToggle = new Krypton.Navigator.ButtonSpecNavigator();
-            this.buttonSpecNavigatorCategoriesSelectNone = new Krypton.Navigator.ButtonSpecNavigator();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxJavaScript)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxJavaScriptResult)).BeginInit();
             this.statusStrip1.SuspendLayout();
@@ -126,12 +125,12 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageBrowser)).BeginInit();
             this.kryptonPageBrowser.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellBrowser)).BeginInit();
-            this.kryptonWorkspaceCellBrowser.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellBrowserUrl)).BeginInit();
             this.kryptonWorkspaceCellBrowserUrl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageBrowserUrl)).BeginInit();
             this.kryptonPageBrowserUrl.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellBrowser)).BeginInit();
+            this.kryptonWorkspaceCellBrowser.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellJavaScript)).BeginInit();
             this.kryptonWorkspaceCellJavaScript.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageJavaScript)).BeginInit();
@@ -183,7 +182,7 @@ namespace PhotoTagsSynchronizer
             this.panelBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelBrowser.Location = new System.Drawing.Point(0, 0);
             this.panelBrowser.Name = "panelBrowser";
-            this.panelBrowser.Size = new System.Drawing.Size(688, 259);
+            this.panelBrowser.Size = new System.Drawing.Size(688, 268);
             this.panelBrowser.TabIndex = 0;
             // 
             // textBoxBrowserURL
@@ -192,7 +191,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxBrowserURL.Location = new System.Drawing.Point(2, 3);
             this.textBoxBrowserURL.Name = "textBoxBrowserURL";
-            this.textBoxBrowserURL.Size = new System.Drawing.Size(682, 23);
+            this.textBoxBrowserURL.Size = new System.Drawing.Size(682, 20);
             this.textBoxBrowserURL.TabIndex = 1;
             this.textBoxBrowserURL.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxBrowserURL_KeyPress);
             // 
@@ -218,6 +217,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxJavaScript.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxJavaScript.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxJavaScript.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fastColoredTextBoxJavaScript.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxJavaScript.IsReplaceMode = false;
             this.fastColoredTextBoxJavaScript.Language = FastColoredTextBoxNS.Language.JS;
             this.fastColoredTextBoxJavaScript.LeftBracket = '(';
@@ -229,7 +229,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxJavaScript.RightBracket2 = '}';
             this.fastColoredTextBoxJavaScript.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.fastColoredTextBoxJavaScript.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fastColoredTextBoxJavaScript.ServiceColors")));
-            this.fastColoredTextBoxJavaScript.Size = new System.Drawing.Size(688, 103);
+            this.fastColoredTextBoxJavaScript.Size = new System.Drawing.Size(688, 112);
             this.fastColoredTextBoxJavaScript.TabIndex = 0;
             this.fastColoredTextBoxJavaScript.WordWrap = true;
             this.fastColoredTextBoxJavaScript.Zoom = 100;
@@ -256,6 +256,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxJavaScriptResult.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxJavaScriptResult.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxJavaScriptResult.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fastColoredTextBoxJavaScriptResult.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxJavaScriptResult.IsReplaceMode = false;
             this.fastColoredTextBoxJavaScriptResult.Language = FastColoredTextBoxNS.Language.XML;
             this.fastColoredTextBoxJavaScriptResult.LeftBracket = '<';
@@ -267,7 +268,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxJavaScriptResult.RightBracket2 = ')';
             this.fastColoredTextBoxJavaScriptResult.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.fastColoredTextBoxJavaScriptResult.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fastColoredTextBoxJavaScriptResult.ServiceColors")));
-            this.fastColoredTextBoxJavaScriptResult.Size = new System.Drawing.Size(688, 104);
+            this.fastColoredTextBoxJavaScriptResult.Size = new System.Drawing.Size(688, 113);
             this.fastColoredTextBoxJavaScriptResult.TabIndex = 0;
             this.fastColoredTextBoxJavaScriptResult.WordWrap = true;
             this.fastColoredTextBoxJavaScriptResult.Zoom = 100;
@@ -285,7 +286,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.label3.Location = new System.Drawing.Point(212, 4);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(172, 20);
+            this.label3.Size = new System.Drawing.Size(158, 18);
             this.label3.TabIndex = 1;
             this.label3.Values.Text = "Load dataset to append more";
             // 
@@ -305,7 +306,7 @@ namespace PhotoTagsSynchronizer
             this.listViewDataSetDates.HideSelection = false;
             this.listViewDataSetDates.Location = new System.Drawing.Point(0, 0);
             this.listViewDataSetDates.Name = "listViewDataSetDates";
-            this.listViewDataSetDates.Size = new System.Drawing.Size(418, 99);
+            this.listViewDataSetDates.Size = new System.Drawing.Size(418, 102);
             this.listViewDataSetDates.TabIndex = 6;
             this.listViewDataSetDates.UseCompatibleStateImageBehavior = false;
             this.listViewDataSetDates.View = System.Windows.Forms.View.Details;
@@ -405,7 +406,7 @@ namespace PhotoTagsSynchronizer
             this.listViewLinks.HideSelection = false;
             this.listViewLinks.Location = new System.Drawing.Point(0, 0);
             this.listViewLinks.Name = "listViewLinks";
-            this.listViewLinks.Size = new System.Drawing.Size(418, 100);
+            this.listViewLinks.Size = new System.Drawing.Size(418, 103);
             this.listViewLinks.TabIndex = 6;
             this.listViewLinks.UseCompatibleStateImageBehavior = false;
             this.listViewLinks.View = System.Windows.Forms.View.Details;
@@ -547,9 +548,9 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonWorkspaceMain
             // 
+            this.kryptonWorkspaceMain.ActivePage = this.kryptonPageBrowserUrl;
             this.kryptonWorkspaceMain.AllowPageDrag = false;
             this.kryptonWorkspaceMain.ContextMenus.ShowContextMenu = false;
-            this.kryptonWorkspaceMain.ActivePage = this.kryptonPageBrowser;
             this.kryptonWorkspaceMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonWorkspaceMain.Location = new System.Drawing.Point(0, 0);
             this.kryptonWorkspaceMain.Name = "kryptonWorkspaceMain";
@@ -574,7 +575,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageBrowser.LastVisibleSet = true;
             this.kryptonPageBrowser.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPageBrowser.Name = "kryptonPageBrowser";
-            this.kryptonPageBrowser.Size = new System.Drawing.Size(688, 259);
+            this.kryptonPageBrowser.Size = new System.Drawing.Size(688, 268);
             this.kryptonPageBrowser.Text = "Browser";
             this.kryptonPageBrowser.TextDescription = "The browser used for scraping";
             this.kryptonPageBrowser.TextTitle = "Scraping Browser";
@@ -599,22 +600,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceSequence2.Orientation = System.Windows.Forms.Orientation.Vertical;
             this.kryptonWorkspaceSequence2.UniqueName = "dfb45b14110045329b3a52cbcab901fd";
             this.kryptonWorkspaceSequence2.WorkspaceControl = null;
-            // 
-            // kryptonWorkspaceCellBrowser
-            // 
-            this.kryptonWorkspaceCellBrowser.AllowPageDrag = true;
-            this.kryptonWorkspaceCellBrowser.AllowTabFocus = false;
-            this.kryptonWorkspaceCellBrowser.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
-            this.kryptonWorkspaceCellBrowser.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
-            this.kryptonWorkspaceCellBrowser.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
-            this.kryptonWorkspaceCellBrowser.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
-            this.kryptonWorkspaceCellBrowser.Name = "kryptonWorkspaceCellBrowser";
-            this.kryptonWorkspaceCellBrowser.NavigatorMode = Krypton.Navigator.NavigatorMode.HeaderGroup;
-            this.kryptonWorkspaceCellBrowser.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
-            this.kryptonPageBrowser});
-            this.kryptonWorkspaceCellBrowser.SelectedIndex = 0;
-            this.kryptonWorkspaceCellBrowser.StarSize = "50*,100*";
-            this.kryptonWorkspaceCellBrowser.UniqueName = "27ac97d2678d4043a4d6bdaa21ecc24b";
             // 
             // kryptonWorkspaceCellBrowserUrl
             // 
@@ -647,6 +632,22 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageBrowserUrl.ToolTipTitle = "Page ToolTip";
             this.kryptonPageBrowserUrl.UniqueName = "024370100d3449cf898fbd25a59424d9";
             // 
+            // kryptonWorkspaceCellBrowser
+            // 
+            this.kryptonWorkspaceCellBrowser.AllowPageDrag = true;
+            this.kryptonWorkspaceCellBrowser.AllowTabFocus = false;
+            this.kryptonWorkspaceCellBrowser.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonWorkspaceCellBrowser.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCellBrowser.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
+            this.kryptonWorkspaceCellBrowser.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCellBrowser.Name = "kryptonWorkspaceCellBrowser";
+            this.kryptonWorkspaceCellBrowser.NavigatorMode = Krypton.Navigator.NavigatorMode.HeaderGroup;
+            this.kryptonWorkspaceCellBrowser.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
+            this.kryptonPageBrowser});
+            this.kryptonWorkspaceCellBrowser.SelectedIndex = 0;
+            this.kryptonWorkspaceCellBrowser.StarSize = "50*,100*";
+            this.kryptonWorkspaceCellBrowser.UniqueName = "27ac97d2678d4043a4d6bdaa21ecc24b";
+            // 
             // kryptonWorkspaceCellJavaScript
             // 
             this.kryptonWorkspaceCellJavaScript.AllowPageDrag = true;
@@ -670,7 +671,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageJavaScript.LastVisibleSet = true;
             this.kryptonPageJavaScript.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPageJavaScript.Name = "kryptonPageJavaScript";
-            this.kryptonPageJavaScript.Size = new System.Drawing.Size(688, 103);
+            this.kryptonPageJavaScript.Size = new System.Drawing.Size(688, 112);
             this.kryptonPageJavaScript.Text = "JavaScript";
             this.kryptonPageJavaScript.TextDescription = "The JavaScript injected into each page";
             this.kryptonPageJavaScript.TextTitle = "JavaScript";
@@ -700,7 +701,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageJavaScriptResult.LastVisibleSet = true;
             this.kryptonPageJavaScriptResult.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPageJavaScriptResult.Name = "kryptonPageJavaScriptResult";
-            this.kryptonPageJavaScriptResult.Size = new System.Drawing.Size(688, 104);
+            this.kryptonPageJavaScriptResult.Size = new System.Drawing.Size(688, 113);
             this.kryptonPageJavaScriptResult.Text = "JavaScript result";
             this.kryptonPageJavaScriptResult.TextDescription = "Result of the JavaScript and WebScraping";
             this.kryptonPageJavaScriptResult.TextTitle = "JavaScript result";
@@ -746,7 +747,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageDevTools.LastVisibleSet = true;
             this.kryptonPageDevTools.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPageDevTools.Name = "kryptonPageDevTools";
-            this.kryptonPageDevTools.Size = new System.Drawing.Size(418, 62);
+            this.kryptonPageDevTools.Size = new System.Drawing.Size(418, 71);
             this.kryptonPageDevTools.Text = "DevTools";
             this.kryptonPageDevTools.TextDescription = "Developer Tools for used for scraping and testing script";
             this.kryptonPageDevTools.TextTitle = "DevTools";
@@ -779,7 +780,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageDataSetActions.LastVisibleSet = true;
             this.kryptonPageDataSetActions.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPageDataSetActions.Name = "kryptonPageDataSetActions";
-            this.kryptonPageDataSetActions.Size = new System.Drawing.Size(418, 62);
+            this.kryptonPageDataSetActions.Size = new System.Drawing.Size(418, 71);
             this.kryptonPageDataSetActions.Text = "DataSet actions";
             this.kryptonPageDataSetActions.TextDescription = "Select what to do with dataset; save, load or clear result ";
             this.kryptonPageDataSetActions.TextTitle = "DataSet actions";
@@ -806,6 +807,34 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceCellDataSet.SelectedIndex = 0;
             this.kryptonWorkspaceCellDataSet.UniqueName = "f2255e900d8240888cd384ec53d9e36a";
             // 
+            // buttonSpecNavigatorDataSetSelectDelete
+            // 
+            this.buttonSpecNavigatorDataSetSelectDelete.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckDelete16x16;
+            this.buttonSpecNavigatorDataSetSelectDelete.ToolTipBody = "Delete dataset";
+            this.buttonSpecNavigatorDataSetSelectDelete.UniqueName = "0598199c66394fc799af5c8f3e7a64b1";
+            this.buttonSpecNavigatorDataSetSelectDelete.Click += new System.EventHandler(this.buttonSpecNavigatorDataSetSelectDelete_Click);
+            // 
+            // buttonSpecNavigatorDataSetSelectAll
+            // 
+            this.buttonSpecNavigatorDataSetSelectAll.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckAll16x16;
+            this.buttonSpecNavigatorDataSetSelectAll.ToolTipBody = "Select all DataSet";
+            this.buttonSpecNavigatorDataSetSelectAll.UniqueName = "3dbc37b9ca3c4bf9b9d85c076f5ea9bd";
+            this.buttonSpecNavigatorDataSetSelectAll.Click += new System.EventHandler(this.buttonSpecNavigatorDataSetSelectAll_Click);
+            // 
+            // buttonSpecNavigatorDataSetSelectToggle
+            // 
+            this.buttonSpecNavigatorDataSetSelectToggle.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckToggle16x16;
+            this.buttonSpecNavigatorDataSetSelectToggle.ToolTipBody = "Toogle select of DataSet";
+            this.buttonSpecNavigatorDataSetSelectToggle.UniqueName = "d4d65cef436c405c85bfee678cefb27d";
+            this.buttonSpecNavigatorDataSetSelectToggle.Click += new System.EventHandler(this.buttonSpecNavigatorDataSetSelectToggle_Click);
+            // 
+            // buttonSpecNavigatorDataSetSelectNone
+            // 
+            this.buttonSpecNavigatorDataSetSelectNone.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckNone16x16;
+            this.buttonSpecNavigatorDataSetSelectNone.ToolTipBody = "Select None DataSet";
+            this.buttonSpecNavigatorDataSetSelectNone.UniqueName = "1a4019c476b546b2a2dc25f98136af59";
+            this.buttonSpecNavigatorDataSetSelectNone.Click += new System.EventHandler(this.buttonSpecNavigatorDataSetSelectNone_Click);
+            // 
             // kryptonPageDataSet
             // 
             this.kryptonPageDataSet.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
@@ -814,7 +843,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageDataSet.LastVisibleSet = true;
             this.kryptonPageDataSet.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPageDataSet.Name = "kryptonPageDataSet";
-            this.kryptonPageDataSet.Size = new System.Drawing.Size(418, 99);
+            this.kryptonPageDataSet.Size = new System.Drawing.Size(418, 102);
             this.kryptonPageDataSet.Text = "DataSet";
             this.kryptonPageDataSet.TextDescription = "Result of scraping is store in a DataSet. ";
             this.kryptonPageDataSet.TextTitle = "DataSet";
@@ -848,7 +877,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageWebScrapingActions.LastVisibleSet = true;
             this.kryptonPageWebScrapingActions.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPageWebScrapingActions.Name = "kryptonPageWebScrapingActions";
-            this.kryptonPageWebScrapingActions.Size = new System.Drawing.Size(418, 62);
+            this.kryptonPageWebScrapingActions.Size = new System.Drawing.Size(418, 71);
             this.kryptonPageWebScrapingActions.Text = "WebScraping actions";
             this.kryptonPageWebScrapingActions.TextDescription = "Here you can start the WebScraping";
             this.kryptonPageWebScrapingActions.TextTitle = "WebScraping actions";
@@ -875,6 +904,34 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceCellCategories.SelectedIndex = 0;
             this.kryptonWorkspaceCellCategories.UniqueName = "57abc6e7cd3640d5ab9ad6e79a0467ac";
             // 
+            // buttonSpecNavigatorCategoriesSelectEmpty
+            // 
+            this.buttonSpecNavigatorCategoriesSelectEmpty.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckEmpty16x16;
+            this.buttonSpecNavigatorCategoriesSelectEmpty.ToolTipBody = "Select categories that has never been updated";
+            this.buttonSpecNavigatorCategoriesSelectEmpty.UniqueName = "94d99ef48ad14ba48fee1a0fd49253ce";
+            this.buttonSpecNavigatorCategoriesSelectEmpty.Click += new System.EventHandler(this.buttonSpecNavigatorCategoriesSelectEmpty_Click);
+            // 
+            // buttonSpecNavigatorCategoriesSelectAll
+            // 
+            this.buttonSpecNavigatorCategoriesSelectAll.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckAll16x16;
+            this.buttonSpecNavigatorCategoriesSelectAll.ToolTipBody = "Select all categories";
+            this.buttonSpecNavigatorCategoriesSelectAll.UniqueName = "cb43b9f1b40947e29fb0d7fed70dd009";
+            this.buttonSpecNavigatorCategoriesSelectAll.Click += new System.EventHandler(this.buttonSpecNavigatorCategoriesSelectAll_Click);
+            // 
+            // buttonSpecNavigatorCategoriesSelectToggle
+            // 
+            this.buttonSpecNavigatorCategoriesSelectToggle.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckToggle16x16;
+            this.buttonSpecNavigatorCategoriesSelectToggle.ToolTipBody = "Toogle select categories";
+            this.buttonSpecNavigatorCategoriesSelectToggle.UniqueName = "6bf50bdffe4448bdb4a0c3bcb3efb436";
+            this.buttonSpecNavigatorCategoriesSelectToggle.Click += new System.EventHandler(this.buttonSpecNavigatorCategoriesSelectToggle_Click);
+            // 
+            // buttonSpecNavigatorCategoriesSelectNone
+            // 
+            this.buttonSpecNavigatorCategoriesSelectNone.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckNone16x16;
+            this.buttonSpecNavigatorCategoriesSelectNone.ToolTipBody = "Select none categories";
+            this.buttonSpecNavigatorCategoriesSelectNone.UniqueName = "bfa24b2e4542487cafa48a770d457ac2";
+            this.buttonSpecNavigatorCategoriesSelectNone.Click += new System.EventHandler(this.buttonSpecNavigatorCategoriesSelectNone_Click);
+            // 
             // kryptonPageCategories
             // 
             this.kryptonPageCategories.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
@@ -883,7 +940,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageCategories.LastVisibleSet = true;
             this.kryptonPageCategories.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPageCategories.Name = "kryptonPageCategories";
-            this.kryptonPageCategories.Size = new System.Drawing.Size(418, 100);
+            this.kryptonPageCategories.Size = new System.Drawing.Size(418, 103);
             this.kryptonPageCategories.Text = "Categories";
             this.kryptonPageCategories.TextDescription = "Select what categories you want scraping";
             this.kryptonPageCategories.TextTitle = "Categories";
@@ -1061,62 +1118,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonPage10.ToolTipTitle = "Page ToolTip";
             this.kryptonPage10.UniqueName = "3d0928b650a04ca58fb37c9da3c97546";
             // 
-            // buttonSpecNavigatorDataSetSelectDelete
-            // 
-            this.buttonSpecNavigatorDataSetSelectDelete.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckDelete16x16;
-            this.buttonSpecNavigatorDataSetSelectDelete.ToolTipBody = "Delete dataset";
-            this.buttonSpecNavigatorDataSetSelectDelete.UniqueName = "0598199c66394fc799af5c8f3e7a64b1";
-            this.buttonSpecNavigatorDataSetSelectDelete.Click += new System.EventHandler(this.buttonSpecNavigatorDataSetSelectDelete_Click);
-            // 
-            // buttonSpecNavigatorDataSetSelectAll
-            // 
-            this.buttonSpecNavigatorDataSetSelectAll.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckAll16x16;
-            this.buttonSpecNavigatorDataSetSelectAll.ToolTipBody = "Select all DataSet";
-            this.buttonSpecNavigatorDataSetSelectAll.UniqueName = "3dbc37b9ca3c4bf9b9d85c076f5ea9bd";
-            this.buttonSpecNavigatorDataSetSelectAll.Click += new System.EventHandler(this.buttonSpecNavigatorDataSetSelectAll_Click);
-            // 
-            // buttonSpecNavigatorDataSetSelectToggle
-            // 
-            this.buttonSpecNavigatorDataSetSelectToggle.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckToggle16x16;
-            this.buttonSpecNavigatorDataSetSelectToggle.ToolTipBody = "Toogle select of DataSet";
-            this.buttonSpecNavigatorDataSetSelectToggle.UniqueName = "d4d65cef436c405c85bfee678cefb27d";
-            this.buttonSpecNavigatorDataSetSelectToggle.Click += new System.EventHandler(this.buttonSpecNavigatorDataSetSelectToggle_Click);
-            // 
-            // buttonSpecNavigatorDataSetSelectNone
-            // 
-            this.buttonSpecNavigatorDataSetSelectNone.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckNone16x16;
-            this.buttonSpecNavigatorDataSetSelectNone.ToolTipBody = "Select None DataSet";
-            this.buttonSpecNavigatorDataSetSelectNone.UniqueName = "1a4019c476b546b2a2dc25f98136af59";
-            this.buttonSpecNavigatorDataSetSelectNone.Click += new System.EventHandler(this.buttonSpecNavigatorDataSetSelectNone_Click);
-            // 
-            // buttonSpecNavigatorCategoriesSelectEmpty
-            // 
-            this.buttonSpecNavigatorCategoriesSelectEmpty.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckEmpty16x16;
-            this.buttonSpecNavigatorCategoriesSelectEmpty.ToolTipBody = "Select categories that has never been updated";
-            this.buttonSpecNavigatorCategoriesSelectEmpty.UniqueName = "94d99ef48ad14ba48fee1a0fd49253ce";
-            this.buttonSpecNavigatorCategoriesSelectEmpty.Click += new System.EventHandler(this.buttonSpecNavigatorCategoriesSelectEmpty_Click);
-            // 
-            // buttonSpecNavigatorCategoriesSelectAll
-            // 
-            this.buttonSpecNavigatorCategoriesSelectAll.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckAll16x16;
-            this.buttonSpecNavigatorCategoriesSelectAll.ToolTipBody = "Select all categories";
-            this.buttonSpecNavigatorCategoriesSelectAll.UniqueName = "cb43b9f1b40947e29fb0d7fed70dd009";
-            this.buttonSpecNavigatorCategoriesSelectAll.Click += new System.EventHandler(this.buttonSpecNavigatorCategoriesSelectAll_Click);
-            // 
-            // buttonSpecNavigatorCategoriesSelectToggle
-            // 
-            this.buttonSpecNavigatorCategoriesSelectToggle.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckToggle16x16;
-            this.buttonSpecNavigatorCategoriesSelectToggle.ToolTipBody = "Toogle select categories";
-            this.buttonSpecNavigatorCategoriesSelectToggle.UniqueName = "6bf50bdffe4448bdb4a0c3bcb3efb436";
-            this.buttonSpecNavigatorCategoriesSelectToggle.Click += new System.EventHandler(this.buttonSpecNavigatorCategoriesSelectToggle_Click);
-            // 
-            // buttonSpecNavigatorCategoriesSelectNone
-            // 
-            this.buttonSpecNavigatorCategoriesSelectNone.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckNone16x16;
-            this.buttonSpecNavigatorCategoriesSelectNone.ToolTipBody = "Select none categories";
-            this.buttonSpecNavigatorCategoriesSelectNone.UniqueName = "bfa24b2e4542487cafa48a770d457ac2";
-            this.buttonSpecNavigatorCategoriesSelectNone.Click += new System.EventHandler(this.buttonSpecNavigatorCategoriesSelectNone_Click);
-            // 
             // FormWebScraper
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1142,13 +1143,13 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceMain.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageBrowser)).EndInit();
             this.kryptonPageBrowser.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellBrowser)).EndInit();
-            this.kryptonWorkspaceCellBrowser.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellBrowserUrl)).EndInit();
             this.kryptonWorkspaceCellBrowserUrl.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageBrowserUrl)).EndInit();
             this.kryptonPageBrowserUrl.ResumeLayout(false);
             this.kryptonPageBrowserUrl.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellBrowser)).EndInit();
+            this.kryptonWorkspaceCellBrowser.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellJavaScript)).EndInit();
             this.kryptonWorkspaceCellJavaScript.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageJavaScript)).EndInit();
@@ -1236,7 +1237,6 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ColumnHeader columnHeaderDataSetCountLocationNames;
         private System.Windows.Forms.ColumnHeader columnHeaderDataSetCountKeywords;
         private System.Windows.Forms.ColumnHeader columnHeaderDataSetCountRegions;
-        private Krypton.Toolkit.KryptonManager kryptonManager1;
         private Krypton.Navigator.KryptonPage kryptonPage2;
         private Krypton.Navigator.KryptonPage kryptonPage4;
         private Krypton.Navigator.KryptonPage kryptonPage6;

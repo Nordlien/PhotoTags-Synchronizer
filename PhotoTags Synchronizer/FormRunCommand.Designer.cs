@@ -100,7 +100,6 @@
             this.fastColoredTextBoxArgumentFileBuilderResultOrginal = new FastColoredTextBoxNS.FastColoredTextBox();
             this.splitContainerAgrumnetFileBuilderMain = new System.Windows.Forms.SplitContainer();
             this.fastColoredTextBoxArgumentFileBuilderResultGrid = new FastColoredTextBoxNS.FastColoredTextBox();
-            this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
             this.kryptonPageOpenWith = new Krypton.Navigator.KryptonPage();
             this.kryptonWorkspaceOpenWith = new Krypton.Workspace.KryptonWorkspace();
             this.kryptonPageOpenWithSelectedFiles = new Krypton.Navigator.KryptonPage();
@@ -408,7 +407,7 @@
             // 
             this.checkBoxBatchRunImageWaitForCommandExit.Location = new System.Drawing.Point(8, 101);
             this.checkBoxBatchRunImageWaitForCommandExit.Name = "checkBoxBatchRunImageWaitForCommandExit";
-            this.checkBoxBatchRunImageWaitForCommandExit.Size = new System.Drawing.Size(238, 20);
+            this.checkBoxBatchRunImageWaitForCommandExit.Size = new System.Drawing.Size(218, 18);
             this.checkBoxBatchRunImageWaitForCommandExit.TabIndex = 3;
             this.checkBoxBatchRunImageWaitForCommandExit.Values.Text = "Wait for exit before run next command.";
             // 
@@ -432,7 +431,7 @@
             // 
             this.label3.Location = new System.Drawing.Point(6, 39);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(63, 20);
+            this.label3.Size = new System.Drawing.Size(61, 18);
             this.label3.TabIndex = 4;
             this.label3.Values.Text = "Variables:";
             // 
@@ -440,7 +439,7 @@
             // 
             this.label7.Location = new System.Drawing.Point(6, 69);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(70, 20);
+            this.label7.Size = new System.Drawing.Size(66, 18);
             this.label7.TabIndex = 5;
             this.label7.Values.Text = "Command:";
             // 
@@ -448,7 +447,7 @@
             // 
             this.checkBoxBatchRunImageWaitForAppExit.Location = new System.Drawing.Point(11, 101);
             this.checkBoxBatchRunImageWaitForAppExit.Name = "checkBoxBatchRunImageWaitForAppExit";
-            this.checkBoxBatchRunImageWaitForAppExit.Size = new System.Drawing.Size(238, 20);
+            this.checkBoxBatchRunImageWaitForAppExit.Size = new System.Drawing.Size(218, 18);
             this.checkBoxBatchRunImageWaitForAppExit.TabIndex = 37;
             this.checkBoxBatchRunImageWaitForAppExit.Values.Text = "Wait for exit before run next command.";
             // 
@@ -469,7 +468,7 @@
             // 
             this.label15.Location = new System.Drawing.Point(6, 65);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(39, 20);
+            this.label15.Size = new System.Drawing.Size(37, 18);
             this.label15.TabIndex = 35;
             this.label15.Values.Text = "Verb:";
             // 
@@ -492,7 +491,7 @@
             // 
             this.label14.Location = new System.Drawing.Point(6, 9);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(64, 20);
+            this.label14.Size = new System.Drawing.Size(63, 18);
             this.label14.TabIndex = 33;
             this.label14.Values.Text = "Examples:";
             // 
@@ -514,7 +513,7 @@
             // 
             this.label13.Location = new System.Drawing.Point(6, 36);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(46, 20);
+            this.label13.Size = new System.Drawing.Size(43, 18);
             this.label13.TabIndex = 1;
             this.label13.Values.Text = "AppId:";
             // 
@@ -549,7 +548,7 @@
             // 
             this.checkBoxBatchRunVideoWaitForCommandExit.Location = new System.Drawing.Point(8, 101);
             this.checkBoxBatchRunVideoWaitForCommandExit.Name = "checkBoxBatchRunVideoWaitForCommandExit";
-            this.checkBoxBatchRunVideoWaitForCommandExit.Size = new System.Drawing.Size(238, 20);
+            this.checkBoxBatchRunVideoWaitForCommandExit.Size = new System.Drawing.Size(218, 18);
             this.checkBoxBatchRunVideoWaitForCommandExit.TabIndex = 3;
             this.checkBoxBatchRunVideoWaitForCommandExit.Values.Text = "Wait for exit before run next command.";
             // 
@@ -573,7 +572,7 @@
             // 
             this.label16.Location = new System.Drawing.Point(6, 39);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(63, 20);
+            this.label16.Size = new System.Drawing.Size(61, 18);
             this.label16.TabIndex = 4;
             this.label16.Values.Text = "Variables:";
             // 
@@ -581,7 +580,7 @@
             // 
             this.label17.Location = new System.Drawing.Point(6, 71);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(70, 20);
+            this.label17.Size = new System.Drawing.Size(66, 18);
             this.label17.TabIndex = 5;
             this.label17.Values.Text = "Command:";
             // 
@@ -589,7 +588,7 @@
             // 
             this.checkBoxBatchRunVideoWaitForAppExit.Location = new System.Drawing.Point(10, 100);
             this.checkBoxBatchRunVideoWaitForAppExit.Name = "checkBoxBatchRunVideoWaitForAppExit";
-            this.checkBoxBatchRunVideoWaitForAppExit.Size = new System.Drawing.Size(238, 20);
+            this.checkBoxBatchRunVideoWaitForAppExit.Size = new System.Drawing.Size(218, 18);
             this.checkBoxBatchRunVideoWaitForAppExit.TabIndex = 37;
             this.checkBoxBatchRunVideoWaitForAppExit.Values.Text = "Wait for exit before run next command.";
             // 
@@ -610,7 +609,7 @@
             // 
             this.label18.Location = new System.Drawing.Point(6, 65);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(39, 20);
+            this.label18.Size = new System.Drawing.Size(37, 18);
             this.label18.TabIndex = 35;
             this.label18.Values.Text = "Verb:";
             // 
@@ -633,7 +632,7 @@
             // 
             this.label19.Location = new System.Drawing.Point(6, 6);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(64, 20);
+            this.label19.Size = new System.Drawing.Size(63, 18);
             this.label19.TabIndex = 33;
             this.label19.Values.Text = "Examples:";
             // 
@@ -655,7 +654,7 @@
             // 
             this.label20.Location = new System.Drawing.Point(6, 36);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(46, 20);
+            this.label20.Size = new System.Drawing.Size(43, 18);
             this.label20.TabIndex = 1;
             this.label20.Values.Text = "AppId:";
             // 
@@ -737,9 +736,9 @@
             // checkBoxRunBatchRedirectToTerminalWindows
             // 
             this.checkBoxRunBatchRedirectToTerminalWindows.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.checkBoxRunBatchRedirectToTerminalWindows.Location = new System.Drawing.Point(13, 546);
+            this.checkBoxRunBatchRedirectToTerminalWindows.Location = new System.Drawing.Point(13, 548);
             this.checkBoxRunBatchRedirectToTerminalWindows.Name = "checkBoxRunBatchRedirectToTerminalWindows";
-            this.checkBoxRunBatchRedirectToTerminalWindows.Size = new System.Drawing.Size(276, 20);
+            this.checkBoxRunBatchRedirectToTerminalWindows.Size = new System.Drawing.Size(249, 18);
             this.checkBoxRunBatchRedirectToTerminalWindows.TabIndex = 1;
             this.checkBoxRunBatchRedirectToTerminalWindows.Values.Text = "Redirect command output to terminal window";
             // 
@@ -802,7 +801,6 @@
             this.fastColoredTextBoxArgumentFileArgumentFile.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxArgumentFileArgumentFile.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxArgumentFileArgumentFile.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fastColoredTextBoxArgumentFileArgumentFile.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxArgumentFileArgumentFile.IsReplaceMode = false;
             this.fastColoredTextBoxArgumentFileArgumentFile.Location = new System.Drawing.Point(0, 0);
             this.fastColoredTextBoxArgumentFileArgumentFile.Name = "fastColoredTextBoxArgumentFileArgumentFile";
@@ -833,7 +831,6 @@
             this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.IsReplaceMode = false;
             this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Location = new System.Drawing.Point(0, 0);
             this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Name = "fastColoredTextBoxArgumentFileArgumentFileAutoCorrect";
@@ -867,7 +864,7 @@
             // 
             this.label4.Location = new System.Drawing.Point(6, 13);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(63, 20);
+            this.label4.Size = new System.Drawing.Size(61, 18);
             this.label4.TabIndex = 0;
             this.label4.Values.Text = "Variables:";
             // 
@@ -891,7 +888,7 @@
             // 
             this.label6.Location = new System.Drawing.Point(6, 41);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(70, 20);
+            this.label6.Size = new System.Drawing.Size(66, 18);
             this.label6.TabIndex = 2;
             this.label6.Values.Text = "Command:";
             // 
@@ -991,7 +988,6 @@
             this.fastColoredTextBoxMetadataWriteKeywordAdd.CharWidth = 8;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBoxMetadataWriteKeywordAdd.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxMetadataWriteKeywordAdd.IsReplaceMode = false;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Location = new System.Drawing.Point(0, 0);
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Name = "fastColoredTextBoxMetadataWriteKeywordAdd";
@@ -1025,7 +1021,6 @@
             this.fastColoredTextBoxMetadataWriteKeywordDelete.CharWidth = 8;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBoxMetadataWriteKeywordDelete.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxMetadataWriteKeywordDelete.IsReplaceMode = false;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Location = new System.Drawing.Point(0, 0);
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Name = "fastColoredTextBoxMetadataWriteKeywordDelete";
@@ -1088,7 +1083,6 @@
             this.fastColoredTextBoxMetadataWriteTags.CharWidth = 8;
             this.fastColoredTextBoxMetadataWriteTags.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxMetadataWriteTags.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBoxMetadataWriteTags.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxMetadataWriteTags.IsReplaceMode = false;
             this.fastColoredTextBoxMetadataWriteTags.Location = new System.Drawing.Point(0, 0);
             this.fastColoredTextBoxMetadataWriteTags.Name = "fastColoredTextBoxMetadataWriteTags";
@@ -1149,7 +1143,6 @@
             this.fastColoredTextBoxBuildResult.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxBuildResult.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxBuildResult.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fastColoredTextBoxBuildResult.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxBuildResult.IsReplaceMode = false;
             this.fastColoredTextBoxBuildResult.Location = new System.Drawing.Point(0, 0);
             this.fastColoredTextBoxBuildResult.Name = "fastColoredTextBoxBuildResult";
@@ -1181,7 +1174,7 @@
             // 
             this.label21.Location = new System.Drawing.Point(6, 12);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(63, 20);
+            this.label21.Size = new System.Drawing.Size(61, 18);
             this.label21.TabIndex = 0;
             this.label21.Values.Text = "Variables:";
             // 
@@ -1204,7 +1197,7 @@
             // 
             this.label22.Location = new System.Drawing.Point(6, 41);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(70, 20);
+            this.label22.Size = new System.Drawing.Size(66, 18);
             this.label22.TabIndex = 2;
             this.label22.Values.Text = "Command:";
             // 
@@ -1249,7 +1242,6 @@
             this.fastColoredTextBoxArgumentFileBuilderSource.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxArgumentFileBuilderSource.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxArgumentFileBuilderSource.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fastColoredTextBoxArgumentFileBuilderSource.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxArgumentFileBuilderSource.IsReplaceMode = false;
             this.fastColoredTextBoxArgumentFileBuilderSource.Location = new System.Drawing.Point(0, 0);
             this.fastColoredTextBoxArgumentFileBuilderSource.Name = "fastColoredTextBoxArgumentFileBuilderSource";
@@ -1282,7 +1274,6 @@
             this.fastColoredTextBoxArgumentFileBuilderResultOrginal.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxArgumentFileBuilderResultOrginal.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxArgumentFileBuilderResultOrginal.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fastColoredTextBoxArgumentFileBuilderResultOrginal.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxArgumentFileBuilderResultOrginal.IsReplaceMode = false;
             this.fastColoredTextBoxArgumentFileBuilderResultOrginal.Location = new System.Drawing.Point(0, 0);
             this.fastColoredTextBoxArgumentFileBuilderResultOrginal.Name = "fastColoredTextBoxArgumentFileBuilderResultOrginal";
@@ -1333,7 +1324,6 @@
             this.fastColoredTextBoxArgumentFileBuilderResultGrid.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxArgumentFileBuilderResultGrid.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxArgumentFileBuilderResultGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fastColoredTextBoxArgumentFileBuilderResultGrid.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxArgumentFileBuilderResultGrid.IsReplaceMode = false;
             this.fastColoredTextBoxArgumentFileBuilderResultGrid.Location = new System.Drawing.Point(0, 0);
             this.fastColoredTextBoxArgumentFileBuilderResultGrid.Name = "fastColoredTextBoxArgumentFileBuilderResultGrid";
@@ -1361,12 +1351,12 @@
             // 
             // kryptonWorkspaceOpenWith
             // 
-            this.kryptonWorkspaceOpenWith.AllowPageDrag = false;
-            this.kryptonWorkspaceOpenWith.ContextMenus.ShowContextMenu = false;
             this.kryptonWorkspaceOpenWith.ActivePage = this.kryptonPageOpenWithSelectedFiles;
+            this.kryptonWorkspaceOpenWith.AllowPageDrag = false;
             this.kryptonWorkspaceOpenWith.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.kryptonWorkspaceOpenWith.ContextMenus.ShowContextMenu = false;
             this.kryptonWorkspaceOpenWith.Location = new System.Drawing.Point(0, 0);
             this.kryptonWorkspaceOpenWith.Name = "kryptonWorkspaceOpenWith";
             // 
@@ -1400,6 +1390,7 @@
             // kryptonWorkspaceCellSelectedFiles
             // 
             this.kryptonWorkspaceCellSelectedFiles.AllowDroppingPages = false;
+            this.kryptonWorkspaceCellSelectedFiles.AllowPageDrag = true;
             this.kryptonWorkspaceCellSelectedFiles.AllowPageReorder = false;
             this.kryptonWorkspaceCellSelectedFiles.AllowTabFocus = false;
             this.kryptonWorkspaceCellSelectedFiles.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
@@ -1434,6 +1425,7 @@
             // kryptonWorkspaceCell2
             // 
             this.kryptonWorkspaceCell2.AllowDroppingPages = false;
+            this.kryptonWorkspaceCell2.AllowPageDrag = true;
             this.kryptonWorkspaceCell2.AllowPageReorder = false;
             this.kryptonWorkspaceCell2.AllowTabFocus = false;
             this.kryptonWorkspaceCell2.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
@@ -1463,6 +1455,7 @@
             // kryptonWorkspaceCell14
             // 
             this.kryptonWorkspaceCell14.AllowDroppingPages = false;
+            this.kryptonWorkspaceCell14.AllowPageDrag = true;
             this.kryptonWorkspaceCell14.AllowPageReorder = false;
             this.kryptonWorkspaceCell14.AllowTabFocus = false;
             this.kryptonWorkspaceCell14.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
@@ -1503,16 +1496,16 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.Location = new System.Drawing.Point(3, 6);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(75, 20);
+            this.label1.Size = new System.Drawing.Size(69, 18);
             this.label1.TabIndex = 31;
             this.label1.Values.Text = "Application:";
             // 
             // checkBoxOpenImageWithWaitForExit
             // 
             this.checkBoxOpenImageWithWaitForExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.checkBoxOpenImageWithWaitForExit.Location = new System.Drawing.Point(8, 129);
+            this.checkBoxOpenImageWithWaitForExit.Location = new System.Drawing.Point(8, 131);
             this.checkBoxOpenImageWithWaitForExit.Name = "checkBoxOpenImageWithWaitForExit";
-            this.checkBoxOpenImageWithWaitForExit.Size = new System.Drawing.Size(238, 20);
+            this.checkBoxOpenImageWithWaitForExit.Size = new System.Drawing.Size(218, 18);
             this.checkBoxOpenImageWithWaitForExit.TabIndex = 6;
             this.checkBoxOpenImageWithWaitForExit.Values.Text = "Wait for exit before run next command.";
             // 
@@ -1538,7 +1531,7 @@
             this.textBoxOpenImageWithApplication.Location = new System.Drawing.Point(106, 3);
             this.textBoxOpenImageWithApplication.Name = "textBoxOpenImageWithApplication";
             this.textBoxOpenImageWithApplication.ReadOnly = true;
-            this.textBoxOpenImageWithApplication.Size = new System.Drawing.Size(298, 23);
+            this.textBoxOpenImageWithApplication.Size = new System.Drawing.Size(298, 20);
             this.textBoxOpenImageWithApplication.TabIndex = 27;
             // 
             // label5
@@ -1547,7 +1540,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.Location = new System.Drawing.Point(3, 37);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(39, 20);
+            this.label5.Size = new System.Drawing.Size(37, 18);
             this.label5.TabIndex = 32;
             this.label5.Values.Text = "Verb:";
             // 
@@ -1558,7 +1551,7 @@
             this.textBoxOpenImageWithCommand.Location = new System.Drawing.Point(106, 67);
             this.textBoxOpenImageWithCommand.Name = "textBoxOpenImageWithCommand";
             this.textBoxOpenImageWithCommand.ReadOnly = true;
-            this.textBoxOpenImageWithCommand.Size = new System.Drawing.Size(298, 23);
+            this.textBoxOpenImageWithCommand.Size = new System.Drawing.Size(298, 20);
             this.textBoxOpenImageWithCommand.TabIndex = 29;
             // 
             // textBoxOpenImageWithAppId
@@ -1568,7 +1561,7 @@
             this.textBoxOpenImageWithAppId.Location = new System.Drawing.Point(106, 100);
             this.textBoxOpenImageWithAppId.Name = "textBoxOpenImageWithAppId";
             this.textBoxOpenImageWithAppId.ReadOnly = true;
-            this.textBoxOpenImageWithAppId.Size = new System.Drawing.Size(298, 23);
+            this.textBoxOpenImageWithAppId.Size = new System.Drawing.Size(298, 20);
             this.textBoxOpenImageWithAppId.TabIndex = 30;
             // 
             // label11
@@ -1577,7 +1570,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label11.Location = new System.Drawing.Point(3, 70);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(70, 20);
+            this.label11.Size = new System.Drawing.Size(66, 18);
             this.label11.TabIndex = 33;
             this.label11.Values.Text = "Command:";
             // 
@@ -1587,7 +1580,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label9.Location = new System.Drawing.Point(3, 102);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(48, 20);
+            this.label9.Size = new System.Drawing.Size(45, 18);
             this.label9.TabIndex = 34;
             this.label9.Values.Text = "AppID:";
             // 
@@ -1603,6 +1596,7 @@
             // kryptonWorkspaceCell3
             // 
             this.kryptonWorkspaceCell3.AllowDroppingPages = false;
+            this.kryptonWorkspaceCell3.AllowPageDrag = true;
             this.kryptonWorkspaceCell3.AllowPageReorder = false;
             this.kryptonWorkspaceCell3.AllowTabFocus = false;
             this.kryptonWorkspaceCell3.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
@@ -1632,6 +1626,7 @@
             // kryptonWorkspaceCell15
             // 
             this.kryptonWorkspaceCell15.AllowDroppingPages = false;
+            this.kryptonWorkspaceCell15.AllowPageDrag = true;
             this.kryptonWorkspaceCell15.AllowPageReorder = false;
             this.kryptonWorkspaceCell15.AllowTabFocus = false;
             this.kryptonWorkspaceCell15.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
@@ -1670,7 +1665,7 @@
             // 
             this.checkBoxOpenVideoWithWaitForExit.Location = new System.Drawing.Point(6, 128);
             this.checkBoxOpenVideoWithWaitForExit.Name = "checkBoxOpenVideoWithWaitForExit";
-            this.checkBoxOpenVideoWithWaitForExit.Size = new System.Drawing.Size(238, 20);
+            this.checkBoxOpenVideoWithWaitForExit.Size = new System.Drawing.Size(218, 18);
             this.checkBoxOpenVideoWithWaitForExit.TabIndex = 39;
             this.checkBoxOpenVideoWithWaitForExit.Values.Text = "Wait for exit before run next command.";
             // 
@@ -1680,7 +1675,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label10.Location = new System.Drawing.Point(3, 98);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(48, 20);
+            this.label10.Size = new System.Drawing.Size(45, 18);
             this.label10.TabIndex = 43;
             this.label10.Values.Text = "AppID:";
             // 
@@ -1690,7 +1685,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.Location = new System.Drawing.Point(3, 6);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(75, 20);
+            this.label2.Size = new System.Drawing.Size(69, 18);
             this.label2.TabIndex = 40;
             this.label2.Values.Text = "Application:";
             // 
@@ -1701,7 +1696,7 @@
             this.textBoxOpenVideoWithAppId.Location = new System.Drawing.Point(106, 95);
             this.textBoxOpenVideoWithAppId.Name = "textBoxOpenVideoWithAppId";
             this.textBoxOpenVideoWithAppId.ReadOnly = true;
-            this.textBoxOpenVideoWithAppId.Size = new System.Drawing.Size(299, 23);
+            this.textBoxOpenVideoWithAppId.Size = new System.Drawing.Size(299, 20);
             this.textBoxOpenVideoWithAppId.TabIndex = 38;
             // 
             // label12
@@ -1710,7 +1705,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label12.Location = new System.Drawing.Point(3, 64);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(70, 20);
+            this.label12.Size = new System.Drawing.Size(66, 18);
             this.label12.TabIndex = 42;
             this.label12.Values.Text = "Command:";
             // 
@@ -1721,7 +1716,7 @@
             this.textBoxOpenVideoWithApplication.Location = new System.Drawing.Point(106, 3);
             this.textBoxOpenVideoWithApplication.Name = "textBoxOpenVideoWithApplication";
             this.textBoxOpenVideoWithApplication.ReadOnly = true;
-            this.textBoxOpenVideoWithApplication.Size = new System.Drawing.Size(299, 23);
+            this.textBoxOpenVideoWithApplication.Size = new System.Drawing.Size(299, 20);
             this.textBoxOpenVideoWithApplication.TabIndex = 35;
             // 
             // comboBoxOpenVideoWithVerbs
@@ -1746,14 +1741,14 @@
             this.textBoxOpenVideoWithCommand.Location = new System.Drawing.Point(106, 62);
             this.textBoxOpenVideoWithCommand.Name = "textBoxOpenVideoWithCommand";
             this.textBoxOpenVideoWithCommand.ReadOnly = true;
-            this.textBoxOpenVideoWithCommand.Size = new System.Drawing.Size(299, 23);
+            this.textBoxOpenVideoWithCommand.Size = new System.Drawing.Size(299, 20);
             this.textBoxOpenVideoWithCommand.TabIndex = 37;
             // 
             // label8
             // 
             this.label8.Location = new System.Drawing.Point(3, 35);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(39, 20);
+            this.label8.Size = new System.Drawing.Size(37, 18);
             this.label8.TabIndex = 41;
             this.label8.Values.Text = "Verb:";
             // 
@@ -1774,12 +1769,12 @@
             // 
             // kryptonWorkspaceRunBatch
             // 
-            this.kryptonWorkspaceRunBatch.AllowPageDrag = false;
-            this.kryptonWorkspaceRunBatch.ContextMenus.ShowContextMenu = false;
             this.kryptonWorkspaceRunBatch.ActivePage = this.kryptonPage1;
+            this.kryptonWorkspaceRunBatch.AllowPageDrag = false;
             this.kryptonWorkspaceRunBatch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.kryptonWorkspaceRunBatch.ContextMenus.ShowContextMenu = false;
             this.kryptonWorkspaceRunBatch.Location = new System.Drawing.Point(0, 0);
             this.kryptonWorkspaceRunBatch.Name = "kryptonWorkspaceRunBatch";
             // 
@@ -1812,6 +1807,7 @@
             // kryptonWorkspaceCell1
             // 
             this.kryptonWorkspaceCell1.AllowDroppingPages = false;
+            this.kryptonWorkspaceCell1.AllowPageDrag = true;
             this.kryptonWorkspaceCell1.AllowPageReorder = false;
             this.kryptonWorkspaceCell1.AllowTabFocus = false;
             this.kryptonWorkspaceCell1.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
@@ -1846,6 +1842,7 @@
             // kryptonWorkspaceCellRunBatchImage
             // 
             this.kryptonWorkspaceCellRunBatchImage.AllowDroppingPages = false;
+            this.kryptonWorkspaceCellRunBatchImage.AllowPageDrag = true;
             this.kryptonWorkspaceCellRunBatchImage.AllowPageReorder = false;
             this.kryptonWorkspaceCellRunBatchImage.AllowTabFocus = false;
             this.kryptonWorkspaceCellRunBatchImage.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
@@ -1901,6 +1898,7 @@
             // kryptonWorkspaceCell12
             // 
             this.kryptonWorkspaceCell12.AllowDroppingPages = false;
+            this.kryptonWorkspaceCell12.AllowPageDrag = true;
             this.kryptonWorkspaceCell12.AllowPageReorder = false;
             this.kryptonWorkspaceCell12.AllowTabFocus = false;
             this.kryptonWorkspaceCell12.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
@@ -1939,6 +1937,7 @@
             // kryptonWorkspaceCellRunBatchVideo
             // 
             this.kryptonWorkspaceCellRunBatchVideo.AllowDroppingPages = false;
+            this.kryptonWorkspaceCellRunBatchVideo.AllowPageDrag = true;
             this.kryptonWorkspaceCellRunBatchVideo.AllowPageReorder = false;
             this.kryptonWorkspaceCellRunBatchVideo.AllowTabFocus = false;
             this.kryptonWorkspaceCellRunBatchVideo.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
@@ -1994,6 +1993,7 @@
             // kryptonWorkspaceCell10
             // 
             this.kryptonWorkspaceCell10.AllowDroppingPages = false;
+            this.kryptonWorkspaceCell10.AllowPageDrag = true;
             this.kryptonWorkspaceCell10.AllowPageReorder = false;
             this.kryptonWorkspaceCell10.AllowTabFocus = false;
             this.kryptonWorkspaceCell10.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
@@ -2039,12 +2039,12 @@
             // 
             // kryptonWorkspaceRunArgumentFile
             // 
-            this.kryptonWorkspaceRunArgumentFile.AllowPageDrag = false;
-            this.kryptonWorkspaceRunArgumentFile.ContextMenus.ShowContextMenu = false;
             this.kryptonWorkspaceRunArgumentFile.ActivePage = this.kryptonPage11;
+            this.kryptonWorkspaceRunArgumentFile.AllowPageDrag = false;
             this.kryptonWorkspaceRunArgumentFile.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.kryptonWorkspaceRunArgumentFile.ContextMenus.ShowContextMenu = false;
             this.kryptonWorkspaceRunArgumentFile.Location = new System.Drawing.Point(0, 0);
             this.kryptonWorkspaceRunArgumentFile.Name = "kryptonWorkspaceRunArgumentFile";
             // 
@@ -2080,6 +2080,7 @@
             // kryptonWorkspaceCellRunArgumentFileRunCommandWithArgument
             // 
             this.kryptonWorkspaceCellRunArgumentFileRunCommandWithArgument.AllowDroppingPages = false;
+            this.kryptonWorkspaceCellRunArgumentFileRunCommandWithArgument.AllowPageDrag = true;
             this.kryptonWorkspaceCellRunArgumentFileRunCommandWithArgument.AllowPageReorder = false;
             this.kryptonWorkspaceCellRunArgumentFileRunCommandWithArgument.AllowTabFocus = false;
             this.kryptonWorkspaceCellRunArgumentFileRunCommandWithArgument.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
@@ -2104,6 +2105,7 @@
             // kryptonWorkspaceCellRunArgumentFileAutoCorrect
             // 
             this.kryptonWorkspaceCellRunArgumentFileAutoCorrect.AllowDroppingPages = false;
+            this.kryptonWorkspaceCellRunArgumentFileAutoCorrect.AllowPageDrag = true;
             this.kryptonWorkspaceCellRunArgumentFileAutoCorrect.AllowPageReorder = false;
             this.kryptonWorkspaceCellRunArgumentFileAutoCorrect.AllowTabFocus = false;
             this.kryptonWorkspaceCellRunArgumentFileAutoCorrect.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
@@ -2165,12 +2167,12 @@
             // 
             // kryptonWorkspaceBuilder
             // 
-            this.kryptonWorkspaceBuilder.AllowPageDrag = false;
-            this.kryptonWorkspaceBuilder.ContextMenus.ShowContextMenu = false;
             this.kryptonWorkspaceBuilder.ActivePage = this.kryptonPage27;
+            this.kryptonWorkspaceBuilder.AllowPageDrag = false;
             this.kryptonWorkspaceBuilder.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.kryptonWorkspaceBuilder.ContextMenus.ShowContextMenu = false;
             this.kryptonWorkspaceBuilder.Location = new System.Drawing.Point(0, 0);
             this.kryptonWorkspaceBuilder.Name = "kryptonWorkspaceBuilder";
             // 
@@ -2207,12 +2209,12 @@
             // kryptonWorkspaceCell13
             // 
             this.kryptonWorkspaceCell13.AllowDroppingPages = false;
+            this.kryptonWorkspaceCell13.AllowPageDrag = true;
             this.kryptonWorkspaceCell13.AllowPageReorder = false;
             this.kryptonWorkspaceCell13.AllowTabFocus = false;
             this.kryptonWorkspaceCell13.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
             this.kryptonWorkspaceCell13.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCell13.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
-            this.kryptonWorkspaceCell12.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCell13.Name = "kryptonWorkspaceCell13";
             this.kryptonWorkspaceCell13.NavigatorMode = Krypton.Navigator.NavigatorMode.StackCheckButtonGroup;
             this.kryptonWorkspaceCell13.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
@@ -2224,6 +2226,7 @@
             // kryptonWorkspaceCell16
             // 
             this.kryptonWorkspaceCell16.AllowDroppingPages = false;
+            this.kryptonWorkspaceCell16.AllowPageDrag = true;
             this.kryptonWorkspaceCell16.AllowPageReorder = false;
             this.kryptonWorkspaceCell16.AllowTabFocus = false;
             this.kryptonWorkspaceCell16.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
@@ -2289,6 +2292,7 @@
             // kryptonWorkspaceCell17
             // 
             this.kryptonWorkspaceCell17.AllowDroppingPages = false;
+            this.kryptonWorkspaceCell17.AllowPageDrag = true;
             this.kryptonWorkspaceCell17.AllowPageReorder = false;
             this.kryptonWorkspaceCell17.AllowTabFocus = false;
             this.kryptonWorkspaceCell17.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
@@ -2457,6 +2461,7 @@
             // kryptonWorkspaceCell4
             // 
             this.kryptonWorkspaceCell4.AllowDroppingPages = false;
+            this.kryptonWorkspaceCell4.AllowPageDrag = true;
             this.kryptonWorkspaceCell4.AllowPageReorder = false;
             this.kryptonWorkspaceCell4.AllowTabFocus = false;
             this.kryptonWorkspaceCell4.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
@@ -2497,6 +2502,7 @@
             // kryptonWorkspaceCell6
             // 
             this.kryptonWorkspaceCell6.AllowDroppingPages = false;
+            this.kryptonWorkspaceCell6.AllowPageDrag = true;
             this.kryptonWorkspaceCell6.AllowPageReorder = false;
             this.kryptonWorkspaceCell6.AllowTabFocus = false;
             this.kryptonWorkspaceCell6.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
@@ -2542,6 +2548,7 @@
             // kryptonWorkspaceCell9
             // 
             this.kryptonWorkspaceCell9.AllowDroppingPages = false;
+            this.kryptonWorkspaceCell9.AllowPageDrag = true;
             this.kryptonWorkspaceCell9.AllowPageReorder = false;
             this.kryptonWorkspaceCell9.AllowTabFocus = false;
             this.kryptonWorkspaceCell9.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
@@ -2893,7 +2900,6 @@
         private Krypton.Toolkit.KryptonButton buttonMetadataWriteKeywordDeleteSave;
         private Krypton.Toolkit.KryptonButton buttonMetadataWriteKeywordsSave;
         private Krypton.Toolkit.KryptonCheckBox checkBoxRunBatchRedirectToTerminalWindows;
-        private Krypton.Toolkit.KryptonManager kryptonManager1;
         private Krypton.Navigator.KryptonPage kryptonPageOpenWith;
         private Krypton.Workspace.KryptonWorkspace kryptonWorkspaceOpenWith;
         private Krypton.Navigator.KryptonPage kryptonPageOpenWithSelectedFiles;

@@ -29,7 +29,6 @@ namespace PhotoTagsSynchronizer
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAutoCorrect));
             this.panel1 = new Krypton.Toolkit.KryptonPanel();
             this.label2 = new Krypton.Toolkit.KryptonLabel();
@@ -47,7 +46,6 @@ namespace PhotoTagsSynchronizer
             this.comboBoxComments = new Krypton.Toolkit.KryptonComboBox();
             this.comboBoxDescription = new Krypton.Toolkit.KryptonComboBox();
             this.comboBoxTitle = new Krypton.Toolkit.KryptonComboBox();
-            this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.panel1)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxAuthor)).BeginInit();
@@ -88,7 +86,7 @@ namespace PhotoTagsSynchronizer
             this.label2.Location = new System.Drawing.Point(165, 4);
             this.label2.Margin = new System.Windows.Forms.Padding(4);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(469, 24);
+            this.label2.Size = new System.Drawing.Size(343, 18);
             this.label2.TabIndex = 14;
             this.label2.Values.Text = "AutoCorrect algorithm will be run fist, this value will override result.";
             // 
@@ -97,7 +95,7 @@ namespace PhotoTagsSynchronizer
             this.label1.Location = new System.Drawing.Point(16, 194);
             this.label1.Margin = new System.Windows.Forms.Padding(4);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(112, 24);
+            this.label1.Size = new System.Drawing.Size(84, 18);
             this.label1.TabIndex = 13;
             this.label1.Values.Text = "Add keywords:";
             // 
@@ -121,7 +119,7 @@ namespace PhotoTagsSynchronizer
             this.checkBoxAuthor.Location = new System.Drawing.Point(15, 162);
             this.checkBoxAuthor.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBoxAuthor.Name = "checkBoxAuthor";
-            this.checkBoxAuthor.Size = new System.Drawing.Size(72, 24);
+            this.checkBoxAuthor.Size = new System.Drawing.Size(57, 18);
             this.checkBoxAuthor.TabIndex = 9;
             this.checkBoxAuthor.Values.Text = "Author";
             // 
@@ -132,7 +130,7 @@ namespace PhotoTagsSynchronizer
             this.checkBoxComments.Location = new System.Drawing.Point(15, 132);
             this.checkBoxComments.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBoxComments.Name = "checkBoxComments";
-            this.checkBoxComments.Size = new System.Drawing.Size(98, 24);
+            this.checkBoxComments.Size = new System.Drawing.Size(78, 18);
             this.checkBoxComments.TabIndex = 8;
             this.checkBoxComments.Values.Text = "Comments";
             // 
@@ -143,7 +141,7 @@ namespace PhotoTagsSynchronizer
             this.checkBoxDescription.Location = new System.Drawing.Point(15, 101);
             this.checkBoxDescription.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBoxDescription.Name = "checkBoxDescription";
-            this.checkBoxDescription.Size = new System.Drawing.Size(102, 24);
+            this.checkBoxDescription.Size = new System.Drawing.Size(80, 18);
             this.checkBoxDescription.TabIndex = 7;
             this.checkBoxDescription.Values.Text = "Description";
             // 
@@ -154,7 +152,7 @@ namespace PhotoTagsSynchronizer
             this.checkBoxTitle.Location = new System.Drawing.Point(15, 70);
             this.checkBoxTitle.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBoxTitle.Name = "checkBoxTitle";
-            this.checkBoxTitle.Size = new System.Drawing.Size(53, 24);
+            this.checkBoxTitle.Size = new System.Drawing.Size(45, 18);
             this.checkBoxTitle.TabIndex = 6;
             this.checkBoxTitle.Values.Text = "Title";
             // 
@@ -165,7 +163,7 @@ namespace PhotoTagsSynchronizer
             this.checkBoxAlbum.Location = new System.Drawing.Point(15, 39);
             this.checkBoxAlbum.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBoxAlbum.Name = "checkBoxAlbum";
-            this.checkBoxAlbum.Size = new System.Drawing.Size(69, 24);
+            this.checkBoxAlbum.Size = new System.Drawing.Size(55, 18);
             this.checkBoxAlbum.TabIndex = 5;
             this.checkBoxAlbum.Values.Text = "Album";
             // 
@@ -204,7 +202,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxAuthor.Location = new System.Drawing.Point(165, 160);
             this.comboBoxAuthor.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBoxAuthor.Name = "comboBoxAuthor";
-            this.comboBoxAuthor.Size = new System.Drawing.Size(588, 25);
+            this.comboBoxAuthor.Size = new System.Drawing.Size(588, 21);
             this.comboBoxAuthor.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxAuthor.TabIndex = 4;
             // 
@@ -221,7 +219,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxAlbum.Location = new System.Drawing.Point(165, 37);
             this.comboBoxAlbum.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBoxAlbum.Name = "comboBoxAlbum";
-            this.comboBoxAlbum.Size = new System.Drawing.Size(588, 25);
+            this.comboBoxAlbum.Size = new System.Drawing.Size(588, 21);
             this.comboBoxAlbum.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxAlbum.TabIndex = 0;
             // 
@@ -238,7 +236,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxComments.Location = new System.Drawing.Point(165, 129);
             this.comboBoxComments.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBoxComments.Name = "comboBoxComments";
-            this.comboBoxComments.Size = new System.Drawing.Size(588, 25);
+            this.comboBoxComments.Size = new System.Drawing.Size(588, 21);
             this.comboBoxComments.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxComments.TabIndex = 3;
             // 
@@ -255,7 +253,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxDescription.Location = new System.Drawing.Point(165, 98);
             this.comboBoxDescription.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBoxDescription.Name = "comboBoxDescription";
-            this.comboBoxDescription.Size = new System.Drawing.Size(588, 25);
+            this.comboBoxDescription.Size = new System.Drawing.Size(588, 21);
             this.comboBoxDescription.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxDescription.TabIndex = 2;
             // 
@@ -272,7 +270,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxTitle.Location = new System.Drawing.Point(165, 68);
             this.comboBoxTitle.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBoxTitle.Name = "comboBoxTitle";
-            this.comboBoxTitle.Size = new System.Drawing.Size(588, 25);
+            this.comboBoxTitle.Size = new System.Drawing.Size(588, 21);
             this.comboBoxTitle.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxTitle.TabIndex = 1;
             // 
@@ -280,8 +278,6 @@ namespace PhotoTagsSynchronizer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            //this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-
             this.ClientSize = new System.Drawing.Size(769, 350);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -319,6 +315,5 @@ namespace PhotoTagsSynchronizer
         private Krypton.Toolkit.KryptonLabel label2;
         private Krypton.Toolkit.KryptonLabel label1;
         private Krypton.Toolkit.KryptonTextBox textBoxKeywords;
-        private Krypton.Toolkit.KryptonManager kryptonManager1;
     }
 }
