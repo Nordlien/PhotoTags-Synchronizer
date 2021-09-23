@@ -49,7 +49,9 @@
     <OutputPath>..\Bin\Release\x64\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2019.csproj" />
     <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2019.csproj" />
+    <ProjectReference Include="..\Krypton.Workspace\Krypton.Workspace 2019.csproj" />
     <ProjectReference Include="..\MetadataLibrary\MetadataLibrary.csproj" />
   </ItemGroup>
   <ItemGroup>
