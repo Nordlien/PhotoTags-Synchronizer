@@ -93,7 +93,7 @@ namespace FileHandeling
             this.panel1.Location = new System.Drawing.Point(1, 1);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1050, 503);
+            this.panel1.Size = new System.Drawing.Size(778, 503);
             this.panel1.TabIndex = 6;
             // 
             // groupBox3
@@ -198,7 +198,7 @@ namespace FileHandeling
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1054, 516);
+            this.ClientSize = new System.Drawing.Size(781, 516);
             this.Controls.Add(this.panel1);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "FormWaitLockedFile";
