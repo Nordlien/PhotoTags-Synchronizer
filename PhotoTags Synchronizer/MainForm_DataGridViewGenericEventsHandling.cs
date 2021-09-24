@@ -6098,9 +6098,19 @@ namespace PhotoTagsSynchronizer
                     if (config.IsKryptonManagerChanged)
                     {
                         KryptonPalette kryptonPalette = KryptonPaletteHandler.Load(Properties.Settings.Default.KryptonPaletteFullFilename, Properties.Settings.Default.KryptonPaletteName);
-                        KryptonPaletteHandler.SetPalette(this, kryptonManager1, kryptonPalette, Properties.Settings.Default.KryptonPaletteDropShadow);
-                        KryptonPaletteHandler.SetImageListViewPalettes(kryptonManager1, imageListView1);                        
+                        KryptonPaletteHandler.SetPalette(this, kryptonManager1, kryptonPalette, KryptonPaletteHandler.IsSystemPalette, Properties.Settings.Default.KryptonPaletteDropShadow);                        
                     }
+                    KryptonPaletteHandler.SetDataGridViewPalette(kryptonManager1, dataGridViewConvertAndMerge);
+                    KryptonPaletteHandler.SetDataGridViewPalette(kryptonManager1, dataGridViewDate);
+                    KryptonPaletteHandler.SetDataGridViewPalette(kryptonManager1, dataGridViewExiftool);
+                    KryptonPaletteHandler.SetDataGridViewPalette(kryptonManager1, dataGridViewExiftoolWarning);
+                    KryptonPaletteHandler.SetDataGridViewPalette(kryptonManager1, dataGridViewMap);
+                    KryptonPaletteHandler.SetDataGridViewPalette(kryptonManager1, dataGridViewPeople);
+                    KryptonPaletteHandler.SetDataGridViewPalette(kryptonManager1, dataGridViewProperties);
+                    KryptonPaletteHandler.SetDataGridViewPalette(kryptonManager1, dataGridViewRename);
+                    KryptonPaletteHandler.SetDataGridViewPalette(kryptonManager1, dataGridViewTagsAndKeywords);
+                    
+                    KryptonPaletteHandler.SetImageListViewPalettes(kryptonManager1, imageListView1);
                 }
             }
             catch (Exception ex)

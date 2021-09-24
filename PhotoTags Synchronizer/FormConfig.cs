@@ -2691,7 +2691,7 @@ namespace PhotoTagsSynchronizer
                 "Text color: GridStyles.GridCommon.StateNormal.DataCell.Content.Color1";
 
             //Row 2
-            row = kryptonDataGridViewShowPalette.Rows.Add("Favorite", "FavoriteReadOnly", "Error", "Warning");
+            row = kryptonDataGridViewShowPalette.Rows.Add("EditFavorite", "ReadOnlyFavorite", "Error", "EditFavorite", "EditFavorite");
             kryptonDataGridViewShowPalette.Rows[row].HeaderCell.Value = "Favorite";
             kryptonDataGridViewShowPalette.Rows[row].Cells[0].Style.BackColor = DataGridViewHandler.ColorBackCellFavorite(kryptonDataGridViewShowPalette);
             kryptonDataGridViewShowPalette.Rows[row].Cells[0].Style.ForeColor = DataGridViewHandler.ColorTextCellFavorite(kryptonDataGridViewShowPalette);
@@ -2736,7 +2736,7 @@ namespace PhotoTagsSynchronizer
             if (isPaletteProperyChanged)
             {
                 string paletteProperyFile = FileHandeling.FileHandler.GetLocalApplicationDataPath("Palette.xml", true);
-                ((KryptonPalette)kryptonManager1.GlobalPalette).Export(paletteProperyFile, true);
+                ((KryptonPalette)kryptonManager1.GlobalPalette).Export(paletteProperyFile, false);
                 KryptonPaletteHandler.PaletteFilename = paletteProperyFile;
             }
             Properties.Settings.Default.KryptonPaletteDropShadow = KryptonPaletteHandler.UseDropShadow;
@@ -2756,115 +2756,118 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region SetPalette
-        private void SetPalette(IPalette newKryptonPalette, bool enableDropShadow)
+        private void SetPalette(IPalette newKryptonPalette, bool isSystemPalette, bool enableDropShadow)
         {
             isPaletteProperyChanged = false;
             IsKryptonManagerChanged = true;
-            KryptonPaletteHandler.SetPalette(this, kryptonManager1, newKryptonPalette, enableDropShadow);
+            KryptonPaletteHandler.SetPalette(this, kryptonManager1, newKryptonPalette, isSystemPalette, enableDropShadow);
             propertyGrid.SelectedObject = kryptonManager1.GlobalPalette;
+            AddDummyDataPaletteDataGridView();
+            KryptonPaletteHandler.SetImageListViewPalettes(kryptonManager1, imageListView1);
         }
         #endregion
 
         #region buttonPalette_Click
         private void buttonOffice2010Blue_Click(object sender, EventArgs e)
         {
-            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2010Blue)), true);
+            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2010Blue)), true, true);
         }
 
         private void buttonOffice2010Silver_Click(object sender, EventArgs e)
         {
-            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2010Silver)), true);
+            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2010Silver)), true, true);
         }
 
         private void buttonOffice2010Black_Click(object sender, EventArgs e)
         {
-            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2010Black)), true);
+            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2010Black)), true, true);
         }
 
         private void buttonOffice2010White_Click(object sender, EventArgs e)
         {
-            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2010White)), true);
+            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2010White)), true, true);
         }
 
         private void buttonOffice2007Blue_Click(object sender, EventArgs e)
         {
-            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2007Blue)), true);
+            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2007Blue)), true, true);
         }
 
         private void buttonOffice2007Silver_Click(object sender, EventArgs e)
         {
-            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2007Silver)), true);
+            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2007Silver)), true, true);
         }
 
         private void buttonOffice2007Black_Click(object sender, EventArgs e)
         {
-            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2007Black)), true);
+            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2007Black)), true, true);
         }
 
         private void buttonOffice2007White_Click(object sender, EventArgs e)
         {
-            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2007White)), true);
+            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2007White)), true, true);
         }
 
         private void buttonOffice2003_Click(object sender, EventArgs e)
         {
-            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.ProfessionalOffice2003)), true);
+            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.ProfessionalOffice2003)), true, true);
         }
       
 
         private void buttonSystem_Click(object sender, EventArgs e)
         {
-            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.ProfessionalSystem)), false);
+            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.ProfessionalSystem)), true, false);
         }
 
         private void buttonSparkleBlue_Click(object sender, EventArgs e)
         {
-            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.SparkleBlue)), true);
+            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.SparkleBlue)), true, true);
         }
 
         private void buttonSparkleOrange_Click(object sender, EventArgs e)
         {
-            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.SparkleOrange)), true);
+            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.SparkleOrange)), true, true);
         }
 
         private void buttonSparklePurple_Click(object sender, EventArgs e)
         {
-            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.SparklePurple)), true);
+            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.SparklePurple)), true, true);
         }
 
         private void buttonOffice2013_Click(object sender, EventArgs e)
         {
-            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2013)), true);
+            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2013)), true, true);
         }
 
         private void buttonOffice2013White_Click(object sender, EventArgs e)
         {
-            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2013White)), true);
+            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2013White)), true, true);
         }
 
         private void buttonDarkMode_Click(object sender, EventArgs e)
         {
-            SetPalette(KryptonPaletteHandler.Load("DarkMode", ""), true);
+            string darkModeFilename = FileHandler.CombineApplicationPathWithFilename("Themes\\PhotoTags Synchronizer Dark mode.xml");
+            SetPalette(KryptonPaletteHandler.Load(darkModeFilename, ""), false, true);
         }
 
         private void buttonOffice365Black_Click(object sender, EventArgs e)
         {
-            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office365Black)), true);
+            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office365Black)), true, true);
         }
 
         private void buttonOffice365Blue_Click(object sender, EventArgs e)
         {
-            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office365Blue)), true);
+            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office365Blue)), true, true);
         }
 
         private void buttonOffice365Silver_Click(object sender, EventArgs e)
         {
-            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office365Silver)), true);
+            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office365Silver)), true, true);
         }
 
         private void buttonOffice365White_Click(object sender, EventArgs e)
         {
-            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office365White)), true);
+            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office365White)), true, true);
         }
         #endregion
 
@@ -2873,14 +2876,39 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                KryptonPalette kryptonPalette = new KryptonPalette();
-                string paletteFilename = kryptonPalette.Import();
-                if (!string.IsNullOrWhiteSpace(paletteFilename)) SetPalette(KryptonPaletteHandler.Load(paletteFilename, ""), true);
+                using (OpenFileDialog dialog = new OpenFileDialog())
+                {
+                    // Palette files are just XML documents
+                    dialog.CheckFileExists = true;
+                    dialog.CheckPathExists = true;
+                    dialog.DefaultExt = @"xml";
+                    dialog.Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)";
+                    dialog.Title = @"Load Palette";
 
+                    // Get the actual file selected by the user
+                    if (dialog.ShowDialog() == DialogResult.OK && File.Exists(dialog.FileName))
+                    {
+                        KryptonPalette kryptonPalette = KryptonPaletteHandler.Load(dialog.FileName, "");
+                        SetPalette(kryptonPalette, KryptonPaletteHandler.IsSystemPalette, true);
+                    }
+                    else
+                    {
+                        KryptonMessageBox.Show("Was not able to import Theme Palette\r\n" + dialog.FileName,
+                                    "Loading Palette for Theme failed",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Error);
+                    }
+
+                }
+
+                
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                KryptonMessageBox.Show("Was not able to import Theme Palette\n\n Error:" + ex.Message,
+                                    "Loading Palette for Theme failed",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -2888,13 +2916,37 @@ namespace PhotoTagsSynchronizer
         #region kryptonButtonApplicationThemesExport_Click
         private void kryptonButtonApplicationThemesExport_Click(object sender, EventArgs e)
         {
+            string paletteFilename = "(unknown.xml)";
             try
-            {
-                string paletteFilename = ((KryptonPalette)kryptonManager1.GlobalPalette).Export();
-                if (!string.IsNullOrWhiteSpace(paletteFilename)) SetPalette(KryptonPaletteHandler.Load(paletteFilename, ""), true);
+            {                
+                using (SaveFileDialog dialog = new SaveFileDialog())
+                {
+                    // Palette files are just xml documents
+                    dialog.OverwritePrompt = true;
+                    dialog.DefaultExt = @"xml";
+                    dialog.Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)";
+                    dialog.Title = @"Save Palette As";
+
+                    // Get the actual file selected by the user
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        paletteFilename = dialog.FileName;
+                        ((KryptonPalette)kryptonManager1.GlobalPalette).SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(dialog.FileName));
+                        paletteFilename = ((KryptonPalette)kryptonManager1.GlobalPalette).Export(dialog.FileName, true, true);
+                        KryptonPaletteHandler.Save(paletteFilename);
+                        IsKryptonManagerChanged = true;
+                    }
+
+                }
+
+                
             } catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
+            {                
+                KryptonMessageBox.Show($"Export to file '{paletteFilename}' failed.\n\n Error:{ex.Message}",
+                                @"Palette Export",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+                
             }
         }
         #endregion

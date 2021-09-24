@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using CefSharp.WinForms;
+using FileHandeling;
 
 namespace PhotoTagsSynchronizer
 {
@@ -239,9 +240,7 @@ namespace PhotoTagsSynchronizer
                             "</html>" + "\r\n";
 
                         //Create directory, filename and remove old arg file
-                        string exiftoolArgPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PhotoTagsSynchronizer");
-                        if (!Directory.Exists(exiftoolArgPath)) Directory.CreateDirectory(exiftoolArgPath);
-                        string exiftoolArgFile = Path.Combine(exiftoolArgPath, "openstreetmap.html");
+                        string exiftoolArgFile = FileHandler.GetLocalApplicationDataPath("openstreetmap.html", true);
                         if (File.Exists(exiftoolArgFile)) File.Delete(exiftoolArgFile);
 
                         using (StreamWriter sw = new StreamWriter(exiftoolArgFile, false, Encoding.UTF8))

@@ -146,7 +146,7 @@ namespace PhotoTagsSynchronizer
             #region InitializeComponent - Krypton
 
             KryptonPalette kryptonPalette = KryptonPaletteHandler.Load(Properties.Settings.Default.KryptonPaletteFullFilename, Properties.Settings.Default.KryptonPaletteName);
-            KryptonPaletteHandler.SetPalette(this, kryptonManager1, kryptonPalette, Properties.Settings.Default.KryptonPaletteDropShadow);
+            KryptonPaletteHandler.SetPalette(this, kryptonManager1, kryptonPalette, KryptonPaletteHandler.IsSystemPalette, Properties.Settings.Default.KryptonPaletteDropShadow);
             KryptonPaletteHandler.SetImageListViewPalettes(kryptonManager1, imageListView1);
             
             this.kryptonRibbonGroupCustomControlToolsProgressBackground.CustomControl = progressBarBackground;

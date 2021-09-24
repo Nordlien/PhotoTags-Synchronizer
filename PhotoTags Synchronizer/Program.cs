@@ -6,7 +6,7 @@ using System.Threading;
 using System.Windows.Forms;
 using CefSharp;
 using CefSharp.WinForms;
-
+using FileHandeling;
 
 namespace PhotoTagsSynchronizer
 {
@@ -61,7 +61,7 @@ namespace PhotoTagsSynchronizer
             var settings = new CefSettings()
             {
                 //By default CefSharp will use an in-memory cache, you need to specify a Cache Folder to persist data
-                CachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PhotoTagsSynchronizer\\BrowserCache"),
+                CachePath = FileHandler.GetLocalApplicationDataPath("BrowserCache", false),
                 UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0"
             };          
 

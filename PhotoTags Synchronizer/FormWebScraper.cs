@@ -11,6 +11,7 @@ using CefSharp.WinForms;
 using MetadataLibrary;
 using Newtonsoft.Json;
 using Krypton.Toolkit;
+using FileHandeling;
 
 namespace PhotoTagsSynchronizer
 {
@@ -1047,9 +1048,7 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                string jsonPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PhotoTagsSynchronizer");
-                if (!Directory.Exists(jsonPath)) Directory.CreateDirectory(jsonPath);
-                return Path.Combine(jsonPath, filename);
+                return FileHandler.GetLocalApplicationDataPath(filename, false);
             }
             catch (Exception ex)
             {

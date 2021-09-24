@@ -1643,9 +1643,7 @@ namespace DataGridViewGeneric
         #region Row handling - Favorite handling - CreateFavoriteFilename
         private static string CreateFavoriteFilename(string dataGridViewName)
         {
-            string jsonPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PhotoTagsSynchronizer");
-            if (!Directory.Exists(jsonPath)) Directory.CreateDirectory(jsonPath);
-            return Path.Combine(jsonPath, "Favourite." + dataGridViewName + ".json");
+            return FileHandeling.FileHandler.GetLocalApplicationDataPath("Favourite." + dataGridViewName + ".json", false);
         }
         #endregion
 

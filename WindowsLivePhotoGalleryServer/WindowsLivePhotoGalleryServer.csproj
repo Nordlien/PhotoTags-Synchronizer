@@ -69,6 +69,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FileHandeling\FileHandeling.csproj" />
     <ProjectReference Include="..\MetadataLibrary\MetadataLibrary.csproj" />
     <ProjectReference Include="..\PipeMessage\PipeMessage.csproj" />
     <ProjectReference Include="..\SqlCeDatabase\SqlCeDatabase.csproj" />
