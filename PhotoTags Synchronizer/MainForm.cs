@@ -31,7 +31,8 @@ using FileHandeling;
 namespace PhotoTagsSynchronizer
 {
     public partial class MainForm : KryptonForm
-    {      
+    {   
+        
         #region Global Variables
         public const string LinkTabAndDataGridViewNameTags = "Tags";
         public const string LinkTabAndDataGridViewNameMap = "Map";
@@ -590,6 +591,7 @@ namespace PhotoTagsSynchronizer
                 Logger.Error(ex);
             }
             #endregion
+
         }
 
 
