@@ -49,22 +49,16 @@
     <OutputPath>..\Bin\Release\x64\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Update="CheckedListBoxHigherRows.cs" />
-    <Compile Update="ComboBoxCustom.cs" />
-    <Compile Update="DateTimePickerCustom.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="TabControlCustom.cs">
-      <SubType>Component</SubType>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Update="ImageListViewDragAndDrop.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Update="ImageListViewOrder.cs">
       <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="TextBoxCustom.cs">
-      <SubType>Component</SubType>
     </Compile>
     <Compile Update="TreeViewWithoutDoubleClick.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
@@ -77,5 +71,11 @@
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="5.0.2" />
     <PackageReference Include="NLog" Version="4.7.11" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>
