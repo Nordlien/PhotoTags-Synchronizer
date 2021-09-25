@@ -21,15 +21,15 @@ namespace PhotoTagsSynchronizer
 
     public partial class MainForm : KryptonForm
     {
-        
 
-        
+
+
 
 
         #region FoldeTree
 
         #region FolderTree - Folder - Click
-        private void folderTreeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        private void folderTreeViewFolder_AfterSelect(object sender, TreeViewEventArgs e)
         {
             try
             {
@@ -174,6 +174,34 @@ namespace PhotoTagsSynchronizer
             }
         }
         #endregion
+
+        #region FolderTree - Rename Folder
+        private void folderTreeViewFolder_BeforeLabelEdit(object sender, NodeLabelEditEventArgs e)
+        {
+            if (e.Node == null || e.Node.Parent == null) e.CancelEdit = true;
+            if (e.CancelEdit == false)
+            {
+                string sourceDirectory = folderTreeViewFolder.GetSelectedNodePath();
+                DirectoryInfo directoryInfo = new DirectoryInfo(sourceDirectory);
+                if (directoryInfo.Parent == null) e.CancelEdit = true;            
+            }
+        }
+
+        private void folderTreeViewFolder_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
+        {
+            using (new WaitCursor())
+            {
+                folderTreeViewFolder.SuspendLayout();
+                if (e.Label != null && e.Label != e.Node.Text)
+                {
+                    string sourceDirectory = folderTreeViewFolder.GetSelectedNodePath();
+                    string newTagretDirectory = Path.Combine((new DirectoryInfo(sourceDirectory).Parent).FullName, e.Label);
+                    MoveFolder(folderTreeViewFolder, e.Node, e.Node.Parent, sourceDirectory, newTagretDirectory);
+                }
+                folderTreeViewFolder.ResumeLayout();
+            }
+        }
+        #endregion 
 
         #region FolderTree - Drag and Drop - Drop - Move/Copy Files - Move/Copy Folders
         private void folderTreeViewFolder_DragDrop(object sender, DragEventArgs e)
