@@ -65,6 +65,64 @@ namespace PhotoTagsSynchronizer
         {
             InitializeComponent();
 
+            dataGridViewAutoKeywords.ContextMenu = null;
+            dataGridViewAutoKeywords.KryptonContextMenu = kryptonContextMenuAutoKeyword;
+
+            dataGridViewMetadataReadPriority.ContextMenu = null;
+            dataGridViewMetadataReadPriority.KryptonContextMenu = kryptonContextMenuMetadataRead;
+            
+            dataGridViewLocationNames.ContextMenu = null;
+            dataGridViewLocationNames.KryptonContextMenu = kryptonContextMenuLocationNames;
+
+            this.kryptonContextMenuItemAutoKeywordCut.Click += KryptonContextMenuItemAutoKeywordCut_Click;
+            this.kryptonContextMenuItemAutoKeywordCopy.Click += KryptonContextMenuItemAutoKeywordCopy_Click;
+            this.kryptonContextMenuItemAutoKeywordPaste.Click += KryptonContextMenuItemAutoKeywordPaste_Click;
+            this.kryptonContextMenuItemAutoKeywordDelete.Click += KryptonContextMenuItemAutoKeywordDelete_Click;
+            this.kryptonContextMenuItemAutoKeywordUndo.Click += KryptonContextMenuItemAutoKeywordUndo_Click;
+            this.kryptonContextMenuItemAutoKeywordRedo.Click += KryptonContextMenuItemAutoKeywordRedo_Click;
+            this.kryptonContextMenuItemAutoKeywordFind.Click += KryptonContextMenuItemAutoKeywordFind_Click;
+            this.kryptonContextMenuItemAutoKeywordReplace.Click += KryptonContextMenuItemAutoKeywordReplace_Click;
+            //
+            //this.kryptonContextMenuItemMetadataReadAssignToTag,
+            //this.kryptonContextMenuSeparatorMetadataRead5,
+            this.kryptonContextMenuItemMetadataReadCut.Click += KryptonContextMenuItemMetadataReadCut_Click;
+            this.kryptonContextMenuItemMetadataReadCopy.Click += KryptonContextMenuItemMetadataReadCopy_Click;
+            this.kryptonContextMenuItemMetadataReadPaste.Click += KryptonContextMenuItemMetadataReadPaste_Click;
+            this.kryptonContextMenuItemMetadataReadDelete.Click += KryptonContextMenuItemMetadataReadDelete_Click;
+            this.kryptonContextMenuItemMetadataReadUndo.Click += KryptonContextMenuItemMetadataReadUndo_Click;
+            this.kryptonContextMenuItemMetadataReadRedo.Click += KryptonContextMenuItemMetadataReadRedo_Click;
+            this.kryptonContextMenuItemMetadataReadFind.Click += KryptonContextMenuItemMetadataReadFind_Click;
+            this.kryptonContextMenuItemMetadataReadReplace.Click += KryptonContextMenuItemMetadataReadReplace_Click;
+            //this.kryptonContextMenuSeparatorMetadataRead1,
+            this.kryptonContextMenuItemMetadataReadMarkFavorite.Click += KryptonContextMenuItemMetadataReadMarkFavorite_Click;
+            this.kryptonContextMenuItemMetadataReadRemoveFavorite.Click += KryptonContextMenuItemMetadataReadRemoveFavorite_Click;
+            this.kryptonContextMenuItemMetadataReadToggleFavorite.Click += KryptonContextMenuItemMetadataReadToggleFavorite_Click;
+            //this.kryptonContextMenuSeparatorMetadataRead2,
+            this.kryptonContextMenuItemMetadataReadShowFavorite.Click += KryptonContextMenuItemMetadataReadShowFavorite_Click;
+            //
+            this.kryptonContextMenuItemLocationNamesCut.Click += KryptonContextMenuItemLocationNamesCut_Click;
+            this.kryptonContextMenuItemLocationNamesCopy.Click += KryptonContextMenuItemLocationNamesCopy_Click;
+            this.kryptonContextMenuItemLocationNamesPaste.Click += KryptonContextMenuItemLocationNamesPaste_Click;
+            this.kryptonContextMenuItemLocationNamesDelete.Click += KryptonContextMenuItemLocationNamesDelete_Click;
+            this.kryptonContextMenuItemLocationNamesUndo.Click += KryptonContextMenuItemLocationNamesUndo_Click;
+            this.kryptonContextMenuItemLocationNamesRedo.Click += KryptonContextMenuItemLocationNamesRedo_Click;
+            this.kryptonContextMenuItemLocationNamesFind.Click += KryptonContextMenuItemLocationNamesFind_Click;
+            this.kryptonContextMenuItemLocationNamesReplace.Click += KryptonContextMenuItemLocationNamesReplace_Click;
+            //this.kryptonContextMenuSeparatorLocationNames3,
+            this.kryptonContextMenuItemLocationNamesAddFavorite.Click += KryptonContextMenuItemLocationNamesAddFavorite_Click;
+            this.kryptonContextMenuItemLocationNamesRemoveFavorite.Click += KryptonContextMenuItemLocationNamesRemoveFavorite_Click;
+            this.kryptonContextMenuItemLocationNamesToggleFavorite.Click += KryptonContextMenuItemLocationNamesToggleFavorite_Click;
+            //this.kryptonContextMenuSeparatorLocationNames4,
+            this.kryptonContextMenuItemLocationNamesShowFavoriteRows.Click += KryptonContextMenuItemLocationNamesShowFavoriteRows_Click;
+            this.kryptonContextMenuItemLocationNamesHideEqualRows.Click += KryptonContextMenuItemLocationNamesHideEqualRows_Click;
+            //this.kryptonContextMenuSeparatorLocationNames6,
+            this.kryptonContextMenuItemLocationNamesShowCoordinateOpenStreetMap.Click += KryptonContextMenuItemLocationNamesShowCoordinateOpenStreetMap_Click;
+            this.kryptonContextMenuItemLocationNamesShowCoordinateGoogleMap.Click += KryptonContextMenuItemLocationNamesShowCoordinateGoogleMap_Click;
+            this.kryptonContextMenuItemLocationNamesReloadUsingNominatim.Click += KryptonContextMenuItemLocationNamesReloadUsingNominatim_Click;
+            this.kryptonContextMenuItemLocationNamesSearchInMediaFiles.Click += KryptonContextMenuItemLocationNamesSearchInMediaFiles_Click;
+
+
+
             kryptonManager1 = kryptonManager;
             imageListView1 = imageListView;
 
@@ -94,6 +152,95 @@ namespace PhotoTagsSynchronizer
                    new object[] { true });
 
             isConfigClosing = false;
+        }
+
+        
+        
+
+        //
+        private void KryptonContextMenuItemLocationNamesCut_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void KryptonContextMenuItemLocationNamesCopy_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void KryptonContextMenuItemLocationNamesPaste_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void KryptonContextMenuItemLocationNamesDelete_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void KryptonContextMenuItemLocationNamesUndo_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void KryptonContextMenuItemLocationNamesRedo_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void KryptonContextMenuItemLocationNamesFind_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void KryptonContextMenuItemLocationNamesReplace_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void KryptonContextMenuItemLocationNamesAddFavorite_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void KryptonContextMenuItemLocationNamesRemoveFavorite_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void KryptonContextMenuItemLocationNamesToggleFavorite_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void KryptonContextMenuItemLocationNamesShowFavoriteRows_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void KryptonContextMenuItemLocationNamesHideEqualRows_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void KryptonContextMenuItemLocationNamesShowCoordinateOpenStreetMap_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void KryptonContextMenuItemLocationNamesShowCoordinateGoogleMap_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void KryptonContextMenuItemLocationNamesReloadUsingNominatim_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void KryptonContextMenuItemLocationNamesSearchInMediaFiles_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
 
@@ -1057,14 +1204,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region Camera owner - KeyDown
-        private void dataGridViewCameraOwner_KeyDown(object sender, KeyEventArgs e)
-        {
-            throw new NotImplementedException(); //JTN: Need add back
-            //DataGridViewHandler.KeyDownEventHandler(sender, e);
-        }
-        #endregion 
-
         #region Camera owner - CellBeginEdit
         private void dataGridViewCameraOwner_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
@@ -1364,14 +1503,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region Location names - DataGridView - KeyDown
-        private void dataGridViewLocationNames_KeyDown(object sender, KeyEventArgs e)
-        {
-            throw new NotImplementedException(); //JTN: Need add back
-            //DataGridViewHandler.KeyDownEventHandler(sender, e);
-        }
-        #endregion 
-
         #region Location names - DataGridView - CellBeginEdit
         private void dataGridViewLocationNames_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
@@ -1667,7 +1798,6 @@ namespace PhotoTagsSynchronizer
         #region Location names - ShowFavorite_Click
         private void toolStripMenuItemMapShowFavorite_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException(); //JTN: Need add back
             DataGridView dataGridView = dataGridViewLocationNames;
             if (!dataGridView.Enabled) return;
 
@@ -1680,7 +1810,6 @@ namespace PhotoTagsSynchronizer
         #region Location names - HideEqual_Click
         private void toolStripMenuItemMapHideEqual_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException(); //JTN: Need add back
             DataGridView dataGridView = dataGridViewLocationNames;
             if (!dataGridView.Enabled) return;
 
@@ -1931,14 +2060,16 @@ namespace PhotoTagsSynchronizer
 
         #region AutoKeywords
 
+        #region AutoKeywords - RowAdded
         private void dataGridViewAutoKeywords_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
             DataGridView dataGridView = (DataGridView)sender;
             dataGridView.Rows[e.RowIndex].HeaderCell.Value = "*" + (dataGridView.Rows[e.RowIndex].Index + 1).ToString();
         }
+        #endregion
 
         #region AutoKeywords - Cut
-        private void toolStripMenuItemAutoKeywordCut_Click(object sender, EventArgs e)
+        private void KryptonContextMenuItemAutoKeywordCut_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewAutoKeywords;
             ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, true);
@@ -1947,7 +2078,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region AutoKeywords - Copy
-        private void toolStripMenuItemAutoKeywordCopy_Click(object sender, EventArgs e)
+        private void KryptonContextMenuItemAutoKeywordCopy_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewAutoKeywords;
             ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, false);
@@ -1955,7 +2086,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region AutoKeywords - Paste
-        private void toolStripMenuItemAutoKeywordPaste_Click(object sender, EventArgs e)
+        private void KryptonContextMenuItemAutoKeywordPaste_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewAutoKeywords;
             ClipboardUtility.PasteDataGridViewSelectedCellsFromClipboard(dataGridView);
@@ -1963,7 +2094,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region AutoKeywords - Delete
-        private void toolStripMenuItemAutoKeywordDelete_Click(object sender, EventArgs e)
+        private void KryptonContextMenuItemAutoKeywordDelete_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewAutoKeywords;
             ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
@@ -1971,7 +2102,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region AutoKeywords - Undo
-        private void toolStripMenuItemAutoKeywordUndo_Click(object sender, EventArgs e)
+        private void KryptonContextMenuItemAutoKeywordUndo_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewAutoKeywords;
             ClipboardUtility.UndoDataGridView(dataGridView);
@@ -1979,7 +2110,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region AutoKeywords - Redo
-        private void toolStripMenuItemRedo_Click(object sender, EventArgs e)
+        private void KryptonContextMenuItemAutoKeywordRedo_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewAutoKeywords;
             ClipboardUtility.RedoDataGridView(dataGridView);
@@ -1987,7 +2118,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region AutoKeywords - Find
-        private void toolStripMenuItemFind_Click(object sender, EventArgs e)
+        private void KryptonContextMenuItemAutoKeywordFind_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewAutoKeywords;
             DataGridViewHandler.ActionFindAndReplace(dataGridView, false);
@@ -1997,7 +2128,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region AutoKeywords - Replace
-        private void toolStripMenuItemReplace_Click(object sender, EventArgs e)
+        private void KryptonContextMenuItemAutoKeywordReplace_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewAutoKeywords;
             //string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
@@ -2008,11 +2139,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region AutoKeywords - KeyDown
-        private void dataGridViewAutoKeywords_KeyDown(object sender, KeyEventArgs e)
-        {
-            throw new NotImplementedException(); //JTN: Need add back
-            //DataGridViewHandler.KeyDownEventHandler(sender, e);
-        }
+
         #endregion
 
         #region AutoKeywords - CellBeginEdit
@@ -2028,57 +2155,100 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Metadata Read - Keydown and Item Click, Clipboard
+        //
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
         #region Metadata Read - Cut
-        private void toolStripMenuItemMetadataReadCut_Click(object sender, EventArgs e)
+        private void KryptonContextMenuItemMetadataReadCut_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMetadataReadPriority;
             ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, true);
             ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
         }
+
+        private void toolStripMenuItemMetadataReadCut_Click(object sender, EventArgs e)
+        {
+            
+        }
         #endregion
 
         #region Metadata Read - Copy
-        private void toolStripMenuItemMetadataReadCopy_Click(object sender, EventArgs e)
+        private void KryptonContextMenuItemMetadataReadCopy_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMetadataReadPriority;
             ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, false);
         }
+
+        private void toolStripMenuItemMetadataReadCopy_Click(object sender, EventArgs e)
+        {
+            
+        }
         #endregion
 
         #region Metadata Read - Paste
-        private void toolStripMenuItemMetadataReadPaste_Click(object sender, EventArgs e)
+        private void KryptonContextMenuItemMetadataReadPaste_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMetadataReadPriority;
             ClipboardUtility.PasteDataGridViewSelectedCellsFromClipboard(dataGridView);
         }
+        private void toolStripMenuItemMetadataReadPaste_Click(object sender, EventArgs e)
+        {
+            
+        }
         #endregion
 
         #region Metadata Read - Delete
-        private void toolStripMenuItemMetadataReadDelete_Click(object sender, EventArgs e)
+        private void KryptonContextMenuItemMetadataReadDelete_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMetadataReadPriority;
             ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
         }
+        private void toolStripMenuItemMetadataReadDelete_Click(object sender, EventArgs e)
+        {
+            
+        }
         #endregion
 
         #region Metadata Read - Undo
-        private void toolStripMenuItemMetadataReadUndo_Click(object sender, EventArgs e)
+        private void KryptonContextMenuItemMetadataReadUndo_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMetadataReadPriority;
             ClipboardUtility.UndoDataGridView(dataGridView);
         }
+        private void toolStripMenuItemMetadataReadUndo_Click(object sender, EventArgs e)
+        {
+            
+        }
         #endregion
 
         #region Metadata Read - Redo
-        private void toolStripMenuItemMetadataReadRedo_Click(object sender, EventArgs e)
+        private void KryptonContextMenuItemMetadataReadRedo_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMetadataReadPriority;
             ClipboardUtility.RedoDataGridView(dataGridView);
         }
+        private void toolStripMenuItemMetadataReadRedo_Click(object sender, EventArgs e)
+        {
+            
+        }
         #endregion
 
         #region Metadata Read - Find
-        private void toolStripMenuItemMetadataReadFind_Click(object sender, EventArgs e)
+        private void KryptonContextMenuItemMetadataReadFind_Click(object sender, EventArgs e)
         {
             //string header = DataGridViewHandlerX.headerKeywords;
             DataGridView dataGridView = dataGridViewMetadataReadPriority;
@@ -2086,10 +2256,14 @@ namespace PhotoTagsSynchronizer
             //ValitedatePaste(dataGridView, header);
             DataGridViewHandler.Refresh(dataGridView);
         }
+        private void toolStripMenuItemMetadataReadFind_Click(object sender, EventArgs e)
+        {
+            
+        }
         #endregion
 
         #region Metadata Read - Replace
-        private void toolStripMenuItemMetadataReadReplace_Click(object sender, EventArgs e)
+        private void KryptonContextMenuItemMetadataReadReplace_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMetadataReadPriority;
             //string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
@@ -2097,39 +2271,62 @@ namespace PhotoTagsSynchronizer
             //ValitedatePaste(dataGridView, header);
             DataGridViewHandler.Refresh(dataGridView);
         }
+
+        
+
+        
+
+        
+
+        
+        private void toolStripMenuItemMetadataReadReplace_Click(object sender, EventArgs e)
+        {
+            
+        }
         #endregion
 
         #region Metadata Read - MarkFavorite
-        private void toolStripMenuItemMetadataReadMarkFavorite_Click(object sender, EventArgs e)
+        private void KryptonContextMenuItemMetadataReadMarkFavorite_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMetadataReadPriority;
             DataGridViewHandler.ActionSetRowsFavouriteState(dataGridView, NewState.Set);
             DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
         }
+        private void toolStripMenuItemMetadataReadMarkFavorite_Click(object sender, EventArgs e)
+        {
+            
+        }
         #endregion
 
         #region Metadata Read - RemoveFavorite
-        private void toolStripMenuItemMetadataReadRemoveFavorite_Click(object sender, EventArgs e)
+        private void KryptonContextMenuItemMetadataReadRemoveFavorite_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMetadataReadPriority;
             DataGridViewHandler.ActionSetRowsFavouriteState(dataGridView, NewState.Remove);
             DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
         }
+        private void toolStripMenuItemMetadataReadRemoveFavorite_Click(object sender, EventArgs e)
+        {
+            
+        }
         #endregion
 
         #region Metadata Read - ToggleFavorite
-        private void toolStripMenuItemMetadataReadToggleFavorite_Click(object sender, EventArgs e)
+        private void KryptonContextMenuItemMetadataReadToggleFavorite_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMetadataReadPriority;
             DataGridViewHandler.ActionSetRowsFavouriteState(dataGridView, NewState.Toggle);
             DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
         }
+        private void toolStripMenuItemMetadataReadToggleFavorite_Click(object sender, EventArgs e)
+        {
+            
+        }
         #endregion
 
         #region Metadata Read - ShowFavorite
-        private void toolStripMenuItemMetadataReadShowFavorite_Click(object sender, EventArgs e)
+        private void KryptonContextMenuItemMetadataReadShowFavorite_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException(); //JTN: Need add back
             DataGridView dataGridView = dataGridViewMetadataReadPriority;
             if (!dataGridView.Enabled) return;
 
@@ -2137,13 +2334,9 @@ namespace PhotoTagsSynchronizer
             //DataGridViewHandler.UpdatedStripMenuItem(dataGridView, (ToolStripMenuItem)sender, DataGridViewHandler.ShowFavouriteColumns(dataGridView));
             DataGridViewHandler.SetRowsVisbleStatus(dataGridView, DataGridViewHandler.HideEqualColumns(dataGridView), DataGridViewHandler.ShowFavouriteColumns(dataGridView));
         }
-        #endregion
-
-        #region Metadata Read - KeyDown
-        private void dataGridViewMetadataReadPriority_KeyDown(object sender, KeyEventArgs e)
+        private void toolStripMenuItemMetadataReadShowFavorite_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException(); //JTN: Need add back
-            //DataGridViewHandler.KeyDownEventHandler(sender, e);
+            
         }
         #endregion
 

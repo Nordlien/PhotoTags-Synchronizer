@@ -159,17 +159,23 @@
   <metadata name="AddKeywords.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="contextMenuStripAutoKeyword.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>696, 17</value>
+  <metadata name="kryptonContextMenuAutoKeyword.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>733, 19</value>
   </metadata>
   <data name="textBoxLocationCameraOwnerHelp.Text" xml:space="preserve">
     <value>Camera Make and Model are used for set Media Artist and find Location for owner in location history. Tip. you can import Google Location history, set owner of the "Location History". Then correct (phone) camera will use correct history.</value>
   </data>
+  <metadata name="kryptonContextMenuLocationNames.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>481, 19</value>
+  </metadata>
   <metadata name="contextMenuStripLocationNames.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>463, 17</value>
+    <value>17, 58</value>
+  </metadata>
+  <metadata name="kryptonContextMenuMetadataRead.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>234, 19</value>
   </metadata>
   <metadata name="contextMenuStripMetadataRead.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>235, 17</value>
+    <value>974, 19</value>
   </metadata>
   <data name="fastColoredTextBoxMetadataWriteKeywordDelete.ServiceColors" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -378,7 +384,10 @@
   <metadata name="kryptonContextMenuPalette.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>29, 19</value>
   </metadata>
+  <metadata name="kryptonContextMenuCameraOwner.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>250, 58</value>
+  </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>73</value>
+    <value>104</value>
   </metadata>
 </root>

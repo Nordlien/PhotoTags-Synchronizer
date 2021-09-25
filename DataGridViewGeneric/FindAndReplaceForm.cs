@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
+using Krypton.Toolkit;
 
 namespace DataGridViewGeneric
 {
-    public partial class FindAndReplaceForm : Form
+    public partial class FindAndReplaceForm : KryptonForm
     {
         private DataGridView dataGridViewActive;
         //private int searchStartRowTableFind;
@@ -65,13 +66,13 @@ namespace DataGridViewGeneric
 
             if (setReplaceTabAsActive)
             {
-                tabControlFindAndReplace.SelectedIndex = 1;
+                kryptonNavigatorFindAndReplace.SelectedIndex = 1;
                 FindWhatTextBox2.Focus();
                 FindWhatTextBox2.Select();
             }
             else
             {
-                tabControlFindAndReplace.SelectedIndex = 0;
+                kryptonNavigatorFindAndReplace.SelectedIndex = 0;
                 FindWhatTextBox1.Focus();
                 FindWhatTextBox1.Select();
             }
@@ -540,94 +541,17 @@ namespace DataGridViewGeneric
             }
         }
 
-        private void cutToolStripMenuItem_Click(object sender, EventArgs e)
+        private void kryptonNavigatorFindAndReplace_TabIndexChanged(object sender, EventArgs e)
         {
-
-        }
-
-        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void undoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void redoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void findToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void replaceToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        
-
-        private void toggleShowFavouriteRowsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void toggleHideEqualRowsValuesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void toggleRowsAsFavouriteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void markAsFavoriteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void removeAsFavoriteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void toolStripMenuItemMapSave_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tabControlFindAndReplace_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            switch (tabControlFindAndReplace.SelectedIndex)
+            switch (kryptonNavigatorFindAndReplace.SelectedIndex)
             {
-                case 0: 
+                case 0:
                     this.AcceptButton = FindButton1;
                     break;
                 case 1:
                     this.AcceptButton = FindButton2;
                     break;
             }
-        }
-
-        private void showMediaPosterWindowToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

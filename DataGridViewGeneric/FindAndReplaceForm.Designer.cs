@@ -28,28 +28,28 @@ namespace DataGridViewGeneric
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FindAndReplaceForm));
-            this.tabControlFindAndReplace = new System.Windows.Forms.TabControl();
-            this.FindPage = new System.Windows.Forms.TabPage();
             this.checkBoxSearchAlsoRowHeaders = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.radioButtonSearchUp1 = new Krypton.Toolkit.KryptonRadioButton();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.radioButtonSearchDown1 = new Krypton.Toolkit.KryptonRadioButton();
+            this.radioButtonSearchUp1 = new Krypton.Toolkit.KryptonRadioButton();
             this.buttonFindAll1 = new Krypton.Toolkit.KryptonButton();
             this.FindButton1 = new Krypton.Toolkit.KryptonButton();
             this.comboBoxFindMode = new System.Windows.Forms.ComboBox();
             this.FindOptionGroupBox1 = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.MatchCellCheckBox1 = new System.Windows.Forms.CheckBox();
             this.MatchCaseCheckBox1 = new System.Windows.Forms.CheckBox();
             this.FindWhatTextBox1 = new Krypton.Toolkit.KryptonTextBox();
             this.FindLabel1 = new Krypton.Toolkit.KryptonLabel();
-            this.ReplacePage = new System.Windows.Forms.TabPage();
             this.groupBoxFindDirection2 = new System.Windows.Forms.GroupBox();
-            this.radioButtonSearchUp2 = new Krypton.Toolkit.KryptonRadioButton();
+            this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.radioButtonSearchDown2 = new Krypton.Toolkit.KryptonRadioButton();
+            this.radioButtonSearchUp2 = new Krypton.Toolkit.KryptonRadioButton();
             this.buttonFindAll2 = new Krypton.Toolkit.KryptonButton();
             this.FindOptionGroup2 = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.MatchCellCheckBox2 = new System.Windows.Forms.CheckBox();
             this.MatchCaseCheckBox2 = new System.Windows.Forms.CheckBox();
             this.UseComboBox2 = new System.Windows.Forms.ComboBox();
@@ -60,67 +60,32 @@ namespace DataGridViewGeneric
             this.ReplaceLabel = new Krypton.Toolkit.KryptonLabel();
             this.FindWhatTextBox2 = new Krypton.Toolkit.KryptonTextBox();
             this.FindLabel2 = new Krypton.Toolkit.KryptonLabel();
-            this.contextMenuStripDataGridViewGeneric = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.findToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.replaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemMapSave = new System.Windows.Forms.ToolStripMenuItem();
-            this.markAsFavoriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.removeAsFavoriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toggleRowsAsFavouriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toggleShowFavouriteRowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toggleHideEqualRowsValuesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.showMediaPosterWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tabControlFindAndReplace.SuspendLayout();
-            this.FindPage.SuspendLayout();
+            this.kryptonNavigatorFindAndReplace = new Krypton.Navigator.KryptonNavigator();
+            this.kryptonPageFind = new Krypton.Navigator.KryptonPage();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.kryptonPageReplace = new Krypton.Navigator.KryptonPage();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox1.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
             this.FindOptionGroupBox1.SuspendLayout();
-            this.ReplacePage.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
             this.groupBoxFindDirection2.SuspendLayout();
+            this.tableLayoutPanel6.SuspendLayout();
             this.FindOptionGroup2.SuspendLayout();
-            this.contextMenuStripDataGridViewGeneric.SuspendLayout();
+            this.tableLayoutPanel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonNavigatorFindAndReplace)).BeginInit();
+            this.kryptonNavigatorFindAndReplace.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageFind)).BeginInit();
+            this.kryptonPageFind.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageReplace)).BeginInit();
+            this.kryptonPageReplace.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // tabControlFindAndReplace
-            // 
-            this.tabControlFindAndReplace.Controls.Add(this.FindPage);
-            this.tabControlFindAndReplace.Controls.Add(this.ReplacePage);
-            this.tabControlFindAndReplace.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlFindAndReplace.Location = new System.Drawing.Point(0, 0);
-            this.tabControlFindAndReplace.Margin = new System.Windows.Forms.Padding(4);
-            this.tabControlFindAndReplace.Name = "tabControlFindAndReplace";
-            this.tabControlFindAndReplace.SelectedIndex = 0;
-            this.tabControlFindAndReplace.Size = new System.Drawing.Size(699, 267);
-            this.tabControlFindAndReplace.TabIndex = 0;
-            this.tabControlFindAndReplace.SelectedIndexChanged += new System.EventHandler(this.tabControlFindAndReplace_SelectedIndexChanged);
-            // 
-            // FindPage
-            // 
-            this.FindPage.BackColor = System.Drawing.Color.White;
-            this.FindPage.Controls.Add(this.checkBoxSearchAlsoRowHeaders);
-            this.FindPage.Controls.Add(this.groupBox1);
-            this.FindPage.Controls.Add(this.buttonFindAll1);
-            this.FindPage.Controls.Add(this.FindButton1);
-            this.FindPage.Controls.Add(this.comboBoxFindMode);
-            this.FindPage.Controls.Add(this.FindOptionGroupBox1);
-            this.FindPage.Controls.Add(this.FindWhatTextBox1);
-            this.FindPage.Controls.Add(this.FindLabel1);
-            this.FindPage.Location = new System.Drawing.Point(4, 25);
-            this.FindPage.Margin = new System.Windows.Forms.Padding(4);
-            this.FindPage.Name = "FindPage";
-            this.FindPage.Padding = new System.Windows.Forms.Padding(4);
-            this.FindPage.Size = new System.Drawing.Size(691, 238);
-            this.FindPage.TabIndex = 0;
-            this.FindPage.Text = "Find";
             // 
             // checkBoxSearchAlsoRowHeaders
             // 
-            this.checkBoxSearchAlsoRowHeaders.Location = new System.Drawing.Point(111, 211);
+            this.checkBoxSearchAlsoRowHeaders.Location = new System.Drawing.Point(73, 176);
             this.checkBoxSearchAlsoRowHeaders.Name = "checkBoxSearchAlsoRowHeaders";
             this.checkBoxSearchAlsoRowHeaders.Size = new System.Drawing.Size(209, 21);
             this.checkBoxSearchAlsoRowHeaders.TabIndex = 11;
@@ -129,92 +94,120 @@ namespace DataGridViewGeneric
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.radioButtonSearchUp1);
-            this.groupBox1.Controls.Add(this.radioButtonSearchDown1);
-            this.groupBox1.Location = new System.Drawing.Point(334, 69);
+            this.groupBox1.Controls.Add(this.tableLayoutPanel3);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox1.Location = new System.Drawing.Point(323, 39);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(216, 100);
+            this.tableLayoutPanel1.SetRowSpan(this.groupBox1, 2);
+            this.groupBox1.Size = new System.Drawing.Size(244, 102);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Find directions";
             // 
-            // radioButtonSearchUp1
+            // tableLayoutPanel3
             // 
-            this.radioButtonSearchUp1.Location = new System.Drawing.Point(11, 27);
-            this.radioButtonSearchUp1.Name = "radioButtonSearchUp1";
-            this.radioButtonSearchUp1.Size = new System.Drawing.Size(113, 21);
-            this.radioButtonSearchUp1.TabIndex = 6;
-            this.radioButtonSearchUp1.Text = "Find upwards";
-            this.radioButtonSearchUp1.CheckedChanged += new System.EventHandler(this.radioButtonSearchUp1_CheckedChanged);
+            this.tableLayoutPanel3.ColumnCount = 1;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel3.Controls.Add(this.radioButtonSearchDown1, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.radioButtonSearchUp1, 0, 0);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 16);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 2;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(238, 83);
+            this.tableLayoutPanel3.TabIndex = 12;
             // 
             // radioButtonSearchDown1
             // 
             this.radioButtonSearchDown1.Checked = true;
-            this.radioButtonSearchDown1.Location = new System.Drawing.Point(11, 54);
+            this.radioButtonSearchDown1.Location = new System.Drawing.Point(3, 27);
             this.radioButtonSearchDown1.Name = "radioButtonSearchDown1";
-            this.radioButtonSearchDown1.Size = new System.Drawing.Size(130, 21);
+            this.radioButtonSearchDown1.Size = new System.Drawing.Size(106, 18);
             this.radioButtonSearchDown1.TabIndex = 7;
-            this.radioButtonSearchDown1.TabStop = true;
-            this.radioButtonSearchDown1.Text = "Find downwards";
+            this.radioButtonSearchDown1.Values.Text = "Find downwards";
             this.radioButtonSearchDown1.CheckedChanged += new System.EventHandler(this.radioButtonSearchDown1_CheckedChanged);
+            // 
+            // radioButtonSearchUp1
+            // 
+            this.radioButtonSearchUp1.Location = new System.Drawing.Point(3, 3);
+            this.radioButtonSearchUp1.Name = "radioButtonSearchUp1";
+            this.radioButtonSearchUp1.Size = new System.Drawing.Size(91, 18);
+            this.radioButtonSearchUp1.TabIndex = 6;
+            this.radioButtonSearchUp1.Values.Text = "Find upwards";
+            this.radioButtonSearchUp1.CheckedChanged += new System.EventHandler(this.radioButtonSearchUp1_CheckedChanged);
             // 
             // buttonFindAll1
             // 
-            this.buttonFindAll1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonFindAll1.Location = new System.Drawing.Point(557, 105);
+            this.buttonFindAll1.Location = new System.Drawing.Point(574, 40);
             this.buttonFindAll1.Margin = new System.Windows.Forms.Padding(4);
             this.buttonFindAll1.Name = "buttonFindAll1";
             this.buttonFindAll1.Size = new System.Drawing.Size(119, 28);
             this.buttonFindAll1.TabIndex = 10;
-            this.buttonFindAll1.Text = "Find All";
+            this.buttonFindAll1.Values.Text = "Find All";
             this.buttonFindAll1.Click += new System.EventHandler(this.buttonFindAll1_Click);
             // 
             // FindButton1
             // 
-            this.FindButton1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.FindButton1.Location = new System.Drawing.Point(557, 69);
+            this.FindButton1.Location = new System.Drawing.Point(574, 4);
             this.FindButton1.Margin = new System.Windows.Forms.Padding(4);
             this.FindButton1.Name = "FindButton1";
             this.FindButton1.Size = new System.Drawing.Size(119, 28);
             this.FindButton1.TabIndex = 9;
-            this.FindButton1.Text = "Find Next";
+            this.FindButton1.Values.Text = "Find Next";
             this.FindButton1.Click += new System.EventHandler(this.FindButton1_Click);
             // 
             // comboBoxFindMode
             // 
             this.comboBoxFindMode.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.SetColumnSpan(this.comboBoxFindMode, 2);
             this.comboBoxFindMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxFindMode.FormattingEnabled = true;
             this.comboBoxFindMode.Items.AddRange(new object[] {
             "Find text that match",
             "Find text that match using regular expressions",
             "Find text that match wildcards"});
-            this.comboBoxFindMode.Location = new System.Drawing.Point(111, 180);
+            this.comboBoxFindMode.Location = new System.Drawing.Point(74, 148);
             this.comboBoxFindMode.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxFindMode.Name = "comboBoxFindMode";
-            this.comboBoxFindMode.Size = new System.Drawing.Size(438, 24);
+            this.comboBoxFindMode.Size = new System.Drawing.Size(492, 21);
             this.comboBoxFindMode.TabIndex = 8;
             this.comboBoxFindMode.SelectedIndexChanged += new System.EventHandler(this.UseComboBox1_SelectedIndexChanged);
             // 
             // FindOptionGroupBox1
             // 
-            this.FindOptionGroupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.FindOptionGroupBox1.Controls.Add(this.MatchCellCheckBox1);
-            this.FindOptionGroupBox1.Controls.Add(this.MatchCaseCheckBox1);
-            this.FindOptionGroupBox1.Location = new System.Drawing.Point(111, 69);
+            this.FindOptionGroupBox1.Controls.Add(this.tableLayoutPanel2);
+            this.FindOptionGroupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.FindOptionGroupBox1.Location = new System.Drawing.Point(74, 40);
             this.FindOptionGroupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.FindOptionGroupBox1.Name = "FindOptionGroupBox1";
             this.FindOptionGroupBox1.Padding = new System.Windows.Forms.Padding(4);
-            this.FindOptionGroupBox1.Size = new System.Drawing.Size(216, 100);
+            this.tableLayoutPanel1.SetRowSpan(this.FindOptionGroupBox1, 2);
+            this.FindOptionGroupBox1.Size = new System.Drawing.Size(242, 100);
             this.FindOptionGroupBox1.TabIndex = 2;
             this.FindOptionGroupBox1.TabStop = false;
             this.FindOptionGroupBox1.Text = "Find options";
             // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 1;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel2.Controls.Add(this.MatchCellCheckBox1, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.MatchCaseCheckBox1, 0, 0);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(4, 17);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 2;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(234, 79);
+            this.tableLayoutPanel2.TabIndex = 12;
+            // 
             // MatchCellCheckBox1
             // 
-            this.MatchCellCheckBox1.Location = new System.Drawing.Point(11, 54);
+            this.MatchCellCheckBox1.Location = new System.Drawing.Point(4, 33);
             this.MatchCellCheckBox1.Margin = new System.Windows.Forms.Padding(4);
             this.MatchCellCheckBox1.Name = "MatchCellCheckBox1";
             this.MatchCellCheckBox1.Size = new System.Drawing.Size(133, 21);
@@ -225,7 +218,7 @@ namespace DataGridViewGeneric
             // 
             // MatchCaseCheckBox1
             // 
-            this.MatchCaseCheckBox1.Location = new System.Drawing.Point(11, 27);
+            this.MatchCaseCheckBox1.Location = new System.Drawing.Point(4, 4);
             this.MatchCaseCheckBox1.Margin = new System.Windows.Forms.Padding(4);
             this.MatchCaseCheckBox1.Name = "MatchCaseCheckBox1";
             this.MatchCaseCheckBox1.Size = new System.Drawing.Size(102, 21);
@@ -238,105 +231,111 @@ namespace DataGridViewGeneric
             // 
             this.FindWhatTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.FindWhatTextBox1.Location = new System.Drawing.Point(111, 7);
+            this.tableLayoutPanel1.SetColumnSpan(this.FindWhatTextBox1, 2);
+            this.FindWhatTextBox1.Location = new System.Drawing.Point(74, 4);
             this.FindWhatTextBox1.Margin = new System.Windows.Forms.Padding(4);
             this.FindWhatTextBox1.Name = "FindWhatTextBox1";
-            this.FindWhatTextBox1.Size = new System.Drawing.Size(565, 22);
+            this.FindWhatTextBox1.Size = new System.Drawing.Size(492, 20);
             this.FindWhatTextBox1.TabIndex = 0;
             this.FindWhatTextBox1.TextChanged += new System.EventHandler(this.FindWhatTextBox1_TextChanged);
             // 
             // FindLabel1
             // 
-            this.FindLabel1.Location = new System.Drawing.Point(3, 12);
+            this.FindLabel1.Location = new System.Drawing.Point(4, 0);
             this.FindLabel1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.FindLabel1.Name = "FindLabel1";
-            this.FindLabel1.Size = new System.Drawing.Size(72, 17);
+            this.FindLabel1.Size = new System.Drawing.Size(62, 18);
             this.FindLabel1.TabIndex = 4;
-            this.FindLabel1.Text = "Find what:";
-            // 
-            // ReplacePage
-            // 
-            this.ReplacePage.Controls.Add(this.groupBoxFindDirection2);
-            this.ReplacePage.Controls.Add(this.buttonFindAll2);
-            this.ReplacePage.Controls.Add(this.FindOptionGroup2);
-            this.ReplacePage.Controls.Add(this.UseComboBox2);
-            this.ReplacePage.Controls.Add(this.ReplaceAllButton);
-            this.ReplacePage.Controls.Add(this.ReplaceButton);
-            this.ReplacePage.Controls.Add(this.FindButton2);
-            this.ReplacePage.Controls.Add(this.ReplaceWithTextBox);
-            this.ReplacePage.Controls.Add(this.ReplaceLabel);
-            this.ReplacePage.Controls.Add(this.FindWhatTextBox2);
-            this.ReplacePage.Controls.Add(this.FindLabel2);
-            this.ReplacePage.Location = new System.Drawing.Point(4, 25);
-            this.ReplacePage.Margin = new System.Windows.Forms.Padding(4);
-            this.ReplacePage.Name = "ReplacePage";
-            this.ReplacePage.Padding = new System.Windows.Forms.Padding(4);
-            this.ReplacePage.Size = new System.Drawing.Size(691, 238);
-            this.ReplacePage.TabIndex = 1;
-            this.ReplacePage.Text = "Replace";
-            this.ReplacePage.UseVisualStyleBackColor = true;
+            this.FindLabel1.Values.Text = "Find what:";
             // 
             // groupBoxFindDirection2
             // 
-            this.groupBoxFindDirection2.Controls.Add(this.radioButtonSearchUp2);
-            this.groupBoxFindDirection2.Controls.Add(this.radioButtonSearchDown2);
-            this.groupBoxFindDirection2.Location = new System.Drawing.Point(334, 69);
+            this.groupBoxFindDirection2.Controls.Add(this.tableLayoutPanel6);
+            this.groupBoxFindDirection2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBoxFindDirection2.Location = new System.Drawing.Point(331, 75);
             this.groupBoxFindDirection2.Name = "groupBoxFindDirection2";
-            this.groupBoxFindDirection2.Size = new System.Drawing.Size(216, 100);
+            this.tableLayoutPanel4.SetRowSpan(this.groupBoxFindDirection2, 3);
+            this.groupBoxFindDirection2.Size = new System.Drawing.Size(236, 102);
             this.groupBoxFindDirection2.TabIndex = 6;
             this.groupBoxFindDirection2.TabStop = false;
             this.groupBoxFindDirection2.Text = "Find directions";
             // 
-            // radioButtonSearchUp2
+            // tableLayoutPanel6
             // 
-            this.radioButtonSearchUp2.Location = new System.Drawing.Point(11, 27);
-            this.radioButtonSearchUp2.Name = "radioButtonSearchUp2";
-            this.radioButtonSearchUp2.Size = new System.Drawing.Size(113, 21);
-            this.radioButtonSearchUp2.TabIndex = 7;
-            this.radioButtonSearchUp2.TabStop = true;
-            this.radioButtonSearchUp2.Text = "Find upwards";
-            this.radioButtonSearchUp2.CheckedChanged += new System.EventHandler(this.radioButtonSearchUp2_CheckedChanged);
+            this.tableLayoutPanel6.ColumnCount = 1;
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel6.Controls.Add(this.radioButtonSearchDown2, 0, 1);
+            this.tableLayoutPanel6.Controls.Add(this.radioButtonSearchUp2, 0, 0);
+            this.tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel6.Location = new System.Drawing.Point(3, 16);
+            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
+            this.tableLayoutPanel6.RowCount = 2;
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(230, 83);
+            this.tableLayoutPanel6.TabIndex = 1;
             // 
             // radioButtonSearchDown2
             // 
             this.radioButtonSearchDown2.Checked = true;
-            this.radioButtonSearchDown2.Location = new System.Drawing.Point(11, 54);
+            this.radioButtonSearchDown2.Location = new System.Drawing.Point(3, 27);
             this.radioButtonSearchDown2.Name = "radioButtonSearchDown2";
-            this.radioButtonSearchDown2.Size = new System.Drawing.Size(130, 21);
+            this.radioButtonSearchDown2.Size = new System.Drawing.Size(106, 18);
             this.radioButtonSearchDown2.TabIndex = 8;
-            this.radioButtonSearchDown2.TabStop = true;
-            this.radioButtonSearchDown2.Text = "Find downwards";
+            this.radioButtonSearchDown2.Values.Text = "Find downwards";
             this.radioButtonSearchDown2.CheckedChanged += new System.EventHandler(this.radioButtonSearchDown2_CheckedChanged);
+            // 
+            // radioButtonSearchUp2
+            // 
+            this.radioButtonSearchUp2.Location = new System.Drawing.Point(3, 3);
+            this.radioButtonSearchUp2.Name = "radioButtonSearchUp2";
+            this.radioButtonSearchUp2.Size = new System.Drawing.Size(91, 18);
+            this.radioButtonSearchUp2.TabIndex = 7;
+            this.radioButtonSearchUp2.Values.Text = "Find upwards";
+            this.radioButtonSearchUp2.CheckedChanged += new System.EventHandler(this.radioButtonSearchUp2_CheckedChanged);
             // 
             // buttonFindAll2
             // 
-            this.buttonFindAll2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonFindAll2.Location = new System.Drawing.Point(557, 105);
+            this.buttonFindAll2.Location = new System.Drawing.Point(574, 40);
             this.buttonFindAll2.Margin = new System.Windows.Forms.Padding(4);
             this.buttonFindAll2.Name = "buttonFindAll2";
             this.buttonFindAll2.Size = new System.Drawing.Size(119, 28);
             this.buttonFindAll2.TabIndex = 11;
-            this.buttonFindAll2.Text = "Find All";
+            this.buttonFindAll2.Values.Text = "Find All";
             this.buttonFindAll2.Click += new System.EventHandler(this.buttonFindAll2_Click);
             // 
             // FindOptionGroup2
             // 
-            this.FindOptionGroup2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.FindOptionGroup2.Controls.Add(this.MatchCellCheckBox2);
-            this.FindOptionGroup2.Controls.Add(this.MatchCaseCheckBox2);
-            this.FindOptionGroup2.Location = new System.Drawing.Point(111, 69);
+            this.FindOptionGroup2.Controls.Add(this.tableLayoutPanel5);
+            this.FindOptionGroup2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.FindOptionGroup2.Location = new System.Drawing.Point(90, 76);
             this.FindOptionGroup2.Margin = new System.Windows.Forms.Padding(4);
             this.FindOptionGroup2.Name = "FindOptionGroup2";
             this.FindOptionGroup2.Padding = new System.Windows.Forms.Padding(4);
-            this.FindOptionGroup2.Size = new System.Drawing.Size(216, 100);
+            this.tableLayoutPanel4.SetRowSpan(this.FindOptionGroup2, 3);
+            this.FindOptionGroup2.Size = new System.Drawing.Size(234, 100);
             this.FindOptionGroup2.TabIndex = 3;
             this.FindOptionGroup2.TabStop = false;
             this.FindOptionGroup2.Text = "Find and replace options";
             // 
+            // tableLayoutPanel5
+            // 
+            this.tableLayoutPanel5.ColumnCount = 1;
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel5.Controls.Add(this.MatchCellCheckBox2, 0, 1);
+            this.tableLayoutPanel5.Controls.Add(this.MatchCaseCheckBox2, 0, 0);
+            this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(4, 17);
+            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
+            this.tableLayoutPanel5.RowCount = 2;
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(226, 79);
+            this.tableLayoutPanel5.TabIndex = 0;
+            // 
             // MatchCellCheckBox2
             // 
-            this.MatchCellCheckBox2.Location = new System.Drawing.Point(11, 54);
+            this.MatchCellCheckBox2.Location = new System.Drawing.Point(4, 33);
             this.MatchCellCheckBox2.Margin = new System.Windows.Forms.Padding(4);
             this.MatchCellCheckBox2.Name = "MatchCellCheckBox2";
             this.MatchCellCheckBox2.Size = new System.Drawing.Size(133, 21);
@@ -347,7 +346,7 @@ namespace DataGridViewGeneric
             // 
             // MatchCaseCheckBox2
             // 
-            this.MatchCaseCheckBox2.Location = new System.Drawing.Point(11, 27);
+            this.MatchCaseCheckBox2.Location = new System.Drawing.Point(4, 4);
             this.MatchCaseCheckBox2.Margin = new System.Windows.Forms.Padding(4);
             this.MatchCaseCheckBox2.Name = "MatchCaseCheckBox2";
             this.MatchCaseCheckBox2.Size = new System.Drawing.Size(102, 21);
@@ -360,254 +359,212 @@ namespace DataGridViewGeneric
             // 
             this.UseComboBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel4.SetColumnSpan(this.UseComboBox2, 2);
             this.UseComboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.UseComboBox2.FormattingEnabled = true;
             this.UseComboBox2.Items.AddRange(new object[] {
             "Find text that match",
             "Find text that match using regular expressions",
             "Find text that match wildcards"});
-            this.UseComboBox2.Location = new System.Drawing.Point(111, 180);
+            this.UseComboBox2.Location = new System.Drawing.Point(90, 184);
             this.UseComboBox2.Margin = new System.Windows.Forms.Padding(4);
             this.UseComboBox2.Name = "UseComboBox2";
-            this.UseComboBox2.Size = new System.Drawing.Size(438, 24);
+            this.UseComboBox2.Size = new System.Drawing.Size(476, 21);
             this.UseComboBox2.TabIndex = 9;
             this.UseComboBox2.SelectedIndexChanged += new System.EventHandler(this.UseComboBox2_SelectedIndexChanged);
             // 
             // ReplaceAllButton
             // 
-            this.ReplaceAllButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ReplaceAllButton.Location = new System.Drawing.Point(557, 177);
+            this.ReplaceAllButton.Location = new System.Drawing.Point(574, 112);
             this.ReplaceAllButton.Margin = new System.Windows.Forms.Padding(4);
             this.ReplaceAllButton.Name = "ReplaceAllButton";
             this.ReplaceAllButton.Size = new System.Drawing.Size(119, 28);
             this.ReplaceAllButton.TabIndex = 13;
-            this.ReplaceAllButton.Text = "Replace All";
+            this.ReplaceAllButton.Values.Text = "Replace All";
             this.ReplaceAllButton.Click += new System.EventHandler(this.ReplaceAllButton_Click);
             // 
             // ReplaceButton
             // 
-            this.ReplaceButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ReplaceButton.Location = new System.Drawing.Point(557, 141);
+            this.ReplaceButton.Location = new System.Drawing.Point(574, 76);
             this.ReplaceButton.Margin = new System.Windows.Forms.Padding(4);
             this.ReplaceButton.Name = "ReplaceButton";
             this.ReplaceButton.Size = new System.Drawing.Size(119, 28);
             this.ReplaceButton.TabIndex = 12;
-            this.ReplaceButton.Text = "Replace";
+            this.ReplaceButton.Values.Text = "Replace";
             this.ReplaceButton.Click += new System.EventHandler(this.ReplaceButton_Click);
             // 
             // FindButton2
             // 
-            this.FindButton2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.FindButton2.Location = new System.Drawing.Point(557, 69);
+            this.FindButton2.Location = new System.Drawing.Point(574, 4);
             this.FindButton2.Margin = new System.Windows.Forms.Padding(4);
             this.FindButton2.Name = "FindButton2";
             this.FindButton2.Size = new System.Drawing.Size(119, 28);
             this.FindButton2.TabIndex = 10;
-            this.FindButton2.Text = "Find Next";
+            this.FindButton2.Values.Text = "Find Next";
             this.FindButton2.Click += new System.EventHandler(this.FindButton2_Click);
             // 
             // ReplaceWithTextBox
             // 
             this.ReplaceWithTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ReplaceWithTextBox.Location = new System.Drawing.Point(111, 39);
+            this.tableLayoutPanel4.SetColumnSpan(this.ReplaceWithTextBox, 2);
+            this.ReplaceWithTextBox.Location = new System.Drawing.Point(90, 40);
             this.ReplaceWithTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.ReplaceWithTextBox.Name = "ReplaceWithTextBox";
-            this.ReplaceWithTextBox.Size = new System.Drawing.Size(565, 22);
+            this.ReplaceWithTextBox.Size = new System.Drawing.Size(476, 20);
             this.ReplaceWithTextBox.TabIndex = 2;
             // 
             // ReplaceLabel
             // 
-            this.ReplaceLabel.Location = new System.Drawing.Point(3, 44);
+            this.ReplaceLabel.Location = new System.Drawing.Point(4, 36);
             this.ReplaceLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.ReplaceLabel.Name = "ReplaceLabel";
-            this.ReplaceLabel.Size = new System.Drawing.Size(92, 17);
+            this.ReplaceLabel.Size = new System.Drawing.Size(78, 18);
             this.ReplaceLabel.TabIndex = 4;
-            this.ReplaceLabel.Text = "Replace with:";
+            this.ReplaceLabel.Values.Text = "Replace with:";
             // 
             // FindWhatTextBox2
             // 
             this.FindWhatTextBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.FindWhatTextBox2.Location = new System.Drawing.Point(111, 7);
+            this.tableLayoutPanel4.SetColumnSpan(this.FindWhatTextBox2, 2);
+            this.FindWhatTextBox2.Location = new System.Drawing.Point(90, 4);
             this.FindWhatTextBox2.Margin = new System.Windows.Forms.Padding(4);
             this.FindWhatTextBox2.Name = "FindWhatTextBox2";
-            this.FindWhatTextBox2.Size = new System.Drawing.Size(565, 22);
+            this.FindWhatTextBox2.Size = new System.Drawing.Size(476, 20);
             this.FindWhatTextBox2.TabIndex = 0;
             this.FindWhatTextBox2.TextChanged += new System.EventHandler(this.FindWhatTextBox2_TextChanged);
             // 
             // FindLabel2
             // 
-            this.FindLabel2.Location = new System.Drawing.Point(3, 12);
+            this.FindLabel2.Location = new System.Drawing.Point(4, 0);
             this.FindLabel2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.FindLabel2.Name = "FindLabel2";
-            this.FindLabel2.Size = new System.Drawing.Size(72, 17);
+            this.FindLabel2.Size = new System.Drawing.Size(62, 18);
             this.FindLabel2.TabIndex = 2;
-            this.FindLabel2.Text = "Find what:";
+            this.FindLabel2.Values.Text = "Find what:";
             // 
-            // contextMenuStripDataGridViewGeneric
+            // kryptonNavigatorFindAndReplace
             // 
-            this.contextMenuStripDataGridViewGeneric.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.contextMenuStripDataGridViewGeneric.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cutToolStripMenuItem,
-            this.copyToolStripMenuItem,
-            this.pasteToolStripMenuItem,
-            this.deleteToolStripMenuItem,
-            this.undoToolStripMenuItem,
-            this.redoToolStripMenuItem,
-            this.findToolStripMenuItem,
-            this.replaceToolStripMenuItem,
-            this.toolStripMenuItemMapSave,
-            this.markAsFavoriteToolStripMenuItem,
-            this.removeAsFavoriteToolStripMenuItem,
-            this.toggleRowsAsFavouriteToolStripMenuItem,
-            this.toggleShowFavouriteRowsToolStripMenuItem,
-            this.toggleHideEqualRowsValuesToolStripMenuItem,
-            this.showMediaPosterWindowToolStripMenuItem});
-            this.contextMenuStripDataGridViewGeneric.Name = "contextMenuStripMap";
-            this.contextMenuStripDataGridViewGeneric.Size = new System.Drawing.Size(319, 422);
+            this.kryptonNavigatorFindAndReplace.AllowPageDrag = true;
+            this.kryptonNavigatorFindAndReplace.AllowPageReorder = false;
+            this.kryptonNavigatorFindAndReplace.Button.ButtonDisplayLogic = Krypton.Navigator.ButtonDisplayLogic.Context;
+            this.kryptonNavigatorFindAndReplace.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonNavigatorFindAndReplace.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonNavigatorFindAndReplace.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.SelectPage;
+            this.kryptonNavigatorFindAndReplace.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Logic;
+            this.kryptonNavigatorFindAndReplace.Button.ContextMenuMapImage = Krypton.Navigator.MapKryptonPageImage.Small;
+            this.kryptonNavigatorFindAndReplace.Button.ContextMenuMapText = Krypton.Navigator.MapKryptonPageText.TextTitle;
+            this.kryptonNavigatorFindAndReplace.Button.NextButtonAction = Krypton.Navigator.DirectionButtonAction.ModeAppropriateAction;
+            this.kryptonNavigatorFindAndReplace.Button.NextButtonDisplay = Krypton.Navigator.ButtonDisplay.Logic;
+            this.kryptonNavigatorFindAndReplace.Button.PreviousButtonAction = Krypton.Navigator.DirectionButtonAction.ModeAppropriateAction;
+            this.kryptonNavigatorFindAndReplace.Button.PreviousButtonDisplay = Krypton.Navigator.ButtonDisplay.Logic;
+            this.kryptonNavigatorFindAndReplace.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kryptonNavigatorFindAndReplace.Location = new System.Drawing.Point(0, 0);
+            this.kryptonNavigatorFindAndReplace.Name = "kryptonNavigatorFindAndReplace";
+            this.kryptonNavigatorFindAndReplace.NavigatorMode = Krypton.Navigator.NavigatorMode.BarTabGroup;
+            this.kryptonNavigatorFindAndReplace.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
+            this.kryptonPageFind,
+            this.kryptonPageReplace});
+            this.kryptonNavigatorFindAndReplace.SelectedIndex = 0;
+            this.kryptonNavigatorFindAndReplace.Size = new System.Drawing.Size(699, 262);
+            this.kryptonNavigatorFindAndReplace.TabIndex = 1;
+            this.kryptonNavigatorFindAndReplace.Text = "Find";
+            this.kryptonNavigatorFindAndReplace.TabIndexChanged += new System.EventHandler(this.kryptonNavigatorFindAndReplace_TabIndexChanged);
             // 
-            // cutToolStripMenuItem
+            // kryptonPageFind
             // 
-            this.cutToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.Cut;
-            this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
-            this.cutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.cutToolStripMenuItem.Size = new System.Drawing.Size(318, 26);
-            this.cutToolStripMenuItem.Text = "Cut";
-            this.cutToolStripMenuItem.Click += new System.EventHandler(this.cutToolStripMenuItem_Click);
+            this.kryptonPageFind.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageFind.Controls.Add(this.tableLayoutPanel1);
+            this.kryptonPageFind.Flags = 65534;
+            this.kryptonPageFind.LastVisibleSet = true;
+            this.kryptonPageFind.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageFind.Name = "kryptonPageFind";
+            this.kryptonPageFind.Size = new System.Drawing.Size(697, 235);
+            this.kryptonPageFind.Text = "Find";
+            this.kryptonPageFind.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageFind.UniqueName = "3fd1874db2814f399d420d919b30463e";
             // 
-            // copyToolStripMenuItem
+            // tableLayoutPanel1
             // 
-            this.copyToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.Copy;
-            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(318, 26);
-            this.copyToolStripMenuItem.Text = "Copy";
-            this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
+            this.tableLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
+            this.tableLayoutPanel1.ColumnCount = 4;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.Controls.Add(this.checkBoxSearchAlsoRowHeaders, 1, 4);
+            this.tableLayoutPanel1.Controls.Add(this.FindLabel1, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.comboBoxFindMode, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.groupBox1, 2, 1);
+            this.tableLayoutPanel1.Controls.Add(this.FindWhatTextBox1, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.FindOptionGroupBox1, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.FindButton1, 3, 0);
+            this.tableLayoutPanel1.Controls.Add(this.buttonFindAll1, 3, 1);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 5;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(697, 235);
+            this.tableLayoutPanel1.TabIndex = 0;
             // 
-            // pasteToolStripMenuItem
+            // kryptonPageReplace
             // 
-            this.pasteToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.Paste;
-            this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
-            this.pasteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
-            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(318, 26);
-            this.pasteToolStripMenuItem.Text = "Paste";
-            this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
+            this.kryptonPageReplace.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageReplace.Controls.Add(this.tableLayoutPanel4);
+            this.kryptonPageReplace.Flags = 65534;
+            this.kryptonPageReplace.LastVisibleSet = true;
+            this.kryptonPageReplace.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageReplace.Name = "kryptonPageReplace";
+            this.kryptonPageReplace.Size = new System.Drawing.Size(697, 235);
+            this.kryptonPageReplace.Text = "Replace";
+            this.kryptonPageReplace.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageReplace.UniqueName = "a68e71d3ea1c44efb837b0df6e0f0055";
             // 
-            // deleteToolStripMenuItem
+            // tableLayoutPanel4
             // 
-            this.deleteToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.Delete;
-            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(318, 26);
-            this.deleteToolStripMenuItem.Text = "Delete";
-            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
-            // 
-            // undoToolStripMenuItem
-            // 
-            this.undoToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.Undo;
-            this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
-            this.undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.undoToolStripMenuItem.Size = new System.Drawing.Size(318, 26);
-            this.undoToolStripMenuItem.Text = "Undo";
-            this.undoToolStripMenuItem.Click += new System.EventHandler(this.undoToolStripMenuItem_Click);
-            // 
-            // redoToolStripMenuItem
-            // 
-            this.redoToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.Redo;
-            this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
-            this.redoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.redoToolStripMenuItem.Size = new System.Drawing.Size(318, 26);
-            this.redoToolStripMenuItem.Text = "Redo";
-            this.redoToolStripMenuItem.Click += new System.EventHandler(this.redoToolStripMenuItem_Click);
-            // 
-            // findToolStripMenuItem
-            // 
-            this.findToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.Find;
-            this.findToolStripMenuItem.Name = "findToolStripMenuItem";
-            this.findToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.findToolStripMenuItem.Size = new System.Drawing.Size(318, 26);
-            this.findToolStripMenuItem.Text = "Find";
-            this.findToolStripMenuItem.Click += new System.EventHandler(this.findToolStripMenuItem_Click);
-            // 
-            // replaceToolStripMenuItem
-            // 
-            this.replaceToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.Replace;
-            this.replaceToolStripMenuItem.Name = "replaceToolStripMenuItem";
-            this.replaceToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
-            this.replaceToolStripMenuItem.Size = new System.Drawing.Size(318, 26);
-            this.replaceToolStripMenuItem.Text = "Replace";
-            this.replaceToolStripMenuItem.Click += new System.EventHandler(this.replaceToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItemMapSave
-            // 
-            this.toolStripMenuItemMapSave.Image = global::DataGridViewGeneric.Properties.Resources.Save;
-            this.toolStripMenuItemMapSave.Name = "toolStripMenuItemMapSave";
-            this.toolStripMenuItemMapSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.toolStripMenuItemMapSave.Size = new System.Drawing.Size(318, 26);
-            this.toolStripMenuItemMapSave.Text = "Save";
-            this.toolStripMenuItemMapSave.Click += new System.EventHandler(this.toolStripMenuItemMapSave_Click);
-            // 
-            // markAsFavoriteToolStripMenuItem
-            // 
-            this.markAsFavoriteToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.FavoriteSelect;
-            this.markAsFavoriteToolStripMenuItem.Name = "markAsFavoriteToolStripMenuItem";
-            this.markAsFavoriteToolStripMenuItem.Size = new System.Drawing.Size(318, 26);
-            this.markAsFavoriteToolStripMenuItem.Text = "Mark as favorite";
-            this.markAsFavoriteToolStripMenuItem.Click += new System.EventHandler(this.markAsFavoriteToolStripMenuItem_Click);
-            // 
-            // removeAsFavoriteToolStripMenuItem
-            // 
-            this.removeAsFavoriteToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.FavoriteRemove;
-            this.removeAsFavoriteToolStripMenuItem.Name = "removeAsFavoriteToolStripMenuItem";
-            this.removeAsFavoriteToolStripMenuItem.Size = new System.Drawing.Size(318, 26);
-            this.removeAsFavoriteToolStripMenuItem.Text = "Remove as favorite";
-            this.removeAsFavoriteToolStripMenuItem.Click += new System.EventHandler(this.removeAsFavoriteToolStripMenuItem_Click);
-            // 
-            // toggleRowsAsFavouriteToolStripMenuItem
-            // 
-            this.toggleRowsAsFavouriteToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.FavoriteToggle;
-            this.toggleRowsAsFavouriteToolStripMenuItem.Name = "toggleRowsAsFavouriteToolStripMenuItem";
-            this.toggleRowsAsFavouriteToolStripMenuItem.Size = new System.Drawing.Size(318, 26);
-            this.toggleRowsAsFavouriteToolStripMenuItem.Text = "Toggle favorite";
-            this.toggleRowsAsFavouriteToolStripMenuItem.Click += new System.EventHandler(this.toggleRowsAsFavouriteToolStripMenuItem_Click);
-            // 
-            // toggleShowFavouriteRowsToolStripMenuItem
-            // 
-            this.toggleShowFavouriteRowsToolStripMenuItem.Checked = true;
-            this.toggleShowFavouriteRowsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-            this.toggleShowFavouriteRowsToolStripMenuItem.Name = "toggleShowFavouriteRowsToolStripMenuItem";
-            this.toggleShowFavouriteRowsToolStripMenuItem.Size = new System.Drawing.Size(318, 26);
-            this.toggleShowFavouriteRowsToolStripMenuItem.Text = "Show only favorite rows";
-            this.toggleShowFavouriteRowsToolStripMenuItem.Click += new System.EventHandler(this.toggleShowFavouriteRowsToolStripMenuItem_Click);
-            // 
-            // toggleHideEqualRowsValuesToolStripMenuItem
-            // 
-            this.toggleHideEqualRowsValuesToolStripMenuItem.Checked = true;
-            this.toggleHideEqualRowsValuesToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-            this.toggleHideEqualRowsValuesToolStripMenuItem.Name = "toggleHideEqualRowsValuesToolStripMenuItem";
-            this.toggleHideEqualRowsValuesToolStripMenuItem.Size = new System.Drawing.Size(318, 26);
-            this.toggleHideEqualRowsValuesToolStripMenuItem.Text = "Hide equal rows";
-            this.toggleHideEqualRowsValuesToolStripMenuItem.Click += new System.EventHandler(this.toggleHideEqualRowsValuesToolStripMenuItem_Click);
-            // 
-            // showMediaPosterWindowToolStripMenuItem
-            // 
-            this.showMediaPosterWindowToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.RegionSelector;
-            this.showMediaPosterWindowToolStripMenuItem.Name = "showMediaPosterWindowToolStripMenuItem";
-            this.showMediaPosterWindowToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
-            this.showMediaPosterWindowToolStripMenuItem.Size = new System.Drawing.Size(318, 26);
-            this.showMediaPosterWindowToolStripMenuItem.Text = "Show Media Poster Window";
-            this.showMediaPosterWindowToolStripMenuItem.Click += new System.EventHandler(this.showMediaPosterWindowToolStripMenuItem_Click);
+            this.tableLayoutPanel4.BackColor = System.Drawing.Color.Transparent;
+            this.tableLayoutPanel4.ColumnCount = 4;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel4.Controls.Add(this.buttonFindAll2, 3, 1);
+            this.tableLayoutPanel4.Controls.Add(this.ReplaceAllButton, 3, 3);
+            this.tableLayoutPanel4.Controls.Add(this.groupBoxFindDirection2, 2, 2);
+            this.tableLayoutPanel4.Controls.Add(this.ReplaceButton, 3, 2);
+            this.tableLayoutPanel4.Controls.Add(this.FindLabel2, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.ReplaceLabel, 0, 1);
+            this.tableLayoutPanel4.Controls.Add(this.FindOptionGroup2, 1, 2);
+            this.tableLayoutPanel4.Controls.Add(this.FindButton2, 3, 0);
+            this.tableLayoutPanel4.Controls.Add(this.FindWhatTextBox2, 1, 0);
+            this.tableLayoutPanel4.Controls.Add(this.ReplaceWithTextBox, 1, 1);
+            this.tableLayoutPanel4.Controls.Add(this.UseComboBox2, 1, 5);
+            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 6;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(697, 235);
+            this.tableLayoutPanel4.TabIndex = 0;
             // 
             // FindAndReplaceForm
             // 
             this.AcceptButton = this.FindButton1;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            //this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-
-            this.ClientSize = new System.Drawing.Size(699, 267);
-            this.Controls.Add(this.tabControlFindAndReplace);
+            this.ClientSize = new System.Drawing.Size(699, 262);
+            this.Controls.Add(this.kryptonNavigatorFindAndReplace);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
@@ -615,28 +572,30 @@ namespace DataGridViewGeneric
             this.Name = "FindAndReplaceForm";
             this.Text = "Find and Replace";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FindAndReplaceForm_FormClosing);
-            this.tabControlFindAndReplace.ResumeLayout(false);
-            this.FindPage.ResumeLayout(false);
-            this.FindPage.PerformLayout();
             this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel3.PerformLayout();
             this.FindOptionGroupBox1.ResumeLayout(false);
-            this.FindOptionGroupBox1.PerformLayout();
-            this.ReplacePage.ResumeLayout(false);
-            this.ReplacePage.PerformLayout();
+            this.tableLayoutPanel2.ResumeLayout(false);
             this.groupBoxFindDirection2.ResumeLayout(false);
-            this.groupBoxFindDirection2.PerformLayout();
+            this.tableLayoutPanel6.ResumeLayout(false);
+            this.tableLayoutPanel6.PerformLayout();
             this.FindOptionGroup2.ResumeLayout(false);
-            this.FindOptionGroup2.PerformLayout();
-            this.contextMenuStripDataGridViewGeneric.ResumeLayout(false);
+            this.tableLayoutPanel5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonNavigatorFindAndReplace)).EndInit();
+            this.kryptonNavigatorFindAndReplace.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageFind)).EndInit();
+            this.kryptonPageFind.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageReplace)).EndInit();
+            this.kryptonPageReplace.ResumeLayout(false);
+            this.tableLayoutPanel4.ResumeLayout(false);
+            this.tableLayoutPanel4.PerformLayout();
             this.ResumeLayout(false);
 
         }
         #endregion
-
-        private System.Windows.Forms.TabControl tabControlFindAndReplace;
-        private System.Windows.Forms.TabPage FindPage;
-        private System.Windows.Forms.TabPage ReplacePage;
         private Krypton.Toolkit.KryptonTextBox FindWhatTextBox1;
         private Krypton.Toolkit.KryptonLabel FindLabel1;
         private System.Windows.Forms.GroupBox FindOptionGroup2;
@@ -663,22 +622,15 @@ namespace DataGridViewGeneric
         private Krypton.Toolkit.KryptonRadioButton radioButtonSearchDown1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBoxFindDirection2;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStripDataGridViewGeneric;
-        private System.Windows.Forms.ToolStripMenuItem cutToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem pasteToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem findToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem replaceToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem toggleRowsAsFavouriteToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem toggleShowFavouriteRowsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem toggleHideEqualRowsValuesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem markAsFavoriteToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem removeAsFavoriteToolStripMenuItem;
         private System.Windows.Forms.CheckBox checkBoxSearchAlsoRowHeaders;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemMapSave;
-        private System.Windows.Forms.ToolStripMenuItem showMediaPosterWindowToolStripMenuItem;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
+        private Krypton.Navigator.KryptonNavigator kryptonNavigatorFindAndReplace;
+        private Krypton.Navigator.KryptonPage kryptonPageFind;
+        private Krypton.Navigator.KryptonPage kryptonPageReplace;
     }
 }
