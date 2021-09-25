@@ -61,6 +61,7 @@ namespace PhotoTagsSynchronizer
 
         public bool IsKryptonManagerChanged {get; set;} = false;
 
+        #region FormConfig(KryptonManager kryptonManager, Manina.Windows.Forms.ImageListView imageListView)
         public FormConfig(KryptonManager kryptonManager, Manina.Windows.Forms.ImageListView imageListView)
         {
             InitializeComponent();
@@ -74,6 +75,24 @@ namespace PhotoTagsSynchronizer
             dataGridViewLocationNames.ContextMenu = null;
             dataGridViewLocationNames.KryptonContextMenu = kryptonContextMenuLocationNames;
 
+            dataGridViewCameraOwner.ContextMenu = null;
+            dataGridViewCameraOwner.KryptonContextMenu = kryptonContextMenuCameraOwner;
+
+            this.kryptonContextMenuItemCameraOwnerCut.Click += KryptonContextMenuItemCameraOwnerCut_Click;
+            this.kryptonContextMenuItemCameraOwnerCopy.Click += KryptonContextMenuItemCameraOwnerCopy_Click;
+            this.kryptonContextMenuItemCameraOwnerPaste.Click += KryptonContextMenuItemCameraOwnerPaste_Click;
+            this.kryptonContextMenuItemCameraOwnerDelete.Click += KryptonContextMenuItemCameraOwnerDelete_Click;
+            this.kryptonContextMenuItemCameraOwnerUndo.Click += KryptonContextMenuItemCameraOwnerUndo_Click;
+            this.kryptonContextMenuItemCameraOwnerRedo.Click += KryptonContextMenuItemCameraOwnerRedo_Click;
+            this.kryptonContextMenuItemCameraOwnerFind.Click += KryptonContextMenuItemCameraOwnerFind_Click;
+            this.kryptonContextMenuItemCameraOwnerReplace.Click += KryptonContextMenuItemCameraOwnerReplace_Click;
+            //this.kryptonContextMenuSeparator1,
+            this.kryptonContextMenuItemCameraOwnerMarkFavorite.Click += KryptonContextMenuItemCameraOwnerMarkFavorite_Click;
+            this.kryptonContextMenuItemCameraOwnerRemoveFavorite.Click += KryptonContextMenuItemCameraOwnerRemoveFavorite_Click;
+            this.kryptonContextMenuItemToggleFavorite.Click += KryptonContextMenuItemToggleFavorite_Click;
+            //this.kryptonContextMenuSeparator2,
+            this.kryptonContextMenuItemCameraOwnerShowOnlyFavoriteRows.Click += KryptonContextMenuItemCameraOwnerShowOnlyFavoriteRows_Click;
+            //
             this.kryptonContextMenuItemAutoKeywordCut.Click += KryptonContextMenuItemAutoKeywordCut_Click;
             this.kryptonContextMenuItemAutoKeywordCopy.Click += KryptonContextMenuItemAutoKeywordCopy_Click;
             this.kryptonContextMenuItemAutoKeywordPaste.Click += KryptonContextMenuItemAutoKeywordPaste_Click;
@@ -153,95 +172,7 @@ namespace PhotoTagsSynchronizer
 
             isConfigClosing = false;
         }
-
-        
-        
-
-        //
-        private void KryptonContextMenuItemLocationNamesCut_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void KryptonContextMenuItemLocationNamesCopy_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void KryptonContextMenuItemLocationNamesPaste_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void KryptonContextMenuItemLocationNamesDelete_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void KryptonContextMenuItemLocationNamesUndo_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void KryptonContextMenuItemLocationNamesRedo_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void KryptonContextMenuItemLocationNamesFind_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void KryptonContextMenuItemLocationNamesReplace_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void KryptonContextMenuItemLocationNamesAddFavorite_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void KryptonContextMenuItemLocationNamesRemoveFavorite_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void KryptonContextMenuItemLocationNamesToggleFavorite_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void KryptonContextMenuItemLocationNamesShowFavoriteRows_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void KryptonContextMenuItemLocationNamesHideEqualRows_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void KryptonContextMenuItemLocationNamesShowCoordinateOpenStreetMap_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void KryptonContextMenuItemLocationNamesShowCoordinateGoogleMap_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void KryptonContextMenuItemLocationNamesReloadUsingNominatim_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void KryptonContextMenuItemLocationNamesSearchInMediaFiles_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion
 
 
         #region Combobox Helper
@@ -1341,39 +1272,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Location names - Search For New Locations In Media Files
-        private void searchForNewLocationsInMediaFilesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            
-
-            DataGridView dataGridView = dataGridViewLocationNames;
-            Dictionary<LocationCoordinate, LocationDescription> locationFound = DatabaseLocationNames.FindNewLocation();
-            Dictionary<LocationCoordinate, LocationDescription> locationNotFound = new Dictionary<LocationCoordinate, LocationDescription>();
-
-            float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
-            float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
-            foreach (LocationCoordinate locationCoordinate in locationFound.Keys)
-            {
-                bool foundLocation = false;
-                foreach (LocationCoordinate locationCoordinateSearch in locationNames.Keys)
-                {
-                    
-                    if (locationCoordinateSearch.Latitude < (locationCoordinate.Latitude + locationAccuracyLatitude) &&
-                        locationCoordinateSearch.Latitude > (locationCoordinate.Latitude - locationAccuracyLatitude) &&
-                        locationCoordinateSearch.Longitude < (locationCoordinate.Longitude + locationAccuracyLongitude) &&
-                        locationCoordinateSearch.Longitude > (locationCoordinate.Longitude - locationAccuracyLongitude))
-                    {
-                        foundLocation = true;
-                        break;
-                    }
-                    
-                }
-                if (!foundLocation) locationNotFound.Add(locationCoordinate, locationFound[locationCoordinate]);
-            }
-            PopulateMetadataLocationNames(dataGridView, locationNotFound);
-        }
-        #endregion
-
         #region Location names - LocationRecord
         private class LocationRecord
         {
@@ -1607,33 +1505,186 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region toolStripMenuItemShowCoordinateOnMap_Click
-        private void toolStripMenuItemShowCoordinateOnMap_Click(object sender, EventArgs e)
+        #endregion
+
+        #region Location names - Cut_Click
+        private void KryptonContextMenuItemLocationNamesCut_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewLocationNames;
+            if (!dataGridView.Enabled) return;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
+            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, true);
+            ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
+            DataGridViewHandler.Refresh(dataGridView);
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
+        }
+        #endregion 
+
+        #region Location names - Copy_Click
+        private void KryptonContextMenuItemLocationNamesCopy_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewLocationNames;
+            if (!dataGridView.Enabled) return;
+
+            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, false);
+            DataGridViewHandler.Refresh(dataGridView);
+        }
+        #endregion
+
+        #region Location names - Paste_Click
+        private void KryptonContextMenuItemLocationNamesPaste_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewLocationNames;
+            if (!dataGridView.Enabled) return;
+
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
+            ClipboardUtility.PasteDataGridViewSelectedCellsFromClipboard(dataGridView);
+            DataGridViewHandler.Refresh(dataGridView);
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
+        }
+        #endregion
+
+        #region Location names - Delete_Click
+        private void KryptonContextMenuItemLocationNamesDelete_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewLocationNames;
+            if (!dataGridView.Enabled) return;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
+            ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
+            DataGridViewHandler.Refresh(dataGridView);
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
+        }
+        #endregion 
+
+        #region Location names - Undo_Click
+        private void KryptonContextMenuItemLocationNamesUndo_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewLocationNames;
+            if (!dataGridView.Enabled) return;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
+            ClipboardUtility.UndoDataGridView(dataGridView);
+            DataGridViewHandler.Refresh(dataGridView);
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
+        }
+        #endregion
+
+        #region Location names - Redo_Click
+        private void KryptonContextMenuItemLocationNamesRedo_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewLocationNames;
+            if (!dataGridView.Enabled) return;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
+            //string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
+            ClipboardUtility.RedoDataGridView(dataGridView);
+            //ValitedatePaste(dataGridView, header);
+            DataGridViewHandler.Refresh(dataGridView);
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
+        }
+        #endregion
+
+        #region Location names - Find_Click
+        private void KryptonContextMenuItemLocationNamesFind_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewLocationNames;
+            if (!dataGridView.Enabled) return;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
+            DataGridViewHandler.ActionFindAndReplace(dataGridView, false);
+            //ValitedatePaste(dataGridView, header);
+            DataGridViewHandler.Refresh(dataGridView);
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
+        }
+        #endregion
+
+        #region Location names - Replace_Click
+        private void KryptonContextMenuItemLocationNamesReplace_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewLocationNames;
+            if (!dataGridView.Enabled) return;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
+            DataGridViewHandler.ActionFindAndReplace(dataGridView, false);
+            //ValitedatePaste(dataGridView, header);
+            DataGridViewHandler.Refresh(dataGridView);
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
+        }
+        #endregion
+
+        #region Location names - MarkFavorite_Click
+        private void KryptonContextMenuItemLocationNamesAddFavorite_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewLocationNames;
+            DataGridViewHandler.ActionSetRowsFavouriteState(dataGridView, NewState.Set);
+            DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
+        }
+        #endregion
+
+        #region Location names - RemoveFavorite_Click
+        private void KryptonContextMenuItemLocationNamesRemoveFavorite_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewLocationNames;
+            DataGridViewHandler.ActionSetRowsFavouriteState(dataGridView, NewState.Remove);
+            DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
+        }
+        #endregion 
+
+        #region Location names - ToggleFavorite_Click
+        private void KryptonContextMenuItemLocationNamesToggleFavorite_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewLocationNames;
+            DataGridViewHandler.ActionSetRowsFavouriteState(dataGridView, NewState.Toggle);
+            DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
+        }
+        #endregion
+
+        #region Location names - ShowFavorite_Click
+        private void KryptonContextMenuItemLocationNamesShowFavoriteRows_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewLocationNames;
+            if (!dataGridView.Enabled) return;
+
+            DataGridViewHandler.SetShowFavouriteColumns(dataGridView, !DataGridViewHandler.ShowFavouriteColumns(dataGridView));
+            //DataGridViewHandler.UpdatedStripMenuItem(dataGridView, (ToolStripMenuItem)sender, DataGridViewHandler.ShowFavouriteColumns(dataGridView));
+            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, DataGridViewHandler.HideEqualColumns(dataGridView), DataGridViewHandler.ShowFavouriteColumns(dataGridView));
+        }
+        #endregion
+
+        #region Location names - HideEqual_Click
+        private void KryptonContextMenuItemLocationNamesHideEqualRows_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewLocationNames;
+            if (!dataGridView.Enabled) return;
+
+            DataGridViewHandler.SetHideEqualColumns(dataGridView, !DataGridViewHandler.HideEqualColumns(dataGridView));
+            //DataGridViewHandler.UpdatedStripMenuItem(dataGridView, (ToolStripMenuItem)sender, DataGridViewHandler.HideEqualColumns(dataGridView));
+            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, DataGridViewHandler.HideEqualColumns(dataGridView), DataGridViewHandler.ShowFavouriteColumns(dataGridView));
+        }
+        #endregion
+
+        #region Location names - ShowCoordinateOnMap_Click
+        private void KryptonContextMenuItemLocationNamesShowCoordinateOpenStreetMap_Click(object sender, EventArgs e)
         {
             GetLocationAndShow(MapProvider.OpenStreetMap);
         }
         #endregion
 
-        #region toolStripMenuItemShowCoordinateOnGoogleMap_Click
-        private void toolStripMenuItemShowCoordinateOnGoogleMap_Click(object sender, EventArgs e)
+        #region Location names - ShowCoordinateOnGoogleMap_Click
+        private void KryptonContextMenuItemLocationNamesShowCoordinateGoogleMap_Click(object sender, EventArgs e)
         {
             GetLocationAndShow(MapProvider.GoogleMap);
         }
         #endregion
 
-        #endregion
-
-        #region Location names - ReloadLocationUsingNominatim_Click 
+        #region Location names - ReloadUsingNominatim_Click 
         Thread threadReloadLocationUsingNominatim = null;
         bool isConfigClosing = false;
-        private void toolStripMenuItemMapReloadLocationUsingNominatim_Click(object sender, EventArgs e)
+
+        private void KryptonContextMenuItemLocationNamesReloadUsingNominatim_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewLocationNames;
 
             //Add to thread, if window close, stop
 
             threadReloadLocationUsingNominatim = new Thread(() => {
-                
+
                 List<int> rowsSelected = DataGridViewHandler.GetRowSelected(dataGridView);
                 if (rowsSelected.Count == 0) return;
 
@@ -1655,22 +1706,54 @@ namespace PhotoTagsSynchronizer
                         DataGridViewHandler.SetCellValue(dataGridView, columnIndexRegion, rowIndex, locationCoordinateAndDescription?.Description.Region);
                         DataGridViewHandler.SetCellValue(dataGridView, columnIndexCountry, rowIndex, locationCoordinateAndDescription?.Description.Country);
                     }
-                    
+
                 }
 
             });
 
             threadReloadLocationUsingNominatim.Start();
-
-            
-
         }
         #endregion
 
-        #region Location names - Cut_Click
-        private void toolStripMenuItemMapCut_Click(object sender, EventArgs e)
+        #region Location names - SearchInMediaFiles_Click
+        private void KryptonContextMenuItemLocationNamesSearchInMediaFiles_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewLocationNames;
+            Dictionary<LocationCoordinate, LocationDescription> locationFound = DatabaseLocationNames.FindNewLocation();
+            Dictionary<LocationCoordinate, LocationDescription> locationNotFound = new Dictionary<LocationCoordinate, LocationDescription>();
+
+            float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
+            float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
+            foreach (LocationCoordinate locationCoordinate in locationFound.Keys)
+            {
+                bool foundLocation = false;
+                foreach (LocationCoordinate locationCoordinateSearch in locationNames.Keys)
+                {
+
+                    if (locationCoordinateSearch.Latitude < (locationCoordinate.Latitude + locationAccuracyLatitude) &&
+                        locationCoordinateSearch.Latitude > (locationCoordinate.Latitude - locationAccuracyLatitude) &&
+                        locationCoordinateSearch.Longitude < (locationCoordinate.Longitude + locationAccuracyLongitude) &&
+                        locationCoordinateSearch.Longitude > (locationCoordinate.Longitude - locationAccuracyLongitude))
+                    {
+                        foundLocation = true;
+                        break;
+                    }
+
+                }
+                if (!foundLocation) locationNotFound.Add(locationCoordinate, locationFound[locationCoordinate]);
+            }
+            PopulateMetadataLocationNames(dataGridView, locationNotFound);
+        }
+        #endregion
+
+        #endregion
+
+        #region CameraOwner
+        
+        #region Camera owner - Cut_Click
+        private void KryptonContextMenuItemCameraOwnerCut_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewCameraOwner;
             if (!dataGridView.Enabled) return;
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
             ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, true);
@@ -1680,10 +1763,10 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region Location names - Copy_Click
-        private void toolStripMenuItemMapCopy_Click(object sender, EventArgs e)
+        #region Camera owner - Copy_Click
+        private void KryptonContextMenuItemCameraOwnerCopy_Click(object sender, EventArgs e)
         {
-            DataGridView dataGridView = dataGridViewLocationNames;
+            DataGridView dataGridView = dataGridViewCameraOwner;
             if (!dataGridView.Enabled) return;
 
             ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, false);
@@ -1691,10 +1774,10 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Location names - Paste_Click
-        private void toolStripMenuItemMapPaste_Click(object sender, EventArgs e)
+        #region Camera owner - Paste_Click
+        private void KryptonContextMenuItemCameraOwnerPaste_Click(object sender, EventArgs e)
         {
-            DataGridView dataGridView = dataGridViewLocationNames;
+            DataGridView dataGridView = dataGridViewCameraOwner;
             if (!dataGridView.Enabled) return;
 
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
@@ -1704,10 +1787,10 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Location names - Delete_Click
-        private void toolStripMenuItemMapDelete_Click(object sender, EventArgs e)
+        #region Camera owner - Delete_Click
+        private void KryptonContextMenuItemCameraOwnerDelete_Click(object sender, EventArgs e)
         {
-            DataGridView dataGridView = dataGridViewLocationNames;
+            DataGridView dataGridView = dataGridViewCameraOwner;
             if (!dataGridView.Enabled) return;
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
             ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
@@ -1716,10 +1799,10 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region Location names - Undo_Click
-        private void toolStripMenuItemMapUndo_Click(object sender, EventArgs e)
+        #region Camera owner - Undo_Click
+        private void KryptonContextMenuItemCameraOwnerUndo_Click(object sender, EventArgs e)
         {
-            DataGridView dataGridView = dataGridViewLocationNames;
+            DataGridView dataGridView = dataGridViewCameraOwner;
             if (!dataGridView.Enabled) return;
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
             ClipboardUtility.UndoDataGridView(dataGridView);
@@ -1728,10 +1811,10 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Location names - Redo_Click
-        private void toolStripMenuItemMapRedo_Click(object sender, EventArgs e)
+        #region Camera owner - Redo_Click
+        private void KryptonContextMenuItemCameraOwnerRedo_Click(object sender, EventArgs e)
         {
-            DataGridView dataGridView = dataGridViewLocationNames;
+            DataGridView dataGridView = dataGridViewCameraOwner;
             if (!dataGridView.Enabled) return;
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
             //string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
@@ -1742,10 +1825,10 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Location names - Find_Click
-        private void toolStripMenuItemMapFind_Click(object sender, EventArgs e)
+        #region Camera owner - Find_Click
+        private void KryptonContextMenuItemCameraOwnerFind_Click(object sender, EventArgs e)
         {
-            DataGridView dataGridView = dataGridViewLocationNames;
+            DataGridView dataGridView = dataGridViewCameraOwner;
             if (!dataGridView.Enabled) return;
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
             DataGridViewHandler.ActionFindAndReplace(dataGridView, false);
@@ -1755,10 +1838,10 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Location names - Replace_Click
-        private void toolStripMenuItemMapReplace_Click(object sender, EventArgs e)
+        #region Camera owner - Replace_Click
+        private void KryptonContextMenuItemCameraOwnerReplace_Click(object sender, EventArgs e)
         {
-            DataGridView dataGridView = dataGridViewLocationNames;
+            DataGridView dataGridView = dataGridViewCameraOwner;
             if (!dataGridView.Enabled) return;
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
             DataGridViewHandler.ActionFindAndReplace(dataGridView, false);
@@ -1768,37 +1851,37 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Location names - MarkFavorite_Click
-        private void toolStripMenuItemMapMarkFavorite_Click(object sender, EventArgs e)
+        #region Camera owner - MarkFavorite_Click
+        private void KryptonContextMenuItemCameraOwnerMarkFavorite_Click(object sender, EventArgs e)
         {
-            DataGridView dataGridView = dataGridViewLocationNames;
+            DataGridView dataGridView = dataGridViewCameraOwner;
             DataGridViewHandler.ActionSetRowsFavouriteState(dataGridView, NewState.Set);
             DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
         }
         #endregion
 
-        #region Location names - RemoveFavorite_Click
-        private void toolStripMenuItemMapRemoveFavorite_Click(object sender, EventArgs e)
+        #region Camera owner - RemoveFavorite_Click
+        private void KryptonContextMenuItemCameraOwnerRemoveFavorite_Click(object sender, EventArgs e)
         {
-            DataGridView dataGridView = dataGridViewLocationNames;
+            DataGridView dataGridView = dataGridViewCameraOwner;
             DataGridViewHandler.ActionSetRowsFavouriteState(dataGridView, NewState.Remove);
             DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
         }
         #endregion 
 
-        #region Location names - ToggleFavorite_Click
-        private void toolStripMenuItemMapToggleFavorite_Click(object sender, EventArgs e)
+        #region Camera owner - ToggleFavorite_Click
+        private void KryptonContextMenuItemToggleFavorite_Click(object sender, EventArgs e)
         {
-            DataGridView dataGridView = dataGridViewLocationNames;
+            DataGridView dataGridView = dataGridViewCameraOwner;
             DataGridViewHandler.ActionSetRowsFavouriteState(dataGridView, NewState.Toggle);
             DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
         }
         #endregion
 
-        #region Location names - ShowFavorite_Click
-        private void toolStripMenuItemMapShowFavorite_Click(object sender, EventArgs e)
+        #region Camera owner - ShowFavorite_Click
+        private void KryptonContextMenuItemCameraOwnerShowOnlyFavoriteRows_Click(object sender, EventArgs e)
         {
-            DataGridView dataGridView = dataGridViewLocationNames;
+            DataGridView dataGridView = dataGridViewCameraOwner;
             if (!dataGridView.Enabled) return;
 
             DataGridViewHandler.SetShowFavouriteColumns(dataGridView, !DataGridViewHandler.ShowFavouriteColumns(dataGridView));
@@ -1807,32 +1890,20 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Location names - HideEqual_Click
-        private void toolStripMenuItemMapHideEqual_Click(object sender, EventArgs e)
-        {
-            DataGridView dataGridView = dataGridViewLocationNames;
-            if (!dataGridView.Enabled) return;
-
-            DataGridViewHandler.SetHideEqualColumns(dataGridView, !DataGridViewHandler.HideEqualColumns(dataGridView));
-            //DataGridViewHandler.UpdatedStripMenuItem(dataGridView, (ToolStripMenuItem)sender, DataGridViewHandler.HideEqualColumns(dataGridView));
-            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, DataGridViewHandler.HideEqualColumns(dataGridView), DataGridViewHandler.ShowFavouriteColumns(dataGridView));
-        }
         #endregion
-
-        #endregion 
 
         #region Metadata Read - Populate
         private void PopulateMetadataReadToolStripMenu()
         {
+            kryptonContextMenuItemsMetadataReadAssignToTagList.Items.Clear();
             SortedDictionary<string, string> listAllTags = new CompositeTags().ListAllTags();
             foreach (KeyValuePair<string, string> tag in listAllTags.OrderBy(key => key.Value))
             {
-                ToolStripMenuItem newTagItem = new ToolStripMenuItem();
-                newTagItem.Name = tag.Value;
-                newTagItem.Size = new System.Drawing.Size(224, 26);
-                newTagItem.Text = tag.Value;
-                newTagItem.Click += new System.EventHandler(this.ToolStripMenuItemMoveAndAssign_Click);
-                this.toolStripMenuItemMetadataReadMove.DropDownItems.Add(newTagItem);
+                KryptonContextMenuItem kryptonContextMenuItemMetadataReadPriority = new KryptonContextMenuItem();
+                kryptonContextMenuItemMetadataReadPriority.Tag = tag.Value;
+                kryptonContextMenuItemMetadataReadPriority.Text = tag.Value;
+                kryptonContextMenuItemMetadataReadPriority.Click += KryptonContextMenuItemMetadataReadPriority_Click;
+                kryptonContextMenuItemsMetadataReadAssignToTagList.Items.Add(kryptonContextMenuItemMetadataReadPriority);
             }
         }
 
@@ -1907,13 +1978,13 @@ namespace PhotoTagsSynchronizer
             }
         }
 
-        private void ToolStripMenuItemMoveAndAssign_Click(object sender, EventArgs e)
+        private void KryptonContextMenuItemMetadataReadPriority_Click(object sender, EventArgs e)
         {
-            ToolStripMenuItem tagSender = (ToolStripMenuItem)sender;
-            //DataGridViewHandler.
+            KryptonContextMenuItem tagSender = (KryptonContextMenuItem)sender;
             AssignSelectedToNewTag(dataGridViewMetadataReadPriority, metadataPrioityDictionaryCopy, tagSender.Text);
             PopulateMetadataRead(dataGridViewMetadataReadPriority);
         }
+
         #endregion
 
         #region Metadata Read - Drag and Drop
@@ -2040,7 +2111,7 @@ namespace PhotoTagsSynchronizer
             if (isCellValueUpdating) return;
             DataGridView dataGridView = (DataGridView)sender;
             string value = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, e.ColumnIndex, e.RowIndex);
-            if (int.TryParse(value.ToString(), out int priority))
+            if (value != null && int.TryParse(value.ToString(), out int priority))
             {
                 DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, e.RowIndex);
                 if (dataGridViewGenericRow != null && !dataGridViewGenericRow.IsHeader)
@@ -2155,23 +2226,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Metadata Read - Keydown and Item Click, Clipboard
-        //
         
-
-        
-
-        
-
-        
-
-        
-
-        
-
-        
-
-        
-
         #region Metadata Read - Cut
         private void KryptonContextMenuItemMetadataReadCut_Click(object sender, EventArgs e)
         {
@@ -2179,23 +2234,14 @@ namespace PhotoTagsSynchronizer
             ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, true);
             ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
         }
-
-        private void toolStripMenuItemMetadataReadCut_Click(object sender, EventArgs e)
-        {
-            
-        }
         #endregion
 
         #region Metadata Read - Copy
         private void KryptonContextMenuItemMetadataReadCopy_Click(object sender, EventArgs e)
         {
+
             DataGridView dataGridView = dataGridViewMetadataReadPriority;
             ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, false);
-        }
-
-        private void toolStripMenuItemMetadataReadCopy_Click(object sender, EventArgs e)
-        {
-            
         }
         #endregion
 
@@ -2205,10 +2251,6 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = dataGridViewMetadataReadPriority;
             ClipboardUtility.PasteDataGridViewSelectedCellsFromClipboard(dataGridView);
         }
-        private void toolStripMenuItemMetadataReadPaste_Click(object sender, EventArgs e)
-        {
-            
-        }
         #endregion
 
         #region Metadata Read - Delete
@@ -2216,10 +2258,6 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = dataGridViewMetadataReadPriority;
             ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
-        }
-        private void toolStripMenuItemMetadataReadDelete_Click(object sender, EventArgs e)
-        {
-            
         }
         #endregion
 
@@ -2229,10 +2267,6 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = dataGridViewMetadataReadPriority;
             ClipboardUtility.UndoDataGridView(dataGridView);
         }
-        private void toolStripMenuItemMetadataReadUndo_Click(object sender, EventArgs e)
-        {
-            
-        }
         #endregion
 
         #region Metadata Read - Redo
@@ -2240,10 +2274,6 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = dataGridViewMetadataReadPriority;
             ClipboardUtility.RedoDataGridView(dataGridView);
-        }
-        private void toolStripMenuItemMetadataReadRedo_Click(object sender, EventArgs e)
-        {
-            
         }
         #endregion
 
@@ -2256,10 +2286,6 @@ namespace PhotoTagsSynchronizer
             //ValitedatePaste(dataGridView, header);
             DataGridViewHandler.Refresh(dataGridView);
         }
-        private void toolStripMenuItemMetadataReadFind_Click(object sender, EventArgs e)
-        {
-            
-        }
         #endregion
 
         #region Metadata Read - Replace
@@ -2271,18 +2297,6 @@ namespace PhotoTagsSynchronizer
             //ValitedatePaste(dataGridView, header);
             DataGridViewHandler.Refresh(dataGridView);
         }
-
-        
-
-        
-
-        
-
-        
-        private void toolStripMenuItemMetadataReadReplace_Click(object sender, EventArgs e)
-        {
-            
-        }
         #endregion
 
         #region Metadata Read - MarkFavorite
@@ -2291,10 +2305,6 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = dataGridViewMetadataReadPriority;
             DataGridViewHandler.ActionSetRowsFavouriteState(dataGridView, NewState.Set);
             DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
-        }
-        private void toolStripMenuItemMetadataReadMarkFavorite_Click(object sender, EventArgs e)
-        {
-            
         }
         #endregion
 
@@ -2305,10 +2315,6 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.ActionSetRowsFavouriteState(dataGridView, NewState.Remove);
             DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
         }
-        private void toolStripMenuItemMetadataReadRemoveFavorite_Click(object sender, EventArgs e)
-        {
-            
-        }
         #endregion
 
         #region Metadata Read - ToggleFavorite
@@ -2317,10 +2323,6 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = dataGridViewMetadataReadPriority;
             DataGridViewHandler.ActionSetRowsFavouriteState(dataGridView, NewState.Toggle);
             DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
-        }
-        private void toolStripMenuItemMetadataReadToggleFavorite_Click(object sender, EventArgs e)
-        {
-            
         }
         #endregion
 
@@ -2333,10 +2335,6 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.SetShowFavouriteColumns(dataGridView, !DataGridViewHandler.ShowFavouriteColumns(dataGridView));
             //DataGridViewHandler.UpdatedStripMenuItem(dataGridView, (ToolStripMenuItem)sender, DataGridViewHandler.ShowFavouriteColumns(dataGridView));
             DataGridViewHandler.SetRowsVisbleStatus(dataGridView, DataGridViewHandler.HideEqualColumns(dataGridView), DataGridViewHandler.ShowFavouriteColumns(dataGridView));
-        }
-        private void toolStripMenuItemMetadataReadShowFavorite_Click(object sender, EventArgs e)
-        {
-            
         }
         #endregion
 

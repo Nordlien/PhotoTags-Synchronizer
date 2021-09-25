@@ -537,7 +537,13 @@ namespace Krypton.Toolkit
                 }
             }
 
-            base.WndProc(ref m);
+            try
+            {
+                base.WndProc(ref m);
+            } catch
+            {
+                //JTN Added
+            }
         }
 
         /// <summary>
