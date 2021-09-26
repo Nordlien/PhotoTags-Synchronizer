@@ -213,93 +213,17 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Popelate DataGridView view when Text changed
-        private void comboBoxTitle_TextChanged(object sender, EventArgs e)
-        {
-            if (isFormLoading) return;
-            if (GlobalData.IsApplicationClosing) return;
-            if (isSettingDefaultComboxValues) return;
-            if (GlobalData.IsPopulatingTags) return;
-            
+        #region Populate DataGridView view when Text changed
 
-            DataGridView dataGridView = dataGridViewTagsAndKeywords;
-
-            int rowIndex = DataGridViewHandler.GetRowIndex(dataGridView,
-                DataGridViewHandlerTagsAndKeywords.headerMedia,
-                DataGridViewHandlerTagsAndKeywords.tagTitle);
-
-            for (int columnIndex = 0; columnIndex < dataGridView.Columns.Count; columnIndex++)
-            {
-                DataGridViewGenericColumn dataGridViewGenericDataColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-                if (dataGridViewGenericDataColumn.Metadata != null && dataGridViewGenericDataColumn.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite)
-                {
-                    if (DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, rowIndex) != comboBoxTitle.Text) DataGridViewHandler.SetDataGridViewDirty(dataGridView, columnIndex);
-                    DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, comboBoxTitle.Text);
-                    
-                }
-            }
-        }
-
-        private void comboBoxDescription_TextChanged(object sender, EventArgs e)
+        #region ActionChangeCommon
+        private void ActionChangeCommon(DataGridView dataGridView, string header, string tag, string newText)
         {
             if (isFormLoading) return;
             if (GlobalData.IsApplicationClosing) return;
             if (isSettingDefaultComboxValues) return;
             if (GlobalData.IsPopulatingTags) return;
 
-            DataGridView dataGridView = dataGridViewTagsAndKeywords;
-
-            int rowIndex = DataGridViewHandler.GetRowIndex(dataGridView,
-                DataGridViewHandlerTagsAndKeywords.headerMedia,
-                DataGridViewHandlerTagsAndKeywords.tagDescription);
-
-            for (int columnIndex = 0; columnIndex < dataGridViewTagsAndKeywords.Columns.Count; columnIndex++)
-            {
-                DataGridViewGenericColumn dataGridViewGenericDataColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-                if (dataGridViewGenericDataColumn.Metadata != null && dataGridViewGenericDataColumn.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite)
-                {
-                    if (DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, rowIndex) != comboBoxDescription.Text) DataGridViewHandler.SetDataGridViewDirty(dataGridView, columnIndex);
-                    DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, comboBoxDescription.Text);
-                }
-            }
-        }
-
-        private void comboBoxComments_TextChanged(object sender, EventArgs e)
-        {
-            if (isFormLoading) return;
-            if (GlobalData.IsApplicationClosing) return;
-            if (isSettingDefaultComboxValues) return;
-            if (GlobalData.IsPopulatingTags) return;
-
-            DataGridView dataGridView = dataGridViewTagsAndKeywords;
-
-            int rowIndex = DataGridViewHandler.GetRowIndex(dataGridView,
-                DataGridViewHandlerTagsAndKeywords.headerMedia,
-                DataGridViewHandlerTagsAndKeywords.tagComments);
-
-            for (int columnIndex = 0; columnIndex < dataGridView.Columns.Count; columnIndex++)
-            {
-                DataGridViewGenericColumn dataGridViewGenericDataColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-                if (dataGridViewGenericDataColumn.Metadata != null && dataGridViewGenericDataColumn.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite)
-                {
-                    if (DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, rowIndex) != comboBoxComments.Text) DataGridViewHandler.SetDataGridViewDirty(dataGridView, columnIndex);
-                    DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, comboBoxComments.Text);
-                }
-            }
-        }
-
-        private void comboBoxAlbum_TextChanged(object sender, EventArgs e)
-        {
-            if (isFormLoading) return;
-            if (GlobalData.IsApplicationClosing) return;
-            if (isSettingDefaultComboxValues) return;
-            if (GlobalData.IsPopulatingTags) return;
-
-            DataGridView dataGridView = dataGridViewTagsAndKeywords;
-
-            int rowIndex = DataGridViewHandler.GetRowIndex(dataGridView,
-                DataGridViewHandlerTagsAndKeywords.headerMedia,
-                DataGridViewHandlerTagsAndKeywords.tagAlbum);
+            int rowIndex = DataGridViewHandler.GetRowIndex(dataGridView, header, tag);
 
             for (int columnIndex = 0; columnIndex < dataGridView.Columns.Count; columnIndex++)
             {
@@ -307,36 +231,105 @@ namespace PhotoTagsSynchronizer
                 if (dataGridViewGenericDataColumn.Metadata != null && dataGridViewGenericDataColumn.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite)
                 {
                     if (DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, rowIndex) != comboBoxAlbum.Text) DataGridViewHandler.SetDataGridViewDirty(dataGridView, columnIndex);
-                    DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, comboBoxAlbum.Text);
+                    DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, newText);
                 }
             }
         }
+        #endregion 
 
-        private void comboBoxAuthor_TextChanged(object sender, EventArgs e)
+        #region ChangeTitle
+        private void ActionChangeTitle(string newText)
         {
-            if (isFormLoading) return;
-            if (GlobalData.IsApplicationClosing) return;
-            if (isSettingDefaultComboxValues) return;
-            if (GlobalData.IsPopulatingTags) return;
-
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
-
-            int rowIndex = DataGridViewHandler.GetRowIndex(dataGridView, 
-                DataGridViewHandlerTagsAndKeywords.headerMedia,
-                DataGridViewHandlerTagsAndKeywords.tagAuthor);
-
-            for (int columnIndex = 0; columnIndex < dataGridView.Columns.Count; columnIndex++)
-            {
-                DataGridViewGenericColumn dataGridViewGenericDataColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-                if (dataGridViewGenericDataColumn.Metadata != null && dataGridViewGenericDataColumn.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite)
-                {
-                    if (DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, rowIndex) != comboBoxAuthor.Text) DataGridViewHandler.SetDataGridViewDirty(dataGridView, columnIndex);
-
-                    DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, comboBoxAuthor.Text);
-                }
-            }
+            ActionChangeCommon(dataGridView, DataGridViewHandlerTagsAndKeywords.headerMedia, DataGridViewHandlerTagsAndKeywords.tagTitle, newText);
         }
 
+        private void comboBoxTitle_TextUpdate(object sender, EventArgs e)
+        {
+            ActionChangeTitle(((KryptonComboBox)sender).Text);
+        }
+        
+        private void comboBoxTitle_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            ActionChangeTitle((string)((KryptonComboBox)sender).SelectedItem);
+        }
+        #endregion
+
+        #region ChangeDescription
+        private void ActionChangeDescription(string newText)
+        {
+            DataGridView dataGridView = dataGridViewTagsAndKeywords;
+            ActionChangeCommon(dataGridView, DataGridViewHandlerTagsAndKeywords.headerMedia, DataGridViewHandlerTagsAndKeywords.tagDescription, newText);
+        }
+
+        private void comboBoxDescription_TextUpdate(object sender, EventArgs e)
+        {
+            ActionChangeDescription(((KryptonComboBox)sender).Text);
+        }
+
+        private void comboBoxDescription_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            ActionChangeDescription((string)((KryptonComboBox)sender).SelectedItem);
+        }
+        #endregion
+
+        #region ChangeComments
+        private void ActionChangeComments(string newText)
+        {
+            DataGridView dataGridView = dataGridViewTagsAndKeywords;
+            ActionChangeCommon(dataGridView, DataGridViewHandlerTagsAndKeywords.headerMedia, DataGridViewHandlerTagsAndKeywords.tagComments, newText);
+        }
+
+        private void comboBoxComments_TextUpdate(object sender, EventArgs e)
+        {
+            ActionChangeComments(((KryptonComboBox)sender).Text);
+        }
+        private void comboBoxComments_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            ActionChangeComments((string)((KryptonComboBox)sender).SelectedItem);
+        }
+        #endregion
+
+        #region ChangeAlbum
+        private void ActionChangeAlbum(string newText)
+        {
+            DataGridView dataGridView = dataGridViewTagsAndKeywords;
+            ActionChangeCommon(dataGridView, DataGridViewHandlerTagsAndKeywords.headerMedia, DataGridViewHandlerTagsAndKeywords.tagAlbum, newText);
+        }
+
+        private void comboBoxAlbum_TextUpdate(object sender, EventArgs e)
+        {
+            ActionChangeAlbum(((KryptonComboBox)sender).Text);
+        }
+
+        private void comboBoxAlbum_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            ActionChangeAlbum((string)((KryptonComboBox)sender).SelectedItem);
+        }
+        #endregion
+
+        #region ChangeAuthor
+        private void ActionAuthor(string newText)
+        {
+            DataGridView dataGridView = dataGridViewTagsAndKeywords;
+            ActionChangeCommon(dataGridView, DataGridViewHandlerTagsAndKeywords.headerMedia, DataGridViewHandlerTagsAndKeywords.tagAuthor, newText);
+        }
+        private void comboBoxAuthor_TextUpdate(object sender, EventArgs e)
+        { 
+            ActionAuthor(((KryptonComboBox)sender).Text);
+        }
+
+        private void comboBoxAuthor_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            ActionAuthor((string)((KryptonComboBox)sender).SelectedItem);
+        }
+        #endregion
+
+        #endregion
+
+        #region Populate DataGridView view when Stars changed
+
+        #region radioButtonRating_Common_CheckedChanged
         private void radioButtonRating_Common_CheckedChanged()
         {
             
@@ -362,31 +355,42 @@ namespace PhotoTagsSynchronizer
                 }
             }
         }
+        #endregion
 
+        #region Rating1_CheckedChanged
         private void radioButtonRating1_CheckedChanged(object sender, EventArgs e)
         {
             radioButtonRating_Common_CheckedChanged();
         }
+        #endregion
 
+        #region Rating2_CheckedChanged
         private void radioButtonRating2_CheckedChanged(object sender, EventArgs e)
         {
             radioButtonRating_Common_CheckedChanged();
         }
+        #endregion
 
+        #region Rating3_CheckedChanged
         private void radioButtonRating3_CheckedChanged(object sender, EventArgs e)
         {
             radioButtonRating_Common_CheckedChanged();
         }
+        #endregion
 
+        #region Rating4_CheckedChanged
         private void radioButtonRating4_CheckedChanged(object sender, EventArgs e)
         {
             radioButtonRating_Common_CheckedChanged();
         }
+        #endregion
 
+        #region Rating5_CheckedChanged
         private void radioButtonRating5_CheckedChanged(object sender, EventArgs e)
         {
             radioButtonRating_Common_CheckedChanged();
         }
+        #endregion
 
         #endregion
 
@@ -396,7 +400,7 @@ namespace PhotoTagsSynchronizer
             return (90 - comboBoxMediaAiConfidence.SelectedIndex * 10) / 100f;
         }
 
-        private void comboBoxMediaAiConfidence_SelectedIndexChanged(object sender, EventArgs e)
+        private void comboBoxMediaAiConfidence_SelectionChangeCommitted(object sender, EventArgs e)
         {
             if (GlobalData.IsApplicationClosing) return;
             if (GlobalData.IsPopulatingTagsFile) return;
@@ -435,7 +439,7 @@ namespace PhotoTagsSynchronizer
         #region EnableDetailViewTagsAndKeywords(bool enable)
         private void EnableDetailViewTagsAndKeywords(bool enable)
         {
-            /*
+            
             comboBoxMediaAiConfidence.Enabled = enable;
             comboBoxTitle.Enabled = enable;
             comboBoxDescription.Enabled = enable;
@@ -475,7 +479,7 @@ namespace PhotoTagsSynchronizer
                 radioButtonRating4.SuspendLayout();
                 radioButtonRating5.SuspendLayout();
             }
-            */
+            
         }
         #endregion
 
