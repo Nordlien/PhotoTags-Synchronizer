@@ -181,11 +181,11 @@ namespace Exiftool
 
                 string tagsToWrite = metadataToWrite.RemoveLines(writeMetadataTagsVariable, metadataOriginal, alwaysWrite);
 
-                string personalKeywordDelete = metadataOriginal.ReplaceVariables(writeMetadataKeywordDeleteVariable, allowedFileNameDateTimeFormats);
-                string personalKeywordAdd = metadataToWrite.ReplaceVariables(writeMetadataKeywordAddVariable, allowedFileNameDateTimeFormats);
+                string personalKeywordDeleteVariable = metadataOriginal.ReplaceVariables(writeMetadataKeywordDeleteVariable, allowedFileNameDateTimeFormats);
+                string personalKeywordAddVariable = metadataToWrite.ReplaceVariables(writeMetadataKeywordAddVariable, allowedFileNameDateTimeFormats);
 
-                string personalKeywordDeleteItems = metadataOriginal.VariablePersonalKeywords(personalKeywordDelete, allowedFileNameDateTimeFormats);
-                string personalKeywordAddItems = metadataToWrite.VariablePersonalKeywords(personalKeywordAdd, allowedFileNameDateTimeFormats);
+                string personalKeywordDeleteItems = metadataOriginal.VariablePersonalKeywords(personalKeywordDeleteVariable, allowedFileNameDateTimeFormats);
+                string personalKeywordAddItems = metadataToWrite.VariablePersonalKeywords(personalKeywordAddVariable, allowedFileNameDateTimeFormats);
 
                 tagsToWrite = metadataToWrite.ReplaceVariables(tagsToWrite, allowedFileNameDateTimeFormats, personalKeywordDeleteItems, personalKeywordAddItems);
                 if (!string.IsNullOrWhiteSpace(tagsToWrite)) exiftoolArguFileText += (string.IsNullOrWhiteSpace(exiftoolArguFileText) ? "" : "\r\n") + tagsToWrite;

@@ -1591,6 +1591,7 @@ namespace MetadataLibrary
                     result = result.Replace(variable, GetPropertyValue(variable, useExifFormat, convertNullToBlank,
                     allowedFileNameDateTimeFormats, personalRegionInfoMP, personalRegionInfo, personalKeywordList, personalKeywordsXML, personalKeywordItemsDelete, personalKeywordItemsAdd));
             }
+            result = result.Replace("\r\n\r\n", "\r\n");
             return result;
         }
 
@@ -1741,7 +1742,7 @@ namespace MetadataLibrary
                     personalRegionInfoMP, personalRegionInfo, personalKeywordsList, keywordCategories, "", "");
                 keywordItemToWrite = this.ReplaceKeywordItemVariables(keywordItemToWrite, keywordTag.Keyword);
 
-                personalKeywordAdd += keywordItemToWrite + "\r\n";
+                personalKeywordAdd += keywordItemToWrite + (string.IsNullOrWhiteSpace(personalKeywordAdd) ? "" : "\r\n");
             }
             return personalKeywordAdd;
         }
