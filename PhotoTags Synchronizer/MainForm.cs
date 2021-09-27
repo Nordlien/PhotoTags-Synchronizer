@@ -121,8 +121,6 @@ namespace PhotoTagsSynchronizer
         int slideShowIntervalMs = 0;
         #endregion
 
-         
-
         #region Constructor - MainForm()
         public MainForm()
         {
@@ -154,6 +152,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupCustomControlToolsProgressSave.CustomControl = progressBarSaveConvert;
             this.kryptonRibbonGroupCustomControlToolsProgressLazyloading.CustomControl = progressBarLazyLoading;
 
+            this.kryptonRibbonGroupButtonHomeSortColumn.KryptonContextMenu = kryptonContextMenuFileSystemColumnSort;
             this.imageListView1.KryptonContextMenu = kryptonContextMenuGenericBase;
             this.kryptonRibbonGroupButtonPreviewSlideshowTimeInterval.KryptonContextMenu = kryptonContextMenuPreviewSlideshowInterval;
             this.folderTreeViewFolder.KryptonContextMenu = kryptonContextMenuGenericBase;
