@@ -111,7 +111,6 @@ namespace PhotoTagsSynchronizer
 
             #region Tab - Build
             fastColoredTextBoxHandlerKeywordAdd = new FastColoredTextBoxHandler(fastColoredTextBoxMetadataWriteKeywordAdd, true, MetadataPrioity.MetadataPrioityDictionary);
-            fastColoredTextBoxHandlerKeywordDelete = new FastColoredTextBoxHandler(fastColoredTextBoxMetadataWriteKeywordDelete, true, MetadataPrioity.MetadataPrioityDictionary);
             fastColoredTextBoxHandlerKeywordWriteTags = new FastColoredTextBoxHandler(fastColoredTextBoxMetadataWriteTags, false, MetadataPrioity.MetadataPrioityDictionary);
             fastColoredTextBoxHandlerBuildResult = new FastColoredTextBoxHandler(fastColoredTextBoxBuildResult, false, MetadataPrioity.MetadataPrioityDictionary);
 
@@ -119,11 +118,9 @@ namespace PhotoTagsSynchronizer
             ComboBoxHandler.ComboBoxPopulate(comboBoxArgumentFileBuilderCommand, Properties.Settings.Default.RunArgumentBuildCommandList, Properties.Settings.Default.RunArgumentBuildCommand);
 
             comboBoxMetadataWriteStandardTags.Items.AddRange(Metadata.ListOfProperties(false));
-            comboBoxMetadataWriteKeywordDelete.Items.AddRange(Metadata.ListOfProperties(true));
             comboBoxMetadataWriteKeywordAdd.Items.AddRange(Metadata.ListOfProperties(true));
 
             fastColoredTextBoxMetadataWriteKeywordAdd.Text = Properties.Settings.Default.RunArgumentBuildKeywordAdd;
-            fastColoredTextBoxMetadataWriteKeywordDelete.Text = Properties.Settings.Default.RunArgumentBuildKeywordDelete;
             fastColoredTextBoxMetadataWriteTags.Text = Properties.Settings.Default.RunArgumentBuildKeywordTags;
             //fastColoredTextBoxBuildResult.Text = ;
             UpdateBuildResult();
@@ -192,7 +189,6 @@ namespace PhotoTagsSynchronizer
                 Properties.Settings.Default.RunArgumentBuildCommand = comboBoxArgumentFileBuilderCommand.Text;
 
                 Properties.Settings.Default.RunArgumentBuildKeywordAdd = fastColoredTextBoxMetadataWriteKeywordAdd.Text;
-                Properties.Settings.Default.RunArgumentBuildKeywordDelete = fastColoredTextBoxMetadataWriteKeywordDelete.Text;
                 Properties.Settings.Default.RunArgumentBuildKeywordTags = fastColoredTextBoxMetadataWriteTags.Text;
                 #endregion
 
@@ -838,16 +834,6 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Build tab - FastColoredTextBox - Events handling
-        private void fastColoredTextBoxMetadataWriteKeywordDelete_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (fastColoredTextBoxHandlerKeywordDelete != null) fastColoredTextBoxHandlerKeywordDelete.KeyDown(sender, e);
-        }
-
-        private void fastColoredTextBoxMetadataWriteKeywordDelete_TextChanged(object sender, FastColoredTextBoxNS.TextChangedEventArgs e)
-        {
-            if (fastColoredTextBoxHandlerKeywordDelete != null) fastColoredTextBoxHandlerKeywordDelete.SyntaxHighlightProperties(sender, e);
-        }
-
         private void fastColoredTextBoxMetadataWriteKeywordAdd_KeyDown(object sender, KeyEventArgs e)
         {
             if (fastColoredTextBoxHandlerKeywordAdd != null) fastColoredTextBoxHandlerKeywordAdd.KeyDown(sender, e);
@@ -885,10 +871,6 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Build tab - ComboBox Handler 
-        private void comboBoxMetadataWriteKeywordDelete_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-            if (!isPopulation) ComboBoxHandler.SelectionChangeCommitted(fastColoredTextBoxMetadataWriteTags, comboBoxMetadataWriteStandardTags.Text);
-        }
 
         private void comboBoxMetadataWriteKeywordAdd_SelectionChangeCommitted(object sender, EventArgs e)
         {
@@ -902,56 +884,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Build tab - Input Add, Delete, Tags - Load and Save click
-        private void buttonMetadataWriteKeywordDeleteLoad_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                OpenFileDialog openFileDialog1 = new OpenFileDialog
-                {
-                    InitialDirectory = @"D:\",
-                    Title = "Browse Text Files",
-
-                    CheckFileExists = true,
-                    CheckPathExists = true,
-
-                    DefaultExt = "txt",
-                    Filter = "txt files (*.txt)|*.txt",
-                    FilterIndex = 2,
-                    RestoreDirectory = true,
-
-                    ReadOnlyChecked = true,
-                    ShowReadOnly = true
-                };
-
-                if (openFileDialog1.ShowDialog() == DialogResult.OK) fastColoredTextBoxMetadataWriteKeywordDelete.Text = System.IO.File.ReadAllText(openFileDialog1.FileName);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void buttonMetadataWriteKeywordDeleteSave_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-                saveFileDialog1.Title = "Save aurgument text file";
-                saveFileDialog1.CheckFileExists = false;
-                saveFileDialog1.CheckPathExists = true;
-                saveFileDialog1.DefaultExt = "txt";
-                saveFileDialog1.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
-                saveFileDialog1.FilterIndex = 2;
-                saveFileDialog1.RestoreDirectory = true;
-
-                if (saveFileDialog1.ShowDialog() == DialogResult.OK) System.IO.File.WriteAllText(saveFileDialog1.FileName, fastColoredTextBoxMetadataWriteKeywordDelete.Text);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
+        
         private void buttonMetadataWriteKeywordAddLoad_Click(object sender, EventArgs e)
         {
             try
@@ -1102,7 +1035,7 @@ namespace PhotoTagsSynchronizer
             ExiftoolWriter.CreateExiftoolArguFileText(
                     MetadatasOriginal, MetadatasEmpty,
                     AllowedFileNameDateTimeFormats,
-                    fastColoredTextBoxMetadataWriteTags.Text, fastColoredTextBoxMetadataWriteKeywordDelete.Text, fastColoredTextBoxMetadataWriteKeywordAdd.Text,
+                    fastColoredTextBoxMetadataWriteTags.Text, fastColoredTextBoxMetadataWriteKeywordAdd.Text,
                     true, out string exiftoolFileTextGridView);
 
             fastColoredTextBoxBuildResult.Text = exiftoolFileTextGridView;
@@ -1119,7 +1052,7 @@ namespace PhotoTagsSynchronizer
             ExiftoolWriter.CreateExiftoolArguFileText(
                     MetadatasGridView, MetadatasEmpty,
                     AllowedFileNameDateTimeFormats,
-                    fastColoredTextBoxMetadataWriteTags.Text, fastColoredTextBoxMetadataWriteKeywordDelete.Text, fastColoredTextBoxMetadataWriteKeywordAdd.Text,
+                    fastColoredTextBoxMetadataWriteTags.Text, fastColoredTextBoxMetadataWriteKeywordAdd.Text,
                     true, out string exiftoolFileTextOriginal);
 
             FormCompareText formCompareText = new FormCompareText();

@@ -3942,7 +3942,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //NOT Done ----------------------------------------------------------------------- Missing Rename Folder name
+
         #region Rename
 
         #region Rename - Click Events Sources
@@ -5206,7 +5206,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //Done - not tested
+
         #region FileSystemVerbEdit
 
         #region ActionFileSystemVerbEdit
@@ -5279,7 +5279,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //Done - not tested
+  
         #region FileSystemRunCommand
 
         #region ActionFileSystemRunCommand
@@ -5342,7 +5342,6 @@ namespace PhotoTagsSynchronizer
                 if (imageListView1.SelectedItems.Count > 0)
                 {
                     string writeMetadataTagsVariable = Properties.Settings.Default.WriteMetadataTags;
-                    string writeMetadataKeywordDeleteVariable = Properties.Settings.Default.WriteMetadataKeywordDelete;
                     string writeMetadataKeywordAddVariable = Properties.Settings.Default.WriteMetadataKeywordAdd;
 
                     List<string> allowedFileNameDateTimeFormats = FileDateTime.FileDateTimeReader.ConvertStringOfDatesToList(Properties.Settings.Default.RenameDateFormats);
@@ -5351,7 +5350,7 @@ namespace PhotoTagsSynchronizer
                     GetDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView);
 
                     ExiftoolWriter.CreateExiftoolArguFileText(
-                        metadataListFromDataGridView, metadataListOriginalExiftool, allowedFileNameDateTimeFormats, writeMetadataTagsVariable, writeMetadataKeywordDeleteVariable, writeMetadataKeywordAddVariable,
+                        metadataListFromDataGridView, metadataListOriginalExiftool, allowedFileNameDateTimeFormats, writeMetadataTagsVariable, writeMetadataKeywordAddVariable,
                         true, out string exiftoolAgruFileText);
                     #endregion
 
@@ -5388,7 +5387,7 @@ namespace PhotoTagsSynchronizer
 
                     ExiftoolWriter.CreateExiftoolArguFileText(
                         metadataListFromDataGridViewAutoCorrect, metadataListEmpty, allowedFileNameDateTimeFormats,
-                        writeMetadataTagsVariable, writeMetadataKeywordDeleteVariable, writeMetadataKeywordAddVariable,
+                        writeMetadataTagsVariable, writeMetadataKeywordAddVariable,
                         true, out string exiftoolAutoCorrectFileText);
                     #endregion
 
@@ -5418,7 +5417,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        //Done - not tested
+        
         #region AutoCorrectRun
 
         #region ActionAutoCorrectRun
@@ -5552,7 +5551,7 @@ namespace PhotoTagsSynchronizer
 
 
         #endregion
-        //Missing - FolderAutoCorrectForm_Click
+
         #region AutoCorrectFrom
 
         #region ActionAutoCorrectFrom

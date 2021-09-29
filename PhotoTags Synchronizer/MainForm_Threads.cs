@@ -1194,7 +1194,6 @@ namespace PhotoTagsSynchronizer
 
                                 #region Init Write Variables and Parameters
                                 string writeMetadataTagsVariable = Properties.Settings.Default.WriteMetadataTags;
-                                string writeMetadataKeywordDeleteVariable = Properties.Settings.Default.WriteMetadataKeywordDelete;
                                 string writeMetadataKeywordAddVariable = Properties.Settings.Default.WriteMetadataKeywordAdd;
 
                                 string writeXtraAtomAlbumVariable = Properties.Settings.Default.XtraAtomAlbumVariable;
@@ -1308,12 +1307,21 @@ namespace PhotoTagsSynchronizer
                                             UpdateStatusAction("Batch update a subset of " + commonQueueSubsetMetadataToSave.Count + " media files...");
                                             ExiftoolWriter.WriteMetadata(
                                             commonQueueSubsetMetadataToSave, queueSubsetMetadataOrginalBeforeUserEdit, allowedFileNameDateTimeFormats,
-                                            writeMetadataTagsVariable, writeMetadataKeywordDeleteVariable, writeMetadataKeywordAddVariable, out mediaFilesUpdatedByExiftool,
+                                            writeMetadataTagsVariable, writeMetadataKeywordAddVariable, out mediaFilesUpdatedByExiftool,
                                             showCliWindow, processPriorityClass);
                                         }
                                     }
                                     catch (Exception ex)
                                     {
+                                        //Something did go wrong, need to tell users, what was saved and not, in general nothing was saved
+                                        lock (commonQueueSubsetMetadataToSaveLock)
+                                        {
+                                            foreach (Metadata metadataCopy in commonQueueSubsetMetadataToSave)
+                                            {
+                                                if (!FileEntry.Contains(mediaFilesUpdatedByExiftool, metadataCopy.FileEntry)) mediaFilesUpdatedByExiftool.Add(metadataCopy.FileEntry);
+                                            }
+                                        }
+
                                         exiftoolErrorMessage = ex.Message;
                                         Logger.Error(ex, "EXIFTOOL.EXE error...");
                                     }

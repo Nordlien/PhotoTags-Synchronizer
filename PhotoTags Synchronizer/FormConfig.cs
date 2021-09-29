@@ -47,7 +47,6 @@ namespace PhotoTagsSynchronizer
         private AutoCorrect autoCorrect = new AutoCorrect();
 
         private FastColoredTextBoxHandler fastColoredTextBoxHandlerKeywordAdd = null;
-        private FastColoredTextBoxHandler fastColoredTextBoxHandlerKeuwordDelete = null;
         private FastColoredTextBoxHandler fastColoredTextBoxHandlerKeywordWriteTags = null;
         private FastColoredTextBoxHandler fastColoredTextBoxHandlerConvertAndMergeConcatImagesAsVideoArgument = null;
         private FastColoredTextBoxHandler fastColoredTextBoxHandlerConvertAndMergeConcatImagesAsVideoArguFile = null;
@@ -318,7 +317,6 @@ namespace PhotoTagsSynchronizer
 
             //Metadata Write
             fastColoredTextBoxHandlerKeywordAdd = new FastColoredTextBoxHandler(fastColoredTextBoxMetadataWriteKeywordAdd, true, MetadataReadPrioity.MetadataPrioityDictionary);
-            fastColoredTextBoxHandlerKeuwordDelete = new FastColoredTextBoxHandler(fastColoredTextBoxMetadataWriteKeywordDelete, true, MetadataReadPrioity.MetadataPrioityDictionary);
             fastColoredTextBoxHandlerKeywordWriteTags = new FastColoredTextBoxHandler(fastColoredTextBoxMetadataWriteTags, false, MetadataReadPrioity.MetadataPrioityDictionary);
 
             //Convert and Merge
@@ -496,8 +494,7 @@ namespace PhotoTagsSynchronizer
                 //Metadata Write
                 Properties.Settings.Default.WriteMetadataTags = fastColoredTextBoxMetadataWriteTags.Text;
                 Properties.Settings.Default.WriteMetadataKeywordAdd = fastColoredTextBoxMetadataWriteKeywordAdd.Text;
-                Properties.Settings.Default.WriteMetadataKeywordDelete = fastColoredTextBoxMetadataWriteKeywordDelete.Text;
-
+                
                 Properties.Settings.Default.XtraAtomAlbumVideo = checkBoxWriteXtraAtomAlbumVideo.Checked;
                 Properties.Settings.Default.XtraAtomCategoriesVideo = checkBoxWriteXtraAtomCategoriesVideo.Checked;
                 Properties.Settings.Default.XtraAtomCommentPicture = checkBoxWriteXtraAtomCommentPicture.Checked;
@@ -2385,12 +2382,10 @@ namespace PhotoTagsSynchronizer
         {
             comboBoxMetadataWriteStandardTags.Items.AddRange(Metadata.ListOfProperties(false));
             comboBoxWriteXtraAtomVariables.Items.AddRange(Metadata.ListOfProperties(false));
-            comboBoxMetadataWriteKeywordDelete.Items.AddRange(Metadata.ListOfProperties(true));
             comboBoxMetadataWriteKeywordAdd.Items.AddRange(Metadata.ListOfProperties(true));
 
             fastColoredTextBoxMetadataWriteTags.Text = Properties.Settings.Default.WriteMetadataTags;
             fastColoredTextBoxMetadataWriteKeywordAdd.Text = Properties.Settings.Default.WriteMetadataKeywordAdd;
-            fastColoredTextBoxMetadataWriteKeywordDelete.Text = Properties.Settings.Default.WriteMetadataKeywordDelete;
 
             checkBoxWriteXtraAtomAlbumVideo.Checked = Properties.Settings.Default.XtraAtomAlbumVideo;
             checkBoxWriteXtraAtomCategoriesVideo.Checked = Properties.Settings.Default.XtraAtomCategoriesVideo;
@@ -2426,11 +2421,6 @@ namespace PhotoTagsSynchronizer
         private void comboBoxMetadataWriteKeywordAdd_SelectionChangeCommitted(object sender, EventArgs e)
         {
             if (!isPopulation) ComboBoxHandler.SelectionChangeCommitted(fastColoredTextBoxMetadataWriteKeywordAdd, comboBoxMetadataWriteKeywordAdd.Text);
-        }
-
-        private void comboBoxMetadataWriteKeywordDelete_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-            if (!isPopulation) ComboBoxHandler.SelectionChangeCommitted(fastColoredTextBoxMetadataWriteKeywordDelete, comboBoxMetadataWriteKeywordDelete.Text);
         }
 
         private void comboBoxApplicationLanguages_SelectionChangeCommitted(object sender, EventArgs e)
@@ -2485,30 +2475,22 @@ namespace PhotoTagsSynchronizer
 
         #region FastColoredTextBox - events
 
-        private void fastColoredTextBoxMetadataWriteKeywordDelete_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (fastColoredTextBoxHandlerKeuwordDelete != null) fastColoredTextBoxHandlerKeuwordDelete.SyntaxHighlightProperties(sender, e);
-        }
-
         private void fastColoredTextBoxMetadataWriteKeywordAdd_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (fastColoredTextBoxHandlerKeywordAdd != null) fastColoredTextBoxHandlerKeywordAdd.SyntaxHighlightProperties(sender, e);
         }
+
 
         private void fastColoredTextBoxMetadataWriteTags_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (fastColoredTextBoxHandlerKeywordWriteTags != null) fastColoredTextBoxHandlerKeywordWriteTags.SyntaxHighlightProperties(sender, e);
         }
 
-        private void fastColoredTextBoxMetadataWriteKeywordDelete_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (fastColoredTextBoxHandlerKeuwordDelete != null) fastColoredTextBoxHandlerKeuwordDelete.KeyDown(sender, e);
-        }
-
         private void fastColoredTextBoxMetadataWriteKeywordAdd_KeyDown(object sender, KeyEventArgs e)
         {
             if (fastColoredTextBoxHandlerKeywordAdd != null) fastColoredTextBoxHandlerKeywordAdd.KeyDown(sender, e);
         }
+
 
         private void fastColoredTextBoxMetadataWriteTags_KeyDown(object sender, KeyEventArgs e)
         {

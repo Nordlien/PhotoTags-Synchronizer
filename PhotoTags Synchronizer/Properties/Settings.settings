@@ -463,7 +463,6 @@ filename=UTF8
 {IfPersonalKeywordsChanged}-HierarchicalSubject=
 {IfPersonalKeywordsChanged}-LastKeywordXMP=
 {IfPersonalKeywordsChanged}-LastKeywordIPTC=
-{IfPersonalKeywordsChanged}{PersonalKeywordItemsDelete}
 {IfPersonalKeywordsChanged}{PersonalKeywordItemsAdd}
 {IfPersonalKeywordsChanged}-Categories={PersonalKeywordsXML}
 {IfPersonalKeywordsChanged}-XPKeywords={PersonalKeywordsList}
@@ -484,9 +483,6 @@ filename=UTF8
     </Setting>
     <Setting Name="ApplicationPreferredLanguages" Type="System.String" Scope="User">
       <Value Profile="(Default)">en;q=0.5,no;q=0.3,ru;q=0.2,*;q=0.1</Value>
-    </Setting>
-    <Setting Name="WriteMetadataKeywordDelete" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="XtraAtomKeywordsVariable" Type="System.String" Scope="User">
       <Value Profile="(Default)">{PersonalKeywordsList}</Value>
@@ -644,9 +640,6 @@ edit</Value>
 -TagsList={KeywordItem}
 -CatalogSets={KeywordItem}</Value>
     </Setting>
-    <Setting Name="RunArgumentBuildKeywordDelete" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="RunArgumentBuildKeywordTags" Type="System.String" Scope="User">
       <Value Profile="(Default)">-charset
 filename=UTF8
@@ -753,7 +746,6 @@ filename=UTF8
 {IfPersonalKeywordsChanged}-HierarchicalSubject=
 {IfPersonalKeywordsChanged}-LastKeywordXMP=
 {IfPersonalKeywordsChanged}-LastKeywordIPTC=
-{IfPersonalKeywordsChanged}{PersonalKeywordItemsDelete}
 {IfPersonalKeywordsChanged}{PersonalKeywordItemsAdd}
 {IfPersonalKeywordsChanged}-Categories={PersonalKeywordsXML}
 {IfPersonalKeywordsChanged}-XPKeywords={PersonalKeywordsList}{FileFullPath}

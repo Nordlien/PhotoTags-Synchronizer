@@ -342,6 +342,18 @@ namespace MetadataLibrary
         }
         #endregion
 
+        #region Properties Helper - FileEntry
+        private FileEntry fileEntry = null;
+        public FileEntry FileEntry
+        {
+            get
+            {
+                if (fileEntry == null) fileEntry = new FileEntry(Path.Combine(fileDirectory, FileName), (DateTime)FileDateModified);
+                return fileEntryBroker;
+            }
+        }
+        #endregion
+
         #region Properties Helper - FindFileEntryInList
         public static int FindFileEntryInList(List<Metadata> metadataListToCheck, FileEntry fileEntry)
         {
@@ -1119,7 +1131,7 @@ namespace MetadataLibrary
 
         public string GetPropertyValue(string variableName, bool useExifFormat, bool convertNullToBlank,
             List<string> allowedFileNameDateTimeFormats,
-            string personalRegionInfoMP, string personalRegionInfo, string personalKeywordList, string personalKeywordsXML, string personalKeywordItemsDelete, string personalKeywordItemsAdd)
+            string personalRegionInfoMP, string personalRegionInfo, string personalKeywordList, string personalKeywordsXML, string personalKeywordItemsAdd)
         {
             string result = variableName;
             DateTime dateTimeSystem = DateTime.Now;
@@ -1318,9 +1330,7 @@ namespace MetadataLibrary
                 case "{PersonalKeywordsXML}":
                     result = personalKeywordsXML;
                     break;
-                case "{PersonalKeywordItemsDelete}":
-                    result = personalKeywordItemsDelete;
-                    break;
+                //case "{PersonalKeywordItemsDelete}":
                 case "{PersonalKeywordItemsAdd}":
                     result = personalKeywordItemsAdd;
                     break;
@@ -1436,9 +1446,10 @@ namespace MetadataLibrary
                 case "{LocationCity}":
                     result = LocationCity;
                     break;
+                #endregion
                 default:
-                    throw new Exception("not implemented");
-                    #endregion
+                    throw new Exception("Theres a been use on none existing variable: "+ variableName + " that is not implemented");
+                    
             }
             if (convertNullToBlank && result == null) result = "";
             return result;
@@ -1581,7 +1592,7 @@ namespace MetadataLibrary
 
 
         public string ReplaceVariables(string stringWithVariables, bool useExifFormat, bool convertNullToBlank, List<string> allowedFileNameDateTimeFormats,
-            string personalRegionInfoMP, string personalRegionInfo, string personalKeywordList, string personalKeywordsXML, string personalKeywordItemsDelete, string personalKeywordItemsAdd)
+            string personalRegionInfoMP, string personalRegionInfo, string personalKeywordList, string personalKeywordsXML, string personalKeywordItemsAdd)
         {
             string result = stringWithVariables;
             string[] variables = Metadata.ListOfProperties(false);
@@ -1589,7 +1600,7 @@ namespace MetadataLibrary
             {
                 while (result.Contains(variable))
                     result = result.Replace(variable, GetPropertyValue(variable, useExifFormat, convertNullToBlank,
-                    allowedFileNameDateTimeFormats, personalRegionInfoMP, personalRegionInfo, personalKeywordList, personalKeywordsXML, personalKeywordItemsDelete, personalKeywordItemsAdd));
+                    allowedFileNameDateTimeFormats, personalRegionInfoMP, personalRegionInfo, personalKeywordList, personalKeywordsXML, personalKeywordItemsAdd));
             }
             result = result.Replace("\r\n\r\n", "\r\n");
             return result;
@@ -1604,13 +1615,13 @@ namespace MetadataLibrary
 
         public string ReplaceVariables(string stringWithVariables, List<string> allowedFileNameDateTimeFormats)
         {
-            return ReplaceVariables(stringWithVariables, true, true, allowedFileNameDateTimeFormats, VariablePersonalRegionInfoMP(), VariablePersonalRegionInfo(), VariablePersonalKeywordsList(), VariableKeywordCategories(), "", "");
+            return ReplaceVariables(stringWithVariables, true, true, allowedFileNameDateTimeFormats, VariablePersonalRegionInfoMP(), VariablePersonalRegionInfo(), VariablePersonalKeywordsList(), VariableKeywordCategories(), "");
         }
 
-        public string ReplaceVariables(string stringWithVariables, List<string> allowedFileNameDateTimeFormats, string personalKeywordItemsDelete, string personalKeywordItemsAdd)
+        public string ReplaceVariables(string stringWithVariables, List<string> allowedFileNameDateTimeFormats, string personalKeywordItemsAdd)
         {
             return ReplaceVariables(stringWithVariables, true, true, allowedFileNameDateTimeFormats,
-                VariablePersonalRegionInfoMP(), VariablePersonalRegionInfo(), VariablePersonalKeywordsList(), VariableKeywordCategories(), personalKeywordItemsDelete, personalKeywordItemsAdd);
+                VariablePersonalRegionInfoMP(), VariablePersonalRegionInfo(), VariablePersonalKeywordsList(), VariableKeywordCategories(), personalKeywordItemsAdd);
         }
         #endregion 
 
@@ -1739,7 +1750,7 @@ namespace MetadataLibrary
             foreach (KeywordTag keywordTag in this.PersonalKeywordTags)
             {
                 string keywordItemToWrite = this.ReplaceVariables(stringWithVariables, true, true, allowedFileNameDateTimeFormats,
-                    personalRegionInfoMP, personalRegionInfo, personalKeywordsList, keywordCategories, "", "");
+                    personalRegionInfoMP, personalRegionInfo, personalKeywordsList, keywordCategories, "");
                 keywordItemToWrite = this.ReplaceKeywordItemVariables(keywordItemToWrite, keywordTag.Keyword);
 
                 personalKeywordAdd += keywordItemToWrite + (string.IsNullOrWhiteSpace(personalKeywordAdd) ? "" : "\r\n");

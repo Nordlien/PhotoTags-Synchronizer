@@ -452,9 +452,9 @@ namespace PhotoTagsSynchronizer.Properties {
             "ordsChanged}-Category=\r\n{IfPersonalKeywordsChanged}-HierarchicalKeywords=\r\n{IfPe" +
             "rsonalKeywordsChanged}-HierarchicalSubject=\r\n{IfPersonalKeywordsChanged}-LastKey" +
             "wordXMP=\r\n{IfPersonalKeywordsChanged}-LastKeywordIPTC=\r\n{IfPersonalKeywordsChang" +
-            "ed}{PersonalKeywordItemsDelete}\r\n{IfPersonalKeywordsChanged}{PersonalKeywordItem" +
-            "sAdd}\r\n{IfPersonalKeywordsChanged}-Categories={PersonalKeywordsXML}\r\n{IfPersonal" +
-            "KeywordsChanged}-XPKeywords={PersonalKeywordsList}\r\n{FileFullPath}\r\n-execute")]
+            "ed}{PersonalKeywordItemsAdd}\r\n{IfPersonalKeywordsChanged}-Categories={PersonalKe" +
+            "ywordsXML}\r\n{IfPersonalKeywordsChanged}-XPKeywords={PersonalKeywordsList}\r\n{File" +
+            "FullPath}\r\n-execute")]
         public string WriteMetadataTags {
             get {
                 return ((string)(this["WriteMetadataTags"]));
@@ -510,18 +510,6 @@ namespace PhotoTagsSynchronizer.Properties {
             }
             set {
                 this["ApplicationPreferredLanguages"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string WriteMetadataKeywordDelete {
-            get {
-                return ((string)(this["WriteMetadataKeywordDelete"]));
-            }
-            set {
-                this["WriteMetadataKeywordDelete"] = value;
             }
         }
         
@@ -1103,18 +1091,6 @@ explorer ms-photos?filename=""{FileFullPath}""")]
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string RunArgumentBuildKeywordDelete {
-            get {
-                return ((string)(this["RunArgumentBuildKeywordDelete"]));
-            }
-            set {
-                this["RunArgumentBuildKeywordDelete"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("-charset\r\nfilename=UTF8\r\n-overwrite_original\r\n-m\r\n-F\r\n{IfLocationDateTimeChanged}" +
             "-XMP-exif:GPSDateTime={LocationDateTimeUTC}\r\n{IfLocationDateTimeChanged}-XMP:GPS" +
             "DateTime={LocationDateTimeUTC}\r\n{IfLocationDateTimeChanged}-GPS:GPSDateStamp={Lo" +
@@ -1194,9 +1170,9 @@ explorer ms-photos?filename=""{FileFullPath}""")]
             "ordsChanged}-Category=\r\n{IfPersonalKeywordsChanged}-HierarchicalKeywords=\r\n{IfPe" +
             "rsonalKeywordsChanged}-HierarchicalSubject=\r\n{IfPersonalKeywordsChanged}-LastKey" +
             "wordXMP=\r\n{IfPersonalKeywordsChanged}-LastKeywordIPTC=\r\n{IfPersonalKeywordsChang" +
-            "ed}{PersonalKeywordItemsDelete}\r\n{IfPersonalKeywordsChanged}{PersonalKeywordItem" +
-            "sAdd}\r\n{IfPersonalKeywordsChanged}-Categories={PersonalKeywordsXML}\r\n{IfPersonal" +
-            "KeywordsChanged}-XPKeywords={PersonalKeywordsList}{FileFullPath}\r\n-execute")]
+            "ed}{PersonalKeywordItemsAdd}\r\n{IfPersonalKeywordsChanged}-Categories={PersonalKe" +
+            "ywordsXML}\r\n{IfPersonalKeywordsChanged}-XPKeywords={PersonalKeywordsList}{FileFu" +
+            "llPath}\r\n-execute")]
         public string RunArgumentBuildKeywordTags {
             get {
                 return ((string)(this["RunArgumentBuildKeywordTags"]));
