@@ -1078,8 +1078,8 @@ namespace DataGridViewGeneric
                 dataGridViewColumn.ToolTipText = fileEntryAttribute.LastWriteDateTime.ToString() + "\r\n" + fileEntryAttribute.FileFullPath;
                 dataGridViewColumn.Tag = new DataGridViewGenericColumn(fileEntryAttribute, thumbnail, metadata, readWriteAccessForColumn);
 
-                dataGridViewColumn.Name = fileEntryAttribute.FileFullPath;
-                dataGridViewColumn.HeaderText = fileEntryAttribute.FileFullPath;
+                //dataGridViewColumn.Name = fileEntryAttribute.FileFullPath;
+                //dataGridViewColumn.HeaderText = fileEntryAttribute.FileFullPath;
 
                 int columnIndexFilename = GetColumnIndex(dataGridView, fileEntryAttribute.FileFullPath);
                 if (columnIndexFilename == -1) //Filename doesn't exist
@@ -2786,7 +2786,7 @@ namespace DataGridViewGeneric
         private const int roundedRadius = 8;
 
         #region Cell Paint handling - DrawImageAndSubText
-        public static void DrawImageAndSubText(object sender, DataGridViewCellPaintingEventArgs e, Image image, string text, Color backgroundColor)
+        public static void DrawImageAndSubText(object sender, DataGridViewCellPaintingEventArgs e, Image image, string text)
         {
             Rectangle rectangleRoundedCellBounds = CalulateCellRoundedRectangleCellBounds(e.CellBounds);
             if (image != null)
@@ -2794,26 +2794,10 @@ namespace DataGridViewGeneric
                 try
                 {
                     Size thumbnailSize = CalulateCellImageSizeInRectagleWithUpScale(rectangleRoundedCellBounds, image.Size);
+                    Rectangle f = CalulateCellImageCenterInRectagle(rectangleRoundedCellBounds, thumbnailSize);
+                    e.Graphics.DrawImage(image, f);
 
-                    if ((e.State & DataGridViewElementStates.Selected) == DataGridViewElementStates.Selected)
-                        e.Graphics.FillRectangle(new SolidBrush(e.CellStyle.SelectionBackColor),
-                        new Rectangle(e.CellBounds.Left, e.CellBounds.Top, e.CellBounds.Width, e.CellBounds.Height));
-                    else
-                        e.Graphics.FillRectangle(new SolidBrush(e.CellStyle.BackColor),
-                         new Rectangle(e.CellBounds.Left, e.CellBounds.Top, e.CellBounds.Width, e.CellBounds.Height));
-
-                    Manina.Windows.Forms.Utility.FillRoundedRectangle(e.Graphics, new SolidBrush(backgroundColor),
-                        new Rectangle(rectangleRoundedCellBounds.X, rectangleRoundedCellBounds.Y, rectangleRoundedCellBounds.Width, rectangleRoundedCellBounds.Height), roundedRadius);
-                    Manina.Windows.Forms.Utility.DrawRoundedRectangle(e.Graphics, new Pen(Color.Black, 3),
-                        new Rectangle(rectangleRoundedCellBounds.X, rectangleRoundedCellBounds.Y, rectangleRoundedCellBounds.Width, rectangleRoundedCellBounds.Height), roundedRadius);
-
-                    e.Graphics.DrawImage(image, CalulateCellImageCenterInRectagle(rectangleRoundedCellBounds, thumbnailSize));
-
-                    e.Graphics.DrawLine(new Pen(Color.Silver),
-                        e.CellBounds.Left,
-                        e.CellBounds.Top + e.CellBounds.Height - 1,
-                        e.CellBounds.Left + e.CellBounds.Width - 1,
-                        e.CellBounds.Top + e.CellBounds.Height - 1);
+                    e.Graphics.DrawRectangle(new Pen(Color.FromArgb(64, Color.White), 3), f);                    
                 }
                 catch (Exception ex)
                 {
@@ -2924,7 +2908,7 @@ namespace DataGridViewGeneric
         #region Cell Paint handling - CalulateCellRoundedRectangleCellBounds
         public static Rectangle CalulateCellRoundedRectangleCellBounds(Rectangle rectangle)
         {
-            return new Rectangle(rectangle.Left + 4, rectangle.Top + 4, rectangle.Width - 5, rectangle.Height - 5);
+            return new Rectangle(rectangle.Left + 2, rectangle.Top + 2, rectangle.Width - 8, rectangle.Height - 6);
         }
         #endregion
 
@@ -3103,7 +3087,7 @@ namespace DataGridViewGeneric
         {
             try
             {                
-                if (paintHeaderRow || e.ColumnIndex == -1 || e.RowIndex > -1) e.Paint(e.ClipBounds, DataGridViewPaintParts.All);
+                //It's already paited of Krypton if (paintHeaderRow || e.ColumnIndex == -1 || e.RowIndex > -1) e.Paint(e.ClipBounds, DataGridViewPaintParts.All); 
             } catch (Exception ex)
             {
                 Logger.Error(ex.Message);    
@@ -3141,9 +3125,24 @@ namespace DataGridViewGeneric
             {
                 FileEntryAttribute fileEntryAttributeColumn = dataGridViewGenericColumn.FileEntryAttribute;
 
-                bool hasFileKnownErrors = (errorFileEntries.ContainsKey(fileEntryAttributeColumn.FileEntry.FileFullPath));
-
                 string cellText = "";
+                bool hasFileKnownErrors = errorFileEntries.ContainsKey(fileEntryAttributeColumn.FileEntry.FileFullPath);
+
+
+                if (hasFileKnownErrors)
+                {
+                    dataGridView.Columns[e.ColumnIndex].ToolTipText = errorFileEntries[fileEntryAttributeColumn.FileEntry.FileFullPath] + "\r\n";
+                    dataGridView.Columns[e.ColumnIndex].HeaderCell.Style.BackColor = ColorBackHeaderError(dataGridView);
+                }
+                else if (dataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning)
+                {
+                    dataGridView.Columns[e.ColumnIndex].HeaderCell.Style.BackColor = ColorBackHeaderWarning(dataGridView);
+                }
+                else
+                {
+                    //dataGridView.Columns[e.ColumnIndex].HeaderCell.Style.BackColor = ColorBackHeaderImage(dataGridView);
+                }
+
                 if (dataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning) cellText += "File updated!!\r\n";
 
                 if (dataGridViewGenericColumn.Metadata != null)
@@ -3185,9 +3184,8 @@ namespace DataGridViewGeneric
                 {
                     Image image = dataGridViewGenericColumn.thumbnailUnlock;
                     if (image == null) image = (Image)Properties.Resources.load_image;
-                    if (hasFileKnownErrors) DrawImageAndSubText(sender, e, image, cellText, ColorBackHeaderError(dataGridView));
-                    else if (dataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning) DrawImageAndSubText(sender, e, image, cellText, ColorBackHeaderWarning(dataGridView));
-                    else DrawImageAndSubText(sender, e, image, cellText, ColorBackHeaderImage(dataGridView));
+                    DrawImageAndSubText(sender, e, image, cellText);
+                    
                 }
             }
             

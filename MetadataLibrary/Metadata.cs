@@ -1448,7 +1448,7 @@ namespace MetadataLibrary
                     break;
                 #endregion
                 default:
-                    throw new Exception("Theres a been use on none existing variable: "+ variableName + " that is not implemented");
+                    throw new Exception("Theres a been use on none existing variable in config for wtire metadata: '"+ variableName + "' that is not implemented");
                     
             }
             if (convertNullToBlank && result == null) result = "";
