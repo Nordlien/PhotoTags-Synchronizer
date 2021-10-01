@@ -75,9 +75,18 @@ namespace PhotoTagsSynchronizer
 
         static private void ShowForm()
         {
-            splashForm = new FormSplash();
-            Application.Run(splashForm);
-            splashForm = null;            
+            try
+            {
+                splashForm = new FormSplash();
+                Application.Run(splashForm);
+                
+            } catch
+            {
+
+            } finally
+            {
+                splashForm = null;
+            }
         }
 
         static private bool NeedShowWarningAndWaitUser()

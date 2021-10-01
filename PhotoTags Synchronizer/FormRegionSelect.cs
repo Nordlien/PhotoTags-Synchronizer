@@ -17,7 +17,7 @@ namespace PhotoTagsSynchronizer
             InitializeComponent();
         }
 
-        public void SetImage(Image image, string title, int columnIndex = -1, int rowIndex = -1)
+        public void SetImage(Image image, string title, Cyotek.Windows.Forms.ImageBoxSelectionMode imageBoxSelectionMode, int columnIndex = -1, int rowIndex = -1)
         {
             this.Text = title;
             ColumnIndex = columnIndex;
@@ -25,6 +25,7 @@ namespace PhotoTagsSynchronizer
             imageBox1.Text = "";
             imageBox1.Image = image;
             imageBox1.ZoomToFit();
+            imageBox1.SelectionMode = imageBoxSelectionMode;
         }
 
         public void SetSelection(RectangleF rectangleF)
@@ -37,12 +38,14 @@ namespace PhotoTagsSynchronizer
             imageBox1.SelectNone();
         }
 
-        public void SetImageNone()
+        public void SetImageNone(string text)
         {
-            this.Text = "No valid media file is selected.";
+            this.Text = text;
             imageBox1.Image = null;
             imageBox1.Text = this.Text;
         }
+
+        
 
         public void SetImageText(string text)
         {

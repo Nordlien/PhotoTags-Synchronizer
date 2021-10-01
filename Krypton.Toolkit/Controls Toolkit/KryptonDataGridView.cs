@@ -2867,8 +2867,8 @@ namespace Krypton.Toolkit
             {
                 base.WndProc(ref m);
             }
-            catch { 
-            
+            catch (Exception ex) { 
+                
             } //JTN Added
         }
         #endregion menus

@@ -49,14 +49,12 @@ namespace PhotoTagsSynchronizer
             // 
             // imageBox1
             // 
-            this.imageBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.imageBox1.Location = new System.Drawing.Point(3, 3);
+            this.imageBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imageBox1.Location = new System.Drawing.Point(0, 0);
             this.imageBox1.Name = "imageBox1";
             this.imageBox1.SelectionMode = Cyotek.Windows.Forms.ImageBoxSelectionMode.Rectangle;
             this.imageBox1.ShortcutsEnabled = false;
-            this.imageBox1.Size = new System.Drawing.Size(628, 514);
+            this.imageBox1.Size = new System.Drawing.Size(631, 520);
             this.imageBox1.TabIndex = 0;
             this.imageBox1.Selected += new System.EventHandler<System.EventArgs>(this.imageBox1_Selected);
             this.imageBox1.Selecting += new System.EventHandler<Cyotek.Windows.Forms.ImageBoxCancelEventArgs>(this.imageBox1_Selecting);

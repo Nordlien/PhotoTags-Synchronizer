@@ -7081,6 +7081,9 @@ namespace PhotoTagsSynchronizer
         #region Cell BeginEdit - People
         private void dataGridViewPeople_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
+
+            if (((KryptonDataGridView)sender)[e.ColumnIndex, e.RowIndex].Value is RegionStructure regionStructure) regionStructure.ShowNameInToString = true; //Just a hack so KryptonDataGridView don't print name alse
+
             if (triStateButtomClick)
             {
                 e.Cancel = true;
@@ -7229,7 +7232,7 @@ namespace PhotoTagsSynchronizer
                         return;
                     }
                     else if (region.Thumbnail != null) regionThumbnail = region.Thumbnail;
-                    DataGridViewHandler.DrawImageAndSubText(sender, e, regionThumbnail, e.Value.ToString(), DataGridViewHandler.ColorBackHeaderImage(dataGridView));
+                    DataGridViewHandler.DrawImageAndSubText(sender, e, regionThumbnail, ((RegionStructure)e.Value).Name);
 
                     e.Handled = true;
                 }

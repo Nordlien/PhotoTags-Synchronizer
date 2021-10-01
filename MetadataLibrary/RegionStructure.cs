@@ -604,9 +604,10 @@ namespace MetadataLibrary
             return false;
         }
 
+        public bool ShowNameInToString { get; set; } = false;
         public override string ToString()
         {
-            return name ?? "";
+            return (ShowNameInToString ? name ?? "" : "");
         }
 
         public string ToStringDebug()

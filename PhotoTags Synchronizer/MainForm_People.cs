@@ -514,6 +514,7 @@ namespace PhotoTagsSynchronizer
         #region CellEndEdit        
         private void dataGridViewPeople_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
+            if (((KryptonDataGridView)sender)[e.ColumnIndex, e.RowIndex].Value is RegionStructure regionStructure) regionStructure.ShowNameInToString = false; //Just a hack so KryptonDataGridView don't print name alse
             DataGridView dataGridView = dataGridViewPeople;
             CheckRowAndSetDefaults(dataGridView, e.ColumnIndex, e.RowIndex);
         }
@@ -541,30 +542,35 @@ namespace PhotoTagsSynchronizer
             if (dataGridView == null) return;
             if (formRegionSelect == null) return;
             if (formRegionSelect.Visible == false) return;
+
+            Cyotek.Windows.Forms.ImageBoxSelectionMode imageBoxSelectionMode = Cyotek.Windows.Forms.ImageBoxSelectionMode.Zoom;
             try
             {
                 formRegionSelect.SetSelectionNone();
-                if (!dataGridView.Enabled) { formRegionSelect.SetImageNone(); return; }
+                if (!dataGridView.Enabled) { formRegionSelect.SetImageNone("No valid media file is selected, and no data loaded."); return; }
 
                 string dataGridViewName = DataGridViewHandler.GetDataGridViewName(dataGridView);
-                if (dataGridViewName == LinkTabAndDataGridViewNameRename)
+                if (dataGridViewName == LinkTabAndDataGridViewNameRename || dataGridViewName == LinkTabAndDataGridViewNameConvertAndMerge)
                 {
+                    string errorMessag = "No valid media file is selected.\r\nSelect a row or a cell within a row to present a poster of media file.";
+
+
                     //Only one row can be selected, only one file can be shown
                     if (rowSelected == -1)
                     {
                         List<int> selectedRows = DataGridViewHandler.GetColumnSelected(dataGridView);
-                        if (selectedRows.Count != 1) { formRegionSelect.SetImageNone(); return; } //Can only show one poster
+                        if (selectedRows.Count != 1) { formRegionSelect.SetImageNone(errorMessag); return; } //Can only show one poster
                         rowSelected = selectedRows[0];
                     }
 
                     DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowSelected);
-                    if (dataGridViewGenericRow == null) { formRegionSelect.SetImageNone(); return; }
-                    if (dataGridViewGenericRow.IsHeader) { formRegionSelect.SetImageNone(); return; }
+                    if (dataGridViewGenericRow == null) { formRegionSelect.SetImageNone(errorMessag); return; }
+                    if (dataGridViewGenericRow.IsHeader) { formRegionSelect.SetImageNone(errorMessag); return; }
 
                     formRegionSelect.SetImageText(Path.Combine(dataGridViewGenericRow.HeaderName, dataGridViewGenericRow.RowName));
                     Image image = LoadMediaCoverArtPoster(Path.Combine(dataGridViewGenericRow.HeaderName, dataGridViewGenericRow.RowName));
-                    formRegionSelect.SetImage(image, "Showing: " + dataGridViewGenericRow.RowName);
-                }
+                    formRegionSelect.SetImage(image, "Showing: " + dataGridViewGenericRow.RowName, imageBoxSelectionMode);
+                }/*
                 else if (dataGridViewName == LinkTabAndDataGridViewNameConvertAndMerge)
                 {
                     //Only one row can be selected, only one file can be shown
@@ -582,14 +588,24 @@ namespace PhotoTagsSynchronizer
                     formRegionSelect.SetImageText(dataGridViewGenericRow.RowName);
                     Image image = LoadMediaCoverArtPoster(dataGridViewGenericRow.RowName);
                     formRegionSelect.SetImage(image, "Showing: " + dataGridViewGenericRow.RowName);
-                }
+                }*/
                 else
                 {
+                    string errorMessag;
+                    if (dataGridViewName != LinkTabAndDataGridViewNamePeople) errorMessag = "No valid media file is selected.\r\nSelect a column or a cell within a column to present a poster of media file.";
+                    else
+                    {
+                        errorMessag = "No valid media file is selected.\r\n" +
+                          "You need to select a 'region name cell'.\r\n" +
+                          "Then you can drag and drop to create a region square for select cell.\r\n" +
+                          "The region will be added to selected cell and will become named.";
+                        imageBoxSelectionMode = Cyotek.Windows.Forms.ImageBoxSelectionMode.Rectangle;
+                    }
                     //Only one column can be selected, only one file can be shown
                     if (columnSelected == -1)
                     {
                         List<int> selectedColumns = DataGridViewHandler.GetColumnSelected(dataGridView);
-                        if (selectedColumns.Count != 1) { formRegionSelect.SetImageNone(); return; } //Can only show one poster
+                        if (selectedColumns.Count != 1) { formRegionSelect.SetImageNone(errorMessag); return; } //Can only show one poster
                         columnSelected = selectedColumns[0];
                     }
 
@@ -600,28 +616,33 @@ namespace PhotoTagsSynchronizer
                         DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnSelected);
                         formRegionSelect.SetImageText(dataGridViewGenericColumn.FileEntryAttribute.FileName);
                         Image image = LoadMediaCoverArtPoster(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath);
-                        formRegionSelect.SetImage(image, "Showing: " + dataGridViewGenericColumn.FileEntryAttribute.FileName);
+                        formRegionSelect.SetImage(image, "Showing: " + dataGridViewGenericColumn.FileEntryAttribute.FileName, imageBoxSelectionMode);
                     }
                     else
                     {
+                        
                         int rowIndex = cellSelected[0].RowIndex;
                         int columnIndex = cellSelected[0].ColumnIndex;
-                        if (rowIndex < 0 || columnIndex < 0) { formRegionSelect.SetImageNone(); return; }
+                        if (rowIndex < 0 || columnIndex < 0) { formRegionSelect.SetImageNone(errorMessag); return; }
 
                         DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
                         if (dataGridViewGenericColumn == null || dataGridViewGenericColumn.ReadWriteAccess != ReadWriteAccess.AllowCellReadAndWrite) return;
                         //MessageBox.Show("You can only change region on current version on media file, not on historical or error log.", "Not correct column type", MessageBoxButtons.OK);
 
                         List<int> selectedRows = DataGridViewHandler.GetRowSelected(dataGridView);
-                        if (selectedRows.Count != 1) { formRegionSelect.SetImageNone(); return; }
-                        //MessageBox.Show("You can only create a region for one name cell at once.", "Wrong number of selection", MessageBoxButtons.OK);
+                        
 
                         int selectedRow = selectedRows[0];
                         DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, selectedRow);
-                        if (dataGridViewGenericRow == null) { formRegionSelect.SetImageNone(); return; }
-                        if (dataGridViewGenericRow.IsHeader) { formRegionSelect.SetImageNone(); return; }
+
+
+                        if (selectedRows.Count != 1) { formRegionSelect.SetImageNone(errorMessag); return; }
+                        //MessageBox.Show("You can only create a region for one name cell at once.", "Wrong number of selection", MessageBoxButtons.OK);
+                        if (dataGridViewGenericRow == null) { formRegionSelect.SetImageNone(errorMessag); return; }
+                        if (dataGridViewGenericRow.IsHeader) { formRegionSelect.SetImageNone(errorMessag); return; }
                         //MessageBox.Show("The selected cell can't be changed, need select another cell.", "Wrong cell selected", MessageBoxButtons.OK);
-                        if (dataGridViewGenericColumn.Metadata == null) { formRegionSelect.SetImageNone(); return; }
+                        if (dataGridViewGenericColumn.Metadata == null) { formRegionSelect.SetImageNone(errorMessag); return; }
+                         
 
                         formRegionSelect.SetImageText(dataGridViewGenericColumn.Metadata.FileFullPath);
                         Image image = LoadMediaCoverArtPoster(dataGridViewGenericColumn.Metadata.FileFullPath);
@@ -630,14 +651,14 @@ namespace PhotoTagsSynchronizer
                             RegionStructure region = DataGridViewHandler.GetCellRegionStructure(dataGridView, columnIndex, rowIndex);
                             if (region != null)
                             {
-                                formRegionSelect.SetImage(image, "Select region: " + region.Name, columnIndex, rowIndex);
+                                formRegionSelect.SetImage(image, "Select region: " + region.Name, imageBoxSelectionMode, columnIndex, rowIndex);
 
                                 Rectangle rectangleInImage = region.GetImageRegionPixelRectangle(image.Size);
                                 RectangleF rectangleFInImage = new RectangleF((float)rectangleInImage.X, (float)rectangleInImage.Y, (float)rectangleInImage.Width, (float)rectangleInImage.Height);
                                 formRegionSelect.SetSelection(rectangleFInImage);
                             } else
                             {
-                                formRegionSelect.SetImage(image, "Select region: create a new region", columnIndex, rowIndex);
+                                formRegionSelect.SetImage(image, "Select region: create a new region", imageBoxSelectionMode, columnIndex, rowIndex);
                             }
                         }
                         else
@@ -663,7 +684,7 @@ namespace PhotoTagsSynchronizer
         private void FormRegionSelect_OnRegionSelected(object sender, RegionSelectedEventArgs e)
         {
             DataGridView dataGridView = GetActiveTabDataGridView();
-            if (!dataGridView.Enabled) { formRegionSelect.SetImageNone(); return; }
+            if (!dataGridView.Enabled) { formRegionSelect.SetImageNone("No valid media file is selected, and no data loaded."); return; }
             
 
             RectangleF region = RegionStructure.CalculateImageRegionAbstarctRectangle(e.ImageSize, 
