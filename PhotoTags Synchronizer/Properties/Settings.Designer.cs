@@ -2452,5 +2452,29 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["KryptonPaletteName"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string WorkspaceToolboxTagsMaximizedCell {
+            get {
+                return ((string)(this["WorkspaceToolboxTagsMaximizedCell"]));
+            }
+            set {
+                this["WorkspaceToolboxTagsMaximizedCell"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string WorkspaceMainMaximizedCell {
+            get {
+                return ((string)(this["WorkspaceMainMaximizedCell"]));
+            }
+            set {
+                this["WorkspaceMainMaximizedCell"] = value;
+            }
+        }
     }
 }

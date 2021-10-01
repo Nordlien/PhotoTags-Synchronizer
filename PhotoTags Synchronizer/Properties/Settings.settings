@@ -1177,5 +1177,11 @@ Dimensions</Value>
     <Setting Name="KryptonPaletteName" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="WorkspaceToolboxTagsMaximizedCell" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="WorkspaceMainMaximizedCell" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -532,7 +532,8 @@ namespace PhotoTagsSynchronizer
             kryptonWorkspaceCellToolboxRenameVariables.StarSize = Properties.Settings.Default.WorkspaceCellToolboxRenameVariablesStarSize; //"50*,132"
             kryptonWorkspaceCellToolboxTagsDetails.StarSize = Properties.Settings.Default.WorkspaceCellToolboxTagsDetailsStarSize; //"50*,272*"
             kryptonWorkspaceCellToolboxTagsKeywords.StarSize = Properties.Settings.Default.WorkspaceCellToolboxTagsKeywordsStarSize; //"50*,510*"
-            #endregion 
+
+            #endregion
             this.SuspendLayout();
             
             #region Initialize layout setup - Show/Hide error and History            
@@ -590,7 +591,7 @@ namespace PhotoTagsSynchronizer
                 Logger.Error(ex);
             }
             #endregion
-
+           
         }
 
 
@@ -795,7 +796,7 @@ namespace PhotoTagsSynchronizer
         #region MainForm_Shown
         private void MainForm_Shown(object sender, EventArgs e)
         {
-            isFormLoading = false;            
+            isFormLoading = false;
 
             #region Initialize folder tree...
             //If in Form_Load
@@ -838,7 +839,11 @@ namespace PhotoTagsSynchronizer
 
             PopulateImageListView_FromFolderSelected(false, true);
             FilesSelected();
+
+            MaximizeWorkspaceToolboxCell();
+            MaximizeWorkspaceMainCell();
         }
+
 
 
 

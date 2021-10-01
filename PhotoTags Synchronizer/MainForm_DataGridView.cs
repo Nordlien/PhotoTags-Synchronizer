@@ -16,9 +16,77 @@ namespace PhotoTagsSynchronizer
 
     public partial class MainForm : KryptonForm
     {
-        #region 
+        #region
+        private void ActionRememberMaximizedCells()
+        {
+            Properties.Settings.Default.WorkspaceToolboxTagsMaximizedCell = kryptonWorkspaceToolboxTags?.MaximizedCell?.Name ?? "";
+            Properties.Settings.Default.WorkspaceMainMaximizedCell = kryptonWorkspaceMain?.MaximizedCell?.Name ?? "";
+        }
+
+        private void ActionMaximumWorkspaceCell (Krypton.Workspace.KryptonWorkspace kryptonWorkspace, string name)
+        {
+            //foreach (Krypton.Workspace.KryptonWorkspace kryptonWorkspace in kryptonWorkspaceMain.Root.Children)
+            //{
+                Krypton.Workspace.KryptonWorkspaceCell kryptonWorkspaceCell = kryptonWorkspace.FirstVisibleCell();
+                while (kryptonWorkspaceCell != null)
+                {
+                    if (kryptonWorkspaceCell.Name == name)
+                    {
+                        kryptonWorkspaceMain.MaximizedCell = kryptonWorkspaceCell;
+                        break;
+                    }
+                    kryptonWorkspaceCell = kryptonWorkspace.NextVisibleCell(kryptonWorkspaceCell);
+                }
+            //}
+        }
+        private void kryptonWorkspaceToolboxTags_MaximizedCellChanged(object sender, EventArgs e)
+        {
+            ActionRememberMaximizedCells();
+        }
+
+        private void kryptonWorkspaceMain_MaximizedCellChanged(object sender, EventArgs e)
+        {
+            ActionRememberMaximizedCells();
+        }
+        private void MaximizeWorkspaceMainCell()
+        {
+            ActionMaximumWorkspaceCell(kryptonWorkspaceMain, Properties.Settings.Default.WorkspaceMainMaximizedCell);
+        }
+
+        private void MaximizeWorkspaceToolboxCell()
+        {
+            switch (GetActiveTabTag())
+            {
+                case LinkTabAndDataGridViewNameTags:
+                    break;
+                case LinkTabAndDataGridViewNameMap:
+                    break;
+                case LinkTabAndDataGridViewNamePeople:
+                    ActionMaximumWorkspaceCell(kryptonWorkspaceToolboxTags, Properties.Settings.Default.WorkspaceToolboxTagsMaximizedCell);
+                    break;
+                case LinkTabAndDataGridViewNameDates:
+                    break;
+                case LinkTabAndDataGridViewNameExiftool:
+                    break;
+                case LinkTabAndDataGridViewNameWarnings:
+                    break;
+                case LinkTabAndDataGridViewNameProperties:
+                    break;
+                case LinkTabAndDataGridViewNameRename:
+                    break;
+                case LinkTabAndDataGridViewNameConvertAndMerge:
+                    break;
+                default: throw new NotImplementedException();
+            }
+
+            
+        }
+        #endregion 
+
+        #region WorkspaceCellToolbox_SelectedPageChanged
         private void kryptonWorkspaceCellToolbox_SelectedPageChanged(object sender, EventArgs e)
         {
+            
             if (isFormLoading) return;
             try
             {
