@@ -2476,5 +2476,17 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["WorkspaceMainMaximizedCell"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("13")]
+        public int WorkspaceCellFolderSearchFilterNavigatorMode {
+            get {
+                return ((int)(this["WorkspaceCellFolderSearchFilterNavigatorMode"]));
+            }
+            set {
+                this["WorkspaceCellFolderSearchFilterNavigatorMode"] = value;
+            }
+        }
     }
 }
