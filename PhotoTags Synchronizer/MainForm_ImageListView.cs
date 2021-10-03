@@ -316,6 +316,7 @@ namespace PhotoTagsSynchronizer
             FilesSelected();
             imageListView1.Enabled = true;
             imageListView1.Focus();
+            MaximizeOrRestoreWorkspaceMainCellAndChilds();
         }
         #endregion
 
@@ -510,18 +511,6 @@ namespace PhotoTagsSynchronizer
         private void ImageListViewAddItem(string fullFilename)
         {
             imageListView1.Items.Add(fullFilename);
-        }
-        #endregion
-
-        #region ImageListViewGetSelected
-        private List<FileEntry> ImageListViewGetSelected(ImageListView imageListView)
-        {
-            List<FileEntry> fileEntries = new List<FileEntry>();
-            foreach (ImageListViewItem imageListViewItem in imageListView.SelectedItems)
-            {
-                fileEntries.Add(new FileEntry(imageListViewItem.FileFullPath, imageListViewItem.DateModified));
-            }
-            return fileEntries;
         }
         #endregion
 

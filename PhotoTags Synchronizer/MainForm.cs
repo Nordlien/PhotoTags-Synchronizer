@@ -31,8 +31,8 @@ using FileHandeling;
 namespace PhotoTagsSynchronizer
 {
     public partial class MainForm : KryptonForm
-    {   
-        
+    {
+
         #region Global Variables
         public const string LinkTabAndDataGridViewNameTags = "Tags";
         public const string LinkTabAndDataGridViewNameMap = "Map";
@@ -89,7 +89,7 @@ namespace PhotoTagsSynchronizer
         private MetadataDatabaseCache databaseAndCacheMetadataExiftool;
         private MetadataDatabaseCache databaseAndCacheMetadataWindowsLivePhotoGallery;
         private MetadataDatabaseCache databaseAndCacheMetadataMicrosoftPhotos;
-        
+
         private LocationNameLookUpCache databaseLocationAddress;
 
         private ExiftoolReader exiftoolReader;
@@ -104,7 +104,7 @@ namespace PhotoTagsSynchronizer
         private List<AutoKeywordConvertion> autoKeywordConvertions = new List<AutoKeywordConvertion>();
 
         //Cache level
-        private int  cacheNumberOfPosters = 10;
+        private int cacheNumberOfPosters = 10;
         private bool cacheAllMetadatas = false;
         private bool cacheAllThumbnails = false;
         private bool cacheAllWebScraperDataSets = false;
@@ -147,7 +147,7 @@ namespace PhotoTagsSynchronizer
             KryptonPalette kryptonPalette = KryptonPaletteHandler.Load(Properties.Settings.Default.KryptonPaletteFullFilename, Properties.Settings.Default.KryptonPaletteName);
             KryptonPaletteHandler.SetPalette(this, kryptonManager1, kryptonPalette, KryptonPaletteHandler.IsSystemPalette, Properties.Settings.Default.KryptonPaletteDropShadow);
             KryptonPaletteHandler.SetImageListViewPalettes(kryptonManager1, imageListView1);
-            
+
             this.kryptonRibbonGroupCustomControlToolsProgressBackground.CustomControl = progressBarBackground;
             this.kryptonRibbonGroupCustomControlToolsProgressSave.CustomControl = progressBarSaveConvert;
             this.kryptonRibbonGroupCustomControlToolsProgressLazyloading.CustomControl = progressBarLazyLoading;
@@ -182,7 +182,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuItemGenericRedo.Click += KryptonContextMenuItemGenericRedo_Click;
             this.kryptonContextMenuItemGenericFind.Click += KryptonContextMenuItemGenericFind_Click;
             this.kryptonContextMenuItemGenericReplace.Click += KryptonContextMenuItemGenericReplace_Click;
-            this.kryptonContextMenuItemGenericSave.Click += KryptonContextMenuItemGenericSave_Click;               
+            this.kryptonContextMenuItemGenericSave.Click += KryptonContextMenuItemGenericSave_Click;
             //this.kryptonContextMenuSeparatorGenericEndOfClipboard
             this.kryptonContextMenuItemGenericRefreshFolder.Click += KryptonContextMenuItemGenericFileSystemRefreshFolder_Click;
             this.kryptonContextMenuItemGenericReadSubfolders.Click += KryptonContextMenuItemGenericReadSubfolders_Click;
@@ -241,8 +241,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuItemPreviewSlideshowIntervalStop.Click += KryptonContextMenuItemPreviewSlideshowIntervalStop_Click;
             //this.kryptonContextMenuItemsPreviewSlideshowIntervalList.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
 
-            
-
             nameImageListView = this.imageListView1.Name;
             nameFolderTreeViewFolder = this.folderTreeViewFolder.Name;
             nameDataGridViewConvertAndMerge = this.dataGridViewConvertAndMerge.Name;
@@ -258,10 +256,10 @@ namespace PhotoTagsSynchronizer
             #endregion
 
             SetPreviewRibbonEnabledStatus(previewStartEnabled: false, enabled: false);
-            
+
             #region Initialize VLC player
             FormSplash.UpdateStatus("Staring VLC player...");
-            
+
             _libVLC = new LibVLC();
             videoView1.MediaPlayer = new MediaPlayer(_libVLC);
             #endregion 
@@ -269,7 +267,7 @@ namespace PhotoTagsSynchronizer
             #region Loading ImageListView renderers
             FormSplash.UpdateStatus("Loading ImageListView renderers...");
 
-            
+
             Manina.Windows.Forms.View listViewSelectedMode;
 
             KryptonContextMenuItems kryptonContextMenuItems = (KryptonContextMenuItems)kryptonContextMenuImageListViewModeThumbnailRenders.Items[0];
@@ -299,11 +297,11 @@ namespace PhotoTagsSynchronizer
                     {
                         imageListViewSelectedRenderer = (RendererItem)kryptonContextMenuItem.Tag;
                         isRendererAssigned = true;
-                    }                    
+                    }
                 }
             }
 
-            listViewSelectedMode = (Manina.Windows.Forms.View)Properties.Settings.Default.ImageListViewViewMode;  
+            listViewSelectedMode = (Manina.Windows.Forms.View)Properties.Settings.Default.ImageListViewViewMode;
 
             SetImageListViewRender(listViewSelectedMode, imageListViewSelectedRenderer);
 
@@ -320,7 +318,8 @@ namespace PhotoTagsSynchronizer
             try
             {
                 databaseUtilitiesSqliteMetadata = new SqliteDatabaseUtilities(DatabaseType.SqliteMetadataDatabase, 10000, 5000);
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Was not able to start the database");
                 Close();
@@ -363,8 +362,8 @@ namespace PhotoTagsSynchronizer
             {
                 Thread threadCache = new Thread(() =>
                 {
-                    
-                    if (cacheAllThumbnails) databaseAndCacheThumbnail.ReadToCacheFolder(null);                    
+
+                    if (cacheAllThumbnails) databaseAndCacheThumbnail.ReadToCacheFolder(null);
                     if (cacheAllMetadatas) databaseAndCacheMetadataExiftool.ReadToCacheAllMetadatas();
                     if (cacheAllWebScraperDataSets) databaseAndCacheMetadataExiftool.ReadToCacheWebScarpingAllDataSets();
                 });
@@ -420,7 +419,8 @@ namespace PhotoTagsSynchronizer
                 browser.BrowserSettings.Plugins = CefState.Enabled;
                 this.panelBrowser.Controls.Add(this.browser);
                 browser.AddressChanged += this.OnBrowserAddressChanged;
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 Logger.Error(ex, "Cef Browser");
             }
@@ -473,10 +473,10 @@ namespace PhotoTagsSynchronizer
 
             kryptonPageToolboxProperties.Tag = LinkTabAndDataGridViewNameProperties;
             GlobalData.dataGridViewHandlerProperties = new DataGridViewHandler(dataGridViewProperties, (KryptonPalette)kryptonManager1.GlobalPalette, LinkTabAndDataGridViewNameProperties, "File/Properties", (DataGridViewSize)Properties.Settings.Default.CellSizeProperties);
-            
+
             kryptonPageToolboxRename.Tag = LinkTabAndDataGridViewNameRename;
             GlobalData.dataGridViewHandlerRename = new DataGridViewHandler(dataGridViewRename, (KryptonPalette)kryptonManager1.GlobalPalette, LinkTabAndDataGridViewNameRename, "Filename/Values", ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize));
-            
+
             kryptonPageToolboxConvertAndMerge.Tag = LinkTabAndDataGridViewNameConvertAndMerge;
             GlobalData.dataGridViewHandlerConvertAndMerge = new DataGridViewHandler(dataGridViewConvertAndMerge, (KryptonPalette)kryptonManager1.GlobalPalette, LinkTabAndDataGridViewNameConvertAndMerge, "Full path of media file", ((DataGridViewSize)Properties.Settings.Default.CellSizeConvertAndMerge | DataGridViewSize.RenameConvertAndMergeSize));
             #endregion
@@ -502,11 +502,10 @@ namespace PhotoTagsSynchronizer
             autoKeywordConvertions = AutoKeywordHandler.PopulateList(AutoKeywordHandler.ReadDataSetFromXML());
 
             #region Initialize layout setup
-            
 
             #region Initialize layout setup - Windows Size and Splitters
             FormSplash.UpdateStatus("Initialize layout setup: Sizes...");
-            
+
             isFormLoading = true; //MainForm_Shown(object sender, EventArgs e) -> isFormLoading = false;
 
             this.Size = Properties.Settings.Default.MainFormSize;
@@ -534,8 +533,9 @@ namespace PhotoTagsSynchronizer
             kryptonWorkspaceCellToolboxTagsKeywords.StarSize = Properties.Settings.Default.WorkspaceCellToolboxTagsKeywordsStarSize; //"50*,510*"
 
             #endregion
+
             this.SuspendLayout();
-            
+
             #region Initialize layout setup - Show/Hide error and History            
             SetRibbonGridViewColumnsButtonsHistoricalAndError(Properties.Settings.Default.ShowHistortyColumns, Properties.Settings.Default.ShowErrorColumns);
             showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(kryptonRibbonGroupButtonDataGridViewColumnsHistory.Checked, kryptonRibbonGroupButtonDataGridViewColumnsErrors.Checked);
@@ -579,20 +579,25 @@ namespace PhotoTagsSynchronizer
                             nHttpServerThreadWaitApplicationClosing.WaitOne();
                             Application.DoEvents();
                         }
-                    } catch(Exception ex)
+                    }
+                    catch (Exception ex)
                     {
                         Logger.Error(ex);
                     }
                 });
                 _ThreadHttp.Start();
                 _ThreadHttp.Priority = (ThreadPriority)Properties.Settings.Default.ApplicationDebugBackgroundThreadPrioity;
-            } catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 Logger.Error(ex);
             }
             #endregion
-           
+
+            MaximizeOrRestoreWorkspaceMainCellAndChilds();
         }
+
+        
 
 
         #endregion
@@ -778,7 +783,7 @@ namespace PhotoTagsSynchronizer
         #region MainForm_Load
         private void MainForm_Load(object sender, EventArgs e)
         {
-            
+
             FormSplash.CloseForm();
 
             Properties.Settings.Default.Reload();
@@ -840,28 +845,8 @@ namespace PhotoTagsSynchronizer
             PopulateImageListView_FromFolderSelected(false, true);
             FilesSelected();
 
-            MaximizeWorkspaceToolboxCell();
-            MaximizeWorkspaceMainCell();
+            MaximizeOrRestoreWorkspaceMainCellAndChilds();
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -869,9 +854,6 @@ namespace PhotoTagsSynchronizer
 
         
     }
-
-
-
 
 }
 

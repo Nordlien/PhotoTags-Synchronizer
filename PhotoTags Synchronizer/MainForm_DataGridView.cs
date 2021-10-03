@@ -16,81 +16,139 @@ namespace PhotoTagsSynchronizer
 
     public partial class MainForm : KryptonForm
     {
-        #region
-        private void ActionRememberMaximizedCells()
+        #region Workspace - FindWorkspaceCell
+        private Krypton.Workspace.KryptonWorkspaceCell FindWorkspaceCell(Krypton.Workspace.KryptonWorkspace kryptonWorkspace, string name)
         {
-            Properties.Settings.Default.WorkspaceToolboxTagsMaximizedCell = kryptonWorkspaceToolboxTags?.MaximizedCell?.Name ?? "";
-            Properties.Settings.Default.WorkspaceMainMaximizedCell = kryptonWorkspaceMain?.MaximizedCell?.Name ?? "";
-        }
-
-        private void ActionMaximumWorkspaceCell (Krypton.Workspace.KryptonWorkspace kryptonWorkspace, string name)
-        {
-            //foreach (Krypton.Workspace.KryptonWorkspace kryptonWorkspace in kryptonWorkspaceMain.Root.Children)
-            //{
-                Krypton.Workspace.KryptonWorkspaceCell kryptonWorkspaceCell = kryptonWorkspace.FirstVisibleCell();
-                while (kryptonWorkspaceCell != null)
+            Krypton.Workspace.KryptonWorkspaceCell kryptonWorkspaceCell = kryptonWorkspace.FirstVisibleCell();
+            while (kryptonWorkspaceCell != null)
+            {
+                if (kryptonWorkspaceCell.Name == name)
                 {
-                    if (kryptonWorkspaceCell.Name == name)
-                    {
-                        kryptonWorkspaceMain.MaximizedCell = kryptonWorkspaceCell;
-                        break;
-                    }
-                    kryptonWorkspaceCell = kryptonWorkspace.NextVisibleCell(kryptonWorkspaceCell);
+                    return kryptonWorkspaceCell;
                 }
-            //}
+                kryptonWorkspaceCell = kryptonWorkspace.NextVisibleCell(kryptonWorkspaceCell);
+            }
+            return null;
         }
-        private void kryptonWorkspaceToolboxTags_MaximizedCellChanged(object sender, EventArgs e)
-        {
-            ActionRememberMaximizedCells();
-        }
+        #endregion
 
-        private void kryptonWorkspaceMain_MaximizedCellChanged(object sender, EventArgs e)
+        #region Workspace - ActionMaximumWorkspaceCell
+        private void ActionMaximumWorkspaceCell(Krypton.Workspace.KryptonWorkspace kryptonWorkspace, Krypton.Workspace.KryptonWorkspaceCell kryptonWorkspaceCell)
         {
-            ActionRememberMaximizedCells();
+            kryptonWorkspace.MaximizedCell = kryptonWorkspaceCell;
         }
-        private void MaximizeWorkspaceMainCell()
-        {
-            ActionMaximumWorkspaceCell(kryptonWorkspaceMain, Properties.Settings.Default.WorkspaceMainMaximizedCell);
-        }
+        #endregion
 
-        private void MaximizeWorkspaceToolboxCell()
+        #region WorkspaceCellToolboxTags - MaximizeRestore
+
+        #region WorkspaceCellToolboxTags - MaximizeOrRestore()
+        private void WorkspaceCellToolboxTagsMaximizeOrRestore()
         {
             switch (GetActiveTabTag())
             {
                 case LinkTabAndDataGridViewNameTags:
+                    Krypton.Workspace.KryptonWorkspaceCell kryptonWorkspaceCell = FindWorkspaceCell(kryptonWorkspaceToolboxTags, Properties.Settings.Default.WorkspaceToolboxTagsMaximizedCell);
+                    ActionMaximumWorkspaceCell(kryptonWorkspaceToolboxTags, kryptonWorkspaceCell);
                     break;
                 case LinkTabAndDataGridViewNameMap:
-                    break;
                 case LinkTabAndDataGridViewNamePeople:
-                    ActionMaximumWorkspaceCell(kryptonWorkspaceToolboxTags, Properties.Settings.Default.WorkspaceToolboxTagsMaximizedCell);
-                    break;
                 case LinkTabAndDataGridViewNameDates:
-                    break;
                 case LinkTabAndDataGridViewNameExiftool:
-                    break;
                 case LinkTabAndDataGridViewNameWarnings:
-                    break;
                 case LinkTabAndDataGridViewNameProperties:
-                    break;
                 case LinkTabAndDataGridViewNameRename:
-                    break;
                 case LinkTabAndDataGridViewNameConvertAndMerge:
                     break;
                 default: throw new NotImplementedException();
             }
-
-            
         }
         #endregion 
 
-        #region WorkspaceCellToolbox_SelectedPageChanged
-        private void kryptonWorkspaceCellToolbox_SelectedPageChanged(object sender, EventArgs e)
+        #region WorkspaceCellToolboxTags - MaximizeRestore - Click
+        private void ActionMaximizeRestoreWorkspaceCellToolboxTags()
         {
-            
+            Properties.Settings.Default.WorkspaceToolboxTagsMaximizedCell = kryptonWorkspaceToolboxTags?.MaximizedCell?.Name ?? "";
+        }
+        #endregion
+
+        #region WorkspacToolboxTags - MaximizeRestore - Click
+        private void kryptonWorkspaceCellToolboxTagsDetails_MaximizeRestoreClicked(object sender, EventArgs e)
+        {
+            ActionMaximizeRestoreWorkspaceCellToolboxTags();
+        }
+
+        private void kryptonWorkspaceCellToolboxTagsKeywords_MaximizeRestoreClicked(object sender, EventArgs e)
+        {
+            ActionMaximizeRestoreWorkspaceCellToolboxTags();
+        }
+        #endregion
+
+        #endregion
+
+        #region WorkspaceMain - MaximizeRestore
+
+        #region WorkspaceMain - MaximizeWorkspaceMainCell
+        private void MaximizeOrRestoreWorkspaceMainCellAndChilds()
+        {
+            Krypton.Workspace.KryptonWorkspaceCell kryptonWorkspaceCell = FindWorkspaceCell(kryptonWorkspaceMain, Properties.Settings.Default.WorkspaceMainMaximizedCell);
+            ActionMaximumWorkspaceCell(kryptonWorkspaceMain, kryptonWorkspaceCell);
+            WorkspaceCellToolboxTagsMaximizeOrRestore();
+        }
+        #endregion
+
+        #region WorkspaceMain - ActionMaximizeRestoreWorkspaceMain
+        private void ActionMaximizeRestoreWorkspaceMain()
+        {
+            Properties.Settings.Default.WorkspaceMainMaximizedCell = kryptonWorkspaceMain?.MaximizedCell?.Name ?? "";
+            WorkspaceCellToolboxTagsMaximizeOrRestore(); //Not restore this but childs
+        }
+        #endregion
+
+        #region WorkspaceMain - MaximizeRestore - Click
+        private void kryptonWorkspaceCellFolderSearchFilter_MaximizeRestoreClicked(object sender, EventArgs e)
+        {
+            ActionMaximizeRestoreWorkspaceMain();
+        }
+
+        private void kryptonWorkspaceCellMediaFiles_MaximizeRestoreClicked(object sender, EventArgs e)
+        {
+            ActionMaximizeRestoreWorkspaceMain();
+        }
+
+        private void kryptonWorkspaceCellToolbox_MaximizeRestoreClicked(object sender, EventArgs e)
+        {
+            ActionMaximizeRestoreWorkspaceMain();
+        }
+        #endregion
+
+        #endregion
+
+        
+
+        #region WorkspaceCellToolbox - SelectedPageChanged
+        private void kryptonWorkspaceCellToolbox_SelectedPageChanged(object sender, EventArgs e)
+        {            
             if (isFormLoading) return;
             try
             {
-
+                ActionMaximumWorkspaceCell(kryptonWorkspaceMain, FindWorkspaceCell(kryptonWorkspaceMain, Properties.Settings.Default.WorkspaceMainMaximizedCell)); //Need to be in front of ActionMaximumWorkspaceCell(kryptonWorkspaceToolboxTags, kryptonWorkspaceToolboxTagPrevious);
+                
+                switch (GetActiveTabTag())
+                {
+                    case LinkTabAndDataGridViewNameTags:
+                        ActionMaximumWorkspaceCell(kryptonWorkspaceToolboxTags, FindWorkspaceCell(kryptonWorkspaceToolboxTags, Properties.Settings.Default.WorkspaceToolboxTagsMaximizedCell));
+                        break;
+                    case LinkTabAndDataGridViewNameMap:
+                    case LinkTabAndDataGridViewNamePeople:
+                    case LinkTabAndDataGridViewNameDates:
+                    case LinkTabAndDataGridViewNameExiftool:
+                    case LinkTabAndDataGridViewNameWarnings:
+                    case LinkTabAndDataGridViewNameProperties:
+                    case LinkTabAndDataGridViewNameRename:
+                    case LinkTabAndDataGridViewNameConvertAndMerge:
+                        break;
+                    default: throw new NotImplementedException();
+                }
                 PopulateDataGridViewForSelectedItemsThread(imageListView1.SelectedItems);
             }
             catch (Exception ex)
