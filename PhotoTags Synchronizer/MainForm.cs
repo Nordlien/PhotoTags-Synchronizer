@@ -27,6 +27,7 @@ using System.Runtime.InteropServices;
 using PhotoTagsCommonComponets;
 using Krypton.Toolkit;
 using FileHandeling;
+using Krypton.Navigator;
 
 namespace PhotoTagsSynchronizer
 {
@@ -846,13 +847,114 @@ namespace PhotoTagsSynchronizer
             FilesSelected();
 
             MaximizeOrRestoreWorkspaceMainCellAndChilds();
+            //this.kryptonPageFolderSearchFilterFolder.MinimumSize = new System.Drawing.Size(399, 600);
+            //this.kryptonPageFolderSearchFilterSearch.MinimumSize = new System.Drawing.Size(399, 600);
+            //this.kryptonPageFolderSearchFilterFilter.MinimumSize = new System.Drawing.Size(399, 600);
         }
-
-
-
         #endregion
 
-        
+
+
+        private void buttonSpecNavigatorExpandCollapse_Click(object sender, EventArgs e)
+        {
+            //kryptonSplitContainerMain.SuspendLayout();
+            //kryptonNavigatorMain.SuspendLayout();
+
+            kryptonWorkspaceMain.SuspendWorkspaceLayout();
+            kryptonWorkspaceCellFolderSearchFilter.SuspendLayout();
+            kryptonWorkspaceCellMediaFiles.SuspendLayout();
+            kryptonWorkspaceCellToolbox.SuspendLayout();
+
+
+            //kryptonWorkspaceToolboxRename.SuspendLayout();
+
+
+            // Is the navigator currently in full mode?
+            if (kryptonWorkspaceCellFolderSearchFilter.NavigatorMode == NavigatorMode.OutlookFull)
+            {
+                // Make the left panel of the splitter fixed in size
+                //kryptonWorkspaceCellFolderSearchFilter.FixedPanel = FixedPanel.Panel1;
+                //kryptonWorkspaceCellFolderSearchFilter.IsSplitterFixed = true;
+
+                // Remember the current height of the header group
+                //Properties.Settings.Default.WorkspaceCellFolderSearchFilterStarSize = kryptonWorkspaceCellFolderSearchFilter.StarSize; //"313*,50*"
+                //Properties.Settings.Default.WorkspaceCellMediaFilesStarSize = kryptonWorkspaceCellMediaFiles.StarSize; //"367*,50*"
+                //Properties.Settings.Default.WorkspaceCellToolboxStarSize = kryptonWorkspaceCellToolbox.StarSize; //"674*,50*"
+                //Properties.Settings.Default.WorkspaceCellToolboxMapBroswerStarSize = kryptonWorkspaceCellToolboxMapBroswer.StarSize; //"50*,211*"
+                //Properties.Settings.Default.WorkspaceCellToolboxMapBroswerPropertiesStarSize = kryptonWorkspaceCellToolboxMapBroswerProperties.StarSize; //"50*,35"
+                //Properties.Settings.Default.WorkspaceCellToolboxMapDetailsStarSize = kryptonWorkspaceCellToolboxMapDetails.StarSize; //"50*,497*"
+                //Properties.Settings.Default.WorkspaceCellToolboxMapPropertiesStarSize = kryptonWorkspaceCellToolboxMapProperties.StarSize; //"50*,29"
+                //Properties.Settings.Default.WorkspaceCellToolboxRenameResultStarSize = kryptonWorkspaceCellToolboxRenameResult.StarSize; //"50*,650*"
+                //Properties.Settings.Default.WorkspaceCellToolboxRenameVariablesStarSize = kryptonWorkspaceCellToolboxRenameVariables.StarSize; //"50*,132"
+                //Properties.Settings.Default.WorkspaceCellToolboxTagsDetailsStarSize = kryptonWorkspaceCellToolboxTagsDetails.StarSize; //"50*,272*"
+                //Properties.Settings.Default.WorkspaceCellToolboxTagsKeywordsStarSize = kryptonWorkspaceCellToolboxTagsKeywords.StarSize; //"50*,510*"
+
+
+                // Switch to the mini mode
+                kryptonWorkspaceCellFolderSearchFilter.NavigatorMode = NavigatorMode.OutlookMini;
+
+                // Discover the new width required to display the mini mode
+                int newWidth = kryptonWorkspaceCellFolderSearchFilter.PreferredSize.Width;
+
+                // Make the header group fixed just as the new height
+                kryptonWorkspaceCellFolderSearchFilter.StarSize = "40,50*";
+                kryptonWorkspaceCellMediaFiles.StarSize = "551*,50*";
+                kryptonWorkspaceCellToolbox.StarSize = "914*,50*";
+
+                
+
+                //kryptonWorkspaceCellFolderSearchFilter.SplitterDistance = newWidth;
+
+                // Switch the arrow to point the opposite way
+                buttonSpecNavigatorExpandCollapse.TypeRestricted = PaletteNavButtonSpecStyle.ArrowRight;
+            }
+            else
+            {
+                // Switch to the full mode
+                kryptonWorkspaceCellFolderSearchFilter.NavigatorMode = NavigatorMode.OutlookFull;
+
+                // Make the bottom panel not-fixed in size anymore
+                //kryptonWorkspaceCellFolderSearchFilter.FixedPanel = FixedPanel.None;
+                //kryptonWorkspaceCellFolderSearchFilter.IsSplitterFixed = false;
+
+                // Put back the minimum size to the original
+                //kryptonWorkspaceCellFolderSearchFilter.Panel1MinSize = 100;
+
+                // Calculate the correct splitter we want to put back
+                //kryptonWorkspaceCellFolderSearchFilter.SplitterDistance = _widthLeftRight;
+                
+                kryptonWorkspaceCellFolderSearchFilter.StarSize = Properties.Settings.Default.WorkspaceCellFolderSearchFilterStarSize; //"313*,50*"
+                kryptonWorkspaceCellFolderSearchFilter.Refresh();
+                kryptonWorkspaceCellMediaFiles.Refresh();
+                kryptonWorkspaceCellToolbox.Refresh();
+                kryptonWorkspaceMain.Refresh();
+
+                //kryptonWorkspaceCellMediaFiles.StarSize = Properties.Settings.Default.WorkspaceCellMediaFilesStarSize; //"367*,50*"
+                //kryptonWorkspaceCellToolbox.StarSize = Properties.Settings.Default.WorkspaceCellToolboxStarSize; //"674*,50*"
+                //kryptonWorkspaceCellToolboxMapBroswer.StarSize = Properties.Settings.Default.WorkspaceCellToolboxMapBroswerStarSize; //"50*,211*"
+                //kryptonWorkspaceCellToolboxMapBroswerProperties.StarSize = Properties.Settings.Default.WorkspaceCellToolboxMapBroswerPropertiesStarSize; //"50*,35"
+                //kryptonWorkspaceCellToolboxMapDetails.StarSize = Properties.Settings.Default.WorkspaceCellToolboxMapDetailsStarSize; //"50*,497*"
+                //kryptonWorkspaceCellToolboxMapProperties.StarSize = Properties.Settings.Default.WorkspaceCellToolboxMapPropertiesStarSize; //"50*,29"
+                //kryptonWorkspaceCellToolboxRenameResult.StarSize = Properties.Settings.Default.WorkspaceCellToolboxRenameResultStarSize; //"50*,650*"
+                //kryptonWorkspaceCellToolboxRenameVariables.StarSize = Properties.Settings.Default.WorkspaceCellToolboxRenameVariablesStarSize; //"50*,132"
+                //kryptonWorkspaceCellToolboxTagsDetails.StarSize = Properties.Settings.Default.WorkspaceCellToolboxTagsDetailsStarSize; //"50*,272*"
+                //kryptonWorkspaceCellToolboxTagsKeywords.StarSize = Properties.Settings.Default.WorkspaceCellToolboxTagsKeywordsStarSize; //"50*,510*"
+
+                // Switch the arrow to point the opposite way
+                buttonSpecNavigatorExpandCollapse.TypeRestricted = PaletteNavButtonSpecStyle.ArrowLeft;
+            }
+
+            kryptonWorkspaceMain.ResumeWorkspaceLayout();
+            kryptonWorkspaceCellFolderSearchFilter.ResumeLayout();
+            kryptonWorkspaceCellMediaFiles.ResumeLayout();
+            kryptonWorkspaceCellToolbox.ResumeLayout();
+
+            kryptonWorkspaceCellFolderSearchFilter.Refresh();
+            kryptonWorkspaceCellMediaFiles.Refresh();
+            kryptonWorkspaceCellToolbox.Refresh();
+            kryptonWorkspaceMain.Refresh();
+
+        }
     }
 
 }
