@@ -23,7 +23,7 @@ namespace PhotoTagsSynchronizer
         public string ArguFileAutoCorrect { get; set; } = "";
 
         private bool isPopulation = false;
-        public MetadataReadPrioity MetadataPrioity { get; set; } 
+        public MetadataReadPrioity MetadataPrioity { get; set; }
         public List<Metadata> MetadatasGridView { get; set; } = new List<Metadata>();
         public List<Metadata> MetadatasOriginal { get; set; } = new List<Metadata>();
         public List<Metadata> MetadatasEmpty { get; set; } = new List<Metadata>();
@@ -34,17 +34,16 @@ namespace PhotoTagsSynchronizer
         private FastColoredTextBoxHandler fastColoredTextBoxHandlerRunArgumentFileAutoCorrect = null;
 
         private FastColoredTextBoxHandler fastColoredTextBoxHandlerKeywordAdd = null;
-        private FastColoredTextBoxHandler fastColoredTextBoxHandlerKeywordDelete = null;
         private FastColoredTextBoxHandler fastColoredTextBoxHandlerKeywordWriteTags = null;
         private FastColoredTextBoxHandler fastColoredTextBoxHandlerBuildResult = null;
 
         private ApplicationAssociationsHandler applicationAssociationsHandler = new ApplicationAssociationsHandler();
         private SortedList<string, ApplicationData> applicationDatas;
-        
+
         public FormRunCommand()
         {
             InitializeComponent();
-            
+
         }
 
 
@@ -114,7 +113,7 @@ namespace PhotoTagsSynchronizer
             fastColoredTextBoxHandlerKeywordWriteTags = new FastColoredTextBoxHandler(fastColoredTextBoxMetadataWriteTags, false, MetadataPrioity.MetadataPrioityDictionary);
             fastColoredTextBoxHandlerBuildResult = new FastColoredTextBoxHandler(fastColoredTextBoxBuildResult, false, MetadataPrioity.MetadataPrioityDictionary);
 
-            comboBoxArgumentFileCommandVariables.Items.Add("{TempFileArgumentFullPath}");
+            comboBoxArgumentFileBuilderCommandVariables.Items.Add("{TempFileArgumentFullPath}");
             ComboBoxHandler.ComboBoxPopulate(comboBoxArgumentFileBuilderCommand, Properties.Settings.Default.RunArgumentBuildCommandList, Properties.Settings.Default.RunArgumentBuildCommand);
 
             comboBoxMetadataWriteStandardTags.Items.AddRange(Metadata.ListOfProperties(false));
@@ -249,7 +248,7 @@ namespace PhotoTagsSynchronizer
                 dataGridView.AllowUserToAddRows = false;
                 dataGridView.Columns.Clear();
                 //for (int columnIndex = 0; columnIndex < dtApps.Columns.Count; columnIndex++) dataGridView.Columns.Add(dtApps.Columns[columnIndex].ColumnName, dtApps.Columns[columnIndex].ColumnName);                
-                dataGridView.DataSource = dtApps;                
+                dataGridView.DataSource = dtApps;
                 dataGridView.RowHeadersWidth = 10;
                 dataGridView.Columns["Icon"].Width = 50;
                 dataGridView.Columns["Name"].Width = 200;
@@ -415,11 +414,11 @@ namespace PhotoTagsSynchronizer
 
         private void ShowRunBatchExample()
         {
-            
+
             textBoxRunBatchImageExample.Text = "";
 
             if (kryptonWorkspaceCellRunBatchImage.SelectedPage.Tag.ToString() == "Command")
-                foreach (Metadata metadata in MetadatasGridView) textBoxRunBatchImageExample.Text += (textBoxRunBatchImageExample.Text == "" ? "" : "\r\n") + 
+                foreach (Metadata metadata in MetadatasGridView) textBoxRunBatchImageExample.Text += (textBoxRunBatchImageExample.Text == "" ? "" : "\r\n") +
                         metadata.ReplaceVariables(comboBoxBatchRunImageCommand.Text, AllowedFileNameDateTimeFormats);
             else
                 foreach (Metadata metadata in MetadatasGridView) textBoxRunBatchImageExample.Text += (textBoxRunBatchImageExample.Text == "" ? "" : "\r\n") +
@@ -427,7 +426,7 @@ namespace PhotoTagsSynchronizer
 
             textBoxRunBatchVideoExample.Text = "";
             if (kryptonWorkspaceCellRunBatchVideo.SelectedPage.Tag.ToString() == "Command")
-                foreach (Metadata metadata in MetadatasGridView) textBoxRunBatchVideoExample.Text += (textBoxRunBatchVideoExample.Text == "" ? "" : "\r\n") + 
+                foreach (Metadata metadata in MetadatasGridView) textBoxRunBatchVideoExample.Text += (textBoxRunBatchVideoExample.Text == "" ? "" : "\r\n") +
                         metadata.ReplaceVariables(comboBoxBatchRunVideoCommand.Text, AllowedFileNameDateTimeFormats);
             else
                 foreach (Metadata metadata in MetadatasGridView) textBoxRunBatchVideoExample.Text += (textBoxRunBatchVideoExample.Text == "" ? "" : "\r\n") +
@@ -493,12 +492,12 @@ namespace PhotoTagsSynchronizer
                 formTerminalWindow = new PhotoTagsCommonComponets.FormTerminalWindow();
                 formTerminalWindow.Show();
             }
-            
+
 
             string errors = "";
             foreach (Metadata metadata in MetadatasGridView)
             {
-                
+
                 try
                 {
                     string imageCommandWithArguments = metadata.ReplaceVariables(comboBoxBatchRunImageCommand.Text, AllowedFileNameDateTimeFormats);
@@ -509,7 +508,7 @@ namespace PhotoTagsSynchronizer
                         if (kryptonWorkspaceCellRunBatchImage.SelectedPage.Tag.ToString() == "Command")
                         {
 
-                            if (checkBoxRunBatchRedirectToTerminalWindows.Checked) 
+                            if (checkBoxRunBatchRedirectToTerminalWindows.Checked)
                                 ApplicationActivation.ProcessRun(formTerminalWindow, imageCommandWithArguments, checkBoxBatchRunImageWaitForCommandExit.Checked);
                             else
                                 ApplicationActivation.ProcessRun(imageCommandWithArguments, checkBoxBatchRunImageWaitForCommandExit.Checked);
@@ -522,13 +521,13 @@ namespace PhotoTagsSynchronizer
 
                         if (kryptonWorkspaceCellRunBatchVideo.SelectedPage.Tag.ToString() == "Command")
                         {
-                            if (checkBoxRunBatchRedirectToTerminalWindows.Checked) 
+                            if (checkBoxRunBatchRedirectToTerminalWindows.Checked)
                                 ApplicationActivation.ProcessRun(formTerminalWindow, videoCommandWithArguments, checkBoxBatchRunVideoWaitForCommandExit.Checked);
-                            else 
+                            else
                                 ApplicationActivation.ProcessRun(videoCommandWithArguments, checkBoxBatchRunVideoWaitForCommandExit.Checked);
                         }
                         else ApplicationActivation.ActivateForFile(textBoxOpenVideoWithAppId.Text, metadata.FileFullPath, comboBoxBatchRunImageVerb.Text, checkBoxBatchRunVideoWaitForAppExit.Checked);
-                    }                
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -642,7 +641,7 @@ namespace PhotoTagsSynchronizer
         #region ArgumentFile run - Variable selected
         private void comboBoxArgumentFileCommandVariables_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            SelectionChangeCommitted(comboBoxArgumentFileCommand, comboBoxArgumentFileCommandVariables.Text);
+            SelectionChangeCommitted(comboBoxArgumentFileCommand, comboBoxArgumentFileCommandVariables.Text);            
         }
         #endregion
         
@@ -703,7 +702,6 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region ComboBox - Text Selection Hack - Remember Selection
-        
 
         private void comboBox_MouseMove(object sender, MouseEventArgs e)
         {
@@ -719,7 +717,6 @@ namespace PhotoTagsSynchronizer
         {
             ComboBoxHandler.SetComboBoxSelection((KryptonComboBox)sender);            
         }
-
         #endregion
 
         #region ArumentFile run - Save click
@@ -871,6 +868,10 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Build tab - ComboBox Handler 
+        private void comboBoxArgumentFileBuilderCommandVariables_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            SelectionChangeCommitted(comboBoxArgumentFileBuilderCommand, comboBoxArgumentFileBuilderCommandVariables.Text);
+        }
 
         private void comboBoxMetadataWriteKeywordAdd_SelectionChangeCommitted(object sender, EventArgs e)
         {
@@ -1059,7 +1060,9 @@ namespace PhotoTagsSynchronizer
             formCompareText.Compare("Source: Original from media files", "Source: Edit by users", exiftoolFileTextOriginal, fastColoredTextBoxBuildResult.Text);
             formCompareText.ShowDialog();            
         }
-        #endregion 
+
+        #endregion
+
 
     }
 }
