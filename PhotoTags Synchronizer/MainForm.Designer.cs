@@ -31,7 +31,7 @@ namespace PhotoTagsSynchronizer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Filter");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Filter");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.panelMain = new Krypton.Toolkit.KryptonPanel();
             this.kryptonWorkspaceMain = new Krypton.Workspace.KryptonWorkspace();
@@ -763,7 +763,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageFolderSearchFilterSearch.ImageMedium = global::PhotoTagsSynchronizer.Properties.Resources.Search_Search24x24;
             this.kryptonPageFolderSearchFilterSearch.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.Search_Search16x16;
             this.kryptonPageFolderSearchFilterSearch.LastVisibleSet = true;
-            this.kryptonPageFolderSearchFilterSearch.MinimumSize = new System.Drawing.Size(50, 200);
             this.kryptonPageFolderSearchFilterSearch.Name = "kryptonPageFolderSearchFilterSearch";
             this.kryptonPageFolderSearchFilterSearch.Size = new System.Drawing.Size(399, 632);
             this.kryptonPageFolderSearchFilterSearch.Text = "Search";
@@ -800,7 +799,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageSearchFiler.Controls.Add(this.tableLayoutPanelSerachSearch);
             this.kryptonPageSearchFiler.Flags = 65534;
             this.kryptonPageSearchFiler.LastVisibleSet = true;
-            this.kryptonPageSearchFiler.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPageSearchFiler.Name = "kryptonPageSearchFiler";
             this.kryptonPageSearchFiler.Size = new System.Drawing.Size(399, 572);
             this.kryptonPageSearchFiler.Text = "Search Filter";
@@ -891,7 +889,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.kryptonTextBoxSearchFilename.Location = new System.Drawing.Point(103, 29);
             this.kryptonTextBoxSearchFilename.Name = "kryptonTextBoxSearchFilename";
-            this.kryptonTextBoxSearchFilename.Size = new System.Drawing.Size(164, 21);
+            this.kryptonTextBoxSearchFilename.Size = new System.Drawing.Size(164, 20);
             this.kryptonTextBoxSearchFilename.TabIndex = 1;
             // 
             // kryptonLabelSearchFilename
@@ -908,7 +906,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.kryptonTextBoxSearchDirectory.Location = new System.Drawing.Point(103, 3);
             this.kryptonTextBoxSearchDirectory.Name = "kryptonTextBoxSearchDirectory";
-            this.kryptonTextBoxSearchDirectory.Size = new System.Drawing.Size(164, 21);
+            this.kryptonTextBoxSearchDirectory.Size = new System.Drawing.Size(164, 20);
             this.kryptonTextBoxSearchDirectory.TabIndex = 0;
             // 
             // groupBoxSearchPeople
@@ -1645,6 +1643,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceCellSearchFiler.Button.NextButtonDisplay = Krypton.Navigator.ButtonDisplay.Logic;
             this.kryptonWorkspaceCellSearchFiler.Button.PreviousButtonAction = Krypton.Navigator.DirectionButtonAction.ModeAppropriateAction;
             this.kryptonWorkspaceCellSearchFiler.Button.PreviousButtonDisplay = Krypton.Navigator.ButtonDisplay.Logic;
+            this.kryptonWorkspaceCellSearchFiler.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonWorkspaceCellSearchFiler.Name = "kryptonWorkspaceCellSearchFiler";
             this.kryptonWorkspaceCellSearchFiler.NavigatorMode = Krypton.Navigator.NavigatorMode.Panel;
             this.kryptonWorkspaceCellSearchFiler.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
@@ -1670,6 +1669,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceCellSearchFilterAction.Button.NextButtonDisplay = Krypton.Navigator.ButtonDisplay.Logic;
             this.kryptonWorkspaceCellSearchFilterAction.Button.PreviousButtonAction = Krypton.Navigator.DirectionButtonAction.ModeAppropriateAction;
             this.kryptonWorkspaceCellSearchFilterAction.Button.PreviousButtonDisplay = Krypton.Navigator.ButtonDisplay.Logic;
+            this.kryptonWorkspaceCellSearchFilterAction.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonWorkspaceCellSearchFilterAction.Name = "kryptonWorkspaceCellSearchFilterAction";
             this.kryptonWorkspaceCellSearchFilterAction.NavigatorMode = Krypton.Navigator.NavigatorMode.Panel;
             this.kryptonWorkspaceCellSearchFilterAction.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
@@ -1684,7 +1684,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageSearchFilterAction.Controls.Add(this.tableLayoutPanelSerachActions);
             this.kryptonPageSearchFilterAction.Flags = 65534;
             this.kryptonPageSearchFilterAction.LastVisibleSet = true;
-            this.kryptonPageSearchFilterAction.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPageSearchFilterAction.Name = "kryptonPageSearchFilterAction";
             this.kryptonPageSearchFilterAction.Size = new System.Drawing.Size(399, 55);
             this.kryptonPageSearchFilterAction.Text = "Search filter actions";
@@ -1764,13 +1763,14 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceCellFolderSearchFilter.Button.NextButtonDisplay = Krypton.Navigator.ButtonDisplay.Logic;
             this.kryptonWorkspaceCellFolderSearchFilter.Button.PreviousButtonAction = Krypton.Navigator.DirectionButtonAction.ModeAppropriateAction;
             this.kryptonWorkspaceCellFolderSearchFilter.Button.PreviousButtonDisplay = Krypton.Navigator.ButtonDisplay.Logic;
+            this.kryptonWorkspaceCellFolderSearchFilter.MinimumSize = new System.Drawing.Size(40, 40);
             this.kryptonWorkspaceCellFolderSearchFilter.Name = "kryptonWorkspaceCellFolderSearchFilter";
             this.kryptonWorkspaceCellFolderSearchFilter.NavigatorMode = Krypton.Navigator.NavigatorMode.StackCheckButtonHeaderGroup;
             this.kryptonWorkspaceCellFolderSearchFilter.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
             this.kryptonPageFolderSearchFilterFolder,
             this.kryptonPageFolderSearchFilterSearch,
             this.kryptonPageFolderSearchFilterFilter});
-            this.kryptonWorkspaceCellFolderSearchFilter.SelectedIndex = 1;
+            this.kryptonWorkspaceCellFolderSearchFilter.SelectedIndex = 0;
             this.kryptonWorkspaceCellFolderSearchFilter.UniqueName = "7f1f5ae72b174949ac870f12642643a5";
             this.kryptonWorkspaceCellFolderSearchFilter.MaximizeRestoreClicked += new System.EventHandler(this.kryptonWorkspaceCellFolderSearchFilter_MaximizeRestoreClicked);
             // 
@@ -1790,7 +1790,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageFolderSearchFilterFolder.ImageMedium = global::PhotoTagsSynchronizer.Properties.Resources.Search_FolderTree24x24;
             this.kryptonPageFolderSearchFilterFolder.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.Search_FolderTree16x16;
             this.kryptonPageFolderSearchFilterFolder.LastVisibleSet = true;
-            this.kryptonPageFolderSearchFilterFolder.MinimumSize = new System.Drawing.Size(50, 200);
             this.kryptonPageFolderSearchFilterFolder.Name = "kryptonPageFolderSearchFilterFolder";
             this.kryptonPageFolderSearchFilterFolder.Size = new System.Drawing.Size(399, 632);
             this.kryptonPageFolderSearchFilterFolder.Text = "Folder";
@@ -1829,7 +1828,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageFolderSearchFilterFilter.ImageMedium = global::PhotoTagsSynchronizer.Properties.Resources.Search_Filter24x24;
             this.kryptonPageFolderSearchFilterFilter.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.Search_Filter16x16;
             this.kryptonPageFolderSearchFilterFilter.LastVisibleSet = true;
-            this.kryptonPageFolderSearchFilterFilter.MinimumSize = new System.Drawing.Size(50, 200);
             this.kryptonPageFolderSearchFilterFilter.Name = "kryptonPageFolderSearchFilterFilter";
             this.kryptonPageFolderSearchFilterFilter.Size = new System.Drawing.Size(399, 652);
             this.kryptonPageFolderSearchFilterFilter.Text = "Filter";
@@ -1845,11 +1843,11 @@ namespace PhotoTagsSynchronizer
             this.treeViewFilter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeViewFilter.Location = new System.Drawing.Point(0, 0);
             this.treeViewFilter.Name = "treeViewFilter";
-            treeNode4.Name = "NodeFolder";
-            treeNode4.Tag = "Filter";
-            treeNode4.Text = "Filter";
+            treeNode1.Name = "NodeFolder";
+            treeNode1.Tag = "Filter";
+            treeNode1.Text = "Filter";
             this.treeViewFilter.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode4});
+            treeNode1});
             this.treeViewFilter.Size = new System.Drawing.Size(399, 652);
             this.treeViewFilter.TabIndex = 0;
             this.treeViewFilter.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewFilter_AfterCheck);
@@ -1872,6 +1870,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceCellMediaFiles.Button.NextButtonDisplay = Krypton.Navigator.ButtonDisplay.Logic;
             this.kryptonWorkspaceCellMediaFiles.Button.PreviousButtonAction = Krypton.Navigator.DirectionButtonAction.ModeAppropriateAction;
             this.kryptonWorkspaceCellMediaFiles.Button.PreviousButtonDisplay = Krypton.Navigator.ButtonDisplay.Logic;
+            this.kryptonWorkspaceCellMediaFiles.MinimumSize = new System.Drawing.Size(40, 40);
             this.kryptonWorkspaceCellMediaFiles.Name = "kryptonWorkspaceCellMediaFiles";
             this.kryptonWorkspaceCellMediaFiles.NavigatorMode = Krypton.Navigator.NavigatorMode.HeaderGroup;
             this.kryptonWorkspaceCellMediaFiles.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
@@ -1886,7 +1885,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageMediaFiles.Controls.Add(this.imageListView1);
             this.kryptonPageMediaFiles.Flags = 65534;
             this.kryptonPageMediaFiles.LastVisibleSet = true;
-            this.kryptonPageMediaFiles.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPageMediaFiles.Name = "kryptonPageMediaFiles";
             this.kryptonPageMediaFiles.Size = new System.Drawing.Size(399, 707);
             this.kryptonPageMediaFiles.Text = "Media files";
@@ -1947,6 +1945,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceCellToolbox.Button.NextButtonDisplay = Krypton.Navigator.ButtonDisplay.Logic;
             this.kryptonWorkspaceCellToolbox.Button.PreviousButtonAction = Krypton.Navigator.DirectionButtonAction.ModeAppropriateAction;
             this.kryptonWorkspaceCellToolbox.Button.PreviousButtonDisplay = Krypton.Navigator.ButtonDisplay.Logic;
+            this.kryptonWorkspaceCellToolbox.MinimumSize = new System.Drawing.Size(40, 40);
             this.kryptonWorkspaceCellToolbox.Name = "kryptonWorkspaceCellToolbox";
             this.kryptonWorkspaceCellToolbox.NavigatorMode = Krypton.Navigator.NavigatorMode.BarTabGroup;
             this.kryptonWorkspaceCellToolbox.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
@@ -1977,7 +1976,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageToolboxTags.Controls.Add(this.kryptonWorkspaceToolboxTags);
             this.kryptonPageToolboxTags.Flags = 65534;
             this.kryptonPageToolboxTags.LastVisibleSet = true;
-            this.kryptonPageToolboxTags.MinimumSize = new System.Drawing.Size(200, 200);
             this.kryptonPageToolboxTags.Name = "kryptonPageToolboxTags";
             this.kryptonPageToolboxTags.Size = new System.Drawing.Size(400, 723);
             this.kryptonPageToolboxTags.Tag = "Tags";
@@ -2444,6 +2442,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceCellToolboxTagsDetails.Button.NextButtonDisplay = Krypton.Navigator.ButtonDisplay.Logic;
             this.kryptonWorkspaceCellToolboxTagsDetails.Button.PreviousButtonAction = Krypton.Navigator.DirectionButtonAction.ModeAppropriateAction;
             this.kryptonWorkspaceCellToolboxTagsDetails.Button.PreviousButtonDisplay = Krypton.Navigator.ButtonDisplay.Logic;
+            this.kryptonWorkspaceCellToolboxTagsDetails.MinimumSize = new System.Drawing.Size(40, 40);
             this.kryptonWorkspaceCellToolboxTagsDetails.Name = "kryptonWorkspaceCellToolboxTagsDetails";
             this.kryptonWorkspaceCellToolboxTagsDetails.NavigatorMode = Krypton.Navigator.NavigatorMode.HeaderGroup;
             this.kryptonWorkspaceCellToolboxTagsDetails.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
@@ -2469,6 +2468,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceCellToolboxTagsKeywords.Button.NextButtonDisplay = Krypton.Navigator.ButtonDisplay.Logic;
             this.kryptonWorkspaceCellToolboxTagsKeywords.Button.PreviousButtonAction = Krypton.Navigator.DirectionButtonAction.ModeAppropriateAction;
             this.kryptonWorkspaceCellToolboxTagsKeywords.Button.PreviousButtonDisplay = Krypton.Navigator.ButtonDisplay.Logic;
+            this.kryptonWorkspaceCellToolboxTagsKeywords.MinimumSize = new System.Drawing.Size(40, 40);
             this.kryptonWorkspaceCellToolboxTagsKeywords.Name = "kryptonWorkspaceCellToolboxTagsKeywords";
             this.kryptonWorkspaceCellToolboxTagsKeywords.NavigatorMode = Krypton.Navigator.NavigatorMode.HeaderGroup;
             this.kryptonWorkspaceCellToolboxTagsKeywords.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
@@ -2483,7 +2483,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageToolboxTagsKeywords.Controls.Add(this.dataGridViewTagsAndKeywords);
             this.kryptonPageToolboxTagsKeywords.Flags = 65534;
             this.kryptonPageToolboxTagsKeywords.LastVisibleSet = true;
-            this.kryptonPageToolboxTagsKeywords.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPageToolboxTagsKeywords.Name = "kryptonPageToolboxTagsKeywords";
             this.kryptonPageToolboxTagsKeywords.Size = new System.Drawing.Size(398, 315);
             this.kryptonPageToolboxTagsKeywords.Text = "Keywords";
@@ -2519,7 +2518,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageToolboxPeople.Controls.Add(this.dataGridViewPeople);
             this.kryptonPageToolboxPeople.Flags = 65534;
             this.kryptonPageToolboxPeople.LastVisibleSet = true;
-            this.kryptonPageToolboxPeople.MinimumSize = new System.Drawing.Size(200, 200);
             this.kryptonPageToolboxPeople.Name = "kryptonPageToolboxPeople";
             this.kryptonPageToolboxPeople.Size = new System.Drawing.Size(400, 723);
             this.kryptonPageToolboxPeople.Tag = "People";
@@ -2916,7 +2914,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageToolboxMap.Controls.Add(this.kryptonWorkspaceToolboxMap);
             this.kryptonPageToolboxMap.Flags = 65534;
             this.kryptonPageToolboxMap.LastVisibleSet = true;
-            this.kryptonPageToolboxMap.MinimumSize = new System.Drawing.Size(200, 200);
             this.kryptonPageToolboxMap.Name = "kryptonPageToolboxMap";
             this.kryptonPageToolboxMap.Size = new System.Drawing.Size(400, 751);
             this.kryptonPageToolboxMap.Tag = "Map";
@@ -3279,7 +3276,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageToolboxDates.Controls.Add(this.dataGridViewDate);
             this.kryptonPageToolboxDates.Flags = 65534;
             this.kryptonPageToolboxDates.LastVisibleSet = true;
-            this.kryptonPageToolboxDates.MinimumSize = new System.Drawing.Size(200, 200);
             this.kryptonPageToolboxDates.Name = "kryptonPageToolboxDates";
             this.kryptonPageToolboxDates.Size = new System.Drawing.Size(400, 751);
             this.kryptonPageToolboxDates.Tag = "Dates";
@@ -3314,7 +3310,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageToolboxExiftool.Controls.Add(this.dataGridViewExiftool);
             this.kryptonPageToolboxExiftool.Flags = 65534;
             this.kryptonPageToolboxExiftool.LastVisibleSet = true;
-            this.kryptonPageToolboxExiftool.MinimumSize = new System.Drawing.Size(200, 200);
             this.kryptonPageToolboxExiftool.Name = "kryptonPageToolboxExiftool";
             this.kryptonPageToolboxExiftool.Size = new System.Drawing.Size(400, 751);
             this.kryptonPageToolboxExiftool.Tag = "Exiftool";
@@ -3348,7 +3343,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageToolboxWarnings.Controls.Add(this.dataGridViewExiftoolWarning);
             this.kryptonPageToolboxWarnings.Flags = 65534;
             this.kryptonPageToolboxWarnings.LastVisibleSet = true;
-            this.kryptonPageToolboxWarnings.MinimumSize = new System.Drawing.Size(200, 200);
             this.kryptonPageToolboxWarnings.Name = "kryptonPageToolboxWarnings";
             this.kryptonPageToolboxWarnings.Size = new System.Drawing.Size(400, 751);
             this.kryptonPageToolboxWarnings.Tag = "MetadataWarning";
@@ -3382,7 +3376,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageToolboxProperties.Controls.Add(this.dataGridViewProperties);
             this.kryptonPageToolboxProperties.Flags = 65534;
             this.kryptonPageToolboxProperties.LastVisibleSet = true;
-            this.kryptonPageToolboxProperties.MinimumSize = new System.Drawing.Size(200, 200);
             this.kryptonPageToolboxProperties.Name = "kryptonPageToolboxProperties";
             this.kryptonPageToolboxProperties.Size = new System.Drawing.Size(400, 751);
             this.kryptonPageToolboxProperties.Tag = "Properties";
@@ -3418,7 +3411,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageToolboxRename.Controls.Add(this.kryptonWorkspaceToolboxRename);
             this.kryptonPageToolboxRename.Flags = 65534;
             this.kryptonPageToolboxRename.LastVisibleSet = true;
-            this.kryptonPageToolboxRename.MinimumSize = new System.Drawing.Size(200, 200);
             this.kryptonPageToolboxRename.Name = "kryptonPageToolboxRename";
             this.kryptonPageToolboxRename.Size = new System.Drawing.Size(400, 751);
             this.kryptonPageToolboxRename.Tag = "Rename";
@@ -3682,7 +3674,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageToolboxConvertAndMerge.Controls.Add(this.dataGridViewConvertAndMerge);
             this.kryptonPageToolboxConvertAndMerge.Flags = 65534;
             this.kryptonPageToolboxConvertAndMerge.LastVisibleSet = true;
-            this.kryptonPageToolboxConvertAndMerge.MinimumSize = new System.Drawing.Size(200, 200);
             this.kryptonPageToolboxConvertAndMerge.Name = "kryptonPageToolboxConvertAndMerge";
             this.kryptonPageToolboxConvertAndMerge.Size = new System.Drawing.Size(400, 751);
             this.kryptonPageToolboxConvertAndMerge.Tag = "Convert and Merge";
