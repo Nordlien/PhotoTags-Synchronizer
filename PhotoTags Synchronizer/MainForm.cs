@@ -907,6 +907,17 @@ namespace PhotoTagsSynchronizer
                 SetNavigatorModeSearch(NavigatorMode.OutlookFull);
 
         }
+
+        private void kryptonPageFolderSearchFilterSearch_Resize(object sender, EventArgs e)
+        {
+            tableLayoutPanelSerachSearch.Width = Math.Max(kryptonPageFolderSearchFilterSearch.Width - 25, tableLayoutPanelSearchKeywords.MinimumSize.Width + 5);
+            tableLayoutPanelSerachActions.Width = tableLayoutPanelSerachSearch.Width;
+        }
+
+        private void kryptonPageToolboxTagsDetails_Resize(object sender, EventArgs e)
+        {
+            tableLayoutPanelTags.Width = Math.Max(kryptonPageToolboxTagsDetails.Width - 25, tableLayoutPanelTags.MinimumSize.Width);
+        }
     }
 }
 
