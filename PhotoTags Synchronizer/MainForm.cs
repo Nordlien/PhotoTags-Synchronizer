@@ -683,7 +683,6 @@ namespace PhotoTagsSynchronizer
                         }
 
                         kryptonWorkspaceCellToolboxTagsDetails.HideAllPages();
-                        Properties.Settings.Default.WorkspaceCellFolderSearchFilterStarSize = kryptonWorkspaceCellFolderSearchFilter.StarSize; //"313*,50*"
                         Properties.Settings.Default.WorkspaceCellMediaFilesStarSize = kryptonWorkspaceCellMediaFiles.StarSize; //"367*,50*"
                         Properties.Settings.Default.WorkspaceCellToolboxStarSize = kryptonWorkspaceCellToolbox.StarSize; //"674*,50*"
                         Properties.Settings.Default.WorkspaceCellToolboxMapBroswerStarSize = kryptonWorkspaceCellToolboxMapBroswer.StarSize; //"50*,211*"
@@ -695,6 +694,8 @@ namespace PhotoTagsSynchronizer
                         Properties.Settings.Default.WorkspaceCellToolboxTagsDetailsStarSize = kryptonWorkspaceCellToolboxTagsDetails.StarSize; //"50*,272*"
                         Properties.Settings.Default.WorkspaceCellToolboxTagsKeywordsStarSize = kryptonWorkspaceCellToolboxTagsKeywords.StarSize; //"50*,510*"
                         Properties.Settings.Default.WorkspaceCellFolderSearchFilterNavigatorMode = (int)kryptonWorkspaceCellFolderSearchFilter.NavigatorMode;
+                        if (kryptonWorkspaceCellFolderSearchFilter.NavigatorMode != NavigatorMode.OutlookMini)
+                            Properties.Settings.Default.WorkspaceCellFolderSearchFilterStarSize = kryptonWorkspaceCellFolderSearchFilter.StarSize; //"313*,50*"
 
                     }
                     catch { }
@@ -893,10 +894,7 @@ namespace PhotoTagsSynchronizer
             kryptonWorkspaceCellMediaFiles.ResumeLayout();
             kryptonWorkspaceCellToolbox.ResumeLayout();
 
-            //kryptonWorkspaceCellFolderSearchFilter.Refresh();
-            //kryptonWorkspaceCellMediaFiles.Refresh();
-            //kryptonWorkspaceCellToolbox.Refresh();
-            //kryptonWorkspaceMain.Refresh();
+            
         }
 
         private void buttonSpecNavigatorExpandCollapse_Click(object sender, EventArgs e)
@@ -917,6 +915,26 @@ namespace PhotoTagsSynchronizer
         private void kryptonPageToolboxTagsDetails_Resize(object sender, EventArgs e)
         {
             tableLayoutPanelTags.Width = Math.Max(kryptonPageToolboxTagsDetails.Width - 25, tableLayoutPanelTags.MinimumSize.Width);
+        }
+
+        private void RefreshHackSearchFilter()
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action(RefreshHackSearchFilter));
+                return;
+            }
+
+            kryptonPageSearchFilterAction.Invalidate();
+            kryptonPageSearchFilterAction.Refresh();
+
+        }
+
+        private void kryptonWorkspaceCellFolderSearchFilter_DisplayPopupPage(object sender, PopupPageEventArgs e)
+        {
+            Task.Delay(250).ContinueWith(t => RefreshHackSearchFilter());
+            Task.Delay(500).ContinueWith(t => RefreshHackSearchFilter());
+            Task.Delay(100).ContinueWith(t => RefreshHackSearchFilter());
         }
     }
 }

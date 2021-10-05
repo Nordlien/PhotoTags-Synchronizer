@@ -679,7 +679,6 @@ namespace PhotoTagsSynchronizer
             ActiveKryptonPage = KryptonPages.kryptonPageFolderSearchFilterFolder;
         }
 
-
         private void kryptonPageFolderSearchFilterSearch_Enter(object sender, EventArgs e)
         {
             ActiveKryptonPage = KryptonPages.kryptonPageFolderSearchFilterSearch;
