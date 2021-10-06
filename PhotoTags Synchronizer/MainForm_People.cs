@@ -362,6 +362,31 @@ namespace PhotoTagsSynchronizer
         private static HashSet<string> regionNamesRenameFromTopCoundAdded = new HashSet<string>();
 
         #region People name suggestion - PopulatePeopleToolStripMenuItems
+        private int FindFirstUnequal(string text1, string text2)
+        {
+            int index = 0;
+            while (true)
+            {
+                if (index >= text1.Length) return index; 
+                if (index >= text2.Length) return index;
+                if (text1[index] != text2[index]) return index;
+                //     abc   index = 0    
+                //
+                //abc  abc
+                //012  012   index = 3
+                //
+                //abc1 abc2
+                //0123 0123  index = 3
+                //               
+                index++;
+            }
+        }
+
+        private string GetSubStringIndex(string text, int index)
+        {
+            return text.Substring(0, Math.Min(index, text.Length));
+        }
+
         public void PopulatePeopleToolStripMenuItems()
         {
             kryptonContextMenuItemsGenericRegionRenameListAllList.Items.Clear();
@@ -379,17 +404,103 @@ namespace PhotoTagsSynchronizer
                 this.kryptonContextMenuItemsGenericRegionRenameFromLastUsedList.Items.Add(kryptonContextMenuItemGenericRegionRenameFromLastUsed);
             }
 
-            regioNames = databaseAndCacheMetadataExiftool.ListAllPersonalRegionsCache();
-            foreach (string name in regioNames)
-            {
-                regionNamesRenameFromAllAdded.Add(name);
-                KryptonContextMenuItem kryptonContextMenuItemGenericRegionRenameFromListAll = new KryptonContextMenuItem();
-                kryptonContextMenuItemGenericRegionRenameFromListAll.Tag = name;
-                kryptonContextMenuItemGenericRegionRenameFromListAll.Text = name;
-                kryptonContextMenuItemGenericRegionRenameFromListAll.Click += KryptonContextMenuItemRegionRenameGeneric_Click;
-                kryptonContextMenuItemsGenericRegionRenameListAllList.Items.Add(kryptonContextMenuItemGenericRegionRenameFromListAll);
-            }
 
+            int groupSize = 30;
+
+            regioNames = databaseAndCacheMetadataExiftool.ListAllPersonalRegionsCache();
+            if (regioNames.Count <= groupSize)
+            {
+                foreach (string name in regioNames)
+                {
+                    regionNamesRenameFromAllAdded.Add(name);
+                    KryptonContextMenuItem kryptonContextMenuItemGenericRegionRenameFromListAll = new KryptonContextMenuItem();
+                    kryptonContextMenuItemGenericRegionRenameFromListAll.Tag = name;
+                    kryptonContextMenuItemGenericRegionRenameFromListAll.Text = name;
+                    kryptonContextMenuItemGenericRegionRenameFromListAll.Click += KryptonContextMenuItemRegionRenameGeneric_Click;
+                    kryptonContextMenuItemsGenericRegionRenameListAllList.Items.Add(kryptonContextMenuItemGenericRegionRenameFromListAll);
+                }
+            }
+            else
+            {
+                KryptonContextMenuItem kryptonContextMenuItemGenericGroupName = null;
+                KryptonContextMenuItem kryptonContextMenuItemGenericGroupNamePrevious = null;
+                KryptonContextMenuItems kryptonContextMenuItemGenericGroupList = null;
+                
+                string firstNameInGroupCurrent = "";
+                string lastNameInGroupCurrent = "";
+                string lastNameInGroupPrevious = "";
+                
+                string firstNameInGroubSubPrevious = "";
+                string lastNameInGroupSubPrevious = "";
+
+                string firstGroupNamePrevious = "";
+
+                int indexName = 0;
+                bool nameFixed = false;
+
+                foreach (string name in regioNames)
+                {
+                    if (kryptonContextMenuItemGenericGroupName == null)
+                    {
+                        kryptonContextMenuItemGenericGroupName = new KryptonContextMenuItem();
+                        kryptonContextMenuItemsGenericRegionRenameListAllList.Items.Add(kryptonContextMenuItemGenericGroupName);
+                        kryptonContextMenuItemGenericGroupList = new KryptonContextMenuItems();
+                        kryptonContextMenuItemGenericGroupName.Items.Add(kryptonContextMenuItemGenericGroupList);
+                        nameFixed = false;
+                    }
+
+                    regionNamesRenameFromAllAdded.Add(name);
+                    KryptonContextMenuItem kryptonContextMenuItemGenericRegionRenameFromListAll = new KryptonContextMenuItem();
+                    kryptonContextMenuItemGenericRegionRenameFromListAll.Tag = name;
+                    kryptonContextMenuItemGenericRegionRenameFromListAll.Text = name;
+                    kryptonContextMenuItemGenericRegionRenameFromListAll.Click += KryptonContextMenuItemRegionRenameGeneric_Click;
+                    kryptonContextMenuItemGenericGroupList.Items.Add(kryptonContextMenuItemGenericRegionRenameFromListAll);
+
+                    if (indexName == 0) firstNameInGroupCurrent = name;
+                    if (indexName >= groupSize - 1)
+                    {
+                        lastNameInGroupCurrent = name;
+
+                        int indexNotEqualPrevious = FindFirstUnequal(firstGroupNamePrevious, lastNameInGroupPrevious) + 1;
+                        int indexNotEqualPreviousAndCurrent = FindFirstUnequal(lastNameInGroupPrevious, firstNameInGroupCurrent) + 1;
+                        int indexNotEqualCurrent = FindFirstUnequal(firstNameInGroupCurrent, lastNameInGroupCurrent) + 1;
+                        
+                        if (kryptonContextMenuItemGenericGroupNamePrevious != null)
+                        {
+                            lastNameInGroupSubPrevious = GetSubStringIndex(lastNameInGroupPrevious, Math.Max(indexNotEqualPrevious, indexNotEqualPreviousAndCurrent));
+                            kryptonContextMenuItemGenericGroupNamePrevious.Text = firstNameInGroubSubPrevious + " - " + lastNameInGroupSubPrevious;
+                        }
+
+                        string currentFirstSubName = GetSubStringIndex(firstNameInGroupCurrent, Math.Max(indexNotEqualCurrent, indexNotEqualPreviousAndCurrent));
+                        string currentLastSubName = GetSubStringIndex(lastNameInGroupCurrent, indexNotEqualCurrent);
+                        kryptonContextMenuItemGenericGroupName.Text = currentFirstSubName + " - " + currentLastSubName;
+
+
+                        firstGroupNamePrevious = firstNameInGroupCurrent; 
+                        lastNameInGroupPrevious = lastNameInGroupCurrent;
+
+                        firstNameInGroubSubPrevious = currentFirstSubName;
+                        lastNameInGroupSubPrevious = currentLastSubName;
+
+                        //Get ready for new group
+                        indexName = 0;
+                        kryptonContextMenuItemGenericGroupNamePrevious = kryptonContextMenuItemGenericGroupName;
+                        kryptonContextMenuItemGenericGroupName = null;
+                        kryptonContextMenuItemGenericGroupList = null;
+                        nameFixed = true;
+                    } else indexName++;
+
+                    
+
+                    
+                }
+
+                if (!nameFixed)
+                {
+                    int indexNotEqual = FindFirstUnequal(firstNameInGroupCurrent, lastNameInGroupCurrent) + 1;
+                    kryptonContextMenuItemGenericGroupName.Text = GetSubStringIndex(firstNameInGroupCurrent, indexNotEqual) + " - " + GetSubStringIndex(lastNameInGroupCurrent, indexNotEqual);
+                }
+            }
             string[] renameNames = Properties.Settings.Default.PeopleRename.Replace("\r", "").Split('\n');
 
             for (int i = renameNames.Length - 1; i >= 0; i--)

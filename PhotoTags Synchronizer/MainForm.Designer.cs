@@ -31,7 +31,7 @@ namespace PhotoTagsSynchronizer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Filter");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Filter");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.panelMain = new Krypton.Toolkit.KryptonPanel();
             this.kryptonWorkspaceMain = new Krypton.Workspace.KryptonWorkspace();
@@ -888,7 +888,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.kryptonTextBoxSearchFilename.Location = new System.Drawing.Point(103, 29);
             this.kryptonTextBoxSearchFilename.Name = "kryptonTextBoxSearchFilename";
-            this.kryptonTextBoxSearchFilename.Size = new System.Drawing.Size(170, 21);
+            this.kryptonTextBoxSearchFilename.Size = new System.Drawing.Size(170, 20);
             this.kryptonTextBoxSearchFilename.TabIndex = 1;
             // 
             // kryptonLabelSearchFilename
@@ -1793,11 +1793,11 @@ namespace PhotoTagsSynchronizer
             this.treeViewFilter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeViewFilter.Location = new System.Drawing.Point(0, 0);
             this.treeViewFilter.Name = "treeViewFilter";
-            treeNode1.Name = "NodeFolder";
-            treeNode1.Tag = "Filter";
-            treeNode1.Text = "Filter";
+            treeNode2.Name = "NodeFolder";
+            treeNode2.Tag = "Filter";
+            treeNode2.Text = "Filter";
             this.treeViewFilter.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1});
+            treeNode2});
             this.treeViewFilter.Size = new System.Drawing.Size(399, 652);
             this.treeViewFilter.TabIndex = 0;
             this.treeViewFilter.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewFilter_AfterCheck);
