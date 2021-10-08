@@ -1186,5 +1186,8 @@ Dimensions</Value>
     <Setting Name="WorkspaceCellFolderSearchFilterNavigatorMode" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">13</Value>
     </Setting>
+    <Setting Name="ApplicationSizeOfRegionNamesGroup" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

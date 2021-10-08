@@ -405,7 +405,7 @@ namespace PhotoTagsSynchronizer
             }
 
 
-            int groupSize = 30;
+            int groupSize = Properties.Settings.Default.ApplicationSizeOfRegionNamesGroup;
 
             regioNames = databaseAndCacheMetadataExiftool.ListAllPersonalRegionsCache();
             if (regioNames.Count <= groupSize)
@@ -416,6 +416,8 @@ namespace PhotoTagsSynchronizer
                     KryptonContextMenuItem kryptonContextMenuItemGenericRegionRenameFromListAll = new KryptonContextMenuItem();
                     kryptonContextMenuItemGenericRegionRenameFromListAll.Tag = name;
                     kryptonContextMenuItemGenericRegionRenameFromListAll.Text = name;
+                    Image image = databaseAndCacheMetadataExiftool.ReadRandomThumbnailFromCacheOrDatabase(name);
+                    if (image != null) kryptonContextMenuItemGenericRegionRenameFromListAll.Image = image;
                     kryptonContextMenuItemGenericRegionRenameFromListAll.Click += KryptonContextMenuItemRegionRenameGeneric_Click;
                     kryptonContextMenuItemsGenericRegionRenameListAllList.Items.Add(kryptonContextMenuItemGenericRegionRenameFromListAll);
                 }

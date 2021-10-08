@@ -2488,5 +2488,17 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["WorkspaceCellFolderSearchFilterNavigatorMode"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int ApplicationSizeOfRegionNamesGroup {
+            get {
+                return ((int)(this["ApplicationSizeOfRegionNamesGroup"]));
+            }
+            set {
+                this["ApplicationSizeOfRegionNamesGroup"] = value;
+            }
+        }
     }
 }

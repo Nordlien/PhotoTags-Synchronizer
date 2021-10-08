@@ -444,6 +444,7 @@ namespace PhotoTagsSynchronizer
                 //Application
                 Properties.Settings.Default.ApplicationThumbnail = ThumbnailSizes[comboBoxApplicationThumbnailSizes.SelectedIndex];
                 Properties.Settings.Default.ApplicationRegionThumbnail = ThumbnailSizes[comboBoxApplicationRegionThumbnailSizes.SelectedIndex];
+                Properties.Settings.Default.ApplicationSizeOfRegionNamesGroup = (int)kryptonNumericUpDownApplicationGroupSizeRenameNames.Value;
 
                 Properties.Settings.Default.ApplicationPreferredLanguages = textBoxApplicationPreferredLanguages.Text;
                 Properties.Settings.Default.MaxRowsInSearchResult = (int)numericUpDownApplicationMaxRowsInSearchResult.Value;
@@ -636,6 +637,7 @@ namespace PhotoTagsSynchronizer
 
             comboBoxApplicationThumbnailSizes.Text = Properties.Settings.Default.ApplicationThumbnail.ToString();
             comboBoxApplicationRegionThumbnailSizes.Text = Properties.Settings.Default.ApplicationRegionThumbnail.ToString();
+            kryptonNumericUpDownApplicationGroupSizeRenameNames.Value = Properties.Settings.Default.ApplicationSizeOfRegionNamesGroup;
 
             textBoxApplicationPreferredLanguages.Text = Properties.Settings.Default.ApplicationPreferredLanguages;
             numericUpDownApplicationMaxRowsInSearchResult.Value = Properties.Settings.Default.MaxRowsInSearchResult;
