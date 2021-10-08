@@ -453,6 +453,8 @@ namespace PhotoTagsSynchronizer
                     KryptonContextMenuItem kryptonContextMenuItemGenericRegionRenameFromListAll = new KryptonContextMenuItem();
                     kryptonContextMenuItemGenericRegionRenameFromListAll.Tag = name;
                     kryptonContextMenuItemGenericRegionRenameFromListAll.Text = name;
+                    Image image = databaseAndCacheMetadataExiftool.ReadRandomThumbnailFromCacheOrDatabase(name);
+                    if (image != null) kryptonContextMenuItemGenericRegionRenameFromListAll.Image = image;
                     kryptonContextMenuItemGenericRegionRenameFromListAll.Click += KryptonContextMenuItemRegionRenameGeneric_Click;
                     kryptonContextMenuItemGenericGroupList.Items.Add(kryptonContextMenuItemGenericRegionRenameFromListAll);
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using MetadataLibrary;
 using System.Threading;
 using Krypton.Toolkit;
+using System.Drawing;
 
 namespace PhotoTagsSynchronizer
 { 
@@ -159,7 +160,16 @@ namespace PhotoTagsSynchronizer
             peoples.Sort();
             FilterReplaceNullWithIsNotDefineText(peoples);
             checkedListBoxSearchPeople.Items.Clear();
-            checkedListBoxSearchPeople.Items.AddRange(peoples.ToArray());
+            //checkedListBoxSearchPeople.Items.AddRange(peoples.ToArray());
+            foreach (string people in peoples)
+            {
+                KryptonListItem item = new KryptonListItem();
+                item.ShortText = people;
+                item.LongText = "";
+                Image image = databaseAndCacheMetadataExiftool.ReadRandomThumbnailFromCacheOrDatabase(people);
+                if (image != null) item.Image = image;
+                checkedListBoxSearchPeople.Items.Add(item);
+            }
 
         }
         #endregion 

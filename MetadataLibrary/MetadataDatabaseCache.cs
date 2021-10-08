@@ -13,6 +13,8 @@ using System.Data.SQLite;
 using SqliteDatabase;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 
@@ -890,6 +892,83 @@ namespace MetadataLibrary
             dbTools.TransactionCommitBatch(false);
         }
         #endregion
+
+        #region RandomThumbnail for Name
+        private static Dictionary<string, Image> randomThumbnailCache = new Dictionary<string, Image>();
+
+        #region RandomThumbnail - Cache - ThumbnailCacheUpdate
+        public void RandomThumbnailCacheUpdate(string name, Image image)
+        {
+            if (randomThumbnailCache.ContainsKey(name)) randomThumbnailCache[name] = image;
+            else randomThumbnailCache.Add(name, image);
+        }
+        #endregion  
+
+        public Image CropImage(Image img)
+        {
+            int x = img.Width / 2;
+            int y = img.Height / 2;
+            int r = Math.Min(x, y);
+
+            Bitmap tmp = null;
+            tmp = new Bitmap(2 * r, 2 * r);
+            using (Graphics g = Graphics.FromImage(tmp))
+            {
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+                g.TranslateTransform(tmp.Width / 2, tmp.Height / 2);
+                GraphicsPath gp = new GraphicsPath();
+                gp.AddEllipse(0 - r, 0 - r, 2 * r, 2 * r);
+                Region rg = new Region(gp);
+                g.SetClip(rg, CombineMode.Replace);
+                Bitmap bmp = new Bitmap(img);
+                g.DrawImage(bmp, new Rectangle(-r, -r, 2 * r, 2 * r), new Rectangle(x - r, y - r, 2 * r, 2 * r), GraphicsUnit.Pixel);
+            }
+
+            return new Bitmap(tmp, new Size(32, 32)); //resize
+        }
+
+        public Image ReadRandomThumbnailFromCacheOrDatabase(string name)
+        {
+            Image image = null;
+            if (randomThumbnailCache.ContainsKey(name)) image = randomThumbnailCache[name];
+            
+            if (image == null)
+            {
+                if (image == null) image = ReadRegionThumbnailFromCache(name);
+                if (image == null) image = ReadRandomThumbnailFromDatabase(name); //Rename
+                if (image != null)
+                {
+                    image = CropImage(image);
+                    RandomThumbnailCacheUpdate(name, image);
+                }
+            }
+            return image;
+        }
+
+        public Image ReadRandomThumbnailFromDatabase(string name)
+        {
+            
+
+            Image image = null;
+            string sqlCommand = "SELECT Thumbnail FROM MediaPersonalRegions WHERE Name = @Name AND Thumbnail IS NOT NULL ORDER BY FileDateModified LIMIT 1";
+
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            {
+                if (!string.IsNullOrWhiteSpace(name)) commandDatabase.Parameters.AddWithValue("@Name", name);
+
+                //commandDatabase.Prepare();
+                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        image = dbTools.ByteArrayToImage(dbTools.ConvertFromDBValByteArray(reader["Thumbnail"]));
+                        RandomThumbnailCacheUpdate(name, image);
+                    }
+                }
+            }
+            return image;
+        }
+        #endregion 
 
         #region Updated - Region - UpdateRegionThumbnail
         /// <summary>
@@ -2404,6 +2483,29 @@ namespace MetadataLibrary
         #region Cache Metadata
         private static Dictionary<FileEntryBroker, Metadata> metadataCache = new Dictionary<FileEntryBroker, Metadata>();
         private static readonly Object metadataCacheLock = new Object();
+
+        #region Cache Metadata - Read Name
+        public Image ReadRegionThumbnailFromCache(string name)
+        {
+            lock (metadataCacheLock)
+            {
+                foreach(Metadata metadataRead in metadataCache.Values)
+                {
+                    if (metadataRead != null)
+                    {
+                        foreach (RegionStructure regionStructure in metadataRead.PersonalRegionList)
+                        {
+                            if (regionStructure.Name == name && regionStructure.Thumbnail != null)
+                            {
+                                return regionStructure.Thumbnail;
+                            }
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+        #endregion
 
         #region Cache Metadata - Read 
         public Metadata ReadMetadataFromCacheOrDatabase(FileEntryBroker fileEntryBroker)

@@ -13,6 +13,7 @@ using System.IO;
 using MetadataLibrary;
 using System.Collections.Generic;
 using System;
+using System.Drawing.Drawing2D;
 
 namespace Thumbnails
 {
@@ -253,7 +254,6 @@ namespace Thumbnails
         #region Thumbnail - Cache
         private static Dictionary<FileEntry, Image> thumbnailCache = new Dictionary<FileEntry, Image>();
 
-
         #region Thumbnail - DoesThumbnailExist
         public bool DoesThumbnailExist(FileEntry fileEntry)
         {
@@ -267,7 +267,7 @@ namespace Thumbnails
         {
             if (fileEntry.GetType() != typeof(FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
             if (thumbnailCache.ContainsKey(fileEntry)) thumbnailCache[fileEntry] = image;
-            else thumbnailCache.Add(fileEntry, image);
+            else thumbnailCache.Add(fileEntry, image);            
         }
         #endregion  
 
@@ -320,6 +320,6 @@ namespace Thumbnails
 
         #endregion
 
-
+        
     }
 }
