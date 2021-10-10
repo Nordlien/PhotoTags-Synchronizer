@@ -361,7 +361,9 @@ namespace PhotoTagsSynchronizer
         private static HashSet<string> regionNamesRenameFromAllAdded = new HashSet<string>();
         private static HashSet<string> regionNamesRenameFromTopCoundAdded = new HashSet<string>();
 
-        #region People name suggestion - PopulatePeopleToolStripMenuItems
+        #region People name suggestion - PopulatePeopleToolStripMenuItems 
+
+        #region FindFirstUnequal
         private int FindFirstUnequal(string text1, string text2)
         {
             int index = 0;
@@ -381,12 +383,16 @@ namespace PhotoTagsSynchronizer
                 index++;
             }
         }
+        #endregion
 
+        #region GetSubStringIndex
         private string GetSubStringIndex(string text, int index)
         {
             return text.Substring(0, Math.Min(index, text.Length));
         }
+        #endregion
 
+        #region PopulatePeopleToolStripMenuItems
         public void PopulatePeopleToolStripMenuItems()
         {
             kryptonContextMenuItemsGenericRegionRenameListAllList.Items.Clear();
@@ -512,8 +518,8 @@ namespace PhotoTagsSynchronizer
                 PeopleAddNewLastUseName(renameNames[i]);
             }
         }
+        #endregion
 
-        
 
         #endregion
 
