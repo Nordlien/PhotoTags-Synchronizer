@@ -3121,6 +3121,7 @@ namespace Krypton.Workspace
                 // The target cell takes up all the space and all others are make zero sized so they are hidden
                 if (cell == MaximizedCell)
                 {
+                    
                     cell.SetBounds(0, 0, client.Size.Width, client.Size.Height);
                 }
                 else

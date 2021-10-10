@@ -10,6 +10,7 @@ using MetadataLibrary;
 using WindowsProperty;
 using static Manina.Windows.Forms.ImageListView;
 using Krypton.Toolkit;
+using Krypton.Navigator;
 
 namespace PhotoTagsSynchronizer
 {
@@ -107,6 +108,7 @@ namespace PhotoTagsSynchronizer
         #region WorkspaceMain - MaximizeRestore - Click
         private void kryptonWorkspaceCellFolderSearchFilter_MaximizeRestoreClicked(object sender, EventArgs e)
         {
+            SetNavigatorModeSearch(NavigatorMode.OutlookFull);
             ActionMaximizeRestoreWorkspaceMain();
         }
 

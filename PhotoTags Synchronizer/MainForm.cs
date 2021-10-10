@@ -853,7 +853,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-
+        #region SetNavigatorModeSearch
         private void SetNavigatorModeSearch(NavigatorMode navigatorMode)
         {
             kryptonWorkspaceMain.SuspendWorkspaceLayout();
@@ -936,8 +936,10 @@ namespace PhotoTagsSynchronizer
             Task.Delay(500).ContinueWith(t => RefreshHackSearchFilter());
             Task.Delay(100).ContinueWith(t => RefreshHackSearchFilter());
         }
+        #endregion
     }
+
 }
 
 
-    
+
