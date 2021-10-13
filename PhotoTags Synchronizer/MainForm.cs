@@ -156,7 +156,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonHomeSortColumn.KryptonContextMenu = kryptonContextMenuFileSystemColumnSort;
             this.imageListView1.KryptonContextMenu = kryptonContextMenuGenericBase;
             this.kryptonRibbonGroupButtonPreviewSlideshowTimeInterval.KryptonContextMenu = kryptonContextMenuPreviewSlideshowInterval;
-            this.folderTreeViewFolder.KryptonContextMenu = kryptonContextMenuGenericBase;
+            this.treeViewFolderBrowser1.KryptonContextMenu = kryptonContextMenuGenericBase;
             this.dataGridViewConvertAndMerge.KryptonContextMenu = kryptonContextMenuGenericBase;
             this.dataGridViewDate.KryptonContextMenu = kryptonContextMenuGenericBase;
             this.dataGridViewExiftool.KryptonContextMenu = kryptonContextMenuGenericBase;
@@ -243,7 +243,7 @@ namespace PhotoTagsSynchronizer
             //this.kryptonContextMenuItemsPreviewSlideshowIntervalList.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
 
             nameImageListView = this.imageListView1.Name;
-            nameFolderTreeViewFolder = this.folderTreeViewFolder.Name;
+            nameFolderTreeViewFolder = this.treeViewFolderBrowser1.Name;
             nameDataGridViewConvertAndMerge = this.dataGridViewConvertAndMerge.Name;
             nameDataGridViewDate = this.dataGridViewDate.Name;
             nameDataGridViewExifTool = this.dataGridViewExiftool.Name;
@@ -814,14 +814,32 @@ namespace PhotoTagsSynchronizer
                 FormSplash.UpdateStatus("Initialize folder tree...");
                 GlobalData.IsPopulatingFolderTree = true;
 
-                this.folderTreeViewFolder.InitFolderTreeView();
-                folderTreeViewFolder.SuspendLayout();
-                string folder = Properties.Settings.Default.LastFolder;
-                if (Directory.Exists(folder))
-                    folderTreeViewFolder.DrillToFolder(folder);
-                else
-                    folderTreeViewFolder.SelectedNode = folderTreeViewFolder.Nodes[0];
-                folderTreeViewFolder.ResumeLayout();
+                //this.treeViewFolderBrowser1.InitFolderTreeView();
+                //treeViewFolderBrowser1.SuspendLayout();
+                //string folder = Properties.Settings.Default.LastFolder;
+                //if (Directory.Exists(folder))
+                //    treeViewFolderBrowser1.DrillToFolder(folder);
+                //else
+                //    treeViewFolderBrowser1.SelectedNode = folderTreeViewFolder.Nodes[0];
+                //treeViewFolderBrowser1.ResumeLayout();
+                try
+                {
+
+                    Raccoom.Windows.Forms.TreeStrategyShell32Provider shell32Provider = new Raccoom.Windows.Forms.TreeStrategyShell32Provider();
+                    shell32Provider.EnableContextMenu = true;
+                    shell32Provider.ShowAllShellObjects = true;
+                    treeViewFolderBrowser1.DataSource = shell32Provider; // new Raccoom.Windows.Forms.TreeStrategyFolderBrowserProvider();
+                    string folder = Properties.Settings.Default.LastFolder;
+                    if (Directory.Exists(folder))
+                        treeViewFolderBrowser1.Populate(folder);
+                    else
+                        treeViewFolderBrowser1.Populate();
+                }
+                catch (Exception ee)
+                {
+                    MessageBox.Show(ee.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
                 GlobalData.IsPopulatingFolderTree = false;
             }
             catch (Exception ex)
@@ -829,6 +847,11 @@ namespace PhotoTagsSynchronizer
                 MessageBox.Show(ex.Message);
             }
             #endregion
+
+            
+
+            
+
 
             #region Populate search filters...
             try
@@ -936,7 +959,27 @@ namespace PhotoTagsSynchronizer
             Task.Delay(500).ContinueWith(t => RefreshHackSearchFilter());
             Task.Delay(100).ContinueWith(t => RefreshHackSearchFilter());
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         #endregion
+
+        
     }
 
 }

@@ -87,7 +87,6 @@
     <Compile Remove="ImageListViewCacheManager.old.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FolderView\FolderView.csproj" />
     <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2019.csproj" />
   </ItemGroup>
 </Project>

@@ -16,6 +16,7 @@ using System.Collections.Specialized;
 using ImageAndMovieFileExtentions;
 using System.Reflection;
 using MetadataPriorityLibrary;
+using Raccoom.Windows.Forms;
 
 namespace PhotoTagsSynchronizer
 {
@@ -39,6 +40,17 @@ namespace PhotoTagsSynchronizer
 
     public partial class MainForm : KryptonForm
     {
+        private string GetNodeFolderPath(TreeNodePath treeNodePath)
+        {
+            //TreeNodePath node = currentNodeWhenStartDragging as TreeNodePath;
+            return treeNodePath.Path; // Furty.Windows.Forms.ShellOperations.GetFileDirectory(currentNodeWhenStartDragging); // folderTreeViewFolder.GetSelectedNodePath();
+        }
+
+        private string GetSelectedNodePath()
+        {
+            return GetNodeFolderPath(treeViewFolderBrowser1.SelectedNode as TreeNodePath);
+        }
+
         #region kryptonContextMenuGenericBase_Opening
         private void kryptonContextMenuGenericBase_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -57,9 +69,9 @@ namespace PhotoTagsSynchronizer
                     if (dataGridView.Name == nameDataGridViewRename) ActiveKryptonPage = KryptonPages.kryptonPageToolboxRename;
                     if (dataGridView.Name == nameDataGridViewTagsAndKeywords) ActiveKryptonPage = KryptonPages.kryptonPageToolboxTags;
                 }
-                else if (((Krypton.Toolkit.KryptonContextMenu)sender).Caller is Furty.Windows.Forms.FolderTreeView)
+                else if (((Krypton.Toolkit.KryptonContextMenu)sender).Caller is TreeViewFolderBrowser)
                 {
-                    Furty.Windows.Forms.FolderTreeView folderTreeView = (Furty.Windows.Forms.FolderTreeView)((Krypton.Toolkit.KryptonContextMenu)sender).Caller;
+                    TreeViewFolderBrowser folderTreeView = (TreeViewFolderBrowser)((Krypton.Toolkit.KryptonContextMenu)sender).Caller;
                     if (folderTreeView.Name == nameFolderTreeViewFolder) ActiveKryptonPage = KryptonPages.kryptonPageFolderSearchFilterFolder;
                 }
                 else if (((Krypton.Toolkit.KryptonContextMenu)sender).Caller is Manina.Windows.Forms.ImageListView)
@@ -970,7 +982,8 @@ namespace PhotoTagsSynchronizer
         #region FolderCut_Click
         private void FolderCut_Click()
         {
-            string folder = Furty.Windows.Forms.ShellOperations.GetFileDirectory(currentNodeWhenStartDragging); // folderTreeViewFolder.GetSelectedNodePath();
+            string folder = GetNodeFolderPath(currentNodeWhenStartDragging as TreeNodePath);
+
             var droplist = new StringCollection();
             using (new WaitCursor())
             {
@@ -983,7 +996,7 @@ namespace PhotoTagsSynchronizer
                 Clipboard.Clear();
                 Clipboard.SetDataObject(data, true);
             }
-            folderTreeViewFolder.Focus();
+            treeViewFolderBrowser1.Focus();
         }
         #endregion
 
@@ -1190,7 +1203,8 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                string folder = Furty.Windows.Forms.ShellOperations.GetFileDirectory(currentNodeWhenStartDragging); // folderTreeViewFolder.GetSelectedNodePath();
+                string folder = GetNodeFolderPath(currentNodeWhenStartDragging as TreeNodePath);
+
                 StringCollection droplist = new StringCollection();
                 using (new WaitCursor())
                 {
@@ -1203,7 +1217,7 @@ namespace PhotoTagsSynchronizer
                     Clipboard.Clear();
                     Clipboard.SetDataObject(data, true);
                 }
-                folderTreeViewFolder.Focus();
+                treeViewFolderBrowser1.Focus();
             }
             catch (Exception ex)
             {
@@ -1403,8 +1417,10 @@ namespace PhotoTagsSynchronizer
                 DragDropEffects dragDropEffects = DetectCopyOrMove();
                 using (new WaitCursor())
                 {
-                    CopyOrMove(dragDropEffects, currentNodeWhenStartDragging, Clipboard.GetFileDropList(), Furty.Windows.Forms.ShellOperations.GetFileDirectory(currentNodeWhenStartDragging));
-                    folderTreeViewFolder.Focus();
+                    string folder = GetNodeFolderPath(currentNodeWhenStartDragging as TreeNodePath);
+
+                    CopyOrMove(dragDropEffects, currentNodeWhenStartDragging, Clipboard.GetFileDropList(), folder);
+                    treeViewFolderBrowser1.Focus();
                 }
             }
             catch (Exception ex)
@@ -1588,7 +1604,7 @@ namespace PhotoTagsSynchronizer
             try
             {
                 if (GlobalData.IsPopulatingAnything()) return;
-                folderTreeViewFolder.Enabled = false;
+                treeViewFolderBrowser1.Enabled = false;
                 imageListView1.Enabled = false;
 
                 try
@@ -1614,7 +1630,7 @@ namespace PhotoTagsSynchronizer
                     MessageBox.Show(ex.Message);
                 }
 
-                folderTreeViewFolder.Enabled = true;
+                treeViewFolderBrowser1.Enabled = true;
                 imageListView1.Enabled = true;
                 imageListView1.Focus();
                 DisplayAllQueueStatus();
@@ -1633,7 +1649,7 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                string folder = folderTreeViewFolder.GetSelectedNodePath();
+                string folder = GetSelectedNodePath();
 
                 if (IsFolderInThreadQueueLock(folder))
                 {
@@ -1651,7 +1667,7 @@ namespace PhotoTagsSynchronizer
                         using (new WaitCursor())
                         {
                             UpdateStatusAction("Delete all record about files in database....");
-                            int recordAffected = filesCutCopyPasteDrag.DeleteFilesInFolder(this, folderTreeViewFolder, folder);
+                            int recordAffected = filesCutCopyPasteDrag.DeleteFilesInFolder(this, treeViewFolderBrowser1, folder);
                             UpdateStatusAction(recordAffected + " records was delete from database....");
                             PopulateImageListView_FromFolderSelected(false, true);
                         }
@@ -1672,7 +1688,7 @@ namespace PhotoTagsSynchronizer
                 {
                     GlobalData.DoNotRefreshImageListView = false;
                 }
-                folderTreeViewFolder.Focus();
+                treeViewFolderBrowser1.Focus();
             }
             catch (Exception ex)
             {
@@ -2169,7 +2185,7 @@ namespace PhotoTagsSynchronizer
         private void FolderSearchFilterFolderFind_Click()
         {
             kryptonWorkspaceCellFolderSearchFilter.SelectedPage = kryptonPageFolderSearchFilterSearch;
-            kryptonTextBoxSearchDirectory.Text = folderTreeViewFolder.GetSelectedNodePath();
+            kryptonTextBoxSearchDirectory.Text = GetSelectedNodePath();
             //if (imageListView1.SelectedItems.Count == 1) kryptonTextBoxSearchFilename.Text = imageListView1.SelectedItems[0].Text;
         }
         #endregion
@@ -2185,7 +2201,7 @@ namespace PhotoTagsSynchronizer
         private void MediaFilesFind_Click()
         {
             kryptonWorkspaceCellFolderSearchFilter.SelectedPage = kryptonPageFolderSearchFilterSearch;
-            kryptonTextBoxSearchDirectory.Text = folderTreeViewFolder.GetSelectedNodePath();
+            kryptonTextBoxSearchDirectory.Text = GetSelectedNodePath();
             if (imageListView1.SelectedItems.Count == 1) kryptonTextBoxSearchFilename.Text = imageListView1.SelectedItems[0].Text;
         }
         #endregion
@@ -3237,7 +3253,7 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                string folder = Furty.Windows.Forms.ShellOperations.GetFileDirectory(currentNodeWhenStartDragging); // folderTreeViewFolder.GetSelectedNodePath();
+                string folder = GetSelectedNodePath();
                 Clipboard.SetText(folder);
             }
             catch (Exception ex)
@@ -4022,7 +4038,7 @@ namespace PhotoTagsSynchronizer
         #region FolderRename
         private void FolderRename()
         {
-            folderTreeViewFolder.SelectedNode.BeginEdit();
+            treeViewFolderBrowser1.SelectedNode.BeginEdit();
         }
         #endregion
 
@@ -4779,11 +4795,11 @@ namespace PhotoTagsSynchronizer
             try
             {
                 GlobalData.DoNotRefreshImageListView = true;
-                TreeNode selectedNode = folderTreeViewFolder.SelectedNode;
-                filesCutCopyPasteDrag.RefeshFolderTree(folderTreeViewFolder, selectedNode);
+                TreeNode selectedNode = treeViewFolderBrowser1.SelectedNode;
+                filesCutCopyPasteDrag.RefeshFolderTree(treeViewFolderBrowser1, selectedNode);
                 GlobalData.DoNotRefreshImageListView = false;
                 PopulateImageListView_FromFolderSelected(false, true);
-                folderTreeViewFolder.Focus();
+                treeViewFolderBrowser1.Focus();
             }
             catch (Exception ex)
             {
@@ -4799,7 +4815,7 @@ namespace PhotoTagsSynchronizer
             try
             {
                 PopulateImageListView_FromFolderSelected(false, true);
-                folderTreeViewFolder.Focus();
+                treeViewFolderBrowser1.Focus();
             }
             catch (Exception ex)
             {
@@ -4866,7 +4882,7 @@ namespace PhotoTagsSynchronizer
             try
             {
                 PopulateImageListView_FromFolderSelected(true, true);
-                folderTreeViewFolder.Focus();
+                treeViewFolderBrowser1.Focus();
             }
             catch (Exception ex)
             {
@@ -4956,7 +4972,7 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                ApplicationActivation.ShowFolderInEplorer(folderTreeViewFolder.GetSelectedNodePath());
+                ApplicationActivation.ShowFolderInEplorer(GetSelectedNodePath());
             }
             catch (Exception ex) { MessageBox.Show(ex.Message, "Failed to start application process...", MessageBoxButtons.OK); }
         }
@@ -5519,7 +5535,7 @@ namespace PhotoTagsSynchronizer
                 float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
                 int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
 
-                string selectedFolder = folderTreeViewFolder.GetSelectedNodePath();
+                string selectedFolder = GetSelectedNodePath();
                 string[] files = Directory.GetFiles(selectedFolder, "*.*");
                 foreach (string file in files)
                 {
@@ -5769,7 +5785,7 @@ namespace PhotoTagsSynchronizer
                     GlobalData.IsPopulatingButtonAction = true;
                     GlobalData.IsPopulatingImageListView = true; //Avoid one and one select item getting refreshed
                     GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
-                    folderTreeViewFolder.Enabled = false;
+                    treeViewFolderBrowser1.Enabled = false;
                     ImageListViewSuspendLayoutInvoke(imageListView);
 
                     //Clean up ImageListView and other queues
@@ -5784,7 +5800,7 @@ namespace PhotoTagsSynchronizer
                     }
                     filesCutCopyPasteDrag.ImageListViewReload(imageListView.Items, updatedOnlySelected);
 
-                    folderTreeViewFolder.Enabled = true;
+                    treeViewFolderBrowser1.Enabled = true;
                     ImageListViewResumeLayoutInvoke(imageListView);
                     GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
                     GlobalData.IsPopulatingButtonAction = false;
@@ -5825,7 +5841,7 @@ namespace PhotoTagsSynchronizer
             try
             {
                 DeleteLastMediadataAndReload(imageListView1, false);
-                folderTreeViewFolder.Focus();
+                treeViewFolderBrowser1.Focus();
             }
             catch (Exception ex)
             {
@@ -5898,7 +5914,7 @@ namespace PhotoTagsSynchronizer
             {
                 using (new WaitCursor())
                 {
-                    filesCutCopyPasteDrag.ReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory(this, folderTreeViewFolder, imageListView1);
+                    filesCutCopyPasteDrag.ReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory(this, treeViewFolderBrowser1, imageListView1);
                     FilesSelected();
                     DisplayAllQueueStatus();
                 }
@@ -5917,7 +5933,7 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                string folder = this.folderTreeViewFolder.GetSelectedNodePath();
+                string folder = GetSelectedNodePath();
                 string[] fileAndFolderEntriesCount = Directory.EnumerateFiles(folder, "*", SearchOption.TopDirectoryOnly).Take(51).ToArray();
                 if (MessageBox.Show("Are you sure you will delete **ALL** metadata history in database store for " +
                     (fileAndFolderEntriesCount.Length == 51 ? " over 50 + " : fileAndFolderEntriesCount.Length.ToString()) +
@@ -5939,13 +5955,13 @@ namespace PhotoTagsSynchronizer
                         GlobalData.ProcessCounterDelete = 0;
                         UpdateStatusAction(recordAffected + " records was delete from database....");
 
-                        string selectedFolder = this.folderTreeViewFolder.GetSelectedNodePath();
+                        string selectedFolder = GetSelectedNodePath();
                         HashSet<FileEntry> fileEntries = ImageAndMovieFileExtentionsUtility.ListAllMediaFileEntries(selectedFolder, false);
                         PopulateImageListView(fileEntries, selectedFolder, false);
                     }
                 }
                 DisplayAllQueueStatus();
-                folderTreeViewFolder.Focus();
+                treeViewFolderBrowser1.Focus();
             }
             catch (Exception ex)
             {
@@ -6085,10 +6101,10 @@ namespace PhotoTagsSynchronizer
                         cacheFolderWebScraperDataSets = Properties.Settings.Default.CacheFolderWebScraperDataSets;
 
                         //
-                        folderTreeViewFolder.Enabled = false;
+                        treeViewFolderBrowser1.Enabled = false;
                         imageListView1.Enabled = false;
                         FilesSelected();
-                        folderTreeViewFolder.Enabled = true;
+                        treeViewFolderBrowser1.Enabled = true;
                         imageListView1.Enabled = true;
                         imageListView1.Focus();
                     }

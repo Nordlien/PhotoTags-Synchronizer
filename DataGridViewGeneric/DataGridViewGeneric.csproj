@@ -49,7 +49,9 @@
     <OutputPath>..\Bin\Release\x64\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FileHandeling\FileHandeling.csproj" />
     <ProjectReference Include="..\ImageListView\ImageListView.csproj" />
+    <ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2019.csproj" />
     <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2019.csproj" />
     <ProjectReference Include="..\LocationNames\LocationNames.csproj" />
     <ProjectReference Include="..\MetadataLibrary\MetadataLibrary.csproj" />

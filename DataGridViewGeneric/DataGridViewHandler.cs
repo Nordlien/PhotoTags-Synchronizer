@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FileHandeling;
 
 namespace DataGridViewGeneric
 {
@@ -25,18 +26,6 @@ namespace DataGridViewGeneric
     public partial class DataGridViewHandler
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
-
-        /*public static Color ColorCellReadOnly = SystemColors.GradientInactiveCaption;
-        public static Color ColorCellError = Color.FromArgb(255, 192, 192);
-        public static Color ColorCellFavourite = SystemColors.ControlLight;
-        public static Color ColorCellReadOnlyFavourite = SystemColors.MenuHighlight;
-        public static Color ColorHeader = SystemColors.Control;
-        public static Color ColorCellEditable = SystemColors.ControlLightLight;
-        public static Color ColorHeaderImage = Color.LightSteelBlue;
-        public static Color ColorHeaderError = Color.Red;
-        public static Color ColorHeaderWarning = Color.Yellow;
-        public static Color ColorCellRegionFace = Color.White;
-        */
 
         #region Palette Colors
 
@@ -1644,7 +1633,7 @@ namespace DataGridViewGeneric
         #region Row handling - Favorite handling - CreateFavoriteFilename
         private static string CreateFavoriteFilename(string dataGridViewName)
         {
-            return FileHandeling.FileHandler.GetLocalApplicationDataPath("Favourite." + dataGridViewName + ".json", false);
+            return FileHandler.GetLocalApplicationDataPath("Favourite." + dataGridViewName + ".json", false);
         }
         #endregion
 

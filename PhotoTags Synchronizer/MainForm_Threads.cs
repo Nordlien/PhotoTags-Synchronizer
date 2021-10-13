@@ -2467,7 +2467,7 @@ namespace PhotoTagsSynchronizer
                                             string newFullFilename = Path.GetFullPath(newRelativeFilename);
                                             #endregion
 
-                                            MoveFile(folderTreeViewFolder, imageListView1, fullFilename, newFullFilename);
+                                            MoveFile(treeViewFolderBrowser1, imageListView1, fullFilename, newFullFilename);
 
                                         }
                                         else

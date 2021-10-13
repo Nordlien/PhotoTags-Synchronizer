@@ -160,6 +160,8 @@
     <ProjectReference Include="..\MicrosoftPhotos\MicrosoftPhotos.csproj" />
     <ProjectReference Include="..\NHttp\NHttp.csproj" />
     <ProjectReference Include="..\PhotoTagsCommonComponets\PhotoTagsCommonComponets.csproj" />
+    <ProjectReference Include="..\Raccoom.TreeViewFolderBrowser.DataProviders\Raccoom.TreeViewFolderBrowser.DataProviders.csproj" />
+    <ProjectReference Include="..\Raccoom.TreeViewFolderBrowser\Raccoom.TreeViewFolderBrowser.csproj" />
     <ProjectReference Include="..\SqliteDatabase\SqliteDatabase.csproj" />
     <ProjectReference Include="..\Thumbnails\Thumbnails.csproj" />
     <ProjectReference Include="..\TimeZone\TimeZone.csproj" />

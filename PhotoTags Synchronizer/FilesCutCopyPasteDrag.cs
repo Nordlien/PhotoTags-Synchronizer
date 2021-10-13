@@ -1,5 +1,4 @@
 ﻿using Exiftool;
-using Furty.Windows.Forms;
 using Manina.Windows.Forms;
 using MetadataLibrary;
 using System;
@@ -8,6 +7,7 @@ using System.IO;
 using System.Windows.Forms;
 using Thumbnails;
 using static Manina.Windows.Forms.ImageListView;
+using Raccoom.Windows.Forms;
 
 namespace PhotoTagsSynchronizer
 {
@@ -163,25 +163,28 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region FilesCutCopyPasteDrag - RefeshFolderTree
-        public void RefeshFolderTree(FolderTreeView folderTreeViewFolder, TreeNode targetNode)
+        public void RefeshFolderTree(TreeViewFolderBrowser folderTreeViewFolder, TreeNode targetNode)
         {
             if (targetNode != null)
             {
-                targetNode.Nodes.Clear();
+                if (folderTreeViewFolder.SelectedNode == null) return;
+                TreeNodePath node = (TreeNodePath)folderTreeViewFolder.SelectedNode;
+                node.Refresh();
 
-                TreeNode ntn = new TreeNode();
-                ntn.Tag = FolderTreeView.DummyNodeTag;
-                targetNode.Nodes.Add(ntn); //Internal use of TreeView as sign that subfolders exists
+                //targetNode.();
+                //TreeNode ntn = new TreeNode();
+                //ntn.Tag = FolderTreeView.DummyNodeTag;
+                //targetNode.Nodes.Add(ntn); //Internal use of TreeView as sign that subfolders exists
 
-                folderTreeViewFolder.SelectedNode = targetNode;
-                targetNode.Collapse();
-                targetNode.Expand();
+                //folderTreeViewFolder.SelectedNode = targetNode;
+                //targetNode.Collapse();
+                //targetNode.Expand();
             }
         }
         #endregion
 
         #region FilesCutCopyPasteDrag - DeleteFilesInFolder
-        public int DeleteFilesInFolder(MainForm mainForm, FolderTreeView folderTreeViewFolder, string folder)
+        public int DeleteFilesInFolder(MainForm mainForm, TreeViewFolderBrowser folderTreeViewFolder, string folder)
         {
             string[] dirs = Directory.GetDirectories(folder + (folder.EndsWith(@"\") ? "" : @"\"), "*", SearchOption.AllDirectories);
 
@@ -241,7 +244,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region FilesCutCopyPasteDrag - ReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory
-        public void ReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory(MainForm mainForm, FolderTreeView folderTreeViewFolder, ImageListView imageListView)
+        public void ReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory(MainForm mainForm, TreeViewFolderBrowser folderTreeViewFolder, ImageListView imageListView)
         {
             if (GlobalData.IsPopulatingAnything()) return;
 

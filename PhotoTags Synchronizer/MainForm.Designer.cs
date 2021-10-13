@@ -36,7 +36,7 @@ namespace PhotoTagsSynchronizer
             this.panelMain = new Krypton.Toolkit.KryptonPanel();
             this.kryptonWorkspaceMain = new Krypton.Workspace.KryptonWorkspace();
             this.kryptonPageFolderSearchFilterFolder = new Krypton.Navigator.KryptonPage();
-            this.folderTreeViewFolder = new Furty.Windows.Forms.FolderTreeView();
+            this.treeViewFolderBrowser1 = new Raccoom.Windows.Forms.TreeViewFolderBrowser();
             this.kryptonWorkspaceCellFolderSearchFilter = new Krypton.Workspace.KryptonWorkspaceCell();
             this.buttonSpecNavigatorExpandCollapse = new Krypton.Navigator.ButtonSpecNavigator();
             this.kryptonPageFolderSearchFilterSearch = new Krypton.Navigator.KryptonPage();
@@ -756,7 +756,7 @@ namespace PhotoTagsSynchronizer
             // kryptonPageFolderSearchFilterFolder
             // 
             this.kryptonPageFolderSearchFilterFolder.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageFolderSearchFilterFolder.Controls.Add(this.folderTreeViewFolder);
+            this.kryptonPageFolderSearchFilterFolder.Controls.Add(this.treeViewFolderBrowser1);
             this.kryptonPageFolderSearchFilterFolder.Flags = 65534;
             this.kryptonPageFolderSearchFilterFolder.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.Search_FolderTree48x48;
             this.kryptonPageFolderSearchFilterFolder.ImageMedium = global::PhotoTagsSynchronizer.Properties.Resources.Search_FolderTree24x24;
@@ -772,25 +772,29 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageFolderSearchFilterFolder.UniqueName = "70c41531c9904af0b0213b722bb7750d";
             this.kryptonPageFolderSearchFilterFolder.Enter += new System.EventHandler(this.kryptonPageFolderSearchFilterFolder_Enter);
             // 
-            // folderTreeViewFolder
+            // treeViewFolderBrowser1
             // 
-            this.folderTreeViewFolder.AllowDrop = true;
-            this.folderTreeViewFolder.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.folderTreeViewFolder.HideSelection = false;
-            this.folderTreeViewFolder.LabelEdit = true;
-            this.folderTreeViewFolder.Location = new System.Drawing.Point(0, 0);
-            this.folderTreeViewFolder.Name = "folderTreeViewFolder";
-            this.folderTreeViewFolder.Size = new System.Drawing.Size(399, 660);
-            this.folderTreeViewFolder.TabIndex = 0;
-            this.folderTreeViewFolder.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.folderTreeViewFolder_AfterLabelEdit);
-            this.folderTreeViewFolder.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.folderTreeViewFolder_AfterSelect);
-            this.folderTreeViewFolder.BeforeLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.folderTreeViewFolder_BeforeLabelEdit);
-            this.folderTreeViewFolder.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.folderTreeViewFolder_ItemDrag);
-            this.folderTreeViewFolder.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.folderTreeViewFolder_NodeMouseClick);
-            this.folderTreeViewFolder.DragDrop += new System.Windows.Forms.DragEventHandler(this.folderTreeViewFolder_DragDrop);
-            this.folderTreeViewFolder.DragEnter += new System.Windows.Forms.DragEventHandler(this.folderTreeViewFolder_DragEnter);
-            this.folderTreeViewFolder.DragOver += new System.Windows.Forms.DragEventHandler(this.folderTreeViewFolder_DragOver);
-            this.folderTreeViewFolder.DragLeave += new System.EventHandler(this.folderTreeViewFolder_DragLeave);
+            this.treeViewFolderBrowser1.AllowDrop = true;
+            this.treeViewFolderBrowser1.CheckBoxBehaviorMode = Raccoom.Windows.Forms.CheckBoxBehaviorMode.None;
+            this.treeViewFolderBrowser1.DataSource = null;
+            this.treeViewFolderBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeViewFolderBrowser1.HideSelection = false;
+            this.treeViewFolderBrowser1.KryptonContextMenu = this.kryptonContextMenuGenericBase;
+            this.treeViewFolderBrowser1.Location = new System.Drawing.Point(0, 0);
+            this.treeViewFolderBrowser1.Name = "treeViewFolderBrowser1";
+            this.treeViewFolderBrowser1.ShowLines = false;
+            this.treeViewFolderBrowser1.ShowRootLines = false;
+            this.treeViewFolderBrowser1.Size = new System.Drawing.Size(399, 660);
+            this.treeViewFolderBrowser1.TabIndex = 1;
+            this.treeViewFolderBrowser1.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.treeViewFolderBrowser1_AfterLabelEdit);
+            this.treeViewFolderBrowser1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewFolderBrowser1_AfterSelect);
+            this.treeViewFolderBrowser1.BeforeLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.treeViewFolderBrowser1_BeforeLabelEdit);
+            this.treeViewFolderBrowser1.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeViewFolderBrowser1_ItemDrag);
+            this.treeViewFolderBrowser1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewFolderBrowser1_NodeMouseClick);
+            this.treeViewFolderBrowser1.DragDrop += new System.Windows.Forms.DragEventHandler(this.treeViewFolderBrowser1_DragDrop);
+            this.treeViewFolderBrowser1.DragEnter += new System.Windows.Forms.DragEventHandler(this.treeViewFolderBrowser1_DragEnter);
+            this.treeViewFolderBrowser1.DragOver += new System.Windows.Forms.DragEventHandler(this.treeViewFolderBrowser1_DragOver);
+            this.treeViewFolderBrowser1.DragLeave += new System.EventHandler(this.treeViewFolderBrowser1_DragLeave);
             // 
             // kryptonWorkspaceCellFolderSearchFilter
             // 
@@ -957,7 +961,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.kryptonTextBoxSearchFilename.Location = new System.Drawing.Point(103, 29);
             this.kryptonTextBoxSearchFilename.Name = "kryptonTextBoxSearchFilename";
-            this.kryptonTextBoxSearchFilename.Size = new System.Drawing.Size(170, 21);
+            this.kryptonTextBoxSearchFilename.Size = new System.Drawing.Size(170, 20);
             this.kryptonTextBoxSearchFilename.TabIndex = 1;
             // 
             // kryptonLabelSearchFilename
@@ -974,7 +978,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.kryptonTextBoxSearchDirectory.Location = new System.Drawing.Point(103, 3);
             this.kryptonTextBoxSearchDirectory.Name = "kryptonTextBoxSearchDirectory";
-            this.kryptonTextBoxSearchDirectory.Size = new System.Drawing.Size(170, 21);
+            this.kryptonTextBoxSearchDirectory.Size = new System.Drawing.Size(170, 20);
             this.kryptonTextBoxSearchDirectory.TabIndex = 0;
             // 
             // groupBoxSearchPeople
@@ -1104,7 +1108,7 @@ namespace PhotoTagsSynchronizer
             // 
             // checkBoxSearchUseAndBetweenTextTagFields
             // 
-            this.checkBoxSearchUseAndBetweenTextTagFields.Location = new System.Drawing.Point(103, 219);
+            this.checkBoxSearchUseAndBetweenTextTagFields.Location = new System.Drawing.Point(103, 195);
             this.checkBoxSearchUseAndBetweenTextTagFields.Name = "checkBoxSearchUseAndBetweenTextTagFields";
             this.checkBoxSearchUseAndBetweenTextTagFields.Size = new System.Drawing.Size(89, 18);
             this.checkBoxSearchUseAndBetweenTextTagFields.TabIndex = 43;
@@ -1130,9 +1134,9 @@ namespace PhotoTagsSynchronizer
             this.comboBoxSearchLocationCountry.IntegralHeight = false;
             this.comboBoxSearchLocationCountry.Items.AddRange(new object[] {
             "List of Contries"});
-            this.comboBoxSearchLocationCountry.Location = new System.Drawing.Point(103, 192);
+            this.comboBoxSearchLocationCountry.Location = new System.Drawing.Point(103, 171);
             this.comboBoxSearchLocationCountry.Name = "comboBoxSearchLocationCountry";
-            this.comboBoxSearchLocationCountry.Size = new System.Drawing.Size(170, 21);
+            this.comboBoxSearchLocationCountry.Size = new System.Drawing.Size(170, 18);
             this.comboBoxSearchLocationCountry.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxSearchLocationCountry.TabIndex = 42;
             this.comboBoxSearchLocationCountry.Tag = "Country";
@@ -1140,7 +1144,7 @@ namespace PhotoTagsSynchronizer
             // 
             // label10
             // 
-            this.label10.Location = new System.Drawing.Point(3, 192);
+            this.label10.Location = new System.Drawing.Point(3, 171);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(53, 18);
             this.label10.TabIndex = 34;
@@ -1157,9 +1161,9 @@ namespace PhotoTagsSynchronizer
             this.comboBoxSearchLocationState.IntegralHeight = false;
             this.comboBoxSearchLocationState.Items.AddRange(new object[] {
             "List of States"});
-            this.comboBoxSearchLocationState.Location = new System.Drawing.Point(103, 165);
+            this.comboBoxSearchLocationState.Location = new System.Drawing.Point(103, 147);
             this.comboBoxSearchLocationState.Name = "comboBoxSearchLocationState";
-            this.comboBoxSearchLocationState.Size = new System.Drawing.Size(170, 21);
+            this.comboBoxSearchLocationState.Size = new System.Drawing.Size(170, 18);
             this.comboBoxSearchLocationState.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxSearchLocationState.TabIndex = 41;
             this.comboBoxSearchLocationState.Tag = "State";
@@ -1167,7 +1171,7 @@ namespace PhotoTagsSynchronizer
             // 
             // label13
             // 
-            this.label13.Location = new System.Drawing.Point(3, 111);
+            this.label13.Location = new System.Drawing.Point(3, 99);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(56, 18);
             this.label13.TabIndex = 31;
@@ -1175,7 +1179,7 @@ namespace PhotoTagsSynchronizer
             // 
             // label11
             // 
-            this.label11.Location = new System.Drawing.Point(3, 165);
+            this.label11.Location = new System.Drawing.Point(3, 147);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(40, 18);
             this.label11.TabIndex = 33;
@@ -1192,9 +1196,9 @@ namespace PhotoTagsSynchronizer
             this.comboBoxSearchLocationCity.IntegralHeight = false;
             this.comboBoxSearchLocationCity.Items.AddRange(new object[] {
             "List of Cities"});
-            this.comboBoxSearchLocationCity.Location = new System.Drawing.Point(103, 138);
+            this.comboBoxSearchLocationCity.Location = new System.Drawing.Point(103, 123);
             this.comboBoxSearchLocationCity.Name = "comboBoxSearchLocationCity";
-            this.comboBoxSearchLocationCity.Size = new System.Drawing.Size(170, 21);
+            this.comboBoxSearchLocationCity.Size = new System.Drawing.Size(170, 18);
             this.comboBoxSearchLocationCity.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxSearchLocationCity.TabIndex = 40;
             this.comboBoxSearchLocationCity.Tag = "City";
@@ -1211,9 +1215,9 @@ namespace PhotoTagsSynchronizer
             this.comboBoxSearchLocationName.IntegralHeight = false;
             this.comboBoxSearchLocationName.Items.AddRange(new object[] {
             "List of Locations"});
-            this.comboBoxSearchLocationName.Location = new System.Drawing.Point(103, 111);
+            this.comboBoxSearchLocationName.Location = new System.Drawing.Point(103, 99);
             this.comboBoxSearchLocationName.Name = "comboBoxSearchLocationName";
-            this.comboBoxSearchLocationName.Size = new System.Drawing.Size(170, 21);
+            this.comboBoxSearchLocationName.Size = new System.Drawing.Size(170, 18);
             this.comboBoxSearchLocationName.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxSearchLocationName.TabIndex = 39;
             this.comboBoxSearchLocationName.Tag = "Location";
@@ -1230,9 +1234,9 @@ namespace PhotoTagsSynchronizer
             this.comboBoxSearchComments.IntegralHeight = false;
             this.comboBoxSearchComments.Items.AddRange(new object[] {
             "List of Comments"});
-            this.comboBoxSearchComments.Location = new System.Drawing.Point(103, 84);
+            this.comboBoxSearchComments.Location = new System.Drawing.Point(103, 75);
             this.comboBoxSearchComments.Name = "comboBoxSearchComments";
-            this.comboBoxSearchComments.Size = new System.Drawing.Size(170, 21);
+            this.comboBoxSearchComments.Size = new System.Drawing.Size(170, 18);
             this.comboBoxSearchComments.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxSearchComments.TabIndex = 38;
             this.comboBoxSearchComments.Tag = "Comments";
@@ -1240,7 +1244,7 @@ namespace PhotoTagsSynchronizer
             // 
             // label6
             // 
-            this.label6.Location = new System.Drawing.Point(3, 30);
+            this.label6.Location = new System.Drawing.Point(3, 27);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(35, 18);
             this.label6.TabIndex = 28;
@@ -1248,7 +1252,7 @@ namespace PhotoTagsSynchronizer
             // 
             // label12
             // 
-            this.label12.Location = new System.Drawing.Point(3, 138);
+            this.label12.Location = new System.Drawing.Point(3, 123);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(33, 18);
             this.label12.TabIndex = 32;
@@ -1265,9 +1269,9 @@ namespace PhotoTagsSynchronizer
             this.comboBoxSearchTitle.IntegralHeight = false;
             this.comboBoxSearchTitle.Items.AddRange(new object[] {
             "List of Titles"});
-            this.comboBoxSearchTitle.Location = new System.Drawing.Point(103, 30);
+            this.comboBoxSearchTitle.Location = new System.Drawing.Point(103, 27);
             this.comboBoxSearchTitle.Name = "comboBoxSearchTitle";
-            this.comboBoxSearchTitle.Size = new System.Drawing.Size(170, 21);
+            this.comboBoxSearchTitle.Size = new System.Drawing.Size(170, 18);
             this.comboBoxSearchTitle.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxSearchTitle.TabIndex = 36;
             this.comboBoxSearchTitle.Tag = "Title";
@@ -1275,7 +1279,7 @@ namespace PhotoTagsSynchronizer
             // 
             // label7
             // 
-            this.label7.Location = new System.Drawing.Point(3, 57);
+            this.label7.Location = new System.Drawing.Point(3, 51);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(70, 18);
             this.label7.TabIndex = 29;
@@ -1292,9 +1296,9 @@ namespace PhotoTagsSynchronizer
             this.comboBoxSearchDescription.IntegralHeight = false;
             this.comboBoxSearchDescription.Items.AddRange(new object[] {
             "List of Desxriptions"});
-            this.comboBoxSearchDescription.Location = new System.Drawing.Point(103, 57);
+            this.comboBoxSearchDescription.Location = new System.Drawing.Point(103, 51);
             this.comboBoxSearchDescription.Name = "comboBoxSearchDescription";
-            this.comboBoxSearchDescription.Size = new System.Drawing.Size(170, 21);
+            this.comboBoxSearchDescription.Size = new System.Drawing.Size(170, 18);
             this.comboBoxSearchDescription.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxSearchDescription.TabIndex = 37;
             this.comboBoxSearchDescription.Tag = "Description";
@@ -1302,7 +1306,7 @@ namespace PhotoTagsSynchronizer
             // 
             // label8
             // 
-            this.label8.Location = new System.Drawing.Point(3, 84);
+            this.label8.Location = new System.Drawing.Point(3, 75);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(68, 18);
             this.label8.TabIndex = 30;
@@ -1321,7 +1325,7 @@ namespace PhotoTagsSynchronizer
             "List of Albums"});
             this.comboBoxSearchAlbum.Location = new System.Drawing.Point(103, 3);
             this.comboBoxSearchAlbum.Name = "comboBoxSearchAlbum";
-            this.comboBoxSearchAlbum.Size = new System.Drawing.Size(170, 21);
+            this.comboBoxSearchAlbum.Size = new System.Drawing.Size(170, 18);
             this.comboBoxSearchAlbum.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxSearchAlbum.TabIndex = 35;
             this.comboBoxSearchAlbum.Tag = "Album";
@@ -1369,7 +1373,7 @@ namespace PhotoTagsSynchronizer
             // 
             // checkBoxSearchWithoutKeyword
             // 
-            this.checkBoxSearchWithoutKeyword.Location = new System.Drawing.Point(103, 78);
+            this.checkBoxSearchWithoutKeyword.Location = new System.Drawing.Point(103, 75);
             this.checkBoxSearchWithoutKeyword.Name = "checkBoxSearchWithoutKeyword";
             this.checkBoxSearchWithoutKeyword.Size = new System.Drawing.Size(147, 18);
             this.checkBoxSearchWithoutKeyword.TabIndex = 47;
@@ -1379,7 +1383,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.checkBoxSearchNeedAllKeywords.Checked = true;
             this.checkBoxSearchNeedAllKeywords.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxSearchNeedAllKeywords.Location = new System.Drawing.Point(103, 54);
+            this.checkBoxSearchNeedAllKeywords.Location = new System.Drawing.Point(103, 51);
             this.checkBoxSearchNeedAllKeywords.Name = "checkBoxSearchNeedAllKeywords";
             this.checkBoxSearchNeedAllKeywords.Size = new System.Drawing.Size(158, 18);
             this.checkBoxSearchNeedAllKeywords.TabIndex = 48;
@@ -1388,7 +1392,7 @@ namespace PhotoTagsSynchronizer
             // label9
             // 
             this.tableLayoutPanelSearchKeywords.SetColumnSpan(this.label9, 2);
-            this.label9.Location = new System.Drawing.Point(3, 30);
+            this.label9.Location = new System.Drawing.Point(3, 27);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(136, 18);
             this.label9.TabIndex = 49;
@@ -1415,7 +1419,7 @@ namespace PhotoTagsSynchronizer
             "Example keywords"});
             this.comboBoxSearchKeyword.Location = new System.Drawing.Point(103, 3);
             this.comboBoxSearchKeyword.Name = "comboBoxSearchKeyword";
-            this.comboBoxSearchKeyword.Size = new System.Drawing.Size(170, 21);
+            this.comboBoxSearchKeyword.Size = new System.Drawing.Size(170, 18);
             this.comboBoxSearchKeyword.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxSearchKeyword.TabIndex = 46;
             this.comboBoxSearchKeyword.Tag = "Keywords";
@@ -2024,7 +2028,7 @@ namespace PhotoTagsSynchronizer
             // 
             // labelAuthor
             // 
-            this.labelAuthor.Location = new System.Drawing.Point(3, 111);
+            this.labelAuthor.Location = new System.Drawing.Point(3, 99);
             this.labelAuthor.Name = "labelAuthor";
             this.labelAuthor.Size = new System.Drawing.Size(44, 18);
             this.labelAuthor.TabIndex = 24;
@@ -2032,7 +2036,7 @@ namespace PhotoTagsSynchronizer
             // 
             // labelDescription
             // 
-            this.labelDescription.Location = new System.Drawing.Point(3, 57);
+            this.labelDescription.Location = new System.Drawing.Point(3, 51);
             this.labelDescription.Name = "labelDescription";
             this.labelDescription.Size = new System.Drawing.Size(67, 18);
             this.labelDescription.TabIndex = 22;
@@ -2040,7 +2044,7 @@ namespace PhotoTagsSynchronizer
             // 
             // labelComments
             // 
-            this.labelComments.Location = new System.Drawing.Point(3, 84);
+            this.labelComments.Location = new System.Drawing.Point(3, 75);
             this.labelComments.Name = "labelComments";
             this.labelComments.Size = new System.Drawing.Size(65, 18);
             this.labelComments.TabIndex = 23;
@@ -2057,9 +2061,9 @@ namespace PhotoTagsSynchronizer
             this.comboBoxAuthor.IntegralHeight = false;
             this.comboBoxAuthor.Items.AddRange(new object[] {
             "a"});
-            this.comboBoxAuthor.Location = new System.Drawing.Point(103, 111);
+            this.comboBoxAuthor.Location = new System.Drawing.Point(103, 99);
             this.comboBoxAuthor.Name = "comboBoxAuthor";
-            this.comboBoxAuthor.Size = new System.Drawing.Size(156, 21);
+            this.comboBoxAuthor.Size = new System.Drawing.Size(156, 18);
             this.comboBoxAuthor.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxAuthor.TabIndex = 29;
             this.comboBoxAuthor.Tag = "Author";
@@ -2068,7 +2072,7 @@ namespace PhotoTagsSynchronizer
             // 
             // labelTitle
             // 
-            this.labelTitle.Location = new System.Drawing.Point(3, 30);
+            this.labelTitle.Location = new System.Drawing.Point(3, 27);
             this.labelTitle.Name = "labelTitle";
             this.labelTitle.Size = new System.Drawing.Size(32, 18);
             this.labelTitle.TabIndex = 21;
@@ -2085,9 +2089,9 @@ namespace PhotoTagsSynchronizer
             this.comboBoxComments.IntegralHeight = false;
             this.comboBoxComments.Items.AddRange(new object[] {
             "a"});
-            this.comboBoxComments.Location = new System.Drawing.Point(103, 84);
+            this.comboBoxComments.Location = new System.Drawing.Point(103, 75);
             this.comboBoxComments.Name = "comboBoxComments";
-            this.comboBoxComments.Size = new System.Drawing.Size(156, 21);
+            this.comboBoxComments.Size = new System.Drawing.Size(156, 18);
             this.comboBoxComments.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxComments.TabIndex = 28;
             this.comboBoxComments.Tag = "Comments";
@@ -2105,9 +2109,9 @@ namespace PhotoTagsSynchronizer
             this.comboBoxDescription.IntegralHeight = false;
             this.comboBoxDescription.Items.AddRange(new object[] {
             "a"});
-            this.comboBoxDescription.Location = new System.Drawing.Point(103, 57);
+            this.comboBoxDescription.Location = new System.Drawing.Point(103, 51);
             this.comboBoxDescription.Name = "comboBoxDescription";
-            this.comboBoxDescription.Size = new System.Drawing.Size(156, 21);
+            this.comboBoxDescription.Size = new System.Drawing.Size(156, 18);
             this.comboBoxDescription.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxDescription.TabIndex = 27;
             this.comboBoxDescription.Tag = "Description";
@@ -2127,7 +2131,7 @@ namespace PhotoTagsSynchronizer
             "sdd"});
             this.comboBoxAlbum.Location = new System.Drawing.Point(103, 3);
             this.comboBoxAlbum.Name = "comboBoxAlbum";
-            this.comboBoxAlbum.Size = new System.Drawing.Size(156, 21);
+            this.comboBoxAlbum.Size = new System.Drawing.Size(156, 18);
             this.comboBoxAlbum.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxAlbum.TabIndex = 25;
             this.comboBoxAlbum.Tag = "Album";
@@ -2145,9 +2149,9 @@ namespace PhotoTagsSynchronizer
             this.comboBoxTitle.IntegralHeight = false;
             this.comboBoxTitle.Items.AddRange(new object[] {
             "a"});
-            this.comboBoxTitle.Location = new System.Drawing.Point(103, 30);
+            this.comboBoxTitle.Location = new System.Drawing.Point(103, 27);
             this.comboBoxTitle.Name = "comboBoxTitle";
-            this.comboBoxTitle.Size = new System.Drawing.Size(156, 21);
+            this.comboBoxTitle.Size = new System.Drawing.Size(156, 18);
             this.comboBoxTitle.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxTitle.TabIndex = 26;
             this.comboBoxTitle.Tag = "Title";
@@ -2221,7 +2225,7 @@ namespace PhotoTagsSynchronizer
             "10% Confidence"});
             this.comboBoxMediaAiConfidence.Location = new System.Drawing.Point(103, 3);
             this.comboBoxMediaAiConfidence.Name = "comboBoxMediaAiConfidence";
-            this.comboBoxMediaAiConfidence.Size = new System.Drawing.Size(147, 21);
+            this.comboBoxMediaAiConfidence.Size = new System.Drawing.Size(147, 18);
             this.comboBoxMediaAiConfidence.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxMediaAiConfidence.TabIndex = 8;
             this.comboBoxMediaAiConfidence.SelectionChangeCommitted += new System.EventHandler(this.comboBoxMediaAiConfidence_SelectionChangeCommitted);
@@ -2901,7 +2905,7 @@ namespace PhotoTagsSynchronizer
             "10 days"});
             this.comboBoxGoogleLocationInterval.Location = new System.Drawing.Point(131, 3);
             this.comboBoxGoogleLocationInterval.Name = "comboBoxGoogleLocationInterval";
-            this.comboBoxGoogleLocationInterval.Size = new System.Drawing.Size(127, 21);
+            this.comboBoxGoogleLocationInterval.Size = new System.Drawing.Size(127, 18);
             this.comboBoxGoogleLocationInterval.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxGoogleLocationInterval.TabIndex = 14;
             this.comboBoxGoogleLocationInterval.SelectedIndexChanged += new System.EventHandler(this.comboBoxGoogleLocationInterval_SelectedIndexChanged);
@@ -2940,7 +2944,7 @@ namespace PhotoTagsSynchronizer
             "Time zone 12"});
             this.comboBoxGoogleTimeZoneShift.Location = new System.Drawing.Point(3, 3);
             this.comboBoxGoogleTimeZoneShift.Name = "comboBoxGoogleTimeZoneShift";
-            this.comboBoxGoogleTimeZoneShift.Size = new System.Drawing.Size(122, 21);
+            this.comboBoxGoogleTimeZoneShift.Size = new System.Drawing.Size(122, 18);
             this.comboBoxGoogleTimeZoneShift.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxGoogleTimeZoneShift.TabIndex = 13;
             this.comboBoxGoogleTimeZoneShift.SelectedIndexChanged += new System.EventHandler(this.comboBoxGoogleTimeZoneShift_SelectedIndexChanged);
@@ -3145,7 +3149,7 @@ namespace PhotoTagsSynchronizer
             "Zoom 18"});
             this.comboBoxMapZoomLevel.Location = new System.Drawing.Point(41, 6);
             this.comboBoxMapZoomLevel.Name = "comboBoxMapZoomLevel";
-            this.comboBoxMapZoomLevel.Size = new System.Drawing.Size(85, 21);
+            this.comboBoxMapZoomLevel.Size = new System.Drawing.Size(85, 18);
             this.comboBoxMapZoomLevel.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxMapZoomLevel.TabIndex = 15;
             this.comboBoxMapZoomLevel.SelectedIndexChanged += new System.EventHandler(this.comboBoxMapZoomLevel_SelectedIndexChanged);
@@ -3368,7 +3372,7 @@ namespace PhotoTagsSynchronizer
             // 
             // buttonRenameSave
             // 
-            this.buttonRenameSave.Location = new System.Drawing.Point(101, 80);
+            this.buttonRenameSave.Location = new System.Drawing.Point(101, 77);
             this.buttonRenameSave.Name = "buttonRenameSave";
             this.buttonRenameSave.Size = new System.Drawing.Size(66, 22);
             this.buttonRenameSave.TabIndex = 3;
@@ -3377,7 +3381,7 @@ namespace PhotoTagsSynchronizer
             // 
             // buttonRenameUpdate
             // 
-            this.buttonRenameUpdate.Location = new System.Drawing.Point(3, 80);
+            this.buttonRenameUpdate.Location = new System.Drawing.Point(3, 77);
             this.buttonRenameUpdate.Name = "buttonRenameUpdate";
             this.buttonRenameUpdate.Size = new System.Drawing.Size(66, 22);
             this.buttonRenameUpdate.TabIndex = 2;
@@ -3394,7 +3398,7 @@ namespace PhotoTagsSynchronizer
             // 
             // checkBoxRenameShowFullPath
             // 
-            this.checkBoxRenameShowFullPath.Location = new System.Drawing.Point(101, 56);
+            this.checkBoxRenameShowFullPath.Location = new System.Drawing.Point(101, 53);
             this.checkBoxRenameShowFullPath.Name = "checkBoxRenameShowFullPath";
             this.checkBoxRenameShowFullPath.Size = new System.Drawing.Size(94, 18);
             this.checkBoxRenameShowFullPath.TabIndex = 5;
@@ -3447,14 +3451,14 @@ namespace PhotoTagsSynchronizer
             "%LocationCity%"});
             this.comboBoxRenameVariableList.Location = new System.Drawing.Point(101, 3);
             this.comboBoxRenameVariableList.Name = "comboBoxRenameVariableList";
-            this.comboBoxRenameVariableList.Size = new System.Drawing.Size(294, 21);
+            this.comboBoxRenameVariableList.Size = new System.Drawing.Size(294, 18);
             this.comboBoxRenameVariableList.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxRenameVariableList.TabIndex = 0;
             this.comboBoxRenameVariableList.SelectionChangeCommitted += new System.EventHandler(this.comboBoxRenameVariableList_SelectionChangeCommitted);
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(3, 30);
+            this.label1.Location = new System.Drawing.Point(3, 27);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(85, 18);
             this.label1.TabIndex = 2;
@@ -3464,7 +3468,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.textBoxRenameNewName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxRenameNewName.Location = new System.Drawing.Point(101, 30);
+            this.textBoxRenameNewName.Location = new System.Drawing.Point(101, 27);
             this.textBoxRenameNewName.Name = "textBoxRenameNewName";
             this.textBoxRenameNewName.Size = new System.Drawing.Size(294, 21);
             this.textBoxRenameNewName.TabIndex = 1;
@@ -6024,7 +6028,6 @@ namespace PhotoTagsSynchronizer
         #endregion
         private System.Windows.Forms.Timer timerShowErrorMessage;
         private Manina.Windows.Forms.ImageListView imageListView1;
-        private Furty.Windows.Forms.FolderTreeView folderTreeViewFolder;
         private Krypton.Toolkit.KryptonDataGridView dataGridViewExiftool;
         private Krypton.Toolkit.KryptonDataGridView dataGridViewTagsAndKeywords;
         private Krypton.Toolkit.KryptonLabel label5;
@@ -6527,6 +6530,7 @@ namespace PhotoTagsSynchronizer
         private Krypton.Toolkit.KryptonContextMenuColorColumns kryptonContextMenuColorColumns2;
         private Krypton.Toolkit.KryptonContextMenuImageSelect kryptonContextMenuImageSelect3;
         private Krypton.Toolkit.KryptonLabel kryptonLabelEndOfPage;
+        private Raccoom.Windows.Forms.TreeViewFolderBrowser treeViewFolderBrowser1;
     }
 }
 

@@ -4,7 +4,7 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Windows.Forms;
 using Exiftool;
-using Furty.Windows.Forms;
+using Raccoom.Windows.Forms;
 using Manina.Windows.Forms;
 using static Manina.Windows.Forms.ImageListView;
 using FileHandeling;
@@ -16,7 +16,7 @@ namespace PhotoTagsSynchronizer
     public partial class MainForm : KryptonForm
     {
         #region Copy files
-        private void CopyFiles(FolderTreeView folderTreeView, StringCollection files, string targetNodeDirectory)
+        private void CopyFiles(TreeViewFolderBrowser folderTreeView, StringCollection files, string targetNodeDirectory)
         {
             using (new WaitCursor())
             {
@@ -63,11 +63,11 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region MoveFile
-        private void MoveFile(FolderTreeView folderTreeView, ImageListView imageListView, string sourceFullFilename, string targetFullFilename)
+        private void MoveFile(TreeViewFolderBrowser folderTreeView, ImageListView imageListView, string sourceFullFilename, string targetFullFilename)
         {
             if (InvokeRequired)
             {
-                this.BeginInvoke(new Action<FolderTreeView, ImageListView, string, string>(MoveFile), folderTreeView, imageListView, sourceFullFilename, targetFullFilename);
+                this.BeginInvoke(new Action<TreeViewFolderBrowser, ImageListView, string, string>(MoveFile), folderTreeView, imageListView, sourceFullFilename, targetFullFilename);
                 return;
             }
 
@@ -87,7 +87,7 @@ namespace PhotoTagsSynchronizer
                     string newDirectory = Path.GetDirectoryName(targetFullFilename);
                     TreeNode selectedNode = folderTreeView.SelectedNode;
 
-                    if (newDirectory.StartsWith(folderTreeView.GetSelectedNodePath())) filesCutCopyPasteDrag.RefeshFolderTree(folderTreeView, selectedNode);
+                    if (newDirectory.StartsWith(GetSelectedNodePath())) filesCutCopyPasteDrag.RefeshFolderTree(folderTreeView, selectedNode);
                     
                     GlobalData.DoNotRefreshImageListView = false;
                     
@@ -130,11 +130,11 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region Move Files to target folder
-        private void MoveFiles(FolderTreeView folderTreeView, ImageListView imageListView, StringCollection files, string targetNodeDirectory)
+        private void MoveFiles(TreeViewFolderBrowser folderTreeView, ImageListView imageListView, StringCollection files, string targetNodeDirectory)
         {
             if (InvokeRequired)
             {
-                this.BeginInvoke(new Action<FolderTreeView, ImageListView, StringCollection, string>(MoveFiles), folderTreeView, imageListView, files, targetNodeDirectory);
+                this.BeginInvoke(new Action<TreeViewFolderBrowser, ImageListView, StringCollection, string>(MoveFiles), folderTreeView, imageListView, files, targetNodeDirectory);
                 return;
             }
 
@@ -159,7 +159,7 @@ namespace PhotoTagsSynchronizer
                             string newDirectory = Path.GetDirectoryName(targetFullFilename);
                             TreeNode selectedNode = folderTreeView.SelectedNode;
 
-                            if (newDirectory.StartsWith(folderTreeView.GetSelectedNodePath())) filesCutCopyPasteDrag.RefeshFolderTree(folderTreeView, selectedNode);
+                            if (newDirectory.StartsWith(GetSelectedNodePath())) filesCutCopyPasteDrag.RefeshFolderTree(folderTreeView, selectedNode);
 
                             GlobalData.DoNotRefreshImageListView = false;
 
@@ -203,7 +203,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Move Folder
-        private void MoveFolder(FolderTreeView folderTreeView, TreeNode sourceNode, TreeNode targetNode, string sourceDirectory, string targetDirectory)
+        private void MoveFolder(TreeViewFolderBrowser folderTreeView, TreeNode sourceNode, TreeNode targetNode, string sourceDirectory, string targetDirectory)
         {
             if (sourceDirectory == targetDirectory) return; //Can't move into itself. No need for error message
 
@@ -255,7 +255,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Copy Folder
-        private void CopyFolder(FolderTreeView folderTreeView, TreeNode targetNode, string sourceDirectory, string tagretDirectory)
+        private void CopyFolder(TreeViewFolderBrowser folderTreeView, TreeNode targetNode, string sourceDirectory, string tagretDirectory)
         {
 
             string[] allSourceFullFilenames = Directory.GetFiles(sourceDirectory, "*.*", SearchOption.AllDirectories);

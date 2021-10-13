@@ -26,7 +26,7 @@ namespace PhotoTagsSynchronizer
 
                 GlobalData.IsPopulatingFolderSelected = true; //Don't start twice
                 GlobalData.SearchFolder = true;
-                folderTreeViewFolder.Enabled = false;
+                treeViewFolderBrowser1.Enabled = false;
 
                 UpdateStatusAction("Clear all old queues");
                 ClearAllQueues();
@@ -46,8 +46,8 @@ namespace PhotoTagsSynchronizer
 
                 UpdateStatusAction("Adding files to image list: " + fileEntries.Count);
                 ImageListViewAggregateWithMediaFiles(fileEntries);
-                
-                folderTreeViewFolder.Enabled = true;
+
+                treeViewFolderBrowser1.Enabled = true;
 
                 if (runPopulateFilter)
                 {
@@ -60,7 +60,7 @@ namespace PhotoTagsSynchronizer
             UpdateStatusAction("Populate DataGridView: " + fileEntries.Count);
             FilesSelected(); //Even when 0 selected files, allocate data and flags, etc...
             UpdateStatusAction("Done added files to imagelistview: " + fileEntries.Count);
-            folderTreeViewFolder.Focus();
+            treeViewFolderBrowser1.Focus();
         }
         #endregion 
 
@@ -78,7 +78,7 @@ namespace PhotoTagsSynchronizer
 
             if (GlobalData.IsPopulatingAnything()) return;
 
-            string selectedFolder = this.folderTreeViewFolder.GetSelectedNodePath();
+            string selectedFolder = GetSelectedNodePath();
             Properties.Settings.Default.LastFolder = selectedFolder;
             
             UpdateStatusAction("Read files in folder: " + selectedFolder);

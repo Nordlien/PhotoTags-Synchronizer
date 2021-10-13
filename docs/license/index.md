@@ -35,10 +35,10 @@
 - Github: n/a
 - License: he Code Project Open License (CPOL) 1.02, https://www.codeproject.com/info/cpol10.aspx/ [license-deep-copy-of-objects.txt](license-deep-copy-of-objects.txt)
 
-## FolderTreeView
-- Homepage: [https://www.codeproject.com/Articles/2986/FolderTreeView-Control](https://www.codeproject.com/Articles/2986/FolderTreeView-Control)
-- Github: n/a
-- License:  no explicit license, but thanks @Furty
+## Enhanced BrowseForFolder Styled TreeView
+- Homepage: [https://www.codeproject.com/Articles/4472/Enhanced-BrowseForFolder-styled-TreeView](https://www.codeproject.com/Articles/4472/Enhanced-BrowseForFolder-styled-TreeView)
+- Github: [https://github.com/ChrisRichner/TreeViewFolderBrowser](https://github.com/ChrisRichner/TreeViewFolderBrowser)
+- License: [https://github.com/ChrisRichner/TreeViewFolderBrowser/blob/master/LICENSE](https://github.com/ChrisRichner/TreeViewFolderBrowser/blob/master/LICENSE) / [license-enhanced-browseforfolder-styled-treeview.txt](license-enhanced-browseforfolder-styled-treeview.txt)
 
 ## Fast Colored TextBox for Syntax Highlighting
 - Homepage: [https://www.codeproject.com/Articles/161871/Fast-Colored-TextBox-for-syntax-highlighting-2](https://www.codeproject.com/Articles/161871/Fast-Colored-TextBox-for-syntax-highlighting-2)

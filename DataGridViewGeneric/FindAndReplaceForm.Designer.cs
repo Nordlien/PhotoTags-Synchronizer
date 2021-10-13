@@ -1,3 +1,5 @@
+using Krypton.Navigator;
+
 namespace DataGridViewGeneric
 {
     partial class FindAndReplaceForm

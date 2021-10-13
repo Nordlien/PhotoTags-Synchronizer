@@ -54,7 +54,7 @@ namespace PhotoTagsSynchronizer
                 GlobalData.IsPopulatingButtonAction = true;
                 GlobalData.IsPopulatingImageListView = true; //Avoid one and one select item getting refreshed
                 GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
-                folderTreeViewFolder.Enabled = false;
+                treeViewFolderBrowser1.Enabled = false;
                 imageListView.Enabled = false;
 
                 ImageListViewSuspendLayoutInvoke(imageListView);
@@ -90,7 +90,7 @@ namespace PhotoTagsSynchronizer
             }
 
             imageListView.Enabled = true;
-            folderTreeViewFolder.Enabled = true;
+            treeViewFolderBrowser1.Enabled = true;
 
             GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
             GlobalData.IsPopulatingButtonAction = false;
@@ -135,7 +135,7 @@ namespace PhotoTagsSynchronizer
                     GlobalData.IsPopulatingButtonAction = true;
                     GlobalData.IsPopulatingImageListView = true; //Avoid one and one select item getting refreshed
                     GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
-                    folderTreeViewFolder.Enabled = false;
+                    treeViewFolderBrowser1.Enabled = false;
                     imageListView.Enabled = false;
 
                     ImageListViewSuspendLayoutInvoke(imageListView);
@@ -183,7 +183,7 @@ namespace PhotoTagsSynchronizer
                 }
 
                 imageListView.Enabled = true;
-                folderTreeViewFolder.Enabled = true;
+                treeViewFolderBrowser1.Enabled = true;
 
                 GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
                 GlobalData.IsPopulatingButtonAction = false;
