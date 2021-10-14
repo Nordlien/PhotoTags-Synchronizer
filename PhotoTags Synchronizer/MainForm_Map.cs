@@ -304,7 +304,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Can't save settings");
+                KryptonMessageBox.Show(ex.Message, "Can't save settings");
             }
             UpdateGoodleHistoryCoordinate();
 
@@ -327,7 +327,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Can't save settings");
+                KryptonMessageBox.Show(ex.Message, "Can't save settings");
             }
             UpdateGoodleHistoryCoordinate();
 
@@ -349,7 +349,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Can't save settings");
+                KryptonMessageBox.Show(ex.Message, "Can't save settings");
             }
 
             if (locationCoordinateRememberForZooming != null) ShowMediaOnMap.UpdateBrowserMap(browser, locationCoordinateRememberForZooming, GetZoomLevel(), GetMapProvider()); //Use last valid coordinates clicked

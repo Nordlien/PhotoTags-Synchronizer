@@ -286,7 +286,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -331,7 +331,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -372,7 +372,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion 
@@ -466,7 +466,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion 

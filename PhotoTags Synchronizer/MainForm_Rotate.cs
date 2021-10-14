@@ -148,7 +148,7 @@ namespace PhotoTagsSynchronizer
 
             if (!string.IsNullOrWhiteSpace(filesMissingMetadata))
             {
-                MessageBox.Show("Need wait until metadata is read from media files befor rotating. Otherwise metadata from original media file will be lost.",
+                KryptonMessageBox.Show("Need wait until metadata is read from media files befor rotating. Otherwise metadata from original media file will be lost.",
                     "Can't start rotate of media files yet.", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
 
             }
@@ -210,7 +210,7 @@ namespace PhotoTagsSynchronizer
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message);
+                        KryptonMessageBox.Show(ex.Message);
                     }
                 }
             }

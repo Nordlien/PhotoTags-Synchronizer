@@ -1,4 +1,5 @@
-﻿using MetadataLibrary;
+﻿using Krypton.Toolkit;
+using MetadataLibrary;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -543,7 +544,7 @@ namespace FileHandeling
                                     catch (Exception ex)
                                     {
                                         Logger.Error(ex);
-                                        MessageBox.Show(ex.Message + "\r\nWas trying to replace\r\n" + fileEntryWithoutMachineName.FileFullPath + "\r\n with\r\n" + fileEntryMaybeHasMachineName.FileFullPath, "Was not able to remove dubpliacted file.");
+                                        KryptonMessageBox.Show(ex.Message + "\r\nWas trying to replace\r\n" + fileEntryWithoutMachineName.FileFullPath + "\r\n with\r\n" + fileEntryMaybeHasMachineName.FileFullPath, "Was not able to remove dubpliacted file.");
                                     }
                                 }
                                 else
@@ -555,14 +556,14 @@ namespace FileHandeling
                                     catch (Exception ex)
                                     {
                                         Logger.Error(ex);
-                                        MessageBox.Show(ex.Message + "\r\n" + fileEntryMaybeHasMachineName.FileFullPath, "Was not able to remove dubpliacted file.");
+                                        KryptonMessageBox.Show(ex.Message + "\r\n" + fileEntryMaybeHasMachineName.FileFullPath, "Was not able to remove dubpliacted file.");
                                     }
                                 }
                             }
                             catch (Exception ex)
                             {
                                 Logger.Error(ex);
-                                MessageBox.Show(ex.Message + "\r\n" + fileEntryWithoutMachineName.FileFullPath + "\r\n" + fileEntryMaybeHasMachineName.FileFullPath, "Was not able to remove the oldest of dubpliacted file.");
+                                KryptonMessageBox.Show(ex.Message + "\r\n" + fileEntryWithoutMachineName.FileFullPath + "\r\n" + fileEntryMaybeHasMachineName.FileFullPath, "Was not able to remove the oldest of dubpliacted file.");
                             }
                         }
                         else
@@ -575,7 +576,7 @@ namespace FileHandeling
                             catch (Exception ex)
                             {
                                 Logger.Error(ex);
-                                MessageBox.Show(ex.Message + "\r\n" + fileEntryMaybeHasMachineName.FileFullPath, "Was not able to remove dubpliacted file.");
+                                KryptonMessageBox.Show(ex.Message + "\r\n" + fileEntryMaybeHasMachineName.FileFullPath, "Was not able to remove dubpliacted file.");
                             }
                         }
                     }

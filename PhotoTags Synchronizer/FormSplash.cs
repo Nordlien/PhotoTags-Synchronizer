@@ -232,7 +232,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Can't save settings");
+                KryptonMessageBox.Show(ex.Message, "Can't save settings");
             }
         }
 

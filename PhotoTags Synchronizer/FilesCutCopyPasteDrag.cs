@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using Thumbnails;
 using static Manina.Windows.Forms.ImageListView;
 using Raccoom.Windows.Forms;
+using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
@@ -150,7 +151,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch
                 {
-                    MessageBox.Show("Was not able to delete the file: " + imageListViewItem.FileFullPath, "Deleting file failed", MessageBoxButtons.OK);
+                    KryptonMessageBox.Show("Was not able to delete the file: " + imageListViewItem.FileFullPath, "Deleting file failed", MessageBoxButtons.OK);
                 }
             }
 
@@ -303,7 +304,7 @@ namespace PhotoTagsSynchronizer
                 File.Move(sourceFullFilename, targetFullFilename);
                 if (!databaseAndCacheMetadataExiftool.Move(oldDirectory, oldFilename, newDirectory, newFilename))
                 {
-                    if (MessageBox.Show(
+                    if (KryptonMessageBox.Show(
                         "Already exist a file with same name: " + Path.Combine(newDirectory, newFilename) + "\r\n" +
                         "Do you want do delete the old histoty and replace with new file?", 
                         "Can move content in database!", 

@@ -450,7 +450,7 @@ namespace Krypton.Navigator
 
         private void OnClearPages(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure that all pages should be removed?",
+            if (KryptonMessageBox.Show("Are you sure that all pages should be removed?",
                                 "Clear Pages",
                                 MessageBoxButtons.YesNo,
                                 MessageBoxIcon.Warning) == DialogResult.Yes)

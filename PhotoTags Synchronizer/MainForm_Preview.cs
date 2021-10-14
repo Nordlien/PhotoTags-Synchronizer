@@ -119,7 +119,7 @@ namespace PhotoTagsSynchronizer
         {
             if (!vlcRendererItems.Any())
             {
-                MessageBox.Show("No chromecast items found. Abort casting...");
+                KryptonMessageBox.Show("No chromecast items found. Abort casting...");
                 return;
             }
 
@@ -137,7 +137,7 @@ namespace PhotoTagsSynchronizer
                     }
                 }
             }
-            if (!renderFound) MessageBox.Show("Can connect LibVlc Chromecast render, render not found");
+            if (!renderFound) KryptonMessageBox.Show("Can connect LibVlc Chromecast render, render not found");
         }
         #endregion 
 
@@ -262,7 +262,7 @@ namespace PhotoTagsSynchronizer
                 googleCast_receivers = await googleCast_DeviceLocator.FindReceiversAsync();
             } catch (Exception ex)
             {
-                MessageBox.Show("Was not able to start serivce FindReceiversAsync\r\n" + ex.Message);
+                KryptonMessageBox.Show("Was not able to start serivce FindReceiversAsync\r\n" + ex.Message);
             }
 
             kryptonRibbonGroupButtonPreviewChromecast.Enabled = false;
@@ -481,7 +481,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Communication with Google Cast failed to play... \r\n" + ex.Message);
+                KryptonMessageBox.Show("Communication with Google Cast failed to play... \r\n" + ex.Message);
             }
         }
         #endregion 
@@ -498,7 +498,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Communication with Google Cast failed to pause... \r\n" + ex.Message);
+                KryptonMessageBox.Show("Communication with Google Cast failed to pause... \r\n" + ex.Message);
             }
         }
         #endregion
@@ -669,7 +669,7 @@ namespace PhotoTagsSynchronizer
                             default:
                                 if (status.ExtendedStatus == null)
                                 {
-                                    MessageBox.Show("GoogleCast Status Player reason: " + MediaStatusToText(status));
+                                    KryptonMessageBox.Show("GoogleCast Status Player reason: " + MediaStatusToText(status));
                                     Logger.Trace("GoogleCast_mediaChannel_StatusChanged: " + MediaStatusToText(status, ext));
                                 }
                                 break;
@@ -688,7 +688,7 @@ namespace PhotoTagsSynchronizer
                         MediaPlayerEventsHandler(ButtonStateVlcChromcastState.Paused, MediaPlaybackEventsSource.Googlecast);
                         break;
                     default:
-                        MessageBox.Show("GoogleCast Status Player: " + MediaStatusToText(status));
+                        KryptonMessageBox.Show("GoogleCast Status Player: " + MediaStatusToText(status));
                         Logger.Trace("GoogleCast_mediaChannel_StatusChanged: " + MediaStatusToText(status, ext));
                         break;
                 }
@@ -895,7 +895,7 @@ namespace PhotoTagsSynchronizer
 
                 e.Response.ContentType = "image/png";
 
-                if (mediaByteArray == null || mediaByteArray.Length == 0) MessageBox.Show("Was not able to load the meida file: " + mediaFullFilename);
+                if (mediaByteArray == null || mediaByteArray.Length == 0) KryptonMessageBox.Show("Was not able to load the meida file: " + mediaFullFilename);
             }
         }
         #endregion
@@ -1482,7 +1482,7 @@ namespace PhotoTagsSynchronizer
             SlideShowInit(0); //Slideshow stop
 
             ChromecastingSwitchOff(); //No chromecast selected
-            if (!await GoogleCast_Disconnect(googleCast_ConnectedReceiver, true)) MessageBox.Show(googleCast_LastKnownErrorMessage);
+            if (!await GoogleCast_Disconnect(googleCast_ConnectedReceiver, true)) KryptonMessageBox.Show(googleCast_LastKnownErrorMessage);
             if (videoView1.MediaPlayer.IsPlaying) videoView1.MediaPlayer.Stop(); //Stop Vlc mediaplayer
         }
         
@@ -1832,7 +1832,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Playing Video file failed: " + ex.Message);
+                    KryptonMessageBox.Show("Playing Video file failed: " + ex.Message);
                 }
                 videoView1.Visible = true;
                 imageBoxPreview.Visible = false;
@@ -1853,7 +1853,7 @@ namespace PhotoTagsSynchronizer
                 catch (Exception ex)
                 {
                     MediaPlayerEventsHandler(ButtonStateVlcChromcastState.Error, MediaPlaybackEventsSource.ScreenImageViewer);
-                    MessageBox.Show("Playing Image file failed: " + ex.Message);
+                    KryptonMessageBox.Show("Playing Image file failed: " + ex.Message);
                 }
                 imageBoxPreview.Visible = true;
                 imageBoxPreview.ZoomToFit();

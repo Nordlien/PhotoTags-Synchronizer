@@ -42,8 +42,7 @@ namespace PhotoTagsSynchronizer
     {
         private string GetNodeFolderPath(TreeNodePath treeNodePath)
         {
-            //TreeNodePath node = currentNodeWhenStartDragging as TreeNodePath;
-            return treeNodePath.Path; // Furty.Windows.Forms.ShellOperations.GetFileDirectory(currentNodeWhenStartDragging); // folderTreeViewFolder.GetSelectedNodePath();
+            return treeNodePath?.Path; 
         }
 
         private string GetSelectedNodePath()
@@ -974,7 +973,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -1193,7 +1192,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -1222,7 +1221,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
@@ -1404,7 +1403,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -1426,7 +1425,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -1611,7 +1610,7 @@ namespace PhotoTagsSynchronizer
                 {
                     if (IsFileInThreadQueueLock(imageListView1))
                     {
-                        MessageBox.Show("Can't delete files. Files are being used, you need wait until process is finished.");
+                        KryptonMessageBox.Show("Can't delete files. Files are being used, you need wait until process is finished.");
                         return;
                     }
 
@@ -1627,7 +1626,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    KryptonMessageBox.Show(ex.Message);
                 }
 
                 treeViewFolderBrowser1.Enabled = true;
@@ -1638,7 +1637,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
@@ -1650,10 +1649,15 @@ namespace PhotoTagsSynchronizer
             try
             {
                 string folder = GetSelectedNodePath();
+                if (folder == null || !Directory.Exists(folder))
+                {
+                    KryptonMessageBox.Show("Can't delete folder. No valid folder selected.");
+                    return;
+                }
 
                 if (IsFolderInThreadQueueLock(folder))
                 {
-                    MessageBox.Show("Can't delete folder. Files in folder is been used, you need wait until process is finished.");
+                    KryptonMessageBox.Show("Can't delete folder. Files in folder is been used, you need wait until process is finished.");
                     return;
                 }
                 try
@@ -1693,7 +1697,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -2185,8 +2189,7 @@ namespace PhotoTagsSynchronizer
         private void FolderSearchFilterFolderFind_Click()
         {
             kryptonWorkspaceCellFolderSearchFilter.SelectedPage = kryptonPageFolderSearchFilterSearch;
-            kryptonTextBoxSearchDirectory.Text = GetSelectedNodePath();
-            //if (imageListView1.SelectedItems.Count == 1) kryptonTextBoxSearchFilename.Text = imageListView1.SelectedItems[0].Text;
+            kryptonTextBoxSearchDirectory.Text = GetSelectedNodePath() == null ? "" : GetSelectedNodePath();
         }
         #endregion
 
@@ -2201,7 +2204,7 @@ namespace PhotoTagsSynchronizer
         private void MediaFilesFind_Click()
         {
             kryptonWorkspaceCellFolderSearchFilter.SelectedPage = kryptonPageFolderSearchFilterSearch;
-            kryptonTextBoxSearchDirectory.Text = GetSelectedNodePath();
+            kryptonTextBoxSearchDirectory.Text = GetSelectedNodePath() == null ? "" : GetSelectedNodePath();
             if (imageListView1.SelectedItems.Count == 1) kryptonTextBoxSearchFilename.Text = imageListView1.SelectedItems[0].Text;
         }
         #endregion
@@ -3254,12 +3257,17 @@ namespace PhotoTagsSynchronizer
             try
             {
                 string folder = GetSelectedNodePath();
+                if (folder == null || !Directory.Exists(folder))
+                {
+                    KryptonMessageBox.Show("Can't copy folder name. No valid folder selected.");
+                    return;
+                }
                 Clipboard.SetText(folder);
             }
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion 
@@ -3279,7 +3287,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion 
@@ -3597,7 +3605,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -3667,12 +3675,12 @@ namespace PhotoTagsSynchronizer
         {
             if (GlobalData.IsPopulatingAnything())
             {
-                MessageBox.Show("Data is populating, please try a bit later.");
+                KryptonMessageBox.Show("Data is populating, please try a bit later.");
                 return;
             }
             if (!GlobalData.IsAgredagedGridViewAny())
             {
-                MessageBox.Show("No metadata are updated.");
+                KryptonMessageBox.Show("No metadata are updated.");
                 return;
             }
 
@@ -3682,7 +3690,7 @@ namespace PhotoTagsSynchronizer
             List<int> listOfUpdates = ExiftoolWriter.GetListOfMetadataChangedByUser(metadataListOriginalExiftool, metadataListFromDataGridView);
             if (listOfUpdates.Count == 0)
             {
-                MessageBox.Show("Can't find any value that was changed. Nothing is saved...");
+                KryptonMessageBox.Show("Can't find any value that was changed. Nothing is saved...");
                 return;
             }
 
@@ -4109,7 +4117,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -4182,7 +4190,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -4252,7 +4260,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -4333,7 +4341,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                KryptonMessageBox.Show(ex.Message);
             }
         }
         #endregion
@@ -4421,7 +4429,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                KryptonMessageBox.Show(ex.Message);
             }
         }
         #endregion
@@ -4437,7 +4445,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                KryptonMessageBox.Show(ex.Message);
             }
         }
         #endregion
@@ -4519,7 +4527,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -4556,7 +4564,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -4612,7 +4620,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -4654,7 +4662,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -4804,7 +4812,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -4820,7 +4828,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -4887,7 +4895,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -4963,7 +4971,7 @@ namespace PhotoTagsSynchronizer
                 catch (Exception ex) { errorMessage += (errorMessage == "" ? "" : "\r\n") + ex.Message; }
             }
 
-            if (errorMessage != "") MessageBox.Show(errorMessage, "Failed to start application process...", MessageBoxButtons.OK);
+            if (errorMessage != "") KryptonMessageBox.Show(errorMessage, "Failed to start application process...", MessageBoxButtons.OK);
         }
         #endregion
 
@@ -4972,9 +4980,15 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                ApplicationActivation.ShowFolderInEplorer(GetSelectedNodePath());
+                string folder = GetSelectedNodePath();
+                if (folder == null || !Directory.Exists(folder))
+                {
+                    KryptonMessageBox.Show("Can't copy folder name. No valid folder selected.");
+                    return;
+                }
+                ApplicationActivation.ShowFolderInEplorer(folder);
             }
-            catch (Exception ex) { MessageBox.Show(ex.Message, "Failed to start application process...", MessageBoxButtons.OK); }
+            catch (Exception ex) { KryptonMessageBox.Show(ex.Message, "Failed to start application process...", MessageBoxButtons.OK); }
         }
         #endregion
 
@@ -5053,7 +5067,7 @@ namespace PhotoTagsSynchronizer
                 catch (Exception ex) { errorMessage += (errorMessage == "" ? "" : "\r\n") + ex.Message; }
             }
 
-            if (errorMessage != "") MessageBox.Show(errorMessage, "Failed to start application process...", MessageBoxButtons.OK);
+            if (errorMessage != "") KryptonMessageBox.Show(errorMessage, "Failed to start application process...", MessageBoxButtons.OK);
         }
         #endregion
 
@@ -5123,7 +5137,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Can execute file. Error: " + ex.Message, "Can execute file", MessageBoxButtons.OK);
+                    KryptonMessageBox.Show("Can execute file. Error: " + ex.Message, "Can execute file", MessageBoxButtons.OK);
                 }
             }   
         }
@@ -5140,7 +5154,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -5214,7 +5228,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
@@ -5289,7 +5303,7 @@ namespace PhotoTagsSynchronizer
                 catch (Exception ex) { errorMessage += (errorMessage == "" ? "" : "\r\n") + ex.Message; }
             }
 
-            if (errorMessage != "") MessageBox.Show(errorMessage, "Failed to start application process...", MessageBoxButtons.OK);
+            if (errorMessage != "") KryptonMessageBox.Show(errorMessage, "Failed to start application process...", MessageBoxButtons.OK);
         }
         #endregion
 
@@ -5371,7 +5385,7 @@ namespace PhotoTagsSynchronizer
 
                     #region AutoCorrect
                     AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
-                    if (autoCorrect == null) MessageBox.Show("AutoCorrect: " + Properties.Settings.Default.AutoCorrect);
+                    if (autoCorrect == null) KryptonMessageBox.Show("AutoCorrect: " + Properties.Settings.Default.AutoCorrect);
                     float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
                     float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
                     int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
@@ -5426,7 +5440,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -5520,7 +5534,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -5536,6 +5550,11 @@ namespace PhotoTagsSynchronizer
                 int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
 
                 string selectedFolder = GetSelectedNodePath();
+                if (selectedFolder == null || !Directory.Exists(selectedFolder))
+                {
+                    KryptonMessageBox.Show("Can't run AutoCorrect. No valid folder selected.");
+                    return;
+                }
                 string[] files = Directory.GetFiles(selectedFolder, "*.*");
                 foreach (string file in files)
                 {
@@ -5559,7 +5578,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -5704,7 +5723,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -5812,7 +5831,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion 
@@ -5830,7 +5849,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion 
@@ -5846,7 +5865,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion 
@@ -5923,7 +5942,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -5934,8 +5953,14 @@ namespace PhotoTagsSynchronizer
             try
             {
                 string folder = GetSelectedNodePath();
+                if (folder == null || !Directory.Exists(folder))
+                {
+                    KryptonMessageBox.Show("Can't reload folder. No valid folder selected.");
+                    return;
+                }
+
                 string[] fileAndFolderEntriesCount = Directory.EnumerateFiles(folder, "*", SearchOption.TopDirectoryOnly).Take(51).ToArray();
-                if (MessageBox.Show("Are you sure you will delete **ALL** metadata history in database store for " +
+                if (KryptonMessageBox.Show("Are you sure you will delete **ALL** metadata history in database store for " +
                     (fileAndFolderEntriesCount.Length == 51 ? " over 50 + " : fileAndFolderEntriesCount.Length.ToString()) +
                     "  number of files.\r\n\r\n" +
                     "In the folder: " + folder,
@@ -5966,7 +5991,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -6017,7 +6042,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -6045,7 +6070,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -6130,7 +6155,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -6158,7 +6183,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -6419,7 +6444,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -6432,7 +6457,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -6445,7 +6470,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -6483,7 +6508,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -6498,7 +6523,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -6540,7 +6565,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             }
         }
@@ -6592,7 +6617,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -6663,7 +6688,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -6761,7 +6786,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -6798,7 +6823,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -6837,7 +6862,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion

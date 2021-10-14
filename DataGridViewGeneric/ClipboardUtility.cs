@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Krypton.Toolkit;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
@@ -202,7 +203,7 @@ namespace DataGridViewGeneric
             }
             catch
             {
-                MessageBox.Show("Can't copy cells to clipboard", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                KryptonMessageBox.Show("Can't copy cells to clipboard", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
         #endregion
@@ -463,7 +464,7 @@ namespace DataGridViewGeneric
                 
                 if (columnConentsCount != columnsSelected.Count)
                 {
-                    MessageBox.Show("Can't paste selection. Can only paste selection when have selected equal numbers of columns.\r\n" +
+                    KryptonMessageBox.Show("Can't paste selection. Can only paste selection when have selected equal numbers of columns.\r\n" +
                         "Columns selected for copy: " + columnConentsCount + "\r\n" +
                         "Columns selected for paste: " + columnsSelected.Count,
                         "Can't paste selected text", MessageBoxButtons.OK);
@@ -516,7 +517,7 @@ namespace DataGridViewGeneric
                 
                 if (rowContents.Count != rowsSelected.Count)
                 {
-                    MessageBox.Show("Can't paste selection. Can only paste selection when have selected equal numbers of rows.\r\n" +
+                    KryptonMessageBox.Show("Can't paste selection. Can only paste selection when have selected equal numbers of rows.\r\n" +
                         "Rows selected for copy: " + rowContents.Count + "\r\n" +
                         "Rows selected for paste: " + rowsSelected.Count,
                         "Can't paste selected text", MessageBoxButtons.OK);

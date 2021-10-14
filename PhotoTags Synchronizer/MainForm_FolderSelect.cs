@@ -79,6 +79,11 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsPopulatingAnything()) return;
 
             string selectedFolder = GetSelectedNodePath();
+            if (selectedFolder == null || !Directory.Exists(selectedFolder))
+            {
+                KryptonMessageBox.Show("Can't use populate selected folder. No valid folder selected.");
+                return;
+            }
             Properties.Settings.Default.LastFolder = selectedFolder;
             
             UpdateStatusAction("Read files in folder: " + selectedFolder);
@@ -86,7 +91,7 @@ namespace PhotoTagsSynchronizer
             UpdateStatusAction("Checking files in folder: " + selectedFolder);
             if (FileHandeling.FileHandler.FixOneDriveIssues(fileEntries, this, false))
             {
-                switch (MessageBox.Show("OneDrive duplicated files found.\r\n" +
+                switch (KryptonMessageBox.Show("OneDrive duplicated files found.\r\n" +
                     "\r\n"+
                     "Will you replace older files with newest files\r\n" +
                     "Yes - keep the newest files\r\n" +

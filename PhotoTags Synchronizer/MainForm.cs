@@ -133,7 +133,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Was not able to load VLC player");
+                KryptonMessageBox.Show(ex.Message, "Was not able to load VLC player");
                 return;
             }
             #endregion
@@ -322,7 +322,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Was not able to start the database");
+                KryptonMessageBox.Show(ex.Message, "Was not able to start the database");
                 Close();
                 return;
             }
@@ -641,7 +641,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Can't save settings, Metadata Group Priorities");
+                    KryptonMessageBox.Show(ex.Message, "Can't save settings, Metadata Group Priorities");
                 }
 
                 try
@@ -706,7 +706,7 @@ namespace PhotoTagsSynchronizer
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message, "Can't save settings");
+                        KryptonMessageBox.Show(ex.Message, "Can't save settings");
                     }
                     //---------------------------------------------------------
 
@@ -776,7 +776,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Problems during close all threads and other process during closing application");
+                    KryptonMessageBox.Show(ex.Message, "Problems during close all threads and other process during closing application");
                 }
             }
             isClosing = false;
@@ -837,14 +837,14 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ee)
                 {
-                    MessageBox.Show(ee.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    KryptonMessageBox.Show(ee.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
                 GlobalData.IsPopulatingFolderTree = false;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                KryptonMessageBox.Show(ex.Message);
             }
             #endregion
 
@@ -862,7 +862,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                KryptonMessageBox.Show(ex.Message);
             }
             #endregion
 

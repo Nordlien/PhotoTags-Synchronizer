@@ -41,7 +41,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "Was not able to updated name on files");
-                MessageBox.Show("Was not able to updated name on files.\r\n" + ex.Message, "Update name on files failed.");
+                KryptonMessageBox.Show("Was not able to updated name on files.\r\n" + ex.Message, "Update name on files failed.");
             }
         }
 
@@ -54,7 +54,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "Was not able to updated name on files");
-                MessageBox.Show("Was not able to updated name on files.\r\n" + ex.Message, "Update name on files failed.");
+                KryptonMessageBox.Show("Was not able to updated name on files.\r\n" + ex.Message, "Update name on files failed.");
             }
         }
 
@@ -64,7 +64,7 @@ namespace PhotoTagsSynchronizer
             {
                 if (IsFileInThreadQueueLock(imageListView1.SelectedItems))
                 {
-                    MessageBox.Show("Can't start rename process, files being updated, need wait files finished with updating.", "Can't start rename");
+                    KryptonMessageBox.Show("Can't start rename process, files being updated, need wait files finished with updating.", "Can't start rename");
                 }
                 else
                 {
@@ -81,7 +81,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "Was not able to rename files");
-                MessageBox.Show("Was not able to rename files.\r\n" + ex.Message, "Rename files failed.");
+                KryptonMessageBox.Show("Was not able to rename files.\r\n" + ex.Message, "Rename files failed.");
             }
         }
 

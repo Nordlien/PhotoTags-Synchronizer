@@ -149,6 +149,12 @@
     <Compile Include="Ftp\ftplib.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Shares.cs" />
     <Compile Include="Win32\Shell\Interfaces\IAdviseSink.cs" />
     <Compile Include="Win32\Shell\Interfaces\IContextMenu.cs" />
     <Compile Include="Win32\Shell\Interfaces\IDataObject.cs" />
@@ -224,12 +230,25 @@
     <None Include="FileSystemProvider.cd" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="TreeViewFolderBrowserDataProvider.resx">
       <DependentUpon>TreeViewFolderBrowserDataProvider.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TreeViewStrategyCultureInfo.resx">
       <DependentUpon>TreeViewStrategyCultureInfo.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SharedComputer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SharedFolder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SharedNetwork.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

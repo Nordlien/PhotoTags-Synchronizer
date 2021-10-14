@@ -15,6 +15,11 @@
 // website http://www.raccoom.net, email support@raccoom.net, msn chrisdarebell@msn.com
 
 using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using System.Windows.Forms;
+
 namespace Raccoom.Windows.Forms
 {
     /// <summary>
@@ -92,10 +97,12 @@ namespace Raccoom.Windows.Forms
         protected override void SetIcon(TreeViewFolderBrowser treeView, TreeNodePath node)
         {
             //base.SetIcon(treeView, node);
+            Console.WriteLine("SetIcon {0} - {1}/{2} vs {3}/{4}", node.Text, node.ImageIndex, node.SelectedImageIndex, node.ImageKey, node.SelectedImageKey);
         }
 
         private void AddImageListImage(TreeViewFolderBrowser treeView, TreeNodePath node)
         {
+            Console.WriteLine("AddImage: " + node.Text + " " + node.ImageIndex + " " + node.SelectedImageIndex);
             if (treeView.ImageList == null) treeView.ImageList = new System.Windows.Forms.ImageList();
 
             if (node.ImageIndex != -1 && !node.TreeView.ImageList.Images.ContainsKey(node.ImageIndex.ToString()))
@@ -109,7 +116,15 @@ namespace Raccoom.Windows.Forms
                 node.TreeView.ImageList.Images.Add(node.SelectedImageIndex.ToString(), Raccoom.Win32.ShellImageList.GetIcon(node.SelectedImageIndex, true).ToBitmap());
             }
             if (node.SelectedImageIndex != -1) node.SelectedImageKey = node.SelectedImageIndex.ToString();
+        }
 
+        private void AddImageListResourceImages(TreeView treeView, TreeNodePath node, string imageKey, Bitmap image, string selectedImageKey, Bitmap selectedImage)
+        {
+            if (treeView.ImageList == null) treeView.ImageList = new System.Windows.Forms.ImageList();
+            if (!node.TreeView.ImageList.Images.ContainsKey(imageKey)) node.TreeView.ImageList.Images.Add(imageKey, image);            
+            node.ImageKey = imageKey;
+            if (!node.TreeView.ImageList.Images.ContainsKey(selectedImageKey)) node.TreeView.ImageList.Images.Add(selectedImageKey, selectedImage);
+            node.SelectedImageKey = selectedImageKey;
         }
 
         public override void RequestRootNode()
@@ -145,60 +160,163 @@ namespace Raccoom.Windows.Forms
             }
         }
 
+        
+
+
+        private TreeNodePath CreateTreeNode(string text, string path, bool addDummyNode, bool isSpecialFolder)
+        {
+            //
+            TreeNodePath newNode = new TreeNodePath(text, isSpecialFolder);
+            newNode.Path = path;
+            //						            
+            if (addDummyNode)
+            {
+                // add dummy node, otherwise there is no + sign
+                newNode.AddDummyNode();
+            }
+            //
+            return newNode;
+        }
+
+        const string ScannerNetworkTag = "NetworkScanner";
+        const string ScannerComputerTag = "ComputerScanner";
+        const string ScannerComputerShareTag = "ComputerShares";
+        const string ScannerFolderTag = "FolderScanner";
         public override void RequestChildNodes(TreeNodePath parent, System.Windows.Forms.TreeViewCancelEventArgs e)
         {
-            Raccoom.Win32.ShellItem folderItem = ((Raccoom.Win32.ShellItem)parent.Tag);
-            folderItem.Expand(this.ShowFiles, true, System.IntPtr.Zero);
-            //
-            TreeNodePath node = null;
-            System.IO.DriveInfo driveInfo;
-            //
-            foreach (Raccoom.Win32.ShellItem childFolder in folderItem.SubFolders)
+            #region  Add Network Scanner
+            if (parent.Parent == null)
             {
-                if (!_showAllShellObjects && !childFolder.IsFileSystem) continue;
-                //
-                if (DriveTypes != DriveTypes.All && childFolder.IsDisk)
+                TreeNodePath childNode = CreateTreeNode("Network scanner", parent.Path, true, true);
+                parent.Nodes.Add(childNode);
+                childNode.Path = "Network scanner";
+                childNode.Tag = ScannerNetworkTag;
+
+                AddImageListResourceImages(parent.TreeView, childNode,
+                    "ComputerImage", Raccoom.TreeViewFolderBrowser.DataProviders.Properties.Resources.SharedNetwork,
+                    "ComputerImageSelected", Raccoom.TreeViewFolderBrowser.DataProviders.Properties.Resources.SharedNetwork);
+            }
+            #endregion
+
+            #region Add Computers
+            if (parent.Tag is string && (string)parent.Tag == ScannerNetworkTag) 
+            {
+                Trinet.Networking.NetworkCompuersAndSharesHandler networkCompuersAndSharesHandler = new Trinet.Networking.NetworkCompuersAndSharesHandler();
+                networkCompuersAndSharesHandler.ScanForComputers();
+                foreach (string computerName in networkCompuersAndSharesHandler.ComputerNames)
                 {
-                    driveInfo = new System.IO.DriveInfo(childFolder.Path);
-                    //                                       
-                    switch (driveInfo.DriveType)
+                    TreeNodePath childNode = CreateTreeNode(computerName, parent.Path, true, true);
+                    parent.Nodes.Add(childNode);
+                    childNode.Path = "\\\\" + computerName;
+                    childNode.Tag = ScannerComputerTag;
+                    AddImageListResourceImages(parent.TreeView, childNode,
+                        "NetwrokImage", Raccoom.TreeViewFolderBrowser.DataProviders.Properties.Resources.SharedComputer,
+                        "NetworkImageSelected", Raccoom.TreeViewFolderBrowser.DataProviders.Properties.Resources.SharedComputer);                    
+                }
+            }
+            #endregion
+
+            #region Add Shares
+            if (parent.Tag is string && (string)parent.Tag == ScannerComputerTag)
+            {
+                Trinet.Networking.NetworkCompuersAndSharesHandler networkCompuersAndSharesHandler = new Trinet.Networking.NetworkCompuersAndSharesHandler();                
+                List<DirectoryInfo> directoryInfoList = networkCompuersAndSharesHandler.GetComputerShares(parent.Text);
+                
+                foreach (DirectoryInfo directoryInfo in directoryInfoList)
+                {
+                    TreeNodePath childNode = CreateTreeNode(directoryInfo.Name, parent.Path, true, true);
+                    parent.Nodes.Add(childNode);
+                    childNode.Path = directoryInfo.FullName;
+                    childNode.Tag = ScannerComputerShareTag;
+                    AddImageListResourceImages(parent.TreeView, childNode,
+                        "FolderImage", Raccoom.TreeViewFolderBrowser.DataProviders.Properties.Resources.SharedFolder,
+                        "FolderImageSelected", Raccoom.TreeViewFolderBrowser.DataProviders.Properties.Resources.SharedFolder);
+                }
+            }
+            #endregion
+
+            #region Add Folders
+            if (parent.Tag is string && ((string)parent.Tag == ScannerComputerShareTag || (string)parent.Tag == ScannerFolderTag))
+            {
+                try
+                {
+                    System.IO.DirectoryInfo directoryInfoOnShare = new DirectoryInfo(parent.Path);
+                    System.IO.DirectoryInfo[] directoryInfoList = directoryInfoOnShare.GetDirectories();
+
+                    foreach (DirectoryInfo directoryInfo in directoryInfoList)
                     {
-                        case System.IO.DriveType.CDRom:
-                            if ((DriveTypes & DriveTypes.CompactDisc) == 0) continue;
-                            break;
-                        case System.IO.DriveType.Fixed:
-                            if ((DriveTypes & DriveTypes.LocalDisk) == 0) continue;
-                            break;
-                        case System.IO.DriveType.Network:
-                            if ((DriveTypes & DriveTypes.NetworkDrive) == 0) continue;
-                            break;
-                        case System.IO.DriveType.NoRootDirectory:
-                            if ((DriveTypes & DriveTypes.NoRootDirectory) == 0) continue;
-                            break;
-                        case System.IO.DriveType.Ram:
-                            if ((DriveTypes & DriveTypes.RAMDisk) == 0) continue;
-                            break;
-                        case System.IO.DriveType.Removable:
-                            if ((DriveTypes & DriveTypes.RemovableDisk) == 0) continue;
-                            break;
-                        case System.IO.DriveType.Unknown:
-                            if ((DriveTypes & DriveTypes.NoRootDirectory) == 0) continue;
-                            break;
+                        TreeNodePath childNode = CreateTreeNode(directoryInfo.Name, parent.Path, true, true);
+                        parent.Nodes.Add(childNode);
+                        childNode.Path = directoryInfo.FullName;
+                        childNode.Tag = ScannerFolderTag;
+                        AddImageListResourceImages(parent.TreeView, childNode,
+                            "FolderImage", Raccoom.TreeViewFolderBrowser.DataProviders.Properties.Resources.SharedFolder,
+                            "FolderImageSelected", Raccoom.TreeViewFolderBrowser.DataProviders.Properties.Resources.SharedFolder);
                     }
                 }
-                //			
-                
-                node = CreateTreeNode(null, parent, childFolder);
-                AddImageListImage(Helper.TreeView, node);
-
+                catch { }
             }
-            if (!ShowFiles) return;
-            //
-            foreach (Raccoom.Win32.ShellItem fileItem in folderItem.SubFiles)
-            {
-                node = CreateTreeNode(null, parent, fileItem);
-                AddImageListImage(Helper.TreeView, node);
+            #endregion
 
+            if (parent.Tag is Raccoom.Win32.ShellItem)
+            {
+                Raccoom.Win32.ShellItem folderItem = ((Raccoom.Win32.ShellItem)parent.Tag);
+                folderItem.Expand(this.ShowFiles, true, System.IntPtr.Zero);
+                //
+                TreeNodePath node = null;
+                System.IO.DriveInfo driveInfo;
+                //
+                foreach (Raccoom.Win32.ShellItem childFolder in folderItem.SubFolders)
+                {
+                    if (childFolder.Text == "Network")
+                    {
+                        string s = Environment.SpecialFolder.NetworkShortcuts.ToString();
+
+                    }
+                    if (!_showAllShellObjects && !childFolder.IsFileSystem) continue;
+                    //
+                    if (DriveTypes != DriveTypes.All && childFolder.IsDisk)
+                    {
+                        driveInfo = new System.IO.DriveInfo(childFolder.Path);
+                        //                                       
+                        switch (driveInfo.DriveType)
+                        {
+                            case System.IO.DriveType.CDRom:
+                                if ((DriveTypes & DriveTypes.CompactDisc) == 0) continue;
+                                break;
+                            case System.IO.DriveType.Fixed:
+                                if ((DriveTypes & DriveTypes.LocalDisk) == 0) continue;
+                                break;
+                            case System.IO.DriveType.Network:
+                                if ((DriveTypes & DriveTypes.NetworkDrive) == 0) continue;
+                                break;
+                            case System.IO.DriveType.NoRootDirectory:
+                                if ((DriveTypes & DriveTypes.NoRootDirectory) == 0) continue;
+                                break;
+                            case System.IO.DriveType.Ram:
+                                if ((DriveTypes & DriveTypes.RAMDisk) == 0) continue;
+                                break;
+                            case System.IO.DriveType.Removable:
+                                if ((DriveTypes & DriveTypes.RemovableDisk) == 0) continue;
+                                break;
+                            case System.IO.DriveType.Unknown:
+                                if ((DriveTypes & DriveTypes.NoRootDirectory) == 0) continue;
+                                break;
+                        }
+                    }
+                    //			
+                    node = CreateTreeNode(null, parent, childFolder);
+                    AddImageListImage(Helper.TreeView, node);
+                }
+
+                if (!ShowFiles) return;
+                //
+                foreach (Raccoom.Win32.ShellItem fileItem in folderItem.SubFiles)
+                {
+                    node = CreateTreeNode(null, parent, fileItem);
+                    AddImageListImage(Helper.TreeView, node);
+
+                }
             }
         }
 

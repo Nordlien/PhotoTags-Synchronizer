@@ -195,7 +195,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Can't save settings");
+                KryptonMessageBox.Show(ex.Message, "Can't save settings");
             }
         }
         #endregion
@@ -260,7 +260,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Debug.Print(ex.Message.ToString());
-                MessageBox.Show(ex.Message.ToString());
+                KryptonMessageBox.Show(ex.Message.ToString());
             }
             isPopulateOpenWithDataGridView = false;
         }
@@ -404,7 +404,7 @@ namespace PhotoTagsSynchronizer
                     errors += (errors == "" ? "" : "\r\n") + "File: " + metadata.FileFullPath + "\r\nError message: " + ex.Message;
                 }
             }
-            if (errors != "") MessageBox.Show(errors);
+            if (errors != "") KryptonMessageBox.Show(errors);
 
         }
         #endregion
@@ -535,7 +535,7 @@ namespace PhotoTagsSynchronizer
                 }
                 if (formTerminalWindow != null && formTerminalWindow.GetWasProcessKilled()) break;
             }
-            if (errors != "") MessageBox.Show(errors);
+            if (errors != "") KryptonMessageBox.Show(errors);
 
         }
         #endregion
@@ -633,7 +633,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                KryptonMessageBox.Show(ex.Message);
             }
         }
         #endregion
@@ -748,7 +748,7 @@ namespace PhotoTagsSynchronizer
                 }
             } catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                KryptonMessageBox.Show(ex.Message);
             }
         }
         #endregion clic
@@ -793,7 +793,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                KryptonMessageBox.Show(ex.Message);
             }
         }
         #endregion
@@ -911,7 +911,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                KryptonMessageBox.Show(ex.Message);
             }
         }
 
@@ -932,7 +932,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                KryptonMessageBox.Show(ex.Message);
             }
         }
 
@@ -961,7 +961,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                KryptonMessageBox.Show(ex.Message);
             }
         }
 
@@ -982,7 +982,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                KryptonMessageBox.Show(ex.Message);
             }
         }
         #endregion
@@ -1005,7 +1005,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                KryptonMessageBox.Show(ex.Message);
             }
         }
         #endregion 
@@ -1025,7 +1025,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                KryptonMessageBox.Show(ex.Message);
             }
         }
         #endregion

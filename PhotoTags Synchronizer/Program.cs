@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using CefSharp;
 using CefSharp.WinForms;
 using FileHandeling;
+using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {

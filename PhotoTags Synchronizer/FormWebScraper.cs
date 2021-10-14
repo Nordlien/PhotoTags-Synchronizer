@@ -449,7 +449,7 @@ namespace PhotoTagsSynchronizer
                 DateTime dataSetDateTime = DateTime.MinValue;
                 foreach (DateTime dateTime in _webScrapingDataSet.Keys) if (dateTime > dataSetDateTime) dataSetDateTime = dateTime;
 
-                if (MessageBox.Show(
+                if (KryptonMessageBox.Show(
                     "To contine expand last dataset with new scraping data, you can load lastest version of saved dataset now. " + 
                     "You can also load and merge any version of metadata dataset later also within 'the WebScraping Tool window'.\r\n\r\n" + 
                     "Do you want to load last dataset with metadatas? \r\n\r\n" +
@@ -483,12 +483,12 @@ namespace PhotoTagsSynchronizer
             
             if (IsProcessRunning)
             {
-                MessageBox.Show("Need wait process that are running has stopped, before closing window");
+                KryptonMessageBox.Show("Need wait process that are running has stopped, before closing window");
                 e.Cancel = true;
             }
             if (isDataUnsaved)
             {
-                if (MessageBox.Show("DataSet is unsaved! Will you close widthout saving data?", "Warning, unsaved DataSet", MessageBoxButtons.OKCancel) == DialogResult.Cancel) e.Cancel = true;
+                if (KryptonMessageBox.Show("DataSet is unsaved! Will you close widthout saving data?", "Warning, unsaved DataSet", MessageBoxButtons.OKCancel) == DialogResult.Cancel) e.Cancel = true;
             }
         }
         #endregion
@@ -629,7 +629,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                KryptonMessageBox.Show(ex.Message);
             }
             fastColoredTextBoxJavaScriptResult.ResumeLayout();
             IsProcessRunning = false;
@@ -646,7 +646,7 @@ namespace PhotoTagsSynchronizer
                 Properties.Settings.Default.Save();
             } catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Can't save settings");
+                KryptonMessageBox.Show(ex.Message, "Can't save settings");
             }
             IsProcessRunning = false;
         }
@@ -1036,7 +1036,7 @@ namespace PhotoTagsSynchronizer
                 WebScrapingLinksStatusWrites(_linkCatergories);
             } catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                KryptonMessageBox.Show(ex.Message);
             }
             IsProcessRunning = false;
         }
@@ -1052,7 +1052,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                KryptonMessageBox.Show(ex.Message);
             }
             return null;
         }
@@ -1071,7 +1071,7 @@ namespace PhotoTagsSynchronizer
                 }
             } catch (Exception ex) 
             {
-                MessageBox.Show(ex.Message);
+                KryptonMessageBox.Show(ex.Message);
             }
             return result;
         }
@@ -1087,7 +1087,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                KryptonMessageBox.Show(ex.Message);
             }
         }
         #endregion
@@ -1112,7 +1112,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                KryptonMessageBox.Show(ex.Message);
             }
             return result;
         }
@@ -1128,7 +1128,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                KryptonMessageBox.Show(ex.Message);
             }
         }
         #endregion
@@ -1210,7 +1210,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                KryptonMessageBox.Show(ex.Message);
             }
 
             IsProcessRunning = false;
@@ -1350,7 +1350,7 @@ namespace PhotoTagsSynchronizer
                 buttonWebScrapingSave.Enabled = false;
             } catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                KryptonMessageBox.Show(ex.Message);
             }
         }
 

@@ -45,7 +45,7 @@ namespace PhotoTagsSynchronizer
 
             if (comboBoxUserAccount.Text.Trim() == "")
             {
-                MessageBox.Show("You need to enter a name for the import");
+                KryptonMessageBox.Show("You need to enter a name for the import");
                 return;
             }
 
@@ -78,7 +78,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Can't save settings");
+                    KryptonMessageBox.Show(ex.Message, "Can't save settings");
                 }
 
                 string jsonFilename = openFileDialog1.FileName;
@@ -94,7 +94,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Can't save settings");
+                    KryptonMessageBox.Show(ex.Message, "Can't save settings");
                 }
 
                 this.Enabled = false;

@@ -354,7 +354,7 @@ namespace PhotoTagsSynchronizer
                 }
             } catch (Exception ex)
             {
-                MessageBox.Show("Was not able top open the log file.\r\n\r\n" + ex.Message);
+                KryptonMessageBox.Show("Was not able top open the log file.\r\n\r\n" + ex.Message);
             }
 
             try
@@ -371,7 +371,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Was not able top open the log file.\r\n\r\n" + ex.Message);
+                KryptonMessageBox.Show("Was not able top open the log file.\r\n\r\n" + ex.Message);
             }
         }
         #endregion 
@@ -573,7 +573,7 @@ namespace PhotoTagsSynchronizer
                 MetadataReadPrioity.WriteAlways();
             } catch (Exception ex)
             {
-                MessageBox.Show("Failed to save config.\r\n\r\n" + ex.Message);
+                KryptonMessageBox.Show("Failed to save config.\r\n\r\n" + ex.Message);
                 _ = this.BeginInvoke(new Action<Exception, string>(Logger.Error), ex, "buttonConfigSave_Click failed saving config.");
             }
 
@@ -1039,7 +1039,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "AutoKeywords failed to saved");
+                KryptonMessageBox.Show(ex.Message, "AutoKeywords failed to saved");
                 _ = this.BeginInvoke(new Action<Exception>(Logger.Error), ex); 
             }
         }
@@ -1054,7 +1054,7 @@ namespace PhotoTagsSynchronizer
                 AutoKeywordHandler.PopulateDataGridView(dataGridViewAutoKeywords, dataSet);
             } catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "AutoKeywords failed to saved");
+                KryptonMessageBox.Show(ex.Message, "AutoKeywords failed to saved");
                 _ = this.BeginInvoke(new Action<Exception, string>(Logger.Error), ex, "LoadAutoKeywords");
             }
         }
@@ -1329,7 +1329,7 @@ namespace PhotoTagsSynchronizer
                 }
             } catch (Exception ex)
             {
-                MessageBox.Show("Error saving JSON file!\r\n\r\n" + ex.Message, "Was not able to save JSON file");
+                KryptonMessageBox.Show("Error saving JSON file!\r\n\r\n" + ex.Message, "Was not able to save JSON file");
             }
         }
         #endregion
@@ -1366,7 +1366,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error loading JSON file!\r\n\r\n" + ex.Message, "Was not able to load JSON file");
+                KryptonMessageBox.Show("Error loading JSON file!\r\n\r\n" + ex.Message, "Was not able to load JSON file");
             }
         }
         #endregion

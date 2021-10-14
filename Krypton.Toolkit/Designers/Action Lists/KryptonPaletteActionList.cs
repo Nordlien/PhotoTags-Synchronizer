@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
         {
             if (_palette != null)
             {
-                if (MessageBox.Show("Are you sure you want to reset the palette?",
+                if (KryptonMessageBox.Show("Are you sure you want to reset the palette?",
                                     "Palette Reset",
                                     MessageBoxButtons.YesNo,
                                     MessageBoxIcon.Warning) == DialogResult.Yes)
@@ -85,7 +85,7 @@ namespace Krypton.Toolkit
         {
             if (_palette != null)
             {
-                if (MessageBox.Show("Are you sure you want to populate from the base?",
+                if (KryptonMessageBox.Show("Are you sure you want to populate from the base?",
                                     "Populate From Base",
                                     MessageBoxButtons.YesNo,
                                     MessageBoxIcon.Warning) == DialogResult.Yes)
