@@ -649,18 +649,7 @@ namespace ImageAndMovieFileExtentions
 
         public static HashSet<FileEntry> ListAllMediaFileEntries(string directory, bool recursive)
         {
-            /*
-            FileInfo[] filesFoundInDirectory = GetFilesByExtensions(directory, GetAllMediaExtentions(), recursive);
-            Array.Sort(filesFoundInDirectory, delegate (FileInfo fileInfo1, FileInfo fileInfo2) 
-            {
-                return fileInfo2.CreationTime.CompareTo(fileInfo1.CreationTime);
-            });
-            List<FileEntry> fileEntries = new List<FileEntry>();
-            foreach (FileInfo fileInfo in filesFoundInDirectory) fileEntries.Add(new FileEntry(fileInfo.DirectoryName, fileInfo.Name, fileInfo.LastWriteTime));
-            return fileEntries;
-            */
-            return GetFilesByExtensionsFast(directory, GetAllMediaExtentions(), recursive);
-            
+            return GetFilesByExtensionsFast(directory, GetAllMediaExtentions(), recursive);            
         }
 
         public static HashSet<FileEntry> GetFilesByExtensionsFast(string folder, HashSet<string> extensions, bool recursive)
@@ -668,12 +657,15 @@ namespace ImageAndMovieFileExtentions
             HashSet<FileEntry> fileEntries = new HashSet<FileEntry>();
             try
             {
-                FileData[] files = FastDirectoryEnumerator.GetFiles(folder, "*", recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
-                for (int i = 0; i < files.Length; i++)
+                if (!string.IsNullOrWhiteSpace(folder) && Directory.Exists(folder))
                 {
-                    if ((files[i].Attributes & FileAttributes.Directory) == 0)
+                    FileData[] files = FastDirectoryEnumerator.GetFiles(folder, "*", recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
+                    for (int i = 0; i < files.Length; i++)
                     {
-                        if (extensions.Contains(Path.GetExtension(files[i].Path).ToUpper())) fileEntries.Add(new FileEntry(files[i].Path, files[i].LastWriteTime));
+                        if ((files[i].Attributes & FileAttributes.Directory) == 0)
+                        {
+                            if (extensions.Contains(Path.GetExtension(files[i].Path).ToUpper())) fileEntries.Add(new FileEntry(files[i].Path, files[i].LastWriteTime));
+                        }
                     }
                 }
             }
@@ -689,7 +681,7 @@ namespace ImageAndMovieFileExtentions
             
             try
             {
-                if (!string.IsNullOrWhiteSpace(folder))
+                if (!string.IsNullOrWhiteSpace(folder) && Directory.Exists(folder))
                 {
                     DirectoryInfo dirInfo = new DirectoryInfo(folder);
 

@@ -146,6 +146,7 @@ namespace Raccoom.Windows.Forms
                     _showAllShellObjects = true;
                     // set setting back to original value
                     _showAllShellObjects = settingBackup;
+
                     break;
                 case  Raccoom.Win32.ShellAPI.CSIDL.DRIVES:
                     this.FillMyComputer(_shell.MyComputerItem, Helper.TreeView.Nodes, Helper);
@@ -184,34 +185,21 @@ namespace Raccoom.Windows.Forms
         const string ScannerFolderTag = "FolderScanner";
         public override void RequestChildNodes(TreeNodePath parent, System.Windows.Forms.TreeViewCancelEventArgs e)
         {
-            #region  Add Network Scanner
-            if (parent.Parent == null)
-            {
-                TreeNodePath childNode = CreateTreeNode("Network scanner", parent.Path, true, true);
-                parent.Nodes.Add(childNode);
-                childNode.Path = "Network scanner";
-                childNode.Tag = ScannerNetworkTag;
 
-                AddImageListResourceImages(parent.TreeView, childNode,
-                    "ComputerImage", Raccoom.TreeViewFolderBrowser.DataProviders.Properties.Resources.SharedNetwork,
-                    "ComputerImageSelected", Raccoom.TreeViewFolderBrowser.DataProviders.Properties.Resources.SharedNetwork);
-            }
-            #endregion
 
             #region Add Computers
-            if (parent.Tag is string && (string)parent.Tag == ScannerNetworkTag) 
+            if (parent.Tag is string && (string)parent.Tag == ScannerNetworkTag)
             {
                 Trinet.Networking.NetworkCompuersAndSharesHandler networkCompuersAndSharesHandler = new Trinet.Networking.NetworkCompuersAndSharesHandler();
                 networkCompuersAndSharesHandler.ScanForComputers();
                 foreach (string computerName in networkCompuersAndSharesHandler.ComputerNames)
                 {
-                    TreeNodePath childNode = CreateTreeNode(computerName, parent.Path, true, true);
+                    TreeNodePath childNode = CreateTreeNode(computerName, "\\\\" + computerName, true, true);
                     parent.Nodes.Add(childNode);
-                    childNode.Path = "\\\\" + computerName;
                     childNode.Tag = ScannerComputerTag;
                     AddImageListResourceImages(parent.TreeView, childNode,
                         "NetwrokImage", Raccoom.TreeViewFolderBrowser.DataProviders.Properties.Resources.SharedComputer,
-                        "NetworkImageSelected", Raccoom.TreeViewFolderBrowser.DataProviders.Properties.Resources.SharedComputer);                    
+                        "NetworkImageSelected", Raccoom.TreeViewFolderBrowser.DataProviders.Properties.Resources.SharedComputer);
                 }
             }
             #endregion
@@ -219,14 +207,13 @@ namespace Raccoom.Windows.Forms
             #region Add Shares
             if (parent.Tag is string && (string)parent.Tag == ScannerComputerTag)
             {
-                Trinet.Networking.NetworkCompuersAndSharesHandler networkCompuersAndSharesHandler = new Trinet.Networking.NetworkCompuersAndSharesHandler();                
+                Trinet.Networking.NetworkCompuersAndSharesHandler networkCompuersAndSharesHandler = new Trinet.Networking.NetworkCompuersAndSharesHandler();
                 List<DirectoryInfo> directoryInfoList = networkCompuersAndSharesHandler.GetComputerShares(parent.Text);
-                
+
                 foreach (DirectoryInfo directoryInfo in directoryInfoList)
                 {
-                    TreeNodePath childNode = CreateTreeNode(directoryInfo.Name, parent.Path, true, true);
+                    TreeNodePath childNode = CreateTreeNode(directoryInfo.Name, directoryInfo.FullName, true, true);
                     parent.Nodes.Add(childNode);
-                    childNode.Path = directoryInfo.FullName;
                     childNode.Tag = ScannerComputerShareTag;
                     AddImageListResourceImages(parent.TreeView, childNode,
                         "FolderImage", Raccoom.TreeViewFolderBrowser.DataProviders.Properties.Resources.SharedFolder,
@@ -245,9 +232,8 @@ namespace Raccoom.Windows.Forms
 
                     foreach (DirectoryInfo directoryInfo in directoryInfoList)
                     {
-                        TreeNodePath childNode = CreateTreeNode(directoryInfo.Name, parent.Path, true, true);
+                        TreeNodePath childNode = CreateTreeNode(directoryInfo.Name, directoryInfo.FullName, true, true);
                         parent.Nodes.Add(childNode);
-                        childNode.Path = directoryInfo.FullName;
                         childNode.Tag = ScannerFolderTag;
                         AddImageListResourceImages(parent.TreeView, childNode,
                             "FolderImage", Raccoom.TreeViewFolderBrowser.DataProviders.Properties.Resources.SharedFolder,
@@ -258,8 +244,10 @@ namespace Raccoom.Windows.Forms
             }
             #endregion
 
+            
             if (parent.Tag is Raccoom.Win32.ShellItem)
             {
+                #region Add ShellItems
                 Raccoom.Win32.ShellItem folderItem = ((Raccoom.Win32.ShellItem)parent.Tag);
                 folderItem.Expand(this.ShowFiles, true, System.IntPtr.Zero);
                 //
@@ -268,11 +256,6 @@ namespace Raccoom.Windows.Forms
                 //
                 foreach (Raccoom.Win32.ShellItem childFolder in folderItem.SubFolders)
                 {
-                    if (childFolder.Text == "Network")
-                    {
-                        string s = Environment.SpecialFolder.NetworkShortcuts.ToString();
-
-                    }
                     if (!_showAllShellObjects && !childFolder.IsFileSystem) continue;
                     //
                     if (DriveTypes != DriveTypes.All && childFolder.IsDisk)
@@ -309,15 +292,31 @@ namespace Raccoom.Windows.Forms
                     AddImageListImage(Helper.TreeView, node);
                 }
 
+                #endregion
+
+                #region  Add Network Scanner
+                if (parent.Parent == null)
+                {
+                    TreeNodePath childNode = CreateTreeNode("Network scanner", "Network scanner", true, true);
+                    parent.Nodes.Add(childNode);
+                    childNode.Tag = ScannerNetworkTag;
+
+                    AddImageListResourceImages(parent.TreeView, childNode,
+                        "ComputerImage", Raccoom.TreeViewFolderBrowser.DataProviders.Properties.Resources.SharedNetwork,
+                        "ComputerImageSelected", Raccoom.TreeViewFolderBrowser.DataProviders.Properties.Resources.SharedNetwork);
+                }
+                #endregion
+
                 if (!ShowFiles) return;
                 //
                 foreach (Raccoom.Win32.ShellItem fileItem in folderItem.SubFiles)
                 {
                     node = CreateTreeNode(null, parent, fileItem);
                     AddImageListImage(Helper.TreeView, node);
-
-                }
+                }                
             }
+
+
         }
 
         private System.Windows.Forms.TreeNodeCollection RequestDriveCollection()
@@ -347,6 +346,7 @@ namespace Raccoom.Windows.Forms
             return node;
         }
 
+        #region FillMyComputer
         /// <summary>
         /// Popluates the MyComputer node
         /// </summary>
@@ -399,6 +399,7 @@ namespace Raccoom.Windows.Forms
                 TreeNodePath node = CreateTreeNode(parentCollection, null, fi);
             }
         }
+        #endregion
 
         /// <summary>
         /// Do we have to add a dummy node (+ sign)

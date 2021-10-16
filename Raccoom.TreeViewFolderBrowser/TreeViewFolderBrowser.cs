@@ -197,6 +197,7 @@ namespace Raccoom.Windows.Forms
             {
                 base.CheckBoxes = (this._checkboxBehavior != CheckBoxBehaviorMode.None);
                 _dataProvider.RequestRootNode();
+
                 //
                 if (selectedNodePath != null && selectedNodePath.Length > 0)
                 {
@@ -209,9 +210,10 @@ namespace Raccoom.Windows.Forms
                 Cursor = System.Windows.Forms.Cursors.Default;
             }
         }
-
-
         #endregion
+
+        
+
 
         #region internal interface
 

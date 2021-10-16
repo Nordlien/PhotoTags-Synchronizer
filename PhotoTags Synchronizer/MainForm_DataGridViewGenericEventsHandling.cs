@@ -40,16 +40,7 @@ namespace PhotoTagsSynchronizer
 
     public partial class MainForm : KryptonForm
     {
-        private string GetNodeFolderPath(TreeNodePath treeNodePath)
-        {
-            return treeNodePath?.Path; 
-        }
-
-        private string GetSelectedNodePath()
-        {
-            return GetNodeFolderPath(treeViewFolderBrowser1.SelectedNode as TreeNodePath);
-        }
-
+  
         #region kryptonContextMenuGenericBase_Opening
         private void kryptonContextMenuGenericBase_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {

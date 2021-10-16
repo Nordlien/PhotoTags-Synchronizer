@@ -9,6 +9,7 @@ using System.Threading;
 using Thumbnails;
 using System.Diagnostics;
 using Krypton.Toolkit;
+using Raccoom.Windows.Forms;
 
 namespace PhotoTagsSynchronizer
 {
@@ -64,6 +65,26 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
+        private string GetNodeFolderPath(TreeNodePath treeNodePath)
+        {
+            return treeNodePath?.Path == null ? "" : treeNodePath?.Path;
+        }
+
+        private string GetSelectedNodePath()
+        {
+            return GetNodeFolderPath(treeViewFolderBrowser1.SelectedNode as TreeNodePath);
+        }
+
+        private string GetNodeFolderFullPath(TreeNodePath treeNodePath)
+        {
+            return treeNodePath?.FullPath == null ? "" : treeNodePath?.FullPath;
+        }
+
+        private string GetSelectedNodeFullPath()
+        {
+            return GetNodeFolderFullPath(treeViewFolderBrowser1.SelectedNode as TreeNodePath);
+        }
+
         #region FolderSelected - Populate DataGridView, ImageListView 
         private void PopulateImageListView_FromFolderSelected(bool recursive, bool runPopulateFilter)
         {
@@ -79,12 +100,10 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsPopulatingAnything()) return;
 
             string selectedFolder = GetSelectedNodePath();
-            if (selectedFolder == null || !Directory.Exists(selectedFolder))
-            {
-                KryptonMessageBox.Show("Can't use populate selected folder. No valid folder selected.");
-                return;
-            }
-            Properties.Settings.Default.LastFolder = selectedFolder;
+            Properties.Settings.Default.LastFolder = GetSelectedNodeFullPath();
+            
+            //if (selectedFolder == null || !Directory.Exists(selectedFolder)) return; //Is system folder, no need to read files
+            
             
             UpdateStatusAction("Read files in folder: " + selectedFolder);
             HashSet<FileEntry> fileEntries = ImageAndMovieFileExtentionsUtility.ListAllMediaFileEntries(selectedFolder, recursive);

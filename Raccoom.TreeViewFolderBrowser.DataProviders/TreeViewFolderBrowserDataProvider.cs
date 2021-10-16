@@ -170,17 +170,60 @@ namespace Raccoom.Windows.Forms
 			}
 		}
 
-		/// <summary>
-		/// Focus the specified folder and scroll it in to view.
-		/// </summary>
-		/// <param name="directoryPath">The path which should be focused</param>
-		public override void ShowNode(string directoryPath)
+        public void ShowNodeFullPath(System.Windows.Forms.TreeNodeCollection nodeCollection, string folder)
+        {
+            // load on demand was not fired till now
+            if (nodeCollection.Count == 1 && ((TreeNodePath)nodeCollection[0]).Path == null) nodeCollection[0].Parent.Expand();
+
+
+            if (!string.IsNullOrEmpty(folder))
+            {
+                string[] subs = folder.Split('\\');
+
+                int column = 0;
+                foreach (string dir in subs)
+                {
+                    foreach (TreeNodePath n in nodeCollection)
+                    {
+                        if (n.Text.ToLower() == dir.ToLower())
+                        {
+                            nodeCollection = n.Nodes; //Get ready for child leafs
+
+                            if (column == subs.Length - 1)
+                            {                                
+                                n.EnsureVisible();
+                                Helper.TreeView.SelectedNode = n;
+                            }
+                            else
+                            {
+                                n.Expand();
+                            }
+                            break;
+                        }
+                        
+                    }
+                    column++;
+                }
+            }
+
+
+        }
+
+        /// <summary>
+        /// Focus the specified folder and scroll it in to view.
+        /// </summary>
+        /// <param name="directoryPath">The path which should be focused</param>
+        public override void ShowNode(string directoryPath)
 		{
 			if ((directoryPath == null) || (directoryPath == "") || (directoryPath == string.Empty)) return;
 			// start search at root node
 			System.Windows.Forms.TreeNodeCollection nodeCol = RequestDriveCollection();
-			//
-			if (!System.IO.Directory.Exists(directoryPath) || nodeCol == null) return;
+
+            ShowNodeFullPath(Helper.TreeView.Nodes, directoryPath);
+            if (Helper.TreeView.SelectedNode != null) return; //Location found, no need to continue
+
+            //
+            if (!System.IO.Directory.Exists(directoryPath) || nodeCol == null) return;
 			//
 			System.IO.DirectoryInfo dirInfo = new System.IO.DirectoryInfo(directoryPath);
 			// get path tokens
@@ -198,10 +241,8 @@ namespace Raccoom.Windows.Forms
 			Helper.TreeView.Cursor = System.Windows.Forms.Cursors.WaitCursor;
 			Helper.TreeView.BeginUpdate();
 			// load on demand was not fired till now
-			if (nodeCol.Count == 1 && ((TreeNodePath) nodeCol[0]).Path == null)
-			{
-				nodeCol[0].Parent.Expand();
-			}
+			if (nodeCol.Count == 1 && ((TreeNodePath) nodeCol[0]).Path == null) nodeCol[0].Parent.Expand();
+			
 			try
 			{		
 				for (int i = dirs.Count - 1; i >= 0; i--)

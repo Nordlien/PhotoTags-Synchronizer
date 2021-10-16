@@ -801,6 +801,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        
+
         #region MainForm_Shown
         private void MainForm_Shown(object sender, EventArgs e)
         {
@@ -830,10 +832,10 @@ namespace PhotoTagsSynchronizer
                     shell32Provider.ShowAllShellObjects = true;
                     treeViewFolderBrowser1.DataSource = shell32Provider; // new Raccoom.Windows.Forms.TreeStrategyFolderBrowserProvider();
                     string folder = Properties.Settings.Default.LastFolder;
-                    if (Directory.Exists(folder))
-                        treeViewFolderBrowser1.Populate(folder);
-                    else
-                        treeViewFolderBrowser1.Populate();
+
+                    treeViewFolderBrowser1.Populate(folder);
+                    
+
                 }
                 catch (Exception ee)
                 {
@@ -847,11 +849,6 @@ namespace PhotoTagsSynchronizer
                 KryptonMessageBox.Show(ex.Message);
             }
             #endregion
-
-            
-
-            
-
 
             #region Populate search filters...
             try
