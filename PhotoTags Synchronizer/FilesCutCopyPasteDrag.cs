@@ -177,6 +177,19 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region
+        public void FolderTreeRemoveNode(TreeViewFolderBrowser folderTreeViewFolder, TreeNode treeNode)
+        {
+            if (treeNode != null)
+            {
+                TreeNodePath node = (TreeNodePath)treeNode;
+                Raccoom.Win32.ShellItem folderItem = ((Raccoom.Win32.ShellItem)node.Tag);
+                folderItem.ClearFolders();
+                node.Remove();
+            }
+        }
+        #endregion
+
         #region FilesCutCopyPasteDrag - DeleteFilesInFolder
         public int DeleteFilesInFolder(MainForm mainForm, TreeViewFolderBrowser folderTreeViewFolder, string folder)
         {
@@ -201,7 +214,7 @@ namespace PhotoTagsSynchronizer
 
             #region Update Node in TreeView
             GlobalData.DoNotRefreshImageListView = true;
-            selectedNode.Remove();
+            FolderTreeRemoveNode (folderTreeViewFolder, selectedNode);
             if (parentNode != null)
             {
                 RefeshFolderTree(folderTreeViewFolder, parentNode);

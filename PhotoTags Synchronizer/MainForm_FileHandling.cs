@@ -221,8 +221,10 @@ namespace PhotoTagsSynchronizer
 
                     //------ Update node tree -----
                     GlobalData.DoNotRefreshImageListView = true;
-                    if (sourceNode != null) sourceNode.Remove();
+
+                    if (sourceNode != null) filesCutCopyPasteDrag.FolderTreeRemoveNode(folderTreeView, sourceNode);
                     filesCutCopyPasteDrag.RefeshFolderTree(folderTreeView, targetNode);
+                    
                     GlobalData.DoNotRefreshImageListView = false;
 
                     //------ Update database -----

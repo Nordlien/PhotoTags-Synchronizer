@@ -238,18 +238,36 @@ namespace PhotoTagsSynchronizer
             }
         }
 
-        private void treeViewFolderBrowser1_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
+        private void AfterAfterLabelEdit(TreeNode node, string label)
         {
             using (new WaitCursor())
             {
                 treeViewFolderBrowser1.SuspendLayout();
-                if (e.Label != null && e.Label != e.Node.Text)
+                string sourceDirectory = GetSelectedNodePath();
+                string newTagretDirectory = Path.Combine((new DirectoryInfo(sourceDirectory).Parent).FullName, label);
+                TreeNode treeNodeParent = node.Parent;
+                MoveFolder(treeViewFolderBrowser1, null, node.Parent, sourceDirectory, newTagretDirectory);
+                //node.ExpandAll();
+
+                foreach (TreeNode treeNode in treeNodeParent.Nodes)
                 {
-                    string sourceDirectory = GetSelectedNodePath();
-                    string newTagretDirectory = Path.Combine((new DirectoryInfo(sourceDirectory).Parent).FullName, e.Label);
-                    MoveFolder(treeViewFolderBrowser1, e.Node, e.Node.Parent, sourceDirectory, newTagretDirectory);
+                    if (treeNode.Text == label)
+                    {
+                        treeNode.TreeView.SelectedNode = treeNode;
+                        treeNode.Expand();
+                        break;
+                    }
                 }
                 treeViewFolderBrowser1.ResumeLayout();
+            }
+        }
+        private void treeViewFolderBrowser1_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
+        {
+
+            if (e.Label != null && e.Label != e.Node.Text)
+            {
+                this.BeginInvoke(new Action<TreeNode, string>(AfterAfterLabelEdit), e.Node, e.Label);
+
             }
         }
         #endregion
@@ -350,7 +368,7 @@ namespace PhotoTagsSynchronizer
 
                             //------ Update node tree -----
                             GlobalData.DoNotRefreshImageListView = true;
-                            if (sourceNode != null) sourceNode.Remove();
+                            if (sourceNode != null) filesCutCopyPasteDrag.FolderTreeRemoveNode(treeViewFolderBrowser1, sourceNode);
                             filesCutCopyPasteDrag.RefeshFolderTree(treeViewFolderBrowser1, parentNode);
                             GlobalData.DoNotRefreshImageListView = false;
 

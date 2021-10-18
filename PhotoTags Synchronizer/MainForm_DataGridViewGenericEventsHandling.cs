@@ -4815,7 +4815,7 @@ namespace PhotoTagsSynchronizer
             try
             {
                 GlobalData.DoNotRefreshImageListView = true;
-                TreeNode selectedNode = treeViewFolderBrowser1.SelectedNode;
+                TreeNodePath selectedNode = (TreeNodePath)treeViewFolderBrowser1.SelectedNode;
                 filesCutCopyPasteDrag.RefeshFolderTree(treeViewFolderBrowser1, selectedNode);
                 GlobalData.DoNotRefreshImageListView = false;
                 PopulateImageListView_FromFolderSelected(false, true);
