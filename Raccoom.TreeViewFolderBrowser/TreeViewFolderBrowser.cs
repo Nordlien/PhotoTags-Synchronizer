@@ -137,10 +137,6 @@ namespace Raccoom.Windows.Forms
         new public bool CheckBoxes
         {
             get { return base.CheckBoxes; }
-            //			set
-            //			{
-            //				base.CheckBoxes = value;				
-            //			}
         }
 
         /// <summary>

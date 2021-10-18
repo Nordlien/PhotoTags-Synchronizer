@@ -260,6 +260,7 @@ namespace Raccoom.Win32
 
         internal bool Expand(bool expandFiles, bool expandFolders, IntPtr winHandle)
         {
+
             if (((expandFiles && !filesExpanded) || !expandFiles) &&
                 ((expandFolders && !foldersExpanded) || !expandFolders) &&
                 (expandFiles || expandFolders) && ShellFolder != null && !disposed)
@@ -394,6 +395,11 @@ namespace Raccoom.Win32
             }
 
             return ((expandFiles == filesExpanded || !expandFiles) && (expandFolders == foldersExpanded || !expandFolders));
+        }
+
+        public void ClearFolders()
+        {
+            Clear(false, true);            
         }
 
         internal void Clear(bool clearFiles, bool clearFolders)

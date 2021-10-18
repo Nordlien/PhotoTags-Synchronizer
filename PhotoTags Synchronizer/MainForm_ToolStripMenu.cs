@@ -104,21 +104,27 @@ namespace PhotoTagsSynchronizer
             {
                 if (dragDropEffects == DragDropEffects.None)
                 {
+                    
                     KryptonMessageBox.Show("Was not able to detect if you select copy or cut object that was pasted or dropped");
                     return;
                 }
 
-                if (dragDropEffects == DragDropEffects.None)
+                if (!Directory.Exists(targetDirectory))
                 {
-                    if (IsFileInThreadQueueLock(fileDropList))
-                    {
-                        KryptonMessageBox.Show("Can't move files. Files are being used, you need wait until process is finished.");
-                        return;
-                    }
+                    KryptonMessageBox.Show("Target folder is not a valid target folder.\r\nSelected system folder:" + targetNode?.FullPath == null ? "Unkown" : targetNode?.FullPath);
+                    return;
+                }
+
+                if (IsFileInThreadQueueLock(fileDropList))
+                {
+                    KryptonMessageBox.Show("Can't " + dragDropEffects.ToString() + " files. Files are being used, you need wait until process is finished.");
+                    return;
                 }
 
                 StringCollection files = new StringCollection();
                 StringCollection directories = new StringCollection();
+                StringCollection filesSameTarget = new StringCollection();
+                StringCollection directoriesSameTaget = new StringCollection();
 
                 int numberOfFilesAndFolders = 0;
                 string copyFromFolders = "";
@@ -128,53 +134,78 @@ namespace PhotoTagsSynchronizer
                 {
                     if (File.Exists(clipbordSourceFileOrDirectory))
                     {
-                        files.Add(clipbordSourceFileOrDirectory);
-                        numberOfFilesAndFolders++;
+                        if (Path.GetDirectoryName(clipbordSourceFileOrDirectory) != targetDirectory)
+                        {
+                            files.Add(clipbordSourceFileOrDirectory);
+                            numberOfFilesAndFolders++;
+                        }
+                        else filesSameTarget.Add(clipbordSourceFileOrDirectory);
                     }
                     else if (Directory.Exists(clipbordSourceFileOrDirectory))
                     {
-                        directories.Add(clipbordSourceFileOrDirectory);
-                        if (numberOfFilesAndFolders <= 51)
+                        if (clipbordSourceFileOrDirectory != targetDirectory)
                         {
-                            string[] fileAndFolderEntriesCount = Directory.EnumerateFiles(clipbordSourceFileOrDirectory, "*", SearchOption.AllDirectories).Take(51).ToArray();
-                            numberOfFilesAndFolders += fileAndFolderEntriesCount.Length;
-                        }
+                            directories.Add(clipbordSourceFileOrDirectory);
+                            if (numberOfFilesAndFolders <= 51)
+                            {
+                                string[] fileAndFolderEntriesCount = Directory.EnumerateFiles(clipbordSourceFileOrDirectory, "*", SearchOption.AllDirectories).Take(51).ToArray();
+                                numberOfFilesAndFolders += fileAndFolderEntriesCount.Length;
+                            }
 
-                        countFoldersSelected++;
-                        if (countFoldersSelected < 3)
-                        {
-                            copyFromFolders += clipbordSourceFileOrDirectory + "\r\n";
-
+                            countFoldersSelected++;
+                            if (countFoldersSelected < 3)
+                            {
+                                copyFromFolders += clipbordSourceFileOrDirectory + "\r\n";
+                            }
+                            else if (countFoldersSelected == 4) copyFromFolders += "and more directories...\r\n";
                         }
-                        else if (countFoldersSelected == 4) copyFromFolders += "and more directories...\r\n";
+                        else directoriesSameTaget.Add(clipbordSourceFileOrDirectory);
                     }
                 }
 
-                if (numberOfFilesAndFolders <= 50 ||
-                    (MessageBox.Show("You are about to " + dragDropEffects.ToString() + " " + (numberOfFilesAndFolders > 50 ? "over 50+" : numberOfFilesAndFolders.ToString()) + " files and/or folders.\r\n\r\n" +
-                    "From:\r\n" + copyFromFolders + "\r\n\r\n" +
-                    "To folder:\r\n" + targetDirectory + "\r\n\r\n" +
-                    "Procced?", "Are you sure?", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK))
+
+                if (numberOfFilesAndFolders >= 1)
                 {
-
-                    if (dragDropEffects == DragDropEffects.Move)
-                        MoveFiles(treeViewFolderBrowser1, imageListView1, files, targetDirectory);
-                    else
-                        CopyFiles(treeViewFolderBrowser1, files, targetDirectory);
-
-                    foreach (string sourceDirectory in directories)
+                    if (numberOfFilesAndFolders <= 50 ||
+                        (MessageBox.Show("You are about to " + dragDropEffects.ToString() + " " + (numberOfFilesAndFolders > 50 ? "over 50+" : numberOfFilesAndFolders.ToString()) + " files and/or folders.\r\n\r\n" +
+                        "From:\r\n" + copyFromFolders + "\r\n\r\n" +
+                        "To folder:\r\n" + targetDirectory + "\r\n\r\n" +
+                        "Procced?", "Are you sure?", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK))
                     {
-                        string newTagretDirectory = Path.Combine(targetDirectory, new DirectoryInfo(sourceDirectory).Name); //Target directory + dragged (drag&drop) direcotry
-                                                                                                                            //TreeNode targetNode = folderTreeViewFolder.SelectedNode;
-                        TreeNode sourceNode = TreeViewFolderBrowserFindNode(treeViewFolderBrowser1.Nodes, sourceDirectory);
 
                         if (dragDropEffects == DragDropEffects.Move)
-                            MoveFolder(treeViewFolderBrowser1, sourceNode, targetNode, sourceDirectory, newTagretDirectory);
+                            MoveFiles(treeViewFolderBrowser1, imageListView1, files, targetDirectory);
                         else
-                            CopyFolder(treeViewFolderBrowser1, targetNode, sourceDirectory, newTagretDirectory);
-                    }
-                }
+                            CopyFiles(treeViewFolderBrowser1, files, targetDirectory);
 
+                        foreach (string sourceDirectory in directories)
+                        {
+                            string newTagretDirectory = Path.Combine(targetDirectory, new DirectoryInfo(sourceDirectory).Name); //Target directory + dragged (drag&drop) direcotry
+                                                                                                                                //TreeNode targetNode = folderTreeViewFolder.SelectedNode;
+                            TreeNode sourceNode = TreeViewFolderBrowserFindNode(treeViewFolderBrowser1.Nodes, sourceDirectory);
+
+                            if (dragDropEffects == DragDropEffects.Move)
+                                MoveFolder(treeViewFolderBrowser1, sourceNode, targetNode, sourceDirectory, newTagretDirectory);
+                            else
+                                CopyFolder(treeViewFolderBrowser1, targetNode, sourceDirectory, newTagretDirectory);
+                        }
+                    }
+                } else
+                {
+                    string fileMessage = "";
+                    if (filesSameTarget.Count == 1) fileMessage = "Source file: "+ filesSameTarget[0] + "\r\n";
+                    else if (filesSameTarget.Count >= 1) fileMessage = "File count: " + filesSameTarget.Count + "\r\n";
+
+                    string folderMessage = "";
+                    if (directoriesSameTaget.Count == 1) folderMessage = "";
+                    else if (directoriesSameTaget.Count >= 1) folderMessage = "Folder count: " + directoriesSameTaget.Count + "\r\n";
+
+                    KryptonMessageBox.Show("Can't " + dragDropEffects.ToString() + " files. \r\n" +
+                        "Source and destiation are the same.\r\n\r\n" +
+                        "Target folder: " + targetDirectory + "\r\n" +
+                        fileMessage +
+                        folderMessage);
+                }
                 treeViewFolderBrowser1.SelectedNode = currentNodeWhenStartDragging;
                 filesCutCopyPasteDrag.RefeshFolderTree(treeViewFolderBrowser1, currentNodeWhenStartDragging);
                 treeViewFolderBrowser1.Focus();
@@ -182,7 +213,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                Logger.Error(ex, "");
+                Logger.Error(ex);
                 KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -196,13 +227,14 @@ namespace PhotoTagsSynchronizer
             if (e.CancelEdit == false)
             {
                 string sourceDirectory = GetSelectedNodePath();
-                if (sourceDirectory == null || !Directory.Exists(sourceDirectory))
+                DirectoryInfo directoryInfo = new DirectoryInfo(sourceDirectory);
+                if (directoryInfo.Parent == null || sourceDirectory == null || !Directory.Exists(sourceDirectory))
                 {
-                    KryptonMessageBox.Show("Can't edit folder name. No valid folder selected.");
+                        e.CancelEdit = true;
+                        KryptonMessageBox.Show("Can't edit folder name. No valid folder selected.");
                     return;
                 }
-                DirectoryInfo directoryInfo = new DirectoryInfo(sourceDirectory);
-                if (directoryInfo.Parent == null) e.CancelEdit = true;            
+                           
             }
         }
 
@@ -253,20 +285,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region FolderTree - Drag and Drop - ContainsNode?
-        private bool ContainsNode(TreeNode node1, TreeNode node2)
-        {
-            // Check the parent node of the second node.  
-            if (node2.Parent == null) return false;
-            if (node2.Parent.Equals(node1)) return true;
-
-            // If the parent node is not null or equal to the first node,   
-            // call the ContainsNode method recursively using the parent of   
-            // the second node.  
-            return ContainsNode(node1, node2.Parent);
-        }
-        #endregion
-
         #region FolderTree - Drag and Drop - Node Mouse Click - Set clickedNode
         private void treeViewFolderBrowser1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {        
@@ -293,26 +311,33 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region FolderTree - Drag and Drop - Item Drag - Set Clipboard data to ** TreeViewFolder.Item ** | Move | Copy | Link |
+        private DataObject SetDropDropFileList(string sourceDirectory, DragDropEffects dragDropEffects)
+        {            
+            var droplist = new StringCollection();
+            droplist.Add(sourceDirectory);
+
+            DataObject data = new DataObject();
+            data.SetFileDropList(droplist);
+            data.SetData("Preferred DropEffect", DragDropEffects.Move);
+            Clipboard.SetDataObject(data, true);
+            //DragDropEffects dragDropEffects = treeViewFolderBrowser1.DoDragDrop(data, DragDropEffects.Copy | DragDropEffects.Move | DragDropEffects.Link); // Allowed effects
+            return data;
+        }
         private void treeViewFolderBrowser1_ItemDrag(object sender, ItemDragEventArgs e)
         {
          
             try
             {
-                currentNodeWhenStartDragging = (TreeNode)e.Item;
                 Clipboard.Clear();
 
-                if (currentNodeWhenStartDragging != null)
+                currentNodeWhenStartDragging = (TreeNode)e.Item;
+                string sourceDirectory = GetNodeFolderPath(currentNodeWhenStartDragging as TreeNodePath);
+                
+                if (currentNodeWhenStartDragging != null && Directory.Exists(sourceDirectory))
                 {
-                    string sourceDirectory = GetNodeFolderPath(currentNodeWhenStartDragging as TreeNodePath);
-                    var droplist = new StringCollection();
-                    droplist.Add(sourceDirectory);
-
-                    DataObject data = new DataObject();
-                    data.SetFileDropList(droplist);
-                    data.SetData("Preferred DropEffect", DragDropEffects.Move);
-                    Clipboard.SetDataObject(data, true);
+                    DataObject data = SetDropDropFileList(sourceDirectory, DragDropEffects.Copy | DragDropEffects.Move | DragDropEffects.Link);
                     DragDropEffects dragDropEffects = treeViewFolderBrowser1.DoDragDrop(data, DragDropEffects.Copy | DragDropEffects.Move | DragDropEffects.Link); // Allowed effects
-
+                    
                     if (!isInternalDrop)
                     {
                         if (dragDropEffects == DragDropEffects.Move) //Moved a folder to new location in eg. Windows Explorer
@@ -342,14 +367,16 @@ namespace PhotoTagsSynchronizer
                 }
                 else
                 {
-                    KryptonMessageBox.Show("No node folder was selected");
+                    SetDropDropFileList("", DragDropEffects.None); //Removes error message for wrong Data in Clipboard
                     treeViewFolderBrowser1.Focus();
                 }
             }
             catch (Exception ex)
             {
-                Logger.Error(ex, "folderTreeViewFolder_ItemDrag, Failed create drag and drop tarnsfer data.");
-                KryptonMessageBox.Show("Failed create drag and drop tarnsfer data. Error: " + ex.Message);
+                SetDropDropFileList("", DragDropEffects.None); //Removes error message for wrong Data in Clipboard
+
+                Logger.Error(ex, "folderTreeViewFolder_ItemDrag, Failed create drag and drop transfer data.");
+                KryptonMessageBox.Show("Failed create drag and drop transfer data. Error: " + ex.Message);
                 treeViewFolderBrowser1.Focus();
             }
         }

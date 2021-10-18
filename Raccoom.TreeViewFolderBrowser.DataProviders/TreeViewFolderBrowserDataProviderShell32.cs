@@ -250,6 +250,7 @@ namespace Raccoom.Windows.Forms
                 #region Add ShellItems
                 Raccoom.Win32.ShellItem folderItem = ((Raccoom.Win32.ShellItem)parent.Tag);
                 folderItem.Expand(this.ShowFiles, true, System.IntPtr.Zero);
+                
                 //
                 TreeNodePath node = null;
                 System.IO.DriveInfo driveInfo;

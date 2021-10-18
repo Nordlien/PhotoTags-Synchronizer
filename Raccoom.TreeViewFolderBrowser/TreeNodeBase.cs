@@ -116,6 +116,7 @@ namespace Raccoom.Windows.Forms
             }
         }
 
+
         #endregion
     }
 
@@ -167,6 +168,7 @@ namespace Raccoom.Windows.Forms
             : base(text, imageIndex, selectedImageIndex)
         {
             _isSpecialFolder = isSpecialFolder;
+            
         }
 
         #endregion

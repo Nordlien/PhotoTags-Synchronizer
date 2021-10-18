@@ -169,17 +169,10 @@ namespace PhotoTagsSynchronizer
             if (targetNode != null)
             {
                 if (folderTreeViewFolder.SelectedNode == null) return;
-                TreeNodePath node = (TreeNodePath)folderTreeViewFolder.SelectedNode;
+                TreeNodePath node = (TreeNodePath)targetNode;                
+                Raccoom.Win32.ShellItem folderItem = ((Raccoom.Win32.ShellItem)node.Tag);
+                folderItem.ClearFolders();
                 node.Refresh();
-
-                //targetNode.();
-                //TreeNode ntn = new TreeNode();
-                //ntn.Tag = FolderTreeView.DummyNodeTag;
-                //targetNode.Nodes.Add(ntn); //Internal use of TreeView as sign that subfolders exists
-
-                //folderTreeViewFolder.SelectedNode = targetNode;
-                //targetNode.Collapse();
-                //targetNode.Expand();
             }
         }
         #endregion
@@ -305,10 +298,11 @@ namespace PhotoTagsSynchronizer
                 if (!databaseAndCacheMetadataExiftool.Move(oldDirectory, oldFilename, newDirectory, newFilename))
                 {
                     if (KryptonMessageBox.Show(
-                        "Already exist a file with same name: " + Path.Combine(newDirectory, newFilename) + "\r\n" +
+                        "Already exist a file in the database with same name: " + Path.Combine(newDirectory, newFilename) + "\r\n" +
+                        "This can occure after manully moving files outside application\r\n\r\n" +
                         "Do you want do delete the old histoty and replace with new file?", 
                         "Can move content in database!", 
-                        MessageBoxButtons.OKCancel) == DialogResult.OK)
+                        MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
                         DeleteFileAndHistory(Path.Combine(newDirectory, newFilename));
                         databaseAndCacheMetadataExiftool.Move(oldDirectory, oldFilename, newDirectory, newFilename);

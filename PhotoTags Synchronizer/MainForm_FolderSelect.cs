@@ -63,11 +63,13 @@ namespace PhotoTagsSynchronizer
             UpdateStatusAction("Done added files to imagelistview: " + fileEntries.Count);
             treeViewFolderBrowser1.Focus();
         }
-        #endregion 
+        #endregion
 
+        #region GetNodeFolderPath / GetSelectedNodeFullPath
         private string GetNodeFolderPath(TreeNodePath treeNodePath)
         {
-            return treeNodePath?.Path == null ? "" : treeNodePath?.Path;
+            string folder = treeNodePath?.Path == null ? "" : treeNodePath?.Path;
+            return Directory.Exists(folder) ? folder : "";
         }
 
         private string GetSelectedNodePath()
@@ -84,6 +86,7 @@ namespace PhotoTagsSynchronizer
         {
             return GetNodeFolderFullPath(treeViewFolderBrowser1.SelectedNode as TreeNodePath);
         }
+        #endregion 
 
         #region FolderSelected - Populate DataGridView, ImageListView 
         private void PopulateImageListView_FromFolderSelected(bool recursive, bool runPopulateFilter)

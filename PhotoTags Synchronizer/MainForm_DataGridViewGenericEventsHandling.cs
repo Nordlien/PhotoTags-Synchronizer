@@ -744,8 +744,6 @@ namespace PhotoTagsSynchronizer
 
         #region ContextMenuGenericRename - Turn on / off
 
-        
-
         #region  AssignCompositeTag
         private void ContextMenuGenericAssignCompositeTag (bool visible)
         {
@@ -972,22 +970,35 @@ namespace PhotoTagsSynchronizer
         #region FolderCut_Click
         private void FolderCut_Click()
         {
-            string folder = GetNodeFolderPath(currentNodeWhenStartDragging as TreeNodePath);
-
-            var droplist = new StringCollection();
-            using (new WaitCursor())
+            try
             {
-                droplist.Add(folder);
+                string folder = GetNodeFolderPath(currentNodeWhenStartDragging as TreeNodePath);
+                if (!Directory.Exists (folder))
+                {
+                    KryptonMessageBox.Show("Not a valid folder selected. Try select anoter folder.\r\nSelected system folder: " + currentNodeWhenStartDragging?.FullPath == null ? "Unknown" : currentNodeWhenStartDragging?.FullPath);
+                    return;
+                }
 
-                DataObject data = new DataObject();
-                data.SetFileDropList(droplist);
-                data.SetData("Preferred DropEffect", DragDropEffects.Move);
+                var droplist = new StringCollection();
+                using (new WaitCursor())
+                {
+                    droplist.Add(folder);
 
-                Clipboard.Clear();
-                Clipboard.SetDataObject(data, true);
+                    DataObject data = new DataObject();
+                    data.SetFileDropList(droplist);
+                    data.SetData("Preferred DropEffect", DragDropEffects.Move);
+
+                    Clipboard.Clear();
+                    Clipboard.SetDataObject(data, true);
+                }
+                treeViewFolderBrowser1.Focus();
             }
-            treeViewFolderBrowser1.Focus();
-        }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+}
         #endregion
 
         #region DataGridGeneric_Cut
@@ -1194,6 +1205,11 @@ namespace PhotoTagsSynchronizer
             try
             {
                 string folder = GetNodeFolderPath(currentNodeWhenStartDragging as TreeNodePath);
+                if (!Directory.Exists(folder))
+                {
+                    KryptonMessageBox.Show("Not a valid folder selected. Try select anoter folder.\r\nSelected system folder: " + currentNodeWhenStartDragging?.FullPath == null ? "Unknown" : currentNodeWhenStartDragging?.FullPath);
+                    return;
+                }
 
                 StringCollection droplist = new StringCollection();
                 using (new WaitCursor())
@@ -1408,6 +1424,11 @@ namespace PhotoTagsSynchronizer
                 using (new WaitCursor())
                 {
                     string folder = GetNodeFolderPath(currentNodeWhenStartDragging as TreeNodePath);
+                    if (!Directory.Exists(folder))
+                    {
+                        KryptonMessageBox.Show("Not a valid folder selected. Try select anoter folder.\r\nSelected system folder: " + currentNodeWhenStartDragging?.FullPath == null ? "Unknown" : currentNodeWhenStartDragging?.FullPath);
+                        return;
+                    }
 
                     CopyOrMove(dragDropEffects, currentNodeWhenStartDragging, Clipboard.GetFileDropList(), folder);
                     treeViewFolderBrowser1.Focus();
@@ -3250,7 +3271,7 @@ namespace PhotoTagsSynchronizer
                 string folder = GetSelectedNodePath();
                 if (folder == null || !Directory.Exists(folder))
                 {
-                    KryptonMessageBox.Show("Can't copy folder name. No valid folder selected.");
+                    KryptonMessageBox.Show("Can't copy folder name. Not a valid folder selected.");
                     return;
                 }
                 Clipboard.SetText(folder);
@@ -4974,7 +4995,7 @@ namespace PhotoTagsSynchronizer
                 string folder = GetSelectedNodePath();
                 if (folder == null || !Directory.Exists(folder))
                 {
-                    KryptonMessageBox.Show("Can't copy folder name. No valid folder selected.");
+                    KryptonMessageBox.Show("Can't open folder location. Not a valid folder selected.");
                     return;
                 }
                 ApplicationActivation.ShowFolderInEplorer(folder);
@@ -5543,7 +5564,7 @@ namespace PhotoTagsSynchronizer
                 string selectedFolder = GetSelectedNodePath();
                 if (selectedFolder == null || !Directory.Exists(selectedFolder))
                 {
-                    KryptonMessageBox.Show("Can't run AutoCorrect. No valid folder selected.");
+                    KryptonMessageBox.Show("Can't run AutoCorrect. Not a valid folder selected.");
                     return;
                 }
                 string[] files = Directory.GetFiles(selectedFolder, "*.*");
@@ -5946,7 +5967,7 @@ namespace PhotoTagsSynchronizer
                 string folder = GetSelectedNodePath();
                 if (folder == null || !Directory.Exists(folder))
                 {
-                    KryptonMessageBox.Show("Can't reload folder. No valid folder selected.");
+                    KryptonMessageBox.Show("Can't reload folder. Not a valid folder selected.");
                     return;
                 }
 
