@@ -169,15 +169,15 @@
     <ProjectReference Include="..\WindowsProperty\WindowsProperty.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CefSharp.Common" Version="93.1.140" />
-    <PackageReference Include="CefSharp.WinForms" Version="93.1.140" />
+    <PackageReference Include="CefSharp.Common" Version="94.4.50" />
+    <PackageReference Include="CefSharp.WinForms" Version="94.4.50" />
     <PackageReference Include="CyotekImageBox">
       <Version>1.2.1</Version>
     </PackageReference>
     <PackageReference Include="FCTB">
       <Version>2.16.24</Version>
     </PackageReference>
-    <PackageReference Include="LibVLCSharp.WinForms" Version="3.6.0" />
+    <PackageReference Include="LibVLCSharp.WinForms" Version="3.6.1" />
     <PackageReference Include="NLog">
       <Version>4.7.11</Version>
     </PackageReference>
