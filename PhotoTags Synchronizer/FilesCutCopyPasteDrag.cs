@@ -23,6 +23,61 @@ namespace PhotoTagsSynchronizer
         private ExiftoolDataDatabase databaseExiftoolData;
         private ExiftoolWarningDatabase databaseExiftoolWarning;
 
+        #region TreeViewFolderBrowser - Remove TreeNode
+        public void TreeViewFolderBrowserRemoveTreeNode(TreeViewFolderBrowser folderTreeViewFolder, TreeNode treeNode)
+        {
+            if (treeNode != null)
+            {
+                TreeNodePath node = (TreeNodePath)treeNode;
+                Raccoom.Win32.ShellItem folderItem = ((Raccoom.Win32.ShellItem)node.Tag);
+                folderItem.ClearFolders();
+                node.Remove();
+            }
+        }
+        #endregion
+
+        #region TreeViewFolderBrowser - Refresh TreeNode
+        public void TreeViewFolderBrowserRefreshTreeNode(TreeViewFolderBrowser folderTreeViewFolder, TreeNode treeNode)
+        {
+            if (treeNode != null)
+            {
+                
+                TreeNodePath node = (TreeNodePath)treeNode;
+                Raccoom.Win32.ShellItem folderItem = ((Raccoom.Win32.ShellItem)node.Tag);
+                folderItem.ClearFolders();
+                node.Refresh();
+                folderTreeViewFolder.UseWaitCursor = true;
+                folderTreeViewFolder.BeginUpdate();
+                treeNode.Collapse();
+                treeNode.Expand();
+                folderTreeViewFolder.EndUpdate();
+                folderTreeViewFolder.UseWaitCursor = false;
+            }
+        }
+        #endregion
+
+        #region TreeViewFolderBrowser - FindAllNodes
+        public List<TreeNode> TreeViewFolderBrowserFindAllNodes(TreeNodeCollection treeNodeCollection, string directory)
+        {
+            List<TreeNode> treeNodeFound = new List<TreeNode>();
+            TreeViewFolderBrowserFindAllNodesRecursive(treeNodeCollection, directory, ref treeNodeFound);
+            return treeNodeFound;
+        }
+
+        public void TreeViewFolderBrowserFindAllNodesRecursive(TreeNodeCollection treeNodeCollection, string directory, ref List<TreeNode> treeNodeFound)
+        {
+            foreach (TreeNode treeNodeSearch in treeNodeCollection)
+            {
+                TreeNodePath treeNodePath = (TreeNodePath)treeNodeSearch;
+                if (treeNodePath.Path == directory)
+                {
+                    treeNodeFound.Add(treeNodeSearch);
+                }
+                if (treeNodeSearch.Nodes != null) TreeViewFolderBrowserFindAllNodesRecursive(treeNodeSearch.Nodes, directory, ref treeNodeFound);
+            }
+        }
+        #endregion
+
         #region FilesCutCopyPasteDrag - Constructor
         public FilesCutCopyPasteDrag(MetadataDatabaseCache databaseAndCacheMetadataExiftool, 
             MetadataDatabaseCache databaseAndCacheMetadataWindowsLivePhotoGallery, 
@@ -163,33 +218,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region FilesCutCopyPasteDrag - RefeshFolderTree
-        public void RefeshFolderTree(TreeViewFolderBrowser folderTreeViewFolder, TreeNode targetNode)
-        {
-            if (targetNode != null)
-            {
-                if (folderTreeViewFolder.SelectedNode == null) return;
-                TreeNodePath node = (TreeNodePath)targetNode;                
-                Raccoom.Win32.ShellItem folderItem = ((Raccoom.Win32.ShellItem)node.Tag);
-                folderItem.ClearFolders();
-                node.Refresh();
-            }
-        }
-        #endregion
-
-        #region
-        public void FolderTreeRemoveNode(TreeViewFolderBrowser folderTreeViewFolder, TreeNode treeNode)
-        {
-            if (treeNode != null)
-            {
-                TreeNodePath node = (TreeNodePath)treeNode;
-                Raccoom.Win32.ShellItem folderItem = ((Raccoom.Win32.ShellItem)node.Tag);
-                folderItem.ClearFolders();
-                node.Remove();
-            }
-        }
-        #endregion
-
         #region FilesCutCopyPasteDrag - DeleteFilesInFolder
         public int DeleteFilesInFolder(MainForm mainForm, TreeViewFolderBrowser folderTreeViewFolder, string folder)
         {
@@ -214,10 +242,11 @@ namespace PhotoTagsSynchronizer
 
             #region Update Node in TreeView
             GlobalData.DoNotRefreshImageListView = true;
-            FolderTreeRemoveNode (folderTreeViewFolder, selectedNode);
+            
+            TreeViewFolderBrowserRemoveTreeNode (folderTreeViewFolder, selectedNode);
             if (parentNode != null)
             {
-                RefeshFolderTree(folderTreeViewFolder, parentNode);
+                TreeViewFolderBrowserRefreshTreeNode(folderTreeViewFolder, parentNode);
             }
             GlobalData.DoNotRefreshImageListView = false;
             #endregion
@@ -307,6 +336,7 @@ namespace PhotoTagsSynchronizer
                     Directory.CreateDirectory(newDirectory);
                     directoryCreated = true;
                 }
+
                 File.Move(sourceFullFilename, targetFullFilename);
                 if (!databaseAndCacheMetadataExiftool.Move(oldDirectory, oldFilename, newDirectory, newFilename))
                 {
@@ -343,8 +373,9 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region FilesCutCopyPasteDrag - CopyFile
-        public void CopyFile(string sourceFullFilename, string targetFullFilename)
+        public bool CopyFile(string sourceFullFilename, string targetFullFilename)
         {
+            bool directoryCreated = false;
             if (File.Exists(sourceFullFilename))
             {
                 string oldFilename = Path.GetFileName(sourceFullFilename);
@@ -353,11 +384,17 @@ namespace PhotoTagsSynchronizer
                 string newFilename = Path.GetFileName(targetFullFilename);
                 string newDirectory = Path.GetDirectoryName(targetFullFilename);
 
-                Directory.CreateDirectory(newDirectory);
+                if (!Directory.Exists(newDirectory))
+                {
+                    Directory.CreateDirectory(newDirectory);
+                    directoryCreated = true;
+                }
+
                 File.Copy(sourceFullFilename, targetFullFilename);                
                 File.SetCreationTime(targetFullFilename, File.GetCreationTime(sourceFullFilename));
                 databaseAndCacheMetadataExiftool.Copy(oldDirectory, oldFilename, newDirectory, newFilename);
             }
+            return directoryCreated;
         }
         #endregion
     }

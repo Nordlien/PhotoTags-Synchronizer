@@ -733,7 +733,7 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonWorkspaceMain
             // 
-            this.kryptonWorkspaceMain.ActivePage = this.kryptonPageFolderSearchFilterFolder;
+            this.kryptonWorkspaceMain.ActivePage = this.kryptonPageToolboxTags;
             this.kryptonWorkspaceMain.AllowPageDrag = false;
             this.kryptonWorkspaceMain.ContextMenus.ShowContextMenu = false;
             this.kryptonWorkspaceMain.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -3812,7 +3812,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonTabSelect,
             this.kryptonRibbonTabTools,
             this.kryptonRibbonTabPreview});
-            this.kryptonRibbonMain.SelectedContext = null;
             this.kryptonRibbonMain.SelectedTab = this.kryptonRibbonTabHome;
             this.kryptonRibbonMain.Size = new System.Drawing.Size(1214, 115);
             this.kryptonRibbonMain.TabIndex = 12;

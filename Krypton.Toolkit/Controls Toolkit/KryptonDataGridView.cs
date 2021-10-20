@@ -2867,7 +2867,7 @@ namespace Krypton.Toolkit
             {
                 base.WndProc(ref m);
             }
-            catch (Exception ex) { 
+            catch  { 
                 
             } //JTN Added
         }

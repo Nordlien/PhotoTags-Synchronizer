@@ -91,8 +91,6 @@ namespace PhotoTagsSynchronizer
         #region FolderSelected - Populate DataGridView, ImageListView 
         private void PopulateImageListView_FromFolderSelected(bool recursive, bool runPopulateFilter)
         {
-            //Stopwatch stopwatch = new Stopwatch();
-            //Logger.Debug("PopulateImageListView_FromFolderSelected 0" )
             #region Read folder files
             if (GlobalData.IsPopulatingFolderSelected) //If in progress, then stop and reselect new
             {
@@ -104,9 +102,6 @@ namespace PhotoTagsSynchronizer
 
             string selectedFolder = GetSelectedNodePath();
             Properties.Settings.Default.LastFolder = GetSelectedNodeFullPath();
-            
-            //if (selectedFolder == null || !Directory.Exists(selectedFolder)) return; //Is system folder, no need to read files
-            
             
             UpdateStatusAction("Read files in folder: " + selectedFolder);
             HashSet<FileEntry> fileEntries = ImageAndMovieFileExtentionsUtility.ListAllMediaFileEntries(selectedFolder, recursive);

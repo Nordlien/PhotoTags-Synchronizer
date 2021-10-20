@@ -364,6 +364,7 @@ namespace Krypton.Toolkit
                                     g.FillRectangle(backBrush, new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top));
                                 }
 
+
                                 // Get the constant used to crack open the display
                                 int dropDownWidth = SystemInformation.VerticalScrollBarWidth;
                                 Size borderSize = SystemInformation.BorderSize;
@@ -432,7 +433,7 @@ namespace Krypton.Toolkit
                                             break;
                                     }
 
-                                    // Draw using a solid brush
+                                    //Draw using a solid brush
                                     Rectangle rectangle = new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
                                     rectangle = CommonHelper.ApplyPadding(VisualOrientation.Top, rectangle,
                                         states.Content.GetContentPadding(state));

@@ -399,7 +399,25 @@ namespace Raccoom.Win32
 
         public void ClearFolders()
         {
-            Clear(false, true);            
+            //Clear(false, true);
+            lock (browser)
+            {
+                try
+                {
+                    #region Reset Files
+                    foreach (IDisposable item in subFiles) item.Dispose();
+                    subFiles.Clear();
+                    filesExpanded = false;                    
+                    #endregion
+
+                    #region Reset Folders
+                    foreach (IDisposable item in subFolders) item.Dispose();
+                    subFolders.Clear();
+                    foldersExpanded = false;                    
+                    #endregion
+                }
+                catch (Exception) { }
+            }
         }
 
         internal void Clear(bool clearFiles, bool clearFolders)

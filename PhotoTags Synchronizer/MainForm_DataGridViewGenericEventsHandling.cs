@@ -949,13 +949,7 @@ namespace PhotoTagsSynchronizer
                 using (new WaitCursor())
                 {
                     foreach (ImageListViewItem item in imageListView1.SelectedItems) droplist.Add(item.FileFullPath);
-
-                    DataObject data = new DataObject();
-                    data.SetFileDropList(droplist);
-                    data.SetData("Preferred DropEffect", DragDropEffects.Move);
-
-                    Clipboard.Clear();
-                    Clipboard.SetDataObject(data, true);
+                    SetDropDropFileList(droplist);
                 }
                 imageListView1.Focus();
             }
@@ -972,24 +966,16 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                string folder = GetNodeFolderPath(currentNodeWhenStartDragging as TreeNodePath);
+                string folder = GetNodeFolderPath(treeViewFolderBrowser1.SelectedNode as TreeNodePath);
                 if (!Directory.Exists (folder))
                 {
-                    KryptonMessageBox.Show("Not a valid folder selected. Try select anoter folder.\r\nSelected system folder: " + currentNodeWhenStartDragging?.FullPath == null ? "Unknown" : currentNodeWhenStartDragging?.FullPath);
+                    KryptonMessageBox.Show("Not a valid folder selected. Try select anoter folder.\r\nSelected system folder: " + (string.IsNullOrWhiteSpace(folder) ? "Unknown" : folder));
                     return;
                 }
 
-                var droplist = new StringCollection();
                 using (new WaitCursor())
                 {
-                    droplist.Add(folder);
-
-                    DataObject data = new DataObject();
-                    data.SetFileDropList(droplist);
-                    data.SetData("Preferred DropEffect", DragDropEffects.Move);
-
-                    Clipboard.Clear();
-                    Clipboard.SetDataObject(data, true);
+                    SetDropDropFileList(folder);
                 }
                 treeViewFolderBrowser1.Focus();
             }
@@ -1181,13 +1167,7 @@ namespace PhotoTagsSynchronizer
                 using (new WaitCursor())
                 {
                     foreach (ImageListViewItem item in imageListView1.SelectedItems) droplist.Add(item.FileFullPath);
-
-                    DataObject data = new DataObject();
-                    data.SetFileDropList(droplist);
-                    data.SetData("Preferred DropEffect", DragDropEffects.Copy);
-
-                    Clipboard.Clear();
-                    Clipboard.SetDataObject(data, true);
+                    SetDropDropFileList(droplist);
                 }
                 imageListView1.Focus();
             }
@@ -1204,24 +1184,17 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                string folder = GetNodeFolderPath(currentNodeWhenStartDragging as TreeNodePath);
+                string folder = GetNodeFolderPath(treeViewFolderBrowser1.SelectedNode as TreeNodePath);
                 if (!Directory.Exists(folder))
                 {
-                    KryptonMessageBox.Show("Not a valid folder selected. Try select anoter folder.\r\nSelected system folder: " + currentNodeWhenStartDragging?.FullPath == null ? "Unknown" : currentNodeWhenStartDragging?.FullPath);
+                    KryptonMessageBox.Show("Not a valid folder selected. Try select anoter folder.\r\nSelected system folder: " + (string.IsNullOrWhiteSpace(folder) ? "Unknown" : folder));
                     return;
                 }
 
-                StringCollection droplist = new StringCollection();
                 using (new WaitCursor())
                 {
-                    droplist.Add(folder);
-
-                    DataObject data = new DataObject();
-                    data.SetFileDropList(droplist);
-                    data.SetData("Preferred DropEffect", DragDropEffects.Copy);
-
-                    Clipboard.Clear();
-                    Clipboard.SetDataObject(data, true);
+                    SetDropDropFileList(folder);
+                    
                 }
                 treeViewFolderBrowser1.Focus();
             }
@@ -1423,15 +1396,17 @@ namespace PhotoTagsSynchronizer
                 DragDropEffects dragDropEffects = DetectCopyOrMove();
                 using (new WaitCursor())
                 {
-                    string folder = GetNodeFolderPath(currentNodeWhenStartDragging as TreeNodePath);
-                    if (!Directory.Exists(folder))
+                    TreeNode targetTreeNode = treeViewFolderBrowser1.SelectedNode;
+                    string targetFolder = GetNodeFolderPath(targetTreeNode as TreeNodePath);
+
+                    if (!Directory.Exists(targetFolder))
                     {
-                        KryptonMessageBox.Show("Not a valid folder selected. Try select anoter folder.\r\nSelected system folder: " + currentNodeWhenStartDragging?.FullPath == null ? "Unknown" : currentNodeWhenStartDragging?.FullPath);
+                        KryptonMessageBox.Show("Not a valid target folder selected. Try select anoter folder.\r\nSelected system folder: " + (string.IsNullOrWhiteSpace(targetFolder) ? "Unknown" : targetFolder));
                         return;
                     }
 
-                    CopyOrMove(dragDropEffects, currentNodeWhenStartDragging, Clipboard.GetFileDropList(), folder);
-                    treeViewFolderBrowser1.Focus();
+                    StringCollection filesOrFolders = Clipboard.GetFileDropList();
+                    CopyOrMove_UpdatedBrowserTreeView(dragDropEffects, filesOrFolders, targetFolder, treeViewFolderBrowser1.SelectedNode);
                 }
             }
             catch (Exception ex)
@@ -4816,7 +4791,7 @@ namespace PhotoTagsSynchronizer
             {
                 GlobalData.DoNotRefreshImageListView = true;
                 TreeNodePath selectedNode = (TreeNodePath)treeViewFolderBrowser1.SelectedNode;
-                filesCutCopyPasteDrag.RefeshFolderTree(treeViewFolderBrowser1, selectedNode);
+                filesCutCopyPasteDrag.TreeViewFolderBrowserRefreshTreeNode(treeViewFolderBrowser1, selectedNode);
                 GlobalData.DoNotRefreshImageListView = false;
                 PopulateImageListView_FromFolderSelected(false, true);
                 treeViewFolderBrowser1.Focus();

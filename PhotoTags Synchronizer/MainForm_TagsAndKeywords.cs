@@ -439,13 +439,43 @@ namespace PhotoTagsSynchronizer
         #region EnableDetailViewTagsAndKeywords(bool enable)
         private void EnableDetailViewTagsAndKeywords(bool enable)
         {
-            
+            if (!enable)
+            {
+                comboBoxMediaAiConfidence.SuspendLayout();
+                comboBoxTitle.SuspendLayout();
+                comboBoxDescription.SuspendLayout();
+                comboBoxComments.SuspendLayout();
+                comboBoxAlbum.SuspendLayout();
+                comboBoxAuthor.SuspendLayout();
+                radioButtonRating1.SuspendLayout();
+                radioButtonRating2.SuspendLayout();
+                radioButtonRating3.SuspendLayout();
+                radioButtonRating4.SuspendLayout();
+                radioButtonRating5.SuspendLayout();
+            }
             comboBoxMediaAiConfidence.Enabled = enable;
-            comboBoxTitle.Enabled = enable;
-            comboBoxDescription.Enabled = enable;
-            comboBoxComments.Enabled = enable;
-            comboBoxAlbum.Enabled = enable;
-            comboBoxAuthor.Enabled = enable;
+
+            if (enable) comboBoxTitle.Enabled = enable; //To avoid flashing
+            comboBoxTitle.DropDownStyle = enable ? ComboBoxStyle.DropDown : ComboBoxStyle.DropDownList; //To avoid white inputbox
+            comboBoxTitle.Enabled = enable;//Also to avoid flashing, need set false after change DropDownStyle
+
+            if (enable) comboBoxDescription.Enabled = enable;//To avoid flashing
+            comboBoxDescription.DropDownStyle = enable ? ComboBoxStyle.DropDown : ComboBoxStyle.DropDownList; //To avoid white inputbox
+            comboBoxDescription.Enabled = enable;//Also to avoid flashing, need set false after change DropDownStyle
+
+            if (enable) comboBoxComments.Enabled = enable;//To avoid flashing
+            comboBoxComments.DropDownStyle = enable ? ComboBoxStyle.DropDown : ComboBoxStyle.DropDownList;//To avoid white inputbox
+            comboBoxComments.Enabled = enable;//Also to avoid flashing, need set false after change DropDownStyle
+
+            if (enable) comboBoxAlbum.Enabled = enable;//To avoid flashing
+            comboBoxAlbum.DropDownStyle = enable ? ComboBoxStyle.DropDown : ComboBoxStyle.DropDownList;//To avoid white inputbox
+            comboBoxAlbum.Enabled = enable;//Also to avoid flashing, need set false after change DropDownStyle
+
+            if (enable) comboBoxAuthor.Enabled = enable;//To avoid flashing
+            comboBoxAuthor.DropDownStyle = enable ? ComboBoxStyle.DropDown : ComboBoxStyle.DropDownList;//To avoid white inputbox
+            comboBoxAuthor.Enabled = enable; //Also to avoid flashing, need set false after change DropDownStyle
+
+
             radioButtonRating1.Enabled = enable;
             radioButtonRating2.Enabled = enable;
             radioButtonRating3.Enabled = enable;
@@ -465,20 +495,8 @@ namespace PhotoTagsSynchronizer
                 radioButtonRating3.ResumeLayout();
                 radioButtonRating4.ResumeLayout();
                 radioButtonRating5.ResumeLayout();
-            } else
-            {
-                comboBoxMediaAiConfidence.SuspendLayout();
-                comboBoxTitle.SuspendLayout();
-                comboBoxDescription.SuspendLayout();
-                comboBoxComments.SuspendLayout();
-                comboBoxAlbum.SuspendLayout();
-                comboBoxAuthor.SuspendLayout();
-                radioButtonRating1.SuspendLayout();
-                radioButtonRating2.SuspendLayout();
-                radioButtonRating3.SuspendLayout();
-                radioButtonRating4.SuspendLayout();
-                radioButtonRating5.SuspendLayout();
-            }
+            } 
+            
             
         }
         #endregion

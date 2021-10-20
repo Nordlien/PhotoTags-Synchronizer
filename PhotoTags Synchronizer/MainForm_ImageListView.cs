@@ -354,6 +354,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region ImageListView - SetItemDirty
         public void ImageListViewSetItemDirty(string fullfilename)
         {
             ImageListViewItem imageListViewItem = FindItemInImageListView(imageListView1.Items, fullfilename);
@@ -364,6 +365,7 @@ namespace PhotoTagsSynchronizer
             }
             imageListView1.Refresh();
         }
+        #endregion
 
         #region ImageListView - ReloadThumbnail - Filename - Invoke
         private void ImageListViewReloadThumbnailAndMetadataInvoke(ImageListView imageListView, string fullFileName)
