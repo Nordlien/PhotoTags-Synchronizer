@@ -220,7 +220,11 @@ namespace Raccoom.Windows.Forms
 			System.Windows.Forms.TreeNodeCollection nodeCol = RequestDriveCollection();
 
             ShowNodeFullPath(Helper.TreeView.Nodes, directoryPath);
-            if (Helper.TreeView.SelectedNode != null) return; //Location found, no need to continue
+            if (Helper.TreeView.SelectedNode != null) //Location found, no need to continue
+            {
+               
+                return; // if root noot, continue so we open firt level
+            }
 
             //
             if (!System.IO.Directory.Exists(directoryPath) || nodeCol == null) return;

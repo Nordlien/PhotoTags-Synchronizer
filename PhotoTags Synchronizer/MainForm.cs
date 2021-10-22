@@ -816,14 +816,6 @@ namespace PhotoTagsSynchronizer
                 FormSplash.UpdateStatus("Initialize folder tree...");
                 GlobalData.IsPopulatingFolderTree = true;
 
-                //this.treeViewFolderBrowser1.InitFolderTreeView();
-                //treeViewFolderBrowser1.SuspendLayout();
-                //string folder = Properties.Settings.Default.LastFolder;
-                //if (Directory.Exists(folder))
-                //    treeViewFolderBrowser1.DrillToFolder(folder);
-                //else
-                //    treeViewFolderBrowser1.SelectedNode = folderTreeViewFolder.Nodes[0];
-                //treeViewFolderBrowser1.ResumeLayout();
                 try
                 {
 
@@ -834,8 +826,10 @@ namespace PhotoTagsSynchronizer
                     string folder = Properties.Settings.Default.LastFolder;
 
                     treeViewFolderBrowser1.Populate(folder);
-                    
-
+                    if (treeViewFolderBrowser1.SelectedNode == null && treeViewFolderBrowser1.Nodes.Count >= 1)
+                    {
+                        filesCutCopyPasteDrag.TreeViewFolderBrowserRefreshTreeNode(treeViewFolderBrowser1, treeViewFolderBrowser1.Nodes[0]);
+                    }
                 }
                 catch (Exception ee)
                 {

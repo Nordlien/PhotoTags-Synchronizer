@@ -639,7 +639,8 @@ namespace PhotoTagsSynchronizer
                         _ThreadDelayLazyLoadingHide = new Thread(() =>
                         {
                             Task.Delay(2000).Wait();
-                            if (lastQueueSize == 0) this.BeginInvoke(new Action<bool>(ProgressbarLazyLoadingProgress), false);
+                            
+                            if (lastQueueSize == 0 && this.IsHandleCreated) this.BeginInvoke(new Action<bool>(ProgressbarLazyLoadingProgress), false);
                             _ThreadDelayLazyLoadingHide = null;
                         });
 
