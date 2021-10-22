@@ -194,12 +194,14 @@ namespace Trinet.Networking
 		#endregion
 		
 		#region Constructor
-
-		/// <summary>
-		/// Constructor
-		/// </summary>
-		/// <param name="Server"></param>
-		/// <param name="shi"></param>
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="server"></param>
+        /// <param name="netName"></param>
+        /// <param name="path"></param>
+        /// <param name="shareType"></param>
+        /// <param name="remark"></param>
 		public Share(string server, string netName, string path, ShareType shareType, string remark) 
 		{
 			if (ShareType.Special == shareType && "IPC$" == netName)
@@ -956,9 +958,9 @@ namespace Trinet.Networking
 		}
 
 		/// <summary>
-		/// Constructor
-		/// </summary>
-		/// <param name="Server"></param>
+        /// Constructir
+        /// </summary>
+        /// <param name="server"></param>
 		public ShareCollection(string server) 
 		{
 			_server = server;

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Data;
-using System.Data.SqlServerCe;
 using System.Text;
 using System.Diagnostics;
-
+using System.Data.SqlServerCe;
 namespace ChristianHelle.DatabaseTools.SqlCe
 {
     public class SqlCeDatabase : ISqlCeDatabase
