@@ -372,11 +372,25 @@ namespace WindowsLivePhotoGallery
         #endregion
 
         #region Metadata Read
-        private bool errorHasOccurdDoNotReconnect = false; 
+        private bool errorHasOccurdDoNotReconnect = false;
+        private bool checkIfWindowLivePhotoGalleryExists = true;
+        private bool doesWindowLivePhotoGalleryExists = true;
+
         public Metadata Read(MetadataBrokerType broker, string fullFilePath)
         {
             if (errorHasOccurdDoNotReconnect) return null;
-            
+            if (checkIfWindowLivePhotoGalleryExists)
+            {
+                checkIfWindowLivePhotoGalleryExists = false; //Check only once
+                string sourceFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft\\Windows Live Photo Gallery\\Pictures.pd6");
+                try
+                {
+                    doesWindowLivePhotoGalleryExists = File.Exists(sourceFile);                    
+                }
+                catch { }
+            }
+            if (!doesWindowLivePhotoGalleryExists) return null;
+
             Stopwatch stopWatch = new Stopwatch();
             
             ErrorMessageReset();
