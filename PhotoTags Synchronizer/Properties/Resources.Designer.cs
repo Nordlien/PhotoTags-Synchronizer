@@ -19,7 +19,7 @@ namespace PhotoTagsSynchronizer.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -466,6 +466,36 @@ namespace PhotoTagsSynchronizer.Properties {
         internal static System.Drawing.Bitmap GridFavorite32x32 {
             get {
                 object obj = ResourceManager.GetObject("GridFavorite32x32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Hint_DelayedLoadReload {
+            get {
+                object obj = ResourceManager.GetObject("Hint-DelayedLoadReload", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Hint_GiveInternetAccess {
+            get {
+                object obj = ResourceManager.GetObject("Hint-GiveInternetAccess", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Hint_KeepWhereBelongs {
+            get {
+                object obj = ResourceManager.GetObject("Hint-KeepWhereBelongs", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

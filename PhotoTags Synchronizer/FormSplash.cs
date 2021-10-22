@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -63,6 +65,11 @@ namespace PhotoTagsSynchronizer
 
             this.SuspendLayout();
             this.UseWaitCursor = true;
+
+            this.tabControlMessages.Appearance = TabAppearance.FlatButtons;
+            this.tabControlMessages.ItemSize = new Size(0, 1);
+            this.tabControlMessages.SizeMode = TabSizeMode.Fixed;
+
             this.checkBoxCloseWarning.Checked = _closeWarningChecked;
             this.Text = _title; 
             this.labelStatus.Text = _status;
@@ -168,6 +175,7 @@ namespace PhotoTagsSynchronizer
        
         static public void UpdateStatus(string status)
         {
+            
             Logger.Debug(status);
 
             _status = status;
@@ -177,8 +185,70 @@ namespace PhotoTagsSynchronizer
                 if (splashForm != null && splashForm.IsHandleCreated)
                 {
                     splashForm.Invoke(new UpdateStatusDelegate(FormSplash.UpdateStatusInternal));
+                    splashForm.ShowRandomsPage();
                 }
             } catch { }
+        }
+
+        public enum MessagePage
+        {
+            Warning,
+            KeepYourTags,
+            InternetAccess,
+            DelayReading
+        }
+        
+        private void ShowMessagesPage(MessagePage page)
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<MessagePage>(ShowMessagesPage), page);
+                return;
+            }
+            switch (page)
+            {
+                case MessagePage.Warning:
+                    tabControlMessages.SelectedTab = tabPageWarning;
+                    break;
+                case MessagePage.KeepYourTags:
+                    tabControlMessages.SelectedTab = tabPageKeepYourTags;
+                    break;
+                case MessagePage.InternetAccess:
+                    tabControlMessages.SelectedTab = tabPageInternetAccess;
+                    break;
+                case MessagePage.DelayReading:
+                    tabControlMessages.SelectedTab = tabPageDelayReading;
+                    break;
+            }
+        }
+
+        private Stopwatch stopwatch = null;
+        private void ShowRandomsPage()
+        {            
+            if (!hasWarningOccurred && (stopwatch == null || stopwatch.ElapsedMilliseconds > 5000))
+            {
+                if (stopwatch == null)
+                {
+                    stopwatch = new Stopwatch();
+                    stopwatch.Start();
+                }
+
+                stopwatch.Restart();
+
+                switch (new Random().Next(1, 3))
+                {
+                    case 1:
+                        ShowMessagesPage(MessagePage.KeepYourTags);
+                        break;
+                    case 2:
+                        ShowMessagesPage(MessagePage.InternetAccess);
+                        break;
+                    case 3:
+                        ShowMessagesPage(MessagePage.DelayReading);
+                        break;
+
+                }
+            }
         }
 
         static private void AddWarningsInternal()
@@ -186,6 +256,7 @@ namespace PhotoTagsSynchronizer
             if (splashForm != null)
             {
                 hasWarningOccurred = true;
+                splashForm.ShowMessagesPage(MessagePage.Warning);                
                 splashForm.textBoxWarning.Text = splashForm.textBoxWarning.Text + "\r\n" + _warningMessage ;
                 splashForm.textBoxWarning.Visible = true;
                 splashForm.textBoxWarning.Select(0, 0);
