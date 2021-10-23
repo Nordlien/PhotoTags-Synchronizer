@@ -63,13 +63,6 @@
     <DefineConstants />
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-  
-  
-  <ItemGroup>
-    <Reference Include="System.Data.SqlServerCe, Version=9.0.242.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <Private>True</Private>
-    </Reference>
-  </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SqlCeDatabase35\SqlCeEngineExtensions.cs">
       <Link>SqlCeEngineExtensions.cs</Link>
@@ -110,5 +103,10 @@
     <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.3.246501">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Data.SqlServerCe">
+      <HintPath>System.Data.SqlServerCe.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

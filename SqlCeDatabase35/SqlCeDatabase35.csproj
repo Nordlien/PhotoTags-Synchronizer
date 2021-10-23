@@ -64,13 +64,6 @@
     <DefineConstants />
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-  
-  <ItemGroup>
-    <Reference Include="System.Data.SqlServerCe, Version=3.5.1.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>.\System.Data.SqlServerCe.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-  </ItemGroup>
   <ItemGroup>
     <Content Include="sqlceca35.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -103,5 +96,10 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="5.0.2" />
     <PackageReference Include="NLog" Version="4.7.11" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Data.SqlServerCe">
+      <HintPath>System.Data.SqlServerCe.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

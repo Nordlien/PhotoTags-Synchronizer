@@ -64,12 +64,6 @@
     <DefineConstants />
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-      
-  <ItemGroup>
-    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <Private>True</Private>
-    </Reference>
-  </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SqlCeDatabase35\SqlCeDatabase.cs">
       <Link>SqlCeDatabase.cs</Link>
@@ -107,5 +101,10 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="5.0.2" />
     <PackageReference Include="NLog" Version="4.7.11" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Data.SqlServerCe">
+      <HintPath>System.Data.SqlServerCe.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>
