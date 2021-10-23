@@ -2500,5 +2500,17 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["ApplicationSizeOfRegionNamesGroup"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RenameShowFullPath {
+            get {
+                return ((bool)(this["RenameShowFullPath"]));
+            }
+            set {
+                this["RenameShowFullPath"] = value;
+            }
+        }
     }
 }

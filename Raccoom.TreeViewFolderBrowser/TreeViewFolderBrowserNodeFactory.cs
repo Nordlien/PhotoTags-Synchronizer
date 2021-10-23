@@ -116,7 +116,8 @@ namespace Raccoom.Windows.Forms
 				return;
 			}
 			System.Diagnostics.Debug.Assert(parentNode != null);
-			parentNode.Expand();
+
+            if (parentNode != null) parentNode.Expand();
 		}
 
 		#endregion

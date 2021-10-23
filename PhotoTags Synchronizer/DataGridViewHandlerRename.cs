@@ -24,6 +24,15 @@ namespace PhotoTagsSynchronizer
         public static FilesCutCopyPasteDrag FilesCutCopyPasteDrag { get; set; }
 
         public static string RenameVaribale { get; set; }
+        public static bool ShowFullPath { get; set; } = false;
+
+        #region CombinePathAndName
+        public static string CombinePathAndName(string folder, string filename)
+        {
+            string path = Path.GetFullPath(Path.Combine(folder, filename));
+            return path;
+        }
+        #endregion
 
         #region CreateNewFilename
         public static string CreateNewFilename(string newFilenameVariable, string oldFilename, Metadata metadata)
@@ -168,70 +177,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region UpdateFilenames(DataGridView dataGridView, string newFilenameVariable)
-        public static void UpdateFilenames(DataGridView dataGridView, string newFilenameVariable, bool showFullPath)
-        {
-            int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, headerNewFilename);
-            if (columnIndex == -1) return;
-
-            for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
-            {
-                DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
-                DataGridViewGenericCell cellGridViewGenericCell = DataGridViewHandler.GetCellDataGridViewGenericCellCopy(dataGridView, columnIndex, rowIndex);
-                
-                if (!cellGridViewGenericCell.CellStatus.CellReadOnly)
-                {
-                    string newShortOrFullFilename;
-                    if (showFullPath)
-                    {
-                        string oldDirectory = dataGridViewGenericRow.HeaderName;
-                        string newRelativeFilename = CreateNewFilename(newFilenameVariable, dataGridViewGenericRow.RowName, dataGridViewGenericRow.Metadata); 
-                        newShortOrFullFilename = Path.GetFullPath(newRelativeFilename);
-                    } else
-                    {
-                        newShortOrFullFilename = CreateNewFilename(newFilenameVariable, dataGridViewGenericRow.RowName, dataGridViewGenericRow.Metadata);
-                    }
-                    DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, newShortOrFullFilename);
-                }
-            }
-        }
-        #endregion
-
-        #region Write
-        public static void Write(DataGridView dataGridView, out Dictionary<string, string> renameSuccess, out Dictionary<string, string> renameFailed, bool showFullPathIsUsed)
-        {
-            renameSuccess = new Dictionary<string, string>();
-            renameFailed = new Dictionary<string, string>();
-
-            int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, headerNewFilename);
-            if (columnIndex == -1) return;
-
-            for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
-            {
-                DataGridViewGenericCell cellGridViewGenericCell = DataGridViewHandler.GetCellDataGridViewGenericCellCopy(dataGridView, columnIndex, rowIndex);
-
-                if (!cellGridViewGenericCell.CellStatus.CellReadOnly)
-                {
-                    DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
-
-                    #region Get Old filename from grid
-                    string oldFilename = dataGridViewGenericRow.RowName;
-                    string oldDirectory = dataGridViewGenericRow.HeaderName;
-                    string oldFullFilename = Path.Combine(oldDirectory, oldFilename);
-                    #endregion
-
-                    #region Get New filename from grid
-                    string newRelativeFilename = Path.Combine(oldDirectory, DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, rowIndex));
-                    string newFullFilename = Path.GetFullPath(newRelativeFilename);
-                    #endregion 
-
-                    FilesCutCopyPasteDrag.RenameFile(oldFullFilename, newFullFilename, ref renameSuccess, ref renameFailed);                 
-                }
-            }
-
-        }
-        #endregion
-
         #region AddRow(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericDataRow, bool sort)
         private static int AddRow(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericDataRow, bool sort)
         {
@@ -254,8 +199,70 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
+        #region Write
+        public static void Write(DataGridView dataGridView, out Dictionary<string, string> renameSuccess, out Dictionary<string, string> renameFailed, bool showFullPathIsUsed)
+        {
+            renameSuccess = new Dictionary<string, string>();
+            renameFailed = new Dictionary<string, string>();
+
+            int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, headerNewFilename);
+            if (columnIndex == -1) return;
+
+            for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
+            {
+                DataGridViewGenericCell cellGridViewGenericCell = DataGridViewHandler.GetCellDataGridViewGenericCellCopy(dataGridView, columnIndex, rowIndex);
+
+                if (!cellGridViewGenericCell.CellStatus.CellReadOnly)
+                {
+                    DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
+
+                    #region Get Old filename from grid
+                    string oldFilename = dataGridViewGenericRow.RowName;
+                    string oldDirectory = dataGridViewGenericRow.HeaderName;
+                    string oldFullFilename = CombinePathAndName(oldDirectory, oldFilename);
+                    #endregion
+
+                    #region Get New filename from grid
+                    string newFullFilename = CombinePathAndName(oldDirectory, DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, rowIndex));
+                    
+                    #endregion 
+
+                    FilesCutCopyPasteDrag.RenameFile(oldFullFilename, newFullFilename, ref renameSuccess, ref renameFailed);
+                }
+            }
+
+        }
+        #endregion
+
+        private static string GetShortOrFullFilename(string newFilenameVariable, Metadata metadata, bool showFullFilePath, string oldFolder, string filename)
+        {
+            string newFilename = CreateNewFilename(newFilenameVariable, filename, metadata);
+            if (showFullFilePath) return CombinePathAndName(oldFolder, newFilename);
+            else return newFilename;            
+        }
+
+        #region UpdateFilenames(DataGridView dataGridView, string newFilenameVariable)
+        public static void UpdateFilenames(DataGridView dataGridView, string newFilenameVariable, bool showFullPath)
+        {
+            int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, headerNewFilename);
+            if (columnIndex == -1) return;
+
+            for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
+            {
+                DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
+                DataGridViewGenericCell cellGridViewGenericCell = DataGridViewHandler.GetCellDataGridViewGenericCellCopy(dataGridView, columnIndex, rowIndex);
+
+                if (!cellGridViewGenericCell.CellStatus.CellReadOnly)
+                {
+                    string newShortOrFullFilename = GetShortOrFullFilename(newFilenameVariable, dataGridViewGenericRow.Metadata, showFullPath, dataGridViewGenericRow.HeaderName, dataGridViewGenericRow.RowName);
+                    DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, newShortOrFullFilename);
+                }
+            }
+        }
+        #endregion
+
         #region PopulateFile
-        public static void PopulateFile(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute)
+        public static void PopulateFile(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, bool showFullPath)
         {
             //-----------------------------------------------------------------
             //Chech if need to stop
@@ -280,7 +287,8 @@ namespace PhotoTagsSynchronizer
 
                 //Media
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(directory), true);
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(directory, filename, metadata), CreateNewFilename(RenameVaribale, filename, metadata), false);
+                string newShortOrFullFilename = GetShortOrFullFilename(RenameVaribale, metadata, showFullPath, directory, filename);
+                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(directory, filename, metadata), newShortOrFullFilename, false);
             }
 
             //-----------------------------------------------------------------
@@ -290,7 +298,7 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region PopulateSelectedFiles
-        public static void PopulateSelectedFiles(DataGridView dataGridView, ImageListViewSelectedItemCollection imageListViewSelectItems, DataGridViewSize dataGridViewSize, ShowWhatColumns showWhatColumns)
+        public static void PopulateSelectedFiles(DataGridView dataGridView, ImageListViewSelectedItemCollection imageListViewSelectItems, DataGridViewSize dataGridViewSize, ShowWhatColumns showWhatColumns, bool showFullPath)
         {
             //-----------------------------------------------------------------
             //Chech if need to stop
@@ -314,7 +322,7 @@ namespace PhotoTagsSynchronizer
 
             foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
             {
-                PopulateFile(dataGridView, new FileEntryAttribute(imageListViewItem.FileFullPath, imageListViewItem.DateModified, FileEntryVersion.Current));
+                PopulateFile(dataGridView, new FileEntryAttribute(imageListViewItem.FileFullPath, imageListViewItem.DateModified, FileEntryVersion.Current), showFullPath);
             }
 
 

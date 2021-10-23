@@ -49,6 +49,7 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
+                Properties.Settings.Default.RenameShowFullPath = checkBoxRenameShowFullPath.Checked;
                 DataGridViewHandlerRename.UpdateFilenames(dataGridViewRename, Properties.Settings.Default.RenameVariable, checkBoxRenameShowFullPath.Checked);
             }
             catch (Exception ex)

@@ -1189,5 +1189,8 @@ Dimensions</Value>
     <Setting Name="ApplicationSizeOfRegionNamesGroup" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">10</Value>
     </Setting>
+    <Setting Name="RenameShowFullPath" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

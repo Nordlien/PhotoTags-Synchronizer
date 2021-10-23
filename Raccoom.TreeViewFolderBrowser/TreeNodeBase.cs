@@ -22,6 +22,7 @@ namespace Raccoom.Windows.Forms
     [System.Serializable]
     public class TreeNodeBase : System.Windows.Forms.TreeNode
     {
+        private const string dummyNodeTag = "@@Dummy@@";
         #region constructors
         /// <summary>
         /// Initializes a new instance of the TreeNodeBase class using the specified serialization information and context. 
@@ -102,7 +103,7 @@ namespace Raccoom.Windows.Forms
         /// </summary>		
         public virtual void AddDummyNode()
         {
-            Nodes.Add(new TreeNodePath("@@Dummy@@", false));
+            Nodes.Add(new TreeNodePath(dummyNodeTag, false));
         }
 
         /// <summary>

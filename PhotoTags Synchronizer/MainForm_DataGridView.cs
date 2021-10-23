@@ -644,9 +644,11 @@ namespace PhotoTagsSynchronizer
                         case LinkTabAndDataGridViewNameRename:
                             DataGridViewHandlerRename.FileDateTimeFormats = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
                             DataGridViewHandlerRename.RenameVaribale = Properties.Settings.Default.RenameVariable;
+                            DataGridViewHandlerRename.ShowFullPath = Properties.Settings.Default.RenameShowFullPath;
                             DataGridViewHandlerRename.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
                             DataGridViewHandlerRename.FilesCutCopyPasteDrag = filesCutCopyPasteDrag;
-                            DataGridViewHandlerRename.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, dataGridViewSize, showWhatColumnsForTab);
+                            checkBoxRenameShowFullPath.Checked = DataGridViewHandlerRename.ShowFullPath;
+                            DataGridViewHandlerRename.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, dataGridViewSize, showWhatColumnsForTab, DataGridViewHandlerRename.ShowFullPath);
                             break;
                         case LinkTabAndDataGridViewNameConvertAndMerge:
                             DataGridViewHandlerConvertAndMerge.FileDateTimeFormats = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);

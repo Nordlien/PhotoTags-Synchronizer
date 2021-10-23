@@ -397,7 +397,7 @@ namespace Raccoom.Windows.Forms
         /// <param name="ex">Exception Details</param>
         protected virtual void UIVisualizeErrorMessage(string mainTitle, Exception ex)
         {
-            System.Windows.Forms.MessageBox.Show(mainTitle + Environment.NewLine + Environment.NewLine + ex.Message, System.Windows.Forms.Application.ProductName, System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error, System.Windows.Forms.MessageBoxDefaultButton.Button1, System.Windows.Forms.MessageBoxOptions.DefaultDesktopOnly, false);
+            if (ex != null) System.Windows.Forms.MessageBox.Show(mainTitle + Environment.NewLine + Environment.NewLine + ex.Message, System.Windows.Forms.Application.ProductName, System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error, System.Windows.Forms.MessageBoxDefaultButton.Button1, System.Windows.Forms.MessageBoxOptions.DefaultDesktopOnly, false);
         }
 
         #endregion
@@ -452,7 +452,7 @@ namespace Raccoom.Windows.Forms
                 return;
             }
             // get current action		
-            bool check = !e.Node.Checked;
+            bool check = (e != null ? !e.Node.Checked : false);
             // is it allowed to check item ?
             if ((this.CheckBoxBehaviorMode == CheckBoxBehaviorMode.RecursiveChecked) && (!check) && (e.Node.Parent != null) && (e.Node.Parent.Checked))
             {
@@ -564,11 +564,14 @@ namespace Raccoom.Windows.Forms
         /// <param name="properties">The properties for the class of the component.</param>
         protected override void PreFilterProperties(System.Collections.IDictionary properties)
         {
-            properties.Remove("CheckBoxes");
-            properties.Remove("ImageList");
-            properties.Remove("SelectedImageIndex");
-            properties.Remove("ImageIndex");
-            properties.Remove("ContextMenu");
+            if (properties != null)
+            {
+                properties.Remove("CheckBoxes");
+                properties.Remove("ImageList");
+                properties.Remove("SelectedImageIndex");
+                properties.Remove("ImageIndex");
+                properties.Remove("ContextMenu");
+            }
         }
     }
 
