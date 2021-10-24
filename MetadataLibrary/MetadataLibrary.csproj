@@ -49,13 +49,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ApplicationAssociations\ApplicationAssociations.csproj" />
     <ProjectReference Include="..\FileDateTime\FileDateTime.csproj" />
-    <ProjectReference Include="..\LocationNames\LocationNames.csproj" />
     <ProjectReference Include="..\SqliteDatabase\SqliteDatabase.csproj" />
     <ProjectReference Include="..\TimeZone\TimeZone.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.3.246501">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
   </ItemGroup>
 </Project>

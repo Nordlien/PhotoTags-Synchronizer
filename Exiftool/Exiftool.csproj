@@ -63,8 +63,5 @@
       <Version>1.6.2</Version>
     </PackageReference>
     <PackageReference Include="Mono.Data.Sqlite" Version="1.0.61" />
-    <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation">
-      <Version>4.3.0</Version>
-    </PackageReference>
   </ItemGroup>
 </Project>

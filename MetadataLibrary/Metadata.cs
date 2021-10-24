@@ -1,12 +1,12 @@
-﻿using ApplicationAssociations;
-using FileDateTime;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
 using TimeZone;
 using LocationNames;
+using FileDateTime;
+using ApplicationAssociations;
 
 namespace MetadataLibrary
 {

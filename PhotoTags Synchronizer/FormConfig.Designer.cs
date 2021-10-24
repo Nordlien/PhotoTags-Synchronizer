@@ -1,5 +1,4 @@
-﻿using DataGridViewExtended;
-using PhotoTagsCommonComponets;
+﻿using PhotoTagsCommonComponets;
 using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
@@ -8046,7 +8045,6 @@ namespace PhotoTagsSynchronizer
         private Krypton.Toolkit.KryptonRadioButton radioButtonLocationNameChangeAlways;
         private Krypton.Toolkit.KryptonRadioButton radioButtonLocationNameChangeWhenEmpty;
         private Krypton.Toolkit.KryptonRadioButton radioButtonLocationNameDoNotChange;
-        private Krypton.Toolkit.KryptonLabel label15;
         private Krypton.Toolkit.KryptonLabel labelAutoCorrectAlbumPrioritySource;
         private ImageListViewOrder imageListViewOrderAlbum;
         private Krypton.Toolkit.KryptonRadioButton radioButtonAlbumUseFirst;

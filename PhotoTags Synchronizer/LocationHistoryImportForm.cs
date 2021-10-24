@@ -174,7 +174,7 @@ namespace PhotoTagsSynchronizer
         {
             if (comboBoxUserAccount.SelectedIndex > -1 && 
                 comboBoxUserAccount.SelectedIndex < comboBoxUserAccount.Items.Count &&
-                comboBoxUserAccount.SelectedItem == CameraOwnersDatabaseCache.MissingLocationsOwners) comboBoxUserAccount.Text = null;
+                comboBoxUserAccount.SelectedItem.ToString() == CameraOwnersDatabaseCache.MissingLocationsOwners) comboBoxUserAccount.Text = null;
             if (comboBoxUserAccount.Text == CameraOwnersDatabaseCache.MissingLocationsOwners) comboBoxUserAccount.Text = null;
         }
     }

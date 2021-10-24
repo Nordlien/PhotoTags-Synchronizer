@@ -141,7 +141,6 @@
   <ItemGroup>
     <ProjectReference Include="..\ApplicationAssociations\ApplicationAssociations.csproj" />
     <ProjectReference Include="..\CameraOwners\CameraOwners.csproj" />
-    <ProjectReference Include="..\DataGridViewExtended\DataGridViewExtended.csproj" />
     <ProjectReference Include="..\DataGridViewGeneric\DataGridViewGeneric.csproj" />
     <ProjectReference Include="..\Exiftool\Exiftool.csproj" />
     <ProjectReference Include="..\FileDateTime\FileDateTime.csproj" />
@@ -169,8 +168,8 @@
     <ProjectReference Include="..\WindowsProperty\WindowsProperty.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CefSharp.Common" Version="94.4.50" />
-    <PackageReference Include="CefSharp.WinForms" Version="94.4.50" />
+    <PackageReference Include="CefSharp.Common" Version="94.4.110" />
+    <PackageReference Include="CefSharp.WinForms" Version="94.4.110" />
     <PackageReference Include="CyotekImageBox">
       <Version>1.2.1</Version>
     </PackageReference>
@@ -181,6 +180,7 @@
     <PackageReference Include="NLog">
       <Version>4.7.11</Version>
     </PackageReference>
+    <PackageReference Include="Nominatim.API" Version="1.6.1" />
     <PackageReference Include="NReco.VideoConverter">
       <Version>1.1.4</Version>
     </PackageReference>

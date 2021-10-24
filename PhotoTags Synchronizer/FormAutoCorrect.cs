@@ -32,15 +32,10 @@ namespace PhotoTagsSynchronizer
         public bool UseDescription { get { return checkBoxDescription.Checked; } }
         public bool UseTitle { get { return checkBoxTitle.Checked; } }
 
-        private bool isPopulation = false;
-        
-
-
         public FormAutoCorrect()
         {
             InitializeComponent();
             this.DialogResult = DialogResult.None;
-            isPopulation = true;
             ComboBoxHandler.ComboBoxPopulate(comboBoxAlbum, Properties.Settings.Default.AutoCorrectFormAlbum, "");
             ComboBoxHandler.ComboBoxPopulate(comboBoxAuthor, Properties.Settings.Default.AutoCorrectFormAuthor, "");
             ComboBoxHandler.ComboBoxPopulate(comboBoxComments, Properties.Settings.Default.AutoCorrectFormComments, "");
@@ -52,7 +47,6 @@ namespace PhotoTagsSynchronizer
             checkBoxDescription.Checked = Properties.Settings.Default.UseAutoCorrectFormDescription;
             checkBoxTitle.Checked = Properties.Settings.Default.UseAutoCorrectFormTitle;
             textBoxKeywords.Text = "";
-            isPopulation = false;
         }
 
         private void buttonClose_Click(object sender, EventArgs e)

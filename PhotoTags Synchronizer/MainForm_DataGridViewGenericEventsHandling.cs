@@ -889,7 +889,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuItemMapShowCoordinateOnOpenStreetMap.Visible = visible;
             this.kryptonContextMenuItemMapShowCoordinateOnGoogleMap.Visible = visible;
             this.kryptonContextMenuItemMapReloadUsingNominatim.Visible = visible;
-            this.kryptonContextMenuItemMapSearchNewLocationInMediaFiles.Visible = visible;
         }
         #endregion
 

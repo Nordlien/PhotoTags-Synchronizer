@@ -1,6 +1,5 @@
 ﻿using NamedPipeWrapper;
 using System;
-using System.Threading;
 using MetadataLibrary;
 using System.IO;
 using System.Diagnostics;

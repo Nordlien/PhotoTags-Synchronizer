@@ -7,6 +7,8 @@
   </PropertyGroup>  
   <PropertyGroup>
     <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+    <AssemblyVersion>2021.10</AssemblyVersion>
+    <FileVersion>2021.10</FileVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <NoWarn />

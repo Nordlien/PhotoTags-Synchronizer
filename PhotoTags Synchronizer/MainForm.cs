@@ -605,13 +605,6 @@ namespace PhotoTagsSynchronizer
             MaximizeOrRestoreWorkspaceMainCellAndChilds();
         }
 
-        
-
-
-
-
-
-
         #endregion
 
         #region Resize and restore windows size when reopen application
