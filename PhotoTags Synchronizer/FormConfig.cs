@@ -1728,7 +1728,6 @@ namespace PhotoTagsSynchronizer
                 bool foundLocation = false;
                 foreach (LocationCoordinate locationCoordinateSearch in locationNames.Keys)
                 {
-
                     if (locationCoordinateSearch.Latitude < (locationCoordinate.Latitude + locationAccuracyLatitude) &&
                         locationCoordinateSearch.Latitude > (locationCoordinate.Latitude - locationAccuracyLatitude) &&
                         locationCoordinateSearch.Longitude < (locationCoordinate.Longitude + locationAccuracyLongitude) &&

@@ -176,6 +176,8 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuItemGenericCut.Click += KryptonContextMenuItemGenericCut_Click;
             this.kryptonContextMenuItemGenericCopy.Click += KryptonContextMenuItemGenericCopy_Click;
             this.kryptonContextMenuItemGenericCopyText.Click += KryptonContextMenuItemGenericCopyText_Click;
+            this.kryptonContextMenuItemGenericFastCopyNoOverwrite.Click += KryptonContextMenuItemGenericFastCopyNoOverwrite_Click;
+            this.kryptonContextMenuItemGenericFastCopyWithOverwrite.Click += KryptonContextMenuItemGenericFastCopyWithOverwrite_Click;
             this.kryptonContextMenuItemGenericPaste.Click += KryptonContextMenuItemGenericPaste_Click;
             this.kryptonContextMenuItemGenericDelete.Click += KryptonContextMenuItemGenericFileSystemDelete_Click;
             this.kryptonContextMenuItemGenericRename.Click += KryptonContextMenuItemGenericFileSystemRename_Click;
@@ -216,7 +218,12 @@ namespace PhotoTagsSynchronizer
             //this.kryptonContextMenuSeparatorGenericEndOfTriState,
             this.kryptonContextMenuItemGenericMediaViewAsPoster.Click += KryptonContextMenuItemGenericMediaViewAsPoster_Click;
             this.kryptonContextMenuItemGenericMediaViewAsFull.Click += KryptonContextMenuItemGenericMediaViewAsFull_Click;
+            //this.kryptonContextMenuSeparatorMap,
+            this.kryptonContextMenuItemMapShowCoordinateOnOpenStreetMap.Click += KryptonContextMenuItemMapShowCoordinateOnOpenStreetMap_Click;
+            this.kryptonContextMenuItemMapShowCoordinateOnGoogleMap.Click += KryptonContextMenuItemMapShowCoordinateOnGoogleMap_Click;
+            this.kryptonContextMenuItemMapReloadUsingNominatim.Click += KryptonContextMenuItemMapReloadUsingNominatim_Click;
 
+            
             //
             this.kryptonContextMenuRadioButtonFileSystemColumnSortFilename.Click += KryptonContextMenuRadioButtonFileSystemColumnSortFilename_Click;
             this.kryptonContextMenuRadioButtonFileSystemColumnSortFileCreateDate.Click += KryptonContextMenuRadioButtonFileSystemColumnSortFileCreateDate_Click;
@@ -597,6 +604,10 @@ namespace PhotoTagsSynchronizer
 
             MaximizeOrRestoreWorkspaceMainCellAndChilds();
         }
+
+        
+
+
 
 
 

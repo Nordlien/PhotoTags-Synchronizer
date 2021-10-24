@@ -86,6 +86,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericShowHideRows(false);
                     ContextMenuGenericTriState(false);
                     ContextMenuGenericMediaView(false);
+                    ContextMenuGenericMap(false);
 
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFolder:
@@ -94,7 +95,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericClipboard(
                         visibleCopy: true, visibleCutPaste: true, visibleUndoRedo: false, visibleCopyText: true,
                         visibleFind: true, visibleReplace: false,
-                        visibleDelete: true, visibleRenameEdit: true, visibleSave: false);
+                        visibleDelete: true, visibleRenameEdit: true, visibleSave: false, visibleFastCopy: false);
                     ContextMenuGenericFileSystem(
                         visibleRefreshFolder: true, visibleReadSubfolders: true, visibleOpenBrowserOnLocation: true, visibleOpenRunEdit: false);
                     ContextMenuGenericMetadata(true);
@@ -103,7 +104,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericShowHideRows(false);
                     ContextMenuGenericTriState(false);
                     ContextMenuGenericMediaView(true);
-
+                    ContextMenuGenericMap(false);
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterSearch:
                     ContextMenuGenericAssignCompositeTag(false);
@@ -112,7 +113,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericClipboard(
                         visibleCopy: false, visibleCutPaste: false, visibleUndoRedo: false, visibleCopyText: false,
                         visibleFind: true, visibleReplace: false,
-                        visibleDelete: false, visibleRenameEdit: false, visibleSave: false);
+                        visibleDelete: false, visibleRenameEdit: false, visibleSave: false, visibleFastCopy: false);
                     ContextMenuGenericFileSystem(false);
                     ContextMenuGenericMetadata(false);
                     ContextMenuGenericRotate(false);
@@ -120,6 +121,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericShowHideRows(false);
                     ContextMenuGenericTriState(false);
                     ContextMenuGenericMediaView(false);
+                    ContextMenuGenericMap(false);
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFilter:
                     ContextMenuGenericAssignCompositeTag(false);
@@ -132,6 +134,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericShowHideRows(false);
                     ContextMenuGenericTriState(false);
                     ContextMenuGenericMediaView(false);
+                    ContextMenuGenericMap(false);
                     break;
                 case KryptonPages.kryptonPageMediaFiles:
                     ContextMenuGenericAssignCompositeTag(false);
@@ -139,7 +142,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericClipboard(
                         visibleCopy: true, visibleCutPaste: true, visibleUndoRedo: false, visibleCopyText: true,
                         visibleFind: true, visibleReplace: false,
-                        visibleDelete: true, visibleRenameEdit: true, visibleSave: false);
+                        visibleDelete: true, visibleRenameEdit: true, visibleSave: false, visibleFastCopy: false);
                     ContextMenuGenericFileSystem(
                         visibleRefreshFolder: true, visibleReadSubfolders: false, visibleOpenBrowserOnLocation: true, visibleOpenRunEdit: true);
                     ContextMenuGenericMetadata(true);
@@ -148,6 +151,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericShowHideRows(false);
                     ContextMenuGenericTriState(false);
                     ContextMenuGenericMediaView(true);
+                    ContextMenuGenericMap(false);
                     break;
                 case KryptonPages.kryptonPageToolboxTags:
                     ContextMenuGenericAssignCompositeTag(false);
@@ -155,7 +159,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericClipboard(
                         visibleCopy: true, visibleCutPaste: true, visibleUndoRedo: true, visibleCopyText: false,
                         visibleFind: true, visibleReplace: true,
-                        visibleDelete: true, visibleRenameEdit: true, visibleSave: false);
+                        visibleDelete: true, visibleRenameEdit: true, visibleSave: false, visibleFastCopy: true);
                     ContextMenuGenericFileSystem(
                         visibleRefreshFolder: false, visibleReadSubfolders: false, visibleOpenBrowserOnLocation: false, visibleOpenRunEdit: false);
                     ContextMenuGenericMetadata(false);
@@ -164,6 +168,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericShowHideRows(true);
                     ContextMenuGenericTriState(true);
                     ContextMenuGenericMediaView(true);
+                    ContextMenuGenericMap(false);
                     break;
                 case KryptonPages.kryptonPageToolboxPeople:
                     ContextMenuGenericAssignCompositeTag(false);
@@ -171,7 +176,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericClipboard(
                         visibleCopy: true, visibleCutPaste: true, visibleUndoRedo: true, visibleCopyText: false,
                         visibleFind: true, visibleReplace: true,
-                        visibleDelete: true, visibleRenameEdit: true, visibleSave: false);
+                        visibleDelete: true, visibleRenameEdit: true, visibleSave: false, visibleFastCopy: false);
                     ContextMenuGenericFileSystem(
                         visibleRefreshFolder: false, visibleReadSubfolders: false, visibleOpenBrowserOnLocation: false, visibleOpenRunEdit: false);
                     ContextMenuGenericMetadata(false);
@@ -180,6 +185,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericShowHideRows(true);
                     ContextMenuGenericTriState(true);
                     ContextMenuGenericMediaView(true);
+                    ContextMenuGenericMap(false);
                     break;
                 case KryptonPages.kryptonPageToolboxMap:
                     ContextMenuGenericAssignCompositeTag(false);
@@ -187,7 +193,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericClipboard(
                         visibleCopy: true, visibleCutPaste: true, visibleUndoRedo: true, visibleCopyText: false,
                         visibleFind: true, visibleReplace: true,
-                        visibleDelete: true, visibleRenameEdit: true, visibleSave: false);
+                        visibleDelete: true, visibleRenameEdit: true, visibleSave: false, visibleFastCopy: true);
                     ContextMenuGenericFileSystem(
                         visibleRefreshFolder: false, visibleReadSubfolders: false, visibleOpenBrowserOnLocation: false, visibleOpenRunEdit: false);
                     ContextMenuGenericMetadata(false);
@@ -196,6 +202,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericShowHideRows(true);
                     ContextMenuGenericTriState(false);
                     ContextMenuGenericMediaView(true);
+                    ContextMenuGenericMap(true);
                     break;
                 case KryptonPages.kryptonPageToolboxDates:
                     ContextMenuGenericAssignCompositeTag(false);
@@ -203,7 +210,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericClipboard(
                         visibleCopy: true, visibleCutPaste: true, visibleUndoRedo: true, visibleCopyText: false,
                         visibleFind: true, visibleReplace: true,
-                        visibleDelete: true, visibleRenameEdit: true, visibleSave: false);
+                        visibleDelete: true, visibleRenameEdit: true, visibleSave: false, visibleFastCopy: false);
                     ContextMenuGenericFileSystem(
                         visibleRefreshFolder: false, visibleReadSubfolders: false, visibleOpenBrowserOnLocation: false, visibleOpenRunEdit: false);
                     ContextMenuGenericMetadata(false);
@@ -212,6 +219,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericShowHideRows(true);
                     ContextMenuGenericTriState(false);
                     ContextMenuGenericMediaView(true);
+                    ContextMenuGenericMap(false);
                     break;
                 case KryptonPages.kryptonPageToolboxExiftool:
                     ContextMenuGenericAssignCompositeTag(true);
@@ -219,7 +227,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericClipboard(
                         visibleCopy: true, visibleCutPaste: false, visibleUndoRedo: true, visibleCopyText: false,
                         visibleFind: true, visibleReplace: false,
-                        visibleDelete: false, visibleRenameEdit: false, visibleSave: false);
+                        visibleDelete: false, visibleRenameEdit: false, visibleSave: false, visibleFastCopy: false);
                     ContextMenuGenericFileSystem(
                         visibleRefreshFolder: false, visibleReadSubfolders: false, visibleOpenBrowserOnLocation: false, visibleOpenRunEdit: false);
                     ContextMenuGenericMetadata(false);
@@ -228,6 +236,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericShowHideRows(true);
                     ContextMenuGenericTriState(false);
                     ContextMenuGenericMediaView(true);
+                    ContextMenuGenericMap(false);
                     break;
                 case KryptonPages.kryptonPageToolboxWarnings:
                     ContextMenuGenericAssignCompositeTag(true);
@@ -235,7 +244,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericClipboard(
                         visibleCopy: true, visibleCutPaste: false, visibleUndoRedo: true, visibleCopyText: false,
                         visibleFind: true, visibleReplace: false,
-                        visibleDelete: false, visibleRenameEdit: false, visibleSave: false);
+                        visibleDelete: false, visibleRenameEdit: false, visibleSave: false, visibleFastCopy: false);
                     ContextMenuGenericFileSystem(
                         visibleRefreshFolder: false, visibleReadSubfolders: false, visibleOpenBrowserOnLocation: false, visibleOpenRunEdit: false);
                     ContextMenuGenericMetadata(false);
@@ -244,6 +253,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericShowHideRows(true);
                     ContextMenuGenericTriState(false);
                     ContextMenuGenericMediaView(true);
+                    ContextMenuGenericMap(false);
                     break;
                 case KryptonPages.kryptonPageToolboxProperties:
                     ContextMenuGenericAssignCompositeTag(false);
@@ -251,7 +261,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericClipboard(
                         visibleCopy: true, visibleCutPaste: true, visibleUndoRedo: true, visibleCopyText: false,
                         visibleFind: true, visibleReplace: false,
-                        visibleDelete: true, visibleRenameEdit: true, visibleSave: false);
+                        visibleDelete: true, visibleRenameEdit: true, visibleSave: false, visibleFastCopy: false);
                     ContextMenuGenericFileSystem(
                         visibleRefreshFolder: false, visibleReadSubfolders: false, visibleOpenBrowserOnLocation: false, visibleOpenRunEdit: false);
                     ContextMenuGenericMetadata(false);
@@ -260,6 +270,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericShowHideRows(true);
                     ContextMenuGenericTriState(false);
                     ContextMenuGenericMediaView(true);
+                    ContextMenuGenericMap(false);
                     break;
                 case KryptonPages.kryptonPageToolboxRename:
                     ContextMenuGenericAssignCompositeTag(false);
@@ -267,7 +278,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericClipboard(
                         visibleCopy: true, visibleCutPaste: true, visibleUndoRedo: true, visibleCopyText: false,
                         visibleFind: true, visibleReplace: false,
-                        visibleDelete: true, visibleRenameEdit: true, visibleSave: false);
+                        visibleDelete: true, visibleRenameEdit: true, visibleSave: false, visibleFastCopy: false);
                     ContextMenuGenericFileSystem(
                         visibleRefreshFolder: false, visibleReadSubfolders: false, visibleOpenBrowserOnLocation: false, visibleOpenRunEdit: false);
                     ContextMenuGenericMetadata(false);
@@ -276,6 +287,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericShowHideRows(true);
                     ContextMenuGenericTriState(false);
                     ContextMenuGenericMediaView(true);
+                    ContextMenuGenericMap(false);
                     break;
                 case KryptonPages.kryptonPageToolboxConvertAndMerge:
                     ContextMenuGenericAssignCompositeTag(false);
@@ -283,7 +295,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericClipboard(
                         visibleCopy: true, visibleCutPaste: false, visibleUndoRedo: false, visibleCopyText: false,
                         visibleFind: true, visibleReplace: false,
-                        visibleDelete: false, visibleRenameEdit: false, visibleSave: false);
+                        visibleDelete: false, visibleRenameEdit: false, visibleSave: false, visibleFastCopy: false);
                     ContextMenuGenericFileSystem(
                         visibleRefreshFolder: false, visibleReadSubfolders: false, visibleOpenBrowserOnLocation: false, visibleOpenRunEdit: false);
                     ContextMenuGenericMetadata(false);
@@ -292,6 +304,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericShowHideRows(true);
                     ContextMenuGenericTriState(false);
                     ContextMenuGenericMediaView(true);
+                    ContextMenuGenericMap(false);
                     break;
                 default:
                     throw new NotImplementedException();
@@ -321,12 +334,6 @@ namespace PhotoTagsSynchronizer
             kryptonRibbonQATButtonMediaPlayerFastBackwards.Visible = mediaPlayerVisible;
             kryptonRibbonQATButtonMediaPlayerFastForward.Visible = mediaPlayerVisible;
             kryptonRibbonQATButtonMediaPlayerSlideshowPlay.Visible = mediaPlayerVisible;
-        }
-
- 
-        private void RibbonGroupButtonHomeClipboard(bool enabled)
-        {
-            RibbonGroupButtonHomeClipboard(enabled, enabled);
         }
 
         private void RibbonGroupButtonHomeClipboard(bool enabledCopy = false, bool enabledCutPaste = false, bool enabledUndoRedo = false)
@@ -742,7 +749,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ContextMenuGenericRename - Turn on / off
+        #region ContextMenuGeneric - Turn on / off
 
         #region  AssignCompositeTag
         private void ContextMenuGenericAssignCompositeTag (bool visible)
@@ -775,12 +782,14 @@ namespace PhotoTagsSynchronizer
         }
 
         private void ContextMenuGenericClipboard(bool visibleCopy = false, bool visibleCutPaste = false, bool visibleUndoRedo = false, bool visibleCopyText = false, bool visibleFind = false, bool visibleReplace = false,
-             bool visibleDelete = false, bool visibleRenameEdit = false, bool visibleSave = false)
+             bool visibleDelete = false, bool visibleRenameEdit = false, bool visibleSave = false, bool visibleFastCopy = false)
         {
             this.kryptonContextMenuItemGenericCut.Visible = visibleCutPaste;
             this.kryptonContextMenuItemGenericCopy.Visible = visibleCopy;
             this.kryptonContextMenuItemGenericPaste.Visible = visibleCutPaste;
             this.kryptonContextMenuItemGenericCopyText.Visible = visibleCopyText;
+            this.kryptonContextMenuItemGenericFastCopyNoOverwrite.Visible = visibleFastCopy;
+            this.kryptonContextMenuItemGenericFastCopyWithOverwrite.Visible = visibleFastCopy;
             this.kryptonContextMenuItemGenericDelete.Visible = visibleDelete;
             this.kryptonContextMenuItemGenericRename.Visible = visibleRenameEdit;
             this.kryptonContextMenuItemGenericUndo.Visible = visibleUndoRedo;
@@ -789,7 +798,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuItemGenericReplace.Visible = visibleReplace;
             this.kryptonContextMenuItemGenericSave.Visible = visibleSave;
             this.kryptonContextMenuSeparatorGenericEndOfClipboard.Visible =
-                visibleCopy || visibleCutPaste || visibleUndoRedo || visibleFind || visibleReplace || visibleCopyText || visibleDelete || visibleRenameEdit || visibleSave;
+                visibleCopy || visibleCutPaste || visibleUndoRedo || visibleFind || visibleReplace || visibleCopyText || visibleDelete || visibleRenameEdit || visibleSave || visibleFastCopy;
         }
         #endregion
 
@@ -870,6 +879,17 @@ namespace PhotoTagsSynchronizer
         {
             this.kryptonContextMenuItemGenericMediaViewAsPoster.Visible = visible;
             this.kryptonContextMenuItemGenericMediaViewAsFull.Visible = visible;
+            this.kryptonContextMenuSeparatorGenericEndOfMediaView.Visible = visible;
+        }
+        #endregion
+
+        #region Map
+        private void ContextMenuGenericMap(bool visible)
+        {
+            this.kryptonContextMenuItemMapShowCoordinateOnOpenStreetMap.Visible = visible;
+            this.kryptonContextMenuItemMapShowCoordinateOnGoogleMap.Visible = visible;
+            this.kryptonContextMenuItemMapReloadUsingNominatim.Visible = visible;
+            this.kryptonContextMenuItemMapSearchNewLocationInMediaFiles.Visible = visible;
         }
         #endregion
 
@@ -3277,10 +3297,10 @@ namespace PhotoTagsSynchronizer
                 KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        #endregion 
+        #endregion
 
-        #endregion 
-        
+        #endregion
+
         #region TriStateToggle
 
         #region TriStateToggle - Click Events Sources
@@ -3796,6 +3816,11 @@ namespace PhotoTagsSynchronizer
         {
             ActionFastCopyNoOverwrite();
         }
+
+        private void KryptonContextMenuItemGenericFastCopyNoOverwrite_Click(object sender, EventArgs e)
+        {
+            ActionFastCopyNoOverwrite();
+        }
         #endregion 
 
         #region ActionFastCopyNoOverwrite
@@ -3860,6 +3885,11 @@ namespace PhotoTagsSynchronizer
 
         #region FastCopyOverwrite - Click Events Sources
         private void kryptonRibbonGroupButtonHomeFastCopyOverwrite_Click(object sender, EventArgs e)
+        {
+            ActionFastCopyOverwrite();
+        }
+
+        private void KryptonContextMenuItemGenericFastCopyWithOverwrite_Click(object sender, EventArgs e)
         {
             ActionFastCopyOverwrite();
         }

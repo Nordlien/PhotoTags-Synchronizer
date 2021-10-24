@@ -102,7 +102,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region Browser event handling
+        #region WebBrowser - event handling
         delegate void SetTextBoxURLCallback(string text);
 
         private void textBoxBrowserURL_KeyPress(object sender, KeyPressEventArgs e)
@@ -120,7 +120,6 @@ namespace PhotoTagsSynchronizer
 
             LocationCoordinate locationCoordinate = ParseCoordinateFromURL(text);
 
-
             if (locationCoordinate != null)
             {
                 List<int> selectedColumns = DataGridViewHandler.GetColumnSelected(dataGridView);
@@ -134,6 +133,8 @@ namespace PhotoTagsSynchronizer
 
             }
         }
+
+        
 
         private void OnBrowserAddressChanged(object sender, AddressChangedEventArgs e)
         {
@@ -216,15 +217,16 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ShowCoordinateOnMap_Click
-        private void toolStripMenuItemShowCoordinateOnMap_Click(object sender, EventArgs e)
+        #region Map - ShowCoordinate On OpenStreetMap_Click
+
+        private void KryptonContextMenuItemMapShowCoordinateOnOpenStreetMap_Click(object sender, EventArgs e)
         {
             GetLocationAndShow(MapProvider.OpenStreetMap);
         }
         #endregion 
 
-        #region ShowCoordinateOnGoogleMap_Click
-        private void toolStripMenuItemShowCoordinateOnGoogleMap_Click(object sender, EventArgs e)
+        #region Map - ShowCoordinate On GoogleMap_Click
+        private void KryptonContextMenuItemMapShowCoordinateOnGoogleMap_Click(object sender, EventArgs e)
         {
             GetLocationAndShow(MapProvider.GoogleMap);
         }
@@ -501,8 +503,8 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        #region toolStripMenuItemMapReloadLocationUsingNominatim_Click
-        private void toolStripMenuItemMapReloadLocationUsingNominatim_Click(object sender, EventArgs e)
+        #region Map - ReloadUsingNominatim_Click
+        private void KryptonContextMenuItemMapReloadUsingNominatim_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMap;
             List<int> selectedColumns = DataGridViewHandler.GetColumnSelected(dataGridView);
@@ -527,5 +529,6 @@ namespace PhotoTagsSynchronizer
             isDataGridViewMaps_CellValueChanging = false;
         }
         #endregion 
+
     }
 }
