@@ -46,6 +46,7 @@
             this.kryptonWorkspaceCell1 = new Krypton.Workspace.KryptonWorkspaceCell();
             this.kryptonPage3 = new Krypton.Navigator.KryptonPage();
             this.kryptonWorkspaceChooseColumns = new Krypton.Workspace.KryptonWorkspace();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxTitleLine5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxTitleLine4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxTitleLine3)).BeginInit();
@@ -59,6 +60,7 @@
             this.kryptonPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceChooseColumns)).BeginInit();
             this.kryptonWorkspaceChooseColumns.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnClose
@@ -79,7 +81,7 @@
             this.checkedListBox.FormattingEnabled = true;
             this.checkedListBox.Location = new System.Drawing.Point(0, 0);
             this.checkedListBox.Name = "checkedListBox";
-            this.checkedListBox.Size = new System.Drawing.Size(496, 195);
+            this.checkedListBox.Size = new System.Drawing.Size(496, 191);
             this.checkedListBox.TabIndex = 2;
             this.checkedListBox.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBox_ItemCheck);
             // 
@@ -92,9 +94,9 @@
             this.comboBoxTitleLine5.DropDownWidth = 374;
             this.comboBoxTitleLine5.FormattingEnabled = true;
             this.comboBoxTitleLine5.IntegralHeight = false;
-            this.comboBoxTitleLine5.Location = new System.Drawing.Point(106, 128);
+            this.comboBoxTitleLine5.Location = new System.Drawing.Point(78, 111);
             this.comboBoxTitleLine5.Name = "comboBoxTitleLine5";
-            this.comboBoxTitleLine5.Size = new System.Drawing.Size(374, 21);
+            this.comboBoxTitleLine5.Size = new System.Drawing.Size(415, 21);
             this.comboBoxTitleLine5.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxTitleLine5.TabIndex = 9;
             this.comboBoxTitleLine5.SelectionChangeCommitted += new System.EventHandler(this.comboBoxTitleLine5_SelectionChangeCommitted);
@@ -108,9 +110,9 @@
             this.comboBoxTitleLine4.DropDownWidth = 374;
             this.comboBoxTitleLine4.FormattingEnabled = true;
             this.comboBoxTitleLine4.IntegralHeight = false;
-            this.comboBoxTitleLine4.Location = new System.Drawing.Point(106, 98);
+            this.comboBoxTitleLine4.Location = new System.Drawing.Point(78, 84);
             this.comboBoxTitleLine4.Name = "comboBoxTitleLine4";
-            this.comboBoxTitleLine4.Size = new System.Drawing.Size(374, 21);
+            this.comboBoxTitleLine4.Size = new System.Drawing.Size(415, 21);
             this.comboBoxTitleLine4.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxTitleLine4.TabIndex = 8;
             this.comboBoxTitleLine4.SelectionChangeCommitted += new System.EventHandler(this.comboBoxTitleLine4_SelectionChangeCommitted);
@@ -124,9 +126,9 @@
             this.comboBoxTitleLine3.DropDownWidth = 374;
             this.comboBoxTitleLine3.FormattingEnabled = true;
             this.comboBoxTitleLine3.IntegralHeight = false;
-            this.comboBoxTitleLine3.Location = new System.Drawing.Point(106, 68);
+            this.comboBoxTitleLine3.Location = new System.Drawing.Point(78, 57);
             this.comboBoxTitleLine3.Name = "comboBoxTitleLine3";
-            this.comboBoxTitleLine3.Size = new System.Drawing.Size(374, 21);
+            this.comboBoxTitleLine3.Size = new System.Drawing.Size(415, 21);
             this.comboBoxTitleLine3.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxTitleLine3.TabIndex = 7;
             this.comboBoxTitleLine3.SelectionChangeCommitted += new System.EventHandler(this.comboBoxTitleLine3_SelectionChangeCommitted);
@@ -140,9 +142,9 @@
             this.comboBoxTitleLine2.DropDownWidth = 374;
             this.comboBoxTitleLine2.FormattingEnabled = true;
             this.comboBoxTitleLine2.IntegralHeight = false;
-            this.comboBoxTitleLine2.Location = new System.Drawing.Point(106, 38);
+            this.comboBoxTitleLine2.Location = new System.Drawing.Point(78, 30);
             this.comboBoxTitleLine2.Name = "comboBoxTitleLine2";
-            this.comboBoxTitleLine2.Size = new System.Drawing.Size(374, 21);
+            this.comboBoxTitleLine2.Size = new System.Drawing.Size(415, 21);
             this.comboBoxTitleLine2.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxTitleLine2.TabIndex = 6;
             this.comboBoxTitleLine2.SelectionChangeCommitted += new System.EventHandler(this.comboBoxTitleLine2_SelectionChangeCommitted);
@@ -156,50 +158,50 @@
             this.comboBoxTitleLine1.DropDownWidth = 374;
             this.comboBoxTitleLine1.FormattingEnabled = true;
             this.comboBoxTitleLine1.IntegralHeight = false;
-            this.comboBoxTitleLine1.Location = new System.Drawing.Point(106, 8);
+            this.comboBoxTitleLine1.Location = new System.Drawing.Point(78, 3);
             this.comboBoxTitleLine1.Name = "comboBoxTitleLine1";
-            this.comboBoxTitleLine1.Size = new System.Drawing.Size(374, 21);
+            this.comboBoxTitleLine1.Size = new System.Drawing.Size(415, 21);
             this.comboBoxTitleLine1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxTitleLine1.TabIndex = 5;
             this.comboBoxTitleLine1.SelectionChangeCommitted += new System.EventHandler(this.comboBoxTitleLine1_SelectionChangeCommitted);
             // 
             // label5
             // 
-            this.label5.Location = new System.Drawing.Point(6, 131);
+            this.label5.Location = new System.Drawing.Point(3, 111);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(72, 20);
+            this.label5.Size = new System.Drawing.Size(69, 18);
             this.label5.TabIndex = 4;
             this.label5.Values.Text = "Title Line 5:";
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(6, 101);
+            this.label4.Location = new System.Drawing.Point(3, 84);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(72, 20);
+            this.label4.Size = new System.Drawing.Size(69, 18);
             this.label4.TabIndex = 3;
             this.label4.Values.Text = "Title Line 4:";
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(6, 71);
+            this.label3.Location = new System.Drawing.Point(3, 57);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(72, 20);
+            this.label3.Size = new System.Drawing.Size(69, 18);
             this.label3.TabIndex = 2;
             this.label3.Values.Text = "Title Line 3:";
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(6, 41);
+            this.label2.Location = new System.Drawing.Point(3, 30);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(72, 20);
+            this.label2.Size = new System.Drawing.Size(69, 18);
             this.label2.TabIndex = 1;
             this.label2.Values.Text = "Title Line 2:";
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(6, 11);
+            this.label1.Location = new System.Drawing.Point(3, 3);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(72, 20);
+            this.label1.Size = new System.Drawing.Size(69, 18);
             this.label1.TabIndex = 0;
             this.label1.Values.Text = "Title Line 1:";
             // 
@@ -223,7 +225,7 @@
             this.kryptonPage1.LastVisibleSet = true;
             this.kryptonPage1.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPage1.Name = "kryptonPage1";
-            this.kryptonPage1.Size = new System.Drawing.Size(496, 195);
+            this.kryptonPage1.Size = new System.Drawing.Size(496, 191);
             this.kryptonPage1.Text = "Details view";
             this.kryptonPage1.ToolTipTitle = "Page ToolTip";
             this.kryptonPage1.UniqueName = "6a8d7e1c119d4e0c965434f7a974308e";
@@ -232,6 +234,17 @@
             // 
             this.kryptonWorkspaceCell1.AllowPageDrag = true;
             this.kryptonWorkspaceCell1.AllowTabFocus = false;
+            this.kryptonWorkspaceCell1.Button.ButtonDisplayLogic = Krypton.Navigator.ButtonDisplayLogic.Context;
+            this.kryptonWorkspaceCell1.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.RemovePageAndDispose;
+            this.kryptonWorkspaceCell1.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Logic;
+            this.kryptonWorkspaceCell1.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.SelectPage;
+            this.kryptonWorkspaceCell1.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Logic;
+            this.kryptonWorkspaceCell1.Button.ContextMenuMapImage = Krypton.Navigator.MapKryptonPageImage.Small;
+            this.kryptonWorkspaceCell1.Button.ContextMenuMapText = Krypton.Navigator.MapKryptonPageText.TextTitle;
+            this.kryptonWorkspaceCell1.Button.NextButtonAction = Krypton.Navigator.DirectionButtonAction.ModeAppropriateAction;
+            this.kryptonWorkspaceCell1.Button.NextButtonDisplay = Krypton.Navigator.ButtonDisplay.Logic;
+            this.kryptonWorkspaceCell1.Button.PreviousButtonAction = Krypton.Navigator.DirectionButtonAction.ModeAppropriateAction;
+            this.kryptonWorkspaceCell1.Button.PreviousButtonDisplay = Krypton.Navigator.ButtonDisplay.Logic;
             this.kryptonWorkspaceCell1.Name = "kryptonWorkspaceCell1";
             this.kryptonWorkspaceCell1.NavigatorMode = Krypton.Navigator.NavigatorMode.StackCheckButtonGroup;
             this.kryptonWorkspaceCell1.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
@@ -243,21 +256,12 @@
             // kryptonPage3
             // 
             this.kryptonPage3.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPage3.Controls.Add(this.comboBoxTitleLine5);
-            this.kryptonPage3.Controls.Add(this.comboBoxTitleLine4);
-            this.kryptonPage3.Controls.Add(this.label1);
-            this.kryptonPage3.Controls.Add(this.comboBoxTitleLine3);
-            this.kryptonPage3.Controls.Add(this.label2);
-            this.kryptonPage3.Controls.Add(this.comboBoxTitleLine2);
-            this.kryptonPage3.Controls.Add(this.label3);
-            this.kryptonPage3.Controls.Add(this.comboBoxTitleLine1);
-            this.kryptonPage3.Controls.Add(this.label4);
-            this.kryptonPage3.Controls.Add(this.label5);
+            this.kryptonPage3.Controls.Add(this.tableLayoutPanel1);
             this.kryptonPage3.Flags = 65534;
             this.kryptonPage3.LastVisibleSet = true;
             this.kryptonPage3.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPage3.Name = "kryptonPage3";
-            this.kryptonPage3.Size = new System.Drawing.Size(496, 195);
+            this.kryptonPage3.Size = new System.Drawing.Size(496, 191);
             this.kryptonPage3.Text = "Thumbnail view -  Renderer Tiles";
             this.kryptonPage3.ToolTipTitle = "Page ToolTip";
             this.kryptonPage3.UniqueName = "ed00181f201d4b8f8b9240a929d8e829";
@@ -282,6 +286,34 @@
             this.kryptonWorkspaceChooseColumns.Size = new System.Drawing.Size(498, 243);
             this.kryptonWorkspaceChooseColumns.TabIndex = 6;
             this.kryptonWorkspaceChooseColumns.TabStop = true;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.comboBoxTitleLine5, 1, 4);
+            this.tableLayoutPanel1.Controls.Add(this.label2, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.comboBoxTitleLine4, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.label3, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.comboBoxTitleLine3, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.label4, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.comboBoxTitleLine2, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.label5, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.comboBoxTitleLine1, 1, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 5;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(496, 191);
+            this.tableLayoutPanel1.TabIndex = 10;
             // 
             // FormChooseColumns
             // 
@@ -311,9 +343,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCell1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage3)).EndInit();
             this.kryptonPage3.ResumeLayout(false);
-            this.kryptonPage3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceChooseColumns)).EndInit();
             this.kryptonWorkspaceChooseColumns.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -337,5 +370,6 @@
         private Krypton.Workspace.KryptonWorkspaceCell kryptonWorkspaceCell1;
         private Krypton.Navigator.KryptonPage kryptonPage3;
         private Krypton.Workspace.KryptonWorkspace kryptonWorkspaceChooseColumns;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
     }
 }

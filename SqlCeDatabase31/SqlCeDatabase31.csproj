@@ -63,11 +63,6 @@
     <DefineConstants />
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="..\SqlCeDatabase35\SqlCeEngineExtensions.cs">
-      <Link>SqlCeEngineExtensions.cs</Link>
-    </Compile>
-  </ItemGroup>
   
   <ItemGroup>
     <Content Include="sqlceca30.dll">
