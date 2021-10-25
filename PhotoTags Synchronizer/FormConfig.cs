@@ -1325,7 +1325,7 @@ namespace PhotoTagsSynchronizer
                     string output = JsonConvert.SerializeObject(locationRecords);
                     System.IO.File.WriteAllText(saveFileDialog1.FileName, output, Encoding.UTF8);
 
-                   
+                    KryptonMessageBox.Show(locationRecords.Count.ToString() + " locations exported", "Location file exported");
                 }
             } catch (Exception ex)
             {
@@ -1362,6 +1362,7 @@ namespace PhotoTagsSynchronizer
                     Dictionary<LocationCoordinate, LocationDescription> locationNames = new Dictionary<LocationCoordinate, LocationDescription>();
                     foreach (LocationRecord locationRecord in readResult) locationNames.Add(locationRecord.LocationCoordinate, locationRecord.LocationDescription);
                     PopulateMetadataLocationNames(dataGridView, locationNames);
+                    KryptonMessageBox.Show(locationNames.Count.ToString() + " locations imported", "Location file imported");
                 }
             }
             catch (Exception ex)
