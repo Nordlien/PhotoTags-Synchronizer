@@ -295,10 +295,30 @@ namespace PhotoTagsSynchronizer
         {
             lock (GlobalData.populateSelectedLock)
             {
-                bool isFileInDataGridView = DataGridViewHandler.DoesColumnFilenameExist(dataGridView, fileEntryAttribute.FileFullPath);
-                    
+
+                bool isFileInDataGridView = false;
+                switch (tag)
+                {
+                    case LinkTabAndDataGridViewNameTags:
+                    case LinkTabAndDataGridViewNamePeople:
+                    case LinkTabAndDataGridViewNameMap:
+                    case LinkTabAndDataGridViewNameDates:
+                    case LinkTabAndDataGridViewNameExiftool:
+                    case LinkTabAndDataGridViewNameWarnings:
+                    case LinkTabAndDataGridViewNameProperties:
+                        isFileInDataGridView = DataGridViewHandler.DoesColumnFilenameExist(dataGridView, fileEntryAttribute.FileFullPath);
+                        break;
+                    case LinkTabAndDataGridViewNameRename:
+                        isFileInDataGridView = DataGridViewHandler.DoesRowHeaderAndNameExist(dataGridView, fileEntryAttribute.Directory, fileEntryAttribute.FileName);
+                        break;
+                    case LinkTabAndDataGridViewNameConvertAndMerge:
+                        isFileInDataGridView = DataGridViewHandler.DoesRowHeaderAndNameExist(dataGridView, DataGridViewHandlerConvertAndMerge.headerConvertAndMergeInfo, fileEntryAttribute.FileFullPath);
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+
                 DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, isFileInDataGridView);
-                //BeginInvoke(new Action<DataGridView, bool>(DataGridViewHandler.SuspendLayoutSetDelay), dataGridView, isFileInDataGridView);
 
                 if (isFileInDataGridView)
                 {
@@ -326,8 +346,10 @@ namespace PhotoTagsSynchronizer
                             DataGridViewHandlerProperties.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
                             break;
                         case LinkTabAndDataGridViewNameRename:
+                            DataGridViewHandlerRename.PopulateFile(dataGridView, fileEntryAttribute, DataGridViewHandlerRename.ShowFullPath);
                             break;
                         case LinkTabAndDataGridViewNameConvertAndMerge:
+                            DataGridViewHandlerConvertAndMerge.PopulateFile(dataGridView, fileEntryAttribute);
                             break;
                         default:
                             throw new NotImplementedException();

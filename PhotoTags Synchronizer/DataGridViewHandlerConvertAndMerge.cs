@@ -21,7 +21,7 @@ namespace PhotoTagsSynchronizer
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         private static string headerConvertAndMergeFilename = "Filename";
-        private static string headerConvertAndMergeInfo = "Drag and drop to re-order";
+        public static string headerConvertAndMergeInfo = "Drag and drop to re-order";
 
         public static MetadataDatabaseCache DatabaseAndCacheMetadataExiftool { get; set; }
         public static FileDateTimeReader FileDateTimeFormats { get; set; }
@@ -2002,7 +2002,6 @@ namespace PhotoTagsSynchronizer
             {
                 string directory = fileEntryAttribute.Directory;
                 string filename = fileEntryAttribute.FileName;
-                
 
                 //Media
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerConvertAndMergeInfo, fileEntryAttribute.FileFullPath, metadata), filename, true);
