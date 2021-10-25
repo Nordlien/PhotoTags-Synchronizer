@@ -1022,7 +1022,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.kryptonContextMenuItemGenericReadSubfolders.Image = global::PhotoTagsSynchronizer.Properties.Resources.MetadataAddSubfolders32x32;
             this.kryptonContextMenuItemGenericReadSubfolders.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
-            this.kryptonContextMenuItemGenericReadSubfolders.Text = "Read subfolers";
+            this.kryptonContextMenuItemGenericReadSubfolders.Text = "Add media from subfolers";
             // 
             // kryptonContextMenuItemGenericOpenFolderLocation
             // 
