@@ -17,10 +17,7 @@ namespace PhotoTagsSynchronizer
     public partial class MainForm : KryptonForm
     {
 
-        private void textBoxRenameNewName_Leave(object sender, EventArgs e)
-        {
-            Properties.Settings.Default.RenameVariable = textBoxRenameNewName.Text;
-        }
+        
 
         private void comboBoxRenameVariableList_SelectionChangeCommitted(object sender, EventArgs e)
         {
@@ -105,5 +102,31 @@ namespace PhotoTagsSynchronizer
 
         #region Painting
         #endregion
+
+        #region Control with focus (For Cut/Copy/Paste)
+
+        private Control controlPasteWithFocusRename = null;
+        private void textBoxRenameNewName_Leave(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.RenameVariable = textBoxRenameNewName.Text;
+            controlPasteWithFocusRename = null;
+        }
+
+        private void textBoxRenameNewName_Enter(object sender, EventArgs e)
+        {
+            controlPasteWithFocusRename = (Control)sender;
+        }
+
+        private void dataGridViewRename_Leave(object sender, EventArgs e)
+        {
+            controlPasteWithFocusRename = null;
+        }
+
+        private void dataGridViewRename_Enter(object sender, EventArgs e)
+        {
+            controlPasteWithFocusRename = (Control)sender;
+        }
+        #endregion
+
     }
 }

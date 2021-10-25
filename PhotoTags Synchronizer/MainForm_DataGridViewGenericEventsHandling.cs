@@ -1513,27 +1513,52 @@ namespace PhotoTagsSynchronizer
         #region Rename
         private void RenamePaste_Click()
         {
-            DataGridView dataGridView = dataGridViewRename;
-            DataGridViewGenrericPaste(dataGridView);
+            if (controlPasteWithFocusRename?.Name == textBoxRenameNewName.Name)
+            {
+                textBoxRenameNewName.Paste();
+            }
+            if (controlPasteWithFocusRename?.Name == dataGridViewRename.Name)
+            { 
+                DataGridView dataGridView = dataGridViewRename;
+                DataGridViewGenrericPaste(dataGridView);
+            }
         }
         #endregion
 
         #region TagsAndKeywords
         private void TagsAndKeywordsPaste_Click()
         {
-            DataGridView dataGridView = dataGridViewTagsAndKeywords;
-            if (!dataGridView.Enabled) return;
-            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
+            if (controlPasteWithFocusTag?.Name == comboBoxAlbum.Name ||
+                controlPasteWithFocusTag?.Name == comboBoxTitle.Name ||
+                controlPasteWithFocusTag?.Name == comboBoxDescription.Name ||
+                controlPasteWithFocusTag?.Name == comboBoxComments.Name ||
+                controlPasteWithFocusTag?.Name == comboBoxAuthor.Name
+                )
+            {
+                KryptonComboBox kryptonComboBox = (KryptonComboBox)controlPasteWithFocusTag;
+                string insertText = Clipboard.GetText();
+                int selectionStart = kryptonComboBox.SelectionStart;
+                kryptonComboBox.Text = kryptonComboBox.Text.Remove(selectionStart, kryptonComboBox.SelectionLength);
+                kryptonComboBox.Text = kryptonComboBox.Text.Insert(selectionStart, insertText);
+                kryptonComboBox.SelectionStart = selectionStart + insertText.Length;
+            }
 
-            string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
+            if (controlPasteWithFocusTag?.Name == dataGridViewTagsAndKeywords.Name)
+            {
+                DataGridView dataGridView = dataGridViewTagsAndKeywords;
+                if (!dataGridView.Enabled) return;
+                GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
 
-            ClipboardUtility.PasteDataGridViewSelectedCellsFromClipboard(
-                dataGridView, 0, dataGridView.Columns.Count - 1,
-                DataGridViewHandler.GetRowHeadingIndex(dataGridView, header),
-                DataGridViewHandler.GetRowHeaderItemsEnds(dataGridView, header), true);
-            ValitedatePasteKeywords(dataGridView, header);
-            DataGridViewHandler.Refresh(dataGridView);
-            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
+                string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
+
+                ClipboardUtility.PasteDataGridViewSelectedCellsFromClipboard(
+                    dataGridView, 0, dataGridView.Columns.Count - 1,
+                    DataGridViewHandler.GetRowHeadingIndex(dataGridView, header),
+                    DataGridViewHandler.GetRowHeaderItemsEnds(dataGridView, header), true);
+                ValitedatePasteKeywords(dataGridView, header);
+                DataGridViewHandler.Refresh(dataGridView);
+                GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
+            }
         }
         #endregion
 

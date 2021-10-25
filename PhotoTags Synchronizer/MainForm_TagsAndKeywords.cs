@@ -552,6 +552,68 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
+        #region Control with focus (For Cut/Copy/Paste)
 
+        private Control controlPasteWithFocusTag = null;
+        private void comboBoxAlbum_Enter(object sender, EventArgs e)
+        {
+            controlPasteWithFocusTag = (Control)sender;
+        }
+
+        private void comboBoxAlbum_Leave(object sender, EventArgs e)
+        {
+            controlPasteWithFocusTag = null;
+        }
+
+        private void comboBoxTitle_Enter(object sender, EventArgs e)
+        {
+            controlPasteWithFocusTag = (Control)sender;
+        }
+
+        private void comboBoxTitle_Leave(object sender, EventArgs e)
+        {
+            controlPasteWithFocusTag = null;
+        }
+
+        private void comboBoxDescription_Enter(object sender, EventArgs e)
+        {
+            controlPasteWithFocusTag = (Control)sender;
+        }
+
+        private void comboBoxDescription_Leave(object sender, EventArgs e)
+        {
+            controlPasteWithFocusTag = null;
+        }
+
+        private void comboBoxComments_Enter(object sender, EventArgs e)
+        {
+            controlPasteWithFocusTag = (Control)sender;
+        }
+
+        private void comboBoxComments_Leave(object sender, EventArgs e)
+        {
+            controlPasteWithFocusTag = null;
+        }
+
+        private void comboBoxAuthor_Enter(object sender, EventArgs e)
+        {
+            controlPasteWithFocusTag = (Control)sender;
+        }
+
+        private void comboBoxAuthor_Leave(object sender, EventArgs e)
+        {
+            controlPasteWithFocusTag = null;
+        }
+
+        private void dataGridViewTagsAndKeywords_Enter(object sender, EventArgs e)
+        {
+            controlPasteWithFocusTag = (Control)sender;
+        }
+
+        private void dataGridViewTagsAndKeywords_Leave(object sender, EventArgs e)
+        {
+            controlPasteWithFocusTag = null;
+        }
+        #endregion
     }
 }
