@@ -375,8 +375,8 @@ namespace PhotoTagsSynchronizer
                     if (cacheAllMetadatas) databaseAndCacheMetadataExiftool.ReadToCacheAllMetadatas();
                     if (cacheAllWebScraperDataSets) databaseAndCacheMetadataExiftool.ReadToCacheWebScarpingAllDataSets();
                 });
+                threadCache.Priority = (ThreadPriority)Properties.Settings.Default.ApplicationDebugBackgroundThreadPrioity;
                 threadCache.Start();
-                if (threadCache.IsAlive) threadCache.Priority = (ThreadPriority)Properties.Settings.Default.ApplicationDebugBackgroundThreadPrioity;
             }
             catch { }
             #endregion 
@@ -593,8 +593,8 @@ namespace PhotoTagsSynchronizer
                         Logger.Error(ex);
                     }
                 });
-                _ThreadHttp.Start();
                 _ThreadHttp.Priority = (ThreadPriority)Properties.Settings.Default.ApplicationDebugBackgroundThreadPrioity;
+                _ThreadHttp.Start();                
             }
             catch (Exception ex)
             {

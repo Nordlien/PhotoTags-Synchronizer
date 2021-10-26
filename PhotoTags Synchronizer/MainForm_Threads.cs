@@ -444,8 +444,8 @@ namespace PhotoTagsSynchronizer
 
                 lock (_ThreadCacheSelectedFastReadLock) if (_ThreadCacheSelectedFastRead != null)
                 {
-                    _ThreadCacheSelectedFastRead.Start();
                     _ThreadCacheSelectedFastRead.Priority = threadPriority;
+                    _ThreadCacheSelectedFastRead.Start();                    
                 }
                 else Logger.Error("_ThreadCacheSelectedFastRead was not able to start");
                 
@@ -603,8 +603,8 @@ namespace PhotoTagsSynchronizer
 
                     lock (_ThreadLazyLoadingMetadataLock) if (_ThreadLazyLoadingMetadata != null)
                     {
-                        _ThreadLazyLoadingMetadata.Start();
                         _ThreadLazyLoadingMetadata.Priority = threadPriority;
+                        _ThreadLazyLoadingMetadata.Start();                        
                     }
                     else Logger.Error("_ThreadLazyLoadingMetadata was not able to start");
                 }
@@ -697,8 +697,8 @@ namespace PhotoTagsSynchronizer
 
                 lock (_ThreadLazyLoadingThumbnailLock) if (_ThreadLazyLoadingThumbnail != null)
                 {
-                    _ThreadLazyLoadingThumbnail.Start();
                     _ThreadLazyLoadingThumbnail.Priority = threadPriority;
+                    _ThreadLazyLoadingThumbnail.Start();                    
                 }
                 else Logger.Error("_ThreadLazyLoadingThumbnail was not able to start");
             }
@@ -821,8 +821,8 @@ namespace PhotoTagsSynchronizer
 
                     lock (_ThreadSaveThumbnailLock) if (_ThreadSaveThumbnail != null)
                     {
-                        _ThreadSaveThumbnail.Start();
                         _ThreadSaveThumbnail.Priority = threadPriority;
+                        _ThreadSaveThumbnail.Start();                        
                     }
                     else Logger.Error("_ThreadSaveThumbnail was not able to start");
                 }
@@ -1145,8 +1145,8 @@ namespace PhotoTagsSynchronizer
                     //(_ThreadCollectMetadataExiftoolLock) 
                     lock(__ThreadCollectMetadataExiftoolLock) if (_ThreadCollectMetadataExiftool != null)
                     {
-                        _ThreadCollectMetadataExiftool.Start();
                         _ThreadCollectMetadataExiftool.Priority = threadPriority;
+                        _ThreadCollectMetadataExiftool.Start();                        
                     }
                     else Logger.Error("_ThreadCollectMetadataExiftool was not able to start");
                 }
@@ -1516,8 +1516,8 @@ namespace PhotoTagsSynchronizer
 
                     lock (_ThreadSaveMetadataLock) if (_ThreadSaveMetadata != null)
                     {
-                        _ThreadSaveMetadata.Start();
                         _ThreadSaveMetadata.Priority = threadPriority;
+                        _ThreadSaveMetadata.Start();                        
                     }
                     else Logger.Error("_ThreadSaveMetadata was not able to start");
                 }
@@ -1633,8 +1633,8 @@ namespace PhotoTagsSynchronizer
 
                     lock (_ThreadMicrosoftPhotosLock) if (_ThreadMicrosoftPhotos != null)
                     {
-                        _ThreadMicrosoftPhotos.Start();
                         _ThreadMicrosoftPhotos.Priority = threadPriority;
+                        _ThreadMicrosoftPhotos.Start();                        
                     }
                     else Logger.Error("_ThreadMicrosoftPhotos was not able to start");
                 }
@@ -1752,8 +1752,8 @@ namespace PhotoTagsSynchronizer
 
                     lock (_ThreadWindowsLiveGalleryLock) if (_ThreadWindowsLiveGallery != null)
                     {
-                        _ThreadWindowsLiveGallery.Start();
-                        _ThreadWindowsLiveGallery.Priority = threadPriority;
+                        _ThreadWindowsLiveGallery.Priority = threadPriority; 
+                        _ThreadWindowsLiveGallery.Start();                        
                     }
                     else Logger.Error("_ThreadWindowsLiveGallery was not able to start");
                 }
@@ -1968,8 +1968,8 @@ namespace PhotoTagsSynchronizer
 
                     lock (_ThreadThumbnailRegionLock) if (_ThreadThumbnailRegion != null)
                     {
-                        _ThreadThumbnailRegion.Start();
                         _ThreadThumbnailRegion.Priority = threadPriority;
+                        _ThreadThumbnailRegion.Start();                        
                     }
                     else Logger.Error("_ThreadThumbnailRegion was not able to start");
                 }
@@ -2507,8 +2507,8 @@ namespace PhotoTagsSynchronizer
 
                     lock (_ThreadRenameMedafilesLock) if (_ThreadRenameMedafiles != null)
                     {
-                        _ThreadRenameMedafiles.Start();
-                        _ThreadRenameMedafiles.Priority = threadPriority;
+                        _ThreadRenameMedafiles.Priority = threadPriority; 
+                        _ThreadRenameMedafiles.Start();                        
                     }
                     else Logger.Error("_ThreadRenameMedafiles was not able to start");
                 }
