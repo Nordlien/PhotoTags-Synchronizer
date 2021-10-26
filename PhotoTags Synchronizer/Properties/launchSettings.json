@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "PhotoTags Synchronizer": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

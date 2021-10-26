@@ -1950,19 +1950,22 @@ namespace DataGridViewGeneric
         public static string GetCellValueNullOrStringTrim(DataGridView dataGridView, int columnIndex, int rowIndex)
         {
             string value = null;
-            if (columnIndex > -1 && rowIndex > -1 && columnIndex < dataGridView.ColumnCount && rowIndex < dataGridView.RowCount)
+            //if (columnIndex > -1 && rowIndex > -1 && columnIndex < dataGridView.ColumnCount && rowIndex < dataGridView.RowCount)
             {
                 try
                 {
                     value = (dataGridView[columnIndex, rowIndex].Value == null ? null : dataGridView[columnIndex, rowIndex].Value.ToString().Trim());
                     if (string.IsNullOrEmpty(value)) value = null;
                 }
-                catch (Exception ex) { Logger.Error(ex); }
+                catch (Exception ex) 
+                { 
+                    Logger.Error(ex); 
+                }
             }
-            else
-            {
-                //DEBUG: For adding breakpoint, For debug reason
-            }
+            //else
+            //{
+            //    //DEBUG: For adding breakpoint, For debug reason
+            //}
             return value;
             
         }

@@ -493,6 +493,16 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Hint_ImportGPSLocations {
+            get {
+                object obj = ResourceManager.GetObject("Hint-ImportGPSLocations", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Hint_KeepWhereBelongs {
             get {
                 object obj = ResourceManager.GetObject("Hint-KeepWhereBelongs", resourceCulture);
