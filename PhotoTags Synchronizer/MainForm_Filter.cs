@@ -199,8 +199,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        
-        
         #region PopulateTreeViewFolderFilter - Add - Invoke
         private void PopulateTreeViewFolderFilterAdd(FileEntryBroker fileEntryBroker) //new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool)
         {
