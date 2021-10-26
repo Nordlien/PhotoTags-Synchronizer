@@ -195,7 +195,8 @@ namespace PhotoTagsSynchronizer
             Warning,
             KeepYourTags,
             InternetAccess,
-            DelayReading
+            DelayReading,
+            ImportLocation
         }
         
         private void ShowMessagesPage(MessagePage page)
@@ -219,6 +220,9 @@ namespace PhotoTagsSynchronizer
                 case MessagePage.DelayReading:
                     tabControlMessages.SelectedTab = tabPageDelayReading;
                     break;
+                case MessagePage.ImportLocation:
+                    tabControlMessages.SelectedTab = tabPageImportLocation;
+                    break;
             }
         }
 
@@ -235,7 +239,7 @@ namespace PhotoTagsSynchronizer
 
                 stopwatch.Restart();
 
-                switch (new Random().Next(1, 3))
+                switch (new Random().Next(1, 4))
                 {
                     case 1:
                         ShowMessagesPage(MessagePage.KeepYourTags);
@@ -246,7 +250,9 @@ namespace PhotoTagsSynchronizer
                     case 3:
                         ShowMessagesPage(MessagePage.DelayReading);
                         break;
-
+                    case 4:
+                        ShowMessagesPage(MessagePage.ImportLocation);
+                        break;
                 }
             }
         }

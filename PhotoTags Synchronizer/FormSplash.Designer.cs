@@ -36,24 +36,27 @@
             this.tabControlMessages = new System.Windows.Forms.TabControl();
             this.tabPageWarning = new System.Windows.Forms.TabPage();
             this.tabPageKeepYourTags = new System.Windows.Forms.TabPage();
-            this.tabPageInternetAccess = new System.Windows.Forms.TabPage();
-            this.tabPageDelayReading = new System.Windows.Forms.TabPage();
-            this.tabPageWebScraping = new System.Windows.Forms.TabPage();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
             this.pictureBoxWhereBelongs = new System.Windows.Forms.PictureBox();
+            this.tabPageInternetAccess = new System.Windows.Forms.TabPage();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.tabPageDelayReading = new System.Windows.Forms.TabPage();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.tabPageImportLocation = new System.Windows.Forms.TabPage();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.tabControlMessages.SuspendLayout();
             this.tabPageWarning.SuspendLayout();
             this.tabPageKeepYourTags.SuspendLayout();
-            this.tabPageInternetAccess.SuspendLayout();
-            this.tabPageDelayReading.SuspendLayout();
-            this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxWhereBelongs)).BeginInit();
+            this.tabPageInternetAccess.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.tabPageDelayReading.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            this.tabPageImportLocation.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.SuspendLayout();
             // 
             // labelStatus
@@ -119,7 +122,7 @@
             this.tabControlMessages.Controls.Add(this.tabPageKeepYourTags);
             this.tabControlMessages.Controls.Add(this.tabPageInternetAccess);
             this.tabControlMessages.Controls.Add(this.tabPageDelayReading);
-            this.tabControlMessages.Controls.Add(this.tabPageWebScraping);
+            this.tabControlMessages.Controls.Add(this.tabPageImportLocation);
             this.tabControlMessages.Controls.Add(this.tabPage1);
             this.tabControlMessages.Location = new System.Drawing.Point(2, 97);
             this.tabControlMessages.Name = "tabControlMessages";
@@ -150,6 +153,16 @@
             this.tabPageKeepYourTags.Text = "KeepYourTags";
             this.tabPageKeepYourTags.UseVisualStyleBackColor = true;
             // 
+            // pictureBoxWhereBelongs
+            // 
+            this.pictureBoxWhereBelongs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBoxWhereBelongs.Image = global::PhotoTagsSynchronizer.Properties.Resources.Hint_KeepWhereBelongs;
+            this.pictureBoxWhereBelongs.Location = new System.Drawing.Point(3, 3);
+            this.pictureBoxWhereBelongs.Name = "pictureBoxWhereBelongs";
+            this.pictureBoxWhereBelongs.Size = new System.Drawing.Size(580, 150);
+            this.pictureBoxWhereBelongs.TabIndex = 0;
+            this.pictureBoxWhereBelongs.TabStop = false;
+            // 
             // tabPageInternetAccess
             // 
             this.tabPageInternetAccess.Controls.Add(this.pictureBox2);
@@ -160,6 +173,16 @@
             this.tabPageInternetAccess.TabIndex = 2;
             this.tabPageInternetAccess.Text = "InternetAccess";
             this.tabPageInternetAccess.UseVisualStyleBackColor = true;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox2.Image = global::PhotoTagsSynchronizer.Properties.Resources.Hint_GiveInternetAccess;
+            this.pictureBox2.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(580, 150);
+            this.pictureBox2.TabIndex = 0;
+            this.pictureBox2.TabStop = false;
             // 
             // tabPageDelayReading
             // 
@@ -172,15 +195,26 @@
             this.tabPageDelayReading.Text = "DelayReading";
             this.tabPageDelayReading.UseVisualStyleBackColor = true;
             // 
-            // tabPageWebScraping
+            // pictureBox3
             // 
-            this.tabPageWebScraping.Location = new System.Drawing.Point(4, 22);
-            this.tabPageWebScraping.Name = "tabPageWebScraping";
-            this.tabPageWebScraping.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageWebScraping.Size = new System.Drawing.Size(586, 156);
-            this.tabPageWebScraping.TabIndex = 4;
-            this.tabPageWebScraping.Text = "WebScraping";
-            this.tabPageWebScraping.UseVisualStyleBackColor = true;
+            this.pictureBox3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox3.Image = global::PhotoTagsSynchronizer.Properties.Resources.Hint_DelayedLoadReload;
+            this.pictureBox3.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(580, 150);
+            this.pictureBox3.TabIndex = 0;
+            this.pictureBox3.TabStop = false;
+            // 
+            // tabPageImportLocation
+            // 
+            this.tabPageImportLocation.Controls.Add(this.pictureBox4);
+            this.tabPageImportLocation.Location = new System.Drawing.Point(4, 22);
+            this.tabPageImportLocation.Name = "tabPageImportLocation";
+            this.tabPageImportLocation.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageImportLocation.Size = new System.Drawing.Size(586, 156);
+            this.tabPageImportLocation.TabIndex = 4;
+            this.tabPageImportLocation.Text = "ImportLocation";
+            this.tabPageImportLocation.UseVisualStyleBackColor = true;
             // 
             // tabPage1
             // 
@@ -193,36 +227,6 @@
             this.tabPage1.Text = "tabPageHintCloud";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // pictureBoxWhereBelongs
-            // 
-            this.pictureBoxWhereBelongs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBoxWhereBelongs.Image = global::PhotoTagsSynchronizer.Properties.Resources.Hint_KeepWhereBelongs;
-            this.pictureBoxWhereBelongs.Location = new System.Drawing.Point(3, 3);
-            this.pictureBoxWhereBelongs.Name = "pictureBoxWhereBelongs";
-            this.pictureBoxWhereBelongs.Size = new System.Drawing.Size(580, 150);
-            this.pictureBoxWhereBelongs.TabIndex = 0;
-            this.pictureBoxWhereBelongs.TabStop = false;
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox2.Image = global::PhotoTagsSynchronizer.Properties.Resources.Hint_GiveInternetAccess;
-            this.pictureBox2.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(580, 150);
-            this.pictureBox2.TabIndex = 0;
-            this.pictureBox2.TabStop = false;
-            // 
-            // pictureBox3
-            // 
-            this.pictureBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox3.Image = global::PhotoTagsSynchronizer.Properties.Resources.Hint_DelayedLoadReload;
-            this.pictureBox3.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(580, 150);
-            this.pictureBox3.TabIndex = 0;
-            this.pictureBox3.TabStop = false;
-            // 
             // pictureBox1
             // 
             this.pictureBox1.Location = new System.Drawing.Point(6, 6);
@@ -230,6 +234,16 @@
             this.pictureBox1.Size = new System.Drawing.Size(568, 135);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
+            // 
+            // pictureBox4
+            // 
+            this.pictureBox4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox4.Image = global::PhotoTagsSynchronizer.Properties.Resources.Hint_ImportGPSLocations;
+            this.pictureBox4.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(580, 150);
+            this.pictureBox4.TabIndex = 1;
+            this.pictureBox4.TabStop = false;
             // 
             // FormSplash
             // 
@@ -260,13 +274,15 @@
             this.tabPageWarning.ResumeLayout(false);
             this.tabPageWarning.PerformLayout();
             this.tabPageKeepYourTags.ResumeLayout(false);
-            this.tabPageInternetAccess.ResumeLayout(false);
-            this.tabPageDelayReading.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxWhereBelongs)).EndInit();
+            this.tabPageInternetAccess.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.tabPageDelayReading.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            this.tabPageImportLocation.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -284,11 +300,12 @@
         private System.Windows.Forms.TabPage tabPageKeepYourTags;
         private System.Windows.Forms.TabPage tabPageInternetAccess;
         private System.Windows.Forms.TabPage tabPageDelayReading;
-        private System.Windows.Forms.TabPage tabPageWebScraping;
+        private System.Windows.Forms.TabPage tabPageImportLocation;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBoxWhereBelongs;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.PictureBox pictureBox4;
     }
 }
