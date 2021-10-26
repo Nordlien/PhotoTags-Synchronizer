@@ -1949,13 +1949,21 @@ namespace DataGridViewGeneric
         #region Cell Handling - GetCellValueNullOrStringTrim - int columnIndex, int rowIndex
         public static string GetCellValueNullOrStringTrim(DataGridView dataGridView, int columnIndex, int rowIndex)
         {
-            if (columnIndex > -1 && rowIndex > -1)
+            string value = null;
+            if (columnIndex > -1 && rowIndex > -1 && columnIndex < dataGridView.ColumnCount && rowIndex < dataGridView.RowCount)
             {
-                string value = (dataGridView[columnIndex, rowIndex].Value == null ? null : dataGridView[columnIndex, rowIndex].Value.ToString().Trim());
-                if (string.IsNullOrEmpty(value)) return null;
-                else return value;
+                try
+                {
+                    value = (dataGridView[columnIndex, rowIndex].Value == null ? null : dataGridView[columnIndex, rowIndex].Value.ToString().Trim());
+                    if (string.IsNullOrEmpty(value)) value = null;
+                }
+                catch (Exception ex) { Logger.Error(ex); }
             }
-            else return null;
+            else
+            {
+                //DEBUG: For adding breakpoint, For debug reason
+            }
+            return value;
             
         }
         #endregion
