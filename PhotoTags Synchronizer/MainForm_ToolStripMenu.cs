@@ -153,7 +153,7 @@ namespace PhotoTagsSynchronizer
                     {
 
                         if (dragDropEffects == DragDropEffects.Move)
-                            MoveFiles_UpdateTreeViewFolderBrowser(treeViewFolderBrowser1, imageListView1, sourceFiles, targetFolder, targetNode);
+                            MoveFilesNoRename_UpdateTreeViewFolderBrowser(treeViewFolderBrowser1, imageListView1, sourceFiles, targetFolder, targetNode);
                         else
                             CopyFiles_UpdateTreeViewFolderBrowser(treeViewFolderBrowser1,                 sourceFiles, targetFolder, targetNode); 
 

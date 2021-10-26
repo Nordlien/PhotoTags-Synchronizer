@@ -2466,7 +2466,7 @@ namespace PhotoTagsSynchronizer
                                             string newFullFilename = DataGridViewHandlerRename.CombinePathAndName(oldDirectory, newFilename);
                                             #endregion
 
-                                            RenameFileProcess_UpdateTreeViewFolderBroswer(treeViewFolderBrowser1, imageListView1, fullFilename, newFullFilename);
+                                            RenameFile_Thread_UpdateTreeViewFolderBroswer(treeViewFolderBrowser1, imageListView1, fullFilename, newFullFilename);
 
                                         }
                                         else

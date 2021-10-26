@@ -16,26 +16,74 @@ namespace PhotoTagsSynchronizer
     public partial class MainForm : KryptonForm
     {
         #region RenameFileProcess from thread queue
-        private void RenameFileProcess_UpdateTreeViewFolderBroswer(TreeViewFolderBrowser folderTreeView, ImageListView imageListView, string sourceFullFilename, string targetFullFilename)
+        private void RenameFile_Thread_UpdateTreeViewFolderBroswer(TreeViewFolderBrowser folderTreeView, ImageListView imageListView, string sourceFullFilename, string targetFullFilename)
         {
             if (InvokeRequired)
             {
-                this.BeginInvoke(new Action<TreeViewFolderBrowser, ImageListView, string, string>(RenameFileProcess_UpdateTreeViewFolderBroswer), folderTreeView, imageListView, sourceFullFilename, targetFullFilename);
+                this.BeginInvoke(new Action<TreeViewFolderBrowser, ImageListView, string, string>(RenameFile_Thread_UpdateTreeViewFolderBroswer), folderTreeView, imageListView, sourceFullFilename, targetFullFilename);
                 return;
             }
 
-            StringCollection files = new StringCollection();
-            files.Add(sourceFullFilename);
-            MoveFiles_UpdateTreeViewFolderBrowser(folderTreeView, imageListView, files, targetFullFilename, null);
+            GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
+            imageListView.SuspendLayout();
+
+            try
+            {
+                bool isFileUnLockedAndExist = FileHandler.WaitLockedFileToBecomeUnlocked(sourceFullFilename, true, this);
+
+                bool directoryCreated = filesCutCopyPasteDrag.MoveFile(sourceFullFilename, targetFullFilename);
+
+                if (directoryCreated)
+                {
+                    GlobalData.DoNotRefreshImageListView = true;
+
+                    string newDirectory = Path.GetDirectoryName(targetFullFilename);
+                    TreeNode selectedNode = folderTreeView.SelectedNode;
+
+                    if (newDirectory.StartsWith(GetSelectedNodePath())) filesCutCopyPasteDrag.TreeViewFolderBrowserRefreshTreeNode(folderTreeView, selectedNode);
+
+                    GlobalData.DoNotRefreshImageListView = false;
+
+                }
+
+                ImageListViewItem foundItem = FindItemInImageListView(imageListView.Items, sourceFullFilename);
+                if (foundItem != null) imageListView.Items.Remove(foundItem);
+            }
+            catch (Exception ex)
+            {
+
+                DateTime dateTimeLastWriteTime = DateTime.Now;
+                try
+                {
+                    dateTimeLastWriteTime = File.GetLastWriteTime(sourceFullFilename);
+                }
+                catch { }
+                AddError(
+                    Path.GetDirectoryName(sourceFullFilename),
+                    Path.GetFileName(sourceFullFilename),
+                    dateTimeLastWriteTime,
+                    AddErrorFileSystemRegion, AddErrorFileSystemMove, sourceFullFilename, targetFullFilename,
+                    "Failed moving file.\r\n\r\n" +
+                    "From:" + sourceFullFilename + "\r\n\r\n" +
+                    "To: " + targetFullFilename + "\r\n\r\n" +
+                    "Error message: " + ex.Message + "\r\n");
+                Logger.Error(ex, "Error when move file.");
+            }
+
+            imageListView.ResumeLayout();
+            GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
+
+            FilesSelected();
+
         }
         #endregion 
 
-        #region Move Files to target folder
-        private void MoveFiles_UpdateTreeViewFolderBrowser(TreeViewFolderBrowser folderTreeView, ImageListView imageListView, StringCollection files, string targetNodeDirectory, TreeNode treeNodeTarget)
+        #region Move files to new folder (no rename)
+        private void MoveFilesNoRename_UpdateTreeViewFolderBrowser(TreeViewFolderBrowser folderTreeView, ImageListView imageListView, StringCollection files, string targetNodeDirectory, TreeNode treeNodeTarget)
         {
             if (InvokeRequired)
             {
-                this.BeginInvoke(new Action<TreeViewFolderBrowser, ImageListView, StringCollection, string, TreeNode>(MoveFiles_UpdateTreeViewFolderBrowser), folderTreeView, imageListView, files, targetNodeDirectory, treeNodeTarget);
+                this.BeginInvoke(new Action<TreeViewFolderBrowser, ImageListView, StringCollection, string, TreeNode>(MoveFilesNoRename_UpdateTreeViewFolderBrowser), folderTreeView, imageListView, files, targetNodeDirectory, treeNodeTarget);
                 return;
             }
 

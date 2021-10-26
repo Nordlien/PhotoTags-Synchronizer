@@ -370,10 +370,10 @@ namespace MetadataLibrary
                                 RegionStructure region = new RegionStructure();
                                 region.Type = dbTools.ConvertFromDBValString(reader["Type"]);
                                 region.Name = dbTools.ConvertFromDBValString(reader["Name"]);
-                                region.AreaX = (float)dbTools.ConvertFromDBValFloat(reader["AreaX"]);
-                                region.AreaY = (float)dbTools.ConvertFromDBValFloat(reader["AreaY"]);
-                                region.AreaWidth = (float)dbTools.ConvertFromDBValFloat(reader["AreaWidth"]);
-                                region.AreaHeight = (float)dbTools.ConvertFromDBValFloat(reader["AreaHeight"]);
+                                region.AreaX = (float)(dbTools.ConvertFromDBValFloat(reader["AreaX"]) == null ? 0 : dbTools.ConvertFromDBValFloat(reader["AreaX"]));
+                                region.AreaY = (float)(dbTools.ConvertFromDBValFloat(reader["AreaY"]) == null ? 0 : dbTools.ConvertFromDBValFloat(reader["AreaY"]));
+                                region.AreaWidth = (float)(dbTools.ConvertFromDBValFloat(reader["AreaWidth"]) == null ? 1 : dbTools.ConvertFromDBValFloat(reader["AreaWidth"])); 
+                                region.AreaHeight = (float)(dbTools.ConvertFromDBValFloat(reader["AreaHeight"]) == null ? 1 : dbTools.ConvertFromDBValFloat(reader["AreaHeight"]));
                                 region.RegionStructureType = (RegionStructureTypes)(int)dbTools.ConvertFromDBValInt(reader["RegionStructureType"]);
                                 region.Thumbnail = dbTools.ByteArrayToImage(dbTools.ConvertFromDBValByteArray(reader["Thumbnail"]));
                                 metadata.PersonalRegionListAddIfNotExists(region);
