@@ -6064,7 +6064,7 @@ namespace PhotoTagsSynchronizer
 
                 if (showLocationForm)
                 {
-                    LocationHistoryImportForm form = new LocationHistoryImportForm();
+                    FormLocationHistoryImport form = new FormLocationHistoryImport();
                     using (new WaitCursor())
                     {
                         form.databaseTools = databaseUtilitiesSqliteMetadata;

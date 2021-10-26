@@ -10,7 +10,7 @@ using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
-    public partial class LocationHistoryImportForm : KryptonForm
+    public partial class FormLocationHistoryImport : KryptonForm
     {
         public SqliteDatabaseUtilities databaseTools { get; set; }
         public CameraOwnersDatabaseCache databaseAndCahceCameraOwner { get; set; }
@@ -20,7 +20,7 @@ namespace PhotoTagsSynchronizer
         private long _filePosition = 0;
         private long _fileLength = 0;
 
-        public LocationHistoryImportForm()
+        public FormLocationHistoryImport()
         {
             InitializeComponent();
             this.DialogResult = DialogResult.Cancel;

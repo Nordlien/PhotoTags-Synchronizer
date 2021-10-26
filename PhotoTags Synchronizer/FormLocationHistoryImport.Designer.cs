@@ -1,6 +1,6 @@
 ﻿namespace PhotoTagsSynchronizer
 {
-    partial class LocationHistoryImportForm
+    partial class FormLocationHistoryImport
     {
         /// <summary>
         /// Required designer variable.
@@ -28,34 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LocationHistoryImportForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormLocationHistoryImport));
             this.buttonImportLocationHistory = new Krypton.Toolkit.KryptonButton();
-            this.label1 = new Krypton.Toolkit.KryptonLabel();
             this.comboBoxUserAccount = new Krypton.Toolkit.KryptonComboBox();
             this.label2 = new Krypton.Toolkit.KryptonLabel();
             this.statusStripStatus = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBarprogressBarLoading = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabelStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.kryptonLinkLabel1 = new Krypton.Toolkit.KryptonLinkLabel();
+            this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
+            this.kryptonLabel2 = new Krypton.Toolkit.KryptonLabel();
+            this.kryptonLabel3 = new Krypton.Toolkit.KryptonLabel();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxUserAccount)).BeginInit();
             this.statusStripStatus.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonImportLocationHistory
             // 
-            this.buttonImportLocationHistory.Location = new System.Drawing.Point(81, 95);
+            this.buttonImportLocationHistory.Location = new System.Drawing.Point(124, 76);
             this.buttonImportLocationHistory.Name = "buttonImportLocationHistory";
             this.buttonImportLocationHistory.Size = new System.Drawing.Size(244, 28);
             this.buttonImportLocationHistory.TabIndex = 1;
             this.buttonImportLocationHistory.Values.Text = "Select file and Import";
             this.buttonImportLocationHistory.Click += new System.EventHandler(this.buttonImportLocationHistory_Click);
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(19, 33);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(44, 18);
-            this.label1.TabIndex = 3;
-            this.label1.Values.Text = "Name:";
             // 
             // comboBoxUserAccount
             // 
@@ -63,7 +60,7 @@
             this.comboBoxUserAccount.DropDownWidth = 244;
             this.comboBoxUserAccount.FormattingEnabled = true;
             this.comboBoxUserAccount.IntegralHeight = false;
-            this.comboBoxUserAccount.Location = new System.Drawing.Point(81, 33);
+            this.comboBoxUserAccount.Location = new System.Drawing.Point(124, 49);
             this.comboBoxUserAccount.Name = "comboBoxUserAccount";
             this.comboBoxUserAccount.Size = new System.Drawing.Size(244, 21);
             this.comboBoxUserAccount.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
@@ -72,11 +69,11 @@
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(81, 3);
+            this.label2.Location = new System.Drawing.Point(124, 23);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(319, 18);
+            this.label2.Size = new System.Drawing.Size(256, 20);
             this.label2.TabIndex = 2;
-            this.label2.Values.Text = "Enter name for the user you want to import location history for";
+            this.label2.Values.Text = "Enter the name of owner the location history.";
             // 
             // statusStripStatus
             // 
@@ -101,22 +98,76 @@
             this.toolStripStatusLabelStatus.Size = new System.Drawing.Size(115, 19);
             this.toolStripStatusLabelStatus.Text = "Waiting command...";
             // 
-            // LocationHistoryImportForm
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Controls.Add(this.buttonImportLocationHistory, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.comboBoxUserAccount, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.label2, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.kryptonLinkLabel1, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.kryptonLabel1, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.kryptonLabel2, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.kryptonLabel3, 0, 3);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 12);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 4;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(545, 144);
+            this.tableLayoutPanel1.TabIndex = 6;
+            // 
+            // kryptonLinkLabel1
+            // 
+            this.kryptonLinkLabel1.Location = new System.Drawing.Point(124, 3);
+            this.kryptonLinkLabel1.Name = "kryptonLinkLabel1";
+            this.kryptonLinkLabel1.Size = new System.Drawing.Size(164, 14);
+            this.kryptonLinkLabel1.TabIndex = 4;
+            this.kryptonLinkLabel1.Values.Text = "https://takeout.google.com/";
+            // 
+            // kryptonLabel1
+            // 
+            this.kryptonLabel1.Location = new System.Drawing.Point(3, 3);
+            this.kryptonLabel1.Name = "kryptonLabel1";
+            this.kryptonLabel1.Size = new System.Drawing.Size(115, 14);
+            this.kryptonLabel1.TabIndex = 5;
+            this.kryptonLabel1.Values.Text = "1. Export (example)";
+            // 
+            // kryptonLabel2
+            // 
+            this.kryptonLabel2.Location = new System.Drawing.Point(3, 49);
+            this.kryptonLabel2.Name = "kryptonLabel2";
+            this.kryptonLabel2.Size = new System.Drawing.Size(81, 20);
+            this.kryptonLabel2.TabIndex = 6;
+            this.kryptonLabel2.Values.Text = "2. Give name";
+            // 
+            // kryptonLabel3
+            // 
+            this.kryptonLabel3.Location = new System.Drawing.Point(3, 76);
+            this.kryptonLabel3.Name = "kryptonLabel3";
+            this.kryptonLabel3.Size = new System.Drawing.Size(60, 20);
+            this.kryptonLabel3.TabIndex = 7;
+            this.kryptonLabel3.Values.Text = "3. Import";
+            // 
+            // FormLocationHistoryImport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(579, 183);
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.statusStripStatus);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.comboBoxUserAccount);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.buttonImportLocationHistory);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "LocationHistoryImportForm";
+            this.Name = "FormLocationHistoryImport";
             this.Text = "Import Location Histotory";
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxUserAccount)).EndInit();
             this.statusStripStatus.ResumeLayout(false);
             this.statusStripStatus.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -125,11 +176,15 @@
         #endregion
 
         private Krypton.Toolkit.KryptonButton buttonImportLocationHistory;
-        private Krypton.Toolkit.KryptonLabel label1;
         private Krypton.Toolkit.KryptonComboBox comboBoxUserAccount;
         private Krypton.Toolkit.KryptonLabel label2;
         private System.Windows.Forms.StatusStrip statusStripStatus;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBarprogressBarLoading;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelStatus;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private Krypton.Toolkit.KryptonLinkLabel kryptonLinkLabel1;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel1;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel2;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel3;
     }
 }
