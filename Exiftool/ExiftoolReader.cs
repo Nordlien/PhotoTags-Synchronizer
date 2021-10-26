@@ -1264,8 +1264,13 @@ namespace Exiftool
                                     #region Read XML Categories
                                     MetadataReadPrioity.Add(exifToolData.Region, exifToolData.Command, CompositeTags.KeywordsXML);
 
+                                    parameter = parameter.Replace("&", "{andsign37827823}"); //Hack for avoid '&' sign in text when using XmlReader issue
                                     List<string> keywordListXML = new List<string>();
-                                    XmlReader xmlReader = XmlReader.Create(new StringReader(parameter));
+                                    XmlReader xmlReader = XmlReader.Create(new StringReader(
+                                        "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n" +
+                                        parameter
+                                        ));
+                                    
                                     string tagHierarchy = "";
                                     bool assigned = false;
                                     while (xmlReader.Read())
@@ -1280,6 +1285,7 @@ namespace Exiftool
                                                 if (assigned)
                                                 {
                                                     tagHierarchy += xmlReader.Value;
+                                                    tagHierarchy = tagHierarchy.Replace("{andsign37827823}", "&"); //Hack for avoid '&' sign in text when using XmlReader issue
                                                     if (!keywordListXML.Contains(tagHierarchy)) keywordListXML.Add(tagHierarchy);
                                                     KeywordTag keywordTag = new KeywordTag(tagHierarchy);
                                                     metadata.PersonalKeywordTagsAddIfNotExists(keywordTag);

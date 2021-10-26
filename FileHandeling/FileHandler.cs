@@ -428,7 +428,11 @@ namespace FileHandeling
             } while (areAnyFileLocked);
             try
             {
-                if (formWaitLockedFile != null) formWaitLockedFile.Close();
+                if (formWaitLockedFile != null)
+                {
+                    _ = form.BeginInvoke(new Action(formWaitLockedFile.Close));
+                    //formWaitLockedFile.Close();
+                }
             }
             catch { }
             return true; //True, file exist and unlocked, or ignored 
