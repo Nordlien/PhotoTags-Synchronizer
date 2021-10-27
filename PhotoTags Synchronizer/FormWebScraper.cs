@@ -662,7 +662,7 @@ namespace PhotoTagsSynchronizer
                 {
                     var task = browser.EvaluateScriptAsync(script, timeout);
                     await task.ContinueWith(res => {
-                        if (!res.IsFaulted)
+                        if (!res.IsFaulted && !res.IsCanceled)
                         {
                             var response = res.Result;
                             result = response.Success ? (response?.Result ?? "null") : response.Message;
