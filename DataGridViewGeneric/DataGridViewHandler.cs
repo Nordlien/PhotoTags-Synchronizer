@@ -386,6 +386,7 @@ namespace DataGridViewGeneric
                    null,
                    dataGridView,
                    new object[] { true });
+            
             dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
             dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
 
@@ -1061,6 +1062,7 @@ namespace DataGridViewGeneric
                 dataGridViewColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
                 dataGridViewColumn.SortMode = DataGridViewColumnSortMode.NotSortable;
                 dataGridViewColumn.MinimumWidth = 40;
+                dataGridViewColumn.FillWeight = 0.1f;
 
                 dataGridViewColumn.Width = GetCellColumnsWidth(dataGridView);
 
