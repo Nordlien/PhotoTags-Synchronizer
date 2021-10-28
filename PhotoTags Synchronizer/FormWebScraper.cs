@@ -12,6 +12,7 @@ using MetadataLibrary;
 using Newtonsoft.Json;
 using Krypton.Toolkit;
 using FileHandeling;
+using System.Web;
 
 namespace PhotoTagsSynchronizer
 {
@@ -283,25 +284,6 @@ namespace PhotoTagsSynchronizer
             public override int GetHashCode()
             {
                 throw new NotFiniteNumberException();
-                /*
-                int hashCode = 1517053096;
-                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Url);
-                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Title);
-                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Description);
-                hashCode = hashCode * -1521134295 + PictureInfoScreenHidden.GetHashCode();
-                hashCode = hashCode * -1521134295 + EqualityComparer<List<string>>.Default.GetHashCode(LinkPhoto);
-                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Album);
-                hashCode = hashCode * -1521134295 + EqualityComparer<List<string>>.Default.GetHashCode(AlbumOthers);
-                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(MediaFile);
-                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(LocationName);
-                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Tag);
-                hashCode = hashCode * -1521134295 + EqualityComparer<List<string>>.Default.GetHashCode(Tags);
-                hashCode = hashCode * -1521134295 + EqualityComparer<List<string>>.Default.GetHashCode(Peoples);
-                hashCode = hashCode * -1521134295 + EqualityComparer<Dictionary<string, string>>.Default.GetHashCode(LinksAlbum);
-                hashCode = hashCode * -1521134295 + EqualityComparer<Dictionary<string, string>>.Default.GetHashCode(LinksTags);
-                hashCode = hashCode * -1521134295 + EqualityComparer<Dictionary<string, string>>.Default.GetHashCode(LinksLocation);
-                hashCode = hashCode * -1521134295 + EqualityComparer<Dictionary<string, string>>.Default.GetHashCode(LinksPeople);
-                return hashCode;*/
             }
 
             public static bool operator ==(ScrapingResult left, ScrapingResult right)
@@ -367,7 +349,8 @@ namespace PhotoTagsSynchronizer
             buttonRunJavaScript.Enabled = enabled;
             buttonSaveJavaScript.Enabled = enabled;
             buttonWebScrapingCategories.Enabled = enabled;
-            buttonWebScrapingStart.Enabled = enabled;
+            buttonWebScrapingCategoriesStart.Enabled = enabled;
+            buttonWebScrapingSearchStart.Enabled = enabled;
             buttonWebScrapingSave.Enabled = enabled;
             buttonWebScrapingClearDataSet.Enabled = enabled;
 
@@ -415,6 +398,7 @@ namespace PhotoTagsSynchronizer
             webScrapingDelayOurScriptToRun = Properties.Settings.Default.WebScrapingDelayOurScriptToRun;
             webScrapingPageDownCount = Properties.Settings.Default.WebScrapingPageDownCount;
             webScrapingRetry = Properties.Settings.Default.WebScrapingRetry;
+            kryptonTextBoxWebScrapingSearch.Text = Properties.Settings.Default.WebScraperSearch;
         }
         #endregion 
 
@@ -430,10 +414,6 @@ namespace PhotoTagsSynchronizer
 
             _linkCatergories = WebScrapingLinksStatusRead();
             CategryLinksShowInListView(_linkCatergories);
-
-            //listViewColumnSorterLinks.SortColumn = 0;
-            //listViewColumnSorterLinks.Order = SortOrder.Descending;
-            //listViewLinks.Sort();
 
             listViewColumnSorterDataSet.SortColumn = 0;
             listViewColumnSorterDataSet.Order = SortOrder.Descending;
@@ -480,7 +460,8 @@ namespace PhotoTagsSynchronizer
         #region Form - Closing
         private void FormWebScraper_FormClosing(object sender, FormClosingEventArgs e)
         {
-            
+            Properties.Settings.Default.WebScraperSearch = kryptonTextBoxWebScrapingSearch.Text;
+            Properties.Settings.Default.WebScraperScript = fastColoredTextBoxJavaScript.Text;
             if (IsProcessRunning)
             {
                 KryptonMessageBox.Show("Need wait process that are running has stopped, before closing window");
@@ -643,7 +624,6 @@ namespace PhotoTagsSynchronizer
             try
             {
                 Properties.Settings.Default.WebScraperScript = fastColoredTextBoxJavaScript.Text;
-                Properties.Settings.Default.Save();
             } catch (Exception ex)
             {
                 KryptonMessageBox.Show(ex.Message, "Can't save settings");
@@ -806,9 +786,7 @@ namespace PhotoTagsSynchronizer
         #region Scraping - Media Files in URL
         private async Task<Dictionary<string, Metadata>> ScrapingMediaFiles(string script, string url, string tag, string album, string people, string location, 
             int retryWhenVerifyFails, List<string> urlLoadingFailed)
-        {
-            Debug.WriteLine(url);
-            //Dictionary<string, Metadata> metaDataDictionary, 
+        {   
             Dictionary<string, Metadata> metadataDictionary = new Dictionary<string, Metadata>();
 
             browser.Load(url);
@@ -1133,14 +1111,67 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region GUI - Start Scraping - Search
+        private async void buttonWebScrapingSearchStart_Click(object sender, EventArgs e)
+        {
+            IsProcessRunning = true;
+
+            try
+            {
+                string script = fastColoredTextBoxJavaScript.Text;
+
+                
+                _urlLoadingFailed.Clear();
+                MetadataDataSetCount metadataDataSetCountBefore = MetadataDataSetCount.CountMetadataDataSet(_metadataDataTotalMerged);
+                fastColoredTextBoxJavaScriptResult.Text = "WebScarping stareted...\r\n" + metadataDataSetCountBefore.ToString() + "\r\n--------------------------------------\r\n\r\n";
+
+                string lastScan = Properties.Settings.Default.WebScraperSearchLastScan;
+                string searchText = kryptonTextBoxWebScrapingSearch.Text.Replace("{LastScan:yyyy-MM-dd}", lastScan);
+                string url = Properties.Settings.Default.WebScraperSearchUrl;
+                url = url + (url.EndsWith("\\") || url.EndsWith("/") || searchText.StartsWith("\\") || searchText.StartsWith("/") ? "" : "/") + HttpUtility.UrlPathEncode(searchText);
+
+
+                Dictionary<string, Metadata> metadataDateSetScraped = null;
+                
+
+                metadataDateSetScraped = await ScrapingMediaFiles(script, url, null, null, null, null, webScrapingRetry, _urlLoadingFailed);
+                AddDataSetDesciption("Search");
+
+                MetadataDictionaryMerge(_metadataDataTotalMerged, metadataDateSetScraped);
+                MetadataDataSetCount metadataDataSetCountRead = MetadataDataSetCount.CountMetadataDataSet(metadataDateSetScraped);
+                fastColoredTextBoxJavaScriptResult.Text += "Scraping result " + kryptonTextBoxWebScrapingSearch.Text + " :\r\n" + metadataDataSetCountRead.ToString() + "\r\n";
+
+                MetadataDataSetCount metadataDataSetCountMerged = MetadataDataSetCount.CountMetadataDataSet(_metadataDataTotalMerged);
+                if (metadataDataSetCountBefore != metadataDataSetCountMerged) isDataUnsaved = true; //If changes found
+
+                WebScrapingLinksStatusWrites(_linkCatergories); //Updated LastRead field
+
+                fastColoredTextBoxJavaScriptResult.Text = "WebScarping done...\r\n" +
+                    metadataDataSetCountMerged.ToString() +
+                    "\r\n--------------------------------------\r\n\r\n" +
+                    fastColoredTextBoxJavaScriptResult.Text;
+
+                if (_urlLoadingFailed.Count > 0) fastColoredTextBoxJavaScriptResult.Text += "Urls failed to load: " + _urlLoadingFailed.Count + "\r\n";
+                foreach (string failedUrl in _urlLoadingFailed) fastColoredTextBoxJavaScriptResult.Text += "Regions found: " + failedUrl + "\r\n";
+
+                Properties.Settings.Default.WebScraperSearchLastScan = DateTime.Now.ToString("yyyy-MM-dd");
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show(ex.Message);
+            }
+
+            IsProcessRunning = false;
+        }
+        #endregion
+
         #region GUI - Start Scraping - Selected Media Files
-        private async void buttonWebScrapingStart_Click(object sender, EventArgs e)
+        private async void buttonWebScrapingCategoriesStart_Click(object sender, EventArgs e)
         {
             IsProcessRunning = true;
             
             try
             {
-                //string script = Properties.Settings.Default.WebScraperScript;
                 string script = fastColoredTextBoxJavaScript.Text;
 
                 _urlLoadingFailed.Clear();
@@ -1553,6 +1584,7 @@ namespace PhotoTagsSynchronizer
                 metadataDataSetCountAll.ToString() +
                 fastColoredTextBoxJavaScriptResult.Text;
         }
+
 
 
 

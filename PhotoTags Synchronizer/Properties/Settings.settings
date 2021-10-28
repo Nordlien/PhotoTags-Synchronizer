@@ -1192,5 +1192,14 @@ Dimensions</Value>
     <Setting Name="RenameShowFullPath" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="WebScraperSearch" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Photos after {LastScan:yyyy-MM-dd}</Value>
+    </Setting>
+    <Setting Name="WebScraperSearchUrl" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://photos.google.com/search/</Value>
+    </Setting>
+    <Setting Name="WebScraperSearchLastScan" Type="System.String" Scope="User">
+      <Value Profile="(Default)">1900-01-01</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

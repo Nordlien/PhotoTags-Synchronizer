@@ -12,7 +12,7 @@ namespace PhotoTagsSynchronizer.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.10.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.0.3.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -2510,6 +2510,42 @@ explorer ms-photos?filename=""{FileFullPath}""")]
             }
             set {
                 this["RenameShowFullPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Photos after {LastScan:yyyy-MM-dd}")]
+        public string WebScraperSearch {
+            get {
+                return ((string)(this["WebScraperSearch"]));
+            }
+            set {
+                this["WebScraperSearch"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://photos.google.com/search/")]
+        public string WebScraperSearchUrl {
+            get {
+                return ((string)(this["WebScraperSearchUrl"]));
+            }
+            set {
+                this["WebScraperSearchUrl"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1900-01-01")]
+        public string WebScraperSearchLastScan {
+            get {
+                return ((string)(this["WebScraperSearchLastScan"]));
+            }
+            set {
+                this["WebScraperSearchLastScan"] = value;
             }
         }
     }
