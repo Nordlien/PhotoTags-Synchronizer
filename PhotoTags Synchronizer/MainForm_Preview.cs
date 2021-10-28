@@ -60,6 +60,11 @@ namespace PhotoTagsSynchronizer
         #region Preview Media -- Click  ---
         private void MediaPreviewInit(List<string> listOfMediaFiles, string imageListViewLastHoverFullfilename)
         {
+            if (kryptonRibbonMain.SelectedTab != kryptonRibbonTabPreview) kryptonRibbonMain.SelectedTab = kryptonRibbonTabPreview;
+
+            SetPreviewRibbonEnabledStatus(previewStartEnabled: true, enabled: true);
+            SetPreviewRibbonPreviewButtonChecked(true);
+
             isGooglecasting = false;
             isGooglecastDisconnectedStarted = false;
 
@@ -189,7 +194,8 @@ namespace PhotoTagsSynchronizer
 
             kryptonRibbonGroupTrackBarPreviewTimer.Minimum = 0;
             kryptonRibbonGroupTrackBarPreviewTimer.Maximum = 100;
-            
+
+            panelMediaPreview.BringToFront();
             panelMediaPreview.Dock = DockStyle.Fill;
             panelMediaPreview.Visible = true;
 

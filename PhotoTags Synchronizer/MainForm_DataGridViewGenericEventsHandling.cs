@@ -4590,8 +4590,8 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                SetPreviewRibbonEnabledStatus(previewStartEnabled: true, enabled: true);
-                SetPreviewRibbonPreviewButtonChecked(true);
+                //SetPreviewRibbonEnabledStatus(previewStartEnabled: true, enabled: true);
+                //SetPreviewRibbonPreviewButtonChecked(true);
                 if (imageListView1.SelectedItems.Count > 1) GenericMediaPreviewFoldeOrMediaList("");
                 else
                 {
