@@ -1201,5 +1201,8 @@ Dimensions</Value>
     <Setting Name="WebScraperSearchLastScan" Type="System.String" Scope="User">
       <Value Profile="(Default)">1900-01-01</Value>
     </Setting>
+    <Setting Name="SlashScreenTipNumber" Type="System.Byte" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

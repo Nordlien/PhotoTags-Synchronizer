@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Krypton.Toolkit;
+using PhotoTagsSynchronizer.Properties;
 
 namespace PhotoTagsSynchronizer
 {
@@ -239,19 +240,24 @@ namespace PhotoTagsSynchronizer
 
                 stopwatch.Restart();
 
-                switch (new Random().Next(1, 4))
+                byte splashScreenNumber = Properties.Settings.Default.SlashScreenTipNumber;
+                switch (splashScreenNumber)
                 {
                     case 1:
                         ShowMessagesPage(MessagePage.KeepYourTags);
+                        Properties.Settings.Default.SlashScreenTipNumber = 2;
                         break;
                     case 2:
                         ShowMessagesPage(MessagePage.InternetAccess);
+                        Properties.Settings.Default.SlashScreenTipNumber = 3;
                         break;
                     case 3:
                         ShowMessagesPage(MessagePage.DelayReading);
+                        Properties.Settings.Default.SlashScreenTipNumber = 4;
                         break;
                     case 4:
                         ShowMessagesPage(MessagePage.ImportLocation);
+                        Properties.Settings.Default.SlashScreenTipNumber = 1;
                         break;
                 }
             }

@@ -2548,5 +2548,17 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["WebScraperSearchLastScan"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public byte SlashScreenTipNumber {
+            get {
+                return ((byte)(this["SlashScreenTipNumber"]));
+            }
+            set {
+                this["SlashScreenTipNumber"] = value;
+            }
+        }
     }
 }
