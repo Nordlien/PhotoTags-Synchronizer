@@ -38,12 +38,12 @@ namespace PhotoTagsSynchronizer
                     GlobalData.DoNotRefreshImageListView = true;
 
                     string newDirectory = Path.GetDirectoryName(targetFullFilename);
-                    TreeNode selectedNode = folderTreeView.SelectedNode;
+                    DirectoryInfo directoryInfo = new DirectoryInfo(newDirectory);
 
-                    if (newDirectory.StartsWith(GetSelectedNodePath())) filesCutCopyPasteDrag.TreeViewFolderBrowserRefreshTreeNode(folderTreeView, selectedNode);
+                    string parentDirector = directoryInfo.Parent.FullName;
+                    filesCutCopyPasteDrag.TreeViewFOlderBrowserRefreshFolderWithName(folderTreeView, parentDirector);
 
                     GlobalData.DoNotRefreshImageListView = false;
-
                 }
 
                 ImageListViewItem foundItem = FindItemInImageListView(imageListView.Items, sourceFullFilename);
@@ -175,14 +175,7 @@ namespace PhotoTagsSynchronizer
 
                     //------ Update node tree -----
                     GlobalData.DoNotRefreshImageListView = true;
-
-                    List<TreeNode> sourceNodes = filesCutCopyPasteDrag.TreeViewFolderBrowserFindAllNodes(treeViewFolderBrowser1.Nodes, sourceDirectory);
-                    foreach (TreeNode sourceTreeNode in sourceNodes)
-                    {
-                        if (sourceTreeNode != null && sourceTreeNode != targetNode) filesCutCopyPasteDrag.TreeViewFolderBrowserRemoveTreeNode(folderTreeView, sourceTreeNode);
-                    }
-                    if (targetNode != null) filesCutCopyPasteDrag.TreeViewFolderBrowserRefreshTreeNode(folderTreeView, targetNode);
-                    
+                    filesCutCopyPasteDrag.TreeViewFOlderBrowserRefreshFolderWithName(folderTreeView, sourceDirectory);
                     GlobalData.DoNotRefreshImageListView = false;
 
                     //------ Update database -----

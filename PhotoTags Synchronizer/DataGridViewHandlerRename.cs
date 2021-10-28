@@ -8,6 +8,7 @@ using System.IO;
 using FileDateTime;
 using System.Collections.Generic;
 using NLog;
+using FileHandeling;
 
 namespace PhotoTagsSynchronizer
 {
@@ -26,55 +27,48 @@ namespace PhotoTagsSynchronizer
         public static string RenameVaribale { get; set; }
         public static bool ShowFullPath { get; set; } = false;
 
-        #region CombinePathAndName
-        public static string CombinePathAndName(string folder, string filename)
-        {
-            string path = Path.GetFullPath(Path.Combine(folder, filename));
-            return path;
-        }
-        #endregion
+
 
         #region CreateNewFilename
         public static string CreateNewFilename(string newFilenameVariable, string oldFilename, Metadata metadata)
         {
-            /*
-            %Trim%%MediaFileNow_DateTime% %FileNameWithoutDateTime%%Extension%
 
-            %Trim%
-            %FileName%
-            %FileNameWithoutDateTime%
-            %Extension%
-            %MediaFileNow_DateTime%
-            %Media_DateTime%
-            %Media_yyyy%
-            %Media_MM%
-            %Media_dd%
-            %Media_HH%
-            %Media_mm%
-            %Media_ss%
-            %File_DateTime%
-            %File_yyyy%
-            %File_MM%
-            %File_dd%
-            %File_HH%
-            %File_mm%
-            %File_ss%
-            %Now_DateTime%
-            %Now_yyyy%
-            %Now_MM%
-            %Now_dd%
-            %Now_HH%
-            %Now_mm%
-            %Now_ss%
-            %GPS_DateTimeUTC%
-            %MediaAlbum%
-            %MediaTitle%
-            %MediaDescription%
-            %MediaAuthor%
-            %LocationName%
-            %LocationCountry%
-            %LocationRegion%
-            */
+            //%Trim%%MediaFileNow_DateTime% %FileNameWithoutDateTime%%Extension%
+            //%Trim%
+            //%FileName%
+            //%FileNameWithoutDateTime%
+            //%Extension%
+            //%MediaFileNow_DateTime%
+            //%Media_DateTime%
+            //%Media_yyyy%
+            //%Media_MM%
+            //%Media_dd%
+            //%Media_HH%
+            //%Media_mm%
+            //%Media_ss%
+            //%File_DateTime%
+            //%File_yyyy%
+            //%File_MM%
+            //%File_dd%
+            //%File_HH%
+            //%File_mm%
+            //%File_ss%
+            //%Now_DateTime%
+            //%Now_yyyy%
+            //%Now_MM%
+            //%Now_dd%
+            //%Now_HH%
+            //%Now_mm%
+            //%Now_ss%
+            //%GPS_DateTimeUTC%
+            //%MediaAlbum%
+            //%MediaTitle%
+            //%MediaDescription%
+            //%MediaAuthor%
+            //%LocationName%
+            //%LocationCountry%
+            //%LocationRegion%
+
             string newFilename = newFilenameVariable;
             newFilename = newFilename.Replace("%FileName%", Path.GetFileNameWithoutExtension(oldFilename));
             newFilename = newFilename.Replace("%FileNameWithoutDateTime%", FileDateTimeFormats.RemoveAllDateTimes(Path.GetFileNameWithoutExtension(oldFilename)));
@@ -113,7 +107,7 @@ namespace PhotoTagsSynchronizer
             newFilename = newFilename.Replace("%Now_ss%", DateTime.Now.ToString("ss"));
 
             newFilename = newFilename.Replace("%GPS_DateTimeUTC%", (metadata == null || metadata.LocationDateTime == null) ? "" : ((DateTime)metadata.LocationDateTime).ToString("u").Replace(":", "-"));
-            
+
             newFilename = newFilename.Replace("%MediaAlbum%", (metadata == null || metadata.PersonalAlbum == null) ? "" : metadata.PersonalAlbum);
             newFilename = newFilename.Replace("%MediaTitle%", (metadata == null || metadata.PersonalTitle == null) ? "" : metadata.PersonalTitle);
             newFilename = newFilename.Replace("%MediaDescription%", (metadata == null || metadata.PersonalDescription == null) ? "" : metadata.PersonalDescription);
@@ -124,53 +118,65 @@ namespace PhotoTagsSynchronizer
             newFilename = newFilename.Replace("%LocationRegion%", (metadata == null || metadata.LocationState == null) ? "" : metadata.LocationState);
             newFilename = newFilename.Replace("%LocationCity%", (metadata == null || metadata.LocationCity == null) ? "" : metadata.LocationCity);
 
-            if (newFilename.Contains("%Trim%")) newFilename = newFilename.Replace("%Trim%", "").Trim().Replace("  ", " ").Replace("_ ", "_").Replace(" -", "-").Replace("- ", "-").Replace(" .", ".");
+            if (newFilename.Contains("%Trim%"))
+            {
+                newFilename = newFilename.Replace("%Trim%", "").Trim();
+                newFilename = FileHandler.TrimFolderName(newFilename, "  ", " ");
+                newFilename = FileHandler.TrimFolderName(newFilename, "_ ", "_");
+                newFilename = FileHandler.TrimFolderName(newFilename, " -", "-");
+                newFilename = FileHandler.TrimFolderName(newFilename, "- ", "-");
+                newFilename = FileHandler.TrimFolderName(newFilename, " .", ".");
+                newFilename = FileHandler.TrimFolderName(newFilename, ". ", ".");
+                newFilename = FileHandler.TrimFolderName(newFilename, "\\ ", "\\");
+                newFilename = FileHandler.TrimFolderName(newFilename, " \\", "\\");
+            }
+            newFilename = FileHandler.TrimFolderName(newFilename); //https://docs.microsoft.com/en-us/dotnet/api/system.io.directory.createdirectory?view=net-5.0
 
             newFilename = newFilename
-                .Replace("\u0000", "")
-                .Replace("\u0001", "")
-                .Replace("\u0002", "")
-                .Replace("\u0003", "")
-                .Replace("\u0004", "")
-                .Replace("\u0005", "")
-                .Replace("\u0006", "")
-                .Replace("\u0007", "")
-                .Replace("\u0008", "")
-                .Replace("\u0009", "")
-                .Replace("\u000A", "")
-                .Replace("\u000B", "")
-                .Replace("\u000C", "")
-                .Replace("\u000D", "")
-                .Replace("\u000E", "")
-                .Replace("\u000F", "")
-                .Replace("\u0010", "")
-                .Replace("\u0011", "")
-                .Replace("\u0012", "")
-                .Replace("\u0013", "")
-                .Replace("\u0014", "")
-                .Replace("\u0015", "")
-                .Replace("\u0016", "")
-                .Replace("\u0017", "")
-                .Replace("\u0018", "")
-                .Replace("\u0019", "")
-                .Replace("\u001A", "")
-                .Replace("\u001B", "")
-                .Replace("\u001C", "")
-                .Replace("\u001D", "")
-                .Replace("\u001E", "")
-                .Replace("\u001F", "")
-                .Replace("<", "")
-                .Replace(">", "")
-                //.Replace(":", "")
-                .Replace("|", "")
-                .Replace("?", "")
-                .Replace("*", "")
-                .Replace("/", "")
-                //.Replace("\\", "")
-                .Replace("\"", "");
+                  .Replace("\u0000", "")
+                  .Replace("\u0001", "")
+                  .Replace("\u0002", "")
+                  .Replace("\u0003", "")
+                  .Replace("\u0004", "")
+                  .Replace("\u0005", "")
+                  .Replace("\u0006", "")
+                  .Replace("\u0007", "")
+                  .Replace("\u0008", "")
+                  .Replace("\u0009", "")
+                  .Replace("\u000A", "")
+                  .Replace("\u000B", "")
+                  .Replace("\u000C", "")
+                  .Replace("\u000D", "")
+                  .Replace("\u000E", "")
+                  .Replace("\u000F", "")
+                  .Replace("\u0010", "")
+                  .Replace("\u0011", "")
+                  .Replace("\u0012", "")
+                  .Replace("\u0013", "")
+                  .Replace("\u0014", "")
+                  .Replace("\u0015", "")
+                  .Replace("\u0016", "")
+                  .Replace("\u0017", "")
+                  .Replace("\u0018", "")
+                  .Replace("\u0019", "")
+                  .Replace("\u001A", "")
+                  .Replace("\u001B", "")
+                  .Replace("\u001C", "")
+                  .Replace("\u001D", "")
+                  .Replace("\u001E", "")
+                  .Replace("\u001F", "")
+                  .Replace("<", "")
+                  .Replace(">", "")
+                  //.Replace(":", "")
+                  .Replace("|", "")
+                  .Replace("?", "")
+                  .Replace("*", "")
+                  .Replace("/", "")
+                  //.Replace("\\", "")
+                  .Replace("\"", "");
             if (newFilename.Length >= 3 && Char.IsLetter(newFilename[0]) && newFilename[2] == '\\') //x:\
             {
-                newFilename = newFilename.Substring(0,3) + newFilename.Substring(3).Replace(":", "");
+                newFilename = newFilename.Substring(0, 3) + newFilename.Substring(3).Replace(":", "");
             }
             else newFilename = newFilename.Replace(":", "");
             return newFilename;
@@ -219,11 +225,11 @@ namespace PhotoTagsSynchronizer
                     #region Get Old filename from grid
                     string oldFilename = dataGridViewGenericRow.RowName;
                     string oldDirectory = dataGridViewGenericRow.HeaderName;
-                    string oldFullFilename = CombinePathAndName(oldDirectory, oldFilename);
+                    string oldFullFilename = FileHandler.CombinePathAndName(oldDirectory, oldFilename);
                     #endregion
 
                     #region Get New filename from grid
-                    string newFullFilename = CombinePathAndName(oldDirectory, DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, rowIndex));
+                    string newFullFilename = FileHandler.CombinePathAndName(oldDirectory, DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, rowIndex));
                     
                     #endregion 
 
@@ -234,12 +240,14 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region GetShortOrFullFilename depend of checkbox
         private static string GetShortOrFullFilename(string newFilenameVariable, Metadata metadata, bool showFullFilePath, string oldFolder, string filename)
         {
             string newFilename = CreateNewFilename(newFilenameVariable, filename, metadata);
-            if (showFullFilePath) return CombinePathAndName(oldFolder, newFilename);
+            if (showFullFilePath) return FileHandler.CombinePathAndName(oldFolder, newFilename);
             else return newFilename;            
         }
+        #endregion
 
         #region UpdateFilenames(DataGridView dataGridView, string newFilenameVariable)
         public static void UpdateFilenames(DataGridView dataGridView, string newFilenameVariable, bool showFullPath)

@@ -590,6 +590,26 @@ namespace FileHandeling
 
             return false;
         }
-        #endregion 
+        #endregion
+
+        #region TrimFolderName
+        public static string TrimFolderName(string path, string replace, string replaceWith)
+        {
+            while (path.Contains(replace)) path = path.Replace(replace, replaceWith);
+            return path;
+        }
+        public static string TrimFolderName(string path)
+        {      
+            return TrimFolderName(path, " \\", "\\"); //https://docs.microsoft.com/en-us/dotnet/api/system.io.directory.createdirectory?view=net-5.0
+        }
+        #endregion
+
+        #region CombinePathAndName
+        public static string CombinePathAndName(string folder, string filename)
+        {
+            string path = Path.GetFullPath(Path.Combine(folder.TrimEnd(), filename));   //Trailing spaces are removed from the end of the path parameter before creating the directory.            
+            return path;
+        }
+        #endregion
     }
 }
