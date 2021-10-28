@@ -54,7 +54,7 @@
   <ItemGroup>
    
     <PackageReference Include="Mono.Data.Sqlite" Version="1.0.61" />
-    <PackageReference Include="NLog" Version="4.7.11" />
+    <PackageReference Include="NLog" Version="4.7.12" />
     <PackageReference Include="Nominatim.API" Version="1.6.1" />
     
   </ItemGroup>

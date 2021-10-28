@@ -54,12 +54,8 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Update="ImageListViewDragAndDrop.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="ImageListViewOrder.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Update="ImageListViewDragAndDrop.cs" />
+    <Compile Update="ImageListViewOrder.cs" />
     <Compile Update="TreeViewWithoutDoubleClick.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
@@ -68,9 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FCTB" Version="2.16.24" />
-    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Microsoft.Windows.Compatibility" Version="5.0.2" />
-    <PackageReference Include="NLog" Version="4.7.11" />
+    <PackageReference Include="NLog" Version="4.7.12" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Properties\Resources.resx">

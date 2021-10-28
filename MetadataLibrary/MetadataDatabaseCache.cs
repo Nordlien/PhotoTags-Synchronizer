@@ -719,14 +719,14 @@ namespace MetadataLibrary
                                     Logger.Error("AreaX is NULL, set to 0"); //This somehow got NULL, maybe after crash, need to debug, problem was gone after re-read metadata, need to find why occure
 
                                 floatNull = dbTools.ConvertFromDBValFloat(reader["AreaWidth"]);
-                                region.AreaWidth = (floatNull == null ? 0 : (float)floatNull);
+                                region.AreaWidth = (floatNull == null ? 1 : (float)floatNull);
                                 if (floatNull == null)
-                                    Logger.Error("AreaX is NULL, set to 0"); //This somehow got NULL, maybe after crash, need to debug, problem was gone after re-read metadata, need to find why occure
+                                    Logger.Error("AreaWidth is NULL, set to 1"); //This somehow got NULL, maybe after crash, need to debug, problem was gone after re-read metadata, need to find why occure
 
                                 floatNull = dbTools.ConvertFromDBValFloat(reader["AreaHeight"]);
-                                region.AreaHeight = (floatNull == null ? 0 : (float)floatNull);
+                                region.AreaHeight = (floatNull == null ? 1 : (float)floatNull);
                                 if (floatNull == null)
-                                    Logger.Error("AreaX is NULL, set to 0"); //This somehow got NULL, maybe after crash, need to debug, problem was gone after re-read metadata, need to find why occure
+                                    Logger.Error("AreaHeight is NULL, set to 1"); //This somehow got NULL, maybe after crash, need to debug, problem was gone after re-read metadata, need to find why occure
 
                                 region.RegionStructureType = (RegionStructureTypes)(int)dbTools.ConvertFromDBValInt(reader["RegionStructureType"]);
                                 region.Thumbnail = dbTools.ByteArrayToImage(dbTools.ConvertFromDBValByteArray(reader["Thumbnail"]));
