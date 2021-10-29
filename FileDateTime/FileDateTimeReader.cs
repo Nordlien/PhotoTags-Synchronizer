@@ -27,16 +27,6 @@ namespace FileDateTime
                 StringSplitOptions.RemoveEmptyEntries));
         }
 
-        private int MaxLength()
-        {
-            int maxLength = 0;
-            foreach (string format in allowedFormats)
-            {
-                if (format.Length > maxLength) maxLength = format.Length;
-            }
-            return maxLength;
-        }
-
         private int MinLength()
         {
             int minLength = int.MaxValue;
@@ -76,19 +66,17 @@ namespace FileDateTime
             return false;
         }
 
-        public string RemoveAllDateTimes(string filename, out List<string> whatWasRemoved, out List<DateTime> dateTimesFound)
+        public string RemoveAllDateTimes(string filename, out List<DateTime> dateTimesFound)
         {
             DateTime? dateTimeFound;
 
             string filenameCopy = filename;
             int position = 0;
             int length;
-            whatWasRemoved = new List<string>();
             dateTimesFound = new List<DateTime>();
 
             while (FoundDateTime(filenameCopy, ref position, out length, out dateTimeFound))
             {
-                whatWasRemoved.Add(filenameCopy.Substring(position, length));
                 if (dateTimeFound!=null) dateTimesFound.Add((DateTime)dateTimeFound);
                 filenameCopy = filenameCopy.Remove(position, length);
             }
@@ -97,22 +85,32 @@ namespace FileDateTime
 
         public string RemoveAllDateTimes(string filename)
         {
-            //List<string> whatWasRemoved;
-            return RemoveAllDateTimes(filename, out _, out _);
+            return RemoveAllDateTimes(filename, out _);
         }
 
-        public List<string> ListAllDateTimesFound(string filename)
-        {
-            List<string> whatWasRemoved;
-            _ = RemoveAllDateTimes(filename, out whatWasRemoved, out _);
-            return whatWasRemoved;
-        }
 
         public List<DateTime> ListAllDateTimes(string filename)
         {
             List<DateTime> listOfDateTimes;
-            _ = RemoveAllDateTimes(filename, out _, out listOfDateTimes);            
+            _ = RemoveAllDateTimes(filename, out listOfDateTimes);            
             return listOfDateTimes;
+        }
+
+        public DateTime? SmartDateTime(string filename, DateTime? fileDateCreated, DateTime? fileDateModified)
+        {
+            DateTime? dateTimeLowest = null;
+            if (fileDateCreated != null && fileDateModified != null) dateTimeLowest = fileDateCreated < fileDateModified ? fileDateCreated : fileDateModified;
+            else if (fileDateCreated == null && fileDateModified != null) dateTimeLowest = fileDateModified;
+            else if (fileDateCreated != null && fileDateModified == null) dateTimeLowest = fileDateCreated;
+
+            List<DateTime> dateTimes = ListAllDateTimes(filename);
+
+            foreach (DateTime dateTime in dateTimes)
+            {
+                if (dateTimeLowest == null) dateTimeLowest = dateTime;
+                else if (dateTime < dateTimeLowest) dateTimeLowest = dateTime;
+            }
+            return dateTimeLowest;
         }
     }
 }

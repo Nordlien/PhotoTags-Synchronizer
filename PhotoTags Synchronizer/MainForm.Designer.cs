@@ -31,7 +31,7 @@ namespace PhotoTagsSynchronizer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Filter");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Filter");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.panelMain = new Krypton.Toolkit.KryptonPanel();
             this.kryptonWorkspaceMain = new Krypton.Workspace.KryptonWorkspace();
@@ -481,6 +481,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupLabelPreviewStatus = new Krypton.Ribbon.KryptonRibbonGroupLabel();
             this.kryptonContextMenuFileSystemColumnSort = new Krypton.Toolkit.KryptonContextMenu();
             this.kryptonContextMenuRadioButtonFileSystemColumnSortFilename = new Krypton.Toolkit.KryptonContextMenuRadioButton();
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortFileDate = new Krypton.Toolkit.KryptonContextMenuRadioButton();
             this.kryptonContextMenuRadioButtonFileSystemColumnSortFileCreateDate = new Krypton.Toolkit.KryptonContextMenuRadioButton();
             this.kryptonContextMenuRadioButtonFileSystemColumnSortFileModifiedDate = new Krypton.Toolkit.KryptonContextMenuRadioButton();
             this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaDateTaken = new Krypton.Toolkit.KryptonContextMenuRadioButton();
@@ -547,6 +548,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuSeparator1 = new Krypton.Toolkit.KryptonContextMenuSeparator();
             this.kryptonContextMenuItems7 = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonContextMenuSeparator2 = new Krypton.Toolkit.KryptonContextMenuSeparator();
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortSmarteDate = new Krypton.Toolkit.KryptonContextMenuRadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.panelMain)).BeginInit();
             this.panelMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceMain)).BeginInit();
@@ -1362,7 +1364,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.kryptonTextBoxSearchFilename.Location = new System.Drawing.Point(103, 29);
             this.kryptonTextBoxSearchFilename.Name = "kryptonTextBoxSearchFilename";
-            this.kryptonTextBoxSearchFilename.Size = new System.Drawing.Size(170, 20);
+            this.kryptonTextBoxSearchFilename.Size = new System.Drawing.Size(170, 21);
             this.kryptonTextBoxSearchFilename.TabIndex = 1;
             // 
             // kryptonLabelSearchFilename
@@ -1379,7 +1381,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.kryptonTextBoxSearchDirectory.Location = new System.Drawing.Point(103, 3);
             this.kryptonTextBoxSearchDirectory.Name = "kryptonTextBoxSearchDirectory";
-            this.kryptonTextBoxSearchDirectory.Size = new System.Drawing.Size(170, 20);
+            this.kryptonTextBoxSearchDirectory.Size = new System.Drawing.Size(170, 21);
             this.kryptonTextBoxSearchDirectory.TabIndex = 0;
             // 
             // groupBoxSearchPeople
@@ -2197,11 +2199,11 @@ namespace PhotoTagsSynchronizer
             this.treeViewFilter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeViewFilter.Location = new System.Drawing.Point(0, 0);
             this.treeViewFilter.Name = "treeViewFilter";
-            treeNode2.Name = "NodeFolder";
-            treeNode2.Tag = "Filter";
-            treeNode2.Text = "Filter";
+            treeNode1.Name = "NodeFolder";
+            treeNode1.Tag = "Filter";
+            treeNode1.Text = "Filter";
             this.treeViewFilter.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode2});
+            treeNode1});
             this.treeViewFilter.Size = new System.Drawing.Size(399, 652);
             this.treeViewFilter.TabIndex = 0;
             this.treeViewFilter.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewFilter_AfterCheck);
@@ -3169,7 +3171,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxBrowserURL.Location = new System.Drawing.Point(132, 6);
             this.textBoxBrowserURL.Name = "textBoxBrowserURL";
-            this.textBoxBrowserURL.Size = new System.Drawing.Size(252, 20);
+            this.textBoxBrowserURL.Size = new System.Drawing.Size(252, 21);
             this.textBoxBrowserURL.TabIndex = 9;
             this.textBoxBrowserURL.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxBrowserURL_KeyPress);
             // 
@@ -3531,7 +3533,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxRenameNewName.Location = new System.Drawing.Point(101, 30);
             this.textBoxRenameNewName.Name = "textBoxRenameNewName";
-            this.textBoxRenameNewName.Size = new System.Drawing.Size(294, 20);
+            this.textBoxRenameNewName.Size = new System.Drawing.Size(294, 21);
             this.textBoxRenameNewName.TabIndex = 1;
             this.textBoxRenameNewName.Enter += new System.EventHandler(this.textBoxRenameNewName_Enter);
             this.textBoxRenameNewName.Leave += new System.EventHandler(this.textBoxRenameNewName_Leave);
@@ -4979,7 +4981,7 @@ namespace PhotoTagsSynchronizer
             // kryptonRibbonGroupCheckBoxSelectFileCreated
             // 
             this.kryptonRibbonGroupCheckBoxSelectFileCreated.KeyTip = "PF";
-            this.kryptonRibbonGroupCheckBoxSelectFileCreated.TextLine1 = "File Created";
+            this.kryptonRibbonGroupCheckBoxSelectFileCreated.TextLine1 = "File Date";
             this.kryptonRibbonGroupCheckBoxSelectFileCreated.Click += new System.EventHandler(this.kryptonRibbonGroupCheckBoxSelectFileCreated_Click);
             // 
             // kryptonRibbonGroupCheckBoxSelectMediaTaken
@@ -5590,6 +5592,8 @@ namespace PhotoTagsSynchronizer
             // 
             this.kryptonContextMenuFileSystemColumnSort.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
             this.kryptonContextMenuRadioButtonFileSystemColumnSortFilename,
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortSmarteDate,
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortFileDate,
             this.kryptonContextMenuRadioButtonFileSystemColumnSortFileCreateDate,
             this.kryptonContextMenuRadioButtonFileSystemColumnSortFileModifiedDate,
             this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaDateTaken,
@@ -5609,6 +5613,11 @@ namespace PhotoTagsSynchronizer
             // 
             this.kryptonContextMenuRadioButtonFileSystemColumnSortFilename.ExtraText = "";
             this.kryptonContextMenuRadioButtonFileSystemColumnSortFilename.Text = "Filename";
+            // 
+            // kryptonContextMenuRadioButtonFileSystemColumnSortFileDate
+            // 
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortFileDate.ExtraText = "";
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortFileDate.Text = "FileDate";
             // 
             // kryptonContextMenuRadioButtonFileSystemColumnSortFileCreateDate
             // 
@@ -5856,6 +5865,11 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuMonthCalendar5.SelectionEnd = new System.DateTime(2021, 10, 8, 0, 0, 0, 0);
             this.kryptonContextMenuMonthCalendar5.SelectionStart = new System.DateTime(2021, 10, 8, 0, 0, 0, 0);
             this.kryptonContextMenuMonthCalendar5.TodayDate = new System.DateTime(2021, 10, 8, 0, 0, 0, 0);
+            // 
+            // kryptonContextMenuRadioButton8
+            // 
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortSmarteDate.ExtraText = "";
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortSmarteDate.Text = "SmartDate";
             // 
             // MainForm
             // 
@@ -6605,6 +6619,8 @@ namespace PhotoTagsSynchronizer
         private Krypton.Toolkit.KryptonContextMenuSeparator kryptonContextMenuSeparator2;
         private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItemGenericFastCopyNoOverwrite;
         private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItemGenericFastCopyWithOverwrite;
+        private Krypton.Toolkit.KryptonContextMenuRadioButton kryptonContextMenuRadioButtonFileSystemColumnSortFileDate;
+        private Krypton.Toolkit.KryptonContextMenuRadioButton kryptonContextMenuRadioButtonFileSystemColumnSortSmarteDate;
     }
 }
 

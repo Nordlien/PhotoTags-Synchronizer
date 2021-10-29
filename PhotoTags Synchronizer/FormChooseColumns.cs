@@ -80,8 +80,11 @@ namespace PhotoTagsSynchronizer
 
         private void PopulateComboBox(KryptonComboBox comboBox)
         {
+            //JTN: MediaFileAttributes 
             comboBox.Items.Clear();
-            comboBox.Items.Add("FileName");            
+            comboBox.Items.Add("FileName");
+            comboBox.Items.Add("FileDate");
+            comboBox.Items.Add("FileSmartDate");
             comboBox.Items.Add("FileDateCreated");
             comboBox.Items.Add("FileDateModified");
 
@@ -115,7 +118,10 @@ namespace PhotoTagsSynchronizer
         public static ColumnType GetColumnTypeByText(string text)
         {
             switch (text)
-            {                           
+            {   
+                //JTN: MediaFileAttributes                       
+                case "FileDate": return ColumnType.FileDate;
+                case "FileSmartDate": return ColumnType.FileSmartDate;
                 case "FileDateCreated": return ColumnType.FileDateCreated;
                 case "FileDateModified": return ColumnType.FileDateModified;
                 case "MediaDateTaken": return ColumnType.MediaDateTaken;
@@ -146,6 +152,9 @@ namespace PhotoTagsSynchronizer
         {
             switch (columnType)
             {
+                //JTN: MediaFileAttributes 
+                case ColumnType.FileDate: return "FileDate";
+                case ColumnType.FileSmartDate: return "FileSmartDate";
                 case ColumnType.FileDateCreated: return "FileDateCreated";
                 case ColumnType.FileDateModified: return "FileDateModified";
                 case ColumnType.MediaDateTaken: return "MediaDateTaken";

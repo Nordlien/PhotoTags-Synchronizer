@@ -78,7 +78,6 @@ namespace PhotoTagsSynchronizer
             DateTime? metadataLocationDateTime = TimeZoneLibrary.ParseDateTimeAsUTC(dateTimeStringLocation);
             #endregion
 
-
             #region Get GPS Coorindates - 1. DataGridViewMap user input, 2. Metadata record 3. null 
             //Get Media GPS Coordinates from DataGridViewMap is exist or use Metadata coordinates
             double? metadataLocationLatitude = null;
@@ -232,10 +231,10 @@ namespace PhotoTagsSynchronizer
                 DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerDatesTimeInFilename), false);
 
                 FileDateTimeReader fileDateTimeReader = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
-                List<string> dates = fileDateTimeReader.ListAllDateTimesFound(Path.GetFileNameWithoutExtension(fileEntryAttribute.FileFullPath));
+                List<DateTime> dates = fileDateTimeReader.ListAllDateTimes(Path.GetFileNameWithoutExtension(fileEntryAttribute.FileFullPath));
                 for (int i = 0; i < dates.Count; i++)
                 {
-                    DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerDatesTimeInFilename, tagDatesFoundInFilename + (i + 1).ToString()), dates[i], true, false);
+                    DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerDatesTimeInFilename, tagDatesFoundInFilename + (i + 1).ToString()), TimeZoneLibrary.ToStringSortable(dates[i]), true, false);
                 }
 
                 //Metadata

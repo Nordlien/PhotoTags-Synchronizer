@@ -86,6 +86,15 @@ Filesystem
 {FileExtension}
 {FileDirectory}
 {FileSize}
+{FileDate}
+{FileDateDateStamp}
+{FileDateTimeStamp}
+{FileDate_yyyy}
+{FileDate_MM}
+{FileDate_dd}
+{FileDate_HH}
+{FileDate_mm}
+{FileDate_ss}
 {FileDateCreated}
 {FileDateCreatedDateStamp}
 {FileDateCreatedTimeStamp}

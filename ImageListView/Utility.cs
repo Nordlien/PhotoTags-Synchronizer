@@ -199,12 +199,15 @@ namespace Manina.Windows.Forms
         /// </summary>
         public class ShellImageFileInfo
         {
+            //JTN: MediaFileAttributes
             private static Dictionary<string, string> cachedFileTypes;
             private uint structSize = 0;
 
             public bool Error { get;  set; }
 
             #region Provided by FileInfo
+
+            #region FileAttributes FileAttributes
             /// <summary>
             /// FileAttributes supported by FileInfo 
             /// </summary>
@@ -215,7 +218,22 @@ namespace Manina.Windows.Forms
             }
             private FileAttributes fileAttributes;
             public bool IsFileAttributesSet { get; set; } = false;
+            #endregion
 
+            #region DateTime FileSmartDate
+            /// <summary>
+            /// CreationTime supported by FileInfo 
+            /// </summary>
+            public DateTime FileSmartDate
+            {
+                get { return fileSmartDate; }
+                set { fileSmartDate = value; IsFileSmartDateSet = true; }
+            }
+            private DateTime fileSmartDate;
+            public bool IsFileSmartDateSet { get; set; } = false;
+            #endregion
+
+            #region DateTime FileDateCreated
             /// <summary>
             /// CreationTime supported by FileInfo 
             /// </summary>
@@ -226,7 +244,9 @@ namespace Manina.Windows.Forms
             }
             private DateTime fileDateCreated;
             public bool IsFileDateCreatedSet { get; set; } = false;
-            
+            #endregion
+
+            #region DateTime FileDateModified
             /// <summary>
             /// LastWriteTime supported by FileInfo 
             /// </summary>
@@ -237,7 +257,9 @@ namespace Manina.Windows.Forms
             }
             private DateTime fileDateModified;
             public bool IsFileDateModifiedSet { get; set; } = false;
-            
+            #endregion
+
+            #region string Extension
             /// <summary>
             /// Extension supported by FileInfo 
             /// </summary>
@@ -248,7 +270,9 @@ namespace Manina.Windows.Forms
             }
             private string extension;
             public bool IsExtensionSet { get; set; } = false;
-            
+            #endregion
+
+            #region string FileDirectory
             /// <summary>
             /// DirectoryName supported by FileInfo 
             /// </summary>
@@ -259,7 +283,9 @@ namespace Manina.Windows.Forms
             }
             private string fileDirectory;
             public bool IsFileDirectorySet { get; set; } = false;
-            
+            #endregion
+
+            #region string DisplayName
             /// <summary>
             /// DisplayName supported by FileInfo
             /// </summary>
@@ -270,7 +296,9 @@ namespace Manina.Windows.Forms
             }
             private string displayName;
             public bool IsDisplayNameSet { get; set; } = false;
-            
+            #endregion
+
+            #region long FileSize
             /// <summary>
             /// File size supported by FileInfo 
             /// </summary>
@@ -281,7 +309,9 @@ namespace Manina.Windows.Forms
             }
             private long fileSize;
             public bool IsFileSizeSet { get; set; } = false;
+            #endregion
 
+            #region string FileMimeType
             /// <summary>
             /// TypeName supported by FileInfo 
             /// </summary>
@@ -294,7 +324,11 @@ namespace Manina.Windows.Forms
             public bool IsFileMimeTypeSet { get; set; } = false;
             #endregion
 
+            #endregion
+
             #region Provided by ShellImageFileInfo, MagickImage
+
+            #region Size MediaDimensions
             /// <summary>
             /// Dimensions supported by ShellImageFileInfo, MagickImage 
             /// </summary>
@@ -305,7 +339,9 @@ namespace Manina.Windows.Forms
             }
             private Size mediaDimensions;
             public bool IsMediaDimensionsSet { get; set; } = false;
-            
+            #endregion
+
+            #region string CameraMake
             /// <summary>
             /// supported by ShellImageFileInfo, MagickImage
             /// </summary>
@@ -316,7 +352,9 @@ namespace Manina.Windows.Forms
             }
             private string cameraMake;
             public bool IsCameraMakeSet { get; set; } = false;
+            #endregion
 
+            #region string CameraModel
             /// <summary>
             /// supported by ShellImageFileInfo, MagickImage
             /// </summary>
@@ -327,7 +365,9 @@ namespace Manina.Windows.Forms
             }
             private string cameraModel;
             public bool IsCameraModelSet { get; set; } = false;
+            #endregion
 
+            #region DateTime MediaDateTaken
             /// <summary>
             /// supported by ShellImageFileInfo, MagickImage
             /// </summary>
@@ -338,10 +378,13 @@ namespace Manina.Windows.Forms
             }
             private DateTime mediaDateTaken;
             public bool IsMediaDateTakenSet { get; set; } = false;
-            
+            #endregion
+
             #endregion
 
             #region Provided by MagickImage, Exiftool
+
+            #region string MediaTitle
             /// <summary>
             /// MediaTitle supported by MagickImage, Exiftool
             /// </summary>
@@ -352,7 +395,9 @@ namespace Manina.Windows.Forms
             }
             private string mediaTitle;
             public bool IsMediaTitleSet { get; set; } = false;
+            #endregion
 
+            #region string MediaDescription
             /// <summary>
             /// MediaDescription supported by MagickImage, Exiftool
             /// </summary>
@@ -363,7 +408,9 @@ namespace Manina.Windows.Forms
             }
             private string mediaDescription;
             public bool IsMediaDescriptionSet { get; set; } = false;
+            #endregion
 
+            #region string MediaComment
             /// <summary>
             /// MediaComment supported by MagickImage, Exiftool, 
             /// </summary>
@@ -374,7 +421,9 @@ namespace Manina.Windows.Forms
             }
             private string mediaComment;
             public bool IsMediaCommentSet { get; set; } = false;
+            #endregion
 
+            #region string MediaAuthor
             /// <summary>
             /// MediaAuthor supported by MagickImage, Exiftool
             /// </summary>
@@ -385,7 +434,9 @@ namespace Manina.Windows.Forms
             }
             private string mediaAuthor;
             public bool IsMediaAuthorSet { get; set; } = false;
+            #endregion
 
+            #region byte MediaRating
             /// <summary>
             /// MediaRating supported by MagickImage, Exiftool
             /// </summary>
@@ -398,7 +449,11 @@ namespace Manina.Windows.Forms
             public bool IsMediaRatingSet { get; set; } = false;
             #endregion
 
+            #endregion
+
             #region Provided by Exiftool
+
+            #region string MediaAlbum
             /// <summary>
             /// MediaAlbum supported by Exiftool
             /// </summary>
@@ -409,7 +464,9 @@ namespace Manina.Windows.Forms
             }
             private string mediaAlbum;
             public bool IsMediaAlbumSet { get; set; } = false;
-            
+            #endregion
+
+            #region string LocationName
             /// <summary>
             /// LocationName supported by Exiftool
             /// </summary>
@@ -420,7 +477,9 @@ namespace Manina.Windows.Forms
             }
             private string locationName;
             public bool IsLocationNameSet { get; set; } = false;
+            #endregion
 
+            #region DateTime LocationDateTime
             /// <summary>
             /// LocationDateTIme supported by Exiftool
             /// </summary>
@@ -431,7 +490,9 @@ namespace Manina.Windows.Forms
             }
             private DateTime locationDateTime;
             public bool IsLocationDateTimeSet { get; set; } = false;
+            #endregion
 
+            #region string LocationTimeZone
             /// <summary>
             /// LocationTimeZone supported by Exiftool
             /// </summary>
@@ -442,7 +503,9 @@ namespace Manina.Windows.Forms
             }
             private string locationTimeZone;
             public bool IsLocationTimeZoneSet { get; set; } = false;
+            #endregion
 
+            #region string LocationRegionState
             /// <summary>
             /// LocationRegionState supported by Exiftool
             /// </summary>
@@ -453,7 +516,9 @@ namespace Manina.Windows.Forms
             }
             private string locationRegionState;
             public bool IsLocationRegionStateSet { get; set; } = false;
-            
+            #endregion
+
+            #region string LocationCity
             /// <summary>
             /// LocationCity supported by Exiftool
             /// </summary>
@@ -464,7 +529,9 @@ namespace Manina.Windows.Forms
             }
             private string locationCity;
             public bool IsLocationCitySet { get; set; } = false;
-            
+            #endregion
+
+            #region string LocationCountry
             /// <summary>
             /// LocationCountry supported by Exiftool
             /// </summary>
@@ -475,8 +542,11 @@ namespace Manina.Windows.Forms
             }
             private string locationCountry;
             public bool IsLocationCountrySet { get; set; } = false;
-            #endregion 
+            #endregion
 
+            #endregion
+
+            #region Constructors
             //JTN Added, create empty version
             public ShellImageFileInfo()
             {
@@ -487,7 +557,9 @@ namespace Manina.Windows.Forms
             {
                 ReadShellImageFileInfo(path);
             }
+            #endregion
 
+            #region GetFileType(string path, string Extension)
             public string GetFileType(string path, string Extension)
             {
                 if (cachedFileTypes == null) cachedFileTypes = new Dictionary<string, string>();
@@ -502,7 +574,9 @@ namespace Manina.Windows.Forms
                 }
                 return typeName;
             }
+            #endregion
 
+            #region ReadShellImageFileInfo(string path)
             //Create for external use
             public void ReadShellImageFileInfo(string path)
             {
@@ -541,7 +615,12 @@ namespace Manina.Windows.Forms
                     Error = true;
                 }
             }
+            #endregion
+
         }
+        #endregion
+
+        #region Convert Exif types - Not in use
         // Convert Exif types
         private static byte ReadExifByte(byte[] value)
         {

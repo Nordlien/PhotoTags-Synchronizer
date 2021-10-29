@@ -82,12 +82,21 @@ namespace Manina.Windows.Forms
     /// </summary>
     public enum ColumnType
     {
+        //JTN: MediaFileAttributes
         //JTN: Added more column types
         /// <summary>
         /// The text of the item, defaults to filename if
         /// the text is not provided.
         /// </summary>
-        FileName,        
+        FileName,
+        /// <summary>
+        /// The date of media file. 
+        /// </summary>
+        FileDate,
+        /// <summary>
+        /// The date of media file. 
+        /// </summary>
+        FileSmartDate,
         /// <summary>
         /// The creation date.
         /// </summary>

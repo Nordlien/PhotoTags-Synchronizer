@@ -40,6 +40,32 @@ namespace Manina.Windows.Forms
         private int mZOrder;
 
         // File info
+        //JTN: MediaFileAttributes
+        private DateTime mFileDate
+        {
+            get
+            {
+                UpdateFileInfo(isDirtyFileDate);
+                if (mFileDateCreated != DateTime.MinValue && mFileDateModified != DateTime.MinValue) return (mFileDateCreated < mFileDateModified ? mFileDateCreated : mFileDateModified);
+                else if (mFileDateCreated == DateTime.MinValue && mFileDateModified != DateTime.MinValue) return mFileDateModified;
+                else if (mFileDateCreated != DateTime.MinValue && mFileDateModified == DateTime.MinValue) return mFileDateCreated;
+                else return DateTime.MinValue;
+            }
+        }       
+        private bool isDirtyFileDate
+        {
+            get { return isDirtyFileDateCreated || isDirtyFileDateModified; }
+        }
+
+
+        private DateTime mmFileSmartDate;
+        private DateTime mFileSmartDate
+        {
+            get { return mmFileSmartDate; }
+            set { isDirtyFileSmartDate = false; mmFileSmartDate = value; }
+        }
+        private bool isDirtyFileSmartDate = true;
+
         private DateTime mmFileDateCreated;
         private DateTime mFileDateCreated
         {
@@ -47,6 +73,7 @@ namespace Manina.Windows.Forms
             set { isDirtyFileDateCreated = false; mmFileDateCreated = value; }
         }
         private bool isDirtyFileDateCreated = true;
+        
 
         private DateTime mmFileDateModified;
         private DateTime mFileDateModified
@@ -226,8 +253,13 @@ namespace Manina.Windows.Forms
         internal bool mIsDirty;
         bool isDirty
         {
-            get { 
-                return isDirtyFileDateCreated ||
+            get
+            {
+                //JTN: MediaFileAttributes
+                return
+                isDirtyFileDate ||
+                isDirtyFileSmartDate ||
+                isDirtyFileDateCreated ||
                 isDirtyFileDateModified ||
                 isDirtyFileType ||
                 isDirtyFileName ||
@@ -253,38 +285,41 @@ namespace Manina.Windows.Forms
             set
             {
                 mIsDirty = value;
-                //if (mIsDirty)
-                {
-                    isDirtyFileDateCreated = value;
-                    isDirtyFileDateModified = value;
-                    isDirtyFileType = value;
-                    isDirtyFileName = false; //This can't become dirty
-                    isDirtyFileDirectory = value;
-                    isDirtyFileSize = value;
-                    isDirtyMediaDimensions = value;
-                    isDirtyCameraMake = value;
-                    isDirtyCameraModel = value;
-                    isDirtyMediaDateTaken = value;
-                    isDirtyMediaAlbum = value;
-                    isDirtyMediaTitle = value;
-                    isDirtyMediaDescription = value;
-                    isDirtyMediaComment = value;
-                    isDirtyMediaAuthor = value;
-                    isDirtyMediaRating = value;
-                    isDirtyLocationDateTime = value;
-                    isDirtyLocationTimeZone = value;
-                    isDirtyLocationName = value;
-                    isDirtyLocationRegionState = value;
-                    isDirtyLocationCity = value;
-                    isDirtyLocationCountry = value;
-                }
+                //JTN: MediaFileAttributes
+                //isDirtyFileDate = value; //ReadOnly
+                isDirtyFileSmartDate = value;
+                isDirtyFileDateCreated = value;
+                isDirtyFileDateModified = value;
+                isDirtyFileType = value;
+                isDirtyFileName = false; //This can't become dirty
+                isDirtyFileDirectory = value;
+                isDirtyFileSize = value;
+                isDirtyMediaDimensions = value;
+                isDirtyCameraMake = value;
+                isDirtyCameraModel = value;
+                isDirtyMediaDateTaken = value;
+                isDirtyMediaAlbum = value;
+                isDirtyMediaTitle = value;
+                isDirtyMediaDescription = value;
+                isDirtyMediaComment = value;
+                isDirtyMediaAuthor = value;
+                isDirtyMediaRating = value;
+                isDirtyLocationDateTime = value;
+                isDirtyLocationTimeZone = value;
+                isDirtyLocationName = value;
+                isDirtyLocationRegionState = value;
+                isDirtyLocationCity = value;
+                isDirtyLocationCountry = value;                
             }
         }
         internal bool isFileInfoDirty //Added by JTN
         {
             get
             {
-                return isDirtyFileDateCreated ||
+                //JTN: MediaFileAttributes
+                return isDirtyFileDate ||
+                isDirtyFileSmartDate ||
+                isDirtyFileDateCreated ||
                 isDirtyFileDateModified ||
                 isDirtyFileType ||
                 isDirtyFileName ||
@@ -475,6 +510,18 @@ namespace Manina.Windows.Forms
         [Category("Appearance"), Browsable(true), Description("Gets or sets the draw order of the item."), DefaultValue(0)]
         public int ZOrder { get { return mZOrder; } set { mZOrder = value; } }
 
+        //JTN: MediaFileAttributes
+        /// <summary>
+        /// Gets the creation date of the image file represented by this item.
+        /// </summary>
+        [Category("Data"), Browsable(false), Description("Gets the date of the image file represented by this item.")]
+        public DateTime Date { get { UpdateFileInfo(isDirtyFileDateCreated); return mFileDate; } }
+
+        /// <summary>
+        /// Gets the creation date of the image file represented by this item.
+        /// </summary>
+        [Category("Data"), Browsable(false), Description("Gets the creation date of the image file represented by this item.")]
+        public DateTime SmartDate { get { UpdateFileInfo(isDirtyFileDateCreated); return mFileSmartDate; } }
         /// <summary>
         /// Gets the creation date of the image file represented by this item.
         /// </summary>
@@ -808,9 +855,16 @@ namespace Manina.Windows.Forms
         /// <returns>Formatted text for the given column type.</returns>
         public string GetSubItemText(ColumnType type)
         {
+            //JTN: MediaFileAttributes
             //JTN: Added more column types
             switch (type)
             {
+                case ColumnType.FileDate:
+                    if (Date == DateTime.MinValue) return "";
+                    else return Date.ToString("yyyy-MM-dd HH:mm:ss");
+                case ColumnType.FileSmartDate:
+                    if (SmartDate == DateTime.MinValue) return "";
+                    else return SmartDate.ToString("yyyy-MM-dd HH:mm:ss");
                 case ColumnType.FileDateCreated:
                     if (DateCreated == DateTime.MinValue) return "";
                     else return DateCreated.ToString("yyyy-MM-dd HH:mm:ss");
@@ -910,8 +964,6 @@ namespace Manina.Windows.Forms
                     UpdateDetailsInternal(info);
                 }
             }
-            //isFileInfoDirty = false;
-            //isDirty = false;
         }
         /// <summary>
         /// Invoked by the worker thread to update item details.
@@ -922,9 +974,11 @@ namespace Manina.Windows.Forms
             if (!isFileInfoDirty) return;
             if (info != null)
             {
-                #region Provided by FileInfo                
+                #region Provided by FileInfo  
+                if (info.IsFileSmartDateSet) mFileSmartDate = info.FileSmartDate;
                 if (info.IsFileDateCreatedSet) mFileDateCreated = info.FileDateCreated;
                 if (info.IsFileDateModifiedSet) mFileDateModified = info.FileDateModified;
+                
                 if (info.IsFileSizeSet) mFileSize = info.FileSize;
                 if (info.IsFileMimeTypeSet) mFileType = info.FileMimeType;
                 if (info.IsFileDirectorySet) mFileDirectory = info.FileDirectory;
@@ -954,9 +1008,6 @@ namespace Manina.Windows.Forms
                 if (info.IsLocationCitySet) mLocationCity = info.LocationCity;
                 if (info.IsLocationCountrySet) mLocationCountry = info.LocationCountry;
                 #endregion
-
-                //isFileInfoDirty = false;
-                //if (info.FileSize == 0) isDirty = true;
             }            
         }
         

@@ -24,12 +24,7 @@ namespace MetadataLibrary
         private List<RegionStructure> personalRegionList = new List<RegionStructure>();
         private List<KeywordTag> personalTagList = new List<KeywordTag>();
 
-        //Media
-        private DateTime? mediaDateTaken;
-        private Int32? mediaWidth;
-        private Int32? mediaHeight;
-        private Int32? mediaOrientation;
-        private Int32? mediaVideoLength;
+        
 
         //Location
         private float? locationAltitude;
@@ -41,17 +36,20 @@ namespace MetadataLibrary
         private String locationCity;
         private String locationState;
 
+        #region MergeMetadatas
         public static Metadata MergeMetadatas (Metadata metadataWinner, Metadata metadataLoser)
         {
             Metadata metadata = new Metadata(metadataWinner);
 
             //Broker
             //metadata.Broker = metadata.Broker;
-
+            
+            //JTN: MediaFileAttributes
             //File
             if (metadata.FileName == null) metadata.FileName = metadataLoser.FileName;
             if (metadata.fileDirectory == null) metadata.fileDirectory = metadataLoser.fileDirectory;
             if (metadata.FileSize == null) metadata.FileSize = metadataLoser.FileSize;
+
             if (metadata.FileDateCreated == null) metadata.FileDateCreated = metadataLoser.FileDateCreated;
             if (metadata.FileDateModified == null) metadata.FileDateModified = metadataLoser.FileDateModified;
             if (metadata.FileDateAccessed == null) metadata.FileDateAccessed = metadataLoser.FileDateAccessed;
@@ -91,6 +89,7 @@ namespace MetadataLibrary
 
             return metadata;
         }
+        #endregion
 
         #region Constructors
         public Metadata(MetadataBrokerType broker)
@@ -302,6 +301,27 @@ namespace MetadataLibrary
         }
         #endregion
 
+        #region Properties Helper - FileDate
+        public DateTime? FileDate
+        {
+            get
+            {
+                if (FileDateCreated != null && FileDateModified != null) return FileDateCreated < FileDateModified ? FileDateCreated : FileDateModified;
+                else if (FileDateCreated == null && FileDateModified != null) return FileDateModified;
+                else if (FileDateCreated != null && FileDateModified == null) return FileDateCreated;
+                else return null;
+            }
+        }
+        #endregion
+
+        #region Properties Helper - FileDate
+        public DateTime? FileSmartDate(string allowedDateFormats)
+        {
+            FileDateTimeReader fileDateTimeReader = new FileDateTimeReader(allowedDateFormats);
+            return fileDateTimeReader.SmartDateTime(FileName, FileDateCreated, FileDateModified);
+        }
+        #endregion
+
         #region Properties Helper - LocationCoordinates
         public LocationCoordinate LocationCoordinate
         {
@@ -405,102 +425,11 @@ namespace MetadataLibrary
         }
         #endregion 
 
-        #region Errors
-        private static string AddError(string text, object o1, object o2)
-        {
-            return text + ": '" + (o1 == null ? "" : o1.ToString()) + "' vs. '" + (o2 == null ? "" : o2.ToString()) + "'\r\n";
-        }
-
-        public static string GetErrors(Metadata m1, Metadata m2)
-        {
-            string errors = "";
-            if (m1 is null && m2 is null) return "";
-            if (m1 is null) return "Can't compare missing metadata for file 1.\r\n";
-            if (m2 is null) return "Can't compare missing metadata for file 2.\r\n";
-            if (ReferenceEquals(m1, m2)) return "";
-            if (m1 == m2) return "";
-            //if (m1.GetHashCode() == m2.GetHashCode()) return "";
-
-            //File
-            if (m1.Broker != m2.Broker) errors += "Broker\r\n";
-            if (m1.FileName != m2.FileName) errors += AddError("File name", m1.FileName, m2.FileName);
-            if (m1.fileDirectory != m2.fileDirectory) errors += AddError("File direcotry", m1.fileDirectory, m2.fileDirectory);
-            if (m1.FileSize != m2.FileSize) errors += AddError("File size", m1.FileSize, m2.FileSize);
-            if (m1.FileDateCreated != m2.FileDateCreated) errors += AddError("File Date Created", m1.FileDateCreated, m2.FileDateCreated);
-            if (m1.FileDateModified != m2.FileDateModified) errors += AddError("File Date Modified", m1.FileDateModified, m2.FileDateModified);
-            if (m1.FileDateAccessed != m2.FileDateAccessed) errors += AddError("File Last Accessed", m1.FileDateAccessed, m2.FileDateAccessed);
-            if (m1.FileMimeType != m2.FileMimeType) errors += AddError("FileMimeType", m1.FileMimeType, m2.FileMimeType);
-
-            //Personal
-            if (m1.PersonalTitle != m2.PersonalTitle) errors += AddError("Title", m1.PersonalTitle, m2.PersonalTitle);
-            if (m1.PersonalDescription != m2.PersonalDescription) errors += AddError("Description", m1.PersonalDescription, m2.PersonalDescription);
-            if (m1.PersonalComments != m2.PersonalComments) errors += AddError("Comments", m1.PersonalComments, m2.PersonalComments);
-            if (m1.personalRating != m2.personalRating) errors += AddError("Rating", m1.personalRating, m2.personalRating);
-            if (m1.personalRatingPercent != m2.personalRatingPercent) errors += AddError("Rating Percent", m1.personalRatingPercent, m2.personalRatingPercent);
-            if (m1.PersonalAuthor != m2.PersonalAuthor) errors += AddError("Author", m1.PersonalAuthor, m2.PersonalAuthor);
-            if (m1.PersonalAlbum != m2.PersonalAlbum) errors += AddError("Album", m1.PersonalAlbum, m2.PersonalAlbum);
-
-            //Camera
-            if (m1.CameraMake != m2.CameraMake) return errors += AddError("Camera Make", m1.CameraMake, m2.CameraMake);
-            if (m1.CameraModel != m2.CameraModel) return errors += AddError("Camra Model", m1.CameraModel, m2.CameraModel);
-
-            //Media
-            if (m1.mediaDateTaken != m2.mediaDateTaken) errors += AddError("Media DateTaken", m1.mediaDateTaken, m2.mediaDateTaken);
-            if (m1.mediaWidth != m2.mediaWidth) errors += AddError("Media Width", m1.mediaWidth, m2.mediaWidth);
-            if (m1.mediaHeight != m2.mediaHeight) errors += AddError("Media Hieght", m1.mediaHeight, m2.mediaHeight);
-            if (m1.mediaOrientation != m2.mediaOrientation) errors += AddError("Media Orientation", m1.mediaOrientation, m2.mediaOrientation);
-            if (m1.mediaVideoLength != m2.mediaVideoLength) errors += AddError("Media Video lenth", m1.mediaVideoLength, m2.mediaVideoLength);
-
-            //Location
-            if (m1.locationAltitude != m2.locationAltitude) errors += AddError("Location Altitude", m1.locationAltitude, m2.locationAltitude);
-            if (m1.locationLatitude != m2.locationLatitude) errors += AddError("Location Latitude", m1.locationLatitude, m2.locationLatitude);
-            if (m1.locationLongitude != m2.locationLongitude) errors += AddError("Location Longitude", m1.locationLongitude, m2.locationLongitude);
-            if (m1.locationDateTime != m2.locationDateTime) errors += AddError("Location DateTime", m1.locationDateTime, m2.locationDateTime);
-            if (m1.locationName != m2.locationName) errors += AddError("Location Name", m1.locationName, m2.locationName);
-            if (m1.locationCountry != m2.locationCountry) errors += AddError("Location Country", m1.locationCountry, m2.locationCountry);
-            if (m1.locationCity != m2.locationCity) errors += AddError("Location District", m1.locationCity, m2.locationCity);
-            if (m1.locationState != m2.locationState) errors += AddError("Location Region", m1.locationState, m2.locationState);
-
-            if (VerifyRegionStructureList(m1.personalRegionList, m2.personalRegionList) == false)
-            {
-                List<RegionStructure> allRegions = new List<RegionStructure>();
-                foreach (RegionStructure region in m1.personalRegionList) if (!region.DoesThisRectangleAndNameExistInList(allRegions)) allRegions.Add(region);
-                foreach (RegionStructure region in m2.personalRegionList) if (!region.DoesThisRectangleAndNameExistInList(allRegions)) allRegions.Add(region);
-
-                errors += "\r\nRegion list\r\n";
-                foreach (RegionStructure region in allRegions)
-                    errors += "" + (region == null ? "" : region.ToErrorText()) +
-                        (region.DoesThisRectangleAndNameExistInList(m1.personalRegionList) == (region.DoesThisRectangleAndNameExistInList(m2.personalRegionList)) ? " Verified" :
-                        (region.DoesThisRectangleAndNameExistInList(m1.personalRegionList) ? " Not added" : " Not removed")) +
-                        "\r\n";
-            }
-
-            if (VerifyKeywordList(m1.personalTagList, m2.personalTagList) == false)
-            {
-
-                List<KeywordTag> allTags = new List<KeywordTag>();
-                foreach (KeywordTag tag in m1.PersonalKeywordTags) if (!allTags.Contains(tag)) allTags.Add(tag);
-                foreach (KeywordTag tag in m2.PersonalKeywordTags) if (!allTags.Contains(tag)) allTags.Add(tag);
-
-                errors += "\r\nKeyword list\r\n";
-                foreach (KeywordTag tag in allTags)
-                    errors += "" + (tag == null ? "" : tag.ToString()) +
-                        (m1.PersonalKeywordTags.Contains(tag) == m2.PersonalKeywordTags.Contains(tag) ? " Verified OK" :
-                        (m1.PersonalKeywordTags.Contains(tag) ? " Not add" : " Not removed")) +
-                        "\r\n";
-            }
-
-            return errors;
-        }
-
-        public string Errors { get => errors; set => errors = value; }
-        #endregion
-
-        #region Properties MetadataBrokerTypes
+        #region Properties - MetadataBrokerTypes
         public MetadataBrokerType Broker { get; set; }
         #endregion
 
-        #region Properties File
+        #region Properties - File
         public String FileName { get; set; }
         public String FileDirectory
         {
@@ -520,7 +449,7 @@ namespace MetadataLibrary
         public string FileMimeType { get; set; }
         #endregion
 
-        #region Properties Personal
+        #region Properties - Personal
         public String PersonalTitle { get; set; }
         public String PersonalDescription { get; set; }
         public string PersonalComments { get; set; }
@@ -856,7 +785,7 @@ namespace MetadataLibrary
         }
         #endregion
 
-        #region Properties Camera
+        #region Properties - Camera
         public String CameraMake { get; set; }
         public String CameraModel { get; set; }
         #endregion
@@ -869,7 +798,6 @@ namespace MetadataLibrary
             if (MediaDateTaken == null) return false;
             if (LocationDateTime == null) return false;
             
-
             TimeZoneInfo timeZoneInfoGPSLocation = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation((double)LocationLatitude, (double)LocationLongitude);
 
             DateTime locationDateTomeUtc = ((DateTime)LocationDateTime).ToUniversalTime();
@@ -895,7 +823,7 @@ namespace MetadataLibrary
         }
         #endregion
 
-        #region #region Properties Helper - LocationTimeZone 
+        #region Properties Helper - LocationTimeZone 
         public string LocationTimeZoneDescription
         {
             get
@@ -930,11 +858,16 @@ namespace MetadataLibrary
                 return timeZone;
             }
         }
-        #endregion 
+        #endregion
 
-        #region Properties Media
+        #region Properties - Media
+        private DateTime? mediaDateTaken;
         public DateTime? MediaDateTaken { get => mediaDateTaken; set => mediaDateTaken = value; }
+        
+        private Int32? mediaWidth;        
         public Int32? MediaWidth { get => mediaWidth; set => mediaWidth = value; }
+
+        private Int32? mediaHeight;        
         public Int32? MediaHeight { get => mediaHeight; set => mediaHeight = value; }
         public Size MediaSize { get => new Size(mediaWidth == null ? 0 : (int)mediaWidth, mediaWidth == null ? 0 : (int)mediaHeight);
             set {
@@ -942,11 +875,15 @@ namespace MetadataLibrary
                 MediaHeight = value.Height;
             }
         }
+
+        private Int32? mediaOrientation;
         public int? MediaOrientation { get => mediaOrientation; set => mediaOrientation = value; }
+
+        private Int32? mediaVideoLength;
         public int? MediaVideoLength { get => mediaVideoLength; set => mediaVideoLength = value; }
         #endregion 
 
-        #region Properties Location
+        #region Properties - Location
         public float? LocationAltitude
         {
             get => locationAltitude;
@@ -969,162 +906,256 @@ namespace MetadataLibrary
         public string LocationState { get => locationState; set => locationState = value; }
         #endregion
 
-
-        #region Variable Properties
-        //private static string[] arrayOfProperties = null;
-
-        public static string[] ListOfProperties(bool addKeywordItems) 
+        #region Errors handler
+        private static string AddError(string text, object o1, object o2)
         {
-            //if (arrayOfProperties == null)
-            //{
-                List<string> listOfProperties = new List<string>();
+            return text + ": '" + (o1 == null ? "" : o1.ToString()) + "' vs. '" + (o2 == null ? "" : o2.ToString()) + "'\r\n";
+        }
 
-                //System
-                listOfProperties.Add("{SystemDateTime}");
-                listOfProperties.Add("{SystemDateTimeDateStamp}");
-                listOfProperties.Add("{SystemDateTimeTimeStamp}");
-                listOfProperties.Add("{SystemDateTime_yyyy}");
-                listOfProperties.Add("{SystemDateTime_MM}");
-                listOfProperties.Add("{SystemDateTime_dd}");
-                listOfProperties.Add("{SystemDateTime_HH}");
-                listOfProperties.Add("{SystemDateTime_mm}");
-                listOfProperties.Add("{SystemDateTime_ss}");
+        public static string GetErrors(Metadata m1, Metadata m2)
+        {
+            string errors = "";
+            if (m1 is null && m2 is null) return "";
+            if (m1 is null) return "Can't compare missing metadata for file 1.\r\n";
+            if (m2 is null) return "Can't compare missing metadata for file 2.\r\n";
+            if (ReferenceEquals(m1, m2)) return "";
+            if (m1 == m2) return "";
+            //if (m1.GetHashCode() == m2.GetHashCode()) return "";
 
-                //Filesystem
-                listOfProperties.Add("{FileName}");
-                listOfProperties.Add("{FileFullPath}");
-                listOfProperties.Add("{FileFullPath.8.3}");
-                listOfProperties.Add("{FileNameWithoutExtension}");
-                listOfProperties.Add("{FileNameWithoutDateTime}");
-                listOfProperties.Add("{FileExtension}");
-                listOfProperties.Add("{FileDirectory}");
-                listOfProperties.Add("{FileSize}");
+            //File
+            if (m1.Broker != m2.Broker) errors += "Broker\r\n";
+            if (m1.FileName != m2.FileName) errors += AddError("File name", m1.FileName, m2.FileName);
+            if (m1.fileDirectory != m2.fileDirectory) errors += AddError("File direcotry", m1.fileDirectory, m2.fileDirectory);
+            if (m1.FileSize != m2.FileSize) errors += AddError("File size", m1.FileSize, m2.FileSize);
+            if (m1.FileDateCreated != m2.FileDateCreated) errors += AddError("File Date Created", m1.FileDateCreated, m2.FileDateCreated);
+            if (m1.FileDateModified != m2.FileDateModified) errors += AddError("File Date Modified", m1.FileDateModified, m2.FileDateModified);
+            if (m1.FileDateAccessed != m2.FileDateAccessed) errors += AddError("File Last Accessed", m1.FileDateAccessed, m2.FileDateAccessed);
+            if (m1.FileMimeType != m2.FileMimeType) errors += AddError("FileMimeType", m1.FileMimeType, m2.FileMimeType);
 
-                listOfProperties.Add("{FileDateCreated}");
-                listOfProperties.Add("{FileDateCreatedDateStamp}");
-                listOfProperties.Add("{FileDateCreatedTimeStamp}");
-                listOfProperties.Add("{FileDateCreated_yyyy}");
-                listOfProperties.Add("{FileDateCreated_MM}");
-                listOfProperties.Add("{FileDateCreated_dd}");
-                listOfProperties.Add("{FileDateCreated_HH}");
-                listOfProperties.Add("{FileDateCreated_mm}");
-                listOfProperties.Add("{FileDateCreated_ss}");
+            //Personal
+            if (m1.PersonalTitle != m2.PersonalTitle) errors += AddError("Title", m1.PersonalTitle, m2.PersonalTitle);
+            if (m1.PersonalDescription != m2.PersonalDescription) errors += AddError("Description", m1.PersonalDescription, m2.PersonalDescription);
+            if (m1.PersonalComments != m2.PersonalComments) errors += AddError("Comments", m1.PersonalComments, m2.PersonalComments);
+            if (m1.personalRating != m2.personalRating) errors += AddError("Rating", m1.personalRating, m2.personalRating);
+            if (m1.personalRatingPercent != m2.personalRatingPercent) errors += AddError("Rating Percent", m1.personalRatingPercent, m2.personalRatingPercent);
+            if (m1.PersonalAuthor != m2.PersonalAuthor) errors += AddError("Author", m1.PersonalAuthor, m2.PersonalAuthor);
+            if (m1.PersonalAlbum != m2.PersonalAlbum) errors += AddError("Album", m1.PersonalAlbum, m2.PersonalAlbum);
 
-                listOfProperties.Add("{FileDateModified}");
-                listOfProperties.Add("{IfFileDateModifiedChanged}");
+            //Camera
+            if (m1.CameraMake != m2.CameraMake) return errors += AddError("Camera Make", m1.CameraMake, m2.CameraMake);
+            if (m1.CameraModel != m2.CameraModel) return errors += AddError("Camra Model", m1.CameraModel, m2.CameraModel);
 
-                listOfProperties.Add("{FileDateModifiedDateStamp}");
-                listOfProperties.Add("{FileDateModifiedTimeStamp}");
-                listOfProperties.Add("{FileDateModified_yyyy}");
-                listOfProperties.Add("{FileDateModified_MM}");
-                listOfProperties.Add("{FileDateModified_dd}");
-                listOfProperties.Add("{FileDateModified_HH}");
-                listOfProperties.Add("{FileDateModified_mm}");
-                listOfProperties.Add("{FileDateModified_ss}");
-                listOfProperties.Add("{FileLastAccessed}");
-                listOfProperties.Add("{FileLastAccessedDateStamp}");
-                listOfProperties.Add("{FileLastAccessedTimeStamp}");
-                listOfProperties.Add("{FileLastAccessed_yyyy}");
-                listOfProperties.Add("{FileLastAccessed_MM}");
-                listOfProperties.Add("{FileLastAccessed_dd}");
-                listOfProperties.Add("{FileLastAccessed_HH}");
-                listOfProperties.Add("{FileLastAccessed_mm}");
-                listOfProperties.Add("{FileLastAccessed_ss}");
+            //Media
+            if (m1.mediaDateTaken != m2.mediaDateTaken) errors += AddError("Media DateTaken", m1.mediaDateTaken, m2.mediaDateTaken);
+            if (m1.mediaWidth != m2.mediaWidth) errors += AddError("Media Width", m1.mediaWidth, m2.mediaWidth);
+            if (m1.mediaHeight != m2.mediaHeight) errors += AddError("Media Hieght", m1.mediaHeight, m2.mediaHeight);
+            if (m1.mediaOrientation != m2.mediaOrientation) errors += AddError("Media Orientation", m1.mediaOrientation, m2.mediaOrientation);
+            if (m1.mediaVideoLength != m2.mediaVideoLength) errors += AddError("Media Video lenth", m1.mediaVideoLength, m2.mediaVideoLength);
 
-                listOfProperties.Add("{FileMimeType}");
+            //Location
+            if (m1.locationAltitude != m2.locationAltitude) errors += AddError("Location Altitude", m1.locationAltitude, m2.locationAltitude);
+            if (m1.locationLatitude != m2.locationLatitude) errors += AddError("Location Latitude", m1.locationLatitude, m2.locationLatitude);
+            if (m1.locationLongitude != m2.locationLongitude) errors += AddError("Location Longitude", m1.locationLongitude, m2.locationLongitude);
+            if (m1.locationDateTime != m2.locationDateTime) errors += AddError("Location DateTime", m1.locationDateTime, m2.locationDateTime);
+            if (m1.locationName != m2.locationName) errors += AddError("Location Name", m1.locationName, m2.locationName);
+            if (m1.locationCountry != m2.locationCountry) errors += AddError("Location Country", m1.locationCountry, m2.locationCountry);
+            if (m1.locationCity != m2.locationCity) errors += AddError("Location District", m1.locationCity, m2.locationCity);
+            if (m1.locationState != m2.locationState) errors += AddError("Location Region", m1.locationState, m2.locationState);
 
-                //Personal
-                listOfProperties.Add("{PersonalTitle}");
-                listOfProperties.Add("{IfPersonalTitleChanged}");
+            if (VerifyRegionStructureList(m1.personalRegionList, m2.personalRegionList) == false)
+            {
+                List<RegionStructure> allRegions = new List<RegionStructure>();
+                foreach (RegionStructure region in m1.personalRegionList) if (!region.DoesThisRectangleAndNameExistInList(allRegions)) allRegions.Add(region);
+                foreach (RegionStructure region in m2.personalRegionList) if (!region.DoesThisRectangleAndNameExistInList(allRegions)) allRegions.Add(region);
 
-                listOfProperties.Add("{PersonalDescription}");
-                listOfProperties.Add("{IfPersonalDescriptionChanged}");
+                errors += "\r\nRegion list\r\n";
+                foreach (RegionStructure region in allRegions)
+                    errors += "" + (region == null ? "" : region.ToErrorText()) +
+                        (region.DoesThisRectangleAndNameExistInList(m1.personalRegionList) == (region.DoesThisRectangleAndNameExistInList(m2.personalRegionList)) ? " Verified" :
+                        (region.DoesThisRectangleAndNameExistInList(m1.personalRegionList) ? " Not added" : " Not removed")) +
+                        "\r\n";
+            }
 
-                listOfProperties.Add("{PersonalComments}");
-                listOfProperties.Add("{IfPersonalCommentsChanged}");
+            if (VerifyKeywordList(m1.personalTagList, m2.personalTagList) == false)
+            {
 
-                listOfProperties.Add("{PersonalRating}");
-                listOfProperties.Add("{IfPersonalRatingChanged}");
-                listOfProperties.Add("{PersonalRatingPercent}");
+                List<KeywordTag> allTags = new List<KeywordTag>();
+                foreach (KeywordTag tag in m1.PersonalKeywordTags) if (!allTags.Contains(tag)) allTags.Add(tag);
+                foreach (KeywordTag tag in m2.PersonalKeywordTags) if (!allTags.Contains(tag)) allTags.Add(tag);
 
-                listOfProperties.Add("{PersonalAuthor}");
-                listOfProperties.Add("{IfPersonalAuthorChanged}");
+                errors += "\r\nKeyword list\r\n";
+                foreach (KeywordTag tag in allTags)
+                    errors += "" + (tag == null ? "" : tag.ToString()) +
+                        (m1.PersonalKeywordTags.Contains(tag) == m2.PersonalKeywordTags.Contains(tag) ? " Verified OK" :
+                        (m1.PersonalKeywordTags.Contains(tag) ? " Not add" : " Not removed")) +
+                        "\r\n";
+            }
 
-                listOfProperties.Add("{PersonalAlbum}");
-                listOfProperties.Add("{IfPersonalAlbumChanged}");
+            return errors;
+        }
 
-                //Region
-                listOfProperties.Add("{PersonalRegionInfoMP}");
-                listOfProperties.Add("{PersonalRegionInfo}");
-                listOfProperties.Add("{IfPersonalRegionChanged}");
+        public string Errors { get => errors; set => errors = value; }
+        #endregion
 
-                //Keyword
-                if (addKeywordItems) listOfProperties.Add("{KeywordItem}");
-                listOfProperties.Add("{PersonalKeywordsList}");
-                listOfProperties.Add("{PersonalKeywordsXML}");
-                listOfProperties.Add("{PersonalKeywordItemsDelete}");
-                listOfProperties.Add("{PersonalKeywordItemsAdd}");
-                listOfProperties.Add("{IfPersonalKeywordsChanged}");
+        #region Variables - List if Variable 
+        public static string[] ListOfProperties(bool addKeywordItems)
+        {
+            List<string> listOfProperties = new List<string>();
 
-                //Camera
-                listOfProperties.Add("{CameraMake}");
-                listOfProperties.Add("{CameraModel}");
+            //System
+            listOfProperties.Add("{SystemDateTime}");
+            listOfProperties.Add("{SystemDateTimeDateStamp}");
+            listOfProperties.Add("{SystemDateTimeTimeStamp}");
+            listOfProperties.Add("{SystemDateTime_yyyy}");
+            listOfProperties.Add("{SystemDateTime_MM}");
+            listOfProperties.Add("{SystemDateTime_dd}");
+            listOfProperties.Add("{SystemDateTime_HH}");
+            listOfProperties.Add("{SystemDateTime_mm}");
+            listOfProperties.Add("{SystemDateTime_ss}");
 
-                //Media
-                listOfProperties.Add("{MediaDateTaken}");
-                listOfProperties.Add("{IfMediaDateTakenChanged}");
+            //Filesystem
+            listOfProperties.Add("{FileName}");
+            listOfProperties.Add("{FileFullPath}");
+            listOfProperties.Add("{FileFullPath.8.3}");
+            listOfProperties.Add("{FileNameWithoutExtension}");
+            listOfProperties.Add("{FileNameWithoutDateTime}");
+            listOfProperties.Add("{FileExtension}");
+            listOfProperties.Add("{FileDirectory}");
+            listOfProperties.Add("{FileSize}");
 
-                listOfProperties.Add("{MediaDateTakenDateStamp}");
-                listOfProperties.Add("{MediaDateTakenTimeStamp}");
-                listOfProperties.Add("{MediaDateTaken_yyyy}");
-                listOfProperties.Add("{MediaDateTaken_MM}");
-                listOfProperties.Add("{MediaDateTaken_dd}");
-                listOfProperties.Add("{MediaDateTaken_HH}");
-                listOfProperties.Add("{MediaDateTaken_mm}");
-                listOfProperties.Add("{MediaDateTaken_ss}");
+            listOfProperties.Add("{FileDate}");
+            listOfProperties.Add("{FileDateDateStamp}");
+            listOfProperties.Add("{FileDateTimeStamp}");
+            listOfProperties.Add("{FileDate_yyyy}");
+            listOfProperties.Add("{FileDate_MM}");
+            listOfProperties.Add("{FileDate_dd}");
+            listOfProperties.Add("{FileDate_HH}");
+            listOfProperties.Add("{FileDate_mm}");
+            listOfProperties.Add("{FileDate_ss}");
 
-                listOfProperties.Add("{MediaWidth}");
-                listOfProperties.Add("{MediaHeight}");
-                listOfProperties.Add("{MediaOrientation}");
-                listOfProperties.Add("{MediaVideoLength}");
+            listOfProperties.Add("{FileDateCreated}");
+            listOfProperties.Add("{FileDateCreatedDateStamp}");
+            listOfProperties.Add("{FileDateCreatedTimeStamp}");
+            listOfProperties.Add("{FileDateCreated_yyyy}");
+            listOfProperties.Add("{FileDateCreated_MM}");
+            listOfProperties.Add("{FileDateCreated_dd}");
+            listOfProperties.Add("{FileDateCreated_HH}");
+            listOfProperties.Add("{FileDateCreated_mm}");
+            listOfProperties.Add("{FileDateCreated_ss}");
 
-                //Location
-                listOfProperties.Add("{LocationAltitude}");
-                listOfProperties.Add("{IfLocationAltitudeChanged}");
+            listOfProperties.Add("{FileDateModified}");
+            listOfProperties.Add("{IfFileDateModifiedChanged}");
 
-                listOfProperties.Add("{LocationLatitude}");
-                listOfProperties.Add("{IfLocationLatitudeChanged}");
+            listOfProperties.Add("{FileDateModifiedDateStamp}");
+            listOfProperties.Add("{FileDateModifiedTimeStamp}");
+            listOfProperties.Add("{FileDateModified_yyyy}");
+            listOfProperties.Add("{FileDateModified_MM}");
+            listOfProperties.Add("{FileDateModified_dd}");
+            listOfProperties.Add("{FileDateModified_HH}");
+            listOfProperties.Add("{FileDateModified_mm}");
+            listOfProperties.Add("{FileDateModified_ss}");
+            listOfProperties.Add("{FileLastAccessed}");
+            listOfProperties.Add("{FileLastAccessedDateStamp}");
+            listOfProperties.Add("{FileLastAccessedTimeStamp}");
+            listOfProperties.Add("{FileLastAccessed_yyyy}");
+            listOfProperties.Add("{FileLastAccessed_MM}");
+            listOfProperties.Add("{FileLastAccessed_dd}");
+            listOfProperties.Add("{FileLastAccessed_HH}");
+            listOfProperties.Add("{FileLastAccessed_mm}");
+            listOfProperties.Add("{FileLastAccessed_ss}");
 
-                listOfProperties.Add("{LocationLongitude}");
-                listOfProperties.Add("{IfLocationLongitudeChanged}");
+            listOfProperties.Add("{FileMimeType}");
 
-                listOfProperties.Add("{LocationDateTime}");
-                listOfProperties.Add("{IfLocationDateTimeChanged}");
+            //Personal
+            listOfProperties.Add("{PersonalTitle}");
+            listOfProperties.Add("{IfPersonalTitleChanged}");
 
-                listOfProperties.Add("{LocationDateTimeUTC}");
-                listOfProperties.Add("{LocationDateTimeDateStamp}");
-                listOfProperties.Add("{LocationDateTimeTimeStamp}");
-                listOfProperties.Add("{LocationDateTime_yyyy}");
-                listOfProperties.Add("{LocationDateTime_MM}");
-                listOfProperties.Add("{LocationDateTime_dd}");
-                listOfProperties.Add("{LocationDateTime_HH}");
-                listOfProperties.Add("{LocationDateTime_mm}");
-                listOfProperties.Add("{LocationDateTime_ss}");
+            listOfProperties.Add("{PersonalDescription}");
+            listOfProperties.Add("{IfPersonalDescriptionChanged}");
 
-                listOfProperties.Add("{LocationName}");
-                listOfProperties.Add("{IfLocationNameChanged}");
+            listOfProperties.Add("{PersonalComments}");
+            listOfProperties.Add("{IfPersonalCommentsChanged}");
 
-                listOfProperties.Add("{LocationCity}");
-                listOfProperties.Add("{IfLocationCityChanged}");
+            listOfProperties.Add("{PersonalRating}");
+            listOfProperties.Add("{IfPersonalRatingChanged}");
+            listOfProperties.Add("{PersonalRatingPercent}");
 
-                listOfProperties.Add("{LocationState}");
-                listOfProperties.Add("{IfLocationStateChanged}");
+            listOfProperties.Add("{PersonalAuthor}");
+            listOfProperties.Add("{IfPersonalAuthorChanged}");
 
-                listOfProperties.Add("{LocationCountry}");
-                listOfProperties.Add("{IfLocationCountryChanged}");
+            listOfProperties.Add("{PersonalAlbum}");
+            listOfProperties.Add("{IfPersonalAlbumChanged}");
 
-            //arrayOfProperties = listOfProperties.ToArray();
-            //}
+            //Region
+            listOfProperties.Add("{PersonalRegionInfoMP}");
+            listOfProperties.Add("{PersonalRegionInfo}");
+            listOfProperties.Add("{IfPersonalRegionChanged}");
+
+            //Keyword
+            if (addKeywordItems) listOfProperties.Add("{KeywordItem}");
+            listOfProperties.Add("{PersonalKeywordsList}");
+            listOfProperties.Add("{PersonalKeywordsXML}");
+            listOfProperties.Add("{PersonalKeywordItemsDelete}");
+            listOfProperties.Add("{PersonalKeywordItemsAdd}");
+            listOfProperties.Add("{IfPersonalKeywordsChanged}");
+
+            //Camera
+            listOfProperties.Add("{CameraMake}");
+            listOfProperties.Add("{CameraModel}");
+
+            //Media
+            listOfProperties.Add("{MediaDateTaken}");
+            listOfProperties.Add("{IfMediaDateTakenChanged}");
+
+            listOfProperties.Add("{MediaDateTakenDateStamp}");
+            listOfProperties.Add("{MediaDateTakenTimeStamp}");
+            listOfProperties.Add("{MediaDateTaken_yyyy}");
+            listOfProperties.Add("{MediaDateTaken_MM}");
+            listOfProperties.Add("{MediaDateTaken_dd}");
+            listOfProperties.Add("{MediaDateTaken_HH}");
+            listOfProperties.Add("{MediaDateTaken_mm}");
+            listOfProperties.Add("{MediaDateTaken_ss}");
+
+            listOfProperties.Add("{MediaWidth}");
+            listOfProperties.Add("{MediaHeight}");
+            listOfProperties.Add("{MediaOrientation}");
+            listOfProperties.Add("{MediaVideoLength}");
+
+            //Location
+            listOfProperties.Add("{LocationAltitude}");
+            listOfProperties.Add("{IfLocationAltitudeChanged}");
+
+            listOfProperties.Add("{LocationLatitude}");
+            listOfProperties.Add("{IfLocationLatitudeChanged}");
+
+            listOfProperties.Add("{LocationLongitude}");
+            listOfProperties.Add("{IfLocationLongitudeChanged}");
+
+            listOfProperties.Add("{LocationDateTime}");
+            listOfProperties.Add("{IfLocationDateTimeChanged}");
+
+            listOfProperties.Add("{LocationDateTimeUTC}");
+            listOfProperties.Add("{LocationDateTimeDateStamp}");
+            listOfProperties.Add("{LocationDateTimeTimeStamp}");
+            listOfProperties.Add("{LocationDateTime_yyyy}");
+            listOfProperties.Add("{LocationDateTime_MM}");
+            listOfProperties.Add("{LocationDateTime_dd}");
+            listOfProperties.Add("{LocationDateTime_HH}");
+            listOfProperties.Add("{LocationDateTime_mm}");
+            listOfProperties.Add("{LocationDateTime_ss}");
+
+            listOfProperties.Add("{LocationName}");
+            listOfProperties.Add("{IfLocationNameChanged}");
+
+            listOfProperties.Add("{LocationCity}");
+            listOfProperties.Add("{IfLocationCityChanged}");
+
+            listOfProperties.Add("{LocationState}");
+            listOfProperties.Add("{IfLocationStateChanged}");
+
+            listOfProperties.Add("{LocationCountry}");
+            listOfProperties.Add("{IfLocationCountryChanged}");
+
             return listOfProperties.ToArray(); // arrayOfProperties;
         }
 
@@ -1195,6 +1226,10 @@ namespace MetadataLibrary
                     break;
                 case "{FileSize}":
                     result = FileSize == null ? null : ((long)FileSize).ToString(CultureInfo.InvariantCulture);
+                    break;
+                case "{FileDate}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftool(FileDate);
+                    else result = TimeZoneLibrary.ToStringFilename(FileDate);
                     break;
                 case "{FileDateCreated}":
                     if (useExifFormat) result = TimeZoneLibrary.ToStringExiftool(FileDateCreated);
@@ -1457,7 +1492,7 @@ namespace MetadataLibrary
 
         #endregion
 
-        #region Replace Variable with Propertiy values
+        #region Variables - Replace Variable with Propertiy values
         private bool HasValueChanged(string variable, Metadata metadata)
         {
             bool result = false;
@@ -1625,7 +1660,7 @@ namespace MetadataLibrary
         }
         #endregion 
 
-        #region Create Variable -XPKeywords={PersonalKeywordsList}
+        #region Variables - Create Variable -XPKeywords={PersonalKeywordsList}
         public string VariablePersonalKeywordsList()
         {
             string personalKeywordsList = "";
@@ -1638,7 +1673,7 @@ namespace MetadataLibrary
         }
         #endregion
 
-        #region Create Variable -Categories={PersonalKeywordsXML}
+        #region Variables - Create Variable -Categories={PersonalKeywordsXML}
         public string VariableKeywordCategories()
         {
             string keywordCategories = "<Categories>";
@@ -1668,7 +1703,7 @@ namespace MetadataLibrary
         }
         #endregion
 
-        #region Remove duplicates Name and Area regions (Don't care about source)
+        #region Variables - Remove duplicates Name and Area regions (Don't care about source)
         private List<RegionStructure> VariableRegionWriteListWithoutDuplicate()
         {
             List<RegionStructure> regionWriteListWithoutDuplicate = new List<RegionStructure>();
@@ -1678,10 +1713,10 @@ namespace MetadataLibrary
         }
         #endregion
 
-        #region Create Variable -ImageRegion= (IPTC region tags - ImageRegion)
+        #region Variables - Create Variable -ImageRegion= (IPTC region tags - ImageRegion)
         #endregion
 
-        #region Create Variable -RegionInfoMP={PersonalRegionInfoMP} - Microsoft region tags 
+        #region Variables - Create Variable -RegionInfoMP={PersonalRegionInfoMP} - Microsoft region tags 
         public string VariablePersonalRegionInfoMP()
         {
             List<RegionStructure> regionWriteListWithoutDuplicate = VariableRegionWriteListWithoutDuplicate();
@@ -1708,7 +1743,7 @@ namespace MetadataLibrary
         }
         #endregion
 
-        #region Create Variable -RegionInfo={PersonalRegionInfo} - MWG Regions Tags 
+        #region Variables - Create Variable -RegionInfo={PersonalRegionInfo} - MWG Regions Tags 
         public string VariablePersonalRegionInfo()
         {
             List<RegionStructure> regionWriteListWithoutDuplicate = VariableRegionWriteListWithoutDuplicate();
@@ -1738,7 +1773,7 @@ namespace MetadataLibrary
         }
         #endregion
 
-        #region Create Variable - Keyword items - ***Loop of keyword items***
+        #region Variables - Create Variable - Keyword items - ***Loop of keyword items***
         public string VariablePersonalKeywords(string stringWithVariables, List<string> allowedFileNameDateTimeFormats)
         {
             string personalRegionInfoMP = VariablePersonalRegionInfoMP();

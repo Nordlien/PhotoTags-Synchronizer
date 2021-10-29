@@ -194,7 +194,15 @@ A list of variables you can write back in Windows Xtra atoms and back to any met
 	  - {FileExtension}
 	  - {FileDirectory}
 	  - {FileSize}
-	  - {FileDateCreated}
+	  - {FileDate}
+	  - {FileDateDateStamp}
+	  - {FileDateTimeStamp}
+	  - {FileDate_yyyy}
+	  - {FileDate_MM}
+	  - {FileDate_dd}
+	  - {FileDate_HH}
+	  - {FileDate_mm}
+	  - {FileDate_ss}
 	  - {FileDateCreatedDateStamp}
 	  - {FileDateCreatedTimeStamp}
 	  - {FileDateCreated_yyyy}

@@ -226,6 +226,8 @@ namespace PhotoTagsSynchronizer
             
             //
             this.kryptonContextMenuRadioButtonFileSystemColumnSortFilename.Click += KryptonContextMenuRadioButtonFileSystemColumnSortFilename_Click;
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortSmarteDate.Click += KryptonContextMenuRadioButtonFileSystemColumnSortSmarteDate_Click;
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortFileDate.Click += KryptonContextMenuRadioButtonFileSystemColumnSortFileDate_Click;
             this.kryptonContextMenuRadioButtonFileSystemColumnSortFileCreateDate.Click += KryptonContextMenuRadioButtonFileSystemColumnSortFileCreateDate_Click;
             this.kryptonContextMenuRadioButtonFileSystemColumnSortFileModifiedDate.Click += KryptonContextMenuRadioButtonFileSystemColumnSortFileModifiedDate_Click;
             this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaDateTaken.Click += KryptonContextMenuRadioButtonFileSystemColumnSortMediaDateTaken_Click;
@@ -604,7 +606,6 @@ namespace PhotoTagsSynchronizer
 
             MaximizeOrRestoreWorkspaceMainCellAndChilds();
         }
-
         #endregion
 
         #region Resize and restore windows size when reopen application

@@ -56,7 +56,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region
+        #region TreeViewFOlderBrowserRefreshFolderWithName
         public void TreeViewFOlderBrowserRefreshFolderWithName(TreeViewFolderBrowser folderTreeViewFolder, string folder)
         {
             List<TreeNode> treeNodes = new List<TreeNode>();

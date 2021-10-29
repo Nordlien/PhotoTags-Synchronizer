@@ -529,7 +529,8 @@ namespace Manina.Windows.Forms
     {
         private string mFileName;
         private Utility.ShellImageFileInfo mFileMetadata;
-        
+
+        #region FileName
         /// <summary>
         /// Get Filename for Image that are become to be loaded
         /// </summary>
@@ -538,14 +539,16 @@ namespace Manina.Windows.Forms
             get { return mFileName; }
             //set { mFileName = value; }
         }
+        #endregion
 
-       
+        #region FileMetadata
         /// <summary>
         /// Get and Set FileMetadata for Image that are become to be loaded
         /// </summary>
         public Utility.ShellImageFileInfo FileMetadata { get => mFileMetadata; set => mFileMetadata = value; }
+        #endregion
 
-
+        #region RetrieveItemMetadataDetailsEventArgs
         /// <summary>
         /// Initializes a new instance of the RetrieveImageEventArgs class.
         /// </summary>
@@ -554,6 +557,7 @@ namespace Manina.Windows.Forms
         {
             mFileName = filename;
         }
+        #endregion
     }
 
     /// <summary>

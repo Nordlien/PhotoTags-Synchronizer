@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using static Manina.Windows.Forms.ImageListView;
 using FileHandeling;
 using Krypton.Toolkit;
+using FileDateTime;
 
 namespace PhotoTagsSynchronizer
 {
@@ -35,7 +36,7 @@ namespace PhotoTagsSynchronizer
 
                     e.FileMetadata = new Utility.ShellImageFileInfo(); //Tell that data is create, all is good for internal void UpdateDetailsInternal(Utility.ShellImageFileInfo info)
 
-                    
+                    //JTN: MediaFileAttributes
                     if (!File.Exists(e.FileName) || FileHandler.IsFileInCloud(e.FileName))
                     {
                         #region Provided by FileInfo                        
@@ -44,6 +45,11 @@ namespace PhotoTagsSynchronizer
                             e.FileMetadata.FileDateCreated = File.GetCreationTime(e.FileName);
                             e.FileMetadata.FileDateModified = File.GetLastWriteTime(e.FileName);
                             e.FileMetadata.FileSize = new FileInfo(e.FileName).Length;
+                            FileDateTimeReader fileDateTimeReader = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
+
+                            DateTime? fileSmartDate = fileDateTimeReader.SmartDateTime(e.FileName, e.FileMetadata.FileDateCreated, e.FileMetadata.FileDateModified);
+                            e.FileMetadata.FileSmartDate = (fileSmartDate == null ? DateTime.MinValue : (DateTime)fileSmartDate); 
+
                         } catch
                         {
                             e.FileMetadata.FileSize = 0;
@@ -101,6 +107,10 @@ namespace PhotoTagsSynchronizer
                     #region Provided by FileInfo
                     e.FileMetadata.FileDateCreated = (DateTime)metadata.FileDateCreated;
                     e.FileMetadata.FileDateModified = (DateTime)metadata.FileDateModified;
+
+                    FileDateTimeReader fileDateTimeReader = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
+                    DateTime? fileSmartDate = fileDateTimeReader.SmartDateTime(e.FileName, e.FileMetadata.FileDateCreated, e.FileMetadata.FileDateModified);
+                    e.FileMetadata.FileSmartDate = (fileSmartDate == null ? DateTime.MinValue : (DateTime)fileSmartDate);
                     e.FileMetadata.FileSize = (long)metadata.FileSize;
                     e.FileMetadata.FileMimeType = metadata.FileMimeType;
                     e.FileMetadata.FileDirectory = metadata.FileDirectory;

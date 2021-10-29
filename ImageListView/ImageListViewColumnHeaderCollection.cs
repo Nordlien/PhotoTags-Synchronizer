@@ -88,8 +88,10 @@ namespace Manina.Windows.Forms
                 // Create the default column set
                 mItems = new ImageListViewColumnHeader[] {
                     //JTN: Added more columns
-                    
+                    //JTN: MediaFileAttributes
                     new ImageListViewColumnHeader(ColumnType.FileName),
+                    new ImageListViewColumnHeader(ColumnType.FileDate),
+                    new ImageListViewColumnHeader(ColumnType.FileSmartDate),
                     new ImageListViewColumnHeader(ColumnType.FileDateCreated),
                     new ImageListViewColumnHeader(ColumnType.FileDateModified),
                     new ImageListViewColumnHeader(ColumnType.MediaDateTaken),

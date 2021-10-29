@@ -6740,6 +6740,16 @@ namespace PhotoTagsSynchronizer
             ImageListViewSortColumn(imageListView1, ColumnType.FileName);
         }
 
+        private void KryptonContextMenuRadioButtonFileSystemColumnSortSmarteDate_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.FileSmartDate);
+        }
+
+        private void KryptonContextMenuRadioButtonFileSystemColumnSortFileDate_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.FileDate);
+        }
+
         private void KryptonContextMenuRadioButtonFileSystemColumnSortFileCreateDate_Click(object sender, EventArgs e)
         {
             ImageListViewSortColumn(imageListView1, ColumnType.FileDateCreated);

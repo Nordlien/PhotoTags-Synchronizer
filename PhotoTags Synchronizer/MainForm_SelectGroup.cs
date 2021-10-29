@@ -41,7 +41,7 @@ namespace PhotoTagsSynchronizer
 
                     GroupMacth groupMacthSource = new GroupMacth();
                     groupMacthSource.IsMetadataNull = (metadata == null);
-                    groupMacthSource.DateCreated = imageListViewItem.DateCreated;
+                    groupMacthSource.FileDate = imageListViewItem.Date;
                     groupMacthSource.MediaTaken = metadata?.MediaDateTaken;
                     groupMacthSource.LocationName = metadata?.LocationName;
                     groupMacthSource.LocationCity = metadata?.LocationCity;
@@ -68,7 +68,7 @@ namespace PhotoTagsSynchronizer
 
                     GroupMacth groupMacthCheckWith = new GroupMacth();
                     groupMacthCheckWith.IsMetadataNull = (metadata == null);
-                    groupMacthCheckWith.DateCreated = imageListViewItem.DateCreated;
+                    groupMacthCheckWith.FileDate = imageListViewItem.Date;
                     groupMacthCheckWith.MediaTaken = metadata?.MediaDateTaken;
                     groupMacthCheckWith.LocationName = metadata?.LocationName;
                     groupMacthCheckWith.LocationCity = metadata?.LocationCity;
@@ -123,7 +123,7 @@ namespace PhotoTagsSynchronizer
                     Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(new FileEntryBroker(imageListViewItem.FileFullPath, imageListViewItem.DateModified, MetadataBrokerType.ExifTool));
 
                     groupMacthSource.IsMetadataNull = (metadata == null);
-                    groupMacthSource.DateCreated = imageListViewItem.DateCreated;
+                    groupMacthSource.FileDate = imageListViewItem.Date;
                     groupMacthSource.MediaTaken = metadata?.MediaDateTaken;
                     groupMacthSource.LocationName = metadata?.LocationName;
                     groupMacthSource.LocationCity = metadata?.LocationCity;
@@ -155,7 +155,7 @@ namespace PhotoTagsSynchronizer
 
                         GroupMacth groupMacthCheckWith = new GroupMacth();
                         groupMacthCheckWith.IsMetadataNull = (metadata == null);
-                        groupMacthCheckWith.DateCreated = imageListViewItem.DateCreated;
+                        groupMacthCheckWith.FileDate = imageListViewItem.Date;
                         groupMacthCheckWith.MediaTaken = metadata?.MediaDateTaken;
                         groupMacthCheckWith.LocationName = metadata?.LocationName;
                         groupMacthCheckWith.LocationCity = metadata?.LocationCity;
@@ -559,7 +559,7 @@ namespace PhotoTagsSynchronizer
     public class GroupMacth
     {
         public bool IsMetadataNull { get; set; } = true;
-        public DateTime? DateCreated { get; set; } = null;
+        public DateTime? FileDate { get; set; } = null;
         public DateTime? MediaTaken { get; set; } = null;        
         public string LocationName { get; set; } = null;
         public string LocationCity { get; set; } = null;
@@ -592,7 +592,7 @@ namespace PhotoTagsSynchronizer
 
             bool didAnyCheckedDatesMissmatch = false;
             bool didAnyCheckedDatesMatch = false;
-            if (checkFileCreated) if (DateRangeAbs(groupMacthCheckWith.DateCreated, groupMacthSource.DateCreated) > maxDayRange) didAnyCheckedDatesMissmatch = true; else didAnyCheckedDatesMatch = true;
+            if (checkFileCreated) if (DateRangeAbs(groupMacthCheckWith.FileDate, groupMacthSource.FileDate) > maxDayRange) didAnyCheckedDatesMissmatch = true; else didAnyCheckedDatesMatch = true;
             if (checkMediaTaken) if (DateRangeAbs(groupMacthCheckWith.MediaTaken, groupMacthSource.MediaTaken) > maxDayRange) didAnyCheckedDatesMissmatch = true; else didAnyCheckedDatesMatch = true;
             if (checkAllDates && didAnyCheckedDatesMissmatch) isItemsEqual = false;
             if (checkFileCreated || checkMediaTaken) if (!checkAllDates && !didAnyCheckedDatesMatch) isItemsEqual = false;

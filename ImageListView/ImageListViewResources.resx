@@ -202,4 +202,10 @@
   <data name="LocationTimeZone" xml:space="preserve">
     <value>TimeZone</value>
   </data>
+  <data name="FileDate" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="FileSmartDate" xml:space="preserve">
+    <value>SmartDate</value>
+  </data>
 </root>

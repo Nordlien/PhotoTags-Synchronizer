@@ -493,8 +493,15 @@ namespace Manina.Windows.Forms
                     int result = 0;
                     switch (mSortColumn)
                     {
+                        //JTN: MediaFileAttributes
                         case ColumnType.FileName:
                             result = string.Compare(x.Text, y.Text, StringComparison.InvariantCultureIgnoreCase);
+                            break;
+                        case ColumnType.FileDate:
+                            result = DateTime.Compare(x.Date, y.Date);
+                            break;
+                        case ColumnType.FileSmartDate:
+                            result = DateTime.Compare(x.SmartDate, y.SmartDate);
                             break;
                         case ColumnType.FileDateCreated:
                             result = DateTime.Compare(x.DateCreated, y.DateCreated);
