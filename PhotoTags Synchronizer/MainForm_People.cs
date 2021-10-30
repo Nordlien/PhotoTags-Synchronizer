@@ -817,8 +817,9 @@ namespace PhotoTagsSynchronizer
                 {
                     UpdateRegionThumbnail(dataGridView);
                 }
-
+                
                 DataGridViewHandler.Refresh(dataGridView);
+                DataGridViewHandler.SetDataGridViewDirty(dataGridView, e.ColumnIndex);
             }
         }
         #endregion

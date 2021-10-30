@@ -3006,6 +3006,7 @@ namespace DataGridViewGeneric
                     SetCellStatusSwichStatus(dataGridView, cells.ColumnIndex, cells.RowIndex, SwitchStates.On);
                     if (regionStructure != null)
                     {
+                        regionStructure = new RegionStructure(regionStructure);
                         regionStructure.AreaX = region.X;
                         regionStructure.AreaY = region.Y;
                         regionStructure.AreaWidth = region.Width;
@@ -3014,6 +3015,7 @@ namespace DataGridViewGeneric
                         updated = true;
                         regionStructure.Thumbnail = null;
                     }
+                    SetCellValue(dataGridView, cells.ColumnIndex, cells.RowIndex, regionStructure);
                 }
             }
             return updated;
