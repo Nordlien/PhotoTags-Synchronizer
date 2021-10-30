@@ -23,7 +23,11 @@ namespace PhotoTagsSynchronizer
         {
             using (new WaitCursor())
             {
-                
+                for (int index = 0; index < kryptonContextMenuFileSystemColumnSort.Items.Count; index++)
+                {
+                    if (kryptonContextMenuFileSystemColumnSort.Items[index] is KryptonContextMenuRadioButton radioButton) radioButton.Checked = false;
+                }
+
 
                 GlobalData.IsPopulatingFolderSelected = true; //Don't start twice
                 GlobalData.SearchFolder = true;

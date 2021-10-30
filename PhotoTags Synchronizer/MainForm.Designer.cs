@@ -481,6 +481,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupLabelPreviewStatus = new Krypton.Ribbon.KryptonRibbonGroupLabel();
             this.kryptonContextMenuFileSystemColumnSort = new Krypton.Toolkit.KryptonContextMenu();
             this.kryptonContextMenuRadioButtonFileSystemColumnSortFilename = new Krypton.Toolkit.KryptonContextMenuRadioButton();
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortSmarteDate = new Krypton.Toolkit.KryptonContextMenuRadioButton();
             this.kryptonContextMenuRadioButtonFileSystemColumnSortFileDate = new Krypton.Toolkit.KryptonContextMenuRadioButton();
             this.kryptonContextMenuRadioButtonFileSystemColumnSortFileCreateDate = new Krypton.Toolkit.KryptonContextMenuRadioButton();
             this.kryptonContextMenuRadioButtonFileSystemColumnSortFileModifiedDate = new Krypton.Toolkit.KryptonContextMenuRadioButton();
@@ -548,7 +549,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuSeparator1 = new Krypton.Toolkit.KryptonContextMenuSeparator();
             this.kryptonContextMenuItems7 = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonContextMenuSeparator2 = new Krypton.Toolkit.KryptonContextMenuSeparator();
-            this.kryptonContextMenuRadioButtonFileSystemColumnSortSmarteDate = new Krypton.Toolkit.KryptonContextMenuRadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.panelMain)).BeginInit();
             this.panelMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceMain)).BeginInit();
@@ -3877,7 +3877,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonTabSelect,
             this.kryptonRibbonTabTools,
             this.kryptonRibbonTabPreview});
-            this.kryptonRibbonMain.SelectedContext = null;
             this.kryptonRibbonMain.SelectedTab = this.kryptonRibbonTabHome;
             this.kryptonRibbonMain.Size = new System.Drawing.Size(1214, 115);
             this.kryptonRibbonMain.TabIndex = 12;
@@ -5614,6 +5613,11 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuRadioButtonFileSystemColumnSortFilename.ExtraText = "";
             this.kryptonContextMenuRadioButtonFileSystemColumnSortFilename.Text = "Filename";
             // 
+            // kryptonContextMenuRadioButtonFileSystemColumnSortSmarteDate
+            // 
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortSmarteDate.ExtraText = "";
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortSmarteDate.Text = "SmartDate";
+            // 
             // kryptonContextMenuRadioButtonFileSystemColumnSortFileDate
             // 
             this.kryptonContextMenuRadioButtonFileSystemColumnSortFileDate.ExtraText = "";
@@ -5865,11 +5869,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuMonthCalendar5.SelectionEnd = new System.DateTime(2021, 10, 8, 0, 0, 0, 0);
             this.kryptonContextMenuMonthCalendar5.SelectionStart = new System.DateTime(2021, 10, 8, 0, 0, 0, 0);
             this.kryptonContextMenuMonthCalendar5.TodayDate = new System.DateTime(2021, 10, 8, 0, 0, 0, 0);
-            // 
-            // kryptonContextMenuRadioButton8
-            // 
-            this.kryptonContextMenuRadioButtonFileSystemColumnSortSmarteDate.ExtraText = "";
-            this.kryptonContextMenuRadioButtonFileSystemColumnSortSmarteDate.Text = "SmartDate";
             // 
             // MainForm
             // 
