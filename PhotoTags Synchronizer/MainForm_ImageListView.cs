@@ -45,8 +45,6 @@ namespace PhotoTagsSynchronizer
                             e.FileMetadata.FileDateCreated = File.GetCreationTime(e.FileName);
                             e.FileMetadata.FileDateModified = File.GetLastWriteTime(e.FileName);
                             e.FileMetadata.FileSize = new FileInfo(e.FileName).Length;
-                            FileDateTimeReader fileDateTimeReader = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
-
                             DateTime? fileSmartDate = fileDateTimeReader.SmartDateTime(e.FileName, e.FileMetadata.FileDateCreated, e.FileMetadata.FileDateModified);
                             e.FileMetadata.FileSmartDate = (fileSmartDate == null ? DateTime.MinValue : (DateTime)fileSmartDate); 
 
@@ -102,13 +100,10 @@ namespace PhotoTagsSynchronizer
                     Logger.Debug("imageListView1_RetrieveItemMetadataDetails: Metadata found " + e.FileName); 
                     e.FileMetadata = new Utility.ShellImageFileInfo();
 
-                    
-
                     #region Provided by FileInfo
                     e.FileMetadata.FileDateCreated = (DateTime)metadata.FileDateCreated;
                     e.FileMetadata.FileDateModified = (DateTime)metadata.FileDateModified;
 
-                    FileDateTimeReader fileDateTimeReader = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
                     DateTime? fileSmartDate = fileDateTimeReader.SmartDateTime(e.FileName, e.FileMetadata.FileDateCreated, e.FileMetadata.FileDateModified);
                     e.FileMetadata.FileSmartDate = (fileSmartDate == null ? DateTime.MinValue : (DateTime)fileSmartDate);
                     e.FileMetadata.FileSize = (long)metadata.FileSize;

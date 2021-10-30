@@ -28,6 +28,7 @@ using PhotoTagsCommonComponets;
 using Krypton.Toolkit;
 using FileHandeling;
 using Krypton.Navigator;
+using FileDateTime;
 
 namespace PhotoTagsSynchronizer
 {
@@ -104,6 +105,7 @@ namespace PhotoTagsSynchronizer
 
         private List<AutoKeywordConvertion> autoKeywordConvertions = new List<AutoKeywordConvertion>();
 
+        private FileDateTimeReader fileDateTimeReader = null; 
         //Cache level
         private int cacheNumberOfPosters = 10;
         private bool cacheAllMetadatas = false;
@@ -144,6 +146,8 @@ namespace PhotoTagsSynchronizer
             #endregion
 
             #region InitializeComponent - Krypton
+
+            fileDateTimeReader = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
 
             KryptonPalette kryptonPalette = KryptonPaletteHandler.Load(Properties.Settings.Default.KryptonPaletteFullFilename, Properties.Settings.Default.KryptonPaletteName);
             KryptonPaletteHandler.SetPalette(this, kryptonManager1, kryptonPalette, KryptonPaletteHandler.IsSystemPalette, Properties.Settings.Default.KryptonPaletteDropShadow);
