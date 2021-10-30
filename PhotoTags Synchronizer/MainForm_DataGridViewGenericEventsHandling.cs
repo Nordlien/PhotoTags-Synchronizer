@@ -18,6 +18,7 @@ using System.Reflection;
 using MetadataPriorityLibrary;
 using Raccoom.Windows.Forms;
 using FileDateTime;
+using System.Threading;
 
 namespace PhotoTagsSynchronizer
 {
@@ -5412,11 +5413,16 @@ namespace PhotoTagsSynchronizer
             {
                 if (imageListView1.SelectedItems.Count > 0)
                 {
+                    FormSplash.ShowSplashScreen("Populate the 'Advance: Run Command' form...", imageListView1.SelectedItems.Count + 3, false, false);
+
+                    
+
                     string writeMetadataTagsVariable = Properties.Settings.Default.WriteMetadataTags;
                     string writeMetadataKeywordAddVariable = Properties.Settings.Default.WriteMetadataKeywordAdd;
 
                     List<string> allowedFileNameDateTimeFormats = FileDateTime.FileDateTimeReader.ConvertStringOfDatesToList(Properties.Settings.Default.RenameDateFormats);
 
+                    FormSplash.UpdateStatus("Create argument file...");
                     #region Create ArgumentFile file
                     GetDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView);
 
@@ -5425,6 +5431,7 @@ namespace PhotoTagsSynchronizer
                         true, out string exiftoolAgruFileText);
                     #endregion
 
+                    FormSplash.UpdateStatus("Create AutoCorrect file...");
                     #region AutoCorrect
                     AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
                     if (autoCorrect == null) KryptonMessageBox.Show("AutoCorrect: " + Properties.Settings.Default.AutoCorrect);
@@ -5437,6 +5444,7 @@ namespace PhotoTagsSynchronizer
 
                     foreach (ImageListViewItem item in imageListView1.SelectedItems)
                     {
+                        FormSplash.UpdateStatus("Create AutoCorrect file..." + item.Text);
                         Metadata metadataToSave = autoCorrect.FixAndSave(
                             new FileEntry(item.FileFullPath, item.DateModified),
                             databaseAndCacheMetadataExiftool,
@@ -5472,10 +5480,12 @@ namespace PhotoTagsSynchronizer
                         runCommand.AllowedFileNameDateTimeFormats = allowedFileNameDateTimeFormats;
                         runCommand.MetadataPrioity = exiftoolReader.MetadataReadPrioity;
 
+                        FormSplash.UpdateStatus("Populate applications and icons...");
                         runCommand.Init();
+                        FormSplash.CloseForm();
+
                         runCommand.ShowDialog();
                     }
-
 
                 }
             }

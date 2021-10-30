@@ -697,7 +697,7 @@
             this.dataGridViewImages.ShowCellErrors = false;
             this.dataGridViewImages.ShowCellToolTips = false;
             this.dataGridViewImages.ShowEditingIcon = false;
-            this.dataGridViewImages.Size = new System.Drawing.Size(411, 136);
+            this.dataGridViewImages.Size = new System.Drawing.Size(444, 136);
             this.dataGridViewImages.TabIndex = 0;
             this.dataGridViewImages.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewImages_CellEnter);
             this.dataGridViewImages.SelectionChanged += new System.EventHandler(this.dataGridViewImages_SelectionChanged);
@@ -724,7 +724,7 @@
             this.dataGridViewVideos.ShowCellErrors = false;
             this.dataGridViewVideos.ShowCellToolTips = false;
             this.dataGridViewVideos.ShowEditingIcon = false;
-            this.dataGridViewVideos.Size = new System.Drawing.Size(413, 136);
+            this.dataGridViewVideos.Size = new System.Drawing.Size(445, 136);
             this.dataGridViewVideos.TabIndex = 0;
             this.dataGridViewVideos.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewVideos_CellEnter);
             this.dataGridViewVideos.SelectionChanged += new System.EventHandler(this.dataGridViewVideos_SelectionChanged);
@@ -737,13 +737,13 @@
             this.textBoxOpenWithSelectedFiles.Name = "textBoxOpenWithSelectedFiles";
             this.textBoxOpenWithSelectedFiles.ReadOnly = true;
             this.textBoxOpenWithSelectedFiles.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxOpenWithSelectedFiles.Size = new System.Drawing.Size(831, 123);
+            this.textBoxOpenWithSelectedFiles.Size = new System.Drawing.Size(896, 123);
             this.textBoxOpenWithSelectedFiles.TabIndex = 0;
             // 
             // buttonOpenWithOpenWith
             // 
             this.buttonOpenWithOpenWith.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonOpenWithOpenWith.Location = new System.Drawing.Point(696, 522);
+            this.buttonOpenWithOpenWith.Location = new System.Drawing.Point(761, 522);
             this.buttonOpenWithOpenWith.Name = "buttonOpenWithOpenWith";
             this.buttonOpenWithOpenWith.Size = new System.Drawing.Size(140, 30);
             this.buttonOpenWithOpenWith.TabIndex = 1;
@@ -817,6 +817,7 @@
             this.fastColoredTextBoxArgumentFileArgumentFile.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxArgumentFileArgumentFile.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxArgumentFileArgumentFile.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fastColoredTextBoxArgumentFileArgumentFile.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxArgumentFileArgumentFile.IsReplaceMode = false;
             this.fastColoredTextBoxArgumentFileArgumentFile.Location = new System.Drawing.Point(0, 0);
             this.fastColoredTextBoxArgumentFileArgumentFile.Name = "fastColoredTextBoxArgumentFileArgumentFile";
@@ -847,6 +848,7 @@
             this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.IsReplaceMode = false;
             this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Location = new System.Drawing.Point(0, 0);
             this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Name = "fastColoredTextBoxArgumentFileArgumentFileAutoCorrect";
@@ -978,6 +980,7 @@
             this.tableLayoutPanel13.SetColumnSpan(this.fastColoredTextBoxMetadataWriteKeywordAdd, 3);
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxMetadataWriteKeywordAdd.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxMetadataWriteKeywordAdd.IsReplaceMode = false;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Location = new System.Drawing.Point(3, 3);
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Name = "fastColoredTextBoxMetadataWriteKeywordAdd";
@@ -1014,13 +1017,14 @@
             this.fastColoredTextBoxMetadataWriteTags.AutoIndent = false;
             this.fastColoredTextBoxMetadataWriteTags.AutoIndentChars = false;
             this.fastColoredTextBoxMetadataWriteTags.AutoIndentExistingLines = false;
-            this.fastColoredTextBoxMetadataWriteTags.AutoScrollMinSize = new System.Drawing.Size(179, 14);
+            this.fastColoredTextBoxMetadataWriteTags.AutoScrollMinSize = new System.Drawing.Size(154, 14);
             this.fastColoredTextBoxMetadataWriteTags.BackBrush = null;
             this.fastColoredTextBoxMetadataWriteTags.CharHeight = 14;
             this.fastColoredTextBoxMetadataWriteTags.CharWidth = 8;
             this.tableLayoutPanel12.SetColumnSpan(this.fastColoredTextBoxMetadataWriteTags, 3);
             this.fastColoredTextBoxMetadataWriteTags.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxMetadataWriteTags.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxMetadataWriteTags.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxMetadataWriteTags.IsReplaceMode = false;
             this.fastColoredTextBoxMetadataWriteTags.Location = new System.Drawing.Point(3, 3);
             this.fastColoredTextBoxMetadataWriteTags.Name = "fastColoredTextBoxMetadataWriteTags";
@@ -1073,13 +1077,14 @@
             this.fastColoredTextBoxBuildResult.AutoIndent = false;
             this.fastColoredTextBoxBuildResult.AutoIndentChars = false;
             this.fastColoredTextBoxBuildResult.AutoIndentExistingLines = false;
-            this.fastColoredTextBoxBuildResult.AutoScrollMinSize = new System.Drawing.Size(179, 14);
+            this.fastColoredTextBoxBuildResult.AutoScrollMinSize = new System.Drawing.Size(154, 14);
             this.fastColoredTextBoxBuildResult.BackBrush = null;
             this.fastColoredTextBoxBuildResult.CharHeight = 14;
             this.fastColoredTextBoxBuildResult.CharWidth = 8;
             this.fastColoredTextBoxBuildResult.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxBuildResult.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxBuildResult.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fastColoredTextBoxBuildResult.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxBuildResult.IsReplaceMode = false;
             this.fastColoredTextBoxBuildResult.Location = new System.Drawing.Point(0, 0);
             this.fastColoredTextBoxBuildResult.Name = "fastColoredTextBoxBuildResult";
@@ -1182,6 +1187,7 @@
             this.fastColoredTextBoxArgumentFileBuilderSource.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxArgumentFileBuilderSource.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxArgumentFileBuilderSource.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fastColoredTextBoxArgumentFileBuilderSource.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxArgumentFileBuilderSource.IsReplaceMode = false;
             this.fastColoredTextBoxArgumentFileBuilderSource.Location = new System.Drawing.Point(0, 0);
             this.fastColoredTextBoxArgumentFileBuilderSource.Name = "fastColoredTextBoxArgumentFileBuilderSource";
@@ -1214,6 +1220,7 @@
             this.fastColoredTextBoxArgumentFileBuilderResultOrginal.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxArgumentFileBuilderResultOrginal.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxArgumentFileBuilderResultOrginal.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fastColoredTextBoxArgumentFileBuilderResultOrginal.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxArgumentFileBuilderResultOrginal.IsReplaceMode = false;
             this.fastColoredTextBoxArgumentFileBuilderResultOrginal.Location = new System.Drawing.Point(0, 0);
             this.fastColoredTextBoxArgumentFileBuilderResultOrginal.Name = "fastColoredTextBoxArgumentFileBuilderResultOrginal";
@@ -1264,6 +1271,7 @@
             this.fastColoredTextBoxArgumentFileBuilderResultGrid.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxArgumentFileBuilderResultGrid.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxArgumentFileBuilderResultGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fastColoredTextBoxArgumentFileBuilderResultGrid.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxArgumentFileBuilderResultGrid.IsReplaceMode = false;
             this.fastColoredTextBoxArgumentFileBuilderResultGrid.Location = new System.Drawing.Point(0, 0);
             this.fastColoredTextBoxArgumentFileBuilderResultGrid.Name = "fastColoredTextBoxArgumentFileBuilderResultGrid";
@@ -1283,7 +1291,7 @@
             this.kryptonPageOpenWith.LastVisibleSet = true;
             this.kryptonPageOpenWith.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPageOpenWith.Name = "kryptonPageOpenWith";
-            this.kryptonPageOpenWith.Size = new System.Drawing.Size(833, 585);
+            this.kryptonPageOpenWith.Size = new System.Drawing.Size(904, 585);
             this.kryptonPageOpenWith.Text = "Open with...";
             this.kryptonPageOpenWith.ToolTipTitle = "Page ToolTip";
             this.kryptonPageOpenWith.UniqueName = "611bd1c7adf0469ba18a7701aad0c481";
@@ -1292,8 +1300,8 @@
             // 
             this.tableLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
             this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Controls.Add(this.kryptonWorkspaceOpenWith, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.buttonOpenWithOpenWith, 1, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1302,7 +1310,7 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(833, 585);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(904, 585);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
             // kryptonWorkspaceOpenWith
@@ -1327,7 +1335,7 @@
             this.kryptonWorkspaceOpenWith.Root.WorkspaceControl = this.kryptonWorkspaceOpenWith;
             this.kryptonWorkspaceOpenWith.SeparatorStyle = Krypton.Toolkit.SeparatorStyle.HighProfile;
             this.kryptonWorkspaceOpenWith.ShowMaximizeButton = false;
-            this.kryptonWorkspaceOpenWith.Size = new System.Drawing.Size(833, 513);
+            this.kryptonWorkspaceOpenWith.Size = new System.Drawing.Size(898, 513);
             this.kryptonWorkspaceOpenWith.TabIndex = 0;
             this.kryptonWorkspaceOpenWith.TabStop = true;
             // 
@@ -1339,7 +1347,7 @@
             this.kryptonPageOpenWithSelectedFiles.LastVisibleSet = true;
             this.kryptonPageOpenWithSelectedFiles.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPageOpenWithSelectedFiles.Name = "kryptonPageOpenWithSelectedFiles";
-            this.kryptonPageOpenWithSelectedFiles.Size = new System.Drawing.Size(831, 123);
+            this.kryptonPageOpenWithSelectedFiles.Size = new System.Drawing.Size(896, 123);
             this.kryptonPageOpenWithSelectedFiles.Text = "Selected files:";
             this.kryptonPageOpenWithSelectedFiles.ToolTipTitle = "Page ToolTip";
             this.kryptonPageOpenWithSelectedFiles.UniqueName = "13fda977dc5d42c2aa834ee326bed40a";
@@ -1404,7 +1412,7 @@
             this.kryptonPage3.LastVisibleSet = true;
             this.kryptonPage3.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPage3.Name = "kryptonPage3";
-            this.kryptonPage3.Size = new System.Drawing.Size(411, 136);
+            this.kryptonPage3.Size = new System.Drawing.Size(444, 136);
             this.kryptonPage3.Text = "Open Image files with...";
             this.kryptonPage3.ToolTipTitle = "Page ToolTip";
             this.kryptonPage3.UniqueName = "b4c1dd334ff9413bb4c909b65143be84";
@@ -1434,7 +1442,7 @@
             this.kryptonPage32.LastVisibleSet = true;
             this.kryptonPage32.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPage32.Name = "kryptonPage32";
-            this.kryptonPage32.Size = new System.Drawing.Size(411, 163);
+            this.kryptonPage32.Size = new System.Drawing.Size(444, 163);
             this.kryptonPage32.Text = "Open Image with...";
             this.kryptonPage32.ToolTipTitle = "Page ToolTip";
             this.kryptonPage32.UniqueName = "7bf3768a88e345d08ff92417e7c747fe";
@@ -1463,7 +1471,7 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(411, 163);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(444, 163);
             this.tableLayoutPanel2.TabIndex = 35;
             // 
             // label1
@@ -1491,7 +1499,7 @@
             this.textBoxOpenImageWithApplication.Location = new System.Drawing.Point(78, 3);
             this.textBoxOpenImageWithApplication.Name = "textBoxOpenImageWithApplication";
             this.textBoxOpenImageWithApplication.ReadOnly = true;
-            this.textBoxOpenImageWithApplication.Size = new System.Drawing.Size(330, 20);
+            this.textBoxOpenImageWithApplication.Size = new System.Drawing.Size(363, 20);
             this.textBoxOpenImageWithApplication.TabIndex = 27;
             // 
             // textBoxOpenImageWithAppId
@@ -1501,7 +1509,7 @@
             this.textBoxOpenImageWithAppId.Location = new System.Drawing.Point(78, 82);
             this.textBoxOpenImageWithAppId.Name = "textBoxOpenImageWithAppId";
             this.textBoxOpenImageWithAppId.ReadOnly = true;
-            this.textBoxOpenImageWithAppId.Size = new System.Drawing.Size(330, 20);
+            this.textBoxOpenImageWithAppId.Size = new System.Drawing.Size(363, 20);
             this.textBoxOpenImageWithAppId.TabIndex = 30;
             // 
             // textBoxOpenImageWithCommand
@@ -1511,7 +1519,7 @@
             this.textBoxOpenImageWithCommand.Location = new System.Drawing.Point(78, 56);
             this.textBoxOpenImageWithCommand.Name = "textBoxOpenImageWithCommand";
             this.textBoxOpenImageWithCommand.ReadOnly = true;
-            this.textBoxOpenImageWithCommand.Size = new System.Drawing.Size(330, 20);
+            this.textBoxOpenImageWithCommand.Size = new System.Drawing.Size(363, 20);
             this.textBoxOpenImageWithCommand.TabIndex = 29;
             // 
             // label9
@@ -1535,7 +1543,7 @@
             this.comboBoxOpenImageWithVerbs.IntegralHeight = false;
             this.comboBoxOpenImageWithVerbs.Location = new System.Drawing.Point(78, 29);
             this.comboBoxOpenImageWithVerbs.Name = "comboBoxOpenImageWithVerbs";
-            this.comboBoxOpenImageWithVerbs.Size = new System.Drawing.Size(330, 21);
+            this.comboBoxOpenImageWithVerbs.Size = new System.Drawing.Size(363, 21);
             this.comboBoxOpenImageWithVerbs.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxOpenImageWithVerbs.TabIndex = 28;
             // 
@@ -1593,7 +1601,7 @@
             this.kryptonPage6.LastVisibleSet = true;
             this.kryptonPage6.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPage6.Name = "kryptonPage6";
-            this.kryptonPage6.Size = new System.Drawing.Size(413, 136);
+            this.kryptonPage6.Size = new System.Drawing.Size(445, 136);
             this.kryptonPage6.Text = "Open Video files with:";
             this.kryptonPage6.ToolTipTitle = "Page ToolTip";
             this.kryptonPage6.UniqueName = "632cba2c0f0747d19c5a4f1258da4f53";
@@ -1623,7 +1631,7 @@
             this.kryptonPage34.LastVisibleSet = true;
             this.kryptonPage34.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPage34.Name = "kryptonPage34";
-            this.kryptonPage34.Size = new System.Drawing.Size(413, 163);
+            this.kryptonPage34.Size = new System.Drawing.Size(445, 163);
             this.kryptonPage34.Text = "Open Video with...";
             this.kryptonPage34.ToolTipTitle = "Page ToolTip";
             this.kryptonPage34.UniqueName = "0fca3f389751410b878b2a285e8c24aa";
@@ -1652,7 +1660,7 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(413, 163);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(445, 163);
             this.tableLayoutPanel3.TabIndex = 44;
             // 
             // label2
@@ -1680,7 +1688,7 @@
             this.textBoxOpenVideoWithApplication.Location = new System.Drawing.Point(78, 3);
             this.textBoxOpenVideoWithApplication.Name = "textBoxOpenVideoWithApplication";
             this.textBoxOpenVideoWithApplication.ReadOnly = true;
-            this.textBoxOpenVideoWithApplication.Size = new System.Drawing.Size(332, 20);
+            this.textBoxOpenVideoWithApplication.Size = new System.Drawing.Size(364, 20);
             this.textBoxOpenVideoWithApplication.TabIndex = 35;
             // 
             // textBoxOpenVideoWithAppId
@@ -1690,7 +1698,7 @@
             this.textBoxOpenVideoWithAppId.Location = new System.Drawing.Point(78, 82);
             this.textBoxOpenVideoWithAppId.Name = "textBoxOpenVideoWithAppId";
             this.textBoxOpenVideoWithAppId.ReadOnly = true;
-            this.textBoxOpenVideoWithAppId.Size = new System.Drawing.Size(332, 20);
+            this.textBoxOpenVideoWithAppId.Size = new System.Drawing.Size(364, 20);
             this.textBoxOpenVideoWithAppId.TabIndex = 38;
             // 
             // label10
@@ -1722,7 +1730,7 @@
             this.comboBoxOpenVideoWithVerbs.IntegralHeight = false;
             this.comboBoxOpenVideoWithVerbs.Location = new System.Drawing.Point(78, 29);
             this.comboBoxOpenVideoWithVerbs.Name = "comboBoxOpenVideoWithVerbs";
-            this.comboBoxOpenVideoWithVerbs.Size = new System.Drawing.Size(332, 21);
+            this.comboBoxOpenVideoWithVerbs.Size = new System.Drawing.Size(364, 21);
             this.comboBoxOpenVideoWithVerbs.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxOpenVideoWithVerbs.TabIndex = 36;
             // 
@@ -1733,7 +1741,7 @@
             this.textBoxOpenVideoWithCommand.Location = new System.Drawing.Point(78, 56);
             this.textBoxOpenVideoWithCommand.Name = "textBoxOpenVideoWithCommand";
             this.textBoxOpenVideoWithCommand.ReadOnly = true;
-            this.textBoxOpenVideoWithCommand.Size = new System.Drawing.Size(332, 20);
+            this.textBoxOpenVideoWithCommand.Size = new System.Drawing.Size(364, 20);
             this.textBoxOpenVideoWithCommand.TabIndex = 37;
             // 
             // label12
@@ -2503,7 +2511,7 @@
             this.kryptonPageRunArgumentFile,
             this.kryptonPageBuilder});
             this.kryptonNavigatorRun.SelectedIndex = 0;
-            this.kryptonNavigatorRun.Size = new System.Drawing.Size(835, 612);
+            this.kryptonNavigatorRun.Size = new System.Drawing.Size(906, 612);
             this.kryptonNavigatorRun.TabIndex = 1;
             this.kryptonNavigatorRun.Text = "Run";
             // 
@@ -2836,7 +2844,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(835, 613);
+            this.ClientSize = new System.Drawing.Size(906, 613);
             this.Controls.Add(this.kryptonNavigatorRun);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(851, 652);
