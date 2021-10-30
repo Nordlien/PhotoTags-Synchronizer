@@ -32,7 +32,9 @@ namespace PhotoTagsSynchronizer
         public const string headerLocationGPS = "Digitized on location";
         public const string headerMetadataDates = "Windows filesystem";
         public const string headerDatesTimeInFilename = "Scraping filename";
-        
+
+        public const string tagFileDate = "File Date";
+        public const string tagFileSmartDate = "File Smart Date";
         public const string tagFileDateCreated = "File Date Created";
         public const string tagFileDateModified = "File Date Modified";
         public const string tagFileLastAccessed = "File Last Accessed";
@@ -239,6 +241,9 @@ namespace PhotoTagsSynchronizer
 
                 //Metadata
                 DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates), false);
+                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates, tagFileDate), TimeZoneLibrary.ToStringW3CDTF(metadata?.FileDate), true, false);
+                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates, tagFileSmartDate), TimeZoneLibrary.ToStringW3CDTF(metadata?.FileSmartDate(Properties.Settings.Default.RenameDateFormats)), true, false);
+
                 DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates, tagFileDateCreated), TimeZoneLibrary.ToStringW3CDTF(metadata?.FileDateCreated), true, false);
                 DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates, tagFileDateModified), TimeZoneLibrary.ToStringW3CDTF(metadata?.FileDateModified), true, false);
                 DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates, tagFileLastAccessed), TimeZoneLibrary.ToStringW3CDTF(metadata?.FileDateAccessed), true, false);

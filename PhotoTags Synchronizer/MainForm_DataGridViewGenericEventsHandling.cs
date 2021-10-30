@@ -17,6 +17,7 @@ using ImageAndMovieFileExtentions;
 using System.Reflection;
 using MetadataPriorityLibrary;
 using Raccoom.Windows.Forms;
+using FileDateTime;
 
 namespace PhotoTagsSynchronizer
 {
