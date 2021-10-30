@@ -90,13 +90,13 @@ namespace PhotoTagsSynchronizer
             newFilename = newFilename.Replace("%Media_mm%", (metadata == null || metadata.MediaDateTaken == null) ? "" : ((DateTime)metadata.MediaDateTaken).ToString("mm"));
             newFilename = newFilename.Replace("%Media_ss%", (metadata == null || metadata.MediaDateTaken == null) ? "" : ((DateTime)metadata.MediaDateTaken).ToString("ss"));
 
-            newFilename = newFilename.Replace("%File_DateTime%", (metadata == null || metadata.FileDateCreated == null) ? "" : ((DateTime)metadata.FileDateCreated).ToString("yyyy-MM-dd HH-mm-ss"));
-            newFilename = newFilename.Replace("%File_yyyy%", (metadata == null || metadata.FileDateCreated == null) ? "" : ((DateTime)metadata.FileDateCreated).ToString("yyyy"));
-            newFilename = newFilename.Replace("%File_MM%", (metadata == null || metadata.FileDateCreated == null) ? "" : ((DateTime)metadata.FileDateCreated).ToString("MM"));
-            newFilename = newFilename.Replace("%File_dd%", (metadata == null || metadata.FileDateCreated == null) ? "" : ((DateTime)metadata.FileDateCreated).ToString("dd"));
-            newFilename = newFilename.Replace("%File_HH%", (metadata == null || metadata.FileDateCreated == null) ? "" : ((DateTime)metadata.FileDateCreated).ToString("HH"));
-            newFilename = newFilename.Replace("%File_mm%", (metadata == null || metadata.FileDateCreated == null) ? "" : ((DateTime)metadata.FileDateCreated).ToString("mm"));
-            newFilename = newFilename.Replace("%File_ss%", (metadata == null || metadata.FileDateCreated == null) ? "" : ((DateTime)metadata.FileDateCreated).ToString("ss"));
+            newFilename = newFilename.Replace("%File_DateTime%", (metadata == null || metadata.FileDate == null) ? "" : ((DateTime)metadata.FileDate).ToString("yyyy-MM-dd HH-mm-ss"));
+            newFilename = newFilename.Replace("%File_yyyy%", (metadata == null || metadata.FileDate == null) ? "" : ((DateTime)metadata.FileDate).ToString("yyyy"));
+            newFilename = newFilename.Replace("%File_MM%", (metadata == null || metadata.FileDate == null) ? "" : ((DateTime)metadata.FileDate).ToString("MM"));
+            newFilename = newFilename.Replace("%File_dd%", (metadata == null || metadata.FileDate == null) ? "" : ((DateTime)metadata.FileDate).ToString("dd"));
+            newFilename = newFilename.Replace("%File_HH%", (metadata == null || metadata.FileDate == null) ? "" : ((DateTime)metadata.FileDate).ToString("HH"));
+            newFilename = newFilename.Replace("%File_mm%", (metadata == null || metadata.FileDate == null) ? "" : ((DateTime)metadata.FileDate).ToString("mm"));
+            newFilename = newFilename.Replace("%File_ss%", (metadata == null || metadata.FileDate == null) ? "" : ((DateTime)metadata.FileDate).ToString("ss"));
 
             newFilename = newFilename.Replace("%Now_DateTime%", DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss"));
             newFilename = newFilename.Replace("%Now_yyyy%", DateTime.Now.ToString("yyyy"));
