@@ -405,6 +405,15 @@ namespace PhotoTagsSynchronizer
             {
                 return line;
             }
+
+            public override int GetHashCode()
+            {
+                int hashCode = -760939623;
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(line);
+                hashCode = hashCode * -1521134295 + EqualityComparer<Lines>.Default.GetHashCode(subLines);
+                hashCode = hashCode * -1521134295 + state.GetHashCode();
+                return hashCode;
+            }
         }
 
         /// <summary>
