@@ -32,11 +32,13 @@ namespace PhotoTagsSynchronizer
         public const string headerMicrosoftPhotos = "Microsoft Photos";
         public const string headerWindowsLivePhotoGallery = "Windows Live Photo Gallery";
         public const string headerGoogleLocations = "Google Locations";
+        public const string headerNearByLocations = "Near by photos";
         public const string headerWebScraping = "WebScraper";
         public const string headerNominatim = "Nominatim";        
         public const string headerBrowser = "Browser map";
 
         public const string tagCoordinates = "Coordinates";
+        public const string tagCoordinatesNearByPhotos = "Coordinates";
         public const string tagCameraMakeModel = "Camera make/model";
         public const string tagCameraOwner = "Camera owner";
         public const string tagLocationName = "Location name";
@@ -265,8 +267,27 @@ namespace PhotoTagsSynchronizer
                     AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerGoogleLocations, tagCameraOwner), "Select Camera owner/locations", true);
                 }
 
+                
+
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerGoogleLocations, tagCoordinates), metadata?.LocationCoordinate, true);
                 PopulateGoogleHistoryCoordinate(dataGridView, columnIndex, TimeZoneShift, AccepedIntervalSecound);
+
+                Metadata metadataLocationBasedOnBestGuess = DatabaseGoogleLocationHistory.FindLocationBasedOtherMediaFiles(
+                    metadata?.LocationDateTime,
+                    metadata?.MediaDateTaken,
+                    metadata?.FileDate, //UseSmartDate ? metadata?.FileSmartDate(allowedDateFormats) : metadata?.FileDate,
+                    AccepedIntervalSecound);
+
+                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNearByLocations));
+                if (metadataLocationBasedOnBestGuess != null && metadataLocationBasedOnBestGuess.LocationLatitude != null && metadataLocationBasedOnBestGuess.LocationLongitude != null)
+                {
+                    AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNearByLocations, tagCoordinatesNearByPhotos), 
+                        metadataLocationBasedOnBestGuess.LocationCoordinate, true);
+                } else
+                {
+                    AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNearByLocations, tagCoordinatesNearByPhotos),
+                        "Not found", true);
+                }
 
                 //Nominatim.API
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNominatim));
