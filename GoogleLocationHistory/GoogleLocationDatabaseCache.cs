@@ -77,44 +77,54 @@ namespace GoogleLocationHistory
         }
         #endregion
 
-        public Metadata FindLocationBasedOtherMediaFiles(DateTime? locationDateTime, DateTime? mediaDateTaken, DateTime? fileDateCreated, int acceptDiffrentSecound)
+        public Metadata FindLocationBasedOtherMediaFiles(DateTime? locationDateTime, DateTime? mediaDateTaken, DateTime? fileDate, int acceptDiffrentSecound)
         {
-            if (locationDateTime == null && mediaDateTaken == null && fileDateCreated == null) return null;
+            if (locationDateTime == null && mediaDateTaken == null && fileDate == null) return null;
 
             string sqlCommand = "";
 
             if (locationDateTime != null)
                 sqlCommand +=
-                "(SELECT ABS(LocationDateTime - @LocationDateTime) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
+                "(SELECT 1 AS Priority, ABS(LocationDateTime - @LocationDateTime) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
                 "WHERE LocationDateTime > @LocationDateTime AND LocationLatitude IS NOT NULL AND LocationLongitude IS NOT NULL " +
                 "ORDER BY LocationDateTime LIMIT 1) "+
                 "UNION SELECT * FROM " +
-                "(SELECT ABS(LocationDateTime - @LocationDateTime) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
+                "(SELECT 1 AS Priority, ABS(LocationDateTime - @LocationDateTime) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
                 "WHERE LocationDateTime < @LocationDateTime AND LocationLatitude IS NOT NULL AND LocationLongitude IS NOT NULL " +
                 "ORDER BY LocationDateTime DESC LIMIT 1) ";
             
             if (mediaDateTaken != null) sqlCommand += 
                 (sqlCommand == "" ? "" : "UNION SELECT * FROM ") +
-                "(SELECT ABS(MediaDateTaken - @MediaDateTaken) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
+                "(SELECT 2 AS Priority, ABS(MediaDateTaken - @MediaDateTaken) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
                 "WHERE MediaDateTaken > @MediaDateTaken AND LocationLatitude IS NOT NULL AND LocationLongitude IS NOT NULL " +
                 "ORDER BY MediaDateTaken LIMIT 1 ) " +
                 "UNION SELECT * FROM " +
-                "(SELECT ABS(MediaDateTaken - @MediaDateTaken) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
+                "(SELECT 2 AS Priority, ABS(MediaDateTaken - @MediaDateTaken) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
                 "WHERE MediaDateTaken < @MediaDateTaken AND LocationLatitude IS NOT NULL AND LocationLongitude IS NOT NULL " +
                 "ORDER BY MediaDateTaken DESC LIMIT 1) ";
 
-            if (fileDateCreated != null) sqlCommand +=
+            if (fileDate != null) sqlCommand +=
                 (sqlCommand == "" ? "" : "UNION SELECT * FROM ") +
-                "(SELECT ABS(FileDateCreated - @FileDateCreated) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
+                "(SELECT 3 AS Priority, ABS( min(FileDateModified, FileDateCreated) - @FileDateCreated) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
                 "WHERE FileDateCreated > @FileDateCreated AND LocationLatitude IS NOT NULL AND LocationLongitude IS NOT NULL " +
                 "ORDER BY FileDateCreated LIMIT 1) " +
                 "UNION SELECT * FROM " +
-                "(SELECT ABS(FileDateCreated - @FileDateCreated) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
+                "(SELECT 3 AS Priority, ABS( min(FileDateModified, FileDateCreated) - @FileDateCreated) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
                 "WHERE FileDateCreated < @FileDateCreated AND LocationLatitude IS NOT NULL AND LocationLongitude IS NOT NULL " +
                 "ORDER BY FileDateCreated DESC LIMIT 1) ";
+
+            //if (fileDateCreated != null) sqlCommand +=
+            //    (sqlCommand == "" ? "" : "UNION SELECT * FROM ") +
+            //    "(SELECT SELECT 4 AS Priority, ABS(FileDateCreated - @FileDateCreated) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
+            //    "WHERE FileDateCreated > @FileDateCreated AND LocationLatitude IS NOT NULL AND LocationLongitude IS NOT NULL " +
+            //    "ORDER BY FileDateCreated LIMIT 1) " +
+            //    "UNION SELECT * FROM " +
+            //    "(SELECT SELECT 4 AS Priority, ABS(FileDateCreated - @FileDateCreated) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
+            //    "WHERE FileDateCreated < @FileDateCreated AND LocationLatitude IS NOT NULL AND LocationLongitude IS NOT NULL " +
+            //    "ORDER BY FileDateCreated DESC LIMIT 1) ";
             
             sqlCommand = "SELECT * FROM " + sqlCommand +
-                "ORDER BY TimeDistance " +
+                "ORDER BY Priority, TimeDistance " +
                 "LIMIT 1";
 
             Metadata metadata = null;
@@ -123,7 +133,8 @@ namespace GoogleLocationHistory
                 //commandDatabase.Prepare();
                 if (locationDateTime != null) commandDatabase.Parameters.AddWithValue("@LocationDateTime", dbTools.ConvertFromDateTimeToDBVal(locationDateTime));
                 if (mediaDateTaken != null) commandDatabase.Parameters.AddWithValue("@MediaDateTaken", dbTools.ConvertFromDateTimeToDBVal(mediaDateTaken));
-                if (fileDateCreated != null) commandDatabase.Parameters.AddWithValue("@FileDateCreated", dbTools.ConvertFromDateTimeToDBVal(fileDateCreated));
+                if (fileDate != null) commandDatabase.Parameters.AddWithValue("@FileDateCreated", dbTools.ConvertFromDateTimeToDBVal(fileDate));
+                //if (fileDateCreated != null) commandDatabase.Parameters.AddWithValue("@FileDateCreated", dbTools.ConvertFromDateTimeToDBVal(fileDateCreated));
 
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {

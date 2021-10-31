@@ -105,6 +105,7 @@ namespace PhotoTagsSynchronizer
         #region WebBrowser - event handling
         delegate void SetTextBoxURLCallback(string text);
 
+        #region textBoxBrowserURL_KeyPress
         private void textBoxBrowserURL_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
@@ -113,7 +114,9 @@ namespace PhotoTagsSynchronizer
                 browser.Load(textBoxBrowserURL.Text);
             }
         }
+        #endregion
 
+        #region PopulateDataGridViewMapWithBrowserCoordinate
         private void PopulateDataGridViewMapWithBrowserCoordinate(DataGridView dataGridView, string text)
         {
             if (dataGridView.CurrentCell == null && dataGridView.SelectedCells.Count < 1) return;
@@ -133,14 +136,16 @@ namespace PhotoTagsSynchronizer
 
             }
         }
+        #endregion
 
-        
-
+        #region OnBrowserAddressChanged
         private void OnBrowserAddressChanged(object sender, AddressChangedEventArgs e)
         {
             SetTextBoxBrowserURLText(e.Address);
         }
+        #endregion
 
+        #region SetTextBoxBrowserURLText
         private void SetTextBoxBrowserURLText(string text)
         {
             // InvokeRequired required compares the thread ID of the
@@ -166,11 +171,14 @@ namespace PhotoTagsSynchronizer
                 //throw; Windows closing, this will cause error. But ok...
             }
         }
-        
+        #endregion
+
+        #region GetZoomLevel()
         private int GetZoomLevel()
         {
             return comboBoxMapZoomLevel.SelectedIndex + 1;
         }
+        #endregion
 
         LocationCoordinate locationCoordinateRememberForZooming = null;
         #region UpdateBrowserMap - Only when one cell selected
@@ -230,11 +238,13 @@ namespace PhotoTagsSynchronizer
         {
             GetLocationAndShow(MapProvider.GoogleMap);
         }
-        #endregion 
+        #endregion
 
         #endregion
 
         #region UpdateGoodleHistoryCoordinate after Select new TimeZoneShift or AccepedIntervalSecound
+
+        #region GetAccepedIntervalSecound()
         private int GetAccepedIntervalSecound()
         {
             int accepedIntervalSecound;
@@ -267,12 +277,16 @@ namespace PhotoTagsSynchronizer
             }
             return accepedIntervalSecound;
         }
+        #endregion
 
+        #region GetTimeZoneShift()
         private int GetTimeZoneShift()
         {
             return comboBoxGoogleTimeZoneShift.SelectedIndex - 12;
         }
+        #endregion
 
+        #region UpdateGoodleHistoryCoordinate
         private void UpdateGoodleHistoryCoordinate()
         {
             DataGridView dataGridView = dataGridViewMap;
@@ -288,6 +302,8 @@ namespace PhotoTagsSynchronizer
             }
             
         }
+        #endregion
+
         #endregion
 
         #region User control handling

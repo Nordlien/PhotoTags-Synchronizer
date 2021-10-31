@@ -5453,7 +5453,9 @@ namespace PhotoTagsSynchronizer
                             databaseAndCahceCameraOwner,
                             databaseLocationAddress,
                             databaseGoogleLocationHistory,
-                            locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted, autoKeywordConvertions);
+                            locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted, 
+                            autoKeywordConvertions,
+                            Properties.Settings.Default.RenameDateFormats);
 
                         if (metadataToSave != null) metadataListFromDataGridViewAutoCorrect.Add(new Metadata(metadataToSave));
                         else
@@ -5573,7 +5575,9 @@ namespace PhotoTagsSynchronizer
                         databaseAndCahceCameraOwner,
                         databaseLocationAddress,
                         databaseGoogleLocationHistory,
-                        locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted, autoKeywordConvertions);
+                        locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted, 
+                        autoKeywordConvertions,
+                        Properties.Settings.Default.RenameDateFormats);
                     if (metadataToSave != null)
                     {
                         AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
@@ -5618,7 +5622,8 @@ namespace PhotoTagsSynchronizer
                         databaseAndCahceCameraOwner,
                         databaseLocationAddress,
                         databaseGoogleLocationHistory, locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
-                        autoKeywordConvertions);
+                        autoKeywordConvertions,
+                        Properties.Settings.Default.RenameDateFormats);
                     if (metadataToSave != null)
                     {
                         AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
@@ -5732,7 +5737,9 @@ namespace PhotoTagsSynchronizer
                             databaseAndCahceCameraOwner,
                             databaseLocationAddress,
                             databaseGoogleLocationHistory,
-                            locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted, autoKeywordConvertions);
+                            locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted, 
+                            autoKeywordConvertions,
+                            Properties.Settings.Default.RenameDateFormats);
 
                         if (metadataToSave != null)
                         {

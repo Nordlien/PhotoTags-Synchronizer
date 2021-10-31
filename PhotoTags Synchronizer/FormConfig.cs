@@ -731,6 +731,12 @@ namespace PhotoTagsSynchronizer
                         listViewItem.Tag = DateTimeSources.DateTaken;
                         imageListViewOrder.Items.Add(listViewItem);
                         break;
+                    case DateTimeSources.SmartDate:
+                        listViewItem = new ListViewItem();
+                        listViewItem.Text = "Smart Date";
+                        listViewItem.Tag = DateTimeSources.SmartDate;
+                        imageListViewOrder.Items.Add(listViewItem);
+                        break;
                     case DateTimeSources.GPSDateAndTime:
                         listViewItem = new ListViewItem();
                         listViewItem.Text = "GPS UTC DateTime";
@@ -747,6 +753,18 @@ namespace PhotoTagsSynchronizer
                         listViewItem = new ListViewItem();
                         listViewItem.Text = "Last Date&Time found in Filename";
                         listViewItem.Tag = DateTimeSources.LastDateFoundInFilename;
+                        imageListViewOrder.Items.Add(listViewItem);
+                        break;
+                    case DateTimeSources.FileCreateDate:
+                        listViewItem = new ListViewItem();
+                        listViewItem.Text = "File created";
+                        listViewItem.Tag = DateTimeSources.FileCreateDate;
+                        imageListViewOrder.Items.Add(listViewItem);
+                        break;
+                    case DateTimeSources.FileModified:
+                        listViewItem = new ListViewItem();
+                        listViewItem.Text = "File modified";
+                        listViewItem.Tag = DateTimeSources.FileModified;
                         imageListViewOrder.Items.Add(listViewItem);
                         break;
                 }
@@ -837,6 +855,7 @@ namespace PhotoTagsSynchronizer
             checkBoxGPSUpdateLocation.Checked = autoCorrect.UpdateGPSLocation;
             checkBoxGPSUpdateDateTime.Checked = autoCorrect.UpdateGPSDateTime;
             checkBoxGPSUpdateLocationNearByMedia.Checked = autoCorrect.UpdateGPSLocationNearByMedia;
+            kryptonCheckBoxAutoCorrectUseSmartDate.Checked = autoCorrect.UseSmartDate;
 
             numericUpDownLocationGuessInterval.Value = autoCorrect.LocationTimeZoneGuessHours;
             numericUpDownLocationAccurateInterval.Value = autoCorrect.LocationFindMinutes;
@@ -984,6 +1003,7 @@ namespace PhotoTagsSynchronizer
             autoCorrect.UpdateGPSLocation = checkBoxGPSUpdateLocation.Checked;
             autoCorrect.UpdateGPSDateTime = checkBoxGPSUpdateDateTime.Checked;
             autoCorrect.UpdateGPSLocationNearByMedia = checkBoxGPSUpdateLocationNearByMedia.Checked;
+            autoCorrect.UseSmartDate = kryptonCheckBoxAutoCorrectUseSmartDate.Checked;
             autoCorrect.LocationTimeZoneGuessHours = (int)numericUpDownLocationGuessInterval.Value;
             autoCorrect.LocationFindMinutes = (int)numericUpDownLocationAccurateInterval.Value;
             autoCorrect.LocationFindMinutesNearByMedia = (int)numericUpDownLocationAccurateIntervalNearByMediaFile.Value;
