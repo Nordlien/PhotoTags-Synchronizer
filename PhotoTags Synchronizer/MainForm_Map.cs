@@ -290,15 +290,14 @@ namespace PhotoTagsSynchronizer
         private void UpdateGoodleHistoryCoordinate()
         {
             DataGridView dataGridView = dataGridViewMap;
-
+            
             DataGridViewHandlerMap.TimeZoneShift = GetTimeZoneShift();
             DataGridViewHandlerMap.AccepedIntervalSecound = GetAccepedIntervalSecound();
 
+            
             for (int columnIndex = 0; columnIndex < DataGridViewHandler.GetColumnCount(dataGridView); columnIndex++)
             {
-                DataGridViewHandlerMap.PopulateGoogleHistoryCoordinate(dataGridView, columnIndex,
-                    DataGridViewHandlerMap.TimeZoneShift,
-                    DataGridViewHandlerMap.AccepedIntervalSecound);
+                DataGridViewHandlerMap.PopulateGoogleHistoryCoordinateAndNearby(dataGridView, dataGridViewDate, columnIndex, GetTimeZoneShift(), GetAccepedIntervalSecound());
             }
             
         }
@@ -467,7 +466,7 @@ namespace PhotoTagsSynchronizer
 
                                 DataGridViewHandlerMap.PopulateCameraOwner(dataGridView, columnIndex, gridViewGenericColumnCheck.ReadWriteAccess,
                                     gridViewGenericColumnCheck.Metadata.CameraMake, gridViewGenericColumnCheck.Metadata.CameraModel);
-                                DataGridViewHandlerMap.PopulateGoogleHistoryCoordinate(dataGridView, columnIndex, GetTimeZoneShift(), GetAccepedIntervalSecound());
+                                DataGridViewHandlerMap.PopulateGoogleHistoryCoordinateAndNearby(dataGridView, dataGridViewDate, columnIndex, GetTimeZoneShift(), GetAccepedIntervalSecound());
                             }
                         }
                     }

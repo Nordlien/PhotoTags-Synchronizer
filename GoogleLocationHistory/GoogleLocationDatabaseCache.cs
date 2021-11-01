@@ -15,6 +15,7 @@ using System;
 using System.IO;
 using MetadataLibrary;
 using SqliteDatabase;
+using System.Collections.Generic;
 
 namespace GoogleLocationHistory
 {
@@ -77,7 +78,16 @@ namespace GoogleLocationHistory
         }
         #endregion
 
-        public Metadata FindLocationBasedOtherMediaFiles(DateTime? locationDateTime, DateTime? mediaDateTaken, DateTime? fileDate, int acceptDiffrentSecound)
+        public Metadata FindBestLocationBasedOtherMediaFiles(DateTime? locationDateTime, DateTime? mediaDateTaken, DateTime? fileDate, int acceptDiffrentSecound)
+        {
+            List<Metadata> metadatas = FindLocationBasedOtherMediaFiles(locationDateTime, mediaDateTaken, fileDate, acceptDiffrentSecound);
+            if (metadatas.Count < 1)
+                return null;
+            else 
+                return metadatas[0];
+        }
+
+        public List<Metadata> FindLocationBasedOtherMediaFiles(DateTime? locationDateTime, DateTime? mediaDateTaken, DateTime? fileDate, int acceptDiffrentSecound)
         {
             if (locationDateTime == null && mediaDateTaken == null && fileDate == null) return null;
 
@@ -85,49 +95,65 @@ namespace GoogleLocationHistory
 
             if (locationDateTime != null)
                 sqlCommand +=
-                "(SELECT 1 AS Priority, ABS(LocationDateTime - @LocationDateTime) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
-                "WHERE LocationDateTime > @LocationDateTime AND LocationLatitude IS NOT NULL AND LocationLongitude IS NOT NULL " +
-                "ORDER BY LocationDateTime LIMIT 1) "+
+                "(SELECT 1 AS Priority, LocationDateTime AS Date, ABS(LocationDateTime - @LocationDateTime) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
+                "WHERE LocationDateTime >= @LocationDateTime " +
+                "AND  LocationLatitude != 0 AND LocationLongitude != 0 " +
+                "AND (LocationLatitude IS NOT NULL OR LocationLongitude IS NOT NULL) " +
+                "ORDER BY LocationDateTime LIMIT 3) " +
                 "UNION SELECT * FROM " +
-                "(SELECT 1 AS Priority, ABS(LocationDateTime - @LocationDateTime) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
-                "WHERE LocationDateTime < @LocationDateTime AND LocationLatitude IS NOT NULL AND LocationLongitude IS NOT NULL " +
-                "ORDER BY LocationDateTime DESC LIMIT 1) ";
+                "(SELECT 1 AS Priority, LocationDateTime AS Date, ABS(LocationDateTime - @LocationDateTime) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
+                "WHERE LocationDateTime <= @LocationDateTime " +
+                "AND  LocationLatitude != 0 AND LocationLongitude != 0 " +
+                "AND (LocationLatitude IS NOT NULL OR LocationLongitude IS NOT NULL) " +
+                "ORDER BY LocationDateTime DESC LIMIT 3) ";
             
             if (mediaDateTaken != null) sqlCommand += 
                 (sqlCommand == "" ? "" : "UNION SELECT * FROM ") +
-                "(SELECT 2 AS Priority, ABS(MediaDateTaken - @MediaDateTaken) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
-                "WHERE MediaDateTaken > @MediaDateTaken AND LocationLatitude IS NOT NULL AND LocationLongitude IS NOT NULL " +
-                "ORDER BY MediaDateTaken LIMIT 1 ) " +
+                "(SELECT 2 AS Priority, MediaDateTaken AS Date, ABS(MediaDateTaken - @MediaDateTaken) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
+                "WHERE MediaDateTaken >= @MediaDateTaken " +
+                "AND  LocationLatitude != 0 AND LocationLongitude != 0 " +
+                "AND (LocationLatitude IS NOT NULL OR LocationLongitude IS NOT NULL) " +
+                "ORDER BY MediaDateTaken LIMIT 3) " +
                 "UNION SELECT * FROM " +
-                "(SELECT 2 AS Priority, ABS(MediaDateTaken - @MediaDateTaken) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
-                "WHERE MediaDateTaken < @MediaDateTaken AND LocationLatitude IS NOT NULL AND LocationLongitude IS NOT NULL " +
-                "ORDER BY MediaDateTaken DESC LIMIT 1) ";
+                "(SELECT 2 AS Priority, MediaDateTaken AS Date, ABS(MediaDateTaken - @MediaDateTaken) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
+                "WHERE MediaDateTaken <= @MediaDateTaken " +
+                "AND  LocationLatitude != 0 AND LocationLongitude != 0 " +
+                "AND (LocationLatitude IS NOT NULL OR LocationLongitude IS NOT NULL) " +
+                "ORDER BY MediaDateTaken DESC LIMIT 3) ";
 
             if (fileDate != null) sqlCommand +=
                 (sqlCommand == "" ? "" : "UNION SELECT * FROM ") +
-                "(SELECT 3 AS Priority, ABS( min(FileDateModified, FileDateCreated) - @FileDateCreated) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
-                "WHERE FileDateCreated > @FileDateCreated AND LocationLatitude IS NOT NULL AND LocationLongitude IS NOT NULL " +
-                "ORDER BY FileDateCreated LIMIT 1) " +
+                "(SELECT 3 AS Priority, MIN(FileDateModified, FileDateCreated) AS Date, ABS( MIN(FileDateModified, FileDateCreated) - @FileDateCreated) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
+                "WHERE MIN(FileDateModified, FileDateCreated) >= @FileDateCreated " +
+                "AND  LocationLatitude != 0 AND LocationLongitude != 0 " +
+                "AND (LocationLatitude IS NOT NULL OR LocationLongitude IS NOT NULL) " +
+                "ORDER BY FileDateCreated LIMIT 3) " +
                 "UNION SELECT * FROM " +
-                "(SELECT 3 AS Priority, ABS( min(FileDateModified, FileDateCreated) - @FileDateCreated) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
-                "WHERE FileDateCreated < @FileDateCreated AND LocationLatitude IS NOT NULL AND LocationLongitude IS NOT NULL " +
-                "ORDER BY FileDateCreated DESC LIMIT 1) ";
+                "(SELECT 3 AS Priority, MIN(FileDateModified, FileDateCreated) AS Date, ABS( MIN(FileDateModified, FileDateCreated) - @FileDateCreated) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
+                "WHERE MIN(FileDateModified, FileDateCreated) <= @FileDateCreated " +
+                "AND  LocationLatitude != 0 AND LocationLongitude != 0 " +
+                "AND (LocationLatitude IS NOT NULL OR LocationLongitude IS NOT NULL) " +
+                "ORDER BY FileDateCreated DESC LIMIT 3) ";
 
             //if (fileDateCreated != null) sqlCommand +=
             //    (sqlCommand == "" ? "" : "UNION SELECT * FROM ") +
             //    "(SELECT SELECT 4 AS Priority, ABS(FileDateCreated - @FileDateCreated) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
-            //    "WHERE FileDateCreated > @FileDateCreated AND LocationLatitude IS NOT NULL AND LocationLongitude IS NOT NULL " +
+            //    "WHERE FileDateCreated > @FileDateCreated " +
+            //    "AND  LocationLatitude != 0 AND LocationLongitude != 0 " +
+            //   "AND (LocationLatitude IS NOT NULL OR LocationLongitude IS NOT NULL) " +
             //    "ORDER BY FileDateCreated LIMIT 1) " +
             //    "UNION SELECT * FROM " +
             //    "(SELECT SELECT 4 AS Priority, ABS(FileDateCreated - @FileDateCreated) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
-            //    "WHERE FileDateCreated < @FileDateCreated AND LocationLatitude IS NOT NULL AND LocationLongitude IS NOT NULL " +
+            //    "WHERE FileDateCreated < @FileDateCreated " +
+            //    "AND  LocationLatitude != 0 AND LocationLongitude != 0 " +
+            //    "AND (LocationLatitude IS NOT NULL OR LocationLongitude IS NOT NULL) " +
             //    "ORDER BY FileDateCreated DESC LIMIT 1) ";
-            
-            sqlCommand = "SELECT * FROM " + sqlCommand +
-                "ORDER BY Priority, TimeDistance " +
-                "LIMIT 1";
 
-            Metadata metadata = null;
+            sqlCommand = "SELECT * FROM " + sqlCommand +
+                "ORDER BY Priority, TimeDistance ";
+                //"LIMIT 1";
+
+            List<Metadata> metadatas = new List<Metadata>();
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
                 //commandDatabase.Prepare();
@@ -139,23 +165,38 @@ namespace GoogleLocationHistory
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
                     
-                    if (reader.Read())
+                    while (reader.Read())
                     {
+                        long? priority = dbTools.ConvertFromDBValLong(reader["Priority"]);
+                        DateTime? date = dbTools.ConvertFromDBValDateTimeLocal(reader["Date"]);
                         long? timeDistance = dbTools.ConvertFromDBValLong(reader["TimeDistance"]);
                         float? locationLatitude = dbTools.ConvertFromDBValFloat(reader["LocationLatitude"]);
                         float? locationLongitude = dbTools.ConvertFromDBValFloat(reader["LocationLongitude"]);
 
                         if (timeDistance / 100000 < acceptDiffrentSecound)
                         {
-                            metadata = new Metadata(MetadataBrokerType.GoogleLocationHistory);
+                            Metadata metadata = new Metadata(MetadataBrokerType.GoogleLocationHistory);
+                            switch (priority)
+                            {
+                                case 3:
+                                    metadata.FileDateCreated = date;
+                                    break;
+                                case 2:
+                                    metadata.MediaDateTaken = date;
+                                    break;
+                                case 1:
+                                    metadata.LocationDateTime = date;
+                                    break;
+                            }
                             metadata.LocationLatitude = locationLatitude;
                             metadata.LocationLongitude = locationLongitude;
+                            metadatas.Add(metadata);
                         }
                     }
 
                 }
             }
-            return metadata;
+            return metadatas;
         }
 
         public Metadata FindLocationBasedOnTime(String userAccount, DateTime? datetime, int acceptDiffrentSecound)

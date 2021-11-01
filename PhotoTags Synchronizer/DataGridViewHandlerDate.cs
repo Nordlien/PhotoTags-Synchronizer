@@ -53,6 +53,23 @@ namespace PhotoTagsSynchronizer
 
         public static double MediaAiTagConfidence { get; set; }
 
+        public static DateTime? GetDateTaken(DataGridView dataGridView, int columnIndex)
+        {
+            if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return null;
+            string dateTimeStringMediaTaken = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagMediaDateTaken).ToString().Trim();
+            return TimeZoneLibrary.ParseDateTimeAsLocal(dateTimeStringMediaTaken);
+
+        }
+
+        public static DateTime? GetLocationDate(DataGridView dataGridView, int columnIndex)
+        {
+            if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return null;
+            string dateTimeStringLocation = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagGPSLocationDateTime).ToString().Trim();
+
+            DateTime? date = TimeZoneLibrary.ParseDateTimeAsUTC(dateTimeStringLocation);
+            //if (date != null) date = new DateTime(((DateTime)date).Ticks, DateTimeKind.Local);
+            return date;
+        }
 
         //Check what data has been updated by users
         public static void GetUserInputChanges(ref KryptonDataGridView dataGridView, Metadata metadata, FileEntryAttribute fileEntryColumn)

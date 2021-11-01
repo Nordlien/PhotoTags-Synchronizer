@@ -331,7 +331,7 @@ namespace PhotoTagsSynchronizer
                             DataGridViewHandlerPeople.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
                             break;
                         case LinkTabAndDataGridViewNameMap:
-                            DataGridViewHandlerMap.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
+                            DataGridViewHandlerMap.PopulateFile(dataGridView, dataGridViewDate, fileEntryAttribute, showWhatColumns);
                             break;
                         case LinkTabAndDataGridViewNameDates:
                             DataGridViewHandlerDate.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
