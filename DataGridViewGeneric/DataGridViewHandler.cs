@@ -114,22 +114,6 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-
-        /*
-        public static Color ColorCellEditable = SystemColors.ControlLightLight;         //GridCommon.StateNormal.DataCell.Back.Color1
-        public static Color ColorCellFavourite = SystemColors.ControlLight;             //GridCommon.StateNormal.DataCell.Back.Color2
-            
-        public static Color ColorCellReadOnly = SystemColors.GradientInactiveCaption;   //GridCommon.StateDisabled.DataCell.Back.Color1
-        public static Color ColorCellReadOnlyFavourite = SystemColors.MenuHighlight;    //GridCommon.StateDisabled.DataCell.Back.Color2
-
-        public static Color ColorCellError = Color.FromArgb(255, 192, 192);             //GridCustom2.StateNormal.DataCell.Back.Color1
-        public static Color ColorCellRegionFace = Color.White;                          //GridCustom3.StateNormal.DataCell.Back.Color1
-
-        public static Color ColorHeader = SystemColors.Control;                         //GridCommon.StateCommon.HeaderColumn.Back.Color1
-        public static Color ColorHeaderWarning = Color.Yellow;                          //GridCustom1.StateCommon.HeaderColumn.Back.Color1
-        public static Color ColorHeaderError = Color.Red;                               //GridCustom2.StateCommon.HeaderColumn.Back.Color1
-        public static Color ColorHeaderImage = Color.LightSteelBlue;                    //GridCustom3.StateCommon.HeaderColumn.Back.Color1            
-        */
         #region Color - Header - Normal 
         public static Color ColorBackHeaderNormal(DataGridView dataGridView)
         {
@@ -189,11 +173,6 @@ namespace DataGridViewGeneric
         #endregion
 
         private DataGridView dataGridView;
-
-        #region KryptonColors
-        
-
-        #endregion 
 
         #region DataGridView events handling
 
@@ -296,6 +275,7 @@ namespace DataGridViewGeneric
         }
         #endregion
 
+        #region DataGridView events handling - KeyDown 
         private void DataGridView_KeyDown(object sender, KeyEventArgs e)
         {
             Krypton.Toolkit.KryptonDataGridView kryptonDataGridView = (Krypton.Toolkit.KryptonDataGridView)sender;
@@ -308,6 +288,7 @@ namespace DataGridViewGeneric
                     e.Handled = true;                
             }
         }
+        #endregion
 
         #region DataGridView events handling - CellMouseDown - Select correct Cell when Right Click Mouse button
         private void DataGridView_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
@@ -398,6 +379,7 @@ namespace DataGridViewGeneric
             dataGridView.AllowUserToResizeRows = true;
             dataGridView.ShowCellErrors = false;
             dataGridView.ShowRowErrors = false;
+            dataGridView.ShowCellToolTips = true;
 
             DataGridViewGenericData dataGridViewGenricData = new DataGridViewGenericData();
             dataGridViewGenricData.KryptonPalette = palette;
@@ -405,6 +387,7 @@ namespace DataGridViewGeneric
             dataGridViewGenricData.DataGridViewName = dataGridViewName;
             dataGridViewGenricData.FavoriteList = FavouriteRead(CreateFavoriteFilename(dataGridViewGenricData.DataGridViewName));
             dataGridViewGenricData.CellSize = cellSize;
+
             dataGridView.TopLeftHeaderCell.Tag = dataGridViewGenricData;
 
             dataGridView.CellValueNeeded += DataGridView_CellValueNeeded;
