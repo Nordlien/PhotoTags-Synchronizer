@@ -135,20 +135,6 @@ namespace GoogleLocationHistory
                 "AND (LocationLatitude IS NOT NULL OR LocationLongitude IS NOT NULL) " +
                 "ORDER BY FileDateCreated DESC LIMIT 3) ";
 
-            //if (fileDateCreated != null) sqlCommand +=
-            //    (sqlCommand == "" ? "" : "UNION SELECT * FROM ") +
-            //    "(SELECT SELECT 4 AS Priority, ABS(FileDateCreated - @FileDateCreated) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
-            //    "WHERE FileDateCreated > @FileDateCreated " +
-            //    "AND  LocationLatitude != 0 AND LocationLongitude != 0 " +
-            //   "AND (LocationLatitude IS NOT NULL OR LocationLongitude IS NOT NULL) " +
-            //    "ORDER BY FileDateCreated LIMIT 1) " +
-            //    "UNION SELECT * FROM " +
-            //    "(SELECT SELECT 4 AS Priority, ABS(FileDateCreated - @FileDateCreated) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
-            //    "WHERE FileDateCreated < @FileDateCreated " +
-            //    "AND  LocationLatitude != 0 AND LocationLongitude != 0 " +
-            //    "AND (LocationLatitude IS NOT NULL OR LocationLongitude IS NOT NULL) " +
-            //    "ORDER BY FileDateCreated DESC LIMIT 1) ";
-
             sqlCommand = "SELECT * FROM " + sqlCommand +
                 "ORDER BY Priority, TimeDistance ";
                 //"LIMIT 1";

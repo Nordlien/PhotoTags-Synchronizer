@@ -286,18 +286,25 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region UpdateGoodleHistoryCoordinate
-        private void UpdateGoodleHistoryCoordinate()
+        #region UpdateGoodleHistoryCoordinateAndNearBy
+        private void UpdateGoodleHistoryCoordinateAndNearBy(int columnIndex)
         {
             DataGridView dataGridView = dataGridViewMap;
-            
+            DataGridViewHandlerMap.TimeZoneShift = GetTimeZoneShift();
+            DataGridViewHandlerMap.AccepedIntervalSecound = GetAccepedIntervalSecound();
+
+            DataGridViewHandlerMap.PopulateGoogleHistoryCoordinateAndNearby(dataGridView, dataGridViewDate, columnIndex, DataGridViewHandlerMap.TimeZoneShift, DataGridViewHandlerMap.AccepedIntervalSecound);
+        }
+        private void UpdateGoodleHistoryCoordinateAndNearBy()
+        {
+            DataGridView dataGridView = dataGridViewMap;            
             DataGridViewHandlerMap.TimeZoneShift = GetTimeZoneShift();
             DataGridViewHandlerMap.AccepedIntervalSecound = GetAccepedIntervalSecound();
 
             
             for (int columnIndex = 0; columnIndex < DataGridViewHandler.GetColumnCount(dataGridView); columnIndex++)
             {
-                DataGridViewHandlerMap.PopulateGoogleHistoryCoordinateAndNearby(dataGridView, dataGridViewDate, columnIndex, GetTimeZoneShift(), GetAccepedIntervalSecound());
+                DataGridViewHandlerMap.PopulateGoogleHistoryCoordinateAndNearby(dataGridView, dataGridViewDate, columnIndex, DataGridViewHandlerMap.TimeZoneShift, DataGridViewHandlerMap.AccepedIntervalSecound);
             }
             
         }
@@ -323,7 +330,7 @@ namespace PhotoTagsSynchronizer
             {
                 KryptonMessageBox.Show(ex.Message, "Can't save settings");
             }
-            UpdateGoodleHistoryCoordinate();
+            UpdateGoodleHistoryCoordinateAndNearBy();
 
             if (dataGridViewMap.CurrentCell != null && dataGridViewMap.CurrentCell.Value != null) UpdateBrowserMap(dataGridViewMap.CurrentCell.Value.ToString(), GetMapProvider());
 
@@ -346,7 +353,7 @@ namespace PhotoTagsSynchronizer
             {
                 KryptonMessageBox.Show(ex.Message, "Can't save settings");
             }
-            UpdateGoodleHistoryCoordinate();
+            UpdateGoodleHistoryCoordinateAndNearBy();
 
             if (dataGridViewMap.CurrentCell.Value != null) UpdateBrowserMap(dataGridViewMap.CurrentCell.Value.ToString(), GetMapProvider());
         }
@@ -429,7 +436,8 @@ namespace PhotoTagsSynchronizer
             {
                 string coordinate = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridViewMap, e.ColumnIndex, e.RowIndex);
                 UpdateBrowserMap(coordinate, GetMapProvider());
-                DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, e.ColumnIndex, LocationCoordinate.Parse(coordinate));                
+                DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, e.ColumnIndex, LocationCoordinate.Parse(coordinate));
+                DataGridViewHandlerDate.PopulateTimeZone(dataGridViewDate, e.ColumnIndex);
             }
 
             ///////////////////////////////////////////////////////////////////////////
@@ -467,6 +475,7 @@ namespace PhotoTagsSynchronizer
                                 DataGridViewHandlerMap.PopulateCameraOwner(dataGridView, columnIndex, gridViewGenericColumnCheck.ReadWriteAccess,
                                     gridViewGenericColumnCheck.Metadata.CameraMake, gridViewGenericColumnCheck.Metadata.CameraModel);
                                 DataGridViewHandlerMap.PopulateGoogleHistoryCoordinateAndNearby(dataGridView, dataGridViewDate, columnIndex, GetTimeZoneShift(), GetAccepedIntervalSecound());
+                                
                             }
                         }
                     }

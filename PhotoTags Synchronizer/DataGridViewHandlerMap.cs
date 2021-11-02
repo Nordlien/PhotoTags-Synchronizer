@@ -101,6 +101,19 @@ namespace PhotoTagsSynchronizer
         {
             DataGridViewHandler.SetCellValue(dataGridView, columnIndex, headerGoogleLocations, tagCameraOwner, value);
         }
+        #endregion
+
+        #region GetLocationCoordinate
+        public static LocationCoordinate GetLocationCoordinate(DataGridView dataGridView, int columnIndex)
+        {
+            LocationCoordinate locationCoordinate = null;
+            if (DataGridViewHandler.GetIsAgregated(dataGridView))
+            {
+                string locationCoordinateString = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, headerMedia, tagCoordinates);
+                locationCoordinate = LocationCoordinate.Parse(locationCoordinateString);
+            }
+            return locationCoordinate;
+        }
         #endregion 
 
         #region PopulateGrivViewMapCameraOwner
@@ -138,8 +151,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-
-
+        #region PopulateNearbyCoordinate
         public static void PopulateNearbyCoordinate(DataGridView dataGridView, int columnIndex,
             int timeZoneShift, int accepedIntervalSecound, DateTime date, DateTime? dateTaken, DateTime? locationDate)
         {
@@ -173,6 +185,7 @@ namespace PhotoTagsSynchronizer
                 count++;
             }
         }
+        #endregion 
 
         #region PopulateGrivViewMapGoogle
         public static void PopulateGoogleHistoryCoordinate(DataGridView dataGridView, int columnIndex, 

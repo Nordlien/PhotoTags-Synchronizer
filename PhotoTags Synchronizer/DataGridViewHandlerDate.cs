@@ -51,8 +51,7 @@ namespace PhotoTagsSynchronizer
         public static MetadataDatabaseCache DatabaseAndCacheMetadataWindowsLivePhotoGallery { get; set; }
         public static ExiftoolDataDatabase DatabaseExiftoolData { get; set; }
 
-        public static double MediaAiTagConfidence { get; set; }
-
+        #region GetDateTaken
         public static DateTime? GetDateTaken(DataGridView dataGridView, int columnIndex)
         {
             if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return null;
@@ -60,65 +59,61 @@ namespace PhotoTagsSynchronizer
             return TimeZoneLibrary.ParseDateTimeAsLocal(dateTimeStringMediaTaken);
 
         }
+        #endregion
 
+        #region GetLocationDate
         public static DateTime? GetLocationDate(DataGridView dataGridView, int columnIndex)
         {
             if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return null;
             string dateTimeStringLocation = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagGPSLocationDateTime).ToString().Trim();
 
             DateTime? date = TimeZoneLibrary.ParseDateTimeAsUTC(dateTimeStringLocation);
-            //if (date != null) date = new DateTime(((DateTime)date).Ticks, DateTimeKind.Local);
             return date;
         }
+        #endregion
 
+        #region GetUserInputChanges
         //Check what data has been updated by users
         public static void GetUserInputChanges(ref KryptonDataGridView dataGridView, Metadata metadata, FileEntryAttribute fileEntryColumn)
         {
             int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, fileEntryColumn);
-            //DataGridViewHandler.ClearFileBeenUpdated(dataGridView, columnIndex);
-
+            
             //Get Date and Time for DataGridView
-            string dateTimeStringMediaTaken = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagMediaDateTaken).ToString().Trim();
-            string dateTimeStringLocation = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagGPSLocationDateTime).ToString().Trim();
-            metadata.MediaDateTaken = TimeZoneLibrary.ParseDateTimeAsLocal(dateTimeStringMediaTaken);
-            metadata.LocationDateTime = TimeZoneLibrary.ParseDateTimeAsUTC(dateTimeStringLocation);
+            metadata.MediaDateTaken = GetLocationDate(dataGridView, columnIndex);
+            metadata.LocationDateTime = GetLocationDate(dataGridView, columnIndex);
             if (metadata.LocationDateTime != null) metadata.LocationDateTime = new DateTime(((DateTime)metadata.LocationDateTime).Ticks, DateTimeKind.Local);
         }
+        #endregion
 
-
-
+        #region PopulateTimeZone
         public static void PopulateTimeZone(DataGridView dataGridView, int columnIndex)
         {
-            #region Get Media Date&Time and GPS Location Date&time 
+            DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+
+            #region Get Media Date&Time and GPS Location Date&time from DataGridView or use Metadata
             //Get Date and Time for DataGridView
-            string dateTimeStringMediaTaken = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagMediaDateTaken).ToString().Trim();
-            string dateTimeStringLocation = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagGPSLocationDateTime).ToString().Trim();
-            DateTime? metadataMediaDateTaken = TimeZoneLibrary.ParseDateTimeAsLocal(dateTimeStringMediaTaken); 
-            DateTime? metadataLocationDateTime = TimeZoneLibrary.ParseDateTimeAsUTC(dateTimeStringLocation);
+            DateTime? metadataMediaDateTaken = GetDateTaken(dataGridView, columnIndex); 
+            DateTime? metadataLocationDateTime = GetLocationDate(dataGridView, columnIndex);
+            if (metadataMediaDateTaken == null) metadataMediaDateTaken = dataGridViewGenericColumn?.Metadata?.MediaDateTaken;
+            if (metadataLocationDateTime == null) metadataLocationDateTime = dataGridViewGenericColumn?.Metadata?.LocationDateTime;
             #endregion
 
             #region Get GPS Coorindates - 1. DataGridViewMap user input, 2. Metadata record 3. null 
             //Get Media GPS Coordinates from DataGridViewMap is exist or use Metadata coordinates
-            double? metadataLocationLatitude = null;
+            double ? metadataLocationLatitude = null;
             double? metadataLocationLongitude = null;
-            DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
             if (dataGridViewGenericColumn.Metadata != null)
             {
-                metadataLocationLatitude = dataGridViewGenericColumn.Metadata?.LocationLatitude;
-                metadataLocationLongitude = dataGridViewGenericColumn.Metadata?.LocationLongitude;
+                metadataLocationLatitude = dataGridViewGenericColumn?.Metadata?.LocationLatitude;
+                metadataLocationLongitude = dataGridViewGenericColumn?.Metadata?.LocationLongitude;
             }
 
             //If DataGridViewMap is agregated then pick up coordinates from what user have entered
-            if (DataGridViewHandler.GetIsAgregated(DataGridViewMap))
+            LocationCoordinate locationCoordinate = DataGridViewHandlerMap.GetLocationCoordinate(DataGridViewMap, columnIndex);
+            if (locationCoordinate != null)
             {
-                string locationCoordinateString = DataGridViewHandler.GetCellValueNullOrStringTrim(DataGridViewMap, columnIndex, DataGridViewMapHeaderMedia, DataGridViewMapTagCoordinates);
-                LocationCoordinate locationCoordinate = LocationCoordinate.Parse(locationCoordinateString);
-
-                if (locationCoordinate != null)
-                {
-                    metadataLocationLatitude = locationCoordinate.Latitude;
-                    metadataLocationLongitude = locationCoordinate.Longitude;
-                }
+                metadataLocationLatitude = locationCoordinate.Latitude;
+                metadataLocationLongitude = locationCoordinate.Longitude;
             }
             #endregion 
 
@@ -193,12 +188,10 @@ namespace PhotoTagsSynchronizer
             }
 
             // -------------------------------------------------------
-
-            TimeSpan? timeSpan = TimeZoneLibrary.CalulateTimeDiffrentWithoutTimeZone(dateTimeStringMediaTaken, dateTimeStringLocation);
-
+            TimeSpan? timeSpan = TimeZoneLibrary.CalulateTimeDiffrentWithoutTimeZone(metadataMediaDateTaken, metadataLocationDateTime);
             string prefredTimeZoneName = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, headerMedia, tagLocationOffsetTimeZone);
-            DateTime? dateTimeLocation = TimeZoneLibrary.ParseDateTimeAsUTC(dateTimeStringMediaTaken);
-            
+            DateTime? dateTimeLocation = new DateTime( ((DateTime)metadataMediaDateTaken).Ticks, DateTimeKind.Utc);
+
             string timeZoneName = TimeZoneLibrary.GetTimeZoneName(timeSpan, dateTimeLocation, prefredTimeZoneName, out string timeZoneAlternatives);
             string timeSpanString = "(±??:??)";
             if (timeSpan != null) timeSpanString = TimeZoneLibrary.ToStringOffset((TimeSpan)timeSpan);
@@ -211,8 +204,9 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndex, timeZoneAlternatives);
 
         }
+        #endregion
 
-
+        #region PopulateFile
         public static void PopulateFile(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, ShowWhatColumns showWhatColumns)
         {
             //-----------------------------------------------------------------
@@ -292,7 +286,9 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.SetIsPopulatingFile(dataGridView, false);
             //-----------------------------------------------------------------
         }
+        #endregion
 
+        #region PopulateSelectedFiles
         public static void PopulateSelectedFiles(DataGridView dataGridView, ImageListViewSelectedItemCollection imageListViewSelectItems, DataGridViewSize dataGridViewSize, ShowWhatColumns showWhatColumns)
         {
             //-----------------------------------------------------------------
@@ -329,5 +325,6 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.SetIsPopulating(dataGridView, false);
             //-----------------------------------------------------------------
         }
+        #endregion
     }
 }

@@ -11,7 +11,7 @@ namespace PhotoTagsSynchronizer
     {
 
 
-
+        #region Date description
         /*
         JPEG:
         EXIF:DateTimeOriginal - local time
@@ -43,7 +43,9 @@ namespace PhotoTagsSynchronizer
         14	Second	1976-07-04T21:05:02-05:00
         17	Millisecond	1976-07-04T21:05:02.319-05:00
         */
+        #endregion
 
+        #region dataGridViewDate_CellValueChanged
         private bool isDataGridViewDate_CellValueChanging = false; 
         private void dataGridViewDate_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
@@ -109,24 +111,32 @@ namespace PhotoTagsSynchronizer
                         "Error", false, false);
             }
             DataGridViewHandlerDate.PopulateTimeZone(dataGridView, e.ColumnIndex);
+            UpdateGoodleHistoryCoordinateAndNearBy(e.ColumnIndex);
+
             isDataGridViewDate_CellValueChanging = false;
         }
+        #endregion
 
+        #region dataGridViewDate_CellEndEdit
         private void dataGridViewDate_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
         }
+        #endregion
 
+        #region dataGridViewDate_CellEnter
         private void dataGridViewDate_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
             DataGridView dataGridView = dataGridViewDate;
             RegionSelectorLoadAndSelect(dataGridView, e.RowIndex, e.ColumnIndex);
         }
+        #endregion
 
-
+        #region dataGridViewDate_CellMouseClick
         private void dataGridViewDate_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             DataGridView dataGridView = ((DataGridView)sender);
             if (e.RowIndex == -1) RegionSelectorLoadAndSelect(dataGridView, e.RowIndex, e.ColumnIndex);
         }
-    }   
+        #endregion 
+    }
 }
