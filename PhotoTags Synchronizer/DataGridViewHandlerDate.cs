@@ -88,6 +88,7 @@ namespace PhotoTagsSynchronizer
         #region PopulateTimeZone
         public static void PopulateTimeZone(DataGridView dataGridView, int columnIndex)
         {
+            if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return; //need this check, due to Maps tab also updated this, when coordinates has been updated
             DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
 
             #region Get Media Date&Time and GPS Location Date&time from DataGridView or use Metadata

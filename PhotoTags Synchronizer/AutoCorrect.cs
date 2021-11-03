@@ -561,10 +561,10 @@ namespace PhotoTagsSynchronizer
                                 metadataCopy.LocationLatitude = metadataLocationBasedOnBestGuess.LocationLatitude;
                                 metadataCopy.LocationLongitude = metadataLocationBasedOnBestGuess.LocationLongitude;
 
-                                Logger.Debug("FixAndSave: Found a location (±1 hours), estimated dateTimeUTC: " + dateTimeUTC.ToString() + "for camera owner: " + cameraOwner);
+                                Logger.Debug("FixAndSave: Found a location (±" + LocationFindMinutes + " minutes), estimated dateTimeUTC: " + dateTimeUTC.ToString() + "for camera owner: " + cameraOwner);
                             } else
                             {
-                                Logger.Debug("FixAndSave: No location found (±1 hours) for camera owner: " + cameraOwner);
+                                Logger.Debug("FixAndSave: No location found (±" + LocationFindMinutes + " minutes) for camera owner: " + cameraOwner);
                             }
                         }
                         #endregion
@@ -668,8 +668,8 @@ namespace PhotoTagsSynchronizer
             }
             #endregion
 
-            #region UpdateGPSDateTime
-            if (UpdateGPSDateTime)
+            #region UpdateGPSDateTime (only if location coordinates exists)
+            if (UpdateGPSDateTime && metadataCopy?.LocationLatitude != null && metadataCopy?.LocationLongitude != null)
             {
                 if (metadataCopy?.LocationDateTime != null)
                 {
