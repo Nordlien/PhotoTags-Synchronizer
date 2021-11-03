@@ -1204,5 +1204,14 @@ Dimensions</Value>
     <Setting Name="SlashScreenTipNumber" Type="System.Byte" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
+    <Setting Name="LocationAnalyticsZoomLevel" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">13</Value>
+    </Setting>
+    <Setting Name="LocationAnalyticsMinimumTimeInterval" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
+    <Setting Name="LocationAnalyticsMinimumDistance" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">0.0005</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

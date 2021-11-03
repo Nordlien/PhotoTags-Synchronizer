@@ -88,7 +88,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericShowHideRows(false);
                     ContextMenuGenericTriState(false);
                     ContextMenuGenericMediaView(false);
-                    ContextMenuGenericMap(false);
+                    ContextMenuGenericMap(false, false);
 
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFolder:
@@ -106,7 +106,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericShowHideRows(false);
                     ContextMenuGenericTriState(false);
                     ContextMenuGenericMediaView(true);
-                    ContextMenuGenericMap(false);
+                    ContextMenuGenericMap(false, false);
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterSearch:
                     ContextMenuGenericAssignCompositeTag(false);
@@ -123,7 +123,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericShowHideRows(false);
                     ContextMenuGenericTriState(false);
                     ContextMenuGenericMediaView(false);
-                    ContextMenuGenericMap(false);
+                    ContextMenuGenericMap(false, false);
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFilter:
                     ContextMenuGenericAssignCompositeTag(false);
@@ -136,7 +136,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericShowHideRows(false);
                     ContextMenuGenericTriState(false);
                     ContextMenuGenericMediaView(false);
-                    ContextMenuGenericMap(false);
+                    ContextMenuGenericMap(false, false);
                     break;
                 case KryptonPages.kryptonPageMediaFiles:
                     ContextMenuGenericAssignCompositeTag(false);
@@ -153,7 +153,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericShowHideRows(false);
                     ContextMenuGenericTriState(false);
                     ContextMenuGenericMediaView(true);
-                    ContextMenuGenericMap(false);
+                    ContextMenuGenericMap(false, false);
                     break;
                 case KryptonPages.kryptonPageToolboxTags:
                     ContextMenuGenericAssignCompositeTag(false);
@@ -170,7 +170,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericShowHideRows(true);
                     ContextMenuGenericTriState(true);
                     ContextMenuGenericMediaView(true);
-                    ContextMenuGenericMap(false);
+                    ContextMenuGenericMap(false, true);
                     break;
                 case KryptonPages.kryptonPageToolboxPeople:
                     ContextMenuGenericAssignCompositeTag(false);
@@ -187,7 +187,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericShowHideRows(true);
                     ContextMenuGenericTriState(true);
                     ContextMenuGenericMediaView(true);
-                    ContextMenuGenericMap(false);
+                    ContextMenuGenericMap(false, true);
                     break;
                 case KryptonPages.kryptonPageToolboxMap:
                     ContextMenuGenericAssignCompositeTag(false);
@@ -204,7 +204,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericShowHideRows(true);
                     ContextMenuGenericTriState(false);
                     ContextMenuGenericMediaView(true);
-                    ContextMenuGenericMap(true);
+                    ContextMenuGenericMap(true, true);
                     break;
                 case KryptonPages.kryptonPageToolboxDates:
                     ContextMenuGenericAssignCompositeTag(false);
@@ -221,7 +221,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericShowHideRows(true);
                     ContextMenuGenericTriState(false);
                     ContextMenuGenericMediaView(true);
-                    ContextMenuGenericMap(false);
+                    ContextMenuGenericMap(false, true);
                     break;
                 case KryptonPages.kryptonPageToolboxExiftool:
                     ContextMenuGenericAssignCompositeTag(true);
@@ -238,7 +238,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericShowHideRows(true);
                     ContextMenuGenericTriState(false);
                     ContextMenuGenericMediaView(true);
-                    ContextMenuGenericMap(false);
+                    ContextMenuGenericMap(false, false);
                     break;
                 case KryptonPages.kryptonPageToolboxWarnings:
                     ContextMenuGenericAssignCompositeTag(true);
@@ -255,7 +255,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericShowHideRows(true);
                     ContextMenuGenericTriState(false);
                     ContextMenuGenericMediaView(true);
-                    ContextMenuGenericMap(false);
+                    ContextMenuGenericMap(false, false);
                     break;
                 case KryptonPages.kryptonPageToolboxProperties:
                     ContextMenuGenericAssignCompositeTag(false);
@@ -272,7 +272,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericShowHideRows(true);
                     ContextMenuGenericTriState(false);
                     ContextMenuGenericMediaView(true);
-                    ContextMenuGenericMap(false);
+                    ContextMenuGenericMap(false, false);
                     break;
                 case KryptonPages.kryptonPageToolboxRename:
                     ContextMenuGenericAssignCompositeTag(false);
@@ -289,7 +289,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericShowHideRows(true);
                     ContextMenuGenericTriState(false);
                     ContextMenuGenericMediaView(true);
-                    ContextMenuGenericMap(false);
+                    ContextMenuGenericMap(false, false);
                     break;
                 case KryptonPages.kryptonPageToolboxConvertAndMerge:
                     ContextMenuGenericAssignCompositeTag(false);
@@ -306,7 +306,7 @@ namespace PhotoTagsSynchronizer
                     ContextMenuGenericShowHideRows(true);
                     ContextMenuGenericTriState(false);
                     ContextMenuGenericMediaView(true);
-                    ContextMenuGenericMap(false);
+                    ContextMenuGenericMap(false, false);
                     break;
                 default:
                     throw new NotImplementedException();
@@ -886,11 +886,12 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Map
-        private void ContextMenuGenericMap(bool visible)
+        private void ContextMenuGenericMap(bool visible, bool locationAnalyticsVisible)
         {
             this.kryptonContextMenuItemMapShowCoordinateOnOpenStreetMap.Visible = visible;
             this.kryptonContextMenuItemMapShowCoordinateOnGoogleMap.Visible = visible;
             this.kryptonContextMenuItemMapReloadUsingNominatim.Visible = visible;
+            this.kryptonContextMenuItemToolLocationAnalytics.Visible = locationAnalyticsVisible;
         }
         #endregion
 

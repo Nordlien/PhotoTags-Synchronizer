@@ -16,6 +16,7 @@ using System.IO;
 using MetadataLibrary;
 using SqliteDatabase;
 using System.Collections.Generic;
+using LocationNames;
 
 namespace GoogleLocationHistory
 {
@@ -38,7 +39,7 @@ namespace GoogleLocationHistory
         }
 
 
-        #region Table: LocationSource
+        #region WriteLocationHistorySource
         public void WriteLocationHistorySource(string userAccount, string fileNamePath)
         {
             if (File.Exists(fileNamePath))
@@ -58,7 +59,9 @@ namespace GoogleLocationHistory
                 }
             }
         }
+        #endregion
 
+        #region WriteLocationHistory
         public void WriteLocationHistory(string userAccount, GoogleJsonLocations googleJsonLocations)
         {
             string sqlCommand =
@@ -78,6 +81,7 @@ namespace GoogleLocationHistory
         }
         #endregion
 
+        #region FindBestLocationBasedOtherMediaFiles
         public Metadata FindBestLocationBasedOtherMediaFiles(DateTime? locationDateTime, DateTime? mediaDateTaken, DateTime? fileDate, int acceptDiffrentSecound)
         {
             List<Metadata> metadatas = FindLocationBasedOtherMediaFiles(locationDateTime, mediaDateTaken, fileDate, acceptDiffrentSecound);
@@ -86,7 +90,9 @@ namespace GoogleLocationHistory
             else 
                 return metadatas[0];
         }
+        #endregion
 
+        #region FindLocationBasedOtherMediaFiles
         public List<Metadata> FindLocationBasedOtherMediaFiles(DateTime? locationDateTime, DateTime? mediaDateTaken, DateTime? fileDate, int acceptDiffrentSecound)
         {
             if (locationDateTime == null && mediaDateTaken == null && fileDate == null) return null;
@@ -184,7 +190,45 @@ namespace GoogleLocationHistory
             }
             return metadatas;
         }
+        #endregion
 
+        #region LoadLocationHistory
+        public HashSet<LocationsHistory> LoadLocationHistory(DateTime dateTimeFrom, DateTime dateTimeTo)
+        {
+            HashSet<LocationsHistory> locationsHistories = new HashSet<LocationsHistory>();
+
+            string sqlCommand = "SELECT UserAccount, TimeStamp, Latitude, Longitude, Altitude, Accuracy FROM LocationHistory WHERE " +
+                "TimeStamp >= @dateTimeFrom AND TimeStamp <= @dateTimeTo " +
+                "ORDER BY TimeStamp LIMIT 5000";
+
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            {
+                //commandDatabase.Prepare();
+                commandDatabase.Parameters.AddWithValue("@dateTimeFrom", dbTools.ConvertFromDateTimeToDBVal(dateTimeFrom));
+                commandDatabase.Parameters.AddWithValue("@dateTimeTo", dbTools.ConvertFromDateTimeToDBVal(dateTimeTo));
+                //commandDatabase.Parameters.AddWithValue("@UserAccount", userAccount);
+
+                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        LocationsHistory locationsHistory = new LocationsHistory();
+                        locationsHistory.UserAccount = dbTools.ConvertFromDBValString(reader["UserAccount"]);
+                        locationsHistory.Timestamp = (DateTime)dbTools.ConvertFromDBValDateTimeUtc(reader["TimeStamp"]);
+                        locationsHistory.LocationCoordinate = new LocationCoordinate(
+                            (float)dbTools.ConvertFromDBValFloat(reader["Latitude"]), (float)dbTools.ConvertFromDBValFloat(reader["Longitude"])
+                            );
+                        locationsHistory.Altitude = (float)dbTools.ConvertFromDBValFloat(reader["Altitude"]);
+                        locationsHistory.Accuracy = (float)dbTools.ConvertFromDBValFloat(reader["Accuracy"]);
+                        locationsHistories.Add(locationsHistory);
+                    }
+                }
+            }
+            return locationsHistories;
+        }
+        #endregion
+
+        #region FindLocationBasedOnTime
         public Metadata FindLocationBasedOnTime(String userAccount, DateTime? datetime, int acceptDiffrentSecound)
         {
             //I could use pythagoras to get excact distance, but I don't see the point of doing that
@@ -276,7 +320,7 @@ namespace GoogleLocationHistory
                 }
             }
         }
-
+        #endregion
 
 
 

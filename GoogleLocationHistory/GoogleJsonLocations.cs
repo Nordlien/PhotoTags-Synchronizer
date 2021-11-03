@@ -3,6 +3,7 @@
 
 namespace GoogleLocationHistory
 {
+
     public class GoogleJsonLocations
     {
         private DateTime timestamp;

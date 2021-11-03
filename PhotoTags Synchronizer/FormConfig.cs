@@ -137,6 +137,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuItemLocationNamesShowCoordinateOpenStreetMap.Click += KryptonContextMenuItemLocationNamesShowCoordinateOpenStreetMap_Click;
             this.kryptonContextMenuItemLocationNamesShowCoordinateGoogleMap.Click += KryptonContextMenuItemLocationNamesShowCoordinateGoogleMap_Click;
             this.kryptonContextMenuItemLocationNamesReloadUsingNominatim.Click += KryptonContextMenuItemLocationNamesReloadUsingNominatim_Click;
+            
             this.kryptonContextMenuItemLocationNamesSearchInMediaFiles.Click += KryptonContextMenuItemLocationNamesSearchInMediaFiles_Click;
 
 

@@ -798,7 +798,7 @@ namespace MetadataLibrary
             if (MediaDateTaken == null) return false;
             if (LocationDateTime == null) return false;
             
-            TimeZoneInfo timeZoneInfoGPSLocation = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation((double)LocationLatitude, (double)LocationLongitude);
+            
 
             DateTime locationDateTomeUtc = ((DateTime)LocationDateTime).ToUniversalTime();
 
@@ -806,6 +806,7 @@ namespace MetadataLibrary
 
             if (LocationLatitude != null && LocationLongitude != null)
             {
+                TimeZoneInfo timeZoneInfoGPSLocation = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation((double)LocationLatitude, (double)LocationLongitude);
                 DateTimeOffset locationOffset = new DateTimeOffset(locationDateTomeUtc.Ticks, timeZoneInfoGPSLocation.GetUtcOffset(locationDateTomeUtc));
                 mediaTakenUtc = new DateTime(((DateTime)MediaDateTaken).Add(-locationOffset.Offset).Ticks, DateTimeKind.Utc);
             } else

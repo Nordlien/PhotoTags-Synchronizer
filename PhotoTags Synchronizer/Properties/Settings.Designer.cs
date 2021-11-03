@@ -2560,5 +2560,41 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["SlashScreenTipNumber"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("13")]
+        public int LocationAnalyticsZoomLevel {
+            get {
+                return ((int)(this["LocationAnalyticsZoomLevel"]));
+            }
+            set {
+                this["LocationAnalyticsZoomLevel"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int LocationAnalyticsMinimumTimeInterval {
+            get {
+                return ((int)(this["LocationAnalyticsMinimumTimeInterval"]));
+            }
+            set {
+                this["LocationAnalyticsMinimumTimeInterval"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.0005")]
+        public decimal LocationAnalyticsMinimumDistance {
+            get {
+                return ((decimal)(this["LocationAnalyticsMinimumDistance"]));
+            }
+            set {
+                this["LocationAnalyticsMinimumDistance"] = value;
+            }
+        }
     }
 }

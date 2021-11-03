@@ -104,6 +104,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuItemMapShowCoordinateOnOpenStreetMap = new Krypton.Toolkit.KryptonContextMenuItem();
             this.kryptonContextMenuItemMapShowCoordinateOnGoogleMap = new Krypton.Toolkit.KryptonContextMenuItem();
             this.kryptonContextMenuItemMapReloadUsingNominatim = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemToolLocationAnalytics = new Krypton.Toolkit.KryptonContextMenuItem();
             this.kryptonWorkspaceCellFolderSearchFilter = new Krypton.Workspace.KryptonWorkspaceCell();
             this.buttonSpecNavigatorExpandCollapse = new Krypton.Navigator.ButtonSpecNavigator();
             this.kryptonPageFolderSearchFilterSearch = new Krypton.Navigator.KryptonPage();
@@ -425,6 +426,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupToolsMain = new Krypton.Ribbon.KryptonRibbonGroup();
             this.kryptonRibbonGroupTriple6 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButtonToolsImportLocations = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButtonToolsLocationAnalytics = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButtonToolsWebScraping = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroup1 = new Krypton.Ribbon.KryptonRibbonGroup();
             this.kryptonRibbonGroupTriple8 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
@@ -872,7 +874,8 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuSeparatorGenericEndOfMediaView,
             this.kryptonContextMenuItemMapShowCoordinateOnOpenStreetMap,
             this.kryptonContextMenuItemMapShowCoordinateOnGoogleMap,
-            this.kryptonContextMenuItemMapReloadUsingNominatim});
+            this.kryptonContextMenuItemMapReloadUsingNominatim,
+            this.kryptonContextMenuItemToolLocationAnalytics});
             // 
             // kryptonContextMenuItemAssignCompositeTag
             // 
@@ -1198,6 +1201,12 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuItemMapReloadUsingNominatim.Image = global::PhotoTagsSynchronizer.Properties.Resources.LocationReload;
             this.kryptonContextMenuItemMapReloadUsingNominatim.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
             this.kryptonContextMenuItemMapReloadUsingNominatim.Text = "Reload Location information using Nominatim";
+            // 
+            // kryptonContextMenuItemToolLocationAnalytics
+            // 
+            this.kryptonContextMenuItemToolLocationAnalytics.Image = global::PhotoTagsSynchronizer.Properties.Resources.ToolsLocationAnalytics;
+            this.kryptonContextMenuItemToolLocationAnalytics.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.A)));
+            this.kryptonContextMenuItemToolLocationAnalytics.Text = "Location analytics";
             // 
             // kryptonWorkspaceCellFolderSearchFilter
             // 
@@ -3877,6 +3886,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonTabSelect,
             this.kryptonRibbonTabTools,
             this.kryptonRibbonTabPreview});
+            this.kryptonRibbonMain.SelectedContext = null;
             this.kryptonRibbonMain.SelectedTab = this.kryptonRibbonTabHome;
             this.kryptonRibbonMain.Size = new System.Drawing.Size(1214, 115);
             this.kryptonRibbonMain.TabIndex = 12;
@@ -5137,6 +5147,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.kryptonRibbonGroupTriple6.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
             this.kryptonRibbonGroupButtonToolsImportLocations,
+            this.kryptonRibbonGroupButtonToolsLocationAnalytics,
             this.kryptonRibbonGroupButtonToolsWebScraping});
             // 
             // kryptonRibbonGroupButtonToolsImportLocations
@@ -5150,6 +5161,17 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonToolsImportLocations.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.ToolsImportGoogleLocation32x32;
             this.kryptonRibbonGroupButtonToolsImportLocations.ToolTipTitle = "Import Locations";
             this.kryptonRibbonGroupButtonToolsImportLocations.Click += new System.EventHandler(this.kryptonRibbonGroupButtonToolsImportLocations_Click);
+            // 
+            // kryptonRibbonGroupButtonToolsLocationAnalytics
+            // 
+            this.kryptonRibbonGroupButtonToolsLocationAnalytics.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.ToolsLocationAnalytics;
+            this.kryptonRibbonGroupButtonToolsLocationAnalytics.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.ToolsLocationAnalytics;
+            this.kryptonRibbonGroupButtonToolsLocationAnalytics.TextLine1 = "Location";
+            this.kryptonRibbonGroupButtonToolsLocationAnalytics.TextLine2 = "Analytics";
+            this.kryptonRibbonGroupButtonToolsLocationAnalytics.ToolTipBody = resources.GetString("kryptonRibbonGroupButtonToolsLocationAnalytics.ToolTipBody");
+            this.kryptonRibbonGroupButtonToolsLocationAnalytics.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.ToolsLocationAnalytics;
+            this.kryptonRibbonGroupButtonToolsLocationAnalytics.ToolTipTitle = "Location Analytics";
+            this.kryptonRibbonGroupButtonToolsLocationAnalytics.Click += new System.EventHandler(this.kryptonRibbonGroupButtonToolsLocationAnalytics_Click);
             // 
             // kryptonRibbonGroupButtonToolsWebScraping
             // 
@@ -6620,6 +6642,8 @@ namespace PhotoTagsSynchronizer
         private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItemGenericFastCopyWithOverwrite;
         private Krypton.Toolkit.KryptonContextMenuRadioButton kryptonContextMenuRadioButtonFileSystemColumnSortFileDate;
         private Krypton.Toolkit.KryptonContextMenuRadioButton kryptonContextMenuRadioButtonFileSystemColumnSortSmarteDate;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonToolsLocationAnalytics;
+        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItemToolLocationAnalytics;
     }
 }
 

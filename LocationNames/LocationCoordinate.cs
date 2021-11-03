@@ -4,7 +4,18 @@ using System.Collections.Generic;
 
 namespace LocationNames
 {
-    
+    public class LocationsHistory
+    {
+        public string UserAccount { get; set; }
+        public DateTime Timestamp { get; set; }
+
+        public LocationCoordinate LocationCoordinate { get; set; } 
+        public float Latitude { get { return LocationCoordinate.Latitude; }  }
+        public float Longitude { get { return LocationCoordinate.Longitude; } }
+        public float Altitude { get; set; }
+        public float Accuracy { get; set; }
+    }
+
     public class LocationCoordinate
     {
         public LocationCoordinate()
