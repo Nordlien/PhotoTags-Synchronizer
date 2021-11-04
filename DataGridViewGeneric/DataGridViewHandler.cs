@@ -2016,6 +2016,17 @@ namespace DataGridViewGeneric
         }
         #endregion
 
+        #region Cell Handling - SetCellToolTipText
+        public static void SetCellToolTipText(DataGridView dataGridView, int columnIndex, int rowIndex, string heading, List<string> autokeywords)
+        {
+            string tooltip = "";
+            foreach (string keyword in autokeywords) tooltip = (string.IsNullOrWhiteSpace(tooltip) ? "" : tooltip + "\r\n") + keyword;
+            if (!string.IsNullOrWhiteSpace(tooltip)) tooltip = tooltip + "\r\n" + heading + "\r\n";
+            SetCellToolTipText(dataGridView, columnIndex, rowIndex, tooltip);
+        }
+        #endregion
+
+
         #region Cell Handling - GetCellToolTipText
         public static string GetCellToolTipText(DataGridView dataGridView, int columnIndex, int rowIndex)
         {
@@ -2832,6 +2843,15 @@ namespace DataGridViewGeneric
         }
         #endregion
 
+        #region Cell Paint handling - DrawIcon16x16OnRightSide
+        private static void DrawIcon16x16OnRightSide(object sender, DataGridViewCellPaintingEventArgs e, Image image)
+        {
+            e.Graphics.DrawImage(image,
+                e.CellBounds.Left + e.CellBounds.Width - 17, 
+                e.CellBounds.Top + 1, 16, 16);
+        }
+        #endregion
+
         #region Cell Paint handling - DrawTriStateButton
         public static void DrawTriStateButton(object sender, DataGridViewCellPaintingEventArgs e, TriState triState)
         {
@@ -3106,7 +3126,14 @@ namespace DataGridViewGeneric
                 {
                     DrawIcon16x16OnLeftSide(sender, e, global::DataGridViewGeneric.Properties.Resources.ToolTipsText);
                 }
+            } else if (e.ColumnIndex >= 0 && e.RowIndex >= 0)
+            {
+                if (!string.IsNullOrWhiteSpace(dataGridView[e.ColumnIndex, e.RowIndex].ToolTipText))
+                {
+                    DrawIcon16x16OnRightSide(sender, e, global::DataGridViewGeneric.Properties.Resources.ToolTipsText);
+                }
             }
+            
         }
         #endregion
 

@@ -35,6 +35,7 @@ namespace PhotoTagsSynchronizer
                     AddQueueLazyLoadingDataGridViewMetadataReadToCacheOrUpdateFromSoruce(fileEntryBroker);
 
                     e.FileMetadata = new Utility.ShellImageFileInfo(); //Tell that data is create, all is good for internal void UpdateDetailsInternal(Utility.ShellImageFileInfo info)
+                    e.FileMetadata.SetAllFlag(true); //All data will be read, it's in Lazy loading queue
 
                     //JTN: MediaFileAttributes
                     if (!File.Exists(e.FileName) || FileHandler.IsFileInCloud(e.FileName))
@@ -91,9 +92,9 @@ namespace PhotoTagsSynchronizer
                     //e.FileMetadata.Name= e.FileName;
                     e.FileMetadata.Extension = Path.GetExtension(e.FileName);
                     e.FileMetadata.FileAttributes = FileAttributes.Normal;
-
                     #endregion
-                    
+
+                     
                 }
                 else
                 {

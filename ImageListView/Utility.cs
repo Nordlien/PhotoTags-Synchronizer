@@ -617,6 +617,35 @@ namespace Manina.Windows.Forms
             }
             #endregion
 
+            public void SetAllFlag(bool value)
+            {
+                IsCameraMakeSet = value;
+                IsCameraModelSet = value;
+                IsDisplayNameSet = value;
+                IsExtensionSet = value;
+                IsFileAttributesSet = value;
+                IsFileDateCreatedSet = value;
+                IsFileDateModifiedSet = value;
+                IsFileDirectorySet = value;
+                IsFileMimeTypeSet = value;
+                IsFileSizeSet = value;
+                IsFileSmartDateSet = value;
+                IsLocationCitySet = value;
+                IsLocationCountrySet = value;
+                IsLocationDateTimeSet = value;
+                IsLocationNameSet = value;
+                IsLocationRegionStateSet = value;
+                IsLocationTimeZoneSet = value;
+                IsMediaAlbumSet = value;
+                IsMediaAuthorSet = value;
+                IsMediaCommentSet = value;
+                IsMediaDateTakenSet = value;
+                IsMediaDescriptionSet = value;
+                IsMediaDimensionsSet = value;
+                IsMediaRatingSet = value;
+                IsMediaTitleSet = value;                
+            }
+
         }
         #endregion
 

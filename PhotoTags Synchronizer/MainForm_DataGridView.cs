@@ -614,6 +614,7 @@ namespace PhotoTagsSynchronizer
                             DataGridViewHandlerMap.DatabaseAndCacheMetadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery;
                             DataGridViewHandlerMap.DatabaseAndCacheMetadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos;
                             DataGridViewHandlerMap.DatabaseGoogleLocationHistory = databaseGoogleLocationHistory;
+                            DataGridViewHandlerMap.AutoKeywordConvertions = autoKeywordConvertions;
                             DataGridViewHandlerMap.DatabaseAndCacheLocationAddress = databaseLocationAddress;
                             DataGridViewHandlerMap.DatabaseAndCacheCameraOwner = databaseAndCahceCameraOwner;
                             DataGridViewHandlerMap.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, dataGridViewSize, showWhatColumnsForTab);

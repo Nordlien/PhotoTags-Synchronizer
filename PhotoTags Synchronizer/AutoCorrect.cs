@@ -16,7 +16,7 @@ using TimeZone;
 
 namespace PhotoTagsSynchronizer
 {
-    class AutoKeywordConvertion
+    public class AutoKeywordConvertion
     {
         public List<string> LocationNames = new List<string>();
         public List<string> Titles = new List<string>();
@@ -49,7 +49,7 @@ namespace PhotoTagsSynchronizer
             if (DoesWordExistInList(Albums, album)) return true;
             if (DoesWordExistInList(Descriptions, description)) return true;
             if (DoesWordExistInList(Comments, comment)) return true;
-            foreach (KeywordTag keywordTag in keywordTags) if (DoesWordExistInList(Keywords, keywordTag.Keyword)) return true;
+            if (keywordTags != null) foreach(KeywordTag keywordTag in keywordTags) if (DoesWordExistInList(Keywords, keywordTag.Keyword)) return true;
             return false;
         }
         #endregion 

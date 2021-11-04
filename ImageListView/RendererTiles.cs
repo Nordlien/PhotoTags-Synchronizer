@@ -170,22 +170,28 @@ namespace Manina.Windows.Forms
 
                                 string line;
 
-                                line = item.GetSubItemText(ImageListView.TitleLine2);
-                                g.DrawString(line, ImageListView.Font, bItemDetails, rt, sf);
-                                rt.Offset(0, 1.1f * lineHeight);
-                                
-                                line = item.GetSubItemText(ImageListView.TitleLine3);
-                                g.DrawString(line, ImageListView.Font, bItemDetails, rt, sf);
-                                rt.Offset(0, 1.1f * lineHeight);
-                                
+                                try
+                                {
+                                    line = item.GetSubItemText(ImageListView.TitleLine2);
+                                    g.DrawString(line, ImageListView.Font, bItemDetails, rt, sf);
+                                    rt.Offset(0, 1.1f * lineHeight);
 
-                                line = item.GetSubItemText(ImageListView.TitleLine4);
-                                g.DrawString(line, ImageListView.Font, bItemDetails, rt, sf);
-                                rt.Offset(0, 1.1f * lineHeight);
+                                    line = item.GetSubItemText(ImageListView.TitleLine3);
+                                    g.DrawString(line, ImageListView.Font, bItemDetails, rt, sf);
+                                    rt.Offset(0, 1.1f * lineHeight);
 
-                                line = item.GetSubItemText(ImageListView.TitleLine5);
-                                g.DrawString(line, ImageListView.Font, bItemDetails, rt, sf);
-                                rt.Offset(0, 1.1f * lineHeight);
+
+                                    line = item.GetSubItemText(ImageListView.TitleLine4);
+                                    g.DrawString(line, ImageListView.Font, bItemDetails, rt, sf);
+                                    rt.Offset(0, 1.1f * lineHeight);
+
+                                    line = item.GetSubItemText(ImageListView.TitleLine5);
+                                    g.DrawString(line, ImageListView.Font, bItemDetails, rt, sf);
+                                    rt.Offset(0, 1.1f * lineHeight);
+                                } catch (Exception ex) {
+                                    Console.WriteLine(ex.Message); //For debug reason
+                                    //Error can occure when ImageListView.Font
+                                }
                             }
                         }
                     }

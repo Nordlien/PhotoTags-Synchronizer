@@ -25,6 +25,7 @@ namespace PhotoTagsSynchronizer
         public static LocationNameLookUpCache DatabaseAndCacheLocationAddress { get; set; }
         public static CameraOwnersDatabaseCache DatabaseAndCacheCameraOwner { get; set; }
         public static GoogleLocationHistoryDatabaseCache DatabaseGoogleLocationHistory {get; set; }
+        public static List<AutoKeywordConvertion> AutoKeywordConvertions { get; set; }
         public static int TimeZoneShift { get; set; } = 0;
         public static int AccepedIntervalSecound { get; set; } = 3600;
 
@@ -276,6 +277,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        
         #region PopulateFile
         public static void PopulateFile(DataGridView dataGridView, DataGridView dataGridViewDate, FileEntryAttribute fileEntryAttribute, ShowWhatColumns showWhatColumns)
         {
@@ -304,13 +306,20 @@ namespace PhotoTagsSynchronizer
             if (columnIndex != -1)
             {
                 //Media
+                int rowIndex;
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia));
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagCoordinates), metadata?.LocationCoordinate, false);
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagLocationName), metadata?.LocationName, false);
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagCity), metadata?.LocationCity, false);
+                rowIndex = AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagLocationName), metadata?.LocationName, false);
+                List<string> newKeywords = AutoKeywordHandler.NewKeywords(AutoKeywordConvertions, metadata?.LocationName, null, null, null, null, null);
+                DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndex, "AutoCorrect will add this keywords", newKeywords);
+                
+                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagCity), metadata?.LocationCity, false);                
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagProvince), metadata?.LocationState, false);
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagCountry), metadata?.LocationCountry, false);
 
+                //List<string> newKeywords = AutoKeywordHandler.NewKeywords(autoKeywordConvertions, metadataCopy.LocationName, metadataCopy.PersonalTitle,
+                //  metadataCopy.PersonalAlbum, metadataCopy.PersonalDescription, metadataCopy.PersonalComments, metadataCopy.PersonalKeywordTags);
+                
                 //Google location history
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerGoogleLocations));
 
@@ -318,11 +327,9 @@ namespace PhotoTagsSynchronizer
                 {
                     CameraOwner cameraOwnerPrint = new CameraOwner(metadata.CameraMake, metadata.CameraModel, "");
                     AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerGoogleLocations, tagCameraMakeModel), cameraOwnerPrint, true);
-
-                    int rowIndex = AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerGoogleLocations, tagCameraOwner), "Owner???", false);
+                    AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerGoogleLocations, tagCameraOwner), "Owner???", false);
 
                     DataGridViewGenericColumn gridViewGenericColumnCheck = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-
                     PopulateCameraOwner(dataGridView, columnIndex, readWriteAccessColumn, metadata.CameraMake, metadata.CameraModel);
                 }
                 else
