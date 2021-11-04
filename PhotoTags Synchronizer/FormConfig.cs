@@ -1204,7 +1204,7 @@ namespace PhotoTagsSynchronizer
                     }
                     cell.Value = cell.Items[0];
                 }
-                if (cell.Value.ToString() == CameraOwnersDatabaseCache.MissingLocationsOwners) cell.Value = null;
+                if (cell == null || cell.Value.ToString() == CameraOwnersDatabaseCache.MissingLocationsOwners) cell.Value = null;
             }
             catch
             {
