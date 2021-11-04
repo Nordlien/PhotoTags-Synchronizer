@@ -2021,7 +2021,7 @@ namespace DataGridViewGeneric
         {
             string tooltip = "";
             foreach (string keyword in autokeywords) tooltip = (string.IsNullOrWhiteSpace(tooltip) ? "" : tooltip + "\r\n") + keyword;
-            if (!string.IsNullOrWhiteSpace(tooltip)) tooltip = tooltip + "\r\n" + heading + "\r\n";
+            if (!string.IsNullOrWhiteSpace(tooltip)) tooltip = heading + "\r\n" + tooltip;
             SetCellToolTipText(dataGridView, columnIndex, rowIndex, tooltip);
         }
         #endregion
@@ -3124,7 +3124,7 @@ namespace DataGridViewGeneric
                 }
                 if (!string.IsNullOrWhiteSpace(dataGridView.Rows[e.RowIndex].HeaderCell.ToolTipText))
                 {
-                    DrawIcon16x16OnLeftSide(sender, e, global::DataGridViewGeneric.Properties.Resources.ToolTipsText);
+                    DrawIcon16x16OnRightSide(sender, e, global::DataGridViewGeneric.Properties.Resources.ToolTipsText);
                 }
             } else if (e.ColumnIndex >= 0 && e.RowIndex >= 0)
             {

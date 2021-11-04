@@ -34,6 +34,7 @@ namespace PhotoTagsSynchronizer
         public static MetadataDatabaseCache DatabaseAndCacheMetadataExiftool { get; set; }
         public static MetadataDatabaseCache DatabaseAndCacheMetadataMicrosoftPhotos { get; set; }
         public static MetadataDatabaseCache DatabaseAndCacheMetadataWindowsLivePhotoGallery { get; set; }
+        public static List<AutoKeywordConvertion> AutoKeywordConvertions { get; set; }
 
         public static double MediaAiTagConfidence { get; set; }
 
@@ -49,7 +50,7 @@ namespace PhotoTagsSynchronizer
 
             metadata.PersonalAlbum = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagAlbum);
             if (metadata.PersonalAlbum != null) metadata.PersonalAlbum = metadata.PersonalAlbum.Trim();
-
+            
             metadata.PersonalTitle = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagTitle);
             if (metadata.PersonalTitle != null) metadata.PersonalTitle = metadata.PersonalTitle.Trim();
 
@@ -125,6 +126,11 @@ namespace PhotoTagsSynchronizer
                         tag.Keyword, 
                         new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Undefine, true), true);
 
+                    List<KeywordTag> keywordTags = new List<KeywordTag>();
+                    keywordTags.Add(new KeywordTag(tag.Keyword));
+                    List<string> newKeywords = AutoKeywordHandler.NewKeywords(AutoKeywordConvertions, null, null, null, null, null, keywordTags);
+                    DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndex, "Running AutoCorrect will add these keywords", newKeywords); ;
+
                     //Updated default cell status with new staus
                     DataGridViewGenericCellStatus dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(DataGridViewHandler.GetCellStatus(dataGridView, columnIndex, rowIndex));
 
@@ -187,12 +193,25 @@ namespace PhotoTagsSynchronizer
             if (columnIndex != -1)
             {
                 //Media
+                int rowIndex;
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia), false);
 
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagAlbum), metadata?.PersonalAlbum, false);
+                rowIndex = AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagAlbum), metadata?.PersonalAlbum, false);
+                List<string> newKeywords = AutoKeywordHandler.NewKeywords(AutoKeywordConvertions, null, null, metadata?.PersonalAlbum, null, null, null);
+                DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndex, "Running AutoCorrect will add these keywords", newKeywords);
+
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagTitle), metadata?.PersonalTitle, false);
+                newKeywords = AutoKeywordHandler.NewKeywords(AutoKeywordConvertions, null, metadata?.PersonalTitle, null, null, null, null);
+                DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndex, "Running AutoCorrect will add these keywords", newKeywords);
+
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagDescription), metadata?.PersonalDescription, false);
+                newKeywords = AutoKeywordHandler.NewKeywords(AutoKeywordConvertions, null, null, null, metadata?.PersonalDescription, null, null);
+                DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndex, "Running AutoCorrect will add these keywords", newKeywords);
+
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagComments), metadata?.PersonalComments, false);
+                newKeywords = AutoKeywordHandler.NewKeywords(AutoKeywordConvertions, null, null, null, null, metadata?.PersonalComments, null);
+                DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndex, "Running AutoCorrect will add these keywords", newKeywords);
+                
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagRating), metadata?.PersonalRating, false);
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagAuthor), metadata?.PersonalAuthor, false);
 

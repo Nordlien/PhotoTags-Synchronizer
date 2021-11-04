@@ -311,7 +311,7 @@ namespace PhotoTagsSynchronizer
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagCoordinates), metadata?.LocationCoordinate, false);
                 rowIndex = AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagLocationName), metadata?.LocationName, false);
                 List<string> newKeywords = AutoKeywordHandler.NewKeywords(AutoKeywordConvertions, metadata?.LocationName, null, null, null, null, null);
-                DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndex, "AutoCorrect will add this keywords", newKeywords);
+                DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndex, "Running AutoCorrect will add these keywords", newKeywords);
                 
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagCity), metadata?.LocationCity, false);                
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagProvince), metadata?.LocationState, false);
