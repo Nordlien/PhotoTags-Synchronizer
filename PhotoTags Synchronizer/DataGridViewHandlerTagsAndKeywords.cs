@@ -38,7 +38,7 @@ namespace PhotoTagsSynchronizer
 
         public static double MediaAiTagConfidence { get; set; }
 
-
+        #region GetUserInputChanges
         //Check what data has been updated by users
         public static void GetUserInputChanges(ref KryptonDataGridView dataGridView, Metadata metadata, FileEntryAttribute fileEntryColumn)
         {
@@ -96,7 +96,9 @@ namespace PhotoTagsSynchronizer
             }
 
         }
+        #endregion
 
+        #region
         private static int AddRow(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericDataRow, bool sort)
         {
             return DataGridViewHandler.AddRow(dataGridView, columnIndex, dataGridViewGenericDataRow, sort);
@@ -107,14 +109,17 @@ namespace PhotoTagsSynchronizer
             int rowIndex = DataGridViewHandler.AddRow(dataGridView, columnIndex, dataGridViewGenericDataRow, value, new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, cellReadOnly), false);
             return rowIndex;
         }
+        #endregion
 
+        #region AddRowKeywords
         private static int AddRowKeywords(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericDataRow, object value, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefaults, bool sort)
         {
             int rowIndex = DataGridViewHandler.AddRow(dataGridView, columnIndex, dataGridViewGenericDataRow, value, dataGridViewGenericCellStatusDefaults, sort);
             return rowIndex;
         }
-       
+        #endregion
 
+        #region PopulateKeywords
         private static void PopulateKeywords(DataGridView dataGridView, Metadata metadata, int columnIndex, MetadataBrokerType metadataBrokerType)
         {
             foreach (KeywordTag tag in metadata.PersonalKeywordTags)
@@ -164,7 +169,9 @@ namespace PhotoTagsSynchronizer
                 }
             }
         }
+        #endregion
 
+        #region PopulateFile
         public static void PopulateFile(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, ShowWhatColumns showWhatColumns)
         {
             //-----------------------------------------------------------------
@@ -253,9 +260,9 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.SetIsPopulatingFile(dataGridView, false);
             //-----------------------------------------------------------------
         }
+        #endregion
 
-        
-
+        #region PopulateSelectedFiles
         public static void PopulateSelectedFiles(DataGridView dataGridView, ImageListViewSelectedItemCollection imageListViewSelectItems, DataGridViewSize dataGridViewSize, ShowWhatColumns showWhatColumns)
         {
             //-----------------------------------------------------------------
@@ -281,5 +288,6 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.SetIsPopulating(dataGridView, false);
             //-----------------------------------------------------------------
         }
+        #endregion
     }
 }

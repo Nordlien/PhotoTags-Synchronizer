@@ -25,6 +25,12 @@ using System.Text;
 
 namespace Manina.Windows.Forms
 {
+    public enum PropertyStatus
+    {
+        IsDirty,
+        IsSet,
+        Requested
+    }
     /// <summary>
     /// Contains utility functions.
     /// </summary>
@@ -214,10 +220,10 @@ namespace Manina.Windows.Forms
             public FileAttributes FileAttributes 
             { 
                 get { return fileAttributes; }  
-                set { fileAttributes = value; IsFileAttributesSet = true; } 
+                set { fileAttributes = value; FileAttributesPropertyStatus = PropertyStatus.IsSet; } 
             }
             private FileAttributes fileAttributes;
-            public bool IsFileAttributesSet { get; set; } = false;
+            public PropertyStatus FileAttributesPropertyStatus { get; set; } = PropertyStatus.IsDirty;
             #endregion
 
             #region DateTime FileSmartDate
@@ -227,10 +233,10 @@ namespace Manina.Windows.Forms
             public DateTime FileSmartDate
             {
                 get { return fileSmartDate; }
-                set { fileSmartDate = value; IsFileSmartDateSet = true; }
+                set { fileSmartDate = value; FileSmartDatePropertyStatus = PropertyStatus.IsSet; }
             }
             private DateTime fileSmartDate;
-            public bool IsFileSmartDateSet { get; set; } = false;
+            public PropertyStatus FileSmartDatePropertyStatus { get; set; } = PropertyStatus.IsDirty;
             #endregion
 
             #region DateTime FileDateCreated
@@ -240,10 +246,10 @@ namespace Manina.Windows.Forms
             public DateTime FileDateCreated
             {
                 get { return fileDateCreated; }
-                set { fileDateCreated = value; IsFileDateCreatedSet = true; }
+                set { fileDateCreated = value; FileDateCreatedPropertyStatus = PropertyStatus.IsSet; }
             }
             private DateTime fileDateCreated;
-            public bool IsFileDateCreatedSet { get; set; } = false;
+            public PropertyStatus FileDateCreatedPropertyStatus { get; set; } = PropertyStatus.IsDirty;
             #endregion
 
             #region DateTime FileDateModified
@@ -253,10 +259,10 @@ namespace Manina.Windows.Forms
             public DateTime FileDateModified
             {
                 get { return fileDateModified; }
-                set { fileDateModified = value; IsFileDateModifiedSet = true; }
+                set { fileDateModified = value; FileDateModifiedPropertyStatus = PropertyStatus.IsSet; }
             }
             private DateTime fileDateModified;
-            public bool IsFileDateModifiedSet { get; set; } = false;
+            public PropertyStatus FileDateModifiedPropertyStatus { get; set; } = PropertyStatus.IsDirty;
             #endregion
 
             #region string Extension
@@ -266,10 +272,10 @@ namespace Manina.Windows.Forms
             public string Extension
             {
                 get { return extension; }
-                set { extension = value; IsExtensionSet = true; }
+                set { extension = value; ExtensionPropertyStatus = PropertyStatus.IsSet; }
             }
             private string extension;
-            public bool IsExtensionSet { get; set; } = false;
+            public PropertyStatus ExtensionPropertyStatus { get; set; } = PropertyStatus.IsDirty;
             #endregion
 
             #region string FileDirectory
@@ -279,10 +285,10 @@ namespace Manina.Windows.Forms
             public string FileDirectory
             {
                 get { return fileDirectory; }
-                set { fileDirectory = value; IsFileDirectorySet = true; }
+                set { fileDirectory = value; FileDirectoryPropertyStatus = PropertyStatus.IsSet; }
             }
             private string fileDirectory;
-            public bool IsFileDirectorySet { get; set; } = false;
+            public PropertyStatus FileDirectoryPropertyStatus { get; set; } = PropertyStatus.IsDirty;
             #endregion
 
             #region string DisplayName
@@ -292,10 +298,10 @@ namespace Manina.Windows.Forms
             public string DisplayName
             {
                 get { return displayName; }
-                set { displayName = value; IsDisplayNameSet = true; }
+                set { displayName = value; DisplayNamePropertyStatus = PropertyStatus.IsSet; }
             }
             private string displayName;
-            public bool IsDisplayNameSet { get; set; } = false;
+            public PropertyStatus DisplayNamePropertyStatus { get; set; } = PropertyStatus.IsDirty;
             #endregion
 
             #region long FileSize
@@ -305,10 +311,10 @@ namespace Manina.Windows.Forms
             public long FileSize
             {
                 get { return fileSize; }
-                set { fileSize = value; IsFileSizeSet = true; }
+                set { fileSize = value; FileSizePropertyStatus = PropertyStatus.IsSet; }
             }
             private long fileSize;
-            public bool IsFileSizeSet { get; set; } = false;
+            public PropertyStatus FileSizePropertyStatus { get; set; } = PropertyStatus.IsDirty;
             #endregion
 
             #region string FileMimeType
@@ -318,10 +324,10 @@ namespace Manina.Windows.Forms
             public string FileMimeType
             {
                 get { return fileMimeType; }
-                set { fileMimeType = value; IsFileMimeTypeSet = true; }
+                set { fileMimeType = value; FileMimeTypePropertyStatus = PropertyStatus.IsSet; }
             }
             private string fileMimeType;
-            public bool IsFileMimeTypeSet { get; set; } = false;
+            public PropertyStatus FileMimeTypePropertyStatus { get; set; } = PropertyStatus.IsDirty;
             #endregion
 
             #endregion
@@ -335,10 +341,10 @@ namespace Manina.Windows.Forms
             public Size MediaDimensions
             {
                 get { return mediaDimensions; }
-                set { mediaDimensions = value; IsMediaDimensionsSet = true; }
+                set { mediaDimensions = value; MediaDimensionsPropertyStatus = PropertyStatus.IsSet; }
             }
             private Size mediaDimensions;
-            public bool IsMediaDimensionsSet { get; set; } = false;
+            public PropertyStatus MediaDimensionsPropertyStatus { get; set; } = PropertyStatus.IsDirty;
             #endregion
 
             #region string CameraMake
@@ -348,10 +354,10 @@ namespace Manina.Windows.Forms
             public string CameraMake
             {
                 get { return cameraMake; }
-                set { cameraMake = value; IsCameraMakeSet = true; }
+                set { cameraMake = value; CameraMakePropertyStatus = PropertyStatus.IsSet; }
             }
             private string cameraMake;
-            public bool IsCameraMakeSet { get; set; } = false;
+            public PropertyStatus CameraMakePropertyStatus { get; set; } = PropertyStatus.IsDirty;
             #endregion
 
             #region string CameraModel
@@ -361,10 +367,10 @@ namespace Manina.Windows.Forms
             public string CameraModel
             {
                 get { return cameraModel; }
-                set { cameraModel = value; IsCameraModelSet = true; }
+                set { cameraModel = value; CameraModelPropertyStatus = PropertyStatus.IsSet; }
             }
             private string cameraModel;
-            public bool IsCameraModelSet { get; set; } = false;
+            public PropertyStatus CameraModelPropertyStatus { get; set; } = PropertyStatus.IsDirty;
             #endregion
 
             #region DateTime MediaDateTaken
@@ -374,10 +380,10 @@ namespace Manina.Windows.Forms
             public DateTime MediaDateTaken
             {
                 get { return mediaDateTaken; }
-                set { mediaDateTaken = value; IsMediaDateTakenSet = true; }
+                set { mediaDateTaken = value; MediaDateTakenPropertyStatus = PropertyStatus.IsSet; }
             }
             private DateTime mediaDateTaken;
-            public bool IsMediaDateTakenSet { get; set; } = false;
+            public PropertyStatus MediaDateTakenPropertyStatus { get; set; } = PropertyStatus.IsDirty;
             #endregion
 
             #endregion
@@ -391,10 +397,10 @@ namespace Manina.Windows.Forms
             public string MediaTitle
             {
                 get { return mediaTitle; }
-                set { mediaTitle = value; IsMediaTitleSet = true; }
+                set { mediaTitle = value; MediaTitlePropertyStatus = PropertyStatus.IsSet; }
             }
             private string mediaTitle;
-            public bool IsMediaTitleSet { get; set; } = false;
+            public PropertyStatus MediaTitlePropertyStatus { get; set; } = PropertyStatus.IsDirty;
             #endregion
 
             #region string MediaDescription
@@ -404,10 +410,10 @@ namespace Manina.Windows.Forms
             public string MediaDescription
             {
                 get { return mediaDescription; }
-                set { mediaDescription = value; IsMediaDescriptionSet = true; }
+                set { mediaDescription = value; MediaDescriptionPropertyStatus = PropertyStatus.IsSet; }
             }
             private string mediaDescription;
-            public bool IsMediaDescriptionSet { get; set; } = false;
+            public PropertyStatus MediaDescriptionPropertyStatus { get; set; } = PropertyStatus.IsDirty;
             #endregion
 
             #region string MediaComment
@@ -417,10 +423,10 @@ namespace Manina.Windows.Forms
             public string MediaComment
             {
                 get { return mediaComment; }
-                set { mediaComment = value; IsMediaCommentSet = true; }
+                set { mediaComment = value; MediaCommentPropertyStatus = PropertyStatus.IsSet; }
             }
             private string mediaComment;
-            public bool IsMediaCommentSet { get; set; } = false;
+            public PropertyStatus MediaCommentPropertyStatus { get; set; } = PropertyStatus.IsDirty;
             #endregion
 
             #region string MediaAuthor
@@ -430,10 +436,10 @@ namespace Manina.Windows.Forms
             public string MediaAuthor
             {
                 get { return mediaAuthor; }
-                set { mediaAuthor = value; IsMediaAuthorSet = true; }
+                set { mediaAuthor = value; MediaAuthorPropertyStatus = PropertyStatus.IsSet; }
             }
             private string mediaAuthor;
-            public bool IsMediaAuthorSet { get; set; } = false;
+            public PropertyStatus MediaAuthorPropertyStatus { get; set; } = PropertyStatus.IsDirty;
             #endregion
 
             #region byte MediaRating
@@ -443,10 +449,10 @@ namespace Manina.Windows.Forms
             public byte MediaRating
             {
                 get { return mediaRating; }
-                set { mediaRating = value; IsMediaRatingSet = true; }
+                set { mediaRating = value; MediaRatingPropertyStatus = PropertyStatus.IsSet; }
             }
             private byte mediaRating;
-            public bool IsMediaRatingSet { get; set; } = false;
+            public PropertyStatus MediaRatingPropertyStatus { get; set; } = PropertyStatus.IsDirty;
             #endregion
 
             #endregion
@@ -460,10 +466,10 @@ namespace Manina.Windows.Forms
             public string MediaAlbum
             {
                 get { return mediaAlbum; }
-                set { mediaAlbum = value; IsMediaAlbumSet = true; }
+                set { mediaAlbum = value; MediaAlbumPropertyStatus = PropertyStatus.IsSet; }
             }
             private string mediaAlbum;
-            public bool IsMediaAlbumSet { get; set; } = false;
+            public PropertyStatus MediaAlbumPropertyStatus { get; set; } = PropertyStatus.IsDirty;
             #endregion
 
             #region string LocationName
@@ -473,10 +479,10 @@ namespace Manina.Windows.Forms
             public string LocationName
             {
                 get { return locationName; }
-                set { locationName = value; IsLocationNameSet = true; }
+                set { locationName = value; LocationNamePropertyStatus = PropertyStatus.IsSet; }
             }
             private string locationName;
-            public bool IsLocationNameSet { get; set; } = false;
+            public PropertyStatus LocationNamePropertyStatus { get; set; } = PropertyStatus.IsDirty;
             #endregion
 
             #region DateTime LocationDateTime
@@ -486,10 +492,10 @@ namespace Manina.Windows.Forms
             public DateTime LocationDateTime
             {
                 get { return locationDateTime; }
-                set { locationDateTime = value; IsLocationDateTimeSet = true; }
+                set { locationDateTime = value; LocationDateTimePropertyStatus = PropertyStatus.IsSet; }
             }
             private DateTime locationDateTime;
-            public bool IsLocationDateTimeSet { get; set; } = false;
+            public PropertyStatus LocationDateTimePropertyStatus { get; set; } = PropertyStatus.IsDirty;
             #endregion
 
             #region string LocationTimeZone
@@ -499,10 +505,10 @@ namespace Manina.Windows.Forms
             public string LocationTimeZone
             {
                 get { return locationTimeZone; }
-                set { locationTimeZone = value; IsLocationTimeZoneSet = true; }
+                set { locationTimeZone = value; LocationTimeZonePropertyStatus = PropertyStatus.IsSet; }
             }
             private string locationTimeZone;
-            public bool IsLocationTimeZoneSet { get; set; } = false;
+            public PropertyStatus LocationTimeZonePropertyStatus { get; set; } = PropertyStatus.IsDirty;
             #endregion
 
             #region string LocationRegionState
@@ -512,10 +518,10 @@ namespace Manina.Windows.Forms
             public string LocationRegionState
             {
                 get { return locationRegionState; }
-                set { locationRegionState = value; IsLocationRegionStateSet = true; }
+                set { locationRegionState = value; LocationRegionStatePropertyStatus = PropertyStatus.IsSet; }
             }
             private string locationRegionState;
-            public bool IsLocationRegionStateSet { get; set; } = false;
+            public PropertyStatus LocationRegionStatePropertyStatus { get; set; } = PropertyStatus.IsDirty;
             #endregion
 
             #region string LocationCity
@@ -525,10 +531,10 @@ namespace Manina.Windows.Forms
             public string LocationCity
             {
                 get { return locationCity; }
-                set { locationCity = value; IsLocationCitySet = true; }
+                set { locationCity = value; LocationCityPropertyStatus = PropertyStatus.IsSet; }
             }
             private string locationCity;
-            public bool IsLocationCitySet { get; set; } = false;
+            public PropertyStatus LocationCityPropertyStatus { get; set; } = PropertyStatus.IsDirty;
             #endregion
 
             #region string LocationCountry
@@ -538,10 +544,10 @@ namespace Manina.Windows.Forms
             public string LocationCountry
             {
                 get { return locationCountry; }
-                set { locationCountry = value; IsLocationCountrySet = true; }
+                set { locationCountry = value; LocationCountryPropertyStatus = PropertyStatus.IsSet; }
             }
             private string locationCountry;
-            public bool IsLocationCountrySet { get; set; } = false;
+            public PropertyStatus LocationCountryPropertyStatus { get; set; } = PropertyStatus.IsDirty;
             #endregion
 
             #endregion
@@ -617,33 +623,33 @@ namespace Manina.Windows.Forms
             }
             #endregion
 
-            public void SetAllFlag(bool value)
+            public void SetPropertyStatusOnAll(PropertyStatus value)
             {
-                IsCameraMakeSet = value;
-                IsCameraModelSet = value;
-                IsDisplayNameSet = value;
-                IsExtensionSet = value;
-                IsFileAttributesSet = value;
-                IsFileDateCreatedSet = value;
-                IsFileDateModifiedSet = value;
-                IsFileDirectorySet = value;
-                IsFileMimeTypeSet = value;
-                IsFileSizeSet = value;
-                IsFileSmartDateSet = value;
-                IsLocationCitySet = value;
-                IsLocationCountrySet = value;
-                IsLocationDateTimeSet = value;
-                IsLocationNameSet = value;
-                IsLocationRegionStateSet = value;
-                IsLocationTimeZoneSet = value;
-                IsMediaAlbumSet = value;
-                IsMediaAuthorSet = value;
-                IsMediaCommentSet = value;
-                IsMediaDateTakenSet = value;
-                IsMediaDescriptionSet = value;
-                IsMediaDimensionsSet = value;
-                IsMediaRatingSet = value;
-                IsMediaTitleSet = value;                
+                CameraMakePropertyStatus = value;
+                CameraModelPropertyStatus = value;
+                DisplayNamePropertyStatus = value;
+                ExtensionPropertyStatus = value;
+                FileAttributesPropertyStatus = value;
+                FileDateCreatedPropertyStatus = value;
+                FileDateModifiedPropertyStatus = value;
+                FileDirectoryPropertyStatus = value;
+                FileMimeTypePropertyStatus = value;
+                FileSizePropertyStatus = value;
+                FileSmartDatePropertyStatus = value;
+                LocationCityPropertyStatus = value;
+                LocationCountryPropertyStatus = value;
+                LocationDateTimePropertyStatus = value;
+                LocationNamePropertyStatus = value;
+                LocationRegionStatePropertyStatus = value;
+                LocationTimeZonePropertyStatus = value;
+                MediaAlbumPropertyStatus = value;
+                MediaAuthorPropertyStatus = value;
+                MediaCommentPropertyStatus = value;
+                MediaDateTakenPropertyStatus = value;
+                MediaDescriptionPropertyStatus = value;
+                MediaDimensionsPropertyStatus = value;
+                MediaRatingPropertyStatus = value;
+                MediaTitlePropertyStatus = value;                
             }
 
         }

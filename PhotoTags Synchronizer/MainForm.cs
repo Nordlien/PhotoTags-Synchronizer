@@ -1115,10 +1115,6 @@ namespace PhotoTagsSynchronizer
             ShowFormLocationHistoryAnalytics();
         }
 
-        private void kryptonRibbonGroupButtonSelectForwards_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 
 }

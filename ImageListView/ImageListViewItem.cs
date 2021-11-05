@@ -41,310 +41,340 @@ namespace Manina.Windows.Forms
 
         // File info
         //JTN: MediaFileAttributes
+        #region DateTime FileDate
         private DateTime mFileDate
         {
             get
             {
-                UpdateFileInfo(isDirtyFileDate);
+                UpdateFileInfo(FileDatePropertyStatus);
                 if (mFileDateCreated != DateTime.MinValue && mFileDateModified != DateTime.MinValue) return (mFileDateCreated < mFileDateModified ? mFileDateCreated : mFileDateModified);
                 else if (mFileDateCreated == DateTime.MinValue && mFileDateModified != DateTime.MinValue) return mFileDateModified;
                 else if (mFileDateCreated != DateTime.MinValue && mFileDateModified == DateTime.MinValue) return mFileDateCreated;
                 else return DateTime.MinValue;
             }
-        }       
-        private bool isDirtyFileDate
-        {
-            get { return isDirtyFileDateCreated || isDirtyFileDateModified; }
         }
 
+        private PropertyStatus FileDatePropertyStatus
+        {
+            get 
+            { 
+                if (FileDateCreatedPropertyStatus == PropertyStatus.IsDirty || FileDateModifiedPropertyStatus == PropertyStatus.IsDirty) return PropertyStatus.IsDirty;
+                if (FileDateCreatedPropertyStatus == PropertyStatus.Requested || FileDateModifiedPropertyStatus == PropertyStatus.Requested) return PropertyStatus.Requested;
+                return PropertyStatus.IsSet;
+            }
+        }
+        #endregion
 
+        #region FileSmartDate
         private DateTime mmFileSmartDate;
         private DateTime mFileSmartDate
         {
             get { return mmFileSmartDate; }
-            set { isDirtyFileSmartDate = false; mmFileSmartDate = value; }
+            set { FileSmartDatePropertyStatus = PropertyStatus.IsSet; mmFileSmartDate = value; }
         }
-        private bool isDirtyFileSmartDate = true;
+        private PropertyStatus FileSmartDatePropertyStatus = PropertyStatus.IsDirty;
+        #endregion
 
+        #region FileDateCreated
         private DateTime mmFileDateCreated;
         private DateTime mFileDateCreated
         {
             get { return mmFileDateCreated; }
-            set { isDirtyFileDateCreated = false; mmFileDateCreated = value; }
+            set { FileDateCreatedPropertyStatus = PropertyStatus.IsSet; mmFileDateCreated = value; }
         }
-        private bool isDirtyFileDateCreated = true;
-        
+        private PropertyStatus FileDateCreatedPropertyStatus = PropertyStatus.IsDirty;
+        #endregion
 
+        #region FileDateModified
         private DateTime mmFileDateModified;
         private DateTime mFileDateModified
         {
             get { return mmFileDateModified; }
-            set { isDirtyFileDateModified = false; mmFileDateModified = value; }
+            set { FileDateModifiedPropertyStatus = PropertyStatus.IsSet; mmFileDateModified = value; }
         }
-        private bool isDirtyFileDateModified = true;
-        
+        private PropertyStatus FileDateModifiedPropertyStatus = PropertyStatus.IsDirty;
+        #endregion
+
+        #region FileType
         private string mmFileType;
         private string mFileType
         {
             get { return mmFileType; }
-            set { isDirtyFileType = false; mmFileType = value; }
+            set { FileTypePropertyStatus = PropertyStatus.IsSet; mmFileType = value; }
         }
-        private bool isDirtyFileType = true;
+        private PropertyStatus FileTypePropertyStatus = PropertyStatus.IsDirty;
+        #endregion
 
+        #region FileName
         private string mmFileName; 
         private string mFileName
         {
             get { return mmFileName; }
-            set { isDirtyFileName = false; mmFileName = value; }
+            set { FileNamePropertyStatus = PropertyStatus.IsSet; mmFileName = value; }
         }
-        private bool isDirtyFileName = true;
+        private PropertyStatus FileNamePropertyStatus = PropertyStatus.IsDirty;
+        #endregion
 
+        #region FileDirectory
         private string mmFileDirectory;
         private string mFileDirectory
         {
             get { return mmFileDirectory; }
-            set { isDirtyFileDirectory = false; mmFileDirectory = value; }
+            set { FileDirectoryPropertyStatus = PropertyStatus.IsSet; mmFileDirectory = value; }
         }
-        private bool isDirtyFileDirectory = true;
+        private PropertyStatus FileDirectoryPropertyStatus = PropertyStatus.IsDirty;
+        #endregion
 
+        #region FileSize
         private long mmFileSize;
         private long mFileSize
         {
             get { return mmFileSize; }
-            set { isDirtyFileSize = false; mmFileSize = value; }
+            set { FileSizePropertyStatus = PropertyStatus.IsSet; mmFileSize = value; }
         }
-        private bool isDirtyFileSize = true;
+        private PropertyStatus FileSizePropertyStatus = PropertyStatus.IsDirty;
+        #endregion
 
+        #region MediaDimensions
         private Size mmMediaDimensions;
         private Size mMediaDimensions
         {
             get { return mmMediaDimensions; }
-            set { isDirtyMediaDimensions = false; mmMediaDimensions = value; }
+            set { MediaPropertyStatusDimensions = PropertyStatus.IsSet; mmMediaDimensions = value; }
         }
-        private bool isDirtyMediaDimensions = true;
+        private PropertyStatus MediaPropertyStatusDimensions = PropertyStatus.IsDirty;
+        #endregion
 
         // Exif tags
+        #region CameraMake
         private string mmCameraMake;
         private string mCameraMake
         {
             get { return mmCameraMake; }
-            set { isDirtyCameraMake = false; mmCameraMake = value; }
+            set { CameraMakePropertyStatus = PropertyStatus.IsSet; mmCameraMake = value; }
         }
-        private bool isDirtyCameraMake = true;
+        private PropertyStatus CameraMakePropertyStatus = PropertyStatus.IsDirty;
+        #endregion
 
+        #region CameraModel
         private string mmCameraModel;
         private string mCameraModel
         {
             get { return mmCameraModel; }
-            set { isDirtyCameraModel = false; mmCameraModel = value; }
+            set { CameraModelPropertyStatus = PropertyStatus.IsSet; mmCameraModel = value; }
         }
-        private bool isDirtyCameraModel = true;
+        private PropertyStatus CameraModelPropertyStatus = PropertyStatus.IsDirty;
+        #endregion
 
+        #region MediaDateTaken
         private DateTime mmMediaDateTaken;
         private DateTime mMediaDateTaken
         {
             get { return mmMediaDateTaken; }
-            set { isDirtyMediaDateTaken = false; mmMediaDateTaken = value; }
+            set { MediaDateTakenPropertyStatus = PropertyStatus.IsSet; mmMediaDateTaken = value; }
         }
-        private bool isDirtyMediaDateTaken = true;
+        private PropertyStatus MediaDateTakenPropertyStatus = PropertyStatus.IsDirty;
+        #endregion
 
         //JTN: Added more column types
+        #region MediaAlbum
         private string mmMediaAlbum;
         private string mMediaAlbum
         {
             get { return mmMediaAlbum; }
-            set { isDirtyMediaAlbum = false; mmMediaAlbum = value; }
+            set { MediaAlbumPropertyStatus = PropertyStatus.IsSet; mmMediaAlbum = value; }
         }
-        private bool isDirtyMediaAlbum = true;
+        private PropertyStatus MediaAlbumPropertyStatus = PropertyStatus.IsDirty;
+        #endregion
 
+        #region MediaTitle
         private string mmMediaTitle;
         private string mMediaTitle
         {
             get { return mmMediaTitle; }
-            set { isDirtyMediaTitle = false; mmMediaTitle = value; }
+            set { MediaTitlePropertyStatus = PropertyStatus.IsSet; mmMediaTitle = value; }
         }
-        private bool isDirtyMediaTitle = true;
+        private PropertyStatus MediaTitlePropertyStatus = PropertyStatus.IsDirty;
+        #endregion
 
+        #region MediaDescription
         private string mmMediaDescription;
         private string mMediaDescription
         {
             get { return mmMediaDescription; }
-            set { isDirtyMediaDescription = false; mmMediaDescription = value; }
+            set { MediaDescriptionPropertyStatus = PropertyStatus.IsSet; mmMediaDescription = value; }
         }
-        private bool isDirtyMediaDescription = true;
+        private PropertyStatus MediaDescriptionPropertyStatus = PropertyStatus.IsDirty;
+        #endregion
 
+        #region MediaComment
         private string mmMediaComment;
         private string mMediaComment
         {
             get { return mmMediaComment; }
-            set { isDirtyMediaComment = false; mmMediaComment = value; }
+            set { MediaCommentPropertyStatus = PropertyStatus.IsSet; mmMediaComment = value; }
         }
-        private bool isDirtyMediaComment = true;
+        private PropertyStatus MediaCommentPropertyStatus = PropertyStatus.IsDirty;
+        #endregion
 
+        #region MediaAuthor
         private string mmMediaAuthor;
         private string mMediaAuthor
         {
             get { return mmMediaAuthor; }
-            set { isDirtyMediaAuthor = false; mmMediaAuthor = value; }
+            set { MediaAuthorPropertyStatus = PropertyStatus.IsSet; mmMediaAuthor = value; }
         }
-        private bool isDirtyMediaAuthor = true;
+        private PropertyStatus MediaAuthorPropertyStatus = PropertyStatus.IsDirty;
+        #endregion
 
+        #region MediaRating
         private byte mmMediaRating;
         private byte mMediaRating
         {
             get { return mmMediaRating; }
-            set { isDirtyMediaRating = false; mmMediaRating = value; }
+            set { MediaRatingPropertyStatus = PropertyStatus.IsSet; mmMediaRating = value; }
         }
-        private bool isDirtyMediaRating = true;
+        private PropertyStatus MediaRatingPropertyStatus = PropertyStatus.IsDirty;
+        #endregion
 
+        #region LocationDateTime
         private DateTime mmLocationDateTime;
         private DateTime mLocationDateTime
         {
             get { return mmLocationDateTime; }
-            set { isDirtyLocationDateTime = false; mmLocationDateTime = value; }
+            set { LocationDateTimePropertyStatus = PropertyStatus.IsSet; mmLocationDateTime = value; }
         }
-        private bool isDirtyLocationDateTime = true;
+        private PropertyStatus LocationDateTimePropertyStatus = PropertyStatus.IsDirty;
+        #endregion
 
+        #region LocationTimeZone
         private string mmLocationTimeZone;
         private string mLocationTimeZone
         {
             get { return mmLocationTimeZone; }
-            set { isDirtyLocationTimeZone = false; mmLocationTimeZone = value; }
+            set { LocationTimeZonePropertyStatus = PropertyStatus.IsSet; mmLocationTimeZone = value; }
         }
-        private bool isDirtyLocationTimeZone = true;
+        private PropertyStatus LocationTimeZonePropertyStatus = PropertyStatus.IsDirty;
+        #endregion
 
+        #region LocationName
         private string mmLocationName;
         private string mLocationName
         {
             get { return mmLocationName; }
-            set { isDirtyLocationName = false; mmLocationName = value; }
+            set { LocationNamePropertyStatus = PropertyStatus.IsSet; mmLocationName = value; }
         }
-        private bool isDirtyLocationName = true;
+        private PropertyStatus LocationNamePropertyStatus = PropertyStatus.IsDirty;
+        #endregion
 
+        #region LocationRegionState
         private string mmLocationRegionState;
         private string mLocationRegionState
         {
             get { return mmLocationRegionState; }
-            set { isDirtyLocationRegionState = false; mmLocationRegionState = value; }
+            set { LocationRegionStatePropertyStatus = PropertyStatus.IsSet; mmLocationRegionState = value; }
         }
-        private bool isDirtyLocationRegionState = true;
+        private PropertyStatus LocationRegionStatePropertyStatus = PropertyStatus.IsDirty;
+        #endregion
 
+        #region LocationCity
         private string mmLocationCity;
         private string mLocationCity
         {
             get { return mmLocationCity; }
-            set { isDirtyLocationCity = false; mmLocationCity = value; }
+            set { LocationCityPropertyStatus = PropertyStatus.IsSet; mmLocationCity = value; }
         }
-        private bool isDirtyLocationCity = true;
+        private PropertyStatus LocationCityPropertyStatus = PropertyStatus.IsDirty;
+        #endregion
 
+        #region LocationCountry
         private string mmLocationCountry;
         private string mLocationCountry
         {
             get { return mmLocationCountry; }
-            set { isDirtyLocationCountry = false; mmLocationCountry = value; }
+            set { LocationCountryPropertyStatus = PropertyStatus.IsSet; mmLocationCountry = value; }
         }
-        private bool isDirtyLocationCountry = true;
+        private PropertyStatus LocationCountryPropertyStatus = PropertyStatus.IsDirty;
+        #endregion
 
         // Used for virtual items
         internal bool isVirtualItem;
         internal object mVirtualItemKey;
 
         internal ImageListView.ImageListViewItemCollection owner;
-        internal bool mIsDirty;
-        bool isDirty
+        
+        #region 
+        private bool HasAnyPropertyThisStatus(PropertyStatus propertyStatus)
         {
-            get
-            {
-                //JTN: MediaFileAttributes
-                return
-                isDirtyFileDate ||
-                isDirtyFileSmartDate ||
-                isDirtyFileDateCreated ||
-                isDirtyFileDateModified ||
-                isDirtyFileType ||
-                isDirtyFileName ||
-                isDirtyFileDirectory ||
-                isDirtyFileSize ||
-                isDirtyMediaDimensions ||
-                isDirtyCameraMake ||
-                isDirtyCameraModel ||
-                isDirtyMediaDateTaken ||
-                isDirtyMediaAlbum ||
-                isDirtyMediaTitle ||
-                isDirtyMediaDescription ||
-                isDirtyMediaComment ||
-                isDirtyMediaAuthor ||
-                isDirtyMediaRating ||
-                isDirtyLocationDateTime ||
-                isDirtyLocationTimeZone ||
-                isDirtyLocationName ||
-                isDirtyLocationRegionState ||
-                isDirtyLocationCity ||
-                isDirtyLocationCountry ; 
-            }
-            set
-            {
-                mIsDirty = value;
-                //JTN: MediaFileAttributes
-                //isDirtyFileDate = value; //ReadOnly
-                isDirtyFileSmartDate = value;
-                isDirtyFileDateCreated = value;
-                isDirtyFileDateModified = value;
-                isDirtyFileType = value;
-                isDirtyFileName = false; //This can't become dirty
-                isDirtyFileDirectory = value;
-                isDirtyFileSize = value;
-                isDirtyMediaDimensions = value;
-                isDirtyCameraMake = value;
-                isDirtyCameraModel = value;
-                isDirtyMediaDateTaken = value;
-                isDirtyMediaAlbum = value;
-                isDirtyMediaTitle = value;
-                isDirtyMediaDescription = value;
-                isDirtyMediaComment = value;
-                isDirtyMediaAuthor = value;
-                isDirtyMediaRating = value;
-                isDirtyLocationDateTime = value;
-                isDirtyLocationTimeZone = value;
-                isDirtyLocationName = value;
-                isDirtyLocationRegionState = value;
-                isDirtyLocationCity = value;
-                isDirtyLocationCountry = value;                
-            }
+            if (FileSmartDatePropertyStatus == propertyStatus) return true;
+            if (FileDateCreatedPropertyStatus == propertyStatus) return true;
+            if (FileDateModifiedPropertyStatus == propertyStatus) return true;
+            if (FileTypePropertyStatus == propertyStatus) return true;
+            if (FileNamePropertyStatus == propertyStatus) return true;
+            if (FileDirectoryPropertyStatus == propertyStatus) return true;
+            if (FileSizePropertyStatus == propertyStatus) return true;
+            if (MediaPropertyStatusDimensions == propertyStatus) return true;
+            if (CameraMakePropertyStatus == propertyStatus) return true;
+            if (CameraModelPropertyStatus == propertyStatus) return true;
+            if (MediaDateTakenPropertyStatus == propertyStatus) return true;
+            if (MediaAlbumPropertyStatus == propertyStatus) return true;
+            if (MediaTitlePropertyStatus == propertyStatus) return true;
+            if (MediaDescriptionPropertyStatus == propertyStatus) return true;
+            if (MediaCommentPropertyStatus == propertyStatus) return true;
+            if (MediaAuthorPropertyStatus == propertyStatus) return true;
+            if (MediaRatingPropertyStatus == propertyStatus) return true;
+            if (LocationDateTimePropertyStatus == propertyStatus) return true; ;
+            if (LocationTimeZonePropertyStatus == propertyStatus) return true;
+            if (LocationNamePropertyStatus == propertyStatus) return true;
+            if (LocationRegionStatePropertyStatus == propertyStatus) return true;
+            if (LocationCityPropertyStatus == propertyStatus) return true;
+            if (LocationCountryPropertyStatus == propertyStatus) return true;
+            return false;
         }
-        internal bool isFileInfoDirty //Added by JTN
+
+        public bool IsPropertyRequested()
         {
-            get
-            {
-                //JTN: MediaFileAttributes
-                return isDirtyFileDate ||
-                isDirtyFileSmartDate ||
-                isDirtyFileDateCreated ||
-                isDirtyFileDateModified ||
-                isDirtyFileType ||
-                isDirtyFileName ||
-                isDirtyFileDirectory ||
-                isDirtyFileSize /*||
-                isDirtyMediaDimensions ||
-                isDirtyCameraMake ||
-                isDirtyCameraModel ||
-                isDirtyMediaDateTaken ||
-                isDirtyMediaAlbum ||
-                isDirtyMediaTitle ||
-                isDirtyMediaDescription ||
-                isDirtyMediaComment ||
-                isDirtyMediaAuthor ||
-                isDirtyMediaRating ||
-                isDirtyLocationName ||
-                isDirtyLocationRegionState ||
-                isDirtyLocationCity ||
-                isDirtyLocationCountry */;
-            }
+            if (HasAnyPropertyThisStatus(PropertyStatus.Requested)) return true;
+            if (HasAnyPropertyThisStatus(PropertyStatus.IsDirty)) return true;
+            return false;
         }
+        #endregion
+
+        private void SetPropertyStatusForAll (PropertyStatus propertyStatus)
+        {
+            //JTN: MediaFileAttributes
+            //isDirtyFileDate = value; //ReadOnly
+            FileSmartDatePropertyStatus = propertyStatus;
+            FileDateCreatedPropertyStatus = propertyStatus;
+            FileDateModifiedPropertyStatus = propertyStatus;
+            FileTypePropertyStatus = propertyStatus;
+            FileNamePropertyStatus = PropertyStatus.IsSet; //This can't become dirty
+            FileDirectoryPropertyStatus = propertyStatus;
+            FileSizePropertyStatus = propertyStatus;
+            MediaPropertyStatusDimensions = propertyStatus;
+            CameraMakePropertyStatus = propertyStatus;
+            CameraModelPropertyStatus = propertyStatus;
+            MediaDateTakenPropertyStatus = propertyStatus;
+            MediaAlbumPropertyStatus = propertyStatus;
+            MediaTitlePropertyStatus = propertyStatus;
+            MediaDescriptionPropertyStatus = propertyStatus;
+            MediaCommentPropertyStatus = propertyStatus;
+            MediaAuthorPropertyStatus = propertyStatus;
+            MediaRatingPropertyStatus = propertyStatus;
+            LocationDateTimePropertyStatus = propertyStatus;
+            LocationTimeZonePropertyStatus = propertyStatus;
+            LocationNamePropertyStatus = propertyStatus;
+            LocationRegionStatePropertyStatus = propertyStatus;
+            LocationCityPropertyStatus = propertyStatus;
+            LocationCountryPropertyStatus = propertyStatus;
+        }
+
         private bool editing;
         #endregion
 
         #region Properties
+
+        #region Color BackColor
         /// <summary>
         /// Gets or sets the background color of the item.
         /// </summary>
@@ -365,6 +395,9 @@ namespace Manina.Windows.Forms
                 }
             }
         }
+        #endregion
+
+        #region CacheState ThumbnailCacheState
         /// <summary>
         /// Gets the cache state of the item thumbnail.
         /// </summary>
@@ -387,6 +420,9 @@ namespace Manina.Windows.Forms
                     owner.FocusedItem = this;
             }
         }
+        #endregion
+
+        #region Color ForeColor
         /// <summary>
         /// Gets or sets the foreground color of the item.
         /// </summary>
@@ -407,27 +443,42 @@ namespace Manina.Windows.Forms
                 }
             }
         }
+        #endregion
+
+        #region internal Guid Guid
         /// <summary>
         /// Gets the unique identifier for this item.
         /// </summary>
         [Category("Behavior"), Browsable(false), Description("Gets the unique identifier for this item.")]
         internal Guid Guid { get { return mGuid; } private set { mGuid = value; } }
+        #endregion
+
+        #region object VirtualItemKey
         /// <summary>
         /// Gets the virtual item key associated with this item.
         /// Returns null if the item is not a virtual item.
         /// </summary>
         [Category("Behavior"), Browsable(false), Description("Gets the virtual item key associated with this item.")]
         public object VirtualItemKey { get { return mVirtualItemKey; } }
+        #endregion
+
+        #region ImageListView ImageListView
         /// <summary>
         /// Gets the ImageListView owning this item.
         /// </summary>
         [Category("Behavior"), Browsable(false), Description("Gets the ImageListView owning this item.")]
         public ImageListView ImageListView { get { return mImageListView; } private set { mImageListView = value; } }
+        #endregion
+
+        #region int Index
         /// <summary>
         /// Gets the index of the item.
         /// </summary>
         [Category("Behavior"), Browsable(false), Description("Gets the index of the item."), EditorBrowsable(EditorBrowsableState.Advanced)]
         public int Index { get { return mIndex; } }
+        #endregion
+
+        #region bool Selected
         /// <summary>
         /// Gets or sets a value determining if the item is selected.
         /// </summary>
@@ -448,13 +499,17 @@ namespace Manina.Windows.Forms
                 }
             }
         }
-        
+        #endregion
+
+        #region object Tag
         /// <summary>
         /// Gets or sets the user-defined data associated with the item.
         /// </summary>
         [Category("Data"), Browsable(true), Description("Gets or sets the user-defined data associated with the item.")]
         public object Tag { get; set; }
+        #endregion
 
+        #region string Text
         /// <summary>
         /// Gets or sets the text associated with this item. If left blank, item Text 
         /// reverts to the name of the image file.
@@ -473,7 +528,9 @@ namespace Manina.Windows.Forms
                     mImageListView.Refresh();
             }
         }
+        #endregion
 
+        #region Image ThumbnailImage
         /// <summary>
         /// Gets the thumbnail image. If the thumbnail image is not cached, it will be 
         /// added to the cache queue and DefaultImage of the owner image list view will
@@ -501,45 +558,59 @@ namespace Manina.Windows.Forms
                     mImageListView.cacheManager.Add(Guid, FileFullPath, mImageListView.ThumbnailSize, mImageListView.UseEmbeddedThumbnails);
                 return mImageListView.DefaultImage;
             }
-            
         }
+        #endregion
 
+        #region int ZOrder
         /// <summary>
         /// Gets or sets the draw order of the item.
         /// </summary>
         [Category("Appearance"), Browsable(true), Description("Gets or sets the draw order of the item."), DefaultValue(0)]
         public int ZOrder { get { return mZOrder; } set { mZOrder = value; } }
+        #endregion
 
+        #region DateTime Date
         //JTN: MediaFileAttributes
         /// <summary>
         /// Gets the creation date of the image file represented by this item.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the date of the image file represented by this item.")]
-        public DateTime Date { get { UpdateFileInfo(isDirtyFileDateCreated); return mFileDate; } }
+        public DateTime Date { get { UpdateFileInfo(FileDatePropertyStatus); return mFileDate; } }
+        #endregion
 
+        #region DateTime SmartDate
         /// <summary>
         /// Gets the creation date of the image file represented by this item.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the creation date of the image file represented by this item.")]
-        public DateTime SmartDate { get { UpdateFileInfo(isDirtyFileDateCreated); return mFileSmartDate; } }
+        public DateTime SmartDate { get { UpdateFileInfo(FileSmartDatePropertyStatus); return mFileSmartDate; } }
+        #endregion
+
+        #region DateTime DateCreated
         /// <summary>
         /// Gets the creation date of the image file represented by this item.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the creation date of the image file represented by this item.")]
-        public DateTime DateCreated { get { UpdateFileInfo(isDirtyFileDateCreated); return mFileDateCreated; } }
-        
+        public DateTime DateCreated { get { UpdateFileInfo(FileDateCreatedPropertyStatus); return mFileDateCreated; } }
+        #endregion
+
+        #region DateTime DateModified
         /// <summary>
         /// Gets the modification date of the image file represented by this item.
         /// </summary>
-        [Category("Data"), Browsable(false), Description("Gets the modification date of the image file represented by this item.")]
-        
-        public DateTime DateModified { get { UpdateFileInfo(isDirtyFileDateModified); return mFileDateModified; } }
+        [Category("Data"), Browsable(false), Description("Gets the modification date of the image file represented by this item.")]        
+        public DateTime DateModified { get { UpdateFileInfo(FileDateModifiedPropertyStatus); return mFileDateModified; } }
+        #endregion
+
+        #region string FileType
         /// <summary>
         /// Gets the shell type of the image file represented by this item.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the shell type of the image file represented by this item.")]
-        public string FileType { get { UpdateFileInfo(isDirtyFileType); return mFileType; } }
-        
+        public string FileType { get { UpdateFileInfo(FileTypePropertyStatus); return mFileType; } }
+        #endregion
+
+        #region string FileFullPath
         /// <summary>
         /// Gets or sets the name of the image fie represented by this item.
         /// </summary>        
@@ -557,7 +628,7 @@ namespace Manina.Windows.Forms
                     mFileName = value;
                     if (!isVirtualItem)
                     {
-                        isDirty = true;
+                        SetPropertyStatusForAll(PropertyStatus.IsDirty);
                         //isFileInfoDirty = true;
                         if (mImageListView != null)
                         {
@@ -569,117 +640,152 @@ namespace Manina.Windows.Forms
                 }
             }
         }
+        #endregion
 
+        #region string FileDirectory
         /// <summary>
         /// Gets the path of the image fie represented by this item.
         /// </summary>        
         [Category("Data"), Browsable(false), Description("Gets the path of the image fie represented by this item.")]
-        public string FileDirectory { get { UpdateFileInfo(isDirtyFileDirectory); return mFileDirectory; } }
-        
+        public string FileDirectory { get { UpdateFileInfo(FileDirectoryPropertyStatus); return mFileDirectory; } }
+        #endregion
+
+        #region long FileSize
         /// <summary>
         /// Gets file size in bytes.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets file size in bytes.")]
-        public long FileSize { get { UpdateFileInfo(isDirtyFileSize); return mFileSize; } }
-        
+        public long FileSize { get { UpdateFileInfo(FileSizePropertyStatus); return mFileSize; } }
+        #endregion
+
+        #region Size Dimensions
         /// <summary>
         /// Gets image dimensions.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets image dimensions.")]
-        public Size Dimensions { get { UpdateFileInfo(isDirtyMediaDimensions); return mMediaDimensions; } }
+        public Size Dimensions { get { UpdateFileInfo(MediaPropertyStatusDimensions); return mMediaDimensions; } }
+        #endregion
 
+        #region string CameraMake
         /// <summary>
         /// Gets the camera model.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the camera make.")]
-        public string CameraMake { get { UpdateFileInfo(isDirtyCameraMake); return mCameraMake; } }
+        public string CameraMake { get { UpdateFileInfo(CameraMakePropertyStatus); return mCameraMake; } }
+        #endregion
 
+        #region string CameraModel
         /// <summary>
         /// Gets the camera model.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the camera model.")]
-        public string CameraModel { get { UpdateFileInfo(isDirtyCameraModel); return mCameraModel; } }
-        
+        public string CameraModel { get { UpdateFileInfo(CameraModelPropertyStatus); return mCameraModel; } }
+        #endregion
+
+        #region DateTime DateTaken
         /// <summary>
         /// Gets the date and time the image was taken.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the date and time the image was taken.")]
-        public DateTime DateTaken { get { UpdateFileInfo(isDirtyMediaDateTaken); return mMediaDateTaken; } }
+        public DateTime DateTaken { get { UpdateFileInfo(MediaDateTakenPropertyStatus); return mMediaDateTaken; } }
+        #endregion
 
         //JTN: Added more column types
-        
+        #region string MediaAlbum
         /// <summary>
         /// Gets media album.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets media album.")]
-        public string MediaAlbum { get { UpdateFileInfo(isDirtyMediaAlbum); return mMediaAlbum; } }
+        public string MediaAlbum { get { UpdateFileInfo(MediaAlbumPropertyStatus); return mMediaAlbum; } }
+        #endregion
 
+        #region string MediaTitle
         /// <summary>
         /// Gets media title.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets media title.")]
-        public string MediaTitle { get { UpdateFileInfo(isDirtyMediaTitle); return mMediaTitle; } }
-        
+        public string MediaTitle { get { UpdateFileInfo(MediaTitlePropertyStatus); return mMediaTitle; } }
+        #endregion
+
+        #region string MediaDescription
         /// <summary>
         /// Gets media description.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets media description.")]
-        public string MediaDescription { get { UpdateFileInfo(isDirtyMediaDescription); return mMediaDescription; } }
+        public string MediaDescription { get { UpdateFileInfo(MediaDescriptionPropertyStatus); return mMediaDescription; } }
+        #endregion
 
+        #region string MediaComment
         /// <summary>
         /// Gets user comments.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets user comments.")]
-        public string MediaComment { get { UpdateFileInfo(isDirtyMediaComment); return mMediaComment; } }
+        public string MediaComment { get { UpdateFileInfo(MediaCommentPropertyStatus); return mMediaComment; } }
+        #endregion
 
+        #region string MediaAuthor
         /// <summary>
         /// Gets the name of the artist.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the name of the media file author.")]
-        public string MediaAuthor { get { UpdateFileInfo(isDirtyMediaAuthor); return mMediaAuthor; } }
+        public string MediaAuthor { get { UpdateFileInfo(MediaAuthorPropertyStatus); return mMediaAuthor; } }
+        #endregion
 
+        #region byte MediaRating
         /// <summary>
         /// Gets the media rating.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the media rating.")]
-        public byte MediaRating { get { UpdateFileInfo(isDirtyMediaRating); return mMediaRating; } }
+        public byte MediaRating { get { UpdateFileInfo(MediaRatingPropertyStatus); return mMediaRating; } }
+        #endregion
 
+        #region DateTime LocationDateTime
         /// <summary>
         /// Gets the date and time the image was taken.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the UTC date and time the image was taken.")]
-        public DateTime LocationDateTime { get { UpdateFileInfo(isDirtyLocationDateTime); return mLocationDateTime; } }
+        public DateTime LocationDateTime { get { UpdateFileInfo(LocationDateTimePropertyStatus); return mLocationDateTime; } }
+        #endregion
 
+        #region string LocationTimeZone
         /// <summary>
         /// Gets the media location time zone.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the name of the media location time zone.")]
-        public string LocationTimeZone { get { UpdateFileInfo(isDirtyLocationTimeZone); return mLocationTimeZone; } }
+        public string LocationTimeZone { get { UpdateFileInfo(LocationTimeZonePropertyStatus); return mLocationTimeZone; } }
+        #endregion
 
+        #region string LocationName
         /// <summary>
         /// Gets the media location name.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the name of the media location name.")]
-        public string LocationName { get { UpdateFileInfo(isDirtyLocationName); return mLocationName; } }
+        public string LocationName { get { UpdateFileInfo(LocationNamePropertyStatus); return mLocationName; } }
+        #endregion
 
+        #region string LocationRegionState
         /// <summary>
         /// Gets the media location region or state.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the name of the media Llocation region or state.")]
-        public string LocationRegionState { get { UpdateFileInfo(isDirtyLocationRegionState); return mLocationRegionState; } }
+        public string LocationRegionState { get { UpdateFileInfo(LocationRegionStatePropertyStatus); return mLocationRegionState; } }
+        #endregion
 
+        #region string LocationCity
         /// <summary>
         /// Gets the media location city.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the name of the media location city.")]
-        public string LocationCity { get { UpdateFileInfo(isDirtyLocationCity); return mLocationCity; } }
+        public string LocationCity { get { UpdateFileInfo(LocationCityPropertyStatus); return mLocationCity; } }
+        #endregion
 
+        #region string LocationCountry
         /// <summary>
         /// Gets the media location country.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the name of the media location country.")]
-        public string LocationCountry { get { UpdateFileInfo(isDirtyLocationCountry); return mLocationCountry; } }
-        
+        public string LocationCountry { get { UpdateFileInfo(LocationCountryPropertyStatus); return mLocationCountry; } }
+        #endregion 
 
         #endregion
 
@@ -700,7 +806,7 @@ namespace Manina.Windows.Forms
             ImageListView = null;
             Selected = false;
 
-            isDirty = true;
+            SetPropertyStatusForAll(PropertyStatus.IsDirty); ;
             //isFileInfoDirty = true;
             editing = false;
 
@@ -778,6 +884,8 @@ namespace Manina.Windows.Forms
 
 
         #region Instance Methods
+
+        #region BeginEdit()
         /// <summary>
         /// Begins editing the item.
         /// This method must be used while editing the item
@@ -791,13 +899,15 @@ namespace Manina.Windows.Forms
             if (mImageListView == null)
                 throw new InvalidOperationException("Owner control is null.");
 
-            UpdateFileInfo(false);
+            UpdateFileInfo(PropertyStatus.IsSet);
             mImageListView.cacheManager.BeginItemEdit(mGuid, mFileName);
             mImageListView.itemCacheManager.BeginItemEdit(mGuid);
 
             editing = true;
         }
+        #endregion
 
+        #region EndEdit(bool update)
         /// <summary>
         /// Ends editing and updates the item.
         /// </summary>
@@ -816,7 +926,9 @@ namespace Manina.Windows.Forms
             editing = false;
             if (update) Update();
         }
+        #endregion
 
+        #region EndEdit()
         /// <summary>
         /// Ends editing and updates the item.
         /// </summary>
@@ -824,14 +936,15 @@ namespace Manina.Windows.Forms
         {
             EndEdit(true);
         }
+        #endregion
 
+        #region Update()
         /// <summary>
         /// Updates item thumbnail and item details.
         /// </summary>
         public void Update()
         {
-            isDirty = true;
-            //isFileInfoDirty = true;
+            Dirty();
             if (mImageListView != null)
             {
                 mImageListView.cacheManager.Remove(mGuid, true);
@@ -839,15 +952,19 @@ namespace Manina.Windows.Forms
                 mImageListView.Refresh(); 
             }
         }
+        #endregion
 
+        #region Dirty()
         /// <summary>
         /// Updates item thumbnail and item details.
         /// </summary>
         public void Dirty()
         {
-            isDirty = true;
+            SetPropertyStatusForAll(PropertyStatus.IsDirty);
         }
+        #endregion
 
+        #region GetSubItemText(ColumnType type)
         /// <summary>
         /// Returns the sub item item text corresponding to the specified column type.
         /// </summary>
@@ -928,28 +1045,20 @@ namespace Manina.Windows.Forms
         }
         #endregion
 
+        #endregion
+
         #region Helper Methods
+
+        #region UpdateFileInfo(PropertyStatus propertyStatus)
         /// <summary>
         /// Updates file info for the image file represented by this item.
         /// </summary>
-        private void UpdateFileInfo(bool isValueDirty)
+        private void UpdateFileInfo(PropertyStatus propertyStatus)
         {
-            if (!isValueDirty) return;
-            //if (needCheckOnlyFileInfo && !isFileInfoDirty) return;
-            //if (!needCheckOnlyFileInfo && !isDirty) return;
-
-            if (isVirtualItem)
-            {
-                throw new Exception("Not implemented");
-                /*
-                if (mImageListView != null)
-                {
-                    VirtualItemDetailsEventArgs e = new VirtualItemDetailsEventArgs(mVirtualItemKey);
-                    mImageListView.RetrieveVirtualItemDetailsInternal(e);
-                    UpdateDetailsInternal(e); //Virtual
-                }*/
-            }
-            else
+            if (propertyStatus == PropertyStatus.IsSet) return; //IS NOT DIRTY
+            if (propertyStatus == PropertyStatus.Requested) return; //IS NOT DIRTY
+            
+            if (!isVirtualItem)
             {
                 RetrieveItemMetadataDetailsEventArgs e = new RetrieveItemMetadataDetailsEventArgs(mFileName);
                 mImageListView.RetrieveItemMetadataDetailsInternal(e);
@@ -965,52 +1074,57 @@ namespace Manina.Windows.Forms
                 }
             }
         }
+        #endregion
+
+
+        #region UpdateDetailsInternal(Utility.ShellImageFileInfo info)
         /// <summary>
         /// Invoked by the worker thread to update item details.
         /// </summary>
         internal void UpdateDetailsInternal(Utility.ShellImageFileInfo info)
         {
             //if (!isDirty) return;
-            if (!isFileInfoDirty) return;
+//if (!isFileInfoDirty) return;
             if (info != null)
             {
                 #region Provided by FileInfo  
-                if (info.IsFileSmartDateSet) mFileSmartDate = info.FileSmartDate;
-                if (info.IsFileDateCreatedSet) mFileDateCreated = info.FileDateCreated;
-                if (info.IsFileDateModifiedSet) mFileDateModified = info.FileDateModified;
+                if (info.FileSmartDatePropertyStatus == PropertyStatus.IsSet) mFileSmartDate = info.FileSmartDate;
+                if (info.FileDateCreatedPropertyStatus == PropertyStatus.IsSet) mFileDateCreated = info.FileDateCreated;
+                if (info.FileDateModifiedPropertyStatus == PropertyStatus.IsSet) mFileDateModified = info.FileDateModified;
                 
-                if (info.IsFileSizeSet) mFileSize = info.FileSize;
-                if (info.IsFileMimeTypeSet) mFileType = info.FileMimeType;
-                if (info.IsFileDirectorySet) mFileDirectory = info.FileDirectory;
+                if (info.FileSizePropertyStatus == PropertyStatus.IsSet) mFileSize = info.FileSize;
+                if (info.FileMimeTypePropertyStatus == PropertyStatus.IsSet) mFileType = info.FileMimeType;
+                if (info.FileDirectoryPropertyStatus == PropertyStatus.IsSet) mFileDirectory = info.FileDirectory;
                 #endregion 
 
                 #region Provided by ShellImageFileInfo, MagickImage                                
-                if (info.IsCameraMakeSet) mCameraMake = info.CameraMake;
-                if (info.IsCameraModelSet) mCameraModel = info.CameraModel;
-                if (info.IsMediaDimensionsSet) mMediaDimensions = info.MediaDimensions;
-                if (info.IsMediaDateTakenSet) mMediaDateTaken = info.MediaDateTaken;
+                if (info.CameraMakePropertyStatus == PropertyStatus.IsSet) mCameraMake = info.CameraMake;
+                if (info.CameraModelPropertyStatus == PropertyStatus.IsSet) mCameraModel = info.CameraModel;
+                if (info.MediaDimensionsPropertyStatus == PropertyStatus.IsSet) mMediaDimensions = info.MediaDimensions;
+                if (info.MediaDateTakenPropertyStatus == PropertyStatus.IsSet) mMediaDateTaken = info.MediaDateTaken;
                 #endregion 
 
                 #region Provided by MagickImage, Exiftool
-                if (info.IsMediaTitleSet) mMediaTitle = info.MediaTitle;
-                if (info.IsMediaDescriptionSet) mMediaDescription = info.MediaDescription;
-                if (info.IsMediaCommentSet) mMediaComment = info.MediaComment;
-                if (info.IsMediaAuthorSet) mMediaAuthor = info.MediaAuthor;
-                if (info.IsMediaRatingSet) mMediaRating = info.MediaRating;
+                if (info.MediaTitlePropertyStatus == PropertyStatus.IsSet) mMediaTitle = info.MediaTitle;
+                if (info.MediaDescriptionPropertyStatus == PropertyStatus.IsSet) mMediaDescription = info.MediaDescription;
+                if (info.MediaCommentPropertyStatus == PropertyStatus.IsSet) mMediaComment = info.MediaComment;
+                if (info.MediaAuthorPropertyStatus == PropertyStatus.IsSet) mMediaAuthor = info.MediaAuthor;
+                if (info.MediaRatingPropertyStatus == PropertyStatus.IsSet) mMediaRating = info.MediaRating;
                 #endregion 
 
                 #region Provided by Exiftool
-                if (info.IsMediaAlbumSet) mMediaAlbum = info.MediaAlbum;
-                if (info.IsLocationDateTimeSet) mLocationDateTime = info.LocationDateTime;
-                if (info.IsLocationTimeZoneSet) mLocationTimeZone = info.LocationTimeZone;
-                if (info.IsLocationNameSet) mLocationName = info.LocationName;
-                if (info.IsLocationRegionStateSet) mLocationRegionState = info.LocationRegionState;
-                if (info.IsLocationCitySet) mLocationCity = info.LocationCity;
-                if (info.IsLocationCountrySet) mLocationCountry = info.LocationCountry;
+                if (info.MediaAlbumPropertyStatus == PropertyStatus.IsSet) mMediaAlbum = info.MediaAlbum;
+                if (info.LocationDateTimePropertyStatus == PropertyStatus.IsSet) mLocationDateTime = info.LocationDateTime;
+                if (info.LocationTimeZonePropertyStatus == PropertyStatus.IsSet) mLocationTimeZone = info.LocationTimeZone;
+                if (info.LocationNamePropertyStatus == PropertyStatus.IsSet) mLocationName = info.LocationName;
+                if (info.LocationRegionStatePropertyStatus == PropertyStatus.IsSet) mLocationRegionState = info.LocationRegionState;
+                if (info.LocationCityPropertyStatus == PropertyStatus.IsSet) mLocationCity = info.LocationCity;
+                if (info.LocationCountryPropertyStatus == PropertyStatus.IsSet) mLocationCountry = info.LocationCountry;
                 #endregion
             }            
         }
-        
+        #endregion 
+
         #endregion
     }
 }

@@ -271,22 +271,32 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region DataGridView - Populate File - For FileEntryAttribute missing Tag - Invoke
-        private void PopulateDataGridViewForFileEntryAttributeInvoke(FileEntryAttribute fileEntryAttribute)
+        private void PopulateImageListVieAndDataGridViewForFileEntryAttributeInvoke(FileEntryAttribute fileEntryAttribute)
         {
             if (InvokeRequired)
             {
-                this.BeginInvoke(new Action<FileEntryAttribute>(PopulateDataGridViewForFileEntryAttributeInvoke), fileEntryAttribute);
+                this.BeginInvoke(new Action<FileEntryAttribute>(PopulateImageListVieAndDataGridViewForFileEntryAttributeInvoke), fileEntryAttribute);
                 return;
             }
             if (GlobalData.IsApplicationClosing) return;
-
-            string tag = GetActiveTabTag();
-            if (!string.IsNullOrWhiteSpace(tag) && IsActiveDataGridViewAgregated(tag))
+            try
             {
-                DataGridView dataGridView = GetDataGridViewForTag(tag);
-                if (dataGridView != null) PopulateDataGrivViewForFileEntryAttributeAndTag(dataGridView, fileEntryAttribute, tag);
+                string tag = GetActiveTabTag();
+                if (!string.IsNullOrWhiteSpace(tag) && IsActiveDataGridViewAgregated(tag))
+                {
+                    DataGridView dataGridView = GetDataGridViewForTag(tag);
+                    if (dataGridView != null) PopulateDataGrivViewForFileEntryAttributeAndTag(dataGridView, fileEntryAttribute, tag);
+                }
+            
+                ImageListViewItem foundItem = FindItemInImageListView(imageListView1.Items, fileEntryAttribute.FileFullPath);
+                if (foundItem != null)
+                {
+                    if (foundItem.IsPropertyRequested()) foundItem.Update(); //imageListView1.Items.Remove(foundItem);
+                }
+            } catch (Exception ex)
+            {
+                Logger.Error(ex);
             }
-
         }
         #endregion
 
