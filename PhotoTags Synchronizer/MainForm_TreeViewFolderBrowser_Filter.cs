@@ -48,6 +48,8 @@ namespace PhotoTagsSynchronizer
         {
             if (GlobalData.IsPopulatingFilter) return;
 
+            if (SaveBeforeContinue(false) == DialogResult.Cancel) return;
+
             //Hack for double - click bug
             TreeNode treeNode = e.Node;
             if (treeNode.Tag is int)
@@ -425,6 +427,8 @@ namespace PhotoTagsSynchronizer
 
         private void buttonFilterSearch_Click()
         {
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
             #region DateTaken
             bool useMediaTakenFrom = dateTimePickerSearchDateFrom.Checked;
             DateTime mediaTakenFrom = dateTimePickerSearchDateFrom.Value;

@@ -18,6 +18,31 @@ namespace PhotoTagsSynchronizer
     {
         #region FolderSelected or FilterSearch clicked
 
+        #region FolderTree - BeforeSelect - Click
+        private void treeViewFolderBrowser1_BeforeSelect(object sender, TreeViewCancelEventArgs e)
+        {
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) e.Cancel = true;
+        }
+        #endregion
+
+        #region FolderTree - AfterSelect - Click
+        private void treeViewFolderBrowser1_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            try
+            {
+                if (GlobalData.IsPopulatingFolderTree) return;
+                if (GlobalData.IsDragAndDropActive) return;
+                if (GlobalData.DoNotRefreshImageListView) return;
+                PopulateImageListView_FromFolderSelected(false, true);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        #endregion
+
         #region PopulateImageListView
         private void PopulateImageListView(HashSet<FileEntry> fileEntries, string selectedFolder, bool runPopulateFilter = true)
         {

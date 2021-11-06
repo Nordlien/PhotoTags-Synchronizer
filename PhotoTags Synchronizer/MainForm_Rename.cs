@@ -58,6 +58,7 @@ namespace PhotoTagsSynchronizer
 
         private void SaveRename()
         {
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
             try
             {
                 if (IsFileInThreadQueueLock(imageListView1.SelectedItems))
@@ -65,7 +66,7 @@ namespace PhotoTagsSynchronizer
                     KryptonMessageBox.Show("Can't start rename process, files being updated, need wait files finished with updating.", "Can't start rename");
                 }
                 else
-                {
+                {                    
                     Dictionary<string, string> renameSuccess;
                     Dictionary<string, string> renameFailed;
 

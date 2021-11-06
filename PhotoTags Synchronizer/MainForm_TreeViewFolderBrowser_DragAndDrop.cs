@@ -25,24 +25,7 @@ namespace PhotoTagsSynchronizer
 
         #region FoldeTree
 
-        #region FolderTree - Folder - Click
-        private void treeViewFolderBrowser1_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-            try
-            {
-                if (GlobalData.IsPopulatingFolderTree) return;
-                if (GlobalData.IsDragAndDropActive) return;
-                if (GlobalData.DoNotRefreshImageListView) return;
-                
-                PopulateImageListView_FromFolderSelected(false, true);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        #endregion 
+         
 
         #endregion
 

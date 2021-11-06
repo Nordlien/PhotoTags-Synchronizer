@@ -1728,10 +1728,12 @@ namespace PhotoTagsSynchronizer
 
         #region FilSystemSelectedFilesDelete_Click
         private void FilSystemSelectedFilesDelete_Click()
-        {
+        {            
             try
             {
                 if (GlobalData.IsPopulatingAnything()) return;
+                if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
                 treeViewFolderBrowser1.Enabled = false;
                 imageListView1.Enabled = false;
 
@@ -1775,6 +1777,8 @@ namespace PhotoTagsSynchronizer
         #region FilSystemFolderDelete_Click
         private void FilSystemFolderDelete_Click()
         {
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
             try
             {
                 string folder = GetSelectedNodePath();
@@ -4968,6 +4972,8 @@ namespace PhotoTagsSynchronizer
         #region FolderRefresh_Click
         private void FolderRefresh_Click()
         {
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
             try
             {
                 GlobalData.DoNotRefreshImageListView = true;
@@ -4988,6 +4994,8 @@ namespace PhotoTagsSynchronizer
         #region MediaFilesRefresh_Click
         private void MediaFilesRefresh_Click()
         {
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
             try
             {
                 PopulateImageListView_FromFolderSelected(false, true);
@@ -5055,6 +5063,8 @@ namespace PhotoTagsSynchronizer
         #region ToolStrip - Refresh - Items in listview 
         private void FolderReadSubfolders_Click()
         {
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
             try
             {
                 PopulateImageListView_FromFolderSelected(true, true);
@@ -5522,11 +5532,13 @@ namespace PhotoTagsSynchronizer
         #region FileSystemRunCommand - Click Events Sources
         private void kryptonRibbonGroupButtonFileSystemRunCommand_Click(object sender, EventArgs e)
         {
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
             ActionFileSystemRunCommand();
         }
 
         private void KryptonContextMenuItemGenericFileSystemRunCommand_Click(object sender, EventArgs e)
         {
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
             ActionFileSystemRunCommand();
         }
         #endregion
@@ -5534,14 +5546,11 @@ namespace PhotoTagsSynchronizer
         #region MediaFilesRunCommand
         private void MediaFilesRunCommand()
         {
-            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
             try
             {
                 if (imageListView1.SelectedItems.Count > 0)
                 {
                     FormSplash.ShowSplashScreen("Populate the 'Advance: Run Command' form...", imageListView1.SelectedItems.Count + 3, false, false);
-
-                    
 
                     string writeMetadataTagsVariable = Properties.Settings.Default.WriteMetadataTags;
                     string writeMetadataKeywordAddVariable = Properties.Settings.Default.WriteMetadataKeywordAdd;
@@ -5999,7 +6008,7 @@ namespace PhotoTagsSynchronizer
                             }
 
                             AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
-                            AddQueueRenameLock(item.FileFullPath, autoCorrect.RenameVariable);
+                            AddQueueRenameLock(file, autoCorrect.RenameVariable);
                         }
                     }
 
@@ -6118,6 +6127,7 @@ namespace PhotoTagsSynchronizer
         #region MediaFilesMetadataRefreshLast_Click
         private void MediaFilesMetadataRefreshLast_Click()
         {
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
             try
             {
                 DeleteLastMediadataAndReload(imageListView1, true);
@@ -6138,6 +6148,7 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
+                if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
                 DeleteLastMediadataAndReload(imageListView1, false);
                 treeViewFolderBrowser1.Focus();
             }
@@ -6296,25 +6307,19 @@ namespace PhotoTagsSynchronizer
             if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
             try
             {
-                bool showLocationForm = true;                
-                if (SaveBeforeContinue(true) == DialogResult.Cancel) showLocationForm = false;
-
-                if (showLocationForm)
+                FormLocationHistoryImport form = new FormLocationHistoryImport();
+                using (new WaitCursor())
                 {
-                    FormLocationHistoryImport form = new FormLocationHistoryImport();
-                    using (new WaitCursor())
-                    {
-                        form.databaseTools = databaseUtilitiesSqliteMetadata;
-                        form.databaseAndCahceCameraOwner = databaseAndCahceCameraOwner;
-                        form.Init();
-                    }
-                    if (form.ShowDialog() == DialogResult.OK)
-                    {
-                        databaseAndCahceCameraOwner.CameraMakeModelAndOwnerMakeDirty();
-                        databaseAndCahceCameraOwner.MakeCameraOwnersDirty();
-                        //Update DataGridViews
-                        FilesSelected();
-                    }
+                    form.databaseTools = databaseUtilitiesSqliteMetadata;
+                    form.databaseAndCahceCameraOwner = databaseAndCahceCameraOwner;
+                    form.Init();
+                }
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    databaseAndCahceCameraOwner.CameraMakeModelAndOwnerMakeDirty();
+                    databaseAndCahceCameraOwner.MakeCameraOwnersDirty();
+                    //Update DataGridViews
+                    FilesSelected();
                 }
             }
             catch (Exception ex)
@@ -7096,11 +7101,13 @@ namespace PhotoTagsSynchronizer
         #region SelectAll_Click
         private void kryptonRibbonQATButtonSelectAll_Click(object sender, EventArgs e)
         {
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
             ActionSelectAll();
         }
 
         private void kryptonRibbonGroupButtonSelectAll_Click(object sender, EventArgs e)
         {
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
             ActionSelectAll();
         }
         #endregion
@@ -7133,11 +7140,13 @@ namespace PhotoTagsSynchronizer
         #region SelectNone_Click
         private void kryptonRibbonQATButtonSelectNone_Click(object sender, EventArgs e)
         {
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
             ActionSelectNone();
         }
 
         private void kryptonRibbonGroupButtonSelectNone_Click(object sender, EventArgs e)
         {
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
             ActionSelectNone();
         }
         #endregion
@@ -7172,11 +7181,13 @@ namespace PhotoTagsSynchronizer
         #region SelectToggle_Click
         private void kryptonRibbonGroupButtonSelectToggle_Click(object sender, EventArgs e)
         {
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
             ActionSelectToggle();
         }
 
         private void kryptonRibbonQATButtonSelectToggle_Click(object sender, EventArgs e)
         {
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
             ActionSelectToggle();
         }
         #endregion

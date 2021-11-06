@@ -294,11 +294,13 @@ namespace PhotoTagsSynchronizer
         #region SelectNext_Click
         private void kryptonRibbonGroupButtonSelectForwards_Click(object sender, EventArgs e)
         {
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
             ActionSelectNext();
         }
 
         private void kryptonRibbonQATButtonSelectNext_Click(object sender, EventArgs e)
         {
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
             ActionSelectNext();
         }
         #endregion
@@ -339,11 +341,13 @@ namespace PhotoTagsSynchronizer
         #region SelectPrevius_Click
         private void kryptonRibbonQATButtonSelectPrevius_Click(object sender, EventArgs e)
         {
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
             ActionSelectPrevious();
         }
 
         private void kryptonRibbonGroupButtonSelectBackwards_Click(object sender, EventArgs e)
         {
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
             ActionSelectPrevious();
         }
         #endregion
@@ -380,11 +384,13 @@ namespace PhotoTagsSynchronizer
         #region SelectMatch_Click
         private void kryptonRibbonGroupButtonSelectEqual_Click(object sender, EventArgs e)
         {
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
             ActionSelectMatch();
         }
 
         private void kryptonRibbonQATButtonSelectEqual_Click(object sender, EventArgs e)
         {
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
             ActionSelectMatch();
         }
         #endregion 
