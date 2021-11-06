@@ -1401,7 +1401,7 @@ namespace PhotoTagsSynchronizer
                                                     }
                                                     else
                                                     {
-                                                        Logger.Warn("ThreadSaveMetadata - Was not able to convert time");
+                                                        Logger.Warn("ThreadSaveMetadata - Was not able to convert time, missing UTC and/or MediaTaken time");
                                                     }
                                                 }
                                         }

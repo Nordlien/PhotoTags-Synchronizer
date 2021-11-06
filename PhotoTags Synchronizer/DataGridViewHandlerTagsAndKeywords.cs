@@ -207,15 +207,15 @@ namespace PhotoTagsSynchronizer
                 List<string> newKeywords = AutoKeywordHandler.NewKeywords(AutoKeywordConvertions, null, null, metadata?.PersonalAlbum, null, null, null);
                 DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndex, "Running AutoCorrect will add these keywords", newKeywords);
 
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagTitle), metadata?.PersonalTitle, false);
+                rowIndex = AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagTitle), metadata?.PersonalTitle, false);
                 newKeywords = AutoKeywordHandler.NewKeywords(AutoKeywordConvertions, null, metadata?.PersonalTitle, null, null, null, null);
                 DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndex, "Running AutoCorrect will add these keywords", newKeywords);
 
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagDescription), metadata?.PersonalDescription, false);
+                rowIndex = AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagDescription), metadata?.PersonalDescription, false);
                 newKeywords = AutoKeywordHandler.NewKeywords(AutoKeywordConvertions, null, null, null, metadata?.PersonalDescription, null, null);
                 DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndex, "Running AutoCorrect will add these keywords", newKeywords);
 
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagComments), metadata?.PersonalComments, false);
+                rowIndex = AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagComments), metadata?.PersonalComments, false);
                 newKeywords = AutoKeywordHandler.NewKeywords(AutoKeywordConvertions, null, null, null, null, metadata?.PersonalComments, null);
                 DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndex, "Running AutoCorrect will add these keywords", newKeywords);
                 

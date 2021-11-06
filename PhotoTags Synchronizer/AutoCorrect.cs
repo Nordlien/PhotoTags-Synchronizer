@@ -27,15 +27,19 @@ namespace PhotoTagsSynchronizer
         public List<string> NewKeywords = new List<string>();
 
         #region DoesWordExistInList
-        private bool DoesWordExistInList(List<string> list, string word)
+        private bool DoesWordExistInList(List<string> list, string findInThisText)
         {
-            if (string.IsNullOrWhiteSpace(word)) return false;
-            string pattern = @"\b" + Regex.Escape(word) + @"\b";
-            Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
-
-            foreach (string line in list)
+            if (string.IsNullOrWhiteSpace(findInThisText)) return false;
+            
+            
+            foreach (string word in list)
             {
-                if (regex.IsMatch(line)) return true;
+                if (!string.IsNullOrWhiteSpace(word))
+                {
+                    string pattern = @"\b" + Regex.Escape(word) + @"\b";
+                    Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
+                    if (regex.IsMatch(findInThisText)) return true;
+                }
             }
             return false;
         }
