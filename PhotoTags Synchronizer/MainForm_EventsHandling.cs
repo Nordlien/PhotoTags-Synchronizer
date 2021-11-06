@@ -3739,6 +3739,30 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region bool SaveBeforeContinue
+        private DialogResult SaveBeforeContinue(bool canCancel)
+        {
+            DialogResult dialogResult = DialogResult.No;
+            if (IsAnyDataUnsaved())
+            {       
+                
+                dialogResult = KryptonMessageBox.Show(
+                    "Do you want to save and contine.\r\n" +
+                    "Yes - Save and continue\r\n" +
+                    "No - Don't save and continue without save." +
+                    (canCancel ? "\r\nCancel - Cancel the opeation and continue where you left." : ""), 
+                    "Warning, unsaved data", 
+                    (canCancel ? MessageBoxButtons.YesNoCancel : MessageBoxButtons.YesNo), MessageBoxIcon.Warning);
+                
+                if (dialogResult == DialogResult.Yes)
+                {
+                    ActionSave();
+                }
+            }
+            return dialogResult;
+        }
+        #endregion
+
         #region Save - IsAnyDataUnsaved
         private bool IsAnyDataUnsaved()
         {
@@ -5510,6 +5534,7 @@ namespace PhotoTagsSynchronizer
         #region MediaFilesRunCommand
         private void MediaFilesRunCommand()
         {
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
             try
             {
                 if (imageListView1.SelectedItems.Count > 0)
@@ -5659,6 +5684,7 @@ namespace PhotoTagsSynchronizer
         #region MediaFilesAutoCorrectRun_Click
         private void MediaFilesAutoCorrectRun_Click()
         {
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
             try
             {
                 AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
@@ -5699,6 +5725,7 @@ namespace PhotoTagsSynchronizer
         #region FolderAutoCorrectRun_Click
         private void FolderAutoCorrectRun_Click()
         {
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
             try
             {
                 AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
@@ -5801,6 +5828,7 @@ namespace PhotoTagsSynchronizer
         #region MediaFilesAutoCorrectForm_Click
         private void MediaFilesAutoCorrectForm_Click()
         {
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
             try
             {
                 FormAutoCorrect formAutoCorrect = new FormAutoCorrect();
@@ -5891,6 +5919,21 @@ namespace PhotoTagsSynchronizer
         #region FolderAutoCorrectForm_Click
         private void FolderAutoCorrectForm_Click()
         {
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+
+
+
+
+
+
+            //MISSING AutoCorrect Folder
+
+
+
+
+
+
 
         }
         #endregion
@@ -6089,6 +6132,7 @@ namespace PhotoTagsSynchronizer
         #region MediaFilesMetadataReloadDeleteHistory_Click
         private void MediaFilesMetadataReloadDeleteHistory_Click()
         {
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
             try
             {
                 using (new WaitCursor())
@@ -6110,6 +6154,7 @@ namespace PhotoTagsSynchronizer
         #region FolderMetadataReloadDeleteHistory_Click
         private void FolderMetadataReloadDeleteHistory_Click()
         {
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
             try
             {
                 string folder = GetSelectedNodePath();
@@ -6172,14 +6217,11 @@ namespace PhotoTagsSynchronizer
         #region ImportLocations_Click
         private void ImportLocations_Click()
         {
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
             try
             {
-                bool showLocationForm = true;
-                if (IsAnyDataUnsaved())
-                {
-                    if (MessageBox.Show("Will you continue, all unsaved data will be lost?", "You have unsaved data", MessageBoxButtons.OKCancel) == DialogResult.Cancel)
-                        showLocationForm = false;
-                }
+                bool showLocationForm = true;                
+                if (SaveBeforeContinue(true) == DialogResult.Cancel) showLocationForm = false;
 
                 if (showLocationForm)
                 {
@@ -6221,6 +6263,7 @@ namespace PhotoTagsSynchronizer
         #region WebScraper_Click
         private void WebScraper_Click()
         {
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
             try
             {
                 FormWebScraper formWebScraper = new FormWebScraper();
@@ -6249,6 +6292,7 @@ namespace PhotoTagsSynchronizer
         #region Config_Click
         private void Config_Click()
         {
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
             try
             {
                 using (FormConfig config = new FormConfig(kryptonManager1, imageListView1))

@@ -316,6 +316,7 @@ namespace PhotoTagsSynchronizer
         #region ImageListView - Event - SelectionChanged -> FileSelected
         private void imageListView1_SelectionChanged(object sender, EventArgs e)
         {
+            SaveBeforeContinue(false);
             //if (GlobalData.IsPopulatingAnything()) return; //E.g. Populate FolderSelect
             if (GlobalData.DoNotRefreshDataGridViewWhileFileSelect) return;
             GroupSelectionClear();
