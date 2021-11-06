@@ -5920,21 +5920,97 @@ namespace PhotoTagsSynchronizer
         private void FolderAutoCorrectForm_Click()
         {
             if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+            try
+            {
+                FormAutoCorrect formAutoCorrect = new FormAutoCorrect();
+                if (formAutoCorrect.ShowDialog() == DialogResult.OK)
+                {
+
+                    string album = formAutoCorrect.Album;
+                    string author = formAutoCorrect.Author;
+                    string comments = formAutoCorrect.Comments;
+                    string description = formAutoCorrect.Description;
+                    string title = formAutoCorrect.Title;
+                    List<string> keywords = formAutoCorrect.Keywords;
+
+                    bool useAlbum = formAutoCorrect.UseAlbum;
+                    bool useAuthor = formAutoCorrect.UseAuthor;
+                    bool useComments = formAutoCorrect.UseComments;
+                    bool uselDescription = formAutoCorrect.UseDescription;
+                    bool useTitle = formAutoCorrect.UseTitle;
 
 
+                    AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
+                    float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
+                    float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
+                    int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
 
+                    bool writeAlbumOnDescription = autoCorrect.UpdateDescription;
 
+                    string selectedFolder = GetSelectedNodePath();
+                    if (selectedFolder == null || !Directory.Exists(selectedFolder))
+                    {
+                        KryptonMessageBox.Show("Can't run AutoCorrect. Not a valid folder selected.");
+                        return;
+                    }
+                    string[] files = Directory.GetFiles(selectedFolder, "*.*");
+                    foreach (string file in files)
+                    {
+                        Metadata metadataToSave = autoCorrect.FixAndSave(
+                            new FileEntry(file, File.GetLastWriteTime(file)),
+                            databaseAndCacheMetadataExiftool,
+                            databaseAndCacheMetadataMicrosoftPhotos,
+                            databaseAndCacheMetadataWindowsLivePhotoGallery,
+                            databaseAndCahceCameraOwner,
+                            databaseLocationAddress,
+                            databaseGoogleLocationHistory,
+                            locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
+                            autoKeywordConvertions,
+                            Properties.Settings.Default.RenameDateFormats);
 
+                        if (metadataToSave != null)
+                        {
+                            if (useAlbum) metadataToSave.PersonalAlbum = album;
+                            if (!useAlbum || string.IsNullOrWhiteSpace(metadataToSave.PersonalAlbum)) metadataToSave.PersonalAlbum = null;
 
+                            if (useAuthor) metadataToSave.PersonalAuthor = author;
+                            if (!useAuthor || string.IsNullOrWhiteSpace(metadataToSave.PersonalAuthor)) metadataToSave.PersonalAuthor = null;
 
-            //MISSING AutoCorrect Folder
+                            if (useComments) metadataToSave.PersonalComments = comments;
+                            if (!useComments || string.IsNullOrWhiteSpace(metadataToSave.PersonalComments)) metadataToSave.PersonalComments = null;
 
+                            if (uselDescription) metadataToSave.PersonalDescription = description;
+                            if (!uselDescription || string.IsNullOrWhiteSpace(metadataToSave.PersonalDescription)) metadataToSave.PersonalDescription = null;
 
+                            if (useTitle) metadataToSave.PersonalTitle = title;
+                            if (!useTitle || string.IsNullOrWhiteSpace(metadataToSave.PersonalTitle)) metadataToSave.PersonalTitle = null;
 
+                            #region Description
+                            if (writeAlbumOnDescription)
+                            {
+                                Logger.Debug("AutoCorrectForm: Set Description as Album: " + (metadataToSave?.PersonalAlbum == null ? "null" : metadataToSave?.PersonalAlbum));
+                                metadataToSave.PersonalDescription = metadataToSave.PersonalAlbum;
+                            }
+                            #endregion
 
+                            foreach (string keyword in keywords)
+                            {
+                                metadataToSave.PersonalKeywordTagsAddIfNotExists(new KeywordTag(keyword), false);
+                            }
 
+                            AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
+                            AddQueueRenameLock(item.FileFullPath, autoCorrect.RenameVariable);
+                        }
+                    }
 
-
+                    StartThreads();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion
 
