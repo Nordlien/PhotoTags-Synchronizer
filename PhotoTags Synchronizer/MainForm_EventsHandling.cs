@@ -6251,7 +6251,18 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
+        #region LocationAnalytics
+        private void kryptonRibbonGroupButtonToolsLocationAnalytics_Click(object sender, EventArgs e)
+        {
+            ShowFormLocationHistoryAnalytics();
+        }
 
+        private void KryptonContextMenuItemToolLocationAnalytics_Click(object sender, EventArgs e)
+        {
+            ShowFormLocationHistoryAnalytics();
+        }
+        #endregion
+        
         //----
         #region AssignCompositeTag 
 

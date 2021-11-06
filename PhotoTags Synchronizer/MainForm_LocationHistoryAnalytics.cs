@@ -143,16 +143,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Click
-        private void kryptonRibbonGroupButtonToolsLocationAnalytics_Click(object sender, EventArgs e)
-        {
-            ShowFormLocationHistoryAnalytics();
-        }
-
-        private void KryptonContextMenuItemToolLocationAnalytics_Click(object sender, EventArgs e)
-        {
-            ShowFormLocationHistoryAnalytics();
-        }
-        #endregion
+        
     }
 }

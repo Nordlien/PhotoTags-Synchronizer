@@ -950,22 +950,20 @@ namespace PhotoTagsSynchronizer
             // kryptonContextMenuItemGenericCopyText
             // 
             this.kryptonContextMenuItemGenericCopyText.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditCopyText32x32;
-            this.kryptonContextMenuItemGenericCopyText.ShortcutKeys = ((System.Windows.Forms.Keys)((((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
-            | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.C)));
+            this.kryptonContextMenuItemGenericCopyText.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.T)));
             this.kryptonContextMenuItemGenericCopyText.Text = "Copy text";
             // 
             // kryptonContextMenuItemGenericFastCopyNoOverwrite
             // 
             this.kryptonContextMenuItemGenericFastCopyNoOverwrite.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditFastTextCopyNotOverwrite32x32;
-            this.kryptonContextMenuItemGenericFastCopyNoOverwrite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.C)));
+            this.kryptonContextMenuItemGenericFastCopyNoOverwrite.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.C)));
             this.kryptonContextMenuItemGenericFastCopyNoOverwrite.Text = "Fast Copy/Paste - No overwrite";
             // 
             // kryptonContextMenuItemGenericFastCopyWithOverwrite
             // 
             this.kryptonContextMenuItemGenericFastCopyWithOverwrite.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditFastTextCopyAndReplace32x32;
-            this.kryptonContextMenuItemGenericFastCopyWithOverwrite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            this.kryptonContextMenuItemGenericFastCopyWithOverwrite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.C)));
             this.kryptonContextMenuItemGenericFastCopyWithOverwrite.Text = "Fast Copy/Paste - With overwrite";
             // 
@@ -3887,7 +3885,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonTabTools,
             this.kryptonRibbonTabPreview});
             this.kryptonRibbonMain.SelectedContext = null;
-            this.kryptonRibbonMain.SelectedTab = this.kryptonRibbonTabSelect;
+            this.kryptonRibbonMain.SelectedTab = this.kryptonRibbonTabHome;
             this.kryptonRibbonMain.Size = new System.Drawing.Size(1214, 115);
             this.kryptonRibbonMain.TabIndex = 12;
             this.kryptonRibbonMain.SelectedTabChanged += new System.EventHandler(this.kryptonRibbonMain_SelectedTabChanged);
@@ -4156,7 +4154,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonHomeCopyText.ToolTipBody = "Copy text from selected content. Example: filename or path, depending what is sel" +
     "ected.";
             this.kryptonRibbonGroupButtonHomeCopyText.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.EditCopyText32x32;
-            this.kryptonRibbonGroupButtonHomeCopyText.ToolTipTitle = "Copy only text (Ctrl+Alt+Shift+C)";
+            this.kryptonRibbonGroupButtonHomeCopyText.ToolTipTitle = "Copy only text (Ctrl+Shift+T)";
             this.kryptonRibbonGroupButtonHomeCopyText.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeCopyText_Click);
             // 
             // kryptonRibbonGroupButtonHomeFastCopyNoOverwrite
@@ -4164,13 +4162,12 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.EditFastTextCopyNotOverwrite32x32;
             this.kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.EditFastTextCopyNotOverwrite32x32;
             this.kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.KeyTip = "MCN";
-            this.kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.C)));
+            this.kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.C)));
             this.kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.TextLine1 = "Fast copy";
             this.kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.TextLine2 = "No overwrite";
             this.kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.ToolTipBody = resources.GetString("kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.ToolTipBody");
             this.kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.EditFastTextCopyNotOverwrite32x32;
-            this.kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.ToolTipTitle = "Fast Copy Text and no Overwrite (Ctrl+Shift+C)";
+            this.kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.ToolTipTitle = "Fast Copy Text and no Overwrite (Ctrl+Alt+Shift+C)";
             this.kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeFastCopyNoOverwrite_Click);
             // 
             // kryptonRibbonGroupButtonHomeFastCopyOverwrite
@@ -4178,13 +4175,13 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonHomeFastCopyOverwrite.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.EditFastTextCopyAndReplace32x32;
             this.kryptonRibbonGroupButtonHomeFastCopyOverwrite.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.EditFastTextCopyAndReplace32x32;
             this.kryptonRibbonGroupButtonHomeFastCopyOverwrite.KeyTip = "MCO";
-            this.kryptonRibbonGroupButtonHomeFastCopyOverwrite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            this.kryptonRibbonGroupButtonHomeFastCopyOverwrite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.C)));
             this.kryptonRibbonGroupButtonHomeFastCopyOverwrite.TextLine1 = "Fast Copy";
             this.kryptonRibbonGroupButtonHomeFastCopyOverwrite.TextLine2 = "Overwrite";
             this.kryptonRibbonGroupButtonHomeFastCopyOverwrite.ToolTipBody = resources.GetString("kryptonRibbonGroupButtonHomeFastCopyOverwrite.ToolTipBody");
             this.kryptonRibbonGroupButtonHomeFastCopyOverwrite.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.EditFastTextCopyAndReplace32x32;
-            this.kryptonRibbonGroupButtonHomeFastCopyOverwrite.ToolTipTitle = "Fast Copy Text and Overwrite (Ctrl+Alt+C)";
+            this.kryptonRibbonGroupButtonHomeFastCopyOverwrite.ToolTipTitle = "Fast Copy Text and Overwrite (Ctrl+Shift+C)";
             this.kryptonRibbonGroupButtonHomeFastCopyOverwrite.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeFastCopyOverwrite_Click);
             // 
             // kryptonRibbonGroupTripleHomeSortFindAndSearch
