@@ -20,6 +20,99 @@ using Raccoom.Windows.Forms;
 using FileDateTime;
 using System.Threading;
 
+/*
+Ctrl+X				T	Cut								Home / Organise
+Ctrl+C 				C	Copy							Home / Organise
+Ctrl+Shift+T		MCT	Copy Text						Home / Organise
+Ctrl+O				MCN	Fast Copy No Overwrite			Home / Organise
+Ctrl+Shift+O		MCO	Fast Copy With Overwrite		Home / Organise
+Ctrl+V				P 	Paste							Home / Organise
+Del					OD	Delete file/folder				Home / Organise
+F2					ON	Rename file/folder				Home / Organise
+Ctrl+Z				U	Undo							Home / Organise
+Ctrl+Y				R	Redo							Home / Organise
+Ctrl+F				MF	Find							Home / Organise
+Ctrl+H				MR	Replace							Home / Organise
+Ctrl+S				S	Save							Home / Save
+F5					OF	Refresh file list/folder tree	Home / Organise
+Ctrl+R 					Add subfolders					**
+Ctrl+E				OL	Open Location in Explorer		Home / Organise
+Ctrl+Enter			OP	Open							Home / Organise
+					OW	Open with...					Home / Organise
+Ctrl+Shift+Enter 	OA	Open with associate				Home / Organise
+F4					OE	Open for Edit					Home / Organise
+F6	 				OR	Run								Home / Organise
+F7	 				AR	AutoCorrect Run					Home / Metadata
+F8		 			AF	AutoCorrect Form				Home / Metadata
+Shift+F11			AP	View media as Poster			Home / Metadata	QAT
+Shift+F5 			MER	Refresh Metadata				Home / Metadata
+Ctrl+F5 			MEL	Reload Metadata 				Home / Metadata
+Ctrl+Shift+Space	MSS	Select tags						Home / Metadata
+Ctrl+Del 			MSR	Remove tags						Home / Metadata
+Ctrl+Space 			MST	Toggle tags						Home / Metadata
+Ctrl+9 				9	Rotate 90						Home / Rotate
+Ctrl+1				1	Rotate 180						Home / Rotate
+Ctrl+2 				2	Rotate 270						Home / Rotate
+Ctrl+D				FM	Mark as Favorite				View / Favorite
+Ctrl+Shift+D		FR	Remove as Favorite				View / Favorite
+Ctrl+T				FT	Toggle as Favorite				View / Favorite
+Ctrl+0		 		RF	Show Favorite rows				View / Rows 
+Ctrl+Shift+0		RE	Hide equal rows					View / Rows
+
+
+
+F11					PF	View full media					Preview / Preview	QAT 
+					PF	Preview							Preview / Preview
+					NSP	Skip Preview					Preview / Navigate
+					NSN	SKip Next						Preview / Navigate
+					NPL	Play							Preview / Navigate
+					NPA	Pause							Preview / Navigate
+					NR	Rewind							Preview / Navigate
+					NF	Forward							Preview / Navigate
+					NS	Stop							Preview / Navigate
+					S	Slider							Preview / Navigate
+					2	270								Preview / Rotate
+					1	180								Preview / Rotate
+					9	90								Preview / Rotate
+					SS	Start slideshow					Preview / Slideshow
+					SM	Select Media					Preview / Slideshow
+					ST	Time Interval					Preview / Slideshow
+					C	Chromecast						Preview / Slideshow
+						
+Ctrl+M					Show Coordinate on OpenStreetView
+Ctrl+Shift+M			Show Coordinate on Google Maps
+Ctrl+L 					Reload Location information using Nominatim
+
+Ctrl+Alt+Left		SB	Select Previous group			Select / Select Group	QAT
+Ctrl+Alt+Right		SF	Select next group				Select / Select Group	QAT
+Ctrl+Shift+I		SM	Select all match				Select / Select Group	QAT
+Ctrl+A  			SA	Select all 						Select / Select Group	QAT
+Ctrl+Shift+A 		SN	Select None						Select / Select Group	QAT
+Ctrl+I				SI	Invert Select					Select / Select Group 	QAT
+					DD	Date							Select / Date range
+					DT	Media taken						Select / Date range
+					DA	Match all						Select / Date range
+					D1	1 day							Select / Date range
+					D3	3 days							Select / Date range
+					DW	Week							Select / Date range
+					D2	2 weeks							Select / Date range
+					DM	Month 							Select / Date range
+					LN	Location name					Select / Location
+					LI	City							Select / Location
+					LS	State/Region					Select / Location
+					LC	Country							Select / Location
+					LM	Match all 						Select / Location
+					
+					I	Import Locations				Tools / Import
+Ctrl+Q				L	Location Analytics				Tools / Import
+					W	Web Scraping					Tools / Import
+						
+					C	Config							Tools / Help
+					A	About							Tools / Help
+						
+					T	Task list						Tools / Status 
+*/
+
 namespace PhotoTagsSynchronizer
 {
     enum KryptonPages
@@ -388,7 +481,7 @@ namespace PhotoTagsSynchronizer
             kryptonRibbonGroupButtonMediaFileRotate90CW.Enabled = enabled;
         }
 
-        private void RibbonGroupButtonHomeMetadata(bool enabledAutoCorrect = false, bool enabledDeleteHistoryRefresh = false, bool enabledTriState = false)
+        private void RibbonGroupButtonHomeMetadata(bool enabledAutoCorrect = false, bool enabledDeleteHistoryRefresh = false, bool enabledTriState = false, bool enablePreviewPoster = false)
         {
             //Home - Metadata - AutoCorrect
             kryptonRibbonGroupButtonHomeAutoCorrectRun.Enabled = enabledAutoCorrect;
@@ -402,6 +495,8 @@ namespace PhotoTagsSynchronizer
             kryptonRibbonGroupButtonHomeTagSelectOn.Enabled = enabledTriState;
             kryptonRibbonGroupButtonHomeTagSelectToggle.Enabled = enabledTriState;
             kryptonRibbonGroupButtonHomeTagSelectOff.Enabled = enabledTriState;
+
+            kryptonRibbonGroupButtonPreviewPoster.Enabled = enablePreviewPoster;
         }
         #endregion
 
@@ -431,7 +526,7 @@ namespace PhotoTagsSynchronizer
                     //Home - Rotate
                     RibbonGroupButtonHomeRotate(enabled: false);
                     //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
-                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false);
+                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false, enablePreviewPoster: false);
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFolder:
                     //Home - Clipboard
@@ -449,7 +544,7 @@ namespace PhotoTagsSynchronizer
                     //Home - Rotate
                     RibbonGroupButtonHomeRotate(enabled: false);
                     //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
-                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: true, enabledTriState: false);
+                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: true, enabledTriState: false, enablePreviewPoster: false);
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterSearch:
                     //Home - Clipboard
@@ -464,7 +559,7 @@ namespace PhotoTagsSynchronizer
                     //Home - Rotate
                     RibbonGroupButtonHomeRotate(enabled: false);
                     //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
-                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false);
+                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false, enablePreviewPoster: false);
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFilter:
                     //Home - Clipboard
@@ -479,7 +574,7 @@ namespace PhotoTagsSynchronizer
                     //Home - Rotate
                     RibbonGroupButtonHomeRotate(enabled: false);
                     //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
-                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false);
+                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false, enablePreviewPoster: false);
                     break;
                 case KryptonPages.kryptonPageMediaFiles:
                     //Home - Clipboard
@@ -517,7 +612,7 @@ namespace PhotoTagsSynchronizer
                     //Home - Rotate
                     RibbonGroupButtonHomeRotate(enabled: isSomethingSelected);
                     //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
-                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: isSomethingSelected, enabledDeleteHistoryRefresh: isSomethingSelected, enabledTriState: false);
+                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: isSomethingSelected, enabledDeleteHistoryRefresh: isSomethingSelected, enabledTriState: false, enablePreviewPoster: isSomethingSelected);
 
                     break;
                 case KryptonPages.kryptonPageToolboxTags:
@@ -566,7 +661,7 @@ namespace PhotoTagsSynchronizer
                     //Home - Rotate
                     RibbonGroupButtonHomeRotate(enabled: false);
                     //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
-                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false);
+                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false, enablePreviewPoster: isSomethingSelected);
                     break;
                 case KryptonPages.kryptonPageToolboxDates:
                     //Home - Clipboard
@@ -582,7 +677,7 @@ namespace PhotoTagsSynchronizer
                     //Home - Rotate
                     RibbonGroupButtonHomeRotate(enabled: false);
                     //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
-                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false);
+                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false, enablePreviewPoster: isSomethingSelected);
                     break;
                 case KryptonPages.kryptonPageToolboxExiftool:
                     //Home - Clipboard
@@ -598,7 +693,7 @@ namespace PhotoTagsSynchronizer
                     //Home - Rotate
                     RibbonGroupButtonHomeRotate(enabled: false);
                     //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
-                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false);
+                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false, enablePreviewPoster: isSomethingSelected);
                     break;
                 case KryptonPages.kryptonPageToolboxWarnings:
                     //Home - Clipboard
@@ -614,7 +709,7 @@ namespace PhotoTagsSynchronizer
                     //Home - Rotate
                     RibbonGroupButtonHomeRotate(enabled: false);
                     //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
-                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false);
+                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false, enablePreviewPoster: isSomethingSelected);
                     break;
                 case KryptonPages.kryptonPageToolboxProperties:
                     //Home - Clipboard
@@ -630,7 +725,7 @@ namespace PhotoTagsSynchronizer
                     //Home - Rotate
                     RibbonGroupButtonHomeRotate(enabled: false);
                     //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
-                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false);
+                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false, enablePreviewPoster: isSomethingSelected);
                     break;
                 case KryptonPages.kryptonPageToolboxRename:
                     //Home - Clipboard
@@ -646,7 +741,7 @@ namespace PhotoTagsSynchronizer
                     //Home - Rotate
                     RibbonGroupButtonHomeRotate(enabled: false);
                     //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
-                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false);
+                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false, enablePreviewPoster: isSomethingSelected);
                     break;
                 case KryptonPages.kryptonPageToolboxConvertAndMerge:
                     //Home - Clipboard
@@ -662,7 +757,7 @@ namespace PhotoTagsSynchronizer
                     //Home - Rotate
                     RibbonGroupButtonHomeRotate(enabled: false);
                     //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
-                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false);
+                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false, enablePreviewPoster: isSomethingSelected);
                     break;
                 default:
                     throw new NotImplementedException();
@@ -4320,6 +4415,11 @@ namespace PhotoTagsSynchronizer
         }
 
         private void kryptonRibbonQATButtonMediaPoster_Click(object sender, EventArgs e)
+        {
+            ActionMediaViewAsPoster();
+        }
+
+        private void kryptonRibbonGroupButtonPreviewPoster_Click(object sender, EventArgs e)
         {
             ActionMediaViewAsPoster();
         }
