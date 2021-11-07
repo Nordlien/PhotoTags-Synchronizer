@@ -79,7 +79,7 @@ namespace PhotoTagsSynchronizer
             int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, fileEntryColumn);
             
             //Get Date and Time for DataGridView
-            metadata.MediaDateTaken = GetLocationDate(dataGridView, columnIndex);
+            metadata.MediaDateTaken = GetDateTaken(dataGridView, columnIndex);
             metadata.LocationDateTime = GetLocationDate(dataGridView, columnIndex);
             if (metadata.LocationDateTime != null) metadata.LocationDateTime = new DateTime(((DateTime)metadata.LocationDateTime).Ticks, DateTimeKind.Local);
         }
