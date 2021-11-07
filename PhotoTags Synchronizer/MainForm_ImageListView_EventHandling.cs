@@ -107,7 +107,17 @@ namespace PhotoTagsSynchronizer
 
                     DateTime? fileSmartDate = fileDateTimeReader.SmartDateTime(e.FileName, e.FileMetadata.FileDateCreated, e.FileMetadata.FileDateModified);
                     e.FileMetadata.FileSmartDate = (fileSmartDate == null ? DateTime.MinValue : (DateTime)fileSmartDate);
-                    e.FileMetadata.FileSize = (long)metadata.FileSize;
+                    if (metadata.FileSize != null) e.FileMetadata.FileSize = (long)metadata.FileSize;
+                    else
+                    {
+                        try
+                        {
+                            if (File.Exists(e.FileName)) e.FileMetadata.FileSize = new System.IO.FileInfo(e.FileName).Length;
+                        } catch
+                        {
+                            e.FileMetadata.FileSize = long.MinValue;
+                        }
+                    }
                     e.FileMetadata.FileMimeType = metadata.FileMimeType;
                     e.FileMetadata.FileDirectory = metadata.FileDirectory;
                     #endregion

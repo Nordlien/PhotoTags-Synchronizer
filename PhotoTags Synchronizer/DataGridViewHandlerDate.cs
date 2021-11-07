@@ -189,12 +189,14 @@ namespace PhotoTagsSynchronizer
             }
 
             // -------------------------------------------------------
+            string timeSpanString = "(±??:??)";
             TimeSpan? timeSpan = TimeZoneLibrary.CalulateTimeDiffrentWithoutTimeZone(metadataMediaDateTaken, metadataLocationDateTime);
             string prefredTimeZoneName = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, headerMedia, tagLocationOffsetTimeZone);
-            DateTime? dateTimeLocation = new DateTime( ((DateTime)metadataMediaDateTaken).Ticks, DateTimeKind.Utc);
+            DateTime? dateTimeLocation = null;
+            if (metadataMediaDateTaken != null) dateTimeLocation = new DateTime(((DateTime)metadataMediaDateTaken).Ticks, DateTimeKind.Utc);
 
             string timeZoneName = TimeZoneLibrary.GetTimeZoneName(timeSpan, dateTimeLocation, prefredTimeZoneName, out string timeZoneAlternatives);
-            string timeSpanString = "(±??:??)";
+
             if (timeSpan != null) timeSpanString = TimeZoneLibrary.ToStringOffset((TimeSpan)timeSpan);
             
             

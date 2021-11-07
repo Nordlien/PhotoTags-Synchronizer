@@ -2493,13 +2493,19 @@ namespace MetadataLibrary
                 {
                     if (metadataRead != null)
                     {
-                        foreach (RegionStructure regionStructure in metadataRead.PersonalRegionList)
+                        try
                         {
-                            if (regionStructure.Name == name && regionStructure.Thumbnail != null)
+                            foreach (RegionStructure regionStructure in metadataRead.PersonalRegionList)
                             {
-                                return regionStructure.Thumbnail;
+                                if (regionStructure.Name == name && regionStructure.Thumbnail != null)
+                                {
+                                    return regionStructure.Thumbnail;
+                                }
                             }
-                        }
+                        }catch (Exception ex)
+                        {
+                            Logger.Warn("ReadRegionThumbnailFromCache was changes outside lock", ex);
+;                        }
                     }
                 }
             }

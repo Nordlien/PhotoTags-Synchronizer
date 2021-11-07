@@ -629,7 +629,7 @@ namespace PhotoTagsSynchronizer
                     //Home - Rotate
                     RibbonGroupButtonHomeRotate(enabled: false);
                     //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
-                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: isSomethingSelected, enabledDeleteHistoryRefresh: false, enabledTriState: isSomethingSelected);
+                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: isSomethingSelected, enablePreviewPoster: isSomethingSelected);
                     break;
                 case KryptonPages.kryptonPageToolboxPeople:
                     //Home - Clipboard
@@ -645,7 +645,7 @@ namespace PhotoTagsSynchronizer
                     //Home - Rotate
                     RibbonGroupButtonHomeRotate(enabled: false);
                     //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
-                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: isSomethingSelected);
+                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: isSomethingSelected, enablePreviewPoster: isSomethingSelected);
                     break;
                 case KryptonPages.kryptonPageToolboxMap:
                     //Home - Clipboard
