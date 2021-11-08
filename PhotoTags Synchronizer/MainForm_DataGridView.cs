@@ -330,6 +330,27 @@ namespace PhotoTagsSynchronizer
 
                 DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, isFileInDataGridView);
 
+                Metadata metadataAutoCorrect = null;
+                if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect)
+                {
+                    AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
+                    float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
+                    float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
+                    int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
+
+                    metadataAutoCorrect = autoCorrect.FixAndSave(
+                        fileEntryAttribute.FileEntry,
+                        databaseAndCacheMetadataExiftool,
+                        databaseAndCacheMetadataMicrosoftPhotos,
+                        databaseAndCacheMetadataWindowsLivePhotoGallery,
+                        databaseAndCahceCameraOwner,
+                        databaseLocationAddress,
+                        databaseGoogleLocationHistory,
+                        locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
+                        autoKeywordConvertions,
+                        Properties.Settings.Default.RenameDateFormats);
+                }
+
                 if (isFileInDataGridView)
                 {
                     switch (tag)
@@ -341,7 +362,7 @@ namespace PhotoTagsSynchronizer
                             DataGridViewHandlerPeople.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
                             break;
                         case LinkTabAndDataGridViewNameMap:
-                            DataGridViewHandlerMap.PopulateFile(dataGridView, dataGridViewDate, fileEntryAttribute, showWhatColumns);
+                            DataGridViewHandlerMap.PopulateFile(dataGridView, dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect);
                             break;
                         case LinkTabAndDataGridViewNameDates:
                             DataGridViewHandlerDate.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);

@@ -290,6 +290,9 @@ namespace PhotoTagsSynchronizer
         private void UpdateGoodleHistoryCoordinateAndNearBy(int columnIndex)
         {
             DataGridView dataGridView = dataGridViewMap;
+            if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return;
+
+
             DataGridViewHandlerMap.TimeZoneShift = GetTimeZoneShift();
             DataGridViewHandlerMap.AccepedIntervalSecound = GetAccepedIntervalSecound();
 
@@ -297,7 +300,9 @@ namespace PhotoTagsSynchronizer
         }
         private void UpdateGoodleHistoryCoordinateAndNearBy()
         {
-            DataGridView dataGridView = dataGridViewMap;            
+            DataGridView dataGridView = dataGridViewMap;
+            if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return;
+
             DataGridViewHandlerMap.TimeZoneShift = GetTimeZoneShift();
             DataGridViewHandlerMap.AccepedIntervalSecound = GetAccepedIntervalSecound();
 

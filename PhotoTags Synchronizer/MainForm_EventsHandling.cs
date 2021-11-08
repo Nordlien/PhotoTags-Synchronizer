@@ -3662,28 +3662,66 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        
+
+        #region
+        private void kryptonRibbonGroupTripleHomeSaveAutoCorrect_Click(object sender, EventArgs e)
+        {
+            if (GlobalData.IsPopulatingAnything())
+            {
+                KryptonMessageBox.Show("Data is populating, please try a bit later.");
+                return;
+            }
+            if (!GlobalData.IsAgredagedGridViewAny())
+            {
+                KryptonMessageBox.Show("No metadata are updated.");
+                return;
+            }
+            DataGridView dataGridView = GetActiveTabDataGridView();
+
+            ClearDataGridDirtyFlag(); //Clear before save; To track if become dirty during save process
+            foreach (int updatedRecord in DataGridViewHandler.GetColumnSelected(dataGridView)) 
+            {
+                List<FileEntryAttribute> fileEntryAttributes = new List<FileEntryAttribute>();
+                foreach (ImageListViewItem item in imageListView1.SelectedItems)
+                {
+                    fileEntryAttributes.Add(new FileEntryAttribute(item.FileFullPath, item.DateModified, FileEntryVersion.AutoCorrect));
+                }
+                AddQueueLazyLoadningDataGridViewMetadataLock(fileEntryAttributes);
+
+            }
+
+            ThreadSaveMetadata();
+        }
+        #endregion
+
+        #region
+        private void kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave_Click(object sender, EventArgs e)
+        {
+            ActionSave(true);
+        }
+        #endregion
+
         #region Save
 
         #region Save - Click Events Sources
         private void kryptonRibbonQATButtonSave_Click(object sender, EventArgs e)
         {
-            ActionSave();
+            ActionSave(false);
         }
 
         private void kryptonRibbonGroupButtonHomeSaveSave_Click(object sender, EventArgs e)
         {
-            ActionSave();
+            ActionSave(false);
         }
 
         private void KryptonContextMenuItemGenericSave_Click(object sender, EventArgs e)
         {
-            ActionSave();
+            ActionSave(false);
         }
         #endregion 
 
         #region ActionSave
-        private void ActionSave()
+        private void ActionSave(bool useAutoCorrect)
         {
             try
             {
@@ -3712,7 +3750,7 @@ namespace PhotoTagsSynchronizer
                         case KryptonPages.kryptonPageToolboxPeople:
                         case KryptonPages.kryptonPageToolboxMap:
                         case KryptonPages.kryptonPageToolboxDates:
-                            SaveDataGridViewMetadata();
+                            SaveDataGridViewMetadata(useAutoCorrect);
                             GlobalData.IsAgregatedProperties = false;
                             break;
                         case KryptonPages.kryptonPageToolboxExiftool:
@@ -3752,7 +3790,7 @@ namespace PhotoTagsSynchronizer
                 
                 dialogResult = KryptonMessageBox.Show(
                     "Do you want to save and contine.\r\n" +
-                    "Yes - Save and continue\r\n" +
+                    "Yes - Save without AutoCorrect and continue\r\n" +
                     "No - Don't save and continue without save." +
                     (canCancel ? "\r\nCancel - Cancel the opeation and continue where you left." : ""), 
                     "Warning, unsaved data", 
@@ -3760,7 +3798,7 @@ namespace PhotoTagsSynchronizer
                 
                 if (dialogResult == DialogResult.Yes)
                 {
-                    ActionSave();
+                    ActionSave(false);
                 }
             }
             return dialogResult;
@@ -3828,7 +3866,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Save - SaveDataGridViewMetadata
-        private void SaveDataGridViewMetadata()
+        private void SaveDataGridViewMetadata(bool useAutoCorrect)
         {
             if (GlobalData.IsPopulatingAnything())
             {
@@ -3854,8 +3892,37 @@ namespace PhotoTagsSynchronizer
             ClearDataGridDirtyFlag(); //Clear before save; To track if become dirty during save process
             foreach (int updatedRecord in listOfUpdates)
             {
-                //Add only metadata to save queue that that has changed by users
-                AddQueueSaveMetadataUpdatedByUserLock(metadataListFromDataGridView[updatedRecord], metadataListOriginalExiftool[updatedRecord]);
+                if (useAutoCorrect)
+                {
+                    AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
+                    float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
+                    float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
+                    int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
+
+                    foreach (ImageListViewItem item in imageListView1.SelectedItems)
+                    {
+                        Metadata metadataToSave = autoCorrect.FixAndSave(
+                            new FileEntry(item.FileFullPath, item.DateModified),
+                            databaseAndCacheMetadataExiftool,
+                            databaseAndCacheMetadataMicrosoftPhotos,
+                            databaseAndCacheMetadataWindowsLivePhotoGallery,
+                            databaseAndCahceCameraOwner,
+                            databaseLocationAddress,
+                            databaseGoogleLocationHistory,
+                            locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
+                            autoKeywordConvertions,
+                            Properties.Settings.Default.RenameDateFormats);
+                        if (metadataToSave != null)
+                        {
+                            AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, metadataListOriginalExiftool[updatedRecord]);
+                        }
+                    }
+                }
+                else
+                {
+                    //Add only metadata to save queue that that has changed by users
+                    AddQueueSaveMetadataUpdatedByUserLock(metadataListFromDataGridView[updatedRecord], metadataListOriginalExiftool[updatedRecord]);
+                }
             }
             ThreadSaveMetadata();
         }

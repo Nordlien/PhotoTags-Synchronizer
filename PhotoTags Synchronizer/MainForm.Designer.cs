@@ -31,7 +31,7 @@ namespace PhotoTagsSynchronizer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Filter");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Filter");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.panelMain = new Krypton.Toolkit.KryptonPanel();
             this.kryptonWorkspaceMain = new Krypton.Workspace.KryptonWorkspace();
@@ -350,6 +350,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupHomeSave = new Krypton.Ribbon.KryptonRibbonGroup();
             this.kryptonRibbonGroupTripleHomeSave = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButtonHomeSaveSave = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonTabView = new Krypton.Ribbon.KryptonRibbonTab();
             this.kryptonRibbonGroupViewViewModes = new Krypton.Ribbon.KryptonRibbonGroup();
             this.kryptonRibbonGroupTripleViewGalleryDetailsPane = new Krypton.Ribbon.KryptonRibbonGroupTriple();
@@ -552,6 +553,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuSeparator1 = new Krypton.Toolkit.KryptonContextMenuSeparator();
             this.kryptonContextMenuItems7 = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonContextMenuSeparator2 = new Krypton.Toolkit.KryptonContextMenuSeparator();
+            this.kryptonRibbonGroupTripleHomeSaveAutoCorrect = new Krypton.Ribbon.KryptonRibbonGroupButton();
             ((System.ComponentModel.ISupportInitialize)(this.panelMain)).BeginInit();
             this.panelMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceMain)).BeginInit();
@@ -2206,11 +2208,11 @@ namespace PhotoTagsSynchronizer
             this.treeViewFilter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeViewFilter.Location = new System.Drawing.Point(0, 0);
             this.treeViewFilter.Name = "treeViewFilter";
-            treeNode3.Name = "NodeFolder";
-            treeNode3.Tag = "Filter";
-            treeNode3.Text = "Filter";
+            treeNode1.Name = "NodeFolder";
+            treeNode1.Tag = "Filter";
+            treeNode1.Text = "Filter";
             this.treeViewFilter.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode3});
+            treeNode1});
             this.treeViewFilter.Size = new System.Drawing.Size(399, 652);
             this.treeViewFilter.TabIndex = 0;
             this.treeViewFilter.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewFilter_AfterCheck);
@@ -3884,6 +3886,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonTabSelect,
             this.kryptonRibbonTabTools,
             this.kryptonRibbonTabPreview});
+            this.kryptonRibbonMain.SelectedContext = null;
             this.kryptonRibbonMain.SelectedTab = this.kryptonRibbonTabHome;
             this.kryptonRibbonMain.Size = new System.Drawing.Size(1214, 115);
             this.kryptonRibbonMain.TabIndex = 12;
@@ -4565,7 +4568,9 @@ namespace PhotoTagsSynchronizer
             // kryptonRibbonGroupTripleHomeSave
             // 
             this.kryptonRibbonGroupTripleHomeSave.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
-            this.kryptonRibbonGroupButtonHomeSaveSave});
+            this.kryptonRibbonGroupButtonHomeSaveSave,
+            this.kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave,
+            this.kryptonRibbonGroupTripleHomeSaveAutoCorrect});
             // 
             // kryptonRibbonGroupButtonHomeSaveSave
             // 
@@ -4576,6 +4581,13 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonHomeSaveSave.ToolTipBody = "Save you changes";
             this.kryptonRibbonGroupButtonHomeSaveSave.ToolTipTitle = "Save";
             this.kryptonRibbonGroupButtonHomeSaveSave.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeSaveSave_Click);
+            // 
+            // kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave
+            // 
+            this.kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MetadataSaveAndAutoCorrect;
+            this.kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MetadataSaveAndAutoCorrect;
+            this.kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MetadataSaveAndAutoCorrect;
+            this.kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave_Click);
             // 
             // kryptonRibbonTabView
             // 
@@ -5930,6 +5942,10 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuMonthCalendar5.SelectionStart = new System.DateTime(2021, 10, 8, 0, 0, 0, 0);
             this.kryptonContextMenuMonthCalendar5.TodayDate = new System.DateTime(2021, 10, 8, 0, 0, 0, 0);
             // 
+            // kryptonRibbonGroupTripleHomeSaveAutoCorrect
+            // 
+            this.kryptonRibbonGroupTripleHomeSaveAutoCorrect.Click += new System.EventHandler(this.kryptonRibbonGroupTripleHomeSaveAutoCorrect_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -6683,6 +6699,8 @@ namespace PhotoTagsSynchronizer
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonToolsLocationAnalytics;
         private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItemToolLocationAnalytics;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonPreviewPoster;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupTripleHomeSaveAutoCorrect;
     }
 }
 

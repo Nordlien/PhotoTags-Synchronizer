@@ -110,9 +110,12 @@ namespace PhotoTagsSynchronizer
                         new DataGridViewGenericRow(DataGridViewHandlerDate.headerMedia, DataGridViewHandlerDate.tagGPSLocationDateTime),
                         "Error", false, false);
             }
-            DataGridViewHandlerDate.PopulateTimeZone(dataGridView, e.ColumnIndex);
-            UpdateGoodleHistoryCoordinateAndNearBy(e.ColumnIndex);
 
+            if (DataGridViewHandler.GetIsAgregated(dataGridView))
+            {
+                DataGridViewHandlerDate.PopulateTimeZone(dataGridView, e.ColumnIndex);
+                UpdateGoodleHistoryCoordinateAndNearBy(e.ColumnIndex);
+            }
             isDataGridViewDate_CellValueChanging = false;
         }
         #endregion

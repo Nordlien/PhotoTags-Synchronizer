@@ -551,6 +551,9 @@ namespace PhotoTagsSynchronizer
                                     case FileEntryVersion.Historical:
                                         if ((showWhatColumns & ShowWhatColumns.HistoryColumns) > 0) readColumn = true;
                                         break;
+                                    case FileEntryVersion.AutoCorrect:
+                                        readColumn = true;
+                                        break;
                                     default:
                                         throw new Exception("Not implemeneted");
                                 }

@@ -476,33 +476,6 @@ namespace PhotoTagsSynchronizer
             Metadata metadataWebScrapingCopy = metadataWebScraping == null ? null : new Metadata(metadataWebScraping);
             if (metadataWebScrapingCopy == null) Logger.Debug("FixAndSave: metadataWebScrapingCopy is null");
 
-            //#region GPS Location Latitude Longitude, Check if Exist in other sources first 
-            //if (UpdateGPSLocation && metadataCopy != null) 
-            //{
-            //    if (metadataCopy?.LocationLatitude == null || metadataCopy?.LocationLongitude == null)
-            //    {
-            //        metadataCopy.LocationLatitude = metadataWindowsLivePhotoGalleryCopy?.LocationLatitude; 
-            //        metadataCopy.LocationLongitude = metadataWindowsLivePhotoGalleryCopy?.LocationLongitude;
-            //    }
-
-            //    if (metadataCopy?.LocationLatitude == null || metadataCopy?.LocationLongitude == null)
-            //    {
-            //        if (metadataMicrosoftPhotosCopy?.LocationLatitude != 0 && metadataMicrosoftPhotosCopy?.LocationLongitude != 0)
-            //        {
-            //            metadataCopy.LocationLatitude = metadataMicrosoftPhotosCopy?.LocationLatitude;
-            //            metadataCopy.LocationLongitude = metadataMicrosoftPhotosCopy?.LocationLongitude;
-            //        }
-            //    }
-
-            //    if (metadataCopy?.LocationLatitude == null || metadataCopy?.LocationLongitude == null)
-            //    {
-            //        metadataCopy.LocationLatitude = metadataWebScrapingCopy?.LocationLatitude;
-            //        metadataCopy.LocationLongitude = metadataWebScrapingCopy?.LocationLongitude;
-            //    }
-            //}
-            //Logger.Debug("FixAndSave: GPS coordinates:" + (metadataCopy.LocationCoordinate == null ? "null" : metadataCopy.LocationCoordinate.ToString()));
-            //#endregion
-
             #region Find best guess on GPS Location Latitude Longitude
             if (UpdateGPSLocation || UpdateGPSLocationNearByMedia)
             {

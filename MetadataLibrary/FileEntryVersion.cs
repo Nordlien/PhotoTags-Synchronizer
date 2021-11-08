@@ -5,6 +5,7 @@
         NotAvailable,
         Current,
         Historical,
-        Error
+        Error,
+        AutoCorrect
     }
 }

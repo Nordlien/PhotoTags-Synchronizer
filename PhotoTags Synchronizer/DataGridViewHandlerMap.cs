@@ -213,6 +213,7 @@ namespace PhotoTagsSynchronizer
         #region PopulateGoogleHistoryCoordinateAndNearby
         public static void PopulateGoogleHistoryCoordinateAndNearby(DataGridView dataGridView, DataGridView dataGridViewDate, int columnIndex, int timeZoneShift, int accepedIntervalSecound)
         {
+
             DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
             if (dataGridViewGenericColumn == null) return;
 
@@ -279,7 +280,7 @@ namespace PhotoTagsSynchronizer
 
         
         #region PopulateFile
-        public static void PopulateFile(DataGridView dataGridView, DataGridView dataGridViewDate, FileEntryAttribute fileEntryAttribute, ShowWhatColumns showWhatColumns)
+        public static void PopulateFile(DataGridView dataGridView, DataGridView dataGridViewDate, FileEntryAttribute fileEntryAttribute, ShowWhatColumns showWhatColumns, Metadata metadataAutoCorrected = null)
         {
             //-----------------------------------------------------------------
             //Chech if need to stop
@@ -296,8 +297,13 @@ namespace PhotoTagsSynchronizer
             //-----------------------------------------------------------------
             Image thumbnail = DatabaseAndCacheThumbnail.ReadThumbnailFromCacheOnlyClone(fileEntryAttribute);
             FileEntryBroker fileEntryBrokerReadVersion = fileEntryAttribute.GetFileEntryBroker(MetadataBrokerType.ExifTool);
+            
+            
             Metadata metadata = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBrokerReadVersion);
-            if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current && metadata != null) metadata = new Metadata(metadata); //It's the edit column, make a copy do edit in dataGridView updated the origianal metadata
+            if (metadataAutoCorrected != null) metadata = metadataAutoCorrected;
+
+
+
             ReadWriteAccess readWriteAccessColumn = fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current && metadata != null ? ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly;
             int columnIndex = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView, fileEntryAttribute, thumbnail, metadata, readWriteAccessColumn, showWhatColumns, DataGridViewGenericCellStatus.DefaultEmpty());
             //-----------------------------------------------------------------
