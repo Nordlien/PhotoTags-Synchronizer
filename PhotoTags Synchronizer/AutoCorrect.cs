@@ -432,7 +432,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region FixAndSave
-        public Metadata FixAndSave(FileEntry fileEntry,
+        public Metadata FixAndSave(FileEntry fileEntry, Metadata metadata,
             MetadataDatabaseCache metadataAndCacheMetadataExiftool,
             MetadataDatabaseCache databaseAndCacheMetadataMicrosoftPhotos,
             MetadataDatabaseCache databaseAndCacheMetadataWindowsLivePhotoGallery,
@@ -449,7 +449,7 @@ namespace PhotoTagsSynchronizer
             Logger.Debug("FixAndSave started:" + fileEntry.FileFullPath);
 
             FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool);
-            Metadata metadata = metadataAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftool);
+            if (metadata == null) metadata = metadataAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftool);
             if (metadata == null)
             {
                 Logger.Warn("FixAndSave ended: metadata is null");

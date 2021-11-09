@@ -3922,6 +3922,7 @@ namespace PhotoTagsSynchronizer
                     {
                         Metadata metadataToSave = autoCorrect.FixAndSave(
                             new FileEntry(item.FileFullPath, item.DateModified),
+                            metadataListFromDataGridView[updatedRecord],
                             databaseAndCacheMetadataExiftool,
                             databaseAndCacheMetadataMicrosoftPhotos,
                             databaseAndCacheMetadataWindowsLivePhotoGallery,
@@ -5672,6 +5673,7 @@ namespace PhotoTagsSynchronizer
                         FormSplash.UpdateStatus("Create AutoCorrect file..." + item.Text);
                         Metadata metadataToSave = autoCorrect.FixAndSave(
                             new FileEntry(item.FileFullPath, item.DateModified),
+                            null, 
                             databaseAndCacheMetadataExiftool,
                             databaseAndCacheMetadataMicrosoftPhotos,
                             databaseAndCacheMetadataWindowsLivePhotoGallery,
@@ -5795,6 +5797,7 @@ namespace PhotoTagsSynchronizer
                 {
                     Metadata metadataToSave = autoCorrect.FixAndSave(
                         new FileEntry(item.FileFullPath, item.DateModified),
+                        null,
                         databaseAndCacheMetadataExiftool,
                         databaseAndCacheMetadataMicrosoftPhotos,
                         databaseAndCacheMetadataWindowsLivePhotoGallery,
@@ -5843,6 +5846,7 @@ namespace PhotoTagsSynchronizer
                 {
                     Metadata metadataToSave = autoCorrect.FixAndSave(
                         new FileEntry(file, File.GetLastWriteTime(file)),
+                        null,
                         databaseAndCacheMetadataExiftool,
                         databaseAndCacheMetadataMicrosoftPhotos,
                         databaseAndCacheMetadataWindowsLivePhotoGallery,
@@ -5959,6 +5963,7 @@ namespace PhotoTagsSynchronizer
                     {
                         Metadata metadataToSave = autoCorrect.FixAndSave(
                             new FileEntry(item.FileFullPath, item.DateModified),
+                            null,
                             databaseAndCacheMetadataExiftool,
                             databaseAndCacheMetadataMicrosoftPhotos,
                             databaseAndCacheMetadataWindowsLivePhotoGallery,
@@ -6057,6 +6062,7 @@ namespace PhotoTagsSynchronizer
                     {
                         Metadata metadataToSave = autoCorrect.FixAndSave(
                             new FileEntry(file, File.GetLastWriteTime(file)),
+                            null,
                             databaseAndCacheMetadataExiftool,
                             databaseAndCacheMetadataMicrosoftPhotos,
                             databaseAndCacheMetadataWindowsLivePhotoGallery,
