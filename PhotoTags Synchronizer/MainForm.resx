@@ -858,13 +858,14 @@ Microsoft Photos / Title -&gt; Your Media / Title
 Already existing text will BE overwritten.
 </value>
   </data>
-  <data name="kryptonRibbonGroupButtonPreviewPoster.ToolTipBody" xml:space="preserve">
+  <data name="kryptonRibbonGroupButtonDatGridShowPoster.ToolTipBody" xml:space="preserve">
     <value>Show media file as Poster
 Picture can be zoomed and showen
 First image in a movie will be shown.
 
 In People tab:
-First select a cell with face/region name and then select region for this face/region</value>
+First select a cell with face/region name and then select region for this face/region
+</value>
   </data>
   <data name="kryptonRibbonGroupButtonToolsImportLocations.ToolTipBody" xml:space="preserve">
     <value>Import GPS locations. 

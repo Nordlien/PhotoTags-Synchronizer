@@ -31,7 +31,7 @@ namespace PhotoTagsSynchronizer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Filter");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Filter");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.panelMain = new Krypton.Toolkit.KryptonPanel();
             this.kryptonWorkspaceMain = new Krypton.Workspace.KryptonWorkspace();
@@ -336,13 +336,16 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonMediaFileRotate180 = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButtonMediaFileRotate90CW = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupHomeMetadata = new Krypton.Ribbon.KryptonRibbonGroup();
-            this.kryptonRibbonGroupTripleHomeAutoCorrect = new Krypton.Ribbon.KryptonRibbonGroupTriple();
-            this.kryptonRibbonGroupButtonHomeAutoCorrectRun = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupButtonHomeAutoCorrectForm = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupButtonPreviewPoster = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupTripleHomeMetadataRefresh = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButtonHomeMetadataRefresh = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButtonHomeMetadataReload = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupTripleHomeAutoCorrect = new Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.kryptonRibbonGroupButtonHomeAutoCorrectRun = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButtonHomeAutoCorrectForm = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupHomeGridView = new Krypton.Ribbon.KryptonRibbonGroup();
+            this.kryptonRibbonGroupTriple3 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.kryptonRibbonGroupButtonDataGridAutoCorrect = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButtonDatGridShowPoster = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupTripleHomeTriState = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButtonHomeTagSelectOn = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButtonHomeTagSelectToggle = new Krypton.Ribbon.KryptonRibbonGroupButton();
@@ -553,7 +556,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuSeparator1 = new Krypton.Toolkit.KryptonContextMenuSeparator();
             this.kryptonContextMenuItems7 = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonContextMenuSeparator2 = new Krypton.Toolkit.KryptonContextMenuSeparator();
-            this.kryptonRibbonGroupTripleHomeSaveAutoCorrect = new Krypton.Ribbon.KryptonRibbonGroupButton();
             ((System.ComponentModel.ISupportInitialize)(this.panelMain)).BeginInit();
             this.panelMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceMain)).BeginInit();
@@ -1373,7 +1375,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.kryptonTextBoxSearchFilename.Location = new System.Drawing.Point(103, 29);
             this.kryptonTextBoxSearchFilename.Name = "kryptonTextBoxSearchFilename";
-            this.kryptonTextBoxSearchFilename.Size = new System.Drawing.Size(170, 20);
+            this.kryptonTextBoxSearchFilename.Size = new System.Drawing.Size(170, 21);
             this.kryptonTextBoxSearchFilename.TabIndex = 1;
             // 
             // kryptonLabelSearchFilename
@@ -1390,7 +1392,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.kryptonTextBoxSearchDirectory.Location = new System.Drawing.Point(103, 3);
             this.kryptonTextBoxSearchDirectory.Name = "kryptonTextBoxSearchDirectory";
-            this.kryptonTextBoxSearchDirectory.Size = new System.Drawing.Size(170, 20);
+            this.kryptonTextBoxSearchDirectory.Size = new System.Drawing.Size(170, 21);
             this.kryptonTextBoxSearchDirectory.TabIndex = 0;
             // 
             // groupBoxSearchPeople
@@ -2208,11 +2210,11 @@ namespace PhotoTagsSynchronizer
             this.treeViewFilter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeViewFilter.Location = new System.Drawing.Point(0, 0);
             this.treeViewFilter.Name = "treeViewFilter";
-            treeNode1.Name = "NodeFolder";
-            treeNode1.Tag = "Filter";
-            treeNode1.Text = "Filter";
+            treeNode2.Name = "NodeFolder";
+            treeNode2.Tag = "Filter";
+            treeNode2.Text = "Filter";
             this.treeViewFilter.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1});
+            treeNode2});
             this.treeViewFilter.Size = new System.Drawing.Size(399, 652);
             this.treeViewFilter.TabIndex = 0;
             this.treeViewFilter.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewFilter_AfterCheck);
@@ -3180,7 +3182,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxBrowserURL.Location = new System.Drawing.Point(132, 6);
             this.textBoxBrowserURL.Name = "textBoxBrowserURL";
-            this.textBoxBrowserURL.Size = new System.Drawing.Size(252, 20);
+            this.textBoxBrowserURL.Size = new System.Drawing.Size(252, 21);
             this.textBoxBrowserURL.TabIndex = 9;
             this.textBoxBrowserURL.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxBrowserURL_KeyPress);
             // 
@@ -3542,7 +3544,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxRenameNewName.Location = new System.Drawing.Point(101, 30);
             this.textBoxRenameNewName.Name = "textBoxRenameNewName";
-            this.textBoxRenameNewName.Size = new System.Drawing.Size(294, 20);
+            this.textBoxRenameNewName.Size = new System.Drawing.Size(294, 21);
             this.textBoxRenameNewName.TabIndex = 1;
             this.textBoxRenameNewName.Enter += new System.EventHandler(this.textBoxRenameNewName_Enter);
             this.textBoxRenameNewName.Leave += new System.EventHandler(this.textBoxRenameNewName_Leave);
@@ -4034,6 +4036,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupHomeFileSystem,
             this.kryptonRibbonGroupHomeRotate,
             this.kryptonRibbonGroupHomeMetadata,
+            this.kryptonRibbonGroupHomeGridView,
             this.kryptonRibbonGroupHomeSave});
             this.kryptonRibbonTabHome.KeyTip = "H";
             this.kryptonRibbonTabHome.Text = "Home";
@@ -4427,60 +4430,12 @@ namespace PhotoTagsSynchronizer
             // 
             this.kryptonRibbonGroupHomeMetadata.DialogBoxLauncher = false;
             this.kryptonRibbonGroupHomeMetadata.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
-            this.kryptonRibbonGroupTripleHomeAutoCorrect,
             this.kryptonRibbonGroupTripleHomeMetadataRefresh,
-            this.kryptonRibbonGroupTripleHomeTriState});
+            this.kryptonRibbonGroupTripleHomeAutoCorrect});
             this.kryptonRibbonGroupHomeMetadata.KeyTipDialogLauncher = "Q";
             this.kryptonRibbonGroupHomeMetadata.KeyTipGroup = "Q";
             this.kryptonRibbonGroupHomeMetadata.TextLine1 = "Metadata";
-            // 
-            // kryptonRibbonGroupTripleHomeAutoCorrect
-            // 
-            this.kryptonRibbonGroupTripleHomeAutoCorrect.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
-            this.kryptonRibbonGroupButtonHomeAutoCorrectRun,
-            this.kryptonRibbonGroupButtonHomeAutoCorrectForm,
-            this.kryptonRibbonGroupButtonPreviewPoster});
-            // 
-            // kryptonRibbonGroupButtonHomeAutoCorrectRun
-            // 
-            this.kryptonRibbonGroupButtonHomeAutoCorrectRun.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MetadataAutoCorrectRun32x32;
-            this.kryptonRibbonGroupButtonHomeAutoCorrectRun.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MetadataAutoCorrectRun32x32;
-            this.kryptonRibbonGroupButtonHomeAutoCorrectRun.KeyTip = "AR";
-            this.kryptonRibbonGroupButtonHomeAutoCorrectRun.ShortcutKeys = System.Windows.Forms.Keys.F7;
-            this.kryptonRibbonGroupButtonHomeAutoCorrectRun.TextLine1 = "AutoCorrect";
-            this.kryptonRibbonGroupButtonHomeAutoCorrectRun.TextLine2 = "Run";
-            this.kryptonRibbonGroupButtonHomeAutoCorrectRun.ToolTipBody = "AutoCorrect use diffrent rules set in Config to fix metadata contence in the medi" +
-    "a file.";
-            this.kryptonRibbonGroupButtonHomeAutoCorrectRun.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MetadataAutoCorrectRun32x32;
-            this.kryptonRibbonGroupButtonHomeAutoCorrectRun.ToolTipTitle = "AutoCorrect Metadata (F7)";
-            this.kryptonRibbonGroupButtonHomeAutoCorrectRun.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeAutoCorrectRun_Click);
-            // 
-            // kryptonRibbonGroupButtonHomeAutoCorrectForm
-            // 
-            this.kryptonRibbonGroupButtonHomeAutoCorrectForm.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MetadataAutoCorrectForm32x32;
-            this.kryptonRibbonGroupButtonHomeAutoCorrectForm.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MetadataAutoCorrectForm32x32;
-            this.kryptonRibbonGroupButtonHomeAutoCorrectForm.KeyTip = "AF";
-            this.kryptonRibbonGroupButtonHomeAutoCorrectForm.ShortcutKeys = System.Windows.Forms.Keys.F8;
-            this.kryptonRibbonGroupButtonHomeAutoCorrectForm.TextLine1 = "AutoCorrect";
-            this.kryptonRibbonGroupButtonHomeAutoCorrectForm.TextLine2 = "Form";
-            this.kryptonRibbonGroupButtonHomeAutoCorrectForm.ToolTipBody = "AutoCorrect use diffrent rules set in Config to fix metadata contence in the medi" +
-    "a file.";
-            this.kryptonRibbonGroupButtonHomeAutoCorrectForm.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MetadataAutoCorrectForm32x32;
-            this.kryptonRibbonGroupButtonHomeAutoCorrectForm.ToolTipTitle = "AutoCorrect Metadata Form (F8)";
-            this.kryptonRibbonGroupButtonHomeAutoCorrectForm.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeAutoCorrectForm_Click);
-            // 
-            // kryptonRibbonGroupButtonPreviewPoster
-            // 
-            this.kryptonRibbonGroupButtonPreviewPoster.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MediaRegionSelector;
-            this.kryptonRibbonGroupButtonPreviewPoster.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaRegionSelector;
-            this.kryptonRibbonGroupButtonPreviewPoster.KeyTip = "AP";
-            this.kryptonRibbonGroupButtonPreviewPoster.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.F11)));
-            this.kryptonRibbonGroupButtonPreviewPoster.TextLine1 = "Show Poster";
-            this.kryptonRibbonGroupButtonPreviewPoster.TextLine2 = "Select region";
-            this.kryptonRibbonGroupButtonPreviewPoster.ToolTipBody = resources.GetString("kryptonRibbonGroupButtonPreviewPoster.ToolTipBody");
-            this.kryptonRibbonGroupButtonPreviewPoster.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MediaRegionSelector;
-            this.kryptonRibbonGroupButtonPreviewPoster.ToolTipTitle = "Show Poster and/or Select region (Shift+F11)";
-            this.kryptonRibbonGroupButtonPreviewPoster.Click += new System.EventHandler(this.kryptonRibbonGroupButtonPreviewPoster_Click);
+            this.kryptonRibbonGroupHomeMetadata.TextLine2 = "Media files";
             // 
             // kryptonRibbonGroupTripleHomeMetadataRefresh
             // 
@@ -4512,6 +4467,79 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonHomeMetadataReload.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MetadataDeleteHistory;
             this.kryptonRibbonGroupButtonHomeMetadataReload.ToolTipTitle = "Delete History and Reload(Ctrl+F5)";
             this.kryptonRibbonGroupButtonHomeMetadataReload.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeMetadataReloadDeleteHistory_Click);
+            // 
+            // kryptonRibbonGroupTripleHomeAutoCorrect
+            // 
+            this.kryptonRibbonGroupTripleHomeAutoCorrect.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupButtonHomeAutoCorrectRun,
+            this.kryptonRibbonGroupButtonHomeAutoCorrectForm});
+            // 
+            // kryptonRibbonGroupButtonHomeAutoCorrectRun
+            // 
+            this.kryptonRibbonGroupButtonHomeAutoCorrectRun.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MetadataAutoCorrectRun32x32;
+            this.kryptonRibbonGroupButtonHomeAutoCorrectRun.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MetadataAutoCorrectRun32x32;
+            this.kryptonRibbonGroupButtonHomeAutoCorrectRun.KeyTip = "AR";
+            this.kryptonRibbonGroupButtonHomeAutoCorrectRun.ShortcutKeys = System.Windows.Forms.Keys.F7;
+            this.kryptonRibbonGroupButtonHomeAutoCorrectRun.TextLine1 = "AutoCorrect";
+            this.kryptonRibbonGroupButtonHomeAutoCorrectRun.TextLine2 = "Run";
+            this.kryptonRibbonGroupButtonHomeAutoCorrectRun.ToolTipBody = "AutoCorrect use diffrent rules set in Config to fix metadata contence in the medi" +
+    "a file.";
+            this.kryptonRibbonGroupButtonHomeAutoCorrectRun.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MetadataAutoCorrectRun32x32;
+            this.kryptonRibbonGroupButtonHomeAutoCorrectRun.ToolTipTitle = "AutoCorrect Metadata (F7)";
+            this.kryptonRibbonGroupButtonHomeAutoCorrectRun.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeAutoCorrectRun_Click);
+            // 
+            // kryptonRibbonGroupButtonHomeAutoCorrectForm
+            // 
+            this.kryptonRibbonGroupButtonHomeAutoCorrectForm.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MetadataAutoCorrectForm32x32;
+            this.kryptonRibbonGroupButtonHomeAutoCorrectForm.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MetadataAutoCorrectForm32x32;
+            this.kryptonRibbonGroupButtonHomeAutoCorrectForm.KeyTip = "AF";
+            this.kryptonRibbonGroupButtonHomeAutoCorrectForm.ShortcutKeys = System.Windows.Forms.Keys.F8;
+            this.kryptonRibbonGroupButtonHomeAutoCorrectForm.TextLine1 = "AutoCorrect";
+            this.kryptonRibbonGroupButtonHomeAutoCorrectForm.TextLine2 = "Form";
+            this.kryptonRibbonGroupButtonHomeAutoCorrectForm.ToolTipBody = "AutoCorrect use diffrent rules set in Config to fix metadata contence in the medi" +
+    "a file.";
+            this.kryptonRibbonGroupButtonHomeAutoCorrectForm.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MetadataAutoCorrectForm32x32;
+            this.kryptonRibbonGroupButtonHomeAutoCorrectForm.ToolTipTitle = "AutoCorrect Metadata Form (F8)";
+            this.kryptonRibbonGroupButtonHomeAutoCorrectForm.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeAutoCorrectForm_Click);
+            // 
+            // kryptonRibbonGroupHomeGridView
+            // 
+            this.kryptonRibbonGroupHomeGridView.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
+            this.kryptonRibbonGroupTriple3,
+            this.kryptonRibbonGroupTripleHomeTriState});
+            this.kryptonRibbonGroupHomeGridView.TextLine1 = "Metadata";
+            this.kryptonRibbonGroupHomeGridView.TextLine2 = "DataGrid";
+            // 
+            // kryptonRibbonGroupTriple3
+            // 
+            this.kryptonRibbonGroupTriple3.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupButtonDataGridAutoCorrect,
+            this.kryptonRibbonGroupButtonDatGridShowPoster});
+            // 
+            // kryptonRibbonGroupButtonDataGridAutoCorrect
+            // 
+            this.kryptonRibbonGroupButtonDataGridAutoCorrect.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MetadataAutoCorrectDataGridView32x32;
+            this.kryptonRibbonGroupButtonDataGridAutoCorrect.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MetadataAutoCorrectDataGridView32x32;
+            this.kryptonRibbonGroupButtonDataGridAutoCorrect.KeyTip = "AG";
+            this.kryptonRibbonGroupButtonDataGridAutoCorrect.TextLine1 = "AutoCorrect";
+            this.kryptonRibbonGroupButtonDataGridAutoCorrect.TextLine2 = "Selected";
+            this.kryptonRibbonGroupButtonDataGridAutoCorrect.ToolTipBody = "Run AutoCorrect and updated your data accoring to rules set in Config";
+            this.kryptonRibbonGroupButtonDataGridAutoCorrect.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MetadataAutoCorrectDataGridView32x32;
+            this.kryptonRibbonGroupButtonDataGridAutoCorrect.ToolTipTitle = "Run AutoCorrect for select media files in DataGridView";
+            this.kryptonRibbonGroupButtonDataGridAutoCorrect.Click += new System.EventHandler(this.kryptonRibbonGroupButtonDataGridAutoCorrect_Click);
+            // 
+            // kryptonRibbonGroupButtonDatGridShowPoster
+            // 
+            this.kryptonRibbonGroupButtonDatGridShowPoster.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MediaRegionSelector;
+            this.kryptonRibbonGroupButtonDatGridShowPoster.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaRegionSelector;
+            this.kryptonRibbonGroupButtonDatGridShowPoster.KeyTip = "AP";
+            this.kryptonRibbonGroupButtonDatGridShowPoster.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.F11)));
+            this.kryptonRibbonGroupButtonDatGridShowPoster.TextLine1 = "Show Poster";
+            this.kryptonRibbonGroupButtonDatGridShowPoster.TextLine2 = "Select region";
+            this.kryptonRibbonGroupButtonDatGridShowPoster.ToolTipBody = resources.GetString("kryptonRibbonGroupButtonDatGridShowPoster.ToolTipBody");
+            this.kryptonRibbonGroupButtonDatGridShowPoster.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MediaRegionSelector;
+            this.kryptonRibbonGroupButtonDatGridShowPoster.ToolTipTitle = "Show Poster and/or Select region (Shift+F11)";
+            this.kryptonRibbonGroupButtonDatGridShowPoster.Click += new System.EventHandler(this.kryptonRibbonGroupButtonDatGridShowPoster_Click);
             // 
             // kryptonRibbonGroupTripleHomeTriState
             // 
@@ -4569,24 +4597,33 @@ namespace PhotoTagsSynchronizer
             // 
             this.kryptonRibbonGroupTripleHomeSave.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
             this.kryptonRibbonGroupButtonHomeSaveSave,
-            this.kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave,
-            this.kryptonRibbonGroupTripleHomeSaveAutoCorrect});
+            this.kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave});
             // 
             // kryptonRibbonGroupButtonHomeSaveSave
             // 
             this.kryptonRibbonGroupButtonHomeSaveSave.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MetadataSave32x32;
             this.kryptonRibbonGroupButtonHomeSaveSave.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MetadataSave32x32;
-            this.kryptonRibbonGroupButtonHomeSaveSave.KeyTip = "S";
+            this.kryptonRibbonGroupButtonHomeSaveSave.KeyTip = "S1";
+            this.kryptonRibbonGroupButtonHomeSaveSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.kryptonRibbonGroupButtonHomeSaveSave.TextLine1 = "Save";
             this.kryptonRibbonGroupButtonHomeSaveSave.ToolTipBody = "Save you changes";
-            this.kryptonRibbonGroupButtonHomeSaveSave.ToolTipTitle = "Save";
+            this.kryptonRibbonGroupButtonHomeSaveSave.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MetadataSave32x32;
+            this.kryptonRibbonGroupButtonHomeSaveSave.ToolTipTitle = "Save (Ctrl+S)";
             this.kryptonRibbonGroupButtonHomeSaveSave.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeSaveSave_Click);
             // 
             // kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave
             // 
             this.kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.MetadataSaveAndAutoCorrect;
             this.kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MetadataSaveAndAutoCorrect;
+            this.kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave.KeyTip = "S2";
+            this.kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.S)));
+            this.kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave.TextLine1 = "AutoCorrect";
+            this.kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave.TextLine2 = "Then Save";
+            this.kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave.ToolTipBody = "Run AutoCorrect accorindg to Config \r\nand changed you have edit in the DataGrid\r\n" +
+    "Then save all back to media file.\r\n\r\n";
             this.kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MetadataSaveAndAutoCorrect;
+            this.kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave.ToolTipTitle = "AutoCorret then Save (Ctrl+Shift+S)";
             this.kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave_Click);
             // 
             // kryptonRibbonTabView
@@ -5942,10 +5979,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuMonthCalendar5.SelectionStart = new System.DateTime(2021, 10, 8, 0, 0, 0, 0);
             this.kryptonContextMenuMonthCalendar5.TodayDate = new System.DateTime(2021, 10, 8, 0, 0, 0, 0);
             // 
-            // kryptonRibbonGroupTripleHomeSaveAutoCorrect
-            // 
-            this.kryptonRibbonGroupTripleHomeSaveAutoCorrect.Click += new System.EventHandler(this.kryptonRibbonGroupTripleHomeSaveAutoCorrect_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -6698,9 +6731,11 @@ namespace PhotoTagsSynchronizer
         private Krypton.Toolkit.KryptonContextMenuRadioButton kryptonContextMenuRadioButtonFileSystemColumnSortSmarteDate;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonToolsLocationAnalytics;
         private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItemToolLocationAnalytics;
-        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonPreviewPoster;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave;
-        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupTripleHomeSaveAutoCorrect;
+        private Krypton.Ribbon.KryptonRibbonGroup kryptonRibbonGroupHomeGridView;
+        private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple3;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonDataGridAutoCorrect;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonDatGridShowPoster;
     }
 }
 

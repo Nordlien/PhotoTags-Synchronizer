@@ -108,6 +108,26 @@ namespace PhotoTagsSynchronizer
         public static bool IsDragAndDropActive { get; set; } = false;
         public static bool IsPopulatingFilter { get; set; } = false;
 
+        private static HashSet<string> listOfAutoCorrectFiles { get; set; } = new HashSet<string>();
+        public static readonly object listOfAutoCorrectFilesLock = new object();
+        public static void ListOfAutoCorrectFilesAdd(string fileFullPath)
+        {
+            lock (listOfAutoCorrectFilesLock)
+                if (!GlobalData.listOfAutoCorrectFiles.Contains(fileFullPath)) GlobalData.listOfAutoCorrectFiles.Add(fileFullPath);
+        }
+
+        public static bool ListOfAutoCorrectFilesContains(string fileFullPath)
+        {
+            lock(listOfAutoCorrectFilesLock)
+                return GlobalData.listOfAutoCorrectFiles.Contains(fileFullPath);
+        }
+
+        public static void ListOfAutoCorrectFilesClear()
+        {
+            lock (listOfAutoCorrectFilesLock)
+                GlobalData.listOfAutoCorrectFiles.Clear();
+        }
+
         public static void SetDataNotAgreegatedOnGridViewForAnyTabs()
         {
             IsAgregatedTags = false;            
@@ -119,6 +139,7 @@ namespace PhotoTagsSynchronizer
             IsAgregatedProperties = false;
             IsAgregatedRename = false;
             IsAgregatedConvertAndMerge = false;
+            ListOfAutoCorrectFilesClear();
         }        
 
         //Data stored in DataGridView

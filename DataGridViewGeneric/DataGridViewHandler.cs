@@ -896,7 +896,6 @@ namespace DataGridViewGeneric
 
         #endregion 
         
-
         #region DataGridViewGenericData handling
 
         #region DataGridViewGenericData handling - GetDataGridViewGenericData
@@ -920,9 +919,23 @@ namespace DataGridViewGeneric
         #endregion
 
         #endregion
-        
+
 
         #region Column handling
+
+        public static bool IsColumnPopulated(DataGridView dataGridView, int columnIndex)
+        {
+            DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+            if (dataGridViewGenericColumn == null) return false;
+            return dataGridViewGenericColumn.IsPopulated;
+        }
+
+        public static void SetColumnPopulatedFlag(DataGridView dataGridView, int columnIndex, bool newFlag)
+        {
+            DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+            if (dataGridViewGenericColumn == null) return;
+            dataGridViewGenericColumn.IsPopulated = newFlag;
+        }
 
         #region Column handling - GetColumnSelected
         public static List<int> GetColumnSelected(DataGridView dataGridView)
@@ -989,11 +1002,25 @@ namespace DataGridViewGeneric
         #region Column handling - GetColumnIndex - fileEntry
         public static int GetColumnIndex(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute)
         {
-            for (int columnIndex = 0; columnIndex < dataGridView.ColumnCount; columnIndex++)
+            if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect || fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current)
             {
-                if (dataGridView.Columns[columnIndex].Tag is DataGridViewGenericColumn column && column.FileEntryAttribute == fileEntryAttribute)
+                for (int columnIndex = 0; columnIndex < dataGridView.ColumnCount; columnIndex++)
                 {
-                    return columnIndex;
+                    if (dataGridView.Columns[columnIndex].Tag is DataGridViewGenericColumn column &&
+                        (column.FileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect || column.FileEntryAttribute.FileEntryVersion == FileEntryVersion.Current) &&
+                        column.FileEntryAttribute.FileFullPath == fileEntryAttribute.FileFullPath)
+                    {
+                        return columnIndex;
+                    }
+                }
+            } else
+            {
+                for (int columnIndex = 0; columnIndex < dataGridView.ColumnCount; columnIndex++)
+                {
+                    if (dataGridView.Columns[columnIndex].Tag is DataGridViewGenericColumn column && column.FileEntryAttribute == fileEntryAttribute)
+                    {
+                        return columnIndex;
+                    }
                 }
             }
             return -1; //Not found
@@ -1066,8 +1093,11 @@ namespace DataGridViewGeneric
                     while (columnIndexFilename < dataGridView.Columns.Count &&
                         dataGridView.Columns[columnIndexFilename].Tag is DataGridViewGenericColumn column &&
                         column.FileEntryAttribute.FileFullPath == fileEntryAttribute.FileFullPath &&            //Correct filename on column
-                        (fileEntryAttribute.FileEntryVersion != FileEntryVersion.Current &&                     //Current version added, then find correct postion
-                        (column.FileEntryAttribute.FileEntryVersion == FileEntryVersion.Current ||              //Edit version, move to next column -> edit always first
+                        (
+                        (fileEntryAttribute.FileEntryVersion != FileEntryVersion.AutoCorrect && fileEntryAttribute.FileEntryVersion != FileEntryVersion.Current)
+                        &&                     //Current version added, then find correct postion
+                        (
+                        (column.FileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect || column.FileEntryAttribute.FileEntryVersion == FileEntryVersion.Current) ||              //Edit version, move to next column -> edit always first
                         column.FileEntryAttribute.LastWriteDateTime > fileEntryAttribute.LastWriteDateTime)     //Is older, move next -> Newst always frist
                         ))
                     {
@@ -1078,8 +1108,10 @@ namespace DataGridViewGeneric
                     if (columnIndexFilename < dataGridView.Columns.Count - 1 &&
                         dataGridView.Columns[columnIndexFilename].Tag is DataGridViewGenericColumn column2 &&
                         column2.FileEntryAttribute.FileFullPath == fileEntryAttribute.FileFullPath &&           //Correct filename on column
-                        (fileEntryAttribute.FileEntryVersion != FileEntryVersion.Current &&                     //History or Error column added, then find correct postion
-                        (column2.FileEntryAttribute.FileEntryVersion == FileEntryVersion.Current ||             //Edit version, move to next column -> edit always first
+                        (
+                        (fileEntryAttribute.FileEntryVersion != FileEntryVersion.AutoCorrect && fileEntryAttribute.FileEntryVersion != FileEntryVersion.Current) &&                     //History or Error column added, then find correct postion
+                        (
+                        (column2.FileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect || column2.FileEntryAttribute.FileEntryVersion == FileEntryVersion.Current) ||             //Edit version, move to next column -> edit always first
                         column2.FileEntryAttribute.LastWriteDateTime > fileEntryAttribute.LastWriteDateTime)    //Is older, move next -> Newst always frist
                         )
                         )
@@ -1089,7 +1121,16 @@ namespace DataGridViewGeneric
 
                     columnIndex = columnIndexFilename;
 
-                    dataGridView.Columns.Insert(columnIndex, dataGridViewColumn);
+                    bool createNewColumn = true;
+                    if (
+                        (fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect || fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current) &&
+                        columnIndex > -1 && columnIndex < dataGridView.ColumnCount && dataGridView.Columns[columnIndexFilename].Tag is DataGridViewGenericColumn columnCheck)
+                    {
+                        if (
+                            (columnCheck.FileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect || columnCheck.FileEntryAttribute.FileEntryVersion == FileEntryVersion.Current) &&
+                            columnCheck.FileEntryAttribute.FileFullPath == fileEntryAttribute.FileFullPath) createNewColumn = false;
+                    }
+                    if (createNewColumn) dataGridView.Columns.Insert(columnIndex, dataGridViewColumn);
                 }
 
                 SetCellStatusDefaultColumnWhenAdded(dataGridView, columnIndex, dataGridViewGenericCellStatusDefault);

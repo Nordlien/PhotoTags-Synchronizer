@@ -42,25 +42,28 @@ namespace PhotoTagsSynchronizer
         //Check what data has been updated by users
         public static void GetUserInputChanges(ref KryptonDataGridView dataGridView, Metadata metadata, FileEntryAttribute fileEntryColumn)
         {
+
+            int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, fileEntryColumn);
+            if (columnIndex == -1) return; //Column has not yet become aggregated or has already been removed
+            if (!DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex)) return;
+            
+
             int keywordsStarts = DataGridViewHandler.GetRowHeaderItemStarts(dataGridView, headerKeywords);
             int keywordsEnds = DataGridViewHandler.GetRowHeaderItemsEnds(dataGridView, headerKeywords);
 
-            int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, fileEntryColumn);
-            //DataGridViewHandler.ClearFileBeenUpdated(dataGridView, columnIndex);
-
-            metadata.PersonalAlbum = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagAlbum);
+            metadata.PersonalAlbum = (string)DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, headerMedia, tagAlbum);
             if (metadata.PersonalAlbum != null) metadata.PersonalAlbum = metadata.PersonalAlbum.Trim();
             
-            metadata.PersonalTitle = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagTitle);
+            metadata.PersonalTitle = (string)DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, headerMedia, tagTitle);
             if (metadata.PersonalTitle != null) metadata.PersonalTitle = metadata.PersonalTitle.Trim();
 
-            metadata.PersonalDescription = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagDescription);
+            metadata.PersonalDescription = (string)DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, headerMedia, tagDescription);
             if (metadata.PersonalDescription != null) metadata.PersonalDescription = metadata.PersonalDescription.Trim();
 
-            metadata.PersonalComments = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagComments);
+            metadata.PersonalComments = (string)DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, headerMedia, tagComments);
             if (metadata.PersonalComments != null) metadata.PersonalComments = metadata.PersonalComments.Trim();
 
-            metadata.PersonalAuthor = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagAuthor);
+            metadata.PersonalAuthor = (string)DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, headerMedia, tagAuthor);
             if (metadata.PersonalAuthor != null) metadata.PersonalAuthor = metadata.PersonalAuthor.Trim();
 
             byte rating = 255; //empty
@@ -172,7 +175,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region PopulateFile
-        public static void PopulateFile(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, ShowWhatColumns showWhatColumns)
+        public static void PopulateFile(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, ShowWhatColumns showWhatColumns, Metadata metadataAutoCorrected)
         {
             //-----------------------------------------------------------------
             //Chech if need to stop
@@ -190,9 +193,16 @@ namespace PhotoTagsSynchronizer
             //-----------------------------------------------------------------
             Image thumbnail = DatabaseAndCacheThumbnail.ReadThumbnailFromCacheOnlyClone(fileEntryAttribute);
             FileEntryBroker fileEntryBrokerReadVersion = fileEntryAttribute.GetFileEntryBroker(MetadataBrokerType.ExifTool);
-            Metadata metadata = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBrokerReadVersion);
-            if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current && metadata != null) metadata = new Metadata(metadata); //It's the edit column, make a copy do edit in dataGridView updated the origianal metadata
-            ReadWriteAccess readWriteAccessColumn = fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current && metadata != null ? ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly;
+
+            Metadata metadata = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBrokerReadVersion);            
+            if (metadataAutoCorrected != null) metadata = metadataAutoCorrected; //If AutoCorrect is run, use AutoCorrect values.
+            //It's the edit column, make a copy do edit in dataGridView updated the origianal metadata
+            if ((fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect || fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current)
+                && metadata != null) metadata = new Metadata(metadata);
+            ReadWriteAccess readWriteAccessColumn =
+                (fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect || fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current) &&
+                metadata != null ? ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly; 
+            
             int columnIndex = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView, fileEntryAttribute, thumbnail, metadata, readWriteAccessColumn, showWhatColumns, DataGridViewGenericCellStatus.DefaultEmpty());
             //-----------------------------------------------------------------
 
@@ -255,6 +265,8 @@ namespace PhotoTagsSynchronizer
                 if (metadataMicrosoftPhotos != null) PopulateKeywords(dataGridView, metadataMicrosoftPhotos, columnIndex, metadataMicrosoftPhotos.Broker);
                 if (metadataWindowsLivePhotoGallery != null) PopulateKeywords(dataGridView, metadataWindowsLivePhotoGallery, columnIndex, metadataWindowsLivePhotoGallery.Broker);
                 if (metadataWebScraping != null) PopulateKeywords(dataGridView, metadataWebScraping, columnIndex, metadataWebScraping.Broker);
+
+                DataGridViewHandler.SetColumnPopulatedFlag(dataGridView, columnIndex, true);
             }
             //-----------------------------------------------------------------
             DataGridViewHandler.SetIsPopulatingFile(dataGridView, false);

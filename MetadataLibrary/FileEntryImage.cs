@@ -56,8 +56,8 @@ namespace MetadataLibrary
             return 
                 this.FileFullPath == other.FileFullPath &&
                 (
-                (this.FileEntryVersion == FileEntryVersion.Current && this.FileEntryVersion == other.FileEntryVersion) || //Don't care about updated LastWrittenTime when current version
-                (this.FileEntryVersion != FileEntryVersion.Current && this.FileEntryVersion == other.FileEntryVersion && this.LastWriteDateTime == other.LastWriteDateTime)
+                ((this.FileEntryVersion == FileEntryVersion.AutoCorrect || this.FileEntryVersion == FileEntryVersion.Current) && this.FileEntryVersion == other.FileEntryVersion) || //Don't care about updated LastWrittenTime when current version
+                ((this.FileEntryVersion != FileEntryVersion.AutoCorrect && this.FileEntryVersion != FileEntryVersion.Current) && this.FileEntryVersion == other.FileEntryVersion && this.LastWriteDateTime == other.LastWriteDateTime)
                 );
         }
 

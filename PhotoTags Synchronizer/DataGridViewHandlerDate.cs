@@ -55,7 +55,7 @@ namespace PhotoTagsSynchronizer
         public static DateTime? GetDateTaken(DataGridView dataGridView, int columnIndex)
         {
             if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return null;
-            string dateTimeStringMediaTaken = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagMediaDateTaken).ToString().Trim();
+            string dateTimeStringMediaTaken = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, headerMedia, tagMediaDateTaken);
             return TimeZoneLibrary.ParseDateTimeAsLocal(dateTimeStringMediaTaken);
 
         }
@@ -65,7 +65,7 @@ namespace PhotoTagsSynchronizer
         public static DateTime? GetLocationDate(DataGridView dataGridView, int columnIndex)
         {
             if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return null;
-            string dateTimeStringLocation = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagGPSLocationDateTime).ToString().Trim();
+            string dateTimeStringLocation = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, headerMedia, tagGPSLocationDateTime);
 
             DateTime? date = TimeZoneLibrary.ParseDateTimeAsUTC(dateTimeStringLocation);
             return date;
@@ -77,7 +77,9 @@ namespace PhotoTagsSynchronizer
         public static void GetUserInputChanges(ref KryptonDataGridView dataGridView, Metadata metadata, FileEntryAttribute fileEntryColumn)
         {
             int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, fileEntryColumn);
-            
+            if (columnIndex == -1) return; //Column has not yet become aggregated or has already been removed
+            if (!DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex)) return;
+
             //Get Date and Time for DataGridView
             metadata.MediaDateTaken = GetDateTaken(dataGridView, columnIndex);
             metadata.LocationDateTime = GetLocationDate(dataGridView, columnIndex);
@@ -210,7 +212,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region PopulateFile
-        public static void PopulateFile(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, ShowWhatColumns showWhatColumns)
+        public static void PopulateFile(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, ShowWhatColumns showWhatColumns, Metadata metadataAutoCorrected)
         {
             //-----------------------------------------------------------------
             //Chech if need to stop
@@ -227,9 +229,17 @@ namespace PhotoTagsSynchronizer
             //-----------------------------------------------------------------
             Image thumbnail = DatabaseAndCacheThumbnail.ReadThumbnailFromCacheOnlyClone(fileEntryAttribute);
             FileEntryBroker fileEntryBrokerReadVersion = fileEntryAttribute.GetFileEntryBroker(MetadataBrokerType.ExifTool);
+
             Metadata metadata = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBrokerReadVersion);
-            if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current && metadata != null) metadata = new Metadata(metadata); //It's the edit column, make a copy do edit in dataGridView updated the origianal metadata
-            ReadWriteAccess readWriteAccessColumn = fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current && metadata != null ? ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly;
+            if (metadataAutoCorrected != null) metadata = metadataAutoCorrected; //If AutoCorrect is run, use AutoCorrect values.
+
+            //It's the edit column, make a copy do edit in dataGridView updated the origianal metadata
+            if ((fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect || fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current) 
+                && metadata != null) metadata = new Metadata(metadata); 
+            ReadWriteAccess readWriteAccessColumn = 
+                (fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect || fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current) && 
+                metadata != null ? ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly;
+
             int columnIndex = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView, fileEntryAttribute, thumbnail, metadata, readWriteAccessColumn, showWhatColumns, DataGridViewGenericCellStatus.DefaultEmpty());
             //-----------------------------------------------------------------
 
@@ -283,6 +293,8 @@ namespace PhotoTagsSynchronizer
                 }
 
                 PopulateTimeZone(dataGridView, columnIndex);
+
+                DataGridViewHandler.SetColumnPopulatedFlag(dataGridView, columnIndex, true);
             }
 
             //-----------------------------------------------------------------

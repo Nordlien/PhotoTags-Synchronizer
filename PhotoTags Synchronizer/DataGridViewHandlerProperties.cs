@@ -42,7 +42,8 @@ namespace PhotoTagsSynchronizer
                 new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true));
             
             DataGridViewHandler.AddRowAndValueList(dataGridView, fileEntryAttribute, WindowsPropertyReader.Read(fileEntryAttribute.FileFullPath), true);
-            
+
+            DataGridViewHandler.SetColumnPopulatedFlag(dataGridView, DataGridViewHandler.GetColumnIndex(dataGridView, fileEntryAttribute), true);
             //-----------------------------------------------------------------
             DataGridViewHandler.SetIsPopulatingFile(dataGridView, false);
             //-----------------------------------------------------------------

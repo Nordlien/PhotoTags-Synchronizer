@@ -19,7 +19,7 @@ namespace PhotoTagsSynchronizer
                 GlobalData.IsPopulatingImageListView = true;
                 GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
 
-                PopulateDataGridViewForSelectedItemsInvoke(imageListView1.SelectedItems);                
+                PopulateDataGridViewForSelectedItemsThread(imageListView1.SelectedItems);                
                 PopulateImageListViewOpenWithToolStripThread(imageListView1.SelectedItems);
                 
                 GlobalData.IsPopulatingImageListView = false;

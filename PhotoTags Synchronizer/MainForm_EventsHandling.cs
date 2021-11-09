@@ -496,7 +496,8 @@ namespace PhotoTagsSynchronizer
             kryptonRibbonGroupButtonHomeTagSelectToggle.Enabled = enabledTriState;
             kryptonRibbonGroupButtonHomeTagSelectOff.Enabled = enabledTriState;
 
-            kryptonRibbonGroupButtonPreviewPoster.Enabled = enablePreviewPoster;
+            kryptonRibbonGroupButtonDatGridShowPoster.Enabled = enablePreviewPoster;
+            kryptonRibbonGroupButtonDataGridAutoCorrect.Enabled = enablePreviewPoster;
         }
         #endregion
 
@@ -3664,7 +3665,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region
-        private void kryptonRibbonGroupTripleHomeSaveAutoCorrect_Click(object sender, EventArgs e)
+        private void kryptonRibbonGroupButtonDataGridAutoCorrect_Click(object sender, EventArgs e)
         {
             if (GlobalData.IsPopulatingAnything())
             {
@@ -3678,23 +3679,34 @@ namespace PhotoTagsSynchronizer
             }
             DataGridView dataGridView = GetActiveTabDataGridView();
 
-            ClearDataGridDirtyFlag(); //Clear before save; To track if become dirty during save process
-            foreach (int updatedRecord in DataGridViewHandler.GetColumnSelected(dataGridView)) 
+            try
             {
-                List<FileEntryAttribute> fileEntryAttributes = new List<FileEntryAttribute>();
-                foreach (ImageListViewItem item in imageListView1.SelectedItems)
+                //ClearDataGridDirtyFlag(); //Clear before save; To track if become dirty during save process
+                foreach (int columIndex in DataGridViewHandler.GetColumnSelected(dataGridView))
                 {
-                    fileEntryAttributes.Add(new FileEntryAttribute(item.FileFullPath, item.DateModified, FileEntryVersion.AutoCorrect));
-                }
-                AddQueueLazyLoadningDataGridViewMetadataLock(fileEntryAttributes);
+                    List<FileEntryAttribute> fileEntryAttributes = new List<FileEntryAttribute>();
 
+                    DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columIndex);
+                    if (dataGridViewGenericColumn != null && dataGridViewGenericColumn.Metadata != null)
+                    {
+                        GlobalData.ListOfAutoCorrectFilesAdd(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath);
+                        fileEntryAttributes.Add(new FileEntryAttribute(
+                            dataGridViewGenericColumn.Metadata.FileEntry.FileFullPath, 
+                            dataGridViewGenericColumn.Metadata.FileEntry.LastWriteDateTime, 
+                            FileEntryVersion.AutoCorrect));
+                        AddQueueLazyLoadningDataGridViewMetadataLock(fileEntryAttributes);
+                    }                    
+                }
+            } catch (Exception ex)
+            {
+                Logger.Error(ex);
             }
 
             ThreadSaveMetadata();
         }
         #endregion
 
-        #region
+        #region Save and AutoCorrect
         private void kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave_Click(object sender, EventArgs e)
         {
             ActionSave(true);
@@ -3838,6 +3850,14 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        private void UpdateMetadataFromDataGridView (FileEntryAttribute fileEntryAttribute, ref Metadata metadataFromDataGridView)
+        {
+            if (GlobalData.IsAgregatedTags) DataGridViewHandlerTagsAndKeywords.GetUserInputChanges(ref dataGridViewTagsAndKeywords, metadataFromDataGridView, fileEntryAttribute);
+            if (GlobalData.IsAgregatedMap) DataGridViewHandlerMap.GetUserInputChanges(ref dataGridViewMap, metadataFromDataGridView, fileEntryAttribute);
+            if (GlobalData.IsAgregatedPeople) DataGridViewHandlerPeople.GetUserInputChanges(ref dataGridViewPeople, metadataFromDataGridView, fileEntryAttribute);
+            if (GlobalData.IsAgregatedDate) DataGridViewHandlerDate.GetUserInputChanges(ref dataGridViewDate, metadataFromDataGridView, fileEntryAttribute);
+        }
+
         #region Save - GetDataGridViewData
         private void GetDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView)
         {
@@ -3852,10 +3872,7 @@ namespace PhotoTagsSynchronizer
 
                 Metadata metadataFromDataGridView = new Metadata(dataGridViewGenericColumn.Metadata);
 
-                if (GlobalData.IsAgregatedTags) DataGridViewHandlerTagsAndKeywords.GetUserInputChanges(ref dataGridViewTagsAndKeywords, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryAttribute);
-                if (GlobalData.IsAgregatedMap) DataGridViewHandlerMap.GetUserInputChanges(ref dataGridViewMap, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryAttribute);
-                if (GlobalData.IsAgregatedPeople) DataGridViewHandlerPeople.GetUserInputChanges(ref dataGridViewPeople, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryAttribute);
-                if (GlobalData.IsAgregatedDate) DataGridViewHandlerDate.GetUserInputChanges(ref dataGridViewDate, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryAttribute);
+                UpdateMetadataFromDataGridView(dataGridViewGenericColumn.FileEntryAttribute, ref metadataFromDataGridView);
 
                 metadataListFromDataGridView.Add(new Metadata(metadataFromDataGridView));
                 metadataListOriginalExiftool.Add(new Metadata(dataGridViewGenericColumn.Metadata));
@@ -3890,6 +3907,8 @@ namespace PhotoTagsSynchronizer
             }
 
             ClearDataGridDirtyFlag(); //Clear before save; To track if become dirty during save process
+            GlobalData.ListOfAutoCorrectFilesClear();
+
             foreach (int updatedRecord in listOfUpdates)
             {
                 if (useAutoCorrect)
@@ -4514,9 +4533,13 @@ namespace PhotoTagsSynchronizer
             ActionMediaViewAsPoster();
         }
 
-        private void kryptonRibbonGroupButtonPreviewPoster_Click(object sender, EventArgs e)
+        private void kryptonRibbonGroupButtonDatGridShowPoster_Click(object sender, EventArgs e)
         {
             ActionMediaViewAsPoster();
+        }
+        private void kryptonRibbonGroupButtonPreviewPoster_Click(object sender, EventArgs e)
+        {
+            
         }
         #endregion
 

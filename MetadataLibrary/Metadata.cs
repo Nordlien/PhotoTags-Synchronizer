@@ -369,7 +369,7 @@ namespace MetadataLibrary
             get
             {
                 if (fileEntry == null) fileEntry = new FileEntry(Path.Combine(fileDirectory, FileName), (DateTime)FileDateModified);
-                return fileEntryBroker;
+                return fileEntry;
             }
         }
         #endregion

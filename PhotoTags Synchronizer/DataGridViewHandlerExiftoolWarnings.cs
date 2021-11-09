@@ -92,6 +92,8 @@ namespace PhotoTagsSynchronizer
                         else
                             DataGridViewHandler.SetRowToolTipText(dataGridView, rowIndex, "");
                     }
+
+                    DataGridViewHandler.SetColumnPopulatedFlag(dataGridView, columnIndex, true);
                 }
             }
 

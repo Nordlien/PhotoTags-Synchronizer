@@ -1,25 +1,35 @@
 ﻿using Krypton.Toolkit;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace DataGridViewGeneric
 {
 
     public class DataGridViewGenericData
     {
-        public Stack<Dictionary<CellLocation, DataGridViewGenericCell>> UndoCellsStack { get; set; } = new Stack<Dictionary<CellLocation, DataGridViewGenericCell>>();
-        public Stack<Dictionary<CellLocation, DataGridViewGenericCell>> RedoCellsStack { get; set; } = new Stack<Dictionary<CellLocation, DataGridViewGenericCell>>();
-        public List<FavoriteRow> FavoriteList { get; set; } = null;
-        public bool IsPopulating { get; set; } = false;
+        #region IsAgregated / IsPopulated
+        public bool IsPopulating { get; set; }        
         public bool IsPopulatingFile { get; set; } = false;
         public bool IsPopulatingImage { get; set; } = false;
-        public bool IsAgregated { get; set; } = false;        
+        public bool IsAgregated { get; set; }
+        #endregion
+
+        #region Undo / Redo
+        public Stack<Dictionary<CellLocation, DataGridViewGenericCell>> UndoCellsStack { get; set; } = new Stack<Dictionary<CellLocation, DataGridViewGenericCell>>();
+        public Stack<Dictionary<CellLocation, DataGridViewGenericCell>> RedoCellsStack { get; set; } = new Stack<Dictionary<CellLocation, DataGridViewGenericCell>>();
+        #endregion
+
+        #region Grid Info / Layout
         public string TopCellName { get; set; } = "";
         public string DataGridViewName { get; set; } = "";
         public DataGridViewSize CellSize { get; set; } = DataGridViewSize.Medium;
+        public KryptonPalette KryptonPalette { get; set; } = null;
+        #endregion
 
+        #region Favorite and Equal rows
+        public List<FavoriteRow> FavoriteList { get; set; } = null;
         public bool ShowFavouriteColumns { get; set; } = false;
         public bool HideEqualColumns { get; set; } = false;
-
-        public KryptonPalette KryptonPalette { get; set; } = null;
+        #endregion
     }
 }

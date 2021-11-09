@@ -19,7 +19,9 @@ namespace PhotoTagsSynchronizer
         {
             foreach (ImageListViewItem imageListViewItem in imageListViewItems)
             {
-                FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(imageListViewItem.FileFullPath, imageListViewItem.DateModified, FileEntryVersion.Current);
+
+                FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(imageListViewItem.FileFullPath, imageListViewItem.DateModified,
+                    GlobalData.ListOfAutoCorrectFilesContains(imageListViewItem.FileFullPath) ? FileEntryVersion.AutoCorrect : FileEntryVersion.Current);
                 
                 Image thumbnail = null;
                 if (databaseAndCacheThumbnail != null) thumbnail = databaseAndCacheThumbnail.ReadThumbnailFromCacheOnlyClone(fileEntryAttribute.FileEntry);

@@ -46,6 +46,8 @@ namespace DataGridViewGeneric
         public bool IsDirty { get; set; } = false;
         public bool HasFileBeenUpdatedGiveUserAwarning {get; set; } = false;
 
+        public bool IsPopulated { get; set; } = false;
+
         public DataGridViewGenericColumn(FileEntryAttribute fileEntryAttribute, Image thumbnail, Metadata metadata, ReadWriteAccess readWriteAccess)
         {
             this.FileEntryAttribute = fileEntryAttribute;

@@ -127,40 +127,6 @@ namespace PhotoTagsSynchronizer
 
         
 
-        #region WorkspaceCellToolbox - SelectedPageChanged
-        private void kryptonWorkspaceCellToolbox_SelectedPageChanged(object sender, EventArgs e)
-        {            
-            if (isFormLoading) return;
-            try
-            {
-                ActionMaximumWorkspaceCell(kryptonWorkspaceMain, FindWorkspaceCell(kryptonWorkspaceMain, Properties.Settings.Default.WorkspaceMainMaximizedCell)); //Need to be in front of ActionMaximumWorkspaceCell(kryptonWorkspaceToolboxTags, kryptonWorkspaceToolboxTagPrevious);
-                
-                switch (GetActiveTabTag())
-                {
-                    case LinkTabAndDataGridViewNameTags:
-                        ActionMaximumWorkspaceCell(kryptonWorkspaceToolboxTags, FindWorkspaceCell(kryptonWorkspaceToolboxTags, Properties.Settings.Default.WorkspaceToolboxTagsMaximizedCell));
-                        break;
-                    case LinkTabAndDataGridViewNameMap:
-                    case LinkTabAndDataGridViewNamePeople:
-                    case LinkTabAndDataGridViewNameDates:
-                    case LinkTabAndDataGridViewNameExiftool:
-                    case LinkTabAndDataGridViewNameWarnings:
-                    case LinkTabAndDataGridViewNameProperties:
-                    case LinkTabAndDataGridViewNameRename:
-                    case LinkTabAndDataGridViewNameConvertAndMerge:
-                        break;
-                    default: throw new NotImplementedException();
-                }
-                PopulateDataGridViewForSelectedItemsThread(imageListView1.SelectedItems);
-            }
-            catch (Exception ex)
-            {
-                KryptonMessageBox.Show(ex.Message, "Was not able to to populate data grid view");
-                Logger.Error(ex);
-            }
-        }
-        #endregion
-
         #region DataGridView - GetDataGridViewForTag
         private DataGridView GetDataGridViewForTag(string tag)
         {
@@ -270,6 +236,42 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+
+        #region -- SelectedPageChanged --
+        private void kryptonWorkspaceCellToolbox_SelectedPageChanged(object sender, EventArgs e)
+        {
+            if (isFormLoading) return;
+            try
+            {
+                ActionMaximumWorkspaceCell(kryptonWorkspaceMain, FindWorkspaceCell(kryptonWorkspaceMain, Properties.Settings.Default.WorkspaceMainMaximizedCell)); //Need to be in front of ActionMaximumWorkspaceCell(kryptonWorkspaceToolboxTags, kryptonWorkspaceToolboxTagPrevious);
+
+                switch (GetActiveTabTag())
+                {
+                    case LinkTabAndDataGridViewNameTags:
+                        ActionMaximumWorkspaceCell(kryptonWorkspaceToolboxTags, FindWorkspaceCell(kryptonWorkspaceToolboxTags, Properties.Settings.Default.WorkspaceToolboxTagsMaximizedCell));
+                        break;
+                    case LinkTabAndDataGridViewNameMap:
+                    case LinkTabAndDataGridViewNamePeople:
+                    case LinkTabAndDataGridViewNameDates:
+                    case LinkTabAndDataGridViewNameExiftool:
+                    case LinkTabAndDataGridViewNameWarnings:
+                    case LinkTabAndDataGridViewNameProperties:
+                    case LinkTabAndDataGridViewNameRename:
+                    case LinkTabAndDataGridViewNameConvertAndMerge:
+                        break;
+                    default: throw new NotImplementedException();
+                }
+                PopulateDataGridViewForSelectedItemsThread(imageListView1.SelectedItems);
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show(ex.Message, "Was not able to to populate data grid view");
+                Logger.Error(ex);
+            }
+        }
+        #endregion
+
+
         #region DataGridView - Populate File - For FileEntryAttribute missing Tag - Invoke
         private void PopulateImageListVieAndDataGridViewForFileEntryAttributeInvoke(FileEntryAttribute fileEntryAttribute)
         {
@@ -305,7 +307,7 @@ namespace PhotoTagsSynchronizer
         {
             lock (GlobalData.populateSelectedLock)
             {
-
+                #region isFileInDataGridView
                 bool isFileInDataGridView = false;
                 switch (tag)
                 {
@@ -327,46 +329,61 @@ namespace PhotoTagsSynchronizer
                     default:
                         throw new NotImplementedException();
                 }
+                #endregion
+
+                #region AutoCorrect
+                Metadata metadataAutoCorrect = null;
+                if (isFileInDataGridView && (fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect || GlobalData.ListOfAutoCorrectFilesContains(fileEntryAttribute.FileFullPath)))
+                {
+                    Metadata metadataInCache = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryAttribute.GetFileEntryBroker(MetadataBrokerType.ExifTool));
+                    Metadata metadataUpdatedFromGrid = (metadataInCache == null ? null : new Metadata(metadataInCache));
+
+                    if (metadataUpdatedFromGrid != null)
+                    {
+                        AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
+                        float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
+                        float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
+                        int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
+
+                        UpdateMetadataFromDataGridView(fileEntryAttribute, ref metadataUpdatedFromGrid);
+
+                        metadataAutoCorrect = autoCorrect.FixAndSave(
+                            fileEntryAttribute.FileEntry,
+                            databaseAndCacheMetadataExiftool,
+                            databaseAndCacheMetadataMicrosoftPhotos,
+                            databaseAndCacheMetadataWindowsLivePhotoGallery,
+                            databaseAndCahceCameraOwner,
+                            databaseLocationAddress,
+                            databaseGoogleLocationHistory,
+                            locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
+                            autoKeywordConvertions,
+                            Properties.Settings.Default.RenameDateFormats);
+                    }
+                }
+                #endregion
 
                 DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, isFileInDataGridView);
-
-                Metadata metadataAutoCorrect = null;
-                if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect)
-                {
-                    AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
-                    float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
-                    float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
-                    int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
-
-                    metadataAutoCorrect = autoCorrect.FixAndSave(
-                        fileEntryAttribute.FileEntry,
-                        databaseAndCacheMetadataExiftool,
-                        databaseAndCacheMetadataMicrosoftPhotos,
-                        databaseAndCacheMetadataWindowsLivePhotoGallery,
-                        databaseAndCahceCameraOwner,
-                        databaseLocationAddress,
-                        databaseGoogleLocationHistory,
-                        locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
-                        autoKeywordConvertions,
-                        Properties.Settings.Default.RenameDateFormats);
-                }
-
                 if (isFileInDataGridView)
                 {
                     switch (tag)
                     {
                         case LinkTabAndDataGridViewNameTags:
-                            DataGridViewHandlerTagsAndKeywords.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
+                            DataGridViewHandlerTagsAndKeywords.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns, metadataAutoCorrect);
                             break;
                         case LinkTabAndDataGridViewNamePeople:
-                            DataGridViewHandlerPeople.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
+                            DataGridViewHandlerPeople.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns, metadataAutoCorrect);
                             break;
                         case LinkTabAndDataGridViewNameMap:
                             DataGridViewHandlerMap.PopulateFile(dataGridView, dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect);
                             break;
                         case LinkTabAndDataGridViewNameDates:
-                            DataGridViewHandlerDate.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
+                            //DataGridViewHandlerTagsAndKeywords.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns, metadataAutoCorrect);
+                            //DataGridViewHandlerPeople.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns, metadataAutoCorrect);
+                            //DataGridViewHandlerMap.PopulateFile(dataGridView, dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect);
+
+                            DataGridViewHandlerDate.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns, metadataAutoCorrect);
                             break;
+                        
                         case LinkTabAndDataGridViewNameExiftool:
                             DataGridViewHandlerExiftool.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
                             break;

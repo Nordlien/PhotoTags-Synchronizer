@@ -29,7 +29,8 @@ namespace PhotoTagsSynchronizer
         public static void GetUserInputChanges(ref KryptonDataGridView dataGridView, Metadata metadata, FileEntryAttribute fileEntry)
         {
             int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, fileEntry);
-            //DataGridViewHandler.ClearFileBeenUpdated(dataGridView, columnIndex);
+            if (columnIndex == -1) return; //Column has not yet become aggregated or has already been removed
+            if (!DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex)) return;
 
             metadata.PersonalRegionList.Clear();
             for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCount(dataGridView); rowIndex++)
@@ -178,20 +179,16 @@ namespace PhotoTagsSynchronizer
         }
 
         
-        public static void PopulateFile(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, ShowWhatColumns showWhatColumns)
+        public static void PopulateFile(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, ShowWhatColumns showWhatColumns, Metadata metadataAutoCorrected)
         {
             //-----------------------------------------------------------------
             //Chech if need to stop
-            if (GlobalData.IsApplicationClosing) 
-                return;
-            if (!DataGridViewHandler.GetIsAgregated(dataGridView)) 
-                return;      //Not default columns or rows added
-            if (DataGridViewHandler.GetIsPopulatingFile(dataGridView)) 
-                return;  //In progress doing so
+            if (GlobalData.IsApplicationClosing) return;
+            if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return;      //Not default columns or rows added
+            if (DataGridViewHandler.GetIsPopulatingFile(dataGridView)) return;  //In progress doing so
 
             //Check if file is in DataGridView, and needs updated
-            if (!DataGridViewHandler.DoesColumnFilenameExist(dataGridView, fileEntryAttribute.FileFullPath)) 
-                return;
+            if (!DataGridViewHandler.DoesColumnFilenameExist(dataGridView, fileEntryAttribute.FileFullPath)) return;
 
             //When file found, Tell it's populating file, avoid two process updates
             DataGridViewHandler.SetIsPopulatingFile(dataGridView, true);
@@ -216,9 +213,16 @@ namespace PhotoTagsSynchronizer
             //-----------------------------------------------------------------
             Image thumbnail = DatabaseAndCacheThumbnail.ReadThumbnailFromCacheOnlyClone(fileEntryAttribute);
             FileEntryBroker fileEntryBrokerReadVersion = fileEntryAttribute.GetFileEntryBroker(MetadataBrokerType.ExifTool);
+
             Metadata metadata = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBrokerReadVersion);
-            if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current && metadata != null) metadata = new Metadata(metadata); //It's the edit column, make a copy do edit in dataGridView updated the origianal metadata
-            ReadWriteAccess readWriteAccessColumn = fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current && metadata != null ? ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly;
+            if (metadataAutoCorrected != null) metadata = metadataAutoCorrected; //If AutoCorrect is run, use AutoCorrect values.
+            //It's the edit column, make a copy do edit in dataGridView updated the origianal metadata
+            if ((fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect || fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current)
+                && metadata != null) metadata = new Metadata(metadata);
+            ReadWriteAccess readWriteAccessColumn =
+                (fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect || fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current) &&
+                metadata != null ? ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly; 
+            
             int columnIndex = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView, fileEntryAttribute, thumbnail, metadata, readWriteAccessColumn, showWhatColumns, DataGridViewGenericCellStatus.DefaultEmpty());
             //-----------------------------------------------------------------
 
@@ -281,6 +285,8 @@ namespace PhotoTagsSynchronizer
                         if (!regionNamesAddedPeople.Contains(regionStructure.Name)) regionNamesAddedPeople.Add(regionStructure.Name);
                     }
                 }
+
+                DataGridViewHandler.SetColumnPopulatedFlag(dataGridView, columnIndex, true);
             }
 
             #region Suggestion of Names - Near date
