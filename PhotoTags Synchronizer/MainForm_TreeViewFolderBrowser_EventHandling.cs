@@ -135,7 +135,7 @@ namespace PhotoTagsSynchronizer
             UpdateStatusAction("Read files in folder: " + selectedFolder);
             HashSet<FileEntry> fileEntries = ImageAndMovieFileExtentionsUtility.ListAllMediaFileEntries(selectedFolder, recursive);
             UpdateStatusAction("Checking files in folder: " + selectedFolder);
-            if (FileHandeling.FileHandler.FixOneDriveIssues(fileEntries, this, false))
+            if (FileHandeling.FileHandler.FixOneDriveIssues(fileEntries, this, oneDriveNetworkNames, false))
             {
                 switch (KryptonMessageBox.Show("OneDrive duplicated files found.\r\n" +
                     "\r\n"+
@@ -145,11 +145,11 @@ namespace PhotoTagsSynchronizer
                     "Cancel - Cancel the operation, Leave the files intact", "OneDrive duplicated files found.", MessageBoxButtons.YesNoCancel))
                 {
                     case DialogResult.Yes:
-                        FileHandeling.FileHandler.FixOneDriveIssues(fileEntries, this, true, true);
+                        FileHandeling.FileHandler.FixOneDriveIssues(fileEntries, this, oneDriveNetworkNames, true, true);
                         fileEntries = ImageAndMovieFileExtentionsUtility.ListAllMediaFileEntries(selectedFolder, recursive);
                         break;
                     case DialogResult.No:
-                        FileHandeling.FileHandler.FixOneDriveIssues(fileEntries, this, true, false);
+                        FileHandeling.FileHandler.FixOneDriveIssues(fileEntries, this, oneDriveNetworkNames, true, false);
                         fileEntries = ImageAndMovieFileExtentionsUtility.ListAllMediaFileEntries(selectedFolder, recursive);
                         break;
                 }

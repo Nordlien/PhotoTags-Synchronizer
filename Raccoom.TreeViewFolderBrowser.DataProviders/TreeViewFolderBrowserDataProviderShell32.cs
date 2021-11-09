@@ -198,7 +198,7 @@ namespace Raccoom.Windows.Forms
                     parent.Nodes.Add(childNode);
                     childNode.Tag = ScannerComputerTag;
                     AddImageListResourceImages(parent.TreeView, childNode,
-                        "NetwrokImage", Raccoom.TreeViewFolderBrowser.DataProviders.Properties.Resources.SharedComputer,
+                        "NetworkImage", Raccoom.TreeViewFolderBrowser.DataProviders.Properties.Resources.SharedComputer,
                         "NetworkImageSelected", Raccoom.TreeViewFolderBrowser.DataProviders.Properties.Resources.SharedComputer);
                 }
             }

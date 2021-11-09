@@ -57,6 +57,7 @@ namespace PhotoTagsSynchronizer
         private string nameDataGridViewProperties;
         private string nameDataGridViewRename;
         private string nameDataGridViewTagsAndKeywords;
+        private List<string> oneDriveNetworkNames = new List<string>(); 
 
         private ProgressBar progressBarBackground = new ProgressBar();
         private ProgressBar progressBarSaveConvert = new ProgressBar();
@@ -569,6 +570,34 @@ namespace PhotoTagsSynchronizer
 
             this.ResumeLayout();
             #endregion
+
+            #region 
+            if (!oneDriveNetworkNames.Contains(Environment.MachineName)) oneDriveNetworkNames.Add(Environment.MachineName);
+            try
+            {
+                Thread scanForComputers = new Thread(() =>
+                {
+                    try
+                    {
+                        Trinet.Networking.NetworkCompuersAndSharesHandler networkCompuersAndSharesHandler = new Trinet.Networking.NetworkCompuersAndSharesHandler();
+
+                        List<string> listOfNetworkNames = new List<string>();
+                        if (!listOfNetworkNames.Contains(Environment.MachineName)) listOfNetworkNames.Add(Environment.MachineName);
+
+                        networkCompuersAndSharesHandler.ScanForComputers();
+                        foreach (string computerName in networkCompuersAndSharesHandler.ComputerNames)
+                        {
+                            if (!listOfNetworkNames.Contains(computerName)) listOfNetworkNames.Add(computerName);
+                        }
+                        oneDriveNetworkNames = listOfNetworkNames; //Swap to new list;
+                    }
+                    catch { }
+                });
+                scanForComputers.Priority = (ThreadPriority)Properties.Settings.Default.ApplicationDebugBackgroundThreadPrioity;
+                scanForComputers.Start();
+            }
+            catch { }
+            #endregion 
 
             #region Initialize nHTTP server
             FormSplash.UpdateStatus("Initialize nHTTP server...");
