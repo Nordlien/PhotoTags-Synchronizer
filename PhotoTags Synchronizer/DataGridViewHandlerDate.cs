@@ -55,6 +55,7 @@ namespace PhotoTagsSynchronizer
         public static DateTime? GetDateTaken(DataGridView dataGridView, int columnIndex)
         {
             if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return null;
+            if (!DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex)) return null;
             string dateTimeStringMediaTaken = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, headerMedia, tagMediaDateTaken);
             return TimeZoneLibrary.ParseDateTimeAsLocal(dateTimeStringMediaTaken);
 
@@ -65,6 +66,7 @@ namespace PhotoTagsSynchronizer
         public static DateTime? GetLocationDate(DataGridView dataGridView, int columnIndex)
         {
             if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return null;
+            if (!DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex)) return null;
             string dateTimeStringLocation = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, headerMedia, tagGPSLocationDateTime);
 
             DateTime? date = TimeZoneLibrary.ParseDateTimeAsUTC(dateTimeStringLocation);
@@ -91,6 +93,7 @@ namespace PhotoTagsSynchronizer
         public static void PopulateTimeZone(DataGridView dataGridView, int columnIndex)
         {
             if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return; //need this check, due to Maps tab also updated this, when coordinates has been updated
+            if (!DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex)) return;
             DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
 
             #region Get Media Date&Time and GPS Location Date&time from DataGridView or use Metadata

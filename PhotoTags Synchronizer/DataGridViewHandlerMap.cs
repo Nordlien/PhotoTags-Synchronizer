@@ -108,12 +108,12 @@ namespace PhotoTagsSynchronizer
         #region GetLocationCoordinate
         public static LocationCoordinate GetLocationCoordinate(DataGridView dataGridView, int columnIndex)
         {
-            LocationCoordinate locationCoordinate = null;
-            if (DataGridViewHandler.GetIsAgregated(dataGridView))
-            {
-                string locationCoordinateString = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, headerMedia, tagCoordinates);
-                locationCoordinate = LocationCoordinate.Parse(locationCoordinateString);
-            }
+            if (DataGridViewHandler.GetIsAgregated(dataGridView)) return null;
+            if (!DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex)) return null;
+            
+            LocationCoordinate locationCoordinate = null;            
+            string locationCoordinateString = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, headerMedia, tagCoordinates);
+            locationCoordinate = LocationCoordinate.Parse(locationCoordinateString);
             return locationCoordinate;
         }
         #endregion 
