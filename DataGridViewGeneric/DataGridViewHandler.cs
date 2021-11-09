@@ -923,19 +923,23 @@ namespace DataGridViewGeneric
 
         #region Column handling
 
+        #region Column handling - IsColumnPopulated
         public static bool IsColumnPopulated(DataGridView dataGridView, int columnIndex)
         {
             DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
             if (dataGridViewGenericColumn == null) return false;
             return dataGridViewGenericColumn.IsPopulated;
         }
+        #endregion
 
+        #region Column handling - SetColumnPopulatedFlag
         public static void SetColumnPopulatedFlag(DataGridView dataGridView, int columnIndex, bool newFlag)
         {
             DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
             if (dataGridViewGenericColumn == null) return;
             dataGridViewGenericColumn.IsPopulated = newFlag;
         }
+        #endregion 
 
         #region Column handling - GetColumnSelected
         public static List<int> GetColumnSelected(DataGridView dataGridView)
