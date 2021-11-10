@@ -108,7 +108,7 @@ namespace PhotoTagsSynchronizer
         #region GetLocationCoordinate
         public static LocationCoordinate GetLocationCoordinate(DataGridView dataGridView, int columnIndex)
         {
-            if (DataGridViewHandler.GetIsAgregated(dataGridView)) return null;
+            if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return null;
             if (!DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex)) return null;
             
             LocationCoordinate locationCoordinate = null;            

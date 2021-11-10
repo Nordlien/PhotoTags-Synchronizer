@@ -111,11 +111,9 @@ namespace PhotoTagsSynchronizer
                         "Error", false, false);
             }
 
-            if (DataGridViewHandler.GetIsAgregated(dataGridView))
-            {
-                DataGridViewHandlerDate.PopulateTimeZone(dataGridView, e.ColumnIndex);
-                UpdateGoodleHistoryCoordinateAndNearBy(e.ColumnIndex);
-            }
+            DataGridViewHandlerDate.PopulateTimeZone(dataGridView, e.ColumnIndex);
+            UpdateGoodleHistoryCoordinateAndNearBy(e.ColumnIndex);
+            
             isDataGridViewDate_CellValueChanging = false;
         }
         #endregion

@@ -1248,7 +1248,7 @@ namespace DataGridViewGeneric
                 else dataGridView.Columns[columnIndex].Visible = true;
             }
 
-            if (isMetadataAlreadyAgregated) return -1;
+            if (fileEntryAttribute.FileEntryVersion != FileEntryVersion.AutoCorrect && isMetadataAlreadyAgregated) return -1;
             else return columnIndex;
         }
         #endregion
@@ -2812,10 +2812,6 @@ namespace DataGridViewGeneric
         public static void SetDataGridImageOnFileEntryAttribute(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, Image image)
         {
             if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return;      //Not default columns or rows added
-            if (DataGridViewHandler.GetIsPopulatingImage(dataGridView))
-            {
-                //return;  //In progress doing so, I think we can remove
-            }
 
             DataGridViewHandler.SetIsPopulatingImage(dataGridView, true);
             for (int columnIndex = 0; columnIndex < dataGridView.ColumnCount; columnIndex++)

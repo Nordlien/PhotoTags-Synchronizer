@@ -92,9 +92,9 @@ namespace PhotoTagsSynchronizer
         #region PopulateTimeZone
         public static void PopulateTimeZone(DataGridView dataGridView, int columnIndex)
         {
-            if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return; //need this check, due to Maps tab also updated this, when coordinates has been updated
-            if (!DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex)) return;
+            if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return; //need this check, due to Maps tab also updated this, when coordinates has been updated            
             DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+            if (dataGridViewGenericColumn == null) return;
 
             #region Get Media Date&Time and GPS Location Date&time from DataGridView or use Metadata
             //Get Date and Time for DataGridView
@@ -106,13 +106,8 @@ namespace PhotoTagsSynchronizer
 
             #region Get GPS Coorindates - 1. DataGridViewMap user input, 2. Metadata record 3. null 
             //Get Media GPS Coordinates from DataGridViewMap is exist or use Metadata coordinates
-            double ? metadataLocationLatitude = null;
-            double? metadataLocationLongitude = null;
-            if (dataGridViewGenericColumn.Metadata != null)
-            {
-                metadataLocationLatitude = dataGridViewGenericColumn?.Metadata?.LocationLatitude;
-                metadataLocationLongitude = dataGridViewGenericColumn?.Metadata?.LocationLongitude;
-            }
+            double ? metadataLocationLatitude;
+            double? metadataLocationLongitude;
 
             //If DataGridViewMap is agregated then pick up coordinates from what user have entered
             LocationCoordinate locationCoordinate = DataGridViewHandlerMap.GetLocationCoordinate(DataGridViewMap, columnIndex);
@@ -120,6 +115,11 @@ namespace PhotoTagsSynchronizer
             {
                 metadataLocationLatitude = locationCoordinate.Latitude;
                 metadataLocationLongitude = locationCoordinate.Longitude;
+            } 
+            else 
+            {
+                metadataLocationLatitude = dataGridViewGenericColumn?.Metadata?.LocationLatitude;
+                metadataLocationLongitude = dataGridViewGenericColumn?.Metadata?.LocationLongitude;
             }
             #endregion 
 
@@ -314,14 +314,11 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsApplicationClosing) return;
             if (DataGridViewHandler.GetIsAgregated(dataGridView))      
             {
-                //Normaly return if already if *Agregated*, but if, but we use data from Maps Tab, therfor update DataGridViewDate with new data from DataGridViewMap
-                if (DataGridViewHandler.GetIsAgregated(DataGridViewMap))
+                //Normaly return if already if *Agregated*, but if, but we use data from Maps Tab, therfor update DataGridViewDate with new data from DataGridViewMap                
+                for (int columnIndex = 0; columnIndex < DataGridViewHandler.GetColumnCount(dataGridView); columnIndex++)
                 {
-                    for (int columnIndex = 0; columnIndex < DataGridViewHandler.GetColumnCount(dataGridView); columnIndex++)
-                    {
-                        PopulateTimeZone(dataGridView, columnIndex);
-                    }
-                }
+                    PopulateTimeZone(dataGridView, columnIndex);
+                }                
                 return;
             }
 

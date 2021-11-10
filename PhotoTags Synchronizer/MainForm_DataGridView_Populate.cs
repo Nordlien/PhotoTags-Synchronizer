@@ -349,6 +349,7 @@ namespace PhotoTagsSynchronizer
 
                         metadataAutoCorrect = autoCorrect.FixAndSave(
                             fileEntryAttribute.FileEntry,
+                            metadataUpdatedFromGrid,
                             databaseAndCacheMetadataExiftool,
                             databaseAndCacheMetadataMicrosoftPhotos,
                             databaseAndCacheMetadataWindowsLivePhotoGallery,
