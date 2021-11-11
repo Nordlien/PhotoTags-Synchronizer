@@ -1256,7 +1256,11 @@ namespace DataGridViewGeneric
         #region Column handling - GetColumnDataGridViewGenericColumn
         public static DataGridViewGenericColumn GetColumnDataGridViewGenericColumn(DataGridView dataGridView, int columnIndex)
         {
-            if (columnIndex < 0) return null;
+            if (columnIndex < 0) 
+                return null; //DEBUG - ths hsould not happen
+            if (columnIndex >= dataGridView.ColumnCount) 
+                return null; //DEBUG - ths hsould not happen
+
             return dataGridView.Columns[columnIndex].Tag as DataGridViewGenericColumn;
         }
         #endregion 
@@ -2714,7 +2718,7 @@ namespace DataGridViewGeneric
 
             if (gridViewGenericDataRow.HeaderName.Equals(header))
             {
-                SetDataGridViewDirty(dataGridView, columnIndex);
+                if (columnIndex > -1) SetDataGridViewDirty(dataGridView, columnIndex);
                 //All click 
                 if (gridViewGenericDataRow.IsHeader && columnIndex == -1)
                 {
@@ -3259,10 +3263,13 @@ namespace DataGridViewGeneric
         {
             DataGridViewGenericRow gridViewGenericDataRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, e.RowIndex);
             if (gridViewGenericDataRow == null) return; //Don't paint anything TriState on "New Empty Row" for "new Keywords"
+            if (e.ColumnIndex >= dataGridView.ColumnCount) 
+                return; //DEBUG - ths hsould not happen
 
-            DataGridViewGenericColumn dataGridViewGenericDataColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, e.ColumnIndex);
+            DataGridViewGenericColumn dataGridViewGenericDataColumn = null;
             if (e.ColumnIndex > -1)
             {
+                dataGridViewGenericDataColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, e.ColumnIndex);
                 if (dataGridViewGenericDataColumn == null) return; //Data is not set, no point to check more.
                 if (dataGridViewGenericDataColumn.Metadata == null) return; //Don't paint TriState button when MetaData is null (data not loaded)
             }
