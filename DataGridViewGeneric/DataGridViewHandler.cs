@@ -1150,12 +1150,6 @@ namespace DataGridViewGeneric
                     currentDataGridViewGenericColumn = new DataGridViewGenericColumn(fileEntryAttribute, thumbnail, metadata, readWriteAccessForColumn);
                     
                 }
-                //else if (currentDataGridViewGenericColumn.Metadata == null)
-                //{
-                //    currentDataGridViewGenericColumn.Metadata = metadata;
-                //}
-                //else
-                //{
                 //New data has arrived for Edit Column
                 if (metadata != null && currentDataGridViewGenericColumn.Metadata != null && !isHistoryColumn)
                 {
