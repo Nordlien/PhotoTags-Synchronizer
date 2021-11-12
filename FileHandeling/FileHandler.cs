@@ -480,10 +480,12 @@ namespace FileHandeling
         }
         #endregion
 
+        #region CombineApplicationPathWithFilename
         public static string CombineApplicationPathWithFilename(string filename)
         {
             return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, filename);
         }
+        #endregion
 
         #region FixOneDriveIssues 
         public static bool FixOneDriveIssues(HashSet<FileEntry> fileEntries, Form form, List<string> listOfNetworkNames, bool fixError = false, bool letNewestFileWin = true)

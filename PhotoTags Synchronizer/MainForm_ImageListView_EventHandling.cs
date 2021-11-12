@@ -331,7 +331,7 @@ namespace PhotoTagsSynchronizer
             if (!GlobalData.IsPopulatingFolderSelected) SaveBeforeContinue(false);
             GroupSelectionClear();
             imageListView1.Enabled = false; //When Enabled = true, slection was cancelled during Updating the grid
-            FilesSelected();
+            FilesSelectedOrNoneSelected();
             imageListView1.Enabled = true;
             imageListView1.Focus();
             MaximizeOrRestoreWorkspaceMainCellAndChilds();
@@ -451,15 +451,49 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region ImageListView - Populate - OpenWith - Thread
-        private void PopulateImageListViewOpenWithToolStripThread(ImageListViewSelectedItemCollection imageListViewSelectedItems)
+        private void PopulateImageListViewOpenWithToolStripThread(ImageListViewSelectedItemCollection imageListViewSelectedItems, ImageListViewItemCollection imageListViewItems)
         {
-            
+            bool addOnlySelectedItems = true;
+            switch (ActiveKryptonPage)
+            {
+                case KryptonPages.None:
+                case KryptonPages.kryptonPageFolderSearchFilterSearch:
+                case KryptonPages.kryptonPageFolderSearchFilterFilter:                
+                case KryptonPages.kryptonPageToolboxTags:
+                case KryptonPages.kryptonPageToolboxPeople:
+                case KryptonPages.kryptonPageToolboxMap:
+                case KryptonPages.kryptonPageToolboxDates:
+                case KryptonPages.kryptonPageToolboxExiftool:
+                case KryptonPages.kryptonPageToolboxWarnings:
+                case KryptonPages.kryptonPageToolboxProperties:
+                case KryptonPages.kryptonPageToolboxRename:
+                case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                    addOnlySelectedItems = false;
+                    break;
+                case KryptonPages.kryptonPageMediaFiles:
+                    addOnlySelectedItems = true;
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+
             List<FileEntry> imageListViewFileEntryCopy = new List<FileEntry>();
             try
             {
-                foreach (ImageListViewItem imageListViewItem in imageListViewSelectedItems)
+                if (addOnlySelectedItems && imageListViewSelectedItems != null)
                 {
-                    imageListViewFileEntryCopy.Add(new FileEntry(imageListViewItem.FileFullPath, imageListViewItem.DateModified)); //Avoid crash when items gets updated
+                    foreach (ImageListViewItem imageListViewItem in imageListViewSelectedItems)
+                    {
+                        imageListViewFileEntryCopy.Add(new FileEntry(imageListViewItem.FileFullPath, imageListViewItem.DateModified)); //Avoid crash when items gets updated
+                    }
+                }
+                if (!addOnlySelectedItems && imageListViewItems != null)
+                {
+                    foreach (ImageListViewItem imageListViewItem in imageListViewItems)
+                    {
+                        imageListViewFileEntryCopy.Add(new FileEntry(imageListViewItem.FileFullPath, imageListViewItem.DateModified)); //Avoid crash when items gets updated
+                    }
                 }
             }
             catch { }

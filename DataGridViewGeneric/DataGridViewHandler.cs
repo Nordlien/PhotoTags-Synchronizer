@@ -1032,7 +1032,7 @@ namespace DataGridViewGeneric
         #endregion
 
         #region Column handling - GetColumnDataGridViewGenericColumnList
-        public static List<DataGridViewGenericColumn> GetColumnDataGridViewGenericColumnList(DataGridView dataGridView, bool onlyReadWriteAccessColumn)
+        public static List<DataGridViewGenericColumn> GetColumnsDataGridViewGenericColumnList(DataGridView dataGridView, bool onlyReadWriteAccessColumn)
         {
             List<DataGridViewGenericColumn> dataGridViewGenericColumnList = new List<DataGridViewGenericColumn>();
 

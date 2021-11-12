@@ -88,7 +88,7 @@ namespace PhotoTagsSynchronizer
             }
 
             UpdateStatusAction("Populate DataGridView: " + fileEntries.Count);
-            FilesSelected(); //Even when 0 selected files, allocate data and flags, etc...
+            FilesSelectedOrNoneSelected(); //Even when 0 selected files, allocate data and flags, etc...
             UpdateStatusAction("Done added files to imagelistview: " + fileEntries.Count);
             treeViewFolderBrowser1.Focus();
         }

@@ -31,7 +31,7 @@ namespace PhotoTagsSynchronizer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Filter");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Filter");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.panelMain = new Krypton.Toolkit.KryptonPanel();
             this.kryptonWorkspaceMain = new Krypton.Workspace.KryptonWorkspace();
@@ -325,7 +325,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupTripleHomeOpenWith = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButtonHomeFileSystemOpen = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButtonHomeFileSystemOpenWith = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupButtonFileSystemOpenAssociateDialog = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButtonHomeFileSystemOpenAssociateDialog = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupTripleHomeRunEdit = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButtonHomeFileSystemOpenExplorer = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButtonFileSystemRunCommand = new Krypton.Ribbon.KryptonRibbonGroupButton();
@@ -2210,11 +2210,11 @@ namespace PhotoTagsSynchronizer
             this.treeViewFilter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeViewFilter.Location = new System.Drawing.Point(0, 0);
             this.treeViewFilter.Name = "treeViewFilter";
-            treeNode2.Name = "NodeFolder";
-            treeNode2.Tag = "Filter";
-            treeNode2.Text = "Filter";
+            treeNode1.Name = "NodeFolder";
+            treeNode1.Tag = "Filter";
+            treeNode1.Text = "Filter";
             this.treeViewFilter.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode2});
+            treeNode1});
             this.treeViewFilter.Size = new System.Drawing.Size(399, 652);
             this.treeViewFilter.TabIndex = 0;
             this.treeViewFilter.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewFilter_AfterCheck);
@@ -2848,6 +2848,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewTagsAndKeywords.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewTagsAndKeywords_CellPainting);
             this.dataGridViewTagsAndKeywords.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewTagsAndKeywords_CellValueChanged);
             this.dataGridViewTagsAndKeywords.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridViewTagsAndKeywords_RowsAdded);
+            this.dataGridViewTagsAndKeywords.DoubleClick += new System.EventHandler(this.dataGridViewTagsAndKeywords_DoubleClick);
             this.dataGridViewTagsAndKeywords.Enter += new System.EventHandler(this.dataGridViewTagsAndKeywords_Enter);
             this.dataGridViewTagsAndKeywords.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridViewTagsAndKeywords_KeyDown);
             this.dataGridViewTagsAndKeywords.Leave += new System.EventHandler(this.dataGridViewTagsAndKeywords_Leave);
@@ -2867,6 +2868,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageToolboxPeople.TextTitle = "People";
             this.kryptonPageToolboxPeople.ToolTipTitle = "Edit region size and name";
             this.kryptonPageToolboxPeople.UniqueName = "8eae8c29f1b74a139868e1294b11cff0";
+            this.kryptonPageToolboxPeople.DoubleClick += new System.EventHandler(this.kryptonPageToolboxPeople_DoubleClick);
             this.kryptonPageToolboxPeople.Enter += new System.EventHandler(this.kryptonPageToolboxPeople_Enter);
             // 
             // dataGridViewPeople
@@ -3097,6 +3099,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewMap.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewMap_CellMouseDoubleClick);
             this.dataGridViewMap.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewMap_CellPainting);
             this.dataGridViewMap.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewMap_CellValueChanged);
+            this.dataGridViewMap.DoubleClick += new System.EventHandler(this.dataGridViewMap_DoubleClick);
             // 
             // kryptonWorkspaceCellToolboxMapBroswer
             // 
@@ -3262,6 +3265,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewDate.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewDate_CellMouseClick);
             this.dataGridViewDate.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewDate_CellPainting);
             this.dataGridViewDate.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewDate_CellValueChanged);
+            this.dataGridViewDate.DoubleClick += new System.EventHandler(this.dataGridViewDate_DoubleClick);
             // 
             // kryptonPageToolboxExiftool
             // 
@@ -3296,6 +3300,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewExiftool.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewExifTool_CellEnter);
             this.dataGridViewExiftool.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewExifTool_CellMouseClick);
             this.dataGridViewExiftool.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewExifTool_CellPainting);
+            this.dataGridViewExiftool.DoubleClick += new System.EventHandler(this.dataGridViewExiftool_DoubleClick);
             // 
             // kryptonPageToolboxWarnings
             // 
@@ -3330,6 +3335,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewExiftoolWarning.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewExifToolWarning_CellEnter);
             this.dataGridViewExiftoolWarning.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewExifToolWarning_CellMouseClick);
             this.dataGridViewExiftoolWarning.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewExifToolWarning_CellPainting);
+            this.dataGridViewExiftoolWarning.DoubleClick += new System.EventHandler(this.dataGridViewExiftoolWarning_DoubleClick);
             // 
             // kryptonPageToolboxProperties
             // 
@@ -3346,6 +3352,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageToolboxProperties.TextTitle = "Properties";
             this.kryptonPageToolboxProperties.ToolTipTitle = "See and edit Windows File Properties";
             this.kryptonPageToolboxProperties.UniqueName = "5eb7f51ea28b40e79e3a029142f9d29c";
+            this.kryptonPageToolboxProperties.DoubleClick += new System.EventHandler(this.kryptonPageToolboxProperties_DoubleClick);
             this.kryptonPageToolboxProperties.Enter += new System.EventHandler(this.kryptonPageToolboxProperties_Enter);
             // 
             // dataGridViewProperties
@@ -3382,6 +3389,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageToolboxRename.TextTitle = "Rename";
             this.kryptonPageToolboxRename.ToolTipTitle = "Batch rename media files using variables";
             this.kryptonPageToolboxRename.UniqueName = "5b97b62a7db147f48fdb03761fa8ad89";
+            this.kryptonPageToolboxRename.DoubleClick += new System.EventHandler(this.kryptonPageToolboxRename_DoubleClick);
             this.kryptonPageToolboxRename.Enter += new System.EventHandler(this.kryptonPageToolboxRename_Enter);
             // 
             // kryptonWorkspaceToolboxRename
@@ -3635,6 +3643,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageToolboxConvertAndMerge.TextTitle = "Convert & Merge";
             this.kryptonPageToolboxConvertAndMerge.ToolTipTitle = "Convert & Merge image and video into slideshow";
             this.kryptonPageToolboxConvertAndMerge.UniqueName = "02e9b4cff49e4613ab21aae890bf63ce";
+            this.kryptonPageToolboxConvertAndMerge.DoubleClick += new System.EventHandler(this.kryptonPageToolboxConvertAndMerge_DoubleClick);
             this.kryptonPageToolboxConvertAndMerge.Enter += new System.EventHandler(this.kryptonPageToolboxConvertAndMerge_Enter);
             // 
             // dataGridViewConvertAndMerge
@@ -3888,7 +3897,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonTabSelect,
             this.kryptonRibbonTabTools,
             this.kryptonRibbonTabPreview});
-            this.kryptonRibbonMain.SelectedContext = null;
             this.kryptonRibbonMain.SelectedTab = this.kryptonRibbonTabHome;
             this.kryptonRibbonMain.Size = new System.Drawing.Size(1214, 115);
             this.kryptonRibbonMain.TabIndex = 12;
@@ -4291,7 +4299,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupTripleHomeOpenWith.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
             this.kryptonRibbonGroupButtonHomeFileSystemOpen,
             this.kryptonRibbonGroupButtonHomeFileSystemOpenWith,
-            this.kryptonRibbonGroupButtonFileSystemOpenAssociateDialog});
+            this.kryptonRibbonGroupButtonHomeFileSystemOpenAssociateDialog});
             this.kryptonRibbonGroupTripleHomeOpenWith.MaximumSize = Krypton.Ribbon.GroupItemSize.Medium;
             // 
             // kryptonRibbonGroupButtonHomeFileSystemOpen
@@ -4314,19 +4322,18 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonHomeFileSystemOpenWith.TextLine1 = "Open with";
             this.kryptonRibbonGroupButtonHomeFileSystemOpenWith.ToolTipBody = "Open media file(s) with the selected application from the dropdown list";
             this.kryptonRibbonGroupButtonHomeFileSystemOpenWith.ToolTipTitle = "Open with";
-            this.kryptonRibbonGroupButtonHomeFileSystemOpenWith.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeFileSystemOpenWith_Click);
             // 
-            // kryptonRibbonGroupButtonFileSystemOpenAssociateDialog
+            // kryptonRibbonGroupButtonHomeFileSystemOpenAssociateDialog
             // 
-            this.kryptonRibbonGroupButtonFileSystemOpenAssociateDialog.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemOpenWIthAssociationApp32x32;
-            this.kryptonRibbonGroupButtonFileSystemOpenAssociateDialog.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemOpenWIthAssociationApp32x32;
-            this.kryptonRibbonGroupButtonFileSystemOpenAssociateDialog.KeyTip = "OA";
-            this.kryptonRibbonGroupButtonFileSystemOpenAssociateDialog.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.kryptonRibbonGroupButtonHomeFileSystemOpenAssociateDialog.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemOpenWIthAssociationApp32x32;
+            this.kryptonRibbonGroupButtonHomeFileSystemOpenAssociateDialog.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemOpenWIthAssociationApp32x32;
+            this.kryptonRibbonGroupButtonHomeFileSystemOpenAssociateDialog.KeyTip = "OA";
+            this.kryptonRibbonGroupButtonHomeFileSystemOpenAssociateDialog.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.Return)));
-            this.kryptonRibbonGroupButtonFileSystemOpenAssociateDialog.TextLine1 = "Associate dialog";
-            this.kryptonRibbonGroupButtonFileSystemOpenAssociateDialog.ToolTipBody = "Opens the Windows Associate File dialog windows";
-            this.kryptonRibbonGroupButtonFileSystemOpenAssociateDialog.ToolTipTitle = "Associate dialog (Ctrl+Shift+Enter)";
-            this.kryptonRibbonGroupButtonFileSystemOpenAssociateDialog.Click += new System.EventHandler(this.kryptonRibbonGroupButtonFileSystemOpenAssociateDialog_Click);
+            this.kryptonRibbonGroupButtonHomeFileSystemOpenAssociateDialog.TextLine1 = "Associate dialog";
+            this.kryptonRibbonGroupButtonHomeFileSystemOpenAssociateDialog.ToolTipBody = "Opens the Windows Associate File dialog windows";
+            this.kryptonRibbonGroupButtonHomeFileSystemOpenAssociateDialog.ToolTipTitle = "Associate dialog (Ctrl+Shift+Enter)";
+            this.kryptonRibbonGroupButtonHomeFileSystemOpenAssociateDialog.Click += new System.EventHandler(this.kryptonRibbonGroupButtonFileSystemOpenAssociateDialog_Click);
             // 
             // kryptonRibbonGroupTripleHomeRunEdit
             // 
@@ -4342,7 +4349,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemExplorer32x32;
             this.kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.KeyTip = "OL";
             this.kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
-            this.kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.TextLine1 = "Open ";
+            this.kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.TextLine1 = "Explorer";
             this.kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.TextLine2 = "location";
             this.kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.ToolTipBody = "Open File Explorer in folder where media files is located";
             this.kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemExplorer32x32;
@@ -6523,7 +6530,7 @@ namespace PhotoTagsSynchronizer
         private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTripleHomeOpenWith;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonHomeFileSystemOpen;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonHomeFileSystemOpenWith;
-        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonFileSystemOpenAssociateDialog;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonHomeFileSystemOpenAssociateDialog;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonHomeFileSystemRefresh;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonHomeCopyText;
         private Krypton.Toolkit.KryptonContextMenuItems kryptonContextMenuItemsGenericBaseList;

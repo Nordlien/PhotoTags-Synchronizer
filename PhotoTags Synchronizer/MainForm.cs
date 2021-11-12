@@ -196,7 +196,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuItemGenericReadSubfolders.Click += KryptonContextMenuItemGenericReadSubfolders_Click;
             this.kryptonContextMenuItemGenericOpenFolderLocation.Click += KryptonContextMenuItemGenericOpenExplorerLocation_Click;
             this.kryptonContextMenuItemGenericOpen.Click += KryptonContextMenuItemGenericOpen_Click;
-            this.kryptonContextMenuItemGenericOpenWith.Click += KryptonContextMenuItemGenericOpenWith_Click;
             this.kryptonContextMenuItemOpenAndAssociateWithDialog.Click += KryptonContextMenuItemOpenAndAssociateWithDialog_Click;
             this.kryptonContextMenuItemGenericOpenVerbEdit.Click += KryptonContextMenuItemGenericFileSystemVerbEdit_Click;
             this.kryptonContextMenuItemGenericRunCommand.Click += KryptonContextMenuItemGenericFileSystemRunCommand_Click;
@@ -839,8 +838,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        
-
         #region MainForm_Shown
         private void MainForm_Shown(object sender, EventArgs e)
         {
@@ -868,6 +865,7 @@ namespace PhotoTagsSynchronizer
                     {
                         filesCutCopyPasteDrag.TreeViewFolderBrowserRefreshTreeNode(treeViewFolderBrowser1, treeViewFolderBrowser1.Nodes[0]);
                     }
+                    
                 }
                 catch (Exception ee)
                 {
@@ -885,6 +883,7 @@ namespace PhotoTagsSynchronizer
             #region Populate search filters...
             try
             {
+
                 FormSplash.UpdateStatus("Populate search filters...");
                 PopulateDatabaseFilter();
                 PopulateSelectGroupToolStripMenuItems();
@@ -898,7 +897,7 @@ namespace PhotoTagsSynchronizer
             InitializeDataGridViewHandler();
 
             PopulateImageListView_FromFolderSelected(false, true);
-            FilesSelected();
+            FilesSelectedOrNoneSelected();
 
             MaximizeOrRestoreWorkspaceMainCellAndChilds();
             SetNavigatorModeSearch((NavigatorMode)Properties.Settings.Default.WorkspaceCellFolderSearchFilterNavigatorMode);
@@ -988,6 +987,7 @@ namespace PhotoTagsSynchronizer
             Task.Delay(500).ContinueWith(t => RefreshHackSearchFilter());
             Task.Delay(100).ContinueWith(t => RefreshHackSearchFilter());
         }
+
 
 
 

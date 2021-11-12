@@ -73,7 +73,7 @@ namespace PhotoTagsSynchronizer
             imageListView.ResumeLayout();
             GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
 
-            FilesSelected();
+            FilesSelectedOrNoneSelected();
 
         }
         #endregion 
@@ -152,7 +152,7 @@ namespace PhotoTagsSynchronizer
             }
             GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
 
-            FilesSelected();
+            FilesSelectedOrNoneSelected();
         }
         #endregion
 
@@ -252,7 +252,7 @@ namespace PhotoTagsSynchronizer
                 }
             }
 
-            FilesSelected();
+            FilesSelectedOrNoneSelected();
         }
         #endregion
 

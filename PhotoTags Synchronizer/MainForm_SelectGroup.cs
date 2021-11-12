@@ -99,7 +99,7 @@ namespace PhotoTagsSynchronizer
             ImageListViewResumeLayoutInvoke(imageListView);
             imageListView.Focus();
 
-            FilesSelected();
+            FilesSelectedOrNoneSelected();
 
 
         }
@@ -192,7 +192,7 @@ namespace PhotoTagsSynchronizer
                 ImageListViewResumeLayoutInvoke(imageListView);
                 imageListView.Focus();
 
-                FilesSelected();
+                FilesSelectedOrNoneSelected();
                 lastGroupBaseIndex = baseItemIndex;
             }
         }

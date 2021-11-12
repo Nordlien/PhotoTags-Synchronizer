@@ -74,7 +74,7 @@ namespace PhotoTagsSynchronizer
 
                     UpdateImageViewListeAfterRename(imageListView1, renameSuccess, renameFailed, true);
 
-                    FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems);
+                    FilesSelectedOrNoneSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems);
                 }
             }
             catch (Exception ex)

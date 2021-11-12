@@ -9,7 +9,7 @@ namespace PhotoTagsSynchronizer
     public partial class MainForm : KryptonForm
     {
         #region FilesSelected - Populate DataGridVIew, OpenWith...
-        private void FilesSelected()
+        private void FilesSelectedOrNoneSelected()
         {
             if (GlobalData.IsPopulatingAnything()) return; //E.g. Populate FolderSelect
             if (GlobalData.DoNotRefreshDataGridViewWhileFileSelect) return;
@@ -19,8 +19,8 @@ namespace PhotoTagsSynchronizer
                 GlobalData.IsPopulatingImageListView = true;
                 GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
 
-                PopulateDataGridViewForSelectedItemsThread(imageListView1.SelectedItems);                
-                PopulateImageListViewOpenWithToolStripThread(imageListView1.SelectedItems);
+                PopulateDataGridViewForSelectedItemsThread(imageListView1.SelectedItems);
+                PopulateImageListViewOpenWithToolStripThread(imageListView1.SelectedItems, imageListView1.Items);
                 
                 GlobalData.IsPopulatingImageListView = false;
             }
