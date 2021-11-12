@@ -497,7 +497,6 @@ namespace PhotoTagsSynchronizer
             kryptonRibbonGroupButtonHomeTagSelectOff.Enabled = enabledTriState;
 
             kryptonRibbonGroupButtonDatGridShowPoster.Enabled = enablePreviewPoster;
-            kryptonRibbonGroupButtonDataGridAutoCorrect.Enabled = enablePreviewPoster;
         }
         #endregion
 
@@ -536,6 +535,9 @@ namespace PhotoTagsSynchronizer
                     RibbonGroupButtonHomeRotate(enabled: false);
                     //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
                     RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false, enablePreviewPoster: false);
+                    kryptonRibbonGroupButtonHomeAutoCorrectRun.TextLine2 = "";
+                    kryptonRibbonGroupButtonHomeAutoCorrectForm.TextLine2 = "";
+                    kryptonRibbonGroupButtonDatGridShowPoster.TextLine2 = "";
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFolder:
                     //Home - Clipboard
@@ -560,7 +562,10 @@ namespace PhotoTagsSynchronizer
                     //Home - Rotate
                     RibbonGroupButtonHomeRotate(enabled: false);
                     //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
-                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: true, enabledTriState: false, enablePreviewPoster: false);
+                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: true, enabledDeleteHistoryRefresh: true, enabledTriState: false, enablePreviewPoster: false);
+                    kryptonRibbonGroupButtonHomeAutoCorrectRun.TextLine2 = "(Folder)";
+                    kryptonRibbonGroupButtonHomeAutoCorrectForm.TextLine2 = "(Folder)";
+                    kryptonRibbonGroupButtonDatGridShowPoster.TextLine2 = "(Inactive)";
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterSearch:
                     //Home - Clipboard
@@ -568,14 +573,29 @@ namespace PhotoTagsSynchronizer
                     //Home - Fast Copy text
                     RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: false, enabledFastCopyGridOverwrite: false);
                     kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "Text";
+
                     //Home - Find and Replace
                     RibbonGroupButtonHomeFineAndReplace(enabledFind: true, enabledRplace: false);
                     //Home - FileSystem
                     RibbonGroupButtonHomeFileSystem(enabledDelete: false, enabledRename: false, enabledRefresh: false, enabledOpenWithEdit: false);
+                    kryptonRibbonGroupButtonHomeFileSystemDelete.TextLine2 = "(Inactive)";
+                    kryptonRibbonGroupButtonHomeFileSystemRename.TextLine2 = "(Inactive)";
+                    kryptonRibbonGroupButtonHomeFileSystemRefresh.TextLine2 = "(Inactive)";
+
+                    kryptonRibbonGroupButtonHomeFileSystemOpen.TextLine2 = "(Inactive)";
+                    kryptonRibbonGroupButtonHomeFileSystemOpenWith.TextLine2 = "(Inactive)";
+                    kryptonRibbonGroupButtonHomeFileSystemOpenAssociateDialog.TextLine2 = "(Inactive)";
+                    kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.TextLine2 = "(Inactive)";
+                    kryptonRibbonGroupButtonFileSystemRunCommand.TextLine2 = "(Inactive)";
+                    kryptonRibbonGroupButtonHomeFileSystemEdit.TextLine2 = "(Inactive)";
+
                     //Home - Rotate
                     RibbonGroupButtonHomeRotate(enabled: false);
                     //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
                     RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false, enablePreviewPoster: false);
+                    kryptonRibbonGroupButtonHomeAutoCorrectRun.TextLine2 = "(Inactive)";
+                    kryptonRibbonGroupButtonHomeAutoCorrectForm.TextLine2 = "(Inactive)";
+                    kryptonRibbonGroupButtonDatGridShowPoster.TextLine2 = "(Inactive)";
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFilter:
                     //Home - Clipboard
@@ -587,10 +607,23 @@ namespace PhotoTagsSynchronizer
                     RibbonGroupButtonHomeFineAndReplace(enabledFind: true, enabledRplace: false);
                     //Home - FileSystem
                     RibbonGroupButtonHomeFileSystem(enabledDelete: false, enabledRename: true, enabledRefresh: false, enabledOpenWithEdit: false);
+                    kryptonRibbonGroupButtonHomeFileSystemDelete.TextLine2 = "(Inactive)";
+                    kryptonRibbonGroupButtonHomeFileSystemRename.TextLine2 = "(Inactive)";
+                    kryptonRibbonGroupButtonHomeFileSystemRefresh.TextLine2 = "(Inactive)";
+
+                    kryptonRibbonGroupButtonHomeFileSystemOpen.TextLine2 = "(Inactive)";
+                    kryptonRibbonGroupButtonHomeFileSystemOpenWith.TextLine2 = "(Inactive)";
+                    kryptonRibbonGroupButtonHomeFileSystemOpenAssociateDialog.TextLine2 = "(Inactive)";
+                    kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.TextLine2 = "(Inactive)";
+                    kryptonRibbonGroupButtonFileSystemRunCommand.TextLine2 = "(Inactive)";
+                    kryptonRibbonGroupButtonHomeFileSystemEdit.TextLine2 = "(Inactive)";
                     //Home - Rotate
                     RibbonGroupButtonHomeRotate(enabled: false);
                     //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
                     RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false, enablePreviewPoster: false);
+                    kryptonRibbonGroupButtonHomeAutoCorrectRun.TextLine2 = "(Inactive)";
+                    kryptonRibbonGroupButtonHomeAutoCorrectForm.TextLine2 = "(Inactive)";
+                    kryptonRibbonGroupButtonDatGridShowPoster.TextLine2 = "(Inactive)";
                     break;
                 case KryptonPages.kryptonPageMediaFiles:
                     //Home - Clipboard
@@ -651,7 +684,9 @@ namespace PhotoTagsSynchronizer
                     RibbonGroupButtonHomeRotate(enabled: isSomethingSelected);
                     //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
                     RibbonGroupButtonHomeMetadata(enabledAutoCorrect: isSomethingSelected, enabledDeleteHistoryRefresh: isSomethingSelected, enabledTriState: false, enablePreviewPoster: isSomethingSelected);
-
+                    kryptonRibbonGroupButtonHomeAutoCorrectRun.TextLine2 = "(Files)";
+                    kryptonRibbonGroupButtonHomeAutoCorrectForm.TextLine2 = "(Files)";
+                    kryptonRibbonGroupButtonDatGridShowPoster.TextLine2 = "(Files)";
                     break;
                 case KryptonPages.kryptonPageToolboxTags:
                     //Home - Clipboard
@@ -676,7 +711,10 @@ namespace PhotoTagsSynchronizer
                     //Home - Rotate
                     RibbonGroupButtonHomeRotate(enabled: false);
                     //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
-                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: isSomethingSelected, enablePreviewPoster: isSomethingSelected);
+                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: true, enabledDeleteHistoryRefresh: false, enabledTriState: isSomethingSelected, enablePreviewPoster: isSomethingSelected);
+                    kryptonRibbonGroupButtonHomeAutoCorrectRun.TextLine2 = "(Cells)";
+                    kryptonRibbonGroupButtonHomeAutoCorrectForm.TextLine2 = "(Cells)";
+                    kryptonRibbonGroupButtonDatGridShowPoster.TextLine2 = "(Cells)";
                     break;
                 case KryptonPages.kryptonPageToolboxPeople:
                     //Home - Clipboard
@@ -701,7 +739,10 @@ namespace PhotoTagsSynchronizer
                     //Home - Rotate
                     RibbonGroupButtonHomeRotate(enabled: false);
                     //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
-                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: isSomethingSelected, enablePreviewPoster: isSomethingSelected);
+                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: true, enabledDeleteHistoryRefresh: false, enabledTriState: isSomethingSelected, enablePreviewPoster: isSomethingSelected);
+                    kryptonRibbonGroupButtonHomeAutoCorrectRun.TextLine2 = "(Cells)";
+                    kryptonRibbonGroupButtonHomeAutoCorrectForm.TextLine2 = "(Cells)";
+                    kryptonRibbonGroupButtonDatGridShowPoster.TextLine2 = "(Cells)";
                     break;
                 case KryptonPages.kryptonPageToolboxMap:
                     //Home - Clipboard
@@ -726,7 +767,10 @@ namespace PhotoTagsSynchronizer
                     //Home - Rotate
                     RibbonGroupButtonHomeRotate(enabled: false);
                     //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
-                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false, enablePreviewPoster: isSomethingSelected);
+                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: true, enabledDeleteHistoryRefresh: false, enabledTriState: false, enablePreviewPoster: isSomethingSelected);
+                    kryptonRibbonGroupButtonHomeAutoCorrectRun.TextLine2 = "(Cells)";
+                    kryptonRibbonGroupButtonHomeAutoCorrectForm.TextLine2 = "(Cells)";
+                    kryptonRibbonGroupButtonDatGridShowPoster.TextLine2 = "(Cells)";
                     break;
                 case KryptonPages.kryptonPageToolboxDates:
                     //Home - Clipboard
@@ -751,7 +795,10 @@ namespace PhotoTagsSynchronizer
                     //Home - Rotate
                     RibbonGroupButtonHomeRotate(enabled: false);
                     //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
-                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false, enablePreviewPoster: isSomethingSelected);
+                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: true, enabledDeleteHistoryRefresh: false, enabledTriState: false, enablePreviewPoster: isSomethingSelected);
+                    kryptonRibbonGroupButtonHomeAutoCorrectRun.TextLine2 = "(Cells)";
+                    kryptonRibbonGroupButtonHomeAutoCorrectForm.TextLine2 = "(Cells)";
+                    kryptonRibbonGroupButtonDatGridShowPoster.TextLine2 = "(Cells)";
                     break;
                 case KryptonPages.kryptonPageToolboxExiftool:
                     //Home - Clipboard
@@ -776,7 +823,10 @@ namespace PhotoTagsSynchronizer
                     //Home - Rotate
                     RibbonGroupButtonHomeRotate(enabled: false);
                     //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
-                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false, enablePreviewPoster: isSomethingSelected);
+                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: true, enabledDeleteHistoryRefresh: false, enabledTriState: false, enablePreviewPoster: isSomethingSelected);
+                    kryptonRibbonGroupButtonHomeAutoCorrectRun.TextLine2 = "(Cells)";
+                    kryptonRibbonGroupButtonHomeAutoCorrectForm.TextLine2 = "(Cells)";
+                    kryptonRibbonGroupButtonDatGridShowPoster.TextLine2 = "(Cells)";
                     break;
                 case KryptonPages.kryptonPageToolboxWarnings:
                     //Home - Clipboard
@@ -801,7 +851,10 @@ namespace PhotoTagsSynchronizer
                     //Home - Rotate
                     RibbonGroupButtonHomeRotate(enabled: false);
                     //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
-                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false, enablePreviewPoster: isSomethingSelected);
+                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: true, enabledDeleteHistoryRefresh: false, enabledTriState: false, enablePreviewPoster: isSomethingSelected);
+                    kryptonRibbonGroupButtonHomeAutoCorrectRun.TextLine2 = "(Cells)";
+                    kryptonRibbonGroupButtonHomeAutoCorrectForm.TextLine2 = "(Cells)";
+                    kryptonRibbonGroupButtonDatGridShowPoster.TextLine2 = "(Cells)";
                     break;
                 case KryptonPages.kryptonPageToolboxProperties:
                     //Home - Clipboard
@@ -826,7 +879,10 @@ namespace PhotoTagsSynchronizer
                     //Home - Rotate
                     RibbonGroupButtonHomeRotate(enabled: false);
                     //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
-                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false, enablePreviewPoster: isSomethingSelected);
+                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: true, enabledDeleteHistoryRefresh: false, enabledTriState: false, enablePreviewPoster: isSomethingSelected);
+                    kryptonRibbonGroupButtonHomeAutoCorrectRun.TextLine2 = "(Cells)";
+                    kryptonRibbonGroupButtonHomeAutoCorrectForm.TextLine2 = "(Cells)";
+                    kryptonRibbonGroupButtonDatGridShowPoster.TextLine2 = "(Cells)";
                     break;
                 case KryptonPages.kryptonPageToolboxRename:
                     //Home - Clipboard
@@ -851,7 +907,10 @@ namespace PhotoTagsSynchronizer
                     //Home - Rotate
                     RibbonGroupButtonHomeRotate(enabled: false);
                     //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
-                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false, enablePreviewPoster: isSomethingSelected);
+                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: true, enabledDeleteHistoryRefresh: false, enabledTriState: false, enablePreviewPoster: isSomethingSelected);
+                    kryptonRibbonGroupButtonHomeAutoCorrectRun.TextLine2 = "(Cells)";
+                    kryptonRibbonGroupButtonHomeAutoCorrectForm.TextLine2 = "(Cells)";
+                    kryptonRibbonGroupButtonDatGridShowPoster.TextLine2 = "(Cells)";
                     break;
                 case KryptonPages.kryptonPageToolboxConvertAndMerge:
                     //Home - Clipboard
@@ -876,7 +935,10 @@ namespace PhotoTagsSynchronizer
                     //Home - Rotate
                     RibbonGroupButtonHomeRotate(enabled: false);
                     //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
-                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: false, enabledDeleteHistoryRefresh: false, enabledTriState: false, enablePreviewPoster: isSomethingSelected);
+                    RibbonGroupButtonHomeMetadata(enabledAutoCorrect: true, enabledDeleteHistoryRefresh: false, enabledTriState: false, enablePreviewPoster: isSomethingSelected);
+                    kryptonRibbonGroupButtonHomeAutoCorrectRun.TextLine2 = "(Cells)";
+                    kryptonRibbonGroupButtonHomeAutoCorrectForm.TextLine2 = "(Cells)";
+                    kryptonRibbonGroupButtonDatGridShowPoster.TextLine2 = "(Cells)";
                     break;
                 default:
                     throw new NotImplementedException();
@@ -3782,47 +3844,7 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        #region DataGridView - AutoCorrect
-        private void kryptonRibbonGroupButtonDataGridAutoCorrect_Click(object sender, EventArgs e)
-        {
-            if (GlobalData.IsPopulatingAnything())
-            {
-                KryptonMessageBox.Show("Data is populating, please try a bit later.");
-                return;
-            }
-            if (!GlobalData.IsAgredagedGridViewAny())
-            {
-                KryptonMessageBox.Show("No metadata are updated.");
-                return;
-            }
-            DataGridView dataGridView = GetActiveTabDataGridView();
-
-            try
-            {
-                //ClearDataGridDirtyFlag(); //Clear before save; To track if become dirty during save process
-                foreach (int columIndex in DataGridViewHandler.GetColumnSelected(dataGridView))
-                {
-                    List<FileEntryAttribute> fileEntryAttributes = new List<FileEntryAttribute>();
-
-                    DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columIndex);
-                    if (dataGridViewGenericColumn != null && dataGridViewGenericColumn.Metadata != null)
-                    {
-                        GlobalData.ListOfAutoCorrectFilesAdd(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath);
-                        fileEntryAttributes.Add(new FileEntryAttribute(
-                            dataGridViewGenericColumn.Metadata.FileEntry.FileFullPath, 
-                            dataGridViewGenericColumn.Metadata.FileEntry.LastWriteDateTime, 
-                            FileEntryVersion.AutoCorrect));
-                        AddQueueLazyLoadningDataGridViewMetadataLock(fileEntryAttributes);
-                    }                    
-                }
-            } catch (Exception ex)
-            {
-                Logger.Error(ex);
-            }
-
-            ThreadSaveMetadata();
-        }
-        #endregion Action AutoSave
+        
 
         #region Save and AutoCorrect
         private void kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave_Click(object sender, EventArgs e)
@@ -5358,7 +5380,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region 
+        #region GetSelectedFilesInFolder
         private List<string> GetSelectedFilesInFolder()
         {
             List<string> files = new List<string>();
@@ -6052,32 +6074,41 @@ namespace PhotoTagsSynchronizer
                 case KryptonPages.None:
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFolder:
-                    FolderAutoCorrectRun_Click();
+                    AutoCorrectRunFolder_Click();
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterSearch:
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFilter:
                     break;
                 case KryptonPages.kryptonPageMediaFiles:
-                    MediaFilesAutoCorrectRun_Click();
+                    AutoCorrectRunMediaFiles_Click();
                     break;
                 case KryptonPages.kryptonPageToolboxTags:
+                    AutoCorrectRunDataGridView_Click();
                     break;
                 case KryptonPages.kryptonPageToolboxPeople:
+                    AutoCorrectRunDataGridView_Click();
                     break;
                 case KryptonPages.kryptonPageToolboxMap:
+                    AutoCorrectRunDataGridView_Click();
                     break;
                 case KryptonPages.kryptonPageToolboxDates:
+                    AutoCorrectRunDataGridView_Click();
                     break;
                 case KryptonPages.kryptonPageToolboxExiftool:
+                    AutoCorrectRunDataGridView_Click();
                     break;
                 case KryptonPages.kryptonPageToolboxWarnings:
+                    AutoCorrectRunDataGridView_Click();
                     break;
                 case KryptonPages.kryptonPageToolboxProperties:
+                    AutoCorrectRunDataGridView_Click();
                     break;
                 case KryptonPages.kryptonPageToolboxRename:
+                    AutoCorrectRunDataGridView_Click();
                     break;
                 case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                    AutoCorrectRunDataGridView_Click();
                     break;
                 default:
                     throw new NotImplementedException();
@@ -6097,7 +6128,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region MediaFilesAutoCorrectRun_Click
-        private void MediaFilesAutoCorrectRun_Click()
+        private void AutoCorrectRunMediaFiles_Click()
         {
             if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
             try
@@ -6139,7 +6170,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region FolderAutoCorrectRun_Click
-        private void FolderAutoCorrectRun_Click()
+        private void AutoCorrectRunFolder_Click()
         {
             if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
             try
@@ -6185,44 +6216,97 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region AutoCorrectRunDataGridView_Click
+        private void AutoCorrectRunDataGridView_Click()
+        {
+            if (GlobalData.IsPopulatingAnything())
+            {
+                KryptonMessageBox.Show("Data is populating, please try a bit later.");
+                return;
+            }
+            if (!GlobalData.IsAgredagedGridViewAny())
+            {
+                KryptonMessageBox.Show("No metadata are updated.");
+                return;
+            }
+            DataGridView dataGridView = GetActiveTabDataGridView();
+
+            try
+            {
+                //ClearDataGridDirtyFlag(); //Clear before save; To track if become dirty during save process
+                List<FileEntryAttribute> fileEntryAttributes = new List<FileEntryAttribute>();
+                foreach (int columIndex in DataGridViewHandler.GetColumnSelected(dataGridView))
+                {
+                    
+
+                    DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columIndex);
+                    if (dataGridViewGenericColumn != null && dataGridViewGenericColumn.Metadata != null)
+                    {
+                        GlobalData.ListOfAutoCorrectFilesAdd(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath);
+                        fileEntryAttributes.Add(new FileEntryAttribute(
+                            dataGridViewGenericColumn.Metadata.FileEntry.FileFullPath,
+                            dataGridViewGenericColumn.Metadata.FileEntry.LastWriteDateTime,
+                            FileEntryVersion.AutoCorrect));
+                    }
+                }
+                AddQueueLazyLoadningDataGridViewMetadataLock(fileEntryAttributes);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
+
+            ThreadSaveMetadata();
+        }
         #endregion
 
-        #region AutoCorrectFrom (NOT: Files in Folder, NOT: ImageListView,  Grid)
+        #endregion
 
-        #region ActionAutoCorrectFrom
-        private void ActionAutoCorrectFrom()
+        #region AutoCorrectFrom (Files in Folder, ImageListView,  Grid)
+
+        #region ActionAutoCorrectForm
+        private void ActionAutoCorrectForm()
         {
             switch (ActiveKryptonPage)
             {
                 case KryptonPages.None:
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFolder:
-                    FolderAutoCorrectForm_Click();
+                    AutoCorrectFormFolder_Click();
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterSearch:
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFilter:
                     break;
                 case KryptonPages.kryptonPageMediaFiles:
-                    MediaFilesAutoCorrectForm_Click();
+                    AutoCorrectFormMediaFiles_Click();
                     break;
                 case KryptonPages.kryptonPageToolboxTags:
+                    AutoCorrectFormDataGridView_Click();
                     break;
                 case KryptonPages.kryptonPageToolboxPeople:
+                    AutoCorrectFormDataGridView_Click();
                     break;
                 case KryptonPages.kryptonPageToolboxMap:
+                    AutoCorrectFormDataGridView_Click();
                     break;
                 case KryptonPages.kryptonPageToolboxDates:
+                    AutoCorrectFormDataGridView_Click();
                     break;
                 case KryptonPages.kryptonPageToolboxExiftool:
+                    AutoCorrectFormDataGridView_Click();
                     break;
                 case KryptonPages.kryptonPageToolboxWarnings:
+                    AutoCorrectFormDataGridView_Click();
                     break;
                 case KryptonPages.kryptonPageToolboxProperties:
+                    AutoCorrectFormDataGridView_Click();
                     break;
                 case KryptonPages.kryptonPageToolboxRename:
+                    AutoCorrectFormDataGridView_Click();
                     break;
                 case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                    AutoCorrectFormDataGridView_Click();
                     break;
                 default:
                     throw new NotImplementedException();
@@ -6233,16 +6317,16 @@ namespace PhotoTagsSynchronizer
         #region AutoCorrectFrom - Click Events Sources
         private void kryptonRibbonGroupButtonHomeAutoCorrectForm_Click(object sender, EventArgs e)
         {
-            ActionAutoCorrectFrom();
+            ActionAutoCorrectForm();
         }
         private void KryptonContextMenuItemGenericAutoCorrectForm_Click(object sender, EventArgs e)
         {
-            ActionAutoCorrectFrom();
+            ActionAutoCorrectForm();
         }
         #endregion
 
         #region MediaFilesAutoCorrectForm_Click
-        private void MediaFilesAutoCorrectForm_Click()
+        private void AutoCorrectFormMediaFiles_Click()
         {
             if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
             try
@@ -6334,7 +6418,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region FolderAutoCorrectForm_Click
-        private void FolderAutoCorrectForm_Click()
+        private void AutoCorrectFormFolder_Click()
         {
             if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
             try
@@ -6429,6 +6513,156 @@ namespace PhotoTagsSynchronizer
                 Logger.Error(ex, "");
                 KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        #endregion
+
+        #region AutoCorrectFormDataGridView_Click
+        private void AutoCorrectFormDataGridView_Click()
+        {
+
+            if (GlobalData.IsPopulatingAnything())
+            {
+                KryptonMessageBox.Show("Data is populating, please try a bit later.");
+                return;
+            }
+            if (!GlobalData.IsAgredagedGridViewAny())
+            {
+                KryptonMessageBox.Show("No metadata are updated.");
+                return;
+            }
+            DataGridView dataGridView = GetActiveTabDataGridView();
+
+            try
+            {
+                FormAutoCorrect formAutoCorrect = new FormAutoCorrect();
+                if (formAutoCorrect.ShowDialog() == DialogResult.OK)
+                {
+
+                    string album = formAutoCorrect.Album;
+                    string author = formAutoCorrect.Author;
+                    string comments = formAutoCorrect.Comments;
+                    string description = formAutoCorrect.Description;
+                    string title = formAutoCorrect.Title;
+                    List<string> keywords = formAutoCorrect.Keywords;
+
+                    bool useAlbum = formAutoCorrect.UseAlbum;
+                    bool useAuthor = formAutoCorrect.UseAuthor;
+                    bool useComments = formAutoCorrect.UseComments;
+                    bool uselDescription = formAutoCorrect.UseDescription;
+                    bool useTitle = formAutoCorrect.UseTitle;
+
+
+                    AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
+                    float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
+                    float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
+                    int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
+
+                    bool writeAlbumOnDescription = autoCorrect.UpdateDescription;
+
+                    List<FileEntryAttribute> fileEntryAttributes = new List<FileEntryAttribute>();
+                    foreach (int columIndex in DataGridViewHandler.GetColumnSelected(dataGridView))
+                    {
+                        //List<FileEntryAttribute> fileEntryAttributes = new List<FileEntryAttribute>();
+
+                        DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columIndex);
+                        if (dataGridViewGenericColumn != null && dataGridViewGenericColumn.Metadata != null)
+                        {
+                            GlobalData.ListOfAutoCorrectFilesAdd(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath);
+                            fileEntryAttributes.Add(new FileEntryAttribute(
+                                dataGridViewGenericColumn.Metadata.FileEntry.FileFullPath,
+                                dataGridViewGenericColumn.Metadata.FileEntry.LastWriteDateTime,
+                                FileEntryVersion.AutoCorrect));
+
+                            Metadata metadataToSave = new Metadata(dataGridViewGenericColumn.Metadata);
+                            UpdateMetadataFromDataGridView(dataGridViewGenericColumn.FileEntryAttribute, ref metadataToSave);
+                            //Metadata metadataToSave = autoCorrect.FixAndSave(
+                            //    new FileEntry(dataGridViewGenericColumn.FileEntryAttribute),
+                            //    null,
+                            //    databaseAndCacheMetadataExiftool,
+                            //    databaseAndCacheMetadataMicrosoftPhotos,
+                            //    databaseAndCacheMetadataWindowsLivePhotoGallery,
+                            //    databaseAndCahceCameraOwner,
+                            //    databaseLocationAddress,
+                            //    databaseGoogleLocationHistory,
+                            //    locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
+                            //    autoKeywordConvertions,
+                            //    Properties.Settings.Default.RenameDateFormats);
+
+                            if (metadataToSave != null)
+                            {
+                                if (useAlbum) metadataToSave.PersonalAlbum = album;
+                                if (!useAlbum || string.IsNullOrWhiteSpace(metadataToSave.PersonalAlbum)) metadataToSave.PersonalAlbum = null;
+
+                                if (useAuthor) metadataToSave.PersonalAuthor = author;
+                                if (!useAuthor || string.IsNullOrWhiteSpace(metadataToSave.PersonalAuthor)) metadataToSave.PersonalAuthor = null;
+
+                                if (useComments) metadataToSave.PersonalComments = comments;
+                                if (!useComments || string.IsNullOrWhiteSpace(metadataToSave.PersonalComments)) metadataToSave.PersonalComments = null;
+
+                                if (uselDescription) metadataToSave.PersonalDescription = description;
+                                if (!uselDescription || string.IsNullOrWhiteSpace(metadataToSave.PersonalDescription)) metadataToSave.PersonalDescription = null;
+
+                                if (useTitle) metadataToSave.PersonalTitle = title;
+                                if (!useTitle || string.IsNullOrWhiteSpace(metadataToSave.PersonalTitle)) metadataToSave.PersonalTitle = null;
+
+                                #region Description
+                                if (writeAlbumOnDescription)
+                                {
+                                    Logger.Debug("AutoCorrectForm: Set Description as Album: " + (metadataToSave?.PersonalAlbum == null ? "null" : metadataToSave?.PersonalAlbum));
+                                    metadataToSave.PersonalDescription = metadataToSave.PersonalAlbum;
+                                }
+                                #endregion
+
+                                foreach (string keyword in keywords)
+                                {
+                                    metadataToSave.PersonalKeywordTagsAddIfNotExists(new KeywordTag(keyword), false);
+                                }
+
+                                //AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
+                                //AddQueueRenameLock(item.FileFullPath, autoCorrect.RenameVariable);
+                            }
+                        }
+                    }
+                    AddQueueLazyLoadningDataGridViewMetadataLock(fileEntryAttributes);
+
+                    StartThreads();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            //try
+            //{
+            //    //ClearDataGridDirtyFlag(); //Clear before save; To track if become dirty during save process
+            //    foreach (int columIndex in DataGridViewHandler.GetColumnSelected(dataGridView))
+            //    {
+            //        List<FileEntryAttribute> fileEntryAttributes = new List<FileEntryAttribute>();
+
+            //        DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columIndex);
+            //        if (dataGridViewGenericColumn != null && dataGridViewGenericColumn.Metadata != null)
+            //        {
+            //            GlobalData.ListOfAutoCorrectFilesAdd(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath);
+            //            fileEntryAttributes.Add(new FileEntryAttribute(
+            //                dataGridViewGenericColumn.Metadata.FileEntry.FileFullPath,
+            //                dataGridViewGenericColumn.Metadata.FileEntry.LastWriteDateTime,
+            //                FileEntryVersion.AutoCorrect));
+
+            //            AddQueueLazyLoadningDataGridViewMetadataLock(fileEntryAttributes);
+            //        }
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Logger.Error(ex);
+            //}
+
+            //ThreadSaveMetadata();
+                    
+
+            
         }
         #endregion
 
@@ -7687,7 +7921,6 @@ namespace PhotoTagsSynchronizer
         }
 
         #endregion
-
 
         #endregion
 
