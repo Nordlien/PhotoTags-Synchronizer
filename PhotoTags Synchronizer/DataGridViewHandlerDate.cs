@@ -118,7 +118,7 @@ namespace PhotoTagsSynchronizer
             double? metadataLocationLongitude;
 
             //If DataGridViewMap is agregated then pick up coordinates from what user have entered
-            LocationCoordinate locationCoordinate = DataGridViewHandlerMap.GetLocationCoordinate(DataGridViewMap, columnIndex);
+            LocationCoordinate locationCoordinate = DataGridViewHandlerMap.GetLocationCoordinate(DataGridViewMap, null, dataGridViewGenericColumn.FileEntryAttribute);
             if (locationCoordinate != null)
             {
                 metadataLocationLatitude = locationCoordinate.Latitude;

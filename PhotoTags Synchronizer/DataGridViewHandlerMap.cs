@@ -90,9 +90,14 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region GetCameraOwner
-        public static string GetCameraOwner(DataGridView dataGridView, int columnIndex)
+        public static string GetCameraOwner(DataGridView dataGridViewMap, int? columnIndex, FileEntryAttribute fileEntryAttribute)
         {
-            string cameraOwner = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerGoogleLocations, tagCameraOwner);
+            if (!DataGridViewHandler.GetIsAgregated(dataGridViewMap)) return null;
+            if (columnIndex == null) columnIndex = DataGridViewHandler.GetColumnIndex(dataGridViewMap, fileEntryAttribute);
+            if (columnIndex == -1) return null;
+            if (!DataGridViewHandler.IsColumnPopulated(dataGridViewMap, (int)columnIndex)) return null;
+
+            string cameraOwner = (string)DataGridViewHandler.GetCellValue(dataGridViewMap, (int)columnIndex, headerGoogleLocations, tagCameraOwner);
             if (cameraOwner == CameraOwnersDatabaseCache.MissingLocationsOwners) cameraOwner = null;
             return cameraOwner;
         }
@@ -106,13 +111,15 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region GetLocationCoordinate
-        public static LocationCoordinate GetLocationCoordinate(DataGridView dataGridView, int columnIndex)
+        public static LocationCoordinate GetLocationCoordinate(DataGridView dataGridViewMap, int? columnIndex, FileEntryAttribute fileEntryAttribute)
         {
-            if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return null;
-            if (!DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex)) return null;
+            if (!DataGridViewHandler.GetIsAgregated(dataGridViewMap)) return null;
+            if (columnIndex == null) columnIndex = DataGridViewHandler.GetColumnIndex(dataGridViewMap, fileEntryAttribute);
+            if (columnIndex == -1) return null;
+            if (!DataGridViewHandler.IsColumnPopulated(dataGridViewMap, (int)columnIndex)) return null;
             
             LocationCoordinate locationCoordinate = null;            
-            string locationCoordinateString = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, headerMedia, tagCoordinates);
+            string locationCoordinateString = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridViewMap, (int)columnIndex, headerMedia, tagCoordinates);
             locationCoordinate = LocationCoordinate.Parse(locationCoordinateString);
             return locationCoordinate;
         }
@@ -190,21 +197,21 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region PopulateGrivViewMapGoogle
-        public static void PopulateGoogleHistoryCoordinate(DataGridView dataGridView, int columnIndex, 
+        public static void PopulateGoogleHistoryCoordinate(DataGridView dataGridViewMap, int columnIndexMap, 
             int timeZoneShift, int accepedIntervalSecound, DateTime mediaCreateUTC)
         {
-            string cameraOwner = GetCameraOwner(dataGridView, columnIndex);
+            string cameraOwner = GetCameraOwner(dataGridViewMap, columnIndexMap, null);
             if (string.IsNullOrWhiteSpace(cameraOwner))
             {
-                DataGridViewHandler.SetCellValue(dataGridView, columnIndex, headerGoogleLocations, tagCoordinates, "Need select camera owner");
+                DataGridViewHandler.SetCellValue(dataGridViewMap, columnIndexMap, headerGoogleLocations, tagCoordinates, "Need select camera owner");
                 return;
             }
 
             Metadata metadataLocation = DatabaseGoogleLocationHistory.FindLocationBasedOnTime(cameraOwner, mediaCreateUTC, accepedIntervalSecound);
             if (metadataLocation != null)
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerGoogleLocations, tagCoordinates), metadataLocation.LocationCoordinate, true);
+                AddRow(dataGridViewMap, columnIndexMap, new DataGridViewGenericRow(headerGoogleLocations, tagCoordinates), metadataLocation.LocationCoordinate, true);
             else
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerGoogleLocations, tagCoordinates), 
+                AddRow(dataGridViewMap, columnIndexMap, new DataGridViewGenericRow(headerGoogleLocations, tagCoordinates), 
                     "Not found: Coordinates timestamp " + mediaCreateUTC.ToShortDateString() + " " + mediaCreateUTC.ToShortTimeString() 
                     + " +/- " + accepedIntervalSecound + " secounds not found", true);                    
             
