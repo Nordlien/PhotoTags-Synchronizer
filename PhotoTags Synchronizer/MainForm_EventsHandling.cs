@@ -8207,9 +8207,10 @@ namespace PhotoTagsSynchronizer
             DataGridViewGenericRow gridViewGenericDataRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, e.RowIndex);
             if (gridViewGenericDataRow == null) return; //Don't paint anything TriState on "New Empty Row" for "new Keywords"
 
-            DataGridViewGenericColumn dataGridViewGenericDataColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, e.ColumnIndex);
+            DataGridViewGenericColumn dataGridViewGenericDataColumn = null;
             if (e.ColumnIndex > -1)
             {
+                dataGridViewGenericDataColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, e.ColumnIndex);
                 if (dataGridViewGenericDataColumn == null) return; //Data is not set, no point to check more.
                 if (dataGridViewGenericDataColumn.Metadata == null) return; //Don't paint TriState button when MetaData is null (data not loaded)
             }

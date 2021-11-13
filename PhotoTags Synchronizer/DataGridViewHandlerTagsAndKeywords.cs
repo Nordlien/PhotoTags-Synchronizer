@@ -123,7 +123,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region PopulateKeywords
-        private static void PopulateKeywords(DataGridView dataGridView, Metadata metadata, int columnIndex, MetadataBrokerType metadataBrokerType)
+        private static void PopulateKeywords(DataGridView dataGridView, Metadata metadata, int columnIndex, MetadataBrokerType metadataBrokerType, FileEntryAttribute fileEntryAttribute)
         {
             foreach (KeywordTag tag in metadata.PersonalKeywordTags)
             {
@@ -143,8 +143,15 @@ namespace PhotoTagsSynchronizer
                     DataGridViewGenericCellStatus dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(DataGridViewHandler.GetCellStatus(dataGridView, columnIndex, rowIndex));
 
                     dataGridViewGenericCellStatus.MetadataBrokerType |= metadataBrokerType;
-                    if (dataGridViewGenericCellStatus.SwitchState == SwitchStates.Undefine)
+                    if (fileEntryAttribute.FileEntryVersion != FileEntryVersion.AutoCorrect)
+                    {
+                        if (dataGridViewGenericCellStatus.SwitchState == SwitchStates.Undefine)
+                            dataGridViewGenericCellStatus.SwitchState = (dataGridViewGenericCellStatus.MetadataBrokerType & MetadataBrokerType.ExifTool) == MetadataBrokerType.ExifTool ? SwitchStates.On : SwitchStates.Off;
+                    }
+                    else
+                    {
                         dataGridViewGenericCellStatus.SwitchState = (dataGridViewGenericCellStatus.MetadataBrokerType & MetadataBrokerType.ExifTool) == MetadataBrokerType.ExifTool ? SwitchStates.On : SwitchStates.Off;
+                    }
                     DataGridViewHandler.SetCellStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatus);
                 }
             }
@@ -261,10 +268,10 @@ namespace PhotoTagsSynchronizer
 
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerKeywords), false);
 
-                if (metadata != null) PopulateKeywords(dataGridView, metadata, columnIndex, metadata.Broker);
-                if (metadataMicrosoftPhotos != null) PopulateKeywords(dataGridView, metadataMicrosoftPhotos, columnIndex, metadataMicrosoftPhotos.Broker);
-                if (metadataWindowsLivePhotoGallery != null) PopulateKeywords(dataGridView, metadataWindowsLivePhotoGallery, columnIndex, metadataWindowsLivePhotoGallery.Broker);
-                if (metadataWebScraping != null) PopulateKeywords(dataGridView, metadataWebScraping, columnIndex, metadataWebScraping.Broker);
+                if (metadata != null) PopulateKeywords(dataGridView, metadata, columnIndex, metadata.Broker, fileEntryAttribute);
+                if (metadataMicrosoftPhotos != null) PopulateKeywords(dataGridView, metadataMicrosoftPhotos, columnIndex, metadataMicrosoftPhotos.Broker, fileEntryAttribute);
+                if (metadataWindowsLivePhotoGallery != null) PopulateKeywords(dataGridView, metadataWindowsLivePhotoGallery, columnIndex, metadataWindowsLivePhotoGallery.Broker, fileEntryAttribute);
+                if (metadataWebScraping != null) PopulateKeywords(dataGridView, metadataWebScraping, columnIndex, metadataWebScraping.Broker, fileEntryAttribute);
 
                 DataGridViewHandler.SetColumnPopulatedFlag(dataGridView, columnIndex, true);
             }
