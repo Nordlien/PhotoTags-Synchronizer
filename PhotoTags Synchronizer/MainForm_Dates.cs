@@ -118,12 +118,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region dataGridViewDate_CellEndEdit
-        private void dataGridViewDate_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-        }
-        #endregion
-
         #region dataGridViewDate_CellEnter
         private void dataGridViewDate_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
