@@ -404,6 +404,11 @@ namespace PhotoTagsSynchronizer
         #region DataGridView - Map - Cell Mouse *Double* Click
         private void dataGridViewMap_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
+            if (e.RowIndex <= 0 && e.ColumnIndex > -1)
+            {
+                ActionFileSystemVerbOpen(e.ColumnIndex, e.RowIndex);
+                return;
+            }
             DataGridView dataGridView = ((DataGridView)sender);
             
             if (!dataGridView.Enabled) return;

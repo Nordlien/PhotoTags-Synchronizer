@@ -5511,7 +5511,7 @@ namespace PhotoTagsSynchronizer
         #region FileSystemVerbOpen (Files in Folder, ImageListView, Grid)
 
         #region ActionFileSystemOpen
-        private void ActionFileSystemVerbOpen()
+        private void ActionFileSystemVerbOpen(int? columnIndex, int? rowIndex)
         {
             switch (ActiveKryptonPage)
             {
@@ -5528,31 +5528,37 @@ namespace PhotoTagsSynchronizer
                     MediaFilesVerbOpen_Click(GetSelectedFilesImageListView());
                     break;
                 case KryptonPages.kryptonPageToolboxTags:
-                    MediaFilesVerbOpen_Click(GetSelectedFilesFromActiveDataGridView());
-                    break;
                 case KryptonPages.kryptonPageToolboxPeople:
-                    MediaFilesVerbOpen_Click(GetSelectedFilesFromActiveDataGridView());
-                    break;
                 case KryptonPages.kryptonPageToolboxMap:
-                    MediaFilesVerbOpen_Click(GetSelectedFilesFromActiveDataGridView());
-                    break;
                 case KryptonPages.kryptonPageToolboxDates:
-                    MediaFilesVerbOpen_Click(GetSelectedFilesFromActiveDataGridView());
-                    break;
                 case KryptonPages.kryptonPageToolboxExiftool:
-                    MediaFilesVerbOpen_Click(GetSelectedFilesFromActiveDataGridView());
-                    break;
                 case KryptonPages.kryptonPageToolboxWarnings:
-                    MediaFilesVerbOpen_Click(GetSelectedFilesFromActiveDataGridView());
-                    break;
                 case KryptonPages.kryptonPageToolboxProperties:
-                    MediaFilesVerbOpen_Click(GetSelectedFilesFromActiveDataGridView());
+                    if (columnIndex == null || rowIndex == null) MediaFilesVerbOpen_Click(GetSelectedFilesFromActiveDataGridView());
+                    else if (columnIndex > -1 && rowIndex <= 0) //Head and first row allowd
+                    {
+                        List<string> files = new List<string>();
+                        DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(GetActiveTabDataGridView(), (int)columnIndex);
+                        if (dataGridViewGenericColumn != null)
+                        {
+                            files.Add(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath);
+                            MediaFilesVerbOpen_Click(files);
+                        }
+                    }
                     break;
                 case KryptonPages.kryptonPageToolboxRename:
-                    MediaFilesVerbOpen_Click(GetSelectedFilesFromActiveDataGridView());
-                    break;
                 case KryptonPages.kryptonPageToolboxConvertAndMerge:
-                    MediaFilesVerbOpen_Click(GetSelectedFilesFromActiveDataGridView());
+                    if (columnIndex == null || rowIndex == null) MediaFilesVerbOpen_Click(GetSelectedFilesFromActiveDataGridView());
+                    else if (rowIndex > 0)
+                    {
+                        List<string> files = new List<string>();
+                        DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(GetActiveTabDataGridView(), (int)rowIndex);
+                        if (dataGridViewGenericRow != null && !dataGridViewGenericRow.IsHeader)
+                        {
+                            files.Add(dataGridViewGenericRow.Metadata.FileEntry.FileFullPath);
+                            MediaFilesVerbOpen_Click(files);
+                        }
+                    }
                     break;
                 default:
                     throw new NotImplementedException();
@@ -5563,65 +5569,74 @@ namespace PhotoTagsSynchronizer
         #region FileSystemVerbOpen - Click Events Sources
         private void imageListView1_ItemDoubleClick(object sender, ItemClickEventArgs e)
         {
-            ActionFileSystemVerbOpen();
+            ActionFileSystemVerbOpen(null, null);
         }
 
         private void kryptonRibbonGroupButtonHomeFileSystemOpen_Click(object sender, EventArgs e)
         {
-            ActionFileSystemVerbOpen();
+            ActionFileSystemVerbOpen(null, null);
         }
 
         private void KryptonContextMenuItemGenericOpen_Click(object sender, EventArgs e)
         {
-            ActionFileSystemVerbOpen();
+            ActionFileSystemVerbOpen(null, null);
         }
         #endregion
 
         #region MediaFileOpen_DoubleClick Events Source
-        private void dataGridViewTagsAndKeywords_DoubleClick(object sender, EventArgs e)
+
+        private void dataGridViewTagsAndKeywords_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            ActionFileSystemVerbOpen();
+            ActionFileSystemVerbOpen(e.ColumnIndex, e.RowIndex);
         }
 
-        private void kryptonPageToolboxPeople_DoubleClick(object sender, EventArgs e)
+        private void dataGridViewPeople_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            ActionFileSystemVerbOpen();
+            ActionFileSystemVerbOpen(e.ColumnIndex, e.RowIndex);
         }
 
-        private void dataGridViewMap_DoubleClick(object sender, EventArgs e)
+        //private void dataGridViewMap_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        //{
+        //    ActionFileSystemVerbOpen();
+        //}
+
+        private void dataGridViewDate_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            ActionFileSystemVerbOpen();
+            ActionFileSystemVerbOpen(e.ColumnIndex, e.RowIndex);
         }
 
-        private void dataGridViewDate_DoubleClick(object sender, EventArgs e)
+        
+
+        private void dataGridViewConvertAndMerge_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            ActionFileSystemVerbOpen();
+            ActionFileSystemVerbOpen(e.ColumnIndex, e.RowIndex);
         }
 
-        private void dataGridViewExiftool_DoubleClick(object sender, EventArgs e)
+        private void dataGridViewRename_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            ActionFileSystemVerbOpen();
+            ActionFileSystemVerbOpen(e.ColumnIndex, e.RowIndex);
         }
 
-        private void dataGridViewExiftoolWarning_DoubleClick(object sender, EventArgs e)
+
+        private void dataGridViewProperties_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            ActionFileSystemVerbOpen();
+            ActionFileSystemVerbOpen(e.ColumnIndex, e.RowIndex);
         }
 
-        private void kryptonPageToolboxProperties_DoubleClick(object sender, EventArgs e)
+        private void dataGridViewExiftoolWarning_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            ActionFileSystemVerbOpen();
+            ActionFileSystemVerbOpen(e.ColumnIndex, e.RowIndex);
         }
 
-        private void kryptonPageToolboxRename_DoubleClick(object sender, EventArgs e)
+        private void dataGridViewExiftool_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            ActionFileSystemVerbOpen();
+            ActionFileSystemVerbOpen(e.ColumnIndex, e.RowIndex);
         }
 
-        private void kryptonPageToolboxConvertAndMerge_DoubleClick(object sender, EventArgs e)
-        {
-            ActionFileSystemVerbOpen();
-        }
+
+        
+
+
         #endregion
 
         #region MediaFilesVerbOpen_Click
