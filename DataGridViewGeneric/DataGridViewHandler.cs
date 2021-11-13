@@ -1524,7 +1524,7 @@ namespace DataGridViewGeneric
         /// 
         /// </summary>
         /// <param name="dataGridView"></param>
-        /// <param name="columnIndex"></param>
+        /// <param name="columnIndex">If column == -1, that means new row without values in columns</param>
         /// <param name="dataGridViewGenericRow"></param>
         /// <param name="dataGridFavorites"></param>
         /// <param name="value">Set value for the field, check writeValue if the field can/will be updated</param>
@@ -1537,6 +1537,9 @@ namespace DataGridViewGeneric
         {
             bool rowFound;
             int rowIndex;
+            //column -1 is ok
+
+            #region Find row, if not find where, sort or not sort
             if (forceAddAfterStartSearchRow)
             {
                 rowIndex = startSearchRow;
@@ -1565,6 +1568,7 @@ namespace DataGridViewGeneric
                 }
 
             }
+            #endregion 
 
             bool isValueUpdated = false;
             //If a value row, set the value

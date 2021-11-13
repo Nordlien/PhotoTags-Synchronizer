@@ -457,7 +457,7 @@ namespace PhotoTagsSynchronizer
             else if (gridViewGenericRow.HeaderName.Equals(DataGridViewHandlerMap.headerGoogleLocations) &&
                 gridViewGenericRow.RowName.Equals(DataGridViewHandlerMap.tagCameraOwner))
             {
-                string selectedCameraOwner = DataGridViewHandlerMap.GetCameraOwner(dataGridView, e.ColumnIndex);
+                string selectedCameraOwner = DataGridViewHandlerMap.GetCameraOwner(dataGridView, e.ColumnIndex, null);
                 DataGridViewHandlerMap.SetCameraOwner(dataGridView, e.ColumnIndex, selectedCameraOwner);
                 if (!string.IsNullOrWhiteSpace(selectedCameraOwner))
                 {

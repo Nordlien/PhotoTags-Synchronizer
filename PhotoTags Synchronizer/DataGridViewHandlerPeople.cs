@@ -236,8 +236,6 @@ namespace PhotoTagsSynchronizer
                 for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
                 {
                     DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, null);
-                    //DataGridViewHandler.SetCellStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatusDefault);
-                    //DataGridViewHandler.SetCellReadOnlyDependingOfStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatusDefault);
                     DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefault = new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true);
                     DataGridViewHandler.SetCellDefaultAfterUpdated(dataGridView, dataGridViewGenericCellStatusDefault, columnIndex, rowIndex);
                 }
@@ -289,58 +287,63 @@ namespace PhotoTagsSynchronizer
                 DataGridViewHandler.SetColumnPopulatedFlag(dataGridView, columnIndex, true);
             }
 
-            #region Suggestion of Names - Near date
-            int columnIndexDummy = -1;
-            List<string> regioNameSuggestions = null;
-            DateTime? dateTimeMediaTaken = metadata?.MediaDateTaken;
-            if (dateTimeMediaTaken != null)
+            if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect || fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current)
             {
-                DateTime dateTimeFrom = ((DateTime)dateTimeMediaTaken).AddDays(-SuggestRegionNameNearbyDays);
-                DateTime dateTimeTo = ((DateTime)dateTimeMediaTaken).AddDays(SuggestRegionNameNearbyDays);
-
-                bool isHeaderPeopleSuggestionAdded = false;
-                regioNameSuggestions = DatabaseAndCacheMetadataExiftool.ListAllRegionNamesCache(MetadataBrokerType.ExifTool, (DateTime)dateTimeFrom, (DateTime)dateTimeTo);
-
-                if (regioNameSuggestions != null && regioNameSuggestions.Count > 0)
+                #region Suggestion of Names - Near date
+                int columnIndexDummy = -1;
+                List<string> regioNameSuggestions = null;
+                DateTime? dateTimeMediaTaken = metadata?.MediaDateTaken;
+                if (dateTimeMediaTaken != null)
                 {
-                    foreach (string regionName in regioNameSuggestions)
-                    {
-                        if (!string.IsNullOrWhiteSpace(regionName))
-                        {
-                            if (regionNamesAddedTopMost.Contains(regionName))
-                            {
-                                DataGridViewHandler.DeleteRow(dataGridView, headerPeopleMostUsed, regionName);
-                                regionNamesAddedTopMost.Remove(regionName);
-                            }
+                    DateTime dateTimeFrom = ((DateTime)dateTimeMediaTaken).AddDays(-SuggestRegionNameNearbyDays);
+                    DateTime dateTimeTo = ((DateTime)dateTimeMediaTaken).AddDays(SuggestRegionNameNearbyDays);
 
-                            if (!regionNamesAddedPeople.Contains(regionName))
+                    bool isHeaderPeopleSuggestionAdded = false;
+                    regioNameSuggestions = DatabaseAndCacheMetadataExiftool.ListAllRegionNamesCache(MetadataBrokerType.ExifTool, (DateTime)dateTimeFrom, (DateTime)dateTimeTo);
+
+                    if (regioNameSuggestions != null && regioNameSuggestions.Count > 0)
+                    {
+                        foreach (string regionName in regioNameSuggestions)
+                        {
+                            if (!string.IsNullOrWhiteSpace(regionName))
                             {
-                                if (!isHeaderPeopleSuggestionAdded)
+                                if (regionNamesAddedTopMost.Contains(regionName))
                                 {
-                                    AddRowHeader(dataGridView, columnIndexDummy, new DataGridViewGenericRow(headerPeopleSuggestion), false);
-                                    isHeaderPeopleSuggestionAdded = true;
+                                    DataGridViewHandler.DeleteRow(dataGridView, headerPeopleMostUsed, regionName);
+                                    regionNamesAddedTopMost.Remove(regionName);
                                 }
-                                AddRowHeader(dataGridView, columnIndexDummy, new DataGridViewGenericRow(headerPeopleSuggestion, regionName), true);
+
+                                if (!regionNamesAddedPeople.Contains(regionName))
+                                {
+                                    if (!isHeaderPeopleSuggestionAdded)
+                                    {
+                                        AddRowHeader(dataGridView, columnIndexDummy, new DataGridViewGenericRow(headerPeopleSuggestion), false);
+                                        isHeaderPeopleSuggestionAdded = true;
+                                    }
+                                    AddRowHeader(dataGridView, columnIndexDummy, new DataGridViewGenericRow(headerPeopleSuggestion, regionName), true);
+                                }
                             }
                         }
                     }
                 }
-            }
-            #endregion
+                #endregion
 
-            #region Sugegstion of names - Top Most
-            List<string> regioNamesTopMost = DatabaseAndCacheMetadataExiftool.ListAllPersonalRegionNameNotInListCache(MetadataBrokerType.ExifTool, regionNamesAddedPeople, regioNameSuggestions, SuggestRegionNameTopMostCount - regionNamesAddedTopMost.Count);
-            if (regioNamesTopMost != null && regioNamesTopMost.Count > 0)
-            {
-                AddRowHeader(dataGridView, columnIndexDummy, new DataGridViewGenericRow(headerPeopleMostUsed), false);
-                foreach (string regionName in regioNamesTopMost)
+                #region Sugegstion of names - Top Most
+                List<string> regioNamesTopMost = DatabaseAndCacheMetadataExiftool.ListAllPersonalRegionNameNotInListCache(MetadataBrokerType.ExifTool, regionNamesAddedPeople, regioNameSuggestions, SuggestRegionNameTopMostCount - regionNamesAddedTopMost.Count);
+                if (regioNamesTopMost != null && regioNamesTopMost.Count > 0)
                 {
-                    AddRowHeader(dataGridView, columnIndexDummy, new DataGridViewGenericRow(headerPeopleMostUsed, regionName), true);
+                    AddRowHeader(dataGridView, columnIndexDummy, new DataGridViewGenericRow(headerPeopleMostUsed), false);
+                    foreach (string regionName in regioNamesTopMost)
+                    {
+                        AddRowHeader(dataGridView, columnIndexDummy, new DataGridViewGenericRow(headerPeopleMostUsed, regionName), true);
+                    }
                 }
-            }
-            #endregion
+                #endregion
 
-            AddRowHeader(dataGridView, columnIndexDummy, new DataGridViewGenericRow(headerPeopleAdded), false);
+                AddRowHeader(dataGridView, columnIndexDummy, new DataGridViewGenericRow(headerPeopleAdded), false);
+            }
+
+            
             //DataGridViewHandler.Refresh(dataGridView);
 
             //-----------------------------------------------------------------
