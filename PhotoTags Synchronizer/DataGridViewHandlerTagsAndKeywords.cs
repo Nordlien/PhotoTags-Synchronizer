@@ -101,7 +101,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region
+        #region AddRow
         private static int AddRow(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericDataRow, bool sort)
         {
             return DataGridViewHandler.AddRow(dataGridView, columnIndex, dataGridViewGenericDataRow, sort);
