@@ -51,34 +51,19 @@ namespace PhotoTagsSynchronizer
             List<DateTime> datesFound = new List<DateTime>();
             DateTime? dateTimeFrom = null;
             DateTime? dateTimeTo = null;
-            DataGridView dataGridView = GetActiveTabDataGridView();
-            if (DataGridViewHandler.GetIsAgregated(dataGridView))
+            DataGridView dataGridViewActive = GetActiveTabDataGridView();
+            if (DataGridViewHandler.GetIsAgregated(dataGridViewActive))
             {
                 ShowFormLocationHistoryAnalyticsInit();
                 formLocationHistoryAnalytics.PopulateMetadataLocationsClear(formLocationHistoryAnalytics.DataGridView);
 
-                foreach (int columnIndex in DataGridViewHandler.GetColumnSelected(dataGridView))
+                foreach (int columnIndex in DataGridViewHandler.GetColumnSelected(dataGridViewActive))
                 {
-                    DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-                    DateTime? date = DataGridViewHandlerDate.GetDateTaken(dataGridViewDate, columnIndex);
-                    if (date != null)
-                    {
-                        AddDatesFound((DateTime)date, ref datesFound);
-                        if (dateTimeFrom == null || date < dateTimeFrom) dateTimeFrom = date;
-                        if (dateTimeTo == null || date > dateTimeTo) dateTimeTo = date;
-                    }
+                    DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridViewActive, columnIndex);
 
-                    date = DataGridViewHandlerDate.GetLocationDate(dataGridViewDate, columnIndex);
-                    if (date != null)
+                    if (dataGridViewGenericColumn != null)
                     {
-                        AddDatesFound((DateTime)date, ref datesFound);
-                        if (dateTimeFrom == null || date < dateTimeFrom) dateTimeFrom = date;
-                        if (dateTimeTo == null || date > dateTimeTo) dateTimeTo = date;
-                    }
-
-                    if (dataGridViewGenericColumn != null && dataGridViewGenericColumn.Metadata != null)
-                    {
-                        date = dataGridViewGenericColumn.Metadata.MediaDateTaken;
+                        DateTime? date = DataGridViewHandlerDate.GetDateTaken(dataGridViewDate, null, dataGridViewGenericColumn.FileEntryAttribute);
                         if (date != null)
                         {
                             AddDatesFound((DateTime)date, ref datesFound);
@@ -86,7 +71,7 @@ namespace PhotoTagsSynchronizer
                             if (dateTimeTo == null || date > dateTimeTo) dateTimeTo = date;
                         }
 
-                        date = dataGridViewGenericColumn.Metadata.LocationDateTime;
+                        date = DataGridViewHandlerDate.GetLocationDate(dataGridViewDate, null, dataGridViewGenericColumn.FileEntryAttribute);
                         if (date != null)
                         {
                             AddDatesFound((DateTime)date, ref datesFound);
@@ -94,28 +79,46 @@ namespace PhotoTagsSynchronizer
                             if (dateTimeTo == null || date > dateTimeTo) dateTimeTo = date;
                         }
 
-                        date = dataGridViewGenericColumn.Metadata.FileDateCreated;
-                        if (date != null)
+                        if (dataGridViewGenericColumn != null && dataGridViewGenericColumn.Metadata != null)
                         {
-                            if (dateTimeFrom == null || date < dateTimeFrom) dateTimeFrom = date;
-                            if (dateTimeTo == null || date > dateTimeTo) dateTimeTo = date;
+                            date = dataGridViewGenericColumn.Metadata.MediaDateTaken;
+                            if (date != null)
+                            {
+                                AddDatesFound((DateTime)date, ref datesFound);
+                                if (dateTimeFrom == null || date < dateTimeFrom) dateTimeFrom = date;
+                                if (dateTimeTo == null || date > dateTimeTo) dateTimeTo = date;
+                            }
+
+                            date = dataGridViewGenericColumn.Metadata.LocationDateTime;
+                            if (date != null)
+                            {
+                                AddDatesFound((DateTime)date, ref datesFound);
+                                if (dateTimeFrom == null || date < dateTimeFrom) dateTimeFrom = date;
+                                if (dateTimeTo == null || date > dateTimeTo) dateTimeTo = date;
+                            }
+
+                            date = dataGridViewGenericColumn.Metadata.FileDateCreated;
+                            if (date != null)
+                            {
+                                if (dateTimeFrom == null || date < dateTimeFrom) dateTimeFrom = date;
+                                if (dateTimeTo == null || date > dateTimeTo) dateTimeTo = date;
+                            }
+
+                            date = dataGridViewGenericColumn.Metadata.FileDateModified;
+                            if (date != null)
+                            {
+                                if (dateTimeFrom == null || date < dateTimeFrom) dateTimeFrom = date;
+                                if (dateTimeTo == null || date > dateTimeTo) dateTimeTo = date;
+                            }
+
+                            if (dataGridViewGenericColumn.Metadata.FileDateCreated != null && dataGridViewGenericColumn.Metadata.FileDateModified != null)
+                            {
+                                date = (dataGridViewGenericColumn.Metadata.FileDateCreated < dataGridViewGenericColumn.Metadata.FileDateModified ? dataGridViewGenericColumn.Metadata.FileDateCreated : dataGridViewGenericColumn.Metadata.FileDateModified);
+                                AddDatesFound((DateTime)date, ref datesFound);
+                            }
                         }
 
-                        date = dataGridViewGenericColumn.Metadata.FileDateModified;
-                        if (date != null)
-                        {
-                            if (dateTimeFrom == null || date < dateTimeFrom) dateTimeFrom = date;
-                            if (dateTimeTo == null || date > dateTimeTo) dateTimeTo = date;
-                        }
-
-                        if (dataGridViewGenericColumn.Metadata.FileDateCreated != null && dataGridViewGenericColumn.Metadata.FileDateModified != null)
-                        {
-                            date = (dataGridViewGenericColumn.Metadata.FileDateCreated < dataGridViewGenericColumn.Metadata.FileDateModified ? dataGridViewGenericColumn.Metadata.FileDateCreated : dataGridViewGenericColumn.Metadata.FileDateModified);
-                            AddDatesFound((DateTime)date, ref datesFound);
-                        }
                     }
-
-
                 }
 
                 DateTime? dateTimeFoundFrom = null;

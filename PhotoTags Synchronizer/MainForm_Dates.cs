@@ -111,7 +111,7 @@ namespace PhotoTagsSynchronizer
                         "Error", false, false);
             }
 
-            DataGridViewHandlerDate.PopulateTimeZone(dataGridView, e.ColumnIndex);
+            DataGridViewHandlerDate.PopulateTimeZone(dataGridView, e.ColumnIndex, null);
             UpdateGoodleHistoryCoordinateAndNearBy(e.ColumnIndex);
             
             isDataGridViewDate_CellValueChanging = false;

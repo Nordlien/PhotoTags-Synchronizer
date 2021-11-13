@@ -212,28 +212,30 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region PopulateGoogleHistoryCoordinateAndNearby
-        public static void PopulateGoogleHistoryCoordinateAndNearby(DataGridView dataGridView, DataGridView dataGridViewDate, int columnIndex, int timeZoneShift, int accepedIntervalSecound)
+        public static void PopulateGoogleHistoryCoordinateAndNearby(DataGridView dataGridViewMap, DataGridView dataGridViewDate, int columnIndexMap, int timeZoneShift, int accepedIntervalSecound)
         {
-
-            DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+            #region Check if Aggegated
+            DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridViewMap, columnIndexMap);
             if (dataGridViewGenericColumn == null) return;
 
             Metadata metadata = dataGridViewGenericColumn.Metadata;
             if (metadata == null)
             {
-                DataGridViewHandler.SetCellValue(dataGridView, columnIndex, headerGoogleLocations, tagCoordinates, "No metadata loaded");
+                DataGridViewHandler.SetCellValue(dataGridViewMap, columnIndexMap, headerGoogleLocations, tagCoordinates, "No metadata loaded");
                 return;
             }
+            #endregion 
 
-            DateTime? dateTaken = DataGridViewHandlerDate.GetDateTaken(dataGridViewDate, columnIndex);
-            DateTime? locationDate = DataGridViewHandlerDate.GetLocationDate(dataGridViewDate, columnIndex);
+
+            DateTime? dateTaken = DataGridViewHandlerDate.GetDateTaken(dataGridViewDate, null, dataGridViewGenericColumn.FileEntryAttribute);
+            DateTime? locationDate = DataGridViewHandlerDate.GetLocationDate(dataGridViewDate, null, dataGridViewGenericColumn.FileEntryAttribute);
 
             if (dateTaken == null) dateTaken = metadata.MediaDateTaken;
             if (locationDate == null) locationDate = metadata.LocationDateTime;
 
             if (dateTaken == null && locationDate == null)
             {
-                DataGridViewHandler.SetCellValue(dataGridView, columnIndex, headerGoogleLocations, tagCoordinates, "Missing Dates");
+                DataGridViewHandler.SetCellValue(dataGridViewMap, columnIndexMap, headerGoogleLocations, tagCoordinates, "Missing Dates");
                 return;
             }
 
@@ -245,9 +247,9 @@ namespace PhotoTagsSynchronizer
                 mediaCreateUTC = new DateTime( ((DateTime)dateTaken).Ticks, DateTimeKind.Utc).AddHours(timeZoneShift);
             
             PopulateGoogleHistoryCoordinate(
-                dataGridView, columnIndex, timeZoneShift, accepedIntervalSecound, mediaCreateUTC);
+                dataGridViewMap, columnIndexMap, timeZoneShift, accepedIntervalSecound, mediaCreateUTC);
             PopulateNearbyCoordinate(
-                dataGridView, columnIndex, timeZoneShift, accepedIntervalSecound, (DateTime)metadata.FileDate, dateTaken, locationDate);
+                dataGridViewMap, columnIndexMap, timeZoneShift, accepedIntervalSecound, (DateTime)metadata.FileDate, dateTaken, locationDate);
         }
         #endregion
 

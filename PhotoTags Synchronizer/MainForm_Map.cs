@@ -433,8 +433,8 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = ((DataGridView)sender);
             if (!dataGridView.Enabled) return;
 
-            DataGridViewGenericColumn gridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, e.ColumnIndex);
-            if (gridViewGenericColumn.Metadata == null) return;
+            DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, e.ColumnIndex);
+            if (dataGridViewGenericColumn.Metadata == null) return;
             DataGridViewGenericRow gridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, e.RowIndex);
 
             isDataGridViewMaps_CellValueChanging = true;
@@ -447,7 +447,7 @@ namespace PhotoTagsSynchronizer
                 string coordinate = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridViewMap, e.ColumnIndex, e.RowIndex);
                 UpdateBrowserMap(coordinate, GetMapProvider());
                 DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, e.ColumnIndex, LocationCoordinate.Parse(coordinate));
-                DataGridViewHandlerDate.PopulateTimeZone(dataGridViewDate, e.ColumnIndex);
+                DataGridViewHandlerDate.PopulateTimeZone(dataGridViewDate, null, dataGridViewGenericColumn.FileEntryAttribute);
             }
 
             ///////////////////////////////////////////////////////////////////////////
@@ -461,11 +461,11 @@ namespace PhotoTagsSynchronizer
                 DataGridViewHandlerMap.SetCameraOwner(dataGridView, e.ColumnIndex, selectedCameraOwner);
                 if (!string.IsNullOrWhiteSpace(selectedCameraOwner))
                 {
-                    if (gridViewGenericColumn.Metadata != null)
+                    if (dataGridViewGenericColumn.Metadata != null)
                     {
                         CameraOwner cameraOwner = new CameraOwner(
-                            gridViewGenericColumn.Metadata.CameraMake,
-                            gridViewGenericColumn.Metadata.CameraModel,
+                            dataGridViewGenericColumn.Metadata.CameraMake,
+                            dataGridViewGenericColumn.Metadata.CameraModel,
                             selectedCameraOwner);
 
                         CommonDatabaseTransaction commonDatabaseTransaction = databaseUtilitiesSqliteMetadata.TransactionBegin(CommonDatabaseTransaction.TransactionReadCommitted);
@@ -477,8 +477,8 @@ namespace PhotoTagsSynchronizer
                         {
                             DataGridViewGenericColumn gridViewGenericColumnCheck = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
 
-                            if (gridViewGenericColumnCheck?.Metadata?.CameraMake == gridViewGenericColumn.Metadata.CameraMake &&
-                                gridViewGenericColumnCheck?.Metadata?.CameraModel == gridViewGenericColumn.Metadata.CameraModel)
+                            if (gridViewGenericColumnCheck?.Metadata?.CameraMake == dataGridViewGenericColumn.Metadata.CameraMake &&
+                                gridViewGenericColumnCheck?.Metadata?.CameraModel == dataGridViewGenericColumn.Metadata.CameraModel)
                             {
                                 //DataGridViewHandlerMap.SetCameraOwner(dataGridView, columnIndex, selectedCameraOwner);
 
