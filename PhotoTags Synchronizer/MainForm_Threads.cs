@@ -924,7 +924,6 @@ namespace PhotoTagsSynchronizer
                                 {
                                     foreach (FileEntry fileEntry in mediaFilesNotInDatabaseCheckInCloud)
                                     {
-                                        //Don't add files from cloud in queue
                                         if (!FileHandler.IsFileInCloud(fileEntry.FileFullPath)) mediaFilesNotInDatabase.Add(fileEntry);
                                         else PopulateImageListVieAndDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(fileEntry, FileEntryVersion.Current)); //Also populate dataGridView when in cloud, but empty rows in column
                                     }

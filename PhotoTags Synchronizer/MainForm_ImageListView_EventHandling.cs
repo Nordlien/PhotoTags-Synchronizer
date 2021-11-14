@@ -187,6 +187,21 @@ namespace PhotoTagsSynchronizer
                         if (GlobalData.ReloadAllowedFromCloud != null && GlobalData.ReloadAllowedFromCloud.Contains(fileEntry))
                         {
                             GlobalData.ReloadAllowedFromCloud.Remove(fileEntry);
+
+                            if (isFileInCloud)
+                            {
+                                try
+                                {
+                                    byte[] buffer = new byte[512]; 
+                                    using (FileStream fs = new FileStream(fileEntry.FileFullPath, FileMode.Open, FileAccess.Read))
+                                    {
+                                        var bytes_read = fs.Read(buffer, 0, buffer.Length); //Get OneDrive to start download the file
+                                        fs.Close();
+                                    }
+                                    isFileInCloud = false;
+                                }
+                                catch { }
+                            }
                             dontReadFileFromCloud = false;
                         }
                     }

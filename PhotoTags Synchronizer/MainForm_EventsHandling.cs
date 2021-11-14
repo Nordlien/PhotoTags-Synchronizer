@@ -7119,6 +7119,7 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
+        #region DatabaseCleaner
         private void kryptonRibbonGroupButtonToolsDatabaseCleaner_Click(object sender, EventArgs e)
         {
             if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
@@ -7142,6 +7143,7 @@ namespace PhotoTagsSynchronizer
                 KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        #endregion
 
         #region About
 
