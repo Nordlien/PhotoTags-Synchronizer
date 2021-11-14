@@ -22,6 +22,7 @@ namespace PhotoTagsSynchronizer
         //private MetadataDatabaseCache databaseAndCacheMetadataMicrosoftPhotos;
         //public SqliteDatabaseUtilities DatabaseUtilitiesSqliteMetadata { get; set; }
         private Stopwatch stopWatch = new Stopwatch();
+        public static string CorruptFile = "CorruptFile";
 
         public FormDatabaseCleaner()
         {
@@ -47,7 +48,7 @@ namespace PhotoTagsSynchronizer
                     else
                     {
                         Metadata metadata = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBroker);
-                        if (metadata != null && metadata.FileMimeType == null) fileEntryBrokersDelete.Add(fileEntryBroker);
+                        if (metadata != null && (metadata.FileMimeType == null || metadata.FileMimeType == CorruptFile)) fileEntryBrokersDelete.Add(fileEntryBroker);
                     }
                     UpdateStatus("Needs cleaning: " + fileEntryBrokersDelete.Count);
                 }

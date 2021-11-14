@@ -926,6 +926,7 @@ namespace PhotoTagsSynchronizer
                                     {
                                         //Don't add files from cloud in queue
                                         if (!FileHandler.IsFileInCloud(fileEntry.FileFullPath)) mediaFilesNotInDatabase.Add(fileEntry);
+                                        else PopulateImageListVieAndDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(fileEntry, FileEntryVersion.Current)); //Also populate dataGridView when in cloud, but empty rows in column
                                     }
                                 }
                                 else
@@ -1067,7 +1068,8 @@ namespace PhotoTagsSynchronizer
                                                             metadataDummy.FileDateModified = mediaFilesNotInDatabase[index].LastWriteDateTime;
                                                             metadataDummy.FileName = mediaFilesNotInDatabase[index].FileName;
                                                             metadataDummy.FileDirectory = mediaFilesNotInDatabase[index].Directory;
-
+                                                            metadataDummy.FileMimeType = FormDatabaseCleaner.CorruptFile; //Also used
+                                                            metadataDummy.PersonalComments = "Exiftool failed";
                                                             try
                                                             {
                                                                 FileInfo fileInfo = new FileInfo(mediaFilesNotInDatabase[index].FileFullPath);

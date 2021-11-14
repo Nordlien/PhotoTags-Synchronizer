@@ -3266,7 +3266,7 @@ namespace DataGridViewGeneric
             DataGridViewGenericRow gridViewGenericDataRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, e.RowIndex);
             if (gridViewGenericDataRow == null) return; //Don't paint anything TriState on "New Empty Row" for "new Keywords"
             if (e.ColumnIndex >= dataGridView.ColumnCount) 
-                return; //DEBUG - ths hsould not happen
+                return; //DEBUG - this should not happen
 
             DataGridViewGenericColumn dataGridViewGenericDataColumn = null;
             if (e.ColumnIndex > -1)
