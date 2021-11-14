@@ -4007,19 +4007,32 @@ namespace PhotoTagsSynchronizer
             metadataListFromDataGridView = new List<Metadata>();
 
             DataGridView dataGridView = GetActiveTabDataGridView();
-            List<DataGridViewGenericColumn> dataGridViewGenericColumnList = DataGridViewHandler.GetColumnsDataGridViewGenericColumnList(dataGridView, true);
+            List<DataGridViewGenericColumn> dataGridViewGenericColumnList = DataGridViewHandler.GetColumnsDataGridViewGenericColumnCurrentOrAutoCorrect(dataGridView, true);
             foreach (DataGridViewGenericColumn dataGridViewGenericColumn in dataGridViewGenericColumnList)
             {
-                if (dataGridViewGenericColumn.Metadata == null) continue;
+                if (dataGridViewGenericColumn.IsPopulated)
+                {
+                    if (dataGridViewGenericColumn.Metadata == null)
+                    {
+                        throw new Exception("Missing needed metadata"); //This should not happen. Means it's nt aggregated 
+                    }
+                    
+                    Metadata metadataFromDataGridView = new Metadata(dataGridViewGenericColumn.Metadata);
 
-                Metadata metadataFromDataGridView = new Metadata(dataGridViewGenericColumn.Metadata);
+                    UpdateMetadataFromDataGridView(dataGridViewGenericColumn.FileEntryAttribute, ref metadataFromDataGridView);
 
-                UpdateMetadataFromDataGridView(dataGridViewGenericColumn.FileEntryAttribute, ref metadataFromDataGridView);
+                    if (dataGridViewGenericColumn.Metadata.CameraMake == null || metadataFromDataGridView.CameraMake == null ||
+                        dataGridViewGenericColumn.Metadata.CameraMake != metadataFromDataGridView.CameraMake)
+                    { //DEBUG BREAK
+                    }
+                    if (dataGridViewGenericColumn.Metadata.FileMimeType == null || metadataFromDataGridView.FileMimeType == null ||
+                        dataGridViewGenericColumn.Metadata.FileMimeType != metadataFromDataGridView.FileMimeType)
+                    { //DEBUG BREAK 
+                    }
 
-                metadataListFromDataGridView.Add(new Metadata(metadataFromDataGridView));
-                metadataListOriginalExiftool.Add(new Metadata(dataGridViewGenericColumn.Metadata));
-
-                dataGridViewGenericColumn.Metadata = metadataFromDataGridView; //Updated the column with Metadata according to the user input
+                    metadataListOriginalExiftool.Add(new Metadata(dataGridViewGenericColumn.Metadata));
+                    metadataListFromDataGridView.Add(new Metadata(metadataFromDataGridView));
+                } 
             }
         }
         #endregion

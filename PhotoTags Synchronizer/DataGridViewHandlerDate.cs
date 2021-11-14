@@ -41,6 +41,7 @@ namespace PhotoTagsSynchronizer
 
         public const string tagDatesFoundInFilename = "Found ";
 
+        public static bool HasBeenInitialized { get; set; } = false;
         public static DataGridView DataGridViewMap { get; set; }
         public static string DataGridViewMapHeaderMedia { get; set; }
         public static string DataGridViewMapTagCoordinates { get; set; }
@@ -223,14 +224,14 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region PopulateFile
-        public static void PopulateFile(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, ShowWhatColumns showWhatColumns, Metadata metadataAutoCorrected)
+        public static void PopulateFile(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, ShowWhatColumns showWhatColumns, Metadata metadataAutoCorrected, bool onlyRefresh)
         {
             //-----------------------------------------------------------------
             //Chech if need to stop
             if (GlobalData.IsApplicationClosing) return;
             if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return;      //Not default columns or rows added
             if (DataGridViewHandler.GetIsPopulatingFile(dataGridView)) return;  //In progress doing so
-
+            
             //Check if file is in DataGridView
             if (!DataGridViewHandler.DoesColumnFilenameExist(dataGridView, fileEntryAttribute.FileFullPath)) return;
 
@@ -253,6 +254,9 @@ namespace PhotoTagsSynchronizer
 
             int columnIndex = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView, fileEntryAttribute, thumbnail, metadata, readWriteAccessColumn, showWhatColumns, DataGridViewGenericCellStatus.DefaultEmpty());
             //-----------------------------------------------------------------
+
+            //Chech if populated and new refresh data
+            if (onlyRefresh && columnIndex != -1 && !DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex)) columnIndex = -1; //No refresh needed
 
             if (columnIndex != -1)
             {

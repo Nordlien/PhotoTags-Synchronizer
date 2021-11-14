@@ -12,6 +12,7 @@ namespace PhotoTagsSynchronizer
 {
     public static class DataGridViewHandlerProperties
     {
+        public static bool HasBeenInitialized { get; set; } = false;
         public static WindowsPropertyReader WindowsPropertyReader { get; set; }
 
         public static void Write(DataGridView dataGridView, int columnIndex)

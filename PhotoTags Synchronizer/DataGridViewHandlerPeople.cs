@@ -17,7 +17,7 @@ namespace PhotoTagsSynchronizer
         public const string headerPeopleSuggestion = "Suggestion";
         public const string headerPeopleMostUsed = "Most used";
         public const string headerPeopleAdded = "Added";
-
+        public static bool HasBeenInitialized { get; set; } = false;
         public static ThumbnailDatabaseCache DatabaseAndCacheThumbnail { get; set; }
         public static MetadataDatabaseCache DatabaseAndCacheMetadataExiftool { get; set; }
         public static MetadataDatabaseCache DatabaseAndCacheMetadataMicrosoftPhotos { get; set; }
@@ -179,7 +179,7 @@ namespace PhotoTagsSynchronizer
         }
 
         
-        public static void PopulateFile(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, ShowWhatColumns showWhatColumns, Metadata metadataAutoCorrected)
+        public static void PopulateFile(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, ShowWhatColumns showWhatColumns, Metadata metadataAutoCorrected, bool onlyRefresh)
         {
             //-----------------------------------------------------------------
             //Chech if need to stop
@@ -227,6 +227,10 @@ namespace PhotoTagsSynchronizer
             //-----------------------------------------------------------------
 
             if (columnIndex == -1) columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, fileEntryAttribute); //Find column Index for Filename and date last written
+
+            //Chech if populated and new refresh data
+            if (onlyRefresh && columnIndex != -1 && !DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex)) columnIndex = -1; //No refresh needed
+
             if (columnIndex != -1) 
             {
 

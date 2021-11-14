@@ -1032,7 +1032,7 @@ namespace DataGridViewGeneric
         #endregion
 
         #region Column handling - GetColumnDataGridViewGenericColumnList
-        public static List<DataGridViewGenericColumn> GetColumnsDataGridViewGenericColumnList(DataGridView dataGridView, bool onlyReadWriteAccessColumn)
+        public static List<DataGridViewGenericColumn> GetColumnsDataGridViewGenericColumnCurrentOrAutoCorrect(DataGridView dataGridView, bool onlyReadWriteAccessColumn)
         {
             List<DataGridViewGenericColumn> dataGridViewGenericColumnList = new List<DataGridViewGenericColumn>();
 
@@ -1042,8 +1042,12 @@ namespace DataGridViewGeneric
 
                 if (dataGridViewGenericColumn != null)
                 {
-                    if (!onlyReadWriteAccessColumn || (onlyReadWriteAccessColumn && dataGridViewGenericColumn.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite))
-                        dataGridViewGenericColumnList.Add(dataGridViewGenericColumn);
+                    if (dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect ||
+                        dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion == FileEntryVersion.Current)
+                    {
+                        if (!onlyReadWriteAccessColumn || (onlyReadWriteAccessColumn && dataGridViewGenericColumn.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite)) //Check if loaded
+                            dataGridViewGenericColumnList.Add(dataGridViewGenericColumn);
+                    }
                 }
 
             }

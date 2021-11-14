@@ -14,6 +14,7 @@ namespace PhotoTagsSynchronizer
 {
     public static class DataGridViewHandlerExiftoolWarnings
     {
+        public static bool HasBeenInitialized { get; set; } = false;
         public static ThumbnailDatabaseCache DatabaseAndCacheThumbnail { get; set; }
         public static ExiftoolWarningDatabase DatabaseExiftoolWarning { get; set; }
         public static ExiftoolReader exiftoolReader { get; set; }

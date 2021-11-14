@@ -23,6 +23,7 @@ namespace PhotoTagsSynchronizer
         private static string headerConvertAndMergeFilename = "Filename";
         public static string headerConvertAndMergeInfo = "Drag and drop to re-order";
 
+        public static bool HasBeenInitialized { get; set; } = false;
         public static MetadataDatabaseCache DatabaseAndCacheMetadataExiftool { get; set; }
         public static FileDateTimeReader FileDateTimeFormats { get; set; }
 
