@@ -31,7 +31,7 @@ namespace PhotoTagsSynchronizer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Filter");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Filter");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.panelMain = new Krypton.Toolkit.KryptonPanel();
             this.kryptonWorkspaceMain = new Krypton.Workspace.KryptonWorkspace();
@@ -430,6 +430,8 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonToolsImportLocations = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButtonToolsLocationAnalytics = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButtonToolsWebScraping = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupTriple3 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.kryptonRibbonGroupButtonToolsDatabaseCleaner = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroup1 = new Krypton.Ribbon.KryptonRibbonGroup();
             this.kryptonRibbonGroupTriple8 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButtonToolsConfig = new Krypton.Ribbon.KryptonRibbonGroupButton();
@@ -2207,11 +2209,11 @@ namespace PhotoTagsSynchronizer
             this.treeViewFilter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeViewFilter.Location = new System.Drawing.Point(0, 0);
             this.treeViewFilter.Name = "treeViewFilter";
-            treeNode10.Name = "NodeFolder";
-            treeNode10.Tag = "Filter";
-            treeNode10.Text = "Filter";
+            treeNode1.Name = "NodeFolder";
+            treeNode1.Tag = "Filter";
+            treeNode1.Text = "Filter";
             this.treeViewFilter.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode10});
+            treeNode1});
             this.treeViewFilter.Size = new System.Drawing.Size(399, 652);
             this.treeViewFilter.TabIndex = 0;
             this.treeViewFilter.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewFilter_AfterCheck);
@@ -3546,7 +3548,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxRenameNewName.Location = new System.Drawing.Point(101, 30);
             this.textBoxRenameNewName.Name = "textBoxRenameNewName";
-            this.textBoxRenameNewName.Size = new System.Drawing.Size(294, 20);
+            this.textBoxRenameNewName.Size = new System.Drawing.Size(294, 21);
             this.textBoxRenameNewName.TabIndex = 1;
             this.textBoxRenameNewName.Enter += new System.EventHandler(this.textBoxRenameNewName_Enter);
             this.textBoxRenameNewName.Leave += new System.EventHandler(this.textBoxRenameNewName_Leave);
@@ -3893,7 +3895,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonTabTools,
             this.kryptonRibbonTabPreview});
             this.kryptonRibbonMain.SelectedContext = null;
-            this.kryptonRibbonMain.SelectedTab = this.kryptonRibbonTabHome;
+            this.kryptonRibbonMain.SelectedTab = this.kryptonRibbonTabTools;
             this.kryptonRibbonMain.Size = new System.Drawing.Size(1214, 115);
             this.kryptonRibbonMain.TabIndex = 12;
             this.kryptonRibbonMain.SelectedTabChanged += new System.EventHandler(this.kryptonRibbonMain_SelectedTabChanged);
@@ -5201,7 +5203,8 @@ namespace PhotoTagsSynchronizer
             // 
             this.kryptonRibbonGroupToolsMain.DialogBoxLauncher = false;
             this.kryptonRibbonGroupToolsMain.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
-            this.kryptonRibbonGroupTriple6});
+            this.kryptonRibbonGroupTriple6,
+            this.kryptonRibbonGroupTriple3});
             this.kryptonRibbonGroupToolsMain.TextLine1 = "Import Tools";
             // 
             // kryptonRibbonGroupTriple6
@@ -5246,6 +5249,24 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonToolsWebScraping.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.ToolsWebScraping32x32;
             this.kryptonRibbonGroupButtonToolsWebScraping.ToolTipTitle = "WebScraping";
             this.kryptonRibbonGroupButtonToolsWebScraping.Click += new System.EventHandler(this.kryptonRibbonGroupButtonToolsWebScraping_Click);
+            // 
+            // kryptonRibbonGroupTriple3
+            // 
+            this.kryptonRibbonGroupTriple3.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupButtonToolsDatabaseCleaner});
+            // 
+            // kryptonRibbonGroupButtonToolsDatabaseCleaner
+            // 
+            this.kryptonRibbonGroupButtonToolsDatabaseCleaner.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.ToolsDatabaseCleaning32x32;
+            this.kryptonRibbonGroupButtonToolsDatabaseCleaner.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.ToolsDatabaseCleaning32x32;
+            this.kryptonRibbonGroupButtonToolsDatabaseCleaner.KeyTip = "DC";
+            this.kryptonRibbonGroupButtonToolsDatabaseCleaner.TextLine1 = "Database";
+            this.kryptonRibbonGroupButtonToolsDatabaseCleaner.TextLine2 = "Cleaning";
+            this.kryptonRibbonGroupButtonToolsDatabaseCleaner.ToolTipBody = "Clean database for unused data.\r\nFor example when media files are deleted outside" +
+    " this application.";
+            this.kryptonRibbonGroupButtonToolsDatabaseCleaner.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.ToolsDatabaseCleaning32x32;
+            this.kryptonRibbonGroupButtonToolsDatabaseCleaner.ToolTipTitle = "Database Cleaning";
+            this.kryptonRibbonGroupButtonToolsDatabaseCleaner.Click += new System.EventHandler(this.kryptonRibbonGroupButtonToolsDatabaseCleaner_Click);
             // 
             // kryptonRibbonGroup1
             // 
@@ -6710,6 +6731,8 @@ namespace PhotoTagsSynchronizer
         private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItemToolLocationAnalytics;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonDatGridShowPoster;
+        private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple3;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonToolsDatabaseCleaner;
     }
 }
 

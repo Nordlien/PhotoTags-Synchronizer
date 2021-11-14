@@ -7118,7 +7118,31 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-        
+
+        private void kryptonRibbonGroupButtonToolsDatabaseCleaner_Click(object sender, EventArgs e)
+        {
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+            try
+            {
+                using (FormDatabaseCleaner formDatabaseCleaner = new FormDatabaseCleaner())
+                {
+                    using (new WaitCursor())
+                    {
+                        formDatabaseCleaner.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
+                    
+                    }
+                    if (formDatabaseCleaner.ShowDialog() != DialogResult.Cancel)
+                    {
+                    }   
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         #region About
 
         #region About - Click Event Sources

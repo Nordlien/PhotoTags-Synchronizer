@@ -242,6 +242,7 @@ namespace MetadataLibrary
                         {
                             Metadata metadata = ReadMetadataFromCacheOnly(fileEntryBroker);
                             if (metadata == null) metadata = new Metadata(fileEntryBroker.Broker);
+
                             metadata.Broker = (MetadataBrokerType)dbTools.ConvertFromDBValLong(reader["Broker"]);
                             metadata.FileDirectory = dbTools.ConvertFromDBValString(reader["FileDirectory"]);
                             metadata.FileName = dbTools.ConvertFromDBValString(reader["FileName"]);
@@ -2484,6 +2485,17 @@ namespace MetadataLibrary
         private static Dictionary<FileEntryBroker, Metadata> metadataCache = new Dictionary<FileEntryBroker, Metadata>();
         private static readonly Object metadataCacheLock = new Object();
 
+        public List<FileEntryBroker> GetAllCacheData()
+        {
+            List<FileEntryBroker> fileEntryBrokers = new List<FileEntryBroker>();
+
+            lock (metadataCacheLock)
+            {
+                foreach (FileEntryBroker fileEntryBroker in metadataCache.Keys) fileEntryBrokers.Add(fileEntryBroker);
+            }
+            return fileEntryBrokers;
+        }
+
         #region Cache Metadata - Read Name
         public Image ReadRegionThumbnailFromCache(string name)
         {
@@ -2532,7 +2544,7 @@ namespace MetadataLibrary
             lock (metadataCacheLock)
             {
                 if (fileEntryBroker.GetType() != typeof(FileEntryBroker)) fileEntryBroker = new FileEntryBroker(fileEntryBroker); //When NOT FileEntryBroker it Will give wrong hash value, and not fint the correct result 
-                if (metadataCache.ContainsKey(fileEntryBroker)) return metadataCache[fileEntryBroker]; //Also return null             
+                if (metadataCache.ContainsKey(fileEntryBroker)) return metadataCache[fileEntryBroker]; //Also return null
             }
             return null;
         }
@@ -2559,6 +2571,11 @@ namespace MetadataLibrary
         {
             if (fileEntryBroker.GetType() != typeof(FileEntryBroker)) fileEntryBroker = new FileEntryBroker(fileEntryBroker); //When NOT FileEntryBroker it Will give wrong hash value, and not fint the correct result
 
+            if (metadata != null && metadata.Broker == MetadataBrokerType.ExifTool && metadata.FileMimeType == null)
+            {
+                //DEBUG
+                //metadata = null;
+            }
             lock (metadataCacheLock)
             {
                 if (metadataCache.ContainsKey(fileEntryBroker)) metadataCache[fileEntryBroker] = metadata;
