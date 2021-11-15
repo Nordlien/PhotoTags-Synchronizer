@@ -4021,15 +4021,6 @@ namespace PhotoTagsSynchronizer
 
                     UpdateMetadataFromDataGridView(dataGridViewGenericColumn.FileEntryAttribute, ref metadataFromDataGridView);
 
-                    if (dataGridViewGenericColumn.Metadata.CameraMake == null || metadataFromDataGridView.CameraMake == null ||
-                        dataGridViewGenericColumn.Metadata.CameraMake != metadataFromDataGridView.CameraMake)
-                    { //DEBUG BREAK
-                    }
-                    if (dataGridViewGenericColumn.Metadata.FileMimeType == null || metadataFromDataGridView.FileMimeType == null ||
-                        dataGridViewGenericColumn.Metadata.FileMimeType != metadataFromDataGridView.FileMimeType)
-                    { //DEBUG BREAK 
-                    }
-
                     metadataListOriginalExiftool.Add(new Metadata(dataGridViewGenericColumn.Metadata));
                     metadataListFromDataGridView.Add(new Metadata(metadataFromDataGridView));
                 } 
@@ -6342,7 +6333,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region AutoCorrectFrom - Click Events Sources
+        #region AutoCorrectForm - Click Events Sources
         private void kryptonRibbonGroupButtonHomeAutoCorrectForm_Click(object sender, EventArgs e)
         {
             ActionAutoCorrectForm();

@@ -2571,11 +2571,6 @@ namespace MetadataLibrary
         {
             if (fileEntryBroker.GetType() != typeof(FileEntryBroker)) fileEntryBroker = new FileEntryBroker(fileEntryBroker); //When NOT FileEntryBroker it Will give wrong hash value, and not fint the correct result
 
-            if (metadata != null && metadata.Broker == MetadataBrokerType.ExifTool && metadata.FileMimeType == null)
-            {
-                //DEBUG
-                //metadata = null;
-            }
             lock (metadataCacheLock)
             {
                 if (metadataCache.ContainsKey(fileEntryBroker)) metadataCache[fileEntryBroker] = metadata;
