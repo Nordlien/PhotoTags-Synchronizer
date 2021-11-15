@@ -1004,30 +1004,135 @@ namespace DataGridViewGeneric
         #endregion
 
         #region Column handling - GetColumnIndex - fileEntry
-        public static int GetColumnIndex(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute)
+        public static int GetColumnIndexUserInput(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute)
         {
-            if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect || fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current)
+            if (FileEntryVersionHandler.IsCurrenOrUpdatedVersion(fileEntryAttribute.FileEntryVersion))
             {
                 for (int columnIndex = 0; columnIndex < dataGridView.ColumnCount; columnIndex++)
                 {
-                    if (dataGridView.Columns[columnIndex].Tag is DataGridViewGenericColumn column &&
-                        (column.FileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect || column.FileEntryAttribute.FileEntryVersion == FileEntryVersion.Current) &&
-                        column.FileEntryAttribute.FileFullPath == fileEntryAttribute.FileFullPath)
+                    DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+                    if (dataGridViewGenericColumn != null)
                     {
-                        return columnIndex;
-                    }
-                }
-            } else
-            {
-                for (int columnIndex = 0; columnIndex < dataGridView.ColumnCount; columnIndex++)
-                {
-                    if (dataGridView.Columns[columnIndex].Tag is DataGridViewGenericColumn column && column.FileEntryAttribute == fileEntryAttribute)
-                    {
-                        return columnIndex;
+                        switch (fileEntryAttribute.FileEntryVersion)
+                        {
+                            case FileEntryVersion.ExtractedNowFromMediaFile:
+                            case FileEntryVersion.AutoCorrect:
+                            case FileEntryVersion.CurrentVersionInDatabase:
+
+                                if (FileEntryVersionHandler.IsCurrenOrUpdatedVersion(dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion) &&
+                                    fileEntryAttribute.FileName == dataGridViewGenericColumn.FileEntryAttribute.FileName &&
+                                    fileEntryAttribute.LastWriteDateTime == dataGridViewGenericColumn.FileEntryAttribute.LastWriteDateTime
+                                    ) return columnIndex;
+                                break;
+                            case FileEntryVersion.Error:
+                            case FileEntryVersion.Historical:
+                                if (dataGridViewGenericColumn.FileEntryAttribute == fileEntryAttribute) return columnIndex;
+                                break;
+                            default:
+                                throw new NotImplementedException();
+                        }
                     }
                 }
             }
+
             return -1; //Not found
+        }
+        public static int GetColumnIndexPriorities(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute)
+        {
+            if (FileEntryVersionHandler.IsCurrenOrUpdatedVersion(fileEntryAttribute.FileEntryVersion))
+            {
+                for (int columnIndex = 0; columnIndex < dataGridView.ColumnCount; columnIndex++)
+                {
+                    DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+                    if (dataGridViewGenericColumn != null)
+                    {
+                        switch (fileEntryAttribute.FileEntryVersion)
+                        {
+                            case FileEntryVersion.ExtractedNowFromMediaFile:
+                                //Both from source, newst version win
+                                if (dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion == FileEntryVersion.CurrentVersionInDatabase &&
+                                    fileEntryAttribute.FileName == dataGridViewGenericColumn.FileEntryAttribute.FileName &&
+                                    fileEntryAttribute.LastWriteDateTime >= dataGridViewGenericColumn.FileEntryAttribute.LastWriteDateTime
+                                    ) return columnIndex;
+
+                                if (dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion == FileEntryVersion.CurrentVersionInDatabase &&
+                                    fileEntryAttribute.FileName == dataGridViewGenericColumn.FileEntryAttribute.FileName &&
+                                    fileEntryAttribute.LastWriteDateTime < dataGridViewGenericColumn.FileEntryAttribute.LastWriteDateTime
+                                    ) 
+                                    return -2;
+
+                                //Read from source always win over AutoCorrect
+                                if (dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect &&
+                                    fileEntryAttribute.FileName == dataGridViewGenericColumn.FileEntryAttribute.FileName
+                                    //fileEntryAttribute.LastWriteDateTime >= dataGridViewGenericColumn.FileEntryAttribute.LastWriteDateTime
+                                    ) return columnIndex;
+
+                                //Read from source always win over Read from database
+                                if (dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion == FileEntryVersion.CurrentVersionInDatabase &&
+                                    fileEntryAttribute.FileName == dataGridViewGenericColumn.FileEntryAttribute.FileName
+                                    //fileEntryAttribute.LastWriteDateTime >= dataGridViewGenericColumn.FileEntryAttribute.LastWriteDateTime
+                                    ) return columnIndex;
+                                break;
+
+                            case FileEntryVersion.AutoCorrect:
+
+                                //AutoCorrect, wins if newer
+                                if (dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion == FileEntryVersion.CurrentVersionInDatabase &&
+                                    fileEntryAttribute.FileName == dataGridViewGenericColumn.FileEntryAttribute.FileName &&
+                                    fileEntryAttribute.LastWriteDateTime >= dataGridViewGenericColumn.FileEntryAttribute.LastWriteDateTime
+                                    ) return columnIndex;
+
+                                if (dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion == FileEntryVersion.CurrentVersionInDatabase &&
+                                    fileEntryAttribute.FileName == dataGridViewGenericColumn.FileEntryAttribute.FileName &&
+                                    fileEntryAttribute.LastWriteDateTime >= dataGridViewGenericColumn.FileEntryAttribute.LastWriteDateTime
+                                    ) 
+                                    return -2;
+
+                                //AutoCorrect, always win over newer AutoCorrect
+                                if (dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect &&
+                                    fileEntryAttribute.FileName == dataGridViewGenericColumn.FileEntryAttribute.FileName &&
+                                    fileEntryAttribute.LastWriteDateTime >= dataGridViewGenericColumn.FileEntryAttribute.LastWriteDateTime
+                                    ) return columnIndex;
+
+                                //AutoCorrect, always win over newer AutoCorrect
+                                if (dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect &&
+                                    fileEntryAttribute.FileName == dataGridViewGenericColumn.FileEntryAttribute.FileName &&
+                                    fileEntryAttribute.LastWriteDateTime < dataGridViewGenericColumn.FileEntryAttribute.LastWriteDateTime
+                                    ) 
+                                    return -2;
+
+                                //AutoCorrect, always win over Read from database
+                                if (dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion == FileEntryVersion.CurrentVersionInDatabase &&
+                                    fileEntryAttribute.FileName == dataGridViewGenericColumn.FileEntryAttribute.FileName
+                                    //fileEntryAttribute.LastWriteDateTime >= dataGridViewGenericColumn.FileEntryAttribute.LastWriteDateTime
+                                    ) 
+                                    return columnIndex;
+                                break;
+                            case FileEntryVersion.CurrentVersionInDatabase:
+                                //Read from database, only wins over newer than previous read from database, nothing else
+                                if (dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion == FileEntryVersion.CurrentVersionInDatabase &&
+                                    fileEntryAttribute.FileName == dataGridViewGenericColumn.FileEntryAttribute.FileName &&
+                                    fileEntryAttribute.LastWriteDateTime >= dataGridViewGenericColumn.FileEntryAttribute.LastWriteDateTime
+                                    ) return columnIndex;
+                                break;
+
+                            case FileEntryVersion.Error:
+                            case FileEntryVersion.Historical:
+                                if (dataGridViewGenericColumn.FileEntryAttribute == fileEntryAttribute) return columnIndex;
+                                break;
+                            default:
+                                throw new NotImplementedException();
+                        }
+                    }
+                }
+            }
+
+            return -1; //Not found
+        }
+
+        public static int GetColumnIndex(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute)
+        {
+            return GetColumnIndexPriorities(dataGridView, fileEntryAttribute); 
         }
         #endregion
 
@@ -1042,8 +1147,7 @@ namespace DataGridViewGeneric
 
                 if (dataGridViewGenericColumn != null)
                 {
-                    if (dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect ||
-                        dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion == FileEntryVersion.Current)
+                    if (FileEntryVersionHandler.IsCurrenOrUpdatedVersion(dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion))
                     {
                         if (!onlyReadWriteAccessColumn || (onlyReadWriteAccessColumn && dataGridViewGenericColumn.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite)) //Check if loaded
                             dataGridViewGenericColumnList.Add(dataGridViewGenericColumn);
@@ -1067,7 +1171,10 @@ namespace DataGridViewGeneric
 
             bool isMetadataAlreadyAgregated = false;
 
-            if (columnIndex < 0) //Column not found, add a new column
+            if (columnIndex == -2) 
+                return -1; //This is older, forget about this
+
+            else if (columnIndex == -1) //Column not found, add a new column
             {
                 //Do not add columns that is not visible //Check if error column first, can be historical, and error
                 if (isErrorColumn)
@@ -1102,10 +1209,11 @@ namespace DataGridViewGeneric
                         dataGridView.Columns[columnIndexFilename].Tag is DataGridViewGenericColumn column &&
                         column.FileEntryAttribute.FileFullPath == fileEntryAttribute.FileFullPath &&            //Correct filename on column
                         (
-                        (fileEntryAttribute.FileEntryVersion != FileEntryVersion.AutoCorrect && fileEntryAttribute.FileEntryVersion != FileEntryVersion.Current)
+                        FileEntryVersionHandler.IsErrorOrHistoricalVersion(fileEntryAttribute.FileEntryVersion)
                         &&                     //Current version added, then find correct postion
                         (
-                        (column.FileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect || column.FileEntryAttribute.FileEntryVersion == FileEntryVersion.Current) ||              //Edit version, move to next column -> edit always first
+                        FileEntryVersionHandler.IsCurrenOrUpdatedVersion(column.FileEntryAttribute.FileEntryVersion) || 
+                        //Edit version, move to next column -> edit always first
                         column.FileEntryAttribute.LastWriteDateTime > fileEntryAttribute.LastWriteDateTime)     //Is older, move next -> Newst always frist
                         ))
                     {
@@ -1117,9 +1225,9 @@ namespace DataGridViewGeneric
                         dataGridView.Columns[columnIndexFilename].Tag is DataGridViewGenericColumn column2 &&
                         column2.FileEntryAttribute.FileFullPath == fileEntryAttribute.FileFullPath &&           //Correct filename on column
                         (
-                        (fileEntryAttribute.FileEntryVersion != FileEntryVersion.AutoCorrect && fileEntryAttribute.FileEntryVersion != FileEntryVersion.Current) &&                     //History or Error column added, then find correct postion
+                        FileEntryVersionHandler.IsErrorOrHistoricalVersion(fileEntryAttribute.FileEntryVersion) &&  //History or Error column added, then find correct postion
                         (
-                        (column2.FileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect || column2.FileEntryAttribute.FileEntryVersion == FileEntryVersion.Current) ||             //Edit version, move to next column -> edit always first
+                        FileEntryVersionHandler.IsCurrenOrUpdatedVersion(column2.FileEntryAttribute.FileEntryVersion) || //Edit version, move to next column -> edit always first
                         column2.FileEntryAttribute.LastWriteDateTime > fileEntryAttribute.LastWriteDateTime)    //Is older, move next -> Newst always frist
                         )
                         )
@@ -1130,12 +1238,10 @@ namespace DataGridViewGeneric
                     columnIndex = columnIndexFilename;
 
                     bool createNewColumn = true;
-                    if (
-                        (fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect || fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current) &&
+                    if (FileEntryVersionHandler.IsCurrenOrUpdatedVersion(fileEntryAttribute.FileEntryVersion) &&
                         columnIndex > -1 && columnIndex < dataGridView.ColumnCount && dataGridView.Columns[columnIndexFilename].Tag is DataGridViewGenericColumn columnCheck)
                     {
-                        if (
-                            (columnCheck.FileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect || columnCheck.FileEntryAttribute.FileEntryVersion == FileEntryVersion.Current) &&
+                        if (FileEntryVersionHandler.IsCurrenOrUpdatedVersion(columnCheck.FileEntryAttribute.FileEntryVersion) &&
                             columnCheck.FileEntryAttribute.FileFullPath == fileEntryAttribute.FileFullPath) createNewColumn = false;
                     }
                     if (createNewColumn) dataGridView.Columns.Insert(columnIndex, dataGridViewColumn);
@@ -1246,7 +1352,8 @@ namespace DataGridViewGeneric
                 else dataGridView.Columns[columnIndex].Visible = true;
             }
 
-            if (fileEntryAttribute.FileEntryVersion != FileEntryVersion.AutoCorrect && isMetadataAlreadyAgregated) return -1;
+            if (fileEntryAttribute.FileEntryVersion != FileEntryVersion.AutoCorrect && isMetadataAlreadyAgregated) 
+                return -1; //DEBUG - Is this needed after created GetColumnIndex priorities
             else return columnIndex;
         }
         #endregion
@@ -1462,7 +1569,7 @@ namespace DataGridViewGeneric
         #region Rows handling - AddRowAndValueList
         public static void AddRowAndValueList(DataGridView dataGridView, FileEntryAttribute fileEntryColumn, List<DataGridViewGenericRowAndValue> dataGridViewGenericRowAndValueList, bool sort)
         {
-            int columnIndex = GetColumnIndex(dataGridView, fileEntryColumn);
+            int columnIndex = GetColumnIndexPriorities(dataGridView, fileEntryColumn);
 
             foreach (DataGridViewGenericRowAndValue dataGridViewGenericRowAndValue in dataGridViewGenericRowAndValueList)
             {
@@ -1470,8 +1577,6 @@ namespace DataGridViewGeneric
                     GetFavoriteList(dataGridView),
                     dataGridViewGenericRowAndValue.DataGridViewGenericCell.Value,
                     dataGridViewGenericRowAndValue.DataGridViewGenericCell.CellStatus, 0, true, sort);
-
-                //if (rowIndex > -1) SetCellStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericRowAndValue.DataGridViewGenericCell.CellStatus);
             }
         }
         #endregion
@@ -2820,14 +2925,14 @@ namespace DataGridViewGeneric
             if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return;      //Not default columns or rows added
 
             DataGridViewHandler.SetIsPopulatingImage(dataGridView, true);
-            for (int columnIndex = 0; columnIndex < dataGridView.ColumnCount; columnIndex++)
+            
+            int columnIndex = GetColumnIndex(dataGridView, fileEntryAttribute);
+            if (columnIndex >= 0)
             {
-                if (dataGridView.Columns[columnIndex].Tag is DataGridViewGenericColumn column && column.FileEntryAttribute == fileEntryAttribute)
-                {
-                    column.Thumbnail = new Bitmap(image);
-                    dataGridView.InvalidateCell(columnIndex, -1);
-                }
-            }            
+                DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+                dataGridViewGenericColumn.Thumbnail = new Bitmap(image);
+                dataGridView.InvalidateCell(columnIndex, -1);
+            }
             DataGridViewHandler.SetIsPopulatingImage(dataGridView, false);
         }
         #endregion 

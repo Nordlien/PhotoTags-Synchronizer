@@ -321,7 +321,7 @@ namespace PhotoTagsSynchronizer
             //Add Columns for all selected files, one column per select file
             
             DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
-                new FileEntryAttribute(headerNewFilename, DateTime.Now, FileEntryVersion.Current), null, null,
+                new FileEntryAttribute(headerNewFilename, DateTime.Now, FileEntryVersion.CurrentVersionInDatabase), null, null,
                 ReadWriteAccess.AllowCellReadAndWrite, showWhatColumns,
                 new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true));
 
@@ -331,7 +331,7 @@ namespace PhotoTagsSynchronizer
 
             foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
             {
-                PopulateFile(dataGridView, new FileEntryAttribute(imageListViewItem.FileFullPath, imageListViewItem.DateModified, FileEntryVersion.Current), showFullPath);
+                PopulateFile(dataGridView, new FileEntryAttribute(imageListViewItem.FileFullPath, imageListViewItem.DateModified, FileEntryVersion.CurrentVersionInDatabase), showFullPath);
             }
 
 

@@ -32,9 +32,11 @@ namespace PhotoTagsSynchronizer
         /// <returns></returns>
         private Image GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(FileEntry fileEntry, bool dontReadFilesInCloud, bool isFileInCloud)
         {
+            FileEntryVersion fileEntryVersion = FileEntryVersion.ExtractedNowFromMediaFile;
 
             Image thumbnailImage;
             thumbnailImage = databaseAndCacheThumbnail.ReadThumbnailFromCacheOrDatabase(fileEntry);
+            if (thumbnailImage != null) fileEntryVersion = FileEntryVersion.CurrentVersionInDatabase;
 
             if (thumbnailImage == null) //Was not read from database or cache
             {
@@ -49,7 +51,7 @@ namespace PhotoTagsSynchronizer
                     AddQueueLazyLoadingDataGridViewMetadataReadToCacheOrUpdateFromSoruce(fileEntry);
                     AddQueueSaveThumbnailMediaLock(new FileEntryImage(fileEntry, new Bitmap(thumbnailImage))); 
 
-                    UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke(new FileEntryAttribute(fileEntry, FileEntryVersion.Current), new Bitmap(thumbnailImage));
+                    UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke(new FileEntryAttribute(fileEntry, fileEntryVersion), new Bitmap(thumbnailImage));
                     UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke(new FileEntryAttribute(fileEntry, FileEntryVersion.Error), new Bitmap(thumbnailImage));
                 }
             }

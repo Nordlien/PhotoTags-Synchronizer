@@ -28,7 +28,7 @@ namespace PhotoTagsSynchronizer
 
         public static void GetUserInputChanges(ref KryptonDataGridView dataGridView, Metadata metadata, FileEntryAttribute fileEntry)
         {
-            int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, fileEntry);
+            int columnIndex = DataGridViewHandler.GetColumnIndexUserInput(dataGridView, fileEntry);
             if (columnIndex == -1) return; //Column has not yet become aggregated or has already been removed
             if (!DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex)) return;
 
@@ -215,23 +215,22 @@ namespace PhotoTagsSynchronizer
             FileEntryBroker fileEntryBrokerReadVersion = fileEntryAttribute.GetFileEntryBroker(MetadataBrokerType.ExifTool);
 
             Metadata metadata = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBrokerReadVersion);
-            
+
             //It's the edit column, make a copy do edit in dataGridView updated the origianal metadata
-            if ((fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect || fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current)
-                && metadata != null) metadata = new Metadata(metadata);
+            if (FileEntryVersionHandler.IsCurrenOrUpdatedVersion(fileEntryAttribute.FileEntryVersion) && metadata != null) metadata = new Metadata(metadata);
             ReadWriteAccess readWriteAccessColumn =
-                (fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect || fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current) &&
-                metadata != null ? ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly; 
-            
+                FileEntryVersionHandler.IsCurrenOrUpdatedVersion(fileEntryAttribute.FileEntryVersion) && metadata != null ? ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly;
+
+
             int columnIndex = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView, fileEntryAttribute, thumbnail, metadata, readWriteAccessColumn, showWhatColumns, DataGridViewGenericCellStatus.DefaultEmpty());
             //-----------------------------------------------------------------
             if (metadataAutoCorrected != null) metadata = metadataAutoCorrected; //If AutoCorrect is run, use AutoCorrect values. Needs to be after DataGridViewHandler.AddColumnOrUpdateNew, so orignal metadata stored will not be overwritten
-            if (columnIndex == -1) columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, fileEntryAttribute); //Find column Index for Filename and date last written
+            if (columnIndex < 0) columnIndex = DataGridViewHandler.GetColumnIndexPriorities(dataGridView, fileEntryAttribute); //Find column Index for Filename and date last written
 
             //Chech if populated and new refresh data
             if (onlyRefresh && columnIndex != -1 && !DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex)) columnIndex = -1; //No refresh needed
 
-            if (columnIndex != -1) 
+            if (columnIndex >= 0) 
             {
 
                 AddRowHeader(dataGridView, columnIndex, new DataGridViewGenericRow(headerPeople), false);
@@ -291,7 +290,7 @@ namespace PhotoTagsSynchronizer
                 DataGridViewHandler.SetColumnPopulatedFlag(dataGridView, columnIndex, true);
             }
 
-            if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect || fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current)
+            if (FileEntryVersionHandler.IsCurrenOrUpdatedVersion(fileEntryAttribute.FileEntryVersion))
             {
                 #region Suggestion of Names - Near date
                 int columnIndexDummy = -1;

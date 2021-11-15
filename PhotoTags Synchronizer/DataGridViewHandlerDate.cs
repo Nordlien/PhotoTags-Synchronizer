@@ -53,10 +53,10 @@ namespace PhotoTagsSynchronizer
         public static ExiftoolDataDatabase DatabaseExiftoolData { get; set; }
 
         #region GetDateTaken
-        public static DateTime? GetDateTaken(DataGridView dataGridView, int? columnIndex, FileEntryAttribute fileEntryAttribute)
+        public static DateTime? GetUserInputDateTaken(DataGridView dataGridView, int? columnIndex, FileEntryAttribute fileEntryAttribute)
         {
             if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return null;
-            if (columnIndex == null) columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, fileEntryAttribute);
+            if (columnIndex == null) columnIndex = DataGridViewHandler.GetColumnIndexUserInput(dataGridView, fileEntryAttribute);
             if (columnIndex == -1) return null;
             if (!DataGridViewHandler.IsColumnPopulated(dataGridView, (int)columnIndex)) return null;
             string dateTimeStringMediaTaken = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, (int)columnIndex, headerMedia, tagMediaDateTaken);
@@ -66,10 +66,10 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region GetLocationDate
-        public static DateTime? GetLocationDate(DataGridView dataGridView, int? columnIndex, FileEntryAttribute fileEntryAttribute)
+        public static DateTime? GetUserInputLocationDate(DataGridView dataGridView, int? columnIndex, FileEntryAttribute fileEntryAttribute)
         {
             if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return null;
-            if (columnIndex == null) columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, fileEntryAttribute);
+            if (columnIndex == null) columnIndex = DataGridViewHandler.GetColumnIndexUserInput(dataGridView, fileEntryAttribute);
             if (columnIndex == -1) return null;
             if (!DataGridViewHandler.IsColumnPopulated(dataGridView, (int)columnIndex)) return null;
             string dateTimeStringLocation = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, (int)columnIndex, headerMedia, tagGPSLocationDateTime);
@@ -82,13 +82,13 @@ namespace PhotoTagsSynchronizer
         //Check what data has been updated by users
         public static void GetUserInputChanges(ref KryptonDataGridView dataGridView, Metadata metadata, FileEntryAttribute fileEntryColumn)
         {
-            int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, fileEntryColumn);
+            int columnIndex = DataGridViewHandler.GetColumnIndexUserInput(dataGridView, fileEntryColumn);
             if (columnIndex == -1) return; //Column has not yet become aggregated or has already been removed
             if (!DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex)) return;
 
             //Get Date and Time for DataGridView
-            metadata.MediaDateTaken = GetDateTaken(dataGridView, columnIndex, null);
-            metadata.LocationDateTime = GetLocationDate(dataGridView, columnIndex, null);
+            metadata.MediaDateTaken = GetUserInputDateTaken(dataGridView, columnIndex, null);
+            metadata.LocationDateTime = GetUserInputLocationDate(dataGridView, columnIndex, null);
             if (metadata.LocationDateTime != null) metadata.LocationDateTime = new DateTime(((DateTime)metadata.LocationDateTime).Ticks, DateTimeKind.Local);
         }
         #endregion
@@ -98,7 +98,7 @@ namespace PhotoTagsSynchronizer
         {
             #region Check if all data IsAgregated, //need this check, due to Maps tab also updated this, when coordinates has been updated
             if (!DataGridViewHandler.GetIsAgregated(dataGridViewDateTime)) return; 
-            if (columnIndexDateTime == null) columnIndexDateTime = DataGridViewHandler.GetColumnIndex(dataGridViewDateTime, fileEntryAttribute);
+            if (columnIndexDateTime == null) columnIndexDateTime = DataGridViewHandler.GetColumnIndexUserInput(dataGridViewDateTime, fileEntryAttribute);
             if (columnIndexDateTime == -1) return;
             int columnIndex = (int)columnIndexDateTime;
             DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridViewDateTime, columnIndex);
@@ -107,8 +107,8 @@ namespace PhotoTagsSynchronizer
 
             #region Get Media Date&Time and GPS Location Date&time from DataGridView or use Metadata
             //Get Date and Time for DataGridView
-            DateTime? metadataMediaDateTaken = GetDateTaken(dataGridViewDateTime, columnIndex, null); 
-            DateTime? metadataLocationDateTime = GetLocationDate(dataGridViewDateTime, columnIndex, null);
+            DateTime? metadataMediaDateTaken = GetUserInputDateTaken(dataGridViewDateTime, columnIndex, null); 
+            DateTime? metadataLocationDateTime = GetUserInputLocationDate(dataGridViewDateTime, columnIndex, null);
             if (metadataMediaDateTaken == null) metadataMediaDateTaken = dataGridViewGenericColumn?.Metadata?.MediaDateTaken;
             if (metadataLocationDateTime == null) metadataLocationDateTime = dataGridViewGenericColumn?.Metadata?.LocationDateTime;
             #endregion
@@ -119,7 +119,7 @@ namespace PhotoTagsSynchronizer
             double? metadataLocationLongitude;
 
             //If DataGridViewMap is agregated then pick up coordinates from what user have entered
-            LocationCoordinate locationCoordinate = DataGridViewHandlerMap.GetLocationCoordinate(DataGridViewMap, null, dataGridViewGenericColumn.FileEntryAttribute);
+            LocationCoordinate locationCoordinate = DataGridViewHandlerMap.GetUserInputLocationCoordinate(DataGridViewMap, null, dataGridViewGenericColumn.FileEntryAttribute);
             if (locationCoordinate != null)
             {
                 metadataLocationLatitude = locationCoordinate.Latitude;
@@ -245,11 +245,9 @@ namespace PhotoTagsSynchronizer
             Metadata metadata = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBrokerReadVersion);
             
             //It's the edit column, make a copy do edit in dataGridView updated the origianal metadata
-            if ((fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect || fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current) 
-                && metadata != null) metadata = new Metadata(metadata); 
-            ReadWriteAccess readWriteAccessColumn = 
-                (fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect || fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current) && 
-                metadata != null ? ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly;
+            if (FileEntryVersionHandler.IsCurrenOrUpdatedVersion(fileEntryAttribute.FileEntryVersion) && metadata != null) metadata = new Metadata(metadata); 
+            ReadWriteAccess readWriteAccessColumn =
+                FileEntryVersionHandler.IsCurrenOrUpdatedVersion(fileEntryAttribute.FileEntryVersion) && metadata != null ? ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly;
 
             int columnIndex = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView, fileEntryAttribute, thumbnail, metadata, readWriteAccessColumn, showWhatColumns, DataGridViewGenericCellStatus.DefaultEmpty());
             //-----------------------------------------------------------------

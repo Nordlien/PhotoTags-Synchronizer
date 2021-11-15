@@ -43,7 +43,7 @@ namespace PhotoTagsSynchronizer
         public static void GetUserInputChanges(ref KryptonDataGridView dataGridView, Metadata metadata, FileEntryAttribute fileEntryColumn)
         {
 
-            int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, fileEntryColumn);
+            int columnIndex = DataGridViewHandler.GetColumnIndexUserInput(dataGridView, fileEntryColumn);
             if (columnIndex == -1) return; //Column has not yet become aggregated or has already been removed
             if (!DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex)) return;
             
@@ -201,25 +201,24 @@ namespace PhotoTagsSynchronizer
             Image thumbnail = DatabaseAndCacheThumbnail.ReadThumbnailFromCacheOnlyClone(fileEntryAttribute);
             FileEntryBroker fileEntryBrokerReadVersion = fileEntryAttribute.GetFileEntryBroker(MetadataBrokerType.ExifTool);
 
-            Metadata metadata = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBrokerReadVersion);            
-            
+            Metadata metadata = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBrokerReadVersion);
+
             //It's the edit column, make a copy do edit in dataGridView updated the origianal metadata
-            if ((fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect || fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current)
-                && metadata != null) metadata = new Metadata(metadata);
+
+            if (FileEntryVersionHandler.IsCurrenOrUpdatedVersion(fileEntryAttribute.FileEntryVersion) && metadata != null) metadata = new Metadata(metadata);
             ReadWriteAccess readWriteAccessColumn =
-                (fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect || fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current) &&
-                metadata != null ? ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly; 
-            
+                FileEntryVersionHandler.IsCurrenOrUpdatedVersion(fileEntryAttribute.FileEntryVersion) && metadata != null ? ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly;
+
             int columnIndex = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView, fileEntryAttribute, thumbnail, metadata, readWriteAccessColumn, showWhatColumns, DataGridViewGenericCellStatus.DefaultEmpty());
             //-----------------------------------------------------------------
             if (metadataAutoCorrected != null) 
                 metadata = metadataAutoCorrected; //If AutoCorrect is run, use AutoCorrect values. Needs to be after DataGridViewHandler.AddColumnOrUpdateNew, so orignal metadata stored will not be overwritten
-            if (columnIndex == -1) columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, fileEntryAttribute); //Find column Index for Filename and date last written
+            if (columnIndex < 0) columnIndex = DataGridViewHandler.GetColumnIndexPriorities(dataGridView, fileEntryAttribute); //Find column Index for Filename and date last written
 
             //Chech if populated and new refresh data
             if (onlyRefresh && columnIndex != -1 && !DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex)) columnIndex = -1; //No refresh needed
 
-            if (columnIndex != -1)
+            if (columnIndex >= 0)
             {
                 //Media
                 int rowIndex;

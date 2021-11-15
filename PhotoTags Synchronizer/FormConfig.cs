@@ -1095,7 +1095,7 @@ namespace PhotoTagsSynchronizer
             DateTime dateTimeEditable = DateTime.Now;
 
             columnIndexOwner = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
-                new FileEntryAttribute("Owner", dateTimeEditable, FileEntryVersion.Current), //Heading
+                new FileEntryAttribute("Owner", dateTimeEditable, FileEntryVersion.CurrentVersionInDatabase), //Heading
                 null, null, ReadWriteAccess.AllowCellReadAndWrite, ShowWhatColumns.HistoryColumns,
                 new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true));
 
@@ -1268,22 +1268,22 @@ namespace PhotoTagsSynchronizer
             DateTime dateTimeEditable = DateTime.Now;
 
             columnIndexName = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
-                new FileEntryAttribute("Name", dateTimeEditable, FileEntryVersion.Current), //Heading
+                new FileEntryAttribute("Name", dateTimeEditable, FileEntryVersion.CurrentVersionInDatabase), //Heading
                 null, null, ReadWriteAccess.AllowCellReadAndWrite, ShowWhatColumns.HistoryColumns,
                 new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true));
 
             columnIndexCity = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
-                new FileEntryAttribute("City", dateTimeEditable, FileEntryVersion.Current), //Heading
+                new FileEntryAttribute("City", dateTimeEditable, FileEntryVersion.CurrentVersionInDatabase), //Heading
                 null, null, ReadWriteAccess.AllowCellReadAndWrite, ShowWhatColumns.HistoryColumns,
                 new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true));
 
             columnIndexRegion = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
-                new FileEntryAttribute("Region", dateTimeEditable, FileEntryVersion.Current), //Heading
+                new FileEntryAttribute("Region", dateTimeEditable, FileEntryVersion.CurrentVersionInDatabase), //Heading
                 null, null, ReadWriteAccess.AllowCellReadAndWrite, ShowWhatColumns.HistoryColumns,
                 new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true));
 
             columnIndexCountry = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
-                new FileEntryAttribute("Country", dateTimeEditable, FileEntryVersion.Current), //Heading
+                new FileEntryAttribute("Country", dateTimeEditable, FileEntryVersion.CurrentVersionInDatabase), //Heading
                 null, null, ReadWriteAccess.AllowCellReadAndWrite, ShowWhatColumns.HistoryColumns,
                 new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true));
 
@@ -1948,7 +1948,7 @@ namespace PhotoTagsSynchronizer
             DateTime dateTimeEditable = DateTime.Now;
 
             int columnIndex1 = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
-                new FileEntryAttribute("Priority", dateTimeEditable, FileEntryVersion.Current), //Heading
+                new FileEntryAttribute("Priority", dateTimeEditable, FileEntryVersion.CurrentVersionInDatabase), //Heading
                     null, null, ReadWriteAccess.AllowCellReadAndWrite, ShowWhatColumns.HistoryColumns,
                     new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true));
 

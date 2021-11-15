@@ -326,7 +326,7 @@ namespace PhotoTagsSynchronizer
                 {
                     if (imageListViewItem.FileFullPath == e.FullFilePath) //Only to find DateTime Modified in the stored in the ImageListView
                     {
-                        UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke(new FileEntryAttribute(e.FullFilePath, imageListViewItem.DateModified, FileEntryVersion.Current), e.LoadedImage); //Also show error thumbnail
+                        UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke(new FileEntryAttribute(e.FullFilePath, imageListViewItem.DateModified, FileEntryVersion.CurrentVersionInDatabase), e.LoadedImage); //Also show error thumbnail
                         break;
                     }
                 }

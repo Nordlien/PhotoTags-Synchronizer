@@ -542,7 +542,9 @@ namespace PhotoTagsSynchronizer
                                 bool readColumn = false;
                                 switch (fileEntryAttribute.FileEntryVersion)
                                 {
-                                    case FileEntryVersion.Current:
+                                    case FileEntryVersion.AutoCorrect:
+                                    case FileEntryVersion.ExtractedNowFromMediaFile:
+                                    case FileEntryVersion.CurrentVersionInDatabase:
                                         readColumn = true;
                                         break;
                                     case FileEntryVersion.Error:
@@ -551,9 +553,7 @@ namespace PhotoTagsSynchronizer
                                     case FileEntryVersion.Historical:
                                         if ((showWhatColumns & ShowWhatColumns.HistoryColumns) > 0) readColumn = true;
                                         break;
-                                    case FileEntryVersion.AutoCorrect:
-                                        readColumn = true;
-                                        break;
+                                    
                                     default:
                                         throw new Exception("Not implemeneted");
                                 }
@@ -784,7 +784,7 @@ namespace PhotoTagsSynchronizer
                                             databaseAndCacheThumbnail.WriteThumbnail(fileEntryImage, fileEntryImage.Image);
                                             databaseAndCacheThumbnail.TransactionCommitBatch();
 
-                                            UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke(new FileEntryAttribute(fileEntryImage, FileEntryVersion.Current), fileEntryImage.Image);
+                                            UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke(new FileEntryAttribute(fileEntryImage, FileEntryVersion.ExtractedNowFromMediaFile), fileEntryImage.Image);
                                             UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke(new FileEntryAttribute(fileEntryImage, FileEntryVersion.Error), fileEntryImage.Image);
                                         }
                                     } 
@@ -925,7 +925,7 @@ namespace PhotoTagsSynchronizer
                                     foreach (FileEntry fileEntry in mediaFilesNotInDatabaseCheckInCloud)
                                     {
                                         if (!FileHandler.IsFileInCloud(fileEntry.FileFullPath)) mediaFilesNotInDatabase.Add(fileEntry);
-                                        else PopulateImageListVieAndDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(fileEntry, FileEntryVersion.Current)); //Also populate dataGridView when in cloud, but empty rows in column
+                                        else PopulateImageListVieAndDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(fileEntry, FileEntryVersion.ExtractedNowFromMediaFile)); //Also populate dataGridView when in cloud, but empty rows in column
                                     }
                                 }
                                 else
@@ -1038,7 +1038,7 @@ namespace PhotoTagsSynchronizer
                                                 //Data was read, (even with errors), need to updated datagrid
                                                 AddQueueCreateRegionFromPosterLock(metadataRead);
                                                 ImageListViewSetItemDirty(metadataRead.FileFullPath);
-                                                PopulateImageListVieAndDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(metadataRead.FileFullPath, (DateTime)metadataRead.FileDateModified, FileEntryVersion.Current));
+                                                PopulateImageListVieAndDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(metadataRead.FileFullPath, (DateTime)metadataRead.FileDateModified, FileEntryVersion.ExtractedNowFromMediaFile));
                                                 PopulateImageListVieAndDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(metadataRead.FileFullPath, (DateTime)metadataRead.FileDateModified, FileEntryVersion.Historical));
                                             }
                                         }
@@ -1605,7 +1605,7 @@ namespace PhotoTagsSynchronizer
                                                     database.TransactionCommitBatch();
                                                     AddQueueCreateRegionFromPosterLock(metadataMicrosoftPhotos);
 
-                                                    PopulateImageListVieAndDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(metadataMicrosoftPhotos.FileFullPath, (DateTime)metadataMicrosoftPhotos.FileDateModified, FileEntryVersion.Current));
+                                                    PopulateImageListVieAndDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(metadataMicrosoftPhotos.FileFullPath, (DateTime)metadataMicrosoftPhotos.FileDateModified, FileEntryVersion.ExtractedNowFromMediaFile));
                                                 }
                                             }
                                         }
@@ -1724,7 +1724,7 @@ namespace PhotoTagsSynchronizer
                                                     database.TransactionCommitBatch();
                                                     AddQueueCreateRegionFromPosterLock(metadataWindowsLivePhotoGallery);
 
-                                                    PopulateImageListVieAndDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(metadataWindowsLivePhotoGallery.FileFullPath, (DateTime)metadataWindowsLivePhotoGallery.FileDateModified, FileEntryVersion.Current));
+                                                    PopulateImageListVieAndDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(metadataWindowsLivePhotoGallery.FileFullPath, (DateTime)metadataWindowsLivePhotoGallery.FileDateModified, FileEntryVersion.ExtractedNowFromMediaFile));
                                                 }
                                             }
                                         }
@@ -1918,7 +1918,7 @@ namespace PhotoTagsSynchronizer
                                                         {
                                                             Logger.Error(ex, "ThreadReadMediaPosterSaveRegions - SaveThumbnailsForRegioList");
                                                         }
-                                                        PopulateImageListVieAndDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(fileEntryRegion, FileEntryVersion.Current)); //Updated Gridview
+                                                        PopulateImageListVieAndDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(fileEntryRegion, FileEntryVersion.ExtractedNowFromMediaFile)); //Updated Gridview
                                                     }
                                                 }
 

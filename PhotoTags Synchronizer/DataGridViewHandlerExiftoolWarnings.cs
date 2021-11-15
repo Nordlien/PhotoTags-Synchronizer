@@ -55,8 +55,9 @@ namespace PhotoTagsSynchronizer
                     new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true));
 
                 /* Force updated, every time, new data arrives */
-                if (columnIndex == -1) columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, fileEntryAttribute);
-                if (columnIndex != -1)
+                if (columnIndex < 0) columnIndex = DataGridViewHandler.GetColumnIndexPriorities(dataGridView, fileEntryAttribute);
+
+                if (columnIndex >= 0)
                 {
                     //Clear old content, in case of new values are updated or deleted
                     for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++) DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, "");

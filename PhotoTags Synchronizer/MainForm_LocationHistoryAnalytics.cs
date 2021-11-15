@@ -63,7 +63,7 @@ namespace PhotoTagsSynchronizer
 
                     if (dataGridViewGenericColumn != null)
                     {
-                        DateTime? date = DataGridViewHandlerDate.GetDateTaken(dataGridViewDate, null, dataGridViewGenericColumn.FileEntryAttribute);
+                        DateTime? date = DataGridViewHandlerDate.GetUserInputDateTaken(dataGridViewDate, null, dataGridViewGenericColumn.FileEntryAttribute);
                         if (date != null)
                         {
                             AddDatesFound((DateTime)date, ref datesFound);
@@ -71,7 +71,7 @@ namespace PhotoTagsSynchronizer
                             if (dateTimeTo == null || date > dateTimeTo) dateTimeTo = date;
                         }
 
-                        date = DataGridViewHandlerDate.GetLocationDate(dataGridViewDate, null, dataGridViewGenericColumn.FileEntryAttribute);
+                        date = DataGridViewHandlerDate.GetUserInputLocationDate(dataGridViewDate, null, dataGridViewGenericColumn.FileEntryAttribute);
                         if (date != null)
                         {
                             AddDatesFound((DateTime)date, ref datesFound);

@@ -31,7 +31,7 @@ namespace PhotoTagsSynchronizer
 
             //Check if file is in DataGridView, and needs updated
             if (!DataGridViewHandler.DoesColumnFilenameExist(dataGridView, fileEntryAttribute.FileFullPath)) return;
-            if (fileEntryAttribute.FileEntryVersion != FileEntryVersion.Current) return;
+            if (fileEntryAttribute.FileEntryVersion != FileEntryVersion.CurrentVersionInDatabase) return;
 
             //When file found, Tell it's populating file, avoid two process updates
             DataGridViewHandler.SetIsPopulatingFile(dataGridView, true);
@@ -44,7 +44,7 @@ namespace PhotoTagsSynchronizer
             
             DataGridViewHandler.AddRowAndValueList(dataGridView, fileEntryAttribute, WindowsPropertyReader.Read(fileEntryAttribute.FileFullPath), true);
 
-            DataGridViewHandler.SetColumnPopulatedFlag(dataGridView, DataGridViewHandler.GetColumnIndex(dataGridView, fileEntryAttribute), true);
+            DataGridViewHandler.SetColumnPopulatedFlag(dataGridView, DataGridViewHandler.GetColumnIndexPriorities(dataGridView, fileEntryAttribute), true);
             //-----------------------------------------------------------------
             DataGridViewHandler.SetIsPopulatingFile(dataGridView, false);
             //-----------------------------------------------------------------
@@ -73,7 +73,7 @@ namespace PhotoTagsSynchronizer
                 foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
                 {
                     GlobalData.ProcessCounterReadProperties--;
-                    PopulateFile(dataGridView, new FileEntryAttribute(imageListViewItem.FileFullPath, imageListViewItem.DateModified, FileEntryVersion.Current), showWhatColumns);
+                    PopulateFile(dataGridView, new FileEntryAttribute(imageListViewItem.FileFullPath, imageListViewItem.DateModified, FileEntryVersion.CurrentVersionInDatabase), showWhatColumns);
                 }
                 GlobalData.ProcessCounterReadProperties = 0;
             }

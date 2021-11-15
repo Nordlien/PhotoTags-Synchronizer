@@ -53,12 +53,10 @@ namespace MetadataLibrary
             if (Object.ReferenceEquals(this, other)) return true; // Optimization for a common success case.
 
             // Let base class check its own fields and do the run-time type comparison.
-            return 
+            return
                 this.FileFullPath == other.FileFullPath &&
-                (
-                ((this.FileEntryVersion == FileEntryVersion.AutoCorrect || this.FileEntryVersion == FileEntryVersion.Current) && this.FileEntryVersion == other.FileEntryVersion) || //Don't care about updated LastWrittenTime when current version
-                ((this.FileEntryVersion != FileEntryVersion.AutoCorrect && this.FileEntryVersion != FileEntryVersion.Current) && this.FileEntryVersion == other.FileEntryVersion && this.LastWriteDateTime == other.LastWriteDateTime)
-                );
+                this.FileEntryVersion == other.FileEntryVersion &&
+                this.LastWriteDateTime == other.LastWriteDateTime;
         }
 
         public static bool operator ==(FileEntryAttribute left, FileEntryAttribute right)

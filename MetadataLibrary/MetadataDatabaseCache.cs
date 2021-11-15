@@ -1739,7 +1739,7 @@ namespace MetadataLibrary
 
                         if (!isErrorVersion && (newstFileEntryAttributeForEdit == null || currentMetadataDate > newstFileEntryAttributeForEdit.LastWriteDateTime))
                         {
-                            newstFileEntryAttributeForEdit = new FileEntryAttribute((FileEntry)fileEntryAttribute, FileEntryVersion.Current);
+                            newstFileEntryAttributeForEdit = new FileEntryAttribute((FileEntry)fileEntryAttribute, FileEntryVersion.CurrentVersionInDatabase);
                         }
                     }
                     if (newstFileEntryAttributeForEdit != null) FileEntryAttributes.Add(newstFileEntryAttributeForEdit);                    

@@ -49,9 +49,9 @@ namespace PhotoTagsSynchronizer
         public const string tagCountry = "Country";
 
         #region GetUserInputChanges
-        public static void GetUserInputChanges(ref KryptonDataGridView dataGridView, Metadata metadata, FileEntryAttribute fileEntry)
+        public static void GetUserInputChanges(ref KryptonDataGridView dataGridView, Metadata metadata, FileEntryAttribute fileEntryAttribute)
         {
-            int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, fileEntry);
+            int columnIndex = DataGridViewHandler.GetColumnIndexUserInput(dataGridView, fileEntryAttribute);
             if (columnIndex == -1) return; //Column has not yet become aggregated or has already been removed
             if (!DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex)) return;
 
@@ -91,10 +91,10 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region GetCameraOwner
-        public static string GetCameraOwner(DataGridView dataGridViewMap, int? columnIndex, FileEntryAttribute fileEntryAttribute)
+        public static string GetUserInputCameraOwner(DataGridView dataGridViewMap, int? columnIndex, FileEntryAttribute fileEntryAttribute)
         {
             if (!DataGridViewHandler.GetIsAgregated(dataGridViewMap)) return null;
-            if (columnIndex == null) columnIndex = DataGridViewHandler.GetColumnIndex(dataGridViewMap, fileEntryAttribute);
+            if (columnIndex == null) columnIndex = DataGridViewHandler.GetColumnIndexUserInput(dataGridViewMap, fileEntryAttribute);
             if (columnIndex == -1) return null;
             if (!DataGridViewHandler.IsColumnPopulated(dataGridViewMap, (int)columnIndex)) return null;
 
@@ -112,10 +112,10 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region GetLocationCoordinate
-        public static LocationCoordinate GetLocationCoordinate(DataGridView dataGridViewMap, int? columnIndex, FileEntryAttribute fileEntryAttribute)
+        public static LocationCoordinate GetUserInputLocationCoordinate(DataGridView dataGridViewMap, int? columnIndex, FileEntryAttribute fileEntryAttribute)
         {
             if (!DataGridViewHandler.GetIsAgregated(dataGridViewMap)) return null;
-            if (columnIndex == null) columnIndex = DataGridViewHandler.GetColumnIndex(dataGridViewMap, fileEntryAttribute);
+            if (columnIndex == null) columnIndex = DataGridViewHandler.GetColumnIndexUserInput(dataGridViewMap, fileEntryAttribute);
             if (columnIndex == -1) return null;
             if (!DataGridViewHandler.IsColumnPopulated(dataGridViewMap, (int)columnIndex)) return null;
             
@@ -201,7 +201,7 @@ namespace PhotoTagsSynchronizer
         public static void PopulateGoogleHistoryCoordinate(DataGridView dataGridViewMap, int columnIndexMap, 
             int timeZoneShift, int accepedIntervalSecound, DateTime mediaCreateUTC)
         {
-            string cameraOwner = GetCameraOwner(dataGridViewMap, columnIndexMap, null);
+            string cameraOwner = GetUserInputCameraOwner(dataGridViewMap, columnIndexMap, null);
             if (string.IsNullOrWhiteSpace(cameraOwner))
             {
                 DataGridViewHandler.SetCellValue(dataGridViewMap, columnIndexMap, headerGoogleLocations, tagCoordinates, "Need select camera owner");
@@ -235,8 +235,8 @@ namespace PhotoTagsSynchronizer
             #endregion 
 
 
-            DateTime? dateTaken = DataGridViewHandlerDate.GetDateTaken(dataGridViewDate, null, dataGridViewGenericColumn.FileEntryAttribute);
-            DateTime? locationDate = DataGridViewHandlerDate.GetLocationDate(dataGridViewDate, null, dataGridViewGenericColumn.FileEntryAttribute);
+            DateTime? dateTaken = DataGridViewHandlerDate.GetUserInputDateTaken(dataGridViewDate, null, dataGridViewGenericColumn.FileEntryAttribute);
+            DateTime? locationDate = DataGridViewHandlerDate.GetUserInputLocationDate(dataGridViewDate, null, dataGridViewGenericColumn.FileEntryAttribute);
 
             if (dateTaken == null) dateTaken = metadata.MediaDateTaken;
             if (locationDate == null) locationDate = metadata.LocationDateTime;
@@ -310,13 +310,12 @@ namespace PhotoTagsSynchronizer
             FileEntryBroker fileEntryBrokerReadVersion = fileEntryAttribute.GetFileEntryBroker(MetadataBrokerType.ExifTool);
             
             Metadata metadata = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBrokerReadVersion);
-            
+
             //It's the edit column, make a copy do edit in dataGridView updated the origianal metadata
-            if ((fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect || fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current)
-                && metadata != null) metadata = new Metadata(metadata);
+            if (FileEntryVersionHandler.IsCurrenOrUpdatedVersion(fileEntryAttribute.FileEntryVersion) && metadata != null) metadata = new Metadata(metadata);
             ReadWriteAccess readWriteAccessColumn =
-                (fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect || fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current) &&
-                metadata != null ? ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly;
+                FileEntryVersionHandler.IsCurrenOrUpdatedVersion(fileEntryAttribute.FileEntryVersion) && metadata != null ? ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly;
+
 
             int columnIndex = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView, fileEntryAttribute, thumbnail, metadata, readWriteAccessColumn, showWhatColumns, DataGridViewGenericCellStatus.DefaultEmpty());
             //-----------------------------------------------------------------
