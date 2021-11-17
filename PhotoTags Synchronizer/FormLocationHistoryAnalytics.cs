@@ -260,27 +260,27 @@ namespace PhotoTagsSynchronizer
             columnIndexTimestamp = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
                 new FileEntryAttribute("Timestamp", dateTimeEditable, FileEntryVersion.CurrentVersionInDatabase), //Heading
                 null, null, ReadWriteAccess.DefaultReadOnly, ShowWhatColumns.HistoryColumns,
-                new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true));
+                new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true), out _);
 
             columnIndexUserAccount = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
                 new FileEntryAttribute("UserAccount", dateTimeEditable, FileEntryVersion.CurrentVersionInDatabase), //Heading
                 null, null, ReadWriteAccess.DefaultReadOnly, ShowWhatColumns.HistoryColumns,
-                new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true));
+                new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true), out _);
 
             columnIndexCoordinate = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
                 new FileEntryAttribute("Coordinate", dateTimeEditable, FileEntryVersion.CurrentVersionInDatabase), //Heading
                 null, null, ReadWriteAccess.DefaultReadOnly, ShowWhatColumns.HistoryColumns,
-                new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true));
+                new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true), out _);
 
             columnIndexAltitude = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
                 new FileEntryAttribute("Altitude", dateTimeEditable, FileEntryVersion.CurrentVersionInDatabase), //Heading
                 null, null, ReadWriteAccess.DefaultReadOnly, ShowWhatColumns.HistoryColumns,
-                new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true));
+                new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true), out _);
 
             columnIndexAccuracy = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
                 new FileEntryAttribute("Accuracy", dateTimeEditable, FileEntryVersion.CurrentVersionInDatabase), //Heading
                 null, null, ReadWriteAccess.DefaultReadOnly, ShowWhatColumns.HistoryColumns,
-                new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true));
+                new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true), out _);
 
 
             

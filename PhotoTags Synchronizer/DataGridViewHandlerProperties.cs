@@ -40,11 +40,11 @@ namespace PhotoTagsSynchronizer
             
             DataGridViewHandler.AddColumnOrUpdateNew( 
                 dataGridView, fileEntryAttribute, image, null, ReadWriteAccess.DefaultReadOnly, showWhatColumns, 
-                new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true));
+                new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true), out FileEntryVersionCompare fileEntryVersionCompareReason);
             
             DataGridViewHandler.AddRowAndValueList(dataGridView, fileEntryAttribute, WindowsPropertyReader.Read(fileEntryAttribute.FileFullPath), true);
 
-            DataGridViewHandler.SetColumnPopulatedFlag(dataGridView, DataGridViewHandler.GetColumnIndexPriorities(dataGridView, fileEntryAttribute), true);
+            DataGridViewHandler.SetColumnPopulatedFlag(dataGridView, DataGridViewHandler.GetColumnIndexPriorities(dataGridView, fileEntryAttribute, out _), true);
             //-----------------------------------------------------------------
             DataGridViewHandler.SetIsPopulatingFile(dataGridView, false);
             //-----------------------------------------------------------------

@@ -242,25 +242,27 @@ namespace PhotoTagsSynchronizer
             Image thumbnail = DatabaseAndCacheThumbnail.ReadThumbnailFromCacheOnlyClone(fileEntryAttribute);
             FileEntryBroker fileEntryBrokerReadVersion = fileEntryAttribute.GetFileEntryBroker(MetadataBrokerType.ExifTool);
 
-            Metadata metadata = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBrokerReadVersion);
-            
-            //It's the edit column, make a copy do edit in dataGridView updated the origianal metadata
-            if (FileEntryVersionHandler.IsCurrenOrUpdatedVersion(fileEntryAttribute.FileEntryVersion) && metadata != null) metadata = new Metadata(metadata); 
-            ReadWriteAccess readWriteAccessColumn =
-                FileEntryVersionHandler.IsCurrenOrUpdatedVersion(fileEntryAttribute.FileEntryVersion) && metadata != null ? ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly;
+            Metadata metadataExiftool = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBrokerReadVersion);
+            if (metadataExiftool != null) metadataExiftool = new Metadata(metadataExiftool);
+            ReadWriteAccess readWriteAccessColumn = metadataExiftool != null ? ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly;
 
-            int columnIndex = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView, fileEntryAttribute, thumbnail, metadata, readWriteAccessColumn, showWhatColumns, DataGridViewGenericCellStatus.DefaultEmpty());
-            //-----------------------------------------------------------------
-            if (metadataAutoCorrected != null) metadata = metadataAutoCorrected; //If AutoCorrect is run, use AutoCorrect values. Needs to be after DataGridViewHandler.AddColumnOrUpdateNew, so orignal metadata stored will not be overwritten
+            int columnIndex = DataGridViewHandler.AddColumnOrUpdateNew(
+                dataGridView, fileEntryAttribute, thumbnail, metadataExiftool, readWriteAccessColumn, showWhatColumns,
+                DataGridViewGenericCellStatus.DefaultEmpty(), out FileEntryVersionCompare fileEntryVersionCompareReason);
+
+            if (metadataAutoCorrected != null) metadataExiftool = metadataAutoCorrected; //If AutoCorrect is run, use AutoCorrect values. Needs to be after DataGridViewHandler.AddColumnOrUpdateNew, so orignal metadata stored will not be overwritten
+
             //Chech if populated and new refresh data
-            if (onlyRefresh && columnIndex != -1 && !DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex)) columnIndex = -1; //No refresh needed
+            if (onlyRefresh && fileEntryVersionCompareReason != FileEntryVersionCompare.NotEqualFound &&
+                !DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex)) fileEntryVersionCompareReason = FileEntryVersionCompare.NotEqualFound; //No need to populate
+            //-----------------------------------------------------------------
 
             if (columnIndex != -1)
             {
                 //Media
                 DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia), false);
-                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagMediaDateTaken), TimeZoneLibrary.ToStringSortable(metadata?.MediaDateTaken), false, false);
-                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagGPSLocationDateTime), TimeZoneLibrary.ToStringW3CDTF_UTC_Convert(metadata?.LocationDateTime), false, false);
+                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagMediaDateTaken), TimeZoneLibrary.ToStringSortable(metadataExiftool?.MediaDateTaken), false, false);
+                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagGPSLocationDateTime), TimeZoneLibrary.ToStringW3CDTF_UTC_Convert(metadataExiftool?.LocationDateTime), false, false);
 
                 //Suggestion header
                 DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerSuggestion), false);
@@ -277,12 +279,12 @@ namespace PhotoTagsSynchronizer
 
                 //Metadata
                 DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates), false);
-                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates, tagFileDate), TimeZoneLibrary.ToStringW3CDTF(metadata?.FileDate), true, false);
-                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates, tagFileSmartDate), TimeZoneLibrary.ToStringW3CDTF(metadata?.FileSmartDate(Properties.Settings.Default.RenameDateFormats)), true, false);
+                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates, tagFileDate), TimeZoneLibrary.ToStringW3CDTF(metadataExiftool?.FileDate), true, false);
+                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates, tagFileSmartDate), TimeZoneLibrary.ToStringW3CDTF(metadataExiftool?.FileSmartDate(Properties.Settings.Default.RenameDateFormats)), true, false);
 
-                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates, tagFileDateCreated), TimeZoneLibrary.ToStringW3CDTF(metadata?.FileDateCreated), true, false);
-                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates, tagFileDateModified), TimeZoneLibrary.ToStringW3CDTF(metadata?.FileDateModified), true, false);
-                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates, tagFileLastAccessed), TimeZoneLibrary.ToStringW3CDTF(metadata?.FileDateAccessed), true, false);
+                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates, tagFileDateCreated), TimeZoneLibrary.ToStringW3CDTF(metadataExiftool?.FileDateCreated), true, false);
+                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates, tagFileDateModified), TimeZoneLibrary.ToStringW3CDTF(metadataExiftool?.FileDateModified), true, false);
+                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates, tagFileLastAccessed), TimeZoneLibrary.ToStringW3CDTF(metadataExiftool?.FileDateAccessed), true, false);
 
                 //Exiftool data
                 List<ExiftoolData> exifToolDataList = DatabaseExiftoolData.Read(fileEntryBrokerReadVersion);

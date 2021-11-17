@@ -214,25 +214,23 @@ namespace PhotoTagsSynchronizer
             Image thumbnail = DatabaseAndCacheThumbnail.ReadThumbnailFromCacheOnlyClone(fileEntryAttribute);
             FileEntryBroker fileEntryBrokerReadVersion = fileEntryAttribute.GetFileEntryBroker(MetadataBrokerType.ExifTool);
 
-            Metadata metadata = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBrokerReadVersion);
+            Metadata metadataExiftool = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBrokerReadVersion);
+            if (metadataExiftool != null) metadataExiftool = new Metadata(metadataExiftool);
+            ReadWriteAccess readWriteAccessColumn = metadataExiftool != null ? ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly;
 
-            //It's the edit column, make a copy do edit in dataGridView updated the origianal metadata
-            if (FileEntryVersionHandler.IsCurrenOrUpdatedVersion(fileEntryAttribute.FileEntryVersion) && metadata != null) metadata = new Metadata(metadata);
-            ReadWriteAccess readWriteAccessColumn =
-                FileEntryVersionHandler.IsCurrenOrUpdatedVersion(fileEntryAttribute.FileEntryVersion) && metadata != null ? ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly;
+            int columnIndex = DataGridViewHandler.AddColumnOrUpdateNew(
+                dataGridView, fileEntryAttribute, thumbnail, metadataExiftool, readWriteAccessColumn, showWhatColumns,
+                DataGridViewGenericCellStatus.DefaultEmpty(), out FileEntryVersionCompare fileEntryVersionCompareReason);
 
-
-            int columnIndex = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView, fileEntryAttribute, thumbnail, metadata, readWriteAccessColumn, showWhatColumns, DataGridViewGenericCellStatus.DefaultEmpty());
-            //-----------------------------------------------------------------
-            if (metadataAutoCorrected != null) metadata = metadataAutoCorrected; //If AutoCorrect is run, use AutoCorrect values. Needs to be after DataGridViewHandler.AddColumnOrUpdateNew, so orignal metadata stored will not be overwritten
-            if (columnIndex < 0) columnIndex = DataGridViewHandler.GetColumnIndexPriorities(dataGridView, fileEntryAttribute); //Find column Index for Filename and date last written
+            if (metadataAutoCorrected != null) metadataExiftool = metadataAutoCorrected; //If AutoCorrect is run, use AutoCorrect values. Needs to be after DataGridViewHandler.AddColumnOrUpdateNew, so orignal metadata stored will not be overwritten
 
             //Chech if populated and new refresh data
-            if (onlyRefresh && columnIndex != -1 && !DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex)) columnIndex = -1; //No refresh needed
+            if (onlyRefresh && fileEntryVersionCompareReason != FileEntryVersionCompare.NotEqualFound &&
+                !DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex)) fileEntryVersionCompareReason = FileEntryVersionCompare.NotEqualFound; //No need to populate
+            //-----------------------------------------------------------------
 
-            if (columnIndex >= 0) 
+            if (fileEntryVersionCompareReason != FileEntryVersionCompare.NotEqualFound)
             {
-
                 AddRowHeader(dataGridView, columnIndex, new DataGridViewGenericRow(headerPeople), false);
 
                 //Remove column data, due to Populate People append data - 
@@ -243,9 +241,9 @@ namespace PhotoTagsSynchronizer
                     DataGridViewHandler.SetCellDefaultAfterUpdated(dataGridView, dataGridViewGenericCellStatusDefault, columnIndex, rowIndex);
                 }
 
-                if (metadata != null)
+                if (metadataExiftool != null)
                 {
-                    Metadata metadataCopy = new Metadata(metadata);
+                    Metadata metadataCopy = new Metadata(metadataExiftool);
                     Metadata metadataWindowsLivePhotoGallery = DatabaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryBrokerReadVersion, MetadataBrokerType.WindowsLivePhotoGallery));
                     Metadata metadataWindowsLivePhotoGalleryCopy = metadataWindowsLivePhotoGallery == null ? null : new Metadata(metadataWindowsLivePhotoGallery);
                     Metadata metadataMicrosoftPhotos = DatabaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryBrokerReadVersion, MetadataBrokerType.MicrosoftPhotos));
@@ -281,7 +279,7 @@ namespace PhotoTagsSynchronizer
                     if (metadataWebScrapingCopy != null) PopulatePeople(dataGridView, metadataWebScrapingCopy, columnIndex, metadataWebScrapingCopy.Broker);
 
                     //Remember names added
-                    foreach (RegionStructure regionStructure in metadata.PersonalRegionList)
+                    foreach (RegionStructure regionStructure in metadataExiftool.PersonalRegionList)
                     {
                         if (!regionNamesAddedPeople.Contains(regionStructure.Name)) regionNamesAddedPeople.Add(regionStructure.Name);
                     }
@@ -295,7 +293,7 @@ namespace PhotoTagsSynchronizer
                 #region Suggestion of Names - Near date
                 int columnIndexDummy = -1;
                 List<string> regioNameSuggestions = null;
-                DateTime? dateTimeMediaTaken = metadata?.MediaDateTaken;
+                DateTime? dateTimeMediaTaken = metadataExiftool?.MediaDateTaken;
                 if (dateTimeMediaTaken != null)
                 {
                     DateTime dateTimeFrom = ((DateTime)dateTimeMediaTaken).AddDays(-SuggestRegionNameNearbyDays);
@@ -375,7 +373,7 @@ namespace PhotoTagsSynchronizer
                 new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true)); //ReadOnly untill data is read
             
             //Add all default rows
-            AddRowHeader(dataGridView, -1, new DataGridViewGenericRow(headerPeople), false);
+            //AddRowHeader(dataGridView, -1, new DataGridViewGenericRow(headerPeople), false);
 
             //Tell data default columns and rows are agregated
             DataGridViewHandler.SetIsAgregated(dataGridView, true);

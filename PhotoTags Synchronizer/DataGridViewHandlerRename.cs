@@ -212,7 +212,7 @@ namespace PhotoTagsSynchronizer
             renameSuccess = new Dictionary<string, string>();
             renameFailed = new Dictionary<string, string>();
 
-            int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, headerNewFilename);
+            int columnIndex = DataGridViewHandler.GetColumnIndexFirst(dataGridView, headerNewFilename);
             if (columnIndex == -1) return;
 
             for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
@@ -253,7 +253,7 @@ namespace PhotoTagsSynchronizer
         #region UpdateFilenames(DataGridView dataGridView, string newFilenameVariable)
         public static void UpdateFilenames(DataGridView dataGridView, string newFilenameVariable, bool showFullPath)
         {
-            int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, headerNewFilename);
+            int columnIndex = DataGridViewHandler.GetColumnIndexFirst(dataGridView, headerNewFilename);
             if (columnIndex == -1) return;
 
             for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
@@ -288,7 +288,7 @@ namespace PhotoTagsSynchronizer
 
             Metadata metadata = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryAttribute.GetFileEntryBroker(MetadataBrokerType.ExifTool));
 
-            int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, headerNewFilename);
+            int columnIndex = DataGridViewHandler.GetColumnIndexFirst(dataGridView, headerNewFilename);
             if (columnIndex != -1)
             {
                 string directory = fileEntryAttribute.Directory;
@@ -321,9 +321,8 @@ namespace PhotoTagsSynchronizer
             //Add Columns for all selected files, one column per select file
             
             DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
-                new FileEntryAttribute(headerNewFilename, DateTime.Now, FileEntryVersion.CurrentVersionInDatabase), null, null,
-                ReadWriteAccess.AllowCellReadAndWrite, showWhatColumns,
-                new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true));
+                new FileEntryAttribute(headerNewFilename, DateTime.Now, FileEntryVersion.CurrentVersionInDatabase), null, null, ReadWriteAccess.AllowCellReadAndWrite, showWhatColumns,
+                new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true), out FileEntryVersionCompare fileEntryVersionCompareReason);
 
             //Tell data default columns and rows are agregated
             DataGridViewHandler.SetIsAgregated(dataGridView, true);

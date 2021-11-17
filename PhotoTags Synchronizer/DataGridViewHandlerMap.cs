@@ -308,34 +308,35 @@ namespace PhotoTagsSynchronizer
             //-----------------------------------------------------------------
             Image thumbnail = DatabaseAndCacheThumbnail.ReadThumbnailFromCacheOnlyClone(fileEntryAttribute);
             FileEntryBroker fileEntryBrokerReadVersion = fileEntryAttribute.GetFileEntryBroker(MetadataBrokerType.ExifTool);
-            
-            Metadata metadata = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBrokerReadVersion);
 
-            //It's the edit column, make a copy do edit in dataGridView updated the origianal metadata
-            if (FileEntryVersionHandler.IsCurrenOrUpdatedVersion(fileEntryAttribute.FileEntryVersion) && metadata != null) metadata = new Metadata(metadata);
-            ReadWriteAccess readWriteAccessColumn =
-                FileEntryVersionHandler.IsCurrenOrUpdatedVersion(fileEntryAttribute.FileEntryVersion) && metadata != null ? ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly;
+            Metadata metadataExiftool = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBrokerReadVersion);
+            if (metadataExiftool != null) metadataExiftool = new Metadata(metadataExiftool);
+            ReadWriteAccess readWriteAccessColumn = metadataExiftool != null ? ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly;
 
+            int columnIndex = DataGridViewHandler.AddColumnOrUpdateNew(
+                dataGridView, fileEntryAttribute, thumbnail, metadataExiftool, readWriteAccessColumn, showWhatColumns,
+                DataGridViewGenericCellStatus.DefaultEmpty(), out FileEntryVersionCompare fileEntryVersionCompareReason);
 
-            int columnIndex = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView, fileEntryAttribute, thumbnail, metadata, readWriteAccessColumn, showWhatColumns, DataGridViewGenericCellStatus.DefaultEmpty());
-            //-----------------------------------------------------------------
-            if (metadataAutoCorrected != null) metadata = metadataAutoCorrected; //If AutoCorrect is run, use AutoCorrect values. Needs to be after DataGridViewHandler.AddColumnOrUpdateNew, so orignal metadata stored will not be overwritten
+            if (metadataAutoCorrected != null) metadataExiftool = metadataAutoCorrected; //If AutoCorrect is run, use AutoCorrect values. Needs to be after DataGridViewHandler.AddColumnOrUpdateNew, so orignal metadata stored will not be overwritten
+
             //Chech if populated and new refresh data
-            if (onlyRefresh && columnIndex != -1 && !DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex)) columnIndex = -1; //No refresh needed
+            if (onlyRefresh && fileEntryVersionCompareReason != FileEntryVersionCompare.NotEqualFound &&
+                !DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex)) fileEntryVersionCompareReason = FileEntryVersionCompare.NotEqualFound; //No need to populate
+            //-----------------------------------------------------------------
 
             if (columnIndex != -1)
             {
                 //Media
                 int rowIndex;
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia));
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagCoordinates), metadata?.LocationCoordinate, false);
-                rowIndex = AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagLocationName), metadata?.LocationName, false);
-                List<string> newKeywords = AutoKeywordHandler.NewKeywords(AutoKeywordConvertions, metadata?.LocationName, null, null, null, null, null);
+                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagCoordinates), metadataExiftool?.LocationCoordinate, false);
+                rowIndex = AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagLocationName), metadataExiftool?.LocationName, false);
+                List<string> newKeywords = AutoKeywordHandler.NewKeywords(AutoKeywordConvertions, metadataExiftool?.LocationName, null, null, null, null, null);
                 DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndex, "Running AutoCorrect will add these keywords", newKeywords);
                 
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagCity), metadata?.LocationCity, false);                
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagProvince), metadata?.LocationState, false);
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagCountry), metadata?.LocationCountry, false);
+                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagCity), metadataExiftool?.LocationCity, false);                
+                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagProvince), metadataExiftool?.LocationState, false);
+                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagCountry), metadataExiftool?.LocationCountry, false);
 
                 //List<string> newKeywords = AutoKeywordHandler.NewKeywords(autoKeywordConvertions, metadataCopy.LocationName, metadataCopy.PersonalTitle,
                 //  metadataCopy.PersonalAlbum, metadataCopy.PersonalDescription, metadataCopy.PersonalComments, metadataCopy.PersonalKeywordTags);
@@ -343,14 +344,14 @@ namespace PhotoTagsSynchronizer
                 //Google location history
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerGoogleLocations));
 
-                if (metadata != null)
+                if (metadataExiftool != null)
                 {
-                    CameraOwner cameraOwnerPrint = new CameraOwner(metadata.CameraMake, metadata.CameraModel, "");
+                    CameraOwner cameraOwnerPrint = new CameraOwner(metadataExiftool.CameraMake, metadataExiftool.CameraModel, "");
                     AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerGoogleLocations, tagCameraMakeModel), cameraOwnerPrint, true);
                     AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerGoogleLocations, tagCameraOwner), "Owner???", false);
 
                     DataGridViewGenericColumn gridViewGenericColumnCheck = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-                    PopulateCameraOwner(dataGridView, columnIndex, readWriteAccessColumn, metadata.CameraMake, metadata.CameraModel);
+                    PopulateCameraOwner(dataGridView, columnIndex, readWriteAccessColumn, metadataExiftool.CameraMake, metadataExiftool.CameraModel);
                 }
                 else
                 {
@@ -358,27 +359,27 @@ namespace PhotoTagsSynchronizer
                     AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerGoogleLocations, tagCameraOwner), "Select Camera owner/locations", true);
                 }
 
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerGoogleLocations, tagCoordinates), metadata?.LocationCoordinate, true);
+                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerGoogleLocations, tagCoordinates), metadataExiftool?.LocationCoordinate, true);
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNearByLocations));
 
                 PopulateGoogleHistoryCoordinateAndNearby(dataGridView, dataGridViewDate, columnIndex, TimeZoneShift, AccepedIntervalSecound);
 
                 //Nominatim.API
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNominatim));
-                PopulateGrivViewMapNomnatatim(dataGridView, columnIndex, metadata?.LocationCoordinate);
+                PopulateGrivViewMapNomnatatim(dataGridView, columnIndex, metadataExiftool?.LocationCoordinate);
 
                 //WebScraper
                 //headerWebScraping = "WebScraper";
                 // WebScarping
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWebScraping));
                 Metadata metadataWebScraping = null;
-                if (metadata != null) metadataWebScraping = DatabaseAndCacheMetadataExiftool.ReadWebScraperMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryBrokerReadVersion, MetadataBrokerType.WebScraping));
+                if (metadataExiftool != null) metadataWebScraping = DatabaseAndCacheMetadataExiftool.ReadWebScraperMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryBrokerReadVersion, MetadataBrokerType.WebScraping));
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWebScraping, tagLocationName), metadataWebScraping?.LocationName, true);
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWebScraping, tagCountry), metadataWebScraping?.LocationCountry, true);
 
                 //Microsoft Photos Locations
                 Metadata metadataMicrosoftPhotos = null;
-                if (metadata != null) metadataMicrosoftPhotos = DatabaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOrDatabase(
+                if (metadataExiftool != null) metadataMicrosoftPhotos = DatabaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOrDatabase(
                     new FileEntryBroker(fileEntryBrokerReadVersion, MetadataBrokerType.MicrosoftPhotos));
 
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMicrosoftPhotos));
@@ -390,7 +391,7 @@ namespace PhotoTagsSynchronizer
 
                 //Windows Live Photo Gallary Locations
                 Metadata metadataWindowsLivePhotoGallery = null;
-                if (metadata != null) metadataWindowsLivePhotoGallery = DatabaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOrDatabase(
+                if (metadataExiftool != null) metadataWindowsLivePhotoGallery = DatabaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOrDatabase(
                     new FileEntryBroker(fileEntryBrokerReadVersion, MetadataBrokerType.WindowsLivePhotoGallery));
 
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWindowsLivePhotoGallery));

@@ -39,10 +39,6 @@ namespace PhotoTagsSynchronizer
             //When file found, Tell it's populating file, avoid two process updates
             DataGridViewHandler.SetIsPopulatingFile(dataGridView, true);
             //-----------------------------------------------------------------
-
-            //List<FileEntryAttribute> fileEntries = DataGridViewHandlerExiftoolWarnings.ListFileEntryDateVersions(fullFilePath);
-            //foreach (FileEntryAttribute fileEntryAttribute in fileEntries)
-            //{
             List<ExiftoolWarningData> exifToolWarningDataList = DatabaseExiftoolWarning.Read(fileEntryAttribute);
 
             if (exifToolWarningDataList.Count > 0)
@@ -50,14 +46,10 @@ namespace PhotoTagsSynchronizer
                 Image thumbnail = DatabaseAndCacheThumbnail.ReadThumbnailFromCacheOnlyClone(fileEntryAttribute);
 
                 int columnIndex = DataGridViewHandler.AddColumnOrUpdateNew(
-                    dataGridView, fileEntryAttribute, thumbnail, null,
-                    ReadWriteAccess.ForceCellToReadOnly, showWhatColumns,
-                    new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true));
+                    dataGridView, fileEntryAttribute, thumbnail, null, ReadWriteAccess.ForceCellToReadOnly, showWhatColumns,
+                    new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true), out FileEntryVersionCompare fileEntryVersionCompareReason);
 
-                /* Force updated, every time, new data arrives */
-                if (columnIndex < 0) columnIndex = DataGridViewHandler.GetColumnIndexPriorities(dataGridView, fileEntryAttribute);
-
-                if (columnIndex >= 0)
+                if (fileEntryVersionCompareReason != FileEntryVersionCompare.NotEqualFound)
                 {
                     //Clear old content, in case of new values are updated or deleted
                     for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++) DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, "");

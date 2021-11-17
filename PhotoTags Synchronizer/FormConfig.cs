@@ -1097,7 +1097,7 @@ namespace PhotoTagsSynchronizer
             columnIndexOwner = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
                 new FileEntryAttribute("Owner", dateTimeEditable, FileEntryVersion.CurrentVersionInDatabase), //Heading
                 null, null, ReadWriteAccess.AllowCellReadAndWrite, ShowWhatColumns.HistoryColumns,
-                new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true));
+                new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true), out FileEntryVersionCompare fileEntryVersionCompareReason);
 
             List<CameraOwner> cameraOwners = DatabaseAndCacheCameraOwner.ReadCameraMakeModelAndOwners();
             DatabaseAndCacheCameraOwner.ReadCameraMakeModelAndOwnersThatNotExist(cameraOwners); //Add this to Thread
@@ -1270,22 +1270,22 @@ namespace PhotoTagsSynchronizer
             columnIndexName = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
                 new FileEntryAttribute("Name", dateTimeEditable, FileEntryVersion.CurrentVersionInDatabase), //Heading
                 null, null, ReadWriteAccess.AllowCellReadAndWrite, ShowWhatColumns.HistoryColumns,
-                new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true));
+                new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true), out _);
 
             columnIndexCity = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
                 new FileEntryAttribute("City", dateTimeEditable, FileEntryVersion.CurrentVersionInDatabase), //Heading
                 null, null, ReadWriteAccess.AllowCellReadAndWrite, ShowWhatColumns.HistoryColumns,
-                new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true));
+                new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true), out _);
 
             columnIndexRegion = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
                 new FileEntryAttribute("Region", dateTimeEditable, FileEntryVersion.CurrentVersionInDatabase), //Heading
                 null, null, ReadWriteAccess.AllowCellReadAndWrite, ShowWhatColumns.HistoryColumns,
-                new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true));
+                new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true), out _);
 
             columnIndexCountry = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
                 new FileEntryAttribute("Country", dateTimeEditable, FileEntryVersion.CurrentVersionInDatabase), //Heading
                 null, null, ReadWriteAccess.AllowCellReadAndWrite, ShowWhatColumns.HistoryColumns,
-                new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true));
+                new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true), out _);
 
             locationNames = DatabaseLocationNames.ReadLocationNames();
             PopulateMetadataLocationNames(dataGridView, locationNames);
@@ -1950,7 +1950,7 @@ namespace PhotoTagsSynchronizer
             int columnIndex1 = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
                 new FileEntryAttribute("Priority", dateTimeEditable, FileEntryVersion.CurrentVersionInDatabase), //Heading
                     null, null, ReadWriteAccess.AllowCellReadAndWrite, ShowWhatColumns.HistoryColumns,
-                    new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true));
+                    new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true), out _);
 
             List<string> compositeList = new List<string>();
 

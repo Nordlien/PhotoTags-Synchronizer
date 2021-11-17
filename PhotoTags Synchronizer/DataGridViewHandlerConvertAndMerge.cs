@@ -1939,7 +1939,7 @@ namespace PhotoTagsSynchronizer
             string imageConcatArgument, string imageConcatArguFile,
             string videoConvertArgument, string outputFile)
         {
-            int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, headerConvertAndMergeFilename);
+            int columnIndex = DataGridViewHandler.GetColumnIndexFirst(dataGridView, headerConvertAndMergeFilename);
             if (columnIndex == -1) return;
 
             List<string> files = new List<string>();
@@ -1995,7 +1995,7 @@ namespace PhotoTagsSynchronizer
 
             Metadata metadata = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryAttribute.GetFileEntryBroker(MetadataBrokerType.ExifTool));
 
-            int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, headerConvertAndMergeFilename);
+            int columnIndex = DataGridViewHandler.GetColumnIndexFirst(dataGridView, headerConvertAndMergeFilename);
 
             AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerConvertAndMergeInfo), true);
 
@@ -2030,8 +2030,7 @@ namespace PhotoTagsSynchronizer
             
             DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
                 new FileEntryAttribute(headerConvertAndMergeFilename, DateTime.Now, FileEntryVersion.CurrentVersionInDatabase), null, null,
-                ReadWriteAccess.AllowCellReadAndWrite, showWhatColumns,
-                new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true));
+                ReadWriteAccess.AllowCellReadAndWrite, showWhatColumns, new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true), out _);
 
             //Tell data default columns and rows are agregated
             DataGridViewHandler.SetIsAgregated(dataGridView, true);

@@ -19,17 +19,11 @@ namespace PhotoTagsSynchronizer
         {
             foreach (ImageListViewItem imageListViewItem in imageListViewItems)
             {
-
                 FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(imageListViewItem.FileFullPath, imageListViewItem.DateModified,
-                    GlobalData.ListOfAutoCorrectFilesContains(imageListViewItem.FileFullPath) ? FileEntryVersion.AutoCorrect : FileEntryVersion.CurrentVersionInDatabase);
-                
+                    GlobalData.ListOfAutoCorrectFilesContains(imageListViewItem.FileFullPath) ? FileEntryVersion.AutoCorrect : FileEntryVersion.CurrentVersionInDatabase);                
                 Image thumbnail = null;
-                if (databaseAndCacheThumbnail != null) thumbnail = databaseAndCacheThumbnail.ReadThumbnailFromCacheOnlyClone(fileEntryAttribute.FileEntry);
-                
-                Metadata metadata = null; //Force to updated DataGridView without content only columns, works faster this way
-                //if (databaseAndCacheMetadataExiftool != null) metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryAttribute.GetFileEntryBroker(MetadataBrokerType.ExifTool));
-                
-                DataGridViewHandler.AddColumnOrUpdateNew(dataGridView, fileEntryAttribute, thumbnail, metadata, readWriteAccessForColumn, showWhatColumns, dataGridViewGenericCellStatusDefault);
+                if (databaseAndCacheThumbnail != null) thumbnail = databaseAndCacheThumbnail.ReadThumbnailFromCacheOnlyClone(fileEntryAttribute.FileEntry);                
+                DataGridViewHandler.AddColumnOrUpdateNew(dataGridView, fileEntryAttribute, thumbnail, null, readWriteAccessForColumn, showWhatColumns, dataGridViewGenericCellStatusDefault, out _);
             }
         }
         #endregion

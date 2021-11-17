@@ -201,52 +201,50 @@ namespace PhotoTagsSynchronizer
             Image thumbnail = DatabaseAndCacheThumbnail.ReadThumbnailFromCacheOnlyClone(fileEntryAttribute);
             FileEntryBroker fileEntryBrokerReadVersion = fileEntryAttribute.GetFileEntryBroker(MetadataBrokerType.ExifTool);
 
-            Metadata metadata = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBrokerReadVersion);
+            Metadata metadataExiftool = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBrokerReadVersion);
+            if (metadataExiftool != null) metadataExiftool = new Metadata(metadataExiftool);
+            ReadWriteAccess readWriteAccessColumn = metadataExiftool != null ? ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly; 
 
-            //It's the edit column, make a copy do edit in dataGridView updated the origianal metadata
+            int columnIndex = DataGridViewHandler.AddColumnOrUpdateNew(
+                dataGridView, fileEntryAttribute, thumbnail, metadataExiftool, readWriteAccessColumn, showWhatColumns, 
+                DataGridViewGenericCellStatus.DefaultEmpty(), out FileEntryVersionCompare fileEntryVersionCompareReason);
 
-            if (FileEntryVersionHandler.IsCurrenOrUpdatedVersion(fileEntryAttribute.FileEntryVersion) && metadata != null) metadata = new Metadata(metadata);
-            ReadWriteAccess readWriteAccessColumn =
-                FileEntryVersionHandler.IsCurrenOrUpdatedVersion(fileEntryAttribute.FileEntryVersion) && metadata != null ? ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly;
-
-            int columnIndex = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView, fileEntryAttribute, thumbnail, metadata, readWriteAccessColumn, showWhatColumns, DataGridViewGenericCellStatus.DefaultEmpty());
-            //-----------------------------------------------------------------
-            if (metadataAutoCorrected != null) 
-                metadata = metadataAutoCorrected; //If AutoCorrect is run, use AutoCorrect values. Needs to be after DataGridViewHandler.AddColumnOrUpdateNew, so orignal metadata stored will not be overwritten
-            if (columnIndex < 0) columnIndex = DataGridViewHandler.GetColumnIndexPriorities(dataGridView, fileEntryAttribute); //Find column Index for Filename and date last written
+            if (metadataAutoCorrected != null) metadataExiftool = metadataAutoCorrected; //If AutoCorrect is run, use AutoCorrect values. Needs to be after DataGridViewHandler.AddColumnOrUpdateNew, so orignal metadata stored will not be overwritten
 
             //Chech if populated and new refresh data
-            if (onlyRefresh && columnIndex != -1 && !DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex)) columnIndex = -1; //No refresh needed
+            if (onlyRefresh && fileEntryVersionCompareReason != FileEntryVersionCompare.NotEqualFound &&
+                !DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex)) fileEntryVersionCompareReason = FileEntryVersionCompare.NotEqualFound; //No need to populate
+            //-----------------------------------------------------------------
 
-            if (columnIndex >= 0)
+            if (fileEntryVersionCompareReason != FileEntryVersionCompare.NotEqualFound)
             {
                 //Media
                 int rowIndex;
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia), false);
 
-                rowIndex = AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagAlbum), metadata?.PersonalAlbum, false);
-                List<string> newKeywords = AutoKeywordHandler.NewKeywords(AutoKeywordConvertions, null, null, metadata?.PersonalAlbum, null, null, null);
+                rowIndex = AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagAlbum), metadataExiftool?.PersonalAlbum, false);
+                List<string> newKeywords = AutoKeywordHandler.NewKeywords(AutoKeywordConvertions, null, null, metadataExiftool?.PersonalAlbum, null, null, null);
                 DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndex, "Running AutoCorrect will add these keywords", newKeywords);
 
-                rowIndex = AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagTitle), metadata?.PersonalTitle, false);
-                newKeywords = AutoKeywordHandler.NewKeywords(AutoKeywordConvertions, null, metadata?.PersonalTitle, null, null, null, null);
+                rowIndex = AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagTitle), metadataExiftool?.PersonalTitle, false);
+                newKeywords = AutoKeywordHandler.NewKeywords(AutoKeywordConvertions, null, metadataExiftool?.PersonalTitle, null, null, null, null);
                 DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndex, "Running AutoCorrect will add these keywords", newKeywords);
 
-                rowIndex = AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagDescription), metadata?.PersonalDescription, false);
-                newKeywords = AutoKeywordHandler.NewKeywords(AutoKeywordConvertions, null, null, null, metadata?.PersonalDescription, null, null);
+                rowIndex = AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagDescription), metadataExiftool?.PersonalDescription, false);
+                newKeywords = AutoKeywordHandler.NewKeywords(AutoKeywordConvertions, null, null, null, metadataExiftool?.PersonalDescription, null, null);
                 DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndex, "Running AutoCorrect will add these keywords", newKeywords);
 
-                rowIndex = AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagComments), metadata?.PersonalComments, false);
-                newKeywords = AutoKeywordHandler.NewKeywords(AutoKeywordConvertions, null, null, null, null, metadata?.PersonalComments, null);
+                rowIndex = AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagComments), metadataExiftool?.PersonalComments, false);
+                newKeywords = AutoKeywordHandler.NewKeywords(AutoKeywordConvertions, null, null, null, null, metadataExiftool?.PersonalComments, null);
                 DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndex, "Running AutoCorrect will add these keywords", newKeywords);
                 
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagRating), metadata?.PersonalRating, false);
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagAuthor), metadata?.PersonalAuthor, false);
+                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagRating), metadataExiftool?.PersonalRating, false);
+                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagAuthor), metadataExiftool?.PersonalAuthor, false);
 
                 // Microsoft Phontos
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMicrosoftPhotos), false);
                 Metadata metadataMicrosoftPhotos = null;
-                if (metadata != null) metadataMicrosoftPhotos = DatabaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryBrokerReadVersion, MetadataBrokerType.MicrosoftPhotos));
+                if (metadataExiftool != null) metadataMicrosoftPhotos = DatabaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryBrokerReadVersion, MetadataBrokerType.MicrosoftPhotos));
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMicrosoftPhotos, tagAlbum), metadataMicrosoftPhotos?.PersonalAlbum, true);
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMicrosoftPhotos, tagTitle), metadataMicrosoftPhotos?.PersonalTitle, true);
 
@@ -257,22 +255,22 @@ namespace PhotoTagsSynchronizer
                 //Windows Live Photo Gallery
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWindowsLivePhotoGallery), false);
                 Metadata metadataWindowsLivePhotoGallery = null;
-                if (metadata != null) metadataWindowsLivePhotoGallery = DatabaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryBrokerReadVersion, MetadataBrokerType.WindowsLivePhotoGallery));
+                if (metadataExiftool != null) metadataWindowsLivePhotoGallery = DatabaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryBrokerReadVersion, MetadataBrokerType.WindowsLivePhotoGallery));
 
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWindowsLivePhotoGallery, tagTitle), metadata?.PersonalTitle, true);
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWindowsLivePhotoGallery, tagRating), metadata?.PersonalRating, true);
+                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWindowsLivePhotoGallery, tagTitle), metadataExiftool?.PersonalTitle, true);
+                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWindowsLivePhotoGallery, tagRating), metadataExiftool?.PersonalRating, true);
 
                 // WebScarping
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWebScraping), false);
                 Metadata metadataWebScraping = null;
-                if (metadata != null) metadataWebScraping = DatabaseAndCacheMetadataExiftool.ReadWebScraperMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryBrokerReadVersion, MetadataBrokerType.WebScraping));
+                if (metadataExiftool != null) metadataWebScraping = DatabaseAndCacheMetadataExiftool.ReadWebScraperMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryBrokerReadVersion, MetadataBrokerType.WebScraping));
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWebScraping, tagAlbum), metadataWebScraping?.PersonalAlbum, true);
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWebScraping, tagTitle), metadataWebScraping?.PersonalTitle, true);
 
 
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerKeywords), false);
 
-                if (metadata != null) PopulateKeywords(dataGridView, metadata, columnIndex, metadata.Broker, fileEntryAttribute);
+                if (metadataExiftool != null) PopulateKeywords(dataGridView, metadataExiftool, columnIndex, metadataExiftool.Broker, fileEntryAttribute);
                 if (metadataMicrosoftPhotos != null) PopulateKeywords(dataGridView, metadataMicrosoftPhotos, columnIndex, metadataMicrosoftPhotos.Broker, fileEntryAttribute);
                 if (metadataWindowsLivePhotoGallery != null) PopulateKeywords(dataGridView, metadataWindowsLivePhotoGallery, columnIndex, metadataWindowsLivePhotoGallery.Broker, fileEntryAttribute);
                 if (metadataWebScraping != null) PopulateKeywords(dataGridView, metadataWebScraping, columnIndex, metadataWebScraping.Broker, fileEntryAttribute);

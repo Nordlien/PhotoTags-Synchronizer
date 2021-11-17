@@ -985,12 +985,12 @@ namespace DataGridViewGeneric
         #region Column handling - DoesColumnFilenameExist
         public static bool DoesColumnFilenameExist(DataGridView dataGridView, string fullFilePath)
         {
-            return GetColumnIndex(dataGridView, fullFilePath) != -1;
+            return GetColumnIndexFirst(dataGridView, fullFilePath) != -1;
         }
         #endregion
 
-        #region Column handling - GetColumnIndex - fullFilePath
-        public static int GetColumnIndex(DataGridView dataGridView, string fullFilePath)
+        #region Column handling - GetColumnIndexFirst - fullFilePath
+        public static int GetColumnIndexFirst(DataGridView dataGridView, string fullFilePath)
         {
             for (int columnIndex = 0; columnIndex < dataGridView.ColumnCount; columnIndex++)
             {
@@ -1003,7 +1003,7 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-        #region Column handling - GetColumnIndex - fileEntry
+        #region Column handling - GetColumnIndex - FileEntryAttribute
         public static int GetColumnIndexUserInput(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute)
         {
             if (FileEntryVersionHandler.IsCurrenOrUpdatedVersion(fileEntryAttribute.FileEntryVersion))
@@ -1015,6 +1015,7 @@ namespace DataGridViewGeneric
                     {
                         switch (fileEntryAttribute.FileEntryVersion)
                         {
+                            case FileEntryVersion.ExtractedNowFromExternalSource:
                             case FileEntryVersion.ExtractedNowFromMediaFile:
                             case FileEntryVersion.AutoCorrect:
                             case FileEntryVersion.CurrentVersionInDatabase:
@@ -1037,7 +1038,8 @@ namespace DataGridViewGeneric
 
             return -1; //Not found
         }
-        public static int GetColumnIndexPriorities(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute)
+ 
+        public static int GetColumnIndexPriorities(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionPriorityReason)
         {
             if (FileEntryVersionHandler.IsCurrenOrUpdatedVersion(fileEntryAttribute.FileEntryVersion))
             {
@@ -1046,80 +1048,16 @@ namespace DataGridViewGeneric
                     DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
                     if (dataGridViewGenericColumn != null)
                     {
-                        switch (fileEntryAttribute.FileEntryVersion)
+                        fileEntryVersionPriorityReason = FileEntryVersionHandler.CompareFileEntryAttribute(dataGridViewGenericColumn.FileEntryAttribute, fileEntryAttribute);
+                        switch (fileEntryVersionPriorityReason)
                         {
-                            case FileEntryVersion.ExtractedNowFromMediaFile:
-                                //Both from source, newst version win
-                                if (dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion == FileEntryVersion.CurrentVersionInDatabase &&
-                                    fileEntryAttribute.FileName == dataGridViewGenericColumn.FileEntryAttribute.FileName &&
-                                    fileEntryAttribute.LastWriteDateTime >= dataGridViewGenericColumn.FileEntryAttribute.LastWriteDateTime
-                                    ) return columnIndex;
-
-                                if (dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion == FileEntryVersion.CurrentVersionInDatabase &&
-                                    fileEntryAttribute.FileName == dataGridViewGenericColumn.FileEntryAttribute.FileName &&
-                                    fileEntryAttribute.LastWriteDateTime < dataGridViewGenericColumn.FileEntryAttribute.LastWriteDateTime
-                                    ) 
-                                    return -2;
-
-                                //Read from source always win over AutoCorrect
-                                if (dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect &&
-                                    fileEntryAttribute.FileName == dataGridViewGenericColumn.FileEntryAttribute.FileName
-                                    //fileEntryAttribute.LastWriteDateTime >= dataGridViewGenericColumn.FileEntryAttribute.LastWriteDateTime
-                                    ) return columnIndex;
-
-                                //Read from source always win over Read from database
-                                if (dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion == FileEntryVersion.CurrentVersionInDatabase &&
-                                    fileEntryAttribute.FileName == dataGridViewGenericColumn.FileEntryAttribute.FileName
-                                    //fileEntryAttribute.LastWriteDateTime >= dataGridViewGenericColumn.FileEntryAttribute.LastWriteDateTime
-                                    ) return columnIndex;
-                                break;
-
-                            case FileEntryVersion.AutoCorrect:
-
-                                //AutoCorrect, wins if newer
-                                if (dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion == FileEntryVersion.CurrentVersionInDatabase &&
-                                    fileEntryAttribute.FileName == dataGridViewGenericColumn.FileEntryAttribute.FileName &&
-                                    fileEntryAttribute.LastWriteDateTime >= dataGridViewGenericColumn.FileEntryAttribute.LastWriteDateTime
-                                    ) return columnIndex;
-
-                                if (dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion == FileEntryVersion.CurrentVersionInDatabase &&
-                                    fileEntryAttribute.FileName == dataGridViewGenericColumn.FileEntryAttribute.FileName &&
-                                    fileEntryAttribute.LastWriteDateTime >= dataGridViewGenericColumn.FileEntryAttribute.LastWriteDateTime
-                                    ) 
-                                    return -2;
-
-                                //AutoCorrect, always win over newer AutoCorrect
-                                if (dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect &&
-                                    fileEntryAttribute.FileName == dataGridViewGenericColumn.FileEntryAttribute.FileName &&
-                                    fileEntryAttribute.LastWriteDateTime >= dataGridViewGenericColumn.FileEntryAttribute.LastWriteDateTime
-                                    ) return columnIndex;
-
-                                //AutoCorrect, always win over newer AutoCorrect
-                                if (dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect &&
-                                    fileEntryAttribute.FileName == dataGridViewGenericColumn.FileEntryAttribute.FileName &&
-                                    fileEntryAttribute.LastWriteDateTime < dataGridViewGenericColumn.FileEntryAttribute.LastWriteDateTime
-                                    ) 
-                                    return -2;
-
-                                //AutoCorrect, always win over Read from database
-                                if (dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion == FileEntryVersion.CurrentVersionInDatabase &&
-                                    fileEntryAttribute.FileName == dataGridViewGenericColumn.FileEntryAttribute.FileName
-                                    //fileEntryAttribute.LastWriteDateTime >= dataGridViewGenericColumn.FileEntryAttribute.LastWriteDateTime
-                                    ) 
-                                    return columnIndex;
-                                break;
-                            case FileEntryVersion.CurrentVersionInDatabase:
-                                //Read from database, only wins over newer than previous read from database, nothing else
-                                if (dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion == FileEntryVersion.CurrentVersionInDatabase &&
-                                    fileEntryAttribute.FileName == dataGridViewGenericColumn.FileEntryAttribute.FileName &&
-                                    fileEntryAttribute.LastWriteDateTime >= dataGridViewGenericColumn.FileEntryAttribute.LastWriteDateTime
-                                    ) return columnIndex;
-                                break;
-
-                            case FileEntryVersion.Error:
-                            case FileEntryVersion.Historical:
-                                if (dataGridViewGenericColumn.FileEntryAttribute == fileEntryAttribute) return columnIndex;
-                                break;
+                            case FileEntryVersionCompare.NotEqualFound:
+                                break; //Continue search
+                            case FileEntryVersionCompare.FoundButLost:
+                                return columnIndex;
+                            case FileEntryVersionCompare.FoundEqual:
+                            case FileEntryVersionCompare.FoundAndWon:
+                                return columnIndex;
                             default:
                                 throw new NotImplementedException();
                         }
@@ -1127,12 +1065,13 @@ namespace DataGridViewGeneric
                 }
             }
 
+            fileEntryVersionPriorityReason = FileEntryVersionCompare.NotEqualFound;
             return -1; //Not found
         }
 
-        public static int GetColumnIndex(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute)
+        public static int GetColumnIndexWhenAddColumn(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionCompareReason)
         {
-            return GetColumnIndexPriorities(dataGridView, fileEntryAttribute); 
+            return GetColumnIndexPriorities(dataGridView, fileEntryAttribute, out fileEntryVersionCompareReason); 
         }
         #endregion
 
@@ -1161,91 +1100,107 @@ namespace DataGridViewGeneric
 
         #region Column handling - AddColumnOrUpdate 
         public static int AddColumnOrUpdateNew(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, Image thumbnail, Metadata metadata,
-            ReadWriteAccess readWriteAccessForColumn, ShowWhatColumns showWhatColumns, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefault)
+            ReadWriteAccess readWriteAccessForColumn, ShowWhatColumns showWhatColumns, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefault,
+            out FileEntryVersionCompare fileEntryVersionCompareReason)
         {
-            int columnIndex = GetColumnIndex(dataGridView, fileEntryAttribute); //Find column Index for Filename and date last written
+            int columnIndex = GetColumnIndexWhenAddColumn(dataGridView, fileEntryAttribute, out fileEntryVersionCompareReason); //Find column Index for Filename and date last written, Prioritize
+            if (fileEntryVersionCompareReason == FileEntryVersionCompare.NotEqualFound && columnIndex != -1)
+                return -1; //DEBUG, should not happen, need to fix
+
             bool isErrorColumn = fileEntryAttribute.FileEntryVersion == FileEntryVersion.Error;
             bool showErrorColumns = ShowWhatColumnHandler.ShowErrorColumns(showWhatColumns);
+            
             bool isHistoryColumn = (fileEntryAttribute.FileEntryVersion == FileEntryVersion.Historical);
             bool showHirstoryColumns = ShowWhatColumnHandler.ShowHirstoryColumns(showWhatColumns);
+            bool isCurrenOrUpdatedColumn = FileEntryVersionHandler.IsCurrenOrUpdatedVersion(fileEntryAttribute.FileEntryVersion);
+            bool isErrorOrHistoricalColumn = FileEntryVersionHandler.IsErrorOrHistoricalVersion(fileEntryAttribute.FileEntryVersion);
 
-            bool isMetadataAlreadyAgregated = false;
+            //bool isMetadataAlreadyAgregated = false;
 
-            if (columnIndex == -2) 
-                return -1; //This is older, forget about this
-
-            else if (columnIndex == -1) //Column not found, add a new column
+            if (fileEntryVersionCompareReason == FileEntryVersionCompare.NotEqualFound) //Column not found, add a new column
             {
-                //Do not add columns that is not visible //Check if error column first, can be historical, and error
-                if (isErrorColumn)
+                //isMetadataAlreadyAgregated = false;
+                if (columnIndex != -1)
                 {
-                    if (!showErrorColumns) return -1;
-                } else if (!showHirstoryColumns && isHistoryColumn) return -1;
+                    fileEntryVersionCompareReason = FileEntryVersionCompare.NotEqualFound;
+                    return -1; //DEBUG, should not happen, need to fix
+                }
 
+                //Do not add columns that is not visible //Check if error column first, can be historical, and error
+                if (isErrorColumn && !showErrorColumns) return -1;
+                if (!showHirstoryColumns && isHistoryColumn) return -1;
 
+                #region Create a column - Set default Columns attributes
                 DataGridViewColumn dataGridViewColumn = new DataGridViewColumn(new DataGridViewTextBoxCell());
-                dataGridViewColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                dataGridViewColumn.SortMode = DataGridViewColumnSortMode.NotSortable;
-                dataGridViewColumn.MinimumWidth = 40;
-                dataGridViewColumn.FillWeight = 0.1f;
-
-                dataGridViewColumn.Width = GetCellColumnsWidth(dataGridView);
-
+                dataGridViewColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;  //For optimize speed
+                dataGridViewColumn.SortMode = DataGridViewColumnSortMode.NotSortable;   //For optimize speed
+                dataGridViewColumn.MinimumWidth = 40;                                   //For optimize speed, and layout
+                dataGridViewColumn.FillWeight = 0.1f;                                   //Expand limit of 65535 witdth
+                dataGridViewColumn.Width = GetCellColumnsWidth(dataGridView);           //Layout
                 dataGridViewColumn.ToolTipText = fileEntryAttribute.LastWriteDateTime.ToString() + "\r\n" + fileEntryAttribute.FileFullPath;
                 dataGridViewColumn.Tag = new DataGridViewGenericColumn(fileEntryAttribute, thumbnail, metadata, readWriteAccessForColumn);
+                #endregion
 
-                //dataGridViewColumn.Name = fileEntryAttribute.FileFullPath;
-                //dataGridViewColumn.HeaderText = fileEntryAttribute.FileFullPath;
-
-                int columnIndexFilename = GetColumnIndex(dataGridView, fileEntryAttribute.FileFullPath);
+                #region Find where to add *NEW* column
+                int columnIndexFilename = GetColumnIndexFirst(dataGridView, fileEntryAttribute.FileFullPath); //Find first Column with equal name
                 if (columnIndexFilename == -1) //Filename doesn't exist
                 {
+                    #region Filename doesn't exist, add last
                     columnIndex = dataGridView.Columns.Add(dataGridViewColumn); //Filename doesn't exist add to end.
+                    #endregion
                 }
                 else
                 {
-                    //Short, newst always first
-                    while (columnIndexFilename < dataGridView.Columns.Count &&
-                        dataGridView.Columns[columnIndexFilename].Tag is DataGridViewGenericColumn column &&
-                        column.FileEntryAttribute.FileFullPath == fileEntryAttribute.FileFullPath &&            //Correct filename on column
-                        (
-                        FileEntryVersionHandler.IsErrorOrHistoricalVersion(fileEntryAttribute.FileEntryVersion)
-                        &&                     //Current version added, then find correct postion
-                        (
-                        FileEntryVersionHandler.IsCurrenOrUpdatedVersion(column.FileEntryAttribute.FileEntryVersion) || 
-                        //Edit version, move to next column -> edit always first
-                        column.FileEntryAttribute.LastWriteDateTime > fileEntryAttribute.LastWriteDateTime)     //Is older, move next -> Newst always frist
-                        ))
+                    #region Sort, newst always first
+                    //No need to check: "Current, Read from Database and AutoCorrect" they are always first
+                    if (isErrorOrHistoricalColumn) 
                     {
-                        columnIndexFilename += 1;
+                        while (columnIndexFilename < dataGridView.Columns.Count &&
+                            dataGridView.Columns[columnIndexFilename].Tag is DataGridViewGenericColumn column &&
+                            column.FileEntryAttribute.FileFullPath == fileEntryAttribute.FileFullPath &&                //Correct filename on column
+                            (
+                                FileEntryVersionHandler.IsCurrenOrUpdatedVersion(column.FileEntryAttribute.FileEntryVersion) || //Move behind Current, AutoCorrect and Database 
+                                column.FileEntryAttribute.LastWriteDateTime > fileEntryAttribute.LastWriteDateTime)     //ALso move behind new dates
+                            )
+                        {
+                            columnIndexFilename += 1;
+                        }
                     }
+                    #endregion
 
-                    //Move error and historical version back
-                    if (columnIndexFilename < dataGridView.Columns.Count - 1 &&
-                        dataGridView.Columns[columnIndexFilename].Tag is DataGridViewGenericColumn column2 &&
-                        column2.FileEntryAttribute.FileFullPath == fileEntryAttribute.FileFullPath &&           //Correct filename on column
-                        (
-                        FileEntryVersionHandler.IsErrorOrHistoricalVersion(fileEntryAttribute.FileEntryVersion) &&  //History or Error column added, then find correct postion
-                        (
-                        FileEntryVersionHandler.IsCurrenOrUpdatedVersion(column2.FileEntryAttribute.FileEntryVersion) || //Edit version, move to next column -> edit always first
-                        column2.FileEntryAttribute.LastWriteDateTime > fileEntryAttribute.LastWriteDateTime)    //Is older, move next -> Newst always frist
-                        )
-                        )
+                    #region Move error and historical version back
+                    //No need to check: "Current, Read from Database and AutoCorrect" they are always first
+                    if (isErrorOrHistoricalColumn)  //History or Error column added, then find correct postion
                     {
-                        columnIndexFilename += 1;
+//WHY -1 : dataGridView.Columns.Count 
+                        if (columnIndexFilename < dataGridView.Columns.Count && dataGridView.Columns[columnIndexFilename].Tag is DataGridViewGenericColumn column2 &&
+                            column2.FileEntryAttribute.FileFullPath == fileEntryAttribute.FileFullPath &&           //Correct filename on column
+                            (
+                            FileEntryVersionHandler.IsCurrenOrUpdatedVersion(column2.FileEntryAttribute.FileEntryVersion) || //Edit version, move to next column -> edit always first
+                            column2.FileEntryAttribute.LastWriteDateTime > fileEntryAttribute.LastWriteDateTime)    //Is older, move next -> Newst always frist
+                            )
+                        {
+                            columnIndexFilename += 1;
+                        }
                     }
+                    #endregion
 
                     columnIndex = columnIndexFilename;
 
+                    #region Check if need create new column
                     bool createNewColumn = true;
-                    if (FileEntryVersionHandler.IsCurrenOrUpdatedVersion(fileEntryAttribute.FileEntryVersion) &&
-                        columnIndex > -1 && columnIndex < dataGridView.ColumnCount && dataGridView.Columns[columnIndexFilename].Tag is DataGridViewGenericColumn columnCheck)
+                    if (isCurrenOrUpdatedColumn &&
+                        columnIndex >= 0 &&  columnIndex < dataGridView.ColumnCount && 
+                        dataGridView.Columns[columnIndexFilename].Tag is DataGridViewGenericColumn columnCheck)
                     {
                         if (FileEntryVersionHandler.IsCurrenOrUpdatedVersion(columnCheck.FileEntryAttribute.FileEntryVersion) &&
                             columnCheck.FileEntryAttribute.FileFullPath == fileEntryAttribute.FileFullPath) createNewColumn = false;
                     }
+                    #endregion
+
                     if (createNewColumn) dataGridView.Columns.Insert(columnIndex, dataGridViewColumn);
                 }
+                #endregion
 
                 SetCellStatusDefaultColumnWhenAdded(dataGridView, columnIndex, dataGridViewGenericCellStatusDefault);
                 SetCellBackgroundColorForColumn(dataGridView, columnIndex);
@@ -1254,107 +1209,141 @@ namespace DataGridViewGeneric
             {
                 DataGridViewGenericColumn currentDataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
 
-                if (currentDataGridViewGenericColumn == null)
-                {
-                    //Why do this happend
+                //DEBUG: Can be removed, after test 
+                if (currentDataGridViewGenericColumn == null) 
                     currentDataGridViewGenericColumn = new DataGridViewGenericColumn(fileEntryAttribute, thumbnail, metadata, readWriteAccessForColumn);
-                    
-                }
-                //New data has arrived for Edit Column
-                if (metadata != null && currentDataGridViewGenericColumn.Metadata != null && !isHistoryColumn)
-                {
+                
+
+                //if (metadata != null && currentDataGridViewGenericColumn.Metadata != null && isCurrenOrUpdatedColumn)
+                //{
+                    #region Updated - When new, No updated when Equal or older
                     if (IsDataGridViewDirty(dataGridView, columnIndex)) //That means, data was changed by user and trying to make changes to "past"
                     {
+                        #region Check if data will overwrite user changes
                         //Check if old file, due to User click "reload metadata", then newest version has become older that current
-                        if (metadata.FileDateModified <= currentDataGridViewGenericColumn.Metadata.FileDateModified)
+
+                        switch (fileEntryVersionCompareReason)
                         {
-                            isMetadataAlreadyAgregated = true; //Do not refresh, due to old file, do not overwrite
-                            currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed
+                            case FileEntryVersionCompare.FoundAndWon:
+                                //isMetadataAlreadyAgregated = true; //Do not refresh, due to DataGrid are changed by user, do not overwrite
+                                currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = true; //Warn, new files can't be shown
+                                break;
+                            case FileEntryVersionCompare.FoundEqual:
+                            case FileEntryVersionCompare.FoundButLost:
+                                //isMetadataAlreadyAgregated = true; //Do not refresh, due to old file or equal file, do not overwrite
+                                currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed
+                                break;
+                            case FileEntryVersionCompare.NotEqualFound:
+                                break;
+                            default:
+                                throw new NotImplementedException();
                         }
-                        else if (metadata.FileDateModified == currentDataGridViewGenericColumn.Metadata.FileDateModified)
-                        {
-                            isMetadataAlreadyAgregated = true; //Do not refresh, same file is loaded, do not overwrite
-                            currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed
-                        }
-                        else
-                        {
-                            isMetadataAlreadyAgregated = true; //Do not refresh, due to DataGrid are changed by user, do not overwrite
-                            currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = true; //Warn, new files can't be shown
-                        }
+
+                        //if (isCurrenOrUpdatedColumn ||
+                        //    metadata.FileDateModified > currentDataGridViewGenericColumn.Metadata.FileDateModified)
+                        //{
+                        //    isMetadataAlreadyAgregated = true; //Do not refresh, due to DataGrid are changed by user, do not overwrite
+                        //    currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = true; //Warn, new files can't be shown
+                        //}
+                        //else //Its older or equal
+                        //{
+                        //    isMetadataAlreadyAgregated = true; //Do not refresh, due to old file or equal file, do not overwrite
+                        //    currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed
+                        //}
+                        #endregion 
                     }
                     else
                     {
-                        //Check if old file, due to User click "reload metadata", then newest version has become older that current
-                        if (metadata.FileDateModified < currentDataGridViewGenericColumn.Metadata.FileDateModified)
+                        #region Check if need to reload/refresh dataGridView
+                        switch (fileEntryVersionCompareReason)
                         {
-                            isMetadataAlreadyAgregated = true; //Do not refresh, due to old file, do not overwrite
-                            currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed
+                            case FileEntryVersionCompare.FoundAndWon:
+                            case FileEntryVersionCompare.FoundEqual:
+                                //isMetadataAlreadyAgregated = false; //Refresh with newst data
+                                currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warnings needed, just updated datagrid with new data
+                                currentDataGridViewGenericColumn.Metadata = metadata; //Keep newest version, PS All columns get added with empty Metadata
+                                break;
+                            
+                            case FileEntryVersionCompare.FoundButLost:
+                                //isMetadataAlreadyAgregated = true; //Do not refresh, due to old file, or eqaul do not overwrite
+                                currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed
+                                break;
+                            case FileEntryVersionCompare.NotEqualFound:
+                                break;
+                            default:
+                                throw new NotImplementedException();
                         }
-                        else if (metadata.FileDateModified == currentDataGridViewGenericColumn.Metadata.FileDateModified)
-                        {
-                            isMetadataAlreadyAgregated = true; //Do not refresh, due to equal file, do not overwrite
-                            currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed
-                        }
-                        else
-                        {
-                            isMetadataAlreadyAgregated = false; //Refresh with newst data
-                            currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warnings needed, just updated datagrid with new data
-                            currentDataGridViewGenericColumn.Metadata = metadata; //Keep newest version
-                        }
-                    }
-                }
-                //metadata != null && currentDataGridViewGenericColumn.Metadata != null && !isHistoryColumn
-                else if (currentDataGridViewGenericColumn.Metadata != null && metadata != null)   
-                {
-                    isMetadataAlreadyAgregated = false;
-                    currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false;
-                    //currentDataGridViewGenericColumn.Metadata = metadata; //Keep this version
-                }
-                else if (currentDataGridViewGenericColumn.Metadata != null && metadata == null)
-                {
-                    isMetadataAlreadyAgregated = true;
-                    currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false;
-                    //currentDataGridViewGenericColumn.Metadata = metadata; //Keep this version
-                }
-                //When e.g. 
-                else //if (currentDataGridViewGenericColumn.Metadata == null )
-                {
-                    isMetadataAlreadyAgregated = false;
-                    currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false;
-                    currentDataGridViewGenericColumn.Metadata = metadata;
-                    
-                }
 
-                if (currentDataGridViewGenericColumn.FileEntryAttribute != fileEntryAttribute) 
-                    currentDataGridViewGenericColumn.FileEntryAttribute = fileEntryAttribute;
-                                                                                               
+                        //Check if old file, due to User click "reload metadata", then newest version has become older that current
+                        //if (isCurrenOrUpdatedColumn ||
+                        //    metadata.FileDateModified > currentDataGridViewGenericColumn.Metadata.FileDateModified)
+                        //{
+                        //    isMetadataAlreadyAgregated = false; //Refresh with newst data
+                        //    currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warnings needed, just updated datagrid with new data
+                        //    currentDataGridViewGenericColumn.Metadata = metadata; //Keep newest version
+                        //}
+                        //else //Its older or equal
+                        //{
+                        //    isMetadataAlreadyAgregated = true; //Do not refresh, due to old file, or eqaul do not overwrite
+                        //    currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed
+                        //}
+                        #endregion
+                    }
+                    #endregion
+                //}
+                //else if (currentDataGridViewGenericColumn.Metadata != null && metadata != null)  //&& NOT isCurrenOrUpdatedColumn
+                //{
+                //    #region Update - Error or Historical Column
+                //    isMetadataAlreadyAgregated = false;
+                //    currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false;
+                //    #endregion
+                //}
+                //else if (currentDataGridViewGenericColumn.Metadata != null && metadata == null)
+                //{
+                //    #region No updated - No data arrived
+                //    isMetadataAlreadyAgregated = true;
+                //    currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false;
+                //    #endregion
+                //}
+                //else 
+                //{
+                //    #region Updated - When column is "new" and data has arrived
+                //    isMetadataAlreadyAgregated = false;
+                //    currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false;
+                //    currentDataGridViewGenericColumn.Metadata = metadata;
+                //    #endregion
+                //}
+
+                //if (currentDataGridViewGenericColumn.FileEntryAttribute != fileEntryAttribute) 
+                //if (!isMetadataAlreadyAgregated)
+                //{
+                    currentDataGridViewGenericColumn.FileEntryAttribute = fileEntryAttribute; //Updated from FromSource, Database or AutoCorrect,                                                                                                
+                //}
+
                 currentDataGridViewGenericColumn.Thumbnail = (thumbnail == null ? null : new Bitmap(thumbnail)); //Avoid thread issues
                 currentDataGridViewGenericColumn.ReadWriteAccess = readWriteAccessForColumn;
                 dataGridView.Columns[columnIndex].Tag = currentDataGridViewGenericColumn;
-
                 SetCellBackgroundColorForColumn(dataGridView, columnIndex);
 
-                //Hide and show columns
+                #region Hide and show columns, accoring to user config
                 if (isErrorColumn) //Check if error column first, can be historical, and error
                 {
-                    if (showErrorColumns)
-                        dataGridView.Columns[columnIndex].Visible = true;
-                    else
-                        dataGridView.Columns[columnIndex].Visible = false;
+                    if (showErrorColumns) dataGridView.Columns[columnIndex].Visible = true;
+                    else dataGridView.Columns[columnIndex].Visible = false;
                 }
                 else if (isHistoryColumn)
                 {
-                    if (showHirstoryColumns)
-                        dataGridView.Columns[columnIndex].Visible = true;
-                    else
-                        dataGridView.Columns[columnIndex].Visible = false;
+                    if (showHirstoryColumns) dataGridView.Columns[columnIndex].Visible = true;
+                    else dataGridView.Columns[columnIndex].Visible = false;
                 }
                 else dataGridView.Columns[columnIndex].Visible = true;
+                #endregion 
             }
 
-            if (fileEntryAttribute.FileEntryVersion != FileEntryVersion.AutoCorrect && isMetadataAlreadyAgregated) 
-                return -1; //DEBUG - Is this needed after created GetColumnIndex priorities
-            else return columnIndex;
+            //if (isMetadataAlreadyAgregated && 
+            //if (fileEntryAttribute.FileEntryVersion != FileEntryVersion.AutoCorrect && isMetadataAlreadyAgregated)
+            //if (isMetadataAlreadyAgregated) return -1; //else 
+            return columnIndex;
         }
         #endregion
 
@@ -1442,8 +1431,7 @@ namespace DataGridViewGeneric
         #region Rows handling - GetRowCountWithoutEditRow
         public static int GetRowCountWithoutEditRow(DataGridView dataGridView)
         {
-            if (dataGridView.AllowUserToAddRows)
-                return dataGridView.RowCount - 1;
+            if (dataGridView.AllowUserToAddRows) return dataGridView.RowCount == 0 ? 0 /* Meens just been cleared */ : dataGridView.RowCount - 1;
             return dataGridView.RowCount;
         }
         #endregion
@@ -1569,7 +1557,7 @@ namespace DataGridViewGeneric
         #region Rows handling - AddRowAndValueList
         public static void AddRowAndValueList(DataGridView dataGridView, FileEntryAttribute fileEntryColumn, List<DataGridViewGenericRowAndValue> dataGridViewGenericRowAndValueList, bool sort)
         {
-            int columnIndex = GetColumnIndexPriorities(dataGridView, fileEntryColumn);
+            int columnIndex = GetColumnIndexPriorities(dataGridView, fileEntryColumn, out FileEntryVersionCompare fileEntryVersionCompareReason);
 
             foreach (DataGridViewGenericRowAndValue dataGridViewGenericRowAndValue in dataGridViewGenericRowAndValueList)
             {
@@ -2371,10 +2359,6 @@ namespace DataGridViewGeneric
                 {
                     backColor = ColorBackCellReadOnly(dataGridView);
                     textColor = ColorTextCellReadOnly(dataGridView);
-                    /*if (dataGridView[columnIndex, rowIndex].Style.BackColor != ColorCellReadOnly)
-                    {
-                        backColor = ColorCellReadOnly;
-                    }*/
                 }
                 else if (dataGridViewGenericRow.IsFavourite && dataGridView[columnIndex, rowIndex].ReadOnly)
                 {
@@ -2393,8 +2377,6 @@ namespace DataGridViewGeneric
                 backColor = ColorBackCellError(dataGridView);
                 textColor = ColorTextCellError(dataGridView);
             }
-            //if (dataGridViewGenericColumn != null && dataGridViewGenericColumn.Metadata != null 
-            //    && (dataGridViewGenericColumn.Metadata.Broker & MetadataBrokerType.ExifToolWriteError) == MetadataBrokerType.ExifToolWriteError) newColor = ColorError;
 
             if (backColor != Color.Empty && backColor != dataGridView[columnIndex, rowIndex].Style.BackColor)
             {
@@ -2926,8 +2908,15 @@ namespace DataGridViewGeneric
 
             DataGridViewHandler.SetIsPopulatingImage(dataGridView, true);
             
-            int columnIndex = GetColumnIndex(dataGridView, fileEntryAttribute);
-            if (columnIndex >= 0)
+            int columnIndex = GetColumnIndexUserInput(dataGridView, fileEntryAttribute);
+            if (columnIndex == -2)
+            {
+
+            }else if (columnIndex == -1)
+            {
+
+            }
+            else if (columnIndex >= 0)
             {
                 DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
                 dataGridViewGenericColumn.Thumbnail = new Bitmap(image);

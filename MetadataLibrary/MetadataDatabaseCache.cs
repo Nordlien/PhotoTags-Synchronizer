@@ -1745,7 +1745,6 @@ namespace MetadataLibrary
                     if (newstFileEntryAttributeForEdit != null) FileEntryAttributes.Add(newstFileEntryAttributeForEdit);                    
                 }
             }
-            //return FileEntryAttributes;
         }
         #endregion 
 
