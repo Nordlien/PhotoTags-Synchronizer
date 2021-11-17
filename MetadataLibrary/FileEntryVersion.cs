@@ -19,6 +19,7 @@ namespace MetadataLibrary
         FoundAndWon,
         FoundButLost,
         NotEqualFound,
+        LostOverUserInput
     }
 
     public class FileEntryVersionHandler
@@ -34,6 +35,25 @@ namespace MetadataLibrary
         {
             //fileEntryAttribute.FileEntryVersion != FileEntryVersion.AutoCorrect && fileEntryAttribute.FileEntryVersion != FileEntryVersion.Curren
             return fileEntryVersion == FileEntryVersion.Historical || fileEntryVersion == FileEntryVersion.Error;
+        }
+
+        public static bool NeedUpdate(FileEntryVersionCompare fileEntryVersionCompare)
+        {
+            switch (fileEntryVersionCompare)
+            {
+                case FileEntryVersionCompare.FoundAndWon:
+                    return true;
+                case FileEntryVersionCompare.FoundEqual:
+                    return true;
+                case FileEntryVersionCompare.LostOverUserInput:
+                    return false;
+                case FileEntryVersionCompare.FoundButLost:
+                    return false;
+                case FileEntryVersionCompare.NotEqualFound:
+                    return false;
+                default:
+                    throw new NotImplementedException();
+            }
         }
 
         public static FileEntryVersionCompare CompareFileEntryAttribute(FileEntryAttribute fileEntryAttributeDataGridViewColumn, FileEntryAttribute fileEntryAttributeFromQueue)

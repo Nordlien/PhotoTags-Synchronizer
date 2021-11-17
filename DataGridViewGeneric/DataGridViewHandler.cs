@@ -1217,60 +1217,77 @@ namespace DataGridViewGeneric
                     currentDataGridViewGenericColumn = new DataGridViewGenericColumn(fileEntryAttribute, thumbnail, metadata, readWriteAccessForColumn);
                 
 
-                    #region Updated - When new, No updated when Equal or older
-                    if (IsDataGridViewDirty(dataGridView, columnIndex)) //That means, data was changed by user and trying to make changes to "past"
-                    {
-                        #region Check if data will overwrite user changes
-                        //Check if old file, due to User click "reload metadata", then newest version has become older that current
+                #region Updated - When new, No updated when Equal or older
+                if (IsDataGridViewDirty(dataGridView, columnIndex)) //That means, data was changed by user and trying to make changes to "past"
+                {
+                    #region Check if data will overwrite user changes
+                    //Check if old file, due to User click "reload metadata", then newest version has become older that current
 
-                        switch (fileEntryVersionCompareReason)
-                        {
-                            case FileEntryVersionCompare.FoundAndWon:
-                                //isMetadataAlreadyAgregated = true; //Do not refresh, due to DataGrid are changed by user, do not overwrite
-                                currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = true; //Warn, new files can't be shown
-                                break;
-                            case FileEntryVersionCompare.FoundEqual:
-                            case FileEntryVersionCompare.FoundButLost:
-                                //isMetadataAlreadyAgregated = true; //Do not refresh, due to old file or equal file, do not overwrite
-                                currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed
-                                break;
-                            case FileEntryVersionCompare.NotEqualFound:
-                                break;
-                            default:
-                                throw new NotImplementedException();
-                        }                    
-                        #endregion 
-                    }
-                    else
+                    switch (fileEntryVersionCompareReason)
                     {
-                        #region Check if need to reload/refresh dataGridView
-                        switch (fileEntryVersionCompareReason)
-                        {
-                            case FileEntryVersionCompare.FoundAndWon:
-                            case FileEntryVersionCompare.FoundEqual:
-                                //isMetadataAlreadyAgregated = false; //Refresh with newst data
-                                currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warnings needed, just updated datagrid with new data
-                                currentDataGridViewGenericColumn.Metadata = metadata; //Keep newest version, PS All columns get added with empty Metadata
-                                break;
+                        case FileEntryVersionCompare.FoundAndWon:
+                        case FileEntryVersionCompare.FoundEqual:
+                            fileEntryVersionCompareReason = FileEntryVersionCompare.LostOverUserInput;
+                            //isMetadataAlreadyAgregated = true; //Do not refresh, due to DataGrid are changed by user, do not overwrite
+                            currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = true; //Warn, new files can't be shown
+                            break;
+                        case FileEntryVersionCompare.FoundButLost:
+                            //isMetadataAlreadyAgregated = true; //Do not refresh, due to old file or equal file, do not overwrite
+                            currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed
+                            break;
+                        case FileEntryVersionCompare.NotEqualFound:
+                            break;
+                        case FileEntryVersionCompare.LostOverUserInput:
+                        default:
+                            throw new NotImplementedException();
+                    }                    
+                    #endregion 
+                }
+                else
+                {
+                    #region Check if need to reload/refresh dataGridView
+                    switch (fileEntryVersionCompareReason)
+                    {
+                        case FileEntryVersionCompare.FoundAndWon:
+                        case FileEntryVersionCompare.FoundEqual:
+                            //isMetadataAlreadyAgregated = false; //Refresh with newst data
+                            currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warnings needed, just updated datagrid with new data
+                            currentDataGridViewGenericColumn.Metadata = metadata; //Keep newest version, PS All columns get added with empty Metadata
+                            break;
                             
-                            case FileEntryVersionCompare.FoundButLost:
-                                //isMetadataAlreadyAgregated = true; //Do not refresh, due to old file, or eqaul do not overwrite
-                                currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed
-                                break;
-                            case FileEntryVersionCompare.NotEqualFound:
-                                break;
-                            default:
-                                throw new NotImplementedException();
-                        }
-                        #endregion
+                        case FileEntryVersionCompare.FoundButLost:
+                            //isMetadataAlreadyAgregated = true; //Do not refresh, due to old file, or eqaul do not overwrite
+                            currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed
+                            break;
+                        case FileEntryVersionCompare.NotEqualFound:
+                            break;
+                        case FileEntryVersionCompare.LostOverUserInput:
+                        default:
+                            throw new NotImplementedException();
                     }
                     #endregion
-               
-                currentDataGridViewGenericColumn.FileEntryAttribute = fileEntryAttribute; //Updated from FromSource, Database or AutoCorrect                
-                currentDataGridViewGenericColumn.Thumbnail = (thumbnail == null ? null : new Bitmap(thumbnail)); //Avoid thread issues
-                currentDataGridViewGenericColumn.ReadWriteAccess = readWriteAccessForColumn;
-                dataGridView.Columns[columnIndex].Tag = currentDataGridViewGenericColumn;
-                SetCellBackgroundColorForColumn(dataGridView, columnIndex);
+                }
+                #endregion
+
+                #region Updated - currentDataGridViewGenericColumn
+                switch (fileEntryVersionCompareReason)
+                {
+                    case FileEntryVersionCompare.FoundAndWon:
+                    case FileEntryVersionCompare.FoundEqual:
+                    case FileEntryVersionCompare.FoundButLost:
+                    case FileEntryVersionCompare.LostOverUserInput:
+                        currentDataGridViewGenericColumn.FileEntryAttribute = fileEntryAttribute; //Updated from FromSource, Database or AutoCorrect                
+                        currentDataGridViewGenericColumn.Thumbnail = (thumbnail == null ? null : new Bitmap(thumbnail)); //Avoid thread issues
+                        currentDataGridViewGenericColumn.ReadWriteAccess = readWriteAccessForColumn;
+                        dataGridView.Columns[columnIndex].Tag = currentDataGridViewGenericColumn;
+                        SetCellBackgroundColorForColumn(dataGridView, columnIndex);
+                        break;
+                    case FileEntryVersionCompare.NotEqualFound:
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+                #endregion
 
                 #region Hide and show columns, accoring to user config
                 if (isErrorColumn) //Check if error column first, can be historical, and error
@@ -3239,7 +3256,7 @@ namespace DataGridViewGeneric
                 }
                 else
                 {
-                    //dataGridView.Columns[e.ColumnIndex].HeaderCell.Style.BackColor = ColorBackHeaderImage(dataGridView);
+                    dataGridView.Columns[e.ColumnIndex].HeaderCell.Style.BackColor = ColorBackHeaderImage(dataGridView);
                 }
 
                 if (dataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning) cellText += "File updated!!\r\n";

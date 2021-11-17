@@ -41,7 +41,7 @@ namespace PhotoTagsSynchronizer
                 dataGridView, fileEntryAttribute, thumbnail, null, ReadWriteAccess.ForceCellToReadOnly, showWhatColumns, 
                 new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true), out FileEntryVersionCompare fileEntryVersionCompareReason);
           
-            if (fileEntryVersionCompareReason != FileEntryVersionCompare.NotEqualFound)
+            if (FileEntryVersionHandler.NeedUpdate(fileEntryVersionCompareReason))
             {
                 //Clear old content, in case of new values are updated or deleted
                 for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++) DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, null);

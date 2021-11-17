@@ -212,12 +212,16 @@ namespace PhotoTagsSynchronizer
             if (metadataAutoCorrected != null) metadataExiftool = metadataAutoCorrected; //If AutoCorrect is run, use AutoCorrect values. Needs to be after DataGridViewHandler.AddColumnOrUpdateNew, so orignal metadata stored will not be overwritten
 
             //Chech if populated and new refresh data
-            if (onlyRefresh && fileEntryVersionCompareReason != FileEntryVersionCompare.NotEqualFound &&
-                !DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex)) fileEntryVersionCompareReason = FileEntryVersionCompare.NotEqualFound; //No need to populate
+            if (onlyRefresh && FileEntryVersionHandler.NeedUpdate(fileEntryVersionCompareReason) && !DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex))
+                fileEntryVersionCompareReason = FileEntryVersionCompare.NotEqualFound; //No need to populate
             //-----------------------------------------------------------------
 
-            if (fileEntryVersionCompareReason != FileEntryVersionCompare.NotEqualFound)
+            if (FileEntryVersionHandler.NeedUpdate(fileEntryVersionCompareReason))
             {
+                if (metadataExiftool == null)
+                {
+                    //DEBUG - so far, not a problem
+                }
                 //Media
                 int rowIndex;
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia), false);
