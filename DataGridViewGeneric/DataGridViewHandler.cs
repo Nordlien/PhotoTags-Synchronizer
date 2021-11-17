@@ -1105,7 +1105,10 @@ namespace DataGridViewGeneric
         {
             int columnIndex = GetColumnIndexWhenAddColumn(dataGridView, fileEntryAttribute, out fileEntryVersionCompareReason); //Find column Index for Filename and date last written, Prioritize
             if (fileEntryVersionCompareReason == FileEntryVersionCompare.NotEqualFound && columnIndex != -1)
-                return -1; //DEBUG, should not happen, need to fix
+            {
+                fileEntryVersionCompareReason = FileEntryVersionCompare.NotEqualFound;
+                return -1; //DEBUG, should not happen, need to fix IF happen
+            }
 
             bool isErrorColumn = fileEntryAttribute.FileEntryVersion == FileEntryVersion.Error;
             bool showErrorColumns = ShowWhatColumnHandler.ShowErrorColumns(showWhatColumns);
@@ -1123,7 +1126,7 @@ namespace DataGridViewGeneric
                 if (columnIndex != -1)
                 {
                     fileEntryVersionCompareReason = FileEntryVersionCompare.NotEqualFound;
-                    return -1; //DEBUG, should not happen, need to fix
+                    return -1; //DEBUG, should not happen, need to fix IF happen
                 }
 
                 //Do not add columns that is not visible //Check if error column first, can be historical, and error
@@ -1210,12 +1213,10 @@ namespace DataGridViewGeneric
                 DataGridViewGenericColumn currentDataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
 
                 //DEBUG: Can be removed, after test 
-                if (currentDataGridViewGenericColumn == null) 
+                if (currentDataGridViewGenericColumn == null) //DEBUG: Can be removed if not happen
                     currentDataGridViewGenericColumn = new DataGridViewGenericColumn(fileEntryAttribute, thumbnail, metadata, readWriteAccessForColumn);
                 
 
-                //if (metadata != null && currentDataGridViewGenericColumn.Metadata != null && isCurrenOrUpdatedColumn)
-                //{
                     #region Updated - When new, No updated when Equal or older
                     if (IsDataGridViewDirty(dataGridView, columnIndex)) //That means, data was changed by user and trying to make changes to "past"
                     {
@@ -1237,19 +1238,7 @@ namespace DataGridViewGeneric
                                 break;
                             default:
                                 throw new NotImplementedException();
-                        }
-
-                        //if (isCurrenOrUpdatedColumn ||
-                        //    metadata.FileDateModified > currentDataGridViewGenericColumn.Metadata.FileDateModified)
-                        //{
-                        //    isMetadataAlreadyAgregated = true; //Do not refresh, due to DataGrid are changed by user, do not overwrite
-                        //    currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = true; //Warn, new files can't be shown
-                        //}
-                        //else //Its older or equal
-                        //{
-                        //    isMetadataAlreadyAgregated = true; //Do not refresh, due to old file or equal file, do not overwrite
-                        //    currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed
-                        //}
+                        }                    
                         #endregion 
                     }
                     else
@@ -1273,53 +1262,11 @@ namespace DataGridViewGeneric
                             default:
                                 throw new NotImplementedException();
                         }
-
-                        //Check if old file, due to User click "reload metadata", then newest version has become older that current
-                        //if (isCurrenOrUpdatedColumn ||
-                        //    metadata.FileDateModified > currentDataGridViewGenericColumn.Metadata.FileDateModified)
-                        //{
-                        //    isMetadataAlreadyAgregated = false; //Refresh with newst data
-                        //    currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warnings needed, just updated datagrid with new data
-                        //    currentDataGridViewGenericColumn.Metadata = metadata; //Keep newest version
-                        //}
-                        //else //Its older or equal
-                        //{
-                        //    isMetadataAlreadyAgregated = true; //Do not refresh, due to old file, or eqaul do not overwrite
-                        //    currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed
-                        //}
                         #endregion
                     }
                     #endregion
-                //}
-                //else if (currentDataGridViewGenericColumn.Metadata != null && metadata != null)  //&& NOT isCurrenOrUpdatedColumn
-                //{
-                //    #region Update - Error or Historical Column
-                //    isMetadataAlreadyAgregated = false;
-                //    currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false;
-                //    #endregion
-                //}
-                //else if (currentDataGridViewGenericColumn.Metadata != null && metadata == null)
-                //{
-                //    #region No updated - No data arrived
-                //    isMetadataAlreadyAgregated = true;
-                //    currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false;
-                //    #endregion
-                //}
-                //else 
-                //{
-                //    #region Updated - When column is "new" and data has arrived
-                //    isMetadataAlreadyAgregated = false;
-                //    currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false;
-                //    currentDataGridViewGenericColumn.Metadata = metadata;
-                //    #endregion
-                //}
-
-                //if (currentDataGridViewGenericColumn.FileEntryAttribute != fileEntryAttribute) 
-                //if (!isMetadataAlreadyAgregated)
-                //{
-                    currentDataGridViewGenericColumn.FileEntryAttribute = fileEntryAttribute; //Updated from FromSource, Database or AutoCorrect,                                                                                                
-                //}
-
+               
+                currentDataGridViewGenericColumn.FileEntryAttribute = fileEntryAttribute; //Updated from FromSource, Database or AutoCorrect                
                 currentDataGridViewGenericColumn.Thumbnail = (thumbnail == null ? null : new Bitmap(thumbnail)); //Avoid thread issues
                 currentDataGridViewGenericColumn.ReadWriteAccess = readWriteAccessForColumn;
                 dataGridView.Columns[columnIndex].Tag = currentDataGridViewGenericColumn;
@@ -1339,10 +1286,6 @@ namespace DataGridViewGeneric
                 else dataGridView.Columns[columnIndex].Visible = true;
                 #endregion 
             }
-
-            //if (isMetadataAlreadyAgregated && 
-            //if (fileEntryAttribute.FileEntryVersion != FileEntryVersion.AutoCorrect && isMetadataAlreadyAgregated)
-            //if (isMetadataAlreadyAgregated) return -1; //else 
             return columnIndex;
         }
         #endregion
@@ -1351,9 +1294,9 @@ namespace DataGridViewGeneric
         public static DataGridViewGenericColumn GetColumnDataGridViewGenericColumn(DataGridView dataGridView, int columnIndex)
         {
             if (columnIndex < 0) 
-                return null; //DEBUG - ths hsould not happen
+                return null; //DEBUG - ths should not happen
             if (columnIndex >= dataGridView.ColumnCount) 
-                return null; //DEBUG - ths hsould not happen
+                return null; //DEBUG - ths should not happen
 
             return dataGridView.Columns[columnIndex].Tag as DataGridViewGenericColumn;
         }
@@ -1561,7 +1504,7 @@ namespace DataGridViewGeneric
 
             foreach (DataGridViewGenericRowAndValue dataGridViewGenericRowAndValue in dataGridViewGenericRowAndValueList)
             {
-                int rowIndex = AddRow(dataGridView, columnIndex, dataGridViewGenericRowAndValue.DataGridViewGenericRow,
+                AddRow(dataGridView, columnIndex, dataGridViewGenericRowAndValue.DataGridViewGenericRow,
                     GetFavoriteList(dataGridView),
                     dataGridViewGenericRowAndValue.DataGridViewGenericCell.Value,
                     dataGridViewGenericRowAndValue.DataGridViewGenericCell.CellStatus, 0, true, sort);
@@ -1661,6 +1604,7 @@ namespace DataGridViewGeneric
                 }
                 else
                 {
+                    //DEBUG, is fixed can be removed 
                     //When dataGridView is still empty, or got cleaned: Why does thus occure
                 }
 
@@ -2909,14 +2853,7 @@ namespace DataGridViewGeneric
             DataGridViewHandler.SetIsPopulatingImage(dataGridView, true);
             
             int columnIndex = GetColumnIndexUserInput(dataGridView, fileEntryAttribute);
-            if (columnIndex == -2)
-            {
-
-            }else if (columnIndex == -1)
-            {
-
-            }
-            else if (columnIndex >= 0)
+            if (columnIndex >= 0)
             {
                 DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
                 dataGridViewGenericColumn.Thumbnail = new Bitmap(image);
@@ -3370,7 +3307,6 @@ namespace DataGridViewGeneric
                 if (dataGridViewGenericDataColumn.Metadata == null) return; //Don't paint TriState button when MetaData is null (data not loaded)
             }
            
-
             //If keywords row
             if (gridViewGenericDataRow.HeaderName.Equals(header))
             {
