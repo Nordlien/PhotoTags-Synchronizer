@@ -47,6 +47,14 @@ namespace PhotoTagsSynchronizer
             checkBoxDescription.Checked = Properties.Settings.Default.UseAutoCorrectFormDescription;
             checkBoxTitle.Checked = Properties.Settings.Default.UseAutoCorrectFormTitle;
             textBoxKeywords.Text = "";
+
+            AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
+            if (autoCorrect.UpdateDescription)
+            {
+                checkBoxDescription.Enabled = false;
+                comboBoxDescription.Enabled = false;
+                kryptonLabelDescriptionBecomesAlbum.Text = "Album values will overwrite Descriptions values, as setup in Config";
+            }
         }
 
         private void buttonClose_Click(object sender, EventArgs e)

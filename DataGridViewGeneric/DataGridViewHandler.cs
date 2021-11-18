@@ -1112,17 +1112,13 @@ namespace DataGridViewGeneric
 
             bool isErrorColumn = fileEntryAttribute.FileEntryVersion == FileEntryVersion.Error;
             bool showErrorColumns = ShowWhatColumnHandler.ShowErrorColumns(showWhatColumns);
-            
             bool isHistoryColumn = (fileEntryAttribute.FileEntryVersion == FileEntryVersion.Historical);
             bool showHirstoryColumns = ShowWhatColumnHandler.ShowHirstoryColumns(showWhatColumns);
             bool isCurrenOrUpdatedColumn = FileEntryVersionHandler.IsCurrenOrUpdatedVersion(fileEntryAttribute.FileEntryVersion);
             bool isErrorOrHistoricalColumn = FileEntryVersionHandler.IsErrorOrHistoricalVersion(fileEntryAttribute.FileEntryVersion);
 
-            //bool isMetadataAlreadyAgregated = false;
-
             if (fileEntryVersionCompareReason == FileEntryVersionCompare.NotEqualFound) //Column not found, add a new column
             {
-                //isMetadataAlreadyAgregated = false;
                 if (columnIndex != -1)
                 {
                     fileEntryVersionCompareReason = FileEntryVersionCompare.NotEqualFound;
@@ -1234,12 +1230,10 @@ namespace DataGridViewGeneric
                             else 
                             { 
                                 fileEntryVersionCompareReason = FileEntryVersionCompare.LostOverUserInput;
-                                //isMetadataAlreadyAgregated = true; //Do not refresh, due to DataGrid are changed by user, do not overwrite
                                 currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = true; //Warn, new files can't be shown
                             }
                             break;
                         case FileEntryVersionCompare.FoundButLost:
-                            //isMetadataAlreadyAgregated = true; //Do not refresh, due to old file or equal file, do not overwrite
                             currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed
                             break;
                         case FileEntryVersionCompare.NotEqualFound:
@@ -1257,13 +1251,11 @@ namespace DataGridViewGeneric
                     {
                         case FileEntryVersionCompare.FoundAndWon:
                         case FileEntryVersionCompare.FoundEqual:
-                            //isMetadataAlreadyAgregated = false; //Refresh with newst data
                             currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warnings needed, just updated datagrid with new data
                             currentDataGridViewGenericColumn.Metadata = metadata; //Keep newest version, PS All columns get added with empty Metadata
                             break;
                             
                         case FileEntryVersionCompare.FoundButLost:
-                            //isMetadataAlreadyAgregated = true; //Do not refresh, due to old file, or eqaul do not overwrite
                             currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed
                             break;
                         case FileEntryVersionCompare.NotEqualFound:
