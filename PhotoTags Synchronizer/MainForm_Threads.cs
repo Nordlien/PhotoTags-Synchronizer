@@ -464,6 +464,21 @@ namespace PhotoTagsSynchronizer
 
         #region LazyLoadingDataGridView - DataGridView - Metadata
 
+        public int DataGridViewLazyLoadingCount()
+        {
+            DataGridView dataGridView = GetActiveTabDataGridView();
+            int queueCount = 0;
+            if (dataGridView != null)
+            {
+                for (int columnIndex = 0; columnIndex < DataGridViewHandler.GetColumnCount(dataGridView); columnIndex++)
+                {
+                    DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+                    if (dataGridViewGenericColumn == null || (dataGridViewGenericColumn?.Metadata == null)) queueCount++;
+                }
+            }
+            return queueCount;
+        }
+
         #region LazyLoadingDataGridView - ThreadLazyLoadingQueueSize()
         public int ThreadLazyLoadingDataGridViewQueueSizeDirty()
         {

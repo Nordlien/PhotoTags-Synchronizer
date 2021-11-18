@@ -434,9 +434,8 @@ namespace PhotoTagsSynchronizer
                     string.Format("Thumbnail: {0}", CommonQueueLazyLoadingThumbnailCountDirty());
             threadQueuCount += CommonQueueLazyLoadingThumbnailCountDirty();
 
-            int lasyLoadingDataGridViewCount = ThreadLazyLoadingDataGridViewQueueSizeDirty();
-            if (lasyLoadingDataGridViewCount == 0) 
-                LazyLoadingDataGridViewProgressEndReached();
+            int lasyLoadingDataGridViewCount = ThreadLazyLoadingDataGridViewQueueSizeDirty() + DataGridViewLazyLoadingCount();
+            if (lasyLoadingDataGridViewCount == 0) LazyLoadingDataGridViewProgressEndReached();
 
             if (threadQueuCount == 0) progressBackgroundStatusText = "Nothing...";
             else progressBackgroundStatusText = "(" + threadQueuCount + ") " + progressBackgroundStatusText;
@@ -620,13 +619,14 @@ namespace PhotoTagsSynchronizer
         #region LazyLoadingDataGridViewProgress
 
 
-
         #region LazyLoadingDataGridViewProgress - End Reached
         public void LazyLoadingDataGridViewProgressEndReached()
         {
             LazyLoadingDataGridViewProgressUpdateStatus(0);
         }
+        #endregion
 
+        #region LazyLoadingDataGridViewProgressHide
         private static Thread _ThreadDelayLazyLoadingHide = null;
         public void LazyLoadingDataGridViewProgressHide()
         {
@@ -638,7 +638,7 @@ namespace PhotoTagsSynchronizer
                     {
                         _ThreadDelayLazyLoadingHide = new Thread(() =>
                         {
-                            Task.Delay(2).Wait();
+                            Task.Delay(100).Wait();
                             
                             if (lastQueueSize == 0 && this.IsHandleCreated) this.BeginInvoke(new Action<bool>(ProgressbarLazyLoadingProgress), false);
                             _ThreadDelayLazyLoadingHide = null;
@@ -666,9 +666,9 @@ namespace PhotoTagsSynchronizer
                     {
                         _ThreadDelayLazyLoadingShow = new Thread(() =>
                         {
-                            Task.Delay(1).Wait();
-                            //if (lastQueueSize > 0) 
-                                this.BeginInvoke(new Action<bool>(ProgressbarLazyLoadingProgress), true);                             
+                            Task.Delay(10).Wait();
+                            this.BeginInvoke(new Action<bool>(ProgressbarLazyLoadingProgress), lastQueueSize>0);
+                            _ThreadDelayLazyLoadingShow = null;
                         });
 
                         if (_ThreadDelayLazyLoadingShow != null) _ThreadDelayLazyLoadingShow.Start();
@@ -685,8 +685,34 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        #region LazyLoadingDataGridViewProgress - Update Status
+        #region ProgressbarLazyLoadingProgressLazyLoadingRemainding(int queueRemainding)
+        private int ProgressbarLazyLoadingProgressLazyLoadingRemainding(int queueRemainding)
+        {
+            if (queueRemainding > progressBarLazyLoading.Maximum) progressBarLazyLoading.Maximum = queueRemainding;
+            progressBarLazyLoading.Value = progressBarLazyLoading.Maximum - queueRemainding;
+            SetButtonSpecNavigator(buttonSpecNavigatorDataGridViewProgressCircle, progressBarLazyLoading.Value, progressBarLazyLoading.Maximum);
+            return progressBarLazyLoading.Value;
+        }
+        #endregion
 
+        #region ProgressbarLazyLoadingProgress(bool visible)
+        private void ProgressbarLazyLoadingProgress(bool visible)
+        {
+            kryptonRibbonGroupTripleToolsProgressStatusWork.Visible = visible;
+            kryptonRibbonGroupLabelToolsProgressLazyloading.Enabled = visible;
+            kryptonRibbonGroupCustomControlToolsProgressLazyloading.Enabled = visible;
+            buttonSpecNavigatorDataGridViewProgressCircle.Visible = visible;
+        }
+        #endregion
+
+        #region IsProgressbarLazyLoadingProgressVisible
+        private bool IsProgressbarLazyLoadingProgressVisible
+        {
+            get { return kryptonRibbonGroupTripleToolsProgressStatusWork.Visible; }
+        }
+        #endregion
+
+        #region LazyLoadingDataGridViewProgress - Update Status
         private static int lastQueueSize = 0;
         public void LazyLoadingDataGridViewProgressUpdateStatus(int queueSize)
         {
@@ -701,8 +727,7 @@ namespace PhotoTagsSynchronizer
             {
                 LazyLoadingDataGridViewProgressHide();
             }
-        }        
-        
+        }         
         #endregion
         
         #endregion

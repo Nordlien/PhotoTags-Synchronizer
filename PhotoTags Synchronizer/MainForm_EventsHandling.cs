@@ -7844,32 +7844,6 @@ namespace PhotoTagsSynchronizer
 
         #endregion 
 
-        #region ProgressbarLazyLoadingProgressLazyLoadingRemainding(int queueRemainding)
-        private int ProgressbarLazyLoadingProgressLazyLoadingRemainding(int queueRemainding)
-        {
-            if (queueRemainding > progressBarLazyLoading.Maximum) progressBarLazyLoading.Maximum = queueRemainding;
-            progressBarLazyLoading.Value = progressBarLazyLoading.Maximum - queueRemainding;
-            SetButtonSpecNavigator(buttonSpecNavigatorDataGridViewProgressCircle, progressBarLazyLoading.Value, progressBarLazyLoading.Maximum);
-            return progressBarLazyLoading.Value;
-        }
-        #endregion
-
-        #region ProgressbarLazyLoadingProgress(bool visible)
-        private void ProgressbarLazyLoadingProgress(bool visible)
-        {
-            kryptonRibbonGroupTripleToolsProgressStatusWork.Visible = visible;
-            kryptonRibbonGroupLabelToolsProgressLazyloading.Enabled = visible;
-            kryptonRibbonGroupCustomControlToolsProgressLazyloading.Enabled = visible;
-            buttonSpecNavigatorDataGridViewProgressCircle.Visible = visible;
-        }
-        #endregion
-
-        #region IsProgressbarLazyLoadingProgressVisible
-        private bool IsProgressbarLazyLoadingProgressVisible
-        {
-            get { return kryptonRibbonGroupTripleToolsProgressStatusWork.Visible; }
-        }
-        #endregion
 
         #endregion
 

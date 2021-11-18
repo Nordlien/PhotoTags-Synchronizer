@@ -688,7 +688,7 @@ namespace DataGridViewGeneric
                     {
                         _ThreadResumeDataGrid = new Thread(() =>
                         {
-                            Task.Delay(750).Wait();
+                            Task.Delay(150).Wait();
                             if (suspendCount == 0) dataGridView.BeginInvoke(new Action<DataGridView>(ResumeLayoutInvoke), dataGridView); //ResumeLayoutInvoke(dataGridView);
                             _ThreadResumeDataGrid = null;
                         });
@@ -967,8 +967,9 @@ namespace DataGridViewGeneric
             if (columnIndexCache.ContainsKey(fileEntryAttribute))
             {
                 int columnIndex = columnIndexCache[fileEntryAttribute];
-                if (dataGridView.Columns[columnIndex].HeaderCell.Tag is DataGridViewGenericColumn dataGridViewGenericColumn &&
-                    dataGridViewGenericColumn.FileEntryAttribute == fileEntryAttribute) return columnIndex;
+                if (columnIndex < dataGridView.ColumnCount &&
+                    dataGridView.Columns[columnIndex].HeaderCell.Tag is DataGridViewGenericColumn dataGridViewGenericColumn &&
+                    dataGridViewGenericColumn != null && dataGridViewGenericColumn.FileEntryAttribute == fileEntryAttribute) return columnIndex;
                 columnIndexCache.Clear();
             }
 
@@ -1013,8 +1014,9 @@ namespace DataGridViewGeneric
             if (columnIndexCachePriorities.ContainsKey(fileEntryAttribute))
             {
                 int columnIndex = columnIndexCachePriorities[fileEntryAttribute];
-                if (dataGridView.Columns[columnIndex].HeaderCell.Tag is DataGridViewGenericColumn dataGridViewGenericColumn &&
-                    dataGridViewGenericColumn.FileEntryAttribute == fileEntryAttribute)
+                if (columnIndex < dataGridView.ColumnCount && 
+                    dataGridView.Columns[columnIndex].HeaderCell.Tag is DataGridViewGenericColumn dataGridViewGenericColumn &&
+                    dataGridViewGenericColumn != null && dataGridViewGenericColumn.FileEntryAttribute == fileEntryAttribute)
                 {
                     if (dataGridViewGenericColumn != null)
                     {
@@ -1479,8 +1481,9 @@ namespace DataGridViewGeneric
             if (rowIndexCache.ContainsKey(dataGridViewGenericRow))
             {
                 int rowIndex = rowIndexCache[dataGridViewGenericRow];
-                if (dataGridView.Rows[rowIndex].HeaderCell.Tag is DataGridViewGenericRow dataGridViewGenericRowCheck &&
-                    dataGridViewGenericRowCheck == dataGridViewGenericRow) return rowIndex;
+                if (rowIndex < dataGridView.RowCount &&
+                    dataGridView.Rows[rowIndex].HeaderCell.Tag is DataGridViewGenericRow dataGridViewGenericRowCheck &&
+                    dataGridViewGenericRowCheck != null && dataGridViewGenericRowCheck == dataGridViewGenericRow) return rowIndex;
                 rowIndexCache.Clear();
             }
             for (int rowIndex = 0; rowIndex < GetRowCountWithoutEditRow(dataGridView); rowIndex++)

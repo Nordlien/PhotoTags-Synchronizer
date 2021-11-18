@@ -432,20 +432,10 @@ namespace PhotoTagsSynchronizer
                 }
                 #endregion
 
-                int queueCount = ThreadLazyLoadingDataGridViewQueueSizeDirty();
-                if (dataGridView != null)
-                {
-                    for (int columnIndex = 0; columnIndex < DataGridViewHandler.GetColumnCount(dataGridView); columnIndex++)
-                    {
-                        DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-                        if (dataGridViewGenericColumn == null || dataGridViewGenericColumn?.Metadata != null) queueCount++;
-                    }
-                }
-
+                int queueCount = ThreadLazyLoadingDataGridViewQueueSizeDirty() + DataGridViewLazyLoadingCount();
                 if (isFileInDataGridView) LazyLoadingDataGridViewProgressUpdateStatus(queueCount); //Update progressbar when File In DataGridView
 
-                DataGridViewHandler.ResumeLayoutDelayed(dataGridView);
-                
+                DataGridViewHandler.ResumeLayoutDelayed(dataGridView);                
                 if (queueCount == 0)
                 {
                     //LazyLoadMissingLock();
