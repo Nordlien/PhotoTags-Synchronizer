@@ -658,20 +658,25 @@ namespace PhotoTagsSynchronizer
         private bool isClosing = false;
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if (commonQueueSaveMetadataUpdatedByUser.Count > 0 || IsAnyDataUnsaved())
+            {
+                if (KryptonMessageBox.Show(
+                    "There are " + commonQueueSaveMetadataUpdatedByUser.Count + " unsaved media files in queue.\r\n" +
+                    (IsAnyDataUnsaved() ? "You have unsaved changes in DataGridView\r\n" : "") +
+                    "Are you sure you will close application?",
+                    "Press Ok will quit application and changed will get lost.\r\n" +
+                    "Press Cancel and return back to application.", MessageBoxButtons.OKCancel) == DialogResult.Cancel)
+                {
+                    isClosing = false;
+                    e.Cancel = true;
+                    return;
+                }
+            }
+
             if (!isClosing)
             {
                 isClosing = true;
-                if (commonQueueSaveMetadataUpdatedByUser.Count > 0)
-                {
-                    if (MessageBox.Show(
-                        "There are " + commonQueueSaveMetadataUpdatedByUser.Count + " unsaved media files. Are you sure you will close application?",
-                        "Changed will get lost.", MessageBoxButtons.OKCancel) == DialogResult.Cancel)
-                    {
-                        e.Cancel = true;
-                        return;
-                    }
-                }
-
+            
                 try
                 {
                     exiftoolReader.MetadataGroupPrioritiesWrite(); //Updated json config file if new tags found

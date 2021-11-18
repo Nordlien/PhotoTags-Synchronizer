@@ -3960,6 +3960,8 @@ namespace PhotoTagsSynchronizer
         #region Save - IsAnyDataUnsaved
         private bool IsAnyDataUnsaved()
         {
+            if (isClosing) return false;
+
             bool isAnyDataUnsaved = false;
             if (GlobalData.IsAgregatedTags) isAnyDataUnsaved = DataGridViewHandler.IsDataGridViewDirty(dataGridViewTagsAndKeywords);
             if (isAnyDataUnsaved) return isAnyDataUnsaved;
