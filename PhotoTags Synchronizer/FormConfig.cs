@@ -26,6 +26,7 @@ using System.Data;
 using System.Reflection;
 using PhotoTagsCommonComponets;
 using Krypton.Toolkit;
+using System.Xml.Linq;
 
 namespace PhotoTagsSynchronizer
 {
@@ -338,95 +339,11 @@ namespace PhotoTagsSynchronizer
             comboBoxChromecastAudioCodec.Text = Properties.Settings.Default.ChromecastAudioCodec;
             comboBoxChromecastVideoCodec.Text = Properties.Settings.Default.ChromecastVideoCodec;
 
+
             //Show log
-            string logFilename = GetLogFileName("logfile");
-            if (string.IsNullOrWhiteSpace(logFilename)) logFilename = "PhotoTagsSynchronizer_Log.txt";
-
-            try
-            {
-
-                if (File.Exists(logFilename))
-                {
-                    fastColoredTextBoxShowLog.OpenBindingFile(logFilename, Encoding.UTF8);
-                    fastColoredTextBoxShowLog.IsChanged = false;
-                    fastColoredTextBoxShowLog.ClearUndo();
-                    GC.Collect();
-                    GC.GetTotalMemory(true);
-                }
-            } catch (Exception ex)
-            {
-                KryptonMessageBox.Show("Was not able top open the log file.\r\n\r\n" + ex.Message);
-            }
-
-            try
-            {
-                logFilename = "Pipe\\WindowsLivePhotoGalleryServer_Log.txt";
-                if (File.Exists(logFilename))
-                {
-                    fastColoredTextBoxShowPipe32Log.OpenBindingFile(logFilename, Encoding.UTF8);
-                    fastColoredTextBoxShowPipe32Log.IsChanged = false;
-                    fastColoredTextBoxShowPipe32Log.ClearUndo();
-                    GC.Collect();
-                    GC.GetTotalMemory(true);
-                }
-            }
-            catch (Exception ex)
-            {
-                KryptonMessageBox.Show("Was not able top open the log file.\r\n\r\n" + ex.Message);
-            }
+            ShowLogs();
         }
         #endregion 
-
-        #region Log - GetLogFileName(string targetName)
-        private string GetLogFileName(string targetName)
-        {
-            string fileName = null;
-
-            if (LogManager.Configuration != null && LogManager.Configuration.ConfiguredNamedTargets.Count != 0)
-            {
-                Target target = LogManager.Configuration.FindTargetByName(targetName);
-                if (target == null)
-                {
-                    return null;
-                    //throw new Exception("Could not find target named: " + targetName);
-                }
-
-                FileTarget fileTarget = null;
-                WrapperTargetBase wrapperTarget = target as WrapperTargetBase;
-
-                // Unwrap the target if necessary.
-                if (wrapperTarget == null)
-                {
-                    fileTarget = target as FileTarget;
-                }
-                else
-                {
-                    fileTarget = wrapperTarget.WrappedTarget as FileTarget;
-                }
-
-                if (fileTarget == null)
-                {
-                    return null;
-                    //throw new Exception("Could not get a FileTarget from " + target.GetType());
-                }
-
-                var logEventInfo = new LogEventInfo { TimeStamp = DateTime.Now };
-                fileName = fileTarget.FileName.Render(logEventInfo);
-            }
-            else
-            {
-                return null;
-                //throw new Exception("LogManager contains no Configuration or there are no named targets");
-            }
-
-            /*if (!File.Exists(fileName))
-            {
-                throw new Exception("File " + fileName + " does not exist");
-            }*/
-
-            return fileName;
-        }
-        #endregion
 
         #region Config - Load
         private void Config_Load(object sender, EventArgs e)
@@ -2567,6 +2484,158 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
+        #region Log - GetLogFileName(string targetName)
+        private string GetLogFileName(string targetName)
+        {
+            string fileName = null;
+
+            if (LogManager.Configuration != null && LogManager.Configuration.ConfiguredNamedTargets.Count != 0)
+            {
+                Target target = LogManager.Configuration.FindTargetByName(targetName);
+                if (target == null)
+                {
+                    return null;
+                }
+
+                FileTarget fileTarget = null;
+                WrapperTargetBase wrapperTarget = target as WrapperTargetBase;
+
+                // Unwrap the target if necessary.
+                if (wrapperTarget == null)
+                {
+                    fileTarget = target as FileTarget;
+                }
+                else
+                {
+                    fileTarget = wrapperTarget.WrappedTarget as FileTarget;
+                }
+
+                if (fileTarget == null)
+                {
+                    return null;
+                    //throw new Exception("Could not get a FileTarget from " + target.GetType());
+                }
+
+                var logEventInfo = new LogEventInfo { TimeStamp = DateTime.Now };
+                fileName = fileTarget.FileName.Render(logEventInfo);
+            }
+            else
+            {
+                return null;
+            }
+
+            return fileName;
+        }
+        #endregion
+
+        #region Log - GetLogFilenameApplication
+        private string GetLogFilenameApplication()
+        {
+            string logFilename = "";
+            try
+            {
+                logFilename = GetLogFileName("logfile");
+                if (string.IsNullOrWhiteSpace(logFilename)) logFilename = "PhotoTagsSynchronizer_Log.txt";
+                if (!File.Exists(logFilename)) FileHandler.CombineApplicationPathWithFilename(logFilename);
+            }
+            catch { }
+
+            return logFilename;
+        }
+        #endregion
+
+        #region Log - GetLogFilenameServer
+        private string GetLogFilenameServer()
+        {
+
+            string logFilename = "";
+
+            try
+            {
+                string configFilename = FileHandler.CombineApplicationPathWithFilename("Pipe\\NLog.config");
+                try
+                {
+                    if (!File.Exists(configFilename)) configFilename = FileHandler.CombineApplicationPathWithFilename("Pipe\\net48\\NLog.config");
+                    if (!File.Exists(configFilename)) configFilename = FileHandler.CombineApplicationPathWithFilename("Pipe\\WindowsLivePhotoGalleryServer.exe.NLog");
+                    if (!File.Exists(configFilename)) configFilename = FileHandler.CombineApplicationPathWithFilename("Pipe\\net48\\WindowsLivePhotoGalleryServer.exe.NLog");
+                }
+                catch { }
+
+                string xmlFilename = "";
+                if (File.Exists(configFilename))
+                {
+                    var doc = XDocument.Load(configFilename);
+                    xmlFilename = doc.Descendants().Where(e => e.Name.LocalName == "target").First().Attribute("fileName").Value;
+                }
+                logFilename = xmlFilename;
+                if (!File.Exists(logFilename)) logFilename = FileHandler.CombineApplicationPathWithFilename("Pipe\\" + xmlFilename);
+                if (!File.Exists(logFilename)) logFilename = FileHandler.CombineApplicationPathWithFilename("Pipe\\net48\\" + xmlFilename);
+            }
+            catch { }
+
+            if (!File.Exists(logFilename)) logFilename = FileHandler.CombineApplicationPathWithFilename("Pipe\\WindowsLivePhotoGalleryServer_Log.txt");            
+            if (!File.Exists(logFilename)) logFilename = FileHandler.CombineApplicationPathWithFilename("Pipe\\net48\\WindowsLivePhotoGalleryServer_Log.txt");            
+            return logFilename;
+        }
+        #endregion 
+
+        #region Log - Load and show files
+        private void ShowLogs()
+        {
+            string logFilename = GetLogFilenameApplication();
+            try
+            {
+                if (File.Exists(logFilename))
+                {
+                    fastColoredTextBoxShowLog.OpenBindingFile(logFilename, Encoding.UTF8);
+                    fastColoredTextBoxShowLog.IsChanged = false;
+                    fastColoredTextBoxShowLog.ClearUndo();
+                    GC.Collect();
+                    GC.GetTotalMemory(true);
+                }
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Was not able top open the log file.\r\n\r\n" + ex.Message);
+            }
+
+            try
+            {
+                logFilename = GetLogFilenameServer(); 
+                
+                if (File.Exists(logFilename))
+                {
+                    fastColoredTextBoxShowPipe32Log.OpenBindingFile(logFilename, Encoding.UTF8);
+                    fastColoredTextBoxShowPipe32Log.IsChanged = false;
+                    fastColoredTextBoxShowPipe32Log.ClearUndo();
+                    GC.Collect();
+                    GC.GetTotalMemory(true);
+                }
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Was not able to open the log file.\r\n\r\n" + ex.Message);
+            }
+        }
+        #endregion
+
+        #region Log - Delete log files
+        private void kryptonButtonLogDeleteLogFiles_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (File.Exists(GetLogFilenameApplication())) File.Delete(GetLogFilenameApplication());
+                fastColoredTextBoxShowLog.Clear();
+
+                if (File.Exists(GetLogFilenameServer())) File.Delete(GetLogFilenameServer());
+                fastColoredTextBoxShowPipe32Log.Clear();
+            } catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Was not able to delete the log files.\r\n\r\n" + ex.Message);
+            }
+        }
+        #endregion 
+
         #region Convert and Merge
 
         #region Convert and Merge - PopulateConvertAndMerge()
@@ -3168,6 +3237,7 @@ namespace PhotoTagsSynchronizer
             KryptonPaletteHandler.SetImageListViewPalettes(kryptonManager1, imageListView1);
         }
 
+        
     }
 }
 
