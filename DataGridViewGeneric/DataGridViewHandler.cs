@@ -1227,9 +1227,16 @@ namespace DataGridViewGeneric
                     {
                         case FileEntryVersionCompare.FoundAndWon:
                         case FileEntryVersionCompare.FoundEqual:
-                            fileEntryVersionCompareReason = FileEntryVersionCompare.LostOverUserInput;
-                            //isMetadataAlreadyAgregated = true; //Do not refresh, due to DataGrid are changed by user, do not overwrite
-                            currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = true; //Warn, new files can't be shown
+                            if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect)
+                            {
+                                currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed, expected behaviour
+                            } 
+                            else 
+                            { 
+                                fileEntryVersionCompareReason = FileEntryVersionCompare.LostOverUserInput;
+                                //isMetadataAlreadyAgregated = true; //Do not refresh, due to DataGrid are changed by user, do not overwrite
+                                currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = true; //Warn, new files can't be shown
+                            }
                             break;
                         case FileEntryVersionCompare.FoundButLost:
                             //isMetadataAlreadyAgregated = true; //Do not refresh, due to old file or equal file, do not overwrite
