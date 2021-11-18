@@ -1,7 +1,9 @@
 ﻿
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
 using Krypton.Toolkit;
+using MetadataLibrary;
 
 namespace PhotoTagsSynchronizer
 {
@@ -19,8 +21,9 @@ namespace PhotoTagsSynchronizer
                 GlobalData.IsPopulatingImageListView = true;
                 GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
 
-                PopulateDataGridViewForSelectedItemsThread(imageListView1.SelectedItems);
-                PopulateImageListViewOpenWithToolStripThread(imageListView1.SelectedItems, imageListView1.Items);
+                HashSet<FileEntry> fileEntries = GetSelectedFileEntriesImageListView();
+                PopulateDataGridViewForSelectedItemsThread(fileEntries);
+                PopulateImageListViewOpenWithToolStripThread(fileEntries, imageListView1.Items);
                 
                 GlobalData.IsPopulatingImageListView = false;
             }

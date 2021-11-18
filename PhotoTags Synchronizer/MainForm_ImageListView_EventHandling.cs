@@ -344,11 +344,12 @@ namespace PhotoTagsSynchronizer
             //if (GlobalData.IsPopulatingAnything()) return; //E.g. Populate FolderSelect
             if (GlobalData.DoNotRefreshDataGridViewWhileFileSelect) return;
             if (!GlobalData.IsPopulatingFolderSelected) SaveBeforeContinue(false);
+            SelectedFileEntriesImageListViewCacheClear();
             GroupSelectionClear();
-            imageListView1.Enabled = false; //When Enabled = true, slection was cancelled during Updating the grid
+            imageListView1.SuspendLayout(); //When Enabled = true, slection was cancelled during Updating the grid
             FilesSelectedOrNoneSelected();
             imageListView1.Enabled = true;
-            imageListView1.Focus();
+            imageListView1.ResumeLayout(); 
             MaximizeOrRestoreWorkspaceMainCellAndChilds();
         }
         #endregion
@@ -466,7 +467,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region ImageListView - Populate - OpenWith - Thread
-        private void PopulateImageListViewOpenWithToolStripThread(ImageListViewSelectedItemCollection imageListViewSelectedItems, ImageListViewItemCollection imageListViewItems)
+        private void PopulateImageListViewOpenWithToolStripThread(HashSet<FileEntry> imageListViewSelectedItems, ImageListViewItemCollection imageListViewItems)
         {
             bool addOnlySelectedItems = true;
             switch (ActiveKryptonPage)
@@ -498,9 +499,9 @@ namespace PhotoTagsSynchronizer
             {
                 if (addOnlySelectedItems && imageListViewSelectedItems != null)
                 {
-                    foreach (ImageListViewItem imageListViewItem in imageListViewSelectedItems)
+                    foreach (FileEntry imageListViewItem in imageListViewSelectedItems)
                     {
-                        imageListViewFileEntryCopy.Add(new FileEntry(imageListViewItem.FileFullPath, imageListViewItem.DateModified)); //Avoid crash when items gets updated
+                        imageListViewFileEntryCopy.Add(new FileEntry(imageListViewItem.FileFullPath, imageListViewItem.LastWriteDateTime)); //Avoid crash when items gets updated
                     }
                 }
                 if (!addOnlySelectedItems && imageListViewItems != null)

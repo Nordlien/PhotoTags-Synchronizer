@@ -318,7 +318,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region PopulateSelectedFiles
-        public static void PopulateSelectedFiles(DataGridView dataGridView, ImageListViewSelectedItemCollection imageListViewSelectItems, DataGridViewSize dataGridViewSize, ShowWhatColumns showWhatColumns)
+        public static void PopulateSelectedFiles(DataGridView dataGridView, HashSet<FileEntry> imageListViewSelectItems, DataGridViewSize dataGridViewSize, ShowWhatColumns showWhatColumns)
         {
             //-----------------------------------------------------------------
             //Chech if need to stop

@@ -307,7 +307,7 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region PopulateSelectedFiles
-        public static void PopulateSelectedFiles(DataGridView dataGridView, ImageListViewSelectedItemCollection imageListViewSelectItems, DataGridViewSize dataGridViewSize, ShowWhatColumns showWhatColumns, bool showFullPath)
+        public static void PopulateSelectedFiles(DataGridView dataGridView, HashSet<FileEntry> imageListViewSelectItems, DataGridViewSize dataGridViewSize, ShowWhatColumns showWhatColumns, bool showFullPath)
         {
             //-----------------------------------------------------------------
             //Chech if need to stop
@@ -328,9 +328,9 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.SetIsAgregated(dataGridView, true);
             //-----------------------------------------------------------------
 
-            foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
+            foreach (FileEntry imageListViewItem in imageListViewSelectItems)
             {
-                PopulateFile(dataGridView, new FileEntryAttribute(imageListViewItem.FileFullPath, imageListViewItem.DateModified, FileEntryVersion.CurrentVersionInDatabase), showFullPath);
+                PopulateFile(dataGridView, new FileEntryAttribute(imageListViewItem.FileFullPath, imageListViewItem.LastWriteDateTime, FileEntryVersion.CurrentVersionInDatabase), showFullPath);
             }
 
 

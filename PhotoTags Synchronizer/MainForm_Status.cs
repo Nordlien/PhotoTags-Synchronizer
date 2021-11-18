@@ -9,6 +9,7 @@ using FileHandeling;
 using Krypton.Toolkit;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace PhotoTagsSynchronizer
 {
@@ -434,8 +435,8 @@ namespace PhotoTagsSynchronizer
                     string.Format("Thumbnail: {0}", CommonQueueLazyLoadingThumbnailCountDirty());
             threadQueuCount += CommonQueueLazyLoadingThumbnailCountDirty();
 
-            int lasyLoadingDataGridViewCount = ThreadLazyLoadingDataGridViewQueueSizeDirty() + DataGridViewLazyLoadingCount();
-            if (lasyLoadingDataGridViewCount == 0) LazyLoadingDataGridViewProgressEndReached();
+            //int lasyLoadingDataGridViewCount = ThreadLazyLoadingDataGridViewQueueSizeDirty() + DataGridViewLazyLoadingCount();
+            //if (lasyLoadingDataGridViewCount == 0) LazyLoadingDataGridViewProgressEndReached();
 
             if (threadQueuCount == 0) progressBackgroundStatusText = "Nothing...";
             else progressBackgroundStatusText = "(" + threadQueuCount + ") " + progressBackgroundStatusText;
@@ -638,9 +639,9 @@ namespace PhotoTagsSynchronizer
                     {
                         _ThreadDelayLazyLoadingHide = new Thread(() =>
                         {
-                            Task.Delay(100).Wait();
-                            
-                            if (lastQueueSize == 0 && this.IsHandleCreated) this.BeginInvoke(new Action<bool>(ProgressbarLazyLoadingProgress), false);
+                            Task.Delay(500).Wait();
+
+                            if (lastQueueSize == 0 && this.IsHandleCreated) ProgressbarLazyLoadingProgress(false); //this.BeginInvoke(new Action<bool>(ProgressbarLazyLoadingProgress), false);
                             _ThreadDelayLazyLoadingHide = null;
                         });
 
@@ -667,7 +668,8 @@ namespace PhotoTagsSynchronizer
                         _ThreadDelayLazyLoadingShow = new Thread(() =>
                         {
                             Task.Delay(10).Wait();
-                            this.BeginInvoke(new Action<bool>(ProgressbarLazyLoadingProgress), lastQueueSize>0);
+                            ProgressbarLazyLoadingProgress(lastQueueSize > 0);
+                            //this.BeginInvoke(new Action<bool>(ProgressbarLazyLoadingProgress), lastQueueSize>0);
                             _ThreadDelayLazyLoadingShow = null;
                         });
 
@@ -685,10 +687,53 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
+        #region GetProgressCircle(int procentage)
+        private Bitmap GetProgressCircle(int procentage)
+        {
+            if (procentage <= 6) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle01_16x16;
+            else if (procentage <= 12) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle02_16x16;
+            else if (procentage <= 18) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle03_16x16;
+            else if (procentage <= 24) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle04_16x16;
+            else if (procentage <= 29) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle05_16x16;
+            else if (procentage <= 35) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle06_16x16;
+            else if (procentage <= 41) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle07_16x16;
+            else if (procentage <= 47) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle08_16x16;
+            else if (procentage <= 53) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle09_16x16;
+            else if (procentage <= 59) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle10_16x16;
+            else if (procentage <= 65) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle11_16x16;
+            else if (procentage <= 71) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle12_16x16;
+            else if (procentage <= 76) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle13_16x16;
+            else if (procentage <= 82) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle14_16x16;
+            else if (procentage <= 88) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle15_16x16;
+            else if (procentage <= 94) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle16_16x16;
+            return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle17_16x16;
+        }
+        #endregion
+
+        #region SetButtonSpecNavigator
+        private Stopwatch stopwatch = new Stopwatch();
+        private void SetButtonSpecNavigator(Krypton.Navigator.ButtonSpecNavigator buttonSpecNavigator, int value, int maximum)
+        {
+            int procentage = 0;
+            if (value >= maximum) procentage = 100;
+            else procentage = (int)(((double)value / (double)maximum) * 100);
+            buttonSpecNavigatorDataGridViewProgressCircle.Image = GetProgressCircle(procentage);
+            buttonSpecNavigatorDataGridViewProgressCircle.ImageStates.ImageNormal = GetProgressCircle(procentage);
+
+            if (!stopwatch.IsRunning || stopwatch.ElapsedMilliseconds > 100)
+            {
+                stopwatch.Restart();
+                kryptonWorkspaceCellToolbox.Refresh();
+            }
+        }
+
+        #endregion
+
         #region ProgressbarLazyLoadingProgressLazyLoadingRemainding(int queueRemainding)
         private int ProgressbarLazyLoadingProgressLazyLoadingRemainding(int queueRemainding)
-        {
+        {           
             if (queueRemainding > progressBarLazyLoading.Maximum) progressBarLazyLoading.Maximum = queueRemainding;
+            if (queueRemainding == 0) progressBarLazyLoading.Maximum = 0;
             progressBarLazyLoading.Value = progressBarLazyLoading.Maximum - queueRemainding;
             SetButtonSpecNavigator(buttonSpecNavigatorDataGridViewProgressCircle, progressBarLazyLoading.Value, progressBarLazyLoading.Maximum);
             return progressBarLazyLoading.Value;
@@ -698,6 +743,7 @@ namespace PhotoTagsSynchronizer
         #region ProgressbarLazyLoadingProgress(bool visible)
         private void ProgressbarLazyLoadingProgress(bool visible)
         {
+            if (!visible) progressBarLazyLoading.Maximum = 0;
             kryptonRibbonGroupTripleToolsProgressStatusWork.Visible = visible;
             kryptonRibbonGroupLabelToolsProgressLazyloading.Enabled = visible;
             kryptonRibbonGroupCustomControlToolsProgressLazyloading.Enabled = visible;
@@ -719,7 +765,7 @@ namespace PhotoTagsSynchronizer
             int queueCount = ProgressbarLazyLoadingProgressLazyLoadingRemainding(queueSize);
             lastQueueSize = queueSize;
 
-            if (queueSize > 1)
+            if (queueSize > 0)
             {
                 LazyLoadingDataGridViewProgressShow();
             }

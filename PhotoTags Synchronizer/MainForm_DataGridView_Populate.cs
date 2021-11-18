@@ -261,7 +261,7 @@ namespace PhotoTagsSynchronizer
                         break;
                     default: throw new NotImplementedException();
                 }
-                PopulateDataGridViewForSelectedItemsThread(imageListView1.SelectedItems);
+                PopulateDataGridViewForSelectedItemsThread(GetSelectedFileEntriesImageListView());
             }
             catch (Exception ex)
             {
@@ -447,17 +447,17 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region DataGridView - LazyLoad - Populate File - For Selected Files 
-        private void LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(ImageListViewSelectedItemCollection imageListViewSelectItems)
+        private void LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(HashSet<FileEntry> imageListViewSelectItems)
         {
             List<FileEntryAttribute> lazyLoadingAllExiftoolVersionOfMediaFile = new List<FileEntryAttribute>();
 
-            foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
+            foreach (FileEntry imageListViewItem in imageListViewSelectItems)
             {
                 List<FileEntryAttribute> fileEntryAttributeDateVersions = databaseAndCacheMetadataExiftool.ListFileEntryAttributesCache(MetadataBrokerType.ExifTool, imageListViewItem.FileFullPath);
                 //When list is 0, then Metadata was not readed from mediafile and needs put back in read queue
                 if (fileEntryAttributeDateVersions.Count == 0)
                 {
-                    AddQueueLazyLoadingDataGridViewMetadataReadToCacheOrUpdateFromSoruce(new FileEntry(imageListViewItem.FileFullPath, imageListViewItem.DateModified));
+                    AddQueueLazyLoadingDataGridViewMetadataReadToCacheOrUpdateFromSoruce(new FileEntry(imageListViewItem.FileFullPath, imageListViewItem.LastWriteDateTime));
                 }
                 lazyLoadingAllExiftoolVersionOfMediaFile.AddRange(fileEntryAttributeDateVersions);
             }
@@ -563,10 +563,10 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region DataGridView - Populate Selected Files - OnActiveDataGridView - Thread
-        private void PopulateDataGridViewForSelectedItemsThread(ImageListViewSelectedItemCollection imageListViewSelectItems)
+        private void PopulateDataGridViewForSelectedItemsThread(HashSet<FileEntry> imageListViewSelectItems)
         {
             Thread threadPopulateDataGridView = new Thread(() => {
-                PopulateDataGridViewForSelectedItemsInvoke(imageListView1.SelectedItems);
+                PopulateDataGridViewForSelectedItemsInvoke(GetSelectedFileEntriesImageListView());
             });
 
             threadPopulateDataGridView.Start();
@@ -579,11 +579,11 @@ namespace PhotoTagsSynchronizer
         /// PS. When selected new files, all DataGridViews are maked as dirty.
         /// </summary>
         /// <param name="imageListViewSelectItems"></param>
-        private void PopulateDataGridViewForSelectedItemsInvoke(ImageListViewSelectedItemCollection imageListViewSelectItems)
+        private void PopulateDataGridViewForSelectedItemsInvoke(HashSet<FileEntry> imageListViewSelectItems)
         {
             if (this.InvokeRequired)
             {
-                BeginInvoke(new Action<ImageListViewSelectedItemCollection>(PopulateDataGridViewForSelectedItemsInvoke), imageListViewSelectItems);
+                BeginInvoke(new Action<HashSet<FileEntry>>(PopulateDataGridViewForSelectedItemsInvoke), imageListViewSelectItems);
                 return;
             }
 

@@ -50,7 +50,7 @@ namespace PhotoTagsSynchronizer
             //-----------------------------------------------------------------
         }
 
-        public static void PopulateSelectedFiles(DataGridView dataGridView, ImageListViewSelectedItemCollection imageListViewSelectItems, DataGridViewSize dataGridViewSize, ShowWhatColumns showWhatColumns)
+        public static void PopulateSelectedFiles(DataGridView dataGridView, HashSet<FileEntry> imageListViewSelectItems, DataGridViewSize dataGridViewSize, ShowWhatColumns showWhatColumns)
         {
             //-----------------------------------------------------------------
             //Chech if need to stop
@@ -70,10 +70,10 @@ namespace PhotoTagsSynchronizer
             using (new WaitCursor())
             {
                 GlobalData.ProcessCounterReadProperties = imageListViewSelectItems.Count;
-                foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
+                foreach (FileEntry imageListViewItem in imageListViewSelectItems)
                 {
                     GlobalData.ProcessCounterReadProperties--;
-                    PopulateFile(dataGridView, new FileEntryAttribute(imageListViewItem.FileFullPath, imageListViewItem.DateModified, FileEntryVersion.CurrentVersionInDatabase), showWhatColumns);
+                    PopulateFile(dataGridView, new FileEntryAttribute(imageListViewItem.FileFullPath, imageListViewItem.LastWriteDateTime, FileEntryVersion.CurrentVersionInDatabase), showWhatColumns);
                 }
                 GlobalData.ProcessCounterReadProperties = 0;
             }

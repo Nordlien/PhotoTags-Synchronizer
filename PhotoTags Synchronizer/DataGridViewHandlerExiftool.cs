@@ -85,7 +85,7 @@ namespace PhotoTagsSynchronizer
             //-----------------------------------------------------------------
         }
 
-        public static List<FileEntryAttribute> PopulateSelectedFiles(DataGridView dataGridView, ImageListViewSelectedItemCollection imageListViewSelectItems, DataGridViewSize dataGridViewSize, ShowWhatColumns showWhatColumns)
+        public static List<FileEntryAttribute> PopulateSelectedFiles(DataGridView dataGridView, HashSet<FileEntry> imageListViewSelectItems, DataGridViewSize dataGridViewSize, ShowWhatColumns showWhatColumns)
         {
             //-----------------------------------------------------------------
             //Chech if need to stop
@@ -104,7 +104,7 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.SetIsAgregated(dataGridView, true);
             //-----------------------------------------------------------------
             List<FileEntryAttribute> allFileEntryAttributeDateVersions = new List<FileEntryAttribute>();
-            foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
+            foreach (FileEntry imageListViewItem in imageListViewSelectItems)
             {
                 List<FileEntryAttribute> fileEntryAttributeDateVersions = DatabaseExiftoolData.ListFileEntryDateVersions(imageListViewItem.FileFullPath);
                 allFileEntryAttributeDateVersions.AddRange(fileEntryAttributeDateVersions);
