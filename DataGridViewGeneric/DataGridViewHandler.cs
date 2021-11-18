@@ -558,7 +558,7 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-        #region
+        #region DataGridView Handling - Set/ShowFavouriteColumns / Set/HideEqualColumns 
         public static bool ShowFavouriteColumns(DataGridView dataGridView)
         {
             DataGridViewGenericData dataGridViewGenericData = GetDataGridViewGenericData(dataGridView);
@@ -813,51 +813,7 @@ namespace DataGridViewGeneric
 
         
         #region Action Handling
-        /*
-        #region Action Handling - Cut
-        public static void ActionCut(DataGridView dataGridView)
-        {
-            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, true);
-            ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
-        }
-        #endregion
-
-        #region Action Handling - Copy
-        public static void ActionCopy(DataGridView dataGridView)
-        {
-            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, false);
-        }
-        #endregion
-
-        #region Action Handling - Paste
-        public static void ActionPaste(DataGridView dataGridView)
-        {
-            ClipboardUtility.PasteDataGridViewSelectedCellsFromClipboard(dataGridView);
-        }
-        #endregion
-
-        #region Action Handling - Delete
-        public static void ActionDelete(DataGridView dataGridView)
-        {
-            ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
-        }
-        #endregion
-
-        #region Action Handling - Undo
-        public static void ActionUndo(DataGridView dataGridView)
-        {
-            ClipboardUtility.UndoDataGridView(dataGridView);
-        }
-        #endregion
-
-        #region Action Handling - Redo
-        public static void ActionRedo(DataGridView dataGridView)
-        {
-            ClipboardUtility.RedoDataGridView(dataGridView);
-        }
-        #endregion
-        */
-
+        
         #region Action Handling - ActionFindAndReplace
         static FindAndReplaceForm m_FindAndReplaceForm;
 
@@ -989,7 +945,7 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-        #region Column handling - GetColumnIndexFirst - fullFilePath
+        #region Column handling - GetColumnIndexFirst - fullFilePath        
         public static int GetColumnIndexFirst(DataGridView dataGridView, string fullFilePath)
         {
             for (int columnIndex = 0; columnIndex < dataGridView.ColumnCount; columnIndex++)
@@ -1003,13 +959,24 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-        #region Column handling - GetColumnIndex - FileEntryAttribute
+        #region Column handling - GetColumnIndex - FileEntryAttribute    
+        private static Dictionary<FileEntryAttribute, int> columnIndexCache = new Dictionary<FileEntryAttribute, int>();
+
         public static int GetColumnIndexUserInput(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute)
         {
+            if (columnIndexCache.ContainsKey(fileEntryAttribute))
+            {
+                int columnIndex = columnIndexCache[fileEntryAttribute];
+                if (dataGridView.Columns[columnIndex].HeaderCell.Tag is DataGridViewGenericColumn dataGridViewGenericColumn &&
+                    dataGridViewGenericColumn.FileEntryAttribute == fileEntryAttribute) return columnIndex;
+                columnIndexCache.Clear();
+            }
+
             if (FileEntryVersionHandler.IsCurrenOrUpdatedVersion(fileEntryAttribute.FileEntryVersion))
             {
                 for (int columnIndex = 0; columnIndex < dataGridView.ColumnCount; columnIndex++)
                 {
+                    if (!columnIndexCache.ContainsKey(fileEntryAttribute)) columnIndexCache.Add(fileEntryAttribute, columnIndex);
                     DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
                     if (dataGridViewGenericColumn != null)
                     {
@@ -1023,11 +990,12 @@ namespace DataGridViewGeneric
                                 if (FileEntryVersionHandler.IsCurrenOrUpdatedVersion(dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion) &&
                                     fileEntryAttribute.FileName == dataGridViewGenericColumn.FileEntryAttribute.FileName &&
                                     fileEntryAttribute.LastWriteDateTime == dataGridViewGenericColumn.FileEntryAttribute.LastWriteDateTime
-                                    ) return columnIndex;
+                                    )
+                                    return columnIndex;                                
                                 break;
                             case FileEntryVersion.Error:
                             case FileEntryVersion.Historical:
-                                if (dataGridViewGenericColumn.FileEntryAttribute == fileEntryAttribute) return columnIndex;
+                                if (dataGridViewGenericColumn.FileEntryAttribute == fileEntryAttribute) return columnIndex;                                
                                 break;
                             default:
                                 throw new NotImplementedException();
@@ -1038,13 +1006,45 @@ namespace DataGridViewGeneric
 
             return -1; //Not found
         }
- 
+
+        private static Dictionary<FileEntryAttribute, int> columnIndexCachePriorities = new Dictionary<FileEntryAttribute, int>();
         public static int GetColumnIndexPriorities(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionPriorityReason)
         {
-            if (FileEntryVersionHandler.IsCurrenOrUpdatedVersion(fileEntryAttribute.FileEntryVersion))
+            if (columnIndexCachePriorities.ContainsKey(fileEntryAttribute))
+            {
+                int columnIndex = columnIndexCachePriorities[fileEntryAttribute];
+                if (dataGridView.Columns[columnIndex].HeaderCell.Tag is DataGridViewGenericColumn dataGridViewGenericColumn &&
+                    dataGridViewGenericColumn.FileEntryAttribute == fileEntryAttribute)
+                {
+                    if (dataGridViewGenericColumn != null)
+                    {
+                        fileEntryVersionPriorityReason = FileEntryVersionHandler.CompareFileEntryAttribute(dataGridViewGenericColumn.FileEntryAttribute, fileEntryAttribute);
+                        switch (fileEntryVersionPriorityReason)
+                        {
+                            case FileEntryVersionCompare.NotEqualFound:
+                                columnIndexCachePriorities.Add(fileEntryAttribute, columnIndex);
+                                break; //Continue search
+                            case FileEntryVersionCompare.FoundButLost:
+                                columnIndexCachePriorities.Add(fileEntryAttribute, columnIndex);
+                                return columnIndex;
+                            case FileEntryVersionCompare.FoundEqual:
+                            case FileEntryVersionCompare.FoundAndWon:
+                                columnIndexCachePriorities.Add(fileEntryAttribute, columnIndex);
+                                return columnIndex;
+                            default:
+                                throw new NotImplementedException();
+                        }
+                    }
+                }
+                columnIndexCachePriorities.Clear();
+            }
+
+
+            //if (FileEntryVersionHandler.IsCurrenOrUpdatedVersion(fileEntryAttribute.FileEntryVersion))
             {
                 for (int columnIndex = 0; columnIndex < dataGridView.ColumnCount; columnIndex++)
                 {
+                    if (!columnIndexCachePriorities.ContainsKey(fileEntryAttribute)) columnIndexCachePriorities.Add(fileEntryAttribute, columnIndex);
                     DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
                     if (dataGridViewGenericColumn != null)
                     {
@@ -1472,12 +1472,26 @@ namespace DataGridViewGeneric
         #endregion
 
         #region Rows handling - GetRowIndex
+        private static Dictionary<DataGridViewGenericRow, int> rowIndexCache = new Dictionary<DataGridViewGenericRow, int>();
+
         public static int GetRowIndex(DataGridView dataGridView, DataGridViewGenericRow dataGridViewGenericRow)
         {
-            for (int rowIndex = 0; rowIndex < GetRowCountWithoutEditRow(dataGridView); rowIndex++)
+            if (rowIndexCache.ContainsKey(dataGridViewGenericRow))
             {
+                int rowIndex = rowIndexCache[dataGridViewGenericRow];
                 if (dataGridView.Rows[rowIndex].HeaderCell.Tag is DataGridViewGenericRow dataGridViewGenericRowCheck &&
                     dataGridViewGenericRowCheck == dataGridViewGenericRow) return rowIndex;
+                rowIndexCache.Clear();
+            }
+            for (int rowIndex = 0; rowIndex < GetRowCountWithoutEditRow(dataGridView); rowIndex++)
+            {
+                if (!rowIndexCache.ContainsKey(dataGridViewGenericRow)) rowIndexCache.Add(dataGridViewGenericRow, rowIndex);
+                if (dataGridView.Rows[rowIndex].HeaderCell.Tag is DataGridViewGenericRow dataGridViewGenericRowCheck &&
+                    dataGridViewGenericRowCheck == dataGridViewGenericRow) 
+                {
+                    return rowIndex; 
+                }
+
             }
             return -1;
         }

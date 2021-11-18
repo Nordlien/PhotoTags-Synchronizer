@@ -7854,17 +7854,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ProgressbarLazyLoadingProgress(bool enabled, int value, int minimum, int maximum)
-        private void ProgressbarLazyLoadingProgress(bool enabled, int value, int minimum, int maximum)
-        {
-            progressBarLazyLoading.Minimum = minimum;
-            progressBarLazyLoading.Maximum = maximum;
-            progressBarLazyLoading.Value = value;
-            SetButtonSpecNavigator(buttonSpecNavigatorDataGridViewProgressCircle, progressBarLazyLoading.Value, progressBarLazyLoading.Maximum);
-            ProgressbarLazyLoadingProgress(enabled);
-        }
-        #endregion
-
         #region ProgressbarLazyLoadingProgress(bool visible)
         private void ProgressbarLazyLoadingProgress(bool visible)
         {
