@@ -7833,7 +7833,6 @@ namespace PhotoTagsSynchronizer
 
         #region Progress Laxy Loading for DataGridView
 
-        
         #region SeeProcessQueue_Clcik
         private void kryptonRibbonGroupButtonToolsProgressLazyloadingShowStatus_Click(object sender, EventArgs e)
         {

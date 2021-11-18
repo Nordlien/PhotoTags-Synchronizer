@@ -639,7 +639,7 @@ namespace PhotoTagsSynchronizer
                     {
                         _ThreadDelayLazyLoadingHide = new Thread(() =>
                         {
-                            Task.Delay(500).Wait();
+                            Task.Delay(50).Wait();
 
                             if (lastQueueSize == 0 && this.IsHandleCreated) ProgressbarLazyLoadingProgress(false); //this.BeginInvoke(new Action<bool>(ProgressbarLazyLoadingProgress), false);
                             _ThreadDelayLazyLoadingHide = null;
@@ -743,7 +743,9 @@ namespace PhotoTagsSynchronizer
         #region ProgressbarLazyLoadingProgress(bool visible)
         private void ProgressbarLazyLoadingProgress(bool visible)
         {
-            if (!visible) progressBarLazyLoading.Maximum = 0;
+            if (!visible) 
+                progressBarLazyLoading.Maximum = 0;
+
             kryptonRibbonGroupTripleToolsProgressStatusWork.Visible = visible;
             kryptonRibbonGroupLabelToolsProgressLazyloading.Enabled = visible;
             kryptonRibbonGroupCustomControlToolsProgressLazyloading.Enabled = visible;
