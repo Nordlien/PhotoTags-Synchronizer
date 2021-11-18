@@ -240,6 +240,53 @@ namespace PhotoTagsSynchronizer
         FileModified
     }
  
+    public class AutoCorrectFormVaraibles
+    {
+        public string Album { get; set; }
+        public string Author { get; set; }
+        public string Comments { get; set; }
+        public string Description { get; set; }
+        public string Title { get; set; }
+        public List<string> Keywords { get; set; }
+
+        public bool UseAlbum { get; set; }
+        public bool UseAuthor { get; set; }
+        public bool UseComments { get; set; }
+        public bool UseDescription { get; set; }
+        public bool WriteAlbumOnDescription { get; set; }
+        public bool UseTitle { get; set; }
+
+        public static void UpdateMetaData(ref Metadata metadataToSave, AutoCorrectFormVaraibles autoCorrectFormVaraibles)
+        {
+            if (autoCorrectFormVaraibles != null)
+            {
+                if (autoCorrectFormVaraibles.UseAlbum) metadataToSave.PersonalAlbum = autoCorrectFormVaraibles.Album;
+                if (!autoCorrectFormVaraibles.UseAlbum || string.IsNullOrWhiteSpace(metadataToSave.PersonalAlbum)) metadataToSave.PersonalAlbum = null;
+
+                if (autoCorrectFormVaraibles.UseAuthor) metadataToSave.PersonalAuthor = autoCorrectFormVaraibles.Author;
+                if (!autoCorrectFormVaraibles.UseAuthor || string.IsNullOrWhiteSpace(metadataToSave.PersonalAuthor)) metadataToSave.PersonalAuthor = null;
+
+                if (autoCorrectFormVaraibles.UseComments) metadataToSave.PersonalComments = autoCorrectFormVaraibles.Comments;
+                if (!autoCorrectFormVaraibles.UseComments || string.IsNullOrWhiteSpace(metadataToSave.PersonalComments)) metadataToSave.PersonalComments = null;
+
+                if (autoCorrectFormVaraibles.UseDescription) metadataToSave.PersonalDescription = autoCorrectFormVaraibles.Description;
+                if (!autoCorrectFormVaraibles.UseDescription || string.IsNullOrWhiteSpace(metadataToSave.PersonalDescription)) metadataToSave.PersonalDescription = null;
+
+                if (autoCorrectFormVaraibles.UseTitle) metadataToSave.PersonalTitle = autoCorrectFormVaraibles.Title;
+                if (!autoCorrectFormVaraibles.UseTitle || string.IsNullOrWhiteSpace(metadataToSave.PersonalTitle)) metadataToSave.PersonalTitle = null;
+
+                #region Description
+                if (autoCorrectFormVaraibles.WriteAlbumOnDescription) metadataToSave.PersonalDescription = metadataToSave.PersonalAlbum;
+                #endregion
+
+                foreach (string keyword in autoCorrectFormVaraibles.Keywords)
+                {
+                    metadataToSave.PersonalKeywordTagsAddIfNotExists(new KeywordTag(keyword), false);
+                }
+            }
+        }
+    }
+
     class AutoCorrect
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();

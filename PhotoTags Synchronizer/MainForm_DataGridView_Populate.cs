@@ -359,6 +359,9 @@ namespace PhotoTagsSynchronizer
                             locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
                             autoKeywordConvertions,
                             Properties.Settings.Default.RenameDateFormats);
+                        AutoCorrectFormVaraibles autoCorrectFormVaraibles = GlobalData.GetAutoCorrectVariablesForFile(fileEntryAttribute.FileFullPath);
+                        AutoCorrectFormVaraibles.UpdateMetaData(ref metadataAutoCorrect, autoCorrectFormVaraibles);
+
                     }
                 }
                 #endregion

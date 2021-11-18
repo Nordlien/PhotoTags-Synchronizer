@@ -108,18 +108,25 @@ namespace PhotoTagsSynchronizer
         public static bool IsDragAndDropActive { get; set; } = false;
         public static bool IsPopulatingFilter { get; set; } = false;
 
-        private static HashSet<string> listOfAutoCorrectFiles { get; set; } = new HashSet<string>();
+        private static Dictionary<string, AutoCorrectFormVaraibles> listOfAutoCorrectFiles { get; set; } = new Dictionary<string, AutoCorrectFormVaraibles>();
         public static readonly object listOfAutoCorrectFilesLock = new object();
-        public static void ListOfAutoCorrectFilesAdd(string fileFullPath)
+        public static void ListOfAutoCorrectFilesAdd(string fileFullPath, AutoCorrectFormVaraibles autoCorrectFormVaraibles)
         {
             lock (listOfAutoCorrectFilesLock)
-                if (!GlobalData.listOfAutoCorrectFiles.Contains(fileFullPath)) GlobalData.listOfAutoCorrectFiles.Add(fileFullPath);
+                if (!GlobalData.listOfAutoCorrectFiles.ContainsKey(fileFullPath)) GlobalData.listOfAutoCorrectFiles.Add(fileFullPath, autoCorrectFormVaraibles);
+                else GlobalData.listOfAutoCorrectFiles[fileFullPath] = autoCorrectFormVaraibles;
         }
 
         public static bool ListOfAutoCorrectFilesContains(string fileFullPath)
         {
             lock(listOfAutoCorrectFilesLock)
-                return GlobalData.listOfAutoCorrectFiles.Contains(fileFullPath);
+                return GlobalData.listOfAutoCorrectFiles.ContainsKey(fileFullPath);
+        }
+
+        public static AutoCorrectFormVaraibles GetAutoCorrectVariablesForFile(string fileFullPath)
+        {
+            lock (listOfAutoCorrectFilesLock)
+                return (GlobalData.listOfAutoCorrectFiles.ContainsKey(fileFullPath) ? GlobalData.listOfAutoCorrectFiles[fileFullPath] : null);
         }
 
         public static void ListOfAutoCorrectFilesClear()

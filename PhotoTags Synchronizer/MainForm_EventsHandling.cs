@@ -6252,16 +6252,14 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-                //ClearDataGridDirtyFlag(); //Clear before save; To track if become dirty during save process
                 List<FileEntryAttribute> fileEntryAttributes = new List<FileEntryAttribute>();
+                
                 foreach (int columIndex in DataGridViewHandler.GetColumnSelected(dataGridView))
                 {
-                    
-
                     DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columIndex);
                     if (dataGridViewGenericColumn != null && dataGridViewGenericColumn.Metadata != null)
                     {
-                        GlobalData.ListOfAutoCorrectFilesAdd(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath);
+                        GlobalData.ListOfAutoCorrectFilesAdd(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath, null);
                         fileEntryAttributes.Add(new FileEntryAttribute(
                             dataGridViewGenericColumn.Metadata.FileEntry.FileFullPath,
                             dataGridViewGenericColumn.Metadata.FileEntry.LastWriteDateTime,
@@ -6354,26 +6352,13 @@ namespace PhotoTagsSynchronizer
                 if (formAutoCorrect.ShowDialog() == DialogResult.OK)
                 {
 
-                    string album = formAutoCorrect.Album;
-                    string author = formAutoCorrect.Author;
-                    string comments = formAutoCorrect.Comments;
-                    string description = formAutoCorrect.Description;
-                    string title = formAutoCorrect.Title;
-                    List<string> keywords = formAutoCorrect.Keywords;
-
-                    bool useAlbum = formAutoCorrect.UseAlbum;
-                    bool useAuthor = formAutoCorrect.UseAuthor;
-                    bool useComments = formAutoCorrect.UseComments;
-                    bool uselDescription = formAutoCorrect.UseDescription;
-                    bool useTitle = formAutoCorrect.UseTitle;
-
-
                     AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
                     float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
                     float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
                     int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
 
-                    bool writeAlbumOnDescription = autoCorrect.UpdateDescription;
+                    AutoCorrectFormVaraibles autoCorrectFormVaraibles = formAutoCorrect.AutoCorrectFormVaraibles;
+                    autoCorrectFormVaraibles.WriteAlbumOnDescription = autoCorrect.UpdateDescription;
 
                     foreach (ImageListViewItem item in imageListView1.SelectedItems)
                     {
@@ -6392,34 +6377,7 @@ namespace PhotoTagsSynchronizer
 
                         if (metadataToSave != null)
                         {
-                            if (useAlbum) metadataToSave.PersonalAlbum = album;
-                            if (!useAlbum || string.IsNullOrWhiteSpace(metadataToSave.PersonalAlbum)) metadataToSave.PersonalAlbum = null;
-
-                            if (useAuthor) metadataToSave.PersonalAuthor = author;
-                            if (!useAuthor || string.IsNullOrWhiteSpace(metadataToSave.PersonalAuthor)) metadataToSave.PersonalAuthor = null;
-
-                            if (useComments) metadataToSave.PersonalComments = comments;
-                            if (!useComments || string.IsNullOrWhiteSpace(metadataToSave.PersonalComments)) metadataToSave.PersonalComments = null;
-
-                            if (uselDescription) metadataToSave.PersonalDescription = description;
-                            if (!uselDescription || string.IsNullOrWhiteSpace(metadataToSave.PersonalDescription)) metadataToSave.PersonalDescription = null;
-
-                            if (useTitle) metadataToSave.PersonalTitle = title;
-                            if (!useTitle || string.IsNullOrWhiteSpace(metadataToSave.PersonalTitle)) metadataToSave.PersonalTitle = null;
-
-                            #region Description
-                            if (writeAlbumOnDescription)
-                            {
-                                Logger.Debug("AutoCorrectForm: Set Description as Album: " + (metadataToSave?.PersonalAlbum == null ? "null" : metadataToSave?.PersonalAlbum));
-                                metadataToSave.PersonalDescription = metadataToSave.PersonalAlbum;
-                            }
-                            #endregion
-
-                            foreach (string keyword in keywords)
-                            {
-                                metadataToSave.PersonalKeywordTagsAddIfNotExists(new KeywordTag(keyword), false);
-                            }
-
+                            AutoCorrectFormVaraibles.UpdateMetaData(ref metadataToSave, autoCorrectFormVaraibles);
                             AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
                             AddQueueRenameLock(item.FileFullPath, autoCorrect.RenameVariable);
                         }
@@ -6446,26 +6404,14 @@ namespace PhotoTagsSynchronizer
                 if (formAutoCorrect.ShowDialog() == DialogResult.OK)
                 {
 
-                    string album = formAutoCorrect.Album;
-                    string author = formAutoCorrect.Author;
-                    string comments = formAutoCorrect.Comments;
-                    string description = formAutoCorrect.Description;
-                    string title = formAutoCorrect.Title;
-                    List<string> keywords = formAutoCorrect.Keywords;
-
-                    bool useAlbum = formAutoCorrect.UseAlbum;
-                    bool useAuthor = formAutoCorrect.UseAuthor;
-                    bool useComments = formAutoCorrect.UseComments;
-                    bool uselDescription = formAutoCorrect.UseDescription;
-                    bool useTitle = formAutoCorrect.UseTitle;
-
-
+                    
                     AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
                     float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
                     float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
                     int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
 
-                    bool writeAlbumOnDescription = autoCorrect.UpdateDescription;
+                    AutoCorrectFormVaraibles autoCorrectFormVaraibles = formAutoCorrect.AutoCorrectFormVaraibles;
+                    autoCorrectFormVaraibles.WriteAlbumOnDescription = autoCorrect.UpdateDescription;
 
                     string selectedFolder = GetSelectedNodePath();
                     if (selectedFolder == null || !Directory.Exists(selectedFolder))
@@ -6491,34 +6437,7 @@ namespace PhotoTagsSynchronizer
 
                         if (metadataToSave != null)
                         {
-                            if (useAlbum) metadataToSave.PersonalAlbum = album;
-                            if (!useAlbum || string.IsNullOrWhiteSpace(metadataToSave.PersonalAlbum)) metadataToSave.PersonalAlbum = null;
-
-                            if (useAuthor) metadataToSave.PersonalAuthor = author;
-                            if (!useAuthor || string.IsNullOrWhiteSpace(metadataToSave.PersonalAuthor)) metadataToSave.PersonalAuthor = null;
-
-                            if (useComments) metadataToSave.PersonalComments = comments;
-                            if (!useComments || string.IsNullOrWhiteSpace(metadataToSave.PersonalComments)) metadataToSave.PersonalComments = null;
-
-                            if (uselDescription) metadataToSave.PersonalDescription = description;
-                            if (!uselDescription || string.IsNullOrWhiteSpace(metadataToSave.PersonalDescription)) metadataToSave.PersonalDescription = null;
-
-                            if (useTitle) metadataToSave.PersonalTitle = title;
-                            if (!useTitle || string.IsNullOrWhiteSpace(metadataToSave.PersonalTitle)) metadataToSave.PersonalTitle = null;
-
-                            #region Description
-                            if (writeAlbumOnDescription)
-                            {
-                                Logger.Debug("AutoCorrectForm: Set Description as Album: " + (metadataToSave?.PersonalAlbum == null ? "null" : metadataToSave?.PersonalAlbum));
-                                metadataToSave.PersonalDescription = metadataToSave.PersonalAlbum;
-                            }
-                            #endregion
-
-                            foreach (string keyword in keywords)
-                            {
-                                metadataToSave.PersonalKeywordTagsAddIfNotExists(new KeywordTag(keyword), false);
-                            }
-
+                            AutoCorrectFormVaraibles.UpdateMetaData(ref metadataToSave, autoCorrectFormVaraibles);
                             AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
                             AddQueueRenameLock(file, autoCorrect.RenameVariable);
                         }
@@ -6557,93 +6476,29 @@ namespace PhotoTagsSynchronizer
                 if (formAutoCorrect.ShowDialog() == DialogResult.OK)
                 {
 
-                    string album = formAutoCorrect.Album;
-                    string author = formAutoCorrect.Author;
-                    string comments = formAutoCorrect.Comments;
-                    string description = formAutoCorrect.Description;
-                    string title = formAutoCorrect.Title;
-                    List<string> keywords = formAutoCorrect.Keywords;
-
-                    bool useAlbum = formAutoCorrect.UseAlbum;
-                    bool useAuthor = formAutoCorrect.UseAuthor;
-                    bool useComments = formAutoCorrect.UseComments;
-                    bool uselDescription = formAutoCorrect.UseDescription;
-                    bool useTitle = formAutoCorrect.UseTitle;
-
-
                     AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
                     float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
                     float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
                     int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
 
-                    bool writeAlbumOnDescription = autoCorrect.UpdateDescription;
+                    AutoCorrectFormVaraibles autoCorrectFormVaraibles = formAutoCorrect.AutoCorrectFormVaraibles;
+                    autoCorrectFormVaraibles.WriteAlbumOnDescription = autoCorrect.UpdateDescription;
 
                     List<FileEntryAttribute> fileEntryAttributes = new List<FileEntryAttribute>();
                     foreach (int columIndex in DataGridViewHandler.GetColumnSelected(dataGridView))
                     {
-                        //List<FileEntryAttribute> fileEntryAttributes = new List<FileEntryAttribute>();
-
+                        
                         DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columIndex);
                         if (dataGridViewGenericColumn != null && dataGridViewGenericColumn.Metadata != null)
                         {
-                            GlobalData.ListOfAutoCorrectFilesAdd(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath);
+                            GlobalData.ListOfAutoCorrectFilesAdd(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath, autoCorrectFormVaraibles);
                             fileEntryAttributes.Add(new FileEntryAttribute(
                                 dataGridViewGenericColumn.Metadata.FileEntry.FileFullPath,
                                 dataGridViewGenericColumn.Metadata.FileEntry.LastWriteDateTime,
                                 FileEntryVersion.AutoCorrect));
-
-                            Metadata metadataToSave = new Metadata(dataGridViewGenericColumn.Metadata);
-                            UpdateMetadataFromDataGridView(dataGridViewGenericColumn.FileEntryAttribute, ref metadataToSave);
-                            //Metadata metadataToSave = autoCorrect.FixAndSave(
-                            //    new FileEntry(dataGridViewGenericColumn.FileEntryAttribute),
-                            //    null,
-                            //    databaseAndCacheMetadataExiftool,
-                            //    databaseAndCacheMetadataMicrosoftPhotos,
-                            //    databaseAndCacheMetadataWindowsLivePhotoGallery,
-                            //    databaseAndCahceCameraOwner,
-                            //    databaseLocationAddress,
-                            //    databaseGoogleLocationHistory,
-                            //    locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
-                            //    autoKeywordConvertions,
-                            //    Properties.Settings.Default.RenameDateFormats);
-
-                            if (metadataToSave != null)
-                            {
-                                if (useAlbum) metadataToSave.PersonalAlbum = album;
-                                if (!useAlbum || string.IsNullOrWhiteSpace(metadataToSave.PersonalAlbum)) metadataToSave.PersonalAlbum = null;
-
-                                if (useAuthor) metadataToSave.PersonalAuthor = author;
-                                if (!useAuthor || string.IsNullOrWhiteSpace(metadataToSave.PersonalAuthor)) metadataToSave.PersonalAuthor = null;
-
-                                if (useComments) metadataToSave.PersonalComments = comments;
-                                if (!useComments || string.IsNullOrWhiteSpace(metadataToSave.PersonalComments)) metadataToSave.PersonalComments = null;
-
-                                if (uselDescription) metadataToSave.PersonalDescription = description;
-                                if (!uselDescription || string.IsNullOrWhiteSpace(metadataToSave.PersonalDescription)) metadataToSave.PersonalDescription = null;
-
-                                if (useTitle) metadataToSave.PersonalTitle = title;
-                                if (!useTitle || string.IsNullOrWhiteSpace(metadataToSave.PersonalTitle)) metadataToSave.PersonalTitle = null;
-
-                                #region Description
-                                if (writeAlbumOnDescription)
-                                {
-                                    Logger.Debug("AutoCorrectForm: Set Description as Album: " + (metadataToSave?.PersonalAlbum == null ? "null" : metadataToSave?.PersonalAlbum));
-                                    metadataToSave.PersonalDescription = metadataToSave.PersonalAlbum;
-                                }
-                                #endregion
-
-                                foreach (string keyword in keywords)
-                                {
-                                    metadataToSave.PersonalKeywordTagsAddIfNotExists(new KeywordTag(keyword), false);
-                                }
-
-                                //AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
-                                //AddQueueRenameLock(item.FileFullPath, autoCorrect.RenameVariable);
-                            }
                         }
                     }
                     AddQueueLazyLoadningDataGridViewMetadataLock(fileEntryAttributes);
-
                     StartThreads();
                 }
             }
@@ -6652,36 +6507,6 @@ namespace PhotoTagsSynchronizer
                 Logger.Error(ex, "");
                 KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            //try
-            //{
-            //    //ClearDataGridDirtyFlag(); //Clear before save; To track if become dirty during save process
-            //    foreach (int columIndex in DataGridViewHandler.GetColumnSelected(dataGridView))
-            //    {
-            //        List<FileEntryAttribute> fileEntryAttributes = new List<FileEntryAttribute>();
-
-            //        DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columIndex);
-            //        if (dataGridViewGenericColumn != null && dataGridViewGenericColumn.Metadata != null)
-            //        {
-            //            GlobalData.ListOfAutoCorrectFilesAdd(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath);
-            //            fileEntryAttributes.Add(new FileEntryAttribute(
-            //                dataGridViewGenericColumn.Metadata.FileEntry.FileFullPath,
-            //                dataGridViewGenericColumn.Metadata.FileEntry.LastWriteDateTime,
-            //                FileEntryVersion.AutoCorrect));
-
-            //            AddQueueLazyLoadningDataGridViewMetadataLock(fileEntryAttributes);
-            //        }
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    Logger.Error(ex);
-            //}
-
-            //ThreadSaveMetadata();
-                    
-
-            
         }
         #endregion
 

@@ -12,9 +12,9 @@ namespace PhotoTagsSynchronizer
         public string Comments { get { return comboBoxComments.Text; } }
         public string Description { get { return comboBoxDescription.Text; } }
         public string Title { get { return comboBoxTitle.Text; } }
-        public List<string> Keywords 
-        { 
-            get 
+        public List<string> Keywords
+        {
+            get
             {
                 List<string> keywords = new List<string>();
                 string[] keywordArray = textBoxKeywords.Text.Replace("\r\n", "\n").Split('\n');
@@ -31,6 +31,26 @@ namespace PhotoTagsSynchronizer
         public bool UseComments { get { return checkBoxComments.Checked; } }
         public bool UseDescription { get { return checkBoxDescription.Checked; } }
         public bool UseTitle { get { return checkBoxTitle.Checked; } }
+
+        public AutoCorrectFormVaraibles AutoCorrectFormVaraibles
+        {
+            get {
+                AutoCorrectFormVaraibles autoCorrectFormVaraibles = new AutoCorrectFormVaraibles();
+                autoCorrectFormVaraibles.Album = Album;
+                autoCorrectFormVaraibles.Author = Author;
+                autoCorrectFormVaraibles.Comments = Comments;
+                autoCorrectFormVaraibles.Description = Description;
+                autoCorrectFormVaraibles.Title = Title;
+                autoCorrectFormVaraibles.Keywords = Keywords;
+
+                autoCorrectFormVaraibles.UseAlbum = UseAlbum;
+                autoCorrectFormVaraibles.UseAuthor = UseAuthor;
+                autoCorrectFormVaraibles.UseComments = UseComments;
+                autoCorrectFormVaraibles.UseDescription = UseDescription;
+                autoCorrectFormVaraibles.UseTitle = UseTitle;
+                return autoCorrectFormVaraibles;
+            }
+        }
 
         public FormAutoCorrect()
         {
