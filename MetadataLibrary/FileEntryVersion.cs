@@ -128,7 +128,7 @@ namespace MetadataLibrary
 
                         case FileEntryVersion.CurrentVersionInDatabase: //is store in DataGridView Column
                             //AutoCorrect, always win over Read from database
-                            return FileEntryVersionCompare.FoundButLost;
+                            return FileEntryVersionCompare.FoundAndWon;
 
                         case FileEntryVersion.Historical: //is store in DataGridView Column
                         case FileEntryVersion.Error: //is store in DataGridView Column
@@ -148,7 +148,7 @@ namespace MetadataLibrary
                             return FileEntryVersionCompare.FoundButLost; 
 
                         case FileEntryVersion.AutoCorrect: //is store in DataGridView Column
-                            return FileEntryVersionCompare.FoundButLost;
+                            return FileEntryVersionCompare.FoundAndWon;
 
                         case FileEntryVersion.CurrentVersionInDatabase: //is store in DataGridView Column
                             if (fileEntryAttributeFromQueue.LastWriteDateTime > fileEntryAttributeDataGridViewColumn.LastWriteDateTime)

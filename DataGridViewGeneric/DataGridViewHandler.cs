@@ -964,6 +964,7 @@ namespace DataGridViewGeneric
 
         public static int GetColumnIndexUserInput(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute)
         {
+            #region Cache logic
             if (columnIndexCache.ContainsKey(fileEntryAttribute))
             {
                 int columnIndex = columnIndexCache[fileEntryAttribute];
@@ -972,7 +973,9 @@ namespace DataGridViewGeneric
                     dataGridViewGenericColumn != null && dataGridViewGenericColumn.FileEntryAttribute == fileEntryAttribute) return columnIndex;
                 columnIndexCache.Clear();
             }
+            #endregion
 
+            #region Find column index
             if (FileEntryVersionHandler.IsCurrenOrUpdatedVersion(fileEntryAttribute.FileEntryVersion))
             {
                 for (int columnIndex = 0; columnIndex < dataGridView.ColumnCount; columnIndex++)
@@ -1004,6 +1007,7 @@ namespace DataGridViewGeneric
                     }
                 }
             }
+            #endregion
 
             return -1; //Not found
         }
@@ -1240,7 +1244,7 @@ namespace DataGridViewGeneric
                             break;
                         case FileEntryVersionCompare.NotEqualFound:
                             break;
-                        case FileEntryVersionCompare.LostOverUserInput:
+                        //case FileEntryVersionCompare.LostOverUserInput:
                         default:
                             throw new NotImplementedException();
                     }                    
@@ -1262,7 +1266,7 @@ namespace DataGridViewGeneric
                             break;
                         case FileEntryVersionCompare.NotEqualFound:
                             break;
-                        case FileEntryVersionCompare.LostOverUserInput:
+                        //case FileEntryVersionCompare.LostOverUserInput:
                         default:
                             throw new NotImplementedException();
                     }
@@ -1274,15 +1278,15 @@ namespace DataGridViewGeneric
                 switch (fileEntryVersionCompareReason)
                 {
                     case FileEntryVersionCompare.FoundAndWon:
-                    case FileEntryVersionCompare.FoundEqual:
-                    case FileEntryVersionCompare.FoundButLost:
-                    case FileEntryVersionCompare.LostOverUserInput:
+                    case FileEntryVersionCompare.FoundEqual:                    
                         currentDataGridViewGenericColumn.FileEntryAttribute = fileEntryAttribute; //Updated from FromSource, Database or AutoCorrect                
                         currentDataGridViewGenericColumn.Thumbnail = (thumbnail == null ? null : new Bitmap(thumbnail)); //Avoid thread issues
                         currentDataGridViewGenericColumn.ReadWriteAccess = readWriteAccessForColumn;
                         dataGridView.Columns[columnIndex].Tag = currentDataGridViewGenericColumn;
                         SetCellBackgroundColorForColumn(dataGridView, columnIndex);
                         break;
+                    case FileEntryVersionCompare.LostOverUserInput:
+                    case FileEntryVersionCompare.FoundButLost:
                     case FileEntryVersionCompare.NotEqualFound:
                         break;
                     default:
@@ -1478,6 +1482,7 @@ namespace DataGridViewGeneric
 
         public static int GetRowIndex(DataGridView dataGridView, DataGridViewGenericRow dataGridViewGenericRow)
         {
+            #region Cache logic
             if (rowIndexCache.ContainsKey(dataGridViewGenericRow))
             {
                 int rowIndex = rowIndexCache[dataGridViewGenericRow];
@@ -1486,6 +1491,9 @@ namespace DataGridViewGeneric
                     dataGridViewGenericRowCheck != null && dataGridViewGenericRowCheck == dataGridViewGenericRow) return rowIndex;
                 rowIndexCache.Clear();
             }
+            #endregion
+
+            #region Find row
             for (int rowIndex = 0; rowIndex < GetRowCountWithoutEditRow(dataGridView); rowIndex++)
             {
                 if (!rowIndexCache.ContainsKey(dataGridViewGenericRow)) rowIndexCache.Add(dataGridViewGenericRow, rowIndex);
@@ -1496,6 +1504,8 @@ namespace DataGridViewGeneric
                 }
 
             }
+            #endregion
+
             return -1;
         }
         #endregion
