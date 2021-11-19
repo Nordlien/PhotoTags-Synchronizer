@@ -350,7 +350,7 @@ namespace Exiftool
             {
                 message += "Filename: '" + metadataUpdatedByUserCopy.FileFullPath + "'\r\n" +
                     "Errors:\r\n" + Metadata.GetErrors(metadataUpdatedByUserCopy, metadataRead) + "\r\n-----------\r\n\r\n";
-                Logger.Error("Verify metatdata failed! Data read back not equal to was supposted to be written on file: " + metadataUpdatedByUserCopy.FileFullPath);
+                Logger.Error("Verify metatdata failed! Data read back not equal to was supposted to be written on file, often occures e.g. when OneDrive creates a duplicate file: " + metadataUpdatedByUserCopy.FileFullPath);
 
                 foundErrors = true;
             }                

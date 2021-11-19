@@ -24,19 +24,24 @@ namespace MetadataLibrary
 
     public class FileEntryVersionHandler
     {
+        #region IsCurrenOrUpdatedVersion
         public static bool IsCurrenOrUpdatedVersion(FileEntryVersion fileEntryVersion)
         {
             return 
                 fileEntryVersion == FileEntryVersion.CurrentVersionInDatabase || fileEntryVersion == FileEntryVersion.AutoCorrect || 
                 fileEntryVersion == FileEntryVersion.ExtractedNowFromMediaFile || fileEntryVersion == FileEntryVersion.ExtractedNowFromExternalSource;
         }
+        #endregion
 
+        #region IsErrorOrHistoricalVersion
         public static bool IsErrorOrHistoricalVersion(FileEntryVersion fileEntryVersion)
         {
             //fileEntryAttribute.FileEntryVersion != FileEntryVersion.AutoCorrect && fileEntryAttribute.FileEntryVersion != FileEntryVersion.Curren
             return fileEntryVersion == FileEntryVersion.Historical || fileEntryVersion == FileEntryVersion.Error;
         }
+        #endregion
 
+        #region NeedUpdate
         public static bool NeedUpdate(FileEntryVersionCompare fileEntryVersionCompare)
         {
             switch (fileEntryVersionCompare)
@@ -55,7 +60,9 @@ namespace MetadataLibrary
                     throw new NotImplementedException();
             }
         }
+        #endregion
 
+        #region CompareFileEntryAttribute
         public static FileEntryVersionCompare CompareFileEntryAttribute(FileEntryAttribute fileEntryAttributeDataGridViewColumn, FileEntryAttribute fileEntryAttributeFromQueue)
         {
             if (fileEntryAttributeFromQueue.FileName != fileEntryAttributeDataGridViewColumn.FileName) 
@@ -194,5 +201,6 @@ namespace MetadataLibrary
 
             return FileEntryVersionCompare.NotEqualFound; //DEBUG - If arrived here, means not all cases handled with care
         }
+        #endregion
     }
 }
