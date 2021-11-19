@@ -92,7 +92,7 @@ namespace MetadataLibrary
                             return FileEntryVersionCompare.FoundAndWon; //Extracted from source always win over AutoCorrect (No need to check dates, It's only exist one column, regardless of date)
                             
                         case FileEntryVersion.CurrentVersionInDatabase: //is store in DataGridView Column
-                            return FileEntryVersionCompare.FoundButLost; //Extracted from source always win over Read from database (No need to check dates, It's only exist one column, regardless of date)
+                            return FileEntryVersionCompare.FoundAndWon; //Extracted from source always win over Read from database (No need to check dates, It's only exist one column, regardless of date)
 
                         case FileEntryVersion.Historical: //is store in DataGridView Column
                         case FileEntryVersion.Error: //is store in DataGridView Column
