@@ -463,8 +463,35 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region LazyLoadingDataGridView - DataGridView - Metadata
+        public bool DoesFilesExistInAnyQueues(FileEntryAttribute fileEntryAttribute)
+        {
+            try
+            {
+                if (commonQueueLazyLoadingMetadata.Contains(fileEntryAttribute)) return true;
+                if (commonQueueReadMetadataFromExiftool.Contains(fileEntryAttribute.FileEntry)) return true;
 
-        public int DataGridViewLazyLoadingCount()
+                foreach (FileEntryAttribute fileEntryAttributeCheck in commonQueueLazyLoadingMetadata)
+                {
+                    if (fileEntryAttributeCheck.FileFullPath == fileEntryAttribute.FileFullPath) 
+                        return true;
+                }
+
+                foreach (FileEntry fileEntryCheck in commonQueueReadMetadataFromExiftool)
+                {
+                    if (fileEntryCheck.FileFullPath == fileEntryAttribute.FileFullPath)
+                        return true;
+                }
+                //private static List<FileEntryAttribute> commonQueueLazyLoadingThumbnail = new List<FileEntryAttribute>();
+                //private static List<Metadata> commonQueueReadPosterAndSaveFaceThumbnails = new List<Metadata>();
+                //private static List<FileEntryImage> commonQueueSaveThumbnailToDatabase = new List<FileEntryImage>();
+                //private static List<FileEntry> commonQueueReadMetadataFromMicrosoftPhotos = new List<FileEntry>();
+                //private static List<FileEntry> commonQueueReadMetadataFromWindowsLivePhotoGallery = new List<FileEntry>();                
+            } catch
+            {
+            }
+            return false;
+        }
+        public int GetDataGridViewWatingToBePopulatedCount()
         {
             DataGridView dataGridView = GetActiveTabDataGridView();
             int queueCount = 0;
@@ -472,8 +499,16 @@ namespace PhotoTagsSynchronizer
             {
                 for (int columnIndex = 0; columnIndex < DataGridViewHandler.GetColumnCount(dataGridView); columnIndex++)
                 {
-                    DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-                    if (dataGridViewGenericColumn == null || (dataGridViewGenericColumn?.Metadata == null)) queueCount++;
+                    if (!DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex)) queueCount++;
+                    else
+                    {
+                        DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+                        if (dataGridViewGenericColumn != null)
+                        {
+                            if (DoesFilesExistInAnyQueues(dataGridViewGenericColumn.FileEntryAttribute)) 
+                                queueCount++;
+                        }
+                    }
                 }
             }
             return queueCount;
@@ -509,7 +544,6 @@ namespace PhotoTagsSynchronizer
                 //if (!databaseAndCacheMetadataExiftool.IsMetadataInCache(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool)) AddQueueExiftoolLock(fileEntry);
                 if (!databaseAndCacheMetadataMicrosoftPhotos.IsMetadataInCache(new FileEntryBroker(fileEntry, MetadataBrokerType.MicrosoftPhotos))) AddQueueMicrosoftPhotosLock(fileEntry);
                 if (!databaseAndCacheMetadataWindowsLivePhotoGallery.IsMetadataInCache(new FileEntryBroker(fileEntry, MetadataBrokerType.WindowsLivePhotoGallery))) AddQueueWindowsLivePhotoGalleryLock(fileEntry);
-                
             }
             else
             {

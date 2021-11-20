@@ -246,6 +246,7 @@ namespace PhotoTagsSynchronizer
             try
             {
                 Logger.Warn(messageBoxQueuesInfo);
+                if (string.IsNullOrWhiteSpace(messageBoxQueuesInfo)) messageBoxQueuesInfo = "\r\nThe queue is empty.\r\nHere you will see all task in all queues\r\n";
                 if (formMessageBoxThread == null || formMessageBoxThread.IsDisposed) formMessageBoxThread = new FormMessageBox("Task list", messageBoxQueuesInfo);
                 else formMessageBoxThread.UpdateMessage(messageBoxQueuesInfo);
                 formMessageBoxThread.Owner = this;
@@ -788,7 +789,7 @@ namespace PhotoTagsSynchronizer
             int procentage = 0;
             if (value >= maximum) procentage = 100;
             else procentage = (int)(((double)value / (double)maximum) * 100);
-            buttonSpecNavigatorDataGridViewProgressCircle.ImageStates.ImageNormal =
+            
             buttonSpecNavigatorDataGridViewProgressCircle.Image = GetProgressCircle(procentage, out int imageIndex);
 
             if (buttonSpecNavigator.Tag == null && !(buttonSpecNavigator.Tag is int)) buttonSpecNavigator.Tag = -1;
@@ -836,7 +837,8 @@ namespace PhotoTagsSynchronizer
             kryptonRibbonGroupTripleToolsProgressStatusWork.Visible = visible;
             kryptonRibbonGroupLabelToolsProgressLazyloading.Enabled = visible;
             kryptonRibbonGroupCustomControlToolsProgressLazyloading.Enabled = visible;
-            buttonSpecNavigatorDataGridViewProgressCircle.Visible = visible;
+            if (!visible) buttonSpecNavigatorDataGridViewProgressCircle.Image = PhotoTagsSynchronizer.Properties.Resources.ProgressCircle00_16x16;
+            //buttonSpecNavigatorDataGridViewProgressCircle.Visible = visible;
         }
         #endregion
 

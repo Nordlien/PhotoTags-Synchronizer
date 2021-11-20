@@ -1043,6 +1043,16 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ProgressCircle00_16x16 {
+            get {
+                object obj = ResourceManager.GetObject("ProgressCircle00-16x16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ProgressCircle01_16x16 {
             get {
                 object obj = ResourceManager.GetObject("ProgressCircle01_16x16", resourceCulture);

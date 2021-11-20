@@ -331,44 +331,45 @@ namespace PhotoTagsSynchronizer
                 }
                 #endregion
 
-                #region AutoCorrect
-                Metadata metadataAutoCorrect = null;
-                if (isFileInDataGridView && (fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect || GlobalData.ListOfAutoCorrectFilesContains(fileEntryAttribute.FileFullPath)))
-                {
-                    Metadata metadataInCache = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryAttribute.GetFileEntryBroker(MetadataBrokerType.ExifTool));
-                    Metadata metadataUpdatedFromGrid = (metadataInCache == null ? null : new Metadata(metadataInCache));
-
-                    if (metadataUpdatedFromGrid != null)
-                    {
-                        AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
-                        float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
-                        float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
-                        int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
-
-                        UpdateMetadataFromDataGridView(fileEntryAttribute, ref metadataUpdatedFromGrid);
-
-                        metadataAutoCorrect = autoCorrect.FixAndSave(
-                            fileEntryAttribute.FileEntry,
-                            metadataUpdatedFromGrid,
-                            databaseAndCacheMetadataExiftool,
-                            databaseAndCacheMetadataMicrosoftPhotos,
-                            databaseAndCacheMetadataWindowsLivePhotoGallery,
-                            databaseAndCahceCameraOwner,
-                            databaseLocationAddress,
-                            databaseGoogleLocationHistory,
-                            locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
-                            autoKeywordConvertions,
-                            Properties.Settings.Default.RenameDateFormats);
-                        AutoCorrectFormVaraibles autoCorrectFormVaraibles = GlobalData.GetAutoCorrectVariablesForFile(fileEntryAttribute.FileFullPath);
-                        AutoCorrectFormVaraibles.UpdateMetaData(ref metadataAutoCorrect, autoCorrectFormVaraibles);
-
-                    }
-                }
-                #endregion
-
-                DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, isFileInDataGridView);
+                DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, isFileInDataGridView); //Will not suspend when Column Don't exist, but counter will increase
                 if (isFileInDataGridView)
                 {
+                    #region AutoCorrect
+                    Metadata metadataAutoCorrect = null;
+                    if (isFileInDataGridView && (fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect || GlobalData.ListOfAutoCorrectFilesContains(fileEntryAttribute.FileFullPath)))
+                    {
+                        Metadata metadataInCache = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryAttribute.GetFileEntryBroker(MetadataBrokerType.ExifTool));
+                        Metadata metadataUpdatedFromGrid = (metadataInCache == null ? null : new Metadata(metadataInCache));
+
+                        if (metadataUpdatedFromGrid != null)
+                        {
+                            AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
+                            float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
+                            float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
+                            int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
+
+                            UpdateMetadataFromDataGridView(fileEntryAttribute, ref metadataUpdatedFromGrid);
+
+                            metadataAutoCorrect = autoCorrect.FixAndSave(
+                                fileEntryAttribute.FileEntry,
+                                metadataUpdatedFromGrid,
+                                databaseAndCacheMetadataExiftool,
+                                databaseAndCacheMetadataMicrosoftPhotos,
+                                databaseAndCacheMetadataWindowsLivePhotoGallery,
+                                databaseAndCahceCameraOwner,
+                                databaseLocationAddress,
+                                databaseGoogleLocationHistory,
+                                locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
+                                autoKeywordConvertions,
+                                Properties.Settings.Default.RenameDateFormats);
+                            AutoCorrectFormVaraibles autoCorrectFormVaraibles = GlobalData.GetAutoCorrectVariablesForFile(fileEntryAttribute.FileFullPath);
+                            AutoCorrectFormVaraibles.UpdateMetaData(ref metadataAutoCorrect, autoCorrectFormVaraibles);
+
+                        }
+                    }
+                    #endregion
+
+                    #region Popuate File
                     switch (tag)
                     {
                         case LinkTabAndDataGridViewNameTags:
@@ -403,7 +404,7 @@ namespace PhotoTagsSynchronizer
                             if (DataGridViewHandlerMap.HasBeenInitialized) DataGridViewHandlerMap.PopulateFile(dataGridViewMap, dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             //if (DataGridViewHandlerDate.HasBeenInitialized) DataGridViewHandlerDate.PopulateFile(dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             break;
-                        
+
                         case LinkTabAndDataGridViewNameExiftool:
                             DataGridViewHandlerExiftool.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
                             break;
@@ -422,26 +423,30 @@ namespace PhotoTagsSynchronizer
                         default:
                             throw new NotImplementedException();
                     }
-                }
+                    #endregion
 
-                #region PopulateTreeViewFolderFilter
-                if (!IsPopulateTreeViewFolderFilterThreadRunning)
-                {
-                    PopulateTreeViewFolderFilterAdd(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.ExifTool));
-                    PopulateTreeViewFolderFilterUpdatedTreeViewFilterInvoke();
-                }
-                #endregion
+                    #region PopulateTreeViewFolderFilter
+                    if (!IsPopulateTreeViewFolderFilterThreadRunning)
+                    {
+                        PopulateTreeViewFolderFilterAdd(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.ExifTool));
+                        PopulateTreeViewFolderFilterUpdatedTreeViewFilterInvoke();
+                    }
+                    #endregion
 
-                int queueCount = ThreadLazyLoadingDataGridViewQueueSizeDirty() + DataGridViewLazyLoadingCount();
-                if (isFileInDataGridView) LazyLoadingDataGridViewProgressUpdateStatus(queueCount); //Update progressbar when File In DataGridView
 
-                DataGridViewHandler.ResumeLayoutDelayed(dataGridView);                
-                if (queueCount == 0)
-                {
-                    //LazyLoadMissingLock();
-                    if (isFileInDataGridView) PopulateDataGridViewForSelectedItemsExtrasDelayed();
-                    LazyLoadingDataGridViewProgressEndReached();
+                    //int queueCount = ThreadLazyLoadingDataGridViewQueueSizeDirty() + GetDataGridViewWatingToBePopulatedCount();
+                    int queueCount = GetDataGridViewWatingToBePopulatedCount();
+                    LazyLoadingDataGridViewProgressUpdateStatus(queueCount); //Update progressbar when File In DataGridView
+
+                    if (queueCount == 0)
+                    {
+                        PopulateDataGridViewForSelectedItemsExtrasDelayed();
+                        LazyLoadingDataGridViewProgressEndReached();
+                    }
                 }
+                DataGridViewHandler.ResumeLayoutDelayed(dataGridView); //Will resume when counter reach 0
+
+                
             }
         }
         #endregion
@@ -544,13 +549,13 @@ namespace PhotoTagsSynchronizer
                     case LinkTabAndDataGridViewNameDates:
                         break;
                     case LinkTabAndDataGridViewNameExiftool:
-                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, ThreadLazyLoadingDataGridViewQueueSizeDirty());
+                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, GetDataGridViewWatingToBePopulatedCount());
                         break;
                     case LinkTabAndDataGridViewNameWarnings:
-                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, ThreadLazyLoadingDataGridViewQueueSizeDirty());
+                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, GetDataGridViewWatingToBePopulatedCount());
                         break;
                     case LinkTabAndDataGridViewNameProperties:
-                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, ThreadLazyLoadingDataGridViewQueueSizeDirty());
+                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, GetDataGridViewWatingToBePopulatedCount());
                         break;
                     case LinkTabAndDataGridViewNameRename:
                         break;

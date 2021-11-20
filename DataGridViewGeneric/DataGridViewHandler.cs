@@ -650,9 +650,6 @@ namespace DataGridViewGeneric
 
                 isSuspended = true;
             }
-
-
-
         }
         #endregion 
 

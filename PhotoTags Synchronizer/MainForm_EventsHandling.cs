@@ -7838,6 +7838,16 @@ namespace PhotoTagsSynchronizer
         {
             ActionSeeProcessQueue();
         }
+
+        private void buttonSpecNavigatorDataGridViewProgressCircle_Click(object sender, EventArgs e)
+        {
+            ActionSeeProcessQueue();
+        }
+
+        private void buttonSpecNavigatorImageListViewLoadStatus_Click(object sender, EventArgs e)
+        {
+            ActionSeeProcessQueue();
+        }
         #endregion
 
 

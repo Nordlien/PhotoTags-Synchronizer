@@ -31,80 +31,12 @@ namespace PhotoTagsSynchronizer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Filter");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Filter");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.panelMain = new Krypton.Toolkit.KryptonPanel();
             this.kryptonWorkspaceMain = new Krypton.Workspace.KryptonWorkspace();
             this.kryptonPageFolderSearchFilterFolder = new Krypton.Navigator.KryptonPage();
             this.treeViewFolderBrowser1 = new Raccoom.Windows.Forms.TreeViewFolderBrowser();
-            this.kryptonContextMenuGenericBase = new Krypton.Toolkit.KryptonContextMenu();
-            this.kryptonContextMenuItemsGenericBaseList = new Krypton.Toolkit.KryptonContextMenuItems();
-            this.kryptonContextMenuItemAssignCompositeTag = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemsAssignCompositeTagList = new Krypton.Toolkit.KryptonContextMenuItems();
-            this.kryptonContextMenuItemAssignCompositeTagExample = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemGenericRegionRename1 = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemGenericRegionRename2 = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemGenericRegionRename3 = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemGenericRegionRenameFromLastUsed = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemsGenericRegionRenameFromLastUsedList = new Krypton.Toolkit.KryptonContextMenuItems();
-            this.kryptonContextMenuItemGenericRegionRenameFormLastUsedExample = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemGenericRegionRenameListAll = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuImageSelect3 = new Krypton.Toolkit.KryptonContextMenuImageSelect();
-            this.kryptonContextMenuItemsGenericRegionRenameListAllList = new Krypton.Toolkit.KryptonContextMenuItems();
-            this.kryptonContextMenuItemGenericRegionRenameListAllExample = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuSeparatorGenericEndOfRegionRename = new Krypton.Toolkit.KryptonContextMenuSeparator();
-            this.kryptonContextMenuItemGenericCut = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemGenericCopy = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemGenericCopyText = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemGenericFastCopyNoOverwrite = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemGenericFastCopyWithOverwrite = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemGenericPaste = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemGenericDelete = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemGenericRename = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemGenericUndo = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemGenericRedo = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemGenericFind = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemGenericReplace = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemGenericSave = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuSeparatorGenericEndOfClipboard = new Krypton.Toolkit.KryptonContextMenuSeparator();
-            this.kryptonContextMenuItemGenericRefreshFolder = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemGenericReadSubfolders = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemGenericOpenFolderLocation = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemGenericOpen = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemGenericOpenWith = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemsGenericOpenWithAppList = new Krypton.Toolkit.KryptonContextMenuItems();
-            this.kryptonContextMenuItemsGenericOpenWithAppListExample = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemOpenAndAssociateWithDialog = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemGenericOpenVerbEdit = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemGenericRunCommand = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuSeparatorGenericEndOfFileSystem = new Krypton.Toolkit.KryptonContextMenuSeparator();
-            this.kryptonContextMenuItemGenericAutoCorrectRun = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemGenericAutoCorrectForm = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemGenericMetadataRefreshLast = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemGenericMetadataDeleteHistory = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuSeparatorGenericEndOfMetadata = new Krypton.Toolkit.KryptonContextMenuSeparator();
-            this.kryptonContextMenuItemGenericRotate270 = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemGenericRotate180 = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemGenericRotate90 = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuSeparatorEndOfRotate = new Krypton.Toolkit.KryptonContextMenuSeparator();
-            this.kryptonContextMenuItemGenericFavoriteAdd = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemGenericFavoriteDelete = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemGenericFavoriteToggle = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuSeparatorGenericEndOfFavorite = new Krypton.Toolkit.KryptonContextMenuSeparator();
-            this.kryptonContextMenuItemGenericRowShowFavorite = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemGenericRowHideEqual = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuSeparatorGenericEndOfShowHideRows = new Krypton.Toolkit.KryptonContextMenuSeparator();
-            this.kryptonContextMenuItemGenericTriStateOn = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemGenericTriStateOff = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemGenericTriStateToggle = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuSeparatorGenericEndOfTriState = new Krypton.Toolkit.KryptonContextMenuSeparator();
-            this.kryptonContextMenuItemGenericMediaViewAsPoster = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemGenericMediaViewAsFull = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuSeparatorGenericEndOfMediaView = new Krypton.Toolkit.KryptonContextMenuSeparator();
-            this.kryptonContextMenuItemMapShowCoordinateOnOpenStreetMap = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemMapShowCoordinateOnGoogleMap = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemMapReloadUsingNominatim = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemToolLocationAnalytics = new Krypton.Toolkit.KryptonContextMenuItem();
             this.kryptonWorkspaceCellFolderSearchFilter = new Krypton.Workspace.KryptonWorkspaceCell();
             this.buttonSpecNavigatorExpandCollapse = new Krypton.Navigator.ButtonSpecNavigator();
             this.kryptonPageFolderSearchFilterSearch = new Krypton.Navigator.KryptonPage();
@@ -178,6 +110,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageFolderSearchFilterFilter = new Krypton.Navigator.KryptonPage();
             this.treeViewFilter = new PhotoTagsCommonComponets.TreeViewWithoutDoubleClick();
             this.kryptonWorkspaceCellMediaFiles = new Krypton.Workspace.KryptonWorkspaceCell();
+            this.buttonSpecNavigatorImageListViewLoadStatus = new Krypton.Navigator.ButtonSpecNavigator();
             this.kryptonPageMediaFiles = new Krypton.Navigator.KryptonPage();
             this.imageListView1 = new Manina.Windows.Forms.ImageListView();
             this.kryptonWorkspaceCellToolbox = new Krypton.Workspace.KryptonWorkspaceCell();
@@ -215,6 +148,74 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewTagsAndKeywords = new Krypton.Toolkit.KryptonDataGridView();
             this.kryptonPageToolboxPeople = new Krypton.Navigator.KryptonPage();
             this.dataGridViewPeople = new Krypton.Toolkit.KryptonDataGridView();
+            this.kryptonContextMenuGenericBase = new Krypton.Toolkit.KryptonContextMenu();
+            this.kryptonContextMenuItemsGenericBaseList = new Krypton.Toolkit.KryptonContextMenuItems();
+            this.kryptonContextMenuItemAssignCompositeTag = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemsAssignCompositeTagList = new Krypton.Toolkit.KryptonContextMenuItems();
+            this.kryptonContextMenuItemAssignCompositeTagExample = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemGenericRegionRename1 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemGenericRegionRename2 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemGenericRegionRename3 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemGenericRegionRenameFromLastUsed = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemsGenericRegionRenameFromLastUsedList = new Krypton.Toolkit.KryptonContextMenuItems();
+            this.kryptonContextMenuItemGenericRegionRenameFormLastUsedExample = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemGenericRegionRenameListAll = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuImageSelect3 = new Krypton.Toolkit.KryptonContextMenuImageSelect();
+            this.kryptonContextMenuItemsGenericRegionRenameListAllList = new Krypton.Toolkit.KryptonContextMenuItems();
+            this.kryptonContextMenuItemGenericRegionRenameListAllExample = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuSeparatorGenericEndOfRegionRename = new Krypton.Toolkit.KryptonContextMenuSeparator();
+            this.kryptonContextMenuItemGenericCut = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemGenericCopy = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemGenericCopyText = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemGenericFastCopyNoOverwrite = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemGenericFastCopyWithOverwrite = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemGenericPaste = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemGenericDelete = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemGenericRename = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemGenericUndo = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemGenericRedo = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemGenericFind = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemGenericReplace = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemGenericSave = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuSeparatorGenericEndOfClipboard = new Krypton.Toolkit.KryptonContextMenuSeparator();
+            this.kryptonContextMenuItemGenericRefreshFolder = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemGenericReadSubfolders = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemGenericOpenFolderLocation = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemGenericOpen = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemGenericOpenWith = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemsGenericOpenWithAppList = new Krypton.Toolkit.KryptonContextMenuItems();
+            this.kryptonContextMenuItemsGenericOpenWithAppListExample = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemOpenAndAssociateWithDialog = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemGenericOpenVerbEdit = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemGenericRunCommand = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuSeparatorGenericEndOfFileSystem = new Krypton.Toolkit.KryptonContextMenuSeparator();
+            this.kryptonContextMenuItemGenericAutoCorrectRun = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemGenericAutoCorrectForm = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemGenericMetadataRefreshLast = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemGenericMetadataDeleteHistory = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuSeparatorGenericEndOfMetadata = new Krypton.Toolkit.KryptonContextMenuSeparator();
+            this.kryptonContextMenuItemGenericRotate270 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemGenericRotate180 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemGenericRotate90 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuSeparatorEndOfRotate = new Krypton.Toolkit.KryptonContextMenuSeparator();
+            this.kryptonContextMenuItemGenericFavoriteAdd = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemGenericFavoriteDelete = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemGenericFavoriteToggle = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuSeparatorGenericEndOfFavorite = new Krypton.Toolkit.KryptonContextMenuSeparator();
+            this.kryptonContextMenuItemGenericRowShowFavorite = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemGenericRowHideEqual = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuSeparatorGenericEndOfShowHideRows = new Krypton.Toolkit.KryptonContextMenuSeparator();
+            this.kryptonContextMenuItemGenericTriStateOn = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemGenericTriStateOff = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemGenericTriStateToggle = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuSeparatorGenericEndOfTriState = new Krypton.Toolkit.KryptonContextMenuSeparator();
+            this.kryptonContextMenuItemGenericMediaViewAsPoster = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemGenericMediaViewAsFull = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuSeparatorGenericEndOfMediaView = new Krypton.Toolkit.KryptonContextMenuSeparator();
+            this.kryptonContextMenuItemMapShowCoordinateOnOpenStreetMap = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemMapShowCoordinateOnGoogleMap = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemMapReloadUsingNominatim = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemToolLocationAnalytics = new Krypton.Toolkit.KryptonContextMenuItem();
             this.kryptonPageToolboxMap = new Krypton.Navigator.KryptonPage();
             this.kryptonWorkspaceToolboxMap = new Krypton.Workspace.KryptonWorkspace();
             this.kryptonPageToolboxMapProperties = new Krypton.Navigator.KryptonPage();
@@ -813,404 +814,6 @@ namespace PhotoTagsSynchronizer
             this.treeViewFolderBrowser1.DragEnter += new System.Windows.Forms.DragEventHandler(this.treeViewFolderBrowser1_DragEnter);
             this.treeViewFolderBrowser1.DragOver += new System.Windows.Forms.DragEventHandler(this.treeViewFolderBrowser1_DragOver);
             this.treeViewFolderBrowser1.DragLeave += new System.EventHandler(this.treeViewFolderBrowser1_DragLeave);
-            // 
-            // kryptonContextMenuGenericBase
-            // 
-            this.kryptonContextMenuGenericBase.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
-            this.kryptonContextMenuItemsGenericBaseList});
-            this.kryptonContextMenuGenericBase.Opening += new System.ComponentModel.CancelEventHandler(this.kryptonContextMenuGenericBase_Opening);
-            // 
-            // kryptonContextMenuItemsGenericBaseList
-            // 
-            this.kryptonContextMenuItemsGenericBaseList.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
-            this.kryptonContextMenuItemAssignCompositeTag,
-            this.kryptonContextMenuItemGenericRegionRename1,
-            this.kryptonContextMenuItemGenericRegionRename2,
-            this.kryptonContextMenuItemGenericRegionRename3,
-            this.kryptonContextMenuItemGenericRegionRenameFromLastUsed,
-            this.kryptonContextMenuItemGenericRegionRenameListAll,
-            this.kryptonContextMenuSeparatorGenericEndOfRegionRename,
-            this.kryptonContextMenuItemGenericCut,
-            this.kryptonContextMenuItemGenericCopy,
-            this.kryptonContextMenuItemGenericCopyText,
-            this.kryptonContextMenuItemGenericFastCopyNoOverwrite,
-            this.kryptonContextMenuItemGenericFastCopyWithOverwrite,
-            this.kryptonContextMenuItemGenericPaste,
-            this.kryptonContextMenuItemGenericDelete,
-            this.kryptonContextMenuItemGenericRename,
-            this.kryptonContextMenuItemGenericUndo,
-            this.kryptonContextMenuItemGenericRedo,
-            this.kryptonContextMenuItemGenericFind,
-            this.kryptonContextMenuItemGenericReplace,
-            this.kryptonContextMenuItemGenericSave,
-            this.kryptonContextMenuSeparatorGenericEndOfClipboard,
-            this.kryptonContextMenuItemGenericRefreshFolder,
-            this.kryptonContextMenuItemGenericReadSubfolders,
-            this.kryptonContextMenuItemGenericOpenFolderLocation,
-            this.kryptonContextMenuItemGenericOpen,
-            this.kryptonContextMenuItemGenericOpenWith,
-            this.kryptonContextMenuItemOpenAndAssociateWithDialog,
-            this.kryptonContextMenuItemGenericOpenVerbEdit,
-            this.kryptonContextMenuItemGenericRunCommand,
-            this.kryptonContextMenuSeparatorGenericEndOfFileSystem,
-            this.kryptonContextMenuItemGenericAutoCorrectRun,
-            this.kryptonContextMenuItemGenericAutoCorrectForm,
-            this.kryptonContextMenuItemGenericMetadataRefreshLast,
-            this.kryptonContextMenuItemGenericMetadataDeleteHistory,
-            this.kryptonContextMenuSeparatorGenericEndOfMetadata,
-            this.kryptonContextMenuItemGenericRotate270,
-            this.kryptonContextMenuItemGenericRotate180,
-            this.kryptonContextMenuItemGenericRotate90,
-            this.kryptonContextMenuSeparatorEndOfRotate,
-            this.kryptonContextMenuItemGenericFavoriteAdd,
-            this.kryptonContextMenuItemGenericFavoriteDelete,
-            this.kryptonContextMenuItemGenericFavoriteToggle,
-            this.kryptonContextMenuSeparatorGenericEndOfFavorite,
-            this.kryptonContextMenuItemGenericRowShowFavorite,
-            this.kryptonContextMenuItemGenericRowHideEqual,
-            this.kryptonContextMenuSeparatorGenericEndOfShowHideRows,
-            this.kryptonContextMenuItemGenericTriStateOn,
-            this.kryptonContextMenuItemGenericTriStateOff,
-            this.kryptonContextMenuItemGenericTriStateToggle,
-            this.kryptonContextMenuSeparatorGenericEndOfTriState,
-            this.kryptonContextMenuItemGenericMediaViewAsPoster,
-            this.kryptonContextMenuItemGenericMediaViewAsFull,
-            this.kryptonContextMenuSeparatorGenericEndOfMediaView,
-            this.kryptonContextMenuItemMapShowCoordinateOnOpenStreetMap,
-            this.kryptonContextMenuItemMapShowCoordinateOnGoogleMap,
-            this.kryptonContextMenuItemMapReloadUsingNominatim,
-            this.kryptonContextMenuItemToolLocationAnalytics});
-            // 
-            // kryptonContextMenuItemAssignCompositeTag
-            // 
-            this.kryptonContextMenuItemAssignCompositeTag.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
-            this.kryptonContextMenuItemsAssignCompositeTagList});
-            this.kryptonContextMenuItemAssignCompositeTag.Text = "Assign Composite Tag";
-            // 
-            // kryptonContextMenuItemsAssignCompositeTagList
-            // 
-            this.kryptonContextMenuItemsAssignCompositeTagList.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
-            this.kryptonContextMenuItemAssignCompositeTagExample});
-            // 
-            // kryptonContextMenuItemAssignCompositeTagExample
-            // 
-            this.kryptonContextMenuItemAssignCompositeTagExample.Text = "Assign Composite Tag Example";
-            // 
-            // kryptonContextMenuItemGenericRegionRename1
-            // 
-            this.kryptonContextMenuItemGenericRegionRename1.Text = "Rename #1";
-            // 
-            // kryptonContextMenuItemGenericRegionRename2
-            // 
-            this.kryptonContextMenuItemGenericRegionRename2.Text = "Rename #2";
-            // 
-            // kryptonContextMenuItemGenericRegionRename3
-            // 
-            this.kryptonContextMenuItemGenericRegionRename3.Text = "Rename #3";
-            // 
-            // kryptonContextMenuItemGenericRegionRenameFromLastUsed
-            // 
-            this.kryptonContextMenuItemGenericRegionRenameFromLastUsed.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
-            this.kryptonContextMenuItemsGenericRegionRenameFromLastUsedList});
-            this.kryptonContextMenuItemGenericRegionRenameFromLastUsed.Text = "Rename from last used";
-            // 
-            // kryptonContextMenuItemsGenericRegionRenameFromLastUsedList
-            // 
-            this.kryptonContextMenuItemsGenericRegionRenameFromLastUsedList.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
-            this.kryptonContextMenuItemGenericRegionRenameFormLastUsedExample});
-            // 
-            // kryptonContextMenuItemGenericRegionRenameFormLastUsedExample
-            // 
-            this.kryptonContextMenuItemGenericRegionRenameFormLastUsedExample.Text = "Last use example";
-            // 
-            // kryptonContextMenuItemGenericRegionRenameListAll
-            // 
-            this.kryptonContextMenuItemGenericRegionRenameListAll.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
-            this.kryptonContextMenuImageSelect3,
-            this.kryptonContextMenuItemsGenericRegionRenameListAllList});
-            this.kryptonContextMenuItemGenericRegionRenameListAll.Text = "Rename - List all";
-            // 
-            // kryptonContextMenuImageSelect3
-            // 
-            this.kryptonContextMenuImageSelect3.ButtonStyle = Krypton.Toolkit.ButtonStyle.LowProfile;
-            // 
-            // kryptonContextMenuItemsGenericRegionRenameListAllList
-            // 
-            this.kryptonContextMenuItemsGenericRegionRenameListAllList.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
-            this.kryptonContextMenuItemGenericRegionRenameListAllExample});
-            // 
-            // kryptonContextMenuItemGenericRegionRenameListAllExample
-            // 
-            this.kryptonContextMenuItemGenericRegionRenameListAllExample.Text = "List all example";
-            // 
-            // kryptonContextMenuItemGenericCut
-            // 
-            this.kryptonContextMenuItemGenericCut.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditCut32x32;
-            this.kryptonContextMenuItemGenericCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.kryptonContextMenuItemGenericCut.Text = "Cut";
-            // 
-            // kryptonContextMenuItemGenericCopy
-            // 
-            this.kryptonContextMenuItemGenericCopy.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditCopy32x32;
-            this.kryptonContextMenuItemGenericCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.kryptonContextMenuItemGenericCopy.Text = "Copy";
-            // 
-            // kryptonContextMenuItemGenericCopyText
-            // 
-            this.kryptonContextMenuItemGenericCopyText.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditCopyText32x32;
-            this.kryptonContextMenuItemGenericCopyText.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.T)));
-            this.kryptonContextMenuItemGenericCopyText.Text = "Copy text";
-            // 
-            // kryptonContextMenuItemGenericFastCopyNoOverwrite
-            // 
-            this.kryptonContextMenuItemGenericFastCopyNoOverwrite.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditFastTextCopyNotOverwrite32x32;
-            this.kryptonContextMenuItemGenericFastCopyNoOverwrite.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.kryptonContextMenuItemGenericFastCopyNoOverwrite.Text = "Fast Copy/Paste - No overwrite";
-            // 
-            // kryptonContextMenuItemGenericFastCopyWithOverwrite
-            // 
-            this.kryptonContextMenuItemGenericFastCopyWithOverwrite.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditFastTextCopyAndReplace32x32;
-            this.kryptonContextMenuItemGenericFastCopyWithOverwrite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.O)));
-            this.kryptonContextMenuItemGenericFastCopyWithOverwrite.Text = "Fast Copy/Paste - With overwrite";
-            // 
-            // kryptonContextMenuItemGenericPaste
-            // 
-            this.kryptonContextMenuItemGenericPaste.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditPaste32x32;
-            this.kryptonContextMenuItemGenericPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.kryptonContextMenuItemGenericPaste.Text = "Paste";
-            // 
-            // kryptonContextMenuItemGenericDelete
-            // 
-            this.kryptonContextMenuItemGenericDelete.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemDelete32x32;
-            this.kryptonContextMenuItemGenericDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.kryptonContextMenuItemGenericDelete.Text = "Delete";
-            // 
-            // kryptonContextMenuItemGenericRename
-            // 
-            this.kryptonContextMenuItemGenericRename.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemRename;
-            this.kryptonContextMenuItemGenericRename.ShortcutKeys = System.Windows.Forms.Keys.F2;
-            this.kryptonContextMenuItemGenericRename.Text = "Rename";
-            // 
-            // kryptonContextMenuItemGenericUndo
-            // 
-            this.kryptonContextMenuItemGenericUndo.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditUndo32x32;
-            this.kryptonContextMenuItemGenericUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.kryptonContextMenuItemGenericUndo.Text = "Undo";
-            // 
-            // kryptonContextMenuItemGenericRedo
-            // 
-            this.kryptonContextMenuItemGenericRedo.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditRedo32x32;
-            this.kryptonContextMenuItemGenericRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.kryptonContextMenuItemGenericRedo.Text = "Redo";
-            // 
-            // kryptonContextMenuItemGenericFind
-            // 
-            this.kryptonContextMenuItemGenericFind.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditFind32x32;
-            this.kryptonContextMenuItemGenericFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.kryptonContextMenuItemGenericFind.Text = "Find";
-            // 
-            // kryptonContextMenuItemGenericReplace
-            // 
-            this.kryptonContextMenuItemGenericReplace.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditReplace32x32;
-            this.kryptonContextMenuItemGenericReplace.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
-            this.kryptonContextMenuItemGenericReplace.Text = "Replace";
-            // 
-            // kryptonContextMenuItemGenericSave
-            // 
-            this.kryptonContextMenuItemGenericSave.Image = global::PhotoTagsSynchronizer.Properties.Resources.MetadataSave32x32;
-            this.kryptonContextMenuItemGenericSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.kryptonContextMenuItemGenericSave.Text = "Save";
-            // 
-            // kryptonContextMenuItemGenericRefreshFolder
-            // 
-            this.kryptonContextMenuItemGenericRefreshFolder.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemRefresh32x32;
-            this.kryptonContextMenuItemGenericRefreshFolder.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.kryptonContextMenuItemGenericRefreshFolder.Text = "Refresh folder";
-            // 
-            // kryptonContextMenuItemGenericReadSubfolders
-            // 
-            this.kryptonContextMenuItemGenericReadSubfolders.Image = global::PhotoTagsSynchronizer.Properties.Resources.MetadataAddSubfolders32x32;
-            this.kryptonContextMenuItemGenericReadSubfolders.ShortcutKeys = System.Windows.Forms.Keys.F6;
-            this.kryptonContextMenuItemGenericReadSubfolders.Text = "Add media from subfolers";
-            // 
-            // kryptonContextMenuItemGenericOpenFolderLocation
-            // 
-            this.kryptonContextMenuItemGenericOpenFolderLocation.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemExplorer32x32;
-            this.kryptonContextMenuItemGenericOpenFolderLocation.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
-            this.kryptonContextMenuItemGenericOpenFolderLocation.Text = "Open Location in Explorer";
-            // 
-            // kryptonContextMenuItemGenericOpen
-            // 
-            this.kryptonContextMenuItemGenericOpen.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemOpen;
-            this.kryptonContextMenuItemGenericOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Return)));
-            this.kryptonContextMenuItemGenericOpen.Text = "Open";
-            // 
-            // kryptonContextMenuItemGenericOpenWith
-            // 
-            this.kryptonContextMenuItemGenericOpenWith.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemOpenWith;
-            this.kryptonContextMenuItemGenericOpenWith.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
-            this.kryptonContextMenuItemsGenericOpenWithAppList});
-            this.kryptonContextMenuItemGenericOpenWith.Text = "Open with...";
-            // 
-            // kryptonContextMenuItemsGenericOpenWithAppList
-            // 
-            this.kryptonContextMenuItemsGenericOpenWithAppList.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
-            this.kryptonContextMenuItemsGenericOpenWithAppListExample});
-            // 
-            // kryptonContextMenuItemsGenericOpenWithAppListExample
-            // 
-            this.kryptonContextMenuItemsGenericOpenWithAppListExample.Text = "Open with example";
-            // 
-            // kryptonContextMenuItemOpenAndAssociateWithDialog
-            // 
-            this.kryptonContextMenuItemOpenAndAssociateWithDialog.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemOpenWIthAssociationApp32x32;
-            this.kryptonContextMenuItemOpenAndAssociateWithDialog.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.Return)));
-            this.kryptonContextMenuItemOpenAndAssociateWithDialog.Text = "Open and associate with dialog...";
-            // 
-            // kryptonContextMenuItemGenericOpenVerbEdit
-            // 
-            this.kryptonContextMenuItemGenericOpenVerbEdit.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemEdit;
-            this.kryptonContextMenuItemGenericOpenVerbEdit.ShortcutKeys = System.Windows.Forms.Keys.F4;
-            this.kryptonContextMenuItemGenericOpenVerbEdit.Text = "Edit";
-            // 
-            // kryptonContextMenuItemGenericRunCommand
-            // 
-            this.kryptonContextMenuItemGenericRunCommand.Image = global::PhotoTagsSynchronizer.Properties.Resources.ToolsRunCommand32x32;
-            this.kryptonContextMenuItemGenericRunCommand.ShortcutKeys = System.Windows.Forms.Keys.F6;
-            this.kryptonContextMenuItemGenericRunCommand.Text = "Run app/command batch";
-            // 
-            // kryptonContextMenuItemGenericAutoCorrectRun
-            // 
-            this.kryptonContextMenuItemGenericAutoCorrectRun.Image = global::PhotoTagsSynchronizer.Properties.Resources.MetadataAutoCorrectRun32x32;
-            this.kryptonContextMenuItemGenericAutoCorrectRun.ShortcutKeys = System.Windows.Forms.Keys.F7;
-            this.kryptonContextMenuItemGenericAutoCorrectRun.Text = "AutoCorrect Run";
-            // 
-            // kryptonContextMenuItemGenericAutoCorrectForm
-            // 
-            this.kryptonContextMenuItemGenericAutoCorrectForm.Image = global::PhotoTagsSynchronizer.Properties.Resources.MetadataAutoCorrectForm32x32;
-            this.kryptonContextMenuItemGenericAutoCorrectForm.ShortcutKeys = System.Windows.Forms.Keys.F8;
-            this.kryptonContextMenuItemGenericAutoCorrectForm.Text = "AutoCorrect Form";
-            // 
-            // kryptonContextMenuItemGenericMetadataRefreshLast
-            // 
-            this.kryptonContextMenuItemGenericMetadataRefreshLast.Image = global::PhotoTagsSynchronizer.Properties.Resources.MetadataReload;
-            this.kryptonContextMenuItemGenericMetadataRefreshLast.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.F5)));
-            this.kryptonContextMenuItemGenericMetadataRefreshLast.Text = "Refresh Metadata (Reload last)";
-            // 
-            // kryptonContextMenuItemGenericMetadataDeleteHistory
-            // 
-            this.kryptonContextMenuItemGenericMetadataDeleteHistory.Image = global::PhotoTagsSynchronizer.Properties.Resources.MetadataDeleteHistory;
-            this.kryptonContextMenuItemGenericMetadataDeleteHistory.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F5)));
-            this.kryptonContextMenuItemGenericMetadataDeleteHistory.Text = "Reload Metadata (Forget history)";
-            // 
-            // kryptonContextMenuItemGenericRotate270
-            // 
-            this.kryptonContextMenuItemGenericRotate270.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate90CCW;
-            this.kryptonContextMenuItemGenericRotate270.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D2)));
-            this.kryptonContextMenuItemGenericRotate270.Text = "Rotate 270° (90 CCW)";
-            // 
-            // kryptonContextMenuItemGenericRotate180
-            // 
-            this.kryptonContextMenuItemGenericRotate180.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate180;
-            this.kryptonContextMenuItemGenericRotate180.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D1)));
-            this.kryptonContextMenuItemGenericRotate180.Text = "Rotate 180°";
-            // 
-            // kryptonContextMenuItemGenericRotate90
-            // 
-            this.kryptonContextMenuItemGenericRotate90.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate90CW;
-            this.kryptonContextMenuItemGenericRotate90.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D9)));
-            this.kryptonContextMenuItemGenericRotate90.Text = "Rotate 90° (90 CW)";
-            // 
-            // kryptonContextMenuItemGenericFavoriteAdd
-            // 
-            this.kryptonContextMenuItemGenericFavoriteAdd.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteSelect32x32;
-            this.kryptonContextMenuItemGenericFavoriteAdd.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
-            this.kryptonContextMenuItemGenericFavoriteAdd.Text = "Mark as favorite";
-            // 
-            // kryptonContextMenuItemGenericFavoriteDelete
-            // 
-            this.kryptonContextMenuItemGenericFavoriteDelete.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteRemove32x32;
-            this.kryptonContextMenuItemGenericFavoriteDelete.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.D)));
-            this.kryptonContextMenuItemGenericFavoriteDelete.Text = "Remove as favorite";
-            // 
-            // kryptonContextMenuItemGenericFavoriteToggle
-            // 
-            this.kryptonContextMenuItemGenericFavoriteToggle.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteToggle32x32;
-            this.kryptonContextMenuItemGenericFavoriteToggle.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
-            this.kryptonContextMenuItemGenericFavoriteToggle.Text = "Toggle as favorite";
-            // 
-            // kryptonContextMenuItemGenericRowShowFavorite
-            // 
-            this.kryptonContextMenuItemGenericRowShowFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.GridFavorite32x32;
-            this.kryptonContextMenuItemGenericRowShowFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D0)));
-            this.kryptonContextMenuItemGenericRowShowFavorite.Text = "Show favorite rows";
-            // 
-            // kryptonContextMenuItemGenericRowHideEqual
-            // 
-            this.kryptonContextMenuItemGenericRowHideEqual.Image = global::PhotoTagsSynchronizer.Properties.Resources.GridEqual32x32;
-            this.kryptonContextMenuItemGenericRowHideEqual.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.D0)));
-            this.kryptonContextMenuItemGenericRowHideEqual.Text = "Hide equal rows";
-            // 
-            // kryptonContextMenuItemGenericTriStateOn
-            // 
-            this.kryptonContextMenuItemGenericTriStateOn.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditTriStateSelect32x32;
-            this.kryptonContextMenuItemGenericTriStateOn.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.Space)));
-            this.kryptonContextMenuItemGenericTriStateOn.Text = "Select tags";
-            // 
-            // kryptonContextMenuItemGenericTriStateOff
-            // 
-            this.kryptonContextMenuItemGenericTriStateOff.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditTriStateDelete32x32;
-            this.kryptonContextMenuItemGenericTriStateOff.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Delete)));
-            this.kryptonContextMenuItemGenericTriStateOff.Text = "Remove tags";
-            // 
-            // kryptonContextMenuItemGenericTriStateToggle
-            // 
-            this.kryptonContextMenuItemGenericTriStateToggle.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditTriStateToggle32x32;
-            this.kryptonContextMenuItemGenericTriStateToggle.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Space)));
-            this.kryptonContextMenuItemGenericTriStateToggle.Text = "Toggle tags";
-            // 
-            // kryptonContextMenuItemGenericMediaViewAsPoster
-            // 
-            this.kryptonContextMenuItemGenericMediaViewAsPoster.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaRegionSelector;
-            this.kryptonContextMenuItemGenericMediaViewAsPoster.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.F11)));
-            this.kryptonContextMenuItemGenericMediaViewAsPoster.Text = "View media as Poster";
-            // 
-            // kryptonContextMenuItemGenericMediaViewAsFull
-            // 
-            this.kryptonContextMenuItemGenericMediaViewAsFull.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaPreview;
-            this.kryptonContextMenuItemGenericMediaViewAsFull.ShortcutKeys = System.Windows.Forms.Keys.F11;
-            this.kryptonContextMenuItemGenericMediaViewAsFull.Text = "View full media";
-            // 
-            // kryptonContextMenuItemMapShowCoordinateOnOpenStreetMap
-            // 
-            this.kryptonContextMenuItemMapShowCoordinateOnOpenStreetMap.Image = global::PhotoTagsSynchronizer.Properties.Resources.ShowLocation;
-            this.kryptonContextMenuItemMapShowCoordinateOnOpenStreetMap.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
-            this.kryptonContextMenuItemMapShowCoordinateOnOpenStreetMap.Text = "Show Coordinate on OpenStreetMap";
-            // 
-            // kryptonContextMenuItemMapShowCoordinateOnGoogleMap
-            // 
-            this.kryptonContextMenuItemMapShowCoordinateOnGoogleMap.Image = global::PhotoTagsSynchronizer.Properties.Resources.ShowLocation;
-            this.kryptonContextMenuItemMapShowCoordinateOnGoogleMap.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.M)));
-            this.kryptonContextMenuItemMapShowCoordinateOnGoogleMap.Text = "Show Coordinate on Google Map";
-            // 
-            // kryptonContextMenuItemMapReloadUsingNominatim
-            // 
-            this.kryptonContextMenuItemMapReloadUsingNominatim.Image = global::PhotoTagsSynchronizer.Properties.Resources.LocationReload;
-            this.kryptonContextMenuItemMapReloadUsingNominatim.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
-            this.kryptonContextMenuItemMapReloadUsingNominatim.Text = "Reload Location information using Nominatim";
-            // 
-            // kryptonContextMenuItemToolLocationAnalytics
-            // 
-            this.kryptonContextMenuItemToolLocationAnalytics.Image = global::PhotoTagsSynchronizer.Properties.Resources.ToolsLocationAnalytics;
-            this.kryptonContextMenuItemToolLocationAnalytics.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
-            this.kryptonContextMenuItemToolLocationAnalytics.Text = "Location analytics";
             // 
             // kryptonWorkspaceCellFolderSearchFilter
             // 
@@ -2265,11 +1868,11 @@ namespace PhotoTagsSynchronizer
             this.treeViewFilter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeViewFilter.Location = new System.Drawing.Point(0, 0);
             this.treeViewFilter.Name = "treeViewFilter";
-            treeNode1.Name = "NodeFolder";
-            treeNode1.Tag = "Filter";
-            treeNode1.Text = "Filter";
+            treeNode3.Name = "NodeFolder";
+            treeNode3.Tag = "Filter";
+            treeNode3.Text = "Filter";
             this.treeViewFilter.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1});
+            treeNode3});
             this.treeViewFilter.Size = new System.Drawing.Size(399, 652);
             this.treeViewFilter.TabIndex = 0;
             this.treeViewFilter.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewFilter_AfterCheck);
@@ -2282,6 +1885,8 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceCellMediaFiles.AllowPageReorder = false;
             this.kryptonWorkspaceCellMediaFiles.AllowTabFocus = false;
             this.kryptonWorkspaceCellMediaFiles.Button.ButtonDisplayLogic = Krypton.Navigator.ButtonDisplayLogic.Context;
+            this.kryptonWorkspaceCellMediaFiles.Button.ButtonSpecs.AddRange(new Krypton.Navigator.ButtonSpecNavigator[] {
+            this.buttonSpecNavigatorImageListViewLoadStatus});
             this.kryptonWorkspaceCellMediaFiles.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
             this.kryptonWorkspaceCellMediaFiles.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCellMediaFiles.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
@@ -2300,6 +1905,13 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceCellMediaFiles.UniqueName = "2a847c84f28146c08ce3d5c18cad4f8f";
             this.kryptonWorkspaceCellMediaFiles.MaximizeRestoreClicked += new System.EventHandler(this.kryptonWorkspaceCellMediaFiles_MaximizeRestoreClicked);
             // 
+            // buttonSpecNavigatorImageListViewLoadStatus
+            // 
+            this.buttonSpecNavigatorImageListViewLoadStatus.Image = global::PhotoTagsSynchronizer.Properties.Resources.ProgressCircle00_16x16;
+            this.buttonSpecNavigatorImageListViewLoadStatus.TypeRestricted = Krypton.Navigator.PaletteNavButtonSpecStyle.Generic;
+            this.buttonSpecNavigatorImageListViewLoadStatus.UniqueName = "750e8c7d860b469b895b1085cf9d79b8";
+            this.buttonSpecNavigatorImageListViewLoadStatus.Click += new System.EventHandler(this.buttonSpecNavigatorImageListViewLoadStatus_Click);
+            // 
             // kryptonPageMediaFiles
             // 
             this.kryptonPageMediaFiles.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
@@ -2308,7 +1920,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageMediaFiles.LastVisibleSet = true;
             this.kryptonPageMediaFiles.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPageMediaFiles.Name = "kryptonPageMediaFiles";
-            this.kryptonPageMediaFiles.Size = new System.Drawing.Size(399, 707);
+            this.kryptonPageMediaFiles.Size = new System.Drawing.Size(399, 705);
             this.kryptonPageMediaFiles.Text = "Media files";
             this.kryptonPageMediaFiles.TextDescription = "List of media files from search result or selected folder";
             this.kryptonPageMediaFiles.TextTitle = "Media files";
@@ -2332,7 +1944,7 @@ namespace PhotoTagsSynchronizer
             this.imageListView1.Location = new System.Drawing.Point(0, 0);
             this.imageListView1.Name = "imageListView1";
             this.imageListView1.RetryOnError = false;
-            this.imageListView1.Size = new System.Drawing.Size(399, 707);
+            this.imageListView1.Size = new System.Drawing.Size(399, 705);
             this.imageListView1.SortColumn = Manina.Windows.Forms.ColumnType.FileName;
             this.imageListView1.TabIndex = 1;
             this.imageListView1.Text = "";
@@ -2386,10 +1998,10 @@ namespace PhotoTagsSynchronizer
             // 
             // buttonSpecNavigatorDataGridViewProgressCircle
             // 
-            this.buttonSpecNavigatorDataGridViewProgressCircle.ImageStates.ImageNormal = global::PhotoTagsSynchronizer.Properties.Resources.ProgressCircle01_16x16;
-            this.buttonSpecNavigatorDataGridViewProgressCircle.ImageStates.ImageTracking = global::PhotoTagsSynchronizer.Properties.Resources.ProgressCircle01_16x16;
+            this.buttonSpecNavigatorDataGridViewProgressCircle.Image = global::PhotoTagsSynchronizer.Properties.Resources.ProgressCircle00_16x16;
             this.buttonSpecNavigatorDataGridViewProgressCircle.TypeRestricted = Krypton.Navigator.PaletteNavButtonSpecStyle.Generic;
             this.buttonSpecNavigatorDataGridViewProgressCircle.UniqueName = "c070f7a821ae44f59780f716a397a94b";
+            this.buttonSpecNavigatorDataGridViewProgressCircle.Click += new System.EventHandler(this.buttonSpecNavigatorDataGridViewProgressCircle_Click);
             // 
             // kryptonPageToolboxTags
             // 
@@ -2988,6 +2600,404 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewPeople.CellParsing += new System.Windows.Forms.DataGridViewCellParsingEventHandler(this.dataGridViewPeople_CellParsing);
             this.dataGridViewPeople.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dataGridViewPeople_EditingControlShowing);
             this.dataGridViewPeople.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridViewPeople_KeyDown);
+            // 
+            // kryptonContextMenuGenericBase
+            // 
+            this.kryptonContextMenuGenericBase.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonContextMenuItemsGenericBaseList});
+            this.kryptonContextMenuGenericBase.Opening += new System.ComponentModel.CancelEventHandler(this.kryptonContextMenuGenericBase_Opening);
+            // 
+            // kryptonContextMenuItemsGenericBaseList
+            // 
+            this.kryptonContextMenuItemsGenericBaseList.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonContextMenuItemAssignCompositeTag,
+            this.kryptonContextMenuItemGenericRegionRename1,
+            this.kryptonContextMenuItemGenericRegionRename2,
+            this.kryptonContextMenuItemGenericRegionRename3,
+            this.kryptonContextMenuItemGenericRegionRenameFromLastUsed,
+            this.kryptonContextMenuItemGenericRegionRenameListAll,
+            this.kryptonContextMenuSeparatorGenericEndOfRegionRename,
+            this.kryptonContextMenuItemGenericCut,
+            this.kryptonContextMenuItemGenericCopy,
+            this.kryptonContextMenuItemGenericCopyText,
+            this.kryptonContextMenuItemGenericFastCopyNoOverwrite,
+            this.kryptonContextMenuItemGenericFastCopyWithOverwrite,
+            this.kryptonContextMenuItemGenericPaste,
+            this.kryptonContextMenuItemGenericDelete,
+            this.kryptonContextMenuItemGenericRename,
+            this.kryptonContextMenuItemGenericUndo,
+            this.kryptonContextMenuItemGenericRedo,
+            this.kryptonContextMenuItemGenericFind,
+            this.kryptonContextMenuItemGenericReplace,
+            this.kryptonContextMenuItemGenericSave,
+            this.kryptonContextMenuSeparatorGenericEndOfClipboard,
+            this.kryptonContextMenuItemGenericRefreshFolder,
+            this.kryptonContextMenuItemGenericReadSubfolders,
+            this.kryptonContextMenuItemGenericOpenFolderLocation,
+            this.kryptonContextMenuItemGenericOpen,
+            this.kryptonContextMenuItemGenericOpenWith,
+            this.kryptonContextMenuItemOpenAndAssociateWithDialog,
+            this.kryptonContextMenuItemGenericOpenVerbEdit,
+            this.kryptonContextMenuItemGenericRunCommand,
+            this.kryptonContextMenuSeparatorGenericEndOfFileSystem,
+            this.kryptonContextMenuItemGenericAutoCorrectRun,
+            this.kryptonContextMenuItemGenericAutoCorrectForm,
+            this.kryptonContextMenuItemGenericMetadataRefreshLast,
+            this.kryptonContextMenuItemGenericMetadataDeleteHistory,
+            this.kryptonContextMenuSeparatorGenericEndOfMetadata,
+            this.kryptonContextMenuItemGenericRotate270,
+            this.kryptonContextMenuItemGenericRotate180,
+            this.kryptonContextMenuItemGenericRotate90,
+            this.kryptonContextMenuSeparatorEndOfRotate,
+            this.kryptonContextMenuItemGenericFavoriteAdd,
+            this.kryptonContextMenuItemGenericFavoriteDelete,
+            this.kryptonContextMenuItemGenericFavoriteToggle,
+            this.kryptonContextMenuSeparatorGenericEndOfFavorite,
+            this.kryptonContextMenuItemGenericRowShowFavorite,
+            this.kryptonContextMenuItemGenericRowHideEqual,
+            this.kryptonContextMenuSeparatorGenericEndOfShowHideRows,
+            this.kryptonContextMenuItemGenericTriStateOn,
+            this.kryptonContextMenuItemGenericTriStateOff,
+            this.kryptonContextMenuItemGenericTriStateToggle,
+            this.kryptonContextMenuSeparatorGenericEndOfTriState,
+            this.kryptonContextMenuItemGenericMediaViewAsPoster,
+            this.kryptonContextMenuItemGenericMediaViewAsFull,
+            this.kryptonContextMenuSeparatorGenericEndOfMediaView,
+            this.kryptonContextMenuItemMapShowCoordinateOnOpenStreetMap,
+            this.kryptonContextMenuItemMapShowCoordinateOnGoogleMap,
+            this.kryptonContextMenuItemMapReloadUsingNominatim,
+            this.kryptonContextMenuItemToolLocationAnalytics});
+            // 
+            // kryptonContextMenuItemAssignCompositeTag
+            // 
+            this.kryptonContextMenuItemAssignCompositeTag.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonContextMenuItemsAssignCompositeTagList});
+            this.kryptonContextMenuItemAssignCompositeTag.Text = "Assign Composite Tag";
+            // 
+            // kryptonContextMenuItemsAssignCompositeTagList
+            // 
+            this.kryptonContextMenuItemsAssignCompositeTagList.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonContextMenuItemAssignCompositeTagExample});
+            // 
+            // kryptonContextMenuItemAssignCompositeTagExample
+            // 
+            this.kryptonContextMenuItemAssignCompositeTagExample.Text = "Assign Composite Tag Example";
+            // 
+            // kryptonContextMenuItemGenericRegionRename1
+            // 
+            this.kryptonContextMenuItemGenericRegionRename1.Text = "Rename #1";
+            // 
+            // kryptonContextMenuItemGenericRegionRename2
+            // 
+            this.kryptonContextMenuItemGenericRegionRename2.Text = "Rename #2";
+            // 
+            // kryptonContextMenuItemGenericRegionRename3
+            // 
+            this.kryptonContextMenuItemGenericRegionRename3.Text = "Rename #3";
+            // 
+            // kryptonContextMenuItemGenericRegionRenameFromLastUsed
+            // 
+            this.kryptonContextMenuItemGenericRegionRenameFromLastUsed.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonContextMenuItemsGenericRegionRenameFromLastUsedList});
+            this.kryptonContextMenuItemGenericRegionRenameFromLastUsed.Text = "Rename from last used";
+            // 
+            // kryptonContextMenuItemsGenericRegionRenameFromLastUsedList
+            // 
+            this.kryptonContextMenuItemsGenericRegionRenameFromLastUsedList.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonContextMenuItemGenericRegionRenameFormLastUsedExample});
+            // 
+            // kryptonContextMenuItemGenericRegionRenameFormLastUsedExample
+            // 
+            this.kryptonContextMenuItemGenericRegionRenameFormLastUsedExample.Text = "Last use example";
+            // 
+            // kryptonContextMenuItemGenericRegionRenameListAll
+            // 
+            this.kryptonContextMenuItemGenericRegionRenameListAll.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonContextMenuImageSelect3,
+            this.kryptonContextMenuItemsGenericRegionRenameListAllList});
+            this.kryptonContextMenuItemGenericRegionRenameListAll.Text = "Rename - List all";
+            // 
+            // kryptonContextMenuImageSelect3
+            // 
+            this.kryptonContextMenuImageSelect3.ButtonStyle = Krypton.Toolkit.ButtonStyle.LowProfile;
+            // 
+            // kryptonContextMenuItemsGenericRegionRenameListAllList
+            // 
+            this.kryptonContextMenuItemsGenericRegionRenameListAllList.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonContextMenuItemGenericRegionRenameListAllExample});
+            // 
+            // kryptonContextMenuItemGenericRegionRenameListAllExample
+            // 
+            this.kryptonContextMenuItemGenericRegionRenameListAllExample.Text = "List all example";
+            // 
+            // kryptonContextMenuItemGenericCut
+            // 
+            this.kryptonContextMenuItemGenericCut.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditCut32x32;
+            this.kryptonContextMenuItemGenericCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            this.kryptonContextMenuItemGenericCut.Text = "Cut";
+            // 
+            // kryptonContextMenuItemGenericCopy
+            // 
+            this.kryptonContextMenuItemGenericCopy.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditCopy32x32;
+            this.kryptonContextMenuItemGenericCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.kryptonContextMenuItemGenericCopy.Text = "Copy";
+            // 
+            // kryptonContextMenuItemGenericCopyText
+            // 
+            this.kryptonContextMenuItemGenericCopyText.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditCopyText32x32;
+            this.kryptonContextMenuItemGenericCopyText.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.T)));
+            this.kryptonContextMenuItemGenericCopyText.Text = "Copy text";
+            // 
+            // kryptonContextMenuItemGenericFastCopyNoOverwrite
+            // 
+            this.kryptonContextMenuItemGenericFastCopyNoOverwrite.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditFastTextCopyNotOverwrite32x32;
+            this.kryptonContextMenuItemGenericFastCopyNoOverwrite.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.kryptonContextMenuItemGenericFastCopyNoOverwrite.Text = "Fast Copy/Paste - No overwrite";
+            // 
+            // kryptonContextMenuItemGenericFastCopyWithOverwrite
+            // 
+            this.kryptonContextMenuItemGenericFastCopyWithOverwrite.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditFastTextCopyAndReplace32x32;
+            this.kryptonContextMenuItemGenericFastCopyWithOverwrite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.O)));
+            this.kryptonContextMenuItemGenericFastCopyWithOverwrite.Text = "Fast Copy/Paste - With overwrite";
+            // 
+            // kryptonContextMenuItemGenericPaste
+            // 
+            this.kryptonContextMenuItemGenericPaste.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditPaste32x32;
+            this.kryptonContextMenuItemGenericPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            this.kryptonContextMenuItemGenericPaste.Text = "Paste";
+            // 
+            // kryptonContextMenuItemGenericDelete
+            // 
+            this.kryptonContextMenuItemGenericDelete.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemDelete32x32;
+            this.kryptonContextMenuItemGenericDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+            this.kryptonContextMenuItemGenericDelete.Text = "Delete";
+            // 
+            // kryptonContextMenuItemGenericRename
+            // 
+            this.kryptonContextMenuItemGenericRename.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemRename;
+            this.kryptonContextMenuItemGenericRename.ShortcutKeys = System.Windows.Forms.Keys.F2;
+            this.kryptonContextMenuItemGenericRename.Text = "Rename";
+            // 
+            // kryptonContextMenuItemGenericUndo
+            // 
+            this.kryptonContextMenuItemGenericUndo.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditUndo32x32;
+            this.kryptonContextMenuItemGenericUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.kryptonContextMenuItemGenericUndo.Text = "Undo";
+            // 
+            // kryptonContextMenuItemGenericRedo
+            // 
+            this.kryptonContextMenuItemGenericRedo.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditRedo32x32;
+            this.kryptonContextMenuItemGenericRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
+            this.kryptonContextMenuItemGenericRedo.Text = "Redo";
+            // 
+            // kryptonContextMenuItemGenericFind
+            // 
+            this.kryptonContextMenuItemGenericFind.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditFind32x32;
+            this.kryptonContextMenuItemGenericFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
+            this.kryptonContextMenuItemGenericFind.Text = "Find";
+            // 
+            // kryptonContextMenuItemGenericReplace
+            // 
+            this.kryptonContextMenuItemGenericReplace.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditReplace32x32;
+            this.kryptonContextMenuItemGenericReplace.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
+            this.kryptonContextMenuItemGenericReplace.Text = "Replace";
+            // 
+            // kryptonContextMenuItemGenericSave
+            // 
+            this.kryptonContextMenuItemGenericSave.Image = global::PhotoTagsSynchronizer.Properties.Resources.MetadataSave32x32;
+            this.kryptonContextMenuItemGenericSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.kryptonContextMenuItemGenericSave.Text = "Save";
+            // 
+            // kryptonContextMenuItemGenericRefreshFolder
+            // 
+            this.kryptonContextMenuItemGenericRefreshFolder.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemRefresh32x32;
+            this.kryptonContextMenuItemGenericRefreshFolder.ShortcutKeys = System.Windows.Forms.Keys.F5;
+            this.kryptonContextMenuItemGenericRefreshFolder.Text = "Refresh folder";
+            // 
+            // kryptonContextMenuItemGenericReadSubfolders
+            // 
+            this.kryptonContextMenuItemGenericReadSubfolders.Image = global::PhotoTagsSynchronizer.Properties.Resources.MetadataAddSubfolders32x32;
+            this.kryptonContextMenuItemGenericReadSubfolders.ShortcutKeys = System.Windows.Forms.Keys.F6;
+            this.kryptonContextMenuItemGenericReadSubfolders.Text = "Add media from subfolers";
+            // 
+            // kryptonContextMenuItemGenericOpenFolderLocation
+            // 
+            this.kryptonContextMenuItemGenericOpenFolderLocation.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemExplorer32x32;
+            this.kryptonContextMenuItemGenericOpenFolderLocation.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
+            this.kryptonContextMenuItemGenericOpenFolderLocation.Text = "Open Location in Explorer";
+            // 
+            // kryptonContextMenuItemGenericOpen
+            // 
+            this.kryptonContextMenuItemGenericOpen.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemOpen;
+            this.kryptonContextMenuItemGenericOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Return)));
+            this.kryptonContextMenuItemGenericOpen.Text = "Open";
+            // 
+            // kryptonContextMenuItemGenericOpenWith
+            // 
+            this.kryptonContextMenuItemGenericOpenWith.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemOpenWith;
+            this.kryptonContextMenuItemGenericOpenWith.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonContextMenuItemsGenericOpenWithAppList});
+            this.kryptonContextMenuItemGenericOpenWith.Text = "Open with...";
+            // 
+            // kryptonContextMenuItemsGenericOpenWithAppList
+            // 
+            this.kryptonContextMenuItemsGenericOpenWithAppList.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonContextMenuItemsGenericOpenWithAppListExample});
+            // 
+            // kryptonContextMenuItemsGenericOpenWithAppListExample
+            // 
+            this.kryptonContextMenuItemsGenericOpenWithAppListExample.Text = "Open with example";
+            // 
+            // kryptonContextMenuItemOpenAndAssociateWithDialog
+            // 
+            this.kryptonContextMenuItemOpenAndAssociateWithDialog.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemOpenWIthAssociationApp32x32;
+            this.kryptonContextMenuItemOpenAndAssociateWithDialog.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.Return)));
+            this.kryptonContextMenuItemOpenAndAssociateWithDialog.Text = "Open and associate with dialog...";
+            // 
+            // kryptonContextMenuItemGenericOpenVerbEdit
+            // 
+            this.kryptonContextMenuItemGenericOpenVerbEdit.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemEdit;
+            this.kryptonContextMenuItemGenericOpenVerbEdit.ShortcutKeys = System.Windows.Forms.Keys.F4;
+            this.kryptonContextMenuItemGenericOpenVerbEdit.Text = "Edit";
+            // 
+            // kryptonContextMenuItemGenericRunCommand
+            // 
+            this.kryptonContextMenuItemGenericRunCommand.Image = global::PhotoTagsSynchronizer.Properties.Resources.ToolsRunCommand32x32;
+            this.kryptonContextMenuItemGenericRunCommand.ShortcutKeys = System.Windows.Forms.Keys.F6;
+            this.kryptonContextMenuItemGenericRunCommand.Text = "Run app/command batch";
+            // 
+            // kryptonContextMenuItemGenericAutoCorrectRun
+            // 
+            this.kryptonContextMenuItemGenericAutoCorrectRun.Image = global::PhotoTagsSynchronizer.Properties.Resources.MetadataAutoCorrectRun32x32;
+            this.kryptonContextMenuItemGenericAutoCorrectRun.ShortcutKeys = System.Windows.Forms.Keys.F7;
+            this.kryptonContextMenuItemGenericAutoCorrectRun.Text = "AutoCorrect Run";
+            // 
+            // kryptonContextMenuItemGenericAutoCorrectForm
+            // 
+            this.kryptonContextMenuItemGenericAutoCorrectForm.Image = global::PhotoTagsSynchronizer.Properties.Resources.MetadataAutoCorrectForm32x32;
+            this.kryptonContextMenuItemGenericAutoCorrectForm.ShortcutKeys = System.Windows.Forms.Keys.F8;
+            this.kryptonContextMenuItemGenericAutoCorrectForm.Text = "AutoCorrect Form";
+            // 
+            // kryptonContextMenuItemGenericMetadataRefreshLast
+            // 
+            this.kryptonContextMenuItemGenericMetadataRefreshLast.Image = global::PhotoTagsSynchronizer.Properties.Resources.MetadataReload;
+            this.kryptonContextMenuItemGenericMetadataRefreshLast.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.F5)));
+            this.kryptonContextMenuItemGenericMetadataRefreshLast.Text = "Refresh Metadata (Reload last)";
+            // 
+            // kryptonContextMenuItemGenericMetadataDeleteHistory
+            // 
+            this.kryptonContextMenuItemGenericMetadataDeleteHistory.Image = global::PhotoTagsSynchronizer.Properties.Resources.MetadataDeleteHistory;
+            this.kryptonContextMenuItemGenericMetadataDeleteHistory.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F5)));
+            this.kryptonContextMenuItemGenericMetadataDeleteHistory.Text = "Reload Metadata (Forget history)";
+            // 
+            // kryptonContextMenuItemGenericRotate270
+            // 
+            this.kryptonContextMenuItemGenericRotate270.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate90CCW;
+            this.kryptonContextMenuItemGenericRotate270.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D2)));
+            this.kryptonContextMenuItemGenericRotate270.Text = "Rotate 270° (90 CCW)";
+            // 
+            // kryptonContextMenuItemGenericRotate180
+            // 
+            this.kryptonContextMenuItemGenericRotate180.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate180;
+            this.kryptonContextMenuItemGenericRotate180.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D1)));
+            this.kryptonContextMenuItemGenericRotate180.Text = "Rotate 180°";
+            // 
+            // kryptonContextMenuItemGenericRotate90
+            // 
+            this.kryptonContextMenuItemGenericRotate90.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate90CW;
+            this.kryptonContextMenuItemGenericRotate90.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D9)));
+            this.kryptonContextMenuItemGenericRotate90.Text = "Rotate 90° (90 CW)";
+            // 
+            // kryptonContextMenuItemGenericFavoriteAdd
+            // 
+            this.kryptonContextMenuItemGenericFavoriteAdd.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteSelect32x32;
+            this.kryptonContextMenuItemGenericFavoriteAdd.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
+            this.kryptonContextMenuItemGenericFavoriteAdd.Text = "Mark as favorite";
+            // 
+            // kryptonContextMenuItemGenericFavoriteDelete
+            // 
+            this.kryptonContextMenuItemGenericFavoriteDelete.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteRemove32x32;
+            this.kryptonContextMenuItemGenericFavoriteDelete.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.D)));
+            this.kryptonContextMenuItemGenericFavoriteDelete.Text = "Remove as favorite";
+            // 
+            // kryptonContextMenuItemGenericFavoriteToggle
+            // 
+            this.kryptonContextMenuItemGenericFavoriteToggle.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteToggle32x32;
+            this.kryptonContextMenuItemGenericFavoriteToggle.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
+            this.kryptonContextMenuItemGenericFavoriteToggle.Text = "Toggle as favorite";
+            // 
+            // kryptonContextMenuItemGenericRowShowFavorite
+            // 
+            this.kryptonContextMenuItemGenericRowShowFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.GridFavorite32x32;
+            this.kryptonContextMenuItemGenericRowShowFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D0)));
+            this.kryptonContextMenuItemGenericRowShowFavorite.Text = "Show favorite rows";
+            // 
+            // kryptonContextMenuItemGenericRowHideEqual
+            // 
+            this.kryptonContextMenuItemGenericRowHideEqual.Image = global::PhotoTagsSynchronizer.Properties.Resources.GridEqual32x32;
+            this.kryptonContextMenuItemGenericRowHideEqual.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.D0)));
+            this.kryptonContextMenuItemGenericRowHideEqual.Text = "Hide equal rows";
+            // 
+            // kryptonContextMenuItemGenericTriStateOn
+            // 
+            this.kryptonContextMenuItemGenericTriStateOn.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditTriStateSelect32x32;
+            this.kryptonContextMenuItemGenericTriStateOn.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.Space)));
+            this.kryptonContextMenuItemGenericTriStateOn.Text = "Select tags";
+            // 
+            // kryptonContextMenuItemGenericTriStateOff
+            // 
+            this.kryptonContextMenuItemGenericTriStateOff.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditTriStateDelete32x32;
+            this.kryptonContextMenuItemGenericTriStateOff.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Delete)));
+            this.kryptonContextMenuItemGenericTriStateOff.Text = "Remove tags";
+            // 
+            // kryptonContextMenuItemGenericTriStateToggle
+            // 
+            this.kryptonContextMenuItemGenericTriStateToggle.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditTriStateToggle32x32;
+            this.kryptonContextMenuItemGenericTriStateToggle.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Space)));
+            this.kryptonContextMenuItemGenericTriStateToggle.Text = "Toggle tags";
+            // 
+            // kryptonContextMenuItemGenericMediaViewAsPoster
+            // 
+            this.kryptonContextMenuItemGenericMediaViewAsPoster.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaRegionSelector;
+            this.kryptonContextMenuItemGenericMediaViewAsPoster.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.F11)));
+            this.kryptonContextMenuItemGenericMediaViewAsPoster.Text = "View media as Poster";
+            // 
+            // kryptonContextMenuItemGenericMediaViewAsFull
+            // 
+            this.kryptonContextMenuItemGenericMediaViewAsFull.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaPreview;
+            this.kryptonContextMenuItemGenericMediaViewAsFull.ShortcutKeys = System.Windows.Forms.Keys.F11;
+            this.kryptonContextMenuItemGenericMediaViewAsFull.Text = "View full media";
+            // 
+            // kryptonContextMenuItemMapShowCoordinateOnOpenStreetMap
+            // 
+            this.kryptonContextMenuItemMapShowCoordinateOnOpenStreetMap.Image = global::PhotoTagsSynchronizer.Properties.Resources.ShowLocation;
+            this.kryptonContextMenuItemMapShowCoordinateOnOpenStreetMap.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
+            this.kryptonContextMenuItemMapShowCoordinateOnOpenStreetMap.Text = "Show Coordinate on OpenStreetMap";
+            // 
+            // kryptonContextMenuItemMapShowCoordinateOnGoogleMap
+            // 
+            this.kryptonContextMenuItemMapShowCoordinateOnGoogleMap.Image = global::PhotoTagsSynchronizer.Properties.Resources.ShowLocation;
+            this.kryptonContextMenuItemMapShowCoordinateOnGoogleMap.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.M)));
+            this.kryptonContextMenuItemMapShowCoordinateOnGoogleMap.Text = "Show Coordinate on Google Map";
+            // 
+            // kryptonContextMenuItemMapReloadUsingNominatim
+            // 
+            this.kryptonContextMenuItemMapReloadUsingNominatim.Image = global::PhotoTagsSynchronizer.Properties.Resources.LocationReload;
+            this.kryptonContextMenuItemMapReloadUsingNominatim.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
+            this.kryptonContextMenuItemMapReloadUsingNominatim.Text = "Reload Location information using Nominatim";
+            // 
+            // kryptonContextMenuItemToolLocationAnalytics
+            // 
+            this.kryptonContextMenuItemToolLocationAnalytics.Image = global::PhotoTagsSynchronizer.Properties.Resources.ToolsLocationAnalytics;
+            this.kryptonContextMenuItemToolLocationAnalytics.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
+            this.kryptonContextMenuItemToolLocationAnalytics.Text = "Location analytics";
             // 
             // kryptonPageToolboxMap
             // 
@@ -4037,8 +4047,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonTabSelect,
             this.kryptonRibbonTabTools,
             this.kryptonRibbonTabPreview});
-            this.kryptonRibbonMain.SelectedContext = null;
-            this.kryptonRibbonMain.SelectedTab = this.kryptonRibbonTabHome;
+            this.kryptonRibbonMain.SelectedTab = this.kryptonRibbonTabTools;
             this.kryptonRibbonMain.Size = new System.Drawing.Size(1214, 143);
             this.kryptonRibbonMain.TabIndex = 12;
             this.kryptonRibbonMain.SelectedTabChanged += new System.EventHandler(this.kryptonRibbonMain_SelectedTabChanged);
@@ -5468,6 +5477,7 @@ namespace PhotoTagsSynchronizer
             // kryptonRibbonGroupLabelToolsProgressSave
             // 
             this.kryptonRibbonGroupLabelToolsProgressSave.TextLine1 = "Writing:";
+            this.kryptonRibbonGroupLabelToolsProgressSave.Visible = false;
             // 
             // kryptonRibbonGroupCustomControlToolsProgressSave
             // 
@@ -5484,6 +5494,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupCustomControlToolsProgressLazyloading});
             this.kryptonRibbonGroupTripleToolsProgressStatusWork.MaximumSize = Krypton.Ribbon.GroupItemSize.Medium;
             this.kryptonRibbonGroupTripleToolsProgressStatusWork.MinimumSize = Krypton.Ribbon.GroupItemSize.Medium;
+            this.kryptonRibbonGroupTripleToolsProgressStatusWork.Visible = false;
             // 
             // kryptonRibbonGroupLabelToolsProgressLazyloading
             // 
@@ -5501,6 +5512,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupLabelToolsProgressBackgroundBackgroundProcessText});
             this.kryptonRibbonGroupTripleProgressStatusBackground.MaximumSize = Krypton.Ribbon.GroupItemSize.Medium;
             this.kryptonRibbonGroupTripleProgressStatusBackground.MinimumSize = Krypton.Ribbon.GroupItemSize.Medium;
+            this.kryptonRibbonGroupTripleProgressStatusBackground.Visible = false;
             // 
             // kryptonRibbonGroupLabelToolsProgressBackground
             // 
@@ -6931,6 +6943,7 @@ namespace PhotoTagsSynchronizer
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonDatGridShowPoster;
         private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple3;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonToolsDatabaseCleaner;
+        private Krypton.Navigator.ButtonSpecNavigator buttonSpecNavigatorImageListViewLoadStatus;
     }
 }
 
