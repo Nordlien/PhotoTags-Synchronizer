@@ -254,7 +254,7 @@ namespace PhotoTagsSynchronizer
 
             //Chech if populated and new refresh data
             if (onlyRefresh && FileEntryVersionHandler.NeedUpdate(fileEntryVersionCompareReason) && !DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex))
-                fileEntryVersionCompareReason = FileEntryVersionCompare.NotEqualFound; //No need to populate
+                fileEntryVersionCompareReason = FileEntryVersionCompare.LostNoneEqualFound; //No need to populate
             //-----------------------------------------------------------------
 
             if (FileEntryVersionHandler.NeedUpdate(fileEntryVersionCompareReason))

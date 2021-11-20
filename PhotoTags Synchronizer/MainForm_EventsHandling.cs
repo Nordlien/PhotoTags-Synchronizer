@@ -5389,35 +5389,54 @@ namespace PhotoTagsSynchronizer
 
         #region GetSelectedFilesImageListView
         private HashSet<FileEntry> selectedFileEntriesImageListViewCache = null;
+        private HashSet<string> selectedFullFileNameImageListViewCache = null;
         private void SelectedFileEntriesImageListViewCacheClear()
         {
             selectedFileEntriesImageListViewCache = null;
+        }
+
+        private bool DoesExistInSelectedFileEntriesImageListView(string fullFileName)
+        {
+            if (selectedFullFileNameImageListViewCache == null) return false;
+            return selectedFullFileNameImageListViewCache.Contains(fullFileName);
         }
 
         private HashSet<FileEntry> GetSelectedFileEntriesImageListView()
         {
             if (selectedFileEntriesImageListViewCache != null) return selectedFileEntriesImageListViewCache;
             
-            HashSet<FileEntry> files = new HashSet<FileEntry>();
+            HashSet<FileEntry> fileEntries = new HashSet<FileEntry>();
+            HashSet<string> fullFilePaths = new HashSet<string>();
             try
             {
                 int queueCount = imageListView1.SelectedItems.Count;
-                
-                LazyLoadingDataGridViewProgressUpdateStatus(queueCount); //Update progressbar when File In DataGridView
+                int queueSize = queueCount;
 
+
+                LoadingItemsImageListView(0, queueCount);
+
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
                 foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
                 {
                     FileEntry fileEntry = new FileEntry(imageListViewItem.FileFullPath, imageListViewItem.DateModified);
-                    if (!files.Contains(fileEntry)) files.Add(fileEntry);
-                    LazyLoadingDataGridViewProgressUpdateStatus(queueCount--);
+                    if (!fileEntries.Contains(fileEntry)) fileEntries.Add(fileEntry);
+                    if (!fullFilePaths.Contains(fileEntry.FileFullPath)) fullFilePaths.Add(fileEntry.FileFullPath);
+                    LoadingItemsImageListView(--queueSize, queueCount);
+                    if (stopwatch.ElapsedMilliseconds > 100)
+                    {
+                        kryptonWorkspaceCellMediaFiles.Refresh();
+                        stopwatch.Restart();
+                    }
                 }
-                
-                LazyLoadingDataGridViewProgressEndReached();
-                
-                selectedFileEntriesImageListViewCache = files;
+
+                LoadingItemsImageListView(0, 0);
+
+                selectedFileEntriesImageListViewCache = fileEntries;
+                selectedFullFileNameImageListViewCache = fullFilePaths;
             }
             catch { }
-            return files;
+            return fileEntries;
         }
         #endregion
 
@@ -6798,6 +6817,7 @@ namespace PhotoTagsSynchronizer
 
                         string selectedFolder = GetSelectedNodePath();
                         HashSet<FileEntry> fileEntries = ImageAndMovieFileExtentionsUtility.ListAllMediaFileEntries(selectedFolder, false);
+
                         PopulateImageListView(fileEntries, selectedFolder, false);
                     }
                 }

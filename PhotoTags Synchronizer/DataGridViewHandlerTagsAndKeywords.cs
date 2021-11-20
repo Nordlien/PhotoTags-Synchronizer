@@ -203,7 +203,9 @@ namespace PhotoTagsSynchronizer
 
             Metadata metadataExiftool = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBrokerReadVersion);
             if (metadataExiftool != null) metadataExiftool = new Metadata(metadataExiftool);
-            ReadWriteAccess readWriteAccessColumn = metadataExiftool != null ? ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly; 
+            ReadWriteAccess readWriteAccessColumn = 
+                (FileEntryVersionHandler.IsReadOnlyType(fileEntryAttribute.FileEntryVersion) ||
+                metadataExiftool == null) ? ReadWriteAccess.ForceCellToReadOnly : ReadWriteAccess.AllowCellReadAndWrite ; 
 
             int columnIndex = DataGridViewHandler.AddColumnOrUpdateNew(
                 dataGridView, fileEntryAttribute, thumbnail, metadataExiftool, readWriteAccessColumn, showWhatColumns, 
@@ -213,7 +215,7 @@ namespace PhotoTagsSynchronizer
 
             //Chech if populated and new refresh data
             if (onlyRefresh && FileEntryVersionHandler.NeedUpdate(fileEntryVersionCompareReason) && !DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex))
-                fileEntryVersionCompareReason = FileEntryVersionCompare.NotEqualFound; //No need to populate
+                fileEntryVersionCompareReason = FileEntryVersionCompare.LostNoneEqualFound; //No need to populate
             //-----------------------------------------------------------------
 
             if (FileEntryVersionHandler.NeedUpdate(fileEntryVersionCompareReason))

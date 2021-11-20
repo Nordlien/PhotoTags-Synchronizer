@@ -33,6 +33,7 @@ namespace PhotoTagsSynchronizer
                 if (GlobalData.IsPopulatingFolderTree) return;
                 if (GlobalData.IsDragAndDropActive) return;
                 if (GlobalData.DoNotRefreshImageListView) return;
+                GlobalData.SearchFolder = true;
                 PopulateImageListView_FromFolderSelected(false, true);
             }
             catch (Exception ex)
@@ -55,41 +56,39 @@ namespace PhotoTagsSynchronizer
 
 
                 GlobalData.IsPopulatingFolderSelected = true; //Don't start twice
-                GlobalData.SearchFolder = true;
+                
                 treeViewFolderBrowser1.Enabled = false;
 
-                UpdateStatusAction("Clear all old queues");
+                UpdateStatusImageListView("Clear all old queues");
                 ClearAllQueues();
 
 
                 if (cacheFolderThumbnails || cacheFolderMetadatas || cacheFolderWebScraperDataSets)
                 {
-                    UpdateStatusAction("Init cache process");
+                    UpdateStatusImageListView("Started the cache process...");
                     CacheFileEntries(fileEntries, selectedFolder);
                 }
                 
                 if (runPopulateFilter)
                 {
-                    UpdateStatusAction("ClearTreeViewNodes");
                     FilterVerifyer.ClearTreeViewNodes(treeViewFilter);
                 }
 
-                UpdateStatusAction("Adding files to image list: " + fileEntries.Count);
+                UpdateStatusImageListView("Adding files to image list: " + fileEntries.Count);
                 ImageListViewAggregateWithMediaFiles(fileEntries);
 
                 treeViewFolderBrowser1.Enabled = true;
 
                 if (runPopulateFilter)
                 {
-                    UpdateStatusAction("Populate Filters");
+                    UpdateStatusImageListView("Populate Filters");
                     PopulateTreeViewFolderFilterThread(fileEntries);
                 }
                 GlobalData.IsPopulatingFolderSelected = false;
             }
-
-            UpdateStatusAction("Populate DataGridView: " + fileEntries.Count);
             FilesSelectedOrNoneSelected(); //Even when 0 selected files, allocate data and flags, etc...
-            UpdateStatusAction("Done added files to imagelistview: " + fileEntries.Count);
+            
+            UpdateStatusImageListView("Done populate " + fileEntries.Count + " media files...");
             treeViewFolderBrowser1.Focus();
         }
         #endregion
@@ -123,6 +122,7 @@ namespace PhotoTagsSynchronizer
             #region Read folder files
             if (GlobalData.IsPopulatingFolderSelected) //If in progress, then stop and reselect new
             {
+                UpdateStatusImageListView("Remove old queues...");
                 ImageListViewClearAll(imageListView1);
                 GlobalData.IsPopulatingFolderSelected = false;
             }
@@ -132,9 +132,10 @@ namespace PhotoTagsSynchronizer
             string selectedFolder = GetSelectedNodePath();
             Properties.Settings.Default.LastFolder = GetSelectedNodeFullPath();
             
-            UpdateStatusAction("Read files in folder: " + selectedFolder);
+            UpdateStatusImageListView("Read files in folder: " + selectedFolder);
             HashSet<FileEntry> fileEntries = ImageAndMovieFileExtentionsUtility.ListAllMediaFileEntries(selectedFolder, recursive);
-            UpdateStatusAction("Checking files in folder: " + selectedFolder);
+
+            UpdateStatusImageListView("Check for OneDrive duplicate files in folder: " + selectedFolder);
             if (FileHandeling.FileHandler.FixOneDriveIssues(fileEntries, this, oneDriveNetworkNames, false))
             {
                 switch (KryptonMessageBox.Show("OneDrive duplicated files found.\r\n" +
@@ -155,7 +156,6 @@ namespace PhotoTagsSynchronizer
                 }
             }
             #endregion
-
             PopulateImageListView(fileEntries, selectedFolder, runPopulateFilter);
         }
         #endregion
@@ -164,7 +164,6 @@ namespace PhotoTagsSynchronizer
         private void PopulateImageListView_FromSearchTab(HashSet<FileEntry> searchFilterResult, bool runPopulateFilter = true)
         {
             if (GlobalData.IsPopulatingAnything()) return;
-
             PopulateImageListView(searchFilterResult, null, runPopulateFilter);
         }
         #endregion 

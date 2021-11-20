@@ -11,6 +11,7 @@ using WindowsProperty;
 using static Manina.Windows.Forms.ImageListView;
 using Krypton.Toolkit;
 using Krypton.Navigator;
+using System.Diagnostics;
 
 namespace PhotoTagsSynchronizer
 {
@@ -271,6 +272,25 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region DataGridView - Populate DataGridView, OpenWith...
+        private void FilesSelectedOrNoneSelected()
+        {
+            if (GlobalData.IsPopulatingAnything()) return; //E.g. Populate FolderSelect
+            if (GlobalData.DoNotRefreshDataGridViewWhileFileSelect) return;
+
+            using (new WaitCursor())
+            {
+                GlobalData.IsPopulatingImageListView = true;
+                GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
+
+                HashSet<FileEntry> fileEntries = GetSelectedFileEntriesImageListView();
+                PopulateDataGridViewForSelectedItemsThread(fileEntries);
+                PopulateImageListViewOpenWithToolStripThread(fileEntries, imageListView1.Items);
+
+                GlobalData.IsPopulatingImageListView = false;
+            }
+        }
+        #endregion
 
         #region DataGridView - Populate File - For FileEntryAttribute missing Tag - Invoke
         private void PopulateImageListVieAndDataGridViewForFileEntryAttributeInvoke(FileEntryAttribute fileEntryAttribute)
@@ -308,35 +328,15 @@ namespace PhotoTagsSynchronizer
             lock (GlobalData.populateSelectedLock)
             {
                 #region isFileInDataGridView
-                bool isFileInDataGridView = false;
-                switch (tag)
-                {
-                    case LinkTabAndDataGridViewNameTags:
-                    case LinkTabAndDataGridViewNamePeople:
-                    case LinkTabAndDataGridViewNameMap:
-                    case LinkTabAndDataGridViewNameDates:
-                    case LinkTabAndDataGridViewNameExiftool:
-                    case LinkTabAndDataGridViewNameWarnings:
-                    case LinkTabAndDataGridViewNameProperties:
-                        isFileInDataGridView = DataGridViewHandler.DoesColumnFilenameExist(dataGridView, fileEntryAttribute.FileFullPath);
-                        break;
-                    case LinkTabAndDataGridViewNameRename:
-                        isFileInDataGridView = DataGridViewHandler.DoesRowHeaderAndNameExist(dataGridView, fileEntryAttribute.Directory, fileEntryAttribute.FileName);
-                        break;
-                    case LinkTabAndDataGridViewNameConvertAndMerge:
-                        isFileInDataGridView = DataGridViewHandler.DoesRowHeaderAndNameExist(dataGridView, DataGridViewHandlerConvertAndMerge.headerConvertAndMergeInfo, fileEntryAttribute.FileFullPath);
-                        break;
-                    default:
-                        throw new NotImplementedException();
-                }
+                bool isFilSelectedInImageListView = DoesExistInSelectedFileEntriesImageListView(fileEntryAttribute.FileFullPath);
                 #endregion
 
-                DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, isFileInDataGridView); //Will not suspend when Column Don't exist, but counter will increase
-                if (isFileInDataGridView)
+                DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, isFilSelectedInImageListView); //Will not suspend when Column Don't exist, but counter will increase
+                if (isFilSelectedInImageListView)
                 {
                     #region AutoCorrect
                     Metadata metadataAutoCorrect = null;
-                    if (isFileInDataGridView && (fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect || GlobalData.ListOfAutoCorrectFilesContains(fileEntryAttribute.FileFullPath)))
+                    if (isFilSelectedInImageListView && (fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect || GlobalData.ListOfAutoCorrectFilesContains(fileEntryAttribute.FileFullPath)))
                     {
                         Metadata metadataInCache = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryAttribute.GetFileEntryBroker(MetadataBrokerType.ExifTool));
                         Metadata metadataUpdatedFromGrid = (metadataInCache == null ? null : new Metadata(metadataInCache));
@@ -444,9 +444,8 @@ namespace PhotoTagsSynchronizer
                         LazyLoadingDataGridViewProgressEndReached();
                     }
                 }
-                DataGridViewHandler.ResumeLayoutDelayed(dataGridView); //Will resume when counter reach 0
 
-                
+                DataGridViewHandler.ResumeLayoutDelayed(dataGridView); //Will resume when counter reach 0
             }
         }
         #endregion
@@ -475,53 +474,54 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region DataGridView - PopulateDataGridViewForSelectedItemsExtrasInvoke (Populate DataGridView Extras)
-        private System.Timers.Timer timerDelayPopulateDataGridViewExtrasRefresh = new System.Timers.Timer();
-        private bool isTimerDelayPopulateDataGridViewExtrasStarted = false;
-        private DateTime startTimeDelayPopulateDataGridViewExtras = DateTime.Now;
+        //private System.Timers.Timer timerDelayPopulateDataGridViewExtrasRefresh = new System.Timers.Timer();
+        //private bool isTimerDelayPopulateDataGridViewExtrasStarted = false;
+        //private DateTime startTimeDelayPopulateDataGridViewExtras = DateTime.Now;
 
         private void InitializeDataGridViewHandler()
         {
-            timerDelayPopulateDataGridViewExtrasRefresh.Elapsed += TimerDelayPopulateDataGridViewExtrasRefresh_Elapsed;
-            timerDelayPopulateDataGridViewExtrasRefresh.Interval = 100;
+            //timerDelayPopulateDataGridViewExtrasRefresh.Elapsed += TimerDelayPopulateDataGridViewExtrasRefresh_Elapsed;
+            //timerDelayPopulateDataGridViewExtrasRefresh.Interval = 100;
         }
 
-        private void TimerDelayPopulateDataGridViewExtrasRefresh_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            if (InvokeRequired)
-            {
-                this.BeginInvoke(new Action<object, System.Timers.ElapsedEventArgs>(TimerDelayPopulateDataGridViewExtrasRefresh_Elapsed), sender, e);
-                return;
-            }
+        //private void TimerDelayPopulateDataGridViewExtrasRefresh_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        //{
+        //    if (InvokeRequired)
+        //    {
+        //        this.BeginInvoke(new Action<object, System.Timers.ElapsedEventArgs>(TimerDelayPopulateDataGridViewExtrasRefresh_Elapsed), sender, e);
+        //        return;
+        //    }
 
-            try
-            {
-                if (((TimeSpan)(DateTime.Now - startTimeDelayPopulateDataGridViewExtras)).TotalMilliseconds > 200)
-                {
-                    timerDelayPopulateDataGridViewExtrasRefresh.Stop();
-                    isTimerDelayPopulateDataGridViewExtrasStarted = false;
-                    PopulateDataGridViewForSelectedItemsExtrasInvoke();
-                }
-            }
-            catch
-            {
-                //Debug
-            }
-        }
+        //    try
+        //    {
+        //        if (((TimeSpan)(DateTime.Now - startTimeDelayPopulateDataGridViewExtras)).TotalMilliseconds > 200)
+        //        {
+        //            timerDelayPopulateDataGridViewExtrasRefresh.Stop();
+        //            isTimerDelayPopulateDataGridViewExtrasStarted = false;
+        //            PopulateDataGridViewForSelectedItemsExtrasInvoke();
+        //        }
+        //    }
+        //    catch
+        //    {
+        //        //Debug
+        //    }
+        //}
 
         private void PopulateDataGridViewForSelectedItemsExtrasDelayed()
         {
-            if (!isTimerDelayPopulateDataGridViewExtrasStarted)
-            {
-                startTimeDelayPopulateDataGridViewExtras = DateTime.Now;
-                isTimerDelayPopulateDataGridViewExtrasStarted = true;
+            PopulateDataGridViewForSelectedItemsExtrasInvoke();
+            //if (!isTimerDelayPopulateDataGridViewExtrasStarted)
+            //{
+            //    startTimeDelayPopulateDataGridViewExtras = DateTime.Now;
+            //    isTimerDelayPopulateDataGridViewExtrasStarted = true;
 
-                timerDelayPopulateDataGridViewExtrasRefresh.Enabled = true;                                   // Enable the timer
-                timerDelayPopulateDataGridViewExtrasRefresh.Start();
-            }
-            else
-            {
-                if (((TimeSpan)(DateTime.Now - startTimeDelayPopulateDataGridViewExtras)).TotalMilliseconds < 0) startTimeDelayPopulateDataGridViewExtras = DateTime.Now;
-            }
+            //    timerDelayPopulateDataGridViewExtrasRefresh.Enabled = true;                                   // Enable the timer
+            //    timerDelayPopulateDataGridViewExtrasRefresh.Start();
+            //}
+            //else
+            //{
+            //    if (((TimeSpan)(DateTime.Now - startTimeDelayPopulateDataGridViewExtras)).TotalMilliseconds < 0) startTimeDelayPopulateDataGridViewExtras = DateTime.Now;
+            //}
         }
 
         private void PopulateDataGridViewForSelectedItemsExtrasInvoke()

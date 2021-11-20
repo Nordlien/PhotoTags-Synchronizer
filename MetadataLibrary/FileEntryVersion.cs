@@ -15,11 +15,13 @@ namespace MetadataLibrary
 
     public enum FileEntryVersionCompare
     {
-        FoundEqual,
-        FoundAndWon,
-        FoundButLost,
-        NotEqualFound,
-        LostOverUserInput
+        WonFoundEqual,
+        WonFoundNewer,
+        LostFoundOlder,
+        LostNoneEqualFound,
+        LostOverUserInput,
+        WonColumnCreatedHistoricalOrError,
+        WonColumnCredtedCurrent
     }
 
     public class FileEntryVersionHandler
@@ -41,20 +43,37 @@ namespace MetadataLibrary
         }
         #endregion
 
+        public static bool IsReadOnlyType(FileEntryVersion fileEntryVersion)
+        {
+            switch (fileEntryVersion)
+            {
+                case FileEntryVersion.AutoCorrect:
+                case FileEntryVersion.CurrentVersionInDatabase:
+                case FileEntryVersion.ExtractedNowFromExternalSource:
+                case FileEntryVersion.ExtractedNowFromMediaFile:
+                    return false;
+                case FileEntryVersion.Error:
+                case FileEntryVersion.Historical:
+                case FileEntryVersion.NotAvailable:
+                    return true;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
         #region NeedUpdate
         public static bool NeedUpdate(FileEntryVersionCompare fileEntryVersionCompare)
         {
             switch (fileEntryVersionCompare)
             {
-                case FileEntryVersionCompare.FoundAndWon:
-                    return true;
-                case FileEntryVersionCompare.FoundEqual:
+                case FileEntryVersionCompare.WonFoundNewer:
+                case FileEntryVersionCompare.WonFoundEqual:
+                case FileEntryVersionCompare.WonColumnCreatedHistoricalOrError:
+                case FileEntryVersionCompare.WonColumnCredtedCurrent:
                     return true;
                 case FileEntryVersionCompare.LostOverUserInput:
-                    return false;
-                case FileEntryVersionCompare.FoundButLost:
-                    return false;
-                case FileEntryVersionCompare.NotEqualFound:
+                case FileEntryVersionCompare.LostFoundOlder:
+                case FileEntryVersionCompare.LostNoneEqualFound:
                     return false;
                 default:
                     throw new NotImplementedException();
@@ -66,7 +85,7 @@ namespace MetadataLibrary
         public static FileEntryVersionCompare CompareFileEntryAttribute(FileEntryAttribute fileEntryAttributeDataGridViewColumn, FileEntryAttribute fileEntryAttributeFromQueue)
         {
             if (fileEntryAttributeFromQueue.FileName != fileEntryAttributeDataGridViewColumn.FileName) 
-                return FileEntryVersionCompare.NotEqualFound;
+                return FileEntryVersionCompare.LostNoneEqualFound;
 
             switch (fileEntryAttributeFromQueue.FileEntryVersion)
             {
@@ -78,25 +97,25 @@ namespace MetadataLibrary
                         case FileEntryVersion.ExtractedNowFromMediaFile: //is store in DataGridView Column
                             //Both Extracted from source, newst version win
                             if (fileEntryAttributeFromQueue.LastWriteDateTime > fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
-                                return FileEntryVersionCompare.FoundAndWon;
+                                return FileEntryVersionCompare.WonFoundNewer;
 
                             if (fileEntryAttributeFromQueue.LastWriteDateTime == fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
-                                return FileEntryVersionCompare.FoundEqual;
+                                return FileEntryVersionCompare.WonFoundEqual;
 
                             if (fileEntryAttributeFromQueue.LastWriteDateTime < fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
-                                return FileEntryVersionCompare.FoundButLost; //DEBUG, in case of queue get not in sequence
+                                return FileEntryVersionCompare.LostFoundOlder; //DEBUG, in case of queue get not in sequence
 
                             break;
 
                         case FileEntryVersion.AutoCorrect: //is store in DataGridView Column
-                            return FileEntryVersionCompare.FoundAndWon; //Extracted from source always win over AutoCorrect (No need to check dates, It's only exist one column, regardless of date)
+                            return FileEntryVersionCompare.WonFoundNewer; //Extracted from source always win over AutoCorrect (No need to check dates, It's only exist one column, regardless of date)
                             
                         case FileEntryVersion.CurrentVersionInDatabase: //is store in DataGridView Column
-                            return FileEntryVersionCompare.FoundAndWon; //Extracted from source always win over Read from database (No need to check dates, It's only exist one column, regardless of date)
+                            return FileEntryVersionCompare.WonFoundNewer; //Extracted from source always win over Read from database (No need to check dates, It's only exist one column, regardless of date)
 
                         case FileEntryVersion.Historical: //is store in DataGridView Column
                         case FileEntryVersion.Error: //is store in DataGridView Column
-                            return FileEntryVersionCompare.NotEqualFound;
+                            return FileEntryVersionCompare.LostNoneEqualFound;
                         default:
                             throw new NotImplementedException();
                     }
@@ -112,35 +131,35 @@ namespace MetadataLibrary
                         case FileEntryVersion.ExtractedNowFromMediaFile: //is store in DataGridView Column
                             //AutoCorrect, wins if newer
                             if (fileEntryAttributeFromQueue.LastWriteDateTime > fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
-                                return FileEntryVersionCompare.FoundAndWon;
+                                return FileEntryVersionCompare.WonFoundNewer;
 
                             if (fileEntryAttributeFromQueue.LastWriteDateTime == fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
-                                return FileEntryVersionCompare.FoundEqual;
+                                return FileEntryVersionCompare.WonFoundEqual;
 
                             if (fileEntryAttributeFromQueue.LastWriteDateTime < fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
-                                return FileEntryVersionCompare.FoundButLost; //DEBUG, in case of queue get not in sequence
+                                return FileEntryVersionCompare.LostFoundOlder; //DEBUG, in case of queue get not in sequence
                             break;
 
                         case FileEntryVersion.AutoCorrect: //is store in DataGridView Column
                             //AutoCorrect, wins if newer
                             if (fileEntryAttributeFromQueue.LastWriteDateTime > fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
-                                return FileEntryVersionCompare.FoundAndWon;
+                                return FileEntryVersionCompare.WonFoundNewer;
 
                             if (fileEntryAttributeFromQueue.LastWriteDateTime == fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
-                                return FileEntryVersionCompare.FoundEqual;
+                                return FileEntryVersionCompare.WonFoundEqual;
 
                             if (fileEntryAttributeFromQueue.LastWriteDateTime < fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
-                                return FileEntryVersionCompare.FoundButLost; //DEBUG, in case of queue get not in sequence
+                                return FileEntryVersionCompare.LostFoundOlder; //DEBUG, in case of queue get not in sequence
                             break;
 
                         case FileEntryVersion.CurrentVersionInDatabase: //is store in DataGridView Column
                             //AutoCorrect, always win over Read from database
-                            return FileEntryVersionCompare.FoundAndWon;
+                            return FileEntryVersionCompare.WonFoundNewer;
 
                         case FileEntryVersion.Historical: //is store in DataGridView Column
                         case FileEntryVersion.Error: //is store in DataGridView Column
                                                      //Need continue the search
-                            return FileEntryVersionCompare.NotEqualFound;
+                            return FileEntryVersionCompare.LostNoneEqualFound;
                         default:
                             throw new NotImplementedException();
                     }
@@ -152,26 +171,26 @@ namespace MetadataLibrary
 
                         case FileEntryVersion.ExtractedNowFromExternalSource: //is store in DataGridView Column
                         case FileEntryVersion.ExtractedNowFromMediaFile: //is store in DataGridView Column
-                            return FileEntryVersionCompare.FoundButLost; 
+                            return FileEntryVersionCompare.LostFoundOlder; 
 
                         case FileEntryVersion.AutoCorrect: //is store in DataGridView Column
-                            return FileEntryVersionCompare.FoundAndWon;
+                            return FileEntryVersionCompare.WonFoundNewer;
 
                         case FileEntryVersion.CurrentVersionInDatabase: //is store in DataGridView Column
                             if (fileEntryAttributeFromQueue.LastWriteDateTime > fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
-                                return FileEntryVersionCompare.FoundAndWon;
+                                return FileEntryVersionCompare.WonFoundNewer;
 
                             if (fileEntryAttributeFromQueue.LastWriteDateTime == fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
-                                return FileEntryVersionCompare.FoundEqual;
+                                return FileEntryVersionCompare.WonFoundEqual;
 
                             if (fileEntryAttributeFromQueue.LastWriteDateTime < fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
-                                return FileEntryVersionCompare.FoundButLost; //DEBUG, in case of queue get not in sequence
+                                return FileEntryVersionCompare.LostFoundOlder; //DEBUG, in case of queue get not in sequence
                             break;
 
                         case FileEntryVersion.Historical: //is store in DataGridView Column
                         case FileEntryVersion.Error: //is store in DataGridView Column
                             //Need continue the search
-                            return FileEntryVersionCompare.NotEqualFound;
+                            return FileEntryVersionCompare.LostNoneEqualFound;
                         default:
                             throw new NotImplementedException();
                     }
@@ -185,13 +204,13 @@ namespace MetadataLibrary
                         case FileEntryVersion.ExtractedNowFromMediaFile: //is store in DataGridView Column
                         case FileEntryVersion.AutoCorrect: //is store in DataGridView Column
                         case FileEntryVersion.CurrentVersionInDatabase: //is store in DataGridView Column
-                            return FileEntryVersionCompare.NotEqualFound;
+                            return FileEntryVersionCompare.LostNoneEqualFound;
 
                         case FileEntryVersion.Historical: //is store in DataGridView Column
                         case FileEntryVersion.Error: //is store in DataGridView Column
                             if (fileEntryAttributeFromQueue.LastWriteDateTime == fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
-                                return FileEntryVersionCompare.FoundEqual;
-                            return FileEntryVersionCompare.NotEqualFound;
+                                return FileEntryVersionCompare.WonFoundEqual;
+                            return FileEntryVersionCompare.LostNoneEqualFound;
                         default:
                             throw new NotImplementedException();
                     }
@@ -199,7 +218,7 @@ namespace MetadataLibrary
                     throw new NotImplementedException();
             }
 
-            return FileEntryVersionCompare.NotEqualFound; //DEBUG - If arrived here, means not all cases handled with care
+            return FileEntryVersionCompare.LostNoneEqualFound; //DEBUG - If arrived here, means not all cases handled with care
         }
         #endregion
     }

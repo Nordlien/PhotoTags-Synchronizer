@@ -43,6 +43,27 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
+        #region UpdateStatusImageListView
+        public void UpdateStatusImageListView(string text)
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<string>(UpdateStatusImageListView), text);
+                return;
+            }
+
+            this.kryptonPageMediaFiles.TextDescription = text;
+        }
+        #endregion
+
+        //#region StatusFilesAndSelected
+        //private string StatusFilesAndSelected
+        //{
+        //    set { this.kryptonPageMediaFiles.TextDescription = value; }
+        //}
+        //#endregion 
+
+
         #region UpdatedStatusAction - Trigger by imageListView1_ThumbnailCaching
         private void imageListView1_ThumbnailCaching(object sender, ItemEventArgs e)
         {
@@ -257,12 +278,9 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region StatusFilesAndSelected
-        private string StatusFilesAndSelected
-        {
-            set { this.kryptonPageMediaFiles.TextDescription = value; }
-        }
-        #endregion 
+        
+
+
 
         #region DisplayAllQueueStatus - Updated display
         private Stopwatch stopwatchLastDisplayed = new Stopwatch();
@@ -280,7 +298,7 @@ namespace PhotoTagsSynchronizer
                 return;
             }
 
-            StatusFilesAndSelected = string.Format("Files: {0} Selected {1} ", imageListView1.Items.Count, imageListView1.SelectedItems.Count);
+            UpdateStatusImageListView(string.Format("Files: {0} Selected {1} ", imageListView1.Items.Count, imageListView1.SelectedItems.Count));
 
             string progressBackgroundStatusText = "";
             int threadQueuCount = 0;
@@ -789,8 +807,8 @@ namespace PhotoTagsSynchronizer
             int procentage = 0;
             if (value >= maximum) procentage = 100;
             else procentage = (int)(((double)value / (double)maximum) * 100);
-            
-            buttonSpecNavigatorDataGridViewProgressCircle.Image = GetProgressCircle(procentage, out int imageIndex);
+
+            buttonSpecNavigator.Image = GetProgressCircle(procentage, out int imageIndex);
 
             if (buttonSpecNavigator.Tag == null && !(buttonSpecNavigator.Tag is int)) buttonSpecNavigator.Tag = -1;
 
@@ -864,9 +882,17 @@ namespace PhotoTagsSynchronizer
             {
                 LazyLoadingDataGridViewProgressHide();
             }
-        }         
+        }
         #endregion
-        
+
+        #region 
+        public void LoadingItemsImageListView(int value, int maximum)
+        {
+            SetButtonSpecNavigator(buttonSpecNavigatorImageListViewLoadStatus, maximum - value, maximum);
+        }
+
+        #endregion 
+
         #endregion
 
     }

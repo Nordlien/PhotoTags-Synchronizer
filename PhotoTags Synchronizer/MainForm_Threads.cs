@@ -469,17 +469,15 @@ namespace PhotoTagsSynchronizer
             {
                 if (commonQueueLazyLoadingMetadata.Contains(fileEntryAttribute)) return true;
                 if (commonQueueReadMetadataFromExiftool.Contains(fileEntryAttribute.FileEntry)) return true;
-
+                
                 foreach (FileEntryAttribute fileEntryAttributeCheck in commonQueueLazyLoadingMetadata)
                 {
-                    if (fileEntryAttributeCheck.FileFullPath == fileEntryAttribute.FileFullPath) 
-                        return true;
+                    if (fileEntryAttributeCheck.FileFullPath == fileEntryAttribute.FileFullPath) return true;
                 }
 
                 foreach (FileEntry fileEntryCheck in commonQueueReadMetadataFromExiftool)
                 {
-                    if (fileEntryCheck.FileFullPath == fileEntryAttribute.FileFullPath)
-                        return true;
+                    if (fileEntryCheck.FileFullPath == fileEntryAttribute.FileFullPath) return true;
                 }
                 //private static List<FileEntryAttribute> commonQueueLazyLoadingThumbnail = new List<FileEntryAttribute>();
                 //private static List<Metadata> commonQueueReadPosterAndSaveFaceThumbnails = new List<Metadata>();
@@ -499,14 +497,16 @@ namespace PhotoTagsSynchronizer
             {
                 for (int columnIndex = 0; columnIndex < DataGridViewHandler.GetColumnCount(dataGridView); columnIndex++)
                 {
-                    if (!DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex)) queueCount++;
+                    if (!DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex))
+                    {
+                        queueCount++;
+                    }
                     else
                     {
                         DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
                         if (dataGridViewGenericColumn != null)
                         {
-                            if (DoesFilesExistInAnyQueues(dataGridViewGenericColumn.FileEntryAttribute)) 
-                                queueCount++;
+                            if (DoesFilesExistInAnyQueues(dataGridViewGenericColumn.FileEntryAttribute)) queueCount++;
                         }
                     }
                 }
