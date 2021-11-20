@@ -693,43 +693,115 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region GetProgressCircle(int procentage)
-        private Bitmap GetProgressCircle(int procentage)
+        private Bitmap GetProgressCircle(int procentage, out int imageIndex)
         {
-            if (procentage <= 6) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle01_16x16;
-            else if (procentage <= 12) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle02_16x16;
-            else if (procentage <= 18) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle03_16x16;
-            else if (procentage <= 24) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle04_16x16;
-            else if (procentage <= 29) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle05_16x16;
-            else if (procentage <= 35) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle06_16x16;
-            else if (procentage <= 41) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle07_16x16;
-            else if (procentage <= 47) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle08_16x16;
-            else if (procentage <= 53) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle09_16x16;
-            else if (procentage <= 59) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle10_16x16;
-            else if (procentage <= 65) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle11_16x16;
-            else if (procentage <= 71) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle12_16x16;
-            else if (procentage <= 76) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle13_16x16;
-            else if (procentage <= 82) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle14_16x16;
-            else if (procentage <= 88) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle15_16x16;
-            else if (procentage <= 94) return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle16_16x16;
+            if (procentage <= 6)
+            {
+                imageIndex = 1;
+                return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle01_16x16;
+            }
+            else if (procentage <= 12)
+            {
+                imageIndex = 2;
+                return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle02_16x16;
+            }
+            else if (procentage <= 18)
+            {
+                imageIndex = 3;
+                return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle03_16x16;
+            }
+            else if (procentage <= 24)
+            {
+                imageIndex = 4;
+                return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle04_16x16;
+            }
+            else if (procentage <= 29)
+            {
+                imageIndex = 5;
+                return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle05_16x16;
+            }
+            else if (procentage <= 35)
+            {
+                imageIndex = 6;
+                return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle06_16x16;
+            }
+            else if (procentage <= 41)
+            {
+                imageIndex = 7;
+                return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle07_16x16;
+            }
+            else if (procentage <= 47)
+            {
+                imageIndex = 8;
+                return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle08_16x16;
+            }
+            else if (procentage <= 53)
+            {
+                imageIndex = 9;
+                return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle09_16x16;
+            }
+            else if (procentage <= 59)
+            {
+                imageIndex = 10;
+                return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle10_16x16;
+            }
+            else if (procentage <= 65)
+            {
+                imageIndex = 11;
+                return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle11_16x16;
+            }
+            else if (procentage <= 71)
+            {
+                imageIndex = 12;
+                return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle12_16x16;
+            }
+            else if (procentage <= 76)
+            {
+                imageIndex = 13;
+                return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle13_16x16;
+            }
+            else if (procentage <= 82)
+            {
+                imageIndex = 14;
+                return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle14_16x16;
+            }
+            else if (procentage <= 88)
+            {
+                imageIndex = 15;
+                return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle15_16x16;
+            }
+            else if (procentage <= 94)
+            {
+                imageIndex = 16;
+                return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle16_16x16;
+            }
+            imageIndex = 17;
             return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle17_16x16;
         }
         #endregion
 
         #region SetButtonSpecNavigator
         private Stopwatch stopwatch = new Stopwatch();
+        
         private void SetButtonSpecNavigator(Krypton.Navigator.ButtonSpecNavigator buttonSpecNavigator, int value, int maximum)
         {
             int procentage = 0;
             if (value >= maximum) procentage = 100;
             else procentage = (int)(((double)value / (double)maximum) * 100);
-            buttonSpecNavigatorDataGridViewProgressCircle.Image = GetProgressCircle(procentage);
-            buttonSpecNavigatorDataGridViewProgressCircle.ImageStates.ImageNormal = GetProgressCircle(procentage);
+            buttonSpecNavigatorDataGridViewProgressCircle.ImageStates.ImageNormal =
+            buttonSpecNavigatorDataGridViewProgressCircle.Image = GetProgressCircle(procentage, out int imageIndex);
 
-            if (!stopwatch.IsRunning || stopwatch.ElapsedMilliseconds > 200)
+            if (buttonSpecNavigator.Tag == null && !(buttonSpecNavigator.Tag is int)) buttonSpecNavigator.Tag = -1;
+
+            if ((int)buttonSpecNavigator.Tag != imageIndex)
+            //if (!stopwatch.IsRunning || stopwatch.ElapsedMilliseconds > 200)
             {
                 stopwatch.Restart();
-                buttonSpecNavigatorDataGridViewProgressCircle.Visible = false;
-                buttonSpecNavigatorDataGridViewProgressCircle.Visible = true;
+                buttonSpecNavigator.Visible = false;
+                buttonSpecNavigator.Visible = true;
+
+                //buttonSpecNavigatorDataGridViewProgressCircle.Visible = false;
+                //buttonSpecNavigatorDataGridViewProgressCircle.Visible = true;
                 //DataGridViewHandler.SuspendLayoutSetDelay(GetActiveTabDataGridView(), false);
                 //kryptonWorkspaceCellToolbox.Refresh();
                 //DataGridViewHandler.ResumeLayoutDelayed(GetActiveTabDataGridView());
