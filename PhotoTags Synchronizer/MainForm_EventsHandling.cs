@@ -504,8 +504,8 @@ namespace PhotoTagsSynchronizer
         #region UpdateRibbonsWhenWorkspaceChanged()
         private void UpdateRibbonsWhenWorkspaceChanged()
         {
-            bool isSomethingSelected = (imageListView1.SelectedItems.Count >= 1);
-            bool isMoreThatOneSelected = (imageListView1.SelectedItems.Count > 1);
+            bool isSomethingSelected = (GetSelectedFilesImageListView().Count >= 1);
+            bool isMoreThatOneSelected = (GetSelectedFilesImageListView().Count > 1);
 
             SetPreviewRibbonEnabledStatus(previewStartEnabled: isSomethingSelected, enabled: false);
 

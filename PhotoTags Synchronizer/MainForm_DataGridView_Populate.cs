@@ -286,6 +286,8 @@ namespace PhotoTagsSynchronizer
                 HashSet<FileEntry> fileEntries = GetSelectedFileEntriesImageListView();
                 PopulateDataGridViewForSelectedItemsThread(fileEntries);
                 PopulateImageListViewOpenWithToolStripThread(fileEntries, imageListView1.Items);
+                UpdateRibbonsWhenWorkspaceChanged();
+
 
                 GlobalData.IsPopulatingImageListView = false;
             }
@@ -554,13 +556,14 @@ namespace PhotoTagsSynchronizer
                 {
                     DataGridView dataGridView = GetActiveTabDataGridView();
 
+                    #region RibbonGroupButtonDataGridViewRows Favorite and Equal
                     kryptonRibbonGroupButtonDataGridViewRowsFavorite.Checked = DataGridViewHandler.ShowFavouriteColumns(dataGridView);
                     kryptonRibbonGroupButtonDataGridViewRowsHideEqual.Checked = DataGridViewHandler.HideEqualColumns(dataGridView);
 
                     DataGridViewSize dataGridViewSize;
                     ShowWhatColumns showWhatColumnsForTab;
-                    bool isSizeEnabled = imageListViewSelectItems.Count > 0;
-                    bool isColumnsEnabled = imageListViewSelectItems.Count > 0;
+                    bool isSizeEnabled = GetSelectedFilesImageListView().Count > 0;
+                    bool isColumnsEnabled = GetSelectedFilesImageListView().Count > 0;
                     switch (GetActiveTabTag())
                     {
                         case LinkTabAndDataGridViewNameTags:
@@ -606,18 +609,16 @@ namespace PhotoTagsSynchronizer
                             isColumnsEnabled = false;
                             break;
                         default: throw new NotImplementedException();
-
                     }
                     SetRibbonDataGridViewSizeBottons(dataGridViewSize, isSizeEnabled);
                     SetRibbonDataGridViewShowWhatColumns(showWhatColumns, isColumnsEnabled);
-
+                    #endregion
 
                     if (dataGridView == null || DataGridViewHandler.GetIsAgregated(dataGridView)) return;
 
                     LazyLoadingDataGridViewProgressUpdateStatus(imageListViewSelectItems.Count + 2);
                     List<FileEntryAttribute> lazyLoading;
                     DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, true);
-
 
                     switch (GetActiveTabTag())
                     {

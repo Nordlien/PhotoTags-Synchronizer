@@ -686,6 +686,7 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
+
         #endregion
 
         #region LazyLoadingDataGridViewProgress
