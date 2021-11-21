@@ -652,69 +652,74 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region LazyLoadingDataGridViewProgressHide
-        private static Thread _ThreadDelayLazyLoadingHide = null;
-        public void LazyLoadingDataGridViewProgressHide()
-        {
-            if (IsProgressbarLazyLoadingProgressVisible) //Delayed visible
-            {
-                if (_ThreadDelayLazyLoadingHide == null)
-                {
-                    try
-                    {
-                        _ThreadDelayLazyLoadingHide = new Thread(() =>
-                        {
-                            Task.Delay(100).Wait();
+        //#region LazyLoadingDataGridViewProgressHide
+        //private static Thread _ThreadDelayLazyLoadingHide = null;
+        //public void LazyLoadingDataGridViewProgressHide()
+        //{
+        //    if (IsProgressbarLazyLoadingProgressVisible) //Delayed visible
+        //    {
+        //        if (_ThreadDelayLazyLoadingHide == null)
+        //        {
+        //            try
+        //            {
+        //                _ThreadDelayLazyLoadingHide = new Thread(() =>
+        //                {
+        //                    Task.Delay(100).Wait();
 
-                            if (lastQueueSize == 0 && this.IsHandleCreated) ProgressbarLazyLoadingProgress(false);
-                            _ThreadDelayLazyLoadingHide = null;
-                        });
+        //                    if (lastQueueSize == 0 && this.IsHandleCreated) ProgressbarLazyLoadingProgress(false);
+        //                    _ThreadDelayLazyLoadingHide = null;
+        //                });
 
-                        if (_ThreadDelayLazyLoadingHide != null) _ThreadDelayLazyLoadingHide.Start();
-                    }
-                    catch
-                    {
-                        _ThreadDelayLazyLoadingHide = null;
-                    }
-                }
-            }
-        }
+        //                if (_ThreadDelayLazyLoadingHide != null) _ThreadDelayLazyLoadingHide.Start();
+        //            }
+        //            catch
+        //            {
+        //                _ThreadDelayLazyLoadingHide = null;
+        //            }
+        //        }
+        //    }
+        //}
 
-        #region LazyLoadingDataGridViewProgressStarted
-        private static Thread _ThreadDelayLazyLoadingShow = null;
-        public void LazyLoadingDataGridViewProgressShow()
-        {
-            if (!IsProgressbarLazyLoadingProgressVisible) //Delayed visible
-            {
-                if (_ThreadDelayLazyLoadingShow == null)
-                {
-                    try
-                    {
-                        _ThreadDelayLazyLoadingShow = new Thread(() =>
-                        {
-                            Task.Delay(10).Wait();
-                            ProgressbarLazyLoadingProgress(lastQueueSize > 0);
-                            _ThreadDelayLazyLoadingShow = null;
-                        });
+        //#region LazyLoadingDataGridViewProgressStarted
+        //private static Thread _ThreadDelayLazyLoadingShow = null;
+        //public void LazyLoadingDataGridViewProgressShow()
+        //{
+        //    if (!IsProgressbarLazyLoadingProgressVisible) //Delayed visible
+        //    {
+        //        if (_ThreadDelayLazyLoadingShow == null)
+        //        {
+        //            try
+        //            {
+        //                _ThreadDelayLazyLoadingShow = new Thread(() =>
+        //                {
+        //                    Task.Delay(10).Wait();
+        //                    ProgressbarLazyLoadingProgress(lastQueueSize > 0);
+        //                    _ThreadDelayLazyLoadingShow = null;
+        //                });
 
-                        if (_ThreadDelayLazyLoadingShow != null) _ThreadDelayLazyLoadingShow.Start();
-                    }
-                    catch
-                    {
-                        _ThreadDelayLazyLoadingShow = null;
-                    }
-                }
+        //                if (_ThreadDelayLazyLoadingShow != null) _ThreadDelayLazyLoadingShow.Start();
+        //            }
+        //            catch
+        //            {
+        //                _ThreadDelayLazyLoadingShow = null;
+        //            }
+        //        }
 
-            }
-        }
-        #endregion
+        //    }
+        //}
+        //#endregion
 
         #endregion
 
         #region GetProgressCircle(int procentage)
         private Bitmap GetProgressCircle(int procentage, out int imageIndex)
         {
-            if (procentage <= 6)
+            if (procentage <= 0)
+            {
+                imageIndex = 0;
+                return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle00_16x16;
+            }
+            else if (procentage <= 6)
             {
                 imageIndex = 1;
                 return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle01_16x16;
@@ -806,8 +811,9 @@ namespace PhotoTagsSynchronizer
         {
             int procentage = 0;
             if (value >= maximum) procentage = 100;
+            if (maximum == 0) procentage = 100;
             else procentage = (int)(((double)value / (double)maximum) * 100);
-
+            
             buttonSpecNavigator.Image = GetProgressCircle(procentage, out int imageIndex);
 
             if (buttonSpecNavigator.Tag == null && !(buttonSpecNavigator.Tag is int)) buttonSpecNavigator.Tag = -1;
@@ -816,13 +822,13 @@ namespace PhotoTagsSynchronizer
             //if (!stopwatch.IsRunning || stopwatch.ElapsedMilliseconds > 200)
             {
                 stopwatch.Restart();
-                buttonSpecNavigator.Visible = false;
-                buttonSpecNavigator.Visible = true;
+                //buttonSpecNavigator.Visible = false;
+                //buttonSpecNavigator.Visible = true;
 
                 //buttonSpecNavigatorDataGridViewProgressCircle.Visible = false;
                 //buttonSpecNavigatorDataGridViewProgressCircle.Visible = true;
                 //DataGridViewHandler.SuspendLayoutSetDelay(GetActiveTabDataGridView(), false);
-                //kryptonWorkspaceCellToolbox.Refresh();
+                kryptonWorkspaceCellToolbox.Refresh();
                 //DataGridViewHandler.ResumeLayoutDelayed(GetActiveTabDataGridView());
             }
         }
@@ -840,25 +846,25 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ProgressbarLazyLoadingProgress(bool visible)
-        private void ProgressbarLazyLoadingProgress(bool visible)
-        {
-            if (InvokeRequired)
-            {
-                this.BeginInvoke(new Action<bool>(ProgressbarLazyLoadingProgress), visible);
-                return;
-            }
+        //#region ProgressbarLazyLoadingProgress(bool visible)
+        //private void ProgressbarLazyLoadingProgress(bool visible)
+        //{
+        //    if (InvokeRequired)
+        //    {
+        //        this.BeginInvoke(new Action<bool>(ProgressbarLazyLoadingProgress), visible);
+        //        return;
+        //    }
 
-            if (!visible) 
-                progressBarLazyLoading.Maximum = 0;
+        //    if (!visible) 
+        //        progressBarLazyLoading.Maximum = 0;
 
-            kryptonRibbonGroupTripleToolsProgressStatusWork.Visible = visible;
-            kryptonRibbonGroupLabelToolsProgressLazyloading.Enabled = visible;
-            kryptonRibbonGroupCustomControlToolsProgressLazyloading.Enabled = visible;
-            if (!visible) buttonSpecNavigatorDataGridViewProgressCircle.Image = PhotoTagsSynchronizer.Properties.Resources.ProgressCircle00_16x16;
-            //buttonSpecNavigatorDataGridViewProgressCircle.Visible = visible;
-        }
-        #endregion
+        //    kryptonRibbonGroupTripleToolsProgressStatusWork.Visible = visible;
+        //    kryptonRibbonGroupLabelToolsProgressLazyloading.Enabled = visible;
+        //    kryptonRibbonGroupCustomControlToolsProgressLazyloading.Enabled = visible;
+        //    if (!visible) buttonSpecNavigatorDataGridViewProgressCircle.Image = PhotoTagsSynchronizer.Properties.Resources.ProgressCircle00_16x16;
+        //    //buttonSpecNavigatorDataGridViewProgressCircle.Visible = visible;
+        //}
+        //#endregion
 
         #region IsProgressbarLazyLoadingProgressVisible
         private bool IsProgressbarLazyLoadingProgressVisible
@@ -868,32 +874,29 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region LazyLoadingDataGridViewProgress - Update Status
-        private static int lastQueueSize = 0;
+        //private static int lastQueueSize = 0;
         public void LazyLoadingDataGridViewProgressUpdateStatus(int queueSize)
         {
             int queueCount = ProgressbarLazyLoadingProgressLazyLoadingRemainding(queueSize);
-            lastQueueSize = queueSize;
+            //lastQueueSize = queueSize;
 
-            if (queueSize > 0)
-            {
-                LazyLoadingDataGridViewProgressShow();
-            }
-            else
-            {
-                LazyLoadingDataGridViewProgressHide();
-            }
+            //if (queueSize > 0)
+            //{
+            //    LazyLoadingDataGridViewProgressShow();
+            //}
+            //else
+            //{
+            //    LazyLoadingDataGridViewProgressHide();
+            //}
         }
         #endregion
 
-        #region 
+        #region LoadingItemsImageListView
         public void LoadingItemsImageListView(int value, int maximum)
         {
             SetButtonSpecNavigator(buttonSpecNavigatorImageListViewLoadStatus, maximum - value, maximum);
         }
-
         #endregion 
-
-        #endregion
 
     }
 }

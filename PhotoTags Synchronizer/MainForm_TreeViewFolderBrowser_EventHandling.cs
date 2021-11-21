@@ -58,13 +58,14 @@ namespace PhotoTagsSynchronizer
                 GlobalData.IsPopulatingFolderSelected = true; //Don't start twice
                 
                 treeViewFolderBrowser1.Enabled = false;
-
+                LoadingItemsImageListView(1, 5);
                 UpdateStatusImageListView("Clear all old queues");
                 ClearAllQueues();
 
 
                 if (cacheFolderThumbnails || cacheFolderMetadatas || cacheFolderWebScraperDataSets)
                 {
+                    LoadingItemsImageListView(2, 5);
                     UpdateStatusImageListView("Started the cache process...");
                     CacheFileEntries(fileEntries, selectedFolder);
                 }
@@ -74,6 +75,7 @@ namespace PhotoTagsSynchronizer
                     FilterVerifyer.ClearTreeViewNodes(treeViewFilter);
                 }
 
+                LoadingItemsImageListView(3, 5);
                 UpdateStatusImageListView("Adding files to image list: " + fileEntries.Count);
                 ImageListViewAggregateWithMediaFiles(fileEntries);
 
@@ -81,13 +83,15 @@ namespace PhotoTagsSynchronizer
 
                 if (runPopulateFilter)
                 {
+                    LoadingItemsImageListView(4, 5);
                     UpdateStatusImageListView("Populate Filters");
                     PopulateTreeViewFolderFilterThread(fileEntries);
                 }
                 GlobalData.IsPopulatingFolderSelected = false;
             }
             FilesSelectedOrNoneSelected(); //Even when 0 selected files, allocate data and flags, etc...
-            
+
+            LoadingItemsImageListView(5, 5);
             UpdateStatusImageListView("Done populate " + fileEntries.Count + " media files...");
             treeViewFolderBrowser1.Focus();
         }
