@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FileHandeling;
+using System.Diagnostics;
 
 namespace DataGridViewGeneric
 {
@@ -685,15 +686,21 @@ namespace DataGridViewGeneric
                     {
                         _ThreadResumeDataGrid = new Thread(() =>
                         {
-                            Task.Delay(250).Wait();
-                            if (suspendCount == 0) dataGridView.BeginInvoke(new Action<DataGridView>(ResumeLayoutInvoke), dataGridView); //ResumeLayoutInvoke(dataGridView);
+                            //Task.Delay(250).Wait();
+                            if (suspendCount == 0)
+                                dataGridView.BeginInvoke(new Action<DataGridView>(ResumeLayoutInvoke), dataGridView); //ResumeLayoutInvoke(dataGridView);
                             _ThreadResumeDataGrid = null;
                         });
 
-                        if (_ThreadResumeDataGrid != null) _ThreadResumeDataGrid.Start();
-                    } catch 
-                    { 
-                        _ThreadResumeDataGrid = null; 
+                        if (_ThreadResumeDataGrid != null)
+                        {
+                            _ThreadResumeDataGrid.Priority = ThreadPriority.Highest;
+                            _ThreadResumeDataGrid.Start();
+                        }
+                    }
+                    catch
+                    {
+                        _ThreadResumeDataGrid = null;
                     }
                     didResume = true;
                 } 

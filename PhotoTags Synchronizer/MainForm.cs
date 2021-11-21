@@ -899,8 +899,6 @@ namespace PhotoTagsSynchronizer
             }
             #endregion
 
-            InitializeDataGridViewHandler();
-
             PopulateImageListView_FromFolderSelected(false, true);
             FilesSelectedOrNoneSelected();
 

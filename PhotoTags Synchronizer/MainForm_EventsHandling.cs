@@ -5419,10 +5419,11 @@ namespace PhotoTagsSynchronizer
                 stopwatch.Start();
                 foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
                 {
+                    LoadingItemsImageListView(--queueSize, queueCount);
                     FileEntry fileEntry = new FileEntry(imageListViewItem.FileFullPath, imageListViewItem.DateModified);
                     if (!fileEntries.Contains(fileEntry)) fileEntries.Add(fileEntry);
                     if (!fullFilePaths.Contains(fileEntry.FileFullPath)) fullFilePaths.Add(fileEntry.FileFullPath);
-                    LoadingItemsImageListView(--queueSize, queueCount);
+                    
                     if (stopwatch.ElapsedMilliseconds > 100)
                     {
                         kryptonWorkspaceCellMediaFiles.Refresh();
@@ -7805,51 +7806,7 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        #region ProgressbarBackgroundProgress
-
-        #region ProgressBackgroundStatusText
-        private string ProgressBackgroundStatusText
-        {
-            get
-            {
-                return kryptonRibbonGroupLabelToolsProgressBackgroundBackgroundProcessText.TextLine1;
-            }
-            set
-            {
-                kryptonRibbonGroupLabelToolsProgressBackgroundBackgroundProcessText.TextLine1 = value;
-            }
-        }
-        #endregion
-
-        #region ProgressbarBackgroundProgressQueueRemainding(int queueRemainding)
-        private void ProgressbarBackgroundProgressQueueRemainding(int queueRemainding)
-        {
-            if (queueRemainding > progressBarBackground.Maximum) progressBarBackground.Maximum = queueRemainding;
-            progressBarBackground.Value = progressBarBackground.Maximum - queueRemainding;
-        }
-        #endregion
-
-        #region ProgressbarBackgroundProgress(bool enabled, int value, int minimum, int maximum)
-        private void ProgressbarBackgroundProgress(bool enabled, int value, int minimum, int maximum)
-        {
-            progressBarBackground.Minimum = minimum;
-            progressBarBackground.Maximum = maximum;
-            progressBarBackground.Value = value;
-            ProgressbarSaveProgress(enabled);
-        }
-        #endregion
-
-        #region ProgressbarBackgroundProgress(bool enabled)
-        private void ProgressbarBackgroundProgress(bool enabled)
-        {
-            this.kryptonRibbonGroupLabelToolsProgressBackground.Enabled = enabled;
-            this.kryptonRibbonGroupCustomControlToolsProgressBackground.Enabled = enabled;
-            this.kryptonRibbonGroupLabelToolsProgressBackgroundBackgroundProcessText.Enabled = enabled;
-        }
-
-        #endregion
-
-        #endregion
+        
 
         #region Progress Laxy Loading for DataGridView
 

@@ -642,79 +642,58 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        #region LazyLoadingDataGridViewProgress
+        #region ProgressbarBackgroundProgress
 
-
-        #region LazyLoadingDataGridViewProgress - End Reached
-        public void LazyLoadingDataGridViewProgressEndReached()
+        #region ProgressBackgroundStatusText
+        private string ProgressBackgroundStatusText
         {
-            LazyLoadingDataGridViewProgressUpdateStatus(0);
+            get
+            {
+                return kryptonRibbonGroupLabelToolsProgressBackgroundBackgroundProcessText.TextLine1;
+            }
+            set
+            {
+                kryptonRibbonGroupLabelToolsProgressBackgroundBackgroundProcessText.TextLine1 = value;
+            }
         }
         #endregion
 
-        //#region LazyLoadingDataGridViewProgressHide
-        //private static Thread _ThreadDelayLazyLoadingHide = null;
-        //public void LazyLoadingDataGridViewProgressHide()
-        //{
-        //    if (IsProgressbarLazyLoadingProgressVisible) //Delayed visible
-        //    {
-        //        if (_ThreadDelayLazyLoadingHide == null)
-        //        {
-        //            try
-        //            {
-        //                _ThreadDelayLazyLoadingHide = new Thread(() =>
-        //                {
-        //                    Task.Delay(100).Wait();
+        #region ProgressbarBackgroundProgressQueueRemainding(int queueRemainding)
+        private void ProgressbarBackgroundProgressQueueRemainding(int queueRemainding)
+        {
+            if (queueRemainding > progressBarBackground.Maximum) progressBarBackground.Maximum = queueRemainding;
+            progressBarBackground.Value = progressBarBackground.Maximum - queueRemainding;
+        }
+        #endregion
 
-        //                    if (lastQueueSize == 0 && this.IsHandleCreated) ProgressbarLazyLoadingProgress(false);
-        //                    _ThreadDelayLazyLoadingHide = null;
-        //                });
+        #region ProgressbarBackgroundProgress(bool enabled, int value, int minimum, int maximum)
+        private void ProgressbarBackgroundProgress(bool enabled, int value, int minimum, int maximum)
+        {
+            progressBarBackground.Minimum = minimum;
+            progressBarBackground.Maximum = maximum;
+            progressBarBackground.Value = value;
+            ProgressbarSaveProgress(enabled);
+        }
+        #endregion
 
-        //                if (_ThreadDelayLazyLoadingHide != null) _ThreadDelayLazyLoadingHide.Start();
-        //            }
-        //            catch
-        //            {
-        //                _ThreadDelayLazyLoadingHide = null;
-        //            }
-        //        }
-        //    }
-        //}
-
-        //#region LazyLoadingDataGridViewProgressStarted
-        //private static Thread _ThreadDelayLazyLoadingShow = null;
-        //public void LazyLoadingDataGridViewProgressShow()
-        //{
-        //    if (!IsProgressbarLazyLoadingProgressVisible) //Delayed visible
-        //    {
-        //        if (_ThreadDelayLazyLoadingShow == null)
-        //        {
-        //            try
-        //            {
-        //                _ThreadDelayLazyLoadingShow = new Thread(() =>
-        //                {
-        //                    Task.Delay(10).Wait();
-        //                    ProgressbarLazyLoadingProgress(lastQueueSize > 0);
-        //                    _ThreadDelayLazyLoadingShow = null;
-        //                });
-
-        //                if (_ThreadDelayLazyLoadingShow != null) _ThreadDelayLazyLoadingShow.Start();
-        //            }
-        //            catch
-        //            {
-        //                _ThreadDelayLazyLoadingShow = null;
-        //            }
-        //        }
-
-        //    }
-        //}
-        //#endregion
+        #region ProgressbarBackgroundProgress(bool enabled)
+        private void ProgressbarBackgroundProgress(bool enabled)
+        {
+            this.kryptonRibbonGroupLabelToolsProgressBackground.Enabled = enabled;
+            this.kryptonRibbonGroupCustomControlToolsProgressBackground.Enabled = enabled;
+            this.kryptonRibbonGroupLabelToolsProgressBackgroundBackgroundProcessText.Enabled = enabled;
+        }
 
         #endregion
+
+        #endregion
+
+        #region LazyLoadingDataGridViewProgress
 
         #region GetProgressCircle(int procentage)
         private Bitmap GetProgressCircle(int procentage, out int imageIndex)
         {
-            if (procentage <= 0)
+            if (procentage < 0)
             {
                 imageIndex = 0;
                 return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle00_16x16;
@@ -805,13 +784,12 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region SetButtonSpecNavigator
-        private Stopwatch stopwatch = new Stopwatch();
-        
+        private Stopwatch stopwatchCircleProgressbar = new Stopwatch();
         private void SetButtonSpecNavigator(Krypton.Navigator.ButtonSpecNavigator buttonSpecNavigator, int value, int maximum)
         {
             int procentage = 0;
             if (value >= maximum) procentage = 100;
-            if (maximum == 0) procentage = 100;
+            if (maximum == 0) procentage = -1;
             else procentage = (int)(((double)value / (double)maximum) * 100);
             
             buttonSpecNavigator.Image = GetProgressCircle(procentage, out int imageIndex);
@@ -819,75 +797,24 @@ namespace PhotoTagsSynchronizer
             if (buttonSpecNavigator.Tag == null && !(buttonSpecNavigator.Tag is int)) buttonSpecNavigator.Tag = -1;
 
             if ((int)buttonSpecNavigator.Tag != imageIndex)
-            //if (!stopwatch.IsRunning || stopwatch.ElapsedMilliseconds > 200)
             {
-                stopwatch.Restart();
-                //buttonSpecNavigator.Visible = false;
-                //buttonSpecNavigator.Visible = true;
-
-                //buttonSpecNavigatorDataGridViewProgressCircle.Visible = false;
-                //buttonSpecNavigatorDataGridViewProgressCircle.Visible = true;
-                //DataGridViewHandler.SuspendLayoutSetDelay(GetActiveTabDataGridView(), false);
-                kryptonWorkspaceCellToolbox.Refresh();
-                //DataGridViewHandler.ResumeLayoutDelayed(GetActiveTabDataGridView());
+                if (!stopwatchCircleProgressbar.IsRunning || stopwatchCircleProgressbar.ElapsedMilliseconds > 20)
+                {
+                    buttonSpecNavigator.Tag = imageIndex;
+                    stopwatchCircleProgressbar.Restart();
+                    kryptonWorkspaceCellToolbox.Refresh(); //Hack to get the circle to refresh
+                }
             }
-        }
-
-        #endregion
-
-        #region ProgressbarLazyLoadingProgressLazyLoadingRemainding(int queueRemainding)
-        private int ProgressbarLazyLoadingProgressLazyLoadingRemainding(int queueRemainding)
-        {           
-            if (queueRemainding > progressBarLazyLoading.Maximum) progressBarLazyLoading.Maximum = queueRemainding;
-            if (queueRemainding == 0) progressBarLazyLoading.Maximum = 0;
-            progressBarLazyLoading.Value = progressBarLazyLoading.Maximum - queueRemainding;
-            SetButtonSpecNavigator(buttonSpecNavigatorDataGridViewProgressCircle, progressBarLazyLoading.Value, progressBarLazyLoading.Maximum);
-            return progressBarLazyLoading.Value;
-        }
-        #endregion
-
-        //#region ProgressbarLazyLoadingProgress(bool visible)
-        //private void ProgressbarLazyLoadingProgress(bool visible)
-        //{
-        //    if (InvokeRequired)
-        //    {
-        //        this.BeginInvoke(new Action<bool>(ProgressbarLazyLoadingProgress), visible);
-        //        return;
-        //    }
-
-        //    if (!visible) 
-        //        progressBarLazyLoading.Maximum = 0;
-
-        //    kryptonRibbonGroupTripleToolsProgressStatusWork.Visible = visible;
-        //    kryptonRibbonGroupLabelToolsProgressLazyloading.Enabled = visible;
-        //    kryptonRibbonGroupCustomControlToolsProgressLazyloading.Enabled = visible;
-        //    if (!visible) buttonSpecNavigatorDataGridViewProgressCircle.Image = PhotoTagsSynchronizer.Properties.Resources.ProgressCircle00_16x16;
-        //    //buttonSpecNavigatorDataGridViewProgressCircle.Visible = visible;
-        //}
-        //#endregion
-
-        #region IsProgressbarLazyLoadingProgressVisible
-        private bool IsProgressbarLazyLoadingProgressVisible
-        {
-            get { return kryptonRibbonGroupTripleToolsProgressStatusWork.Visible; }
         }
         #endregion
 
         #region LazyLoadingDataGridViewProgress - Update Status
-        //private static int lastQueueSize = 0;
-        public void LazyLoadingDataGridViewProgressUpdateStatus(int queueSize)
+        public void LazyLoadingDataGridViewProgressUpdateStatus(int queueRemainding)
         {
-            int queueCount = ProgressbarLazyLoadingProgressLazyLoadingRemainding(queueSize);
-            //lastQueueSize = queueSize;
-
-            //if (queueSize > 0)
-            //{
-            //    LazyLoadingDataGridViewProgressShow();
-            //}
-            //else
-            //{
-            //    LazyLoadingDataGridViewProgressHide();
-            //}
+            if (queueRemainding > progressBarLazyLoading.Maximum) progressBarLazyLoading.Maximum = queueRemainding;
+            if (queueRemainding == 0) progressBarLazyLoading.Maximum = 0;
+            progressBarLazyLoading.Value = progressBarLazyLoading.Maximum - queueRemainding;
+            SetButtonSpecNavigator(buttonSpecNavigatorDataGridViewProgressCircle, progressBarLazyLoading.Value, progressBarLazyLoading.Maximum);
         }
         #endregion
 
@@ -896,7 +823,8 @@ namespace PhotoTagsSynchronizer
         {
             SetButtonSpecNavigator(buttonSpecNavigatorImageListViewLoadStatus, maximum - value, maximum);
         }
-        #endregion 
+        #endregion
 
+        #endregion
     }
 }

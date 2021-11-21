@@ -433,16 +433,10 @@ namespace PhotoTagsSynchronizer
                     }
                     #endregion
 
-
-                    //int queueCount = ThreadLazyLoadingDataGridViewQueueSizeDirty() + GetDataGridViewWatingToBePopulatedCount();
                     int queueCount = GetDataGridViewWatingToBePopulatedCount();
                     LazyLoadingDataGridViewProgressUpdateStatus(queueCount); //Update progressbar when File In DataGridView
-
-                    if (queueCount == 0)
-                    {
+                    if (queueCount == 0) 
                         PopulateDataGridViewForSelectedItemsExtrasDelayed();
-                        LazyLoadingDataGridViewProgressEndReached();
-                    }
                 }
 
                 DataGridViewHandler.ResumeLayoutDelayed(dataGridView); //Will resume when counter reach 0
@@ -474,54 +468,10 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region DataGridView - PopulateDataGridViewForSelectedItemsExtrasInvoke (Populate DataGridView Extras)
-        //private System.Timers.Timer timerDelayPopulateDataGridViewExtrasRefresh = new System.Timers.Timer();
-        //private bool isTimerDelayPopulateDataGridViewExtrasStarted = false;
-        //private DateTime startTimeDelayPopulateDataGridViewExtras = DateTime.Now;
-
-        private void InitializeDataGridViewHandler()
-        {
-            //timerDelayPopulateDataGridViewExtrasRefresh.Elapsed += TimerDelayPopulateDataGridViewExtrasRefresh_Elapsed;
-            //timerDelayPopulateDataGridViewExtrasRefresh.Interval = 100;
-        }
-
-        //private void TimerDelayPopulateDataGridViewExtrasRefresh_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-        //{
-        //    if (InvokeRequired)
-        //    {
-        //        this.BeginInvoke(new Action<object, System.Timers.ElapsedEventArgs>(TimerDelayPopulateDataGridViewExtrasRefresh_Elapsed), sender, e);
-        //        return;
-        //    }
-
-        //    try
-        //    {
-        //        if (((TimeSpan)(DateTime.Now - startTimeDelayPopulateDataGridViewExtras)).TotalMilliseconds > 200)
-        //        {
-        //            timerDelayPopulateDataGridViewExtrasRefresh.Stop();
-        //            isTimerDelayPopulateDataGridViewExtrasStarted = false;
-        //            PopulateDataGridViewForSelectedItemsExtrasInvoke();
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        //Debug
-        //    }
-        //}
 
         private void PopulateDataGridViewForSelectedItemsExtrasDelayed()
         {
             PopulateDataGridViewForSelectedItemsExtrasInvoke();
-            //if (!isTimerDelayPopulateDataGridViewExtrasStarted)
-            //{
-            //    startTimeDelayPopulateDataGridViewExtras = DateTime.Now;
-            //    isTimerDelayPopulateDataGridViewExtrasStarted = true;
-
-            //    timerDelayPopulateDataGridViewExtrasRefresh.Enabled = true;                                   // Enable the timer
-            //    timerDelayPopulateDataGridViewExtrasRefresh.Start();
-            //}
-            //else
-            //{
-            //    if (((TimeSpan)(DateTime.Now - startTimeDelayPopulateDataGridViewExtras)).TotalMilliseconds < 0) startTimeDelayPopulateDataGridViewExtras = DateTime.Now;
-            //}
         }
 
         private void PopulateDataGridViewForSelectedItemsExtrasInvoke()
@@ -570,8 +520,9 @@ namespace PhotoTagsSynchronizer
         #region DataGridView - Populate Selected Files - OnActiveDataGridView - Thread
         private void PopulateDataGridViewForSelectedItemsThread(HashSet<FileEntry> imageListViewSelectItems)
         {
+            LazyLoadingDataGridViewProgressUpdateStatus(imageListViewSelectItems.Count + 5);
             Thread threadPopulateDataGridView = new Thread(() => {
-                PopulateDataGridViewForSelectedItemsInvoke(GetSelectedFileEntriesImageListView());
+                PopulateDataGridViewForSelectedItemsInvoke(imageListViewSelectItems);
             });
 
             threadPopulateDataGridView.Start();
@@ -586,83 +537,87 @@ namespace PhotoTagsSynchronizer
         /// <param name="imageListViewSelectItems"></param>
         private void PopulateDataGridViewForSelectedItemsInvoke(HashSet<FileEntry> imageListViewSelectItems)
         {
+            
             if (this.InvokeRequired)
             {
+                LazyLoadingDataGridViewProgressUpdateStatus(imageListViewSelectItems.Count + 4);
                 BeginInvoke(new Action<HashSet<FileEntry>>(PopulateDataGridViewForSelectedItemsInvoke), imageListViewSelectItems);
                 return;
             }
 
+            LazyLoadingDataGridViewProgressUpdateStatus(imageListViewSelectItems.Count + 3);
             if (GlobalData.IsApplicationClosing) return;
 
             lock (GlobalData.populateSelectedLock)
             {
-                DataGridView dataGridView = GetActiveTabDataGridView();
-
-                kryptonRibbonGroupButtonDataGridViewRowsFavorite.Checked = DataGridViewHandler.ShowFavouriteColumns(dataGridView);
-                kryptonRibbonGroupButtonDataGridViewRowsHideEqual.Checked = DataGridViewHandler.HideEqualColumns(dataGridView);
-
-                DataGridViewSize dataGridViewSize;
-                ShowWhatColumns showWhatColumnsForTab;
-                bool isSizeEnabled = imageListViewSelectItems.Count > 0;
-                bool isColumnsEnabled = imageListViewSelectItems.Count > 0;
-                switch (GetActiveTabTag())
-                {
-                    case LinkTabAndDataGridViewNameTags:
-                        dataGridViewSize = (DataGridViewSize)Properties.Settings.Default.CellSizeKeywords;
-                        showWhatColumnsForTab = showWhatColumns;                       
-                        break;
-                    case LinkTabAndDataGridViewNameMap:
-                        dataGridViewSize = (DataGridViewSize)Properties.Settings.Default.CellSizeMap;
-                        showWhatColumnsForTab = showWhatColumns;
-                        break;
-                    case LinkTabAndDataGridViewNamePeople:
-                        dataGridViewSize = (DataGridViewSize)Properties.Settings.Default.CellSizePeoples;
-                        showWhatColumnsForTab = showWhatColumns; 
-                        break;
-                    case LinkTabAndDataGridViewNameDates:
-                        dataGridViewSize = (DataGridViewSize)Properties.Settings.Default.CellSizeDates;
-                        showWhatColumnsForTab = showWhatColumns; 
-                        break;
-                    case LinkTabAndDataGridViewNameExiftool:
-                        dataGridViewSize = (DataGridViewSize)Properties.Settings.Default.CellSizeExiftool;
-                        showWhatColumnsForTab = showWhatColumns; 
-                        break;
-                    case LinkTabAndDataGridViewNameWarnings:
-                        dataGridViewSize = (DataGridViewSize)Properties.Settings.Default.CellSizeWarnings;
-                        showWhatColumnsForTab = showWhatColumns; 
-                        break;
-                    case LinkTabAndDataGridViewNameProperties:
-                        dataGridViewSize = (DataGridViewSize)Properties.Settings.Default.CellSizeProperties;
-                        showWhatColumnsForTab = ShowWhatColumns.HistoryColumns | ShowWhatColumns.ErrorColumns;
-                        //isSizeEnabled = false;
-                        isColumnsEnabled = false;
-                        break;
-                    case LinkTabAndDataGridViewNameRename:
-                        dataGridViewSize = ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize);
-                        showWhatColumnsForTab = ShowWhatColumns.HistoryColumns | ShowWhatColumns.ErrorColumns;
-                        //isSizeEnabled = false;
-                        isColumnsEnabled = false;
-                        break;
-                    case LinkTabAndDataGridViewNameConvertAndMerge:
-                        dataGridViewSize = ((DataGridViewSize)Properties.Settings.Default.CellSizeConvertAndMerge | DataGridViewSize.RenameConvertAndMergeSize);
-                        showWhatColumnsForTab = ShowWhatColumns.HistoryColumns | ShowWhatColumns.ErrorColumns;
-                        //isSizeEnabled = false;
-                        isColumnsEnabled = false;
-                        break;
-                    default: throw new NotImplementedException();
-
-                }
-                SetRibbonDataGridViewSizeBottons(dataGridViewSize, isSizeEnabled);
-                SetRibbonDataGridViewShowWhatColumns(showWhatColumns, isColumnsEnabled);
-
-
-                if (dataGridView == null || DataGridViewHandler.GetIsAgregated(dataGridView)) return;
-
                 using (new WaitCursor())
                 {
+                    DataGridView dataGridView = GetActiveTabDataGridView();
+
+                    kryptonRibbonGroupButtonDataGridViewRowsFavorite.Checked = DataGridViewHandler.ShowFavouriteColumns(dataGridView);
+                    kryptonRibbonGroupButtonDataGridViewRowsHideEqual.Checked = DataGridViewHandler.HideEqualColumns(dataGridView);
+
+                    DataGridViewSize dataGridViewSize;
+                    ShowWhatColumns showWhatColumnsForTab;
+                    bool isSizeEnabled = imageListViewSelectItems.Count > 0;
+                    bool isColumnsEnabled = imageListViewSelectItems.Count > 0;
+                    switch (GetActiveTabTag())
+                    {
+                        case LinkTabAndDataGridViewNameTags:
+                            dataGridViewSize = (DataGridViewSize)Properties.Settings.Default.CellSizeKeywords;
+                            showWhatColumnsForTab = showWhatColumns;
+                            break;
+                        case LinkTabAndDataGridViewNameMap:
+                            dataGridViewSize = (DataGridViewSize)Properties.Settings.Default.CellSizeMap;
+                            showWhatColumnsForTab = showWhatColumns;
+                            break;
+                        case LinkTabAndDataGridViewNamePeople:
+                            dataGridViewSize = (DataGridViewSize)Properties.Settings.Default.CellSizePeoples;
+                            showWhatColumnsForTab = showWhatColumns;
+                            break;
+                        case LinkTabAndDataGridViewNameDates:
+                            dataGridViewSize = (DataGridViewSize)Properties.Settings.Default.CellSizeDates;
+                            showWhatColumnsForTab = showWhatColumns;
+                            break;
+                        case LinkTabAndDataGridViewNameExiftool:
+                            dataGridViewSize = (DataGridViewSize)Properties.Settings.Default.CellSizeExiftool;
+                            showWhatColumnsForTab = showWhatColumns;
+                            break;
+                        case LinkTabAndDataGridViewNameWarnings:
+                            dataGridViewSize = (DataGridViewSize)Properties.Settings.Default.CellSizeWarnings;
+                            showWhatColumnsForTab = showWhatColumns;
+                            break;
+                        case LinkTabAndDataGridViewNameProperties:
+                            dataGridViewSize = (DataGridViewSize)Properties.Settings.Default.CellSizeProperties;
+                            showWhatColumnsForTab = ShowWhatColumns.HistoryColumns | ShowWhatColumns.ErrorColumns;
+                            //isSizeEnabled = false;
+                            isColumnsEnabled = false;
+                            break;
+                        case LinkTabAndDataGridViewNameRename:
+                            dataGridViewSize = ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize);
+                            showWhatColumnsForTab = ShowWhatColumns.HistoryColumns | ShowWhatColumns.ErrorColumns;
+                            //isSizeEnabled = false;
+                            isColumnsEnabled = false;
+                            break;
+                        case LinkTabAndDataGridViewNameConvertAndMerge:
+                            dataGridViewSize = ((DataGridViewSize)Properties.Settings.Default.CellSizeConvertAndMerge | DataGridViewSize.RenameConvertAndMergeSize);
+                            showWhatColumnsForTab = ShowWhatColumns.HistoryColumns | ShowWhatColumns.ErrorColumns;
+                            //isSizeEnabled = false;
+                            isColumnsEnabled = false;
+                            break;
+                        default: throw new NotImplementedException();
+
+                    }
+                    SetRibbonDataGridViewSizeBottons(dataGridViewSize, isSizeEnabled);
+                    SetRibbonDataGridViewShowWhatColumns(showWhatColumns, isColumnsEnabled);
+
+
+                    if (dataGridView == null || DataGridViewHandler.GetIsAgregated(dataGridView)) return;
+
+                    LazyLoadingDataGridViewProgressUpdateStatus(imageListViewSelectItems.Count + 2);
                     List<FileEntryAttribute> lazyLoading;
                     DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, true);
-                    
+
 
                     switch (GetActiveTabTag())
                     {
@@ -766,6 +721,7 @@ namespace PhotoTagsSynchronizer
                     }
                     DataGridViewHandler.ResumeLayoutDelayed(dataGridView);
                 }
+                LazyLoadingDataGridViewProgressUpdateStatus(imageListViewSelectItems.Count + 1);
             }
             StartThreads();
         }

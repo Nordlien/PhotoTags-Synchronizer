@@ -587,10 +587,10 @@ namespace Manina.Windows.Forms
             disposed = false;
 
             timerDelayRefresh.Elapsed += delayRefreshTimer_Tick;
-            timerDelayRefresh.Interval = 100;
+            timerDelayRefresh.Interval = timerDelayRefreshInterval;
         }
 
-        
+
         #endregion
 
         #region Instance Methods
@@ -917,6 +917,11 @@ namespace Manina.Windows.Forms
         private bool isTimerDelayRefreshStarted = false;
         private DateTime startTimeDelayRefresh = DateTime.Now;
 
+
+        private const int timerDelayRefreshInterval = 50;
+        private const int timerDelayTimeSpanTotalMilliseconds = 100;
+        private const int timerDelayTimeSpanTotalMillisecondsLong = 500;
+
         private void delayRefreshTimer_Tick(object sender, System.Timers.ElapsedEventArgs e)
         {        
             if (InvokeRequired)
@@ -927,7 +932,7 @@ namespace Manina.Windows.Forms
 
             try
             {
-                if (((TimeSpan)(DateTime.Now - startTimeDelayRefresh)).TotalMilliseconds > 200)
+                if (((TimeSpan)(DateTime.Now - startTimeDelayRefresh)).TotalMilliseconds > timerDelayTimeSpanTotalMilliseconds)
                 {
                     timerDelayRefresh.Stop();
                     isTimerDelayRefreshStarted = false;
@@ -957,7 +962,7 @@ namespace Manina.Windows.Forms
         {
             if (!isTimerDelayRefreshStarted)
             {
-                startTimeDelayRefresh = DateTime.Now.AddMilliseconds(1500);
+                startTimeDelayRefresh = DateTime.Now.AddMilliseconds(timerDelayTimeSpanTotalMillisecondsLong);
                 isTimerDelayRefreshStarted = true;
                 timerDelayRefresh.Enabled = true;                                   // Enable the timer
                 timerDelayRefresh.Start();
