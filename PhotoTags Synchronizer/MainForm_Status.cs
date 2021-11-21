@@ -787,10 +787,19 @@ namespace PhotoTagsSynchronizer
         private Stopwatch stopwatchCircleProgressbar = new Stopwatch();
         private void SetButtonSpecNavigator(Krypton.Navigator.ButtonSpecNavigator buttonSpecNavigator, int value, int maximum)
         {
+            if (isClosing) return;
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<Krypton.Navigator.ButtonSpecNavigator, int, int>(SetButtonSpecNavigator), buttonSpecNavigator, value, maximum);
+                return;
+            }
+
             int procentage = 0;
             if (value >= maximum) procentage = 100;
             if (maximum == 0) procentage = -1;
             else procentage = (int)(((double)value / (double)maximum) * 100);
+
+            
             
             buttonSpecNavigator.Image = GetProgressCircle(procentage, out int imageIndex);
 

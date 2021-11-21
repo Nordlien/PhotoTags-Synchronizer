@@ -4067,25 +4067,23 @@ namespace PhotoTagsSynchronizer
                     float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
                     int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
 
-                    foreach (ImageListViewItem item in imageListView1.SelectedItems)
+                    Metadata metadataToSave = autoCorrect.FixAndSave(
+                        metadataListFromDataGridView[updatedRecord].FileEntry,
+                        metadataListFromDataGridView[updatedRecord],
+                        databaseAndCacheMetadataExiftool,
+                        databaseAndCacheMetadataMicrosoftPhotos,
+                        databaseAndCacheMetadataWindowsLivePhotoGallery,
+                        databaseAndCahceCameraOwner,
+                        databaseLocationAddress,
+                        databaseGoogleLocationHistory,
+                        locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
+                        autoKeywordConvertions,
+                        Properties.Settings.Default.RenameDateFormats);
+                    if (metadataToSave != null)
                     {
-                        Metadata metadataToSave = autoCorrect.FixAndSave(
-                            new FileEntry(item.FileFullPath, item.DateModified),
-                            metadataListFromDataGridView[updatedRecord],
-                            databaseAndCacheMetadataExiftool,
-                            databaseAndCacheMetadataMicrosoftPhotos,
-                            databaseAndCacheMetadataWindowsLivePhotoGallery,
-                            databaseAndCahceCameraOwner,
-                            databaseLocationAddress,
-                            databaseGoogleLocationHistory,
-                            locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
-                            autoKeywordConvertions,
-                            Properties.Settings.Default.RenameDateFormats);
-                        if (metadataToSave != null)
-                        {
-                            AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, metadataListOriginalExiftool[updatedRecord]);
-                        }
+                        AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, metadataListOriginalExiftool[updatedRecord]);
                     }
+
                 }
                 else
                 {
