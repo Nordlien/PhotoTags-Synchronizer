@@ -78,14 +78,14 @@ namespace ColumnNamesAndWidth
         }
         #endregion
 
-        #region 
+        #region ConvertColumnNameAndWidthsToConfigString
         public static string ConvertColumnNameAndWidthsToConfigString(List<ColumnNameAndWidth> columnNameAndWidths)
         {
             return JsonConvert.SerializeObject(columnNameAndWidths, Formatting.Indented);
         }
         #endregion
 
-        #region 
+        #region ConvertConfigStringToColumnNameAndWidths
         public static List<ColumnNameAndWidth> ConvertConfigStringToColumnNameAndWidths(string configString)
         {
             List<ColumnNameAndWidth> columnNameAndWidths = new List<ColumnNameAndWidth>();
