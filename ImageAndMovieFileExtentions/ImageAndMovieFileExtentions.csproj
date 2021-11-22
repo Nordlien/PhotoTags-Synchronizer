@@ -53,9 +53,9 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="LibVLCSharp.WinForms" Version="3.6.1" />
-    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="8.3.3" />
-    <PackageReference Include="Magick.NET.SystemDrawing" Version="4.0.8" />
-    <PackageReference Include="Magick.NET.SystemWindowsMedia" Version="4.0.8" />
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="8.4.0" />
+    <PackageReference Include="Magick.NET.SystemDrawing" Version="4.0.9" />
+    <PackageReference Include="Magick.NET.SystemWindowsMedia" Version="4.0.9" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
     <PackageReference Include="VideoLAN.LibVLC.Windows" Version="3.0.16" />
   </ItemGroup>

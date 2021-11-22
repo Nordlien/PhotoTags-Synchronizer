@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using Manina.Windows.Forms;
 using Krypton.Toolkit;
+using ColumnNamesAndWidth;
 
 namespace PhotoTagsSynchronizer
 {
@@ -49,7 +50,7 @@ namespace PhotoTagsSynchronizer
         }
         private void btnClose_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default.ImageListViewSelectedColumns = ImageListViewHandler.ImageListViewStringCollection(imageListView);
+            Properties.Settings.Default.ImageListViewSelectedColumns = ColumnNamesAndWidthHandler.ImageListViewStringCollection(imageListView);
             Properties.Settings.Default.ImageListViewTitleLine1 = comboBoxTitleLine1.Text;
             Properties.Settings.Default.ImageListViewTitleLine2 = comboBoxTitleLine2.Text;
             Properties.Settings.Default.ImageListViewTitleLine3 = comboBoxTitleLine3.Text;

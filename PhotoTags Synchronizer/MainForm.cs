@@ -29,6 +29,7 @@ using Krypton.Toolkit;
 using FileHandeling;
 using Krypton.Navigator;
 using FileDateTime;
+using ColumnNamesAndWidth;
 
 namespace PhotoTagsSynchronizer
 {
@@ -324,7 +325,10 @@ namespace PhotoTagsSynchronizer
             imageListView1.TitleLine3 = FormChooseColumns.GetColumnTypeByText(Properties.Settings.Default.ImageListViewTitleLine3);
             imageListView1.TitleLine4 = FormChooseColumns.GetColumnTypeByText(Properties.Settings.Default.ImageListViewTitleLine4);
             imageListView1.TitleLine5 = FormChooseColumns.GetColumnTypeByText(Properties.Settings.Default.ImageListViewTitleLine5);
-            ImageListViewHandler.SetImageListViewCheckedValues(imageListView1, Properties.Settings.Default.ImageListViewSelectedColumns);
+            ColumnNamesAndWidthHandler.SetImageListViewCheckedValues(imageListView1, Properties.Settings.Default.ImageListViewSelectedColumns);
+            ColumnNamesAndWidthHandler.SetColumnNameWithWidth(
+                ColumnNamesAndWidthHandler.ConvertConfigStringToColumnNameAndWidths(Properties.Settings.Default.ColumnNameAndWithsImageListView),
+                imageListView1);
             #endregion
 
             #region Initialize database connect
@@ -429,7 +433,7 @@ namespace PhotoTagsSynchronizer
                 browser.BrowserSettings.Javascript = CefState.Enabled;
                 //browser.BrowserSettings.WebSecurity = CefState.Enabled;
                 browser.BrowserSettings.WebGl = CefState.Enabled;
-                browser.BrowserSettings.UniversalAccessFromFileUrls = CefState.Disabled;
+                //browser.BrowserSettings.UniversalAccessFromFileUrls = CefState.Disabled;
                 browser.BrowserSettings.Plugins = CefState.Enabled;
                 this.panelBrowser.Controls.Add(this.browser);
                 browser.AddressChanged += this.OnBrowserAddressChanged;
@@ -468,31 +472,49 @@ namespace PhotoTagsSynchronizer
             #region Setup Global Variables - Link Tab and DataGridView
             //kryptonPageToolboxTags
             kryptonPageToolboxTags.Tag = LinkTabAndDataGridViewNameTags;
-            GlobalData.dataGridViewHandlerTags = new DataGridViewHandler(dataGridViewTagsAndKeywords, (KryptonPalette)kryptonManager1.GlobalPalette, LinkTabAndDataGridViewNameTags, "Metadata/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeKeywords);
+            GlobalData.dataGridViewHandlerTags = new DataGridViewHandler(dataGridViewTagsAndKeywords, (KryptonPalette)kryptonManager1.GlobalPalette, 
+                LinkTabAndDataGridViewNameTags, "Metadata/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeKeywords);
 
             kryptonPageToolboxMap.Tag = LinkTabAndDataGridViewNameMap;
-            GlobalData.dataGridViewHandlerMap = new DataGridViewHandler(dataGridViewMap, (KryptonPalette)kryptonManager1.GlobalPalette, LinkTabAndDataGridViewNameMap, "Location/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeMap);
+            GlobalData.dataGridViewHandlerMap = new DataGridViewHandler(dataGridViewMap, (KryptonPalette)kryptonManager1.GlobalPalette, 
+                LinkTabAndDataGridViewNameMap, "Location/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeMap);
 
             kryptonPageToolboxPeople.Tag = LinkTabAndDataGridViewNamePeople;
-            GlobalData.dataGridViewHandlerPeople = new DataGridViewHandler(dataGridViewPeople, (KryptonPalette)kryptonManager1.GlobalPalette, LinkTabAndDataGridViewNamePeople, "Name/Files", (DataGridViewSize)Properties.Settings.Default.CellSizePeoples);
+            GlobalData.dataGridViewHandlerPeople = new DataGridViewHandler(dataGridViewPeople, (KryptonPalette)kryptonManager1.GlobalPalette, 
+                LinkTabAndDataGridViewNamePeople, "Name/Files", (DataGridViewSize)Properties.Settings.Default.CellSizePeoples);
 
             kryptonPageToolboxDates.Tag = LinkTabAndDataGridViewNameDates;
-            GlobalData.dataGridViewHandlerDates = new DataGridViewHandler(dataGridViewDate, (KryptonPalette)kryptonManager1.GlobalPalette, LinkTabAndDataGridViewNameDates, "Name/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeDates);
+            GlobalData.dataGridViewHandlerDates = new DataGridViewHandler(dataGridViewDate, (KryptonPalette)kryptonManager1.GlobalPalette, 
+                LinkTabAndDataGridViewNameDates, "Name/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeDates);
 
             kryptonPageToolboxExiftool.Tag = LinkTabAndDataGridViewNameExiftool;
-            GlobalData.dataGridViewHandlerExiftoolTags = new DataGridViewHandler(dataGridViewExiftool, (KryptonPalette)kryptonManager1.GlobalPalette, LinkTabAndDataGridViewNameExiftool, "File/Tag Description", (DataGridViewSize)Properties.Settings.Default.CellSizeExiftool);
+            GlobalData.dataGridViewHandlerExiftoolTags = new DataGridViewHandler(dataGridViewExiftool, (KryptonPalette)kryptonManager1.GlobalPalette, 
+                LinkTabAndDataGridViewNameExiftool, "File/Tag Description", (DataGridViewSize)Properties.Settings.Default.CellSizeExiftool);
 
             kryptonPageToolboxWarnings.Tag = LinkTabAndDataGridViewNameWarnings;
-            GlobalData.dataGridViewHandlerExiftoolWarning = new DataGridViewHandler(dataGridViewExiftoolWarning, (KryptonPalette)kryptonManager1.GlobalPalette, LinkTabAndDataGridViewNameWarnings, "File and version/Tag region and command", (DataGridViewSize)Properties.Settings.Default.CellSizeWarnings);
+            GlobalData.dataGridViewHandlerExiftoolWarning = new DataGridViewHandler(dataGridViewExiftoolWarning, (KryptonPalette)kryptonManager1.GlobalPalette, 
+                LinkTabAndDataGridViewNameWarnings, "File and version/Tag region and command", (DataGridViewSize)Properties.Settings.Default.CellSizeWarnings);
 
             kryptonPageToolboxProperties.Tag = LinkTabAndDataGridViewNameProperties;
-            GlobalData.dataGridViewHandlerProperties = new DataGridViewHandler(dataGridViewProperties, (KryptonPalette)kryptonManager1.GlobalPalette, LinkTabAndDataGridViewNameProperties, "File/Properties", (DataGridViewSize)Properties.Settings.Default.CellSizeProperties);
+            GlobalData.dataGridViewHandlerProperties = new DataGridViewHandler(dataGridViewProperties, (KryptonPalette)kryptonManager1.GlobalPalette, 
+                LinkTabAndDataGridViewNameProperties, "File/Properties", (DataGridViewSize)Properties.Settings.Default.CellSizeProperties);
 
             kryptonPageToolboxRename.Tag = LinkTabAndDataGridViewNameRename;
-            GlobalData.dataGridViewHandlerRename = new DataGridViewHandler(dataGridViewRename, (KryptonPalette)kryptonManager1.GlobalPalette, LinkTabAndDataGridViewNameRename, "Filename/Values", ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize));
+            GlobalData.dataGridViewHandlerRename = new DataGridViewHandler(dataGridViewRename, (KryptonPalette)kryptonManager1.GlobalPalette, 
+                LinkTabAndDataGridViewNameRename, "Filename/Values", ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize),
+                    ColumnNamesAndWidthHandler.ConvertConfigStringToColumnNameAndWidths(Properties.Settings.Default.ColumnNameAndWithsRenameLarge),
+                    ColumnNamesAndWidthHandler.ConvertConfigStringToColumnNameAndWidths(Properties.Settings.Default.ColumnNameAndWithsRenameMedium),
+                    ColumnNamesAndWidthHandler.ConvertConfigStringToColumnNameAndWidths(Properties.Settings.Default.ColumnNameAndWithsRenameSmall)
+                );
 
             kryptonPageToolboxConvertAndMerge.Tag = LinkTabAndDataGridViewNameConvertAndMerge;
-            GlobalData.dataGridViewHandlerConvertAndMerge = new DataGridViewHandler(dataGridViewConvertAndMerge, (KryptonPalette)kryptonManager1.GlobalPalette, LinkTabAndDataGridViewNameConvertAndMerge, "Full path of media file", ((DataGridViewSize)Properties.Settings.Default.CellSizeConvertAndMerge | DataGridViewSize.RenameConvertAndMergeSize));
+            GlobalData.dataGridViewHandlerConvertAndMerge = new DataGridViewHandler(dataGridViewConvertAndMerge, (KryptonPalette)kryptonManager1.GlobalPalette, 
+                LinkTabAndDataGridViewNameConvertAndMerge, "Full path of media file", 
+                ((DataGridViewSize)Properties.Settings.Default.CellSizeConvertAndMerge | DataGridViewSize.RenameConvertAndMergeSize),
+                    ColumnNamesAndWidthHandler.ConvertConfigStringToColumnNameAndWidths(Properties.Settings.Default.ColumnNameAndWithsConvertAndMergeLarge),
+                    ColumnNamesAndWidthHandler.ConvertConfigStringToColumnNameAndWidths(Properties.Settings.Default.ColumnNameAndWithsConvertAndMergeMedium),
+                    ColumnNamesAndWidthHandler.ConvertConfigStringToColumnNameAndWidths(Properties.Settings.Default.ColumnNameAndWithsConvertAndMergeSmall)
+                );
             #endregion
 
             isSettingDefaultComboxValues = true;
@@ -1030,6 +1052,73 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
+        private void imageListView1_ColumnWidthChanged(object sender, ColumnEventArgs e)
+        {
+            Properties.Settings.Default.ColumnNameAndWithsImageListView = ColumnNamesAndWidthHandler.ConvertColumnNameAndWidthsToConfigString(ColumnNamesAndWidthHandler.GetColumnNameAndWidths(imageListView1));
+        }
+
+        private void dataGridViewRename_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
+        {
+            DataGridView dataGridView = (DataGridView)sender;
+            if (DataGridViewHandler.GetIsPopulating(dataGridView)) return;
+            if (DataGridViewHandler.GetIsPopulationgCellSize(dataGridView)) return;
+
+            DataGridViewHandler.UpdatedCacheColumnsWidth(dataGridView);
+            DataGridViewSize dataGridViewSize = DataGridViewHandler.GetDataGridSizeLargeMediumSmall(dataGridView);
+            List<ColumnNameAndWidth> columnNameAndWidths = DataGridViewHandler.GetColumnNameAndWidths(dataGridView, dataGridViewSize);
+            string configXml = ColumnNamesAndWidthHandler.ConvertColumnNameAndWidthsToConfigString(columnNameAndWidths);
+            switch (dataGridViewSize)
+            {
+                case DataGridViewSize.Small:
+                case DataGridViewSize.Small | DataGridViewSize.RenameConvertAndMergeSize:
+                    Properties.Settings.Default.ColumnNameAndWithsRenameSmall = configXml;
+                    break;        
+                case DataGridViewSize.Medium:
+                case DataGridViewSize.Medium | DataGridViewSize.RenameConvertAndMergeSize:
+                    Properties.Settings.Default.ColumnNameAndWithsRenameMedium = configXml;
+                    break; 
+                case DataGridViewSize.Large:
+                case DataGridViewSize.Large | DataGridViewSize.RenameConvertAndMergeSize:
+                    Properties.Settings.Default.ColumnNameAndWithsRenameLarge = configXml;
+                    break;
+                case DataGridViewSize.ConfigSize:
+                    break;
+                default:
+                    throw new Exception("Not implemented");
+            }
+
+        }
+
+        private void dataGridViewConvertAndMerge_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
+        {
+            DataGridView dataGridView = (DataGridView)sender;
+            if (DataGridViewHandler.GetIsPopulating(dataGridView)) return;
+            if (DataGridViewHandler.GetIsPopulationgCellSize(dataGridView)) return;
+
+            DataGridViewHandler.UpdatedCacheColumnsWidth(dataGridView);
+            DataGridViewSize dataGridViewSize = DataGridViewHandler.GetDataGridSizeLargeMediumSmall(dataGridView);
+            List<ColumnNameAndWidth> columnNameAndWidths = DataGridViewHandler.GetColumnNameAndWidths(dataGridView, dataGridViewSize);
+            string configXml = ColumnNamesAndWidthHandler.ConvertColumnNameAndWidthsToConfigString(columnNameAndWidths);
+            switch (dataGridViewSize)
+            {
+                case DataGridViewSize.Small:
+                case DataGridViewSize.Small | DataGridViewSize.RenameConvertAndMergeSize:
+                    Properties.Settings.Default.ColumnNameAndWithsConvertAndMergeSmall = configXml;
+                    break;
+                case DataGridViewSize.Medium:
+                case DataGridViewSize.Medium | DataGridViewSize.RenameConvertAndMergeSize:
+                    Properties.Settings.Default.ColumnNameAndWithsConvertAndMergeMedium = configXml;
+                    break;
+                case DataGridViewSize.Large:
+                case DataGridViewSize.Large | DataGridViewSize.RenameConvertAndMergeSize:
+                    Properties.Settings.Default.ColumnNameAndWithsConvertAndMergeLarge = configXml;
+                    break;
+                case DataGridViewSize.ConfigSize:
+                    break;
+                default:
+                    throw new Exception("Not implemented");
+            }
+        }
     }
 
 }

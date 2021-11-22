@@ -84,6 +84,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Raccoom.TreeViewFolderBrows
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Raccoom.TreeViewFolderBrowser.DataProviders", "Raccoom.TreeViewFolderBrowser.DataProviders\Raccoom.TreeViewFolderBrowser.DataProviders.csproj", "{E4EAA4DA-8DE8-41E3-BAFF-B516E9789D34}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColumnNamesAndWidth", "ColumnNamesAndWidth\ColumnNamesAndWidth.csproj", "{1D8F33B1-0897-4C79-AB90-B2120FE675F6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -496,6 +498,18 @@ Global
 		{E4EAA4DA-8DE8-41E3-BAFF-B516E9789D34}.Release|x64.Build.0 = Release|Any CPU
 		{E4EAA4DA-8DE8-41E3-BAFF-B516E9789D34}.Release|x86.ActiveCfg = Release|Any CPU
 		{E4EAA4DA-8DE8-41E3-BAFF-B516E9789D34}.Release|x86.Build.0 = Release|Any CPU
+		{1D8F33B1-0897-4C79-AB90-B2120FE675F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D8F33B1-0897-4C79-AB90-B2120FE675F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D8F33B1-0897-4C79-AB90-B2120FE675F6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1D8F33B1-0897-4C79-AB90-B2120FE675F6}.Debug|x64.Build.0 = Debug|Any CPU
+		{1D8F33B1-0897-4C79-AB90-B2120FE675F6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1D8F33B1-0897-4C79-AB90-B2120FE675F6}.Debug|x86.Build.0 = Debug|Any CPU
+		{1D8F33B1-0897-4C79-AB90-B2120FE675F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D8F33B1-0897-4C79-AB90-B2120FE675F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D8F33B1-0897-4C79-AB90-B2120FE675F6}.Release|x64.ActiveCfg = Release|Any CPU
+		{1D8F33B1-0897-4C79-AB90-B2120FE675F6}.Release|x64.Build.0 = Release|Any CPU
+		{1D8F33B1-0897-4C79-AB90-B2120FE675F6}.Release|x86.ActiveCfg = Release|Any CPU
+		{1D8F33B1-0897-4C79-AB90-B2120FE675F6}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

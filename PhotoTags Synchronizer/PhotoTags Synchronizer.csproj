@@ -141,6 +141,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ApplicationAssociations\ApplicationAssociations.csproj" />
     <ProjectReference Include="..\CameraOwners\CameraOwners.csproj" />
+    <ProjectReference Include="..\ColumnNamesAndWidth\ColumnNamesAndWidth.csproj" />
     <ProjectReference Include="..\DataGridViewGeneric\DataGridViewGeneric.csproj" />
     <ProjectReference Include="..\Exiftool\Exiftool.csproj" />
     <ProjectReference Include="..\FileDateTime\FileDateTime.csproj" />
@@ -168,13 +169,14 @@
     <ProjectReference Include="..\WindowsProperty\WindowsProperty.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CefSharp.Common" Version="94.4.110" />
-    <PackageReference Include="CefSharp.WinForms" Version="94.4.110" />
+    <PackageReference Include="CefSharp.Common" Version="95.7.141" />
+    <PackageReference Include="CefSharp.WinForms" Version="95.7.141" />
     <PackageReference Include="CyotekImageBox">
       <Version>1.2.1</Version>
     </PackageReference>
     <PackageReference Include="FCTB" Version="2.16.24" />
     <PackageReference Include="LibVLCSharp.WinForms" Version="3.6.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="NLog">
       <Version>4.7.12</Version>
     </PackageReference>

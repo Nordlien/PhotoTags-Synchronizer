@@ -12,7 +12,7 @@ namespace PhotoTagsSynchronizer.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.0.3.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.1.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -2594,6 +2594,90 @@ explorer ms-photos?filename=""{FileFullPath}""")]
             }
             set {
                 this["LocationAnalyticsMinimumDistance"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ColumnNameAndWithsImageListView {
+            get {
+                return ((string)(this["ColumnNameAndWithsImageListView"]));
+            }
+            set {
+                this["ColumnNameAndWithsImageListView"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ColumnNameAndWithsRenameLarge {
+            get {
+                return ((string)(this["ColumnNameAndWithsRenameLarge"]));
+            }
+            set {
+                this["ColumnNameAndWithsRenameLarge"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ColumnNameAndWithsRenameMedium {
+            get {
+                return ((string)(this["ColumnNameAndWithsRenameMedium"]));
+            }
+            set {
+                this["ColumnNameAndWithsRenameMedium"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ColumnNameAndWithsRenameSmall {
+            get {
+                return ((string)(this["ColumnNameAndWithsRenameSmall"]));
+            }
+            set {
+                this["ColumnNameAndWithsRenameSmall"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ColumnNameAndWithsConvertAndMergeLarge {
+            get {
+                return ((string)(this["ColumnNameAndWithsConvertAndMergeLarge"]));
+            }
+            set {
+                this["ColumnNameAndWithsConvertAndMergeLarge"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ColumnNameAndWithsConvertAndMergeMedium {
+            get {
+                return ((string)(this["ColumnNameAndWithsConvertAndMergeMedium"]));
+            }
+            set {
+                this["ColumnNameAndWithsConvertAndMergeMedium"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ColumnNameAndWithsConvertAndMergeSmall {
+            get {
+                return ((string)(this["ColumnNameAndWithsConvertAndMergeSmall"]));
+            }
+            set {
+                this["ColumnNameAndWithsConvertAndMergeSmall"] = value;
             }
         }
     }

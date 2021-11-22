@@ -9,6 +9,7 @@ using FileDateTime;
 using System.Collections.Generic;
 using NLog;
 using FileHandeling;
+using ColumnNamesAndWidth;
 
 namespace PhotoTagsSynchronizer
 {

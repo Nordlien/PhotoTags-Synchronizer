@@ -7228,19 +7228,20 @@ namespace PhotoTagsSynchronizer
             {
                 case DataGridViewSize.ConfigSize:
                     break;
-                case DataGridViewSize.RenameConvertAndMergeSize:
-                    break;
                 case DataGridViewSize.Large:
+                case DataGridViewSize.Large | DataGridViewSize.RenameConvertAndMergeSize:
                     kryptonRibbonGroupButtonDataGridViewCellSizeBig.Checked = true;
                     kryptonRibbonGroupButtonDataGridViewCellSizeMedium.Checked = false;
                     kryptonRibbonGroupButtonDataGridViewCellSizeSmall.Checked = false;
                     break;
                 case DataGridViewSize.Medium:
+                case DataGridViewSize.Medium | DataGridViewSize.RenameConvertAndMergeSize:
                     kryptonRibbonGroupButtonDataGridViewCellSizeBig.Checked = false;
                     kryptonRibbonGroupButtonDataGridViewCellSizeMedium.Checked = true;
                     kryptonRibbonGroupButtonDataGridViewCellSizeSmall.Checked = false;
                     break;
                 case DataGridViewSize.Small:
+                case DataGridViewSize.Small | DataGridViewSize.RenameConvertAndMergeSize:
                     kryptonRibbonGroupButtonDataGridViewCellSizeBig.Checked = false;
                     kryptonRibbonGroupButtonDataGridViewCellSizeMedium.Checked = false;
                     kryptonRibbonGroupButtonDataGridViewCellSizeSmall.Checked = true;
@@ -7292,7 +7293,7 @@ namespace PhotoTagsSynchronizer
                     Properties.Settings.Default.CellSizeRename = (int)size;
                     break;
                 case LinkTabAndDataGridViewNameConvertAndMerge:
-                    DataGridViewHandler.SetCellSize(dataGridViewRename, (size | DataGridViewSize.RenameConvertAndMergeSize), false);
+                    DataGridViewHandler.SetCellSize(dataGridViewConvertAndMerge, (size | DataGridViewSize.RenameConvertAndMergeSize), false);
                     Properties.Settings.Default.CellSizeConvertAndMerge = (int)size;
                     break;
                 default: throw new Exception("Not implemented");

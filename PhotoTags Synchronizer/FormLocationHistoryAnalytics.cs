@@ -79,7 +79,7 @@ namespace PhotoTagsSynchronizer
             browser.BrowserSettings.Javascript = CefState.Enabled;
             //browser.BrowserSettings.WebSecurity = CefState.Enabled;
             browser.BrowserSettings.WebGl = CefState.Enabled;
-            browser.BrowserSettings.UniversalAccessFromFileUrls = CefState.Disabled;
+            //browser.BrowserSettings.UniversalAccessFromFileUrls = CefState.Disabled;
             browser.BrowserSettings.Plugins = CefState.Enabled;
             this.kryptonPanelBrowser.Controls.Add(this.browser);
 

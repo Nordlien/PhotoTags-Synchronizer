@@ -1213,5 +1213,26 @@ Dimensions</Value>
     <Setting Name="LocationAnalyticsMinimumDistance" Type="System.Decimal" Scope="User">
       <Value Profile="(Default)">0.0005</Value>
     </Setting>
+    <Setting Name="ColumnNameAndWithsImageListView" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ColumnNameAndWithsRenameLarge" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ColumnNameAndWithsRenameMedium" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ColumnNameAndWithsRenameSmall" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ColumnNameAndWithsConvertAndMergeLarge" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ColumnNameAndWithsConvertAndMergeMedium" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ColumnNameAndWithsConvertAndMergeSmall" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

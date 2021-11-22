@@ -531,6 +531,33 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region DataGridView Handling - GetCellWidth
+        public static int GetColumnNameAndWidths(DataGridViewSize size, string large, string medium, string small)
+        {
+            switch (size)
+            {
+                case DataGridViewSize.Small:
+                    return 130;
+                case DataGridViewSize.Medium:
+                    return 230;
+                case DataGridViewSize.Large:
+                    return 330;
+
+                case DataGridViewSize.Small | DataGridViewSize.RenameConvertAndMergeSize:
+                    return 200; //Rename Grid
+                case DataGridViewSize.Medium | DataGridViewSize.RenameConvertAndMergeSize:
+                    return 400; //Rename Grid
+                case DataGridViewSize.Large | DataGridViewSize.RenameConvertAndMergeSize:
+                    return 600; //Rename Grid
+
+                case DataGridViewSize.ConfigSize:
+                    return 200;
+                default:
+                    throw new Exception("Not implemented");
+            }
+        }
+        #endregion
+
         #region DataGridView - Populate Selected Files - OnActiveDataGridView - Invoke -> PopulateDataGridViewForSelectedItemsExtrasDelayed();
         /// <summary>
         /// Populate Active DataGridView with Seleted Files from ImageListView
@@ -556,7 +583,7 @@ namespace PhotoTagsSynchronizer
                 {
                     DataGridView dataGridView = GetActiveTabDataGridView();
 
-                    #region RibbonGroupButtonDataGridViewRows Favorite and Equal
+                    #region Layout - Ribbon / Favorite / Equal / Size
                     kryptonRibbonGroupButtonDataGridViewRowsFavorite.Checked = DataGridViewHandler.ShowFavouriteColumns(dataGridView);
                     kryptonRibbonGroupButtonDataGridViewRowsHideEqual.Checked = DataGridViewHandler.HideEqualColumns(dataGridView);
 

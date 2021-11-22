@@ -49,6 +49,10 @@
     <OutputPath>..\Bin\Release\x64\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ColumnNamesAndWidth\ColumnNamesAndWidth.csproj" />
     <ProjectReference Include="..\FileHandeling\FileHandeling.csproj" />
     <ProjectReference Include="..\ImageListView\ImageListView.csproj" />
     <ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2019.csproj" />

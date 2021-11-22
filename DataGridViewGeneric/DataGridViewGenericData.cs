@@ -1,4 +1,5 @@
-﻿using Krypton.Toolkit;
+﻿using ColumnNamesAndWidth;
+using Krypton.Toolkit;
 using System.Collections.Generic;
 using System.Threading;
 
@@ -12,6 +13,7 @@ namespace DataGridViewGeneric
         public bool IsPopulatingFile { get; set; } = false;
         public bool IsPopulatingImage { get; set; } = false;
         public bool IsAgregated { get; set; }
+        public bool IsPopulationgCellSize { get; set; } = false;
         #endregion
 
         #region Undo / Redo
@@ -24,6 +26,9 @@ namespace DataGridViewGeneric
         public string DataGridViewName { get; set; } = "";
         public DataGridViewSize CellSize { get; set; } = DataGridViewSize.Medium;
         public KryptonPalette KryptonPalette { get; set; } = null;
+        public List<ColumnNameAndWidth> ColumnNameAndWidthsLarge { get; set; }
+        public List<ColumnNameAndWidth> ColumnNameAndWidthsMedium { get; set; }
+        public List<ColumnNameAndWidth> ColumnNameAndWidthsSmall { get; set; }
         #endregion
 
         #region Favorite and Equal rows

@@ -2073,7 +2073,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region
+        #region IsButtonPreviewPreviewEnabled
 
         private bool IsButtonPreviewPreviewEnabled
         {

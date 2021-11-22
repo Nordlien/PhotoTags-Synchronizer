@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using FileHandeling;
 using System.Diagnostics;
+using ColumnNamesAndWidth;
 
 namespace DataGridViewGeneric
 {
@@ -356,8 +357,14 @@ namespace DataGridViewGeneric
         #region DataGridView Handling 
 
         #region DataGridView Handling - Constructor
+        public DataGridViewHandler(DataGridView dataGridView, KryptonPalette palette, string dataGridViewName, string topLeftHeaderCellName,
+            DataGridViewSize cellSize) : this
+            (dataGridView, palette, dataGridViewName, topLeftHeaderCellName, cellSize, null, null, null)
+        {
+        }
 
-        public DataGridViewHandler(DataGridView dataGridView, KryptonPalette palette, string dataGridViewName, string topLeftHeaderCellName, DataGridViewSize cellSize)
+        public DataGridViewHandler(DataGridView dataGridView, KryptonPalette palette, string dataGridViewName, string topLeftHeaderCellName, 
+            DataGridViewSize cellSize, List<ColumnNameAndWidth> columnNameAndWidthsLarge, List<ColumnNameAndWidth> columnNameAndWidthsMedium, List<ColumnNameAndWidth> columnNameAndWidthsSmall)
         {
             this.dataGridView = dataGridView;
 
@@ -388,6 +395,9 @@ namespace DataGridViewGeneric
             dataGridViewGenricData.DataGridViewName = dataGridViewName;
             dataGridViewGenricData.FavoriteList = FavouriteRead(CreateFavoriteFilename(dataGridViewGenricData.DataGridViewName));
             dataGridViewGenricData.CellSize = cellSize;
+            dataGridViewGenricData.ColumnNameAndWidthsLarge = columnNameAndWidthsLarge;
+            dataGridViewGenricData.ColumnNameAndWidthsMedium = columnNameAndWidthsMedium;
+            dataGridViewGenricData.ColumnNameAndWidthsSmall = columnNameAndWidthsSmall;
 
             dataGridView.TopLeftHeaderCell.Tag = dataGridViewGenricData;
 
@@ -425,6 +435,7 @@ namespace DataGridViewGeneric
             dataGridView.EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2;
         }
         #endregion
+
 
         #region DataGridView Handling - GetTopColumnHeaderHeigth
         //DataGridView Size for Column and Row Header, Row / Column size and resize 
@@ -504,6 +515,77 @@ namespace DataGridViewGeneric
         }
         #endregion
 
+        
+
+        #region Populating handling - GetColumnNameAndWidths
+        public static List<ColumnNameAndWidth> GetColumnNameAndWidths(DataGridView dataGridView, DataGridViewSize dataGridViewSize)
+        {
+            switch (dataGridViewSize)
+            {
+                case DataGridViewSize.Small:
+                case DataGridViewSize.Small | DataGridViewSize.RenameConvertAndMergeSize:
+                    return GetDataGridViewGenericData(dataGridView)?.ColumnNameAndWidthsSmall;
+                case DataGridViewSize.Medium:
+                case DataGridViewSize.Medium | DataGridViewSize.RenameConvertAndMergeSize:
+                    return GetDataGridViewGenericData(dataGridView)?.ColumnNameAndWidthsMedium;
+                case DataGridViewSize.Large:
+                case DataGridViewSize.Large | DataGridViewSize.RenameConvertAndMergeSize:
+                    return GetDataGridViewGenericData(dataGridView)?.ColumnNameAndWidthsLarge;
+                case DataGridViewSize.ConfigSize:
+                    return null;
+                default:
+                    throw new Exception("Not implemented");
+            }
+        }
+        #endregion
+
+        #region DataGridView Handling - GetCellColumnsWidth
+        public static int GetCellColumnsWidth(DataGridView dataGridView, string columnName)
+        {
+            List<ColumnNameAndWidth> columnNameAndWidths = GetColumnNameAndWidths(dataGridView, GetDataGridSizeLargeMediumSmall(dataGridView));            
+            return ColumnNamesAndWidthHandler.GetColumnWidth(columnNameAndWidths, columnName, GetCellWidth(GetDataGridSizeLargeMediumSmall(dataGridView))); 
+        }
+        #endregion
+
+        #region DataGridView Handling - UpdatedCacheColumnsWidth
+        public static void UpdatedCacheColumnsWidth(DataGridView dataGridView)
+        {
+            List<ColumnNameAndWidth> columnNameAndWidths = new List<ColumnNameAndWidth>();
+            for (int columnIndex = 0; columnIndex < dataGridView.ColumnCount; columnIndex++) 
+            {
+                DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+                if (dataGridViewGenericColumn != null)
+                {
+                    columnNameAndWidths.Add(new ColumnNameAndWidth(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath, dataGridView.Columns[columnIndex].Width));
+                }
+            }
+
+            DataGridViewGenericData dataGridViewGenericData = GetDataGridViewGenericData(dataGridView);
+            DataGridViewSize dataGridViewSize = GetDataGridSizeLargeMediumSmall(dataGridView);
+
+            switch (dataGridViewSize)
+            {
+                case DataGridViewSize.Small:
+                case DataGridViewSize.Small | DataGridViewSize.RenameConvertAndMergeSize:
+                    dataGridViewGenericData.ColumnNameAndWidthsSmall = columnNameAndWidths;
+                    break;
+                case DataGridViewSize.Medium:
+                case DataGridViewSize.Medium | DataGridViewSize.RenameConvertAndMergeSize:
+                    dataGridViewGenericData.ColumnNameAndWidthsMedium = columnNameAndWidths;
+                    break;
+                case DataGridViewSize.Large:
+                case DataGridViewSize.Large | DataGridViewSize.RenameConvertAndMergeSize:
+                    dataGridViewGenericData.ColumnNameAndWidthsLarge = columnNameAndWidths;
+                    break;
+                case DataGridViewSize.ConfigSize:
+                    break;
+                default:
+                    throw new Exception("Not implemented");
+            }
+
+        }
+        #endregion
+
         #region DataGridView Handling - GetCellWidth
         public static int GetCellWidth(DataGridViewSize size)
         {
@@ -531,10 +613,10 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-        #region DataGridView Handling - GetCellColumnsWidth
-        public static int GetCellColumnsWidth(DataGridView dataGridView)
+        #region DataGridView Handling - GetDataGridSizeLargeMediumSmall
+        public static DataGridViewSize GetDataGridSizeLargeMediumSmall(DataGridView dataGridView)
         {
-            return GetCellWidth(GetDataGridSizeLargeMediumSmall(dataGridView));
+            return GetDataGridViewGenericData(dataGridView)?.CellSize == null ? DataGridViewSize.Medium : GetDataGridViewGenericData(dataGridView).CellSize;
         }
         #endregion
 
@@ -549,13 +631,6 @@ namespace DataGridViewGeneric
         public static void SetCellRowHeight(DataGridView dataGridView, int rowIndex, int height)
         {
             dataGridView.Rows[rowIndex].Height = height;
-        }
-        #endregion
-
-        #region DataGridView Handling - GetDataGridSizeLargeMediumSmall
-        public static DataGridViewSize GetDataGridSizeLargeMediumSmall(DataGridView dataGridView)
-        {
-            return GetDataGridViewGenericData(dataGridView)?.CellSize == null ? DataGridViewSize.Medium : GetDataGridViewGenericData(dataGridView).CellSize;
         }
         #endregion
 
@@ -592,6 +667,9 @@ namespace DataGridViewGeneric
         #region DataGridView Handling - SetCellSize
         public static void SetCellSize(DataGridView dataGridView, DataGridViewSize cellSize, bool changeCellRowsHeight)
         {
+            if (DataGridViewHandler.GetIsPopulationgCellSize(dataGridView)) return;
+
+            DataGridViewHandler.SetIsPopulationgCellSize(dataGridView, true);
             DataGridViewGenericData dataGridViewGenericData = GetDataGridViewGenericData(dataGridView);
             if (dataGridViewGenericData == null) return;
             dataGridViewGenericData.CellSize = cellSize;
@@ -603,7 +681,9 @@ namespace DataGridViewGeneric
             {
                 for (int rowIndex = 1; rowIndex < dataGridView.RowCount; rowIndex++) dataGridView.Rows[rowIndex].Height = GetCellHeigth(cellSize);
             }
-            for (int columnIndex = 0; columnIndex < dataGridView.ColumnCount; columnIndex++) dataGridView.Columns[columnIndex].Width = GetCellWidth(cellSize);
+            for (int columnIndex = 0; columnIndex < dataGridView.ColumnCount; columnIndex++) dataGridView.Columns[columnIndex].Width = 
+                    GetCellColumnsWidth(dataGridView, GetColumnDataGridViewGenericColumn(dataGridView, columnIndex)?.FileEntryAttribute?.FileFullPath);
+            DataGridViewHandler.SetIsPopulationgCellSize(dataGridView, false);
         }
         #endregion
 
@@ -742,6 +822,21 @@ namespace DataGridViewGeneric
             ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).IsPopulating = isPopulating;
         }
         #endregion
+
+        #region Populating handling - GetIsPopulating
+        public static bool GetIsPopulationgCellSize(DataGridView dataGridView)
+        {
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).IsPopulationgCellSize;
+        }
+        #endregion
+
+        #region Populating handling - SetIsPopulating
+        public static void SetIsPopulationgCellSize(DataGridView dataGridView, bool isPopulationgCellSize)
+        {
+            ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).IsPopulationgCellSize = isPopulationgCellSize;
+        }
+        #endregion
+
 
         #region Populating handling - IsPopulatingFile
         public bool IsPopulatingFile
@@ -1145,7 +1240,7 @@ namespace DataGridViewGeneric
                 dataGridViewColumn.SortMode = DataGridViewColumnSortMode.NotSortable;   //For optimize speed
                 dataGridViewColumn.MinimumWidth = 40;                                   //For optimize speed, and layout
                 dataGridViewColumn.FillWeight = 0.1f;                                   //Expand limit of 65535 witdth
-                dataGridViewColumn.Width = GetCellColumnsWidth(dataGridView);           //Layout
+                dataGridViewColumn.Width = GetCellColumnsWidth(dataGridView, fileEntryAttribute.FileFullPath);          //Layout
                 dataGridViewColumn.ToolTipText = fileEntryAttribute.LastWriteDateTime.ToString() + "\r\n" + fileEntryAttribute.FileFullPath;
                 dataGridViewColumn.Tag = new DataGridViewGenericColumn(fileEntryAttribute, thumbnail, metadata, readWriteAccessForColumn);
                 #endregion
