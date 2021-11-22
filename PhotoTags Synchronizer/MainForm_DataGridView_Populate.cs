@@ -589,6 +589,7 @@ namespace PhotoTagsSynchronizer
 
                     DataGridViewSize dataGridViewSize;
                     ShowWhatColumns showWhatColumnsForTab;
+                    bool showProgressCircle = true;
                     bool isSizeEnabled = GetSelectedFilesImageListView().Count > 0;
                     bool isColumnsEnabled = GetSelectedFilesImageListView().Count > 0;
                     switch (GetActiveTabTag())
@@ -626,12 +627,14 @@ namespace PhotoTagsSynchronizer
                         case LinkTabAndDataGridViewNameRename:
                             dataGridViewSize = ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize);
                             showWhatColumnsForTab = ShowWhatColumns.HistoryColumns | ShowWhatColumns.ErrorColumns;
+                            showProgressCircle = false;
                             //isSizeEnabled = false;
                             isColumnsEnabled = false;
                             break;
                         case LinkTabAndDataGridViewNameConvertAndMerge:
                             dataGridViewSize = ((DataGridViewSize)Properties.Settings.Default.CellSizeConvertAndMerge | DataGridViewSize.RenameConvertAndMergeSize);
                             showWhatColumnsForTab = ShowWhatColumns.HistoryColumns | ShowWhatColumns.ErrorColumns;
+                            showProgressCircle = false;
                             //isSizeEnabled = false;
                             isColumnsEnabled = false;
                             break;
@@ -748,8 +751,9 @@ namespace PhotoTagsSynchronizer
 
                     }
                     DataGridViewHandler.ResumeLayoutDelayed(dataGridView);
-                }
-                LazyLoadingDataGridViewProgressUpdateStatus(imageListViewSelectItems.Count + 1);
+                    LazyLoadingDataGridViewProgressUpdateStatus(imageListViewSelectItems.Count + 1);
+                    if (!showProgressCircle) LazyLoadingDataGridViewProgressUpdateStatus(0);
+                } //Cursor                
             }
             StartThreads();
         }

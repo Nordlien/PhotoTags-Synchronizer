@@ -1052,73 +1052,7 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        private void imageListView1_ColumnWidthChanged(object sender, ColumnEventArgs e)
-        {
-            Properties.Settings.Default.ColumnNameAndWithsImageListView = ColumnNamesAndWidthHandler.ConvertColumnNameAndWidthsToConfigString(ColumnNamesAndWidthHandler.GetColumnNameAndWidths(imageListView1));
-        }
-
-        private void dataGridViewRename_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
-        {
-            DataGridView dataGridView = (DataGridView)sender;
-            if (DataGridViewHandler.GetIsPopulating(dataGridView)) return;
-            if (DataGridViewHandler.GetIsPopulationgCellSize(dataGridView)) return;
-
-            DataGridViewHandler.UpdatedCacheColumnsWidth(dataGridView);
-            DataGridViewSize dataGridViewSize = DataGridViewHandler.GetDataGridSizeLargeMediumSmall(dataGridView);
-            List<ColumnNameAndWidth> columnNameAndWidths = DataGridViewHandler.GetColumnNameAndWidths(dataGridView, dataGridViewSize);
-            string configXml = ColumnNamesAndWidthHandler.ConvertColumnNameAndWidthsToConfigString(columnNameAndWidths);
-            switch (dataGridViewSize)
-            {
-                case DataGridViewSize.Small:
-                case DataGridViewSize.Small | DataGridViewSize.RenameConvertAndMergeSize:
-                    Properties.Settings.Default.ColumnNameAndWithsRenameSmall = configXml;
-                    break;        
-                case DataGridViewSize.Medium:
-                case DataGridViewSize.Medium | DataGridViewSize.RenameConvertAndMergeSize:
-                    Properties.Settings.Default.ColumnNameAndWithsRenameMedium = configXml;
-                    break; 
-                case DataGridViewSize.Large:
-                case DataGridViewSize.Large | DataGridViewSize.RenameConvertAndMergeSize:
-                    Properties.Settings.Default.ColumnNameAndWithsRenameLarge = configXml;
-                    break;
-                case DataGridViewSize.ConfigSize:
-                    break;
-                default:
-                    throw new Exception("Not implemented");
-            }
-
-        }
-
-        private void dataGridViewConvertAndMerge_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
-        {
-            DataGridView dataGridView = (DataGridView)sender;
-            if (DataGridViewHandler.GetIsPopulating(dataGridView)) return;
-            if (DataGridViewHandler.GetIsPopulationgCellSize(dataGridView)) return;
-
-            DataGridViewHandler.UpdatedCacheColumnsWidth(dataGridView);
-            DataGridViewSize dataGridViewSize = DataGridViewHandler.GetDataGridSizeLargeMediumSmall(dataGridView);
-            List<ColumnNameAndWidth> columnNameAndWidths = DataGridViewHandler.GetColumnNameAndWidths(dataGridView, dataGridViewSize);
-            string configXml = ColumnNamesAndWidthHandler.ConvertColumnNameAndWidthsToConfigString(columnNameAndWidths);
-            switch (dataGridViewSize)
-            {
-                case DataGridViewSize.Small:
-                case DataGridViewSize.Small | DataGridViewSize.RenameConvertAndMergeSize:
-                    Properties.Settings.Default.ColumnNameAndWithsConvertAndMergeSmall = configXml;
-                    break;
-                case DataGridViewSize.Medium:
-                case DataGridViewSize.Medium | DataGridViewSize.RenameConvertAndMergeSize:
-                    Properties.Settings.Default.ColumnNameAndWithsConvertAndMergeMedium = configXml;
-                    break;
-                case DataGridViewSize.Large:
-                case DataGridViewSize.Large | DataGridViewSize.RenameConvertAndMergeSize:
-                    Properties.Settings.Default.ColumnNameAndWithsConvertAndMergeLarge = configXml;
-                    break;
-                case DataGridViewSize.ConfigSize:
-                    break;
-                default:
-                    throw new Exception("Not implemented");
-            }
-        }
+       
     }
 
 }

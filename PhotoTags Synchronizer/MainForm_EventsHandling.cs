@@ -20,6 +20,7 @@ using Raccoom.Windows.Forms;
 using FileDateTime;
 using System.Threading;
 using System.Diagnostics;
+using ColumnNamesAndWidth;
 
 /*
 Ctrl+X				T	Cut								Home / Organise
@@ -7338,6 +7339,84 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex, "");
                 KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        #endregion
+
+        #endregion
+
+        #region ColumnWidthChanged
+
+        #region ColumnWidthChanged - imageListView1_ColumnWidthChanged
+        private void imageListView1_ColumnWidthChanged(object sender, ColumnEventArgs e)
+        {
+            Properties.Settings.Default.ColumnNameAndWithsImageListView = ColumnNamesAndWidthHandler.ConvertColumnNameAndWidthsToConfigString(ColumnNamesAndWidthHandler.GetColumnNameAndWidths(imageListView1));
+        }
+        #endregion
+
+        #region ColumnWidthChanged - dataGridViewRename_ColumnWidthChanged
+        private void dataGridViewRename_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
+        {
+            DataGridView dataGridView = (DataGridView)sender;
+            if (DataGridViewHandler.GetIsPopulating(dataGridView)) return;
+            if (DataGridViewHandler.GetIsPopulationgCellSize(dataGridView)) return;
+
+            DataGridViewHandler.UpdatedCacheColumnsWidth(dataGridView);
+            DataGridViewSize dataGridViewSize = DataGridViewHandler.GetDataGridSizeLargeMediumSmall(dataGridView);
+            List<ColumnNameAndWidth> columnNameAndWidths = DataGridViewHandler.GetColumnNameAndWidths(dataGridView, dataGridViewSize);
+            string configXml = ColumnNamesAndWidthHandler.ConvertColumnNameAndWidthsToConfigString(columnNameAndWidths);
+            switch (dataGridViewSize)
+            {
+                case DataGridViewSize.Small:
+                case DataGridViewSize.Small | DataGridViewSize.RenameConvertAndMergeSize:
+                    Properties.Settings.Default.ColumnNameAndWithsRenameSmall = configXml;
+                    break;
+                case DataGridViewSize.Medium:
+                case DataGridViewSize.Medium | DataGridViewSize.RenameConvertAndMergeSize:
+                    Properties.Settings.Default.ColumnNameAndWithsRenameMedium = configXml;
+                    break;
+                case DataGridViewSize.Large:
+                case DataGridViewSize.Large | DataGridViewSize.RenameConvertAndMergeSize:
+                    Properties.Settings.Default.ColumnNameAndWithsRenameLarge = configXml;
+                    break;
+                case DataGridViewSize.ConfigSize:
+                    break;
+                default:
+                    throw new Exception("Not implemented");
+            }
+
+        }
+        #endregion
+
+        #region ColumnWidthChanged - dataGridViewConvertAndMerge_ColumnWidthChanged
+        private void dataGridViewConvertAndMerge_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
+        {
+            DataGridView dataGridView = (DataGridView)sender;
+            if (DataGridViewHandler.GetIsPopulating(dataGridView)) return;
+            if (DataGridViewHandler.GetIsPopulationgCellSize(dataGridView)) return;
+
+            DataGridViewHandler.UpdatedCacheColumnsWidth(dataGridView);
+            DataGridViewSize dataGridViewSize = DataGridViewHandler.GetDataGridSizeLargeMediumSmall(dataGridView);
+            List<ColumnNameAndWidth> columnNameAndWidths = DataGridViewHandler.GetColumnNameAndWidths(dataGridView, dataGridViewSize);
+            string configXml = ColumnNamesAndWidthHandler.ConvertColumnNameAndWidthsToConfigString(columnNameAndWidths);
+            switch (dataGridViewSize)
+            {
+                case DataGridViewSize.Small:
+                case DataGridViewSize.Small | DataGridViewSize.RenameConvertAndMergeSize:
+                    Properties.Settings.Default.ColumnNameAndWithsConvertAndMergeSmall = configXml;
+                    break;
+                case DataGridViewSize.Medium:
+                case DataGridViewSize.Medium | DataGridViewSize.RenameConvertAndMergeSize:
+                    Properties.Settings.Default.ColumnNameAndWithsConvertAndMergeMedium = configXml;
+                    break;
+                case DataGridViewSize.Large:
+                case DataGridViewSize.Large | DataGridViewSize.RenameConvertAndMergeSize:
+                    Properties.Settings.Default.ColumnNameAndWithsConvertAndMergeLarge = configXml;
+                    break;
+                case DataGridViewSize.ConfigSize:
+                    break;
+                default:
+                    throw new Exception("Not implemented");
             }
         }
         #endregion
