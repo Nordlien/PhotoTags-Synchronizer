@@ -287,7 +287,7 @@ namespace PhotoTagsSynchronizer
                 PopulateDataGridViewForSelectedItemsThread(fileEntries);
                 PopulateImageListViewOpenWithToolStripThread(fileEntries, imageListView1.Items);
                 UpdateRibbonsWhenWorkspaceChanged();
-
+                
 
                 GlobalData.IsPopulatingImageListView = false;
             }
@@ -644,7 +644,11 @@ namespace PhotoTagsSynchronizer
                     SetRibbonDataGridViewShowWhatColumns(showWhatColumns, isColumnsEnabled);
                     #endregion
 
-                    if (dataGridView == null || DataGridViewHandler.GetIsAgregated(dataGridView)) return;
+                    if (dataGridView == null || DataGridViewHandler.GetIsAgregated(dataGridView))
+                    {
+                        LazyLoadingDataGridViewProgressUpdateStatus(0);
+                        return;
+                    }
 
                     LazyLoadingDataGridViewProgressUpdateStatus(imageListViewSelectItems.Count + 2);
                     List<FileEntryAttribute> lazyLoading;
@@ -753,7 +757,8 @@ namespace PhotoTagsSynchronizer
                     DataGridViewHandler.ResumeLayoutDelayed(dataGridView);
                     LazyLoadingDataGridViewProgressUpdateStatus(imageListViewSelectItems.Count + 1);
                     if (!showProgressCircle) LazyLoadingDataGridViewProgressUpdateStatus(0);
-                } //Cursor                
+                } //Cursor
+                if (imageListViewSelectItems.Count == 0) LazyLoadingDataGridViewProgressUpdateStatus(0);
             }
             StartThreads();
         }

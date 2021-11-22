@@ -796,7 +796,7 @@ namespace PhotoTagsSynchronizer
 
             if ((int)buttonSpecNavigator.Tag != imageIndex)
             {
-                if (!stopwatchCircleProgressbar.IsRunning || stopwatchCircleProgressbar.ElapsedMilliseconds > 20)
+                if (!stopwatchCircleProgressbar.IsRunning || stopwatchCircleProgressbar.ElapsedMilliseconds > 200)
                 {
                     buttonSpecNavigator.Tag = imageIndex;
                     stopwatchCircleProgressbar.Restart();

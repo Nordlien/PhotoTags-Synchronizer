@@ -94,6 +94,7 @@ namespace PhotoTagsSynchronizer
             LoadingItemsImageListView(5, 5);
             UpdateStatusImageListView("Done populate " + fileEntries.Count + " media files...");
             treeViewFolderBrowser1.Focus();
+            LoadingItemsImageListView(0, 0);
         }
         #endregion
 
