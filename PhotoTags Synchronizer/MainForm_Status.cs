@@ -56,14 +56,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        //#region StatusFilesAndSelected
-        //private string StatusFilesAndSelected
-        //{
-        //    set { this.kryptonPageMediaFiles.TextDescription = value; }
-        //}
-        //#endregion 
-
-
         #region UpdatedStatusAction - Trigger by imageListView1_ThumbnailCaching
         private void imageListView1_ThumbnailCaching(object sender, ItemEventArgs e)
         {
@@ -277,10 +269,6 @@ namespace PhotoTagsSynchronizer
             
         }
         #endregion
-
-        
-
-
 
         #region DisplayAllQueueStatus - Updated display
         private Stopwatch stopwatchLastDisplayed = new Stopwatch();
