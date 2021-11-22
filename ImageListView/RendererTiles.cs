@@ -157,7 +157,7 @@ namespace Manina.Windows.Forms
                             sf.LineAlignment = StringAlignment.Center;
                             sf.Trimming = StringTrimming.EllipsisCharacter;
 
-                             
+
                             using (Brush bItemFore = new SolidBrush(item.ForeColor))
                             {
                                 g.DrawString(item.GetSubItemText(ImageListView.TitleLine1), CaptionFont, bItemFore, rt, sf);
@@ -188,7 +188,9 @@ namespace Manina.Windows.Forms
                                     line = item.GetSubItemText(ImageListView.TitleLine5);
                                     g.DrawString(line, ImageListView.Font, bItemDetails, rt, sf);
                                     rt.Offset(0, 1.1f * lineHeight);
-                                } catch (Exception ex) {
+                                }
+                                catch (Exception ex)
+                                {
                                     Console.WriteLine(ex.Message); //For debug reason
                                     //Error can occure when ImageListView.Font
                                 }
@@ -238,7 +240,10 @@ namespace Manina.Windows.Forms
                     }
                 }
                 else
+                {
+                    Image img = item.ThumbnailImage; //JTN Added - Force image cahcing to be triggered
                     base.DrawItem(g, item, state, bounds);
+                }
             }
         }
         #endregion
