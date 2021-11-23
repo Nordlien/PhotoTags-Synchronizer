@@ -46,18 +46,23 @@ namespace PhotoTagsSynchronizer
             string resultListString = "";
             foreach (object item in comboBox.Items)
             {
-                resultListString += (resultListString == "" ? "" : "\r\n") + item.ToString();
+                if (item != null && !string.IsNullOrWhiteSpace((string)item)) resultListString += (resultListString == "" ? "" : "\r\n") + item.ToString();
             }
             return resultListString;
         }
         #endregion
 
+        #region ConvertToArray
+        public static string[] ConvertToArray(string valueListString)
+        {
+            return valueListString.Replace("\r\n", "\n").Split('\n');
+        }
+        #endregion
+
         #region ComboBox - Settings - Convert String add to List
-        public static void ComboBoxPopulate(KryptonComboBox comboBox, string valueListString, string defaultValue)
+        public static void ComboBoxPopulate(KryptonComboBox comboBox, string[] valueList, string defaultValue)
         {
             comboBox.Items.Clear();
-
-            string[] valueList = valueListString.Replace("\r\n", "\n").Split('\n');
             if (valueList != null)
             {
                 foreach (string valueItem in valueList)
@@ -67,8 +72,14 @@ namespace PhotoTagsSynchronizer
             }
             comboBox.Text = defaultValue == null ? "" : defaultValue;
         }
+
+        public static void ComboBoxPopulate(KryptonComboBox comboBox, string valueListString, string defaultValue)
+        {
+            ComboBoxPopulate(comboBox, ConvertToArray(valueListString), defaultValue);
+        }
         #endregion
 
+        const int maxCount = 30;
         #region ComboBox - Remeber last text and Add Text to list
         public static void ComboBoxAddTextToList(KryptonComboBox comboBox)
         {
@@ -77,11 +88,33 @@ namespace PhotoTagsSynchronizer
             if (indexOfText > -1) comboBox.Items.RemoveAt(indexOfText); //Remove if exist, in not already first
             comboBox.Items.Insert(0, text); //Add first
 
-            int maxCount = 15;
             while (comboBox.Items.Count > maxCount) comboBox.Items.RemoveAt(maxCount);
             comboBox.Text = text;
         }
-        #endregion 
+        #endregion
+
+        #region AutoCompleteStringCollection - Settings - Convert List to string
+        public static string AutoCompleteStringCollectionToString(AutoCompleteStringCollection autoCompleteStringCollection)
+        {
+            string resultListString = "";
+            foreach (string item in autoCompleteStringCollection)
+            {
+                if (!string.IsNullOrWhiteSpace(item)) resultListString += (resultListString == "" ? "" : "\r\n") + item.ToString();
+            }
+            return resultListString;
+        }
+        #endregion
+
+        #region AutoCompleteStringCollection - Remeber last text and Add Text to list
+        public static void AddAutoCompleteStringCollection(AutoCompleteStringCollection autoCompleteStringCollection, string newValue)
+        {
+            int indexOfText = autoCompleteStringCollection.IndexOf(newValue); //Does it exist from before, remove to put first
+            if (indexOfText > -1) autoCompleteStringCollection.RemoveAt(indexOfText); //Remove if exist, in not already first
+            autoCompleteStringCollection.Insert(0, newValue); //Add first
+
+            while (autoCompleteStringCollection.Count > maxCount) autoCompleteStringCollection.RemoveAt(maxCount);
+        }
+        #endregion
     }
 
     #region ComboBox - Text Selction Hack - Remember ComboBoxSelection

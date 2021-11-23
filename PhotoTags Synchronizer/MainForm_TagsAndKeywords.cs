@@ -119,15 +119,17 @@ namespace PhotoTagsSynchronizer
             }
             DataGridViewHandler.Refresh(dataGridView);
         }
-        #endregion 
+        #endregion
 
+        #region CellEnter
         private void dataGridViewTagsAndKeywords_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
             RegionSelectorLoadAndSelect(dataGridView, e.RowIndex, e.ColumnIndex);
         }
+        #endregion
 
-        #region TriState Click / Begin Edit / End Edit
+        #region TriState Click 
         private void dataGridViewTagsAndKeywords_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             DataGridView dataGridView = ((DataGridView)sender);
@@ -149,8 +151,48 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.Refresh(dataGridView);
             if (updatedCells != null && updatedCells.Count > 0) ClipboardUtility.PushToUndoStack(dataGridView, updatedCells);
         }
+        #endregion
 
+        private bool cellEndEditInProcess = false;
+        private void dataGridViewTagsAndKeywords_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            if (cellEndEditInProcess) return;
+            cellEndEditInProcess = true;
+            DataGridView dataGridView = ((DataGridView)sender);
+            DataGridViewGenericRow gridViewGenericDataRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, e.RowIndex);
+            if (gridViewGenericDataRow != null)
+            {
+                string newValue = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, e.ColumnIndex, e.RowIndex);
+                if (gridViewGenericDataRow.RowName == DataGridViewHandlerTagsAndKeywords.tagTitle)
+                {
+                    ComboBoxHandler.AddAutoCompleteStringCollection(autoCompleteStringCollectionTitle, newValue);
+                    Properties.Settings.Default.AutoCorrectFormTitle = ComboBoxHandler.AutoCompleteStringCollectionToString(autoCompleteStringCollectionTitle);
+                }
+                if (gridViewGenericDataRow.RowName == DataGridViewHandlerTagsAndKeywords.tagDescription)
+                {
+                    ComboBoxHandler.AddAutoCompleteStringCollection(autoCompleteStringCollectionDescription, newValue);
+                    Properties.Settings.Default.AutoCorrectFormDescription = ComboBoxHandler.AutoCompleteStringCollectionToString(autoCompleteStringCollectionDescription);
+                }
+                if (gridViewGenericDataRow.RowName == DataGridViewHandlerTagsAndKeywords.tagComments)
+                {
+                    ComboBoxHandler.AddAutoCompleteStringCollection(autoCompleteStringCollectionComments, newValue);
+                    Properties.Settings.Default.AutoCorrectFormComments = ComboBoxHandler.AutoCompleteStringCollectionToString(autoCompleteStringCollectionComments);
+                }
+                if (gridViewGenericDataRow.RowName == DataGridViewHandlerTagsAndKeywords.tagAlbum)
+                {
+                    ComboBoxHandler.AddAutoCompleteStringCollection(autoCompleteStringCollectionAlbum, newValue);
+                    Properties.Settings.Default.AutoCorrectFormAlbum = ComboBoxHandler.AutoCompleteStringCollectionToString(autoCompleteStringCollectionAlbum);
+                }
+                if (gridViewGenericDataRow.RowName == DataGridViewHandlerTagsAndKeywords.tagAuthor)
+                {
+                    ComboBoxHandler.AddAutoCompleteStringCollection(autoCompleteStringCollectionAuthor, newValue);
+                    Properties.Settings.Default.AutoCorrectFormAuthor = ComboBoxHandler.AutoCompleteStringCollectionToString(autoCompleteStringCollectionAuthor);
+                }
+            }
+            cellEndEditInProcess = false;
+        }
 
+        #region CellValueChanged
         private bool isDataGridViewTagsAndKeywords_CellValueChanging = false;
         private void dataGridViewTagsAndKeywords_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
@@ -208,7 +250,8 @@ namespace PhotoTagsSynchronizer
                     }
                 }
             }
-            //else DataGridViewHandler.Refresh(dataGridView); Hack to refreash dropdown combobox with new values
+
+            
             isDataGridViewTagsAndKeywords_CellValueChanging = false;
         }
         #endregion
@@ -411,7 +454,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region PupulateDetalView
+        #region ClearDetailViewTagsAndKeywords
         private void ClearDetailViewTagsAndKeywords()
         {
             isSettingDefaultComboxValues = true;
@@ -424,7 +467,34 @@ namespace PhotoTagsSynchronizer
             comboBoxDescription.Items.Clear();
             comboBoxComments.Items.Clear();
             comboBoxAlbum.Items.Clear();
-            
+
+            autoCompleteStringCollectionAlbum = new AutoCompleteStringCollection();
+            autoCompleteStringCollectionTitle = new AutoCompleteStringCollection();
+            autoCompleteStringCollectionDescription = new AutoCompleteStringCollection();
+            autoCompleteStringCollectionComments = new AutoCompleteStringCollection();
+            autoCompleteStringCollectionAuthor = new AutoCompleteStringCollection();
+
+            string[] arrayAlbum = ComboBoxHandler.ConvertToArray(Properties.Settings.Default.AutoCorrectFormAlbum);
+            string[] arrayAuthor = ComboBoxHandler.ConvertToArray(Properties.Settings.Default.AutoCorrectFormAuthor);
+            string[] arrayComments = ComboBoxHandler.ConvertToArray(Properties.Settings.Default.AutoCorrectFormComments);
+            string[] arrayDescription = ComboBoxHandler.ConvertToArray(Properties.Settings.Default.AutoCorrectFormDescription);
+            string[] arrayTitle = ComboBoxHandler.ConvertToArray(Properties.Settings.Default.AutoCorrectFormTitle);
+
+            ComboBoxHandler.ComboBoxPopulate(comboBoxAlbum, arrayAlbum, "");
+            autoCompleteStringCollectionAlbum.AddRange(arrayAlbum);
+
+            ComboBoxHandler.ComboBoxPopulate(comboBoxAuthor, arrayAuthor, "");
+            autoCompleteStringCollectionAuthor.AddRange(arrayAuthor);
+
+            ComboBoxHandler.ComboBoxPopulate(comboBoxComments, arrayComments, "");
+            autoCompleteStringCollectionComments.AddRange(arrayComments);
+
+            ComboBoxHandler.ComboBoxPopulate(comboBoxDescription, arrayDescription, "");
+            autoCompleteStringCollectionDescription.AddRange(arrayDescription);
+
+            ComboBoxHandler.ComboBoxPopulate(comboBoxTitle, arrayTitle, "");
+            autoCompleteStringCollectionTitle.AddRange(arrayTitle);
+
             //groupBoxRating
             radioButtonRating1.Checked = false;
             radioButtonRating2.Checked = false;
@@ -510,12 +580,30 @@ namespace PhotoTagsSynchronizer
             if (rowIndex > -1)
             {
                 value = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, rowIndex);
-                if (value != null && !string.IsNullOrWhiteSpace(value.ToString()) && !comboBox.Items.Contains(value.ToString()))
-                    comboBox.Items.Add(value.ToString());
+                if (value != null && !string.IsNullOrWhiteSpace(value.ToString()) && !comboBox.Items.Contains(value.ToString())) comboBox.Items.Add(value.ToString());
             }
-            
         }
         #endregion
+
+        #region AddToCollection
+        private void AddToCollection(DataGridView dataGridView, AutoCompleteStringCollection autoCompleteStringCollection, int columnIndex, string sourceHeader, string rowTag)
+        {
+            int rowIndex;
+            object value;
+            rowIndex = DataGridViewHandler.GetRowIndex(dataGridView, sourceHeader, rowTag);
+            if (rowIndex > -1)
+            {
+                value = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, rowIndex);
+                if (value != null && !string.IsNullOrWhiteSpace(value.ToString()) && !autoCompleteStringCollection.Contains(value.ToString())) autoCompleteStringCollection.Add(value.ToString());
+            }
+        }
+        #endregion
+
+        private AutoCompleteStringCollection autoCompleteStringCollectionTitle = new AutoCompleteStringCollection();
+        private AutoCompleteStringCollection autoCompleteStringCollectionDescription = new AutoCompleteStringCollection();
+        private AutoCompleteStringCollection autoCompleteStringCollectionComments = new AutoCompleteStringCollection();
+        private AutoCompleteStringCollection autoCompleteStringCollectionAlbum = new AutoCompleteStringCollection();
+        private AutoCompleteStringCollection autoCompleteStringCollectionAuthor = new AutoCompleteStringCollection();
 
         #region PopulateDetailViewTagsAndKeywords(DataGridView dataGridView)
         private void PopulateDetailViewTagsAndKeywords(DataGridView dataGridView)
@@ -535,14 +623,23 @@ namespace PhotoTagsSynchronizer
                 {
 
                     AddToListBox(dataGridView, comboBoxTitle, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagTitle);
-                    AddToListBox(dataGridView, comboBoxTitle, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagDescription);
-
+                    AddToCollection(dataGridView, autoCompleteStringCollectionTitle, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagTitle);
+                    
                     AddToListBox(dataGridView, comboBoxDescription, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagDescription);
-                    AddToListBox(dataGridView, comboBoxDescription, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagTitle);
+                    AddToListBox(dataGridView, comboBoxDescription, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAlbum);                    
+                    AddToCollection(dataGridView, autoCompleteStringCollectionDescription, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagDescription);
+                    AddToCollection(dataGridView, autoCompleteStringCollectionDescription, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAlbum);
 
                     AddToListBox(dataGridView, comboBoxComments, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagComments);
+                    AddToCollection(dataGridView, autoCompleteStringCollectionComments, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagComments);
+
                     AddToListBox(dataGridView, comboBoxAlbum, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAlbum);
+                    AddToListBox(dataGridView, comboBoxAlbum, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagDescription);
+                    AddToCollection(dataGridView, autoCompleteStringCollectionAlbum, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAlbum);
+                    AddToCollection(dataGridView, autoCompleteStringCollectionAlbum, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagDescription);
+
                     AddToListBox(dataGridView, comboBoxAuthor, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAuthor);
+                    AddToCollection(dataGridView, autoCompleteStringCollectionAuthor, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagTitle);
                 }
             }
 
@@ -613,6 +710,54 @@ namespace PhotoTagsSynchronizer
         private void dataGridViewTagsAndKeywords_Leave(object sender, EventArgs e)
         {
             controlPasteWithFocusTag = null;
+        }
+        #endregion
+
+        #region EditingControlShowing
+        private void dataGridViewTagsAndKeywords_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            DataGridView dataGridView = (DataGridView)sender;
+            
+
+            DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, dataGridView.CurrentCell.RowIndex);
+            
+            if (dataGridViewGenericRow != null && !dataGridViewGenericRow.IsHeader)
+            {
+                TextBox autoText = e.Control as TextBox;
+                if (autoText != null)
+                {
+                    if (dataGridViewGenericRow.RowName == DataGridViewHandlerTagsAndKeywords.tagTitle)
+                    {
+                        autoText.AutoCompleteMode = AutoCompleteMode.Suggest;
+                        autoText.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                        autoText.AutoCompleteCustomSource = autoCompleteStringCollectionTitle;
+                    }
+                    if (dataGridViewGenericRow.RowName == DataGridViewHandlerTagsAndKeywords.tagDescription)
+                    {
+                        autoText.AutoCompleteMode = AutoCompleteMode.Suggest;
+                        autoText.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                        autoText.AutoCompleteCustomSource = autoCompleteStringCollectionDescription;
+                    }
+                    if (dataGridViewGenericRow.RowName == DataGridViewHandlerTagsAndKeywords.tagComments)
+                    {
+                        autoText.AutoCompleteMode = AutoCompleteMode.Suggest;
+                        autoText.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                        autoText.AutoCompleteCustomSource = autoCompleteStringCollectionComments;
+                    }
+                    if (dataGridViewGenericRow.RowName == DataGridViewHandlerTagsAndKeywords.tagAlbum)
+                    {
+                        autoText.AutoCompleteMode = AutoCompleteMode.Suggest;
+                        autoText.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                        autoText.AutoCompleteCustomSource = autoCompleteStringCollectionAlbum;
+                    }
+                    if (dataGridViewGenericRow.RowName == DataGridViewHandlerTagsAndKeywords.tagAuthor)
+                    {
+                        autoText.AutoCompleteMode = AutoCompleteMode.Suggest;
+                        autoText.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                        autoText.AutoCompleteCustomSource = autoCompleteStringCollectionAuthor;
+                    }
+                }
+            }
         }
         #endregion
     }
