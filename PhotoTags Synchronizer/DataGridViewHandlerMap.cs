@@ -355,8 +355,11 @@ namespace PhotoTagsSynchronizer
                 }
                 else
                 {
-                    AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagCameraMakeModel), "", false);
-                    AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerGoogleLocations, tagCameraOwner), "Select Camera owner/locations", true);
+                    if (!DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex))
+                    {
+                        AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagCameraMakeModel), "", false);
+                        AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerGoogleLocations, tagCameraOwner), "Select Camera owner/locations", true);
+                    }
                 }
 
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerGoogleLocations, tagCoordinates), metadataExiftool?.LocationCoordinate, true);

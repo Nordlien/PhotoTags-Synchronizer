@@ -481,12 +481,10 @@ namespace PhotoTagsSynchronizer
                             if (gridViewGenericColumnCheck?.Metadata?.CameraMake == dataGridViewGenericColumn.Metadata.CameraMake &&
                                 gridViewGenericColumnCheck?.Metadata?.CameraModel == dataGridViewGenericColumn.Metadata.CameraModel)
                             {
-                                //DataGridViewHandlerMap.SetCameraOwner(dataGridView, columnIndex, selectedCameraOwner);
-
                                 DataGridViewHandlerMap.PopulateCameraOwner(dataGridView, columnIndex, gridViewGenericColumnCheck.ReadWriteAccess,
                                     gridViewGenericColumnCheck.Metadata.CameraMake, gridViewGenericColumnCheck.Metadata.CameraModel);
                                 DataGridViewHandlerMap.PopulateGoogleHistoryCoordinateAndNearby(dataGridView, dataGridViewDate, columnIndex, GetTimeZoneShift(), GetAccepedIntervalSecound());
-                                
+
                             }
                         }
                     }
