@@ -91,13 +91,11 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region GetCameraOwner
-        public static string GetUserInputCameraOwner(DataGridView dataGridViewMap, int? columnIndex, FileEntryAttribute fileEntryAttribute)
+        public static string GetUserInputCameraOwner(DataGridView dataGridViewMap, int? columnIndex)
         {
             if (!DataGridViewHandler.GetIsAgregated(dataGridViewMap)) return null;
-            if (columnIndex == null) columnIndex = DataGridViewHandler.GetColumnIndexUserInput(dataGridViewMap, fileEntryAttribute);
-            if (columnIndex == -1) return null;
-            if (!DataGridViewHandler.IsColumnPopulated(dataGridViewMap, (int)columnIndex)) return null;
-
+            //Don't do check if (!DataGridViewHandler.IsColumnPopulated(dataGridViewMap, (int)columnIndex)) return null; This is always during populatig
+            
             string cameraOwner = (string)DataGridViewHandler.GetCellValue(dataGridViewMap, (int)columnIndex, headerGoogleLocations, tagCameraOwner);
             if (cameraOwner == CameraOwnersDatabaseCache.MissingLocationsOwners) cameraOwner = null;
             return cameraOwner;
@@ -201,9 +199,11 @@ namespace PhotoTagsSynchronizer
         public static void PopulateGoogleHistoryCoordinate(DataGridView dataGridViewMap, int columnIndexMap, 
             int timeZoneShift, int accepedIntervalSecound, DateTime mediaCreateUTC)
         {
-            string cameraOwner = GetUserInputCameraOwner(dataGridViewMap, columnIndexMap, null);
+            string cameraOwner = GetUserInputCameraOwner(dataGridViewMap, columnIndexMap);
             if (string.IsNullOrWhiteSpace(cameraOwner))
             {
+                //cameraOwner = DatabaseAndCacheCameraOwner.GetOwenerForCameraMakeModel(cameraMake, cameraModel)
+
                 DataGridViewHandler.SetCellValue(dataGridViewMap, columnIndexMap, headerGoogleLocations, tagCoordinates, "Need select camera owner");
                 return;
             }

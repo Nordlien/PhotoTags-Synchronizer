@@ -59,6 +59,7 @@ namespace PhotoTagsSynchronizer
             if (columnIndex == null) columnIndex = DataGridViewHandler.GetColumnIndexUserInput(dataGridView, fileEntryAttribute);
             if (columnIndex == -1) return null;
             if (!DataGridViewHandler.IsColumnPopulated(dataGridView, (int)columnIndex)) return null;
+
             string dateTimeStringMediaTaken = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, (int)columnIndex, headerMedia, tagMediaDateTaken);
             return TimeZoneLibrary.ParseDateTimeAsLocal(dateTimeStringMediaTaken);
 
