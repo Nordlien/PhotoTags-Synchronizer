@@ -153,6 +153,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region CellEndEdit
         private bool cellEndEditInProcess = false;
         private void dataGridViewTagsAndKeywords_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
@@ -191,6 +192,7 @@ namespace PhotoTagsSynchronizer
             }
             cellEndEditInProcess = false;
         }
+        #endregion
 
         #region CellValueChanged
         private bool isDataGridViewTagsAndKeywords_CellValueChanging = false;
