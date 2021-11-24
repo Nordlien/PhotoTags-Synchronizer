@@ -21,6 +21,7 @@ using FileDateTime;
 using System.Threading;
 using System.Diagnostics;
 using ColumnNamesAndWidth;
+using FileHandeling;
 
 /*
 Ctrl+X				T	Cut								Home / Organise
@@ -505,8 +506,8 @@ namespace PhotoTagsSynchronizer
         #region UpdateRibbonsWhenWorkspaceChanged()
         private void UpdateRibbonsWhenWorkspaceChanged()
         {
-            bool isSomethingSelected = (GetSelectedFilesImageListView().Count >= 1);
-            bool isMoreThatOneSelected = (GetSelectedFilesImageListView().Count > 1);
+            bool isSomethingSelected = (GetSelectedFileEntriesImageListView().Count >= 1);
+            bool isMoreThatOneSelected = (GetSelectedFileEntriesImageListView().Count > 1);
 
             SetPreviewRibbonEnabledStatus(previewStartEnabled: isSomethingSelected, enabled: false);
 
@@ -5320,10 +5321,10 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region GetSelectedFilesFromActiveDataGridView
-        private List<string> GetSelectedFilesFromActiveDataGridView()
+        private HashSet<FileEntry> GetSelectedFilesFromActiveDataGridView()
         {
 
-            List<string> files = new List<string>();
+            HashSet<FileEntry> files = new HashSet<FileEntry>();
             DataGridView dataGridView;
             switch (ActiveKryptonPage)
             {
@@ -5346,7 +5347,7 @@ namespace PhotoTagsSynchronizer
                         foreach (int columnIndex in DataGridViewHandler.GetColumnSelected(GetActiveTabDataGridView()))
                         {
                             DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(GetActiveTabDataGridView(), columnIndex);
-                            if (dataGridViewGenericColumn != null && !files.Contains(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath)) files.Add(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath);
+                            if (dataGridViewGenericColumn != null && !files.Contains(dataGridViewGenericColumn.FileEntryAttribute.FileEntry)) files.Add(dataGridViewGenericColumn.FileEntryAttribute.FileEntry);
                         }
                     }
                     break;
@@ -5358,8 +5359,8 @@ namespace PhotoTagsSynchronizer
                         foreach (int rowIndex in DataGridViewHandler.GetRowSelected(GetActiveTabDataGridView()))
                         {
                             DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(GetActiveTabDataGridView(), rowIndex);
-                            if (dataGridViewGenericRow != null && !dataGridViewGenericRow.IsHeader &&
-                                !files.Contains(dataGridViewGenericRow.RowName)) files.Add(dataGridViewGenericRow.RowName);
+                            FileEntry fileEntry = dataGridViewGenericRow.FileEntry;
+                            if (dataGridViewGenericRow != null && !dataGridViewGenericRow.IsHeader && !files.Contains(fileEntry)) files.Add(fileEntry);
                         }
                     }
                     break;
@@ -5371,6 +5372,20 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region GetSelectedFilesImageListView
+        
+        private HashSet<FileEntry> selectedFileEntriesImageListViewCache = null;
+        private HashSet<string> selectedFullFileNameImageListViewCache = null;
+        private void SelectedFileEntriesImageListViewCacheClear()
+        {
+            selectedFileEntriesImageListViewCache = null;
+        }
+
+        private bool DoesExistInSelectedFileEntriesImageListView(string fullFileName)
+        {
+            if (selectedFullFileNameImageListViewCache == null) return false;
+            return selectedFullFileNameImageListViewCache.Contains(fullFileName);
+        }
+
         private List<string> GetSelectedFilesImageListView()
         {
             List<string> files = new List<string>();
@@ -5383,21 +5398,6 @@ namespace PhotoTagsSynchronizer
             }
             catch { }
             return files;
-        }
-        #endregion
-
-        #region GetSelectedFilesImageListView
-        private HashSet<FileEntry> selectedFileEntriesImageListViewCache = null;
-        private HashSet<string> selectedFullFileNameImageListViewCache = null;
-        private void SelectedFileEntriesImageListViewCacheClear()
-        {
-            selectedFileEntriesImageListViewCache = null;
-        }
-
-        private bool DoesExistInSelectedFileEntriesImageListView(string fullFileName)
-        {
-            if (selectedFullFileNameImageListViewCache == null) return false;
-            return selectedFullFileNameImageListViewCache.Contains(fullFileName);
         }
 
         private HashSet<FileEntry> GetSelectedFileEntriesImageListView()
@@ -5423,7 +5423,7 @@ namespace PhotoTagsSynchronizer
                     if (!fileEntries.Contains(fileEntry)) fileEntries.Add(fileEntry);
                     if (!fullFilePaths.Contains(fileEntry.FileFullPath)) fullFilePaths.Add(fileEntry.FileFullPath);
                     
-                    if (stopwatch.ElapsedMilliseconds > 100)
+                    if (stopwatch.ElapsedMilliseconds > 200)
                     {
                         kryptonWorkspaceCellMediaFiles.Refresh();
                         stopwatch.Restart();
@@ -5440,30 +5440,68 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region GetSelectedFilesInFolder
-        private List<string> GetSelectedFilesInFolder()
+        private void MediaFileFound(object source, SearchMediaFileEventArgs e)
         {
-            List<string> files = new List<string>();
+            UpdateStatusImageListView(e.Filename);
+        }
+
+        #region GetFilesInSelectedFolder
+        private string cachedFolder = "";
+        private HashSet<FileEntry> fileEntriesFolderCahced = new HashSet<FileEntry>();
+        private HashSet<FileEntry> GetFilesInSelectedFolderCached()
+        {
+
             try
             {
                 string folder = GetSelectedNodePath();
                 if (folder == null || !Directory.Exists(folder))
                 {
                     KryptonMessageBox.Show("Can't reach the folder. Not a valid folder selected.");
-                    return files;
+                    cachedFolder = "";
+                    fileEntriesFolderCahced = new HashSet<FileEntry>();
+                    return fileEntriesFolderCahced;
                 }
 
-                HashSet<FileEntry> fileEntries = ImageAndMovieFileExtentionsUtility.ListAllMediaFileEntries(folder, false);
-                foreach (FileEntry fileEntry in fileEntries)
+                if (cachedFolder != folder)
                 {
-                    if (!files.Contains(fileEntry.FileFullPath)) files.Add(fileEntry.FileFullPath);
+                    IEnumerable<FileData> fileDatas = ImageAndMovieFileExtentionsUtility.GetFilesByEnumerableFast(folder, null, false);
+                    HashSet<FileEntry> fileEntriesFolder = new HashSet<FileEntry>();
+                    foreach (FileData fileData in fileDatas)
+                    {
+                        fileEntriesFolder.Add(new FileEntry(fileData.Path, fileData.LastWriteTime));
+                    }
+                    fileEntriesFolderCahced = fileEntriesFolder;
+                    cachedFolder = folder;
                 }
             }
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
             }
-            return files;
+
+            return fileEntriesFolderCahced;
+        }
+        private IEnumerable<FileData> GetFilesInSelectedFolder()
+        {
+            IEnumerable<FileData> fileDatas = null;
+            try
+            {
+                string folder = GetSelectedNodePath();
+                if (folder == null || !Directory.Exists(folder))
+                {
+                    KryptonMessageBox.Show("Can't reach the folder. Not a valid folder selected.");
+                    return fileDatas;
+                }
+
+                ImageAndMovieFileExtentionsUtility.OnSearchMediaFileFound += new SearchMediaFileHandler(MediaFileFound);
+                    
+                fileDatas = ImageAndMovieFileExtentionsUtility.GetFilesByEnumerableFast(folder, null, false);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+            }
+            return fileDatas;
         }
         #endregion 
 
@@ -5484,7 +5522,7 @@ namespace PhotoTagsSynchronizer
                 case KryptonPages.kryptonPageFolderSearchFilterFilter:
                     break;
                 case KryptonPages.kryptonPageMediaFiles:
-                    MediaFilesOpenExplorerLocation_Click(GetSelectedFilesImageListView());
+                    MediaFilesOpenExplorerLocation_Click(GetSelectedFileEntriesImageListView());
                     break;
                 case KryptonPages.kryptonPageToolboxTags:
                     MediaFilesOpenExplorerLocation_Click(GetSelectedFilesFromActiveDataGridView());
@@ -5532,15 +5570,15 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region MediaFilesOpenExplorerLocation_Click
-        private void MediaFilesOpenExplorerLocation_Click(List<string> files)
+        private void MediaFilesOpenExplorerLocation_Click(HashSet<FileEntry> files)
         {
             string errorMessage = "";
 
-            foreach (string fileFullPath in files)
+            foreach (FileEntry fileEntry in files)
             {
                 try
                 {
-                    ApplicationActivation.ShowFileInExplorer(fileFullPath);
+                    ApplicationActivation.ShowFileInExplorer(fileEntry.FileFullPath);
                 }
                 catch (Exception ex) { errorMessage += (errorMessage == "" ? "" : "\r\n") + ex.Message; }
             }
@@ -5578,14 +5616,14 @@ namespace PhotoTagsSynchronizer
                 case KryptonPages.None:
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFolder:
-                    MediaFilesVerbOpen_Click(GetSelectedFilesInFolder());
+                    MediaFilesVerbOpen_Click(GetFilesInSelectedFolderCached());
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterSearch:
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFilter:
                     break;
                 case KryptonPages.kryptonPageMediaFiles:
-                    MediaFilesVerbOpen_Click(GetSelectedFilesImageListView());
+                    MediaFilesVerbOpen_Click(GetSelectedFileEntriesImageListView());
                     break;
                 case KryptonPages.kryptonPageToolboxTags:
                 case KryptonPages.kryptonPageToolboxPeople:
@@ -5597,11 +5635,11 @@ namespace PhotoTagsSynchronizer
                     if (columnIndex == null || rowIndex == null) MediaFilesVerbOpen_Click(GetSelectedFilesFromActiveDataGridView());
                     else if (columnIndex > -1 && rowIndex <= 0) //Head and first row allowd
                     {
-                        List<string> files = new List<string>();
+                        HashSet<FileEntry> files = new HashSet<FileEntry>();
                         DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(GetActiveTabDataGridView(), (int)columnIndex);
                         if (dataGridViewGenericColumn != null)
                         {
-                            files.Add(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath);
+                            files.Add(dataGridViewGenericColumn.FileEntryAttribute);
                             MediaFilesVerbOpen_Click(files);
                         }
                     }
@@ -5611,11 +5649,11 @@ namespace PhotoTagsSynchronizer
                     if (columnIndex == null || rowIndex == null) MediaFilesVerbOpen_Click(GetSelectedFilesFromActiveDataGridView());
                     else if (rowIndex > 0)
                     {
-                        List<string> files = new List<string>();
+                        HashSet<FileEntry> files = new HashSet<FileEntry>();
                         DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(GetActiveTabDataGridView(), (int)rowIndex);
                         if (dataGridViewGenericRow != null && !dataGridViewGenericRow.IsHeader)
                         {
-                            files.Add(dataGridViewGenericRow.Metadata.FileEntry.FileFullPath);
+                            files.Add(dataGridViewGenericRow.FileEntry);
                             MediaFilesVerbOpen_Click(files);
                         }
                     }
@@ -5700,15 +5738,15 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region MediaFilesVerbOpen_Click
-        private void MediaFilesVerbOpen_Click(List<string> files)
+        private void MediaFilesVerbOpen_Click(HashSet<FileEntry> files)
         {
             string errorMessage = "";
 
-            foreach (string fullFileName in files)
+            foreach (FileEntry fileEntry in files)
             {
                 try
                 {
-                    ApplicationActivation.ProcessRunOpenFile(fullFileName);
+                    ApplicationActivation.ProcessRunOpenFile(fileEntry.FileFullPath);
                 }
                 catch (Exception ex) { errorMessage += (errorMessage == "" ? "" : "\r\n") + ex.Message; }
             }
@@ -5730,14 +5768,14 @@ namespace PhotoTagsSynchronizer
                 case KryptonPages.None:
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFolder:
-                    OpenWithSelectedVerb(applicationData, GetSelectedFilesInFolder());
+                    OpenWithSelectedVerb(applicationData, GetFilesInSelectedFolderCached());
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterSearch:
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFilter:
                     break;
                 case KryptonPages.kryptonPageMediaFiles:
-                    OpenWithSelectedVerb(applicationData, GetSelectedFilesImageListView());
+                    OpenWithSelectedVerb(applicationData, GetSelectedFileEntriesImageListView());
                     break;
                 case KryptonPages.kryptonPageToolboxTags:
                     OpenWithSelectedVerb(applicationData, GetSelectedFilesFromActiveDataGridView());
@@ -5773,13 +5811,13 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region OpenWithSelectedVerb
-        private void OpenWithSelectedVerb(ApplicationData applicationData, List<string> files)
+        private void OpenWithSelectedVerb(ApplicationData applicationData, HashSet<FileEntry> files)
         {          
-            foreach (string fileFullPath in files)
+            foreach (FileEntry fileEntry in files)
             {
                 try
                 {
-                    if (applicationData.VerbLinks.Count >= 1) ApplicationActivation.ProcessRun(applicationData.VerbLinks[0].Command, applicationData.ApplicationId, fileFullPath, applicationData.VerbLinks[0].Verb, false);
+                    if (applicationData.VerbLinks.Count >= 1) ApplicationActivation.ProcessRun(applicationData.VerbLinks[0].Command, applicationData.ApplicationId, fileEntry.FileFullPath, applicationData.VerbLinks[0].Verb, false);
                 }
                 catch (Exception ex)
                 {
@@ -5817,14 +5855,14 @@ namespace PhotoTagsSynchronizer
                 case KryptonPages.None:
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFolder:
-                    MediaFilesOpenAndAssociateWithDialog_Click(GetSelectedFilesInFolder());
+                    MediaFilesOpenAndAssociateWithDialog_Click(GetFilesInSelectedFolderCached());
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterSearch:
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFilter:
                     break;
                 case KryptonPages.kryptonPageMediaFiles:
-                    MediaFilesOpenAndAssociateWithDialog_Click(GetSelectedFilesImageListView());
+                    MediaFilesOpenAndAssociateWithDialog_Click(GetSelectedFileEntriesImageListView());
                     break;
                 case KryptonPages.kryptonPageToolboxTags:
                     MediaFilesOpenAndAssociateWithDialog_Click(GetSelectedFilesFromActiveDataGridView());
@@ -5872,13 +5910,13 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region MediaFilesOpenWithDialog_Click()
-        private void MediaFilesOpenAndAssociateWithDialog_Click(List<string> files)
+        private void MediaFilesOpenAndAssociateWithDialog_Click(HashSet<FileEntry> files)
         {
             try
             {
-                foreach (string fileFullPath in files)
+                foreach (FileEntry fileEntry in files)
                 {
-                    ApplicationActivation.ShowOpenWithDialog(fileFullPath);
+                    ApplicationActivation.ShowOpenWithDialog(fileEntry.FileFullPath);
                 }
             }
             catch (Exception ex)
@@ -5902,14 +5940,14 @@ namespace PhotoTagsSynchronizer
                 case KryptonPages.None:
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFolder:
-                    MediaFilesVerbEdit_Click(GetSelectedFilesInFolder());
+                    MediaFilesVerbEdit_Click(GetFilesInSelectedFolderCached());
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterSearch:
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFilter:
                     break;
                 case KryptonPages.kryptonPageMediaFiles:
-                    MediaFilesVerbEdit_Click(GetSelectedFilesImageListView());
+                    MediaFilesVerbEdit_Click(GetSelectedFileEntriesImageListView());
                     break;
                 case KryptonPages.kryptonPageToolboxTags:
                     MediaFilesVerbEdit_Click(GetSelectedFilesFromActiveDataGridView());
@@ -5956,15 +5994,15 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region MediaFilesVerbEdit()
-        private void MediaFilesVerbEdit_Click(List<string> files)
+        private void MediaFilesVerbEdit_Click(HashSet<FileEntry> files)
         {
             string errorMessage = "";
 
-            foreach (string fileFullPath in files)
+            foreach (FileEntry fileEntry in files)
             {
                 try
                 {
-                    ApplicationActivation.ProcessRunEditFile(fileFullPath);
+                    ApplicationActivation.ProcessRunEditFile(fileEntry.FileFullPath);
                 }
                 catch (Exception ex) { errorMessage += (errorMessage == "" ? "" : "\r\n") + ex.Message; }
             }
@@ -5985,14 +6023,14 @@ namespace PhotoTagsSynchronizer
                 case KryptonPages.None:
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFolder:
-                    MediaFilesRunCommand(GetSelectedFilesInFolder());
+                    MediaFilesRunCommand(GetFilesInSelectedFolderCached());
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterSearch:
                     break;
                 case KryptonPages.kryptonPageFolderSearchFilterFilter:
                     break;
                 case KryptonPages.kryptonPageMediaFiles:
-                    MediaFilesRunCommand(GetSelectedFilesImageListView());
+                    MediaFilesRunCommand(GetSelectedFileEntriesImageListView());
                     break;
                 case KryptonPages.kryptonPageToolboxTags:
                     MediaFilesRunCommand(GetSelectedFilesFromActiveDataGridView());
@@ -6042,7 +6080,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region MediaFilesRunCommand
-        private void MediaFilesRunCommand(List<string> files)
+        private void MediaFilesRunCommand(HashSet<FileEntry> files)
         {
             try
             {
@@ -6075,32 +6113,28 @@ namespace PhotoTagsSynchronizer
                     List<Metadata> metadataListEmpty = new List<Metadata>();
                     List<Metadata> metadataListFromDataGridViewAutoCorrect = new List<Metadata>();
 
-                    foreach (ImageListViewItem item in imageListView1.SelectedItems)
+                    foreach (FileEntry fileEntry in files)  
                     {
-                        
-                        if (files.Contains(item.FileFullPath))
-                        {
-                            FormSplash.UpdateStatus("Create AutoCorrect file..." + item.Text);
-                            Metadata metadataToSave = autoCorrect.FixAndSave(
-                                new FileEntry(item.FileFullPath, item.DateModified),
-                                null,
-                                databaseAndCacheMetadataExiftool,
-                                databaseAndCacheMetadataMicrosoftPhotos,
-                                databaseAndCacheMetadataWindowsLivePhotoGallery,
-                                databaseAndCahceCameraOwner,
-                                databaseLocationAddress,
-                                databaseGoogleLocationHistory,
-                                locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
-                                autoKeywordConvertions,
-                                Properties.Settings.Default.RenameDateFormats);
+                        FormSplash.UpdateStatus("Create AutoCorrect file..." + fileEntry.FileName);
+                        Metadata metadataToSave = autoCorrect.FixAndSave(
+                            fileEntry,
+                            null,
+                            databaseAndCacheMetadataExiftool,
+                            databaseAndCacheMetadataMicrosoftPhotos,
+                            databaseAndCacheMetadataWindowsLivePhotoGallery,
+                            databaseAndCahceCameraOwner,
+                            databaseLocationAddress,
+                            databaseGoogleLocationHistory,
+                            locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
+                            autoKeywordConvertions,
+                            Properties.Settings.Default.RenameDateFormats);
 
-                            if (metadataToSave != null) metadataListFromDataGridViewAutoCorrect.Add(new Metadata(metadataToSave));
-                            else
-                            {
-                                Logger.Warn("Metadata was not loaded for file, check if file is only in cloud:" + item.FileFullPath);
-                            }
-                            metadataListEmpty.Add(new Metadata(MetadataBrokerType.Empty));
-                        } else FormSplash.UpdateStatus("Skip AutoCorrect for file..." + item.Text);
+                        if (metadataToSave != null) metadataListFromDataGridViewAutoCorrect.Add(new Metadata(metadataToSave));
+                        else
+                        {
+                            Logger.Warn("Metadata was not loaded for file, check if file is only in cloud:" + fileEntry.FileFullPath);
+                        }
+                        metadataListEmpty.Add(new Metadata(MetadataBrokerType.Empty));
                     }
 
 

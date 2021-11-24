@@ -13,9 +13,27 @@ using FileHandeling;
 
 namespace ImageAndMovieFileExtentions
 {
+    //First we have to define a delegate that acts as a signature for the
+    //function that is ultimately called when the event is triggered.
+    //You will notice that the second parameter is of MyEventArgs type.
+    //This object will contain information about the triggered event.
+    public delegate void SearchMediaFileHandler(object source, SearchMediaFileEventArgs e);
+
+    //This is a class which describes the event to the class that recieves it.
+    //An EventArgs class must always derive from System.EventArgs.
+    public class SearchMediaFileEventArgs : EventArgs
+    {
+        public string Filename { get; set; }
+        public SearchMediaFileEventArgs(string filename)
+        {
+            Filename = filename;
+        }
+    }
+
     public static class ImageAndMovieFileExtentionsUtility 
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        public static SearchMediaFileHandler OnSearchMediaFileFound = null;
 
         #region MagickFormat ConvertFromMimeFormat
         private static MagickFormat ConvertFromMimeFormat (string contentFormat)
@@ -368,8 +386,6 @@ namespace ImageAndMovieFileExtentions
         }
         #endregion
 
-
-
         #region Video and Image Formats
         private static HashSet<string> imageFormats = new HashSet<string> {
             //Tag	        Mode	Description	Notes
@@ -635,7 +651,9 @@ namespace ImageAndMovieFileExtentions
             ".YUV", // – raw video format; resolution (horizontal x vertical) and sample structure 4:2:2 or 4:2:0 must be known explicitly
             ".WebM" // – video file format for web video using HTML5*/
                     };
+        #endregion
 
+        #region GetAllMediaExtentions
         private static HashSet<string> allFiles = new HashSet<string>();
         private static HashSet<string> GetAllMediaExtentions()
         {
@@ -646,12 +664,16 @@ namespace ImageAndMovieFileExtentions
             }
             return allFiles;
         }
+        #endregion
 
+        #region ListAllMediaFileEntries
         public static HashSet<FileEntry> ListAllMediaFileEntries(string directory, bool recursive)
         {
             return GetFilesByExtensionsFast(directory, GetAllMediaExtentions(), recursive);            
         }
+        #endregion
 
+        #region GetFilesByExtensions - Fast
         public static HashSet<FileEntry> GetFilesByExtensionsFast(string folder, HashSet<string> extensions, bool recursive)
         {
             HashSet<FileEntry> fileEntries = new HashSet<FileEntry>();
@@ -659,12 +681,17 @@ namespace ImageAndMovieFileExtentions
             {
                 if (!string.IsNullOrWhiteSpace(folder) && Directory.Exists(folder))
                 {
-                    FileData[] files = FastDirectoryEnumerator.GetFiles(folder, "*", recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
-                    for (int i = 0; i < files.Length; i++)
+                    IEnumerable<FileData> enumerateFiles = FastDirectoryEnumerator.EnumerateFiles(folder, "*", recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
+
+                    foreach (FileData fileData in enumerateFiles)
                     {
-                        if ((files[i].Attributes & FileAttributes.Directory) == 0)
+                        if ((fileData.Attributes & FileAttributes.Directory) == 0)
                         {
-                            if (extensions.Contains(Path.GetExtension(files[i].Path).ToUpper())) fileEntries.Add(new FileEntry(files[i].Path, files[i].LastWriteTime));
+                            if (extensions.Contains(Path.GetExtension(fileData.Path).ToUpper()))
+                            {
+                                fileEntries.Add(new FileEntry(fileData.Path, fileData.LastWriteTime));
+                                if (OnSearchMediaFileFound != null) OnSearchMediaFileFound(null, new SearchMediaFileEventArgs(fileData.Path));
+                            }
                         }
                     }
                 }
@@ -675,6 +702,24 @@ namespace ImageAndMovieFileExtentions
             }
             return fileEntries;
         }
+        #endregion
+
+        #region GetFilesByExtensions - Fast
+        public static IEnumerable<FileData> GetFilesByEnumerableFast(string folder, HashSet<string> extensions, bool recursive)
+        {
+            try
+            {
+                return FastDirectoryEnumerator.EnumerateFiles(folder, "*", recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "GetFilesByExtensionsFast");
+            }
+            return null;
+        }
+        #endregion
+
+        #region GetFilesByExtensions - clasic way
         public static FileInfo[] GetFilesByExtensions(string folder, HashSet<string> extensions, bool recursive)
         {
             FileInfo[] files = new FileInfo[0];
@@ -697,17 +742,23 @@ namespace ImageAndMovieFileExtentions
             }
             return files;
         }
+        #endregion
 
+        #region IsVideoFormat
         public static bool IsVideoFormat(string filename)
         {
             return videoFormats.Contains(Path.GetExtension(filename).ToUpper());
         }
+        #endregion
 
+        #region IsImageFormat
         public static bool IsImageFormat(string filename)
         {
             return imageFormats.Contains(Path.GetExtension(filename).ToUpper());
         }
+        #endregion
 
+        #region IsMediaFormat
         public static bool IsMediaFormat(string filename)
         {
             if (IsVideoFormat(filename)) return true;

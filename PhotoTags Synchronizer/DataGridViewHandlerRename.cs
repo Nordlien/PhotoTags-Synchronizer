@@ -298,7 +298,7 @@ namespace PhotoTagsSynchronizer
                 //Media
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(directory), true);
                 string newShortOrFullFilename = GetShortOrFullFilename(RenameVaribale, metadata, showFullPath, directory, filename);
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(directory, filename, metadata), newShortOrFullFilename, false);
+                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(directory, filename, metadata, fileEntryAttribute), newShortOrFullFilename, false);
             }
 
             //-----------------------------------------------------------------

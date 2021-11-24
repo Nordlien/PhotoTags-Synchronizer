@@ -31,6 +31,7 @@ namespace PhotoTagsSynchronizer
 
         public static string RenameVaribale { get; set; }
 
+        #region ffmpeg Information
         /*
         Container: MP4
         -c:v libx264
@@ -163,6 +164,7 @@ namespace PhotoTagsSynchronizer
         The alternative is to use the concat demuxer which is more flexible (you still need the same codecs for the input files but it can use different containers):   
         ffmpeg -f concat -i mylist.txt -c copy output
          */
+        #endregion 
 
         #region Parameter Arguments
         public static readonly string[] parameterAgruments = {
@@ -1494,6 +1496,7 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
+        #region VariableListType
         public enum VariableListType
         {
             ExeConcatFilesArguments,
@@ -1501,6 +1504,9 @@ namespace PhotoTagsSynchronizer
             ImageArgumentFileListing,
             VideoArgumentFileListing
         }
+        #endregion
+
+        #region string[] ListVariables(VariableListType variableListType)
         public static string[] ListVariables(VariableListType variableListType)
         {
             List<string> variables = new List<string>();
@@ -1546,7 +1552,9 @@ namespace PhotoTagsSynchronizer
             }
             return variables.ToArray();
         }
+        #endregion
 
+        #region ReplaceVariablesInString
         public static string ReplaceVariablesInString(string stringWithVariables, string arguFilename, string musicFileFullPath, string videoFileFullPath, int resolutionWidth, int resolutionHeight, string tempOutputfile)
         {
             string variableReplaced = stringWithVariables;
@@ -1570,7 +1578,9 @@ namespace PhotoTagsSynchronizer
             
             return variableReplaced;
         }
+        #endregion
 
+        #region ReplaceVariablesInArguFile
         public static string ReplaceVariablesInArguFile(string stringWithVariables, string file, int duration)
         {
             string variableReplaced = stringWithVariables;
@@ -1579,6 +1589,7 @@ namespace PhotoTagsSynchronizer
             variableReplaced = variableReplaced.Replace("{Duration}", duration.ToString());
             return variableReplaced;
         }
+        #endregion
 
         #region ConvertImages
         private static void ConvertImages(PhotoTagsCommonComponets.FormTerminalWindow formTerminalWindow, List<string> imagesFiles,
@@ -2005,7 +2016,7 @@ namespace PhotoTagsSynchronizer
                 string filename = fileEntryAttribute.FileName;
 
                 //Media
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerConvertAndMergeInfo, fileEntryAttribute.FileFullPath, metadata), filename, true);
+                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerConvertAndMergeInfo, fileEntryAttribute.FileFullPath, metadata, fileEntryAttribute), filename, true);
             }
 
             //-----------------------------------------------------------------

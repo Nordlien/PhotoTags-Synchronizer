@@ -20,6 +20,8 @@ namespace DataGridViewGeneric
         public bool IsEqual { get; set; }
         public PropertyKey PropertyKey { get; set; }
         public Metadata Metadata { get; set; }
+        public FileEntry FileEntry { get; set; }
+
         public LocationCoordinate LocationCoordinate { get; set; }
         public MetadataPriorityKey MetadataPriorityKey { get; set; }
 
@@ -29,30 +31,32 @@ namespace DataGridViewGeneric
         }
 
         public DataGridViewGenericRow(string headerName) 
-            : this(headerName, "", ReadWriteAccess.ForceCellToReadOnly, true, false, null, null, null, null) { }
+            : this(headerName, "", ReadWriteAccess.ForceCellToReadOnly, true, false, null, null, null, null, null) { }
         public DataGridViewGenericRow(string headerName, string rowName) 
-            : this(headerName, rowName, ReadWriteAccess.AllowCellReadAndWrite, false, false, null, null, null, null) { }
+            : this(headerName, rowName, ReadWriteAccess.AllowCellReadAndWrite, false, false, null, null, null, null, null) { }
 
         public DataGridViewGenericRow(string headerName, string rowName, ReadWriteAccess readWriteAccess) 
-            : this(headerName, rowName, readWriteAccess, false, false, null, null, null, null) { }
+            : this(headerName, rowName, readWriteAccess, false, false, null, null, null, null, null) { }
         
         public DataGridViewGenericRow(string headerName, string rowName, bool isMultiLine, MetadataPriorityKey metadataPriorityKey) 
-            : this(headerName, rowName, ReadWriteAccess.AllowCellReadAndWrite, false, isMultiLine, null, null, metadataPriorityKey, null) { }
+            : this(headerName, rowName, ReadWriteAccess.AllowCellReadAndWrite, false, isMultiLine, null, null, null, metadataPriorityKey, null) { }
 
         public DataGridViewGenericRow(string headerName, string rowName, ReadWriteAccess readWriteAccess, bool isMultiLine, PropertyKey propertyKey)
-            : this(headerName, rowName, readWriteAccess, false, isMultiLine, propertyKey, null, null, null) { }
+            : this(headerName, rowName, readWriteAccess, false, isMultiLine, propertyKey, null, null, null, null) { }
 
-        public DataGridViewGenericRow(string headerName, string rowName, Metadata metadata)
-            : this(headerName, rowName, ReadWriteAccess.AllowCellReadAndWrite, false, false, null, metadata, null, null) { }
+        public DataGridViewGenericRow(string headerName, string rowName, Metadata metadata, FileEntry fileEntry)
+            : this(headerName, rowName, ReadWriteAccess.AllowCellReadAndWrite, false, false, null, metadata, fileEntry, null, null) { }
 
         public DataGridViewGenericRow(string headerName, string rowName, LocationCoordinate locationCoordinate)
-            : this(headerName, rowName, ReadWriteAccess.AllowCellReadAndWrite, false, false, null, null, null, locationCoordinate) { }
+            : this(headerName, rowName, ReadWriteAccess.AllowCellReadAndWrite, false, false, null, null, null, null, locationCoordinate) { }
 
         public DataGridViewGenericRow(string headerName, string rowName, MetadataPriorityKey metadataPriorityKey)
-            : this(headerName, rowName, ReadWriteAccess.AllowCellReadAndWrite, false, false, null, null, metadataPriorityKey, null) { }
+            : this(headerName, rowName, ReadWriteAccess.AllowCellReadAndWrite, false, false, null, null, null, metadataPriorityKey, null) { }
         
 
-        private DataGridViewGenericRow(string headerName, string rowName, ReadWriteAccess readWriteAcess, bool isHeader, bool isMultiLine, PropertyKey propertyKey, Metadata metadata, MetadataPriorityKey metadataPriorityKey, LocationCoordinate locationCoordinate)
+        private DataGridViewGenericRow(string headerName, string rowName, ReadWriteAccess readWriteAcess, bool isHeader, bool isMultiLine, PropertyKey propertyKey, 
+            Metadata metadata, FileEntry fileEntry,
+            MetadataPriorityKey metadataPriorityKey, LocationCoordinate locationCoordinate)
         {
             this.HeaderName = headerName ?? throw new ArgumentNullException(nameof(rowName));
             this.RowName = rowName == null ? "" : rowName;  
@@ -63,6 +67,7 @@ namespace DataGridViewGeneric
             this.IsMultiLine = isMultiLine;
             this.PropertyKey = propertyKey;
             this.Metadata = metadata;
+            this.FileEntry = fileEntry;
             this.MetadataPriorityKey = metadataPriorityKey;
             this.LocationCoordinate = locationCoordinate;
         }
