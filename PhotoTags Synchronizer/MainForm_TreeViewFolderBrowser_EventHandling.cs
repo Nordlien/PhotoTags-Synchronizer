@@ -10,6 +10,7 @@ using Thumbnails;
 using System.Diagnostics;
 using Krypton.Toolkit;
 using Raccoom.Windows.Forms;
+using FileHandeling;
 
 namespace PhotoTagsSynchronizer
 {
@@ -45,15 +46,17 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region PopulateImageListView
-        private void PopulateImageListView(HashSet<FileEntry> fileEntries, string selectedFolder, bool runPopulateFilter = true)
+        private void PopulateImageListView(IEnumerable<FileData> fileDatas, HashSet<FileEntry> fileEntries, string selectedFolder, bool runPopulateFilter = true)
         {
+
             using (new WaitCursor())
             {
+                #region Krypton Sort menu - set to unchecked
                 for (int index = 0; index < kryptonContextMenuFileSystemColumnSort.Items.Count; index++)
                 {
                     if (kryptonContextMenuFileSystemColumnSort.Items[index] is KryptonContextMenuRadioButton radioButton) radioButton.Checked = false;
                 }
-
+                #endregion
 
                 GlobalData.IsPopulatingFolderSelected = true; //Don't start twice
                 
@@ -62,32 +65,32 @@ namespace PhotoTagsSynchronizer
                 UpdateStatusImageListView("Clear all old queues");
                 ClearAllQueues();
 
+                if (runPopulateFilter) FilterVerifyer.ClearTreeViewNodes(treeViewFilter);
 
+                LoadingItemsImageListView(2, 5);
+//UpdateStatusImageListView("Adding files to image list: " + fileData.Count);
+                fileEntries = ImageListViewAggregateWithMediaFiles(fileDatas, fileEntries);
+
+                treeViewFolderBrowser1.Enabled = true;
+                GlobalData.IsPopulatingFolderSelected = false;
+
+                #region Read to cache
                 if (cacheFolderThumbnails || cacheFolderMetadatas || cacheFolderWebScraperDataSets)
                 {
-                    LoadingItemsImageListView(2, 5);
+                    LoadingItemsImageListView(3, 5);
                     UpdateStatusImageListView("Started the cache process...");
                     CacheFileEntries(fileEntries, selectedFolder);
                 }
-                
-                if (runPopulateFilter)
-                {
-                    FilterVerifyer.ClearTreeViewNodes(treeViewFilter);
-                }
+                #endregion
 
-                LoadingItemsImageListView(3, 5);
-                UpdateStatusImageListView("Adding files to image list: " + fileEntries.Count);
-                ImageListViewAggregateWithMediaFiles(fileEntries);
-
-                treeViewFolderBrowser1.Enabled = true;
-
+                #region PopulateFilter
                 if (runPopulateFilter)
                 {
                     LoadingItemsImageListView(4, 5);
                     UpdateStatusImageListView("Populate Filters");
                     PopulateTreeViewFolderFilterThread(fileEntries);
                 }
-                GlobalData.IsPopulatingFolderSelected = false;
+                #endregion
             }
             FilesSelectedOrNoneSelected(); //Even when 0 selected files, allocate data and flags, etc...
 
@@ -138,30 +141,31 @@ namespace PhotoTagsSynchronizer
             Properties.Settings.Default.LastFolder = GetSelectedNodeFullPath();
             
             UpdateStatusImageListView("Read files in folder: " + selectedFolder);
-            HashSet<FileEntry> fileEntries = ImageAndMovieFileExtentionsUtility.ListAllMediaFileEntries(selectedFolder, recursive);
+            IEnumerable<FileData> fileDatas = GetFilesInSelectedFolder(selectedFolder, recursive);
+            PopulateImageListView(fileDatas, null, selectedFolder, runPopulateFilter);
 
-            UpdateStatusImageListView("Check for OneDrive duplicate files in folder: " + selectedFolder);
-            if (FileHandeling.FileHandler.FixOneDriveIssues(fileEntries, this, oneDriveNetworkNames, false))
-            {
-                switch (KryptonMessageBox.Show("OneDrive duplicated files found.\r\n" +
-                    "\r\n"+
-                    "Will you replace older files with newest files\r\n" +
-                    "Yes - keep the newest files\r\n" +
-                    "No - delete OneDrive marked files regardless who is newest\r\n" + 
-                    "Cancel - Cancel the operation, Leave the files intact", "OneDrive duplicated files found.", MessageBoxButtons.YesNoCancel))
-                {
-                    case DialogResult.Yes:
-                        FileHandeling.FileHandler.FixOneDriveIssues(fileEntries, this, oneDriveNetworkNames, true, true);
-                        fileEntries = ImageAndMovieFileExtentionsUtility.ListAllMediaFileEntries(selectedFolder, recursive);
-                        break;
-                    case DialogResult.No:
-                        FileHandeling.FileHandler.FixOneDriveIssues(fileEntries, this, oneDriveNetworkNames, true, false);
-                        fileEntries = ImageAndMovieFileExtentionsUtility.ListAllMediaFileEntries(selectedFolder, recursive);
-                        break;
-                }
-            }
+            //UpdateStatusImageListView("Check for OneDrive duplicate files in folder: " + selectedFolder);
+            //if (FileHandeling.FileHandler.FixOneDriveIssues(fileEntries, this, oneDriveNetworkNames, false))
+            //{
+            //    switch (KryptonMessageBox.Show("OneDrive duplicated files found.\r\n" +
+            //        "\r\n"+
+            //        "Will you replace older files with newest files\r\n" +
+            //        "Yes - keep the newest files\r\n" +
+            //        "No - delete OneDrive marked files regardless who is newest\r\n" + 
+            //        "Cancel - Cancel the operation, Leave the files intact", "OneDrive duplicated files found.", MessageBoxButtons.YesNoCancel))
+            //    {
+            //        case DialogResult.Yes:
+            //            FileHandeling.FileHandler.FixOneDriveIssues(fileEntries, this, oneDriveNetworkNames, true, true);
+            //            fileEntries = ImageAndMovieFileExtentionsUtility.ListAllMediaFileEntries(selectedFolder, recursive);
+            //            break;
+            //        case DialogResult.No:
+            //            FileHandeling.FileHandler.FixOneDriveIssues(fileEntries, this, oneDriveNetworkNames, true, false);
+            //            fileEntries = ImageAndMovieFileExtentionsUtility.ListAllMediaFileEntries(selectedFolder, recursive);
+            //            break;
+            //    }
+            //}
             #endregion
-            PopulateImageListView(fileEntries, selectedFolder, runPopulateFilter);
+
         }
         #endregion
 
@@ -169,7 +173,7 @@ namespace PhotoTagsSynchronizer
         private void PopulateImageListView_FromSearchTab(HashSet<FileEntry> searchFilterResult, bool runPopulateFilter = true)
         {
             if (GlobalData.IsPopulatingAnything()) return;
-            PopulateImageListView(searchFilterResult, null, runPopulateFilter);
+            PopulateImageListView(null, searchFilterResult, null, runPopulateFilter);
         }
         #endregion 
 

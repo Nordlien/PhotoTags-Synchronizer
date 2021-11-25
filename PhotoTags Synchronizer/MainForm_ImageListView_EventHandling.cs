@@ -11,6 +11,8 @@ using static Manina.Windows.Forms.ImageListView;
 using FileHandeling;
 using Krypton.Toolkit;
 using FileDateTime;
+using ImageAndMovieFileExtentions;
+using System.Diagnostics;
 
 namespace PhotoTagsSynchronizer
 {
@@ -586,9 +588,11 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region ImageListView - Aggregate - FromSearchFilter
-        private void ImageListViewAggregateWithMediaFiles(HashSet<FileEntry> fileEntries)
+        private HashSet<FileEntry> ImageListViewAggregateWithMediaFiles(IEnumerable<FileData> fileDatasFromFolder, HashSet<FileEntry> fileEntriesFromDatabase)
         {
-            //if (cacheFolderThumbnails || cacheFolderMetadatas || cacheFolderWebScraperDataSets) CacheFolder(selectedFolder, filesFoundInDirectory, recursive);
+
+            HashSet<FileEntry> fileEntriesFound = new HashSet<FileEntry>();
+
             if (Properties.Settings.Default.ImageViewLoadThumbnailOnDemandMode) imageListView1.CacheMode = CacheMode.OnDemand;
             else imageListView1.CacheMode = CacheMode.Continuous;
 
@@ -598,25 +602,59 @@ namespace PhotoTagsSynchronizer
             ImageListViewSuspendLayoutInvoke(imageListView1);
 
             FilterVerifyer filterVerifyerFolder = new FilterVerifyer();
-            int valuesCountAdded = filterVerifyerFolder.ReadValuesFromRootNodesWithChilds(treeViewFilter, FilterVerifyer.Root);
+            int valuesCountAdded = filterVerifyerFolder.ReadValuesFromRootNodesWithChilds(treeViewFilter, FilterVerifyer.Root); //Get filters
 
-            foreach (FileEntry fileEntry in fileEntries)
+            if (fileDatasFromFolder != null)
             {
-                if (File.Exists(fileEntry.FileFullPath))
+                foreach (FileData fileData in fileDatasFromFolder)
                 {
-                    if (valuesCountAdded > 0) // no filter values added, no need read from database, this fjust for optimize speed
+                    if ((fileData.Attributes & FileAttributes.Directory) != FileAttributes.Directory && ImageAndMovieFileExtentionsUtility.IsMediaFormat(fileData.Name))
                     {
-                        Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
-                        if (filterVerifyerFolder.VerifyMetadata(metadata)) imageListView1.Items.Add(fileEntry.FileFullPath);
+                        #region Add to ImageListView and check filter
+                        FileEntry fileEntry = new FileEntry(fileData.Path, fileData.LastWriteTime);
+                        fileEntriesFound.Add(fileEntry);
+
+                        if (valuesCountAdded > 0) // no filter values added, no need read from database, this just for optimize speed
+                        {
+                            Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileData.Path, fileData.LastWriteTime, MetadataBrokerType.ExifTool));
+                            if (filterVerifyerFolder.VerifyMetadata(metadata)) imageListView1.Items.Add(fileData.Path);
+                        }
+                        else imageListView1.Items.Add(fileData.Path);
+                        #endregion
                     }
-                    else imageListView1.Items.Add(fileEntry.FileFullPath);
                 }
+            }
+
+            if (fileEntriesFromDatabase != null)
+            {
+                foreach (FileEntry fileEntry in fileEntriesFound)
+                {
+                    #region Add to ImageListView and check filter
+                    if (File.Exists(fileEntry.FileFullPath))
+                    {
+                        if (valuesCountAdded > 0) // no filter values added, no need read from database, this just for optimize speed
+                        {
+                            Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
+                            if (filterVerifyerFolder.VerifyMetadata(metadata)) imageListView1.Items.Add(fileEntry.FileFullPath);
+                        }
+                        else imageListView1.Items.Add(fileEntry.FileFullPath);
+                    }
+                    #endregion
+                }
+                fileEntriesFound = fileEntriesFromDatabase;
             }
 
             imageListView1.Enabled = true;
             ImageListViewResumeLayoutInvoke(imageListView1);
-            
+
+            UpdateStatusImageListView(fileEntriesFound.Count + " files added");
+            this.kryptonPageMediaFiles.Refresh();
+            imageListView1.Refresh();
+            Application.DoEvents();
+
             StartThreads();
+
+            return fileEntriesFound;
         }
         #endregion
         

@@ -5386,20 +5386,6 @@ namespace PhotoTagsSynchronizer
             return selectedFullFileNameImageListViewCache.Contains(fullFileName);
         }
 
-        private List<string> GetSelectedFilesImageListView()
-        {
-            List<string> files = new List<string>();
-            try
-            {
-                foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
-                {
-                    if (!files.Contains(imageListViewItem.FileFullPath)) files.Add(imageListViewItem.FileFullPath);
-                }
-            }
-            catch { }
-            return files;
-        }
-
         private HashSet<FileEntry> GetSelectedFileEntriesImageListView()
         {
             if (selectedFileEntriesImageListViewCache != null) return selectedFileEntriesImageListViewCache;
@@ -5440,11 +5426,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        private void MediaFileFound(object source, SearchMediaFileEventArgs e)
-        {
-            UpdateStatusImageListView(e.Filename);
-        }
-
         #region GetFilesInSelectedFolder
         private string cachedFolder = "";
         private HashSet<FileEntry> fileEntriesFolderCahced = new HashSet<FileEntry>();
@@ -5462,13 +5443,14 @@ namespace PhotoTagsSynchronizer
                     return fileEntriesFolderCahced;
                 }
 
-                if (cachedFolder != folder)
+                if (cachedFolder != folder) //Need updated cache
                 {
-                    IEnumerable<FileData> fileDatas = ImageAndMovieFileExtentionsUtility.GetFilesByEnumerableFast(folder, null, false);
+                    IEnumerable<FileData> fileDatas = ImageAndMovieFileExtentionsUtility.GetFilesByEnumerableFast(folder, false);
                     HashSet<FileEntry> fileEntriesFolder = new HashSet<FileEntry>();
                     foreach (FileData fileData in fileDatas)
                     {
-                        fileEntriesFolder.Add(new FileEntry(fileData.Path, fileData.LastWriteTime));
+                        if ((fileData.Attributes & FileAttributes.Directory) != FileAttributes.Directory && ImageAndMovieFileExtentionsUtility.IsMediaFormat(fileData.Name))
+                            fileEntriesFolder.Add(new FileEntry(fileData.Path, fileData.LastWriteTime));
                     }
                     fileEntriesFolderCahced = fileEntriesFolder;
                     cachedFolder = folder;
@@ -5481,21 +5463,23 @@ namespace PhotoTagsSynchronizer
 
             return fileEntriesFolderCahced;
         }
-        private IEnumerable<FileData> GetFilesInSelectedFolder()
+
+        
+        private IEnumerable<FileData> GetFilesInSelectedFolder(string folder, bool recursive = false)
         {
             IEnumerable<FileData> fileDatas = null;
             try
             {
-                string folder = GetSelectedNodePath();
+                //string folder = GetSelectedNodePath();
                 if (folder == null || !Directory.Exists(folder))
                 {
                     KryptonMessageBox.Show("Can't reach the folder. Not a valid folder selected.");
                     return fileDatas;
                 }
 
-                ImageAndMovieFileExtentionsUtility.OnSearchMediaFileFound += new SearchMediaFileHandler(MediaFileFound);
+                //ImageAndMovieFileExtentionsUtility.OnSearchMediaFileFound += new SearchMediaFileHandler(MediaFileFound);
                     
-                fileDatas = ImageAndMovieFileExtentionsUtility.GetFilesByEnumerableFast(folder, null, false);
+                fileDatas = ImageAndMovieFileExtentionsUtility.GetFilesByEnumerableFast(folder, recursive);
             }
             catch (Exception ex)
             {
@@ -6850,9 +6834,8 @@ namespace PhotoTagsSynchronizer
                         UpdateStatusAction(recordAffected + " records was delete from database....");
 
                         string selectedFolder = GetSelectedNodePath();
-                        HashSet<FileEntry> fileEntries = ImageAndMovieFileExtentionsUtility.ListAllMediaFileEntries(selectedFolder, false);
-
-                        PopulateImageListView(fileEntries, selectedFolder, false);
+                        IEnumerable<FileData> fileDatas = GetFilesInSelectedFolder(selectedFolder, false);
+                        PopulateImageListView(fileDatas, null, selectedFolder, false);
                     }
                 }
                 DisplayAllQueueStatus();

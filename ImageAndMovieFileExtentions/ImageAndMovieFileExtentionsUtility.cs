@@ -655,7 +655,7 @@ namespace ImageAndMovieFileExtentions
 
         #region GetAllMediaExtentions
         private static HashSet<string> allFiles = new HashSet<string>();
-        private static HashSet<string> GetAllMediaExtentions()
+        public static HashSet<string> GetAllMediaExtentions()
         {
             if (allFiles.Count == 0)
             {
@@ -666,46 +666,46 @@ namespace ImageAndMovieFileExtentions
         }
         #endregion
 
-        #region ListAllMediaFileEntries
-        public static HashSet<FileEntry> ListAllMediaFileEntries(string directory, bool recursive)
-        {
-            return GetFilesByExtensionsFast(directory, GetAllMediaExtentions(), recursive);            
-        }
-        #endregion
+        //#region ListAllMediaFileEntries
+        //public static HashSet<FileEntry> ListAllMediaFileEntries(string directory, bool recursive)
+        //{
+        //    return GetFilesByExtensionsFast(directory, GetAllMediaExtentions(), recursive);            
+        //}
+        //#endregion
+
+        //#region GetFilesByExtensions - Fast
+        //public static HashSet<FileEntry> GetFilesByExtensionsFast(string folder, HashSet<string> extensions, bool recursive)
+        //{
+        //    HashSet<FileEntry> fileEntries = new HashSet<FileEntry>();
+        //    try
+        //    {
+        //        if (!string.IsNullOrWhiteSpace(folder) && Directory.Exists(folder))
+        //        {
+        //            IEnumerable<FileData> enumerateFiles = FastDirectoryEnumerator.EnumerateFiles(folder, "*", recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
+
+        //            foreach (FileData fileData in enumerateFiles)
+        //            {
+        //                if ((fileData.Attributes & FileAttributes.Directory) == 0)
+        //                {
+        //                    if (extensions.Contains(Path.GetExtension(fileData.Path).ToUpper()))
+        //                    {
+        //                        fileEntries.Add(new FileEntry(fileData.Path, fileData.LastWriteTime));
+        //                        if (OnSearchMediaFileFound != null) OnSearchMediaFileFound(null, new SearchMediaFileEventArgs(fileData.Path));
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Logger.Error(ex, "GetFilesByExtensionsFast");
+        //    }
+        //    return fileEntries;
+        //}
+        //#endregion
 
         #region GetFilesByExtensions - Fast
-        public static HashSet<FileEntry> GetFilesByExtensionsFast(string folder, HashSet<string> extensions, bool recursive)
-        {
-            HashSet<FileEntry> fileEntries = new HashSet<FileEntry>();
-            try
-            {
-                if (!string.IsNullOrWhiteSpace(folder) && Directory.Exists(folder))
-                {
-                    IEnumerable<FileData> enumerateFiles = FastDirectoryEnumerator.EnumerateFiles(folder, "*", recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
-
-                    foreach (FileData fileData in enumerateFiles)
-                    {
-                        if ((fileData.Attributes & FileAttributes.Directory) == 0)
-                        {
-                            if (extensions.Contains(Path.GetExtension(fileData.Path).ToUpper()))
-                            {
-                                fileEntries.Add(new FileEntry(fileData.Path, fileData.LastWriteTime));
-                                if (OnSearchMediaFileFound != null) OnSearchMediaFileFound(null, new SearchMediaFileEventArgs(fileData.Path));
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "GetFilesByExtensionsFast");
-            }
-            return fileEntries;
-        }
-        #endregion
-
-        #region GetFilesByExtensions - Fast
-        public static IEnumerable<FileData> GetFilesByEnumerableFast(string folder, HashSet<string> extensions, bool recursive)
+        public static IEnumerable<FileData> GetFilesByEnumerableFast(string folder, bool recursive)
         {
             try
             {
@@ -747,6 +747,8 @@ namespace ImageAndMovieFileExtentions
         #region IsVideoFormat
         public static bool IsVideoFormat(string filename)
         {
+            if (filename == ".") return false;
+            if (filename == "..") return false;
             return videoFormats.Contains(Path.GetExtension(filename).ToUpper());
         }
         #endregion
@@ -761,6 +763,8 @@ namespace ImageAndMovieFileExtentions
         #region IsMediaFormat
         public static bool IsMediaFormat(string filename)
         {
+            if (filename == ".") return false;
+            if (filename == "..") return false;
             if (IsVideoFormat(filename)) return true;
             return IsImageFormat(filename);
         }

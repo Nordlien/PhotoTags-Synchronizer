@@ -289,7 +289,7 @@ namespace FileHandeling
             } while (areAnyFileLocked);
             try
             {
-                if (formWaitLockedFile != null)
+                if (formWaitLockedFile != null && formWaitLockedFile.IsHandleCreated)
                 {
                     _ = form.BeginInvoke(new Action(formWaitLockedFile.Close));
                     //formWaitLockedFile.Close();

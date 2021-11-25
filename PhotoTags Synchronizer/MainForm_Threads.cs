@@ -376,6 +376,9 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        
+
+
         #region Preloading - Metadata - Thread - Faster Sqlite read for a list of files
         /// <summary>
         /// Faster read of metadata and put into the cache

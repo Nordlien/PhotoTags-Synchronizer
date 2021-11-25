@@ -137,18 +137,20 @@ namespace ApplicationAssociations
                 else //Removed from common list to that is not common for all
                 {
                     List<ApplicationData> listOpenWithInBothList = new List<ApplicationData>();
-                    foreach (ApplicationData applicationData in extentionApplications[extention])
-                    {                        
-                        //Check exist in common both list
-                        foreach (ApplicationData checkIfExist in commonExtentionApplications)
+                    if (extentionApplications.ContainsKey(extention))
+                    {
+                        foreach (ApplicationData applicationData in extentionApplications[extention])
                         {
-                            if (checkIfExist.FriendlyAppName == applicationData.FriendlyAppName)
+                            //Check exist in common both list
+                            foreach (ApplicationData checkIfExist in commonExtentionApplications)
                             {
-                                listOpenWithInBothList.Add(applicationData);
-                                break;
+                                if (checkIfExist.FriendlyAppName == applicationData.FriendlyAppName)
+                                {
+                                    listOpenWithInBothList.Add(applicationData);
+                                    break;
+                                }
                             }
                         }
-                        
                     }
                     commonExtentionApplications = listOpenWithInBothList;
                 }

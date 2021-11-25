@@ -590,7 +590,7 @@ namespace PhotoTagsSynchronizer
                     DataGridViewSize dataGridViewSize;
                     ShowWhatColumns showWhatColumnsForTab;
                     bool showProgressCircle = true;
-                    bool isSizeEnabled = GetSelectedFilesImageListView().Count > 0;
+                    bool isSizeEnabled = GetSelectedFileEntriesImageListView().Count > 0;
                     bool isColumnsEnabled = isSizeEnabled;
                     switch (GetActiveTabTag())
                     {
