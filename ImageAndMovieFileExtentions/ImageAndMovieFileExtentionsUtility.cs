@@ -666,44 +666,6 @@ namespace ImageAndMovieFileExtentions
         }
         #endregion
 
-        //#region ListAllMediaFileEntries
-        //public static HashSet<FileEntry> ListAllMediaFileEntries(string directory, bool recursive)
-        //{
-        //    return GetFilesByExtensionsFast(directory, GetAllMediaExtentions(), recursive);            
-        //}
-        //#endregion
-
-        //#region GetFilesByExtensions - Fast
-        //public static HashSet<FileEntry> GetFilesByExtensionsFast(string folder, HashSet<string> extensions, bool recursive)
-        //{
-        //    HashSet<FileEntry> fileEntries = new HashSet<FileEntry>();
-        //    try
-        //    {
-        //        if (!string.IsNullOrWhiteSpace(folder) && Directory.Exists(folder))
-        //        {
-        //            IEnumerable<FileData> enumerateFiles = FastDirectoryEnumerator.EnumerateFiles(folder, "*", recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
-
-        //            foreach (FileData fileData in enumerateFiles)
-        //            {
-        //                if ((fileData.Attributes & FileAttributes.Directory) == 0)
-        //                {
-        //                    if (extensions.Contains(Path.GetExtension(fileData.Path).ToUpper()))
-        //                    {
-        //                        fileEntries.Add(new FileEntry(fileData.Path, fileData.LastWriteTime));
-        //                        if (OnSearchMediaFileFound != null) OnSearchMediaFileFound(null, new SearchMediaFileEventArgs(fileData.Path));
-        //                    }
-        //                }
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Logger.Error(ex, "GetFilesByExtensionsFast");
-        //    }
-        //    return fileEntries;
-        //}
-        //#endregion
-
         #region GetFilesByExtensions - Fast
         public static IEnumerable<FileData> GetFilesByEnumerableFast(string folder, bool recursive)
         {

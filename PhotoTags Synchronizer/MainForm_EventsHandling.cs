@@ -5320,6 +5320,8 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
+        #region Get files (Folder or Selected or DataGridView)
+
         #region GetSelectedFilesFromActiveDataGridView
         private HashSet<FileEntry> GetSelectedFilesFromActiveDataGridView()
         {
@@ -5426,9 +5428,9 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region GetFilesInSelectedFolder
+        #region GetFilesInSelectedFolderCached
         private string cachedFolder = "";
-        private HashSet<FileEntry> fileEntriesFolderCahced = new HashSet<FileEntry>();
+        private HashSet<FileEntry> fileEntriesFolderCached = new HashSet<FileEntry>();
         private HashSet<FileEntry> GetFilesInSelectedFolderCached()
         {
 
@@ -5439,8 +5441,8 @@ namespace PhotoTagsSynchronizer
                 {
                     KryptonMessageBox.Show("Can't reach the folder. Not a valid folder selected.");
                     cachedFolder = "";
-                    fileEntriesFolderCahced = new HashSet<FileEntry>();
-                    return fileEntriesFolderCahced;
+                    fileEntriesFolderCached = new HashSet<FileEntry>();
+                    return fileEntriesFolderCached;
                 }
 
                 if (cachedFolder != folder) //Need updated cache
@@ -5451,7 +5453,7 @@ namespace PhotoTagsSynchronizer
                     {
                         if (ImageAndMovieFileExtentionsUtility.IsMediaFormat(fileData)) fileEntriesFolder.Add(new FileEntry(fileData.Path, fileData.LastWriteTime));
                     }
-                    fileEntriesFolderCahced = fileEntriesFolder;
+                    fileEntriesFolderCached = fileEntriesFolder;
                     cachedFolder = folder;
                 }
             }
@@ -5460,24 +5462,21 @@ namespace PhotoTagsSynchronizer
                 Logger.Error(ex, "");
             }
 
-            return fileEntriesFolderCahced;
+            return fileEntriesFolderCached;
         }
+        #endregion
 
-        
+        #region GetFilesInSelectedFolder
         private IEnumerable<FileData> GetFilesInSelectedFolder(string folder, bool recursive = false)
         {
             IEnumerable<FileData> fileDatas = null;
             try
             {
-                //string folder = GetSelectedNodePath();
                 if (folder == null || !Directory.Exists(folder))
                 {
                     KryptonMessageBox.Show("Can't reach the folder. Not a valid folder selected.");
                     return fileDatas;
                 }
-
-                //ImageAndMovieFileExtentionsUtility.OnSearchMediaFileFound += new SearchMediaFileHandler(MediaFileFound);
-                    
                 fileDatas = ImageAndMovieFileExtentionsUtility.GetFilesByEnumerableFast(folder, recursive);
             }
             catch (Exception ex)
@@ -5486,6 +5485,8 @@ namespace PhotoTagsSynchronizer
             }
             return fileDatas;
         }
+        #endregion
+
         #endregion 
 
         #region OpenExplorerLocation
