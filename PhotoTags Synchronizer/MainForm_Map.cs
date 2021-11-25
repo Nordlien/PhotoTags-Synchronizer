@@ -429,12 +429,14 @@ namespace PhotoTagsSynchronizer
             if (isDataGridViewMaps_CellValueChanging) return; //Avoid requirng isues
             if (GlobalData.IsApplicationClosing) return;
             if (GlobalData.IsPopulatingAnything()) return;
+            if (e.ColumnIndex < 0) return;
+            if (e.RowIndex < 0) return;
 
             DataGridView dataGridView = ((DataGridView)sender);
             if (!dataGridView.Enabled) return;
 
             DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, e.ColumnIndex);
-            if (dataGridViewGenericColumn.Metadata == null) return;
+            if (dataGridViewGenericColumn?.Metadata == null) return;
             DataGridViewGenericRow gridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, e.RowIndex);
 
             isDataGridViewMaps_CellValueChanging = true;
