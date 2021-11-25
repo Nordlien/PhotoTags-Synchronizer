@@ -5449,8 +5449,7 @@ namespace PhotoTagsSynchronizer
                     HashSet<FileEntry> fileEntriesFolder = new HashSet<FileEntry>();
                     foreach (FileData fileData in fileDatas)
                     {
-                        if ((fileData.Attributes & FileAttributes.Directory) != FileAttributes.Directory && ImageAndMovieFileExtentionsUtility.IsMediaFormat(fileData.Name))
-                            fileEntriesFolder.Add(new FileEntry(fileData.Path, fileData.LastWriteTime));
+                        if (ImageAndMovieFileExtentionsUtility.IsMediaFormat(fileData)) fileEntriesFolder.Add(new FileEntry(fileData.Path, fileData.LastWriteTime));
                     }
                     fileEntriesFolderCahced = fileEntriesFolder;
                     cachedFolder = folder;

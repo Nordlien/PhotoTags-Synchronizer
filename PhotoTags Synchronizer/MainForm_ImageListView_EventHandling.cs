@@ -608,7 +608,7 @@ namespace PhotoTagsSynchronizer
             {
                 foreach (FileData fileData in fileDatasFromFolder)
                 {
-                    if ((fileData.Attributes & FileAttributes.Directory) != FileAttributes.Directory && ImageAndMovieFileExtentionsUtility.IsMediaFormat(fileData.Name))
+                    if (ImageAndMovieFileExtentionsUtility.IsMediaFormat(fileData))
                     {
                         #region Add to ImageListView and check filter
                         FileEntry fileEntry = new FileEntry(fileData.Path, fileData.LastWriteTime);

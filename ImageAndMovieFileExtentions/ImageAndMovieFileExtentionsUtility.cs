@@ -756,17 +756,18 @@ namespace ImageAndMovieFileExtentions
         #region IsImageFormat
         public static bool IsImageFormat(string filename)
         {
+            if (filename == ".") return false;
+            if (filename == "..") return false;
             return imageFormats.Contains(Path.GetExtension(filename).ToUpper());
         }
         #endregion
 
         #region IsMediaFormat
-        public static bool IsMediaFormat(string filename)
+        public static bool IsMediaFormat(FileData fileData)
         {
-            if (filename == ".") return false;
-            if (filename == "..") return false;
-            if (IsVideoFormat(filename)) return true;
-            return IsImageFormat(filename);
+            if ((fileData.Attributes & FileAttributes.Directory) == FileAttributes.Directory) return false;
+            if (IsVideoFormat(fileData.Name)) return true;
+            return IsImageFormat(fileData.Name);
         }
         #endregion
 
