@@ -351,7 +351,6 @@ namespace PhotoTagsSynchronizer
             GroupSelectionClear();
             imageListView1.SuspendLayout(); //When Enabled = true, slection was cancelled during Updating the grid
             FilesSelectedOrNoneSelected();
-            imageListView1.Enabled = true;
             imageListView1.ResumeLayout(); 
             MaximizeOrRestoreWorkspaceMainCellAndChilds();
         }
@@ -643,6 +642,9 @@ namespace PhotoTagsSynchronizer
                 }
                 fileEntriesFound = fileEntriesFromDatabase;
             }
+
+            UpdateStatusImageListView("Sorting...");
+            ImageListViewSortByCheckedRdioButton();
 
             imageListView1.Enabled = true;
             ImageListViewResumeLayoutInvoke(imageListView1);

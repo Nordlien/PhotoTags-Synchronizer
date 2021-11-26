@@ -184,7 +184,7 @@ namespace PhotoTagsSynchronizer
             if (imageListViewFileEntryItems == null) return;
             GlobalData.IsImageListViewForEachInProgressRequestStop = true;
 
-            if (threadPopulateFilter != null) // || threadPopulateFilter.ThreadState == System.Threading.ThreadState.Running || threadPopulateFilter.ThreadState == System.Threading.ThreadState.WaitSleepJoin)                   
+            if (threadPopulateFilter != null) 
             {
                 WaitThread_PopulateTreeViewFolderFilter_Stopped.WaitOne(10000);
             }

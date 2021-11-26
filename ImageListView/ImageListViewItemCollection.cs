@@ -51,13 +51,15 @@ namespace Manina.Windows.Forms
             }
             #endregion
 
+
+            private readonly object itemLock = new object();
             #region Properties
             /// <summary>
             /// Gets the number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1"/>.
             /// </summary>
             public int Count
             {
-                get { return mItems.Count; }
+                get {  lock (itemLock) { return mItems.Count; } }
             }
             /// <summary>
             /// Gets a value indicating whether the <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only.
@@ -448,24 +450,27 @@ namespace Manina.Windows.Forms
             /// <summary>
             /// Sorts the items by the sort order and sort column of the owner.
             /// </summary>
+            bool secondTry = false;
             internal void Sort()
             {
-                if (mImageListView == null || mImageListView.SortOrder == SortOrder.None)
-                    return;
-
-                // Display wait cursor while sorting
-                Cursor cursor = mImageListView.Cursor;
-                mImageListView.Cursor = Cursors.WaitCursor;
-
-                // Sort items
-                mItems.Sort(new ImageListViewItemComparer(mImageListView.SortColumn, mImageListView.SortOrder));
-
-                // Update item indices
-                for (int i = 0; i < mItems.Count; i++)
-                    mItems[i].mIndex = i;
-
-                // Restore previous cusrsor
-                mImageListView.Cursor = cursor;
+                lock (itemLock)
+                {
+                    if (mImageListView == null || mImageListView.SortOrder == SortOrder.None) return;
+                    try
+                    {
+                        mItems.Sort(new ImageListViewItemComparer(mImageListView.SortColumn, mImageListView.SortOrder)); // Sort items
+                    }
+                    catch
+                    {
+                        if (!secondTry) Sort();
+                        secondTry = true;
+                    }
+                    finally
+                    {
+                        for (int i = 0; i < mItems.Count; i++) mItems[i].mIndex = i; // Update item indices
+                    }
+                    secondTry = false;
+                }
             }
             #endregion
 

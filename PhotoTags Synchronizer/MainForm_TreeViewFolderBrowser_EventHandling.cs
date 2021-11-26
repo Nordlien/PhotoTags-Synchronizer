@@ -51,12 +51,12 @@ namespace PhotoTagsSynchronizer
 
             using (new WaitCursor())
             {
-                #region Krypton Sort menu - set to unchecked
-                for (int index = 0; index < kryptonContextMenuFileSystemColumnSort.Items.Count; index++)
-                {
-                    if (kryptonContextMenuFileSystemColumnSort.Items[index] is KryptonContextMenuRadioButton radioButton) radioButton.Checked = false;
-                }
-                #endregion
+                //#region Krypton Sort menu - set to unchecked
+                //for (int index = 0; index < kryptonContextMenuFileSystemColumnSort.Items.Count; index++)
+                //{
+                //    if (kryptonContextMenuFileSystemColumnSort.Items[index] is KryptonContextMenuRadioButton radioButton) radioButton.Checked = false;
+                //}
+                //#endregion
 
                 GlobalData.IsPopulatingFolderSelected = true; //Don't start twice
                 
@@ -68,8 +68,12 @@ namespace PhotoTagsSynchronizer
                 if (runPopulateFilter) FilterVerifyer.ClearTreeViewNodes(treeViewFilter);
 
                 LoadingItemsImageListView(2, 5);
-//UpdateStatusImageListView("Adding files to image list: " + fileData.Count);
+                UpdateStatusImageListView("Adding files to image list...");
                 fileEntries = ImageListViewAggregateWithMediaFiles(fileDatas, fileEntries);
+
+                LoadingItemsImageListView(4, 5);
+                UpdateStatusImageListView("Sorting...");
+                ImageListViewSortByCheckedRdioButton();
 
                 treeViewFolderBrowser1.Enabled = true;
                 GlobalData.IsPopulatingFolderSelected = false;
@@ -83,14 +87,17 @@ namespace PhotoTagsSynchronizer
                 }
                 #endregion
 
+                
                 #region PopulateFilter
                 if (runPopulateFilter)
                 {
                     LoadingItemsImageListView(4, 5);
-                    UpdateStatusImageListView("Populate Filters");
+                    UpdateStatusImageListView("Populate Filters...");
                     PopulateTreeViewFolderFilterThread(fileEntries);
                 }
                 #endregion
+
+                
             }
             FilesSelectedOrNoneSelected(); //Even when 0 selected files, allocate data and flags, etc...
 
