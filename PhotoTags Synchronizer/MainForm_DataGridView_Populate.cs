@@ -262,7 +262,7 @@ namespace PhotoTagsSynchronizer
                         break;
                     default: throw new NotImplementedException();
                 }
-                PopulateDataGridViewForSelectedItemsThread(GetSelectedFileEntriesImageListView());
+                PopulateDataGridViewForSelectedItemsThread(GetSelectedFileEntriesImageListViewCache(true));
             }
             catch (Exception ex)
             {
@@ -273,7 +273,11 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region DataGridView - Populate DataGridView, OpenWith...
-        private void FilesSelectedOrNoneSelected()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileEntriesInImageListViewWithoutDragAndDrop">Null means, reread from ImageListView.Items</param>
+        private void OnImageListViewSelect_FilesSelectedOrNoneSelected(bool allowUseCache)
         {
             if (GlobalData.IsPopulatingAnything()) return; //E.g. Populate FolderSelect
             if (GlobalData.DoNotRefreshDataGridViewWhileFileSelect) return;
@@ -283,9 +287,9 @@ namespace PhotoTagsSynchronizer
                 GlobalData.IsPopulatingImageListView = true;
                 GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
 
-                HashSet<FileEntry> fileEntries = GetSelectedFileEntriesImageListView();
+                HashSet<FileEntry> fileEntries = GetSelectedFileEntriesImageListViewCache(allowUseCache);
                 PopulateDataGridViewForSelectedItemsThread(fileEntries);
-                PopulateImageListViewOpenWithToolStripThread(fileEntries, imageListView1.Items);
+                PopulateImageListViewOpenWithToolStripThread(fileEntries, GetImageListViewFilesCache());
                 UpdateRibbonsWhenWorkspaceChanged();
                 
 
@@ -315,7 +319,7 @@ namespace PhotoTagsSynchronizer
                 ImageListViewItem foundItem = FindItemInImageListView(imageListView1.Items, fileEntryAttribute.FileFullPath);
                 if (foundItem != null)
                 {
-                    if (foundItem.IsPropertyRequested()) foundItem.Update(); //imageListView1.Items.Remove(foundItem);
+                    if (foundItem.IsPropertyRequested()) foundItem.Update();
                 }
             } catch (Exception ex)
             {
@@ -330,7 +334,7 @@ namespace PhotoTagsSynchronizer
             lock (GlobalData.populateSelectedLock)
             {
                 #region isFileInDataGridView
-                bool isFilSelectedInImageListView = DoesExistInSelectedFileEntriesImageListView(fileEntryAttribute.FileFullPath);
+                bool isFilSelectedInImageListView = DoesExistInSelectedFileEntriesImageListView(fileEntryAttribute);
                 #endregion
 
                 DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, isFilSelectedInImageListView); //Will not suspend when Column Don't exist, but counter will increase
@@ -590,7 +594,7 @@ namespace PhotoTagsSynchronizer
                     DataGridViewSize dataGridViewSize;
                     ShowWhatColumns showWhatColumnsForTab;
                     bool showProgressCircle = true;
-                    bool isSizeEnabled = GetSelectedFileEntriesImageListView().Count > 0;
+                    bool isSizeEnabled = GetSelectedFileEntriesImageListViewCache(true).Count > 0;
                     bool isColumnsEnabled = isSizeEnabled;
                     switch (GetActiveTabTag())
                     {

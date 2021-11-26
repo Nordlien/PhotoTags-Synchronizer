@@ -25,7 +25,7 @@ namespace PhotoTagsSynchronizer
             }
 
             GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
-            imageListView.SuspendLayout();
+            ImageListViewSuspendLayoutInvoke(imageListView1);
 
             try
             {
@@ -47,7 +47,7 @@ namespace PhotoTagsSynchronizer
                 }
 
                 ImageListViewItem foundItem = FindItemInImageListView(imageListView.Items, sourceFullFilename);
-                if (foundItem != null) imageListView.Items.Remove(foundItem);
+                if (foundItem != null) ImageListViewRemoveItem(imageListView, foundItem); 
             }
             catch (Exception ex)
             {
@@ -69,11 +69,10 @@ namespace PhotoTagsSynchronizer
                     "Error message: " + ex.Message + "\r\n");
                 Logger.Error(ex, "Error when move file.");
             }
-
-            imageListView.ResumeLayout();
+            ImageListViewResumeLayoutInvoke(imageListView1);
             GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
 
-            FilesSelectedOrNoneSelected();
+            OnImageListViewSelect_FilesSelectedOrNoneSelected(false);
 
         }
         #endregion 
@@ -125,7 +124,7 @@ namespace PhotoTagsSynchronizer
                         GlobalData.DoNotRefreshImageListView = false;
 
                         ImageListViewItem foundItem = FindItemInImageListView(imageListView.Items, sourceFullFilename);
-                        if (foundItem != null) imageListView.Items.Remove(foundItem);
+                        if (foundItem != null) ImageListViewRemoveItem(imageListView, foundItem);
                     }
                     catch (Exception ex)
                     {
@@ -152,7 +151,7 @@ namespace PhotoTagsSynchronizer
             }
             GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
 
-            FilesSelectedOrNoneSelected();
+            OnImageListViewSelect_FilesSelectedOrNoneSelected(false);
         }
         #endregion
 
@@ -188,7 +187,7 @@ namespace PhotoTagsSynchronizer
                     }
                 }
                 //----- Updated ImageListView with files ------
-                PopulateImageListView_FromFolderSelected(false, true);
+                OnFolderTreeViewSelect_PopulateImageListView(false, true);
 
             }
             catch (Exception ex)
@@ -252,7 +251,7 @@ namespace PhotoTagsSynchronizer
                 }
             }
 
-            FilesSelectedOrNoneSelected();
+            OnImageListViewSelect_FilesSelectedOrNoneSelected(false);
         }
         #endregion
 

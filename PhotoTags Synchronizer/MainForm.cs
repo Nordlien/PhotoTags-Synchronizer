@@ -921,8 +921,8 @@ namespace PhotoTagsSynchronizer
             }
             #endregion
 
-            PopulateImageListView_FromFolderSelected(false, true);
-            FilesSelectedOrNoneSelected();
+            OnFolderTreeViewSelect_PopulateImageListView(false, true);
+            OnImageListViewSelect_FilesSelectedOrNoneSelected(false);
 
             MaximizeOrRestoreWorkspaceMainCellAndChilds();
             SetNavigatorModeSearch((NavigatorMode)Properties.Settings.Default.WorkspaceCellFolderSearchFilterNavigatorMode);

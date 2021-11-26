@@ -35,7 +35,7 @@ namespace PhotoTagsSynchronizer
                 if (GlobalData.IsDragAndDropActive) return;
                 if (GlobalData.DoNotRefreshImageListView) return;
                 GlobalData.SearchFolder = true;
-                PopulateImageListView_FromFolderSelected(false, true);
+                OnFolderTreeViewSelect_PopulateImageListView(false, true);
             }
             catch (Exception ex)
             {
@@ -44,6 +44,8 @@ namespace PhotoTagsSynchronizer
             }
         }
         #endregion
+
+         
 
         #region PopulateImageListView
         private void PopulateImageListView(IEnumerable<FileData> fileDatas, HashSet<FileEntry> fileEntries, string selectedFolder, bool runPopulateFilter = true)
@@ -59,8 +61,8 @@ namespace PhotoTagsSynchronizer
                 //#endregion
 
                 GlobalData.IsPopulatingFolderSelected = true; //Don't start twice
-                
-                treeViewFolderBrowser1.Enabled = false;
+
+                TreeViewFolderBrowserEnabled(treeViewFolderBrowser1, false);
                 LoadingItemsImageListView(1, 5);
                 UpdateStatusImageListView("Clear all old queues");
                 ClearAllQueues();
@@ -70,12 +72,13 @@ namespace PhotoTagsSynchronizer
                 LoadingItemsImageListView(2, 5);
                 UpdateStatusImageListView("Adding files to image list...");
                 fileEntries = ImageListViewAggregateWithMediaFiles(fileDatas, fileEntries);
-
+                
+                SetImageListViewFilesCache(fileEntries);
                 LoadingItemsImageListView(4, 5);
                 UpdateStatusImageListView("Sorting...");
                 ImageListViewSortByCheckedRdioButton();
 
-                treeViewFolderBrowser1.Enabled = true;
+                TreeViewFolderBrowserEnabled(treeViewFolderBrowser1, true);
                 GlobalData.IsPopulatingFolderSelected = false;
 
                 #region Read to cache
@@ -99,7 +102,7 @@ namespace PhotoTagsSynchronizer
 
                 
             }
-            FilesSelectedOrNoneSelected(); //Even when 0 selected files, allocate data and flags, etc...
+            OnImageListViewSelect_FilesSelectedOrNoneSelected(false); //Even when 0 selected files, allocate data and flags, etc...
 
             LoadingItemsImageListView(5, 5);
             UpdateStatusImageListView("Done populate " + fileEntries.Count + " media files...");
@@ -132,7 +135,7 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region FolderSelected - Populate DataGridView, ImageListView 
-        private void PopulateImageListView_FromFolderSelected(bool recursive, bool runPopulateFilter)
+        private void OnFolderTreeViewSelect_PopulateImageListView(bool recursive, bool runPopulateFilter)
         {
             #region Read folder files
             if (GlobalData.IsPopulatingFolderSelected) //If in progress, then stop and reselect new

@@ -154,7 +154,7 @@ namespace PhotoTagsSynchronizer
 
                         treeViewFolderBrowser1.SelectedNode = targetNode;
                         treeViewFolderBrowser1.SelectedNode.Expand();
-                        PopulateImageListView_FromFolderSelected(false, true);
+                        OnFolderTreeViewSelect_PopulateImageListView(false, true);
                         treeViewFolderBrowser1.Focus();
                     }
                 } 
@@ -314,7 +314,7 @@ namespace PhotoTagsSynchronizer
                 }
                 else if (e.Button == MouseButtons.Left)
                 {
-                    if (((TreeViewFolderBrowser)sender).SelectedNode == e.Node) PopulateImageListView_FromFolderSelected(false, true);
+                    if (((TreeViewFolderBrowser)sender).SelectedNode == e.Node) OnFolderTreeViewSelect_PopulateImageListView(false, true);
                 }
             }
             catch (Exception ex)

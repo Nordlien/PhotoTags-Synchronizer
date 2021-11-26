@@ -506,8 +506,8 @@ namespace PhotoTagsSynchronizer
         #region UpdateRibbonsWhenWorkspaceChanged()
         private void UpdateRibbonsWhenWorkspaceChanged()
         {
-            bool isSomethingSelected = (GetSelectedFileEntriesImageListView().Count >= 1);
-            bool isMoreThatOneSelected = (GetSelectedFileEntriesImageListView().Count > 1);
+            bool isSomethingSelected = (GetSelectedFileEntriesImageListViewCache(true).Count >= 1);
+            bool isMoreThatOneSelected = (GetSelectedFileEntriesImageListViewCache(true).Count > 1);
 
             SetPreviewRibbonEnabledStatus(previewStartEnabled: isSomethingSelected, enabled: false);
 
@@ -1676,7 +1676,7 @@ namespace PhotoTagsSynchronizer
                             }
                         }
 
-                        if (!fileFound) imageListView1.Items.Add(fullFilename);
+                        if (!fileFound) ImageListViewAddItem(fullFilename);
                     }
                 }
                 imageListView1.Focus();
@@ -1918,8 +1918,8 @@ namespace PhotoTagsSynchronizer
                 if (GlobalData.IsPopulatingAnything()) return;
                 if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
 
-                treeViewFolderBrowser1.Enabled = false;
-                imageListView1.Enabled = false;
+                TreeViewFolderBrowserEnabled(treeViewFolderBrowser1, false);
+                ImageListViewEnable(imageListView1, false);
 
                 try
                 {
@@ -1935,7 +1935,8 @@ namespace PhotoTagsSynchronizer
                         {
                             UpdateStatusAction("Deleing files and all record about files in database....");
                             filesCutCopyPasteDrag.DeleteSelectedFiles(this, imageListView1);
-                            FilesSelectedOrNoneSelected();
+                            SetImageListViewFilesCacheClear();
+                            OnImageListViewSelect_FilesSelectedOrNoneSelected(false);
                         }
                     }
                 }
@@ -1944,8 +1945,8 @@ namespace PhotoTagsSynchronizer
                     KryptonMessageBox.Show(ex.Message);
                 }
 
-                treeViewFolderBrowser1.Enabled = true;
-                imageListView1.Enabled = true;
+                TreeViewFolderBrowserEnabled(treeViewFolderBrowser1, true);
+                ImageListViewEnable(imageListView1, true);
                 imageListView1.Focus();
                 DisplayAllQueueStatus();
             }
@@ -1990,7 +1991,7 @@ namespace PhotoTagsSynchronizer
                             UpdateStatusAction("Delete all record about files in database....");
                             int recordAffected = filesCutCopyPasteDrag.DeleteFilesInFolder(this, treeViewFolderBrowser1, folder);
                             UpdateStatusAction(recordAffected + " records was delete from database....");
-                            PopulateImageListView_FromFolderSelected(false, true);
+                            OnFolderTreeViewSelect_PopulateImageListView(false, true);
                         }
                     }
                 }
@@ -4133,8 +4134,8 @@ namespace PhotoTagsSynchronizer
 
                 GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
                 //ImageListViewReloadThumbnailInvoke(imageListView1, null); //Why null
-                LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(GetSelectedFileEntriesImageListView());
-                FilesSelectedOrNoneSelected();
+                LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(GetSelectedFileEntriesImageListViewCache(true));
+                OnImageListViewSelect_FilesSelectedOrNoneSelected(false);
             }
         }
         #endregion
@@ -5220,7 +5221,7 @@ namespace PhotoTagsSynchronizer
                 TreeNodePath selectedNode = (TreeNodePath)treeViewFolderBrowser1.SelectedNode;
                 filesCutCopyPasteDrag.TreeViewFolderBrowserRefreshTreeNode(treeViewFolderBrowser1, selectedNode);
                 GlobalData.DoNotRefreshImageListView = false;
-                PopulateImageListView_FromFolderSelected(false, true);
+                OnFolderTreeViewSelect_PopulateImageListView(false, true);
                 treeViewFolderBrowser1.Focus();
             }
             catch (Exception ex)
@@ -5238,7 +5239,7 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-                PopulateImageListView_FromFolderSelected(false, true);
+                OnFolderTreeViewSelect_PopulateImageListView(false, true);
                 treeViewFolderBrowser1.Focus();
             }
             catch (Exception ex)
@@ -5307,7 +5308,7 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-                PopulateImageListView_FromFolderSelected(true, true);
+                OnFolderTreeViewSelect_PopulateImageListView(true, true);
                 treeViewFolderBrowser1.Focus();
             }
             catch (Exception ex)
@@ -5376,20 +5377,20 @@ namespace PhotoTagsSynchronizer
         #region GetSelectedFilesImageListView
         
         private HashSet<FileEntry> selectedFileEntriesImageListViewCache = null;
-        private HashSet<string> selectedFullFileNameImageListViewCache = null;
         private void SelectedFileEntriesImageListViewCacheClear()
         {
             selectedFileEntriesImageListViewCache = null;
         }
 
-        private bool DoesExistInSelectedFileEntriesImageListView(string fullFileName)
+        private bool DoesExistInSelectedFileEntriesImageListView(FileEntryAttribute fileEntryAttribute)
         {
-            if (selectedFullFileNameImageListViewCache == null) return false;
-            return selectedFullFileNameImageListViewCache.Contains(fullFileName);
+            if (selectedFileEntriesImageListViewCache == null) return false;
+            return selectedFileEntriesImageListViewCache.Contains(fileEntryAttribute.FileEntry);
         }
 
-        private HashSet<FileEntry> GetSelectedFileEntriesImageListView()
+        private HashSet<FileEntry> GetSelectedFileEntriesImageListViewCache(bool allowUseCache)
         {
+            if (!allowUseCache) selectedFileEntriesImageListViewCache = null;
             if (selectedFileEntriesImageListViewCache != null) return selectedFileEntriesImageListViewCache;
             
             HashSet<FileEntry> fileEntries = new HashSet<FileEntry>();
@@ -5421,7 +5422,6 @@ namespace PhotoTagsSynchronizer
                 LoadingItemsImageListView(0, 0);
 
                 selectedFileEntriesImageListViewCache = fileEntries;
-                selectedFullFileNameImageListViewCache = fullFilePaths;
             }
             catch { }
             return fileEntries;
@@ -5506,7 +5506,7 @@ namespace PhotoTagsSynchronizer
                 case KryptonPages.kryptonPageFolderSearchFilterFilter:
                     break;
                 case KryptonPages.kryptonPageMediaFiles:
-                    MediaFilesOpenExplorerLocation_Click(GetSelectedFileEntriesImageListView());
+                    MediaFilesOpenExplorerLocation_Click(GetSelectedFileEntriesImageListViewCache(true));
                     break;
                 case KryptonPages.kryptonPageToolboxTags:
                     MediaFilesOpenExplorerLocation_Click(GetSelectedFilesFromActiveDataGridView());
@@ -5607,7 +5607,7 @@ namespace PhotoTagsSynchronizer
                 case KryptonPages.kryptonPageFolderSearchFilterFilter:
                     break;
                 case KryptonPages.kryptonPageMediaFiles:
-                    MediaFilesVerbOpen_Click(GetSelectedFileEntriesImageListView());
+                    MediaFilesVerbOpen_Click(GetSelectedFileEntriesImageListViewCache(true));
                     break;
                 case KryptonPages.kryptonPageToolboxTags:
                 case KryptonPages.kryptonPageToolboxPeople:
@@ -5759,7 +5759,7 @@ namespace PhotoTagsSynchronizer
                 case KryptonPages.kryptonPageFolderSearchFilterFilter:
                     break;
                 case KryptonPages.kryptonPageMediaFiles:
-                    OpenWithSelectedVerb(applicationData, GetSelectedFileEntriesImageListView());
+                    OpenWithSelectedVerb(applicationData, GetSelectedFileEntriesImageListViewCache(true));
                     break;
                 case KryptonPages.kryptonPageToolboxTags:
                     OpenWithSelectedVerb(applicationData, GetSelectedFilesFromActiveDataGridView());
@@ -5846,7 +5846,7 @@ namespace PhotoTagsSynchronizer
                 case KryptonPages.kryptonPageFolderSearchFilterFilter:
                     break;
                 case KryptonPages.kryptonPageMediaFiles:
-                    MediaFilesOpenAndAssociateWithDialog_Click(GetSelectedFileEntriesImageListView());
+                    MediaFilesOpenAndAssociateWithDialog_Click(GetSelectedFileEntriesImageListViewCache(true));
                     break;
                 case KryptonPages.kryptonPageToolboxTags:
                     MediaFilesOpenAndAssociateWithDialog_Click(GetSelectedFilesFromActiveDataGridView());
@@ -5931,7 +5931,7 @@ namespace PhotoTagsSynchronizer
                 case KryptonPages.kryptonPageFolderSearchFilterFilter:
                     break;
                 case KryptonPages.kryptonPageMediaFiles:
-                    MediaFilesVerbEdit_Click(GetSelectedFileEntriesImageListView());
+                    MediaFilesVerbEdit_Click(GetSelectedFileEntriesImageListViewCache(true));
                     break;
                 case KryptonPages.kryptonPageToolboxTags:
                     MediaFilesVerbEdit_Click(GetSelectedFilesFromActiveDataGridView());
@@ -6014,7 +6014,7 @@ namespace PhotoTagsSynchronizer
                 case KryptonPages.kryptonPageFolderSearchFilterFilter:
                     break;
                 case KryptonPages.kryptonPageMediaFiles:
-                    MediaFilesRunCommand(GetSelectedFileEntriesImageListView());
+                    MediaFilesRunCommand(GetSelectedFileEntriesImageListViewCache(true));
                     break;
                 case KryptonPages.kryptonPageToolboxTags:
                     MediaFilesRunCommand(GetSelectedFilesFromActiveDataGridView());
@@ -6653,7 +6653,7 @@ namespace PhotoTagsSynchronizer
                     GlobalData.IsPopulatingButtonAction = true;
                     GlobalData.IsPopulatingImageListView = true; //Avoid one and one select item getting refreshed
                     GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
-                    treeViewFolderBrowser1.Enabled = false;
+                    TreeViewFolderBrowserEnabled(treeViewFolderBrowser1, false);
                     ImageListViewSuspendLayoutInvoke(imageListView);
 
                     //Clean up ImageListView and other queues
@@ -6668,13 +6668,13 @@ namespace PhotoTagsSynchronizer
                     }
                     filesCutCopyPasteDrag.ImageListViewReload(imageListView.Items, updatedOnlySelected);
 
-                    treeViewFolderBrowser1.Enabled = true;
+                    TreeViewFolderBrowserEnabled(treeViewFolderBrowser1, true);
                     ImageListViewResumeLayoutInvoke(imageListView);
                     GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
                     GlobalData.IsPopulatingButtonAction = false;
                     GlobalData.IsPopulatingImageListView = false;
 
-                    FilesSelectedOrNoneSelected();
+                    OnImageListViewSelect_FilesSelectedOrNoneSelected(false);
                 }
             }
             catch (Exception ex)
@@ -6786,7 +6786,7 @@ namespace PhotoTagsSynchronizer
                 using (new WaitCursor())
                 {
                     filesCutCopyPasteDrag.ReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory(this, treeViewFolderBrowser1, imageListView1);
-                    FilesSelectedOrNoneSelected();
+                    OnImageListViewSelect_FilesSelectedOrNoneSelected(false);
                     DisplayAllQueueStatus();
                 }
                 imageListView1.Focus();
@@ -6880,7 +6880,7 @@ namespace PhotoTagsSynchronizer
                     databaseAndCahceCameraOwner.CameraMakeModelAndOwnerMakeDirty();
                     databaseAndCahceCameraOwner.MakeCameraOwnersDirty();
                     //Update DataGridViews
-                    FilesSelectedOrNoneSelected();
+                    OnImageListViewSelect_FilesSelectedOrNoneSelected(true);
                 }
             }
             catch (Exception ex)
@@ -6973,11 +6973,13 @@ namespace PhotoTagsSynchronizer
                         cacheFolderWebScraperDataSets = Properties.Settings.Default.CacheFolderWebScraperDataSets;
 
                         //
-                        treeViewFolderBrowser1.Enabled = false;
-                        imageListView1.Enabled = false;
-                        FilesSelectedOrNoneSelected();
-                        treeViewFolderBrowser1.Enabled = true;
-                        imageListView1.Enabled = true;
+                        TreeViewFolderBrowserEnabled(treeViewFolderBrowser1, false);
+                        ImageListViewEnable(imageListView1, false);
+                        
+                        OnImageListViewSelect_FilesSelectedOrNoneSelected(true);
+
+                        ImageListViewEnable(imageListView1, true);
+                        TreeViewFolderBrowserEnabled(treeViewFolderBrowser1, true);
                         imageListView1.Focus();
                     }
                     //Palette
@@ -7466,7 +7468,7 @@ namespace PhotoTagsSynchronizer
             {
                 Properties.Settings.Default.ShowHistortyColumns = kryptonRibbonGroupButtonDataGridViewColumnsHistory.Checked;
                 showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(kryptonRibbonGroupButtonDataGridViewColumnsHistory.Checked, kryptonRibbonGroupButtonDataGridViewColumnsErrors.Checked);
-                LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(GetSelectedFileEntriesImageListView());
+                LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(GetSelectedFileEntriesImageListViewCache(true));
             }
             catch (Exception ex)
             {
@@ -7481,7 +7483,7 @@ namespace PhotoTagsSynchronizer
             {
                 Properties.Settings.Default.ShowErrorColumns = kryptonRibbonGroupButtonDataGridViewColumnsErrors.Checked;
                 showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(kryptonRibbonGroupButtonDataGridViewColumnsHistory.Checked, kryptonRibbonGroupButtonDataGridViewColumnsErrors.Checked);
-                LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(GetSelectedFileEntriesImageListView());
+                LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(GetSelectedFileEntriesImageListViewCache(true));
             }
             catch (Exception ex)
             {
@@ -7780,7 +7782,7 @@ namespace PhotoTagsSynchronizer
                     imageListView1.SelectAll();
                 }
                 GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
-                FilesSelectedOrNoneSelected();
+                OnImageListViewSelect_FilesSelectedOrNoneSelected(false);
             }
             catch (Exception ex)
             {
@@ -7819,7 +7821,7 @@ namespace PhotoTagsSynchronizer
                     imageListView1.ClearSelection();
                 }
                 GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
-                FilesSelectedOrNoneSelected();
+                OnImageListViewSelect_FilesSelectedOrNoneSelected(false);
             }
             catch (Exception ex)
             {
@@ -7855,12 +7857,12 @@ namespace PhotoTagsSynchronizer
                 GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
                 using (new WaitCursor())
                 {
-                    imageListView1.SuspendLayout();
+                    ImageListViewSuspendLayoutInvoke(imageListView1);
                     foreach (ImageListViewItem imageListViewItem in imageListView1.Items) imageListViewItem.Selected = !imageListViewItem.Selected;
-                    imageListView1.ResumeLayout();
+                    ImageListViewResumeLayoutInvoke(imageListView1);
                 }
                 GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
-                FilesSelectedOrNoneSelected();
+                OnImageListViewSelect_FilesSelectedOrNoneSelected(false);
             }
             catch (Exception ex)
             {

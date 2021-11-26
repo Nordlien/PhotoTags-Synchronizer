@@ -194,15 +194,10 @@ namespace PhotoTagsSynchronizer
             KryptonPalette palette = (KryptonPalette)kryptonManager.GlobalPalette;
 
             // Get the two colors and angle used to draw the control background
-            //Color backColor1 = palette.GetBackColor1(PaletteBackStyle.ControlClient, imageListView.Enabled ? PaletteState.Normal : PaletteState.Disabled);
-            //Color backColor2 = palette.GetBackColor2(PaletteBackStyle.ControlClient, imageListView.Enabled ? PaletteState.Normal : PaletteState.Disabled);            
             imageListView.BackColor = palette.GetBackColor1(PaletteBackStyle.ControlClient, imageListView.Enabled ? PaletteState.Normal : PaletteState.Disabled);
             imageListView.ForeColor = palette.GetContentShortTextColor1(PaletteContentStyle.ButtonStandalone, PaletteState.Normal);
             imageListView.Font = palette.GetContentShortTextNewFont(PaletteContentStyle.ButtonStandalone, PaletteState.Normal);
-            imageListView.HeaderFont = palette.GetContentLongTextNewFont(PaletteContentStyle.ButtonStandalone, PaletteState.Normal);
-            //imageListView.Font = palette.LabelStyles.LabelNormalControl.StateNormal.GetContentLongTextFont;
-            //imageListView.HeaderFont = palette.LabelStyles..GridCommon.StateDisabled.DataCell.Back.Color1;
-
+            imageListView.HeaderFont = palette.GetContentLongTextNewFont(PaletteContentStyle.ButtonStandalone, PaletteState.Normal);            
         }
         #endregion 
     }

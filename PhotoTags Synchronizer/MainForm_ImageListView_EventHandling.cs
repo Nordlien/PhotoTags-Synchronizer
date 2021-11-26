@@ -13,6 +13,7 @@ using Krypton.Toolkit;
 using FileDateTime;
 using ImageAndMovieFileExtentions;
 using System.Diagnostics;
+using Raccoom.Windows.Forms;
 
 namespace PhotoTagsSynchronizer
 {
@@ -21,6 +22,44 @@ namespace PhotoTagsSynchronizer
     {
         private AutoResetEvent ReadImageOutOfMemoryWillWaitCacheEmpty = null; //When out of memory, then wait for all data ready = new AutoResetEvent(false);
         private AutoResetEvent WaitThread_PopulateTreeViewFolderFilter_Stopped = null;
+
+        public void ImageListViewEnable(ImageListView imageListView, bool enabled)
+        {
+            //imageListView.Enabled = enabled;
+        }
+
+        public void TreeViewFolderBrowserEnabled(TreeViewFolderBrowser treeViewFolderBrowser, bool enabled)
+        {
+            //treeViewFolderBrowser.Enabled = enabled;
+        }
+
+        #region ImageListView - Files cache
+        private HashSet<FileEntry> imageListViewFilesCache = null;
+
+        private HashSet<FileEntry> GetImageListViewFilesCache()
+        {
+            if (imageListViewFilesCache == null)
+            {
+                //Read to cache
+                foreach (ImageListViewItem imageListViewItem in imageListView1.Items)
+                {
+                    imageListViewFilesCache.Add(new FileEntry(imageListViewItem.FileFullPath, imageListViewItem.DateModified));
+                }
+            }
+            return imageListViewFilesCache;
+        }
+
+        private void SetImageListViewFilesCache(HashSet<FileEntry> newFileList)
+        {
+            imageListViewFilesCache = new HashSet<FileEntry>(newFileList);
+        }
+
+        private void SetImageListViewFilesCacheClear()
+        {
+            imageListViewFilesCache = null;
+        }
+
+        #endregion
 
         #region ImageListView - Event - Retrieve Metadata
         private void imageListView1_RetrieveItemMetadataDetails(object sender, RetrieveItemMetadataDetailsEventArgs e)
@@ -349,9 +388,9 @@ namespace PhotoTagsSynchronizer
             if (!GlobalData.IsPopulatingFolderSelected) SaveBeforeContinue(false);
             
             GroupSelectionClear();
-            imageListView1.SuspendLayout(); //When Enabled = true, slection was cancelled during Updating the grid
-            FilesSelectedOrNoneSelected();
-            imageListView1.ResumeLayout(); 
+            ImageListViewSuspendLayoutInvoke(imageListView1); //When Enabled = true, slection was cancelled during Updating the grid
+            OnImageListViewSelect_FilesSelectedOrNoneSelected(false);
+            ImageListViewResumeLayoutInvoke(imageListView1); 
             MaximizeOrRestoreWorkspaceMainCellAndChilds();
         }
         #endregion
@@ -469,7 +508,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region ImageListView - Populate - OpenWith - Thread
-        private void PopulateImageListViewOpenWithToolStripThread(HashSet<FileEntry> imageListViewSelectedItems, ImageListViewItemCollection imageListViewItems)
+        private void PopulateImageListViewOpenWithToolStripThread(HashSet<FileEntry> imageListViewSelectedItems, HashSet<FileEntry> imageListViewItems)
         {
             bool addOnlySelectedItems = true;
             switch (ActiveKryptonPage)
@@ -496,23 +535,11 @@ namespace PhotoTagsSynchronizer
                     throw new NotImplementedException();
             }
 
-            List<FileEntry> imageListViewFileEntryCopy = new List<FileEntry>();
+            HashSet<FileEntry> imageListViewFileEntryCopy = new HashSet<FileEntry>();
             try
             {
-                if (addOnlySelectedItems && imageListViewSelectedItems != null)
-                {
-                    foreach (FileEntry imageListViewItem in imageListViewSelectedItems)
-                    {
-                        imageListViewFileEntryCopy.Add(new FileEntry(imageListViewItem.FileFullPath, imageListViewItem.LastWriteDateTime)); //Avoid crash when items gets updated
-                    }
-                }
-                if (!addOnlySelectedItems && imageListViewItems != null)
-                {
-                    foreach (ImageListViewItem imageListViewItem in imageListViewItems)
-                    {
-                        imageListViewFileEntryCopy.Add(new FileEntry(imageListViewItem.FileFullPath, imageListViewItem.DateModified)); //Avoid crash when items gets updated
-                    }
-                }
+                if (addOnlySelectedItems && imageListViewSelectedItems != null) imageListViewFileEntryCopy = new HashSet<FileEntry>(imageListViewSelectedItems);
+                if (!addOnlySelectedItems && imageListViewItems != null) imageListViewFileEntryCopy = new HashSet<FileEntry>(imageListViewItems);
             }
             catch { }
 
@@ -522,11 +549,11 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region ImageListView - Populate - OpenWith - Invoke
-        private void PopulateImageListViewOpenWithToolStripInvoke(List<FileEntry> imageListViewSelectedFileEntryItems)
+        private void PopulateImageListViewOpenWithToolStripInvoke(HashSet<FileEntry> imageListViewSelectedFileEntryItems)
         {
             if (InvokeRequired)
             {
-                this.BeginInvoke(new Action<List<FileEntry>>(PopulateImageListViewOpenWithToolStripInvoke), imageListViewSelectedFileEntryItems);
+                this.BeginInvoke(new Action<HashSet<FileEntry>>(PopulateImageListViewOpenWithToolStripInvoke), imageListViewSelectedFileEntryItems);
                 return;
             }
 
@@ -582,7 +609,19 @@ namespace PhotoTagsSynchronizer
         #region ImageListView - Add - Item
         private void ImageListViewAddItem(string fullFilename)
         {
+            ImageListViewAddItem(imageListView1, fullFilename);
+        }
+
+        private void ImageListViewAddItem(ImageListView imageListView, string fullFilename)
+        {
             imageListView1.Items.Add(fullFilename);
+            SetImageListViewFilesCacheClear();
+        }
+
+        private void ImageListViewRemoveItem(ImageListView imageListView, ImageListViewItem foundItem)
+        {
+            imageListView1.Items.Remove(foundItem);
+            SetImageListViewFilesCacheClear();
         }
         #endregion
 
@@ -597,7 +636,7 @@ namespace PhotoTagsSynchronizer
 
             ImageListViewClearAll(imageListView1);
 
-            imageListView1.Enabled = false;
+            ImageListViewEnable(imageListView1, false);
             ImageListViewSuspendLayoutInvoke(imageListView1);
 
             FilterVerifyer filterVerifyerFolder = new FilterVerifyer();
@@ -616,9 +655,9 @@ namespace PhotoTagsSynchronizer
                         if (valuesCountAdded > 0) // no filter values added, no need read from database, this just for optimize speed
                         {
                             Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileData.Path, fileData.LastWriteTime, MetadataBrokerType.ExifTool));
-                            if (filterVerifyerFolder.VerifyMetadata(metadata)) imageListView1.Items.Add(fileData.Path);
+                            if (filterVerifyerFolder.VerifyMetadata(metadata)) ImageListViewAddItem(fileData.Path);
                         }
-                        else imageListView1.Items.Add(fileData.Path);
+                        else ImageListViewAddItem(fileData.Path);
                         #endregion
                     }
                 }
@@ -634,9 +673,9 @@ namespace PhotoTagsSynchronizer
                         if (valuesCountAdded > 0) // no filter values added, no need read from database, this just for optimize speed
                         {
                             Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
-                            if (filterVerifyerFolder.VerifyMetadata(metadata)) imageListView1.Items.Add(fileEntry.FileFullPath);
+                            if (filterVerifyerFolder.VerifyMetadata(metadata)) ImageListViewAddItem(fileEntry.FileFullPath);
                         }
-                        else imageListView1.Items.Add(fileEntry.FileFullPath);
+                        else ImageListViewAddItem(fileEntry.FileFullPath);
                     }
                     #endregion
                 }
@@ -646,13 +685,9 @@ namespace PhotoTagsSynchronizer
             UpdateStatusImageListView("Sorting...");
             ImageListViewSortByCheckedRdioButton();
 
-            imageListView1.Enabled = true;
+            ImageListViewEnable(imageListView1, true);
             ImageListViewResumeLayoutInvoke(imageListView1);
-
             UpdateStatusImageListView(fileEntriesFound.Count + " files added");
-            this.kryptonPageMediaFiles.Refresh();
-            imageListView1.Refresh();
-            Application.DoEvents();
 
             StartThreads();
 
@@ -671,14 +706,14 @@ namespace PhotoTagsSynchronizer
             foreach (string filename in renameSuccess.Keys)
             {
                 ImageListViewItem foundItem = FindItemInImageListView(imageListView.Items, filename);
-                if (foundItem != null) imageListView.Items.Remove(foundItem);
+                if (foundItem != null) ImageListViewRemoveItem(imageListView, foundItem);
             }
             #endregion
 
             #region Add new renames back to list
             if (onlyRenameAddbackToListView)
             {
-                foreach (string filename in renameSuccess.Values) imageListView.Items.Add(filename);
+                foreach (string filename in renameSuccess.Values) ImageListViewAddItem(imageListView, filename);
             }
             #endregion 
 

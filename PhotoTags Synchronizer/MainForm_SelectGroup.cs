@@ -54,9 +54,9 @@ namespace PhotoTagsSynchronizer
                 GlobalData.IsPopulatingButtonAction = true;
                 GlobalData.IsPopulatingImageListView = true; //Avoid one and one select item getting refreshed
                 GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
-                treeViewFolderBrowser1.Enabled = false;
-                imageListView.Enabled = false;
 
+                TreeViewFolderBrowserEnabled(treeViewFolderBrowser1, false);
+                ImageListViewEnable(imageListView, false);
                 ImageListViewSuspendLayoutInvoke(imageListView);
 
                 imageListView.ClearSelection();
@@ -89,18 +89,18 @@ namespace PhotoTagsSynchronizer
                 }
             }
 
-            imageListView.Enabled = true;
-            treeViewFolderBrowser1.Enabled = true;
+            
 
             GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
             GlobalData.IsPopulatingButtonAction = false;
             GlobalData.IsPopulatingImageListView = false;
 
+            ImageListViewEnable(imageListView, true);
+            TreeViewFolderBrowserEnabled(treeViewFolderBrowser1, true);
             ImageListViewResumeLayoutInvoke(imageListView);
             imageListView.Focus();
 
-            FilesSelectedOrNoneSelected();
-
+            OnImageListViewSelect_FilesSelectedOrNoneSelected(false);
 
         }
         #endregion
@@ -135,9 +135,9 @@ namespace PhotoTagsSynchronizer
                     GlobalData.IsPopulatingButtonAction = true;
                     GlobalData.IsPopulatingImageListView = true; //Avoid one and one select item getting refreshed
                     GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
-                    treeViewFolderBrowser1.Enabled = false;
-                    imageListView.Enabled = false;
 
+                    TreeViewFolderBrowserEnabled(treeViewFolderBrowser1, false);
+                    ImageListViewEnable(imageListView, false);
                     ImageListViewSuspendLayoutInvoke(imageListView);
 
                     imageListView.ClearSelection();
@@ -182,17 +182,16 @@ namespace PhotoTagsSynchronizer
 
                 }
 
-                imageListView.Enabled = true;
-                treeViewFolderBrowser1.Enabled = true;
-
                 GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
                 GlobalData.IsPopulatingButtonAction = false;
                 GlobalData.IsPopulatingImageListView = false;
 
+                TreeViewFolderBrowserEnabled(treeViewFolderBrowser1, true);
+                ImageListViewEnable(imageListView, true);
                 ImageListViewResumeLayoutInvoke(imageListView);
                 imageListView.Focus();
 
-                FilesSelectedOrNoneSelected();
+                OnImageListViewSelect_FilesSelectedOrNoneSelected(false);
                 lastGroupBaseIndex = baseItemIndex;
             }
         }

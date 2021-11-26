@@ -22,7 +22,7 @@ namespace PhotoTagsSynchronizer
             filterVerifyerFolder.ReadValuesFromRootNodesWithChilds(treeView, FilterVerifyer.Root);
 
             if (GlobalData.SearchFolder)
-                PopulateImageListView_FromFolderSelected(GlobalData.lastReadFolderWasRecursive, false);
+                OnFolderTreeViewSelect_PopulateImageListView(GlobalData.lastReadFolderWasRecursive, false);
             else
                 PopulateImageListView_FromSearchTab(GlobalData.SerachFilterResult, false);
         }

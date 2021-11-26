@@ -296,7 +296,7 @@ namespace PhotoTagsSynchronizer
             GlobalData.IsPopulatingButtonAction = true;
 
             folderTreeViewFolder.Enabled = false;
-            imageListView.Enabled = false;
+            //imageListView.Enabled = false;
             imageListView.SuspendLayout();
 
             GlobalData.ProcessCounterDelete = imageListView.SelectedItems.Count;             
@@ -323,7 +323,7 @@ namespace PhotoTagsSynchronizer
             GlobalData.IsPopulatingButtonAction = false;
 
             imageListView.ResumeLayout();
-            imageListView.Enabled = true;
+            //imageListView.Enabled = true;
         }
         #endregion
 
