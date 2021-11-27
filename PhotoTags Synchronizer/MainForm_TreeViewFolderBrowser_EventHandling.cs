@@ -130,7 +130,7 @@ namespace PhotoTagsSynchronizer
         #region FolderSelected - Populate DataGridView, ImageListView 
         private void ImageListView_Aggregate_FromFolder(bool recursive, bool runPopulateFilter)
         {
-            #region Read folder files
+            
             if (GlobalData.IsPopulatingFolderSelected) //If in progress, then stop and reselect new
             {
                 UpdateStatusImageListView("Remove old queues...");
@@ -143,6 +143,7 @@ namespace PhotoTagsSynchronizer
             bool wasOneDriveDublicatedFoundAndremoved = false;
             do
             {
+                #region Read folder files
                 string selectedFolder = GetSelectedNodePath();
                 Properties.Settings.Default.LastFolder = GetSelectedNodeFullPath();
 
