@@ -336,9 +336,10 @@ namespace PhotoTagsSynchronizer
                 bool isFilSelectedInImageListView = DoesExistInSelectedFileEntriesImageListView(fileEntryAttribute.FileEntry);
                 #endregion
 
-                DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, isFilSelectedInImageListView); //Will not suspend when Column Don't exist, but counter will increase
                 if (isFilSelectedInImageListView)
                 {
+                    DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, isFilSelectedInImageListView); //Will not suspend when Column Don't exist, but counter will increase
+
                     #region AutoCorrect
                     Metadata metadataAutoCorrect = null;
                     if (isFilSelectedInImageListView && (fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect || GlobalData.ListOfAutoCorrectFilesContains(fileEntryAttribute.FileFullPath)))
@@ -442,9 +443,11 @@ namespace PhotoTagsSynchronizer
                     LazyLoadingDataGridViewProgressUpdateStatus(queueCount); //Update progressbar when File In DataGridView
                     if (queueCount == 0) 
                         PopulateDataGridViewForSelectedItemsExtrasDelayed();
+
+                    DataGridViewHandler.ResumeLayoutDelayed(dataGridView); //Will resume when counter reach 0
                 }
 
-                DataGridViewHandler.ResumeLayoutDelayed(dataGridView); //Will resume when counter reach 0
+                
             }
         }
         #endregion
