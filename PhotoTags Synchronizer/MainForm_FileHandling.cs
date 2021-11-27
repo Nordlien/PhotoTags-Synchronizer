@@ -16,11 +16,11 @@ namespace PhotoTagsSynchronizer
     public partial class MainForm : KryptonForm
     {
         #region RenameFileProcess from thread queue
-        private void RenameFile_Thread_UpdateTreeViewFolderBroswer(TreeViewFolderBrowser folderTreeView, ImageListView imageListView, string sourceFullFilename, string targetFullFilename)
+        private void RenameFile_Thread_UpdateTreeViewFolderBroswer(TreeViewFolderBrowser folderTreeView, ImageListView imageListView, int renameQueueCount, string sourceFullFilename, string targetFullFilename)
         {
             if (InvokeRequired)
             {
-                this.BeginInvoke(new Action<TreeViewFolderBrowser, ImageListView, string, string>(RenameFile_Thread_UpdateTreeViewFolderBroswer), folderTreeView, imageListView, sourceFullFilename, targetFullFilename);
+                this.BeginInvoke(new Action<TreeViewFolderBrowser, ImageListView, int, string, string>(RenameFile_Thread_UpdateTreeViewFolderBroswer), folderTreeView, imageListView, renameQueueCount, sourceFullFilename, targetFullFilename);
                 return;
             }
 
@@ -72,7 +72,10 @@ namespace PhotoTagsSynchronizer
             ImageListViewResumeLayoutInvoke(imageListView1);
             GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
 
-            OnImageListViewSelect_FilesSelectedOrNoneSelected(false);
+            if (renameQueueCount == 0) 
+                //To avoid selected files becomes added back to read queue, and also exist in rename queue,
+                //that rename item can get removed after rename. With old name in read queue, and this file will then not exist when read
+                OnImageListViewSelect_FilesSelectedOrNoneSelected(false);
 
         }
         #endregion 

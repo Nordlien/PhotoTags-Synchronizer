@@ -65,7 +65,7 @@ namespace PhotoTagsSynchronizer
                 UpdateStatusImageListView("Adding files to image list...");
                 fileEntries = ImageListView_Populate_MediaFiles_WithFilter(fileDatas, fileEntries);
                 
-                SetImageListViewFilesCache(fileEntries);
+                SetImageListViewFileEntriesCache(fileEntries);
                 LoadingItemsImageListView(3, 6);
                 UpdateStatusImageListView("Sorting...");
                 ImageListViewSortByCheckedRdioButton();
@@ -151,7 +151,6 @@ namespace PhotoTagsSynchronizer
                 IEnumerable<FileData> fileDatas = GetFilesInSelectedFolder(selectedFolder, recursive);
                 HashSet<FileEntry> fileEntries = ImageListView_Aggregate_FromReadFolderOrFilterOrDatabase(fileDatas, null, selectedFolder, runPopulateFilter);
                 #endregion
-
 
                 #region Check for OneDrive duplicate files in folder
                 wasOneDriveDublicatedFoundAndremoved = false;

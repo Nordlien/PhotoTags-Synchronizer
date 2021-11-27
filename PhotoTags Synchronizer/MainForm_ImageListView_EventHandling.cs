@@ -23,42 +23,69 @@ namespace PhotoTagsSynchronizer
         private AutoResetEvent ReadImageOutOfMemoryWillWaitCacheEmpty = null; //When out of memory, then wait for all data ready = new AutoResetEvent(false);
         private AutoResetEvent WaitThread_PopulateTreeViewFolderFilter_Stopped = null;
 
+        #region ImageListViewEnable
         public void ImageListViewEnable(ImageListView imageListView, bool enabled)
         {
             //imageListView.Enabled = enabled;
         }
+        #endregion
 
+        #region TreeViewFolderBrowserEnabled
         public void TreeViewFolderBrowserEnabled(TreeViewFolderBrowser treeViewFolderBrowser, bool enabled)
         {
             //treeViewFolderBrowser.Enabled = enabled;
         }
+        #endregion
 
-        #region ImageListView - Files cache
-        private HashSet<FileEntry> imageListViewFilesCache = null;
-
-        private HashSet<FileEntry> GetImageListViewFilesCache()
+        #region ImageListView - FileEntry cache
+        private HashSet<FileEntry> imageListViewFileEntriesCache = null;
+        
+        private HashSet<FileEntry> GetImageListViewFileEntriesCache()
         {
-            if (imageListViewFilesCache == null)
+            if (imageListViewFileEntriesCache == null)
             {
+                imageListViewFileEntriesCache = new HashSet<FileEntry>();
                 //Read to cache
                 foreach (ImageListViewItem imageListViewItem in imageListView1.Items)
                 {
-                    imageListViewFilesCache.Add(new FileEntry(imageListViewItem.FileFullPath, imageListViewItem.DateModified));
+                    imageListViewFileEntriesCache.Add(new FileEntry(imageListViewItem.FileFullPath, imageListViewItem.DateModified));
                 }
             }
-            return imageListViewFilesCache;
+            return imageListViewFileEntriesCache;
         }
 
-        private void SetImageListViewFilesCache(HashSet<FileEntry> newFileList)
+        private void SetImageListViewFileEntriesCache(HashSet<FileEntry> newFileList)
         {
-            imageListViewFilesCache = new HashSet<FileEntry>(newFileList);
+            imageListViewFileEntriesCache = new HashSet<FileEntry>(newFileList);
         }
 
-        private void SetImageListViewFilesCacheClear()
+        private void SetImageListViewFileAndFileEntriesCacheClear()
         {
-            imageListViewFilesCache = null;
+            imageListViewFileEntriesCache = null;
+            //imageListViewFilesCache = null;
         }
 
+        //private Dictionary<String, FileEntry> imageListViewFilesCache = null;
+        //private bool GetImageListViewFilesCacheContains(string fullFileName)
+        //{
+        //    if (imageListViewFilesCache == null)
+        //    {
+        //        imageListViewFilesCache = new Dictionary<String, FileEntry>();
+        //        foreach (FileEntry fileEntry in GetImageListViewFileEntriesCache()) 
+        //            if(!imageListViewFilesCache.ContainsKey(fileEntry.FileFullPath)) 
+        //                imageListViewFilesCache.Add(fileEntry.FileFullPath, fileEntry);
+        //    }
+        //    return imageListViewFilesCache.ContainsKey(fullFileName);
+        //}
+
+        private FileEntry GetImageListViewFileEntryFromSelectedFilesCache(string fullFileName)
+        {
+            foreach (FileEntry fileEntry in GetImageListViewSelectedFileEntriesCache(true))
+            {
+                if (fileEntry.FileFullPath == fullFileName) return fileEntry;
+            }
+            return null;
+        }
         #endregion
 
         #region ImageListView - Event - Retrieve Metadata
@@ -290,7 +317,7 @@ namespace PhotoTagsSynchronizer
             }
         }
         #endregion
-
+        
         #region ImageListView - Event - Retrieve Image 
         /// <summary>
         /// RetrieveImage occures when ImageListView will show bigger picture than Thumbnail
@@ -363,14 +390,9 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-                foreach (ImageListViewItem imageListViewItem in imageListView1.Items)
-                {
-                    if (imageListViewItem.FileFullPath == e.FullFilePath) //Only to find DateTime Modified in the stored in the ImageListView
-                    {
-                        UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke(new FileEntryAttribute(e.FullFilePath, imageListViewItem.DateModified, FileEntryVersion.CurrentVersionInDatabase), e.LoadedImage); //Also show error thumbnail
-                        break;
-                    }
-                }
+                FileEntry fileEntryFound = GetImageListViewFileEntryFromSelectedFilesCache(e.FullFilePath);
+                if (fileEntryFound != null) 
+                    UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke(new FileEntryAttribute(fileEntryFound, FileEntryVersion.CurrentVersionInDatabase), e.LoadedImage); //Also show error thumbnail
             } catch (Exception ex)
             {
                 Logger.Error(ex, "imageListView1_RetrieveImage failed on: " + e.FullFilePath);
@@ -382,7 +404,7 @@ namespace PhotoTagsSynchronizer
         #region ImageListView - Event - SelectionChanged -> FileSelected
         private void imageListView1_SelectionChanged(object sender, EventArgs e)
         {
-            SelectedFileEntriesImageListViewCacheClear();
+            ImageListViewSelectedFileEntriesCacheClear();
 
             if (GlobalData.DoNotRefreshDataGridViewWhileFileSelect) return;
             if (!GlobalData.IsPopulatingFolderSelected) SaveBeforeContinue(false);
@@ -402,6 +424,7 @@ namespace PhotoTagsSynchronizer
             imageListeView.Items.Clear();
             imageListeView.ClearThumbnailCache();
             imageListeView.Refresh();
+            imageListViewFileEntriesCache = null;
         }
         #endregion
 
@@ -615,13 +638,13 @@ namespace PhotoTagsSynchronizer
         private void ImageListViewAddItem(ImageListView imageListView, string fullFilename)
         {
             imageListView1.Items.Add(fullFilename);
-            SetImageListViewFilesCacheClear();
+            SetImageListViewFileAndFileEntriesCacheClear();
         }
 
         private void ImageListViewRemoveItem(ImageListView imageListView, ImageListViewItem foundItem)
         {
             imageListView1.Items.Remove(foundItem);
-            SetImageListViewFilesCacheClear();
+            SetImageListViewFileAndFileEntriesCacheClear();
         }
         #endregion
 

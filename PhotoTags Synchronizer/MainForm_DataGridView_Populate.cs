@@ -262,7 +262,7 @@ namespace PhotoTagsSynchronizer
                         break;
                     default: throw new NotImplementedException();
                 }
-                PopulateDataGridViewForSelectedItemsThread(GetSelectedFileEntriesImageListViewCache(true));
+                PopulateDataGridViewForSelectedItemsThread(GetImageListViewSelectedFileEntriesCache(true));
             }
             catch (Exception ex)
             {
@@ -287,12 +287,11 @@ namespace PhotoTagsSynchronizer
                 GlobalData.IsPopulatingImageListView = true;
                 GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
 
-                HashSet<FileEntry> fileEntries = GetSelectedFileEntriesImageListViewCache(allowUseCache);
+                HashSet<FileEntry> fileEntries = GetImageListViewSelectedFileEntriesCache(allowUseCache);
                 PopulateDataGridViewForSelectedItemsThread(fileEntries);
-                PopulateImageListViewOpenWithToolStripThread(fileEntries, GetImageListViewFilesCache());
+                PopulateImageListViewOpenWithToolStripThread(fileEntries, GetImageListViewFileEntriesCache());
                 UpdateRibbonsWhenWorkspaceChanged();
                 
-
                 GlobalData.IsPopulatingImageListView = false;
             }
         }
@@ -334,7 +333,7 @@ namespace PhotoTagsSynchronizer
             lock (GlobalData.populateSelectedLock)
             {
                 #region isFileInDataGridView
-                bool isFilSelectedInImageListView = DoesExistInSelectedFileEntriesImageListView(fileEntryAttribute);
+                bool isFilSelectedInImageListView = DoesExistInSelectedFileEntriesImageListView(fileEntryAttribute.FileEntry);
                 #endregion
 
                 DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, isFilSelectedInImageListView); //Will not suspend when Column Don't exist, but counter will increase
@@ -594,7 +593,7 @@ namespace PhotoTagsSynchronizer
                     DataGridViewSize dataGridViewSize;
                     ShowWhatColumns showWhatColumnsForTab;
                     bool showProgressCircle = true;
-                    bool isSizeEnabled = GetSelectedFileEntriesImageListViewCache(true).Count > 0;
+                    bool isSizeEnabled = GetImageListViewSelectedFileEntriesCache(true).Count > 0;
                     bool isColumnsEnabled = isSizeEnabled;
                     switch (GetActiveTabTag())
                     {

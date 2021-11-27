@@ -976,8 +976,20 @@ namespace PhotoTagsSynchronizer
                                 {
                                     foreach (FileEntry fileEntry in mediaFilesNotInDatabaseCheckInCloud)
                                     {
-                                        if (!FileHandler.IsFileInCloud(fileEntry.FileFullPath)) mediaFilesNotInDatabase.Add(fileEntry);
-                                        else PopulateImageListVieAndDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(fileEntry, FileEntryVersion.ExtractedNowFromMediaFile)); //Also populate dataGridView when in cloud, but empty rows in column
+                                        if (!File.Exists(fileEntry.FileFullPath)) 
+                                        {
+                                            //A file don't exist, because added to queue and renamed after, or outside factors.
+                                            //PopulateImageListVieAndDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(fileEntry, FileEntryVersion.ExtractedNowFromMediaFile));
+                                        }
+                                        else if (!FileHandler.IsFileInCloud(fileEntry.FileFullPath))
+                                        {
+                                            mediaFilesNotInDatabase.Add(fileEntry);
+                                        }
+                                        else
+                                        {
+                                            //When in cloud, and can't read, also need to populate dataGridView but will become with empty rows in column
+                                            PopulateImageListVieAndDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(fileEntry, FileEntryVersion.ExtractedNowFromMediaFile));
+                                        }
                                     }
                                 }
                                 else
@@ -2522,7 +2534,7 @@ namespace PhotoTagsSynchronizer
                                             string newFullFilename = FileHandler.CombinePathAndName(oldDirectory, newFilename);
                                             #endregion
 
-                                            RenameFile_Thread_UpdateTreeViewFolderBroswer(treeViewFolderBrowser1, imageListView1, fullFilename, newFullFilename);
+                                            RenameFile_Thread_UpdateTreeViewFolderBroswer(treeViewFolderBrowser1, imageListView1, CommonQueueRenameCountLock(), fullFilename, newFullFilename);
 
                                         }
                                         else
