@@ -187,7 +187,7 @@ namespace PhotoTagsSynchronizer
                     }
                 }
                 //----- Updated ImageListView with files ------
-                OnFolderTreeViewSelect_PopulateImageListView(false, true);
+                ImageListView_Aggregate_FromFolder(false, true);
 
             }
             catch (Exception ex)

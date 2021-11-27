@@ -11,8 +11,8 @@ namespace PhotoTagsSynchronizer
 
     public partial class MainForm : KryptonForm
     {
-        #region PopulateImageListViewUsingFilters(TreeView treeView)
-        private void PopulateImageListViewFromFolderOrUsingFilters(KryptonTreeView treeView)
+        #region ImageListView_Aggregate_UsingFiltersOnExistingFiles(TreeView treeView)
+        private void ImageListView_Aggregate_UsingFiltersOnExistingFiles(KryptonTreeView treeView)
         {
             if (treeView.Nodes == null) return;
             if (treeView.Nodes[FilterVerifyer.Root] == null) return;
@@ -22,9 +22,11 @@ namespace PhotoTagsSynchronizer
             filterVerifyerFolder.ReadValuesFromRootNodesWithChilds(treeView, FilterVerifyer.Root);
 
             if (GlobalData.SearchFolder)
-                OnFolderTreeViewSelect_PopulateImageListView(GlobalData.lastReadFolderWasRecursive, false);
+                ImageListView_Aggregate_FromFolder(GlobalData.lastReadFolderWasRecursive, false); //False = No need populate filter, we are using filter
             else
-                PopulateImageListView_FromSearchTab(GlobalData.SerachFilterResult, false);
+                ImageListView_Aggregate_FromDatabaseSearchResult(GlobalData.SerachFilterResult, false); //False = No need populate filter, we are using filter
+                //ImageListView_Aggregate_FromReadFolderOrFilterOrDatabase(null, GlobalData.SerachFilterResult, null, false); Same as above
+
         }
         #endregion
 
@@ -59,7 +61,7 @@ namespace PhotoTagsSynchronizer
                     (int)treeNode.Tag == FilterVerifyer.TagRoot) treeNode.Text = FilterVerifyer.GetTreeNodeText(GlobalData.SearchFolder, treeNode.Name, treeNode.Checked);
             }
 
-            PopulateImageListViewFromFolderOrUsingFilters(treeViewFilter);
+            ImageListView_Aggregate_UsingFiltersOnExistingFiles(treeViewFilter);
         }
         #endregion
 
@@ -530,7 +532,8 @@ namespace PhotoTagsSynchronizer
                 useSearchDirectory, searchDirectory,
                 useSearchFilename, searchFilename);
             GlobalData.SearchFolder = false;
-            PopulateImageListView_FromSearchTab(GlobalData.SerachFilterResult, true);
+            ImageListView_Aggregate_FromDatabaseSearchResult(GlobalData.SerachFilterResult, true); //True = New search result needs to aggregate and poplate filters
+            //ImageListView_Aggregate_FromReadFolderOrFilterOrDatabase(null, GlobalData.SerachFilterResult, null, true); //Same as above
         }
         #endregion 
     }

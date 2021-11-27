@@ -921,7 +921,7 @@ namespace PhotoTagsSynchronizer
             }
             #endregion
 
-            OnFolderTreeViewSelect_PopulateImageListView(false, true);
+            ImageListView_Aggregate_FromFolder(false, true);
             OnImageListViewSelect_FilesSelectedOrNoneSelected(false);
 
             MaximizeOrRestoreWorkspaceMainCellAndChilds();

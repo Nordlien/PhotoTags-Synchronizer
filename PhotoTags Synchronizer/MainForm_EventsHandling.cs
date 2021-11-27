@@ -1991,7 +1991,7 @@ namespace PhotoTagsSynchronizer
                             UpdateStatusAction("Delete all record about files in database....");
                             int recordAffected = filesCutCopyPasteDrag.DeleteFilesInFolder(this, treeViewFolderBrowser1, folder);
                             UpdateStatusAction(recordAffected + " records was delete from database....");
-                            OnFolderTreeViewSelect_PopulateImageListView(false, true);
+                            ImageListView_Aggregate_FromFolder(false, true);
                         }
                     }
                 }
@@ -5221,7 +5221,7 @@ namespace PhotoTagsSynchronizer
                 TreeNodePath selectedNode = (TreeNodePath)treeViewFolderBrowser1.SelectedNode;
                 filesCutCopyPasteDrag.TreeViewFolderBrowserRefreshTreeNode(treeViewFolderBrowser1, selectedNode);
                 GlobalData.DoNotRefreshImageListView = false;
-                OnFolderTreeViewSelect_PopulateImageListView(false, true);
+                ImageListView_Aggregate_FromFolder(false, true);
                 treeViewFolderBrowser1.Focus();
             }
             catch (Exception ex)
@@ -5239,7 +5239,7 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-                OnFolderTreeViewSelect_PopulateImageListView(false, true);
+                ImageListView_Aggregate_FromFolder(false, true);
                 treeViewFolderBrowser1.Focus();
             }
             catch (Exception ex)
@@ -5308,7 +5308,7 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-                OnFolderTreeViewSelect_PopulateImageListView(true, true);
+                ImageListView_Aggregate_FromFolder(true, true);
                 treeViewFolderBrowser1.Focus();
             }
             catch (Exception ex)
@@ -6833,9 +6833,10 @@ namespace PhotoTagsSynchronizer
                         GlobalData.ProcessCounterDelete = 0;
                         UpdateStatusAction(recordAffected + " records was delete from database....");
 
-                        string selectedFolder = GetSelectedNodePath();
-                        IEnumerable<FileData> fileDatas = GetFilesInSelectedFolder(selectedFolder, false);
-                        PopulateImageListView(fileDatas, null, selectedFolder, false);
+                        //string selectedFolder = GetSelectedNodePath();
+                        //IEnumerable<FileData> fileDatas = GetFilesInSelectedFolder(selectedFolder, false);
+                        //ImageListView_Aggregate_FromReadFolderOrFilterOrDatabase(fileDatas, null, selectedFolder, false);
+                        ImageListView_Aggregate_FromFolder(false, true);
                     }
                 }
                 DisplayAllQueueStatus();

@@ -35,7 +35,7 @@ namespace PhotoTagsSynchronizer
                 if (GlobalData.IsDragAndDropActive) return;
                 if (GlobalData.DoNotRefreshImageListView) return;
                 GlobalData.SearchFolder = true;
-                OnFolderTreeViewSelect_PopulateImageListView(false, true);
+                ImageListView_Aggregate_FromFolder(false, true);
             }
             catch (Exception ex)
             {
@@ -48,33 +48,25 @@ namespace PhotoTagsSynchronizer
          
 
         #region PopulateImageListView
-        private void PopulateImageListView(IEnumerable<FileData> fileDatas, HashSet<FileEntry> fileEntries, string selectedFolder, bool runPopulateFilter = true)
+        private HashSet<FileEntry> ImageListView_Aggregate_FromReadFolderOrFilterOrDatabase(IEnumerable<FileData> fileDatas, HashSet<FileEntry> fileEntries, string selectedFolder, bool runPopulateFilter = true)
         {
-
             using (new WaitCursor())
             {
-                //#region Krypton Sort menu - set to unchecked
-                //for (int index = 0; index < kryptonContextMenuFileSystemColumnSort.Items.Count; index++)
-                //{
-                //    if (kryptonContextMenuFileSystemColumnSort.Items[index] is KryptonContextMenuRadioButton radioButton) radioButton.Checked = false;
-                //}
-                //#endregion
-
                 GlobalData.IsPopulatingFolderSelected = true; //Don't start twice
 
                 TreeViewFolderBrowserEnabled(treeViewFolderBrowser1, false);
-                LoadingItemsImageListView(1, 5);
+                LoadingItemsImageListView(1, 6);
                 UpdateStatusImageListView("Clear all old queues");
                 ClearAllQueues();
 
                 if (runPopulateFilter) FilterVerifyer.ClearTreeViewNodes(treeViewFilter);
 
-                LoadingItemsImageListView(2, 5);
+                LoadingItemsImageListView(2, 6);
                 UpdateStatusImageListView("Adding files to image list...");
-                fileEntries = ImageListViewAggregateWithMediaFiles(fileDatas, fileEntries);
+                fileEntries = ImageListView_Populate_MediaFiles_WithFilter(fileDatas, fileEntries);
                 
                 SetImageListViewFilesCache(fileEntries);
-                LoadingItemsImageListView(4, 5);
+                LoadingItemsImageListView(3, 6);
                 UpdateStatusImageListView("Sorting...");
                 ImageListViewSortByCheckedRdioButton();
 
@@ -84,7 +76,7 @@ namespace PhotoTagsSynchronizer
                 #region Read to cache
                 if (cacheFolderThumbnails || cacheFolderMetadatas || cacheFolderWebScraperDataSets)
                 {
-                    LoadingItemsImageListView(3, 5);
+                    LoadingItemsImageListView(4, 6);
                     UpdateStatusImageListView("Started the cache process...");
                     CacheFileEntries(fileEntries, selectedFolder);
                 }
@@ -94,20 +86,21 @@ namespace PhotoTagsSynchronizer
                 #region PopulateFilter
                 if (runPopulateFilter)
                 {
-                    LoadingItemsImageListView(4, 5);
+                    LoadingItemsImageListView(6, 6);
                     UpdateStatusImageListView("Populate Filters...");
                     PopulateTreeViewFolderFilterThread(fileEntries);
                 }
                 #endregion
 
-                
             }
             OnImageListViewSelect_FilesSelectedOrNoneSelected(false); //Even when 0 selected files, allocate data and flags, etc...
 
-            LoadingItemsImageListView(5, 5);
+            LoadingItemsImageListView(6, 6);
             UpdateStatusImageListView("Done populate " + fileEntries.Count + " media files...");
             treeViewFolderBrowser1.Focus();
             LoadingItemsImageListView(0, 0);
+
+            return fileEntries;
         }
         #endregion
 
@@ -135,7 +128,7 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region FolderSelected - Populate DataGridView, ImageListView 
-        private void OnFolderTreeViewSelect_PopulateImageListView(bool recursive, bool runPopulateFilter)
+        private void ImageListView_Aggregate_FromFolder(bool recursive, bool runPopulateFilter)
         {
             #region Read folder files
             if (GlobalData.IsPopulatingFolderSelected) //If in progress, then stop and reselect new
@@ -147,43 +140,51 @@ namespace PhotoTagsSynchronizer
 
             if (GlobalData.IsPopulatingAnything()) return;
 
-            string selectedFolder = GetSelectedNodePath();
-            Properties.Settings.Default.LastFolder = GetSelectedNodeFullPath();
-            
-            UpdateStatusImageListView("Read files in folder: " + selectedFolder);
-            IEnumerable<FileData> fileDatas = GetFilesInSelectedFolder(selectedFolder, recursive);
-            PopulateImageListView(fileDatas, null, selectedFolder, runPopulateFilter);
+            bool wasOneDriveDublicatedFoundAndremoved = false;
+            do
+            {
+                string selectedFolder = GetSelectedNodePath();
+                Properties.Settings.Default.LastFolder = GetSelectedNodeFullPath();
 
-            //UpdateStatusImageListView("Check for OneDrive duplicate files in folder: " + selectedFolder);
-            //if (FileHandeling.FileHandler.FixOneDriveIssues(fileEntries, this, oneDriveNetworkNames, false))
-            //{
-            //    switch (KryptonMessageBox.Show("OneDrive duplicated files found.\r\n" +
-            //        "\r\n"+
-            //        "Will you replace older files with newest files\r\n" +
-            //        "Yes - keep the newest files\r\n" +
-            //        "No - delete OneDrive marked files regardless who is newest\r\n" + 
-            //        "Cancel - Cancel the operation, Leave the files intact", "OneDrive duplicated files found.", MessageBoxButtons.YesNoCancel))
-            //    {
-            //        case DialogResult.Yes:
-            //            FileHandeling.FileHandler.FixOneDriveIssues(fileEntries, this, oneDriveNetworkNames, true, true);
-            //            fileEntries = ImageAndMovieFileExtentionsUtility.ListAllMediaFileEntries(selectedFolder, recursive);
-            //            break;
-            //        case DialogResult.No:
-            //            FileHandeling.FileHandler.FixOneDriveIssues(fileEntries, this, oneDriveNetworkNames, true, false);
-            //            fileEntries = ImageAndMovieFileExtentionsUtility.ListAllMediaFileEntries(selectedFolder, recursive);
-            //            break;
-            //    }
-            //}
-            #endregion
+                UpdateStatusImageListView("Read files in folder: " + selectedFolder);
+                IEnumerable<FileData> fileDatas = GetFilesInSelectedFolder(selectedFolder, recursive);
+                HashSet<FileEntry> fileEntries = ImageListView_Aggregate_FromReadFolderOrFilterOrDatabase(fileDatas, null, selectedFolder, runPopulateFilter);
+                #endregion
+
+
+                #region Check for OneDrive duplicate files in folder
+                wasOneDriveDublicatedFoundAndremoved = false;
+                UpdateStatusImageListView("Check for OneDrive duplicate files in folder: " + selectedFolder);
+                if (FileHandeling.FileHandler.FixOneDriveIssues(fileEntries, this, oneDriveNetworkNames, false))
+                {
+                    switch (KryptonMessageBox.Show("OneDrive duplicated files found.\r\n" +
+                        "\r\n" +
+                        "Will you replace older files with newest files\r\n" +
+                        "Yes - keep the newest files\r\n" +
+                        "No - delete OneDrive marked files regardless who is newest\r\n" +
+                        "Cancel - Cancel the operation, Leave the files intact", "OneDrive duplicated files found.", MessageBoxButtons.YesNoCancel))
+                    {
+                        case DialogResult.Yes:
+                            FileHandeling.FileHandler.FixOneDriveIssues(fileEntries, this, oneDriveNetworkNames, true, true);
+                            wasOneDriveDublicatedFoundAndremoved = false;
+                            break;
+                        case DialogResult.No:
+                            FileHandeling.FileHandler.FixOneDriveIssues(fileEntries, this, oneDriveNetworkNames, true, false);
+                            wasOneDriveDublicatedFoundAndremoved = true;
+                            break;
+                    }
+                }
+                #endregion
+            } while (wasOneDriveDublicatedFoundAndremoved);
 
         }
         #endregion
 
-        #region FolderSearchFilter - Populate DataGridView, ImageListView 
-        private void PopulateImageListView_FromSearchTab(HashSet<FileEntry> searchFilterResult, bool runPopulateFilter = true)
+        #region ImageListView_Aggregate_FromDatabaseSearchResult
+        private void ImageListView_Aggregate_FromDatabaseSearchResult(HashSet<FileEntry> searchFilterResult, bool runPopulateFilter = true)
         {
             if (GlobalData.IsPopulatingAnything()) return;
-            PopulateImageListView(null, searchFilterResult, null, runPopulateFilter);
+            HashSet<FileEntry> _ = ImageListView_Aggregate_FromReadFolderOrFilterOrDatabase(null, searchFilterResult, null, runPopulateFilter);
         }
         #endregion 
 

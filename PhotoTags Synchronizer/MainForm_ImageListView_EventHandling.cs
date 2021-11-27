@@ -626,7 +626,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region ImageListView - Aggregate - FromSearchFilter
-        private HashSet<FileEntry> ImageListViewAggregateWithMediaFiles(IEnumerable<FileData> fileDatasFromFolder, HashSet<FileEntry> fileEntriesFromDatabase)
+        private HashSet<FileEntry> ImageListView_Populate_MediaFiles_WithFilter(IEnumerable<FileData> fileDatasFromFolder, HashSet<FileEntry> fileEntriesFromDatabase)
         {
 
             HashSet<FileEntry> fileEntriesFound = new HashSet<FileEntry>();
