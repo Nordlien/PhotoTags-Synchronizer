@@ -660,6 +660,7 @@ namespace PhotoTagsSynchronizer
                     List<FileEntryAttribute> lazyLoading;
                     DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, true);
 
+                    #region PopulateSelectedFiles
                     switch (GetActiveTabTag())
                     {
                         case LinkTabAndDataGridViewNameTags:
@@ -748,6 +749,7 @@ namespace PhotoTagsSynchronizer
                             checkBoxRenameShowFullPath.Checked = DataGridViewHandlerRename.ShowFullPath;
                             DataGridViewHandlerRename.HasBeenInitialized = true;
                             DataGridViewHandlerRename.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, dataGridViewSize, showWhatColumnsForTab, DataGridViewHandlerRename.ShowFullPath);
+                            LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListViewSelectItems);
                             break;
                         case LinkTabAndDataGridViewNameConvertAndMerge:
                             DataGridViewHandlerConvertAndMerge.FileDateTimeFormats = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
@@ -760,10 +762,13 @@ namespace PhotoTagsSynchronizer
                         default: throw new NotImplementedException();
 
                     }
+                    #endregion
+
                     DataGridViewHandler.ResumeLayoutDelayed(dataGridView);
                     LazyLoadingDataGridViewProgressUpdateStatus(imageListViewSelectItems.Count + 1);
                     if (!showProgressCircle) LazyLoadingDataGridViewProgressUpdateStatus(0);
                 } //Cursor
+                
                 if (imageListViewSelectItems.Count == 0) LazyLoadingDataGridViewProgressUpdateStatus(0);
             }
             StartThreads();

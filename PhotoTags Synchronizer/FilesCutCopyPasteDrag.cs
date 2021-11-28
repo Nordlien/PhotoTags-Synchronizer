@@ -345,20 +345,22 @@ namespace PhotoTagsSynchronizer
                     Directory.CreateDirectory(newDirectory);
                     directoryCreated = true;
                 }
-
-                File.Move(sourceFullFilename, targetFullFilename);
-                if (!databaseAndCacheMetadataExiftool.Move(oldDirectory, oldFilename, newDirectory, newFilename))
+                if (sourceFullFilename != targetFullFilename)
                 {
-                    if (KryptonMessageBox.Show(
-                        "Already exist a file in the database with same name: " + Path.Combine(newDirectory, newFilename) + "\r\n" +
-                        "This can occure after manully moving files outside application\r\n\r\n" +
-                        "Do you want do delete the old histoty and replace with new file?", 
-                        "Can move content in database!", 
-                        MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    File.Move(sourceFullFilename, targetFullFilename);
+                    if (!databaseAndCacheMetadataExiftool.Move(oldDirectory, oldFilename, newDirectory, newFilename))
                     {
-                        DeleteFileAndHistory(Path.Combine(newDirectory, newFilename));
-                        databaseAndCacheMetadataExiftool.Move(oldDirectory, oldFilename, newDirectory, newFilename);
-                    } 
+                        if (KryptonMessageBox.Show(
+                            "Already exist a file in the database with same name: " + Path.Combine(newDirectory, newFilename) + "\r\n" +
+                            "This can occure after manully moving files outside application\r\n\r\n" +
+                            "Do you want do delete the old histoty and replace with new file?",
+                            "Can move content in database!",
+                            MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        {
+                            DeleteFileAndHistory(Path.Combine(newDirectory, newFilename));
+                            databaseAndCacheMetadataExiftool.Move(oldDirectory, oldFilename, newDirectory, newFilename);
+                        }
+                    }
                 }
             }
             return directoryCreated;
