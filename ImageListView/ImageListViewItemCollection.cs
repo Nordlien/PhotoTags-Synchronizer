@@ -45,7 +45,7 @@ namespace Manina.Windows.Forms
             /// <param name="owner">The ImageListView owning this collection.</param>
             internal ImageListViewItemCollection(ImageListView owner)
             {
-                mItems = new List<ImageListViewItem>();
+                lock (itemLock) mItems = new List<ImageListViewItem>();
                 mFocused = null;
                 mImageListView = owner;
             }
@@ -99,36 +99,35 @@ namespace Manina.Windows.Forms
             {
                 get
                 {
-                    return mItems[index];
+                    lock (itemLock) return mItems[index];
                 }
                 set
                 {
                     ImageListViewItem item = value;
 
-                    if (mItems[index] == mFocused)
-                        mFocused = item;
-                    bool oldSelected = mItems[index].Selected;
-                    item.mIndex = index;
-                    if (mImageListView != null)
-                        item.mImageListView = mImageListView;
-                    item.owner = this;
-                    mItems[index] = item;
+                    bool oldSelected;
+                    lock (itemLock) {
+                        if (mItems[index] == mFocused) mFocused = item;
+                        oldSelected = mItems[index].Selected;
+                        item.mIndex = index;
+                        if (mImageListView != null) item.mImageListView = mImageListView;
+                        item.owner = this;
+                        mItems[index] = item;
+                    }
 
                     if (mImageListView != null)
                     {
                         if (mImageListView.CacheMode == CacheMode.Continuous)
                         {
                             if (item.isVirtualItem)
-                                mImageListView.cacheManager.Add(item.Guid, item.VirtualItemKey,
-                                    mImageListView.ThumbnailSize, mImageListView.UseEmbeddedThumbnails);
+                                mImageListView.cacheManager.Add(item.Guid, item.VirtualItemKey, mImageListView.ThumbnailSize, mImageListView.UseEmbeddedThumbnails);
                             else
-                                mImageListView.cacheManager.Add(item.Guid, item.FileFullPath,
-                                    mImageListView.ThumbnailSize, mImageListView.UseEmbeddedThumbnails);
+                                mImageListView.cacheManager.Add(item.Guid, item.FileFullPath, mImageListView.ThumbnailSize, mImageListView.UseEmbeddedThumbnails);
                         }
                         mImageListView.itemCacheManager.Add(item);
-                        if (item.Selected != oldSelected)
-                            mImageListView.OnSelectionChangedInternal();
+                        if (item.Selected != oldSelected) mImageListView.OnSelectionChangedInternal();
                     }
+                    
                 }
             }
             /// <summary>
@@ -139,8 +138,7 @@ namespace Manina.Windows.Forms
             {
                 get
                 {
-                    foreach (ImageListViewItem item in this)
-                        if (item.Guid == guid) return item;
+                    foreach (ImageListViewItem item in this) if (item.Guid == guid) return item;
                     throw new ArgumentException("No item with this guid exists.", "guid");
                 }
             }
@@ -157,8 +155,7 @@ namespace Manina.Windows.Forms
 
                 if (mImageListView != null)
                 {
-                    if (item.Selected)
-                        mImageListView.OnSelectionChangedInternal();
+                    if (item.Selected) mImageListView.OnSelectionChangedInternal();
                     mImageListView.Refresh();
                 }
             }
@@ -251,7 +248,7 @@ namespace Manina.Windows.Forms
                     mImageListView.SelectedItems.Clear();
                     mImageListView.Refresh();
                 }
-                mItems.Clear();
+                lock (itemLock) mItems.Clear();
                 mFocused = null;
             }
             /// <summary>
@@ -263,7 +260,7 @@ namespace Manina.Windows.Forms
             /// </returns>
             public bool Contains(ImageListViewItem item)
             {
-                return mItems.Contains(item);
+                lock (itemLock) return mItems.Contains(item);
             }
             /// <summary>
             /// Returns an enumerator that iterates through the collection.
@@ -273,7 +270,7 @@ namespace Manina.Windows.Forms
             /// </returns>
             public IEnumerator<ImageListViewItem> GetEnumerator()
             {
-                return mItems.GetEnumerator();
+                lock (itemLock) return mItems.GetEnumerator();
             }
             /// <summary>
             /// Inserts an item to the <see cref="T:System.Collections.Generic.IList`1"/> at the specified index.
@@ -303,10 +300,15 @@ namespace Manina.Windows.Forms
             /// </returns>
             public bool Remove(ImageListViewItem item)
             {
-                for (int i = item.mIndex; i < mItems.Count; i++)
-                    mItems[i].mIndex--;
-                if (item == mFocused) mFocused = null;
-                bool ret = mItems.Remove(item);
+                bool ret;
+
+                lock (itemLock)
+                {
+                    for (int i = item.mIndex; i < mItems.Count; i++) mItems[i].mIndex--;
+                    if (item == mFocused) mFocused = null;
+                    ret = mItems.Remove(item);
+                }
+
                 if (mImageListView != null)
                 {
                     mImageListView.cacheManager.Remove(item.Guid);
@@ -344,12 +346,16 @@ namespace Manina.Windows.Forms
                 // Check if the file already exists
                 if (mImageListView != null && !item.isVirtualItem && !mImageListView.AllowDuplicateFileNames)
                 {
-                    if (mItems.Exists(a => string.Compare(a.FileFullPath, item.FileFullPath, StringComparison.OrdinalIgnoreCase) == 0))
-                        return;
+                    if (mItems.Exists(a => string.Compare(a.FileFullPath, item.FileFullPath, StringComparison.OrdinalIgnoreCase) == 0)) return;
                 }
                 item.owner = this;
-                item.mIndex = mItems.Count;
-                mItems.Add(item);
+
+                lock (itemLock) 
+                { 
+                    item.mIndex = mItems.Count;
+                    mItems.Add(item);
+                }
+                
                 if (mImageListView != null)
                 {
                     item.mImageListView = mImageListView;
@@ -357,11 +363,9 @@ namespace Manina.Windows.Forms
                     if (mImageListView.CacheMode == CacheMode.Continuous)
                     {
                         if (item.isVirtualItem)
-                            mImageListView.cacheManager.Add(item.Guid, item.VirtualItemKey,
-                                mImageListView.ThumbnailSize, mImageListView.UseEmbeddedThumbnails);
+                            mImageListView.cacheManager.Add(item.Guid, item.VirtualItemKey, mImageListView.ThumbnailSize, mImageListView.UseEmbeddedThumbnails);
                         else
-                            mImageListView.cacheManager.Add(item.Guid, item.FileFullPath,
-                                mImageListView.ThumbnailSize, mImageListView.UseEmbeddedThumbnails);
+                            mImageListView.cacheManager.Add(item.Guid, item.FileFullPath, mImageListView.ThumbnailSize, mImageListView.UseEmbeddedThumbnails);
                     }
 
                     mImageListView.itemCacheManager.Add(item);
@@ -443,8 +447,11 @@ namespace Manina.Windows.Forms
             /// </summary>
             internal int IndexOf(Guid guid)
             {
-                for (int i = 0; i < mItems.Count; i++)
-                    if (mItems[i].Guid == guid) return i;
+                lock (itemLock)
+                {
+                    for (int i = 0; i < mItems.Count; i++) if (mItems[i].Guid == guid) return i;
+                }
+
                 return -1;
             }
             /// <summary>
@@ -453,24 +460,23 @@ namespace Manina.Windows.Forms
             bool secondTry = false;
             internal void Sort()
             {
-                lock (itemLock)
+                
+                if (mImageListView == null || mImageListView.SortOrder == SortOrder.None) return;
+                try
                 {
-                    if (mImageListView == null || mImageListView.SortOrder == SortOrder.None) return;
-                    try
-                    {
-                        mItems.Sort(new ImageListViewItemComparer(mImageListView.SortColumn, mImageListView.SortOrder)); // Sort items
-                    }
-                    catch
-                    {
-                        if (!secondTry) Sort();
-                        secondTry = true;
-                    }
-                    finally
-                    {
-                        for (int i = 0; i < mItems.Count; i++) mItems[i].mIndex = i; // Update item indices
-                    }
-                    secondTry = false;
+                    lock (itemLock) mItems.Sort(new ImageListViewItemComparer(mImageListView.SortColumn, mImageListView.SortOrder)); // Sort items
                 }
+                catch
+                {
+                    if (!secondTry) Sort();
+                    secondTry = true;
+                }
+                finally
+                {
+                    for (int i = 0; i < mItems.Count; i++) mItems[i].mIndex = i; // Update item indices
+                }
+                secondTry = false;
+                
             }
             #endregion
 
@@ -594,7 +600,7 @@ namespace Manina.Windows.Forms
             /// </summary>
             void ICollection<ImageListViewItem>.CopyTo(ImageListViewItem[] array, int arrayIndex)
             {
-                mItems.CopyTo(array, arrayIndex);
+                lock (itemLock) mItems.CopyTo(array, arrayIndex);
             }
             /// <summary>
             /// Determines the index of a specific item in the <see cref="T:System.Collections.Generic.IList`1"/>.
@@ -602,7 +608,7 @@ namespace Manina.Windows.Forms
             [Obsolete("Use ImageListViewItem.Index property instead.")]
             int IList<ImageListViewItem>.IndexOf(ImageListViewItem item)
             {
-                return mItems.IndexOf(item);
+                lock (itemLock) return mItems.IndexOf(item);
             }
             /// <summary>
             /// Copies the elements of the <see cref="T:System.Collections.ICollection"/> to an <see cref="T:System.Array"/>, starting at a particular <see cref="T:System.Array"/> index.
@@ -618,7 +624,7 @@ namespace Manina.Windows.Forms
             /// </summary>
             int ICollection.Count
             {
-                get { return mItems.Count; }
+                get { lock (itemLock) return mItems.Count; }
             }
             /// <summary>
             /// Gets a value indicating whether access to the <see cref="T:System.Collections.ICollection"/> is synchronized (thread safe).
