@@ -333,7 +333,7 @@ namespace PhotoTagsSynchronizer
             lock (GlobalData.populateSelectedLock)
             {
                 #region isFileInDataGridView
-                bool isFilSelectedInImageListView = DoesExistInSelectedFileEntriesImageListView(fileEntryAttribute.FileEntry);
+                bool isFilSelectedInImageListView = DoesExistInSelectedFileImageListView(fileEntryAttribute.FileFullPath);
                 #endregion
 
                 if (isFilSelectedInImageListView)

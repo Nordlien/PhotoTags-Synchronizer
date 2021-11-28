@@ -623,7 +623,6 @@ namespace Exiftool
             Process process = null;
             try
             {
-                process = new Process();
                 using (process = new Process())
                 {
                     #region Start Exiftool process

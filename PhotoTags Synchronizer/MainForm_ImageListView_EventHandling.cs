@@ -108,26 +108,33 @@ namespace PhotoTagsSynchronizer
                     //JTN: MediaFileAttributes
                     if (!File.Exists(e.FileName) || FileHandler.IsFileInCloud(e.FileName))
                     {
-                        #region Provided by FileInfo                        
-                        try
-                        {
-                            e.FileMetadata.FileDateCreated = File.GetCreationTime(e.FileName);
-                            e.FileMetadata.FileDateModified = File.GetLastWriteTime(e.FileName);
-                            e.FileMetadata.FileSize = new FileInfo(e.FileName).Length;
-                            DateTime? fileSmartDate = fileDateTimeReader.SmartDateTime(e.FileName, e.FileMetadata.FileDateCreated, e.FileMetadata.FileDateModified);
-                            e.FileMetadata.FileSmartDate = (fileSmartDate == null ? DateTime.MinValue : (DateTime)fileSmartDate); 
+                        string inCloud = inCloud = "Failed read, file maybe in cloud";
 
-                        } catch
+                        #region Provided by FileInfo
+                        e.FileMetadata.FileDateCreated = DateTime.MinValue;
+                        e.FileMetadata.FileDateModified = DateTime.MinValue;
+                        e.FileMetadata.FileSmartDate = DateTime.MinValue;
+                        e.FileMetadata.FileSize = long.MinValue;
+                        if (File.Exists(e.FileName))
                         {
-                            e.FileMetadata.FileSize = 0;
+                            try { e.FileMetadata.FileDateCreated = File.GetCreationTime(e.FileName); } catch {  }
+                            try { e.FileMetadata.FileDateModified = File.GetLastWriteTime(e.FileName); } catch {  }
+                            try
+                            {
+                                DateTime? fileSmartDate = fileDateTimeReader.SmartDateTime(e.FileName, e.FileMetadata.FileDateCreated, e.FileMetadata.FileDateModified);
+                                e.FileMetadata.FileSmartDate = (fileSmartDate == null ? DateTime.MinValue : (DateTime)fileSmartDate);
+                            } catch {  }
+                            try { e.FileMetadata.FileSize = new FileInfo(e.FileName).Length; } catch {   }
+                        } else
+                        {
+                            inCloud = "Not read, file not exists";
                         }
+
                         e.FileMetadata.FileMimeType = Path.GetExtension(e.FileName);
                         e.FileMetadata.FileDirectory = Path.GetDirectoryName(e.FileName);
                         #endregion
 
-                        string inCloud;
-                        if (!File.Exists(e.FileName)) inCloud = "Not read, file not exists";
-                        else inCloud = "Not read, file in cloud";
+                        
                         
                         #region Provided by ShellImageFileInfo, MagickImage                                
                         e.FileMetadata.CameraMake = inCloud;

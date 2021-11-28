@@ -3945,7 +3945,7 @@ namespace PhotoTagsSynchronizer
             {       
                 
                 dialogResult = KryptonMessageBox.Show(
-                    "Do you want to save and contine.\r\n" +
+                    "Do you want to save and continue.\r\n" +
                     "Yes - Save without AutoCorrect and continue\r\n" +
                     "No - Don't save and continue without save." +
                     (canCancel ? "\r\nCancel - Cancel the opeation and continue where you left." : ""), 
@@ -5377,15 +5377,17 @@ namespace PhotoTagsSynchronizer
         #region GetImageListViewSelectedFileEntriesCache
 
         private HashSet<FileEntry> imageListViewSelectedFileEntriesCache = null;
+        private HashSet<string> imageListViewSelectedFilesCache = null;
         private void ImageListViewSelectedFileEntriesCacheClear()
         {
             imageListViewSelectedFileEntriesCache = null;
+            imageListViewSelectedFilesCache = null;
         }
 
-        private bool DoesExistInSelectedFileEntriesImageListView(FileEntry fileEntry)
+        private bool DoesExistInSelectedFileImageListView(string fullFilename)
         {
             if (imageListViewSelectedFileEntriesCache == null) return false;
-            return imageListViewSelectedFileEntriesCache.Contains(fileEntry);
+            return imageListViewSelectedFilesCache.Contains(fullFilename);
         }
 
         private HashSet<FileEntry> GetImageListViewSelectedFileEntriesCache(bool allowUseCache)
@@ -5422,6 +5424,7 @@ namespace PhotoTagsSynchronizer
                 LoadingItemsImageListView(0, 0);
 
                 imageListViewSelectedFileEntriesCache = fileEntries;
+                imageListViewSelectedFilesCache = fullFilePaths;
             }
             catch { }
             return fileEntries;
