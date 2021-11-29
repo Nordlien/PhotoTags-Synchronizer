@@ -7653,7 +7653,7 @@ namespace PhotoTagsSynchronizer
                     if (imageListView.SortColumn != columnToSort) imageListView.SortColumn = columnToSort;
                     if (imageListView.SortOrder != sortOrder) imageListView.SortOrder = sortOrder;
 
-                    if (sortOrder != SortOrder.None) //If has sorting, force read all fields before sorting.
+                    if (sortOrder != SortOrder.None) //If has sorting, force read all fields before sorting. To avoid colltection get updaed and sort will give error
                     foreach (Manina.Windows.Forms.ImageListViewItem imageListViewItem in imageListView.Items)
                     {
                         object _;
