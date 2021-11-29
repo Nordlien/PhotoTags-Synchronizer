@@ -246,6 +246,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationRegionState.Click += KryptonContextMenuRadioButtonFileSystemColumnSortLocationRegionState_Click;
             this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationCity.Click += KryptonContextMenuRadioButtonFileSystemColumnSortLocationCity_Click;
             this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationCountry.Click += KryptonContextMenuRadioButtonFileSystemColumnSortLocationCountry_Click;
+            this.kryptonContextMenuItemFileSystemColumnSortClear.Click += KryptonContextMenuItemFileSystemColumnSortClear_Click;
             //this.kryptonContextMenuItemsCloseMenuList
 
             this.kryptonContextMenuRadioButtonSlideshow2sec.Click += KryptonContextMenuRadioButtonSlideshow2sec_Click;
@@ -587,7 +588,16 @@ namespace PhotoTagsSynchronizer
             #region Initialize layout setup - Initialize layout toolstrip: People
             FormSplash.UpdateStatus("Initialize layout toolstrip: People...");
             PopulatePeopleToolStripMenuItems();
-            #endregion 
+            #endregion
+
+            #region Initialize layout - Sort Order - ImageListView
+            try
+            {
+                SetImageListViewSortByRadioButton(imageListView1, (ColumnType)Properties.Settings.Default.ImageListViewSortingColumn, (SortOrder)Properties.Settings.Default.ImageListViewSortingOrder);
+                ImageListViewSortByCheckedRadioButton(false);
+            }
+            catch { }
+            #endregion
 
             this.ResumeLayout();
             #endregion
@@ -660,6 +670,8 @@ namespace PhotoTagsSynchronizer
 
             MaximizeOrRestoreWorkspaceMainCellAndChilds();
         }
+
+        
         #endregion
 
         #region Resize and restore windows size when reopen application

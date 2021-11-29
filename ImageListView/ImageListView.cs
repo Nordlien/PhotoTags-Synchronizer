@@ -319,7 +319,7 @@ namespace Manina.Windows.Forms
                 if (value != mSortColumn)
                 {
                     mSortColumn = value;
-                    Sort();
+                    //Sort();
                 }
             }
         }
@@ -428,7 +428,7 @@ namespace Manina.Windows.Forms
                 if (value != mSortOrder)
                 {
                     mSortOrder = value;
-                    Sort();
+                    //Sort();
                 }
             }
         }

@@ -68,7 +68,7 @@ namespace PhotoTagsSynchronizer
                 SetImageListViewFileEntriesCache(fileEntries);
                 LoadingItemsImageListView(3, 6);
                 UpdateStatusImageListView("Sorting...");
-                ImageListViewSortByCheckedRdioButton();
+                ImageListViewSortByCheckedRadioButton(false);
 
                 TreeViewFolderBrowserEnabled(treeViewFolderBrowser1, true);
                 GlobalData.IsPopulatingFolderSelected = false;

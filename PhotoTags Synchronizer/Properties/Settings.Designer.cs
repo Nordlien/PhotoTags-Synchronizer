@@ -2680,5 +2680,29 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["ColumnNameAndWithsConvertAndMergeSmall"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int ImageListViewSortingColumn {
+            get {
+                return ((int)(this["ImageListViewSortingColumn"]));
+            }
+            set {
+                this["ImageListViewSortingColumn"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int ImageListViewSortingOrder {
+            get {
+                return ((int)(this["ImageListViewSortingOrder"]));
+            }
+            set {
+                this["ImageListViewSortingOrder"] = value;
+            }
+        }
     }
 }

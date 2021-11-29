@@ -22,6 +22,7 @@ using System.Threading;
 using System.Diagnostics;
 using ColumnNamesAndWidth;
 using FileHandeling;
+using PhotoTagsSynchronizer.Properties;
 
 /*
 Ctrl+X				T	Cut								Home / Organise
@@ -7640,24 +7641,18 @@ namespace PhotoTagsSynchronizer
         #region ImageListViewSortColumn
 
         private bool isSortAlreadyRunning = false;
-        private void ImageListViewSortColumn(ImageListView imageListView, ColumnType columnToSort)
+        private void ImageListViewSortColumn(ImageListView imageListView, KryptonContextMenuRadioButton kryptonContextMenuRadioButton, ColumnType columnToSort, SortOrder sortOrder)
         {
             if (isSortAlreadyRunning)
                 return;
             isSortAlreadyRunning = true;
             try
             {
-                if (imageListView.SortColumn == columnToSort)
-                {
-                    if (imageListView.SortOrder == SortOrder.Descending) imageListView.SortOrder = SortOrder.Ascending;
-                    else imageListView.SortOrder = SortOrder.Descending;
-                }
-                else
-                {
-                    imageListView.SortColumn = columnToSort;
-                    imageListView.SortOrder = SortOrder.Ascending;
-                }
+                if (imageListView.SortColumn != columnToSort) imageListView.SortColumn = columnToSort;
+                if (imageListView.SortOrder != sortOrder) imageListView.SortOrder = sortOrder;
+                imageListView.Sort();
 
+                if (kryptonContextMenuRadioButton != null) kryptonContextMenuRadioButton.ExtraText = imageListView.SortOrder.ToString();
             }
             catch (Exception ex)
             {
@@ -7669,104 +7664,294 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region FileSystemColumnSortXyz_Click
-        private void ImageListViewSortByCheckedRdioButton()
+        private void SetImageListViewSortByRadioButton(ImageListView imageListView, ColumnType columnType, SortOrder sortOrder)
         {
-            if (this.kryptonContextMenuRadioButtonFileSystemColumnSortFilename.Checked) ImageListViewSortColumn(imageListView1, ColumnType.FileName);
-            if (this.kryptonContextMenuRadioButtonFileSystemColumnSortSmarteDate.Checked) ImageListViewSortColumn(imageListView1, ColumnType.FileSmartDate);
-            if (this.kryptonContextMenuRadioButtonFileSystemColumnSortFileDate.Checked) ImageListViewSortColumn(imageListView1, ColumnType.FileDate);
-            if (this.kryptonContextMenuRadioButtonFileSystemColumnSortFileCreateDate.Checked) ImageListViewSortColumn(imageListView1, ColumnType.FileDateCreated);
-            if (this.kryptonContextMenuRadioButtonFileSystemColumnSortFileModifiedDate.Checked) ImageListViewSortColumn(imageListView1, ColumnType.FileDateModified);
-            if (this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaDateTaken.Checked) ImageListViewSortColumn(imageListView1, ColumnType.MediaDateTaken);
-            if (this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaAlbum.Checked) ImageListViewSortColumn(imageListView1, ColumnType.MediaAlbum);
-            if (this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaTitle.Checked) ImageListViewSortColumn(imageListView1, ColumnType.MediaTitle);
-            if (this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaDescription.Checked) ImageListViewSortColumn(imageListView1, ColumnType.MediaDescription);
-            if (this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaComments.Checked) ImageListViewSortColumn(imageListView1, ColumnType.MediaComment);
-            if (this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaAuthor.Checked) ImageListViewSortColumn(imageListView1, ColumnType.MediaAuthor);
-            if (this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaRating.Checked) ImageListViewSortColumn(imageListView1, ColumnType.MediaRating);
-            if (this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationName.Checked) ImageListViewSortColumn(imageListView1, ColumnType.LocationName);
-            if (this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationRegionState.Checked) ImageListViewSortColumn(imageListView1, ColumnType.LocationRegionState);
-            if (this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationCity.Checked) ImageListViewSortColumn(imageListView1, ColumnType.LocationCity);
-            if (this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationCountry.Checked) ImageListViewSortColumn(imageListView1, ColumnType.LocationCountry);
+            if (columnType != imageListView1.SortColumn) imageListView1.SortColumn = columnType;
+            if (sortOrder != imageListView1.SortOrder) imageListView1.SortOrder = sortOrder;
+
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortFilename.Checked = false;
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortSmarteDate.Checked = false;
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortFileDate.Checked = false;
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortFileCreateDate.Checked = false;
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortFileModifiedDate.Checked = false;
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaDateTaken.Checked = false;
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaAlbum.Checked = false;
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaTitle.Checked = false;
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaDescription.Checked = false;
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaComments.Checked = false;
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaAuthor.Checked = false;
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaRating.Checked = false;
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationName.Checked = false;
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationRegionState.Checked = false;
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationCity.Checked = false;
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationCountry.Checked = false;
+
+            if (sortOrder != SortOrder.None)
+            {
+                switch (columnType)
+                {
+                    case ColumnType.FileName:
+                        this.kryptonContextMenuRadioButtonFileSystemColumnSortFilename.Checked = true;
+                        break;
+                    case ColumnType.FileSmartDate:
+                        this.kryptonContextMenuRadioButtonFileSystemColumnSortSmarteDate.Checked = true;
+                        break;
+                    case ColumnType.FileDate:
+                        this.kryptonContextMenuRadioButtonFileSystemColumnSortFileDate.Checked = true;
+                        break;
+                    case ColumnType.FileDateCreated:
+                        this.kryptonContextMenuRadioButtonFileSystemColumnSortFileCreateDate.Checked = true;
+                        break;
+                    case ColumnType.FileDateModified:
+                        this.kryptonContextMenuRadioButtonFileSystemColumnSortFileModifiedDate.Checked = true;
+                        break;
+                    case ColumnType.MediaDateTaken:
+                        this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaDateTaken.Checked = true;
+                        break;
+                    case ColumnType.MediaAlbum:
+                        this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaAlbum.Checked = true;
+                        break;
+                    case ColumnType.MediaTitle:
+                        this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaTitle.Checked = true;
+                        break;
+                    case ColumnType.MediaDescription:
+                        this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaDescription.Checked = true;
+                        break;
+                    case ColumnType.MediaComment:
+                        this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaComments.Checked = true;
+                        break;
+                    case ColumnType.MediaAuthor:
+                        this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaAuthor.Checked = true;
+                        break;
+                    case ColumnType.MediaRating:
+                        this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaRating.Checked = true;
+                        break;
+                    case ColumnType.LocationName:
+                        this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationName.Checked = true;
+                        break;
+                    case ColumnType.LocationRegionState:
+                        this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationRegionState.Checked = true;
+                        break;
+                    case ColumnType.LocationCity:
+                        this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationCity.Checked = true;
+                        break;
+                    case ColumnType.LocationCountry:
+                        this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationCountry.Checked = true;
+                        break;
+                }
+            }
+        }
+
+        private void ImageListViewSortByCheckedRadioButton(bool toogle)
+        {
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortFilename.ExtraText = "";
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortSmarteDate.ExtraText = "";
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortFileDate.ExtraText = "";
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortFileCreateDate.ExtraText = "";
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortFileModifiedDate.ExtraText = "";
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaDateTaken.ExtraText = "";
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaAlbum.ExtraText = "";
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaTitle.ExtraText = "";
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaDescription.ExtraText = "";
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaComments.ExtraText = "";
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaAuthor.ExtraText = "";
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaRating.ExtraText = "";
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationName.ExtraText = "";
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationRegionState.ExtraText = "";
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationCity.ExtraText = "";
+            this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationCountry.ExtraText = "";
+
+            ColumnType columnType = ColumnType.FileSmartDate;
+            KryptonContextMenuRadioButton kryptonContextMenuRadioButton = null;
+            if (this.kryptonContextMenuRadioButtonFileSystemColumnSortFilename.Checked)
+            {
+                kryptonContextMenuRadioButton = kryptonContextMenuRadioButtonFileSystemColumnSortFilename; 
+                columnType = ColumnType.FileName;
+            }
+
+            if (this.kryptonContextMenuRadioButtonFileSystemColumnSortSmarteDate.Checked)
+            {
+                kryptonContextMenuRadioButton = kryptonContextMenuRadioButtonFileSystemColumnSortSmarteDate;
+                columnType = ColumnType.FileSmartDate;
+            }
+            if (this.kryptonContextMenuRadioButtonFileSystemColumnSortFileDate.Checked)
+            {
+                kryptonContextMenuRadioButton = kryptonContextMenuRadioButtonFileSystemColumnSortFileDate; 
+                columnType = ColumnType.FileDate;
+            }
+            if (this.kryptonContextMenuRadioButtonFileSystemColumnSortFileCreateDate.Checked) 
+            {
+                kryptonContextMenuRadioButton = kryptonContextMenuRadioButtonFileSystemColumnSortFileCreateDate; 
+                columnType = ColumnType.FileDateCreated; 
+            }
+            if (this.kryptonContextMenuRadioButtonFileSystemColumnSortFileModifiedDate.Checked) 
+            {
+                kryptonContextMenuRadioButton = kryptonContextMenuRadioButtonFileSystemColumnSortFileModifiedDate; 
+                columnType = ColumnType.FileDateModified; 
+            }
+            if (this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaDateTaken.Checked) {
+                kryptonContextMenuRadioButton = kryptonContextMenuRadioButtonFileSystemColumnSortMediaDateTaken; 
+                columnType = ColumnType.MediaDateTaken;
+            }
+            if (this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaAlbum.Checked) {
+                kryptonContextMenuRadioButton = kryptonContextMenuRadioButtonFileSystemColumnSortMediaAlbum; 
+                columnType = ColumnType.MediaAlbum; 
+            }
+            if (this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaTitle.Checked) {
+                kryptonContextMenuRadioButton = kryptonContextMenuRadioButtonFileSystemColumnSortMediaTitle; 
+                columnType = ColumnType.MediaTitle;
+
+            }
+            if (this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaDescription.Checked) {
+                kryptonContextMenuRadioButton = kryptonContextMenuRadioButtonFileSystemColumnSortMediaDescription; 
+                columnType = ColumnType.MediaDescription;
+            }
+            if (this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaComments.Checked) {
+                kryptonContextMenuRadioButton = kryptonContextMenuRadioButtonFileSystemColumnSortMediaComments; 
+                columnType = ColumnType.MediaComment;
+            }
+            if (this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaAuthor.Checked) {
+                kryptonContextMenuRadioButton = kryptonContextMenuRadioButtonFileSystemColumnSortMediaAuthor; 
+                columnType = ColumnType.MediaAuthor;
+            }
+            if (this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaRating.Checked) {
+                kryptonContextMenuRadioButton = kryptonContextMenuRadioButtonFileSystemColumnSortMediaRating; 
+                columnType = ColumnType.MediaRating; 
+            }
+            if (this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationName.Checked) {
+                kryptonContextMenuRadioButton = kryptonContextMenuRadioButtonFileSystemColumnSortLocationName; 
+                columnType = ColumnType.LocationName; 
+            }
+            if (this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationRegionState.Checked) {
+                kryptonContextMenuRadioButton = kryptonContextMenuRadioButtonFileSystemColumnSortLocationRegionState; 
+                columnType = ColumnType.LocationRegionState; 
+            }
+            if (this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationCity.Checked) {
+                kryptonContextMenuRadioButton = kryptonContextMenuRadioButtonFileSystemColumnSortLocationCity; 
+                columnType = ColumnType.LocationCity; 
+            }
+            if (this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationCountry.Checked) {
+                kryptonContextMenuRadioButton = kryptonContextMenuRadioButtonFileSystemColumnSortLocationCountry; 
+                columnType = ColumnType.LocationCountry;
+            }
+
+
+            SortOrder sortOrder = imageListView1.SortOrder;
+            if (toogle)
+            {
+                if (imageListView1.SortColumn == columnType) //Only change Ascending <-> Descending when select same type again
+                {
+                    if (sortOrder == SortOrder.Ascending) sortOrder = SortOrder.Descending;
+                    else sortOrder = SortOrder.Ascending;
+                }
+            }
+            Properties.Settings.Default.ImageListViewSortingColumn = (int)columnType;
+            Properties.Settings.Default.ImageListViewSortingOrder = (int)sortOrder;
+
+            ImageListViewSortColumn(imageListView1, kryptonContextMenuRadioButton, columnType, sortOrder);
+
+            
+        }
+        private void KryptonContextMenuItemFileSystemColumnSortClear_Click(object sender, EventArgs e)
+        {
+            SetImageListViewSortByRadioButton(imageListView1, imageListView1.SortColumn, SortOrder.None);
+            ImageListViewSortByCheckedRadioButton(false);
         }
 
         private void KryptonContextMenuRadioButtonFileSystemColumnSortFilename_Click(object sender, EventArgs e)
         {
-            ImageListViewSortColumn(imageListView1, ColumnType.FileName);
+            //ImageListViewSortColumn(imageListView1, ColumnType.FileName);
+            ImageListViewSortByCheckedRadioButton(true);
         }
 
         private void KryptonContextMenuRadioButtonFileSystemColumnSortSmarteDate_Click(object sender, EventArgs e)
         {
-            ImageListViewSortColumn(imageListView1, ColumnType.FileSmartDate);
+            //ImageListViewSortColumn(imageListView1, ColumnType.FileSmartDate);
+            ImageListViewSortByCheckedRadioButton(true);
         }
 
         private void KryptonContextMenuRadioButtonFileSystemColumnSortFileDate_Click(object sender, EventArgs e)
         {
-            ImageListViewSortColumn(imageListView1, ColumnType.FileDate);
+            //ImageListViewSortColumn(imageListView1, ColumnType.FileDate);
+            ImageListViewSortByCheckedRadioButton(true);
         }
 
         private void KryptonContextMenuRadioButtonFileSystemColumnSortFileCreateDate_Click(object sender, EventArgs e)
         {
-            ImageListViewSortColumn(imageListView1, ColumnType.FileDateCreated);
+            //ImageListViewSortColumn(imageListView1, ColumnType.FileDateCreated);
+            ImageListViewSortByCheckedRadioButton(true);
         }
 
         private void KryptonContextMenuRadioButtonFileSystemColumnSortFileModifiedDate_Click(object sender, EventArgs e)
         {
-            ImageListViewSortColumn(imageListView1, ColumnType.FileDateModified);
+            //ImageListViewSortColumn(imageListView1, ColumnType.FileDateModified);
+            ImageListViewSortByCheckedRadioButton(true);
         }
 
         private void KryptonContextMenuRadioButtonFileSystemColumnSortMediaDateTaken_Click(object sender, EventArgs e)
         {
-            ImageListViewSortColumn(imageListView1, ColumnType.MediaDateTaken);
+            //ImageListViewSortColumn(imageListView1, ColumnType.MediaDateTaken);
+            ImageListViewSortByCheckedRadioButton(true);
         }
 
         private void KryptonContextMenuRadioButtonFileSystemColumnSortMediaAlbum_Click(object sender, EventArgs e)
         {
-            ImageListViewSortColumn(imageListView1, ColumnType.MediaAlbum);
+            //ImageListViewSortColumn(imageListView1, ColumnType.MediaAlbum);
+            ImageListViewSortByCheckedRadioButton(true);
         }
 
         private void KryptonContextMenuRadioButtonFileSystemColumnSortMediaTitle_Click(object sender, EventArgs e)
         {
-            ImageListViewSortColumn(imageListView1, ColumnType.MediaTitle);
+            //ImageListViewSortColumn(imageListView1, ColumnType.MediaTitle);
+            ImageListViewSortByCheckedRadioButton(true);
         }
 
         private void KryptonContextMenuRadioButtonFileSystemColumnSortMediaDescription_Click(object sender, EventArgs e)
         {
-            ImageListViewSortColumn(imageListView1, ColumnType.MediaDescription);
+            //ImageListViewSortColumn(imageListView1, ColumnType.MediaDescription);
+            ImageListViewSortByCheckedRadioButton(true);
         }
 
         private void KryptonContextMenuRadioButtonFileSystemColumnSortMediaComments_Click(object sender, EventArgs e)
         {
-            ImageListViewSortColumn(imageListView1, ColumnType.MediaComment);
+            //ImageListViewSortColumn(imageListView1, ColumnType.MediaComment);
+            ImageListViewSortByCheckedRadioButton(true);
         }
 
         private void KryptonContextMenuRadioButtonFileSystemColumnSortMediaAuthor_Click(object sender, EventArgs e)
         {
-            ImageListViewSortColumn(imageListView1, ColumnType.MediaAuthor);
+            //ImageListViewSortColumn(imageListView1, ColumnType.MediaAuthor);
+            ImageListViewSortByCheckedRadioButton(true);
         }
 
         private void KryptonContextMenuRadioButtonFileSystemColumnSortMediaRating_Click(object sender, EventArgs e)
         {
-            ImageListViewSortColumn(imageListView1, ColumnType.MediaRating);
+            //ImageListViewSortColumn(imageListView1, ColumnType.MediaRating);
+            ImageListViewSortByCheckedRadioButton(true);
         }
 
         private void KryptonContextMenuRadioButtonFileSystemColumnSortLocationName_Click(object sender, EventArgs e)
         {
-            ImageListViewSortColumn(imageListView1, ColumnType.LocationName);
+            //ImageListViewSortColumn(imageListView1, ColumnType.LocationName);
+            ImageListViewSortByCheckedRadioButton(true);
         }
 
         private void KryptonContextMenuRadioButtonFileSystemColumnSortLocationRegionState_Click(object sender, EventArgs e)
         {
-            ImageListViewSortColumn(imageListView1, ColumnType.LocationRegionState);
+            //ImageListViewSortColumn(imageListView1, ColumnType.LocationRegionState);
+            ImageListViewSortByCheckedRadioButton(true);
         }
 
         private void KryptonContextMenuRadioButtonFileSystemColumnSortLocationCity_Click(object sender, EventArgs e)
         {
-            ImageListViewSortColumn(imageListView1, ColumnType.LocationCity);
+            //ImageListViewSortColumn(imageListView1, ColumnType.LocationCity);
+            ImageListViewSortByCheckedRadioButton(true);
         }
 
         private void KryptonContextMenuRadioButtonFileSystemColumnSortLocationCountry_Click(object sender, EventArgs e)
         {
-            ImageListViewSortColumn(imageListView1, ColumnType.LocationCountry);
+            //ImageListViewSortColumn(imageListView1, ColumnType.LocationCountry);
+            ImageListViewSortByCheckedRadioButton(true);
         }
         #endregion
 
