@@ -467,17 +467,23 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                if (commonQueueLazyLoadingMetadata.Contains(fileEntryAttribute)) return true;
-                if (commonQueueReadMetadataFromExiftool.Contains(fileEntryAttribute.FileEntry)) return true;
-                
-                foreach (FileEntryAttribute fileEntryAttributeCheck in commonQueueLazyLoadingMetadata)
+                lock (commonQueueLazyLoadingMetadataLock) if(commonQueueLazyLoadingMetadata.Contains(fileEntryAttribute)) return true;
+                lock (commonQueueReadMetadataFromExiftoolLock) if(commonQueueReadMetadataFromExiftool.Contains(fileEntryAttribute.FileEntry)) return true;
+
+                lock (commonQueueLazyLoadingMetadataLock)
                 {
-                    if (fileEntryAttributeCheck.FileFullPath == fileEntryAttribute.FileFullPath) return true;
+                    foreach (FileEntryAttribute fileEntryAttributeCheck in commonQueueLazyLoadingMetadata)
+                    {
+                        if (fileEntryAttributeCheck.FileFullPath == fileEntryAttribute.FileFullPath) return true;
+                    }
                 }
 
-                foreach (FileEntry fileEntryCheck in commonQueueReadMetadataFromExiftool)
+                lock (commonQueueReadMetadataFromExiftoolLock)
                 {
-                    if (fileEntryCheck.FileFullPath == fileEntryAttribute.FileFullPath) return true;
+                    foreach (FileEntry fileEntryCheck in commonQueueReadMetadataFromExiftool)
+                    {
+                        if (fileEntryCheck.FileFullPath == fileEntryAttribute.FileFullPath) return true;
+                    }
                 }
                 //private static List<FileEntryAttribute> commonQueueLazyLoadingThumbnail = new List<FileEntryAttribute>();
                 //private static List<Metadata> commonQueueReadPosterAndSaveFaceThumbnails = new List<Metadata>();
