@@ -944,6 +944,7 @@ namespace Manina.Windows.Forms
         /// </summary>
         public void Update()
         {
+
             Dirty();
             if (mImageListView != null)
             {
@@ -1063,6 +1064,7 @@ namespace Manina.Windows.Forms
                 RetrieveItemMetadataDetailsEventArgs e = new RetrieveItemMetadataDetailsEventArgs(mFileName);
                 mImageListView.RetrieveItemMetadataDetailsInternal(e);
 
+                
                 if (e.FileMetadata != null)
                 {
                     UpdateDetailsInternal(e.FileMetadata);
@@ -1083,26 +1085,24 @@ namespace Manina.Windows.Forms
         /// </summary>
         internal void UpdateDetailsInternal(Utility.ShellImageFileInfo info)
         {
-            //if (!isDirty) return;
-//if (!isFileInfoDirty) return;
             if (info != null)
             {
                 #region Provided by FileInfo  
                 if (info.FileSmartDatePropertyStatus == PropertyStatus.IsSet) mFileSmartDate = info.FileSmartDate;
                 if (info.FileDateCreatedPropertyStatus == PropertyStatus.IsSet) mFileDateCreated = info.FileDateCreated;
                 if (info.FileDateModifiedPropertyStatus == PropertyStatus.IsSet) mFileDateModified = info.FileDateModified;
-                
+
                 if (info.FileSizePropertyStatus == PropertyStatus.IsSet) mFileSize = info.FileSize;
                 if (info.FileMimeTypePropertyStatus == PropertyStatus.IsSet) mFileType = info.FileMimeType;
                 if (info.FileDirectoryPropertyStatus == PropertyStatus.IsSet) mFileDirectory = info.FileDirectory;
-                #endregion 
+                #endregion
 
                 #region Provided by ShellImageFileInfo, MagickImage                                
                 if (info.CameraMakePropertyStatus == PropertyStatus.IsSet) mCameraMake = info.CameraMake;
                 if (info.CameraModelPropertyStatus == PropertyStatus.IsSet) mCameraModel = info.CameraModel;
                 if (info.MediaDimensionsPropertyStatus == PropertyStatus.IsSet) mMediaDimensions = info.MediaDimensions;
                 if (info.MediaDateTakenPropertyStatus == PropertyStatus.IsSet) mMediaDateTaken = info.MediaDateTaken;
-                #endregion 
+                #endregion
 
                 #region Provided by MagickImage, Exiftool
                 if (info.MediaTitlePropertyStatus == PropertyStatus.IsSet) mMediaTitle = info.MediaTitle;
@@ -1110,7 +1110,7 @@ namespace Manina.Windows.Forms
                 if (info.MediaCommentPropertyStatus == PropertyStatus.IsSet) mMediaComment = info.MediaComment;
                 if (info.MediaAuthorPropertyStatus == PropertyStatus.IsSet) mMediaAuthor = info.MediaAuthor;
                 if (info.MediaRatingPropertyStatus == PropertyStatus.IsSet) mMediaRating = info.MediaRating;
-                #endregion 
+                #endregion
 
                 #region Provided by Exiftool
                 if (info.MediaAlbumPropertyStatus == PropertyStatus.IsSet) mMediaAlbum = info.MediaAlbum;
@@ -1121,7 +1121,7 @@ namespace Manina.Windows.Forms
                 if (info.LocationCityPropertyStatus == PropertyStatus.IsSet) mLocationCity = info.LocationCity;
                 if (info.LocationCountryPropertyStatus == PropertyStatus.IsSet) mLocationCountry = info.LocationCountry;
                 #endregion
-            }            
+            }        
         }
         #endregion 
 

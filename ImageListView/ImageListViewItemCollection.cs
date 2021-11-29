@@ -32,6 +32,8 @@ namespace Manina.Windows.Forms
         /// </summary>
         public class ImageListViewItemCollection : IList<ImageListViewItem>, ICollection, IList, IEnumerable
         {
+            //public readonly object itemLock = new object();
+
             #region Member Variables
             private List<ImageListViewItem> mItems;
             internal ImageListView mImageListView;
@@ -45,21 +47,22 @@ namespace Manina.Windows.Forms
             /// <param name="owner">The ImageListView owning this collection.</param>
             internal ImageListViewItemCollection(ImageListView owner)
             {
-                lock (itemLock) mItems = new List<ImageListViewItem>();
+                //lock (mImageListView.itemLock) 
+                mItems = new List<ImageListViewItem>();
                 mFocused = null;
                 mImageListView = owner;
             }
             #endregion
 
 
-            private readonly object itemLock = new object();
+            
             #region Properties
             /// <summary>
             /// Gets the number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1"/>.
             /// </summary>
             public int Count
             {
-                get {  lock (itemLock) { return mItems.Count; } }
+                get { return mItems.Count; }
             }
             /// <summary>
             /// Gets a value indicating whether the <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only.
@@ -97,24 +100,19 @@ namespace Manina.Windows.Forms
             [Category("Behavior"), Browsable(false), Description("Gets or sets the item at the specified index.")]
             public ImageListViewItem this[int index]
             {
-                get
-                {
-                    lock (itemLock) return mItems[index];
-                }
+                get { return mItems[index]; }
                 set
                 {
                     ImageListViewItem item = value;
 
                     bool oldSelected;
-                    lock (itemLock)
-                    {
-                        if (mItems[index] == mFocused) mFocused = item; 
-                        oldSelected = mItems[index].Selected;
-                        item.mIndex = index;
-                        if (mImageListView != null) item.mImageListView = mImageListView;
-                        item.owner = this;
-                        mItems[index] = item;
-                    }
+                    
+                    if (mItems[index] == mFocused) mFocused = item; 
+                    oldSelected = mItems[index].Selected;
+                    item.mIndex = index;
+                    if (mImageListView != null) item.mImageListView = mImageListView;
+                    item.owner = this;
+                    mItems[index] = item;
 
                     if (mImageListView != null)
                     {
@@ -249,7 +247,7 @@ namespace Manina.Windows.Forms
                     mImageListView.SelectedItems.Clear();
                     mImageListView.Refresh();
                 }
-                lock (itemLock) mItems.Clear();
+                mItems.Clear();
                 mFocused = null;
             }
             /// <summary>
@@ -261,7 +259,7 @@ namespace Manina.Windows.Forms
             /// </returns>
             public bool Contains(ImageListViewItem item)
             {
-                lock (itemLock) return mItems.Contains(item);
+                return mItems.Contains(item);
             }
             /// <summary>
             /// Returns an enumerator that iterates through the collection.
@@ -271,7 +269,7 @@ namespace Manina.Windows.Forms
             /// </returns>
             public IEnumerator<ImageListViewItem> GetEnumerator()
             {
-                lock (itemLock) return mItems.GetEnumerator();
+                return mItems.GetEnumerator();
             }
             /// <summary>
             /// Inserts an item to the <see cref="T:System.Collections.Generic.IList`1"/> at the specified index.
@@ -287,8 +285,7 @@ namespace Manina.Windows.Forms
 
                 if (mImageListView != null)
                 {
-                    if (item.Selected)
-                        mImageListView.OnSelectionChangedInternal();
+                    if (item.Selected) mImageListView.OnSelectionChangedInternal();
                     mImageListView.Refresh();
                 }
             }
@@ -302,19 +299,14 @@ namespace Manina.Windows.Forms
             public bool Remove(ImageListViewItem item)
             {
                 bool ret;
-
-                lock (itemLock)
-                {
-                    for (int i = item.mIndex; i < mItems.Count; i++) mItems[i].mIndex--;
-                    if (item == mFocused) mFocused = null;
-                    ret = mItems.Remove(item);
-                }
-
+                for (int i = item.mIndex; i < mItems.Count; i++) mItems[i].mIndex--;
+                if (item == mFocused) mFocused = null;
+                ret = mItems.Remove(item);
+            
                 if (mImageListView != null)
                 {
                     mImageListView.cacheManager.Remove(item.Guid);
-                    if (item.Selected)
-                        mImageListView.OnSelectionChangedInternal();
+                    if (item.Selected) mImageListView.OnSelectionChangedInternal();
                     mImageListView.Refresh();
                 }
                 return ret;
@@ -347,15 +339,12 @@ namespace Manina.Windows.Forms
                 // Check if the file already exists
                 if (mImageListView != null && !item.isVirtualItem && !mImageListView.AllowDuplicateFileNames)
                 {
-                    lock (itemLock) if (mItems.Exists(a => string.Compare(a.FileFullPath, item.FileFullPath, StringComparison.OrdinalIgnoreCase) == 0)) return;
+                    if (mItems.Exists(a => string.Compare(a.FileFullPath, item.FileFullPath, StringComparison.OrdinalIgnoreCase) == 0)) return;
                 }
                 item.owner = this;
 
-                lock (itemLock) 
-                { 
-                    item.mIndex = mItems.Count;
-                    mItems.Add(item);
-                }
+                item.mIndex = mItems.Count;
+                mItems.Add(item);
                 
                 if (mImageListView != null)
                 {
@@ -387,17 +376,14 @@ namespace Manina.Windows.Forms
                 // Check if the file already exists
                 if (mImageListView != null && !mImageListView.AllowDuplicateFileNames)
                 {
-                    lock (itemLock) if (mItems.Exists(a => string.Compare(a.FileFullPath, item.FileFullPath, StringComparison.OrdinalIgnoreCase) == 0)) return false;
+                    if (mItems.Exists(a => string.Compare(a.FileFullPath, item.FileFullPath, StringComparison.OrdinalIgnoreCase) == 0)) return false;
                 }
                 item.owner = this;
                 item.mIndex = index;
 
-                lock (itemLock)
-                {
-                    for (int i = index; i < mItems.Count; i++) mItems[i].mIndex++;
-                    mItems.Insert(index, item);
-                }
-
+                for (int i = index; i < mItems.Count; i++) mItems[i].mIndex++;
+                mItems.Insert(index, item);
+                
                 if (mImageListView != null)
                 {
                     item.mImageListView = mImageListView;
@@ -431,28 +417,24 @@ namespace Manina.Windows.Forms
             /// <param name="removeFromCache">true to remove item image from cache; otherwise false.</param>
             internal void RemoveInternal(ImageListViewItem item, bool removeFromCache)
             {
-                lock (itemLock) for (int i = item.mIndex; i < mItems.Count; i++) mItems[i].mIndex--;
+                for (int i = item.mIndex; i < mItems.Count; i++) mItems[i].mIndex--;
                 if (item == mFocused) mFocused = null;
                 if (removeFromCache && mImageListView != null) mImageListView.cacheManager.Remove(item.Guid);
-                lock (itemLock) mItems.Remove(item);
+                mItems.Remove(item);
             }
             /// <summary>
             /// Returns the index of the specified item.
             /// </summary>
             internal int IndexOf(ImageListViewItem item)
             {
-                lock (itemLock) return item.Index;
+                return item.Index;
             }
             /// <summary>
             /// Returns the index of the item with the specified Guid.
             /// </summary>
             internal int IndexOf(Guid guid)
             {
-                lock (itemLock)
-                {
-                    for (int i = 0; i < mItems.Count; i++) if (mItems[i].Guid == guid) return i;
-                }
-
+                for (int i = 0; i < mItems.Count; i++) if (mItems[i].Guid == guid) return i;
                 return -1;
             }
             /// <summary>
@@ -465,7 +447,8 @@ namespace Manina.Windows.Forms
                 if (mImageListView == null || mImageListView.SortOrder == SortOrder.None) return;
                 try
                 {
-                    lock (itemLock) { mItems.Sort(new ImageListViewItemComparer(mImageListView.SortColumn, mImageListView.SortOrder)); }// Sort items
+                    //lock (mImageListView.itemLock) 
+                    mItems.Sort(new ImageListViewItemComparer(mImageListView.SortColumn, mImageListView.SortOrder)); // Sort items
                 }
                 catch
                 {
@@ -474,10 +457,7 @@ namespace Manina.Windows.Forms
                 }
                 finally
                 {
-                    lock (itemLock)
-                    {
-                        for (int i = 0; i < mItems.Count; i++) mItems[i].mIndex = i; // Update item indices
-                    }
+                    for (int i = 0; i < mItems.Count; i++) mItems[i].mIndex = i; // Update item indices
                 }
                 secondTry = false;
                 
@@ -604,7 +584,7 @@ namespace Manina.Windows.Forms
             /// </summary>
             void ICollection<ImageListViewItem>.CopyTo(ImageListViewItem[] array, int arrayIndex)
             {
-                lock (itemLock) mItems.CopyTo(array, arrayIndex);
+                mItems.CopyTo(array, arrayIndex);
             }
             /// <summary>
             /// Determines the index of a specific item in the <see cref="T:System.Collections.Generic.IList`1"/>.
@@ -619,16 +599,15 @@ namespace Manina.Windows.Forms
             /// </summary>
             void ICollection.CopyTo(Array array, int index)
             {
-                if (!(array is ImageListViewItem[]))
-                    throw new ArgumentException("An array of ImageListViewItem is required.", "array");
-                lock (itemLock) mItems.CopyTo((ImageListViewItem[])array, index);
+                if (!(array is ImageListViewItem[])) throw new ArgumentException("An array of ImageListViewItem is required.", "array");
+                mItems.CopyTo((ImageListViewItem[])array, index);
             }
             /// <summary>
             /// Gets the number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1"/>.
             /// </summary>
             int ICollection.Count
             {
-                get { lock (itemLock) return mItems.Count; }
+                get { return mItems.Count; }
             }
             /// <summary>
             /// Gets a value indicating whether access to the <see cref="T:System.Collections.ICollection"/> is synchronized (thread safe).
@@ -649,8 +628,7 @@ namespace Manina.Windows.Forms
             /// </summary>
             int IList.Add(object value)
             {
-                if (!(value is ImageListViewItem))
-                    throw new ArgumentException("An object of type ImageListViewItem is required.", "value");
+                if (!(value is ImageListViewItem)) throw new ArgumentException("An object of type ImageListViewItem is required.", "value");
                 ImageListViewItem item = (ImageListViewItem)value;
                 Add(item);
                 return mItems.IndexOf(item);
@@ -660,9 +638,8 @@ namespace Manina.Windows.Forms
             /// </summary>
             bool IList.Contains(object value)
             {
-                if (!(value is ImageListViewItem))
-                    throw new ArgumentException("An object of type ImageListViewItem is required.", "value");
-                lock (itemLock) return mItems.Contains((ImageListViewItem)value);
+                if (!(value is ImageListViewItem)) throw new ArgumentException("An object of type ImageListViewItem is required.", "value");
+                return mItems.Contains((ImageListViewItem)value);
             }
             /// <summary>
             /// Returns an enumerator that iterates through a collection.
@@ -679,8 +656,7 @@ namespace Manina.Windows.Forms
             /// </summary>
             int IList.IndexOf(object value)
             {
-                if (!(value is ImageListViewItem))
-                    throw new ArgumentException("An object of type ImageListViewItem is required.", "value");
+                if (!(value is ImageListViewItem)) throw new ArgumentException("An object of type ImageListViewItem is required.", "value");
                 return IndexOf((ImageListViewItem)value);
             }
             /// <summary>
@@ -688,8 +664,7 @@ namespace Manina.Windows.Forms
             /// </summary>
             void IList.Insert(int index, object value)
             {
-                if (!(value is ImageListViewItem))
-                    throw new ArgumentException("An object of type ImageListViewItem is required.", "value");
+                if (!(value is ImageListViewItem)) throw new ArgumentException("An object of type ImageListViewItem is required.", "value");
                 Insert(index, (ImageListViewItem)value);
             }
             /// <summary>
@@ -704,8 +679,7 @@ namespace Manina.Windows.Forms
             /// </summary>
             void IList.Remove(object value)
             {
-                if (!(value is ImageListViewItem))
-                    throw new ArgumentException("An object of type ImageListViewItem is required.", "value");
+                if (!(value is ImageListViewItem)) throw new ArgumentException("An object of type ImageListViewItem is required.", "value");
                 Remove((ImageListViewItem)value);
             }
             /// <summary>
@@ -719,8 +693,7 @@ namespace Manina.Windows.Forms
                 }
                 set
                 {
-                    if (!(value is ImageListViewItem))
-                        throw new ArgumentException("An object of type ImageListViewItem is required.", "value");
+                    if (!(value is ImageListViewItem)) throw new ArgumentException("An object of type ImageListViewItem is required.", "value");
                     this[index] = (ImageListViewItem)value;
                 }
             }

@@ -22,6 +22,7 @@ namespace PhotoTagsSynchronizer
     {
         private AutoResetEvent ReadImageOutOfMemoryWillWaitCacheEmpty = null; //When out of memory, then wait for all data ready = new AutoResetEvent(false);
         private AutoResetEvent WaitThread_PopulateTreeViewFolderFilter_Stopped = null;
+        private readonly object itemLock = new object();
 
         #region ImageListViewEnable
         public void ImageListViewEnable(ImageListView imageListView, bool enabled)
@@ -62,21 +63,7 @@ namespace PhotoTagsSynchronizer
         private void SetImageListViewFileAndFileEntriesCacheClear()
         {
             imageListViewFileEntriesCache = null;
-            //imageListViewFilesCache = null;
         }
-
-        //private Dictionary<String, FileEntry> imageListViewFilesCache = null;
-        //private bool GetImageListViewFilesCacheContains(string fullFileName)
-        //{
-        //    if (imageListViewFilesCache == null)
-        //    {
-        //        imageListViewFilesCache = new Dictionary<String, FileEntry>();
-        //        foreach (FileEntry fileEntry in GetImageListViewFileEntriesCache()) 
-        //            if(!imageListViewFilesCache.ContainsKey(fileEntry.FileFullPath)) 
-        //                imageListViewFilesCache.Add(fileEntry.FileFullPath, fileEntry);
-        //    }
-        //    return imageListViewFilesCache.ContainsKey(fullFileName);
-        //}
 
         private FileEntry GetImageListViewFileEntryFromSelectedFilesCache(string fullFileName)
         {
@@ -97,133 +84,139 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-                if (metadata == null || metadata.FileName == null)
+                lock (itemLock)
                 {
-                    Logger.Debug("imageListView1_RetrieveItemMetadataDetails: Metadata not found. Added to LazyLoading: " + e.FileName);
-                    AddQueueLazyLoadingDataGridViewMetadataReadToCacheOrUpdateFromSoruce(fileEntryBroker);
-
-                    e.FileMetadata = new Utility.ShellImageFileInfo(); //Tell that data is create, all is good for internal void UpdateDetailsInternal(Utility.ShellImageFileInfo info)
-                    e.FileMetadata.SetPropertyStatusOnAll(PropertyStatus.Requested); //All data will be read, it's in Lazy loading queue
-
-                    //JTN: MediaFileAttributes
-                    if (!File.Exists(e.FileName) || FileHandler.IsFileInCloud(e.FileName))
+                    if (metadata == null || metadata.FileName == null)
                     {
-                        string inCloud = inCloud = "Failed read, file maybe in cloud";
+                        Logger.Debug("imageListView1_RetrieveItemMetadataDetails: Metadata not found. Added to LazyLoading: " + e.FileName);
+                        AddQueueLazyLoadingDataGridViewMetadataReadToCacheOrUpdateFromSoruce(fileEntryBroker);
 
-                        #region Provided by FileInfo
-                        e.FileMetadata.FileDateCreated = DateTime.MinValue;
-                        e.FileMetadata.FileDateModified = DateTime.MinValue;
-                        e.FileMetadata.FileSmartDate = DateTime.MinValue;
-                        e.FileMetadata.FileSize = long.MinValue;
-                        if (File.Exists(e.FileName))
+                        e.FileMetadata = new Utility.ShellImageFileInfo(); //Tell that data is create, all is good for internal void UpdateDetailsInternal(Utility.ShellImageFileInfo info)
+                        e.FileMetadata.SetPropertyStatusOnAll(PropertyStatus.Requested); //All data will be read, it's in Lazy loading queue
+
+                        //JTN: MediaFileAttributes
+                        if (!File.Exists(e.FileName) || FileHandler.IsFileInCloud(e.FileName))
                         {
-                            try { e.FileMetadata.FileDateCreated = File.GetCreationTime(e.FileName); } catch {  }
-                            try { e.FileMetadata.FileDateModified = File.GetLastWriteTime(e.FileName); } catch {  }
-                            try
+                            string inCloud = inCloud = "Failed read, file maybe in cloud";
+
+                            #region Provided by FileInfo
+                            e.FileMetadata.FileDateCreated = DateTime.MinValue;
+                            e.FileMetadata.FileDateModified = DateTime.MinValue;
+                            e.FileMetadata.FileSmartDate = DateTime.MinValue;
+                            e.FileMetadata.FileSize = long.MinValue;
+                            if (File.Exists(e.FileName))
                             {
-                                DateTime? fileSmartDate = fileDateTimeReader.SmartDateTime(e.FileName, e.FileMetadata.FileDateCreated, e.FileMetadata.FileDateModified);
-                                e.FileMetadata.FileSmartDate = (fileSmartDate == null ? DateTime.MinValue : (DateTime)fileSmartDate);
-                            } catch {  }
-                            try { e.FileMetadata.FileSize = new FileInfo(e.FileName).Length; } catch {   }
-                        } else
-                        {
-                            inCloud = "Not read, file not exists";
+                                try { e.FileMetadata.FileDateCreated = File.GetCreationTime(e.FileName); } catch { }
+                                try { e.FileMetadata.FileDateModified = File.GetLastWriteTime(e.FileName); } catch { }
+                                try
+                                {
+                                    DateTime? fileSmartDate = fileDateTimeReader.SmartDateTime(e.FileName, e.FileMetadata.FileDateCreated, e.FileMetadata.FileDateModified);
+                                    e.FileMetadata.FileSmartDate = (fileSmartDate == null ? DateTime.MinValue : (DateTime)fileSmartDate);
+                                }
+                                catch { }
+                                try { e.FileMetadata.FileSize = new FileInfo(e.FileName).Length; } catch { }
+                            }
+                            else
+                            {
+                                inCloud = "Not read, file not exists";
+                            }
+
+                            e.FileMetadata.FileMimeType = Path.GetExtension(e.FileName);
+                            e.FileMetadata.FileDirectory = Path.GetDirectoryName(e.FileName);
+                            #endregion
+
+
+
+                            #region Provided by ShellImageFileInfo, MagickImage                                
+                            e.FileMetadata.CameraMake = inCloud;
+                            e.FileMetadata.CameraModel = inCloud;
+                            e.FileMetadata.MediaDimensions = new Size(0, 0);
+                            #endregion
+
+                            #region Provided by MagickImage, Exiftool
+                            e.FileMetadata.MediaDateTaken = DateTime.MinValue;
+                            e.FileMetadata.MediaTitle = inCloud;
+                            e.FileMetadata.MediaDescription = inCloud;
+                            e.FileMetadata.MediaComment = inCloud;
+                            e.FileMetadata.MediaAuthor = inCloud;
+                            e.FileMetadata.MediaRating = 0;
+                            #endregion
+
+                            #region Provided by Exiftool
+                            e.FileMetadata.MediaAlbum = inCloud;
+                            e.FileMetadata.LocationDateTime = DateTime.MinValue;
+                            e.FileMetadata.LocationTimeZone = inCloud;
+                            e.FileMetadata.LocationName = inCloud;
+                            e.FileMetadata.LocationRegionState = inCloud;
+                            e.FileMetadata.LocationCity = inCloud;
+                            e.FileMetadata.LocationCountry = inCloud;
+                            #endregion
                         }
 
-                        e.FileMetadata.FileMimeType = Path.GetExtension(e.FileName);
-                        e.FileMetadata.FileDirectory = Path.GetDirectoryName(e.FileName);
+                        #region Provided by FileInfo
+                        e.FileMetadata.DisplayName = Path.GetFileName(e.FileName);
+                        //e.FileMetadata.Name= e.FileName;
+                        e.FileMetadata.Extension = Path.GetExtension(e.FileName);
+                        e.FileMetadata.FileAttributes = FileAttributes.Normal;
                         #endregion
 
-                        
-                        
+
+                    }
+                    else
+                    {
+                        Logger.Debug("imageListView1_RetrieveItemMetadataDetails: Metadata found " + e.FileName);
+                        e.FileMetadata = new Utility.ShellImageFileInfo();
+
+                        #region Provided by FileInfo
+                        e.FileMetadata.FileDateCreated = (DateTime)metadata.FileDateCreated;
+                        e.FileMetadata.FileDateModified = (DateTime)metadata.FileDateModified;
+
+                        DateTime? fileSmartDate = fileDateTimeReader.SmartDateTime(e.FileName, e.FileMetadata.FileDateCreated, e.FileMetadata.FileDateModified);
+                        e.FileMetadata.FileSmartDate = (fileSmartDate == null ? DateTime.MinValue : (DateTime)fileSmartDate);
+                        if (metadata.FileSize != null) e.FileMetadata.FileSize = (long)metadata.FileSize;
+                        else
+                        {
+                            try
+                            {
+                                if (File.Exists(e.FileName)) e.FileMetadata.FileSize = new System.IO.FileInfo(e.FileName).Length;
+                            }
+                            catch
+                            {
+                                e.FileMetadata.FileSize = long.MinValue;
+                            }
+                        }
+                        e.FileMetadata.FileMimeType = metadata.FileMimeType;
+                        e.FileMetadata.FileDirectory = metadata.FileDirectory;
+                        #endregion
+
                         #region Provided by ShellImageFileInfo, MagickImage                                
-                        e.FileMetadata.CameraMake = inCloud;
-                        e.FileMetadata.CameraModel = inCloud;
-                        e.FileMetadata.MediaDimensions = new Size(0, 0);
+                        e.FileMetadata.CameraMake = metadata.CameraMake;
+                        e.FileMetadata.CameraModel = metadata.CameraModel;
+                        if (metadata.MediaWidth != null && metadata.MediaHeight != null) e.FileMetadata.MediaDimensions = new Size((int)metadata.MediaWidth, (int)metadata.MediaHeight);
+                        else e.FileMetadata.MediaDimensions = new Size(0, 0);
                         #endregion
 
                         #region Provided by MagickImage, Exiftool
-                        e.FileMetadata.MediaDateTaken = DateTime.MinValue;
-                        e.FileMetadata.MediaTitle = inCloud;
-                        e.FileMetadata.MediaDescription = inCloud;
-                        e.FileMetadata.MediaComment = inCloud;
-                        e.FileMetadata.MediaAuthor = inCloud;
-                        e.FileMetadata.MediaRating = 0;
+                        if (metadata.MediaDateTaken != null) e.FileMetadata.MediaDateTaken = (DateTime)metadata.MediaDateTaken;
+                        else e.FileMetadata.MediaDateTaken = DateTime.MinValue;
+                        e.FileMetadata.MediaTitle = metadata.PersonalTitle;
+                        e.FileMetadata.MediaDescription = metadata.PersonalDescription;
+                        e.FileMetadata.MediaComment = metadata.PersonalComments;
+                        e.FileMetadata.MediaAuthor = metadata.PersonalAuthor;
+                        e.FileMetadata.MediaRating = (byte)(metadata.PersonalRating == null ? 0 : metadata.PersonalRating);
                         #endregion
 
                         #region Provided by Exiftool
-                        e.FileMetadata.MediaAlbum = inCloud;
-                        e.FileMetadata.LocationDateTime = DateTime.MinValue;
-                        e.FileMetadata.LocationTimeZone = inCloud;
-                        e.FileMetadata.LocationName = inCloud;
-                        e.FileMetadata.LocationRegionState = inCloud;
-                        e.FileMetadata.LocationCity = inCloud;
-                        e.FileMetadata.LocationCountry = inCloud;
+                        e.FileMetadata.MediaAlbum = metadata.PersonalAlbum;
+                        if (metadata.LocationDateTime != null) e.FileMetadata.LocationDateTime = (DateTime)metadata.LocationDateTime;
+                        else e.FileMetadata.LocationDateTime = DateTime.MinValue;
+                        e.FileMetadata.LocationTimeZone = metadata.LocationTimeZoneDescription;
+                        e.FileMetadata.LocationName = metadata.LocationName;
+                        e.FileMetadata.LocationRegionState = metadata.LocationState;
+                        e.FileMetadata.LocationCity = metadata.LocationCity;
+                        e.FileMetadata.LocationCountry = metadata.LocationCountry;
                         #endregion
                     }
-
-                    #region Provided by FileInfo
-                    e.FileMetadata.DisplayName = Path.GetFileName(e.FileName);
-                    //e.FileMetadata.Name= e.FileName;
-                    e.FileMetadata.Extension = Path.GetExtension(e.FileName);
-                    e.FileMetadata.FileAttributes = FileAttributes.Normal;
-                    #endregion
-
-                     
-                }
-                else
-                {
-                    Logger.Debug("imageListView1_RetrieveItemMetadataDetails: Metadata found " + e.FileName); 
-                    e.FileMetadata = new Utility.ShellImageFileInfo();
-
-                    #region Provided by FileInfo
-                    e.FileMetadata.FileDateCreated = (DateTime)metadata.FileDateCreated;
-                    e.FileMetadata.FileDateModified = (DateTime)metadata.FileDateModified;
-
-                    DateTime? fileSmartDate = fileDateTimeReader.SmartDateTime(e.FileName, e.FileMetadata.FileDateCreated, e.FileMetadata.FileDateModified);
-                    e.FileMetadata.FileSmartDate = (fileSmartDate == null ? DateTime.MinValue : (DateTime)fileSmartDate);
-                    if (metadata.FileSize != null) e.FileMetadata.FileSize = (long)metadata.FileSize;
-                    else
-                    {
-                        try
-                        {
-                            if (File.Exists(e.FileName)) e.FileMetadata.FileSize = new System.IO.FileInfo(e.FileName).Length;
-                        } catch
-                        {
-                            e.FileMetadata.FileSize = long.MinValue;
-                        }
-                    }
-                    e.FileMetadata.FileMimeType = metadata.FileMimeType;
-                    e.FileMetadata.FileDirectory = metadata.FileDirectory;
-                    #endregion
-
-                    #region Provided by ShellImageFileInfo, MagickImage                                
-                    e.FileMetadata.CameraMake = metadata.CameraMake;
-                    e.FileMetadata.CameraModel = metadata.CameraModel;
-                    if (metadata.MediaWidth != null && metadata.MediaHeight != null) e.FileMetadata.MediaDimensions = new Size((int)metadata.MediaWidth, (int)metadata.MediaHeight);
-                    else e.FileMetadata.MediaDimensions = new Size(0, 0);
-                    #endregion
-
-                    #region Provided by MagickImage, Exiftool
-                    if (metadata.MediaDateTaken != null) e.FileMetadata.MediaDateTaken = (DateTime)metadata.MediaDateTaken;
-                    else e.FileMetadata.MediaDateTaken = DateTime.MinValue;
-                    e.FileMetadata.MediaTitle = metadata.PersonalTitle;
-                    e.FileMetadata.MediaDescription = metadata.PersonalDescription;
-                    e.FileMetadata.MediaComment = metadata.PersonalComments;
-                    e.FileMetadata.MediaAuthor = metadata.PersonalAuthor;
-                    e.FileMetadata.MediaRating = (byte)(metadata.PersonalRating == null ? 0 : metadata.PersonalRating);
-                    #endregion
-
-                    #region Provided by Exiftool
-                    e.FileMetadata.MediaAlbum = metadata.PersonalAlbum;
-                    if (metadata.LocationDateTime != null) e.FileMetadata.LocationDateTime = (DateTime)metadata.LocationDateTime;
-                    else e.FileMetadata.LocationDateTime = DateTime.MinValue;
-                    e.FileMetadata.LocationTimeZone = metadata.LocationTimeZoneDescription;
-                    e.FileMetadata.LocationName = metadata.LocationName;
-                    e.FileMetadata.LocationRegionState = metadata.LocationState;
-                    e.FileMetadata.LocationCity = metadata.LocationCity;
-                    e.FileMetadata.LocationCountry = metadata.LocationCountry;
-                    #endregion
                 }
             } catch (Exception ex)
             {
@@ -251,71 +244,74 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-                if (File.Exists(e.FileName))
+                lock (itemLock)
                 {
-                    FileEntry fileEntry = new FileEntry(e.FileName, File.GetLastWriteTime(e.FileName));
-                    bool isFileInCloud = FileHandler.IsFileInCloud(fileEntry.FileFullPath); 
-                    bool dontReadFileFromCloud = Properties.Settings.Default.AvoidOfflineMediaFiles;
-
-                    lock (GlobalData.ReloadAllowedFromCloudLock)
+                    if (File.Exists(e.FileName))
                     {
-                        if (GlobalData.ReloadAllowedFromCloud != null && GlobalData.ReloadAllowedFromCloud.Contains(fileEntry))
-                        {
-                            GlobalData.ReloadAllowedFromCloud.Remove(fileEntry);
+                        FileEntry fileEntry = new FileEntry(e.FileName, File.GetLastWriteTime(e.FileName));
+                        bool isFileInCloud = FileHandler.IsFileInCloud(fileEntry.FileFullPath);
+                        bool dontReadFileFromCloud = Properties.Settings.Default.AvoidOfflineMediaFiles;
 
-                            if (isFileInCloud)
+                        lock (GlobalData.ReloadAllowedFromCloudLock)
+                        {
+                            if (GlobalData.ReloadAllowedFromCloud != null && GlobalData.ReloadAllowedFromCloud.Contains(fileEntry))
                             {
-                                try
+                                GlobalData.ReloadAllowedFromCloud.Remove(fileEntry);
+
+                                if (isFileInCloud)
                                 {
-                                    byte[] buffer = new byte[512]; 
-                                    using (FileStream fs = new FileStream(fileEntry.FileFullPath, FileMode.Open, FileAccess.Read))
+                                    try
                                     {
-                                        var bytes_read = fs.Read(buffer, 0, buffer.Length); //Get OneDrive to start download the file
-                                        fs.Close();
+                                        byte[] buffer = new byte[512];
+                                        using (FileStream fs = new FileStream(fileEntry.FileFullPath, FileMode.Open, FileAccess.Read))
+                                        {
+                                            var bytes_read = fs.Read(buffer, 0, buffer.Length); //Get OneDrive to start download the file
+                                            fs.Close();
+                                        }
+                                        isFileInCloud = false;
                                     }
-                                    isFileInCloud = false;
+                                    catch { }
                                 }
-                                catch { }
+                                dontReadFileFromCloud = false;
                             }
-                            dontReadFileFromCloud = false;
                         }
-                    }
 
-                    try
-                    {
-                        Image thumbnail = GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(fileEntry, dontReadFileFromCloud, isFileInCloud);
-                        
-                        if (thumbnail != null) //Add cloud icon if needed
+                        try
                         {
-                            Image thumbnailWithCloudIfFromCloud = Utility.ThumbnailFromImage(thumbnail, ThumbnailMaxUpsize, Color.White, true);
-                            if (isFileInCloud) //If Media is in cloud, show Icon
+                            Image thumbnail = GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(fileEntry, dontReadFileFromCloud, isFileInCloud);
+
+                            if (thumbnail != null) //Add cloud icon if needed
                             {
-                                using (Graphics g = Graphics.FromImage(thumbnailWithCloudIfFromCloud)) { g.DrawImage(Properties.Resources.ImageListViewStatusFileInCloud, 0, 0); }
+                                Image thumbnailWithCloudIfFromCloud = Utility.ThumbnailFromImage(thumbnail, ThumbnailMaxUpsize, Color.White, true);
+                                if (isFileInCloud) //If Media is in cloud, show Icon
+                                {
+                                    using (Graphics g = Graphics.FromImage(thumbnailWithCloudIfFromCloud)) { g.DrawImage(Properties.Resources.ImageListViewStatusFileInCloud, 0, 0); }
+                                }
+                                e.Thumbnail = thumbnailWithCloudIfFromCloud;
                             }
-                            e.Thumbnail = thumbnailWithCloudIfFromCloud;
+                            else
+                            {
+                                if (FileHandler.IsFileVirtual(fileEntry.FileFullPath)) e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorOneDriveNotRunning;
+                                else if (isFileInCloud) e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorFileInCloud;
+                                else e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorNoThumbnail;
+                            }
                         }
-                        else
+                        catch (IOException ioe)
                         {
-                            if (FileHandler.IsFileVirtual(fileEntry.FileFullPath)) e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorOneDriveNotRunning;
-                            else if (isFileInCloud) e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorFileInCloud;
-                            else e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorNoThumbnail;
+                            Logger.Error(ioe, "Load image error, OneDrive issues");
+                            e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorOneDriveNotRunning;
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.Warn(ex, "Load image error");
+                            e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorGeneral;
                         }
                     }
-                    catch (IOException ioe)
+                    else
                     {
-                        Logger.Error(ioe, "Load image error, OneDrive issues");
-                        e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorOneDriveNotRunning;
+                        Logger.Warn("File not exist: " + e.FileName);
+                        e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorFileNotExist;
                     }
-                    catch (Exception ex)
-                    {
-                        Logger.Warn(ex, "Load image error");
-                        e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorGeneral;
-                    }
-                }
-                else
-                {
-                    Logger.Warn("File not exist: " + e.FileName);
-                    e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorFileNotExist;
                 }
             } catch (Exception ex)
             {
