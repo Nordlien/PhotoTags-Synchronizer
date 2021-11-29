@@ -106,8 +106,9 @@ namespace Manina.Windows.Forms
                     ImageListViewItem item = value;
 
                     bool oldSelected;
-                    lock (itemLock) {
-                        if (mItems[index] == mFocused) mFocused = item;
+                    lock (itemLock)
+                    {
+                        if (mItems[index] == mFocused) mFocused = item; 
                         oldSelected = mItems[index].Selected;
                         item.mIndex = index;
                         if (mImageListView != null) item.mImageListView = mImageListView;
@@ -346,7 +347,7 @@ namespace Manina.Windows.Forms
                 // Check if the file already exists
                 if (mImageListView != null && !item.isVirtualItem && !mImageListView.AllowDuplicateFileNames)
                 {
-                    if (mItems.Exists(a => string.Compare(a.FileFullPath, item.FileFullPath, StringComparison.OrdinalIgnoreCase) == 0)) return;
+                    lock (itemLock) if (mItems.Exists(a => string.Compare(a.FileFullPath, item.FileFullPath, StringComparison.OrdinalIgnoreCase) == 0)) return;
                 }
                 item.owner = this;
 
@@ -386,15 +387,17 @@ namespace Manina.Windows.Forms
                 // Check if the file already exists
                 if (mImageListView != null && !mImageListView.AllowDuplicateFileNames)
                 {
-                    if (mItems.Exists(a => string.Compare(a.FileFullPath, item.FileFullPath, StringComparison.OrdinalIgnoreCase) == 0))
-                        return false;
+                    lock (itemLock) if (mItems.Exists(a => string.Compare(a.FileFullPath, item.FileFullPath, StringComparison.OrdinalIgnoreCase) == 0)) return false;
                 }
                 item.owner = this;
                 item.mIndex = index;
-                
-                for (int i = index; i < mItems.Count; i++) 
-                    mItems[i].mIndex++;
-                mItems.Insert(index, item);
+
+                lock (itemLock)
+                {
+                    for (int i = index; i < mItems.Count; i++) mItems[i].mIndex++;
+                    mItems.Insert(index, item);
+                }
+
                 if (mImageListView != null)
                 {
                     item.mImageListView = mImageListView;
@@ -428,19 +431,17 @@ namespace Manina.Windows.Forms
             /// <param name="removeFromCache">true to remove item image from cache; otherwise false.</param>
             internal void RemoveInternal(ImageListViewItem item, bool removeFromCache)
             {
-                for (int i = item.mIndex; i < mItems.Count; i++)
-                    mItems[i].mIndex--;
+                lock (itemLock) for (int i = item.mIndex; i < mItems.Count; i++) mItems[i].mIndex--;
                 if (item == mFocused) mFocused = null;
-                if (removeFromCache && mImageListView != null)
-                    mImageListView.cacheManager.Remove(item.Guid);
-                mItems.Remove(item);
+                if (removeFromCache && mImageListView != null) mImageListView.cacheManager.Remove(item.Guid);
+                lock (itemLock) mItems.Remove(item);
             }
             /// <summary>
             /// Returns the index of the specified item.
             /// </summary>
             internal int IndexOf(ImageListViewItem item)
             {
-                return item.Index;
+                lock (itemLock) return item.Index;
             }
             /// <summary>
             /// Returns the index of the item with the specified Guid.
@@ -464,7 +465,7 @@ namespace Manina.Windows.Forms
                 if (mImageListView == null || mImageListView.SortOrder == SortOrder.None) return;
                 try
                 {
-                    lock (itemLock) mItems.Sort(new ImageListViewItemComparer(mImageListView.SortColumn, mImageListView.SortOrder)); // Sort items
+                    lock (itemLock) { mItems.Sort(new ImageListViewItemComparer(mImageListView.SortColumn, mImageListView.SortOrder)); }// Sort items
                 }
                 catch
                 {
@@ -473,7 +474,10 @@ namespace Manina.Windows.Forms
                 }
                 finally
                 {
-                    for (int i = 0; i < mItems.Count; i++) mItems[i].mIndex = i; // Update item indices
+                    lock (itemLock)
+                    {
+                        for (int i = 0; i < mItems.Count; i++) mItems[i].mIndex = i; // Update item indices
+                    }
                 }
                 secondTry = false;
                 
@@ -608,7 +612,7 @@ namespace Manina.Windows.Forms
             [Obsolete("Use ImageListViewItem.Index property instead.")]
             int IList<ImageListViewItem>.IndexOf(ImageListViewItem item)
             {
-                lock (itemLock) return mItems.IndexOf(item);
+                return mItems.IndexOf(item);
             }
             /// <summary>
             /// Copies the elements of the <see cref="T:System.Collections.ICollection"/> to an <see cref="T:System.Array"/>, starting at a particular <see cref="T:System.Array"/> index.
@@ -617,7 +621,7 @@ namespace Manina.Windows.Forms
             {
                 if (!(array is ImageListViewItem[]))
                     throw new ArgumentException("An array of ImageListViewItem is required.", "array");
-                mItems.CopyTo((ImageListViewItem[])array, index);
+                lock (itemLock) mItems.CopyTo((ImageListViewItem[])array, index);
             }
             /// <summary>
             /// Gets the number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1"/>.
@@ -658,7 +662,7 @@ namespace Manina.Windows.Forms
             {
                 if (!(value is ImageListViewItem))
                     throw new ArgumentException("An object of type ImageListViewItem is required.", "value");
-                return mItems.Contains((ImageListViewItem)value);
+                lock (itemLock) return mItems.Contains((ImageListViewItem)value);
             }
             /// <summary>
             /// Returns an enumerator that iterates through a collection.

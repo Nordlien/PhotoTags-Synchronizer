@@ -712,8 +712,8 @@ namespace PhotoTagsSynchronizer
                 fileEntriesFound = fileEntriesFromDatabase;
             }
 
-            UpdateStatusImageListView("Sorting...");
-            ImageListViewSortByCheckedRdioButton();
+            //UpdateStatusImageListView("Sorting...");
+            //ImageListViewSortByCheckedRdioButton();
 
             ImageListViewEnable(imageListView1, true);
             ImageListViewResumeLayoutInvoke(imageListView1);
