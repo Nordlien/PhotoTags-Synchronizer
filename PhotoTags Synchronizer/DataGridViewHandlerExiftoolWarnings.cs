@@ -43,7 +43,7 @@ namespace PhotoTagsSynchronizer
 
             if (exifToolWarningDataList.Count > 0)
             {
-                Image thumbnail = DatabaseAndCacheThumbnail.ReadThumbnailFromCacheOnlyClone(fileEntryAttribute);
+                Image thumbnail = DatabaseAndCacheThumbnail.ReadThumbnailFromCacheOnl(fileEntryAttribute);
 
                 int columnIndex = DataGridViewHandler.AddColumnOrUpdateNew(
                     dataGridView, fileEntryAttribute, thumbnail, null, ReadWriteAccess.ForceCellToReadOnly, showWhatColumns,
