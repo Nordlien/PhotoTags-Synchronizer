@@ -253,11 +253,12 @@ namespace Thumbnails
 
         #region Thumbnail - Cache
         private static Dictionary<FileEntry, Image> thumbnailCache = new Dictionary<FileEntry, Image>();
+        private static readonly Object thumbnailCacheLock = new Object();
 
         #region Thumbnail - DoesThumbnailExist
         public bool DoesThumbnailExist(FileEntry fileEntry)
         {
-            if (thumbnailCache.ContainsKey(fileEntry)) return true;
+            lock (thumbnailCacheLock) if (thumbnailCache.ContainsKey(fileEntry)) return true;
             return ReadThumbnailFromCacheOrDatabase(fileEntry) != null; //Read Thumbnail and put in cache, will need the thumbnail soon anywhy 
         }
         #endregion
@@ -266,7 +267,7 @@ namespace Thumbnails
         public void ThumbnailCacheUpdate(FileEntry fileEntry, Image image)
         {
             if (fileEntry.GetType() != typeof(FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
-            if (thumbnailCache.ContainsKey(fileEntry)) thumbnailCache[fileEntry] = image;
+            lock (thumbnailCacheLock) if(thumbnailCache.ContainsKey(fileEntry)) thumbnailCache[fileEntry] = image;
             else thumbnailCache.Add(fileEntry, image);            
         }
         #endregion  
@@ -276,7 +277,7 @@ namespace Thumbnails
         {
             if (fileEntry == null) return;
             if (fileEntry.GetType() != typeof(FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
-            if (thumbnailCache.ContainsKey(fileEntry)) thumbnailCache.Remove(fileEntry);
+            lock (thumbnailCacheLock) if (thumbnailCache.ContainsKey(fileEntry)) thumbnailCache.Remove(fileEntry);
         }
         #endregion 
 
@@ -293,7 +294,7 @@ namespace Thumbnails
         public bool DoesThumbnailExistInCache(FileEntry fileEntry)
         {
             if (fileEntry.GetType() != typeof(FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
-            return thumbnailCache.ContainsKey(fileEntry);
+            lock (thumbnailCacheLock) return thumbnailCache.ContainsKey(fileEntry);
         }
         #endregion 
 
@@ -301,7 +302,7 @@ namespace Thumbnails
         public Image ReadThumbnailFromCacheOnlyClone(FileEntry fileEntry)
         {
             if (fileEntry.GetType() != typeof(FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
-            if (thumbnailCache.ContainsKey(fileEntry)) return thumbnailCache[fileEntry]; //Testing without clone, looks as unsafe code gone            
+            lock (thumbnailCacheLock) if (thumbnailCache.ContainsKey(fileEntry)) return thumbnailCache[fileEntry]; //Testing without clone, looks as unsafe code gone            
             return null;
         }
         #endregion 
@@ -310,7 +311,7 @@ namespace Thumbnails
         public Image ReadThumbnailFromCacheOrDatabase(FileEntry fileEntry)
         {
             if (fileEntry.GetType() != typeof(FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result            
-            if (thumbnailCache.ContainsKey(fileEntry)) return new Bitmap(thumbnailCache[fileEntry]);
+            lock (thumbnailCacheLock) if (thumbnailCache.ContainsKey(fileEntry)) return new Bitmap(thumbnailCache[fileEntry]);
             
             Image image = Read(fileEntry);
             if (image != null) ThumbnailCacheUpdate(fileEntry, new Bitmap(image));
