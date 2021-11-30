@@ -64,7 +64,7 @@ namespace PhotoTagsSynchronizer
                 LoadingItemsImageListView(2, 6);
                 UpdateStatusImageListView("Adding files to image list...");
                 fileEntries = ImageListView_Populate_MediaFiles_WithFilter(fileDatas, fileEntries);
-                
+
                 SetImageListViewFileEntriesCache(fileEntries);
                 LoadingItemsImageListView(3, 6);
                 UpdateStatusImageListView("Sorting...");
@@ -82,7 +82,6 @@ namespace PhotoTagsSynchronizer
                 }
                 #endregion
 
-                
                 #region PopulateFilter
                 if (runPopulateFilter)
                 {
@@ -92,14 +91,13 @@ namespace PhotoTagsSynchronizer
                 }
                 #endregion
 
+                OnImageListViewSelect_FilesSelectedOrNoneSelected(false); //Even when 0 selected files, allocate data and flags, etc...
+
+                LoadingItemsImageListView(6, 6);
+                UpdateStatusImageListView("Done populate " + fileEntries.Count + " media files...");
+                treeViewFolderBrowser1.Focus();
+                LoadingItemsImageListView(0, 0);
             }
-            OnImageListViewSelect_FilesSelectedOrNoneSelected(false); //Even when 0 selected files, allocate data and flags, etc...
-
-            LoadingItemsImageListView(6, 6);
-            UpdateStatusImageListView("Done populate " + fileEntries.Count + " media files...");
-            treeViewFolderBrowser1.Focus();
-            LoadingItemsImageListView(0, 0);
-
             return fileEntries;
         }
         #endregion
