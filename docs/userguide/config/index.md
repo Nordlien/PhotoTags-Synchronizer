@@ -53,6 +53,12 @@ Here you can change general settings about the applications.
 ### Datetime Formats In Filenames
 ![Config Application Datetime Formats In Filenames](config_application_datetime_formats_in_filenames.png)
 
+#### File date formats
+When removing date and time from filename, what format will be accepted to remove from file name.
+
+On the [Date and Time tab](../date/) all date and time found in file name, will be present as found date and time.
+
+
 ### Datetime Formats Help
 ![Config Application Datetime Formats Help](config_application_datetime_formats_help.png)
 
@@ -65,7 +71,6 @@ Select new theme, change, load, save and create your own.
 
 ## Metadata
 All meta information read in this application will be assigned to a value internally in the application.
-
 
 
 ### Read Help Text
@@ -135,7 +140,7 @@ Here is an overview what the application use internally:
   - LocationCity
   - LocationRegion/State
 
-### Read Priority
+## Read Priority
 ![Config Metadata Read Priority](config_metadata_read_priority.png)
 Because of multiple standards, meta information can become out of sync, depending on how camera and software you used saving the meta information.
 
@@ -150,7 +155,7 @@ By setting all fields as Author, and what priority each meta information has you
 
 If you want QuickTime to win, just set high priority than IPTC and EXIF.
 
-#### Change how meta information is read and used
+### Change how meta information is read and used
 
 In theory you can use any meta information where you want. Just assign to the fields you want to use.
 
@@ -161,10 +166,10 @@ As example:
 - List of texts stored in Structured format
 - List of texts stored in XML format
 
-#### Warnings
+### Warnings
 When there are mismatch between meta information that in theory should be equal, a warning will be saved and you can see all warnings in the [Warnings tab](../warnings/)
 
-#### Assign meta information and priority
+### Assign meta information and priority
 
 Drag and Drop From | Drag and drop to
 --|--
@@ -174,7 +179,7 @@ Use context menu | Enter priority
 --|--
 ![Text](config_metadata-context-menu.png) | ![Text](config_metadata-read-priority.png) <br> Bigger number = higher priority
 
-#### Easy access to "Read Priority" in Exiftool tab and Warnings tab
+### Easy access to "Read Priority" in Exiftool tab and Warnings tab
 For easy access and set the values where you see them in the Exiftool and Warnings tab.
 
 Exiftool | Warnings
@@ -187,170 +192,9 @@ Exiftool | Warnings
 ![Config Metadata Write Help Text](config_metadata_write_help_text.png)
 
 
-### Write Windows Xtra Properties
+## Write Windows Xtra Properties
 ![Config Metadata Write Windows Xtra Properties](config_metadata_write_windows_xtra_properties.png)
 Confiurate what values should be written when writing Xtra Atom properties
-
-### Update Files Create Date And Time
-![Config Metadata Update Files Create Date And Time](config_metadata_update_files_create_date_and_time.png)
-Set File attribute Created Time and Date equal to Media Taken date and time.
-
-### Exiftool Help Text
-![Config Metadata Exiftool Help Text](config_metadata_exiftool_help_text.png)
-
-### How To Write Metadata
-![Config Metadata How To Write Metadata](config_metadata_how_to_write_metadata.png)
-
-
-### Added Lines For Each Keyword
-![Config Metadata Added Lines For Each Keyword](config_metadata_added_lines_for_each_keyword.png)
-
-
-
-## WebScraper
-See also [WebScraping user guide](../webscraping/)
-
-- Web Scraping settings
-  - JavaScript Execute Timeout<br>How long time before the injected scraping script should run before timeout. On a slower computer you can increase this number.
-  - Web Scraping Delay 1 (Our script to run)<br>A short delay, let existing script to finalize before we run our injected scraping script again. On a slower computer, you can increase this number.
-  - Web Scraping Retry<br>Number of retry run the script after an error or timeout.
-  - Web Scraping Delay 2 (In-Page script to run)<br>A short delay, let existing script to finalize before we run the scraping script. On slower computer, you can increase this number.
-  - Page Start Loading Timeout<br>When trying to open a page, hot long should web browser wait before consider timeout
-  - Page Loaded Timeout<br>
-  - Number of PageDown keystroke.<br> When scraping categories, then the scraper sends PageDown keypress, and checks if new data has been loaded to the web browser. If no new data has been found, the scraper considers we are at the end of the page.
-- Start pages for scraping categories
-  - A list of page that will be scraped to scrap categories
-
-![WebScraper](config_webscraper.png)
-
-## Metadata Write
-
-### Variables
-
-A list of variables you can write back in Windows Xtra atoms and back to any meta information fields.
-
-  - System
-	  - {SystemDateTime}
-	  - {SystemDateTimeDateStamp}
-	  - {SystemDateTimeTimeStamp}
-	  - {SystemDateTime_yyyy}
-	  - {SystemDateTime_MM}
-	  - {SystemDateTime_dd}
-	  - {SystemDateTime_HH}
-	  - {SystemDateTime_mm}
-	  - {SystemDateTime_ss}
-  - Filesystem
-	  - {FileName}
-	  - {FileFullPath}
-	  - {FileFullPath.8.3}
-	  - {FileNameWithoutExtension}
-	  - {FileNameWithoutDateTime}
-	  - {FileExtension}
-	  - {FileDirectory}
-	  - {FileSize}
-	  - {FileDate}
-	  - {FileDateDateStamp}
-	  - {FileDateTimeStamp}
-	  - {FileDate_yyyy}
-	  - {FileDate_MM}
-	  - {FileDate_dd}
-	  - {FileDate_HH}
-	  - {FileDate_mm}
-	  - {FileDate_ss}
-	  - {FileDateCreatedDateStamp}
-	  - {FileDateCreatedTimeStamp}
-	  - {FileDateCreated_yyyy}
-	  - {FileDateCreated_MM}
-	  - {FileDateCreated_dd}
-	  - {FileDateCreated_HH}
-	  - {FileDateCreated_mm}
-	  - {FileDateCreated_ss}
-	  - {FileDateModified}
-	  - {IfFileDateModifiedChanged}
-	  - {FileDateModifiedDateStamp}
-	  - {FileDateModifiedTimeStamp}
-	  - {FileDateModified_yyyy}
-	  - {FileDateModified_MM}
-	  - {FileDateModified_dd}
-	  - {FileDateModified_HH}
-	  - {FileDateModified_mm}
-	  - {FileDateModified_ss}
-	  - {FileLastAccessed}
-	  - {FileLastAccessedDateStamp}
-	  - {FileLastAccessedTimeStamp}
-	  - {FileLastAccessed_yyyy}
-	  - {FileLastAccessed_MM}
-	  - {FileLastAccessed_dd}
-	  - {FileLastAccessed_HH}
-	  - {FileLastAccessed_mm}
-	  - {FileLastAccessed_ss}
-	  - {FileMimeType}
-  - Personal
-	  - {PersonalTitle}
-	  - {IfPersonalTitleChanged}
-	  - {PersonalDescription}
-	  - {IfPersonalDescriptionChanged}
-	  - {PersonalComments}
-	  - {IfPersonalCommentsChanged}
-	  - {PersonalRating}
-	  - {IfPersonalRatingChanged}
-	  - {PersonalRatingPercent}
-	  - {PersonalAuthor}
-	  - {IfPersonalAuthorChanged}
-	  - {PersonalAlbum}
-	  - {IfPersonalAlbumChanged}
-	  - {PersonalRegionInfoMP}
-	  - {PersonalRegionInfo}
-	  - {IfPersonalRegionChanged}
-  - Keyword
-	  - {PersonalKeywordsList}
-	  - {PersonalKeywordsXML}
-	  - {PersonalKeywordItemsDelete}
-	  - {PersonalKeywordItemsAdd}
-	  - {IfPersonalKeywordsChanged}
-  - Camera
-	  - {CameraMake}
-	  - {CameraModel}
-  - Media
-	  - {IfMediaDateTakenChanged}
-	  - {MediaDateTakenDateStamp}
-	  - {MediaDateTakenTimeStamp}
-	  - {MediaDateTaken_yyyy}
-	  - {MediaDateTaken_MM}
-	  - {MediaDateTaken_dd}
-	  - {MediaDateTaken_HH}
-	  - {MediaDateTaken_mm}
-	  - {MediaDateTaken_ss}
-	  - {MediaWidth}
-	  - {MediaHeight}
-	  - {MediaOrientation}
-	  - {MediaVideoLength}
-  - Location
-	  - {LocationAltitude}
-	  - {IfLocationAltitudeChanged}
-	  - {LocationLatitude}
-	  - {IfLocationLatitudeChanged}
-	  - {LocationLongitude}
-	  - {IfLocationLongitudeChanged}
-	  - {LocationDateTime}
-	  - {IfLocationDateTimeChanged}
-	  - {LocationDateTimeUTC}
-	  - {LocationDateTimeDateStamp}
-	  - {LocationDateTimeTimeStamp}
-	  - {LocationDateTime_yyyy}
-	  - {LocationDateTime_MM}
-	  - {LocationDateTime_dd}
-	  - {LocationDateTime_HH}
-	  - {LocationDateTime_mm}
-	  - {LocationDateTime_ss}
-	  - {LocationName}
-	  - {IfLocationNameChanged}
-	  - {LocationCity}
-	  - {IfLocationCityChanged}
-	  - {LocationState}
-	  - {IfLocationStateChanged}
-	  - {LocationCountry}
-	  - {IfLocationCountryChanged}
 
 ### Write Windows Xtra atom properties
 
@@ -369,20 +213,196 @@ When Picture is selected, data will be written back to image files where support
   - Artist
   - Rating
 
-![Metadata Write](config_metadata-write.png)
+### Update Files Create Date And Time
+![Config Metadata Update Files Create Date And Time](config_metadata_update_files_create_date_and_time.png)
+Set File attribute Created Time and Date equal to Media Taken date and time.
 
-## File date formats
-When removing date and time from filename, what format will be accepted to remove from file name.
+### Exiftool Help Text
+![Config Metadata Exiftool Help Text](config_metadata_exiftool_help_text.png)
 
-On the [Date and Time tab](../date/) all date and time found in file name, will be present as found date and time.
+### How To Write Metadata
+![Config Metadata How To Write Metadata](config_metadata_how_to_write_metadata.png)
 
-![File date formats](config_file-date-formats.png)
+
+## Metadata Write
+
+### Variables
+
+A list of variables you can write back in Windows Xtra atoms and back to any meta information fields.
+
+  - System
+	  - SystemDateTime
+	  - SystemDateTimeDateStamp
+	  - SystemDateTimeTimeStamp
+	  - SystemDateTime_yyyy
+	  - SystemDateTime_MM
+	  - SystemDateTime_dd
+	  - SystemDateTime_HH
+	  - SystemDateTime_mm
+	  - SystemDateTime_ss
+  - Filesystem
+	  - FileName
+	  - FileFullPath
+	  - FileFullPath.8.3
+	  - FileNameWithoutExtension
+	  - FileNameWithoutDateTime
+	  - FileExtension
+	  - FileDirectory
+	  - FileSize
+	  - FileDate
+	  - FileDateDateStamp
+	  - FileDateTimeStamp
+	  - FileDate_yyyy
+	  - FileDate_MM
+	  - FileDate_dd
+	  - FileDate_HH
+	  - FileDate_mm
+	  - FileDate_ss
+	  - FileDateCreatedDateStamp
+	  - FileDateCreatedTimeStamp
+	  - FileDateCreated_yyyy
+	  - FileDateCreated_MM
+	  - FileDateCreated_dd
+	  - FileDateCreated_HH
+	  - FileDateCreated_mm
+	  - FileDateCreated_ss
+	  - FileDateModified
+	  - IfFileDateModifiedChanged
+	  - FileDateModifiedDateStamp
+	  - FileDateModifiedTimeStamp
+	  - FileDateModified_yyyy
+	  - FileDateModified_MM
+	  - FileDateModified_dd
+	  - FileDateModified_HH
+	  - FileDateModified_mm
+	  - FileDateModified_ss
+	  - FileLastAccessed
+	  - FileLastAccessedDateStamp
+	  - FileLastAccessedTimeStamp
+	  - FileLastAccessed_yyyy
+	  - FileLastAccessed_MM
+	  - FileLastAccessed_dd
+	  - FileLastAccessed_HH
+	  - FileLastAccessed_mm
+	  - FileLastAccessed_ss
+	  - FileMimeType
+  - Personal
+	  - PersonalTitle
+	  - IfPersonalTitleChanged
+	  - PersonalDescription
+	  - IfPersonalDescriptionChanged
+	  - PersonalComments
+	  - IfPersonalCommentsChanged
+	  - PersonalRating
+	  - IfPersonalRatingChanged
+	  - PersonalRatingPercent
+	  - PersonalAuthor
+	  - IfPersonalAuthorChanged
+	  - PersonalAlbum
+	  - IfPersonalAlbumChanged
+	  - PersonalRegionInfoMP
+	  - PersonalRegionInfo
+	  - IfPersonalRegionChanged
+  - Keyword
+	  - PersonalKeywordsList}
+	  - PersonalKeywordsXML}
+	  - PersonalKeywordItemsDelete}
+	  - PersonalKeywordItemsAdd}
+	  - IfPersonalKeywordsChanged}
+  - Camera
+	  - CameraMake}
+	  - CameraModel
+  - Media
+	  - IfMediaDateTakenChanged
+	  - MediaDateTakenDateStamp
+	  - MediaDateTakenTimeStamp
+	  - MediaDateTaken_yyyy
+	  - MediaDateTaken_MM
+	  - MediaDateTaken_dd
+	  - MediaDateTaken_HH
+	  - MediaDateTaken_mm
+	  - MediaDateTaken_ss
+	  - MediaWidth
+	  - MediaHeight
+	  - MediaOrientation
+	  - MediaVideoLength
+  - Location
+	  - LocationAltitude
+	  - IfLocationAltitudeChanged
+	  - LocationLatitude
+	  - IfLocationLatitudeChanged
+	  - LocationLongitude
+	  - IfLocationLongitudeChanged
+	  - LocationDateTime
+	  - IfLocationDateTimeChanged
+	  - LocationDateTimeUTC
+	  - LocationDateTimeDateStamp
+	  - LocationDateTimeTimeStamp
+	  - LocationDateTime_yyyy
+	  - LocationDateTime_MM
+	  - LocationDateTime_dd
+	  - LocationDateTime_HH
+	  - LocationDateTime_mm
+	  - LocationDateTime_ss
+	  - LocationName
+	  - IfLocationNameChanged
+	  - LocationCity
+	  - IfLocationCityChanged
+	  - LocationState
+	  - IfLocationStateChanged
+	  - LocationCountry
+	  - IfLocationCountryChanged
+
+
+### Added Lines For Each Keyword
+![Config Metadata Added Lines For Each Keyword](config_metadata_added_lines_for_each_keyword.png)
+
+
+
+## WebScraper
+See also [WebScraping user guide](../webscraping/)
+
+![Config Webscarper Web Scraping Settings](config_webscarper_web_scraping_settings.png)
+- Web Scraping settings
+  - JavaScript Execute Timeout<br>How long time before the injected scraping script should run before timeout. On a slower computer you can increase this number.
+  - Web Scraping Delay 1 (Our script to run)<br>A short delay, let existing script to finalize before we run our injected scraping script again. On a slower computer, you can increase this number.
+  - Web Scraping Retry<br>Number of retry run the script after an error or timeout.
+  - Web Scraping Delay 2 (In-Page script to run)<br>A short delay, let existing script to finalize before we run the scraping script. On slower computer, you can increase this number.
+  - Page Start Loading Timeout<br>When trying to open a page, hot long should web browser wait before consider timeout
+  - Page Loaded Timeout<br>
+  - Number of PageDown keystroke.<br> When scraping categories, then the scraper sends PageDown keypress, and checks if new data has been loaded to the web browser. If no new data has been found, the scraper considers we are at the end of the page.
+- Start pages for scraping categories
+  - A list of page that will be scraped to scrap categories
+
+![Config Webscarper Start Pages For Web Scraping](config_webscarper_start_pages_for_web_scraping.png)
+
 
 ## AutoCorrect
 
+![Config Autocorrect Autocorrect Help](config_autocorrect_autocorrect_help.png)
+Help text
+
+![Config Autocorrect Date And Time Digitized](config_autocorrect_date_and_time_digitized.png)
 See [AutoCorrect user guide](../autocorrect/) for more information.
 
-![AutoCorrect](config_autocorrect.png)
+![Config Autocorrect Gps Location And Gps Date And Time](config_autocorrect_gps_location_and_gps_date_and_time.png)
+![Config Autocorrect Location Information](config_autocorrect_location_information.png)
+![Config Autocorrect Backup Of Tags](config_autocorrect_backup_of_tags.png)
+![Config Autocorrect Face Region Fields](config_autocorrect_face_region_fields.png)
+![Config Autocorrect Title](config_autocorrect_title.png)
+![Config Autocorrect Album](config_autocorrect_album.png)
+![Config Autocorrect Author](config_autocorrect_author.png)
+![Config Autocorrect Keyword Tags](config_autocorrect_keyword_tags.png)
+![Config Autocorrect Rename Media Files](config_autocorrect_rename_media_files.png)
+![Config Autocorrect Keyword Synonyms Help](config_autocorrect_keyword_synonyms_help.png)
+![Config Autocorrect Keyword Synonyms](config_autocorrect_keyword_synonyms.png)
+
+
+
+
+
+
+
 
 ## Camera owner
 See [GEOtagging user guide](../map/) for more information.
