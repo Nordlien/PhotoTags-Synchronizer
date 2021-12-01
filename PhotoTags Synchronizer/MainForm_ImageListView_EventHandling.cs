@@ -578,49 +578,55 @@ namespace PhotoTagsSynchronizer
                 return;
             }
 
-            List<string> extentions = new List<string>();
-
-            foreach (FileEntry fileEntry in imageListViewSelectedFileEntryItems)
+            try
             {
-                string extention = Path.GetExtension(fileEntry.FileFullPath).ToLower();
-                if (!extentions.Contains(extention)) extentions.Add(extention);
-            }
+                List<string> extentions = new List<string>();
 
-            ApplicationAssociationsHandler applicationAssociationsHandler = new ApplicationAssociationsHandler();
-            List<ApplicationData> listOfCommonOpenWith = applicationAssociationsHandler.OpenWithInCommon(extentions);
-
-            KryptonContextMenu kryptonContextMenu = new KryptonContextMenu();
-            KryptonContextMenuItems kryptonContextMenuItems = new KryptonContextMenuItems();
-            kryptonContextMenu.Items.Add(kryptonContextMenuItems);
-
-            kryptonContextMenuItemsGenericOpenWithAppList.Items.Clear();
-            kryptonRibbonGroupButtonHomeFileSystemOpenWith.KryptonContextMenu = null;
-
-            if (listOfCommonOpenWith != null && listOfCommonOpenWith.Count > 0)
-            {
-                foreach (ApplicationData data in listOfCommonOpenWith)
+                foreach (FileEntry fileEntry in imageListViewSelectedFileEntryItems)
                 {
-                    foreach (VerbLink verbLink in data.VerbLinks)
-                    {
-                        ApplicationData singelVerbApplicationData = new ApplicationData();
-                        singelVerbApplicationData.AppIconReference = data.AppIconReference;
-                        singelVerbApplicationData.ApplicationId = data.ApplicationId;
-                        singelVerbApplicationData.Command = data.Command;
-                        singelVerbApplicationData.FriendlyAppName = data.FriendlyAppName;
-                        singelVerbApplicationData.Icon = data.Icon;
-                        singelVerbApplicationData.ProgId = data.ProgId;
-                        singelVerbApplicationData.AddVerb(verbLink.Verb, verbLink.Command);
-
-                        Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItem = new Krypton.Toolkit.KryptonContextMenuItem();
-                        kryptonContextMenuItem.Text = singelVerbApplicationData.FriendlyAppName.Replace("&", "&&") + " - " + verbLink.Verb;
-                        kryptonContextMenuItem.Image = new Bitmap(singelVerbApplicationData.Icon.ToBitmap(), new Size(32,32));
-                        kryptonContextMenuItem.Tag = singelVerbApplicationData;
-                        kryptonContextMenuItem.Click += KryptonContextMenuItemOpenWithSelectedVerb_Click;
-                        kryptonContextMenuItemsGenericOpenWithAppList.Items.Add(kryptonContextMenuItem);
-                        kryptonContextMenuItems.Items.Add(kryptonContextMenuItem);
-                    }
+                    string extention = Path.GetExtension(fileEntry.FileFullPath).ToLower();
+                    if (!extentions.Contains(extention)) extentions.Add(extention);
                 }
-                kryptonRibbonGroupButtonHomeFileSystemOpenWith.KryptonContextMenu = kryptonContextMenu;
+
+                ApplicationAssociationsHandler applicationAssociationsHandler = new ApplicationAssociationsHandler();
+                List<ApplicationData> listOfCommonOpenWith = applicationAssociationsHandler.OpenWithInCommon(extentions);
+
+                KryptonContextMenu kryptonContextMenu = new KryptonContextMenu();
+                KryptonContextMenuItems kryptonContextMenuItems = new KryptonContextMenuItems();
+                kryptonContextMenu.Items.Add(kryptonContextMenuItems);
+
+                kryptonContextMenuItemsGenericOpenWithAppList.Items.Clear();
+                kryptonRibbonGroupButtonHomeFileSystemOpenWith.KryptonContextMenu = null;
+
+                if (listOfCommonOpenWith != null && listOfCommonOpenWith.Count > 0)
+                {
+                    foreach (ApplicationData data in listOfCommonOpenWith)
+                    {
+                        foreach (VerbLink verbLink in data.VerbLinks)
+                        {
+                            ApplicationData singelVerbApplicationData = new ApplicationData();
+                            singelVerbApplicationData.AppIconReference = data.AppIconReference;
+                            singelVerbApplicationData.ApplicationId = data.ApplicationId;
+                            singelVerbApplicationData.Command = data.Command;
+                            singelVerbApplicationData.FriendlyAppName = data.FriendlyAppName;
+                            singelVerbApplicationData.Icon = data.Icon;
+                            singelVerbApplicationData.ProgId = data.ProgId;
+                            singelVerbApplicationData.AddVerb(verbLink.Verb, verbLink.Command);
+
+                            Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItem = new Krypton.Toolkit.KryptonContextMenuItem();
+                            kryptonContextMenuItem.Text = singelVerbApplicationData.FriendlyAppName.Replace("&", "&&") + " - " + verbLink.Verb;
+                            kryptonContextMenuItem.Image = new Bitmap(singelVerbApplicationData.Icon.ToBitmap(), new Size(32, 32));
+                            kryptonContextMenuItem.Tag = singelVerbApplicationData;
+                            kryptonContextMenuItem.Click += KryptonContextMenuItemOpenWithSelectedVerb_Click;
+                            kryptonContextMenuItemsGenericOpenWithAppList.Items.Add(kryptonContextMenuItem);
+                            kryptonContextMenuItems.Items.Add(kryptonContextMenuItem);
+                        }
+                    }
+                    kryptonRibbonGroupButtonHomeFileSystemOpenWith.KryptonContextMenu = kryptonContextMenu;
+                }
+            } catch (Exception ex)
+            {
+                Logger.Error(ex);
             }
         }
 
