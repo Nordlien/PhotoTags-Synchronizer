@@ -12,15 +12,16 @@ Keep the tags where it belongs.
 
 - Keyword tagging
   - See user guide for [Keywords][3737e4b0]
-  - Fast and easy editing meta information in a wide variety of files.
+  - Fast and easy editing meta information in a wide variety of media file formats.
   - [Keywords](userguide/keywords), [People and  Region](userguide/people), [GEOtagging](userguide/map) and [Dates](userguide/date)
   - Easy edit and tag many files at once
   - Copy and Paste from every Gridview into Clipboard and paste where you want (E.g. Microsoft Excel or Google Spreadsheets)
   - Unlimited Redo and Undo
-  - Keep track of changes. Store all meta history
+  - Keep track of changes. Store full history of all changes for all meta information
 - Synchronizer
   - From Windows Live Photo Gallery
   - From Microsoft Photos
+  - From Google Photo (where allowed)
   - Using a Powerful customizable web scraping tool in countries was allowed (PS: Use at your own risk, don't break the law).
 - Powerful Exiftool GUI
   - Able to see all meta information provided by Exiftool
@@ -31,7 +32,7 @@ Keep the tags where it belongs.
   - Can also write Microsoft Atoms back to files
 - Powerful rename tool.
   - See user guide for [Rename tool](userguide/renametool)
-- Powerful run command tool
+- Powerful run command tool on a bulk of files
   - A helping tool for Convert, Update, Change and/or Update Photo and Video Files in Bulk using your favorite tool.
   - See user guide for [Run batch](userguide/runbatch)
 - GEOtagging and Map
@@ -62,7 +63,7 @@ Keep the tags where it belongs.
     - Problem 3: Many other tools, Exiftool can only read but can not save Microsoft Xtra Atoms
     - Problem 4: When moving media files from old computer to new computer, you lose meta information, because a lot of meta information is saved only in a local database and not in the media file.
   - Microsoft Photos
-    - Problem 1: Store some information only in a local database and some information in cloud.
+    - Problem 1: Store some information only in a local database and some information in the cloud.
     - Problem 2: There are no synchronization between data store locally and between other computers
   - Google Photos and most likely all other cloud storage providers
     - Problem 1: All data is stored in the cloud. If you want to move to another provider, all your tags are gone. According to GDPR this data is yours, but you are not able to download it.
@@ -95,7 +96,7 @@ See also User Guide for [People](userguide/people)
 
 ## Date and time
 
-A set of useful tools that will help you finding and setting correct date and time for your media file.
+A set of useful tools that will help you find and set the correct date and time for your media file.
 
 See also User Guide for [Date](userguide/date)
 
@@ -103,9 +104,9 @@ See also User Guide for [Date](userguide/date)
 
 ## GEO tagging with Map, GPS tracker, Google Location History
 
-A set of useful tools that will help you finding and setting correct GEOtagging for your media file.
+A set of useful tools that will help you find and set correct GEOtagging for your media file.
 
-You can see media files location on a map, and set new location for your media file on the map.
+You can see media files location on a map, and set a new location for your media file on the map.
 
 You can find your media files location based on KML or json files with a GPS locations history / GPS tracking file.
 
@@ -115,7 +116,7 @@ See also User Guide for [Map](userguide/map)
 
 ## Powerful Exiftool GUI
 - Show all meta information the ExifTool provides.
-- Compare meta infomration between files
+- Compare meta information between files
 - Compare meta information before and after changes in the media file(s)
 
 
@@ -156,9 +157,9 @@ See also User Guide for [Convert & Merge](userguide/convert-and-merge)
 
 ![Convert and merge media files](screenshots/screenshot_convert_and_merge.png)
 
-## Powerful tool for Convert, Update, Change and/or Update Photo and Video Files in Bulk
+## Powerful tool for Convert, Update and to Change Photo and Video Files in Bulk
 
-Easy start your favorite tool for selected media file and start your favorite tool for each media file with your agruments and use parameter varibales. parameter variables is meta information values from the media file.
+Easy start your favorite tool for selected media files and start your favorite tool for each media file with your arguments and use parameter variables from meta information values fetched from the media file.
 
 See also User Guide for [Run batch](userguide/runbatch)
 

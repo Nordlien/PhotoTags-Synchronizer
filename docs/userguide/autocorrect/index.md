@@ -2,6 +2,18 @@
 
 # AutoCorrect
 
+## Run AutoCorrect
+Select media files or folder then click one of the AutoCorrect buttons.
+- AutoCorrect Run, just run AutoCorrect algorithm
+- AutoCorrect Form, open a form to prefill meta information you want to add to media files.
+
+### Ribbon bar:
+![Autocorrect Ribbon](autocorrect_ribbon.png)
+
+### AutoCorrect Form:
+![Autocorrect Form](autocorrect_form.png)
+In the [Config](../config/index.md) you may select if Description will synchronized as Album tag
+
 ## GPS Location - The algorithm
 
 ### Location History for Camera owner
@@ -20,7 +32,7 @@ NB: this will only work, if you have GPS location history, and the time zone fou
 ### Find you GPS location
 When we have UTC date and time for when a picture or video was taken, we know the camera owner and have GPS location history for this camera owne, we can start to estimate the GPS location for where this picture or video was taken.
 
-Using the UTC date and time, we will lock-up to locations closed to given UTC date and time in the GPS location history. Then we calculate a location point between these two locations we found. If media files UTC date and time are 10 seconds from location point A and B. Then the location will become in the middle, if the UTC date and time are only 1 second from point A and 19 second from point B, the new location much closer to point A.
+Using the UTC date and time, we will lock-up to locations closed to given UTC date and time in the GPS location history. Then we calculate a location point between these two locations we found. If media files UTC date and time are 10 seconds from location point A and B. Then the location will become in the middle, if the UTC date and time are only 1 second from point A and 19 second from point B, the new location is much closer to point A.
 
 ## Date and Time Digitized
 Updating the data and time media was taken. The date and time taken for the media file will use the first field where data and time exist according to your preferences.
@@ -80,3 +92,6 @@ Whem config is set to upded, and when Camera Make and Model are assigned to a pe
 After the media files have been updated the [Rename tool](userguide/renametool) will be run.
 
 {% include footer.md %}
+
+
+
