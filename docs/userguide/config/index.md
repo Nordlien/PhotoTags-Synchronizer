@@ -15,33 +15,63 @@
 
 ## Application
 Here you can change general settings about the applications.
-- Thumbnail size. The smaller the thumbnail is, the faster the application will run and the smaller the database will become. But the thumbnail will also become blurry when thumbnail will be upsized.
-  - Poster Thumbnail size. Size of media file thumbnail. A small version of the picture, or a small version of a frame from the video.
-  - Region is often the face of the person inside the picture.
-- Nominatim look-up
-  - What language is preferred when looking up location name, region/state, city and country.
-- Search result
-  - When searching for media files, this will be the maximum of media files found. This to avoid working with media files at once.
-- Region name suggestions. See [People/Regions](../people/) for more information.
-  - Number of days. When tagging names for people, a shortcut for most likely names are created. People you been together with during last x days, will appear in this list.
-  - Number of most common.  When tagging names for people, a shortcut for most used names will appear in this list. Here you can set the maximum number of names you want to see in this list.
-- Region media and list view
-  - Avoid reading media files from the Cloud. If media files are only stored in the cloud, when checked, the application will not load the thumbnail, this avoid for example big video files to be download, just to get the get thumbnail.
-  - Load Image Thumbnails "on demand". When presenting thumbnails in the image view, when checked, the thumbnail will only be loaded when it will be presented on the screen, otherwise, it will continue the work in the background.
-- GPS Location Accuracy
-  - Latitude
-  - Longitude
-- Cache logic
-  - Number of posters
 
-![Application](config_application.png)
+### Thumbnail 
+![Config Application Thumbnail](config_application_thumbnail.png)
+- Thumbnail size. The smaller the thumbnail is, the faster the application will run and the smaller the database will become. But the thumbnail will also become blurry when thumbnail will be upsized. 
+- Poster Thumbnail size. Size of media file thumbnail. A small version of the picture, or a small version of a frame from the video.
+- Region is often the face of the person inside the picture.
 
-## Metadata Read
+### Nominatim look-up
+![Config Application Nominatim Lock Up](config_application_nominatim_lock-up.png)
+- What language is preferred when looking up location name, region/state, city and country.
+
+### Search result
+![Config Application Search](config_application_search.png)
+- When searching for media files, this will be the maximum of media files found. This to avoid working with media files at once.
+
+### Region name suggestions. 
+![Config Application Region Suggestion](config_application_region_suggestion.png)
+- See [People/Regions](../people/) for more information.
+- Number of days. When tagging names for people, a shortcut for most likely names are created. People you been together with during last x days, will appear in this list.
+- Number of most common.  When tagging names for people, a shortcut for most used names will appear in this list. Here you can set the maximum number of names you want to see in this list.
+
+### Region accuracy
+![Config Application Region Accuracy](config_application_region_accuracy.png)
+
+
+### Cloud And Virtual Files
+![Config Application Cloud And Virtual Files](config_application_cloud_and_virtual_files.png)
+- Avoid reading media files from the Cloud. If media files are only stored in the cloud, when checked, the application will not load the thumbnail, this avoid for example big video files to be download, just to get the get thumbnail.
+- Load Image Thumbnails "on demand". When presenting thumbnails in the image view, when checked, the thumbnail will only be loaded when it will be presented on the screen, otherwise, it will continue the work in the background.
+
+### Gps Location Accuracy
+![Config Application Gps Location Accuracy](config_application_gps_location_accuracy.png)
+- Accuracy for Latitude
+- Accuracy for Longitude
+
+### Datetime Formats In Filenames
+![Config Application Datetime Formats In Filenames](config_application_datetime_formats_in_filenames.png)
+
+### Datetime Formats Help
+![Config Application Datetime Formats Help](config_application_datetime_formats_help.png)
+
+
+### Themes
+![Config Application Themes](config_application_themes.png)
+Select new theme, change, load, save and create your own.
+
+
+
+## Metadata
 All meta information read in this application will be assigned to a value internally in the application.
 
-![Metadata Read](config_metadata-read.png)
 
-### Example of different standards
+
+### Read Help Text
+![Config Metadata Read Help Text](config_metadata_read_help_text.png)
+
+#### Example of different standards
 
 As an example: Athur has a few standards where this meta information can be stored.
 
@@ -54,7 +84,7 @@ As an example: Athur has a few standards where this meta information can be stor
   - PDF, Creator
   - XMP:XMP-dc, Creator
 
-### PhotoTags Synchronizer internally overview
+#### PhotoTags Synchronizer internally overview
 
 Here is an overview what the application use internally:
 
@@ -105,20 +135,8 @@ Here is an overview what the application use internally:
   - LocationCity
   - LocationRegion/State
 
-
-### Change how meta information is read and used
-
-In theory you can use any meta information where you want. Just assign to the fields you want to use.
-
-Please also note that there are few different standards for storing data.
-
-As example:
-- Just as as text
-- List of texts stored in Structured format
-- List of texts stored in XML format
-
-### Priority
-
+### Read Priority
+![Config Metadata Read Priority](config_metadata_read_priority.png)
 Because of multiple standards, meta information can become out of sync, depending on how camera and software you used saving the meta information.
 
 If the software won't update all meta information that in theory should be "equal", then you will get data out of sync.
@@ -131,6 +149,17 @@ Example:
 By setting all fields as Author, and what priority each meta information has you can solve this.
 
 If you want QuickTime to win, just set high priority than IPTC and EXIF.
+
+#### Change how meta information is read and used
+
+In theory you can use any meta information where you want. Just assign to the fields you want to use.
+
+Please also note that there are few different standards for storing data.
+
+As example:
+- Just as as text
+- List of texts stored in Structured format
+- List of texts stored in XML format
 
 #### Warnings
 When there are mismatch between meta information that in theory should be equal, a warning will be saved and you can see all warnings in the [Warnings tab](../warnings/)
@@ -145,13 +174,34 @@ Use context menu | Enter priority
 --|--
 ![Text](config_metadata-context-menu.png) | ![Text](config_metadata-read-priority.png) <br> Bigger number = higher priority
 
-#### Easy access in Exiftool and Warnings tab
+#### Easy access to "Read Priority" in Exiftool tab and Warnings tab
 For easy access and set the values where you see them in the Exiftool and Warnings tab.
 
 Exiftool | Warnings
 --|--
 ![Exiftool tooltip](config_metadata-read-exiftool-tooltip.png) | ![Warnings](config_metadata-read-warnings-tooltip.png)
 ![Exiftool contextmenu](config_metadata-read-exiftool-contextmenu.png) | ![Warnings](config_metadata-read-warnings-contextmenu.png)
+
+
+### Write Help Text
+![Config Metadata Write Help Text](config_metadata_write_help_text.png)
+
+### Write Windows Xtra Properties
+![Config Metadata Write Windows Xtra Properties](config_metadata_write_windows_xtra_properties.png)
+
+### Update Files Create Date And Time
+![Config Metadata Update Files Create Date And Time](config_metadata_update_files_create_date_and_time.png)
+
+### Exiftool Help Text
+![Config Metadata Exiftool Help Text](config_metadata_exiftool_help_text.png)
+
+### How To Write Metadata
+![Config Metadata How To Write Metadata](config_metadata_how_to_write_metadata.png)
+
+### Added Lines For Each Keyword
+![Config Metadata Added Lines For Each Keyword](config_metadata_added_lines_for_each_keyword.png)
+
+
 
 ## WebScraper
 See also [WebScraping user guide](../webscraping/)
