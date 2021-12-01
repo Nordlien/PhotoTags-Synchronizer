@@ -186,17 +186,21 @@ Exiftool | Warnings
 ### Write Help Text
 ![Config Metadata Write Help Text](config_metadata_write_help_text.png)
 
+
 ### Write Windows Xtra Properties
 ![Config Metadata Write Windows Xtra Properties](config_metadata_write_windows_xtra_properties.png)
+Confiurate what values should be written when writing Xtra Atom properties
 
 ### Update Files Create Date And Time
 ![Config Metadata Update Files Create Date And Time](config_metadata_update_files_create_date_and_time.png)
+Set File attribute Created Time and Date equal to Media Taken date and time.
 
 ### Exiftool Help Text
 ![Config Metadata Exiftool Help Text](config_metadata_exiftool_help_text.png)
 
 ### How To Write Metadata
 ![Config Metadata How To Write Metadata](config_metadata_how_to_write_metadata.png)
+
 
 ### Added Lines For Each Keyword
 ![Config Metadata Added Lines For Each Keyword](config_metadata_added_lines_for_each_keyword.png)

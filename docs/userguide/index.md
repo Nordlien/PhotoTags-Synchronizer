@@ -2,60 +2,32 @@
 
 # Userguide
 
-- General information
-  - [Windows Security Alert](windows-security-alert) 
-  - [User interface layout](userinterface)
-  - How to use [AutoCorrect](autocorrect)
-  - What's inside [Config](config)
-  - [Import GPS locations](import-gps-locations)
-  - [Save](save)
-  - How to do [WebScraping](webscraping)
-  - What's on the [ToolStrip panel](toolstrip)
-- ALl about [Filters panel](filters)
-  - Select Folder
-  - Search for media files
-  - Addtional filers
-- All inside [Image List View panel](imagelistview)
-  - Sort media files by...
-    - File name
-    - File created date and time
-    - File modified date and time
-    - Media Date Taken
-    - Media Album
-    - Media Title
-    - Media Description
-    - Media Comments
-    - Media Author
-    - Media Rating
-    - Location name
-    - Location Region/State
-    - Location City
-    - Location Country
-  - Cut / Copy / Paste
-  - Delete files
-  - Copy filename to clipboard
-  - Refresh Folder
-  - Reload thumbnail and metadata
-  - Clear thumbnail and metadata history
-  - Select all
-  - AutoCorrect metadata
-  - Open
-  - Open media files with...
-  - Edit
-  - Run batch app or command...
-  - Open and associate dialog...
-  - Open file location
-  - Rotate 90 180, 270 degree
-  - Media preview and chromecast
-- All inside [Grid view](gridview):
-  - [Keywords](keywords) - Meta information and keywords
-  - [People](people) - Region and people names
-  - [Map](map) - GEOtagging and Map
-  - [Date](date) - Change date, time and time zone
-  - [ExifTool](exiftool) - List all meta information and compare data from Exiftool
-  - [Warnings](warnings) - Show all mismatch between meta information collected from ExifTool
-  - [Properties](properties) - Show and edit some of meta information collected from Windows Properties
-  - [Rename](renametool) - A powerful rename tool with lot of variables to use
-  - [Convert & Merge](convert-and-merge) - Convert pictures and videos into one video file
+## General information
+- [Windows Security Alert](windows-security-alert) 
+- [User interface layout](userinterface)
+- How to use [AutoCorrect](autocorrect)
+- [Config](config)
+- [Import GPS locations](import-gps-locations)
+- [Save](save)
+- How to do [WebScraping](webscraping)
+- What's on the [ToolStrip panel](toolstrip)
+
+## Help group by the Panel Layout
+[Filters & Search panel](filters) | [Image List View panel](imagelistview) | [Grid view panel](gridview)
+--|--|--
+[Select Folder](filters) | Sort media files | [Keywords](keywords) - Meta information and keywords
+[Search for media files](filters) | Cut / Copy / Paste | [People](people) - Region and people names
+[Addtional filers](filters) | Delete files | [Map](map) - GEOtagging and Map
+. | Copy filename to clipboard | [Date](date) - Change date, time and time zone
+. | Refresh / Reload metadata | [ExifTool](exiftool) - List all meta information and compare data from Exiftool
+. | [AutoCorrect metadata](autocorrect) | [Warnings](warnings) - Show all mismatch between meta information collected from ExifTool
+. | Open/Edit media files with... | [Properties](properties) - Show and edit some of meta information collected from Windows Properties
+. | [Run batch app or command...](runbatch) | [Rename](renametool) - A powerful rename tool with lot of variables to use
+. | Open and associate dialog... | [Convert & Merge](convert-and-merge) - Convert pictures and videos into one video file
+. | Open file location | .
+. | Rotate 90 180, 270 degree | .
+. | [Media preview and chromecast](mediapreview-chromecast) | .
+
+
 
 {% include footer.md %}
