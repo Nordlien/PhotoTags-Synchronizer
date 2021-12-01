@@ -2,16 +2,16 @@
 
 # Config
 
+
+
 - Application
-- Metadata Read
+- Metadata
 - WebScraper
-- Metadata Write
-- File date formats
 - AutoCorrect
-- Camera owner
-- Location names
+- Locations
 - Convert and merge
 - Chromecast
+- Log
 
 ## Application
 Here you can change general settings about the applications.
@@ -399,30 +399,35 @@ See [AutoCorrect user guide](../autocorrect/) for more information.
 
 
 
-
-
-
-
-
-## Camera owner
+## Location
+![Config Location Camera Owner Help](config_location_camera_owner_help.png)
+![Config Location Camera Owner](config_location_camera_owner.png)
 See [GEOtagging user guide](../map/) for more information.
-
 Camera owner is used when finding the correct owner for GPS location history.
-
 Camera owner can be used to set the Author field.
 
-![Camera owner](config_camera-owner.png)
-
-
-## Location names
+![Config Location Import Export](config_location_import_export.png)
+![Config Location Location Names Help](config_location_location_names_help.png)
+![Config Location Location Names](config_location_location_names.png)
 See [GEOtagging user guide](../map/) for more information.
 
-![Location names](config_location-names.png)
-
-## Convert and merge
-![Convert and merge](config_convert-and-merge.png)
+## Convert & Merge
+![Config Convert And Merge Command](config_convert_and_merge_command.png)
+![Config Convert And Merge Image To Video](config_convert_and_merge_image_to_video.png)
+![Config Convert And Merge Convert Video](config_convert_and_merge_convert_video.png)
+![Config Convert And Merge Merge Videos](config_convert_and_merge_merge_videos.png)
 
 ## Chromecast
-![Chromecast](config_chromecast.png)
+![Config Chromecast Image](config_chromecast_image.png)
+![Config Chromecast Video](config_chromecast_video.png)
+![Config Chromecast Vls Stream Config](config_chromecast_vls_stream_config.png)
+
+## Log
+![Config Log Application](config_log_application.png)
+![Config Log Windows Live Photo Gallery](config_log_windows_live_photo_gallery.png)
+![Config Log Actions](config_log_actions.png)
+
+
+
 
 {% include footer.md %}
