@@ -2587,7 +2587,7 @@ namespace PhotoTagsSynchronizer
             {
                 if (File.Exists(logFilename))
                 {
-                    fastColoredTextBoxShowLog.OpenBindingFile(logFilename, Encoding.UTF8);
+                    fastColoredTextBoxShowLog.OpenFile(logFilename, Encoding.UTF8); //OpenBindingFile stopped to work, started to encounter: The output char buffer is too small to contain the decoded characters, encoding 'Unicode (UTF-8)' fallback 'System.Text.DecoderReplacementFallback'.
                     fastColoredTextBoxShowLog.IsChanged = false;
                     fastColoredTextBoxShowLog.ClearUndo();
                     GC.Collect();
@@ -2605,7 +2605,7 @@ namespace PhotoTagsSynchronizer
                 
                 if (File.Exists(logFilename))
                 {
-                    fastColoredTextBoxShowPipe32Log.OpenBindingFile(logFilename, Encoding.UTF8);
+                    fastColoredTextBoxShowPipe32Log.OpenFile(logFilename, Encoding.UTF8); //OpenBindingFile stopped to work, started to encounter: The output char buffer is too small to contain the decoded characters, encoding 'Unicode (UTF-8)' fallback 'System.Text.DecoderReplacementFallback'.
                     fastColoredTextBoxShowPipe32Log.IsChanged = false;
                     fastColoredTextBoxShowPipe32Log.ClearUndo();
                     GC.Collect();
