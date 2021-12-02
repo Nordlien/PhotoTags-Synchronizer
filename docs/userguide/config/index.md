@@ -398,7 +398,6 @@ See [AutoCorrect user guide](../autocorrect/) for more information.
 ![Config Autocorrect Keyword Synonyms](config_autocorrect_keyword_synonyms.png)
 
 
-
 ## Location
 ![Config Location Camera Owner Help](config_location_camera_owner_help.png)
 ![Config Location Camera Owner](config_location_camera_owner.png)
@@ -407,6 +406,8 @@ Camera owner is used when finding the correct owner for GPS location history.
 Camera owner can be used to set the Author field.
 
 ![Config Location Import Export](config_location_import_export.png)
+See [](../import-gps-locations/) for more information.
+
 ![Config Location Location Names Help](config_location_location_names_help.png)
 ![Config Location Location Names](config_location_location_names.png)
 See [GEOtagging user guide](../map/) for more information.
@@ -426,8 +427,6 @@ See [GEOtagging user guide](../map/) for more information.
 ![Config Log Application](config_log_application.png)
 ![Config Log Windows Live Photo Gallery](config_log_windows_live_photo_gallery.png)
 ![Config Log Actions](config_log_actions.png)
-
-
 
 
 {% include footer.md %}
