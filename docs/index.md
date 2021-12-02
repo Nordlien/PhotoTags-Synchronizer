@@ -1,12 +1,26 @@
 {% include header.md %}
 
 # Welcome to PhotoTags Synchronizer
+
 Keep the tags where it belongs.
 
-## Userguide
-[Userguide][11247b8f]
+### Lot of functionality
 
-  [11247b8f]: userguide "Userguide"
+![Ribbon Home](userguide/ribbon/ribbon_home.png)
+![Ribbon Preview](userguide/ribbon/ribbon_preview.png)
+![Ribbon Select](userguide/ribbon/ribbon_select.png)
+![Ribbon Tools](userguide/ribbon/ribbon_tools.png)
+![Ribbon View](userguide/ribbon/ribbon_view.png)
+### Color themes
+
+#### Blue themes
+![Theme Lightmode](screenshots/theme_lightmode.png)
+### Dark themes
+![Theme Darkmode](screenshots/theme_darkmode.png)
+
+
+## Userguide
+[Userguide](userguide)
 
 ## Key features
 
