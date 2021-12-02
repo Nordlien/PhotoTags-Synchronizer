@@ -36,7 +36,7 @@ Keep the tags where it belongs.
   - From Windows Live Photo Gallery
   - From Microsoft Photos
   - From Google Photo (where allowed)
-  - Using a Powerful customizable web scraping tool in countries was allowed (PS: Use at your own risk, don't break the law).
+  - Using a Powerful customizable web scraping tool in countries were allowed (PS: Use at your own risk, don't break the law).
 - Powerful Exiftool GUI
   - Able to see all meta information provided by Exiftool
   - Able to see change history of meta information during updates

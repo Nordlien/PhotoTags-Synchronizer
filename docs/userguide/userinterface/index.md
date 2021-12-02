@@ -5,10 +5,9 @@
 
 ## Bulding blocks
 
-1. [Ribbon](..\ribbon)
-2. [Filters](..\filters)
-3. [Image List View](..\imagelistview)
-4. [Grid view](..\gridview)
-
+1. [Filters](..\filters)
+2. [Image List View](..\imagelistview)
+3. [Grid view](..\gridview)
+4. [Ribbon](..\ribbon)
 
 {% include footer.md %}
