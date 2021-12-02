@@ -2,6 +2,8 @@
 
 # Date and Time
 
+!["Date and time steps"](date_date-and-time-steps.png)
+
 1. Date&Time digitized
   - Local time<br>Date taken is by default the local time where the photo or video was taken.
   - UTC media taken<br>UTC time is often missing in the meta information for the file. When we have UTC time and GPS location we are able to estimate time zone. <br> See [AutoCorrect](../autocorrect/) for automate this process using an algorithm.
@@ -19,6 +21,6 @@
   - Information saved in the operations file system
 6. Date and Time found in the media files Meta information
 
-!["Date and time steps"](date_date-and-time-steps.png)
+
 
 {% include footer.md %}

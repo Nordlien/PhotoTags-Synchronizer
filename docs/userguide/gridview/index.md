@@ -17,7 +17,6 @@ List of tabs to select from:
 - [Rename](..\renametool)
 - [Convert & Merge](..\convert-and-merge)
 
-![GridView](../userinterface/userinterface-layout-girdview.png)
 
 ## Fast copy and paste between media files
 You are able to copy blocks and paste them for many blocks, as long as number of row or columns are equal.

@@ -13,6 +13,7 @@
 - What's on the [ToolStrip panel](toolstrip)
 
 ## Help group by the Panel Layout
+
 [Filters & Search panel](filters) | [Image List View panel](imagelistview) | [Grid view panel](gridview)
 --|--|--
 [Select Folder](filters) | Sort media files | [Keywords](keywords) - Meta information and keywords

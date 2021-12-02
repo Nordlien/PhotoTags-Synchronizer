@@ -5,7 +5,11 @@
 ## Home
 ![Ribbon Home](ribbon_home.png)
 
+Get readt to put the tags where it belongs. Here you find lot of powerful tools to do so.
+
 ### Clipboard 
+
+Here's all the standard and expanded copy and paste functionality.
 
 Function|Folder|Files|Cells|Text
 --|--|--|--|--
@@ -18,20 +22,27 @@ Redo  | - | - | x | x
 
 ### Manage
 
+Here'expanded fast copy, find and replace functionality.
+
 Function | Folder | Files | Cells | Text
 --|--|--|--|--
 Copy text                   | - | x | - | -
 Fast copy No overwrite      | - | - | x | -
 Fast copy with overwrite    | - | - | x | -
 Find                        | - | x | x | x
-Replace (Cells)             | - | - | - | x
+Replace                     | - | - | - | x
 Sort                        | - | x | - | -
 
-- Copy text: 
-  - Copy folder or media file path/name, 
-- Fast copy with/no overwrite
-  - Copy set of cells from one location to correct media location
-  - Example: If selected many album names, and titles from every selection will be paste on album -> album, title -> title
+#### Copy text
+- Copy folder or media file path/name without copy the "files" or "folder" 
+
+#### Fast copy with/no overwrite
+- Copy set of cells from one location to correct cells within meta tags on the media
+- Example:
+  - If selected many cells with album names and titles
+  - Then you select fast copy
+  - Then a copy from "source" album -> will be pasted in media album 
+  - and a copy from "source" title -> will be pasted in media title
 
 ### Organise 
 
@@ -184,10 +195,10 @@ Select max 100 files    | - | x | - | -
 
 ### Import Tools
 
-- Import locations
-- Location Analytics
-- Web Scraping
-- Database Cleaning
+- [Import locations](../import-gps-locations)
+- [Location Analytics](../location-analytics)
+- [WebScraping](../webscraping)
+- [Database Cleaning](../database-cleaning)
 
 ### Help
 
@@ -196,6 +207,7 @@ Select max 100 files    | - | x | - | -
 
 ### Processes and workload statuses
 
+See workload and on going processes.
 - Task list
 
 ## Preview
@@ -203,6 +215,7 @@ Select max 100 files    | - | x | - | -
 
 ### Preview
 
+View media files as pictures and videos. Start a slideshow on your monior or chromecast it.
 - Fullscreen 
 
 ### Navigate
@@ -232,6 +245,7 @@ Select max 100 files    | - | x | - | -
 
 
 ## See also
+- See also [Folder/Search/Filters](..filters)
 - See also [Image List View](../imagelistview)
 - See also [Grid view](../gridview)
 - See also [Import GPS locations](../import-gps-locations)
