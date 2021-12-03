@@ -205,7 +205,6 @@ namespace PhotoTagsSynchronizer
                 Logger.Error(ex, "UpdateRegionThumbnail");
                 KryptonMessageBox.Show("Was not able to updated the region thumbnail.\r\n\r\n" + ex.Message);
             }
-            //DataGridViewHandler.Refresh(dataGridView);
         }
         #endregion 
 
@@ -807,10 +806,7 @@ namespace PhotoTagsSynchronizer
             if (DataGridViewHandler.UpdateSelectedCellsWithNewRegion(dataGridView, e.ColumnIndex, region))
             {
                 UpdateRegionThumbnail(dataGridView);                
-                DataGridViewHandler.InvalidateCellColumnHeader(dataGridView, e.ColumnIndex);
-                //DataGridViewHandler.Refresh(dataGridView);
-                DataGridViewHandler.SetDataGridViewDirty(dataGridView, e.ColumnIndex);
-                
+                DataGridViewHandler.InvalidateCellColumnHeader(dataGridView, e.ColumnIndex);                
             }
         }
         #endregion
