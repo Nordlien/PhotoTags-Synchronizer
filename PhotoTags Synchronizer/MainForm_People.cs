@@ -32,11 +32,16 @@ namespace PhotoTagsSynchronizer
             if (dataGridViewSelectedCellCollection.Count < 1) return;
 
             Dictionary<CellLocation, DataGridViewGenericCell> updatedCells = DataGridViewHandler.ToggleCells(dataGridView, DataGridViewHandlerPeople.headerPeople, NewState.Toggle, e.ColumnIndex, e.RowIndex);
-            DataGridViewHandler.Refresh(dataGridView);
+            //DataGridViewHandler.Refresh(dataGridView);
             if (updatedCells != null && updatedCells.Count > 0)
             {
+                
                 ClipboardUtility.PushToUndoStack(dataGridView, updatedCells);
-                foreach (CellLocation cellLocation in updatedCells.Keys) DataGridViewHandler.SetDataGridViewDirty(dataGridView, cellLocation.ColumnIndex);
+                foreach (CellLocation cellLocation in updatedCells.Keys)
+                {
+                    DataGridViewHandler.SetDataGridViewDirty(dataGridView, cellLocation.ColumnIndex);
+                    DataGridViewHandler.InvalidateCell(dataGridView, cellLocation.ColumnIndex, cellLocation.RowIndex);
+                }
             }
         }
         #endregion 
@@ -191,6 +196,7 @@ namespace PhotoTagsSynchronizer
                             Logger.Error("Was not able to updated the region thumbnail. Poster was failed to load.");
                             KryptonMessageBox.Show("Was not able to updated the region thumbnail.\r\nPoster was failed to load.");
                         }
+                        DataGridViewHandler.InvalidateCellColumnHeader(dataGridView, dataGridViewCell.ColumnIndex);
                     }
                 }
             }
@@ -199,7 +205,7 @@ namespace PhotoTagsSynchronizer
                 Logger.Error(ex, "UpdateRegionThumbnail");
                 KryptonMessageBox.Show("Was not able to updated the region thumbnail.\r\n\r\n" + ex.Message);
             }
-            DataGridViewHandler.Refresh(dataGridView);
+            //DataGridViewHandler.Refresh(dataGridView);
         }
         #endregion 
 
@@ -277,7 +283,7 @@ namespace PhotoTagsSynchronizer
                         peopleMouseMoveX = e.X;
                         peopleMouseMoveY = e.Y;
 
-                        dataGridView.InvalidateCell(e.ColumnIndex, e.RowIndex);
+                        DataGridViewHandler.InvalidateCell(dataGridView, e.ColumnIndex, e.RowIndex);
                     }
                 }
             }
@@ -666,6 +672,7 @@ namespace PhotoTagsSynchronizer
         {
             if (dataGridView == null) return;
             if (formRegionSelect == null) return;
+            //UpdateRegionThumbnail(dataGridView);
             if (formRegionSelect.Visible == false) return;
 
             Cyotek.Windows.Forms.ImageBoxSelectionMode imageBoxSelectionMode = Cyotek.Windows.Forms.ImageBoxSelectionMode.Zoom;
@@ -695,25 +702,7 @@ namespace PhotoTagsSynchronizer
                     formRegionSelect.SetImageText(Path.Combine(dataGridViewGenericRow.HeaderName, dataGridViewGenericRow.RowName));
                     Image image = LoadMediaCoverArtPoster(Path.Combine(dataGridViewGenericRow.HeaderName, dataGridViewGenericRow.RowName));
                     formRegionSelect.SetImage(image, "Showing: " + dataGridViewGenericRow.RowName, imageBoxSelectionMode);
-                }/*
-                else if (dataGridViewName == LinkTabAndDataGridViewNameConvertAndMerge)
-                {
-                    //Only one row can be selected, only one file can be shown
-                    if (rowSelected == -1)
-                    {
-                        List<int> selectedRows = DataGridViewHandler.GetColumnSelected(dataGridView);
-                        if (selectedRows.Count != 1) { formRegionSelect.SetImageNone(); return; } //Can only show one poster
-                        rowSelected = selectedRows[0];
-                    }
-
-                    DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowSelected);
-                    if (dataGridViewGenericRow == null) { formRegionSelect.SetImageNone(); return; }
-                    if (dataGridViewGenericRow.IsHeader) { formRegionSelect.SetImageNone(); return; }
-
-                    formRegionSelect.SetImageText(dataGridViewGenericRow.RowName);
-                    Image image = LoadMediaCoverArtPoster(dataGridViewGenericRow.RowName);
-                    formRegionSelect.SetImage(image, "Showing: " + dataGridViewGenericRow.RowName);
-                }*/
+                }
                 else
                 {
                     string errorMessag;
@@ -791,7 +780,7 @@ namespace PhotoTagsSynchronizer
                             Logger.Warn("Region selector was not able to load poster.");
                             KryptonMessageBox.Show("Region selector was not able to load poster.");
                         }
-
+                        
                     }
                     
                 }
@@ -821,8 +810,9 @@ namespace PhotoTagsSynchronizer
                 {
                     UpdateRegionThumbnail(dataGridView);
                 }
-                
-                DataGridViewHandler.Refresh(dataGridView);
+
+                //DataGridViewHandler.Refresh(dataGridView);
+                DataGridViewHandler.InvalidateCellColumnHeader(dataGridView, e.ColumnIndex);
                 DataGridViewHandler.SetDataGridViewDirty(dataGridView, e.ColumnIndex);
             }
         }
@@ -833,6 +823,7 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = dataGridViewPeople;
             RegionSelectorLoadAndSelect(dataGridView, e.RowIndex, e.ColumnIndex);
+            DataGridViewHandler.InvalidateCellColumnHeader(dataGridView, e.ColumnIndex);
         }
         #endregion
 

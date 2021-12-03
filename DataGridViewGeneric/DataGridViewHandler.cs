@@ -515,8 +515,6 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-        
-
         #region Populating handling - GetColumnNameAndWidths
         public static List<ColumnNameAndWidth> GetColumnNameAndWidths(DataGridView dataGridView, DataGridViewSize dataGridViewSize)
         {
@@ -837,7 +835,6 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-
         #region Populating handling - IsPopulatingFile
         public bool IsPopulatingFile
         {
@@ -909,8 +906,7 @@ namespace DataGridViewGeneric
         #endregion
 
         #endregion
-
-        
+       
         #region Action Handling
         
         #region Action Handling - ActionFindAndReplace
@@ -975,8 +971,7 @@ namespace DataGridViewGeneric
 
         #endregion
 
-
-        #region Column handling
+        #region Column handling 
 
         #region Column handling - IsColumnPopulated
         public static bool IsColumnPopulated(DataGridView dataGridView, int columnIndex)
@@ -1427,9 +1422,9 @@ namespace DataGridViewGeneric
 
             return dataGridView.Columns[columnIndex].Tag as DataGridViewGenericColumn;
         }
-        #endregion 
+        #endregion
 
-        #endregion 
+        #endregion
 
         #region Rows handling
         #region Rows handling - FastAutoSizeRowsHeight
@@ -2018,7 +2013,6 @@ namespace DataGridViewGeneric
 
         #endregion
 
-
         #region Clipboard - Get and Set Cell location
         #region Refresh - GetCurrentCellLocation
         public static CellLocation GetCurrentCellLocation(DataGridViewCell cell)
@@ -2062,6 +2056,28 @@ namespace DataGridViewGeneric
         #endregion
 
         #region Cell Handling
+
+        #region Cell handling - InvalidateCellColumnHeader
+        public static void InvalidateCellColumnHeader(DataGridView dataGridView, int columnIndex)
+        {
+            dataGridView.InvalidateCell(dataGridView.Columns[columnIndex].HeaderCell);
+        }
+        #endregion
+
+        #region Cell handling - InvalidateCellColumnHeader
+        public static void InvalidateCellRowHeader(DataGridView dataGridView, int rowIndex)
+        {
+            dataGridView.InvalidateCell(dataGridView.Rows[rowIndex].HeaderCell);
+        }
+        #endregion
+
+        #region Cell handling - InvalidateCell
+        public static void InvalidateCell(DataGridView dataGridView, int columnIndex, int rowIndex)
+        {
+            dataGridView.InvalidateCell(columnIndex, rowIndex);
+        }
+        #endregion
+
         #region Cell Handling - Deep Copy
         public static T DeepCopy<T>(T obj)
         {
@@ -2261,7 +2277,6 @@ namespace DataGridViewGeneric
             SetCellToolTipText(dataGridView, columnIndex, rowIndex, tooltip);
         }
         #endregion
-
 
         #region Cell Handling - GetCellToolTipText
         public static string GetCellToolTipText(DataGridView dataGridView, int columnIndex, int rowIndex)
@@ -3530,7 +3545,6 @@ namespace DataGridViewGeneric
 
         }
         #endregion
-
 
         #endregion
 
