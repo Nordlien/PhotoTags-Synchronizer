@@ -8,11 +8,68 @@ using WinProps;
 
 namespace DataGridViewGeneric
 {
+    public class RowIndenifier : IEquatable<RowIndenifier>
+    {
+        public RowIndenifier() : this (null, null)
+        {
+        }
+        public RowIndenifier(string headerName) : this (headerName, "")
+        {
+        }
 
+        public RowIndenifier(string headerName, string rowName)
+        {
+            HeaderName = headerName;
+            RowName = rowName;
+        }
+
+        public string HeaderName { get; set; } = null;
+        public string RowName { get; set; } = null;
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as RowIndenifier);
+        }
+
+        public bool Equals(RowIndenifier other)
+        {
+            return other != null &&
+                   HeaderName == other.HeaderName &&
+                   RowName == other.RowName;
+        }
+
+        public override int GetHashCode()
+        {
+            int hashCode = -480052933;
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(HeaderName);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(RowName);
+            return hashCode;
+        }
+
+        public static bool operator ==(RowIndenifier left, RowIndenifier right)
+        {
+            return EqualityComparer<RowIndenifier>.Default.Equals(left, right);
+        }
+
+        public static bool operator !=(RowIndenifier left, RowIndenifier right)
+        {
+            return !(left == right);
+        }
+    }
     public class DataGridViewGenericRow : IEquatable<DataGridViewGenericRow>
     {
-        public string HeaderName { get; set; }
-        public string RowName { get; set; }
+        public RowIndenifier RowIndenifier { get; set; } = new RowIndenifier();
+        public string HeaderName
+        {
+            get { return RowIndenifier.HeaderName; }
+            set { RowIndenifier.HeaderName = value; }
+        }
+        public string RowName 
+        { 
+            get { return RowIndenifier.RowName; } 
+            set { RowIndenifier.RowName = value; } 
+        }
+
         public ReadWriteAccess ReadWriteAccess { get; set; }
         public bool IsHeader { get; set; }
         public bool IsMultiLine { get; set; }

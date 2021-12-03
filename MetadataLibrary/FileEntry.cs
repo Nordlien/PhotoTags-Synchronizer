@@ -40,8 +40,8 @@ namespace MetadataLibrary
         public override int GetHashCode()
         {
             var hashCode = -464453;
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(fullFilePath);
-            hashCode = hashCode * -1521134295 + lastWriteDateTime.GetHashCode();
+            hashCode = hashCode * -1521 + EqualityComparer<string>.Default.GetHashCode(fullFilePath);
+            hashCode = hashCode * -1521 + lastWriteDateTime.GetHashCode();
             return hashCode;
         }
 

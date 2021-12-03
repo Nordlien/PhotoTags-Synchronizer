@@ -196,13 +196,15 @@ namespace PhotoTagsSynchronizer
                 count++;
             }
         }
-        #endregion 
+        #endregion
 
+        #region TagGoogleCoordinateDateTaken
         private static string TagGoogleCoordinateDateTaken(int timeZoneShift)
         {
             return tagGoogleCoordinateDateTaken + " " + (timeZoneShift < 0 ? timeZoneShift.ToString() : "+" + timeZoneShift.ToString());
 
         }
+        #endregion
 
         #region PopulateGrivViewMapGoogle
         public static void PopulateGoogleHistoryCoordinate(DataGridView dataGridViewMap, int columnIndexMap, 
@@ -214,13 +216,6 @@ namespace PhotoTagsSynchronizer
                 DataGridViewHandler.SetCellValue(dataGridViewMap, columnIndexMap, headerGoogleLocations, tagGoogleCoordinateUTC, "Need select camera owner");
                 return;
             }
-
-            //if (dateTaken == null && locationDate == null)
-            //{
-            //    DataGridViewHandler.SetCellValue(dataGridViewMap, columnIndexMap, headerGoogleLocations, tagGoogleCoordinateUTC, "Missing Dates");
-            //    return;
-            //}
-
 
             Metadata metadataLocation;
 

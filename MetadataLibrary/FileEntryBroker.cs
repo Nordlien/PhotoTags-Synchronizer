@@ -35,9 +35,9 @@ namespace MetadataLibrary
 
         public override int GetHashCode()
         {
-            var hashCode = -1180706998;
-            hashCode = hashCode * -1521134295 + base.GetHashCode();
-            hashCode = hashCode * -1521134295 + broker.GetHashCode();
+            var hashCode = 65765335;
+            hashCode = hashCode * -424254 + base.GetHashCode();
+            hashCode = hashCode * -424254 + broker.GetHashCode();
             return hashCode;
         }
 

@@ -539,8 +539,7 @@ namespace PhotoTagsSynchronizer
 
             DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, cell.ColumnIndex);
             DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, cell.RowIndex);
-            DataGridViewHandler.SetDataGridViewDirty(dataGridView, cell.ColumnIndex);
-
+            
             if (dataGridViewGenericColumn != null && dataGridViewGenericRow != null &&
                 dataGridViewGenericColumn.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite &&
                 dataGridViewGenericRow.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite &&
@@ -564,6 +563,7 @@ namespace PhotoTagsSynchronizer
                         }
                     }
                     DataGridViewHandlerPeople.SetCellDefault(dataGridView, MetadataBrokerType.Empty, cell.ColumnIndex, cell.RowIndex);
+                    DataGridViewHandler.SetDataGridViewDirty(dataGridView, cell.ColumnIndex);
                 }
 
             }
@@ -806,14 +806,11 @@ namespace PhotoTagsSynchronizer
                 RegionStructureTypes.WindowsLivePhotoGallery);
             if (DataGridViewHandler.UpdateSelectedCellsWithNewRegion(dataGridView, e.ColumnIndex, region))
             {
-                foreach (DataGridViewCell cell in dataGridView.SelectedCells)
-                {
-                    UpdateRegionThumbnail(dataGridView);
-                }
-
-                //DataGridViewHandler.Refresh(dataGridView);
+                UpdateRegionThumbnail(dataGridView);                
                 DataGridViewHandler.InvalidateCellColumnHeader(dataGridView, e.ColumnIndex);
+                //DataGridViewHandler.Refresh(dataGridView);
                 DataGridViewHandler.SetDataGridViewDirty(dataGridView, e.ColumnIndex);
+                
             }
         }
         #endregion

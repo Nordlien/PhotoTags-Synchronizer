@@ -1109,58 +1109,38 @@ namespace DataGridViewGeneric
         private static Dictionary<FileEntryAttribute, int> columnIndexCachePriorities = new Dictionary<FileEntryAttribute, int>();
         public static int GetColumnIndexPriorities(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionPriorityReason)
         {
+            int startColumn = 0;
             if (columnIndexCachePriorities.ContainsKey(fileEntryAttribute))
             {
                 int columnIndex = columnIndexCachePriorities[fileEntryAttribute];
-                if (columnIndex < dataGridView.ColumnCount && 
-                    dataGridView.Columns[columnIndex].HeaderCell.Tag is DataGridViewGenericColumn dataGridViewGenericColumn &&
-                    dataGridViewGenericColumn != null && dataGridViewGenericColumn.FileEntryAttribute == fileEntryAttribute)
-                {
-                    if (dataGridViewGenericColumn != null)
-                    {
-                        fileEntryVersionPriorityReason = FileEntryVersionHandler.CompareFileEntryAttribute(dataGridViewGenericColumn.FileEntryAttribute, fileEntryAttribute);
-                        switch (fileEntryVersionPriorityReason)
-                        {
-                            case FileEntryVersionCompare.LostNoneEqualFound:
-                                columnIndexCachePriorities.Add(fileEntryAttribute, columnIndex);
-                                break; //Continue search
-                            case FileEntryVersionCompare.LostFoundOlder:
-                                columnIndexCachePriorities.Add(fileEntryAttribute, columnIndex);
-                                return columnIndex;
-                            case FileEntryVersionCompare.WonFoundEqual:
-                            case FileEntryVersionCompare.WonFoundNewer:
-                                columnIndexCachePriorities.Add(fileEntryAttribute, columnIndex);
-                                return columnIndex;
-                            default:
-                                throw new NotImplementedException();
-                        }
-                    }
-                }
-                columnIndexCachePriorities.Clear();
+
+                DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+                if (dataGridViewGenericColumn != null && 
+                    dataGridViewGenericColumn.FileEntryAttribute == fileEntryAttribute)
+                    startColumn = columnIndex;
+                else 
+                    columnIndexCachePriorities.Clear();
             }
 
-
-            //if (FileEntryVersionHandler.IsCurrenOrUpdatedVersion(fileEntryAttribute.FileEntryVersion))
+            for (int columnIndex = startColumn; columnIndex < dataGridView.ColumnCount; columnIndex++)
             {
-                for (int columnIndex = 0; columnIndex < dataGridView.ColumnCount; columnIndex++)
+                DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+                if (dataGridViewGenericColumn != null)
                 {
-                    if (!columnIndexCachePriorities.ContainsKey(fileEntryAttribute)) columnIndexCachePriorities.Add(fileEntryAttribute, columnIndex);
-                    DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-                    if (dataGridViewGenericColumn != null)
+                    if (!columnIndexCachePriorities.ContainsKey(dataGridViewGenericColumn.FileEntryAttribute)) columnIndexCachePriorities.Add(dataGridViewGenericColumn.FileEntryAttribute, columnIndex);
+
+                    fileEntryVersionPriorityReason = FileEntryVersionHandler.CompareFileEntryAttribute(dataGridViewGenericColumn.FileEntryAttribute, fileEntryAttribute);
+                    switch (fileEntryVersionPriorityReason)
                     {
-                        fileEntryVersionPriorityReason = FileEntryVersionHandler.CompareFileEntryAttribute(dataGridViewGenericColumn.FileEntryAttribute, fileEntryAttribute);
-                        switch (fileEntryVersionPriorityReason)
-                        {
-                            case FileEntryVersionCompare.LostNoneEqualFound:
-                                break; //Continue search
-                            case FileEntryVersionCompare.LostFoundOlder:
-                                return columnIndex;
-                            case FileEntryVersionCompare.WonFoundEqual:
-                            case FileEntryVersionCompare.WonFoundNewer:
-                                return columnIndex;
-                            default:
-                                throw new NotImplementedException();
-                        }
+                        case FileEntryVersionCompare.LostNoneEqualFound:
+                            break; //Continue search
+                        case FileEntryVersionCompare.LostFoundOlder:
+                            return columnIndex;
+                        case FileEntryVersionCompare.WonFoundEqual:
+                        case FileEntryVersionCompare.WonFoundNewer:
+                            return columnIndex;
+                        default:
+                            throw new NotImplementedException();
                     }
                 }
             }
@@ -1328,6 +1308,7 @@ namespace DataGridViewGeneric
                     switch (fileEntryVersionCompareReason)
                     {
                         case FileEntryVersionCompare.WonFoundNewer:
+
                         case FileEntryVersionCompare.WonFoundEqual:
                             if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect)
                             {
@@ -1336,7 +1317,11 @@ namespace DataGridViewGeneric
                             else 
                             { 
                                 fileEntryVersionCompareReason = FileEntryVersionCompare.LostOverUserInput;
-                                currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = true; //Warn, new files can't be shown
+                                if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.CurrentVersionInDatabase)
+                                    currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No need to Warn, same version as in past
+                                else
+                                    currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = true; //Warn, new files can't be shown
+                                    
                             }
                             break;
                         case FileEntryVersionCompare.LostFoundOlder:
@@ -1417,9 +1402,7 @@ namespace DataGridViewGeneric
         {
             if (columnIndex < 0) 
                 return null; //DEBUG - ths should not happen
-            if (columnIndex >= dataGridView.ColumnCount) 
-                return null; //DEBUG - ths should not happen
-
+            if (columnIndex >= dataGridView.ColumnCount) return null; //This can happen when using cache and switch between tabs
             return dataGridView.Columns[columnIndex].Tag as DataGridViewGenericColumn;
         }
         #endregion
@@ -1578,49 +1561,52 @@ namespace DataGridViewGeneric
         #endregion
 
         #region Rows handling - GetRowIndex
-        private static Dictionary<DataGridViewGenericRow, int> rowIndexCache = new Dictionary<DataGridViewGenericRow, int>();
+        private static Dictionary<RowIndenifier, int> rowIndexCache = new Dictionary<RowIndenifier, int>();
 
-        public static int GetRowIndex(DataGridView dataGridView, DataGridViewGenericRow dataGridViewGenericRow)
+        public static int GetRowIndex(DataGridView dataGridView, RowIndenifier rowIndenifier)
         {
             #region Cache logic
-            if (rowIndexCache.ContainsKey(dataGridViewGenericRow))
+            if (rowIndexCache.ContainsKey(rowIndenifier))
             {
-                int rowIndex = rowIndexCache[dataGridViewGenericRow];
-                if (rowIndex < dataGridView.RowCount &&
-                    dataGridView.Rows[rowIndex].HeaderCell.Tag is DataGridViewGenericRow dataGridViewGenericRowCheck &&
-                    dataGridViewGenericRowCheck != null && dataGridViewGenericRowCheck == dataGridViewGenericRow) return rowIndex;
-                rowIndexCache.Clear();
+                int rowIndex = rowIndexCache[rowIndenifier];
+                DataGridViewGenericRow dataGridViewGenericRowCheck = GetRowDataGridViewGenericRow(dataGridView, rowIndex);
+
+                if (dataGridViewGenericRowCheck != null && 
+                    dataGridViewGenericRowCheck.RowIndenifier == rowIndenifier) 
+                    return rowIndex;
+                else 
+                    rowIndexCache.Clear();
             }
             #endregion
 
+            int foundRow = -1;
             #region Find row
             for (int rowIndex = 0; rowIndex < GetRowCountWithoutEditRow(dataGridView); rowIndex++)
             {
-                if (!rowIndexCache.ContainsKey(dataGridViewGenericRow)) rowIndexCache.Add(dataGridViewGenericRow, rowIndex);
-                if (dataGridView.Rows[rowIndex].HeaderCell.Tag is DataGridViewGenericRow dataGridViewGenericRowCheck &&
-                    dataGridViewGenericRowCheck == dataGridViewGenericRow) 
+                DataGridViewGenericRow dataGridViewGenericRowCheck = GetRowDataGridViewGenericRow(dataGridView, rowIndex);
+                if (dataGridViewGenericRowCheck != null)
                 {
-                    return rowIndex; 
+                    if (!rowIndexCache.ContainsKey(dataGridViewGenericRowCheck.RowIndenifier)) rowIndexCache.Add(dataGridViewGenericRowCheck.RowIndenifier, rowIndex);
+                    if (dataGridViewGenericRowCheck.RowIndenifier == rowIndenifier) foundRow = rowIndex;                    
                 }
-
             }
             #endregion
 
-            return -1;
+            return foundRow;
         }
         #endregion
 
         #region Rows handling - GetRowIndex
         public static int GetRowIndex(DataGridView dataGridView, string headerName)
         {
-            return GetRowIndex(dataGridView, new DataGridViewGenericRow(headerName));
+            return GetRowIndex(dataGridView, new RowIndenifier(headerName));
         }
         #endregion
 
         #region Rows handling - GetRowIndex
         public static int GetRowIndex(DataGridView dataGridView, string headerName, string rowName)
         {
-            return GetRowIndex(dataGridView, new DataGridViewGenericRow(headerName, rowName));
+            return GetRowIndex(dataGridView, new RowIndenifier(headerName, rowName));
         }
         #endregion
 
@@ -1634,7 +1620,7 @@ namespace DataGridViewGeneric
         #region Row handling - DeleteRow
         public static bool DeleteRow(DataGridView dataGridView, string headerName, string rowName)
         {
-            int rowIndex = GetRowIndex(dataGridView, new DataGridViewGenericRow(headerName, rowName));
+            int rowIndex = GetRowIndex(dataGridView, new RowIndenifier(headerName, rowName));
             if (rowIndex > -1) dataGridView.Rows.RemoveAt(rowIndex);
             return rowIndex != -1;
         }
@@ -2163,7 +2149,7 @@ namespace DataGridViewGeneric
         #region Cell Handling - GetCellValue - int columnIndex, string headerName, string rowName
         public static object GetCellValue(DataGridView dataGridView, int columnIndex, string headerName, string rowName)
         {
-            int rowIndex = GetRowIndex(dataGridView, new DataGridViewGenericRow(headerName, rowName));
+            int rowIndex = GetRowIndex(dataGridView, new RowIndenifier(headerName, rowName));
             if (columnIndex > -1 && rowIndex > -1) return GetCellValue(dataGridView,columnIndex, rowIndex);
             else return null;
         }
@@ -2211,7 +2197,7 @@ namespace DataGridViewGeneric
         #region Cell Handling - GetCellValueNullOrStringTrim - int columnIndex, string headerName, string rowName
         public static string GetCellValueNullOrStringTrim(DataGridView dataGridView, int columnIndex, string headerName, string rowName)
         {
-            int rowIndex = GetRowIndex(dataGridView, new DataGridViewGenericRow(headerName, rowName));
+            int rowIndex = GetRowIndex(dataGridView, new RowIndenifier(headerName, rowName));
             return GetCellValueNullOrStringTrim(dataGridView, columnIndex, rowIndex);
         }
         #endregion
@@ -2226,7 +2212,7 @@ namespace DataGridViewGeneric
         #region Cell Handling - SetCellValue - int columnIndex, string headerName, string rowName, object value
         public static void SetCellValue(DataGridView dataGridView, int columnIndex, string headerName, string rowName, object value)
         {
-            int rowIndex = GetRowIndex(dataGridView, new DataGridViewGenericRow(headerName, rowName));
+            int rowIndex = GetRowIndex(dataGridView, new RowIndenifier(headerName, rowName));
             SetCellValue(dataGridView, columnIndex, rowIndex, value);
         }
         #endregion
@@ -3228,6 +3214,7 @@ namespace DataGridViewGeneric
             {
                 if (cells.ColumnIndex == columnIndex)
                 {
+                    SetDataGridViewDirty(dataGridView, columnIndex);
                     RegionStructure regionStructure = GetCellRegionStructure(dataGridView, cells.ColumnIndex, cells.RowIndex);
                     if (regionStructure == null)
                     {
