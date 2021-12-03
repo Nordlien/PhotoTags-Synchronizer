@@ -1033,16 +1033,19 @@ namespace PhotoTagsSynchronizer
                 DataGridViewComboBoxCell dataGridViewComboBoxCellCameraOwners = new DataGridViewComboBoxCell();
                 dataGridViewComboBoxCellCameraOwners.FlatStyle = FlatStyle.Flat;
                 dataGridViewComboBoxCellCameraOwners.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
+                dataGridViewComboBoxCellCameraOwners.AutoComplete = true;
                 dataGridViewComboBoxCellCameraOwners.Items.AddRange(DatabaseAndCacheCameraOwner.ReadCameraOwners().ToArray());
 
                 if (cameraOwner.Owner != null && !dataGridViewComboBoxCellCameraOwners.Items.Contains(cameraOwner.Owner)) dataGridViewComboBoxCellCameraOwners.Items.Insert(0, cameraOwner.Owner);
+                if (cameraOwner.Owner == null && !dataGridViewComboBoxCellCameraOwners.Items.Contains("")) dataGridViewComboBoxCellCameraOwners.Items.Insert(0, "");
+                dataGridViewComboBoxCellCameraOwners.Value = (cameraOwner.Owner == null ? "" : cameraOwner.Owner);
 
                 DataGridViewHandler.SetCellControlType(dataGridView, columnIndexOwner, rowIndex, dataGridViewComboBoxCellCameraOwners);
 
                 if (!string.IsNullOrWhiteSpace(cameraOwner.Owner) && dataGridViewComboBoxCellCameraOwners.Items.Contains(cameraOwner.Owner))
                     DataGridViewHandler.SetCellValue(dataGridView, columnIndexOwner, rowIndex, cameraOwner.Owner);
                 else
-                    DataGridViewHandler.SetCellValue(dataGridView, columnIndexOwner, rowIndex, null);
+                    DataGridViewHandler.SetCellValue(dataGridView, columnIndexOwner, rowIndex, "");
                 
             }
             isCellValueUpdating = false;
@@ -1077,7 +1080,6 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = ((DataGridView)sender);
             if (!dataGridView.Enabled) return;
-
             ClipboardUtility.PushToUndoStack(dataGridView);
         }
         #endregion
@@ -1095,36 +1097,46 @@ namespace PhotoTagsSynchronizer
         #region Camera owner - EditingControlShowing
         private void dataGridViewCameraOwner_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
-            DataGridView dataGridView = ((DataGridView)sender);
             DataGridViewComboBoxEditingControl combocontrol = e.Control as DataGridViewComboBoxEditingControl;
-            if (combocontrol != null)
-            {
-                //set dropdown style editable combobox
-                if (combocontrol.DropDownStyle != ComboBoxStyle.DropDown) combocontrol.DropDownStyle = ComboBoxStyle.DropDown;                
-            }
+            //set dropdown style editable combobox
+//if (combocontrol != null && combocontrol.DropDownStyle != ComboBoxStyle.DropDown) combocontrol.DropDownStyle = ComboBoxStyle.DropDown;
         }
         #endregion
 
         #region Camera owner - CellValidating
         private void dataGridViewCameraOwner_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
+            if (e.RowIndex < 0) return;
+
             DataGridView dataGridView = ((DataGridView)sender);
             try
             {
-                DataGridViewComboBoxCell cell = dataGridView.CurrentCell as DataGridViewComboBoxCell;
-                if (cell != null && !cell.Items.Contains(e.FormattedValue))
+                DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, e.RowIndex);
+                if (!dataGridViewGenericRow.IsHeader)
                 {
-                    cell.Items.Insert(0, e.FormattedValue);
-                    if (dataGridView.IsCurrentCellDirty)
-                    {
-                        dataGridView.CommitEdit(DataGridViewDataErrorContexts.Commit);
-                    }
-                    cell.Value = cell.Items[0];
+                    DataGridViewComboBoxCell cell = dataGridView.CurrentCell as DataGridViewComboBoxCell;
+
+                    //if (cell != null && !cell.Items.Contains(e.FormattedValue))
+                    //{
+                    //    cell.Items.Insert(0, e.FormattedValue);
+                    //    if (dataGridView.IsCurrentCellDirty)
+                    //    {
+                    //        dataGridView.CommitEdit(DataGridViewDataErrorContexts.Commit);
+                    //    }
+                    //    cell.Value = cell.Items[0];
+                    //}
+                    
+                    //if (cell == null)
+                    //{
+
+                    //}
+                    //if (cell == null || cell.Value == CameraOwnersDatabaseCache.MissingLocationsOwners) 
+                    //    dataGridView.CurrentCell.Value = "";
                 }
-                if (cell == null || cell.Value.ToString() == CameraOwnersDatabaseCache.MissingLocationsOwners) cell.Value = null;
             }
-            catch
+            catch (Exception ex)
             {
+                Logger.Error(ex);
             }
         }
         #endregion
