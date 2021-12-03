@@ -149,7 +149,11 @@ namespace PhotoTagsSynchronizer
 
             Dictionary<CellLocation, DataGridViewGenericCell> updatedCells = DataGridViewHandler.ToggleCells(dataGridView, DataGridViewHandlerTagsAndKeywords.headerKeywords, NewState.Toggle, e.ColumnIndex, e.RowIndex);
             DataGridViewHandler.Refresh(dataGridView);
-            if (updatedCells != null && updatedCells.Count > 0) ClipboardUtility.PushToUndoStack(dataGridView, updatedCells);
+            if (updatedCells != null && updatedCells.Count > 0)
+            {
+                ClipboardUtility.PushToUndoStack(dataGridView, updatedCells);
+                foreach (CellLocation cellLocation in updatedCells.Keys) DataGridViewHandler.SetDataGridViewDirty(dataGridView, cellLocation.ColumnIndex);
+            }
         }
         #endregion
 
@@ -215,7 +219,8 @@ namespace PhotoTagsSynchronizer
             if (gridViewGenericDataRow == null || //new row 
                 gridViewGenericDataRow.HeaderName.Equals(DataGridViewHandlerTagsAndKeywords.headerKeywords)) //Check if one of Keywords row(s)
             {
-                
+                DataGridViewHandler.SetDataGridViewDirty(dataGridView, e.ColumnIndex);
+
                 if (DataGridViewHandler.IsCellNullOrWhiteSpace(dataGridView, e.ColumnIndex, e.RowIndex))
                 {
                     DataGridViewHandler.SetCellStatusSwichStatus(dataGridView, e.ColumnIndex, e.RowIndex, SwitchStates.Off);

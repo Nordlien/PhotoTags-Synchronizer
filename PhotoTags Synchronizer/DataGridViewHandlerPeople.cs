@@ -26,6 +26,7 @@ namespace PhotoTagsSynchronizer
         public static int SuggestRegionNameTopMostCount { get; set; } = 10;
         public static int SuggestRegionNameNearbyDays { get; set; } = 10;
 
+        #region GetUserInputChanges
         public static void GetUserInputChanges(ref KryptonDataGridView dataGridView, Metadata metadata, FileEntryAttribute fileEntry)
         {
             int columnIndex = DataGridViewHandler.GetColumnIndexUserInput(dataGridView, fileEntry);
@@ -43,17 +44,21 @@ namespace PhotoTagsSynchronizer
                 }               
             }
         }
+        #endregion
 
-
+        #region AddRowHeader
         private static int AddRowHeader(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericDataRow, bool sort)
         {
             return DataGridViewHandler.AddRow(dataGridView, columnIndex, dataGridViewGenericDataRow, sort);
         }
+        #endregion
 
+        #region SetCellDefault
         public static void SetCellDefault(DataGridView dataGridView, MetadataBrokerType metadataBrokerType, int columnIndex, int rowIndexUsed)
         {
             DataGridViewHandler.SetCellDefaultAfterUpdated(dataGridView, metadataBrokerType, columnIndex, rowIndexUsed);
         }
+        #endregion
 
         private static int AddRowSuggestion(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericDataRow, bool sort)
         {
@@ -61,6 +66,14 @@ namespace PhotoTagsSynchronizer
             return DataGridViewHandler.AddRow(dataGridView, columnIndex, dataGridViewGenericDataRow, null, dataGridViewGenericCellStatusDefault, sort);
         }
 
+        #region AddRowPeople
+        public static void AddRowPeople(DataGridView dataGridView, string regionName)
+        {
+            AddRowHeader(dataGridView, -1, new DataGridViewGenericRow(headerPeopleAdded, regionName), true);
+        }
+        #endregion
+
+        #region AddRowRegion
         private static int AddRowRegion(DataGridView dataGridView, MetadataBrokerType metadataBrokerType, Metadata metadata, int columnIndex, DataGridViewGenericRow dataGridViewGenericRow, RegionStructure regionStructureToAdd, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefaults)
         {
             #region Find Row to Edit or Where to add
@@ -165,7 +178,9 @@ namespace PhotoTagsSynchronizer
 
             return rowIndexUsed;
         }
+        #endregion
 
+        #region PopulatePeople
         private static void PopulatePeople(DataGridView dataGridView, Metadata metadata, int columnIndex, MetadataBrokerType metadataBrokerType) //, ref List<string> regionNames)
         {
             foreach (RegionStructure region in metadata.PersonalRegionList)
@@ -177,8 +192,9 @@ namespace PhotoTagsSynchronizer
                     new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Undefine, true)); //Other cell for this row will by default be Empty and disabled
             }
         }
+        #endregion
 
-        
+        #region PopulateFile
         public static void PopulateFile(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, ShowWhatColumns showWhatColumns, Metadata metadataAutoCorrected, bool onlyRefresh)
         {
             //-----------------------------------------------------------------
@@ -351,12 +367,9 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.SetIsPopulatingFile(dataGridView, false);
             //-----------------------------------------------------------------
         }
+        #endregion
 
-        public static void AddRowPeople(DataGridView dataGridView, string regionName)
-        {
-            AddRowHeader(dataGridView, -1, new DataGridViewGenericRow(headerPeopleAdded, regionName), true);
-        }
-
+        #region PopulateSelectedFiles
         public static void PopulateSelectedFiles(DataGridView dataGridView, HashSet<FileEntry> imageListViewSelectItems, DataGridViewSize dataGridViewSize, ShowWhatColumns showWhatColumns)
         {
             //-----------------------------------------------------------------
@@ -383,5 +396,6 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.SetIsPopulating(dataGridView, false);
             //-----------------------------------------------------------------
         }
+        #endregion
     }
 }

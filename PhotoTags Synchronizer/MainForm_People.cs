@@ -33,7 +33,11 @@ namespace PhotoTagsSynchronizer
 
             Dictionary<CellLocation, DataGridViewGenericCell> updatedCells = DataGridViewHandler.ToggleCells(dataGridView, DataGridViewHandlerPeople.headerPeople, NewState.Toggle, e.ColumnIndex, e.RowIndex);
             DataGridViewHandler.Refresh(dataGridView);
-            if (updatedCells != null && updatedCells.Count > 0) ClipboardUtility.PushToUndoStack(dataGridView, updatedCells);
+            if (updatedCells != null && updatedCells.Count > 0)
+            {
+                ClipboardUtility.PushToUndoStack(dataGridView, updatedCells);
+                foreach (CellLocation cellLocation in updatedCells.Keys) DataGridViewHandler.SetDataGridViewDirty(dataGridView, cellLocation.ColumnIndex);
+            }
         }
         #endregion 
 
@@ -287,7 +291,6 @@ namespace PhotoTagsSynchronizer
         #region AutoComplete - ClientListDropDown
         public AutoCompleteStringCollection ClientListDropDown()
         {
-            //List<string> regionName1 = databaseAndCacheMetadataExiftool.ListAllRegionNamesCache(MetadataBrokerType.Empty, null, null);
             List<string> regionNames = databaseAndCacheMetadataExiftool.ListAllPersonalRegionsCache();
             AutoCompleteStringCollection autoCompleteStringCollection = new AutoCompleteStringCollection();
             foreach (string regionName in regionNames)
@@ -523,13 +526,14 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        #region People rename
+        #region PeopleRenameCell
         private bool PeopleRenameCell(DataGridView dataGridView, DataGridViewCell cell, string nameSelected, Dictionary<CellLocation, DataGridViewGenericCell> updatedCells)
         {
             bool cellUpdated = false;
 
             DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, cell.ColumnIndex);
             DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, cell.RowIndex);
+            DataGridViewHandler.SetDataGridViewDirty(dataGridView, cell.ColumnIndex);
 
             if (dataGridViewGenericColumn != null && dataGridViewGenericRow != null &&
                 dataGridViewGenericColumn.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite &&
@@ -841,8 +845,6 @@ namespace PhotoTagsSynchronizer
             DataGridViewSelectedCellCollection dataGridViewSelectedCellCollection = DataGridViewHandler.GetCellSelected(dataGridView);
             foreach (DataGridViewCell dataGridViewCell in dataGridViewSelectedCellCollection)
             {
-                //
-
                 DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, dataGridViewCell.ColumnIndex);
                 DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, dataGridViewCell.RowIndex);
 
