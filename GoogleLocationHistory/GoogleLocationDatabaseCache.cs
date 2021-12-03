@@ -182,7 +182,13 @@ namespace GoogleLocationHistory
                             }
                             metadata.LocationLatitude = locationLatitude;
                             metadata.LocationLongitude = locationLongitude;
-                            metadatas.Add(metadata);
+                            bool doesCoordinatesExist = false;
+                            foreach (Metadata metadataToCheck in metadatas)
+                            {
+                                if (metadataToCheck.LocationLatitude == metadata.LocationLatitude &&
+                                    metadataToCheck.LocationLongitude == metadata.LocationLongitude) doesCoordinatesExist = true;
+                            }
+                            if (!doesCoordinatesExist) metadatas.Add(metadata);
                         }
                     }
 

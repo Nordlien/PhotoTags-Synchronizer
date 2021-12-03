@@ -130,7 +130,7 @@ namespace PhotoTagsSynchronizer
                 foreach (int columnIndex in selectedColumns)
                 {
                     DataGridViewHandler.SetCellValue(dataGridView, columnIndex,
-                        DataGridViewHandlerMap.headerBrowser, DataGridViewHandlerMap.tagCoordinates, locationCoordinate.ToString());
+                        DataGridViewHandlerMap.headerBrowser, DataGridViewHandlerMap.tagMediaCoordinates, locationCoordinate.ToString());
 
                 }
 
@@ -444,7 +444,7 @@ namespace PhotoTagsSynchronizer
             /// Coordinate changes, updated Nomnatatim address 
             ///////////////////////////////////////////////////////////////////////////
             if (gridViewGenericRow.HeaderName.Equals(DataGridViewHandlerMap.headerMedia) &&
-                gridViewGenericRow.RowName.Equals(DataGridViewHandlerMap.tagCoordinates))
+                gridViewGenericRow.RowName.Equals(DataGridViewHandlerMap.tagMediaCoordinates))
             {
                 string coordinate = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridViewMap, e.ColumnIndex, e.RowIndex);
                 UpdateBrowserMap(coordinate, GetMapProvider());
@@ -500,7 +500,7 @@ namespace PhotoTagsSynchronizer
             float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
             if (gridViewGenericRow.HeaderName.Equals(DataGridViewHandlerMap.headerNominatim))
             {
-                string coordinate = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridViewMap, e.ColumnIndex, DataGridViewHandlerMap.headerMedia, DataGridViewHandlerMap.tagCoordinates);
+                string coordinate = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridViewMap, e.ColumnIndex, DataGridViewHandlerMap.headerMedia, DataGridViewHandlerMap.tagMediaCoordinates);
                 LocationCoordinate locationCoordinateNomnatatim = LocationCoordinate.Parse(coordinate);
 
                 if (locationCoordinateNomnatatim != null)
@@ -525,7 +525,7 @@ namespace PhotoTagsSynchronizer
 
                     for (int columnIndex = 0; columnIndex < dataGridViewMap.ColumnCount; columnIndex++)
                     {
-                        string locationCoordinateString = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridViewMap, columnIndex, DataGridViewHandlerMap.headerMedia, DataGridViewHandlerMap.tagCoordinates);
+                        string locationCoordinateString = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridViewMap, columnIndex, DataGridViewHandlerMap.headerMedia, DataGridViewHandlerMap.tagMediaCoordinates);
                         LocationCoordinate locationCoordinate = LocationCoordinate.Parse(locationCoordinateString);
                         DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, columnIndex, locationCoordinate);
                     }
@@ -546,7 +546,7 @@ namespace PhotoTagsSynchronizer
             if (selectedColumns.Count == 0) return;
 
             isDataGridViewMaps_CellValueChanging = true;
-            int rowIndex = DataGridViewHandler.GetRowIndex(dataGridView, DataGridViewHandlerMap.headerMedia, DataGridViewHandlerMap.tagCoordinates);
+            int rowIndex = DataGridViewHandler.GetRowIndex(dataGridView, DataGridViewHandlerMap.headerMedia, DataGridViewHandlerMap.tagMediaCoordinates);
 
             //Delete from database cache
             foreach (int columnIndex in selectedColumns)

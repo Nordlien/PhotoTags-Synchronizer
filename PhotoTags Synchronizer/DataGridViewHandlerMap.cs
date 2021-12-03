@@ -39,7 +39,10 @@ namespace PhotoTagsSynchronizer
         public const string headerNominatim = "Nominatim";        
         public const string headerBrowser = "Browser map";
 
-        public const string tagCoordinates = "Coordinates";
+        public const string tagMediaCoordinates = "Coordinates";
+        public const string tagExternalCoordinates = "Coordinates";
+        public const string tagGoogleCoordinateUTC = "Coordinates UTC";
+        public const string tagGoogleCoordinateDateTaken = "Coordinates DateTaken";
         public const string tagCoordinatesNearByPhotos = "Coordinates";
         public const string tagCameraMakeModel = "Camera make/model";
         public const string tagCameraOwner = "Camera owner";
@@ -55,7 +58,7 @@ namespace PhotoTagsSynchronizer
             if (columnIndex == -1) return; //Column has not yet become aggregated or has already been removed
             if (!DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex)) return;
 
-            LocationCoordinate.TryParse(DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, headerMedia, tagCoordinates), out LocationCoordinate locationCoordinate);
+            LocationCoordinate.TryParse(DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, headerMedia, tagMediaCoordinates), out LocationCoordinate locationCoordinate);
             metadata.LocationCoordinate = locationCoordinate;
 
             metadata.LocationName = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagLocationName);
@@ -118,7 +121,7 @@ namespace PhotoTagsSynchronizer
             if (!DataGridViewHandler.IsColumnPopulated(dataGridViewMap, (int)columnIndex)) return null;
             
             LocationCoordinate locationCoordinate = null;            
-            string locationCoordinateString = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridViewMap, (int)columnIndex, headerMedia, tagCoordinates);
+            string locationCoordinateString = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridViewMap, (int)columnIndex, headerMedia, tagMediaCoordinates);
             locationCoordinate = LocationCoordinate.Parse(locationCoordinateString);
             return locationCoordinate;
         }
@@ -195,27 +198,56 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
+        private static string TagGoogleCoordinateDateTaken(int timeZoneShift)
+        {
+            return tagGoogleCoordinateDateTaken + " " + (timeZoneShift < 0 ? timeZoneShift.ToString() : "+" + timeZoneShift.ToString());
+
+        }
+
         #region PopulateGrivViewMapGoogle
         public static void PopulateGoogleHistoryCoordinate(DataGridView dataGridViewMap, int columnIndexMap, 
-            int timeZoneShift, int accepedIntervalSecound, DateTime mediaCreateUTC)
+            int timeZoneShift, int accepedIntervalSecound, DateTime? dateTaken, DateTime? locationDate, Metadata metadata)
         {
             string cameraOwner = GetUserInputCameraOwner(dataGridViewMap, columnIndexMap);
             if (string.IsNullOrWhiteSpace(cameraOwner))
             {
-                //cameraOwner = DatabaseAndCacheCameraOwner.GetOwenerForCameraMakeModel(cameraMake, cameraModel)
-
-                DataGridViewHandler.SetCellValue(dataGridViewMap, columnIndexMap, headerGoogleLocations, tagCoordinates, "Need select camera owner");
+                DataGridViewHandler.SetCellValue(dataGridViewMap, columnIndexMap, headerGoogleLocations, tagGoogleCoordinateUTC, "Need select camera owner");
                 return;
             }
 
-            Metadata metadataLocation = DatabaseGoogleLocationHistory.FindLocationBasedOnTime(cameraOwner, mediaCreateUTC, accepedIntervalSecound);
-            if (metadataLocation != null)
-                AddRow(dataGridViewMap, columnIndexMap, new DataGridViewGenericRow(headerGoogleLocations, tagCoordinates), metadataLocation.LocationCoordinate, true);
-            else
-                AddRow(dataGridViewMap, columnIndexMap, new DataGridViewGenericRow(headerGoogleLocations, tagCoordinates), 
-                    "Not found: Coordinates timestamp " + mediaCreateUTC.ToShortDateString() + " " + mediaCreateUTC.ToShortTimeString() 
-                    + " +/- " + accepedIntervalSecound + " secounds not found", true);                    
-            
+            //if (dateTaken == null && locationDate == null)
+            //{
+            //    DataGridViewHandler.SetCellValue(dataGridViewMap, columnIndexMap, headerGoogleLocations, tagGoogleCoordinateUTC, "Missing Dates");
+            //    return;
+            //}
+
+
+            Metadata metadataLocation;
+
+            if (locationDate != null)
+            {
+                metadataLocation = DatabaseGoogleLocationHistory.FindLocationBasedOnTime(cameraOwner, (DateTime)locationDate, accepedIntervalSecound);
+                if (metadataLocation != null)
+                    AddRow(dataGridViewMap, columnIndexMap, new DataGridViewGenericRow(headerGoogleLocations, tagGoogleCoordinateUTC), metadataLocation.LocationCoordinate, true);
+                else
+                    AddRow(dataGridViewMap, columnIndexMap, new DataGridViewGenericRow(headerGoogleLocations, tagGoogleCoordinateUTC),
+                        "Not found: Coordinates timestamp " + ((DateTime)locationDate).ToShortDateString() + " " + ((DateTime)locationDate).ToShortTimeString()
+                        + " +/- " + accepedIntervalSecound + " secounds not found", true);
+            } else DataGridViewHandler.SetCellValue(dataGridViewMap, columnIndexMap, headerGoogleLocations, tagGoogleCoordinateUTC, "Missing UTC date");
+
+            if (dateTaken != null)
+            {
+                DateTime mediaCreateUTC = new DateTime(((DateTime)dateTaken).Ticks, DateTimeKind.Utc).AddHours(timeZoneShift);
+
+                metadataLocation = DatabaseGoogleLocationHistory.FindLocationBasedOnTime(cameraOwner, mediaCreateUTC, accepedIntervalSecound);
+                if (metadataLocation != null)
+                    AddRow(dataGridViewMap, columnIndexMap, new DataGridViewGenericRow(headerGoogleLocations, TagGoogleCoordinateDateTaken(timeZoneShift)), metadataLocation.LocationCoordinate, true);
+                else
+                    AddRow(dataGridViewMap, columnIndexMap, new DataGridViewGenericRow(headerGoogleLocations, TagGoogleCoordinateDateTaken(timeZoneShift)),
+                        "Not found: Coordinates timestamp " + mediaCreateUTC.ToShortDateString() + " " + mediaCreateUTC.ToShortTimeString()
+                        + " +/- " + accepedIntervalSecound + " secounds not found", true);
+            }
+            else DataGridViewHandler.SetCellValue(dataGridViewMap, columnIndexMap, headerGoogleLocations, TagGoogleCoordinateDateTaken(timeZoneShift), "Missing DateTaken");
         }
         #endregion
 
@@ -225,37 +257,25 @@ namespace PhotoTagsSynchronizer
             #region Check if Aggegated
             DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridViewMap, columnIndexMap);
             if (dataGridViewGenericColumn == null) return;
+            #endregion
 
+            #region Get Metadata
             Metadata metadata = dataGridViewGenericColumn.Metadata;
             if (metadata == null)
             {
-                DataGridViewHandler.SetCellValue(dataGridViewMap, columnIndexMap, headerGoogleLocations, tagCoordinates, "No metadata loaded");
+                DataGridViewHandler.SetCellValue(dataGridViewMap, columnIndexMap, headerGoogleLocations, tagGoogleCoordinateUTC, "No metadata loaded");
                 return;
             }
-            #endregion 
-
+            #endregion
 
             DateTime? dateTaken = DataGridViewHandlerDate.GetUserInputDateTaken(dataGridViewDate, null, dataGridViewGenericColumn.FileEntryAttribute);
             DateTime? locationDate = DataGridViewHandlerDate.GetUserInputLocationDate(dataGridViewDate, null, dataGridViewGenericColumn.FileEntryAttribute);
-
             if (dateTaken == null) dateTaken = metadata.MediaDateTaken;
             if (locationDate == null) locationDate = metadata.LocationDateTime;
 
-            if (dateTaken == null && locationDate == null)
-            {
-                DataGridViewHandler.SetCellValue(dataGridViewMap, columnIndexMap, headerGoogleLocations, tagCoordinates, "Missing Dates");
-                return;
-            }
-
-
-            DateTime mediaCreateUTC;
-            if (locationDate != null)
-                mediaCreateUTC = (DateTime)locationDate;
-            else 
-                mediaCreateUTC = new DateTime( ((DateTime)dateTaken).Ticks, DateTimeKind.Utc).AddHours(timeZoneShift);
-            
             PopulateGoogleHistoryCoordinate(
-                dataGridViewMap, columnIndexMap, timeZoneShift, accepedIntervalSecound, mediaCreateUTC);
+                dataGridViewMap, columnIndexMap, timeZoneShift, accepedIntervalSecound, dateTaken, locationDate, metadata);
+
             PopulateNearbyCoordinate(
                 dataGridViewMap, columnIndexMap, timeZoneShift, accepedIntervalSecound, (DateTime)metadata.FileDate, dateTaken, locationDate);
         }
@@ -329,7 +349,7 @@ namespace PhotoTagsSynchronizer
                 //Media
                 int rowIndex;
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia));
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagCoordinates), metadataExiftool?.LocationCoordinate, false);
+                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagMediaCoordinates), metadataExiftool?.LocationCoordinate, false);
                 rowIndex = AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagLocationName), metadataExiftool?.LocationName, false);
                 List<string> newKeywords = AutoKeywordHandler.NewKeywords(AutoKeywordConvertions, metadataExiftool?.LocationName, null, null, null, null, null);
                 DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndex, "Running AutoCorrect will add these keywords", newKeywords);
@@ -362,7 +382,7 @@ namespace PhotoTagsSynchronizer
                     }
                 }
 
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerGoogleLocations, tagCoordinates), metadataExiftool?.LocationCoordinate, true);
+                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerGoogleLocations, tagGoogleCoordinateUTC), metadataExiftool?.LocationCoordinate, true);
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNearByLocations));
 
                 PopulateGoogleHistoryCoordinateAndNearby(dataGridView, dataGridViewDate, columnIndex, TimeZoneShift, AccepedIntervalSecound);
@@ -386,7 +406,7 @@ namespace PhotoTagsSynchronizer
                     new FileEntryBroker(fileEntryBrokerReadVersion, MetadataBrokerType.MicrosoftPhotos));
 
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMicrosoftPhotos));
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMicrosoftPhotos, tagCoordinates), metadataMicrosoftPhotos?.LocationCoordinate, true);
+                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMicrosoftPhotos, tagExternalCoordinates), metadataMicrosoftPhotos?.LocationCoordinate, true);
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMicrosoftPhotos, tagLocationName), metadataMicrosoftPhotos?.LocationName, true);
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMicrosoftPhotos, tagCity), metadataMicrosoftPhotos?.LocationCity, true);
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMicrosoftPhotos, tagProvince), metadataMicrosoftPhotos?.LocationState, true);
@@ -398,12 +418,12 @@ namespace PhotoTagsSynchronizer
                     new FileEntryBroker(fileEntryBrokerReadVersion, MetadataBrokerType.WindowsLivePhotoGallery));
 
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWindowsLivePhotoGallery));
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWindowsLivePhotoGallery, tagCoordinates), metadataWindowsLivePhotoGallery?.LocationCoordinate, true);
+                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWindowsLivePhotoGallery, tagExternalCoordinates), metadataWindowsLivePhotoGallery?.LocationCoordinate, true);
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWindowsLivePhotoGallery, tagLocationName), metadataWindowsLivePhotoGallery?.LocationName, true);
 
                 //Browser
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerBrowser));
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerBrowser, tagCoordinates), "", true);
+                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerBrowser, tagExternalCoordinates), "", true);
 
                 DataGridViewHandler.SetColumnPopulatedFlag(dataGridView, columnIndex, true);
             }

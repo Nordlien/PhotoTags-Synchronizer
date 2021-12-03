@@ -4351,7 +4351,7 @@ namespace PhotoTagsSynchronizer
                         //gridViewGenericRow.HeaderName.Equals(DataGridViewHandlerMap.headerMedia) &&
 
                         if (!gridViewGenericRow.HeaderName.Equals(DataGridViewHandlerMap.headerMedia) &&
-                            gridViewGenericRow.RowName.Equals(DataGridViewHandlerMap.tagCoordinates))
+                            gridViewGenericRow.RowName.Equals(DataGridViewHandlerMap.tagMediaCoordinates))
                         {
                             object cellValue = DataGridViewHandler.GetCellValue(dataGridViewMap, dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex);
                             if (cellValue != null)
