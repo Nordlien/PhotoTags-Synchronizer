@@ -38,7 +38,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "Was not able to updated name on files");
-                KryptonMessageBox.Show("Was not able to updated name on files.\r\n" + ex.Message, "Update name on files failed.");
+                KryptonMessageBox.Show("Was not able to updated name on files.\r\n" + ex.Message, "Update name on files failed.", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
             }
         }
 
@@ -52,7 +52,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "Was not able to updated name on files");
-                KryptonMessageBox.Show("Was not able to updated name on files.\r\n" + ex.Message, "Update name on files failed.");
+                KryptonMessageBox.Show("Was not able to updated name on files.\r\n" + ex.Message, "Update name on files failed.", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
             }
         }
 
@@ -63,7 +63,7 @@ namespace PhotoTagsSynchronizer
             {
                 if (IsFileInThreadQueueLock(imageListView1.SelectedItems))
                 {
-                    KryptonMessageBox.Show("Can't start rename process, files being updated, need wait files finished with updating.", "Can't start rename");
+                    KryptonMessageBox.Show("Can't start rename process, files being updated, need wait files finished with updating.", "Can't start rename", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
                 }
                 else
                 {                    
@@ -80,7 +80,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "Was not able to rename files");
-                KryptonMessageBox.Show("Was not able to rename files.\r\n" + ex.Message, "Rename files failed.");
+                KryptonMessageBox.Show("Was not able to rename files.\r\n" + ex.Message, "Rename files failed.", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
             }
         }
 

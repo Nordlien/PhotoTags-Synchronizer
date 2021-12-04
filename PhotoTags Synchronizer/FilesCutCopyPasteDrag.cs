@@ -213,9 +213,10 @@ namespace PhotoTagsSynchronizer
                     this.DeleteFileAndHistory(imageListViewItem.FileFullPath);
                     imageListView.Items.Remove(imageListViewItem);
                 }
-                catch
+                catch (Exception ex)
                 {
-                    KryptonMessageBox.Show("Was not able to delete the file: " + imageListViewItem.FileFullPath, "Deleting file failed", MessageBoxButtons.OK);
+                    KryptonMessageBox.Show("Was not able to delete the file: " + imageListViewItem.FileFullPath + "\r\n\r\n" + ex.Message, 
+                        "Deleting file failed", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
                 }
             }
 
@@ -355,7 +356,7 @@ namespace PhotoTagsSynchronizer
                             "This can occure after manully moving files outside application\r\n\r\n" +
                             "Do you want do delete the old histoty and replace with new file?",
                             "Can move content in database!",
-                            MessageBoxButtons.YesNo) == DialogResult.Yes)
+                            MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                         {
                             DeleteFileAndHistory(Path.Combine(newDirectory, newFilename));
                             databaseAndCacheMetadataExiftool.Move(oldDirectory, oldFilename, newDirectory, newFilename);

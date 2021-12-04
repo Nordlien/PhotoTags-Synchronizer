@@ -137,7 +137,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message, "Was not able to load VLC player");
+                KryptonMessageBox.Show(ex.Message, "Was not able to load VLC player", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
                 return;
             }
             #endregion
@@ -340,7 +340,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message, "Was not able to start the database");
+                KryptonMessageBox.Show(ex.Message, "Was not able to start the database...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
                 Close();
                 return;
             }
@@ -699,11 +699,15 @@ namespace PhotoTagsSynchronizer
                     (IsAnyDataUnsaved() ? "You have unsaved changes in DataGridView\r\n" : "") +
                     "Are you sure you will close application?",
                     "Press Ok will quit application and changed will get lost.\r\n" +
-                    "Press Cancel and return back to application.", MessageBoxButtons.OKCancel) == DialogResult.Cancel)
+                    "Press Cancel and return back to application.", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, true) == DialogResult.Cancel)
                 {
                     isClosing = false;
                     e.Cancel = true;
                     return;
+                } else
+                {
+                    ImageListViewClearAll(imageListView1);
+                    OnImageListViewSelect_FilesSelectedOrNoneSelected(true); //Even when 0 selected files, allocate data and flags, etc...
                 }
             }
 
@@ -717,7 +721,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    KryptonMessageBox.Show(ex.Message, "Can't save settings, Metadata Group Priorities");
+                    KryptonMessageBox.Show(ex.Message, "Can't save settings, Metadata Group Priorities", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
                 }
 
                 try
@@ -782,7 +786,7 @@ namespace PhotoTagsSynchronizer
                     }
                     catch (Exception ex)
                     {
-                        KryptonMessageBox.Show(ex.Message, "Can't save settings");
+                        KryptonMessageBox.Show(ex.Message, "Can't save settings", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
                     }
                     //---------------------------------------------------------
 
@@ -852,7 +856,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    KryptonMessageBox.Show(ex.Message, "Problems during close all threads and other process during closing application");
+                    KryptonMessageBox.Show(ex.Message, "Problems during close all threads and other process during closing application", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
                 }
             }
             isClosing = false;
@@ -908,14 +912,14 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ee)
                 {
-                    KryptonMessageBox.Show(ee.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    KryptonMessageBox.Show(Application.ProductName + "\r\n\r\n" + ee.Message, "Initialize folder tree failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
                 }
 
                 GlobalData.IsPopulatingFolderTree = false;
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message);
+                KryptonMessageBox.Show(ex.Message, "Initialize folder tree failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
             }
             #endregion
 
@@ -929,7 +933,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message);
+                KryptonMessageBox.Show(ex.Message, "Populate search failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
             }
             #endregion
 

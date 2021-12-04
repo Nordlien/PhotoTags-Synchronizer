@@ -429,7 +429,7 @@ namespace PhotoTagsSynchronizer
                         }
                         catch (Exception ex)
                         {
-                            KryptonMessageBox.Show("CacheFileEntries crashed.", "CacheFileEntries failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            KryptonMessageBox.Show("CacheFileEntries crashed.", "CacheFileEntries failed", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
                             Logger.Error(ex, "CacheFileEntries crashed");
                         }
                         finally
@@ -647,7 +647,7 @@ namespace PhotoTagsSynchronizer
                         }
                         catch (Exception ex)
                         {
-                            KryptonMessageBox.Show("LazyLoadingMetadata crashed. The 'LazyLoadingMetadata' was cleared.", "Saving Region Thumbnail failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            KryptonMessageBox.Show("LazyLoadingMetadata crashed. The 'LazyLoadingMetadata' was cleared.", "Saving Region Thumbnail failed", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
                             lock (commonQueueLazyLoadingMetadataLock) commonQueueLazyLoadingMetadata.Clear();  //Avoid loop, due to unknown error
                             Logger.Error(ex, "ThreadLazyLoadningMetadata");
                         }
@@ -740,7 +740,7 @@ namespace PhotoTagsSynchronizer
                         }
                         catch (Exception ex)
                         {
-                            KryptonMessageBox.Show("LazyLoadningThumbnail crashed.", "LazyLoadningThumbnail failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            KryptonMessageBox.Show("LazyLoadningThumbnail crashed.", "LazyLoadningThumbnail failed", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
                             lock (commonQueueLazyLoadingThumbnailLock) commonQueueLazyLoadingThumbnail.Clear(); //Avoid loop, due to unknown error
                             Logger.Error(ex, "ThreadLazyLoadningThumbnail thread failed. ");
                         }
@@ -857,7 +857,7 @@ namespace PhotoTagsSynchronizer
                                 }
                                 catch (Exception ex)
                                 {
-                                    KryptonMessageBox.Show("Saving ThreadSaveThumbnail crashed. The ThreadSaveThumbnail queue was cleared. Nothing was saved.", "Saving ThreadSaveThumbnail failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    KryptonMessageBox.Show("Saving ThreadSaveThumbnail crashed. The ThreadSaveThumbnail queue was cleared. Nothing was saved.", "Saving ThreadSaveThumbnail failed", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
                                     lock (commonQueueSaveThumbnailToDatabaseLock) { commonQueueSaveThumbnailToDatabase.Clear(); } //Avoid loop, due to unknown error
                                     Logger.Error(ex, "ThreadSaveThumbnail");
                                 }
@@ -1199,7 +1199,7 @@ namespace PhotoTagsSynchronizer
                         }
                         catch (Exception ex)
                         {
-                            KryptonMessageBox.Show("Read exiftool thread crashed.", "Read exiftool thread failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            KryptonMessageBox.Show("Read exiftool thread crashed.", "Read exiftool thread failed", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
                             lock (commonQueueReadMetadataFromExiftoolLock) commonQueueReadMetadataFromExiftool.Clear();
                             Logger.Error(ex, "ThreadCollectMetadataExiftool");
                         }
@@ -1571,7 +1571,7 @@ namespace PhotoTagsSynchronizer
                         }
                         catch (Exception ex)
                         {
-                            KryptonMessageBox.Show("Saving ThreadSaveMetadata crashed. The ThreadSaveMetadata queue was cleared. Nothing was saved.", "Saving ThreadSaveMetadata failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            KryptonMessageBox.Show("Saving ThreadSaveMetadata crashed. The ThreadSaveMetadata queue was cleared. Nothing was saved.", "Saving ThreadSaveMetadata failed", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
                             lock (commonQueueSubsetMetadataToSaveLock) commonQueueSubsetMetadataToSave.Clear();
                             Logger.Error(ex, "ThreadSaveMetadata: ");
                         }
@@ -1690,7 +1690,7 @@ namespace PhotoTagsSynchronizer
                         }
                         catch (Exception ex)
                         {
-                            KryptonMessageBox.Show("ThreadCollectMetadataMicrosoftPhotos crashed.", "ThreadCollectMetadataMicrosoftPhotos failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            KryptonMessageBox.Show("ThreadCollectMetadataMicrosoftPhotos crashed.", "ThreadCollectMetadataMicrosoftPhotos failed", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
                             Logger.Error(ex, "ThreadCollectMetadataMicrosoftPhotos failed");
                         }
                         finally
@@ -1809,7 +1809,7 @@ namespace PhotoTagsSynchronizer
                         }
                         catch (Exception ex)
                         {
-                            KryptonMessageBox.Show("ThreadCollectMetadataWindowsLiveGallery crashed.", "ThreadCollectMetadataWindowsLiveGallery failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            KryptonMessageBox.Show("ThreadCollectMetadataWindowsLiveGallery crashed.", "ThreadCollectMetadataWindowsLiveGallery failed", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
                             lock (commonQueueReadMetadataFromWindowsLivePhotoGalleryLock) commonQueueReadMetadataFromWindowsLivePhotoGallery.Clear();
                             Logger.Error(ex, "ThreadCollectMetadataWindowsLiveGallery failed");
                         }
@@ -2015,7 +2015,7 @@ namespace PhotoTagsSynchronizer
                                 }
                                 catch (Exception ex)
                                 {
-                                    KryptonMessageBox.Show("Saving Region Thumbnail crashed. The 'save region queue' was cleared. Nothing was saved.", "Saving Region Thumbnail failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    KryptonMessageBox.Show("Saving Region Thumbnail crashed. The 'save region queue' was cleared. Nothing was saved.", "Saving Region Thumbnail failed", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
                                     lock (commonQueueReadPosterAndSaveFaceThumbnailsLock) { commonQueueReadPosterAndSaveFaceThumbnails.Clear(); } //Avoid loop, due to unknown error
                                     Logger.Error(ex, "ThreadReadMediaPosterSaveRegions crashed");
                                 }
@@ -2566,7 +2566,7 @@ namespace PhotoTagsSynchronizer
                         }
                         catch (Exception ex)
                         {
-                            KryptonMessageBox.Show("Saving ThreadRename crashed. The ThreadRename queue was cleared. Nothing was saved.", "Saving ThreadRename failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            KryptonMessageBox.Show("Saving ThreadRename crashed. The ThreadRename queue was cleared. Nothing was saved.", "Saving ThreadRename failed", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
                             lock (commonQueueRenameLock) commonQueueRename.Clear();
                             Logger.Error(ex, "ThreadRename");
                         } finally

@@ -266,7 +266,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message, "Was not able to to populate data grid view");
+                KryptonMessageBox.Show(ex.Message, "Was not able to to populate data grid view", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
                 Logger.Error(ex);
             }
         }

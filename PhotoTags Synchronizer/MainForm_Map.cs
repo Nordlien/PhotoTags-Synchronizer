@@ -327,14 +327,7 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsPopulatingMap) return;
 
             Properties.Settings.Default.ComboBoxGoogleTimeZoneShift = comboBoxGoogleTimeZoneShift.SelectedIndex;
-            try
-            {
-                Properties.Settings.Default.Save();
-            }
-            catch (Exception ex)
-            {
-                KryptonMessageBox.Show(ex.Message, "Can't save settings");
-            }
+            
             UpdateGoodleHistoryCoordinateAndNearBy();
 
             if (dataGridViewMap.CurrentCell != null && dataGridViewMap.CurrentCell.Value != null) UpdateBrowserMap(dataGridViewMap.CurrentCell.Value.ToString(), GetMapProvider());
@@ -350,14 +343,7 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsPopulatingMap) return;
 
             Properties.Settings.Default.ComboBoxGoogleLocationInterval = comboBoxGoogleLocationInterval.SelectedIndex;    //30 minutes Index 2
-            try
-            {
-                Properties.Settings.Default.Save();
-            }
-            catch (Exception ex)
-            {
-                KryptonMessageBox.Show(ex.Message, "Can't save settings");
-            }
+            
             UpdateGoodleHistoryCoordinateAndNearBy();
 
             if (dataGridViewMap.CurrentCell.Value != null) UpdateBrowserMap(dataGridViewMap.CurrentCell.Value.ToString(), GetMapProvider());
@@ -372,15 +358,7 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsPopulatingMap) return;
 
             Properties.Settings.Default.ComboBoxMapZoomLevel = comboBoxMapZoomLevel.SelectedIndex;
-            try
-            {
-                Properties.Settings.Default.Save();
-            }
-            catch (Exception ex)
-            {
-                KryptonMessageBox.Show(ex.Message, "Can't save settings");
-            }
-
+            
             if (locationCoordinateRememberForZooming != null) ShowMediaOnMap.UpdateBrowserMap(browser, locationCoordinateRememberForZooming, GetZoomLevel(), GetMapProvider()); //Use last valid coordinates clicked
         }
         #endregion 

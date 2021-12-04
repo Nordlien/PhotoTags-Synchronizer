@@ -19,6 +19,8 @@ namespace PhotoTagsSynchronizer
 {
     public partial class FormRunCommand : KryptonForm
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         public string ArguFile { get; set; } = "";
         public string ArguFileAutoCorrect { get; set; } = "";
 
@@ -231,7 +233,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message, "Can't save settings");
+                KryptonMessageBox.Show("Can't save the settings.\r\n\r\n" + ex.Message, "Save settings failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
             }
         }
         #endregion
@@ -295,8 +297,8 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                Debug.Print(ex.Message.ToString());
-                KryptonMessageBox.Show(ex.Message.ToString());
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Populate OpenWith failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
             }
             isPopulateOpenWithDataGridView = false;
         }
@@ -440,8 +442,7 @@ namespace PhotoTagsSynchronizer
                     errors += (errors == "" ? "" : "\r\n") + "File: " + metadata.FileFullPath + "\r\nError message: " + ex.Message;
                 }
             }
-            if (errors != "") KryptonMessageBox.Show(errors);
-
+            if (errors != "") KryptonMessageBox.Show(errors, "Was not able to open files...", MessageBoxButtons.OK, MessageBoxIcon.Error, true); 
         }
         #endregion
 
@@ -571,7 +572,7 @@ namespace PhotoTagsSynchronizer
                 }
                 if (formTerminalWindow != null && formTerminalWindow.GetWasProcessKilled()) break;
             }
-            if (errors != "") KryptonMessageBox.Show(errors);
+            if (errors != "") KryptonMessageBox.Show(errors, "Was not able to open files...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
 
         }
         #endregion
@@ -669,7 +670,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message);
+                KryptonMessageBox.Show(ex.Message, "Was not able to run files...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
             }
         }
         #endregion
@@ -775,7 +776,7 @@ namespace PhotoTagsSynchronizer
                         case "ArgumentFile":                            
                             System.IO.File.WriteAllText(saveFileDialog1.FileName, fastColoredTextBoxArgumentFileArgumentFile.Text);
                             break;
-                    case "AutoCorrect":
+                        case "AutoCorrect":
                             System.IO.File.WriteAllText(saveFileDialog1.FileName, fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Text);
                             break;
                         default:
@@ -784,7 +785,7 @@ namespace PhotoTagsSynchronizer
                 }
             } catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message);
+                KryptonMessageBox.Show(ex.Message, "Was not able to save file...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
             }
         }
         #endregion clic
@@ -829,7 +830,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message);
+                KryptonMessageBox.Show(ex.Message, "Was not able to load file...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
             }
         }
         #endregion
@@ -947,7 +948,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message);
+                KryptonMessageBox.Show(ex.Message, "Was not able to read file...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
             }
         }
 
@@ -968,7 +969,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message);
+                KryptonMessageBox.Show(ex.Message, "Was not able to save the file...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
             }
         }
 
@@ -997,7 +998,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message);
+                KryptonMessageBox.Show(ex.Message, "Was not able to read the file...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
             }
         }
 
@@ -1018,7 +1019,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message);
+                KryptonMessageBox.Show(ex.Message, "Was not able to read the file...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
             }
         }
         #endregion
@@ -1041,7 +1042,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message);
+                KryptonMessageBox.Show(ex.Message, "Was not able to write to the file...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
             }
         }
         #endregion 
@@ -1061,7 +1062,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message);
+                KryptonMessageBox.Show(ex.Message, "Was not able to write to the file...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
             }
         }
         #endregion
