@@ -48,6 +48,7 @@ namespace PhotoTagsSynchronizer
 
         }
 
+        #region Common
 
         #region Common - Init - Load Config
         public void Init()
@@ -238,6 +239,82 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region ComboBox - Insert selected and cmomitted selection to Textbox
+        private void SelectionChangeCommitted(KryptonComboBox textBox, string insertText)
+        {
+            if (!isPopulation)
+            {
+                //textBox.Focus();
+                var selectionIndex = textBox.SelectionStart;
+                textBox.Text = textBox.Text.Remove(selectionIndex, textBox.SelectionLength);
+                textBox.Text = textBox.Text.Insert(selectionIndex, insertText);
+                textBox.SelectionStart = selectionIndex + insertText.Length;
+            }
+        }
+        #endregion 
+
+        #region ComboBox - Paint
+        private void PaintComboBoxItem(ComboBox comboBox, DrawItemEventArgs e)
+        {
+            if (e.Index < 0) return;
+            Color foreColor = e.ForeColor;
+            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            e.Graphics.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+
+            if (e.State.HasFlag(DrawItemState.Focus) && !e.State.HasFlag(DrawItemState.ComboBoxEdit))
+            {
+                e.DrawBackground();
+                e.DrawFocusRectangle();
+            }
+            else
+            {
+                using (Brush backgbrush = new SolidBrush(comboBox.BackColor))
+                {
+                    e.Graphics.FillRectangle(backgbrush, e.Bounds);
+                    foreColor = comboBox.ForeColor;
+                }
+            }
+            using (Brush textbrush = new SolidBrush(foreColor))
+            {
+                e.Graphics.DrawString(comboBox.Items[e.Index].ToString(), e.Font, textbrush, e.Bounds.Height + 10, e.Bounds.Y, StringFormat.GenericTypographic);
+            }
+
+            e.Graphics.DrawImage(applicationDatas.Values[e.Index].Icon.ToBitmap(), new Rectangle(e.Bounds.Location, new Size(e.Bounds.Height - 2, e.Bounds.Height - 2)));
+
+        }
+
+        private void comboBoxBatchRunVideoAppExample_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            PaintComboBoxItem((ComboBox)sender, e);
+        }
+
+        private void comboBoxBatchCommandImageApp_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            PaintComboBoxItem((ComboBox)sender, e);
+        }
+        #endregion
+
+        #region ComboBox - Text Selection Hack - Remember Selection
+
+        private void comboBox_MouseMove(object sender, MouseEventArgs e)
+        {
+            ComboBoxHandler.RemeberComboBoxSelection((KryptonComboBox)sender);
+        }
+
+        private void comboBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            ComboBoxHandler.RemeberComboBoxSelection((KryptonComboBox)sender);
+        }
+
+        private void comboBox_Leave(object sender, EventArgs e)
+        {
+            ComboBoxHandler.SetComboBoxSelection((KryptonComboBox)sender);
+        }
+        #endregion
+
+        #endregion
+
+        #region OpenWith
 
         #region OpenWith - Common - SelectApplicationRow
         private void SelectApplicationRow(DataGridView dataGridView, string progId)
@@ -446,6 +523,9 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #endregion
+
+        #region Batch run
 
         #region Batch run - Show RunBatch Eaxmple when - TextChanged
 
@@ -643,6 +723,9 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #endregion
+
+        #region Argument run
 
         #region ArumentFile run - Click 
         private void buttonArgumentFileRun_Click(object sender, EventArgs e)
@@ -679,80 +762,6 @@ namespace PhotoTagsSynchronizer
         private void comboBoxArgumentFileCommandVariables_SelectionChangeCommitted(object sender, EventArgs e)
         {
             SelectionChangeCommitted(comboBoxArgumentFileCommand, comboBoxArgumentFileCommandVariables.Text);            
-        }
-        #endregion
-        
-
-        #region ComboBox - Insert selected and cmomitted selection to Textbox
-        private void SelectionChangeCommitted(KryptonComboBox textBox, string insertText)
-        {
-            if (!isPopulation)
-            {
-                //textBox.Focus();
-                var selectionIndex = textBox.SelectionStart;
-                textBox.Text = textBox.Text.Remove(selectionIndex, textBox.SelectionLength);
-                textBox.Text = textBox.Text.Insert(selectionIndex, insertText);
-                textBox.SelectionStart = selectionIndex + insertText.Length;
-            }
-        }
-        #endregion 
-
-        #region ComboBox - Paint
-        private void PaintComboBoxItem (ComboBox comboBox, DrawItemEventArgs e)
-        {
-            if (e.Index < 0) return;
-            Color foreColor = e.ForeColor; 
-            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-            e.Graphics.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
-
-            if (e.State.HasFlag(DrawItemState.Focus) && !e.State.HasFlag(DrawItemState.ComboBoxEdit))
-            {
-                e.DrawBackground();
-                e.DrawFocusRectangle();
-            }
-            else
-            {
-                using (Brush backgbrush = new SolidBrush(comboBox.BackColor))
-                {
-                    e.Graphics.FillRectangle(backgbrush, e.Bounds);
-                    foreColor = comboBox.ForeColor;
-                }
-            }
-            using (Brush textbrush = new SolidBrush(foreColor))
-            {
-                e.Graphics.DrawString(comboBox.Items[e.Index].ToString(), e.Font, textbrush, e.Bounds.Height + 10, e.Bounds.Y, StringFormat.GenericTypographic);
-            }
-
-            e.Graphics.DrawImage(applicationDatas.Values[e.Index].Icon.ToBitmap(), new Rectangle(e.Bounds.Location, new Size(e.Bounds.Height - 2, e.Bounds.Height - 2)));
-
-        }
-
-        private void comboBoxBatchRunVideoAppExample_DrawItem(object sender, DrawItemEventArgs e)
-        {
-            PaintComboBoxItem ((ComboBox)sender, e);
-        }
-
-        private void comboBoxBatchCommandImageApp_DrawItem(object sender, DrawItemEventArgs e)
-        {
-            PaintComboBoxItem ((ComboBox)sender, e);             
-        }
-        #endregion
-
-        #region ComboBox - Text Selection Hack - Remember Selection
-
-        private void comboBox_MouseMove(object sender, MouseEventArgs e)
-        {
-            ComboBoxHandler.RemeberComboBoxSelection((KryptonComboBox)sender);
-        }
-
-        private void comboBox_KeyUp(object sender, KeyEventArgs e)
-        {
-            ComboBoxHandler.RemeberComboBoxSelection((KryptonComboBox)sender);
-        }
-
-        private void comboBox_Leave(object sender, EventArgs e)
-        {
-            ComboBoxHandler.SetComboBoxSelection((KryptonComboBox)sender);            
         }
         #endregion
 
@@ -844,7 +853,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-
         #region Argument file tab - FastColoredTextBox - Events handling
         private void fastColoredTextBoxArgumentFileArgumentFile_KeyDown(object sender, KeyEventArgs e)
         {
@@ -866,6 +874,10 @@ namespace PhotoTagsSynchronizer
             if (fastColoredTextBoxHandlerRunArgumentFileAutoCorrect != null) fastColoredTextBoxHandlerRunArgumentFileAutoCorrect.SyntaxHighlightProperties(sender, e);
         }
         #endregion
+        
+        #endregion
+
+        #region Build tab 
 
         #region Build tab - FastColoredTextBox - Events handling
         private void fastColoredTextBoxMetadataWriteKeywordAdd_KeyDown(object sender, KeyEventArgs e)
@@ -1100,6 +1112,6 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-
+        #endregion
     }
 }
