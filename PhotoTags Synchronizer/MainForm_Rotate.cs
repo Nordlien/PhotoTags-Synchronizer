@@ -20,7 +20,6 @@ namespace PhotoTagsSynchronizer
 
     public partial class MainForm : KryptonForm
     {
-        #region Rotate
 
         #region Rotate - Rotate one media file
         private bool Rotate(FileEntry fileEntry, int rotateDegrees, ref string error)
@@ -310,6 +309,5 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #endregion 
     }
 }

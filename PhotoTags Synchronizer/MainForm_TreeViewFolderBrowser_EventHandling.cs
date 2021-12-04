@@ -17,8 +17,7 @@ namespace PhotoTagsSynchronizer
 
     public partial class MainForm : KryptonForm
     {
-        #region FolderSelected or FilterSearch clicked
-
+    
         #region FolderTree - BeforeSelect - Click
         private void treeViewFolderBrowser1_BeforeSelect(object sender, TreeViewCancelEventArgs e)
         {
@@ -45,7 +44,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-         
 
         #region PopulateImageListView
         private HashSet<FileEntry> ImageListView_Aggregate_FromReadFolderOrFilterOrDatabase(IEnumerable<FileData> fileDatas, HashSet<FileEntry> fileEntries, string selectedFolder, bool runPopulateFilter = true)
@@ -185,9 +183,6 @@ namespace PhotoTagsSynchronizer
             HashSet<FileEntry> _ = ImageListView_Aggregate_FromReadFolderOrFilterOrDatabase(null, searchFilterResult, null, runPopulateFilter);
         }
         #endregion 
-
-        #endregion
-
 
     }
 }

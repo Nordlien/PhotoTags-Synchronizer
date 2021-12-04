@@ -2888,12 +2888,7 @@ namespace PhotoTagsSynchronizer
 
         #region Themes
 
-        /*public static Color MixColorsSubtractive(Color A, Color B)
-        {
-            return new Color(A.R * B.R / 255, A.G * B.G / 255, A.B * B.B / 255, (1f / (255 * 255)) * A.A * B.A);
-        }*/
-
-
+        #region AddDummyDataPaletteDataGridView
         DataGridViewHandler dataGridViewHandlerPalette;
         private void AddDummyDataPaletteDataGridView()
         {
@@ -3017,6 +3012,7 @@ namespace PhotoTagsSynchronizer
                 "Back color: GridStyles.GridCommon.StateNormal.DataCell.Back.Color2\r\n" +
                 "Text color: GridStyles.GridCommon.StateNormal.DataCell.Content.Color2";
         }
+        #endregion
 
         #region SavePaletteSettings
         private void SavePaletteSettings()
@@ -3244,8 +3240,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #endregion
-
+        #region Themes - PropertyValueChanged
         private bool isPaletteProperyChanged = false;
         private void propertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
@@ -3253,8 +3248,9 @@ namespace PhotoTagsSynchronizer
             AddDummyDataPaletteDataGridView();
             KryptonPaletteHandler.SetImageListViewPalettes(kryptonManager1, imageListView1);
         }
-
+        #endregion
         
+        #endregion
     }
 }
 

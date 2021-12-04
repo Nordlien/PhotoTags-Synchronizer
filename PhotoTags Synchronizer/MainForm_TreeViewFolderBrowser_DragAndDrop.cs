@@ -325,8 +325,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region FolderTree - Drag and Drop
-
         #region FolderTree - Drag and Drop - SetDropDropFileList
         private DataObject SetDropDropFileList(string sourceDirectory)
         {           
@@ -375,8 +373,6 @@ namespace PhotoTagsSynchronizer
                 treeViewFolderBrowser1.Focus();
             }
         }
-        #endregion
-
         #endregion
 
         #region FolderTree - Drag and Drop - Drag Leave - Set Clipboard data to ** FileDropList ** | Link |
@@ -450,8 +446,7 @@ namespace PhotoTagsSynchronizer
             }
         }
         #endregion
+        
         #endregion
-
-
     }
 }

@@ -16,9 +16,7 @@ namespace PhotoTagsSynchronizer
 
     public partial class MainForm : KryptonForm
     {
-
-        
-
+        #region comboBoxRenameVariableList_SelectionChangeCommitted
         private void comboBoxRenameVariableList_SelectionChangeCommitted(object sender, EventArgs e)
         {
             textBoxRenameNewName.Focus();
@@ -28,7 +26,9 @@ namespace PhotoTagsSynchronizer
             textBoxRenameNewName.Text = textBoxRenameNewName.Text.Insert(selectionIndex, insertText);
             textBoxRenameNewName.SelectionStart = selectionIndex + insertText.Length;
         }
+        #endregion
 
+        #region buttonRenameUpdate_Click
         private void buttonRenameUpdate_Click(object sender, EventArgs e)
         {
             try
@@ -41,7 +41,9 @@ namespace PhotoTagsSynchronizer
                 KryptonMessageBox.Show("Was not able to updated name on files.\r\n" + ex.Message, "Update name on files failed.", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
             }
         }
+        #endregion
 
+        #region checkBoxRenameShowFullPath_CheckedChanged
         private void checkBoxRenameShowFullPath_CheckedChanged(object sender, EventArgs e)
         {
             try
@@ -55,7 +57,9 @@ namespace PhotoTagsSynchronizer
                 KryptonMessageBox.Show("Was not able to updated name on files.\r\n" + ex.Message, "Update name on files failed.", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
             }
         }
+        #endregion
 
+        #region SaveRename
         private void SaveRename()
         {
             if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
@@ -83,25 +87,29 @@ namespace PhotoTagsSynchronizer
                 KryptonMessageBox.Show("Was not able to rename files.\r\n" + ex.Message, "Rename files failed.", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
             }
         }
+        #endregion
 
+        #region buttonRenameSave_Click
         private void buttonRenameSave_Click(object sender, EventArgs e)
         {
             SaveRename();
         }
+        #endregion
 
+        #region dataGridViewRename_CellEnter
         private void dataGridViewRename_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
             DataGridView dataGridView = dataGridViewRename;
             RegionSelectorLoadAndSelect(dataGridView, e.RowIndex, e.ColumnIndex);
         }
+        #endregion
 
+        #region dataGridViewRename_CellMouseClick
         private void dataGridViewRename_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             DataGridView dataGridView = ((DataGridView)sender);
             if (e.RowIndex == -1) RegionSelectorLoadAndSelect(dataGridView, e.RowIndex, e.ColumnIndex);
         }
-
-        #region Painting
         #endregion
 
         #region Control with focus (For Cut/Copy/Paste)
