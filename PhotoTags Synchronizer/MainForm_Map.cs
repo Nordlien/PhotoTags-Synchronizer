@@ -131,7 +131,6 @@ namespace PhotoTagsSynchronizer
                 {
                     DataGridViewHandler.SetCellValue(dataGridView, columnIndex,
                         DataGridViewHandlerMap.headerBrowser, DataGridViewHandlerMap.tagMediaCoordinates, locationCoordinate.ToString());
-
                 }
 
             }

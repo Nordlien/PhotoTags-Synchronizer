@@ -265,7 +265,7 @@ namespace PhotoTagsSynchronizer
                 if (!cellGridViewGenericCell.CellStatus.CellReadOnly)
                 {
                     string newShortOrFullFilename = GetShortOrFullFilename(newFilenameVariable, dataGridViewGenericRow.Metadata, showFullPath, dataGridViewGenericRow.HeaderName, dataGridViewGenericRow.RowName);
-                    DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, newShortOrFullFilename);
+                    DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, newShortOrFullFilename, false);
                 }
             }
         }

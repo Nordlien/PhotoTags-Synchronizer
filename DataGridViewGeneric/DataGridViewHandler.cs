@@ -231,9 +231,9 @@ namespace DataGridViewGeneric
         #region DataGridView events handling - CurrentCellDirtyStateChanged
         private void DataGridView_CurrentCellDirtyStateChanged(object sender, EventArgs e)
         {
-            //Commit changes ASAP, e.g. when SelectedIndexChanged will chnage the ValueChanges event be triggered
+            //Commit changes ASAP, e.g. when SelectedIndexChanged will change the ValueChanges event be triggered
             dataGridView.CommitEdit(DataGridViewDataErrorContexts.Commit);
-            SetDataGridViewDirty(dataGridView, dataGridView.CurrentCell.ColumnIndex);
+            SetColumnDirtyFlag(dataGridView, dataGridView.CurrentCell.ColumnIndex, true);
         }
         #endregion
 
@@ -266,14 +266,6 @@ namespace DataGridViewGeneric
                 DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
                 if (dataGridViewGenericColumn != null) dataGridViewGenericColumn.IsDirty = false;
             }
-        }
-        #endregion
-
-        #region DataGridView events handling - SetDataGridViewDirty
-        public static void SetDataGridViewDirty(DataGridView dataGridView, int columnIndex)
-        {
-            DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-            if (dataGridViewGenericColumn != null) dataGridViewGenericColumn.IsDirty = true;
         }
         #endregion
 
@@ -973,6 +965,15 @@ namespace DataGridViewGeneric
 
         #region Column handling 
 
+        #region Column handling - SetColumnDirtyFlag
+        public static void SetColumnDirtyFlag(DataGridView dataGridView, int columnIndex, bool isDirty)
+        {
+            DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+            if (dataGridViewGenericColumn != null) dataGridViewGenericColumn.IsDirty = isDirty;
+            InvalidateCellColumnHeader(dataGridView, columnIndex);
+        }
+        #endregion
+
         #region Column handling - IsColumnPopulated
         public static bool IsColumnPopulated(DataGridView dataGridView, int columnIndex)
         {
@@ -1668,14 +1669,13 @@ namespace DataGridViewGeneric
         #region SetCellDefaultAfterUpdated
         public static void SetCellDefaultAfterUpdated(DataGridView dataGridView, DataGridViewGenericCellStatus dataGridViewGenericCellStatus, int columnIndex, int rowIndex)
         {
-            DataGridViewHandler.SetCellStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatus);
+            DataGridViewHandler.SetCellStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatus, false);
             DataGridViewHandler.SetCellReadOnlyDependingOfStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatus);
-            //DataGridViewHandler.SetRowFavoriteFlag(dataGridView, rowIndexUsed, dataGridFavorites);
             DataGridViewHandler.SetCellBackGroundColor(dataGridView, columnIndex, rowIndex);
         }
         #endregion
 
-        #region SetCellDefaultAfterUpdated
+        #region SetCellDefaultAfterUpdated, No DirtyFlag need to be Set
         public static void SetCellDefaultAfterUpdated(DataGridView dataGridView, MetadataBrokerType metadataBrokerType, int columnIndex, int rowIndex)
         {
             DataGridViewGenericCellStatus dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(DataGridViewHandler.GetCellStatus(dataGridView, columnIndex, rowIndex)); //Remember current status, in case of updates
@@ -2213,14 +2213,25 @@ namespace DataGridViewGeneric
         public static void SetCellValue(DataGridView dataGridView, int columnIndex, string headerName, string rowName, object value)
         {
             int rowIndex = GetRowIndex(dataGridView, new RowIndenifier(headerName, rowName));
-            SetCellValue(dataGridView, columnIndex, rowIndex, value);
+            SetCellValue(dataGridView, columnIndex, rowIndex, value, false);
         }
         #endregion
 
         #region Cell Handling - SetCellValue - int columnIndex, int rowIndex, object value
-        public static void SetCellValue(DataGridView dataGridView, int columnIndex, int rowIndex, object value)
+        //public static void SetCellValue(DataGridView dataGridView, int columnIndex, int rowIndex, object value)
+        //{
+        //    if (rowIndex > -1 && columnIndex > -1) dataGridView[columnIndex, rowIndex].Value = value;
+        //}
+        #endregion
+
+        #region Cell Handling - SetCellValue - int columnIndex, int rowIndex, object value
+        public static void SetCellValue(DataGridView dataGridView, int columnIndex, int rowIndex, object value, bool setDirtyFalgWhenValueChanged)
         {
-            if (rowIndex > -1 && columnIndex > -1) dataGridView[columnIndex, rowIndex].Value = value;
+            if (rowIndex > -1 && columnIndex > -1)
+            {
+                if (setDirtyFalgWhenValueChanged && dataGridView[columnIndex, rowIndex].Value != value) SetColumnDirtyFlag(dataGridView, columnIndex, true); 
+                dataGridView[columnIndex, rowIndex].Value = value;
+            }
         }
         #endregion
 
@@ -2237,9 +2248,14 @@ namespace DataGridViewGeneric
                 }
                 if (dataGridViewCell.Value is RegionStructure cellRegionStructure)
                 {
-                    cellRegionStructure.Name = value.ToString();
+                    if (cellRegionStructure.Name != (string)value) DataGridViewHandler.SetColumnDirtyFlag(dataGridView, dataGridViewCell.ColumnIndex, true);
+                    cellRegionStructure.Name = (string)value;
                 }
-                else dataGridViewCell.Value = value;
+                else
+                {
+                    if ((string)dataGridViewCell.Value != (string)value) DataGridViewHandler.SetColumnDirtyFlag(dataGridView, dataGridViewCell.ColumnIndex, true);
+                    dataGridViewCell.Value = value;
+                }
             }
             catch
             {
@@ -2261,13 +2277,6 @@ namespace DataGridViewGeneric
             foreach (string keyword in autokeywords) tooltip = (string.IsNullOrWhiteSpace(tooltip) ? "" : tooltip + "\r\n") + keyword;
             if (!string.IsNullOrWhiteSpace(tooltip)) tooltip = heading + "\r\n" + tooltip;
             SetCellToolTipText(dataGridView, columnIndex, rowIndex, tooltip);
-        }
-        #endregion
-
-        #region Cell Handling - GetCellToolTipText
-        public static string GetCellToolTipText(DataGridView dataGridView, int columnIndex, int rowIndex)
-        {
-            return dataGridView[columnIndex, rowIndex].ToolTipText;
         }
         #endregion
 
@@ -2300,12 +2309,12 @@ namespace DataGridViewGeneric
         #endregion
 
         #region Cell Handling - SetCellDataGridViewGenericCell - int columnIndex, int rowIndex, DataGridViewGenericCell dataGridViewGenericCell
-        public static void SetCellDataGridViewGenericCell(DataGridView dataGridView, int columnIndex, int rowIndex, DataGridViewGenericCell dataGridViewGenericCell)
+        public static void SetCellDataGridViewGenericCell(DataGridView dataGridView, int columnIndex, int rowIndex, DataGridViewGenericCell dataGridViewGenericCell, bool setDirtyFalgWhenValueChanged)
         {
             if (rowIndex > -1 && columnIndex > -1)
             {
-                SetCellValue(dataGridView, columnIndex, rowIndex, dataGridViewGenericCell.Value);
-                SetCellStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCell.CellStatus);
+                SetCellValue(dataGridView, columnIndex, rowIndex, dataGridViewGenericCell.Value, setDirtyFalgWhenValueChanged);
+                SetCellStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCell.CellStatus, setDirtyFalgWhenValueChanged);
             }
         }
         #endregion
@@ -2338,10 +2347,26 @@ namespace DataGridViewGeneric
         }
         #endregion
 
+        //#region Cell Handling - SetCellStatus - int columnIndex, int rowIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatus
+        //public static void SetCellStatus(DataGridView dataGridView, int columnIndex, int rowIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatus)
+        //{
+        //    if (rowIndex > -1 && columnIndex > -1) dataGridView[columnIndex, rowIndex].Tag = dataGridViewGenericCellStatus;
+        //}
+        //#endregion
+
         #region Cell Handling - SetCellStatus - int columnIndex, int rowIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatus
-        public static void SetCellStatus(DataGridView dataGridView, int columnIndex, int rowIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatus)
+        public static void SetCellStatus(DataGridView dataGridView, int columnIndex, int rowIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatus, bool setDirtyFalgWhenValueChanged)
         {
-            if (rowIndex > -1 && columnIndex > -1) dataGridView[columnIndex, rowIndex].Tag = dataGridViewGenericCellStatus;
+            if (rowIndex > -1 && columnIndex > -1)
+            {
+                if (setDirtyFalgWhenValueChanged)
+                {
+                    SwitchStates switchStates = GetCellStatusSwichStatus(dataGridView, columnIndex, rowIndex);
+                    if (switchStates != SwitchStates.Undefine && switchStates != dataGridViewGenericCellStatus.SwitchState) 
+                        SetColumnDirtyFlag(dataGridView, columnIndex, true);
+                } 
+                dataGridView[columnIndex, rowIndex].Tag = dataGridViewGenericCellStatus;
+            }
         }
         #endregion
 
@@ -2354,7 +2379,7 @@ namespace DataGridViewGeneric
                 if (dataGridViewGenericCellStatus == null)
                 {
                     DataGridViewGenericCellStatus dataGridViewGenericCellStatusCopy = new DataGridViewGenericCellStatus(dataGridViewGenericCellStatusDefault);
-                    SetCellStatus(dataGridView, dataGridCell.ColumnIndex, rowIndex, dataGridViewGenericCellStatusCopy);
+                    SetCellStatus(dataGridView, dataGridCell.ColumnIndex, rowIndex, dataGridViewGenericCellStatusCopy, false);
                     SetCellReadOnlyDependingOfStatus(dataGridView, dataGridCell.ColumnIndex, rowIndex, dataGridViewGenericCellStatusCopy);
                 }
 
@@ -2371,7 +2396,7 @@ namespace DataGridViewGeneric
                 if (dataGridViewGenericCellStatus == null)
                 {
                     DataGridViewGenericCellStatus dataGridViewGenericCellStatusCopy = new DataGridViewGenericCellStatus(dataGridViewGenericCellStatusDefault);
-                    SetCellStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatusCopy);
+                    SetCellStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatusCopy, false);
                     SetCellReadOnlyDependingOfStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatusCopy);
                 }
             }
@@ -2535,8 +2560,7 @@ namespace DataGridViewGeneric
                     CellLocation cellLocation = new CellLocation(columnIndex, targetRowIndex);
                     if (!updatedCells.ContainsKey(cellLocation)) updatedCells.Add(cellLocation, DataGridViewHandler.CopyCellDataGridViewGenericCell(dataGridView, columnIndex, targetRowIndex));
 
-                    DataGridViewHandler.SetCellValue(dataGridView, columnIndex, targetRowIndex,
-                        DataGridViewHandler.GetCellValue(dataGridView, columnIndex, rowIndex) );
+                    DataGridViewHandler.SetCellValue(dataGridView, columnIndex, targetRowIndex, DataGridViewHandler.GetCellValue(dataGridView, columnIndex, rowIndex), true );
                 }
             }            
             return updatedCells;
@@ -2900,7 +2924,7 @@ namespace DataGridViewGeneric
 
             if (gridViewGenericDataRow.HeaderName.Equals(header))
             {
-                if (columnIndex > -1) SetDataGridViewDirty(dataGridView, columnIndex);
+                if (columnIndex > -1) SetColumnDirtyFlag(dataGridView, columnIndex, true);
                 //All click 
                 if (gridViewGenericDataRow.IsHeader && columnIndex == -1)
                 {
@@ -2957,7 +2981,7 @@ namespace DataGridViewGeneric
         #endregion
 
         #region TriState handeling - ToggleSelected
-        public static void ToggleSelected(DataGridView dataGridView, string header, NewState newState) 
+        public static void ToggleSelected(DataGridView dataGridView, string header, NewState newState)
         {
             DataGridViewSelectedCellCollection dataGridViewSelectedCellCollection = dataGridView.SelectedCells;
             if (dataGridViewSelectedCellCollection.Count < 1) return;
@@ -2979,13 +3003,11 @@ namespace DataGridViewGeneric
                             if (!updatedCells.ContainsKey(cellLocation)) updatedCells.Add(cellLocation, updatedCellsDelta[cellLocation]);
                         }
                     }
-
                 }
             }
-            //Refresh(dataGridView);
 
             if (updatedCells != null && updatedCells.Count > 0)
-            {                
+            {
                 ClipboardUtility.PushToUndoStack(dataGridView, updatedCells);
             }
 
@@ -3026,7 +3048,6 @@ namespace DataGridViewGeneric
                     Size thumbnailSize = CalulateCellImageSizeInRectagleWithUpScale(rectangleRoundedCellBounds, image.Size);
                     Rectangle f = CalulateCellImageCenterInRectagle(rectangleRoundedCellBounds, thumbnailSize);
                     e.Graphics.DrawImage(image, f);
-
                     e.Graphics.DrawRectangle(new Pen(Color.FromArgb(64, Color.White), 3), f);                    
                 }
                 catch (Exception ex)
@@ -3214,7 +3235,7 @@ namespace DataGridViewGeneric
             {
                 if (cells.ColumnIndex == columnIndex)
                 {
-                    SetDataGridViewDirty(dataGridView, columnIndex);
+                    DataGridViewHandler.SetColumnDirtyFlag(dataGridView, columnIndex, true);
                     RegionStructure regionStructure = GetCellRegionStructure(dataGridView, cells.ColumnIndex, cells.RowIndex);
                     if (regionStructure == null)
                     {
@@ -3226,7 +3247,7 @@ namespace DataGridViewGeneric
 
                                 SetCellDataGridViewGenericCell(dataGridView, cells.ColumnIndex, cells.RowIndex,
                                     new DataGridViewGenericCell(new RegionStructure(),
-                                    new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.On, false)));
+                                    new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.On, false)), true);
 
                                 regionStructure = GetCellRegionStructure(dataGridView, cells.ColumnIndex, cells.RowIndex);
                                 regionStructure.Name = dataGridViewGenericRow.RowName;
@@ -3246,7 +3267,7 @@ namespace DataGridViewGeneric
                         updated = true;
                         regionStructure.Thumbnail = null;
                     }
-                    SetCellValue(dataGridView, cells.ColumnIndex, cells.RowIndex, regionStructure);
+                    SetCellValue(dataGridView, cells.ColumnIndex, cells.RowIndex, regionStructure, true);
                 }
             }
             return updated;
@@ -3275,6 +3296,7 @@ namespace DataGridViewGeneric
                 RectangleF region = RegionStructure.CalculateImageRegionAbstarctRectangle(thumbnailSize, rectangleMouseThumb, RegionStructureTypes.WindowsLivePhotoGallery);
 
                 updated = UpdateSelectedCellsWithNewRegion(dataGridView, columnIndex, region);
+
             }
             return updated;
         }
@@ -3434,7 +3456,7 @@ namespace DataGridViewGeneric
                     Image image = dataGridViewGenericColumn.thumbnailUnlock;
                     if (image == null) image = (Image)Properties.Resources.load_image;
                     DrawImageAndSubText(sender, e, image, cellText);
-                    
+                    if (dataGridViewGenericColumn.IsDirty) DrawIcon16x16OnLeftSide(sender, e, (Image)Properties.Resources.EditPencil);
                 }
             }
             

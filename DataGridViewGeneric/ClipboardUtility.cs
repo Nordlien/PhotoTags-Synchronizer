@@ -115,7 +115,7 @@ namespace DataGridViewGeneric
                 IsClipboardActive = true;
                 foreach (var cell in undoCells)
                 {
-                    DataGridViewHandler.SetCellDataGridViewGenericCell(dataGridView, cell.Key.ColumnIndex, cell.Key.RowIndex, cell.Value);
+                    DataGridViewHandler.SetCellDataGridViewGenericCell(dataGridView, cell.Key.ColumnIndex, cell.Key.RowIndex, cell.Value, true);
                 }
                 NuberOfItemsToEdit = 0;
                 IsClipboardActive = false;
@@ -152,7 +152,7 @@ namespace DataGridViewGeneric
                 foreach (var cell in redoCells)
                 {
                     //dataGridView.CurrentCell = dataGridView[cell.Key.Column, cell.Key.Row];
-                    DataGridViewHandler.SetCellDataGridViewGenericCell(dataGridView, cell.Key.ColumnIndex, cell.Key.RowIndex, cell.Value);
+                    DataGridViewHandler.SetCellDataGridViewGenericCell(dataGridView, cell.Key.ColumnIndex, cell.Key.RowIndex, cell.Value, true);
                 }
                 NuberOfItemsToEdit = 0;
                 IsClipboardActive = false;

@@ -40,7 +40,11 @@ namespace PhotoTagsSynchronizer
                 if (switchStates == SwitchStates.On)
                 {
                     RegionStructure regionStructure = DataGridViewHandler.GetCellRegionStructure(dataGridView, columnIndex, rowIndex);
-                    metadata.PersonalRegionListAddIfNotAreaAndNameExists(regionStructure);
+                    if (regionStructure != null) metadata.PersonalRegionListAddIfNotAreaAndNameExists(regionStructure);
+                    else
+                    {
+                        //DEBUG
+                    }
                 }               
             }
         }
@@ -150,14 +154,14 @@ namespace PhotoTagsSynchronizer
                 rowIndexUsed = rowIndexRowFound;
                 RegionStructure regionStructureInCell = DataGridViewHandler.GetCellRegionStructure(dataGridView, columnIndex, rowIndexUsed);
                 if (regionStructureInCell == null || regionStructureInCell?.Thumbnail == null || (metadata.Broker == MetadataBrokerType.ExifTool && regionStructureToAdd.Thumbnail != null))
-                    DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndexUsed, regionStructureToAdd); //Prioritize ExifTool
+                    DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndexUsed, regionStructureToAdd, false); //Prioritize ExifTool
             } 
             else if (rowBlankFound) //Found row and but no cell with correct region
             {
                 rowIndexUsed = firstBlankFound;
                 RegionStructure regionStructureInCell = DataGridViewHandler.GetCellRegionStructure(dataGridView, columnIndex, rowIndexUsed);
                 if (regionStructureInCell == null || regionStructureInCell?.Thumbnail == null || (metadata.Broker == MetadataBrokerType.ExifTool && regionStructureToAdd.Thumbnail != null))
-                    DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndexUsed, regionStructureToAdd); //Prioritize ExifTool
+                    DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndexUsed, regionStructureToAdd, false); //Prioritize ExifTool
             }
             else //No postion found, add on sorted location
             {
@@ -167,7 +171,7 @@ namespace PhotoTagsSynchronizer
             }
             #endregion
 
-            SetCellDefault(dataGridView, metadataBrokerType, columnIndex, rowIndexUsed);
+            SetCellDefault(dataGridView, metadataBrokerType, columnIndex, rowIndexUsed); //No DirtyFlagSet
 
             DataGridViewHandler.SetCellRowHeight(dataGridView, rowIndexUsed, DataGridViewHandler.GetCellRowHeight(dataGridView));
 
@@ -252,7 +256,7 @@ namespace PhotoTagsSynchronizer
                 //Remove column data, due to Populate People append data - 
                 for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
                 {
-                    DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, null);
+                    DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, null, false);
                     DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefault = new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true);
                     DataGridViewHandler.SetCellDefaultAfterUpdated(dataGridView, dataGridViewGenericCellStatusDefault, columnIndex, rowIndex);
                 }

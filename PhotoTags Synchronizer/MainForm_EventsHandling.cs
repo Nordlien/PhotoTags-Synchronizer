@@ -3849,8 +3849,6 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        
-
         #region Save and AutoCorrect
         private void kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave_Click(object sender, EventArgs e)
         {
@@ -4005,7 +4003,31 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsAgregatedPeople) DataGridViewHandlerPeople.GetUserInputChanges(ref dataGridViewPeople, metadataFromDataGridView, fileEntryAttribute);
             if (GlobalData.IsAgregatedDate) DataGridViewHandlerDate.GetUserInputChanges(ref dataGridViewDate, metadataFromDataGridView, fileEntryAttribute);
         }
-        #endregion 
+        #endregion
+
+        #region IsDataGridViewColumnDirty
+        private bool IsDataGridViewColumnDirty(DataGridView dataGridView, int columnIndex)
+        {
+            List<Metadata> metadataListOriginalExiftool = new List<Metadata>();
+            List<Metadata> metadataListFromDataGridView = new List<Metadata>();
+
+            DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+
+            if (dataGridViewGenericColumn.IsPopulated)
+            {
+                if (dataGridViewGenericColumn.Metadata == null) throw new Exception("Missing needed metadata"); //This should not happen. Means it's nt aggregated 
+                
+                Metadata metadataFromDataGridView = new Metadata(dataGridViewGenericColumn.Metadata);
+                UpdateMetadataFromDataGridView(dataGridViewGenericColumn.FileEntryAttribute, ref metadataFromDataGridView);
+                metadataListOriginalExiftool.Add(new Metadata(dataGridViewGenericColumn.Metadata));
+                metadataListFromDataGridView.Add(new Metadata(metadataFromDataGridView));
+            } else return false;
+
+            //Find what columns are updated / changed by user
+            List<int> listOfUpdates = ExiftoolWriter.GetListOfMetadataChangedByUser(metadataListOriginalExiftool, metadataListFromDataGridView);
+            return (listOfUpdates.Count > 0);
+        }
+        #endregion
 
         #region GetDataGridViewData - All
         private void GetDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView)

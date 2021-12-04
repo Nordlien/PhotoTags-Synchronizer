@@ -39,8 +39,9 @@ namespace PhotoTagsSynchronizer
                 ClipboardUtility.PushToUndoStack(dataGridView, updatedCells);
                 foreach (CellLocation cellLocation in updatedCells.Keys)
                 {
-                    DataGridViewHandler.SetDataGridViewDirty(dataGridView, cellLocation.ColumnIndex);
+                    DataGridViewHandler.SetColumnDirtyFlag(dataGridView, cellLocation.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, cellLocation.ColumnIndex));
                     DataGridViewHandler.InvalidateCell(dataGridView, cellLocation.ColumnIndex, cellLocation.RowIndex);
+                    
                 }
             }
         }
@@ -243,6 +244,7 @@ namespace PhotoTagsSynchronizer
                 {
                     if (DataGridViewHandler.UpdateSelectedCellsWithNewMouseRegion(dataGridView, e.ColumnIndex, peopleMouseDownX, peopleMouseDownY, peopleMouseMoveX, peopleMouseMoveY))
                     {
+                        DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex));
                         UpdateRegionThumbnail(dataGridView);
                     }
                 } else
@@ -558,11 +560,11 @@ namespace PhotoTagsSynchronizer
                         {
                             region.Name = nameSelected;
                             PeopleAddNewLastUseName(nameSelected);
-                            DataGridViewHandler.SetCellValue(dataGridView, cell.ColumnIndex, cell.RowIndex, region);
+                            DataGridViewHandler.SetCellValue(dataGridView, cell.ColumnIndex, cell.RowIndex, region, true);
                         }
                     }
-                    DataGridViewHandlerPeople.SetCellDefault(dataGridView, MetadataBrokerType.Empty, cell.ColumnIndex, cell.RowIndex);
-                    DataGridViewHandler.SetDataGridViewDirty(dataGridView, cell.ColumnIndex);
+                    DataGridViewHandlerPeople.SetCellDefault(dataGridView, MetadataBrokerType.Empty, cell.ColumnIndex, cell.RowIndex); //No DirtyFlagSet
+                    //SetValue will do the trick DataGridViewHandler.SetColumnDirtyFlag(dataGridView, cell.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, cell.ColumnIndex));
                 }
 
             }
@@ -644,9 +646,10 @@ namespace PhotoTagsSynchronizer
         #region CellEndEdit        
         private void dataGridViewPeople_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            if (((KryptonDataGridView)sender)[e.ColumnIndex, e.RowIndex].Value is RegionStructure regionStructure) regionStructure.ShowNameInToString = false; //Just a hack so KryptonDataGridView don't print name alse
+            if (((KryptonDataGridView)sender)[e.ColumnIndex, e.RowIndex].Value is RegionStructure regionStructure) regionStructure.ShowNameInToString = false; //Just a hack so KryptonDataGridView don't print name also
             DataGridView dataGridView = dataGridViewPeople;
             CheckRowAndSetDefaults(dataGridView, e.ColumnIndex, e.RowIndex);
+            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex));
         }
         #endregion
 

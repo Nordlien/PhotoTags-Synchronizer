@@ -152,7 +152,7 @@ namespace PhotoTagsSynchronizer
                     {
                         dataGridViewGenericCellStatus.SwitchState = (dataGridViewGenericCellStatus.MetadataBrokerType & MetadataBrokerType.ExifTool) == MetadataBrokerType.ExifTool ? SwitchStates.On : SwitchStates.Off;
                     }
-                    DataGridViewHandler.SetCellStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatus);
+                    DataGridViewHandler.SetCellStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatus, false);
                 }
             }
 
@@ -174,7 +174,7 @@ namespace PhotoTagsSynchronizer
                             dataGridViewGenericCellStatus.SwitchState = SwitchStates.Undefine;
 
                         dataGridViewGenericCellStatus.MetadataBrokerType &= ~metadataBrokerType; //Remove flag if line deleted
-                        DataGridViewHandler.SetCellStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatus);
+                        DataGridViewHandler.SetCellStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatus, false);
                     }
                 }
             }

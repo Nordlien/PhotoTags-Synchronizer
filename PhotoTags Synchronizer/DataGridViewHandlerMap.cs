@@ -149,12 +149,12 @@ namespace PhotoTagsSynchronizer
                 DataGridViewHandler.SetCellControlType(dataGridView, columnIndex, rowIndex, dataGridViewComboBoxCellCameraOwners);
                
                 if (!string.IsNullOrWhiteSpace(cameraOwner) && dataGridViewComboBoxCellCameraOwners.Items.Contains(cameraOwner))
-                    DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, cameraOwner);
+                    DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, cameraOwner, false);
                 else
-                    DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, null);
+                    DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, null, false);
             }
             else
-                DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, cameraOwner);
+                DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, cameraOwner, false);
 
 
 

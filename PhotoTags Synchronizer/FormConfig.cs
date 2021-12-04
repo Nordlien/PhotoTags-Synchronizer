@@ -1662,10 +1662,10 @@ namespace PhotoTagsSynchronizer
                         LocationCoordinateAndDescription locationCoordinateAndDescription = DatabaseAndCacheLocationAddress.AddressLookup(
                             dataGridViewGenericRow?.LocationCoordinate, locationAccuracyLatitude, locationAccuracyLongitude);
 
-                        DataGridViewHandler.SetCellValue(dataGridView, columnIndexName, rowIndex, locationCoordinateAndDescription?.Description.Name);
-                        DataGridViewHandler.SetCellValue(dataGridView, columnIndexCity, rowIndex, locationCoordinateAndDescription?.Description.City);
-                        DataGridViewHandler.SetCellValue(dataGridView, columnIndexRegion, rowIndex, locationCoordinateAndDescription?.Description.Region);
-                        DataGridViewHandler.SetCellValue(dataGridView, columnIndexCountry, rowIndex, locationCoordinateAndDescription?.Description.Country);
+                        DataGridViewHandler.SetCellValue(dataGridView, columnIndexName, rowIndex, locationCoordinateAndDescription?.Description.Name, true);
+                        DataGridViewHandler.SetCellValue(dataGridView, columnIndexCity, rowIndex, locationCoordinateAndDescription?.Description.City, true);
+                        DataGridViewHandler.SetCellValue(dataGridView, columnIndexRegion, rowIndex, locationCoordinateAndDescription?.Description.Region, true);
+                        DataGridViewHandler.SetCellValue(dataGridView, columnIndexCountry, rowIndex, locationCoordinateAndDescription?.Description.Country, true);
                     }
 
                 }
@@ -2083,7 +2083,7 @@ namespace PhotoTagsSynchronizer
             else
             {
                 isCellValueUpdating = true;
-                DataGridViewHandler.SetCellValue(dataGridView, e.ColumnIndex, e.RowIndex, 100);
+                DataGridViewHandler.SetCellValue(dataGridView, e.ColumnIndex, e.RowIndex, 100, true);
                 isCellValueUpdating = false;
             }
         }

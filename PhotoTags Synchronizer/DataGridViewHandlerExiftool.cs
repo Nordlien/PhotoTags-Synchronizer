@@ -44,7 +44,7 @@ namespace PhotoTagsSynchronizer
             if (FileEntryVersionHandler.NeedUpdate(fileEntryVersionCompareReason))
             {
                 //Clear old content, in case of new values are updated or deleted
-                for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++) DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, null);
+                for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++) DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, null, false);
 
                 List<ExiftoolData> exifToolDataList = DatabaseExiftoolData.Read(fileEntryAttribute);
                 string lastRegion = "";
