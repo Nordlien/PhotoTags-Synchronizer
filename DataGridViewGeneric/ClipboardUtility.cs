@@ -163,7 +163,8 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-        private static bool IsCurrentCellTaxtBoxAndInEditMode(DataGridView dataGridView)
+        #region IsCurrentCellTextBoxAndInEditMode
+        private static bool IsCurrentCellTextBoxAndInEditMode(DataGridView dataGridView)
         {
             try
             {
@@ -179,13 +180,14 @@ namespace DataGridViewGeneric
             catch { }
             return false;
         }
+        #endregion
 
         #region CopyDataGridViewSelectedCellsToClipboard
         public static void CopyDataGridViewSelectedCellsToClipboard(DataGridView dataGridView, bool doCut)
         {
             try
             {
-                if (IsCurrentCellTaxtBoxAndInEditMode(dataGridView))
+                if (IsCurrentCellTextBoxAndInEditMode(dataGridView))
                 {
                     TextBox textBox = dataGridView.EditingControl as TextBox;
                     if (textBox != null)
@@ -252,7 +254,7 @@ namespace DataGridViewGeneric
         #region PasteDataGridViewSelectedCellsFromClipboard
         public static void PasteDataGridViewSelectedCellsFromClipboard(DataGridView dataGridView, int leftColumnOverwrite, int rightColumnOverwrite, int topRowOverwrite, int buttomRowOverwrite, bool removeTag)
         {
-            if (IsCurrentCellTaxtBoxAndInEditMode(dataGridView))
+            if (IsCurrentCellTextBoxAndInEditMode(dataGridView))
             {
                 TextBox textBox = dataGridView.EditingControl as TextBox;
                 if (textBox != null) textBox.Paste();
