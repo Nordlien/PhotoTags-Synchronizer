@@ -131,28 +131,35 @@ namespace PhotoTagsSynchronizer
         #region TriState Click 
         private void dataGridViewTagsAndKeywords_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            DataGridView dataGridView = ((DataGridView)sender);
-            if (e.RowIndex == -1) RegionSelectorLoadAndSelect(dataGridView, e.RowIndex, e.ColumnIndex);
-
-            Rectangle cellRectangle = dataGridView.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
-            if (e.X >= cellRectangle.Width - tristateButtonWidth && e.Y <= tristateBittonHight) triStateButtomClick = true;
-            else triStateButtomClick = false;
-            if (!triStateButtomClick) return;
-
-            if (!dataGridView.Enabled) return;
-
-            if (dataGridView.SelectedCells.Count < 1) return;
-            
-            DataGridViewSelectedCellCollection dataGridViewSelectedCellCollection = dataGridView.SelectedCells;
-            if (dataGridViewSelectedCellCollection.Count < 1) return;
-
-            Dictionary<CellLocation, DataGridViewGenericCell> updatedCells = DataGridViewHandler.ToggleCells(dataGridView, DataGridViewHandlerTagsAndKeywords.headerKeywords, NewState.Toggle, e.ColumnIndex, e.RowIndex);
-            DataGridViewHandler.Refresh(dataGridView);
-            if (updatedCells != null && updatedCells.Count > 0)
+            try
             {
-                ClipboardUtility.PushToUndoStack(dataGridView, updatedCells);
-                foreach (CellLocation cellLocation in updatedCells.Keys) 
-                    DataGridViewHandler.SetColumnDirtyFlag(dataGridView, cellLocation.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, cellLocation.ColumnIndex));
+                DataGridView dataGridView = ((DataGridView)sender);
+                if (e.RowIndex == -1) RegionSelectorLoadAndSelect(dataGridView, e.RowIndex, e.ColumnIndex);
+
+                Rectangle cellRectangle = dataGridView.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
+                if (e.X >= cellRectangle.Width - tristateButtonWidth && e.Y <= tristateBittonHight) triStateButtomClick = true;
+                else triStateButtomClick = false;
+                if (!triStateButtomClick) return;
+
+                if (!dataGridView.Enabled) return;
+
+                if (dataGridView.SelectedCells.Count < 1) return;
+
+                DataGridViewSelectedCellCollection dataGridViewSelectedCellCollection = dataGridView.SelectedCells;
+                if (dataGridViewSelectedCellCollection.Count < 1) return;
+
+                Dictionary<CellLocation, DataGridViewGenericCell> updatedCells = DataGridViewHandler.ToggleCells(dataGridView, DataGridViewHandlerTagsAndKeywords.headerKeywords, NewState.Toggle, e.ColumnIndex, e.RowIndex);
+                DataGridViewHandler.Refresh(dataGridView);
+                if (updatedCells != null && updatedCells.Count > 0)
+                {
+                    ClipboardUtility.PushToUndoStack(dataGridView, updatedCells);
+                    foreach (CellLocation cellLocation in updatedCells.Keys)
+                        DataGridViewHandler.SetColumnDirtyFlag(dataGridView, cellLocation.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, cellLocation.ColumnIndex));
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
             }
         }
         #endregion
@@ -163,38 +170,48 @@ namespace PhotoTagsSynchronizer
         {
             if (cellEndEditInProcess) return;
             cellEndEditInProcess = true;
-            DataGridView dataGridView = ((DataGridView)sender);
-            DataGridViewGenericRow gridViewGenericDataRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, e.RowIndex);
-            if (gridViewGenericDataRow != null)
+            try
             {
-                string newValue = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, e.ColumnIndex, e.RowIndex);
-                if (gridViewGenericDataRow.RowName == DataGridViewHandlerTagsAndKeywords.tagTitle)
+                DataGridView dataGridView = ((DataGridView)sender);
+                DataGridViewGenericRow gridViewGenericDataRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, e.RowIndex);
+                if (gridViewGenericDataRow != null)
                 {
-                    ComboBoxHandler.AddAutoCompleteStringCollection(autoCompleteStringCollectionTitle, newValue);
-                    Properties.Settings.Default.AutoCorrectFormTitle = ComboBoxHandler.AutoCompleteStringCollectionToString(autoCompleteStringCollectionTitle);
-                }
-                if (gridViewGenericDataRow.RowName == DataGridViewHandlerTagsAndKeywords.tagDescription)
-                {
-                    ComboBoxHandler.AddAutoCompleteStringCollection(autoCompleteStringCollectionDescription, newValue);
-                    Properties.Settings.Default.AutoCorrectFormDescription = ComboBoxHandler.AutoCompleteStringCollectionToString(autoCompleteStringCollectionDescription);
-                }
-                if (gridViewGenericDataRow.RowName == DataGridViewHandlerTagsAndKeywords.tagComments)
-                {
-                    ComboBoxHandler.AddAutoCompleteStringCollection(autoCompleteStringCollectionComments, newValue);
-                    Properties.Settings.Default.AutoCorrectFormComments = ComboBoxHandler.AutoCompleteStringCollectionToString(autoCompleteStringCollectionComments);
-                }
-                if (gridViewGenericDataRow.RowName == DataGridViewHandlerTagsAndKeywords.tagAlbum)
-                {
-                    ComboBoxHandler.AddAutoCompleteStringCollection(autoCompleteStringCollectionAlbum, newValue);
-                    Properties.Settings.Default.AutoCorrectFormAlbum = ComboBoxHandler.AutoCompleteStringCollectionToString(autoCompleteStringCollectionAlbum);
-                }
-                if (gridViewGenericDataRow.RowName == DataGridViewHandlerTagsAndKeywords.tagAuthor)
-                {
-                    ComboBoxHandler.AddAutoCompleteStringCollection(autoCompleteStringCollectionAuthor, newValue);
-                    Properties.Settings.Default.AutoCorrectFormAuthor = ComboBoxHandler.AutoCompleteStringCollectionToString(autoCompleteStringCollectionAuthor);
+                    string newValue = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, e.ColumnIndex, e.RowIndex);
+                    if (gridViewGenericDataRow.RowName == DataGridViewHandlerTagsAndKeywords.tagTitle)
+                    {
+                        ComboBoxHandler.AddAutoCompleteStringCollection(autoCompleteStringCollectionTitle, newValue);
+                        Properties.Settings.Default.AutoCorrectFormTitle = ComboBoxHandler.AutoCompleteStringCollectionToString(autoCompleteStringCollectionTitle);
+                    }
+                    if (gridViewGenericDataRow.RowName == DataGridViewHandlerTagsAndKeywords.tagDescription)
+                    {
+                        ComboBoxHandler.AddAutoCompleteStringCollection(autoCompleteStringCollectionDescription, newValue);
+                        Properties.Settings.Default.AutoCorrectFormDescription = ComboBoxHandler.AutoCompleteStringCollectionToString(autoCompleteStringCollectionDescription);
+                    }
+                    if (gridViewGenericDataRow.RowName == DataGridViewHandlerTagsAndKeywords.tagComments)
+                    {
+                        ComboBoxHandler.AddAutoCompleteStringCollection(autoCompleteStringCollectionComments, newValue);
+                        Properties.Settings.Default.AutoCorrectFormComments = ComboBoxHandler.AutoCompleteStringCollectionToString(autoCompleteStringCollectionComments);
+                    }
+                    if (gridViewGenericDataRow.RowName == DataGridViewHandlerTagsAndKeywords.tagAlbum)
+                    {
+                        ComboBoxHandler.AddAutoCompleteStringCollection(autoCompleteStringCollectionAlbum, newValue);
+                        Properties.Settings.Default.AutoCorrectFormAlbum = ComboBoxHandler.AutoCompleteStringCollectionToString(autoCompleteStringCollectionAlbum);
+                    }
+                    if (gridViewGenericDataRow.RowName == DataGridViewHandlerTagsAndKeywords.tagAuthor)
+                    {
+                        ComboBoxHandler.AddAutoCompleteStringCollection(autoCompleteStringCollectionAuthor, newValue);
+                        Properties.Settings.Default.AutoCorrectFormAuthor = ComboBoxHandler.AutoCompleteStringCollectionToString(autoCompleteStringCollectionAuthor);
+                    }
                 }
             }
-            cellEndEditInProcess = false;
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
+            finally
+            {
+                cellEndEditInProcess = false;
+            }
         }
         #endregion
 
@@ -213,53 +230,60 @@ namespace PhotoTagsSynchronizer
             if (!dataGridView.Enabled) return;
 
             isDataGridViewTagsAndKeywords_CellValueChanging = true;
-            
-            DataGridViewGenericRow gridViewGenericDataRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, e.RowIndex);
-
-            if (gridViewGenericDataRow == null || //new row 
-                gridViewGenericDataRow.HeaderName.Equals(DataGridViewHandlerTagsAndKeywords.headerKeywords)) //Check if one of Keywords row(s)
+            try
             {
-                DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex));
+                DataGridViewGenericRow gridViewGenericDataRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, e.RowIndex);
 
-                if (DataGridViewHandler.IsCellNullOrWhiteSpace(dataGridView, e.ColumnIndex, e.RowIndex))
+                if (gridViewGenericDataRow == null || //new row 
+                    gridViewGenericDataRow.HeaderName.Equals(DataGridViewHandlerTagsAndKeywords.headerKeywords)) //Check if one of Keywords row(s)
                 {
-                    DataGridViewHandler.SetCellStatusSwichStatus(dataGridView, e.ColumnIndex, e.RowIndex, SwitchStates.Off);
-                }
-                else
-                {
-                    string newTag = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, e.ColumnIndex, e.RowIndex);
-                    DataGridViewHandler.SetCellStatusSwichStatus(dataGridView, e.ColumnIndex, e.RowIndex, SwitchStates.On);
+                    DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex));
 
-                    if (DataGridViewHandler.GetRowName(dataGridView, e.RowIndex) == newTag)
+                    if (DataGridViewHandler.IsCellNullOrWhiteSpace(dataGridView, e.ColumnIndex, e.RowIndex))
                     {
-                        isDataGridViewTagsAndKeywords_CellValueChanging = false;
-                        return;
+                        DataGridViewHandler.SetCellStatusSwichStatus(dataGridView, e.ColumnIndex, e.RowIndex, SwitchStates.Off);
                     }
-                        
-                    newTag = ValidateAndReturnTag(dataGridView, DataGridViewHandlerTagsAndKeywords.headerKeywords, newTag);
-
-
-                    DataGridViewHandler.SetRowHeaderNameAndFontStyle(dataGridView, e.RowIndex,
-                        new DataGridViewGenericRow(DataGridViewHandlerTagsAndKeywords.headerKeywords, newTag, ReadWriteAccess.AllowCellReadAndWrite));
-                    //DataGridViewHandler.SetCellReadOnlyWhenForcedForRow(dataGridView, e.RowIndex);
-                    DataGridViewHandler.SetRowFavoriteFlag(dataGridView, e.RowIndex);
-                    DataGridViewHandler.SetCellBackGroundColorForRow(dataGridView, e.RowIndex);
-
-                    //Update other tags in row with "newTag" if changed
-                    for (int column = 0; column < dataGridViewTagsAndKeywords.Columns.Count; column++)
+                    else
                     {
-                        if ((!DataGridViewHandler.IsCellNullOrWhiteSpace(dataGridView, column, e.RowIndex)) &&
-                            DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, column, e.RowIndex) != newTag)
+                        string newTag = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, e.ColumnIndex, e.RowIndex);
+                        DataGridViewHandler.SetCellStatusSwichStatus(dataGridView, e.ColumnIndex, e.RowIndex, SwitchStates.On);
+
+                        if (DataGridViewHandler.GetRowName(dataGridView, e.RowIndex) == newTag)
                         {
-                            DataGridViewHandler.SetCellValue(dataGridView, column, e.RowIndex, DataGridViewHandler.GetRowName(dataGridView, e.RowIndex), true);
-                            DataGridViewHandler.SetCellStatusSwichStatus(dataGridView, column, e.RowIndex, SwitchStates.On);
+                            isDataGridViewTagsAndKeywords_CellValueChanging = false;
+                            return;
+                        }
+
+                        newTag = ValidateAndReturnTag(dataGridView, DataGridViewHandlerTagsAndKeywords.headerKeywords, newTag);
+
+
+                        DataGridViewHandler.SetRowHeaderNameAndFontStyle(dataGridView, e.RowIndex,
+                            new DataGridViewGenericRow(DataGridViewHandlerTagsAndKeywords.headerKeywords, newTag, ReadWriteAccess.AllowCellReadAndWrite));
+                        //DataGridViewHandler.SetCellReadOnlyWhenForcedForRow(dataGridView, e.RowIndex);
+                        DataGridViewHandler.SetRowFavoriteFlag(dataGridView, e.RowIndex);
+                        DataGridViewHandler.SetCellBackGroundColorForRow(dataGridView, e.RowIndex);
+
+                        //Update other tags in row with "newTag" if changed
+                        for (int column = 0; column < dataGridViewTagsAndKeywords.Columns.Count; column++)
+                        {
+                            if ((!DataGridViewHandler.IsCellNullOrWhiteSpace(dataGridView, column, e.RowIndex)) &&
+                                DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, column, e.RowIndex) != newTag)
+                            {
+                                DataGridViewHandler.SetCellValue(dataGridView, column, e.RowIndex, DataGridViewHandler.GetRowName(dataGridView, e.RowIndex), true);
+                                DataGridViewHandler.SetCellStatusSwichStatus(dataGridView, column, e.RowIndex, SwitchStates.On);
+                            }
                         }
                     }
                 }
             }
-
-            
-            isDataGridViewTagsAndKeywords_CellValueChanging = false;
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
+            finally
+            {
+                isDataGridViewTagsAndKeywords_CellValueChanging = false;
+            }
         }
         #endregion
 
@@ -273,20 +297,27 @@ namespace PhotoTagsSynchronizer
             if (isSettingDefaultComboxValues) return;
             if (GlobalData.IsPopulatingTags) return;
 
-            int rowIndex = DataGridViewHandler.GetRowIndex(dataGridView, header, tag);
-
-            for (int columnIndex = 0; columnIndex < dataGridView.Columns.Count; columnIndex++)
+            try
             {
-                DataGridViewGenericColumn dataGridViewGenericDataColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-                if (dataGridViewGenericDataColumn.Metadata != null && dataGridViewGenericDataColumn.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite)
+                int rowIndex = DataGridViewHandler.GetRowIndex(dataGridView, header, tag);
+
+                for (int columnIndex = 0; columnIndex < dataGridView.Columns.Count; columnIndex++)
                 {
-                    //SetValue will Set the DirtyFalg if (DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, rowIndex) != comboBoxAlbum.Text)
-                    //    DataGridViewHandler.SetColumnDirtyFlag(dataGridView, columnIndex, IsDataGridViewColumnDirty(dataGridView, columnIndex));
-                    DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, newText, true);
+                    DataGridViewGenericColumn dataGridViewGenericDataColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+                    if (dataGridViewGenericDataColumn.Metadata != null && dataGridViewGenericDataColumn.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite)
+                    {
+                        //SetValue will Set the DirtyFalg if (DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, rowIndex) != comboBoxAlbum.Text)
+                        //    DataGridViewHandler.SetColumnDirtyFlag(dataGridView, columnIndex, IsDataGridViewColumnDirty(dataGridView, columnIndex));
+                        DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, newText, true);
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
         }
-        #endregion 
+        #endregion
 
         #region ChangeTitle
         private void ActionChangeTitle(string newText)
@@ -391,20 +422,26 @@ namespace PhotoTagsSynchronizer
             if (radioButtonRating3.Checked) rating = 3;
             if (radioButtonRating4.Checked) rating = 4;
             if (radioButtonRating5.Checked) rating = 5;
-
-            int rowIndex = DataGridViewHandler.GetRowIndex(dataGridView,
-                DataGridViewHandlerTagsAndKeywords.headerMedia,
-                DataGridViewHandlerTagsAndKeywords.tagRating);
-
-            for (int columnIndex = 0; columnIndex < dataGridView.Columns.Count; columnIndex++)
+            try
             {
-                DataGridViewGenericColumn dataGridViewGenericDataColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-                if (dataGridViewGenericDataColumn.Metadata != null)
+                int rowIndex = DataGridViewHandler.GetRowIndex(dataGridView,
+                    DataGridViewHandlerTagsAndKeywords.headerMedia,
+                    DataGridViewHandlerTagsAndKeywords.tagRating);
+
+                for (int columnIndex = 0; columnIndex < dataGridView.Columns.Count; columnIndex++)
                 {
-                    //SetValue will do the DirtyFalg if (DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, rowIndex) != (rating == null ? "" :rating.ToString()) )
-                    //    DataGridViewHandler.SetColumnDirtyFlag(dataGridView, columnIndex, IsDataGridViewColumnDirty(dataGridView, columnIndex));
-                    DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, rating, true);
+                    DataGridViewGenericColumn dataGridViewGenericDataColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+                    if (dataGridViewGenericDataColumn.Metadata != null)
+                    {
+                        //SetValue will do the DirtyFalg if (DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, rowIndex) != (rating == null ? "" :rating.ToString()) )
+                        //    DataGridViewHandler.SetColumnDirtyFlag(dataGridView, columnIndex, IsDataGridViewColumnDirty(dataGridView, columnIndex));
+                        DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, rating, true);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
             }
         }
         #endregion
@@ -458,8 +495,14 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsPopulatingTagsFile) return;
             Properties.Settings.Default.MediaAiConfidence = comboBoxMediaAiConfidence.SelectedIndex;
             DataGridViewHandlerTagsAndKeywords.MediaAiTagConfidence = GetAiConfidence();
-
-            LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(GetImageListViewSelectedFileEntriesCache(true));
+            try
+            {
+                LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(GetImageListViewSelectedFileEntriesCache(true));
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
         }
         #endregion
 
@@ -467,129 +510,149 @@ namespace PhotoTagsSynchronizer
         private void ClearDetailViewTagsAndKeywords()
         {
             isSettingDefaultComboxValues = true;
+            try
+            {
+                EnableDetailViewTagsAndKeywords(false);
 
-            EnableDetailViewTagsAndKeywords(false);
+                comboBoxMediaAiConfidence.SelectedIndex = Properties.Settings.Default.MediaAiConfidence;
 
-            comboBoxMediaAiConfidence.SelectedIndex = Properties.Settings.Default.MediaAiConfidence;
-            
-            comboBoxTitle.Items.Clear();
-            comboBoxDescription.Items.Clear();
-            comboBoxComments.Items.Clear();
-            comboBoxAlbum.Items.Clear();
+                comboBoxTitle.Items.Clear();
+                comboBoxDescription.Items.Clear();
+                comboBoxComments.Items.Clear();
+                comboBoxAlbum.Items.Clear();
 
-            lock (autoCompleteStringCollectionAlbumLock) autoCompleteStringCollectionAlbum = new AutoCompleteStringCollection();
-            lock (autoCompleteStringCollectionTitleLock) autoCompleteStringCollectionTitle = new AutoCompleteStringCollection();
-            lock (autoCompleteStringCollectionDescriptionLock) autoCompleteStringCollectionDescription = new AutoCompleteStringCollection();
-            lock (autoCompleteStringCollectionCommentsLock) autoCompleteStringCollectionComments = new AutoCompleteStringCollection();
-            lock (autoCompleteStringCollectionAuthorLock) autoCompleteStringCollectionAuthor = new AutoCompleteStringCollection();
+                lock (autoCompleteStringCollectionAlbumLock) autoCompleteStringCollectionAlbum = new AutoCompleteStringCollection();
+                lock (autoCompleteStringCollectionTitleLock) autoCompleteStringCollectionTitle = new AutoCompleteStringCollection();
+                lock (autoCompleteStringCollectionDescriptionLock) autoCompleteStringCollectionDescription = new AutoCompleteStringCollection();
+                lock (autoCompleteStringCollectionCommentsLock) autoCompleteStringCollectionComments = new AutoCompleteStringCollection();
+                lock (autoCompleteStringCollectionAuthorLock) autoCompleteStringCollectionAuthor = new AutoCompleteStringCollection();
 
-            string[] arrayAlbum = ComboBoxHandler.ConvertToArray(Properties.Settings.Default.AutoCorrectFormAlbum);
-            string[] arrayAuthor = ComboBoxHandler.ConvertToArray(Properties.Settings.Default.AutoCorrectFormAuthor);
-            string[] arrayComments = ComboBoxHandler.ConvertToArray(Properties.Settings.Default.AutoCorrectFormComments);
-            string[] arrayDescription = ComboBoxHandler.ConvertToArray(Properties.Settings.Default.AutoCorrectFormDescription);
-            string[] arrayTitle = ComboBoxHandler.ConvertToArray(Properties.Settings.Default.AutoCorrectFormTitle);
+                string[] arrayAlbum = ComboBoxHandler.ConvertToArray(Properties.Settings.Default.AutoCorrectFormAlbum);
+                string[] arrayAuthor = ComboBoxHandler.ConvertToArray(Properties.Settings.Default.AutoCorrectFormAuthor);
+                string[] arrayComments = ComboBoxHandler.ConvertToArray(Properties.Settings.Default.AutoCorrectFormComments);
+                string[] arrayDescription = ComboBoxHandler.ConvertToArray(Properties.Settings.Default.AutoCorrectFormDescription);
+                string[] arrayTitle = ComboBoxHandler.ConvertToArray(Properties.Settings.Default.AutoCorrectFormTitle);
 
-            ComboBoxHandler.ComboBoxPopulate(comboBoxAlbum, arrayAlbum, "");
-            lock (autoCompleteStringCollectionAlbumLock) autoCompleteStringCollectionAlbum.AddRange(arrayAlbum);
+                ComboBoxHandler.ComboBoxPopulate(comboBoxAlbum, arrayAlbum, "");
+                lock (autoCompleteStringCollectionAlbumLock) autoCompleteStringCollectionAlbum.AddRange(arrayAlbum);
 
-            ComboBoxHandler.ComboBoxPopulate(comboBoxAuthor, arrayAuthor, "");
-            lock (autoCompleteStringCollectionTitleLock) autoCompleteStringCollectionAuthor.AddRange(arrayAuthor);
+                ComboBoxHandler.ComboBoxPopulate(comboBoxAuthor, arrayAuthor, "");
+                lock (autoCompleteStringCollectionTitleLock) autoCompleteStringCollectionAuthor.AddRange(arrayAuthor);
 
-            ComboBoxHandler.ComboBoxPopulate(comboBoxComments, arrayComments, "");
-            lock (autoCompleteStringCollectionCommentsLock) autoCompleteStringCollectionComments.AddRange(arrayComments);
+                ComboBoxHandler.ComboBoxPopulate(comboBoxComments, arrayComments, "");
+                lock (autoCompleteStringCollectionCommentsLock) autoCompleteStringCollectionComments.AddRange(arrayComments);
 
-            ComboBoxHandler.ComboBoxPopulate(comboBoxDescription, arrayDescription, "");
-            lock (autoCompleteStringCollectionDescriptionLock) autoCompleteStringCollectionDescription.AddRange(arrayDescription);
+                ComboBoxHandler.ComboBoxPopulate(comboBoxDescription, arrayDescription, "");
+                lock (autoCompleteStringCollectionDescriptionLock) autoCompleteStringCollectionDescription.AddRange(arrayDescription);
 
-            ComboBoxHandler.ComboBoxPopulate(comboBoxTitle, arrayTitle, "");
-            lock (autoCompleteStringCollectionAuthorLock) autoCompleteStringCollectionTitle.AddRange(arrayTitle);
+                ComboBoxHandler.ComboBoxPopulate(comboBoxTitle, arrayTitle, "");
+                lock (autoCompleteStringCollectionAuthorLock) autoCompleteStringCollectionTitle.AddRange(arrayTitle);
 
-            //groupBoxRating
-            radioButtonRating1.Checked = false;
-            radioButtonRating2.Checked = false;
-            radioButtonRating3.Checked = false;
-            radioButtonRating4.Checked = false;
-            radioButtonRating5.Checked = false;
-            isSettingDefaultComboxValues = false;
-
+                //groupBoxRating
+                radioButtonRating1.Checked = false;
+                radioButtonRating2.Checked = false;
+                radioButtonRating3.Checked = false;
+                radioButtonRating4.Checked = false;
+                radioButtonRating5.Checked = false;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
+            finally
+            {
+                isSettingDefaultComboxValues = false;
+            }
         }
         #endregion
 
         #region EnableDetailViewTagsAndKeywords(bool enable)
         private void EnableDetailViewTagsAndKeywords(bool enable)
         {
-            if (!enable)
+            try
             {
-                comboBoxMediaAiConfidence.SuspendLayout();
-                comboBoxTitle.SuspendLayout();
-                comboBoxDescription.SuspendLayout();
-                comboBoxComments.SuspendLayout();
-                comboBoxAlbum.SuspendLayout();
-                comboBoxAuthor.SuspendLayout();
-                radioButtonRating1.SuspendLayout();
-                radioButtonRating2.SuspendLayout();
-                radioButtonRating3.SuspendLayout();
-                radioButtonRating4.SuspendLayout();
-                radioButtonRating5.SuspendLayout();
+                if (!enable)
+                {
+                    comboBoxMediaAiConfidence.SuspendLayout();
+                    comboBoxTitle.SuspendLayout();
+                    comboBoxDescription.SuspendLayout();
+                    comboBoxComments.SuspendLayout();
+                    comboBoxAlbum.SuspendLayout();
+                    comboBoxAuthor.SuspendLayout();
+                    radioButtonRating1.SuspendLayout();
+                    radioButtonRating2.SuspendLayout();
+                    radioButtonRating3.SuspendLayout();
+                    radioButtonRating4.SuspendLayout();
+                    radioButtonRating5.SuspendLayout();
+                }
+                comboBoxMediaAiConfidence.Enabled = enable;
+
+                if (enable) comboBoxTitle.Enabled = enable; //To avoid flashing
+                comboBoxTitle.DropDownStyle = enable ? ComboBoxStyle.DropDown : ComboBoxStyle.DropDownList; //To avoid white inputbox
+                comboBoxTitle.Enabled = enable;//Also to avoid flashing, need set false after change DropDownStyle
+
+                if (enable) comboBoxDescription.Enabled = enable;//To avoid flashing
+                comboBoxDescription.DropDownStyle = enable ? ComboBoxStyle.DropDown : ComboBoxStyle.DropDownList; //To avoid white inputbox
+                comboBoxDescription.Enabled = enable;//Also to avoid flashing, need set false after change DropDownStyle
+
+                if (enable) comboBoxComments.Enabled = enable;//To avoid flashing
+                comboBoxComments.DropDownStyle = enable ? ComboBoxStyle.DropDown : ComboBoxStyle.DropDownList;//To avoid white inputbox
+                comboBoxComments.Enabled = enable;//Also to avoid flashing, need set false after change DropDownStyle
+
+                if (enable) comboBoxAlbum.Enabled = enable;//To avoid flashing
+                comboBoxAlbum.DropDownStyle = enable ? ComboBoxStyle.DropDown : ComboBoxStyle.DropDownList;//To avoid white inputbox
+                comboBoxAlbum.Enabled = enable;//Also to avoid flashing, need set false after change DropDownStyle
+
+                if (enable) comboBoxAuthor.Enabled = enable;//To avoid flashing
+                comboBoxAuthor.DropDownStyle = enable ? ComboBoxStyle.DropDown : ComboBoxStyle.DropDownList;//To avoid white inputbox
+                comboBoxAuthor.Enabled = enable; //Also to avoid flashing, need set false after change DropDownStyle
+
+
+                radioButtonRating1.Enabled = enable;
+                radioButtonRating2.Enabled = enable;
+                radioButtonRating3.Enabled = enable;
+                radioButtonRating4.Enabled = enable;
+                radioButtonRating5.Enabled = enable;
+
+                if (enable)
+                {
+                    comboBoxMediaAiConfidence.ResumeLayout();
+                    comboBoxTitle.ResumeLayout();
+                    comboBoxDescription.ResumeLayout();
+                    comboBoxComments.ResumeLayout();
+                    comboBoxAlbum.ResumeLayout();
+                    comboBoxAuthor.ResumeLayout();
+                    radioButtonRating1.ResumeLayout();
+                    radioButtonRating2.ResumeLayout();
+                    radioButtonRating3.ResumeLayout();
+                    radioButtonRating4.ResumeLayout();
+                    radioButtonRating5.ResumeLayout();
+                }
             }
-            comboBoxMediaAiConfidence.Enabled = enable;
-
-            if (enable) comboBoxTitle.Enabled = enable; //To avoid flashing
-            comboBoxTitle.DropDownStyle = enable ? ComboBoxStyle.DropDown : ComboBoxStyle.DropDownList; //To avoid white inputbox
-            comboBoxTitle.Enabled = enable;//Also to avoid flashing, need set false after change DropDownStyle
-
-            if (enable) comboBoxDescription.Enabled = enable;//To avoid flashing
-            comboBoxDescription.DropDownStyle = enable ? ComboBoxStyle.DropDown : ComboBoxStyle.DropDownList; //To avoid white inputbox
-            comboBoxDescription.Enabled = enable;//Also to avoid flashing, need set false after change DropDownStyle
-
-            if (enable) comboBoxComments.Enabled = enable;//To avoid flashing
-            comboBoxComments.DropDownStyle = enable ? ComboBoxStyle.DropDown : ComboBoxStyle.DropDownList;//To avoid white inputbox
-            comboBoxComments.Enabled = enable;//Also to avoid flashing, need set false after change DropDownStyle
-
-            if (enable) comboBoxAlbum.Enabled = enable;//To avoid flashing
-            comboBoxAlbum.DropDownStyle = enable ? ComboBoxStyle.DropDown : ComboBoxStyle.DropDownList;//To avoid white inputbox
-            comboBoxAlbum.Enabled = enable;//Also to avoid flashing, need set false after change DropDownStyle
-
-            if (enable) comboBoxAuthor.Enabled = enable;//To avoid flashing
-            comboBoxAuthor.DropDownStyle = enable ? ComboBoxStyle.DropDown : ComboBoxStyle.DropDownList;//To avoid white inputbox
-            comboBoxAuthor.Enabled = enable; //Also to avoid flashing, need set false after change DropDownStyle
-
-
-            radioButtonRating1.Enabled = enable;
-            radioButtonRating2.Enabled = enable;
-            radioButtonRating3.Enabled = enable;
-            radioButtonRating4.Enabled = enable;
-            radioButtonRating5.Enabled = enable;
-
-            if (enable)
+            catch (Exception ex)
             {
-                comboBoxMediaAiConfidence.ResumeLayout();
-                comboBoxTitle.ResumeLayout();
-                comboBoxDescription.ResumeLayout();
-                comboBoxComments.ResumeLayout();
-                comboBoxAlbum.ResumeLayout();
-                comboBoxAuthor.ResumeLayout();
-                radioButtonRating1.ResumeLayout();
-                radioButtonRating2.ResumeLayout();
-                radioButtonRating3.ResumeLayout();
-                radioButtonRating4.ResumeLayout();
-                radioButtonRating5.ResumeLayout();
-            } 
-            
-            
+                Logger.Error(ex);
+            }
         }
         #endregion
 
         #region AddToListBox
         private void AddToListBox(DataGridView dataGridView, KryptonComboBox comboBox, int columnIndex, string sourceHeader, string rowTag)
         {
-            int rowIndex;
-            object value;
-            rowIndex = DataGridViewHandler.GetRowIndex(dataGridView, sourceHeader, rowTag);
-            if (rowIndex > -1)
+            try
             {
-                value = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, rowIndex);
-                if (value != null && !string.IsNullOrWhiteSpace(value.ToString()) && !comboBox.Items.Contains(value.ToString())) comboBox.Items.Add(value.ToString());
+                int rowIndex;
+                object value;
+                rowIndex = DataGridViewHandler.GetRowIndex(dataGridView, sourceHeader, rowTag);
+                if (rowIndex > -1)
+                {
+                    value = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, rowIndex);
+                    if (value != null && !string.IsNullOrWhiteSpace(value.ToString()) && !comboBox.Items.Contains(value.ToString())) comboBox.Items.Add(value.ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
             }
         }
         #endregion
@@ -597,13 +660,20 @@ namespace PhotoTagsSynchronizer
         #region AddToCollection
         private void AddToCollection(DataGridView dataGridView, AutoCompleteStringCollection autoCompleteStringCollection, int columnIndex, string sourceHeader, string rowTag)
         {
-            int rowIndex;
-            object value;
-            rowIndex = DataGridViewHandler.GetRowIndex(dataGridView, sourceHeader, rowTag);
-            if (rowIndex > -1)
+            try
             {
-                value = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, rowIndex);
-                if (value != null && !string.IsNullOrWhiteSpace(value.ToString()) && !autoCompleteStringCollection.Contains(value.ToString())) autoCompleteStringCollection.Add(value.ToString());
+                int rowIndex;
+                object value;
+                rowIndex = DataGridViewHandler.GetRowIndex(dataGridView, sourceHeader, rowTag);
+                if (rowIndex > -1)
+                {
+                    value = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, rowIndex);
+                    if (value != null && !string.IsNullOrWhiteSpace(value.ToString()) && !autoCompleteStringCollection.Contains(value.ToString())) autoCompleteStringCollection.Add(value.ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
             }
         }
         #endregion
@@ -624,42 +694,51 @@ namespace PhotoTagsSynchronizer
         {
             if (dataGridView == null) return;
             isSettingDefaultComboxValues = true;
-
-            comboBoxTitle.Text = "";
-            comboBoxDescription.Text = "";
-            comboBoxComments.Text = "";
-            comboBoxAlbum.Text = "";
-            comboBoxAuthor.Text = "";
-
-            for (int columnIndex = 0; columnIndex < DataGridViewHandler.GetColumnCount(dataGridView); columnIndex++)
+            try
             {
-                foreach (string sourceHeader in DataGridViewHandlerTagsAndKeywords.sourceHeaders)
+
+                comboBoxTitle.Text = "";
+                comboBoxDescription.Text = "";
+                comboBoxComments.Text = "";
+                comboBoxAlbum.Text = "";
+                comboBoxAuthor.Text = "";
+
+                for (int columnIndex = 0; columnIndex < DataGridViewHandler.GetColumnCount(dataGridView); columnIndex++)
                 {
+                    foreach (string sourceHeader in DataGridViewHandlerTagsAndKeywords.sourceHeaders)
+                    {
 
-                    AddToListBox(dataGridView, comboBoxTitle, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagTitle);
-                    lock (autoCompleteStringCollectionTitleLock) AddToCollection(dataGridView, autoCompleteStringCollectionTitle, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagTitle);
-                    
-                    AddToListBox(dataGridView, comboBoxDescription, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagDescription);
-                    AddToListBox(dataGridView, comboBoxDescription, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAlbum);
-                    lock (autoCompleteStringCollectionDescriptionLock) AddToCollection(dataGridView, autoCompleteStringCollectionDescription, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagDescription);
-                    lock (autoCompleteStringCollectionDescriptionLock) AddToCollection(dataGridView, autoCompleteStringCollectionDescription, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAlbum);
+                        AddToListBox(dataGridView, comboBoxTitle, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagTitle);
+                        lock (autoCompleteStringCollectionTitleLock) AddToCollection(dataGridView, autoCompleteStringCollectionTitle, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagTitle);
 
-                    AddToListBox(dataGridView, comboBoxComments, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagComments);
-                    lock (autoCompleteStringCollectionCommentsLock) AddToCollection(dataGridView, autoCompleteStringCollectionComments, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagComments);
+                        AddToListBox(dataGridView, comboBoxDescription, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagDescription);
+                        AddToListBox(dataGridView, comboBoxDescription, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAlbum);
+                        lock (autoCompleteStringCollectionDescriptionLock) AddToCollection(dataGridView, autoCompleteStringCollectionDescription, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagDescription);
+                        lock (autoCompleteStringCollectionDescriptionLock) AddToCollection(dataGridView, autoCompleteStringCollectionDescription, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAlbum);
 
-                    AddToListBox(dataGridView, comboBoxAlbum, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAlbum);
-                    AddToListBox(dataGridView, comboBoxAlbum, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagDescription);
-                    lock (autoCompleteStringCollectionAlbumLock) AddToCollection(dataGridView, autoCompleteStringCollectionAlbum, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAlbum);
-                    lock (autoCompleteStringCollectionAlbumLock) AddToCollection(dataGridView, autoCompleteStringCollectionAlbum, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagDescription);
+                        AddToListBox(dataGridView, comboBoxComments, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagComments);
+                        lock (autoCompleteStringCollectionCommentsLock) AddToCollection(dataGridView, autoCompleteStringCollectionComments, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagComments);
 
-                    AddToListBox(dataGridView, comboBoxAuthor, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAuthor);
-                    lock (autoCompleteStringCollectionAuthorLock) AddToCollection(dataGridView, autoCompleteStringCollectionAuthor, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagTitle);
+                        AddToListBox(dataGridView, comboBoxAlbum, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAlbum);
+                        AddToListBox(dataGridView, comboBoxAlbum, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagDescription);
+                        lock (autoCompleteStringCollectionAlbumLock) AddToCollection(dataGridView, autoCompleteStringCollectionAlbum, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAlbum);
+                        lock (autoCompleteStringCollectionAlbumLock) AddToCollection(dataGridView, autoCompleteStringCollectionAlbum, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagDescription);
+
+                        AddToListBox(dataGridView, comboBoxAuthor, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAuthor);
+                        lock (autoCompleteStringCollectionAuthorLock) AddToCollection(dataGridView, autoCompleteStringCollectionAuthor, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagTitle);
+                    }
                 }
+
+                EnableDetailViewTagsAndKeywords(true);
             }
-
-            EnableDetailViewTagsAndKeywords(true);
-            isSettingDefaultComboxValues = false;
-
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
+            finally
+            {
+                isSettingDefaultComboxValues = false;
+            }
         }
         #endregion 
 
@@ -730,47 +809,54 @@ namespace PhotoTagsSynchronizer
         #region EditingControlShowing
         private void dataGridViewTagsAndKeywords_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
-            DataGridView dataGridView = (DataGridView)sender;
-            
-
-            DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, dataGridView.CurrentCell.RowIndex);
-            
-            if (dataGridViewGenericRow != null && !dataGridViewGenericRow.IsHeader)
+            try
             {
-                TextBox autoText = e.Control as TextBox;
-                if (autoText != null)
+                DataGridView dataGridView = (DataGridView)sender;
+
+
+                DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, dataGridView.CurrentCell.RowIndex);
+
+                if (dataGridViewGenericRow != null && !dataGridViewGenericRow.IsHeader)
                 {
-                    if (dataGridViewGenericRow.RowName == DataGridViewHandlerTagsAndKeywords.tagTitle)
+                    TextBox autoText = e.Control as TextBox;
+                    if (autoText != null)
                     {
-                        autoText.AutoCompleteMode = AutoCompleteMode.Suggest;
-                        autoText.AutoCompleteSource = AutoCompleteSource.CustomSource;
-                        autoText.AutoCompleteCustomSource = autoCompleteStringCollectionTitle;
-                    }
-                    if (dataGridViewGenericRow.RowName == DataGridViewHandlerTagsAndKeywords.tagDescription)
-                    {
-                        autoText.AutoCompleteMode = AutoCompleteMode.Suggest;
-                        autoText.AutoCompleteSource = AutoCompleteSource.CustomSource;
-                        autoText.AutoCompleteCustomSource = autoCompleteStringCollectionDescription;
-                    }
-                    if (dataGridViewGenericRow.RowName == DataGridViewHandlerTagsAndKeywords.tagComments)
-                    {
-                        autoText.AutoCompleteMode = AutoCompleteMode.Suggest;
-                        autoText.AutoCompleteSource = AutoCompleteSource.CustomSource;
-                        autoText.AutoCompleteCustomSource = autoCompleteStringCollectionComments;
-                    }
-                    if (dataGridViewGenericRow.RowName == DataGridViewHandlerTagsAndKeywords.tagAlbum)
-                    {
-                        autoText.AutoCompleteMode = AutoCompleteMode.Suggest;
-                        autoText.AutoCompleteSource = AutoCompleteSource.CustomSource;
-                        autoText.AutoCompleteCustomSource = autoCompleteStringCollectionAlbum;
-                    }
-                    if (dataGridViewGenericRow.RowName == DataGridViewHandlerTagsAndKeywords.tagAuthor)
-                    {
-                        autoText.AutoCompleteMode = AutoCompleteMode.Suggest;
-                        autoText.AutoCompleteSource = AutoCompleteSource.CustomSource;
-                        autoText.AutoCompleteCustomSource = autoCompleteStringCollectionAuthor;
+                        if (dataGridViewGenericRow.RowName == DataGridViewHandlerTagsAndKeywords.tagTitle)
+                        {
+                            autoText.AutoCompleteMode = AutoCompleteMode.Suggest;
+                            autoText.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                            autoText.AutoCompleteCustomSource = autoCompleteStringCollectionTitle;
+                        }
+                        if (dataGridViewGenericRow.RowName == DataGridViewHandlerTagsAndKeywords.tagDescription)
+                        {
+                            autoText.AutoCompleteMode = AutoCompleteMode.Suggest;
+                            autoText.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                            autoText.AutoCompleteCustomSource = autoCompleteStringCollectionDescription;
+                        }
+                        if (dataGridViewGenericRow.RowName == DataGridViewHandlerTagsAndKeywords.tagComments)
+                        {
+                            autoText.AutoCompleteMode = AutoCompleteMode.Suggest;
+                            autoText.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                            autoText.AutoCompleteCustomSource = autoCompleteStringCollectionComments;
+                        }
+                        if (dataGridViewGenericRow.RowName == DataGridViewHandlerTagsAndKeywords.tagAlbum)
+                        {
+                            autoText.AutoCompleteMode = AutoCompleteMode.Suggest;
+                            autoText.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                            autoText.AutoCompleteCustomSource = autoCompleteStringCollectionAlbum;
+                        }
+                        if (dataGridViewGenericRow.RowName == DataGridViewHandlerTagsAndKeywords.tagAuthor)
+                        {
+                            autoText.AutoCompleteMode = AutoCompleteMode.Suggest;
+                            autoText.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                            autoText.AutoCompleteCustomSource = autoCompleteStringCollectionAuthor;
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
             }
         }
         #endregion

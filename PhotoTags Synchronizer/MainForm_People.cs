@@ -17,32 +17,38 @@ namespace PhotoTagsSynchronizer
         private void dataGridViewPeople_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.Button != MouseButtons.Left) return;
-
-            Rectangle cellRectangle = ((DataGridView)sender).GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
-            if (e.X >= cellRectangle.Width - tristateButtonWidth && e.Y <= tristateBittonHight) triStateButtomClick = true;
-            else triStateButtomClick = false;
-            if (!triStateButtomClick) return;
-
-            DataGridView dataGridView = ((DataGridView)sender);
-            if (!dataGridView.Enabled) return;
-
-            if (dataGridView.SelectedCells.Count < 1) return;
-
-            DataGridViewSelectedCellCollection dataGridViewSelectedCellCollection = dataGridView.SelectedCells;
-            if (dataGridViewSelectedCellCollection.Count < 1) return;
-
-            Dictionary<CellLocation, DataGridViewGenericCell> updatedCells = DataGridViewHandler.ToggleCells(dataGridView, DataGridViewHandlerPeople.headerPeople, NewState.Toggle, e.ColumnIndex, e.RowIndex);
-            //DataGridViewHandler.Refresh(dataGridView);
-            if (updatedCells != null && updatedCells.Count > 0)
+            try
             {
-                
-                ClipboardUtility.PushToUndoStack(dataGridView, updatedCells);
-                foreach (CellLocation cellLocation in updatedCells.Keys)
+                Rectangle cellRectangle = ((DataGridView)sender).GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
+                if (e.X >= cellRectangle.Width - tristateButtonWidth && e.Y <= tristateBittonHight) triStateButtomClick = true;
+                else triStateButtomClick = false;
+                if (!triStateButtomClick) return;
+
+                DataGridView dataGridView = ((DataGridView)sender);
+                if (!dataGridView.Enabled) return;
+
+                if (dataGridView.SelectedCells.Count < 1) return;
+
+                DataGridViewSelectedCellCollection dataGridViewSelectedCellCollection = dataGridView.SelectedCells;
+                if (dataGridViewSelectedCellCollection.Count < 1) return;
+
+                Dictionary<CellLocation, DataGridViewGenericCell> updatedCells = DataGridViewHandler.ToggleCells(dataGridView, DataGridViewHandlerPeople.headerPeople, NewState.Toggle, e.ColumnIndex, e.RowIndex);
+                //DataGridViewHandler.Refresh(dataGridView);
+                if (updatedCells != null && updatedCells.Count > 0)
                 {
-                    DataGridViewHandler.SetColumnDirtyFlag(dataGridView, cellLocation.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, cellLocation.ColumnIndex));
-                    DataGridViewHandler.InvalidateCell(dataGridView, cellLocation.ColumnIndex, cellLocation.RowIndex);
-                    
+
+                    ClipboardUtility.PushToUndoStack(dataGridView, updatedCells);
+                    foreach (CellLocation cellLocation in updatedCells.Keys)
+                    {
+                        DataGridViewHandler.SetColumnDirtyFlag(dataGridView, cellLocation.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, cellLocation.ColumnIndex));
+                        DataGridViewHandler.InvalidateCell(dataGridView, cellLocation.ColumnIndex, cellLocation.RowIndex);
+
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
             }
         }
         #endregion 
@@ -57,16 +63,22 @@ namespace PhotoTagsSynchronizer
         private void dataGridViewPeople_CellParsing(object sender, DataGridViewCellParsingEventArgs e)
         {
             if (!(sender is DataGridView)) return;
-            
-            object val = DataGridViewHandler.GetCellValue((DataGridView)sender, e.ColumnIndex, e.RowIndex);
-            if (!(val is RegionStructure)) return;
-            RegionStructure region = (RegionStructure)val;
+            try
+            {
+                object val = DataGridViewHandler.GetCellValue((DataGridView)sender, e.ColumnIndex, e.RowIndex);
+                if (!(val is RegionStructure)) return;
+                RegionStructure region = (RegionStructure)val;
 
-            if (region == null) return;
-            region.Name = (string)e.Value;
-            e.Value = region;
-            e.ParsingApplied = true;
-            PeopleAddNewLastUseName(region.Name);
+                if (region == null) return;
+                region.Name = (string)e.Value;
+                e.Value = region;
+                e.ParsingApplied = true;
+                PeopleAddNewLastUseName(region.Name);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }            
         }
         #endregion
 
@@ -87,60 +99,67 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = ((DataGridView)sender);
             if (!dataGridView.Enabled) return;
 
-            if (e.RowIndex == -1 && e.ColumnIndex >= 0)
+            try
             {
-                if (!DataGridViewHandler.IsColumnSelected(dataGridView, e.ColumnIndex))
+                if (e.RowIndex == -1 && e.ColumnIndex >= 0)
                 {
-                    KryptonMessageBox.Show("You need to select a name cell for current media file.", "Missing selection on media file", MessageBoxButtons.OK, MessageBoxIcon.Information, true);
-                    return;
-                }
-
-                DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, e.ColumnIndex);
-                if (dataGridViewGenericColumn == null || dataGridViewGenericColumn.ReadWriteAccess != ReadWriteAccess.AllowCellReadAndWrite)
-                {                    
-                    KryptonMessageBox.Show("You can only change region on current version on media file, not on historical or error log.", "Not correct column type", MessageBoxButtons.OK, MessageBoxIcon.Information, true);
-                    return;
-                }
-
-                List<int> selectedRows = DataGridViewHandler.GetRowSelected(dataGridView);
-                if (selectedRows.Count != 1)
-                {
-                    KryptonMessageBox.Show("You can only create a region for one name cell at once.", "Wrong number of selection", MessageBoxButtons.OK, MessageBoxIcon.Information, true);
-                    return;
-                }
-                else
-                {
-                    int selectedRow = selectedRows[0];
-                    DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, selectedRow);
-
-                    if (dataGridViewGenericRow == null || dataGridViewGenericRow.IsHeader)
+                    if (!DataGridViewHandler.IsColumnSelected(dataGridView, e.ColumnIndex))
                     {
-                        KryptonMessageBox.Show("The selected cell can't be changed, need select another cell.", "Wrong cell selected", MessageBoxButtons.OK, MessageBoxIcon.Information, true);
+                        KryptonMessageBox.Show("You need to select a name cell for current media file.", "Missing selection on media file", MessageBoxButtons.OK, MessageBoxIcon.Information, true);
                         return;
-                    } 
+                    }
+
+                    DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, e.ColumnIndex);
+                    if (dataGridViewGenericColumn == null || dataGridViewGenericColumn.ReadWriteAccess != ReadWriteAccess.AllowCellReadAndWrite)
+                    {
+                        KryptonMessageBox.Show("You can only change region on current version on media file, not on historical or error log.", "Not correct column type", MessageBoxButtons.OK, MessageBoxIcon.Information, true);
+                        return;
+                    }
+
+                    List<int> selectedRows = DataGridViewHandler.GetRowSelected(dataGridView);
+                    if (selectedRows.Count != 1)
+                    {
+                        KryptonMessageBox.Show("You can only create a region for one name cell at once.", "Wrong number of selection", MessageBoxButtons.OK, MessageBoxIcon.Information, true);
+                        return;
+                    }
+                    else
+                    {
+                        int selectedRow = selectedRows[0];
+                        DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, selectedRow);
+
+                        if (dataGridViewGenericRow == null || dataGridViewGenericRow.IsHeader)
+                        {
+                            KryptonMessageBox.Show("The selected cell can't be changed, need select another cell.", "Wrong cell selected", MessageBoxButtons.OK, MessageBoxIcon.Information, true);
+                            return;
+                        }
+                    }
+
+                    Image image = dataGridViewGenericColumn.Thumbnail;
+                    if (image == null)
+                    {
+                        KryptonMessageBox.Show("No media has been load, please wait or reload the media to fetch thumbnail image.", "Not media has been loaded", MessageBoxButtons.OK, MessageBoxIcon.Information, true);
+                        return;
+                    }
+
+                    Rectangle rectangleRoundedCellBounds = DataGridViewHandler.CalulateCellRoundedRectangleCellBounds(
+                        new Rectangle(0, 0, dataGridView.Columns[e.ColumnIndex].Width, dataGridView.ColumnHeadersHeight));
+                    Size thumbnailSize = DataGridViewHandler.CalulateCellImageSizeInRectagleWithUpScale(rectangleRoundedCellBounds, image.Size);
+                    Rectangle rectangleCenterThumbnail = DataGridViewHandler.CalulateCellImageCenterInRectagle(rectangleRoundedCellBounds, thumbnailSize);
+
+                    if (DataGridViewHandler.IsMouseWithinRectangle(e.X, e.Y, rectangleCenterThumbnail))
+                    {
+                        peopleMouseDownX = e.X;
+                        peopleMouseDownY = e.Y;
+                        peopleMouseDownColumn = e.ColumnIndex;
+
+                        drawingRegion = true;
+                    }
+
                 }
-
-                Image image = dataGridViewGenericColumn.Thumbnail;
-                if (image == null)
-                {
-                    KryptonMessageBox.Show("No media has been load, please wait or reload the media to fetch thumbnail image.", "Not media has been loaded", MessageBoxButtons.OK, MessageBoxIcon.Information, true);
-                    return;
-                }
-
-                Rectangle rectangleRoundedCellBounds = DataGridViewHandler.CalulateCellRoundedRectangleCellBounds(
-                    new Rectangle(0, 0, dataGridView.Columns[e.ColumnIndex].Width, dataGridView.ColumnHeadersHeight));
-                Size thumbnailSize = DataGridViewHandler.CalulateCellImageSizeInRectagleWithUpScale(rectangleRoundedCellBounds, image.Size);
-                Rectangle rectangleCenterThumbnail = DataGridViewHandler.CalulateCellImageCenterInRectagle(rectangleRoundedCellBounds, thumbnailSize);
-
-                if (DataGridViewHandler.IsMouseWithinRectangle(e.X, e.Y, rectangleCenterThumbnail))
-                {
-                    peopleMouseDownX = e.X;
-                    peopleMouseDownY = e.Y;
-                    peopleMouseDownColumn = e.ColumnIndex;
-
-                    drawingRegion = true;
-                }
-
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
             }
         }
         #endregion
@@ -148,14 +167,21 @@ namespace PhotoTagsSynchronizer
         #region Cell header - Face region - CellMouseLeave
         private void dataGridViewPeople_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
         {
-            if (drawingRegion)
+            try
             {
-                drawingRegion = false;
-                peopleMouseDownColumn = int.MinValue;
+                if (drawingRegion)
+                {
+                    drawingRegion = false;
+                    peopleMouseDownColumn = int.MinValue;
 
-                DataGridView dataGridView = ((DataGridView)sender);
-                if (!dataGridView.Enabled) return;
-                DataGridViewHandler.Refresh(dataGridView);
+                    DataGridView dataGridView = ((DataGridView)sender);
+                    if (!dataGridView.Enabled) return;
+                    DataGridViewHandler.Refresh(dataGridView);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
             }
         }
         #endregion
@@ -217,44 +243,51 @@ namespace PhotoTagsSynchronizer
 
             DataGridView dataGridView = ((DataGridView)sender);
             if (!dataGridView.Enabled) return;
-
-            if (e.RowIndex == -1 && e.ColumnIndex == peopleMouseDownColumn)
+            try
             {
-                DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, e.ColumnIndex);
-                if (dataGridViewGenericColumn == null) return;
-
-                lock (dataGridViewGenericColumn._ThumbnailLock)
+                if (e.RowIndex == -1 && e.ColumnIndex == peopleMouseDownColumn)
                 {
-                    Image image = dataGridViewGenericColumn.thumbnailUnlock;
-                    Rectangle rectangleRoundedCellBounds = DataGridViewHandler.CalulateCellRoundedRectangleCellBounds(
-                        new Rectangle(0, 0, dataGridView.Columns[e.ColumnIndex].Width, dataGridView.ColumnHeadersHeight));
-                    Size thumbnailSize = DataGridViewHandler.CalulateCellImageSizeInRectagleWithUpScale(rectangleRoundedCellBounds, image.Size);
-                    Rectangle rectangleCenterThumbnail = DataGridViewHandler.CalulateCellImageCenterInRectagle(rectangleRoundedCellBounds, thumbnailSize);
+                    DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, e.ColumnIndex);
+                    if (dataGridViewGenericColumn == null) return;
 
-                    if (DataGridViewHandler.IsMouseWithinRectangle(e.X, e.Y, rectangleCenterThumbnail))
+                    lock (dataGridViewGenericColumn._ThumbnailLock)
                     {
-                        peopleMouseMoveX = e.X;
-                        peopleMouseMoveY = e.Y;
+                        Image image = dataGridViewGenericColumn.thumbnailUnlock;
+                        Rectangle rectangleRoundedCellBounds = DataGridViewHandler.CalulateCellRoundedRectangleCellBounds(
+                            new Rectangle(0, 0, dataGridView.Columns[e.ColumnIndex].Width, dataGridView.ColumnHeadersHeight));
+                        Size thumbnailSize = DataGridViewHandler.CalulateCellImageSizeInRectagleWithUpScale(rectangleRoundedCellBounds, image.Size);
+                        Rectangle rectangleCenterThumbnail = DataGridViewHandler.CalulateCellImageCenterInRectagle(rectangleRoundedCellBounds, thumbnailSize);
+
+                        if (DataGridViewHandler.IsMouseWithinRectangle(e.X, e.Y, rectangleCenterThumbnail))
+                        {
+                            peopleMouseMoveX = e.X;
+                            peopleMouseMoveY = e.Y;
+                        }
                     }
-                }
 
-                dataGridView.InvalidateCell(e.ColumnIndex, e.RowIndex);
+                    dataGridView.InvalidateCell(e.ColumnIndex, e.RowIndex);
 
-                if (Math.Abs(peopleMouseDownX - peopleMouseMoveX) > 1 && Math.Abs(peopleMouseMoveY - peopleMouseDownY) > 1)
-                {
-                    if (DataGridViewHandler.UpdateSelectedCellsWithNewMouseRegion(dataGridView, e.ColumnIndex, peopleMouseDownX, peopleMouseDownY, peopleMouseMoveX, peopleMouseMoveY))
+                    if (Math.Abs(peopleMouseDownX - peopleMouseMoveX) > 1 && Math.Abs(peopleMouseMoveY - peopleMouseDownY) > 1)
                     {
-                        DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex));
-                        UpdateRegionThumbnail(dataGridView);
+                        if (DataGridViewHandler.UpdateSelectedCellsWithNewMouseRegion(dataGridView, e.ColumnIndex, peopleMouseDownX, peopleMouseDownY, peopleMouseMoveX, peopleMouseMoveY))
+                        {
+                            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex));
+                            UpdateRegionThumbnail(dataGridView);
+                        }
                     }
-                } else
-                {
-                    KryptonMessageBox.Show("Couldn't create a region. No region selection was made.", "No region selected", MessageBoxButtons.OK, MessageBoxIcon.Warning, true);
-                    peopleMouseDownColumn = int.MinValue;
+                    else
+                    {
+                        KryptonMessageBox.Show("Couldn't create a region. No region selection was made.", "No region selected", MessageBoxButtons.OK, MessageBoxIcon.Warning, true);
+                        peopleMouseDownColumn = int.MinValue;
+                    }
+
                 }
-                
+                peopleMouseDownColumn = int.MinValue;
             }
-            peopleMouseDownColumn = int.MinValue;
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
         }
         #endregion
 
@@ -266,27 +299,34 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = ((DataGridView)sender);
             if (!dataGridView.Enabled) return;
 
-            if (e.RowIndex == -1 && e.ColumnIndex == peopleMouseDownColumn)
+            try
             {
-                DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, e.ColumnIndex);
-                if (dataGridViewGenericColumn == null) return;
-
-                lock (dataGridViewGenericColumn._ThumbnailLock)
+                if (e.RowIndex == -1 && e.ColumnIndex == peopleMouseDownColumn)
                 {
-                    Image image = dataGridViewGenericColumn.thumbnailUnlock;
-                    Rectangle rectangleRoundedCellBounds = DataGridViewHandler.CalulateCellRoundedRectangleCellBounds(
-                        new Rectangle(0, 0, dataGridView.Columns[e.ColumnIndex].Width, dataGridView.ColumnHeadersHeight));
-                    Size thumbnailSize = DataGridViewHandler.CalulateCellImageSizeInRectagleWithUpScale(rectangleRoundedCellBounds, image.Size);
-                    Rectangle rectangleCenterThumbnail = DataGridViewHandler.CalulateCellImageCenterInRectagle(rectangleRoundedCellBounds, thumbnailSize);
+                    DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, e.ColumnIndex);
+                    if (dataGridViewGenericColumn == null) return;
 
-                    if (DataGridViewHandler.IsMouseWithinRectangle(e.X, e.Y, rectangleCenterThumbnail))
+                    lock (dataGridViewGenericColumn._ThumbnailLock)
                     {
-                        peopleMouseMoveX = e.X;
-                        peopleMouseMoveY = e.Y;
+                        Image image = dataGridViewGenericColumn.thumbnailUnlock;
+                        Rectangle rectangleRoundedCellBounds = DataGridViewHandler.CalulateCellRoundedRectangleCellBounds(
+                            new Rectangle(0, 0, dataGridView.Columns[e.ColumnIndex].Width, dataGridView.ColumnHeadersHeight));
+                        Size thumbnailSize = DataGridViewHandler.CalulateCellImageSizeInRectagleWithUpScale(rectangleRoundedCellBounds, image.Size);
+                        Rectangle rectangleCenterThumbnail = DataGridViewHandler.CalulateCellImageCenterInRectagle(rectangleRoundedCellBounds, thumbnailSize);
 
-                        DataGridViewHandler.InvalidateCell(dataGridView, e.ColumnIndex, e.RowIndex);
+                        if (DataGridViewHandler.IsMouseWithinRectangle(e.X, e.Y, rectangleCenterThumbnail))
+                        {
+                            peopleMouseMoveX = e.X;
+                            peopleMouseMoveY = e.Y;
+
+                            DataGridViewHandler.InvalidateCell(dataGridView, e.ColumnIndex, e.RowIndex);
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
             }
         }
         #endregion
@@ -298,28 +338,42 @@ namespace PhotoTagsSynchronizer
         #region AutoComplete - ClientListDropDown
         public AutoCompleteStringCollection ClientListDropDown()
         {
-            List<string> regionNames = databaseAndCacheMetadataExiftool.ListAllPersonalRegionsCache();
             AutoCompleteStringCollection autoCompleteStringCollection = new AutoCompleteStringCollection();
-            foreach (string regionName in regionNames)
+            try
             {
-                if (!string.IsNullOrWhiteSpace(regionName)) autoCompleteStringCollection.Add(regionName);
+                List<string> regionNames = databaseAndCacheMetadataExiftool.ListAllPersonalRegionsCache();
+                foreach (string regionName in regionNames)
+                {
+                    if (!string.IsNullOrWhiteSpace(regionName)) autoCompleteStringCollection.Add(regionName);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
             }
             return autoCompleteStringCollection;
+
         }
         #endregion
 
         #region AutoComplete - EditingControlShowing
         private void dataGridViewPeople_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
-            DataGridView dataGridView = (DataGridView)sender;
-
-            TextBox prodCode = e.Control as TextBox;
-            if (prodCode != null)
+            try
             {
-                prodCode.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                prodCode.AutoCompleteCustomSource = ClientListDropDown();
-                prodCode.AutoCompleteSource = AutoCompleteSource.CustomSource;
-            }            
+                DataGridView dataGridView = (DataGridView)sender;
+                TextBox prodCode = e.Control as TextBox;
+                if (prodCode != null)
+                {
+                    prodCode.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                    prodCode.AutoCompleteCustomSource = ClientListDropDown();
+                    prodCode.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
         }
         #endregion
 
@@ -332,39 +386,54 @@ namespace PhotoTagsSynchronizer
         #region People name suggestion - PeopleAddNewLastUseName
         private void PeopleAddNewLastUseName(string name)
         {
-            if (lastUsedNames.Contains(name)) lastUsedNames.Remove(name);
-            lastUsedNames.Insert(0, name);
-            while (lastUsedNames.Count > 3) lastUsedNames.RemoveAt(3);
-
-            if (lastUsedNames.Count > 0)
+            try
             {
-                SetPeopleStripToolMenu(kryptonContextMenuItemGenericRegionRename1, 1, lastUsedNames[0]);
-                kryptonContextMenuItemGenericRegionRename1.Visible = true;
+                if (lastUsedNames.Contains(name)) lastUsedNames.Remove(name);
+                lastUsedNames.Insert(0, name);
+                while (lastUsedNames.Count > 3) lastUsedNames.RemoveAt(3);
+
+                if (lastUsedNames.Count > 0)
+                {
+                    SetPeopleStripToolMenu(kryptonContextMenuItemGenericRegionRename1, 1, lastUsedNames[0]);
+                    kryptonContextMenuItemGenericRegionRename1.Visible = true;
+                }
+                else kryptonContextMenuItemGenericRegionRename1.Visible = false;
+
+                if (lastUsedNames.Count > 1)
+                {
+                    SetPeopleStripToolMenu(kryptonContextMenuItemGenericRegionRename2, 2, lastUsedNames[1]);
+                    kryptonContextMenuItemGenericRegionRename2.Visible = true;
+                }
+                else kryptonContextMenuItemGenericRegionRename2.Visible = false;
+
+                if (lastUsedNames.Count > 2)
+                {
+                    SetPeopleStripToolMenu(kryptonContextMenuItemGenericRegionRename3, 3, lastUsedNames[2]);
+                    kryptonContextMenuItemGenericRegionRename3.Visible = true;
+                }
+                else kryptonContextMenuItemGenericRegionRename3.Visible = false;
             }
-            else kryptonContextMenuItemGenericRegionRename1.Visible = false;
-
-            if (lastUsedNames.Count > 1)
+            catch (Exception ex)
             {
-                SetPeopleStripToolMenu(kryptonContextMenuItemGenericRegionRename2, 2, lastUsedNames[1]);
-                kryptonContextMenuItemGenericRegionRename2.Visible = true;
-            } else kryptonContextMenuItemGenericRegionRename2.Visible = false;
-
-            if (lastUsedNames.Count > 2)
-            {
-                SetPeopleStripToolMenu(kryptonContextMenuItemGenericRegionRename3, 3, lastUsedNames[2]);
-                kryptonContextMenuItemGenericRegionRename3.Visible = true;
+                Logger.Error(ex);
             }
-            else kryptonContextMenuItemGenericRegionRename3.Visible = false;
         }
         #endregion
 
         #region People name suggestion - SetPeopleStripToolMenu
         private void SetPeopleStripToolMenu(KryptonContextMenuItem toolStripMenuItem, int number, string name)
         {
-            toolStripMenuItem.Tag = name;
-            toolStripMenuItem.Text = "Rename #" + number;
-            toolStripMenuItem.ExtraText = name;
-            Properties.Settings.Default.PeopleRename = string.Join("\r\n", lastUsedNames.ToArray());
+            try
+            {
+                toolStripMenuItem.Tag = name;
+                toolStripMenuItem.Text = "Rename #" + number;
+                toolStripMenuItem.ExtraText = name;
+                Properties.Settings.Default.PeopleRename = string.Join("\r\n", lastUsedNames.ToArray());
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
         }
         #endregion 
 
@@ -405,131 +474,138 @@ namespace PhotoTagsSynchronizer
         #region PopulatePeopleToolStripMenuItems
         public void PopulatePeopleToolStripMenuItems()
         {
-            kryptonContextMenuItemsGenericRegionRenameListAllList.Items.Clear();
-            kryptonContextMenuItemsGenericRegionRenameFromLastUsedList.Items.Clear();
-
-            List<string> regioNames;
-            regioNames = databaseAndCacheMetadataExiftool.ListAllPersonalRegionNameTopCountCache(MetadataBrokerType.ExifTool, Properties.Settings.Default.SuggestRegionNameTopMostCount);
-            foreach (string name in regioNames)
+            try
             {
-                regionNamesRenameFromTopCoundAdded.Add(name);
-                KryptonContextMenuItem kryptonContextMenuItemGenericRegionRenameFromLastUsed = new KryptonContextMenuItem();
-                kryptonContextMenuItemGenericRegionRenameFromLastUsed.Tag = name;
-                kryptonContextMenuItemGenericRegionRenameFromLastUsed.Text = name;
-                kryptonContextMenuItemGenericRegionRenameFromLastUsed.Click += KryptonContextMenuItemRegionRenameGeneric_Click;
-                this.kryptonContextMenuItemsGenericRegionRenameFromLastUsedList.Items.Add(kryptonContextMenuItemGenericRegionRenameFromLastUsed);
-            }
+                kryptonContextMenuItemsGenericRegionRenameListAllList.Items.Clear();
+                kryptonContextMenuItemsGenericRegionRenameFromLastUsedList.Items.Clear();
 
-
-            int groupSize = Properties.Settings.Default.ApplicationSizeOfRegionNamesGroup;
-
-            regioNames = databaseAndCacheMetadataExiftool.ListAllPersonalRegionsCache();
-            if (regioNames.Count <= groupSize)
-            {
+                List<string> regioNames;
+                regioNames = databaseAndCacheMetadataExiftool.ListAllPersonalRegionNameTopCountCache(MetadataBrokerType.ExifTool, Properties.Settings.Default.SuggestRegionNameTopMostCount);
                 foreach (string name in regioNames)
                 {
-                    regionNamesRenameFromAllAdded.Add(name);
-                    KryptonContextMenuItem kryptonContextMenuItemGenericRegionRenameFromListAll = new KryptonContextMenuItem();
-                    kryptonContextMenuItemGenericRegionRenameFromListAll.Tag = name;
-                    kryptonContextMenuItemGenericRegionRenameFromListAll.Text = name;
-                    Image image = databaseAndCacheMetadataExiftool.ReadRandomThumbnailFromCacheOrDatabase(name);
-                    if (image != null) kryptonContextMenuItemGenericRegionRenameFromListAll.Image = image;
-                    kryptonContextMenuItemGenericRegionRenameFromListAll.Click += KryptonContextMenuItemRegionRenameGeneric_Click;
-                    kryptonContextMenuItemsGenericRegionRenameListAllList.Items.Add(kryptonContextMenuItemGenericRegionRenameFromListAll);
+                    regionNamesRenameFromTopCoundAdded.Add(name);
+                    KryptonContextMenuItem kryptonContextMenuItemGenericRegionRenameFromLastUsed = new KryptonContextMenuItem();
+                    kryptonContextMenuItemGenericRegionRenameFromLastUsed.Tag = name;
+                    kryptonContextMenuItemGenericRegionRenameFromLastUsed.Text = name;
+                    kryptonContextMenuItemGenericRegionRenameFromLastUsed.Click += KryptonContextMenuItemRegionRenameGeneric_Click;
+                    this.kryptonContextMenuItemsGenericRegionRenameFromLastUsedList.Items.Add(kryptonContextMenuItemGenericRegionRenameFromLastUsed);
                 }
-            }
-            else
-            {
-                KryptonContextMenuItem kryptonContextMenuItemGenericGroupName = null;
-                KryptonContextMenuItem kryptonContextMenuItemGenericGroupNamePrevious = null;
-                KryptonContextMenuItems kryptonContextMenuItemGenericGroupList = null;
-                
-                string firstNameInGroupCurrent = "";
-                string lastNameInGroupCurrent = "";
-                string lastNameInGroupPrevious = "";
-                
-                string firstNameInGroubSubPrevious = "";
-                string lastNameInGroupSubPrevious = "";
 
-                string firstGroupNamePrevious = "";
 
-                int indexName = 0;
-                bool nameFixed = false;
+                int groupSize = Properties.Settings.Default.ApplicationSizeOfRegionNamesGroup;
 
-                foreach (string name in regioNames)
+                regioNames = databaseAndCacheMetadataExiftool.ListAllPersonalRegionsCache();
+                if (regioNames.Count <= groupSize)
                 {
-                    if (kryptonContextMenuItemGenericGroupName == null)
+                    foreach (string name in regioNames)
                     {
-                        kryptonContextMenuItemGenericGroupName = new KryptonContextMenuItem();
-                        kryptonContextMenuItemsGenericRegionRenameListAllList.Items.Add(kryptonContextMenuItemGenericGroupName);
-                        kryptonContextMenuItemGenericGroupList = new KryptonContextMenuItems();
-                        kryptonContextMenuItemGenericGroupName.Items.Add(kryptonContextMenuItemGenericGroupList);
-                        nameFixed = false;
+                        regionNamesRenameFromAllAdded.Add(name);
+                        KryptonContextMenuItem kryptonContextMenuItemGenericRegionRenameFromListAll = new KryptonContextMenuItem();
+                        kryptonContextMenuItemGenericRegionRenameFromListAll.Tag = name;
+                        kryptonContextMenuItemGenericRegionRenameFromListAll.Text = name;
+                        Image image = databaseAndCacheMetadataExiftool.ReadRandomThumbnailFromCacheOrDatabase(name);
+                        if (image != null) kryptonContextMenuItemGenericRegionRenameFromListAll.Image = image;
+                        kryptonContextMenuItemGenericRegionRenameFromListAll.Click += KryptonContextMenuItemRegionRenameGeneric_Click;
+                        kryptonContextMenuItemsGenericRegionRenameListAllList.Items.Add(kryptonContextMenuItemGenericRegionRenameFromListAll);
                     }
+                }
+                else
+                {
+                    KryptonContextMenuItem kryptonContextMenuItemGenericGroupName = null;
+                    KryptonContextMenuItem kryptonContextMenuItemGenericGroupNamePrevious = null;
+                    KryptonContextMenuItems kryptonContextMenuItemGenericGroupList = null;
 
-                    regionNamesRenameFromAllAdded.Add(name);
-                    KryptonContextMenuItem kryptonContextMenuItemGenericRegionRenameFromListAll = new KryptonContextMenuItem();
-                    kryptonContextMenuItemGenericRegionRenameFromListAll.Tag = name;
-                    kryptonContextMenuItemGenericRegionRenameFromListAll.Text = name;
-                    Image image = databaseAndCacheMetadataExiftool.ReadRandomThumbnailFromCacheOrDatabase(name);
-                    if (image != null) kryptonContextMenuItemGenericRegionRenameFromListAll.Image = image;
-                    kryptonContextMenuItemGenericRegionRenameFromListAll.Click += KryptonContextMenuItemRegionRenameGeneric_Click;
-                    kryptonContextMenuItemGenericGroupList.Items.Add(kryptonContextMenuItemGenericRegionRenameFromListAll);
+                    string firstNameInGroupCurrent = "";
+                    string lastNameInGroupCurrent = "";
+                    string lastNameInGroupPrevious = "";
 
-                    if (indexName == 0) firstNameInGroupCurrent = name;
-                    if (indexName >= groupSize - 1)
+                    string firstNameInGroubSubPrevious = "";
+                    string lastNameInGroupSubPrevious = "";
+
+                    string firstGroupNamePrevious = "";
+
+                    int indexName = 0;
+                    bool nameFixed = false;
+
+                    foreach (string name in regioNames)
                     {
-                        lastNameInGroupCurrent = name;
-
-                        int indexNotEqualPrevious = FindFirstUnequal(firstGroupNamePrevious, lastNameInGroupPrevious) + 1;
-                        int indexNotEqualPreviousAndCurrent = FindFirstUnequal(lastNameInGroupPrevious, firstNameInGroupCurrent) + 1;
-                        int indexNotEqualCurrent = FindFirstUnequal(firstNameInGroupCurrent, lastNameInGroupCurrent) + 1;
-                        
-                        if (kryptonContextMenuItemGenericGroupNamePrevious != null)
+                        if (kryptonContextMenuItemGenericGroupName == null)
                         {
-                            lastNameInGroupSubPrevious = GetSubStringIndex(lastNameInGroupPrevious, Math.Max(indexNotEqualPrevious, indexNotEqualPreviousAndCurrent));
-                            kryptonContextMenuItemGenericGroupNamePrevious.Text = firstNameInGroubSubPrevious + " - " + lastNameInGroupSubPrevious;
+                            kryptonContextMenuItemGenericGroupName = new KryptonContextMenuItem();
+                            kryptonContextMenuItemsGenericRegionRenameListAllList.Items.Add(kryptonContextMenuItemGenericGroupName);
+                            kryptonContextMenuItemGenericGroupList = new KryptonContextMenuItems();
+                            kryptonContextMenuItemGenericGroupName.Items.Add(kryptonContextMenuItemGenericGroupList);
+                            nameFixed = false;
                         }
 
-                        string currentFirstSubName = GetSubStringIndex(firstNameInGroupCurrent, Math.Max(indexNotEqualCurrent, indexNotEqualPreviousAndCurrent));
-                        string currentLastSubName = GetSubStringIndex(lastNameInGroupCurrent, indexNotEqualCurrent);
-                        kryptonContextMenuItemGenericGroupName.Text = currentFirstSubName + " - " + currentLastSubName;
+                        regionNamesRenameFromAllAdded.Add(name);
+                        KryptonContextMenuItem kryptonContextMenuItemGenericRegionRenameFromListAll = new KryptonContextMenuItem();
+                        kryptonContextMenuItemGenericRegionRenameFromListAll.Tag = name;
+                        kryptonContextMenuItemGenericRegionRenameFromListAll.Text = name;
+                        Image image = databaseAndCacheMetadataExiftool.ReadRandomThumbnailFromCacheOrDatabase(name);
+                        if (image != null) kryptonContextMenuItemGenericRegionRenameFromListAll.Image = image;
+                        kryptonContextMenuItemGenericRegionRenameFromListAll.Click += KryptonContextMenuItemRegionRenameGeneric_Click;
+                        kryptonContextMenuItemGenericGroupList.Items.Add(kryptonContextMenuItemGenericRegionRenameFromListAll);
+
+                        if (indexName == 0) firstNameInGroupCurrent = name;
+                        if (indexName >= groupSize - 1)
+                        {
+                            lastNameInGroupCurrent = name;
+
+                            int indexNotEqualPrevious = FindFirstUnequal(firstGroupNamePrevious, lastNameInGroupPrevious) + 1;
+                            int indexNotEqualPreviousAndCurrent = FindFirstUnequal(lastNameInGroupPrevious, firstNameInGroupCurrent) + 1;
+                            int indexNotEqualCurrent = FindFirstUnequal(firstNameInGroupCurrent, lastNameInGroupCurrent) + 1;
+
+                            if (kryptonContextMenuItemGenericGroupNamePrevious != null)
+                            {
+                                lastNameInGroupSubPrevious = GetSubStringIndex(lastNameInGroupPrevious, Math.Max(indexNotEqualPrevious, indexNotEqualPreviousAndCurrent));
+                                kryptonContextMenuItemGenericGroupNamePrevious.Text = firstNameInGroubSubPrevious + " - " + lastNameInGroupSubPrevious;
+                            }
+
+                            string currentFirstSubName = GetSubStringIndex(firstNameInGroupCurrent, Math.Max(indexNotEqualCurrent, indexNotEqualPreviousAndCurrent));
+                            string currentLastSubName = GetSubStringIndex(lastNameInGroupCurrent, indexNotEqualCurrent);
+                            kryptonContextMenuItemGenericGroupName.Text = currentFirstSubName + " - " + currentLastSubName;
 
 
-                        firstGroupNamePrevious = firstNameInGroupCurrent; 
-                        lastNameInGroupPrevious = lastNameInGroupCurrent;
+                            firstGroupNamePrevious = firstNameInGroupCurrent;
+                            lastNameInGroupPrevious = lastNameInGroupCurrent;
 
-                        firstNameInGroubSubPrevious = currentFirstSubName;
-                        lastNameInGroupSubPrevious = currentLastSubName;
+                            firstNameInGroubSubPrevious = currentFirstSubName;
+                            lastNameInGroupSubPrevious = currentLastSubName;
 
-                        //Get ready for new group
-                        indexName = 0;
-                        kryptonContextMenuItemGenericGroupNamePrevious = kryptonContextMenuItemGenericGroupName;
-                        kryptonContextMenuItemGenericGroupName = null;
-                        kryptonContextMenuItemGenericGroupList = null;
-                        nameFixed = true;
-                    } else indexName++;
+                            //Get ready for new group
+                            indexName = 0;
+                            kryptonContextMenuItemGenericGroupNamePrevious = kryptonContextMenuItemGenericGroupName;
+                            kryptonContextMenuItemGenericGroupName = null;
+                            kryptonContextMenuItemGenericGroupList = null;
+                            nameFixed = true;
+                        }
+                        else indexName++;
 
-                    
 
-                    
+
+
+                    }
+
+                    if (!nameFixed)
+                    {
+                        int indexNotEqual = FindFirstUnequal(firstNameInGroupCurrent, lastNameInGroupCurrent) + 1;
+                        kryptonContextMenuItemGenericGroupName.Text = GetSubStringIndex(firstNameInGroupCurrent, indexNotEqual) + " - " + GetSubStringIndex(lastNameInGroupCurrent, indexNotEqual);
+                    }
                 }
+                string[] renameNames = Properties.Settings.Default.PeopleRename.Replace("\r", "").Split('\n');
 
-                if (!nameFixed)
+                for (int i = renameNames.Length - 1; i >= 0; i--)
                 {
-                    int indexNotEqual = FindFirstUnequal(firstNameInGroupCurrent, lastNameInGroupCurrent) + 1;
-                    kryptonContextMenuItemGenericGroupName.Text = GetSubStringIndex(firstNameInGroupCurrent, indexNotEqual) + " - " + GetSubStringIndex(lastNameInGroupCurrent, indexNotEqual);
+                    PeopleAddNewLastUseName(renameNames[i]);
                 }
             }
-            string[] renameNames = Properties.Settings.Default.PeopleRename.Replace("\r", "").Split('\n');
-
-            for (int i = renameNames.Length - 1; i >= 0; i--)
+            catch (Exception ex)
             {
-                PeopleAddNewLastUseName(renameNames[i]);
+                Logger.Error(ex);
             }
         }
         #endregion
-
 
         #endregion
 
@@ -537,65 +613,86 @@ namespace PhotoTagsSynchronizer
         private bool PeopleRenameCell(DataGridView dataGridView, DataGridViewCell cell, string nameSelected, Dictionary<CellLocation, DataGridViewGenericCell> updatedCells)
         {
             bool cellUpdated = false;
-
-            DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, cell.ColumnIndex);
-            DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, cell.RowIndex);
-            
-            if (dataGridViewGenericColumn != null && dataGridViewGenericRow != null &&
-                dataGridViewGenericColumn.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite &&
-                dataGridViewGenericRow.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite &&
-                !dataGridViewGenericRow.IsHeader)
+            try
             {
-                DataGridViewGenericCell dataGridViewGenericCell = DataGridViewHandler.GetCellDataGridViewGenericCellCopy(dataGridView, cell.ColumnIndex, cell.RowIndex);
-                if (!dataGridViewGenericCell.CellStatus.CellReadOnly)
+                DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, cell.ColumnIndex);
+                DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, cell.RowIndex);
+
+                if (dataGridViewGenericColumn != null && dataGridViewGenericRow != null &&
+                    dataGridViewGenericColumn.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite &&
+                    dataGridViewGenericRow.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite &&
+                    !dataGridViewGenericRow.IsHeader)
                 {
-                    CellLocation cellLocation = new CellLocation(cell.ColumnIndex, cell.RowIndex);
-                    if (!updatedCells.ContainsKey(cellLocation)) updatedCells.Add(cellLocation, new DataGridViewGenericCell(dataGridViewGenericCell));
-                    cellUpdated = true;
-                    
-                    if (dataGridViewGenericCell.Value is RegionStructure)
+                    DataGridViewGenericCell dataGridViewGenericCell = DataGridViewHandler.GetCellDataGridViewGenericCellCopy(dataGridView, cell.ColumnIndex, cell.RowIndex);
+                    if (!dataGridViewGenericCell.CellStatus.CellReadOnly)
                     {
-                        RegionStructure region = (RegionStructure)dataGridViewGenericCell.Value;
-                        if (region != null)
-                        {
-                            region.Name = nameSelected;
-                            PeopleAddNewLastUseName(nameSelected);
-                            DataGridViewHandler.SetCellValue(dataGridView, cell.ColumnIndex, cell.RowIndex, region, true);
-                        }
-                    }
-                    DataGridViewHandlerPeople.SetCellDefault(dataGridView, MetadataBrokerType.Empty, cell.ColumnIndex, cell.RowIndex); //No DirtyFlagSet
-                    //SetValue will do the trick DataGridViewHandler.SetColumnDirtyFlag(dataGridView, cell.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, cell.ColumnIndex));
-                }
+                        CellLocation cellLocation = new CellLocation(cell.ColumnIndex, cell.RowIndex);
+                        if (!updatedCells.ContainsKey(cellLocation)) updatedCells.Add(cellLocation, new DataGridViewGenericCell(dataGridViewGenericCell));
+                        cellUpdated = true;
 
+                        if (dataGridViewGenericCell.Value is RegionStructure)
+                        {
+                            RegionStructure region = (RegionStructure)dataGridViewGenericCell.Value;
+                            if (region != null)
+                            {
+                                region.Name = nameSelected;
+                                PeopleAddNewLastUseName(nameSelected);
+                                DataGridViewHandler.SetCellValue(dataGridView, cell.ColumnIndex, cell.RowIndex, region, true);
+                            }
+                        }
+                        DataGridViewHandlerPeople.SetCellDefault(dataGridView, MetadataBrokerType.Empty, cell.ColumnIndex, cell.RowIndex); //No DirtyFlagSet
+                                                                                                                                           //SetValue will do the trick DataGridViewHandler.SetColumnDirtyFlag(dataGridView, cell.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, cell.ColumnIndex));
+                    }
+
+                }
+                else if (dataGridViewGenericRow == null) //new row
+                {
+                    DataGridViewHandlerPeople.AddRowPeople(dataGridView, nameSelected);
+                }
             }
-            else if (dataGridViewGenericRow == null) //new row
+            catch (Exception ex)
             {
-                DataGridViewHandlerPeople.AddRowPeople(dataGridView, nameSelected);
+                Logger.Error(ex);
             }
             return cellUpdated;
         }
+        #endregion
 
         #region People rename - PeopleRenameSelected
         private void PeopleRenameSelected(DataGridView dataGridView, string nameSelected)
         {
-            Dictionary<CellLocation, DataGridViewGenericCell> updatedCells = new Dictionary<CellLocation, DataGridViewGenericCell>();
-
-            foreach (DataGridViewCell cell in dataGridView.SelectedCells)
+            try
             {
-                PeopleRenameCell(dataGridView, cell, nameSelected, updatedCells);                
+                Dictionary<CellLocation, DataGridViewGenericCell> updatedCells = new Dictionary<CellLocation, DataGridViewGenericCell>();
+
+                foreach (DataGridViewCell cell in dataGridView.SelectedCells)
+                {
+                    PeopleRenameCell(dataGridView, cell, nameSelected, updatedCells);
+                }
+
+                if (updatedCells != null && updatedCells.Count > 0) ClipboardUtility.PushToUndoStack(dataGridView, updatedCells);
             }
-            
-            if (updatedCells != null && updatedCells.Count > 0) ClipboardUtility.PushToUndoStack(dataGridView, updatedCells);
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
         }
         #endregion
 
         #region People rename - PeopleRenameSelected_Click
         private void KryptonContextMenuItemRegionRenameGeneric_Click(object sender, EventArgs e)
         {
-            DataGridView dataGridView = dataGridViewPeople;
-            if (!dataGridView.Enabled) return;
-            PeopleRenameSelected(dataGridView, (string)((KryptonContextMenuItem)sender).Tag);
-            DataGridViewHandler.Refresh(dataGridView);
+            try
+            {
+                DataGridView dataGridView = dataGridViewPeople;
+                if (!dataGridView.Enabled) return;
+                PeopleRenameSelected(dataGridView, (string)((KryptonContextMenuItem)sender).Tag);
+                DataGridViewHandler.Refresh(dataGridView);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
         }
 
         #endregion
@@ -603,21 +700,32 @@ namespace PhotoTagsSynchronizer
         #region ActionRegionRename
         private void ActionRegionRename(string name)
         {
-            DataGridView dataGridView = dataGridViewPeople;
-            if (!dataGridView.Enabled) return;
-            PeopleRenameSelected(dataGridView, name);
-            DataGridViewHandler.Refresh(dataGridView);
+            try
+            {
+                DataGridView dataGridView = dataGridViewPeople;
+                if (!dataGridView.Enabled) return;
+                PeopleRenameSelected(dataGridView, name);
+                DataGridViewHandler.Refresh(dataGridView);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
         }
         #endregion
 
         #region RegionRename1, 2, 3 - Click Events Sources
         private void KryptonContextMenuItemGenericRegionRenameGeneric_Click(object sender, EventArgs e)
         {
-            ActionRegionRename((string)((KryptonContextMenuItem)sender).Tag);
+            try
+            {
+                ActionRegionRename((string)((KryptonContextMenuItem)sender).Tag);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
         }
-        #endregion
-
-
         #endregion
 
         #endregion 
@@ -625,31 +733,45 @@ namespace PhotoTagsSynchronizer
         #region CheckRowAndSetDefaults
         private void CheckRowAndSetDefaults(DataGridView dataGridView, int columnIndex, int rowIndex)
         {
-            for (int columnIndexCheck = 0; columnIndexCheck < DataGridViewHandler.GetColumnCount(dataGridView); columnIndexCheck++)
+            try
             {
-                DataGridViewGenericCellStatus dataGridViewGenericCellStatus = DataGridViewHandler.GetCellStatus(dataGridView, columnIndexCheck, rowIndex);
-                if (dataGridViewGenericCellStatus == null) dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true);
+                for (int columnIndexCheck = 0; columnIndexCheck < DataGridViewHandler.GetColumnCount(dataGridView); columnIndexCheck++)
+                {
+                    DataGridViewGenericCellStatus dataGridViewGenericCellStatus = DataGridViewHandler.GetCellStatus(dataGridView, columnIndexCheck, rowIndex);
+                    if (dataGridViewGenericCellStatus == null) dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true);
 
-                DataGridViewHandler.SetCellDefaultAfterUpdated(dataGridView, dataGridViewGenericCellStatus, columnIndexCheck, rowIndex);
+                    DataGridViewHandler.SetCellDefaultAfterUpdated(dataGridView, dataGridViewGenericCellStatus, columnIndexCheck, rowIndex);
+                }
+
+                #region Set Row defaults
+                DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
+                string dataGridViewGenericRowHeaderName = (dataGridViewGenericRow != null ? dataGridViewGenericRow.HeaderName : DataGridViewHandlerPeople.headerPeopleAdded);
+                DataGridViewHandler.SetRowHeaderNameAndFontStyle(dataGridView, rowIndex,
+                    new DataGridViewGenericRow(dataGridViewGenericRowHeaderName,
+                    dataGridView[columnIndex, rowIndex].Value == null ? "" : dataGridView[columnIndex, rowIndex].Value.ToString(), ReadWriteAccess.AllowCellReadAndWrite));
+                #endregion
             }
-
-            #region Set Row defaults
-            DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
-            string dataGridViewGenericRowHeaderName = (dataGridViewGenericRow != null ? dataGridViewGenericRow.HeaderName : DataGridViewHandlerPeople.headerPeopleAdded);
-            DataGridViewHandler.SetRowHeaderNameAndFontStyle(dataGridView, rowIndex,
-                new DataGridViewGenericRow(dataGridViewGenericRowHeaderName,
-                dataGridView[columnIndex, rowIndex].Value == null ? "" : dataGridView[columnIndex, rowIndex].Value.ToString(), ReadWriteAccess.AllowCellReadAndWrite));
-            #endregion
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
         }
         #endregion 
 
         #region CellEndEdit        
         private void dataGridViewPeople_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            if (((KryptonDataGridView)sender)[e.ColumnIndex, e.RowIndex].Value is RegionStructure regionStructure) regionStructure.ShowNameInToString = false; //Just a hack so KryptonDataGridView don't print name also
-            DataGridView dataGridView = dataGridViewPeople;
-            CheckRowAndSetDefaults(dataGridView, e.ColumnIndex, e.RowIndex);
-            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex));
+            try
+            {
+                if (((KryptonDataGridView)sender)[e.ColumnIndex, e.RowIndex].Value is RegionStructure regionStructure) regionStructure.ShowNameInToString = false; //Just a hack so KryptonDataGridView don't print name also
+                DataGridView dataGridView = dataGridViewPeople;
+                CheckRowAndSetDefaults(dataGridView, e.ColumnIndex, e.RowIndex);
+                DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex));
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
         }
         #endregion
 
@@ -659,13 +781,20 @@ namespace PhotoTagsSynchronizer
         #region FormRegionSelect - OpenRegionSelector
         private void OpenRegionSelector()
         {
-            if (formRegionSelect == null || formRegionSelect.IsDisposed) formRegionSelect = new FormRegionSelect();
-            formRegionSelect.OnRegionSelected -= FormRegionSelect_OnRegionSelected;
-            formRegionSelect.OnRegionSelected += FormRegionSelect_OnRegionSelected;
-            formRegionSelect.Owner = this;
-            if (formRegionSelect.WindowState == FormWindowState.Minimized) formRegionSelect.WindowState = FormWindowState.Normal;
-            formRegionSelect.BringToFront();
-            formRegionSelect.Show();
+            try
+            {
+                if (formRegionSelect == null || formRegionSelect.IsDisposed) formRegionSelect = new FormRegionSelect();
+                formRegionSelect.OnRegionSelected -= FormRegionSelect_OnRegionSelected;
+                formRegionSelect.OnRegionSelected += FormRegionSelect_OnRegionSelected;
+                formRegionSelect.Owner = this;
+                if (formRegionSelect.WindowState == FormWindowState.Minimized) formRegionSelect.WindowState = FormWindowState.Normal;
+                formRegionSelect.BringToFront();
+                formRegionSelect.Show();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
         }
         #endregion 
 
@@ -677,9 +806,10 @@ namespace PhotoTagsSynchronizer
             //UpdateRegionThumbnail(dataGridView);
             if (formRegionSelect.Visible == false) return;
 
-            Cyotek.Windows.Forms.ImageBoxSelectionMode imageBoxSelectionMode = Cyotek.Windows.Forms.ImageBoxSelectionMode.Zoom;
-            try
-            {
+            try 
+            { 
+                Cyotek.Windows.Forms.ImageBoxSelectionMode imageBoxSelectionMode = Cyotek.Windows.Forms.ImageBoxSelectionMode.Zoom;
+            
                 formRegionSelect.SetSelectionNone();
                 if (!dataGridView.Enabled) { formRegionSelect.SetImageNone("No valid media file is selected, and no data loaded."); return; }
 
@@ -799,17 +929,24 @@ namespace PhotoTagsSynchronizer
         #region FormRegionSelect - FormRegionSelect_OnRegionSelected
         private void FormRegionSelect_OnRegionSelected(object sender, RegionSelectedEventArgs e)
         {
-            DataGridView dataGridView = GetActiveTabDataGridView();
-            if (!dataGridView.Enabled) { formRegionSelect.SetImageNone("No valid media file is selected, and no data loaded."); return; }
-            
-
-            RectangleF region = RegionStructure.CalculateImageRegionAbstarctRectangle(e.ImageSize, 
-                new Rectangle((int)e.Selection.X, (int)e.Selection.Y, (int)e.Selection.Width, (int)e.Selection.Height), 
-                RegionStructureTypes.WindowsLivePhotoGallery);
-            if (DataGridViewHandler.UpdateSelectedCellsWithNewRegion(dataGridView, e.ColumnIndex, region))
+            try
             {
-                UpdateRegionThumbnail(dataGridView);                
-                DataGridViewHandler.InvalidateCellColumnHeader(dataGridView, e.ColumnIndex);                
+                DataGridView dataGridView = GetActiveTabDataGridView();
+                if (!dataGridView.Enabled) { formRegionSelect.SetImageNone("No valid media file is selected, and no data loaded."); return; }
+
+
+                RectangleF region = RegionStructure.CalculateImageRegionAbstarctRectangle(e.ImageSize,
+                    new Rectangle((int)e.Selection.X, (int)e.Selection.Y, (int)e.Selection.Width, (int)e.Selection.Height),
+                    RegionStructureTypes.WindowsLivePhotoGallery);
+                if (DataGridViewHandler.UpdateSelectedCellsWithNewRegion(dataGridView, e.ColumnIndex, region))
+                {
+                    UpdateRegionThumbnail(dataGridView);
+                    DataGridViewHandler.InvalidateCellColumnHeader(dataGridView, e.ColumnIndex);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
             }
         }
         #endregion
@@ -817,9 +954,16 @@ namespace PhotoTagsSynchronizer
         #region FormRegionSelect - CellEnter
         private void dataGridViewPeople_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
-            DataGridView dataGridView = dataGridViewPeople;
-            RegionSelectorLoadAndSelect(dataGridView, e.RowIndex, e.ColumnIndex);
-            DataGridViewHandler.InvalidateCellColumnHeader(dataGridView, e.ColumnIndex);
+            try
+            {
+                DataGridView dataGridView = dataGridViewPeople;
+                RegionSelectorLoadAndSelect(dataGridView, e.RowIndex, e.ColumnIndex);
+                DataGridViewHandler.InvalidateCellColumnHeader(dataGridView, e.ColumnIndex);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
         }
         #endregion
 
@@ -828,28 +972,35 @@ namespace PhotoTagsSynchronizer
         #region ValitedatePastePeople
         private void ValitedatePastePeople(DataGridView dataGridView, string header)
         {
-            Dictionary<CellLocation, DataGridViewGenericCell> updatedCells = new Dictionary<CellLocation, DataGridViewGenericCell>();
-            DataGridViewSelectedCellCollection dataGridViewSelectedCellCollection = DataGridViewHandler.GetCellSelected(dataGridView);
-            foreach (DataGridViewCell dataGridViewCell in dataGridViewSelectedCellCollection)
+            try
             {
-                DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, dataGridViewCell.ColumnIndex);
-                DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, dataGridViewCell.RowIndex);
+                Dictionary<CellLocation, DataGridViewGenericCell> updatedCells = new Dictionary<CellLocation, DataGridViewGenericCell>();
+                DataGridViewSelectedCellCollection dataGridViewSelectedCellCollection = DataGridViewHandler.GetCellSelected(dataGridView);
+                foreach (DataGridViewCell dataGridViewCell in dataGridViewSelectedCellCollection)
+                {
+                    DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, dataGridViewCell.ColumnIndex);
+                    DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, dataGridViewCell.RowIndex);
 
-                if (dataGridViewGenericColumn == null)
-                {
-                    //CheckRowAndSetDefaults(dataGridView, dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex);
+                    if (dataGridViewGenericColumn == null)
+                    {
+                        //CheckRowAndSetDefaults(dataGridView, dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex);
+                    }
+                    else if (dataGridViewGenericRow == null)
+                    {
+                        CheckRowAndSetDefaults(dataGridView, dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex);
+                    }
+                    else
+                    {
+                        if (dataGridViewCell.Value != null) PeopleRenameCell(dataGridView, dataGridViewCell, dataGridViewCell.Value.ToString(), updatedCells);
+                    }
                 }
-                else if (dataGridViewGenericRow == null)
-                {
-                    CheckRowAndSetDefaults(dataGridView, dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex);
-                }
-                else 
-                {
-                    if (dataGridViewCell.Value != null) PeopleRenameCell(dataGridView, dataGridViewCell, dataGridViewCell.Value.ToString(), updatedCells);
-                }
+
+                DataGridViewHandler.Refresh(dataGridView);
             }
-            
-            DataGridViewHandler.Refresh(dataGridView);
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
         }
         #endregion
     }
