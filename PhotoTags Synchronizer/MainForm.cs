@@ -1075,6 +1075,7 @@ namespace PhotoTagsSynchronizer
         private void dataGridViewTagsAndKeywords_CellLeave(object sender, DataGridViewCellEventArgs e)
         {
             DataGridView dataGridView = (DataGridView)sender;
+            //dataGridView.FirstDisplayedScrollingColumnIndex
             DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex));
         }
 
@@ -1124,6 +1125,11 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = (DataGridView)sender;
             DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex));
+        }
+
+        private void dataGridViewTagsAndKeywords_Scroll(object sender, ScrollEventArgs e)
+        {
+            if (e.ScrollOrientation == ScrollOrientation.HorizontalScroll) { }
         }
     }
 

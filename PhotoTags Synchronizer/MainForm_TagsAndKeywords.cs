@@ -477,11 +477,11 @@ namespace PhotoTagsSynchronizer
             comboBoxComments.Items.Clear();
             comboBoxAlbum.Items.Clear();
 
-            autoCompleteStringCollectionAlbum = new AutoCompleteStringCollection();
-            autoCompleteStringCollectionTitle = new AutoCompleteStringCollection();
-            autoCompleteStringCollectionDescription = new AutoCompleteStringCollection();
-            autoCompleteStringCollectionComments = new AutoCompleteStringCollection();
-            autoCompleteStringCollectionAuthor = new AutoCompleteStringCollection();
+            lock (autoCompleteStringCollectionAlbumLock) autoCompleteStringCollectionAlbum = new AutoCompleteStringCollection();
+            lock (autoCompleteStringCollectionTitleLock) autoCompleteStringCollectionTitle = new AutoCompleteStringCollection();
+            lock (autoCompleteStringCollectionDescriptionLock) autoCompleteStringCollectionDescription = new AutoCompleteStringCollection();
+            lock (autoCompleteStringCollectionCommentsLock) autoCompleteStringCollectionComments = new AutoCompleteStringCollection();
+            lock (autoCompleteStringCollectionAuthorLock) autoCompleteStringCollectionAuthor = new AutoCompleteStringCollection();
 
             string[] arrayAlbum = ComboBoxHandler.ConvertToArray(Properties.Settings.Default.AutoCorrectFormAlbum);
             string[] arrayAuthor = ComboBoxHandler.ConvertToArray(Properties.Settings.Default.AutoCorrectFormAuthor);
@@ -490,19 +490,19 @@ namespace PhotoTagsSynchronizer
             string[] arrayTitle = ComboBoxHandler.ConvertToArray(Properties.Settings.Default.AutoCorrectFormTitle);
 
             ComboBoxHandler.ComboBoxPopulate(comboBoxAlbum, arrayAlbum, "");
-            autoCompleteStringCollectionAlbum.AddRange(arrayAlbum);
+            lock (autoCompleteStringCollectionAlbumLock) autoCompleteStringCollectionAlbum.AddRange(arrayAlbum);
 
             ComboBoxHandler.ComboBoxPopulate(comboBoxAuthor, arrayAuthor, "");
-            autoCompleteStringCollectionAuthor.AddRange(arrayAuthor);
+            lock (autoCompleteStringCollectionTitleLock) autoCompleteStringCollectionAuthor.AddRange(arrayAuthor);
 
             ComboBoxHandler.ComboBoxPopulate(comboBoxComments, arrayComments, "");
-            autoCompleteStringCollectionComments.AddRange(arrayComments);
+            lock (autoCompleteStringCollectionCommentsLock) autoCompleteStringCollectionComments.AddRange(arrayComments);
 
             ComboBoxHandler.ComboBoxPopulate(comboBoxDescription, arrayDescription, "");
-            autoCompleteStringCollectionDescription.AddRange(arrayDescription);
+            lock (autoCompleteStringCollectionDescriptionLock) autoCompleteStringCollectionDescription.AddRange(arrayDescription);
 
             ComboBoxHandler.ComboBoxPopulate(comboBoxTitle, arrayTitle, "");
-            autoCompleteStringCollectionTitle.AddRange(arrayTitle);
+            lock (autoCompleteStringCollectionAuthorLock) autoCompleteStringCollectionTitle.AddRange(arrayTitle);
 
             //groupBoxRating
             radioButtonRating1.Checked = false;
@@ -609,10 +609,15 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         private AutoCompleteStringCollection autoCompleteStringCollectionTitle = new AutoCompleteStringCollection();
+        private readonly object autoCompleteStringCollectionTitleLock = new object();
         private AutoCompleteStringCollection autoCompleteStringCollectionDescription = new AutoCompleteStringCollection();
+        private readonly object autoCompleteStringCollectionDescriptionLock = new object();
         private AutoCompleteStringCollection autoCompleteStringCollectionComments = new AutoCompleteStringCollection();
+        private readonly object autoCompleteStringCollectionCommentsLock = new object();
         private AutoCompleteStringCollection autoCompleteStringCollectionAlbum = new AutoCompleteStringCollection();
+        private readonly object autoCompleteStringCollectionAlbumLock = new object();
         private AutoCompleteStringCollection autoCompleteStringCollectionAuthor = new AutoCompleteStringCollection();
+        private readonly object autoCompleteStringCollectionAuthorLock = new object();
 
         #region PopulateDetailViewTagsAndKeywords(DataGridView dataGridView)
         private void PopulateDetailViewTagsAndKeywords(DataGridView dataGridView)
@@ -632,23 +637,23 @@ namespace PhotoTagsSynchronizer
                 {
 
                     AddToListBox(dataGridView, comboBoxTitle, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagTitle);
-                    AddToCollection(dataGridView, autoCompleteStringCollectionTitle, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagTitle);
+                    lock (autoCompleteStringCollectionTitleLock) AddToCollection(dataGridView, autoCompleteStringCollectionTitle, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagTitle);
                     
                     AddToListBox(dataGridView, comboBoxDescription, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagDescription);
-                    AddToListBox(dataGridView, comboBoxDescription, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAlbum);                    
-                    AddToCollection(dataGridView, autoCompleteStringCollectionDescription, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagDescription);
-                    AddToCollection(dataGridView, autoCompleteStringCollectionDescription, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAlbum);
+                    AddToListBox(dataGridView, comboBoxDescription, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAlbum);
+                    lock (autoCompleteStringCollectionDescriptionLock) AddToCollection(dataGridView, autoCompleteStringCollectionDescription, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagDescription);
+                    lock (autoCompleteStringCollectionDescriptionLock) AddToCollection(dataGridView, autoCompleteStringCollectionDescription, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAlbum);
 
                     AddToListBox(dataGridView, comboBoxComments, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagComments);
-                    AddToCollection(dataGridView, autoCompleteStringCollectionComments, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagComments);
+                    lock (autoCompleteStringCollectionCommentsLock) AddToCollection(dataGridView, autoCompleteStringCollectionComments, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagComments);
 
                     AddToListBox(dataGridView, comboBoxAlbum, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAlbum);
                     AddToListBox(dataGridView, comboBoxAlbum, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagDescription);
-                    AddToCollection(dataGridView, autoCompleteStringCollectionAlbum, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAlbum);
-                    AddToCollection(dataGridView, autoCompleteStringCollectionAlbum, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagDescription);
+                    lock (autoCompleteStringCollectionAlbumLock) AddToCollection(dataGridView, autoCompleteStringCollectionAlbum, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAlbum);
+                    lock (autoCompleteStringCollectionAlbumLock) AddToCollection(dataGridView, autoCompleteStringCollectionAlbum, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagDescription);
 
                     AddToListBox(dataGridView, comboBoxAuthor, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAuthor);
-                    AddToCollection(dataGridView, autoCompleteStringCollectionAuthor, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagTitle);
+                    lock (autoCompleteStringCollectionAuthorLock) AddToCollection(dataGridView, autoCompleteStringCollectionAuthor, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagTitle);
                 }
             }
 

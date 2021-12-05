@@ -2235,6 +2235,76 @@ namespace DataGridViewGeneric
         }
         #endregion
 
+        #region Cell Handling - GetCellStatus - dataGridViewCell
+        public static DataGridViewGenericCellStatus GetCellStatus(DataGridViewCell dataGridViewCell)
+        {
+            return dataGridViewCell.Tag as DataGridViewGenericCellStatus;
+        }
+        #endregion
+
+        #region Cell Handling - GetCellStatus - int columnIndex, int rowIndex
+        public static DataGridViewGenericCellStatus GetCellStatus(DataGridView dataGridView, int columnIndex, int rowIndex)
+        {
+            return GetCellStatus(dataGridView[columnIndex, rowIndex]);
+        }
+        #endregion
+
+        //#region Cell Handling - SetCellStatus - int columnIndex, int rowIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatus
+        //public static void SetCellStatus(DataGridView dataGridView, int columnIndex, int rowIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatus)
+        //{
+        //    if (rowIndex > -1 && columnIndex > -1) dataGridView[columnIndex, rowIndex].Tag = dataGridViewGenericCellStatus;
+        //}
+        //#endregion
+
+        #region Cell Handling - SetCellStatus - int columnIndex, int rowIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatus
+        public static void SetCellStatus(DataGridView dataGridView, int columnIndex, int rowIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatus, bool setDirtyFalgWhenValueChanged)
+        {
+            if (rowIndex > -1 && columnIndex > -1)
+            {
+                if (setDirtyFalgWhenValueChanged)
+                {
+                    SwitchStates switchStates = GetCellStatusSwichStatus(dataGridView, columnIndex, rowIndex);
+                    if (switchStates != SwitchStates.Undefine && switchStates != dataGridViewGenericCellStatus.SwitchState)
+                        SetColumnDirtyFlag(dataGridView, columnIndex, true);
+                }
+                dataGridView[columnIndex, rowIndex].Tag = dataGridViewGenericCellStatus;
+            }
+        }
+        #endregion
+
+        #region Cell Handling - SetCellStatusDefaultWhenRowAdded - int rowIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefault
+        public static void SetCellStatusDefaultWhenRowAdded(DataGridView dataGridView, int rowIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefault)
+        {
+            foreach (DataGridViewCell dataGridCell in dataGridView.Rows[rowIndex].Cells)
+            {
+                DataGridViewGenericCellStatus dataGridViewGenericCellStatus = GetCellStatus(dataGridView, dataGridCell.ColumnIndex, dataGridCell.RowIndex);
+                if (dataGridViewGenericCellStatus == null)
+                {
+                    DataGridViewGenericCellStatus dataGridViewGenericCellStatusCopy = new DataGridViewGenericCellStatus(dataGridViewGenericCellStatusDefault);
+                    SetCellStatus(dataGridView, dataGridCell.ColumnIndex, rowIndex, dataGridViewGenericCellStatusCopy, false);
+                    SetCellReadOnlyDependingOfStatus(dataGridView, dataGridCell.ColumnIndex, rowIndex, dataGridViewGenericCellStatusCopy);
+                }
+
+            }
+        }
+        #endregion
+
+        #region Cell Handling - SetCellStatusDefaultColumnWhenAdded - int columnIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefault
+        private static void SetCellStatusDefaultColumnWhenAdded(DataGridView dataGridView, int columnIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefault)
+        {
+            for (int rowIndex = 0; rowIndex < GetRowCountWithoutEditRow(dataGridView); rowIndex++)
+            {
+                DataGridViewGenericCellStatus dataGridViewGenericCellStatus = GetCellStatus(dataGridView, columnIndex, rowIndex);
+                if (dataGridViewGenericCellStatus == null)
+                {
+                    DataGridViewGenericCellStatus dataGridViewGenericCellStatusCopy = new DataGridViewGenericCellStatus(dataGridViewGenericCellStatusDefault);
+                    SetCellStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatusCopy, false);
+                    SetCellReadOnlyDependingOfStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatusCopy);
+                }
+            }
+        }
+        #endregion
+
         #region Cell Handling - SetCellValue - value
         public static void SetCellValue(DataGridView dataGridView, DataGridViewCell dataGridViewCell, object value)
         {
@@ -2330,76 +2400,6 @@ namespace DataGridViewGeneric
         public static bool IsCellDataGridViewGenericCellStatus(DataGridView dataGridView, int columnIndex, int rowIndex)
         {
             return (dataGridView[columnIndex, rowIndex].Tag != null && dataGridView[columnIndex, rowIndex].Tag.GetType() == typeof(DataGridViewGenericCellStatus));
-        }
-        #endregion
-
-        #region Cell Handling - GetCellStatus - dataGridViewCell
-        public static DataGridViewGenericCellStatus GetCellStatus(DataGridViewCell dataGridViewCell)
-        {
-            return dataGridViewCell.Tag as DataGridViewGenericCellStatus;
-        }
-        #endregion
-
-        #region Cell Handling - GetCellStatus - int columnIndex, int rowIndex
-        public static DataGridViewGenericCellStatus GetCellStatus(DataGridView dataGridView, int columnIndex, int rowIndex)
-        {
-            return GetCellStatus(dataGridView[columnIndex, rowIndex]);
-        }
-        #endregion
-
-        //#region Cell Handling - SetCellStatus - int columnIndex, int rowIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatus
-        //public static void SetCellStatus(DataGridView dataGridView, int columnIndex, int rowIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatus)
-        //{
-        //    if (rowIndex > -1 && columnIndex > -1) dataGridView[columnIndex, rowIndex].Tag = dataGridViewGenericCellStatus;
-        //}
-        //#endregion
-
-        #region Cell Handling - SetCellStatus - int columnIndex, int rowIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatus
-        public static void SetCellStatus(DataGridView dataGridView, int columnIndex, int rowIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatus, bool setDirtyFalgWhenValueChanged)
-        {
-            if (rowIndex > -1 && columnIndex > -1)
-            {
-                if (setDirtyFalgWhenValueChanged)
-                {
-                    SwitchStates switchStates = GetCellStatusSwichStatus(dataGridView, columnIndex, rowIndex);
-                    if (switchStates != SwitchStates.Undefine && switchStates != dataGridViewGenericCellStatus.SwitchState) 
-                        SetColumnDirtyFlag(dataGridView, columnIndex, true);
-                } 
-                dataGridView[columnIndex, rowIndex].Tag = dataGridViewGenericCellStatus;
-            }
-        }
-        #endregion
-
-        #region Cell Handling - SetCellStatusDefaultWhenRowAdded - int rowIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefault
-        public static void SetCellStatusDefaultWhenRowAdded(DataGridView dataGridView, int rowIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefault)
-        {
-            foreach (DataGridViewCell dataGridCell in dataGridView.Rows[rowIndex].Cells)
-            {
-                DataGridViewGenericCellStatus dataGridViewGenericCellStatus = GetCellStatus(dataGridView, dataGridCell.ColumnIndex, dataGridCell.RowIndex);
-                if (dataGridViewGenericCellStatus == null)
-                {
-                    DataGridViewGenericCellStatus dataGridViewGenericCellStatusCopy = new DataGridViewGenericCellStatus(dataGridViewGenericCellStatusDefault);
-                    SetCellStatus(dataGridView, dataGridCell.ColumnIndex, rowIndex, dataGridViewGenericCellStatusCopy, false);
-                    SetCellReadOnlyDependingOfStatus(dataGridView, dataGridCell.ColumnIndex, rowIndex, dataGridViewGenericCellStatusCopy);
-                }
-
-            }
-        }
-        #endregion
-
-        #region Cell Handling - SetCellStatusDefaultColumnWhenAdded - int columnIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefault
-        private static void SetCellStatusDefaultColumnWhenAdded(DataGridView dataGridView, int columnIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefault)
-        {
-            for (int rowIndex = 0; rowIndex < GetRowCountWithoutEditRow(dataGridView); rowIndex++)
-            {
-                DataGridViewGenericCellStatus dataGridViewGenericCellStatus = GetCellStatus(dataGridView, columnIndex, rowIndex);
-                if (dataGridViewGenericCellStatus == null)
-                {
-                    DataGridViewGenericCellStatus dataGridViewGenericCellStatusCopy = new DataGridViewGenericCellStatus(dataGridViewGenericCellStatusDefault);
-                    SetCellStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatusCopy, false);
-                    SetCellReadOnlyDependingOfStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatusCopy);
-                }
-            }
         }
         #endregion
 
