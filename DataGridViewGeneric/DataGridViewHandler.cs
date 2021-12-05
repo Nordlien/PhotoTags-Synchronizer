@@ -3235,7 +3235,7 @@ namespace DataGridViewGeneric
             {
                 if (cells.ColumnIndex == columnIndex)
                 {
-                    DataGridViewHandler.SetColumnDirtyFlag(dataGridView, columnIndex, true);
+                    //DataGridViewHandler.SetColumnDirtyFlag(dataGridView, columnIndex, true);
                     RegionStructure regionStructure = GetCellRegionStructure(dataGridView, cells.ColumnIndex, cells.RowIndex);
                     if (regionStructure == null)
                     {
@@ -3247,7 +3247,7 @@ namespace DataGridViewGeneric
 
                                 SetCellDataGridViewGenericCell(dataGridView, cells.ColumnIndex, cells.RowIndex,
                                     new DataGridViewGenericCell(new RegionStructure(),
-                                    new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.On, false)), true);
+                                    new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.On, false)), false);
 
                                 regionStructure = GetCellRegionStructure(dataGridView, cells.ColumnIndex, cells.RowIndex);
                                 regionStructure.Name = dataGridViewGenericRow.RowName;
@@ -3267,7 +3267,7 @@ namespace DataGridViewGeneric
                         updated = true;
                         regionStructure.Thumbnail = null;
                     }
-                    SetCellValue(dataGridView, cells.ColumnIndex, cells.RowIndex, regionStructure, true);
+                    SetCellValue(dataGridView, cells.ColumnIndex, cells.RowIndex, regionStructure, true); //This will set IsDirty flag
                 }
             }
             return updated;
