@@ -405,10 +405,10 @@ namespace PhotoTagsSynchronizer
             ImageListViewSelectedFileEntriesCacheClear();
 
             if (GlobalData.DoNotRefreshDataGridViewWhileFileSelect) return;
-            if (!GlobalData.IsPopulatingFolderSelected) SaveBeforeContinue(false);
+            if (!GlobalData.IsPopulatingFolderSelected && !GlobalData.IsApplicationClosing) SaveBeforeContinue(false);
             
             GroupSelectionClear();
-            ImageListViewSuspendLayoutInvoke(imageListView1); //When Enabled = true, slection was cancelled during Updating the grid
+            ImageListViewSuspendLayoutInvoke(imageListView1); //When Enabled = true, selection was cancelled during Updating the grid
             OnImageListViewSelect_FilesSelectedOrNoneSelected(false);
             ImageListViewResumeLayoutInvoke(imageListView1); 
             MaximizeOrRestoreWorkspaceMainCellAndChilds();

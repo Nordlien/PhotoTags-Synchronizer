@@ -689,7 +689,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region MainForm_FormClosing
-        private bool isClosing = false;
+        private bool isClosingProcesAlreadyStarted = false;
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (commonQueueSaveMetadataUpdatedByUser.Count > 0 || IsAnyDataUnsaved())
@@ -701,7 +701,6 @@ namespace PhotoTagsSynchronizer
                     "Press Ok will quit application and changed will get lost.\r\n" +
                     "Press Cancel and return back to application.", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, true) == DialogResult.Cancel)
                 {
-                    isClosing = false;
                     e.Cancel = true;
                     return;
                 } else
@@ -711,9 +710,11 @@ namespace PhotoTagsSynchronizer
                 }
             }
 
-            if (!isClosing)
+            GlobalData.IsApplicationClosing = true;
+
+            if (!isClosingProcesAlreadyStarted)
             {
-                isClosing = true;
+                isClosingProcesAlreadyStarted = true;
             
                 try
                 {
@@ -726,13 +727,12 @@ namespace PhotoTagsSynchronizer
 
                 try
                 {
-                    try
-                    {
-                        browser.Dispose();
-                    }
-                    catch { }
+                    browser.Dispose();
+                }
+                catch { }
 
-                    GlobalData.IsApplicationClosing = true;
+                try
+                {
                     GlobalData.IsStopAndEmptyExiftoolReadQueueRequest = true;
                     MetadataDatabaseCache.StopCaching = true;
                     ThumbnailDatabaseCache.StopCaching = true;
@@ -859,7 +859,7 @@ namespace PhotoTagsSynchronizer
                     KryptonMessageBox.Show(ex.Message, "Problems during close all threads and other process during closing application", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
                 }
             }
-            isClosing = false;
+            isClosingProcesAlreadyStarted = false;
         }
         #endregion
 
@@ -1072,6 +1072,7 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
+        #region DataGridView - UpdatedDirtyFlag - CellLeave 
         private void dataGridViewTagsAndKeywords_CellLeave(object sender, DataGridViewCellEventArgs e)
         {
             DataGridView dataGridView = (DataGridView)sender;
@@ -1126,11 +1127,7 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = (DataGridView)sender;
             DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex));
         }
-
-        private void dataGridViewTagsAndKeywords_Scroll(object sender, ScrollEventArgs e)
-        {
-            if (e.ScrollOrientation == ScrollOrientation.HorizontalScroll) { }
-        }
+        #endregion
     }
 
 }

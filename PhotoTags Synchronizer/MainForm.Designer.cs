@@ -2466,7 +2466,6 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewTagsAndKeywords.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewTagsAndKeywords_CellValueChanged);
             this.dataGridViewTagsAndKeywords.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dataGridViewTagsAndKeywords_EditingControlShowing);
             this.dataGridViewTagsAndKeywords.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridViewTagsAndKeywords_RowsAdded);
-            this.dataGridViewTagsAndKeywords.Scroll += new System.Windows.Forms.ScrollEventHandler(this.dataGridViewTagsAndKeywords_Scroll);
             this.dataGridViewTagsAndKeywords.Enter += new System.EventHandler(this.dataGridViewTagsAndKeywords_Enter);
             this.dataGridViewTagsAndKeywords.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridViewTagsAndKeywords_KeyDown);
             this.dataGridViewTagsAndKeywords.Leave += new System.EventHandler(this.dataGridViewTagsAndKeywords_Leave);

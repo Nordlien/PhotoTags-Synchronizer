@@ -776,7 +776,7 @@ namespace PhotoTagsSynchronizer
         private Stopwatch stopwatchCircleProgressbar = new Stopwatch();
         private void SetButtonSpecNavigator(Krypton.Navigator.ButtonSpecNavigator buttonSpecNavigator, int value, int maximum)
         {
-            if (isClosing) return;
+            if (GlobalData.IsApplicationClosing) return;
             if (InvokeRequired)
             {
                 this.BeginInvoke(new Action<Krypton.Navigator.ButtonSpecNavigator, int, int>(SetButtonSpecNavigator), buttonSpecNavigator, value, maximum);

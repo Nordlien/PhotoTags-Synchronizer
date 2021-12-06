@@ -8,6 +8,7 @@ namespace PhotoTagsSynchronizer
 
     public class ComboBoxHandler
     {
+        #region SelectionChangeCommitted - KryptonTextBox
         public static void SelectionChangeCommitted(KryptonTextBox textBox, string insertText)
         {
             textBox.Focus();
@@ -16,7 +17,9 @@ namespace PhotoTagsSynchronizer
             textBox.Text = textBox.Text.Insert(selectionIndex, insertText);
             textBox.SelectionStart = selectionIndex + insertText.Length;
         }
+        #endregion
 
+        #region SelectionChangeCommitted - FastColoredTextBox
         public static void SelectionChangeCommitted(FastColoredTextBox textBox, string insertText)
         {
             textBox.Focus();
@@ -25,12 +28,16 @@ namespace PhotoTagsSynchronizer
             textBox.Text = textBox.Text.Insert(selectionIndex, insertText);
             textBox.SelectionStart = selectionIndex + insertText.Length;
         }
+        #endregion
 
+        #region RemeberComboBoxSelection
         public static void RemeberComboBoxSelection(KryptonComboBox comboBox)
         {
             comboBox.Tag = new ComboBoxSelection(comboBox);
         }
+        #endregion
 
+        #region SetComboBoxSelection
         public static void SetComboBoxSelection(KryptonComboBox comboBox)
         {
             if (comboBox.Tag is ComboBoxSelection comboBoxSelection)
@@ -39,8 +46,9 @@ namespace PhotoTagsSynchronizer
                 comboBox.SelectionLength = comboBoxSelection.SelectionLength;
             }
         }
+        #endregion
 
-        #region ComboBox - Settings - Convert List to string
+        #region ComboBox Collection to string
         public static string ComboBoxStringCollection(KryptonComboBox comboBox)
         {
             string resultListString = "";
@@ -52,14 +60,14 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ConvertToArray
-        public static string[] ConvertToArray(string valueListString)
+        #region ConvertStringToArray
+        public static string[] ConvertStringToArray(string valueListString)
         {
             return valueListString.Replace("\r\n", "\n").Split('\n');
         }
         #endregion
 
-        #region ComboBox - Settings - Convert String add to List
+        #region Populate ComboBox - Populate - string[]
         public static void ComboBoxPopulate(KryptonComboBox comboBox, string[] valueList, string defaultValue)
         {
             comboBox.Items.Clear();
@@ -72,10 +80,12 @@ namespace PhotoTagsSynchronizer
             }
             comboBox.Text = defaultValue == null ? "" : defaultValue;
         }
+        #endregion
 
+        #region Populate ComboBox - Populate - string
         public static void ComboBoxPopulate(KryptonComboBox comboBox, string valueListString, string defaultValue)
         {
-            ComboBoxPopulate(comboBox, ConvertToArray(valueListString), defaultValue);
+            ComboBoxPopulate(comboBox, ConvertStringToArray(valueListString), defaultValue);
         }
         #endregion
 
@@ -108,11 +118,17 @@ namespace PhotoTagsSynchronizer
         #region AutoCompleteStringCollection - Remeber last text and Add Text to list
         public static void AddAutoCompleteStringCollection(AutoCompleteStringCollection autoCompleteStringCollection, string newValue)
         {
-            int indexOfText = autoCompleteStringCollection.IndexOf(newValue); //Does it exist from before, remove to put first
-            if (indexOfText > -1) autoCompleteStringCollection.RemoveAt(indexOfText); //Remove if exist, in not already first
-            autoCompleteStringCollection.Insert(0, newValue); //Add first
+            if (!string.IsNullOrWhiteSpace(newValue))
+            {
+                int indexOfText = autoCompleteStringCollection.IndexOf(newValue); //Does it exist from before, remove to put first
+                if (indexOfText > -1) autoCompleteStringCollection.RemoveAt(indexOfText); //Remove if exist, in not already first
+                autoCompleteStringCollection.Insert(0, newValue); //Add first
 
-            while (autoCompleteStringCollection.Count > maxCount) autoCompleteStringCollection.RemoveAt(maxCount);
+                while (autoCompleteStringCollection.Count > maxCount) autoCompleteStringCollection.RemoveAt(maxCount);
+            } else
+            {
+                //DEBUG
+            }
         }
         #endregion
     }

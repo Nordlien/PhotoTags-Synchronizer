@@ -273,13 +273,13 @@ namespace DataGridViewGeneric
         private void DataGridView_KeyDown(object sender, KeyEventArgs e)
         {
             Krypton.Toolkit.KryptonDataGridView kryptonDataGridView = (Krypton.Toolkit.KryptonDataGridView)sender;
-            
+
             // If we have a defined context menu then need to check for matching shortcut
             if (kryptonDataGridView.KryptonContextMenu != null)
             {
                 //  kryptonDataGridView.KryptonContextMenu.ProcessShortcut(e.KeyData);
-                if (kryptonDataGridView.KryptonContextMenu.ProcessShortcut(e.KeyData)) 
-                    e.Handled = true;                
+                if (kryptonDataGridView.KryptonContextMenu.ProcessShortcut(e.KeyData))
+                    e.Handled = true;
             }
         }
         #endregion
@@ -3349,13 +3349,13 @@ namespace DataGridViewGeneric
         #region Cell Paint handling - CellPaintingHandleDefault
         public static void CellPaintingHandleDefault(object sender, DataGridViewCellPaintingEventArgs e, bool paintHeaderRow)
         {
-            try
-            {                
-                //It's already paited of Krypton if (paintHeaderRow || e.ColumnIndex == -1 || e.RowIndex > -1) e.Paint(e.ClipBounds, DataGridViewPaintParts.All); 
-            } catch (Exception ex)
-            {
-                Logger.Error(ex.Message);    
-            }
+            //try
+            //{                
+            //    //It's already paited of Krypton if (paintHeaderRow || e.ColumnIndex == -1 || e.RowIndex > -1) e.Paint(e.ClipBounds, DataGridViewPaintParts.All); 
+            //} catch (Exception ex)
+            //{
+            //    Logger.Error(ex.Message);    
+            //}
             e.Handled = true;
         }
         #endregion

@@ -527,11 +527,11 @@ namespace PhotoTagsSynchronizer
                 lock (autoCompleteStringCollectionCommentsLock) autoCompleteStringCollectionComments = new AutoCompleteStringCollection();
                 lock (autoCompleteStringCollectionAuthorLock) autoCompleteStringCollectionAuthor = new AutoCompleteStringCollection();
 
-                string[] arrayAlbum = ComboBoxHandler.ConvertToArray(Properties.Settings.Default.AutoCorrectFormAlbum);
-                string[] arrayAuthor = ComboBoxHandler.ConvertToArray(Properties.Settings.Default.AutoCorrectFormAuthor);
-                string[] arrayComments = ComboBoxHandler.ConvertToArray(Properties.Settings.Default.AutoCorrectFormComments);
-                string[] arrayDescription = ComboBoxHandler.ConvertToArray(Properties.Settings.Default.AutoCorrectFormDescription);
-                string[] arrayTitle = ComboBoxHandler.ConvertToArray(Properties.Settings.Default.AutoCorrectFormTitle);
+                string[] arrayAlbum = ComboBoxHandler.ConvertStringToArray(Properties.Settings.Default.AutoCorrectFormAlbum);
+                string[] arrayAuthor = ComboBoxHandler.ConvertStringToArray(Properties.Settings.Default.AutoCorrectFormAuthor);
+                string[] arrayComments = ComboBoxHandler.ConvertStringToArray(Properties.Settings.Default.AutoCorrectFormComments);
+                string[] arrayDescription = ComboBoxHandler.ConvertStringToArray(Properties.Settings.Default.AutoCorrectFormDescription);
+                string[] arrayTitle = ComboBoxHandler.ConvertStringToArray(Properties.Settings.Default.AutoCorrectFormTitle);
 
                 ComboBoxHandler.ComboBoxPopulate(comboBoxAlbum, arrayAlbum, "");
                 lock (autoCompleteStringCollectionAlbumLock) autoCompleteStringCollectionAlbum.AddRange(arrayAlbum);
