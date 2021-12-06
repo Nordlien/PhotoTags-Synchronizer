@@ -2218,13 +2218,6 @@ namespace DataGridViewGeneric
         #endregion
 
         #region Cell Handling - SetCellValue - int columnIndex, int rowIndex, object value
-        //public static void SetCellValue(DataGridView dataGridView, int columnIndex, int rowIndex, object value)
-        //{
-        //    if (rowIndex > -1 && columnIndex > -1) dataGridView[columnIndex, rowIndex].Value = value;
-        //}
-        #endregion
-
-        #region Cell Handling - SetCellValue - int columnIndex, int rowIndex, object value
         public static void SetCellValue(DataGridView dataGridView, int columnIndex, int rowIndex, object value, bool setDirtyFalgWhenValueChanged)
         {
             if (rowIndex > -1 && columnIndex > -1)
@@ -2248,13 +2241,6 @@ namespace DataGridViewGeneric
             return GetCellStatus(dataGridView[columnIndex, rowIndex]);
         }
         #endregion
-
-        //#region Cell Handling - SetCellStatus - int columnIndex, int rowIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatus
-        //public static void SetCellStatus(DataGridView dataGridView, int columnIndex, int rowIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatus)
-        //{
-        //    if (rowIndex > -1 && columnIndex > -1) dataGridView[columnIndex, rowIndex].Tag = dataGridViewGenericCellStatus;
-        //}
-        //#endregion
 
         #region Cell Handling - SetCellStatus - int columnIndex, int rowIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatus
         public static void SetCellStatus(DataGridView dataGridView, int columnIndex, int rowIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatus, bool setDirtyFalgWhenValueChanged)

@@ -3310,7 +3310,6 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewExiftool.TabIndex = 0;
             this.dataGridViewExiftool.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewExifTool_CellBeginEdit);
             this.dataGridViewExiftool.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewExifTool_CellEnter);
-            this.dataGridViewExiftool.CellLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewExiftool_CellLeave);
             this.dataGridViewExiftool.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewExifTool_CellMouseClick);
             this.dataGridViewExiftool.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewExiftool_CellMouseDoubleClick);
             this.dataGridViewExiftool.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewExifTool_CellPainting);
@@ -3346,7 +3345,6 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewExiftoolWarning.TabIndex = 0;
             this.dataGridViewExiftoolWarning.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewExifToolWarning_CellBeginEdit);
             this.dataGridViewExiftoolWarning.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewExifToolWarning_CellEnter);
-            this.dataGridViewExiftoolWarning.CellLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewExiftoolWarning_CellLeave);
             this.dataGridViewExiftoolWarning.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewExifToolWarning_CellMouseClick);
             this.dataGridViewExiftoolWarning.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewExiftoolWarning_CellMouseDoubleClick);
             this.dataGridViewExiftoolWarning.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewExifToolWarning_CellPainting);
@@ -3637,7 +3635,6 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewRename.TabIndex = 4;
             this.dataGridViewRename.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewRename_CellBeginEdit);
             this.dataGridViewRename.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewRename_CellEnter);
-            this.dataGridViewRename.CellLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewRename_CellLeave);
             this.dataGridViewRename.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewRename_CellMouseClick);
             this.dataGridViewRename.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewRename_CellMouseDoubleClick);
             this.dataGridViewRename.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewRename_CellPainting);

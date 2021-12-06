@@ -14,29 +14,37 @@ namespace PhotoTagsSynchronizer
         #region Validation of cells and Rows (keyword tag added/changed validation)
         private void dataGridViewTagsAndKeywords_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
-            DataGridView dataGridView = ((DataGridView)sender);
-
-            if (e.RowIndex < 0) return;
-            if (GlobalData.IsApplicationClosing) return;
-            if (DataGridViewHandler.GetIsPopulating(dataGridView)) return;
-            if (DataGridViewHandler.GetIsPopulatingFile(dataGridView)) return;
-
-            string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
-
-            int keywordsStarts = DataGridViewHandler.GetRowHeaderItemStarts(dataGridView, header);
-            int lastRowEdit = DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView);
-
-            if (e.RowIndex >= keywordsStarts)
+            try
             {
-                //Update the row that become edit
-                DataGridViewHandler.SetCellStatusDefaultWhenRowAdded(dataGridView, lastRowEdit - 1, 
-                    new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, false));
-                DataGridViewHandler.SetCellBackGroundColorForRow(dataGridView, lastRowEdit - 1);
+                DataGridView dataGridView = ((DataGridView)sender);
 
-                //Updated the new empty row added
-                DataGridViewHandler.SetCellStatusDefaultWhenRowAdded(dataGridView, lastRowEdit,
-                                    new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, false));
-                DataGridViewHandler.SetCellBackGroundColorForRow(dataGridView, lastRowEdit);
+                if (e.RowIndex < 0) return;
+                if (GlobalData.IsApplicationClosing) return;
+                if (DataGridViewHandler.GetIsPopulating(dataGridView)) return;
+                if (DataGridViewHandler.GetIsPopulatingFile(dataGridView)) return;
+
+                string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
+
+                int keywordsStarts = DataGridViewHandler.GetRowHeaderItemStarts(dataGridView, header);
+                int lastRowEdit = DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView);
+
+                if (e.RowIndex >= keywordsStarts)
+                {
+                    //Update the row that become edit
+                    DataGridViewHandler.SetCellStatusDefaultWhenRowAdded(dataGridView, lastRowEdit - 1,
+                        new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, false));
+                    DataGridViewHandler.SetCellBackGroundColorForRow(dataGridView, lastRowEdit - 1);
+
+                    //Updated the new empty row added
+                    DataGridViewHandler.SetCellStatusDefaultWhenRowAdded(dataGridView, lastRowEdit,
+                                        new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, false));
+                    DataGridViewHandler.SetCellBackGroundColorForRow(dataGridView, lastRowEdit);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
             }
         }
 
@@ -123,8 +131,16 @@ namespace PhotoTagsSynchronizer
         #region CellEnter
         private void dataGridViewTagsAndKeywords_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
-            DataGridView dataGridView = dataGridViewTagsAndKeywords;
-            RegionSelectorLoadAndSelect(dataGridView, e.RowIndex, e.ColumnIndex);
+            try
+            {
+                DataGridView dataGridView = dataGridViewTagsAndKeywords;
+                RegionSelectorLoadAndSelect(dataGridView, e.RowIndex, e.ColumnIndex);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+            }
         }
         #endregion
 
@@ -322,12 +338,21 @@ namespace PhotoTagsSynchronizer
         #region ChangeTitle
         private void ActionChangeTitle(string newText)
         {
-            DataGridView dataGridView = dataGridViewTagsAndKeywords;
-            ActionChangeCommon(dataGridView, DataGridViewHandlerTagsAndKeywords.headerMedia, DataGridViewHandlerTagsAndKeywords.tagTitle, newText);
+            try {
+                DataGridView dataGridView = dataGridViewTagsAndKeywords;
+                ActionChangeCommon(dataGridView, DataGridViewHandlerTagsAndKeywords.headerMedia, DataGridViewHandlerTagsAndKeywords.tagTitle, newText);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+            }
         }
+
 
         private void comboBoxTitle_TextUpdate(object sender, EventArgs e)
         {
+
             ActionChangeTitle(((KryptonComboBox)sender).Text);
         }
         
@@ -340,8 +365,16 @@ namespace PhotoTagsSynchronizer
         #region ChangeDescription
         private void ActionChangeDescription(string newText)
         {
-            DataGridView dataGridView = dataGridViewTagsAndKeywords;
-            ActionChangeCommon(dataGridView, DataGridViewHandlerTagsAndKeywords.headerMedia, DataGridViewHandlerTagsAndKeywords.tagDescription, newText);
+            try
+            {
+                DataGridView dataGridView = dataGridViewTagsAndKeywords;
+                ActionChangeCommon(dataGridView, DataGridViewHandlerTagsAndKeywords.headerMedia, DataGridViewHandlerTagsAndKeywords.tagDescription, newText);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+            }
         }
 
         private void comboBoxDescription_TextUpdate(object sender, EventArgs e)
@@ -358,8 +391,16 @@ namespace PhotoTagsSynchronizer
         #region ChangeComments
         private void ActionChangeComments(string newText)
         {
-            DataGridView dataGridView = dataGridViewTagsAndKeywords;
-            ActionChangeCommon(dataGridView, DataGridViewHandlerTagsAndKeywords.headerMedia, DataGridViewHandlerTagsAndKeywords.tagComments, newText);
+            try
+            {
+                DataGridView dataGridView = dataGridViewTagsAndKeywords;
+                ActionChangeCommon(dataGridView, DataGridViewHandlerTagsAndKeywords.headerMedia, DataGridViewHandlerTagsAndKeywords.tagComments, newText);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+            }
         }
 
         private void comboBoxComments_TextUpdate(object sender, EventArgs e)
@@ -375,8 +416,16 @@ namespace PhotoTagsSynchronizer
         #region ChangeAlbum
         private void ActionChangeAlbum(string newText)
         {
-            DataGridView dataGridView = dataGridViewTagsAndKeywords;
-            ActionChangeCommon(dataGridView, DataGridViewHandlerTagsAndKeywords.headerMedia, DataGridViewHandlerTagsAndKeywords.tagAlbum, newText);
+            try
+            {
+                DataGridView dataGridView = dataGridViewTagsAndKeywords;
+                ActionChangeCommon(dataGridView, DataGridViewHandlerTagsAndKeywords.headerMedia, DataGridViewHandlerTagsAndKeywords.tagAlbum, newText);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+            }
         }
 
         private void comboBoxAlbum_TextUpdate(object sender, EventArgs e)
@@ -393,8 +442,16 @@ namespace PhotoTagsSynchronizer
         #region ChangeAuthor
         private void ActionAuthor(string newText)
         {
-            DataGridView dataGridView = dataGridViewTagsAndKeywords;
-            ActionChangeCommon(dataGridView, DataGridViewHandlerTagsAndKeywords.headerMedia, DataGridViewHandlerTagsAndKeywords.tagAuthor, newText);
+            try
+            {
+                DataGridView dataGridView = dataGridViewTagsAndKeywords;
+                ActionChangeCommon(dataGridView, DataGridViewHandlerTagsAndKeywords.headerMedia, DataGridViewHandlerTagsAndKeywords.tagAuthor, newText);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+            }
         }
         private void comboBoxAuthor_TextUpdate(object sender, EventArgs e)
         { 
@@ -414,16 +471,16 @@ namespace PhotoTagsSynchronizer
         #region radioButtonRating_Common_CheckedChanged
         private void radioButtonRating_Common_CheckedChanged()
         {
+            try 
+            { 
+                DataGridView dataGridView = dataGridViewTagsAndKeywords;
+                byte? rating = null;
+                if (radioButtonRating1.Checked) rating = 1;
+                if (radioButtonRating2.Checked) rating = 2;
+                if (radioButtonRating3.Checked) rating = 3;
+                if (radioButtonRating4.Checked) rating = 4;
+                if (radioButtonRating5.Checked) rating = 5;
             
-            DataGridView dataGridView = dataGridViewTagsAndKeywords;
-            byte? rating = null;
-            if (radioButtonRating1.Checked) rating = 1;
-            if (radioButtonRating2.Checked) rating = 2;
-            if (radioButtonRating3.Checked) rating = 3;
-            if (radioButtonRating4.Checked) rating = 4;
-            if (radioButtonRating5.Checked) rating = 5;
-            try
-            {
                 int rowIndex = DataGridViewHandler.GetRowIndex(dataGridView,
                     DataGridViewHandlerTagsAndKeywords.headerMedia,
                     DataGridViewHandlerTagsAndKeywords.tagRating);

@@ -1021,6 +1021,72 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region UpdateDataGridViewDirtyFlagsWhenPageActivated()
+        private void ActionUpdateDataGridViewDirtyFlagsWhenPageActivated()
+        {
+            try
+            {
+                DataGridView dataGridView = GetActiveTabDataGridView();
+                if (dataGridView != null)
+                {
+                    for (int columnIndex = 0; columnIndex < DataGridViewHandler.GetColumnCount(dataGridView); columnIndex++)
+                    {
+                        DataGridViewHandler.SetColumnDirtyFlag(dataGridView, columnIndex, IsDataGridViewColumnDirty(dataGridView, columnIndex));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+            }
+        }
+        private void UpdateDataGridViewDirtyFlagsWhenPageActivated()
+        {
+            
+
+            try
+            {
+                switch (ActiveKryptonPage)
+                {
+                    case KryptonPages.None:
+                        break;
+                    case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                        break;
+                    case KryptonPages.kryptonPageFolderSearchFilterSearch:
+                        break;
+                    case KryptonPages.kryptonPageFolderSearchFilterFilter:
+                        break;
+                    case KryptonPages.kryptonPageMediaFiles:
+                        break;
+                    case KryptonPages.kryptonPageToolboxTags:
+                    case KryptonPages.kryptonPageToolboxPeople:
+                    case KryptonPages.kryptonPageToolboxMap:
+                    case KryptonPages.kryptonPageToolboxDates:
+                        ActionUpdateDataGridViewDirtyFlagsWhenPageActivated();
+                        break;
+                    case KryptonPages.kryptonPageToolboxExiftool:
+                        break;
+                    case KryptonPages.kryptonPageToolboxWarnings:
+                        break;
+                    case KryptonPages.kryptonPageToolboxProperties:
+                        break;
+                    case KryptonPages.kryptonPageToolboxRename:
+                        break;
+                    case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+            }
+        }
+        #endregion
+
         #region KryptonPages - Remeber what's active page
         private KryptonPages activeKryptonPage = KryptonPages.None;
         private KryptonPages ActiveKryptonPage
@@ -1033,6 +1099,7 @@ namespace PhotoTagsSynchronizer
             {
                 activeKryptonPage = value;
                 UpdateRibbonsWhenWorkspaceChanged();
+                UpdateDataGridViewDirtyFlagsWhenPageActivated();
             }
         }
 
@@ -2840,47 +2907,55 @@ namespace PhotoTagsSynchronizer
         #region ActionRedo
         private void ActionRedo()
         {
-            switch (ActiveKryptonPage)
+            try
             {
-                case KryptonPages.None:
-                    break;
-                case KryptonPages.kryptonPageFolderSearchFilterFolder:
-                    break;
-                case KryptonPages.kryptonPageFolderSearchFilterSearch:
-                    break;
-                case KryptonPages.kryptonPageFolderSearchFilterFilter:
-                    break;
-                case KryptonPages.kryptonPageMediaFiles:
-                    break;
-                case KryptonPages.kryptonPageToolboxTags:
-                    TagsAndKeywordsRedo_Click();
-                    break;
-                case KryptonPages.kryptonPageToolboxPeople:
-                    PeopleRedo_Click();
-                    break;
-                case KryptonPages.kryptonPageToolboxMap:
-                    MapRedo_Click();
-                    break;
-                case KryptonPages.kryptonPageToolboxDates:
-                    DateRedo_Click();
-                    break;
-                case KryptonPages.kryptonPageToolboxExiftool:
-                    ExiftoolRedo_Click();
-                    break;
-                case KryptonPages.kryptonPageToolboxWarnings:
-                    ExiftoolWarningRedo_Click();
-                    break;
-                case KryptonPages.kryptonPageToolboxProperties:
-                    PropertiesRedo_Click();
-                    break;
-                case KryptonPages.kryptonPageToolboxRename:
-                    RenameRedo_Click();
-                    break;
-                case KryptonPages.kryptonPageToolboxConvertAndMerge:
-                    ConvertAndMergeRedo_Click();
-                    break;
-                default:
-                    throw new NotImplementedException();
+                switch (ActiveKryptonPage)
+                {
+                    case KryptonPages.None:
+                        break;
+                    case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                        break;
+                    case KryptonPages.kryptonPageFolderSearchFilterSearch:
+                        break;
+                    case KryptonPages.kryptonPageFolderSearchFilterFilter:
+                        break;
+                    case KryptonPages.kryptonPageMediaFiles:
+                        break;
+                    case KryptonPages.kryptonPageToolboxTags:
+                        TagsAndKeywordsRedo_Click();
+                        break;
+                    case KryptonPages.kryptonPageToolboxPeople:
+                        PeopleRedo_Click();
+                        break;
+                    case KryptonPages.kryptonPageToolboxMap:
+                        MapRedo_Click();
+                        break;
+                    case KryptonPages.kryptonPageToolboxDates:
+                        DateRedo_Click();
+                        break;
+                    case KryptonPages.kryptonPageToolboxExiftool:
+                        ExiftoolRedo_Click();
+                        break;
+                    case KryptonPages.kryptonPageToolboxWarnings:
+                        ExiftoolWarningRedo_Click();
+                        break;
+                    case KryptonPages.kryptonPageToolboxProperties:
+                        PropertiesRedo_Click();
+                        break;
+                    case KryptonPages.kryptonPageToolboxRename:
+                        RenameRedo_Click();
+                        break;
+                    case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                        ConvertAndMergeRedo_Click();
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
             }
         }
         #endregion
@@ -2889,52 +2964,103 @@ namespace PhotoTagsSynchronizer
         private void DataGridViewGenrericRedo(DataGridView dataGridView)
         {
             if (!dataGridView.Enabled) return;
-            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
-            //string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
-            ClipboardUtility.RedoDataGridView(dataGridView);
-            //ValitedatePaste(dataGridView, header);
-            DataGridViewHandler.Refresh(dataGridView);
-            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
+            try
+            {
+                GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
+                //string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
+                ClipboardUtility.RedoDataGridView(dataGridView);
+                //ValitedatePaste(dataGridView, header);
+                DataGridViewHandler.Refresh(dataGridView);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+            }
+            finally
+            {
+                GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
+            }
         }
         #endregion
 
         #region ConvertAndMergepRedo_Click
         private void ConvertAndMergeRedo_Click()
         {
-            DataGridView dataGridView = dataGridViewConvertAndMerge;
-            DataGridViewGenrericRedo(dataGridView);
+            try
+            {
+                DataGridView dataGridView = dataGridViewConvertAndMerge;
+                DataGridViewGenrericRedo(dataGridView);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+            }
         }
         #endregion
 
         #region DateRedo_Click
         private void DateRedo_Click()
         {
-            DataGridView dataGridView = dataGridViewDate;
-            DataGridViewGenrericRedo(dataGridView);
+            try
+            {
+                DataGridView dataGridView = dataGridViewDate;
+                DataGridViewGenrericRedo(dataGridView);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+            }
         }
         #endregion 
 
         #region ExiftoolRedo_Click
         private void ExiftoolRedo_Click()
         {
-            DataGridView dataGridView = dataGridViewExiftool;
-            DataGridViewGenrericRedo(dataGridView);
+            try
+            {
+                DataGridView dataGridView = dataGridViewExiftool;
+                DataGridViewGenrericRedo(dataGridView);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+            }
         }
         #endregion
 
         #region ExiftoolWarningRedo_Click
         private void ExiftoolWarningRedo_Click()
         {
-            DataGridView dataGridView = dataGridViewExiftoolWarning;
-            DataGridViewGenrericRedo(dataGridView);
+            try
+            {
+                DataGridView dataGridView = dataGridViewExiftoolWarning;
+                DataGridViewGenrericRedo(dataGridView);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+            }
         }
         #endregion
 
         #region MapRedo_Click
         private void MapRedo_Click()
         {
-            DataGridView dataGridView = dataGridViewMap;
-            DataGridViewGenrericRedo(dataGridView);
+            try
+            {
+                DataGridView dataGridView = dataGridViewMap;
+                DataGridViewGenrericRedo(dataGridView);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+            }
         }
         #endregion
 
@@ -2943,27 +3069,54 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = dataGridViewPeople;
             if (!dataGridView.Enabled) return;
-            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
-            ClipboardUtility.RedoDataGridView(dataGridView);
-            ValitedatePastePeople(dataGridView, DataGridViewHandlerPeople.headerPeople);
-            DataGridViewHandler.Refresh(dataGridView);
-            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
+            try
+            {
+                GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
+                ClipboardUtility.RedoDataGridView(dataGridView);
+                ValitedatePastePeople(dataGridView, DataGridViewHandlerPeople.headerPeople);
+                DataGridViewHandler.Refresh(dataGridView);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+            }
+            finally
+            {
+                GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
+            }
         }
         #endregion
 
         #region PropertiesRedo_Click
         private void PropertiesRedo_Click()
         {
-            DataGridView dataGridView = dataGridViewProperties;
-            DataGridViewGenrericRedo(dataGridView);
+            try
+            {
+                DataGridView dataGridView = dataGridViewProperties;
+                DataGridViewGenrericRedo(dataGridView);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+            }
         }
         #endregion
 
         #region RenameRedo_Click
         private void RenameRedo_Click()
         {
-            DataGridView dataGridView = dataGridViewMap;
-            DataGridViewGenrericRedo(dataGridView);
+            try
+            {
+                DataGridView dataGridView = dataGridViewMap;
+                DataGridViewGenrericRedo(dataGridView);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+            }
         }
         #endregion
 
@@ -2972,13 +3125,24 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
             if (!dataGridView.Enabled) return;
-            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
+            try
+            {
+                GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
 
-            string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
-            ClipboardUtility.RedoDataGridView(dataGridView);
-            ValitedatePasteKeywords(dataGridView, header);
-            DataGridViewHandler.Refresh(dataGridView);
-            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
+                string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
+                ClipboardUtility.RedoDataGridView(dataGridView);
+                ValitedatePasteKeywords(dataGridView, header);
+                DataGridViewHandler.Refresh(dataGridView);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+            }
+            finally
+            {
+                GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
+            }
         }
         #endregion
 
@@ -3000,50 +3164,58 @@ namespace PhotoTagsSynchronizer
         #region ActionFind
         private void ActionFind()
         {
-            switch (ActiveKryptonPage)
+            try
             {
-                case KryptonPages.None:
-                    break;
-                case KryptonPages.kryptonPageFolderSearchFilterFolder:
-                    FolderSearchFilterFolderFind_Click();
-                    break;
-                case KryptonPages.kryptonPageFolderSearchFilterSearch:
-                    FolderSearchFilterSearchFind_Click();
-                    break;
-                case KryptonPages.kryptonPageFolderSearchFilterFilter:
-                    break;
-                case KryptonPages.kryptonPageMediaFiles:
-                    MediaFilesFind_Click();
-                    break;
-                case KryptonPages.kryptonPageToolboxTags:
-                    TagsAndKeywordsFind_Click();
-                    break;
-                case KryptonPages.kryptonPageToolboxPeople:
-                    PeopleFind_Click();
-                    break;
-                case KryptonPages.kryptonPageToolboxMap:
-                    MapFind_Click();
-                    break;
-                case KryptonPages.kryptonPageToolboxDates:
-                    DateFind_Click();
-                    break;
-                case KryptonPages.kryptonPageToolboxExiftool:
-                    ExiftoolFind_Click();
-                    break;
-                case KryptonPages.kryptonPageToolboxWarnings:
-                    ExiftoolWarningFind_Click();
-                    break;
-                case KryptonPages.kryptonPageToolboxProperties:
-                    PropertiesFind_Click();
-                    break;
-                case KryptonPages.kryptonPageToolboxRename:
-                    RenameFind_Click();
-                    break;
-                case KryptonPages.kryptonPageToolboxConvertAndMerge:
-                    ConvertAndMergeFind_Click();
-                    break;
-                default:
-                    throw new NotImplementedException();
+                switch (ActiveKryptonPage)
+                {
+                    case KryptonPages.None:
+                        break;
+                    case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                        FolderSearchFilterFolderFind_Click();
+                        break;
+                    case KryptonPages.kryptonPageFolderSearchFilterSearch:
+                        FolderSearchFilterSearchFind_Click();
+                        break;
+                    case KryptonPages.kryptonPageFolderSearchFilterFilter:
+                        break;
+                    case KryptonPages.kryptonPageMediaFiles:
+                        MediaFilesFind_Click();
+                        break;
+                    case KryptonPages.kryptonPageToolboxTags:
+                        TagsAndKeywordsFind_Click();
+                        break;
+                    case KryptonPages.kryptonPageToolboxPeople:
+                        PeopleFind_Click();
+                        break;
+                    case KryptonPages.kryptonPageToolboxMap:
+                        MapFind_Click();
+                        break;
+                    case KryptonPages.kryptonPageToolboxDates:
+                        DateFind_Click();
+                        break;
+                    case KryptonPages.kryptonPageToolboxExiftool:
+                        ExiftoolFind_Click();
+                        break;
+                    case KryptonPages.kryptonPageToolboxWarnings:
+                        ExiftoolWarningFind_Click();
+                        break;
+                    case KryptonPages.kryptonPageToolboxProperties:
+                        PropertiesFind_Click();
+                        break;
+                    case KryptonPages.kryptonPageToolboxRename:
+                        RenameFind_Click();
+                        break;
+                    case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                        ConvertAndMergeFind_Click();
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
             }
         }
         #endregion
@@ -3051,8 +3223,16 @@ namespace PhotoTagsSynchronizer
         #region FolderSearchFilterFolderFind_Click
         private void FolderSearchFilterFolderFind_Click()
         {
-            kryptonWorkspaceCellFolderSearchFilter.SelectedPage = kryptonPageFolderSearchFilterSearch;
-            kryptonTextBoxSearchDirectory.Text = GetSelectedNodePath() == null ? "" : GetSelectedNodePath();
+            try
+            {
+                kryptonWorkspaceCellFolderSearchFilter.SelectedPage = kryptonPageFolderSearchFilterSearch;
+                kryptonTextBoxSearchDirectory.Text = GetSelectedNodePath() == null ? "" : GetSelectedNodePath();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+            }
         }
         #endregion
 
@@ -3066,9 +3246,17 @@ namespace PhotoTagsSynchronizer
         #region MediaFilesFind_Click
         private void MediaFilesFind_Click()
         {
-            kryptonWorkspaceCellFolderSearchFilter.SelectedPage = kryptonPageFolderSearchFilterSearch;
-            kryptonTextBoxSearchDirectory.Text = GetSelectedNodePath() == null ? "" : GetSelectedNodePath();
-            if (imageListView1.SelectedItems.Count == 1) kryptonTextBoxSearchFilename.Text = imageListView1.SelectedItems[0].Text;
+            try
+            {
+                kryptonWorkspaceCellFolderSearchFilter.SelectedPage = kryptonPageFolderSearchFilterSearch;
+                kryptonTextBoxSearchDirectory.Text = GetSelectedNodePath() == null ? "" : GetSelectedNodePath();
+                if (imageListView1.SelectedItems.Count == 1) kryptonTextBoxSearchFilename.Text = imageListView1.SelectedItems[0].Text;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+            }
         }
         #endregion
 
@@ -3076,95 +3264,181 @@ namespace PhotoTagsSynchronizer
         private void DataGridViewGenrericFind(DataGridView dataGridView)
         {
             if (!dataGridView.Enabled) return;
-            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
-            DataGridViewHandler.ActionFindAndReplace(dataGridView, false);
-            //ValitedatePaste(dataGridView, header);
-            DataGridViewHandler.Refresh(dataGridView);
-            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
+            try
+            {
+                GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
+                DataGridViewHandler.ActionFindAndReplace(dataGridView, false);
+                //ValitedatePaste(dataGridView, header);
+                DataGridViewHandler.Refresh(dataGridView);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+            }
+            finally
+            {
+                GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
+            }
         }
         #endregion
 
         #region ConvertAndMergeFind_Click
         private void ConvertAndMergeFind_Click()
         {
-            DataGridView dataGridView = dataGridViewConvertAndMerge;
-            DataGridViewGenrericFind(dataGridView);
+            try
+            {
+                DataGridView dataGridView = dataGridViewConvertAndMerge;
+                DataGridViewGenrericFind(dataGridView);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+            }
         }
         #endregion
 
         #region DateFind_Click
         private void DateFind_Click()
         {
-            DataGridView dataGridView = dataGridViewDate;
-            DataGridViewGenrericFind(dataGridView);
+            try
+            {
+                DataGridView dataGridView = dataGridViewDate;
+                DataGridViewGenrericFind(dataGridView);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+            }
         }
         #endregion 
 
         #region ExiftoolFind_Click
         private void ExiftoolFind_Click()
         {
-            DataGridView dataGridView = dataGridViewExiftool;
-            DataGridViewGenrericFind(dataGridView);
+            try
+            {
+                DataGridView dataGridView = dataGridViewExiftool;
+                DataGridViewGenrericFind(dataGridView);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+            }
         }
         #endregion
 
         #region ExiftoolWarningFind_Click
         private void ExiftoolWarningFind_Click()
         {
-            DataGridView dataGridView = dataGridViewExiftoolWarning;
-            DataGridViewGenrericFind(dataGridView);
+            try
+            {
+                DataGridView dataGridView = dataGridViewExiftoolWarning;
+                DataGridViewGenrericFind(dataGridView);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+            }
         }
         #endregion
 
         #region MapFind_Click
         private void MapFind_Click()
         {
-            DataGridView dataGridView = dataGridViewMap;
-            DataGridViewGenrericFind(dataGridView);
+            try
+            {
+                DataGridView dataGridView = dataGridViewMap;
+                DataGridViewGenrericFind(dataGridView);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+            }
         }
         #endregion
 
         #region PeopleFind_Click
         private void PeopleFind_Click()
         {
-            DataGridView dataGridView = dataGridViewPeople;
-            if (!dataGridView.Enabled) return;
-            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
-            DataGridViewHandler.ActionFindAndReplace(dataGridView, false);
-            ValitedatePastePeople(dataGridView, DataGridViewHandlerPeople.headerPeople);
-            DataGridViewHandler.Refresh(dataGridView);
-            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
+            try
+            {
+                DataGridView dataGridView = dataGridViewPeople;
+                if (!dataGridView.Enabled) return;
+                GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
+                DataGridViewHandler.ActionFindAndReplace(dataGridView, false);
+                ValitedatePastePeople(dataGridView, DataGridViewHandlerPeople.headerPeople);
+                DataGridViewHandler.Refresh(dataGridView);
+                GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+            }
         }
         #endregion
 
         #region PropertiesFind_Click
         private void PropertiesFind_Click()
         {
-            DataGridView dataGridView = dataGridViewProperties;
-            DataGridViewGenrericFind(dataGridView);
+            try
+            {
+                DataGridView dataGridView = dataGridViewProperties;
+                DataGridViewGenrericFind(dataGridView);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+            }
         }
         #endregion
 
         #region RenameFind_Click
         private void RenameFind_Click()
         {
-            DataGridView dataGridView = dataGridViewRename;
-            DataGridViewGenrericFind(dataGridView);
+            try
+            {
+                DataGridView dataGridView = dataGridViewRename;
+                DataGridViewGenrericFind(dataGridView);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+            }
         }
         #endregion
 
         #region TagsAndKeywordsFind_Click
         private void TagsAndKeywordsFind_Click()
         {
-            DataGridView dataGridView = dataGridViewTagsAndKeywords;
-            if (!dataGridView.Enabled) return;
-            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
+            try
+            {
+                DataGridView dataGridView = dataGridViewTagsAndKeywords;
+                if (!dataGridView.Enabled) return;
+                GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
 
-            string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
-            DataGridViewHandler.ActionFindAndReplace(dataGridView, false);
-            ValitedatePasteKeywords(dataGridView, header);
-            DataGridViewHandler.Refresh(dataGridView);
-            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
+                string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
+                DataGridViewHandler.ActionFindAndReplace(dataGridView, false);
+                ValitedatePasteKeywords(dataGridView, header);
+                DataGridViewHandler.Refresh(dataGridView);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+            }
+            finally
+            {
+                GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
+            }
         }
         #endregion
 
@@ -4706,6 +4980,24 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
+        #region TriStateButtonClick - DataGridView - Keydown 
+
+        #region Keydown - People
+        private void dataGridViewPeople_KeyDown(object sender, KeyEventArgs e)
+        {
+            triStateButtomClick = false;
+        }
+        #endregion
+
+        #region Keydown - TagsAndKeywords
+        private void dataGridViewTagsAndKeywords_KeyDown(object sender, KeyEventArgs e)
+        {
+            triStateButtomClick = false;
+        }
+        #endregion
+
+        #endregion
+
         #region TriStateToggle
 
         #region TriStateToggle - Click Events Sources
@@ -5252,27 +5544,35 @@ namespace PhotoTagsSynchronizer
         #region GetDataGridViewData - All
         private void GetDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView)
         {
+            
             metadataListOriginalExiftool = new List<Metadata>();
             metadataListFromDataGridView = new List<Metadata>();
-
-            DataGridView dataGridView = GetActiveTabDataGridView();
-            List<DataGridViewGenericColumn> dataGridViewGenericColumnList = DataGridViewHandler.GetColumnsDataGridViewGenericColumnCurrentOrAutoCorrect(dataGridView, true);
-            foreach (DataGridViewGenericColumn dataGridViewGenericColumn in dataGridViewGenericColumnList)
-            {
-                if (dataGridViewGenericColumn.IsPopulated)
+            try 
+            { 
+                DataGridView dataGridView = GetActiveTabDataGridView();
+                List<DataGridViewGenericColumn> dataGridViewGenericColumnList = DataGridViewHandler.GetColumnsDataGridViewGenericColumnCurrentOrAutoCorrect(dataGridView, true);
+                foreach (DataGridViewGenericColumn dataGridViewGenericColumn in dataGridViewGenericColumnList)
                 {
-                    if (dataGridViewGenericColumn.Metadata == null)
+                    if (dataGridViewGenericColumn.IsPopulated)
                     {
-                        throw new Exception("Missing needed metadata"); //This should not happen. Means it's nt aggregated 
+                        if (dataGridViewGenericColumn.Metadata == null)
+                        {
+                            throw new Exception("Missing needed metadata"); //This should not happen. Means it's nt aggregated 
+                        }
+
+                        Metadata metadataFromDataGridView = new Metadata(dataGridViewGenericColumn.Metadata);
+
+                        UpdateMetadataFromDataGridView(dataGridViewGenericColumn.FileEntryAttribute, ref metadataFromDataGridView);
+
+                        metadataListOriginalExiftool.Add(new Metadata(dataGridViewGenericColumn.Metadata));
+                        metadataListFromDataGridView.Add(new Metadata(metadataFromDataGridView));
                     }
-                    
-                    Metadata metadataFromDataGridView = new Metadata(dataGridViewGenericColumn.Metadata);
-
-                    UpdateMetadataFromDataGridView(dataGridViewGenericColumn.FileEntryAttribute, ref metadataFromDataGridView);
-
-                    metadataListOriginalExiftool.Add(new Metadata(dataGridViewGenericColumn.Metadata));
-                    metadataListFromDataGridView.Add(new Metadata(metadataFromDataGridView));
-                } 
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
             }
         }
         #endregion
@@ -10009,10 +10309,6 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        
-
-        #region Progress Laxy Loading for DataGridView
-
         #region SeeProcessQueue_Clcik
         private void kryptonRibbonGroupButtonToolsProgressLazyloadingShowStatus_Click(object sender, EventArgs e)
         {
@@ -10031,25 +10327,45 @@ namespace PhotoTagsSynchronizer
         #endregion
 
 
-        #endregion
-
         //----
-        #region DataGridView Keydown
+        
 
-        #region Keydown - People
-        private void dataGridViewPeople_KeyDown(object sender, KeyEventArgs e)
+        #region DirtyFlag - DataGridView - CellLeave - UpdatedDirtyFlag
+        private void dataGridViewTagsAndKeywords_CellLeave(object sender, DataGridViewCellEventArgs e)
         {
-            triStateButtomClick = false;            
+            DataGridView dataGridView = (DataGridView)sender;
+            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex));
         }
-        #endregion
 
-        #region Keydown - TagsAndKeywords
-        private void dataGridViewTagsAndKeywords_KeyDown(object sender, KeyEventArgs e)
-        {            
-            triStateButtomClick = false; 
+        private void dataGridViewConvertAndMerge_CellLeave(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView dataGridView = (DataGridView)sender;
+            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex));
         }
-        #endregion
 
+        private void dataGridViewProperties_CellLeave(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView dataGridView = (DataGridView)sender;
+            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex));
+        }
+
+        private void dataGridViewDate_CellLeave(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView dataGridView = (DataGridView)sender;
+            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex));
+        }
+
+        private void dataGridViewMap_CellLeave(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView dataGridView = (DataGridView)sender;
+            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex));
+        }
+
+        private void dataGridViewPeople_CellLeave(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView dataGridView = (DataGridView)sender;
+            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex));
+        }
         #endregion
 
         #region Cell BeginEdit
@@ -10429,8 +10745,6 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
-
-        
 
         //ConvertAndMerge
         //Date

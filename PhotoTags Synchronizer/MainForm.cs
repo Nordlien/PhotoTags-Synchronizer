@@ -1072,62 +1072,7 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        #region DataGridView - UpdatedDirtyFlag - CellLeave 
-        private void dataGridViewTagsAndKeywords_CellLeave(object sender, DataGridViewCellEventArgs e)
-        {
-            DataGridView dataGridView = (DataGridView)sender;
-            //dataGridView.FirstDisplayedScrollingColumnIndex
-            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex));
-        }
-
-        private void dataGridViewConvertAndMerge_CellLeave(object sender, DataGridViewCellEventArgs e)
-        {
-            DataGridView dataGridView = (DataGridView)sender;
-            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex));
-        }
-
-        private void dataGridViewRename_CellLeave(object sender, DataGridViewCellEventArgs e)
-        {
-            DataGridView dataGridView = (DataGridView)sender;
-            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex));
-        }
-
-        private void dataGridViewProperties_CellLeave(object sender, DataGridViewCellEventArgs e)
-        {
-            DataGridView dataGridView = (DataGridView)sender;
-            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex));
-        }
-
-        private void dataGridViewExiftoolWarning_CellLeave(object sender, DataGridViewCellEventArgs e)
-        {
-            DataGridView dataGridView = (DataGridView)sender;
-            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex));
-        }
-
-        private void dataGridViewExiftool_CellLeave(object sender, DataGridViewCellEventArgs e)
-        {
-            DataGridView dataGridView = (DataGridView)sender;
-            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex));
-        }
-
-        private void dataGridViewDate_CellLeave(object sender, DataGridViewCellEventArgs e)
-        {
-            DataGridView dataGridView = (DataGridView)sender;
-            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex));
-        }
-
-        private void dataGridViewMap_CellLeave(object sender, DataGridViewCellEventArgs e)
-        {
-            DataGridView dataGridView = (DataGridView)sender;
-            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex));
-        }
-
-        private void dataGridViewPeople_CellLeave(object sender, DataGridViewCellEventArgs e)
-        {
-            DataGridView dataGridView = (DataGridView)sender;
-            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex));
-        }
-        #endregion
+        
     }
 
 }
