@@ -1630,10 +1630,9 @@ namespace PhotoTagsSynchronizer
                 ToolStripDropDownCheckReceiver(null);
                 return;
             }
-            
-            ToolStripMenuItem clickedToolStripMenuItem = (ToolStripMenuItem)sender;
-            clickedToolStripMenuItem.Checked = true;
 
+            KryptonContextMenuItem clickedToolStripMenuItem = (KryptonContextMenuItem)sender;
+            clickedToolStripMenuItem.Checked = true;
             ChromecastingSelected((GoogleCast.IReceiver)clickedToolStripMenuItem.Tag);
         }
         

@@ -50,6 +50,7 @@ namespace ImageAndMovieFileExtentions
                 case ".gif":
                     magickFormat = MagickFormat.Gif;
                     break;
+                case ".jpg":
                 case ".jpeg":
                     magickFormat = MagickFormat.Jpeg;
                     break;
