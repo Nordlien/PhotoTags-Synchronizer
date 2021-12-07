@@ -705,6 +705,7 @@ namespace PhotoTagsSynchronizer
                     return;
                 } else
                 {
+                    GlobalData.IsApplicationClosing = true;
                     ImageListViewClearAll(imageListView1);
                     OnImageListViewSelect_FilesSelectedOrNoneSelected(true); //Even when 0 selected files, allocate data and flags, etc...
                 }

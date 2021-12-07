@@ -61,34 +61,15 @@ namespace PhotoTagsSynchronizer
 
             isPopulation = true;
             #region Tab - Run batch - Command
-            //comboBoxBatchRunImageVariables.Enabled = false;
-            //comboBoxBatchRunVideoVariables.Enabled = false;
-            //comboBoxBatchRunImageCommand.Enabled = false;
-            //comboBoxBatchRunVideoCommand.Enabled = false;
             comboBoxBatchRunImageVariables.Items.AddRange(Metadata.ListOfProperties(false));
             comboBoxBatchRunVideoVariables.Items.AddRange(Metadata.ListOfProperties(false));
-            ComboBoxHandler.ComboBoxPopulate(comboBoxBatchRunImageCommand, Properties.Settings.Default.RunBatchImageCommandList, Properties.Settings.Default.RunBatchImageCommand);
-            ComboBoxHandler.ComboBoxPopulate(comboBoxBatchRunVideoCommand, Properties.Settings.Default.RunBatchVideoCommandList, Properties.Settings.Default.RunBatchVideoCommand);
+            ComboBoxHandler.ComboBoxPopulateClear(comboBoxBatchRunImageCommand, Properties.Settings.Default.RunBatchImageCommandList, Properties.Settings.Default.RunBatchImageCommand);
+            ComboBoxHandler.ComboBoxPopulateClear(comboBoxBatchRunVideoCommand, Properties.Settings.Default.RunBatchVideoCommandList, Properties.Settings.Default.RunBatchVideoCommand);
             checkBoxBatchRunImageWaitForCommandExit.Checked = Properties.Settings.Default.RunBatchImageWaitForCommand;
             checkBoxBatchRunVideoWaitForCommandExit.Checked = Properties.Settings.Default.RunBatchVideoWaitForCommand;
-            //comboBoxBatchRunImageCommand.Enabled = true;
-            //comboBoxBatchRunVideoCommand.Enabled = true;
-            //comboBoxBatchRunImageVariables.Enabled = true;
-            //comboBoxBatchRunVideoVariables.Enabled = true;
             #endregion
 
             #region Tab - Run batch - App
-            //textBoxBatchCommandSelectedFiles.Enabled = false;
-            //comboBoxBatchRunImageAppExample.Enabled = false;
-            //comboBoxBatchRunVideoAppExample.Enabled = false;
-            //comboBoxBatchRunImageAppId.Enabled = false;
-            //comboBoxBatchRunVideoAppId.Enabled = false;
-            //comboBoxBatchRunImageVerb.Enabled = false;
-            //comboBoxBatchRunVideoVerb.Enabled = false;
-            //checkBoxBatchRunImageWaitForAppExit.Enabled = false;
-            //checkBoxBatchRunVideoWaitForAppExit.Enabled = false;
-            //checkBoxRunBatchRedirectToTerminalWindows.Enabled = false;
-
             foreach (Metadata metadata in MetadatasGridView) textBoxBatchCommandSelectedFiles.Text += (textBoxBatchCommandSelectedFiles.Text == "" ? "" : "\r\n") + metadata.FileFullPath;
 
             applicationDatas = ApplicationInstalled.ListInstalledApps();
@@ -97,24 +78,14 @@ namespace PhotoTagsSynchronizer
                 comboBoxBatchRunImageAppExample.Items.Add(applicationDatas.Values[index].FriendlyAppName);
                 comboBoxBatchRunVideoAppExample.Items.Add(applicationDatas.Values[index].FriendlyAppName);
             }
-            ComboBoxHandler.ComboBoxPopulate(comboBoxBatchRunImageAppId, Properties.Settings.Default.RunBatchImageAppIdList, Properties.Settings.Default.RunBatchImageAppId);
-            ComboBoxHandler.ComboBoxPopulate(comboBoxBatchRunVideoAppId, Properties.Settings.Default.RunBatchVideoAppIdList, Properties.Settings.Default.RunBatchVideoAppId);
-            ComboBoxHandler.ComboBoxPopulate(comboBoxBatchRunImageVerb, Properties.Settings.Default.RunBatchImageVerbList, Properties.Settings.Default.RunBatchImageVerb);
-            ComboBoxHandler.ComboBoxPopulate(comboBoxBatchRunVideoVerb, Properties.Settings.Default.RunBatchVideoVerbList, Properties.Settings.Default.RunBatchVideoVerb);
+            ComboBoxHandler.ComboBoxPopulateClear(comboBoxBatchRunImageAppId, Properties.Settings.Default.RunBatchImageAppIdList, Properties.Settings.Default.RunBatchImageAppId);
+            ComboBoxHandler.ComboBoxPopulateClear(comboBoxBatchRunVideoAppId, Properties.Settings.Default.RunBatchVideoAppIdList, Properties.Settings.Default.RunBatchVideoAppId);
+            ComboBoxHandler.ComboBoxPopulateClear(comboBoxBatchRunImageVerb, Properties.Settings.Default.RunBatchImageVerbList, Properties.Settings.Default.RunBatchImageVerb);
+            ComboBoxHandler.ComboBoxPopulateClear(comboBoxBatchRunVideoVerb, Properties.Settings.Default.RunBatchVideoVerbList, Properties.Settings.Default.RunBatchVideoVerb);
             checkBoxBatchRunImageWaitForAppExit.Checked = Properties.Settings.Default.RunBatchImageWaitForApp;
             checkBoxBatchRunVideoWaitForAppExit.Checked = Properties.Settings.Default.RunBatchVideoWaitForApp;
             checkBoxRunBatchRedirectToTerminalWindows.Checked = Properties.Settings.Default.RunBatchInTerminalWindow;
 
-            //textBoxBatchCommandSelectedFiles.Enabled = true;
-            //comboBoxBatchRunImageAppExample.Enabled = true;
-            //comboBoxBatchRunVideoAppExample.Enabled = true;
-            //comboBoxBatchRunImageAppId.Enabled = true;
-            //comboBoxBatchRunVideoAppId.Enabled = true;
-            //comboBoxBatchRunImageVerb.Enabled = true;
-            //comboBoxBatchRunVideoVerb.Enabled = true;
-            //checkBoxBatchRunImageWaitForAppExit.Enabled = true;
-            //checkBoxBatchRunVideoWaitForAppExit.Enabled = true;
-            //checkBoxRunBatchRedirectToTerminalWindows.Enabled = true;
             #endregion
 
             #region Tab - Open with
@@ -141,7 +112,7 @@ namespace PhotoTagsSynchronizer
             fastColoredTextBoxHandlerRunArgumentFileAutoCorrect = new FastColoredTextBoxHandler(fastColoredTextBoxArgumentFileArgumentFileAutoCorrect, false, MetadataPrioity.MetadataPrioityDictionary);
 
             comboBoxArgumentFileCommandVariables.Items.Add("{TempFileArgumentFullPath}");
-            ComboBoxHandler.ComboBoxPopulate(comboBoxArgumentFileCommand, Properties.Settings.Default.RunArgumentCommandList, Properties.Settings.Default.RunArgumentCommand);
+            ComboBoxHandler.ComboBoxPopulateClear(comboBoxArgumentFileCommand, Properties.Settings.Default.RunArgumentCommandList, Properties.Settings.Default.RunArgumentCommand);
             fastColoredTextBoxArgumentFileArgumentFile.Text = ArguFile;
             fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Text = ArguFileAutoCorrect;
 
@@ -153,7 +124,7 @@ namespace PhotoTagsSynchronizer
             fastColoredTextBoxHandlerBuildResult = new FastColoredTextBoxHandler(fastColoredTextBoxBuildResult, false, MetadataPrioity.MetadataPrioityDictionary);
 
             comboBoxArgumentFileBuilderCommandVariables.Items.Add("{TempFileArgumentFullPath}");
-            ComboBoxHandler.ComboBoxPopulate(comboBoxArgumentFileBuilderCommand, Properties.Settings.Default.RunArgumentBuildCommandList, Properties.Settings.Default.RunArgumentBuildCommand);
+            ComboBoxHandler.ComboBoxPopulateClear(comboBoxArgumentFileBuilderCommand, Properties.Settings.Default.RunArgumentBuildCommandList, Properties.Settings.Default.RunArgumentBuildCommand);
 
             comboBoxMetadataWriteStandardTags.Items.AddRange(Metadata.ListOfProperties(false));
             comboBoxMetadataWriteKeywordAdd.Items.AddRange(Metadata.ListOfProperties(true));
@@ -594,14 +565,14 @@ namespace PhotoTagsSynchronizer
         #region Batch run - Click
         private void buttonBatchCommandBatchRun_Click(object sender, EventArgs e)
         {
-            ComboBoxHandler.ComboBoxAddTextToList(comboBoxBatchRunImageCommand);
-            ComboBoxHandler.ComboBoxAddTextToList(comboBoxBatchRunVideoCommand);
+            ComboBoxHandler.ComboBoxAddLastTextFirstInList(comboBoxBatchRunImageCommand);
+            ComboBoxHandler.ComboBoxAddLastTextFirstInList(comboBoxBatchRunVideoCommand);
 
-            ComboBoxHandler.ComboBoxAddTextToList(comboBoxBatchRunImageAppId);
-            ComboBoxHandler.ComboBoxAddTextToList(comboBoxBatchRunVideoAppId);
+            ComboBoxHandler.ComboBoxAddLastTextFirstInList(comboBoxBatchRunImageAppId);
+            ComboBoxHandler.ComboBoxAddLastTextFirstInList(comboBoxBatchRunVideoAppId);
 
-            ComboBoxHandler.ComboBoxAddTextToList(comboBoxBatchRunImageVerb);
-            ComboBoxHandler.ComboBoxAddTextToList(comboBoxBatchRunVideoVerb);
+            ComboBoxHandler.ComboBoxAddLastTextFirstInList(comboBoxBatchRunImageVerb);
+            ComboBoxHandler.ComboBoxAddLastTextFirstInList(comboBoxBatchRunVideoVerb);
 
             PhotoTagsCommonComponets.FormTerminalWindow formTerminalWindow = null;
             if (checkBoxRunBatchRedirectToTerminalWindows.Checked)
@@ -732,7 +703,7 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                ComboBoxHandler.ComboBoxAddTextToList(comboBoxArgumentFileCommand);
+                ComboBoxHandler.ComboBoxAddLastTextFirstInList(comboBoxArgumentFileCommand);
 
                 string tempArguFileFullPath = FileHandler.GetLocalApplicationDataPath("exiftool_arg_run.txt", true);
                 string commandWithArguments = comboBoxArgumentFileCommand.Text.Replace("{TempFileArgumentFullPath}", tempArguFileFullPath);
@@ -1064,7 +1035,7 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                ComboBoxHandler.ComboBoxAddTextToList(comboBoxArgumentFileBuilderCommand);
+                ComboBoxHandler.ComboBoxAddLastTextFirstInList(comboBoxArgumentFileBuilderCommand);
 
                 string tempArguFileFullPath = FileHandler.GetLocalApplicationDataPath("exiftool_arg_run.txt", true);
                 string commandWithArguments = comboBoxArgumentFileBuilderCommand.Text.Replace("{TempFileArgumentFullPath}", tempArguFileFullPath);

@@ -980,7 +980,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.kryptonTextBoxSearchFilename.Location = new System.Drawing.Point(103, 29);
             this.kryptonTextBoxSearchFilename.Name = "kryptonTextBoxSearchFilename";
-            this.kryptonTextBoxSearchFilename.Size = new System.Drawing.Size(170, 21);
+            this.kryptonTextBoxSearchFilename.Size = new System.Drawing.Size(170, 20);
             this.kryptonTextBoxSearchFilename.TabIndex = 1;
             // 
             // kryptonLabelSearchFilename
@@ -997,7 +997,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.kryptonTextBoxSearchDirectory.Location = new System.Drawing.Point(103, 3);
             this.kryptonTextBoxSearchDirectory.Name = "kryptonTextBoxSearchDirectory";
-            this.kryptonTextBoxSearchDirectory.Size = new System.Drawing.Size(170, 21);
+            this.kryptonTextBoxSearchDirectory.Size = new System.Drawing.Size(170, 20);
             this.kryptonTextBoxSearchDirectory.TabIndex = 0;
             // 
             // groupBoxSearchPeople
@@ -3197,7 +3197,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxBrowserURL.Location = new System.Drawing.Point(132, 6);
             this.textBoxBrowserURL.Name = "textBoxBrowserURL";
-            this.textBoxBrowserURL.Size = new System.Drawing.Size(252, 21);
+            this.textBoxBrowserURL.Size = new System.Drawing.Size(252, 20);
             this.textBoxBrowserURL.TabIndex = 9;
             this.textBoxBrowserURL.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxBrowserURL_KeyPress);
             // 
@@ -3564,7 +3564,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxRenameNewName.Location = new System.Drawing.Point(101, 30);
             this.textBoxRenameNewName.Name = "textBoxRenameNewName";
-            this.textBoxRenameNewName.Size = new System.Drawing.Size(294, 21);
+            this.textBoxRenameNewName.Size = new System.Drawing.Size(294, 20);
             this.textBoxRenameNewName.TabIndex = 1;
             this.textBoxRenameNewName.Enter += new System.EventHandler(this.textBoxRenameNewName_Enter);
             this.textBoxRenameNewName.Leave += new System.EventHandler(this.textBoxRenameNewName_Leave);

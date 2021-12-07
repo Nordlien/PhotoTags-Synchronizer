@@ -2,48 +2,83 @@
 using System.Windows.Forms;
 using static Manina.Windows.Forms.ImageListView;
 using Krypton.Toolkit;
+using System;
 
 namespace PhotoTagsSynchronizer
 {
 
     public class ComboBoxHandler
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         #region SelectionChangeCommitted - KryptonTextBox
         public static void SelectionChangeCommitted(KryptonTextBox textBox, string insertText)
         {
-            textBox.Focus();
-            var selectionIndex = textBox.SelectionStart;
-            textBox.Text = textBox.Text.Remove(selectionIndex, textBox.SelectionLength);
-            textBox.Text = textBox.Text.Insert(selectionIndex, insertText);
-            textBox.SelectionStart = selectionIndex + insertText.Length;
+            try
+            {
+                textBox.Focus();
+                var selectionIndex = textBox.SelectionStart;
+                textBox.Text = textBox.Text.Remove(selectionIndex, textBox.SelectionLength);
+                textBox.Text = textBox.Text.Insert(selectionIndex, insertText);
+                textBox.SelectionStart = selectionIndex + insertText.Length;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+            }
         }
         #endregion
 
         #region SelectionChangeCommitted - FastColoredTextBox
         public static void SelectionChangeCommitted(FastColoredTextBox textBox, string insertText)
         {
-            textBox.Focus();
-            var selectionIndex = textBox.SelectionStart;
-            textBox.Text = textBox.Text.Remove(selectionIndex, textBox.SelectionLength);
-            textBox.Text = textBox.Text.Insert(selectionIndex, insertText);
-            textBox.SelectionStart = selectionIndex + insertText.Length;
+            try
+            {
+                textBox.Focus();
+                var selectionIndex = textBox.SelectionStart;
+                textBox.Text = textBox.Text.Remove(selectionIndex, textBox.SelectionLength);
+                textBox.Text = textBox.Text.Insert(selectionIndex, insertText);
+                textBox.SelectionStart = selectionIndex + insertText.Length;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+            }
         }
         #endregion
 
         #region RemeberComboBoxSelection
         public static void RemeberComboBoxSelection(KryptonComboBox comboBox)
         {
-            comboBox.Tag = new ComboBoxSelection(comboBox);
+            try
+            {
+                comboBox.Tag = new ComboBoxSelection(comboBox);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+            }
         }
         #endregion
 
         #region SetComboBoxSelection
         public static void SetComboBoxSelection(KryptonComboBox comboBox)
         {
-            if (comboBox.Tag is ComboBoxSelection comboBoxSelection)
+            try
             {
-                comboBox.SelectionStart = comboBoxSelection.SelectionStart;
-                comboBox.SelectionLength = comboBoxSelection.SelectionLength;
+                if (comboBox.Tag is ComboBoxSelection comboBoxSelection)
+                {
+                    comboBox.SelectionStart = comboBoxSelection.SelectionStart;
+                    comboBox.SelectionLength = comboBoxSelection.SelectionLength;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
             }
         }
         #endregion
@@ -52,9 +87,17 @@ namespace PhotoTagsSynchronizer
         public static string ComboBoxStringCollection(KryptonComboBox comboBox)
         {
             string resultListString = "";
-            foreach (object item in comboBox.Items)
+            try
             {
-                if (item != null && !string.IsNullOrWhiteSpace((string)item)) resultListString += (resultListString == "" ? "" : "\r\n") + item.ToString();
+                foreach (object item in comboBox.Items)
+                {
+                    if (item != null && !string.IsNullOrWhiteSpace((string)item)) resultListString += (resultListString == "" ? "" : "\r\n") + item.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
             }
             return resultListString;
         }
@@ -68,38 +111,63 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Populate ComboBox - Populate - string[]
-        public static void ComboBoxPopulate(KryptonComboBox comboBox, string[] valueList, string defaultValue)
+        public static void ComboBoxPopulateAppend(KryptonComboBox comboBox, string valueItem)
         {
-            comboBox.Items.Clear();
-            if (valueList != null)
+            if (comboBox.Items.Count >= maxCount) return;
+            if (!string.IsNullOrEmpty(valueItem) && !comboBox.Items.Contains(valueItem)) 
+                comboBox.Items.Add(valueItem);
+        }
+
+        public static void ComboBoxPopulateAppend(KryptonComboBox comboBox, string[] valueList, string defaultValue)
+        {
+            try
             {
-                foreach (string valueItem in valueList)
+                if (valueList != null)
                 {
-                    comboBox.Items.Add(valueItem);
+                    foreach (string valueItem in valueList) ComboBoxPopulateAppend(comboBox, valueItem);                    
                 }
+                comboBox.Text = defaultValue == null ? "" : defaultValue;
             }
-            comboBox.Text = defaultValue == null ? "" : defaultValue;
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+            }
         }
         #endregion
 
         #region Populate ComboBox - Populate - string
-        public static void ComboBoxPopulate(KryptonComboBox comboBox, string valueListString, string defaultValue)
+        public static void ComboBoxPopulateClear(KryptonComboBox comboBox, string valueListString, string defaultValue)
         {
-            ComboBoxPopulate(comboBox, ConvertStringToArray(valueListString), defaultValue);
+            comboBox.BeginInit();
+            comboBox.Items.Clear();
+            ComboBoxPopulateAppend(comboBox, ConvertStringToArray(valueListString), defaultValue);
+            comboBox.EndInit();
         }
         #endregion
 
         const int maxCount = 30;
         #region ComboBox - Remeber last text and Add Text to list
-        public static void ComboBoxAddTextToList(KryptonComboBox comboBox)
+        public static void ComboBoxAddLastTextFirstInList(KryptonComboBox comboBox)
         {
-            string text = comboBox.Text;
-            int indexOfText = comboBox.Items.IndexOf(text); //Does it exist from before, remove to put first
-            if (indexOfText > -1) comboBox.Items.RemoveAt(indexOfText); //Remove if exist, in not already first
-            comboBox.Items.Insert(0, text); //Add first
+            try
+            {
+                string text = comboBox.Text;
+                if (!string.IsNullOrWhiteSpace(comboBox.Text))
+                {
+                    int indexOfText = comboBox.Items.IndexOf(text); //Does it exist from before, remove to put first
+                    if (indexOfText > -1) comboBox.Items.RemoveAt(indexOfText); //Remove if exist, in not already first
+                    comboBox.Items.Insert(0, text); //Add first
 
-            while (comboBox.Items.Count > maxCount) comboBox.Items.RemoveAt(maxCount);
-            comboBox.Text = text;
+                    while (comboBox.Items.Count > maxCount) comboBox.Items.RemoveAt(maxCount);
+                    comboBox.Text = text;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+            }
         }
         #endregion
 
@@ -107,24 +175,51 @@ namespace PhotoTagsSynchronizer
         public static string AutoCompleteStringCollectionToString(AutoCompleteStringCollection autoCompleteStringCollection)
         {
             string resultListString = "";
-            foreach (string item in autoCompleteStringCollection)
+            try
             {
-                if (!string.IsNullOrWhiteSpace(item)) resultListString += (resultListString == "" ? "" : "\r\n") + item.ToString();
+                foreach (string item in autoCompleteStringCollection)
+                {
+                    if (!string.IsNullOrWhiteSpace(item)) resultListString += (resultListString == "" ? "" : "\r\n") + item.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
             }
             return resultListString;
         }
         #endregion
 
         #region AutoCompleteStringCollection - Remeber last text and Add Text to list
-        public static void AddAutoCompleteStringCollection(AutoCompleteStringCollection autoCompleteStringCollection, string newValue)
+        public static void AutoCompleteStringCollectionAppend(AutoCompleteStringCollection autoCompleteStringCollection, string valueItem)
+        {
+            if (autoCompleteStringCollection.Count >= maxCount) return;
+            if (!string.IsNullOrEmpty(valueItem) && !autoCompleteStringCollection.Contains((string)valueItem)) autoCompleteStringCollection.Add((string)valueItem);
+        }
+
+        public static void AutoCompleteStringCollectionAppend(AutoCompleteStringCollection autoCompleteStringCollection, string[] newValues)
+        {
+            foreach (string value in newValues) AutoCompleteStringCollectionAppend(autoCompleteStringCollection, value);            
+        }
+
+        public static void AddLastTextFirstInAutoCompleteStringCollection(AutoCompleteStringCollection autoCompleteStringCollection, string newValue)
         {
             if (!string.IsNullOrWhiteSpace(newValue))
             {
-                int indexOfText = autoCompleteStringCollection.IndexOf(newValue); //Does it exist from before, remove to put first
-                if (indexOfText > -1) autoCompleteStringCollection.RemoveAt(indexOfText); //Remove if exist, in not already first
-                autoCompleteStringCollection.Insert(0, newValue); //Add first
+                try
+                {
+                    int indexOfText = autoCompleteStringCollection.IndexOf(newValue); //Does it exist from before, remove to put first
+                    if (indexOfText > -1) autoCompleteStringCollection.RemoveAt(indexOfText); //Remove if exist, in not already first
+                    autoCompleteStringCollection.Insert(0, newValue); //Add first
 
-                while (autoCompleteStringCollection.Count > maxCount) autoCompleteStringCollection.RemoveAt(maxCount);
+                    while (autoCompleteStringCollection.Count > maxCount) autoCompleteStringCollection.RemoveAt(maxCount);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex);
+                    KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                }
             } else
             {
                 //DEBUG

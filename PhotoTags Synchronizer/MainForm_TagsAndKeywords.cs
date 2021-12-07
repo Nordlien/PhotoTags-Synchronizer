@@ -195,27 +195,27 @@ namespace PhotoTagsSynchronizer
                     string newValue = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, e.ColumnIndex, e.RowIndex);
                     if (gridViewGenericDataRow.RowName == DataGridViewHandlerTagsAndKeywords.tagTitle)
                     {
-                        ComboBoxHandler.AddAutoCompleteStringCollection(autoCompleteStringCollectionTitle, newValue);
+                        ComboBoxHandler.AddLastTextFirstInAutoCompleteStringCollection(autoCompleteStringCollectionTitle, newValue);
                         Properties.Settings.Default.AutoCorrectFormTitle = ComboBoxHandler.AutoCompleteStringCollectionToString(autoCompleteStringCollectionTitle);
                     }
                     if (gridViewGenericDataRow.RowName == DataGridViewHandlerTagsAndKeywords.tagDescription)
                     {
-                        ComboBoxHandler.AddAutoCompleteStringCollection(autoCompleteStringCollectionDescription, newValue);
+                        ComboBoxHandler.AddLastTextFirstInAutoCompleteStringCollection(autoCompleteStringCollectionDescription, newValue);
                         Properties.Settings.Default.AutoCorrectFormDescription = ComboBoxHandler.AutoCompleteStringCollectionToString(autoCompleteStringCollectionDescription);
                     }
                     if (gridViewGenericDataRow.RowName == DataGridViewHandlerTagsAndKeywords.tagComments)
                     {
-                        ComboBoxHandler.AddAutoCompleteStringCollection(autoCompleteStringCollectionComments, newValue);
+                        ComboBoxHandler.AddLastTextFirstInAutoCompleteStringCollection(autoCompleteStringCollectionComments, newValue);
                         Properties.Settings.Default.AutoCorrectFormComments = ComboBoxHandler.AutoCompleteStringCollectionToString(autoCompleteStringCollectionComments);
                     }
                     if (gridViewGenericDataRow.RowName == DataGridViewHandlerTagsAndKeywords.tagAlbum)
                     {
-                        ComboBoxHandler.AddAutoCompleteStringCollection(autoCompleteStringCollectionAlbum, newValue);
+                        ComboBoxHandler.AddLastTextFirstInAutoCompleteStringCollection(autoCompleteStringCollectionAlbum, newValue);
                         Properties.Settings.Default.AutoCorrectFormAlbum = ComboBoxHandler.AutoCompleteStringCollectionToString(autoCompleteStringCollectionAlbum);
                     }
                     if (gridViewGenericDataRow.RowName == DataGridViewHandlerTagsAndKeywords.tagAuthor)
                     {
-                        ComboBoxHandler.AddAutoCompleteStringCollection(autoCompleteStringCollectionAuthor, newValue);
+                        ComboBoxHandler.AddLastTextFirstInAutoCompleteStringCollection(autoCompleteStringCollectionAuthor, newValue);
                         Properties.Settings.Default.AutoCorrectFormAuthor = ComboBoxHandler.AutoCompleteStringCollectionToString(autoCompleteStringCollectionAuthor);
                     }
                 }
@@ -563,8 +563,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ClearDetailViewTagsAndKeywords
-        private void ClearDetailViewTagsAndKeywords()
+        #region InitDetailViewTagsAndKeywords
+        private void InitDetailViewTagsAndKeywords()
         {
             isSettingDefaultComboxValues = true;
             try
@@ -573,10 +573,31 @@ namespace PhotoTagsSynchronizer
 
                 comboBoxMediaAiConfidence.SelectedIndex = Properties.Settings.Default.MediaAiConfidence;
 
-                comboBoxTitle.Items.Clear();
-                comboBoxDescription.Items.Clear();
-                comboBoxComments.Items.Clear();
+                comboBoxTitle.SuspendLayout();
+                comboBoxDescription.SuspendLayout();
+                comboBoxComments.SuspendLayout();
+                comboBoxAlbum.SuspendLayout();
+                comboBoxAuthor.SuspendLayout();
+
                 comboBoxAlbum.Items.Clear();
+                comboBoxAlbum.AutoCompleteMode = AutoCompleteMode.None;
+                comboBoxAlbum.AutoCompleteSource = AutoCompleteSource.None;
+
+                comboBoxTitle.Items.Clear();
+                comboBoxTitle.AutoCompleteMode = AutoCompleteMode.None;
+                comboBoxTitle.AutoCompleteSource = AutoCompleteSource.None;
+
+                comboBoxDescription.Items.Clear();
+                comboBoxDescription.AutoCompleteMode = AutoCompleteMode.None;
+                comboBoxDescription.AutoCompleteSource = AutoCompleteSource.None;
+
+                comboBoxComments.Items.Clear();
+                comboBoxComments.AutoCompleteMode = AutoCompleteMode.None;
+                comboBoxComments.AutoCompleteSource = AutoCompleteSource.None;
+
+                comboBoxAuthor.Items.Clear();
+                comboBoxAuthor.AutoCompleteMode = AutoCompleteMode.None;
+                comboBoxAuthor.AutoCompleteSource = AutoCompleteSource.None;
 
                 lock (autoCompleteStringCollectionAlbumLock) autoCompleteStringCollectionAlbum = new AutoCompleteStringCollection();
                 lock (autoCompleteStringCollectionTitleLock) autoCompleteStringCollectionTitle = new AutoCompleteStringCollection();
@@ -590,20 +611,42 @@ namespace PhotoTagsSynchronizer
                 string[] arrayDescription = ComboBoxHandler.ConvertStringToArray(Properties.Settings.Default.AutoCorrectFormDescription);
                 string[] arrayTitle = ComboBoxHandler.ConvertStringToArray(Properties.Settings.Default.AutoCorrectFormTitle);
 
-                ComboBoxHandler.ComboBoxPopulate(comboBoxAlbum, arrayAlbum, "");
-                lock (autoCompleteStringCollectionAlbumLock) autoCompleteStringCollectionAlbum.AddRange(arrayAlbum);
 
-                ComboBoxHandler.ComboBoxPopulate(comboBoxAuthor, arrayAuthor, "");
-                lock (autoCompleteStringCollectionTitleLock) autoCompleteStringCollectionAuthor.AddRange(arrayAuthor);
+                lock (autoCompleteStringCollectionAlbumLock)
+                {
+                    ComboBoxHandler.ComboBoxPopulateAppend(comboBoxAlbum, arrayAlbum, "");
+                    ComboBoxHandler.AutoCompleteStringCollectionAppend(autoCompleteStringCollectionAlbum, arrayAlbum);
+                }
 
-                ComboBoxHandler.ComboBoxPopulate(comboBoxComments, arrayComments, "");
-                lock (autoCompleteStringCollectionCommentsLock) autoCompleteStringCollectionComments.AddRange(arrayComments);
+                lock (autoCompleteStringCollectionTitleLock)
+                {
+                    ComboBoxHandler.ComboBoxPopulateAppend(comboBoxAuthor, arrayAuthor, "");
+                    ComboBoxHandler.AutoCompleteStringCollectionAppend(autoCompleteStringCollectionAuthor, arrayAuthor);
+                }
 
-                ComboBoxHandler.ComboBoxPopulate(comboBoxDescription, arrayDescription, "");
-                lock (autoCompleteStringCollectionDescriptionLock) autoCompleteStringCollectionDescription.AddRange(arrayDescription);
+                lock (autoCompleteStringCollectionCommentsLock)
+                {
+                    ComboBoxHandler.ComboBoxPopulateAppend(comboBoxComments, arrayComments, "");
+                    ComboBoxHandler.AutoCompleteStringCollectionAppend(autoCompleteStringCollectionComments, arrayComments);
+                }
 
-                ComboBoxHandler.ComboBoxPopulate(comboBoxTitle, arrayTitle, "");
-                lock (autoCompleteStringCollectionAuthorLock) autoCompleteStringCollectionTitle.AddRange(arrayTitle);
+                lock (autoCompleteStringCollectionDescriptionLock)
+                {
+                    ComboBoxHandler.ComboBoxPopulateAppend(comboBoxDescription, arrayDescription, "");
+                    ComboBoxHandler.AutoCompleteStringCollectionAppend(autoCompleteStringCollectionDescription, arrayDescription);
+                }
+
+                lock (autoCompleteStringCollectionAuthorLock)
+                {
+                    ComboBoxHandler.ComboBoxPopulateAppend(comboBoxTitle, arrayTitle, "");
+                    ComboBoxHandler.AutoCompleteStringCollectionAppend(autoCompleteStringCollectionTitle, arrayTitle);
+                }
+
+                comboBoxTitle.ResumeLayout();
+                comboBoxDescription.ResumeLayout();
+                comboBoxComments.ResumeLayout();
+                comboBoxAlbum.ResumeLayout();
+                comboBoxAuthor.ResumeLayout();
 
                 //groupBoxRating
                 radioButtonRating1.Checked = false;
@@ -642,34 +685,34 @@ namespace PhotoTagsSynchronizer
                     radioButtonRating4.SuspendLayout();
                     radioButtonRating5.SuspendLayout();
                 }
-                comboBoxMediaAiConfidence.Enabled = enable;
-
-                if (enable) comboBoxTitle.Enabled = enable; //To avoid flashing
-                comboBoxTitle.DropDownStyle = enable ? ComboBoxStyle.DropDown : ComboBoxStyle.DropDownList; //To avoid white inputbox
-                comboBoxTitle.Enabled = enable;//Also to avoid flashing, need set false after change DropDownStyle
-
-                if (enable) comboBoxDescription.Enabled = enable;//To avoid flashing
-                comboBoxDescription.DropDownStyle = enable ? ComboBoxStyle.DropDown : ComboBoxStyle.DropDownList; //To avoid white inputbox
-                comboBoxDescription.Enabled = enable;//Also to avoid flashing, need set false after change DropDownStyle
-
-                if (enable) comboBoxComments.Enabled = enable;//To avoid flashing
-                comboBoxComments.DropDownStyle = enable ? ComboBoxStyle.DropDown : ComboBoxStyle.DropDownList;//To avoid white inputbox
-                comboBoxComments.Enabled = enable;//Also to avoid flashing, need set false after change DropDownStyle
-
-                if (enable) comboBoxAlbum.Enabled = enable;//To avoid flashing
-                comboBoxAlbum.DropDownStyle = enable ? ComboBoxStyle.DropDown : ComboBoxStyle.DropDownList;//To avoid white inputbox
-                comboBoxAlbum.Enabled = enable;//Also to avoid flashing, need set false after change DropDownStyle
-
-                if (enable) comboBoxAuthor.Enabled = enable;//To avoid flashing
-                comboBoxAuthor.DropDownStyle = enable ? ComboBoxStyle.DropDown : ComboBoxStyle.DropDownList;//To avoid white inputbox
-                comboBoxAuthor.Enabled = enable; //Also to avoid flashing, need set false after change DropDownStyle
 
 
-                radioButtonRating1.Enabled = enable;
-                radioButtonRating2.Enabled = enable;
-                radioButtonRating3.Enabled = enable;
-                radioButtonRating4.Enabled = enable;
-                radioButtonRating5.Enabled = enable;
+                //if (enable) comboBoxTitle.Enabled = enable; //To avoid flashing
+                //comboBoxTitle.DropDownStyle = enable ? ComboBoxStyle.DropDown : ComboBoxStyle.DropDownList; //To avoid white inputbox
+                //comboBoxTitle.Enabled = enable;//Also to avoid flashing, need set false after change DropDownStyle
+
+                //if (enable) comboBoxDescription.Enabled = enable;//To avoid flashing
+                //comboBoxDescription.DropDownStyle = enable ? ComboBoxStyle.DropDown : ComboBoxStyle.DropDownList; //To avoid white inputbox
+                //comboBoxDescription.Enabled = enable;//Also to avoid flashing, need set false after change DropDownStyle
+
+                //if (enable) comboBoxComments.Enabled = enable;//To avoid flashing
+                //comboBoxComments.DropDownStyle = enable ? ComboBoxStyle.DropDown : ComboBoxStyle.DropDownList;//To avoid white inputbox
+                //comboBoxComments.Enabled = enable;//Also to avoid flashing, need set false after change DropDownStyle
+
+                //if (enable) comboBoxAlbum.Enabled = enable;//To avoid flashing
+                //comboBoxAlbum.DropDownStyle = enable ? ComboBoxStyle.DropDown : ComboBoxStyle.DropDownList;//To avoid white inputbox
+                //comboBoxAlbum.Enabled = enable;//Also to avoid flashing, need set false after change DropDownStyle
+
+                //if (enable) comboBoxAuthor.Enabled = enable;//To avoid flashing
+                //comboBoxAuthor.DropDownStyle = enable ? ComboBoxStyle.DropDown : ComboBoxStyle.DropDownList;//To avoid white inputbox
+                //comboBoxAuthor.Enabled = enable; //Also to avoid flashing, need set false after change DropDownStyle
+
+                //comboBoxMediaAiConfidence.Enabled = enable;
+                //radioButtonRating1.Enabled = enable;
+                //radioButtonRating2.Enabled = enable;
+                //radioButtonRating3.Enabled = enable;
+                //radioButtonRating4.Enabled = enable;
+                //radioButtonRating5.Enabled = enable;
 
                 if (enable)
                 {
@@ -693,8 +736,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region AddToListBox
-        private void AddToListBox(DataGridView dataGridView, KryptonComboBox comboBox, int columnIndex, string sourceHeader, string rowTag)
+        #region AddCellValueToKryptonComboBox
+        private void AppendCellValueToKryptonComboBox(DataGridView dataGridView, KryptonComboBox kryptonComboBox, int columnIndex, string sourceHeader, string rowTag)
         {
             try
             {
@@ -704,7 +747,7 @@ namespace PhotoTagsSynchronizer
                 if (rowIndex > -1)
                 {
                     value = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, rowIndex);
-                    if (value != null && !string.IsNullOrWhiteSpace(value.ToString()) && !comboBox.Items.Contains(value.ToString())) comboBox.Items.Add(value.ToString());
+                    ComboBoxHandler.ComboBoxPopulateAppend(kryptonComboBox, (string)value);
                 }
             }
             catch (Exception ex)
@@ -714,8 +757,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region AddToCollection
-        private void AddToCollection(DataGridView dataGridView, AutoCompleteStringCollection autoCompleteStringCollection, int columnIndex, string sourceHeader, string rowTag)
+        #region AddCellValueToAutoCompleteStringCollection
+        private void AppendCellValueToAutoCompleteStringCollection(DataGridView dataGridView, AutoCompleteStringCollection autoCompleteStringCollection, int columnIndex, string sourceHeader, string rowTag)
         {
             try
             {
@@ -725,7 +768,7 @@ namespace PhotoTagsSynchronizer
                 if (rowIndex > -1)
                 {
                     value = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, rowIndex);
-                    if (value != null && !string.IsNullOrWhiteSpace(value.ToString()) && !autoCompleteStringCollection.Contains(value.ToString())) autoCompleteStringCollection.Add(value.ToString());
+                    ComboBoxHandler.AutoCompleteStringCollectionAppend(autoCompleteStringCollection, (string)value);
                 }
             }
             catch (Exception ex)
@@ -753,7 +796,6 @@ namespace PhotoTagsSynchronizer
             isSettingDefaultComboxValues = true;
             try
             {
-
                 comboBoxTitle.Text = "";
                 comboBoxDescription.Text = "";
                 comboBoxComments.Text = "";
@@ -764,25 +806,39 @@ namespace PhotoTagsSynchronizer
                 {
                     foreach (string sourceHeader in DataGridViewHandlerTagsAndKeywords.sourceHeaders)
                     {
+                        lock (autoCompleteStringCollectionTitleLock)
+                        {
+                            AppendCellValueToKryptonComboBox(dataGridView, comboBoxTitle, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagTitle);
+                            AppendCellValueToAutoCompleteStringCollection(dataGridView, autoCompleteStringCollectionTitle, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagTitle);
+                        }
 
-                        AddToListBox(dataGridView, comboBoxTitle, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagTitle);
-                        lock (autoCompleteStringCollectionTitleLock) AddToCollection(dataGridView, autoCompleteStringCollectionTitle, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagTitle);
+                        lock (autoCompleteStringCollectionDescriptionLock)
+                        {
+                            AppendCellValueToKryptonComboBox(dataGridView, comboBoxDescription, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagDescription);
+                            AppendCellValueToKryptonComboBox(dataGridView, comboBoxDescription, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAlbum);
+                            AppendCellValueToAutoCompleteStringCollection(dataGridView, autoCompleteStringCollectionDescription, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagDescription);
+                            AppendCellValueToAutoCompleteStringCollection(dataGridView, autoCompleteStringCollectionDescription, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAlbum);
+                        }
 
-                        AddToListBox(dataGridView, comboBoxDescription, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagDescription);
-                        AddToListBox(dataGridView, comboBoxDescription, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAlbum);
-                        lock (autoCompleteStringCollectionDescriptionLock) AddToCollection(dataGridView, autoCompleteStringCollectionDescription, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagDescription);
-                        lock (autoCompleteStringCollectionDescriptionLock) AddToCollection(dataGridView, autoCompleteStringCollectionDescription, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAlbum);
+                        lock (autoCompleteStringCollectionCommentsLock)
+                        {
+                            AppendCellValueToKryptonComboBox(dataGridView, comboBoxComments, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagComments);
+                            AppendCellValueToAutoCompleteStringCollection(dataGridView, autoCompleteStringCollectionComments, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagComments);
+                        }
 
-                        AddToListBox(dataGridView, comboBoxComments, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagComments);
-                        lock (autoCompleteStringCollectionCommentsLock) AddToCollection(dataGridView, autoCompleteStringCollectionComments, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagComments);
+                        lock (autoCompleteStringCollectionAlbumLock)
+                        {
+                            AppendCellValueToKryptonComboBox(dataGridView, comboBoxAlbum, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAlbum);
+                            AppendCellValueToKryptonComboBox(dataGridView, comboBoxAlbum, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagDescription);
+                            AppendCellValueToAutoCompleteStringCollection(dataGridView, autoCompleteStringCollectionAlbum, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAlbum);
+                            AppendCellValueToAutoCompleteStringCollection(dataGridView, autoCompleteStringCollectionAlbum, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagDescription);
+                        }
 
-                        AddToListBox(dataGridView, comboBoxAlbum, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAlbum);
-                        AddToListBox(dataGridView, comboBoxAlbum, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagDescription);
-                        lock (autoCompleteStringCollectionAlbumLock) AddToCollection(dataGridView, autoCompleteStringCollectionAlbum, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAlbum);
-                        lock (autoCompleteStringCollectionAlbumLock) AddToCollection(dataGridView, autoCompleteStringCollectionAlbum, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagDescription);
-
-                        AddToListBox(dataGridView, comboBoxAuthor, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAuthor);
-                        lock (autoCompleteStringCollectionAuthorLock) AddToCollection(dataGridView, autoCompleteStringCollectionAuthor, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagTitle);
+                        lock (autoCompleteStringCollectionAuthorLock)
+                        {
+                            AppendCellValueToKryptonComboBox(dataGridView, comboBoxAuthor, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAuthor);
+                            AppendCellValueToAutoCompleteStringCollection(dataGridView, autoCompleteStringCollectionAuthor, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagTitle);
+                        }
                     }
                 }
 

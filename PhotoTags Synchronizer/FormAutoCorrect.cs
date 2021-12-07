@@ -56,11 +56,11 @@ namespace PhotoTagsSynchronizer
         {
             InitializeComponent();
             this.DialogResult = DialogResult.None;
-            ComboBoxHandler.ComboBoxPopulate(comboBoxAlbum, Properties.Settings.Default.AutoCorrectFormAlbum, "");
-            ComboBoxHandler.ComboBoxPopulate(comboBoxAuthor, Properties.Settings.Default.AutoCorrectFormAuthor, "");
-            ComboBoxHandler.ComboBoxPopulate(comboBoxComments, Properties.Settings.Default.AutoCorrectFormComments, "");
-            ComboBoxHandler.ComboBoxPopulate(comboBoxDescription, Properties.Settings.Default.AutoCorrectFormDescription, "");
-            ComboBoxHandler.ComboBoxPopulate(comboBoxTitle, Properties.Settings.Default.AutoCorrectFormTitle, "");
+            ComboBoxHandler.ComboBoxPopulateClear(comboBoxAlbum, Properties.Settings.Default.AutoCorrectFormAlbum, "");
+            ComboBoxHandler.ComboBoxPopulateClear(comboBoxAuthor, Properties.Settings.Default.AutoCorrectFormAuthor, "");
+            ComboBoxHandler.ComboBoxPopulateClear(comboBoxComments, Properties.Settings.Default.AutoCorrectFormComments, "");
+            ComboBoxHandler.ComboBoxPopulateClear(comboBoxDescription, Properties.Settings.Default.AutoCorrectFormDescription, "");
+            ComboBoxHandler.ComboBoxPopulateClear(comboBoxTitle, Properties.Settings.Default.AutoCorrectFormTitle, "");
             checkBoxAlbum.Checked = Properties.Settings.Default.UseAutoCorrectFormAlbum;
             checkBoxAuthor.Checked = Properties.Settings.Default.UseAutoCorrectFormAuthor;
             checkBoxComments.Checked = Properties.Settings.Default.UseAutoCorrectFormComments;
@@ -90,11 +90,11 @@ namespace PhotoTagsSynchronizer
             Properties.Settings.Default.UseAutoCorrectFormDescription = checkBoxDescription.Checked;
             Properties.Settings.Default.UseAutoCorrectFormTitle = checkBoxTitle.Checked;
 
-            ComboBoxHandler.ComboBoxAddTextToList(comboBoxAlbum);
-            ComboBoxHandler.ComboBoxAddTextToList(comboBoxAuthor);
-            ComboBoxHandler.ComboBoxAddTextToList(comboBoxComments);
-            ComboBoxHandler.ComboBoxAddTextToList(comboBoxDescription);
-            ComboBoxHandler.ComboBoxAddTextToList(comboBoxTitle);
+            ComboBoxHandler.ComboBoxAddLastTextFirstInList(comboBoxAlbum);
+            ComboBoxHandler.ComboBoxAddLastTextFirstInList(comboBoxAuthor);
+            ComboBoxHandler.ComboBoxAddLastTextFirstInList(comboBoxComments);
+            ComboBoxHandler.ComboBoxAddLastTextFirstInList(comboBoxDescription);
+            ComboBoxHandler.ComboBoxAddLastTextFirstInList(comboBoxTitle);
 
 
             Properties.Settings.Default.AutoCorrectFormAlbum = ComboBoxHandler.ComboBoxStringCollection(comboBoxAlbum);

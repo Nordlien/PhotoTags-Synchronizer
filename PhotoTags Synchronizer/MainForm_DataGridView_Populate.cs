@@ -664,7 +664,7 @@ namespace PhotoTagsSynchronizer
                     switch (GetActiveTabTag())
                     {
                         case LinkTabAndDataGridViewNameTags:
-                            ClearDetailViewTagsAndKeywords();
+                            InitDetailViewTagsAndKeywords();
                             DataGridViewHandlerTagsAndKeywords.MediaAiTagConfidence = GetAiConfidence();
                             DataGridViewHandlerTagsAndKeywords.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
                             DataGridViewHandlerTagsAndKeywords.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;

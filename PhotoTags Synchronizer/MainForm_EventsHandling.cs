@@ -5432,33 +5432,32 @@ namespace PhotoTagsSynchronizer
         private bool IsAnyDataUnsaved()
         {
             if (GlobalData.IsApplicationClosing) return false;
-            int listOfUpdatesCount = 0;
+            bool isAnyDataUnsaved = false;
+            
             try
             {
-                bool isAnyDataUnsaved = false;
-                if (GlobalData.IsAgregatedTags) isAnyDataUnsaved = DataGridViewHandler.IsDataGridViewDirty(dataGridViewTagsAndKeywords);
-                if (isAnyDataUnsaved) return isAnyDataUnsaved;
-                if (GlobalData.IsAgregatedMap) isAnyDataUnsaved = DataGridViewHandler.IsDataGridViewDirty(dataGridViewMap);
-                if (isAnyDataUnsaved) return isAnyDataUnsaved;
-                if (GlobalData.IsAgregatedPeople) isAnyDataUnsaved = DataGridViewHandler.IsDataGridViewDirty(dataGridViewPeople);
-                if (isAnyDataUnsaved) return isAnyDataUnsaved;
-                if (GlobalData.IsAgregatedDate) isAnyDataUnsaved = DataGridViewHandler.IsDataGridViewDirty(dataGridViewDate);
-                if (isAnyDataUnsaved) return isAnyDataUnsaved;
-                if (GlobalData.IsAgregatedProperties) isAnyDataUnsaved = DataGridViewHandler.IsDataGridViewDirty(dataGridViewProperties);
-                if (isAnyDataUnsaved) return isAnyDataUnsaved;
+                int listOfUpdatesCount = 0;
+                //if (!isAnyDataUnsaved && GlobalData.IsAgregatedTags) isAnyDataUnsaved = DataGridViewHandler.IsDataGridViewDirty(dataGridViewTagsAndKeywords);
+                //if (!isAnyDataUnsaved && GlobalData.IsAgregatedMap) isAnyDataUnsaved = DataGridViewHandler.IsDataGridViewDirty(dataGridViewMap);
+                //if (!isAnyDataUnsaved && GlobalData.IsAgregatedPeople) isAnyDataUnsaved = DataGridViewHandler.IsDataGridViewDirty(dataGridViewPeople);
+                //if (!isAnyDataUnsaved && GlobalData.IsAgregatedDate) isAnyDataUnsaved = DataGridViewHandler.IsDataGridViewDirty(dataGridViewDate);
+                //if (!isAnyDataUnsaved && GlobalData.IsAgregatedProperties) isAnyDataUnsaved = DataGridViewHandler.IsDataGridViewDirty(dataGridViewProperties);
+                //if (!isAnyDataUnsaved) //Do big test, if something unsaved
+                {
+                    GetDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView);
+                    //Find what columns are updated / changed by user
+                    List<int> listOfUpdates = ExiftoolWriter.GetListOfMetadataChangedByUser(metadataListOriginalExiftool, metadataListFromDataGridView);
+                    listOfUpdatesCount = listOfUpdates.Count;
 
-                GetDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView);
-
-                //Find what columns are updated / changed by user
-                List<int> listOfUpdates = ExiftoolWriter.GetListOfMetadataChangedByUser(metadataListOriginalExiftool, metadataListFromDataGridView);
-                listOfUpdatesCount = listOfUpdates.Count;
+                    isAnyDataUnsaved = (listOfUpdatesCount > 0);
+                }      
             }
             catch (Exception ex)
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
             }
-            return (listOfUpdatesCount > 0);
+            return isAnyDataUnsaved;
         }
         #endregion
 
