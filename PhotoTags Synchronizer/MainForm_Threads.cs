@@ -1136,18 +1136,22 @@ namespace PhotoTagsSynchronizer
                                                             metadataDummy.FileDirectory = mediaFilesNotInDatabase[index].Directory;
                                                             metadataDummy.FileMimeType = FormDatabaseCleaner.CorruptFile; //Also used
                                                             metadataDummy.PersonalComments = "Exiftool failed";
+                                                            metadataDummy.FileDateCreated = mediaFilesNotInDatabase[index].LastWriteDateTime;
+                                                            metadataDummy.FileDateAccessed = DateTime.Now;
+                                                            metadataDummy.FileSize = 0;
                                                             try
                                                             {
-                                                                FileInfo fileInfo = new FileInfo(mediaFilesNotInDatabase[index].FileFullPath);
-                                                                metadataDummy.FileDateCreated = fileInfo.CreationTime;
-                                                                metadataDummy.FileDateAccessed = fileInfo.LastAccessTime;
-                                                                metadataDummy.FileSize = fileInfo.Length;
-                                                            } catch
-                                                            {
-                                                                metadataDummy.FileDateCreated = mediaFilesNotInDatabase[index].LastWriteDateTime;
-                                                                metadataDummy.FileDateAccessed = DateTime.Now;
-                                                                metadataDummy.FileSize = 0;
-                                                            }
+                                                                if (File.Exists(mediaFilesNotInDatabase[index].FileFullPath))
+                                                                {
+                                                                    FileInfo fileInfo = new FileInfo(mediaFilesNotInDatabase[index].FileFullPath);
+                                                                    metadataDummy.FileDateCreated = fileInfo.CreationTime;
+                                                                    metadataDummy.FileDateAccessed = fileInfo.LastAccessTime;
+                                                                    metadataDummy.FileSize = fileInfo.Length;
+                                                                } else
+                                                                {
+                                                                    metadataDummy.PersonalComments = "File doesn't exist - Exiftool failed";
+                                                                }
+                                                            } catch { }
                                                             databaseAndCacheMetadataExiftool.TransactionBeginBatch();
                                                             databaseAndCacheMetadataExiftool.Write(metadataDummy);
                                                             databaseAndCacheMetadataExiftool.TransactionCommitBatch();
