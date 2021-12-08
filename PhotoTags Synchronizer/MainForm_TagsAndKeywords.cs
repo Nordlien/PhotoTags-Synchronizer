@@ -346,7 +346,11 @@ namespace PhotoTagsSynchronizer
                 KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
             }
         }
-
+        private void ActionUpdateTitle()
+        {
+            ComboBoxHandler.ComboBoxAddLastTextFirstInList(comboBoxTitle);
+            ComboBoxHandler.AddLastTextFirstInAutoCompleteStringCollection(autoCompleteStringCollectionTitle, comboBoxTitle.Text);
+        }
 
         private void comboBoxTitle_TextUpdate(object sender, EventArgs e)
         {
@@ -357,8 +361,7 @@ namespace PhotoTagsSynchronizer
         private void comboBoxTitle_SelectionChangeCommitted(object sender, EventArgs e)
         {
             ActionChangeTitle((string)((KryptonComboBox)sender).SelectedItem);
-            ComboBoxHandler.ComboBoxAddLastTextFirstInList(comboBoxTitle);
-            ComboBoxHandler.AddLastTextFirstInAutoCompleteStringCollection(autoCompleteStringCollectionTitle, comboBoxTitle.Text);
+            ActionUpdateTitle();
         }
         #endregion
 
@@ -377,6 +380,12 @@ namespace PhotoTagsSynchronizer
             }
         }
 
+        private void ActionUpdateDescription()
+        {
+            ComboBoxHandler.ComboBoxAddLastTextFirstInList(comboBoxDescription);
+            ComboBoxHandler.AddLastTextFirstInAutoCompleteStringCollection(autoCompleteStringCollectionDescription, comboBoxDescription.Text);
+        }
+
         private void comboBoxDescription_TextUpdate(object sender, EventArgs e)
         {
             ActionChangeDescription(((KryptonComboBox)sender).Text);
@@ -385,8 +394,7 @@ namespace PhotoTagsSynchronizer
         private void comboBoxDescription_SelectionChangeCommitted(object sender, EventArgs e)
         {
             ActionChangeDescription((string)((KryptonComboBox)sender).SelectedItem);
-            ComboBoxHandler.ComboBoxAddLastTextFirstInList(comboBoxDescription);
-            ComboBoxHandler.AddLastTextFirstInAutoCompleteStringCollection(autoCompleteStringCollectionDescription, comboBoxDescription.Text);
+            ActionUpdateDescription();
         }
         #endregion
 
@@ -405,6 +413,12 @@ namespace PhotoTagsSynchronizer
             }
         }
 
+        private void ActionUpdateComments()
+        {
+            ComboBoxHandler.ComboBoxAddLastTextFirstInList(comboBoxComments);
+            ComboBoxHandler.AddLastTextFirstInAutoCompleteStringCollection(autoCompleteStringCollectionComments, comboBoxComments.Text);
+        }
+
         private void comboBoxComments_TextUpdate(object sender, EventArgs e)
         {
             ActionChangeComments(((KryptonComboBox)sender).Text);
@@ -412,8 +426,7 @@ namespace PhotoTagsSynchronizer
         private void comboBoxComments_SelectionChangeCommitted(object sender, EventArgs e)
         {
             ActionChangeComments((string)((KryptonComboBox)sender).SelectedItem);
-            ComboBoxHandler.ComboBoxAddLastTextFirstInList(comboBoxComments);
-            ComboBoxHandler.AddLastTextFirstInAutoCompleteStringCollection(autoCompleteStringCollectionComments, comboBoxComments.Text);
+            ActionUpdateComments();
         }
         #endregion
 
@@ -424,12 +437,20 @@ namespace PhotoTagsSynchronizer
             {
                 DataGridView dataGridView = dataGridViewTagsAndKeywords;
                 ActionChangeCommon(dataGridView, DataGridViewHandlerTagsAndKeywords.headerMedia, DataGridViewHandlerTagsAndKeywords.tagAlbum, newText);
+
+                
             }
             catch (Exception ex)
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
             }
+        }
+
+        private void ActionUpdateAlbum()
+        {
+            ComboBoxHandler.ComboBoxAddLastTextFirstInList(comboBoxAlbum);
+            ComboBoxHandler.AddLastTextFirstInAutoCompleteStringCollection(autoCompleteStringCollectionAlbum, comboBoxAlbum.Text);
         }
 
         private void comboBoxAlbum_TextUpdate(object sender, EventArgs e)
@@ -440,18 +461,19 @@ namespace PhotoTagsSynchronizer
         private void comboBoxAlbum_SelectionChangeCommitted(object sender, EventArgs e)
         {
             ActionChangeAlbum((string)((KryptonComboBox)sender).SelectedItem);
-            ComboBoxHandler.ComboBoxAddLastTextFirstInList(comboBoxAlbum);
-            ComboBoxHandler.AddLastTextFirstInAutoCompleteStringCollection(autoCompleteStringCollectionAlbum, comboBoxAlbum.Text);
+            ActionUpdateAlbum();
         }
         #endregion
 
         #region ChangeAuthor
-        private void ActionAuthor(string newText)
+        private void ActionChangeAuthor(string newText)
         {
             try
             {
                 DataGridView dataGridView = dataGridViewTagsAndKeywords;
                 ActionChangeCommon(dataGridView, DataGridViewHandlerTagsAndKeywords.headerMedia, DataGridViewHandlerTagsAndKeywords.tagAuthor, newText);
+
+                
             }
             catch (Exception ex)
             {
@@ -459,19 +481,94 @@ namespace PhotoTagsSynchronizer
                 KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
             }
         }
+
+        private void ActionUpdateAuthor()
+        {
+            ComboBoxHandler.ComboBoxAddLastTextFirstInList(comboBoxAuthor);
+            ComboBoxHandler.AddLastTextFirstInAutoCompleteStringCollection(autoCompleteStringCollectionAuthor, comboBoxAuthor.Text);
+        }
+
         private void comboBoxAuthor_TextUpdate(object sender, EventArgs e)
         { 
-            ActionAuthor(((KryptonComboBox)sender).Text);
+            ActionChangeAuthor(((KryptonComboBox)sender).Text);
         }
 
         private void comboBoxAuthor_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            ActionAuthor((string)((KryptonComboBox)sender).SelectedItem);
-            ComboBoxHandler.ComboBoxAddLastTextFirstInList(comboBoxAuthor);
-            ComboBoxHandler.AddLastTextFirstInAutoCompleteStringCollection(autoCompleteStringCollectionAuthor, comboBoxAuthor.Text);
+            ActionChangeAuthor((string)((KryptonComboBox)sender).SelectedItem);
+            ActionUpdateAuthor();
         }
         #endregion
 
+        #endregion
+
+        #region Control with focus (For Cut/Copy/Paste)
+
+        private Control controlPasteWithFocusTag = null;
+        private void comboBoxAlbum_Enter(object sender, EventArgs e)
+        {
+            controlPasteWithFocusTag = (Control)sender;
+        }
+
+        private void comboBoxAlbum_Leave(object sender, EventArgs e)
+        {
+            controlPasteWithFocusTag = null;
+            ActionUpdateAlbum();
+        }
+
+        private void comboBoxTitle_Enter(object sender, EventArgs e)
+        {
+            controlPasteWithFocusTag = (Control)sender;
+        }
+
+        private void comboBoxTitle_Leave(object sender, EventArgs e)
+        {
+            controlPasteWithFocusTag = null;
+            ActionUpdateTitle();
+        }
+
+        private void comboBoxDescription_Enter(object sender, EventArgs e)
+        {
+            controlPasteWithFocusTag = (Control)sender;
+        }
+
+        private void comboBoxDescription_Leave(object sender, EventArgs e)
+        {
+            controlPasteWithFocusTag = null;
+            ActionUpdateDescription();
+        }
+
+        private void comboBoxComments_Enter(object sender, EventArgs e)
+        {
+            controlPasteWithFocusTag = (Control)sender;
+        }
+
+        private void comboBoxComments_Leave(object sender, EventArgs e)
+        {
+            controlPasteWithFocusTag = null;
+            ActionUpdateComments();
+        }
+
+        private void comboBoxAuthor_Enter(object sender, EventArgs e)
+        {
+            controlPasteWithFocusTag = (Control)sender;
+        }
+
+        private void comboBoxAuthor_Leave(object sender, EventArgs e)
+        {
+            controlPasteWithFocusTag = null;
+            ActionUpdateAuthor();
+        }
+
+        private void dataGridViewTagsAndKeywords_Enter(object sender, EventArgs e)
+        {
+            controlPasteWithFocusTag = (Control)sender;
+        }
+
+        private void dataGridViewTagsAndKeywords_Leave(object sender, EventArgs e)
+        {
+            controlPasteWithFocusTag = null;
+        }
         #endregion
 
         #region Populate DataGridView view when Stars changed
@@ -861,69 +958,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region Control with focus (For Cut/Copy/Paste)
-
-        private Control controlPasteWithFocusTag = null;
-        private void comboBoxAlbum_Enter(object sender, EventArgs e)
-        {
-            controlPasteWithFocusTag = (Control)sender;
-        }
-
-        private void comboBoxAlbum_Leave(object sender, EventArgs e)
-        {
-            controlPasteWithFocusTag = null;
-        }
-
-        private void comboBoxTitle_Enter(object sender, EventArgs e)
-        {
-            controlPasteWithFocusTag = (Control)sender;
-        }
-
-        private void comboBoxTitle_Leave(object sender, EventArgs e)
-        {
-            controlPasteWithFocusTag = null;
-        }
-
-        private void comboBoxDescription_Enter(object sender, EventArgs e)
-        {
-            controlPasteWithFocusTag = (Control)sender;
-        }
-
-        private void comboBoxDescription_Leave(object sender, EventArgs e)
-        {
-            controlPasteWithFocusTag = null;
-        }
-
-        private void comboBoxComments_Enter(object sender, EventArgs e)
-        {
-            controlPasteWithFocusTag = (Control)sender;
-        }
-
-        private void comboBoxComments_Leave(object sender, EventArgs e)
-        {
-            controlPasteWithFocusTag = null;
-        }
-
-        private void comboBoxAuthor_Enter(object sender, EventArgs e)
-        {
-            controlPasteWithFocusTag = (Control)sender;
-        }
-
-        private void comboBoxAuthor_Leave(object sender, EventArgs e)
-        {
-            controlPasteWithFocusTag = null;
-        }
-
-        private void dataGridViewTagsAndKeywords_Enter(object sender, EventArgs e)
-        {
-            controlPasteWithFocusTag = (Control)sender;
-        }
-
-        private void dataGridViewTagsAndKeywords_Leave(object sender, EventArgs e)
-        {
-            controlPasteWithFocusTag = null;
-        }
-        #endregion
+        
 
         #region EditingControlShowing
         private void dataGridViewTagsAndKeywords_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
