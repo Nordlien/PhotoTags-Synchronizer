@@ -2302,14 +2302,24 @@ namespace DataGridViewGeneric
                     cell.Items.Insert(0, value);
                     if (dataGridView.IsCurrentCellDirty) dataGridView.CommitEdit(DataGridViewDataErrorContexts.Commit);                    
                 }
-                if (dataGridViewCell.Value is RegionStructure cellRegionStructure)
+                if (dataGridViewCell.Value is string)
+                {
+                    if ((string)dataGridViewCell.Value != (string)value) DataGridViewHandler.SetColumnDirtyFlag(dataGridView, dataGridViewCell.ColumnIndex, true);
+                    dataGridViewCell.Value = value;
+                }
+                else if (dataGridViewCell.Value is LocationNames.LocationCoordinate)
+                {
+                    if (dataGridViewCell.Value.ToString() != value.ToString()) DataGridViewHandler.SetColumnDirtyFlag(dataGridView, dataGridViewCell.ColumnIndex, true);
+                    dataGridViewCell.Value = value;
+                }
+                else if (dataGridViewCell.Value is RegionStructure cellRegionStructure)
                 {
                     if (cellRegionStructure.Name != (string)value) DataGridViewHandler.SetColumnDirtyFlag(dataGridView, dataGridViewCell.ColumnIndex, true);
                     cellRegionStructure.Name = (string)value;
                 }
                 else
                 {
-                    if ((string)dataGridViewCell.Value != (string)value) DataGridViewHandler.SetColumnDirtyFlag(dataGridView, dataGridViewCell.ColumnIndex, true);
+                    if (dataGridViewCell.Value.ToString() != value.ToString()) DataGridViewHandler.SetColumnDirtyFlag(dataGridView, dataGridViewCell.ColumnIndex, true);
                     dataGridViewCell.Value = value;
                 }
             }
