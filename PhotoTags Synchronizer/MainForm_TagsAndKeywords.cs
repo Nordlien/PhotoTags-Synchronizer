@@ -322,8 +322,6 @@ namespace PhotoTagsSynchronizer
                     DataGridViewGenericColumn dataGridViewGenericDataColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
                     if (dataGridViewGenericDataColumn.Metadata != null && dataGridViewGenericDataColumn.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite)
                     {
-                        //SetValue will Set the DirtyFalg if (DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, rowIndex) != comboBoxAlbum.Text)
-                        //    DataGridViewHandler.SetColumnDirtyFlag(dataGridView, columnIndex, IsDataGridViewColumnDirty(dataGridView, columnIndex));
                         DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, newText, true);
                     }
                 }
@@ -359,6 +357,8 @@ namespace PhotoTagsSynchronizer
         private void comboBoxTitle_SelectionChangeCommitted(object sender, EventArgs e)
         {
             ActionChangeTitle((string)((KryptonComboBox)sender).SelectedItem);
+            ComboBoxHandler.ComboBoxAddLastTextFirstInList(comboBoxTitle);
+            ComboBoxHandler.AddLastTextFirstInAutoCompleteStringCollection(autoCompleteStringCollectionTitle, comboBoxTitle.Text);
         }
         #endregion
 
@@ -385,6 +385,8 @@ namespace PhotoTagsSynchronizer
         private void comboBoxDescription_SelectionChangeCommitted(object sender, EventArgs e)
         {
             ActionChangeDescription((string)((KryptonComboBox)sender).SelectedItem);
+            ComboBoxHandler.ComboBoxAddLastTextFirstInList(comboBoxDescription);
+            ComboBoxHandler.AddLastTextFirstInAutoCompleteStringCollection(autoCompleteStringCollectionDescription, comboBoxDescription.Text);
         }
         #endregion
 
@@ -410,6 +412,8 @@ namespace PhotoTagsSynchronizer
         private void comboBoxComments_SelectionChangeCommitted(object sender, EventArgs e)
         {
             ActionChangeComments((string)((KryptonComboBox)sender).SelectedItem);
+            ComboBoxHandler.ComboBoxAddLastTextFirstInList(comboBoxComments);
+            ComboBoxHandler.AddLastTextFirstInAutoCompleteStringCollection(autoCompleteStringCollectionComments, comboBoxComments.Text);
         }
         #endregion
 
@@ -436,6 +440,8 @@ namespace PhotoTagsSynchronizer
         private void comboBoxAlbum_SelectionChangeCommitted(object sender, EventArgs e)
         {
             ActionChangeAlbum((string)((KryptonComboBox)sender).SelectedItem);
+            ComboBoxHandler.ComboBoxAddLastTextFirstInList(comboBoxAlbum);
+            ComboBoxHandler.AddLastTextFirstInAutoCompleteStringCollection(autoCompleteStringCollectionAlbum, comboBoxAlbum.Text);
         }
         #endregion
 
@@ -461,6 +467,8 @@ namespace PhotoTagsSynchronizer
         private void comboBoxAuthor_SelectionChangeCommitted(object sender, EventArgs e)
         {
             ActionAuthor((string)((KryptonComboBox)sender).SelectedItem);
+            ComboBoxHandler.ComboBoxAddLastTextFirstInList(comboBoxAuthor);
+            ComboBoxHandler.AddLastTextFirstInAutoCompleteStringCollection(autoCompleteStringCollectionAuthor, comboBoxAuthor.Text);
         }
         #endregion
 
