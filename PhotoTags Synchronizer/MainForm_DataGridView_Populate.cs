@@ -12,6 +12,7 @@ using static Manina.Windows.Forms.ImageListView;
 using Krypton.Toolkit;
 using Krypton.Navigator;
 using System.Diagnostics;
+using System.IO;
 
 namespace PhotoTagsSynchronizer
 {
@@ -288,11 +289,61 @@ namespace PhotoTagsSynchronizer
                 GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
 
                 HashSet<FileEntry> fileEntries = GetImageListViewSelectedFileEntriesCache(allowUseCache);
+                CheckIfSelectedFilesExist(ref fileEntries);
                 PopulateDataGridViewForSelectedItemsThread(fileEntries);
                 PopulateImageListViewOpenWithToolStripThread(fileEntries, GetImageListViewFileEntriesCache());
                 UpdateRibbonsWhenWorkspaceChanged();
                 
                 GlobalData.IsPopulatingImageListView = false;
+            }
+        }
+        #endregion
+
+        #region CheckIfSelectedFilesExist
+        private void CheckIfSelectedFilesExist(ref HashSet<FileEntry> fileEntries)
+        {
+            try
+            {
+                HashSet<FileEntry> filesDoesNotExist = new HashSet<FileEntry>();
+                foreach (FileEntry fileEntry in fileEntries)
+                {
+                    if (!File.Exists(fileEntry.FileFullPath) && !filesDoesNotExist.Contains(fileEntry)) filesDoesNotExist.Add(fileEntry);
+                }
+                if (filesDoesNotExist.Count > 0)
+                {
+                    string listOfFiles = "";
+                    int count = 0;
+                    foreach (FileEntry fileEntry in filesDoesNotExist) 
+                    {
+                        listOfFiles += fileEntry.FileFullPath + "\r\n";
+                        if (count++ > 4)
+                        {
+                            listOfFiles += "and more....\r\n";
+                            break;
+                        }
+                    }
+
+                    if (KryptonMessageBox.Show(
+                        (filesDoesNotExist.Count == 1 ? "File" : filesDoesNotExist.Count.ToString() + " files") + " doesn't exsist anymore\r\n" +
+                        "The files will be removed from the list of media files and from the database.\r\n\r\n" +
+                        "Example:\r\n" +
+                        listOfFiles, "File(s) does'n exist...",
+                        MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, true) == DialogResult.OK)
+                    {                        
+                        using (new WaitCursor())
+                        {
+                            foreach (FileEntry fileEntry in filesDoesNotExist) fileEntries.Remove(fileEntry);
+                            UpdateStatusAction("Deleing files and all record about files in database....");
+                            filesCutCopyPasteDrag.DeleteSelectedFiles(this, imageListView1, filesDoesNotExist, false);
+                            SetImageListViewFileAndFileEntriesCacheClear();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Syntax error", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
             }
         }
         #endregion
@@ -315,7 +366,7 @@ namespace PhotoTagsSynchronizer
                     if (dataGridView != null) PopulateDataGrivViewForFileEntryAttributeAndTag(dataGridView, fileEntryAttribute, tag);
                 }
             
-                ImageListViewItem foundItem = FindItemInImageListView(imageListView1.Items, fileEntryAttribute.FileFullPath);
+                ImageListViewItem foundItem = FilesCutCopyPasteDrag.FindItemInImageListView(imageListView1.Items, fileEntryAttribute.FileFullPath);
                 if (foundItem != null)
                 {
                     if (foundItem.IsPropertyRequested()) foundItem.Update();

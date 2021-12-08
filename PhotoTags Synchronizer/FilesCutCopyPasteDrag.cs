@@ -131,6 +131,23 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region ImageListView - FindItem
+        public static ImageListViewItem FindItemInImageListView(ImageListViewItemCollection imageListViewItemCollection, string fullFilename)
+        {
+            ImageListViewItem foundItem = null;
+
+            foreach (ImageListViewItem item in imageListViewItemCollection)
+            {
+                if (item.FileFullPath == fullFilename)
+                {
+                    foundItem = item;
+                    break;
+                }
+            }
+            return foundItem;
+        }
+        #endregion
+
         #region FilesCutCopyPasteDrag - DeleteFileEntry
         public void DeleteFileEntries(List<FileEntry> fileEntries)
         {
@@ -196,7 +213,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region FilesCutCopyPasteDrag - DeleteSelectedFiles
-        public void DeleteSelectedFiles(MainForm mainForm, ImageListView imageListView)
+        public void DeleteSelectedFiles(MainForm mainForm, ImageListView imageListView, HashSet<FileEntry> fileEntries, bool deleteFromFileSystemAlso)
         {
 
             GlobalData.IsPopulatingImageListView = true;
@@ -204,18 +221,18 @@ namespace PhotoTagsSynchronizer
 
             imageListView.SuspendLayout();
 
-            foreach (ImageListViewItem imageListViewItem in imageListView.SelectedItems)
+            foreach (FileEntry fileEntry in fileEntries)
             {
                 try
                 {
-                    mainForm.UpdateStatusAction("Deleting the file " + imageListViewItem.FileFullPath + " and records in database");
-                    File.Delete(imageListViewItem.FileFullPath);
-                    this.DeleteFileAndHistory(imageListViewItem.FileFullPath);
-                    imageListView.Items.Remove(imageListViewItem);
+                    mainForm.UpdateStatusAction("Deleting the file " + fileEntry.FileFullPath + " and records in database");
+                    if (deleteFromFileSystemAlso) File.Delete(fileEntry.FileFullPath);
+                    this.DeleteFileAndHistory(fileEntry.FileFullPath);
+                    imageListView.Items.Remove(FindItemInImageListView(imageListView.Items, fileEntry.FileFullPath));
                 }
                 catch (Exception ex)
                 {
-                    KryptonMessageBox.Show("Was not able to delete the file: " + imageListViewItem.FileFullPath + "\r\n\r\n" + ex.Message, 
+                    KryptonMessageBox.Show("Was not able to delete the file: " + fileEntry.FileFullPath + "\r\n\r\n" + ex.Message, 
                         "Deleting file failed", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
                 }
             }

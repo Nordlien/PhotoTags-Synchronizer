@@ -2360,7 +2360,8 @@ namespace PhotoTagsSynchronizer
                         using (new WaitCursor())
                         {
                             UpdateStatusAction("Deleing files and all record about files in database....");
-                            filesCutCopyPasteDrag.DeleteSelectedFiles(this, imageListView1);
+                            HashSet<FileEntry> fileEntries = GetImageListViewSelectedFileEntriesCache(true);
+                            filesCutCopyPasteDrag.DeleteSelectedFiles(this, imageListView1, fileEntries, true);
                             SetImageListViewFileAndFileEntriesCacheClear();
                             OnImageListViewSelect_FilesSelectedOrNoneSelected(false);
                         }
