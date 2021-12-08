@@ -579,26 +579,24 @@ namespace PhotoTagsSynchronizer
                 comboBoxAlbum.SuspendLayout();
                 comboBoxAuthor.SuspendLayout();
 
-                comboBoxAlbum.Items.Clear();
                 comboBoxAlbum.AutoCompleteMode = AutoCompleteMode.None;
                 comboBoxAlbum.AutoCompleteSource = AutoCompleteSource.None;
-
-                comboBoxTitle.Items.Clear();
                 comboBoxTitle.AutoCompleteMode = AutoCompleteMode.None;
                 comboBoxTitle.AutoCompleteSource = AutoCompleteSource.None;
-
-                comboBoxDescription.Items.Clear();
                 comboBoxDescription.AutoCompleteMode = AutoCompleteMode.None;
                 comboBoxDescription.AutoCompleteSource = AutoCompleteSource.None;
-
-                comboBoxComments.Items.Clear();
                 comboBoxComments.AutoCompleteMode = AutoCompleteMode.None;
                 comboBoxComments.AutoCompleteSource = AutoCompleteSource.None;
-
-                comboBoxAuthor.Items.Clear();
                 comboBoxAuthor.AutoCompleteMode = AutoCompleteMode.None;
                 comboBoxAuthor.AutoCompleteSource = AutoCompleteSource.None;
 
+
+                comboBoxAlbum.Items.Clear();                
+                comboBoxTitle.Items.Clear();              
+                comboBoxDescription.Items.Clear();                
+                comboBoxComments.Items.Clear();                
+                comboBoxAuthor.Items.Clear();
+                
                 lock (autoCompleteStringCollectionAlbumLock) autoCompleteStringCollectionAlbum = new AutoCompleteStringCollection();
                 lock (autoCompleteStringCollectionTitleLock) autoCompleteStringCollectionTitle = new AutoCompleteStringCollection();
                 lock (autoCompleteStringCollectionDescriptionLock) autoCompleteStringCollectionDescription = new AutoCompleteStringCollection();
