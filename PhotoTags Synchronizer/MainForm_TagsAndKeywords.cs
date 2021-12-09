@@ -317,14 +317,22 @@ namespace PhotoTagsSynchronizer
             {
                 int rowIndex = DataGridViewHandler.GetRowIndex(dataGridView, header, tag);
 
+                Dictionary<CellLocation, DataGridViewGenericCell> updatedCells = new Dictionary<CellLocation, DataGridViewGenericCell>();
+
+
                 for (int columnIndex = 0; columnIndex < dataGridView.Columns.Count; columnIndex++)
                 {
+                    CellLocation cellLocation = new CellLocation(columnIndex, rowIndex);
+                    DataGridViewGenericCell dataGridViewGenericCell = DataGridViewHandler.GetCellDataGridViewGenericCellCopy(dataGridView, columnIndex, rowIndex);
+                    updatedCells.Add(cellLocation, dataGridViewGenericCell);
+
                     DataGridViewGenericColumn dataGridViewGenericDataColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
                     if (dataGridViewGenericDataColumn.Metadata != null && dataGridViewGenericDataColumn.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite)
                     {
                         DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, newText, true);
                     }
                 }
+                if (updatedCells != null && updatedCells.Count > 0) ClipboardUtility.PushToUndoStack(dataGridView, updatedCells);
             }
             catch (Exception ex)
             {
@@ -437,8 +445,6 @@ namespace PhotoTagsSynchronizer
             {
                 DataGridView dataGridView = dataGridViewTagsAndKeywords;
                 ActionChangeCommon(dataGridView, DataGridViewHandlerTagsAndKeywords.headerMedia, DataGridViewHandlerTagsAndKeywords.tagAlbum, newText);
-
-                
             }
             catch (Exception ex)
             {
