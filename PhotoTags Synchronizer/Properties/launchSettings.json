@@ -2,7 +2,11 @@
   "profiles": {
     "PhotoTags Synchronizer": {
       "commandName": "Project",
-      "nativeDebugging": true
+      "workingDirectory": "D:\\source\\repos\\PhotoTags Synchronizer\\Bin\\Debug\\Any\\net48",
+      "jsWebView2Debugging": false,
+      "sqlDebugging": false,
+      "remoteDebugEnabled": false,
+      "nativeDebugging": false
     }
   }
 }

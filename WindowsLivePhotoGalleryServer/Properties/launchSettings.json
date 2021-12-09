@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "WindowsLivePhotoGalleryServer": {
+      "commandName": "Project",
+      "workingDirectory": "d:\\source\\repos\\PhotoTags Synchronizer\\Bin\\Debug\\Any\\net48\\Pipe\\",
+      "nativeDebugging": true
+    }
+  }
+}
