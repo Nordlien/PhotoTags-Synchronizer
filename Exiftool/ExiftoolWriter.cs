@@ -214,6 +214,8 @@ namespace Exiftool
 
                 #region Exiftool Write
                 String path = NativeMethods.GetFullPathOfFile("exiftool.exe");
+                //-iptc:all -codedcharacterset=utf8 CodedCharacterSet UTF8  -charset iptc=utf8
+                //-charset utf8 -charset iptc=utf8 -codedcharacterset=utf8 
                 string arguments = "-charset utf8 -charset iptc=utf8 -codedcharacterset=utf8 -m -@ \"" + NativeMethods.ShortFileName(exiftoolArgFileFullpath) + "\"";
                 bool hasExiftoolErrorMessage = false;
                 string exiftoolOutput = "";
