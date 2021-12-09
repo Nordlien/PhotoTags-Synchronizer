@@ -19,6 +19,7 @@ namespace PhotoTagsSynchronizer
         public static ExiftoolDataDatabase DatabaseExiftoolData { get; set; }
         public static ExiftoolReader exiftoolReader { get; set; }
 
+        #region PopulateFile
         public static void PopulateFile(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, ShowWhatColumns showWhatColumns)
         {
             //-----------------------------------------------------------------
@@ -84,7 +85,9 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.SetIsPopulatingFile(dataGridView, false);
             //-----------------------------------------------------------------
         }
+        #endregion
 
+        #region PopulateSelectedFiles
         public static List<FileEntryAttribute> PopulateSelectedFiles(DataGridView dataGridView, HashSet<FileEntry> imageListViewSelectItems, DataGridViewSize dataGridViewSize, ShowWhatColumns showWhatColumns)
         {
             //-----------------------------------------------------------------
@@ -119,5 +122,6 @@ namespace PhotoTagsSynchronizer
 
             return allFileEntryAttributeDateVersions;
         }
+        #endregion 
     }
 }

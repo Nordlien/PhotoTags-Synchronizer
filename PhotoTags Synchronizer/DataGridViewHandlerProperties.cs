@@ -15,11 +15,14 @@ namespace PhotoTagsSynchronizer
         public static bool HasBeenInitialized { get; set; } = false;
         public static WindowsPropertyReader WindowsPropertyReader { get; set; }
 
+        #region Write
         public static void Write(DataGridView dataGridView, int columnIndex)
         {            
             WindowsPropertyReader.Write(dataGridView, columnIndex);
         }
+        #endregion
 
+        #region PopulateFile
         public static void PopulateFile(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, ShowWhatColumns showWhatColumns)
 
         {
@@ -49,7 +52,9 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.SetIsPopulatingFile(dataGridView, false);
             //-----------------------------------------------------------------
         }
+        #endregion
 
+        #region PopulateSelectedFiles
         public static void PopulateSelectedFiles(DataGridView dataGridView, HashSet<FileEntry> imageListViewSelectItems, DataGridViewSize dataGridViewSize, ShowWhatColumns showWhatColumns)
         {
             //-----------------------------------------------------------------
@@ -85,5 +90,6 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.SetIsPopulating(dataGridView, false);
             //-----------------------------------------------------------------
         }
+        #endregion
     }
 }

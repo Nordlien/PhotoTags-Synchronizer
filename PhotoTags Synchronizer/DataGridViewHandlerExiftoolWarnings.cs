@@ -19,11 +19,14 @@ namespace PhotoTagsSynchronizer
         public static ExiftoolWarningDatabase DatabaseExiftoolWarning { get; set; }
         public static ExiftoolReader exiftoolReader { get; set; }
 
+        #region ListFileEntryDateVersions
         public static List<FileEntryAttribute> ListFileEntryDateVersions(string fullFileName)
         {
             return DatabaseExiftoolWarning.ListFileEntryDateVersions(fullFileName);
         }
+        #endregion 
 
+        #region PopulateFile
         public static void PopulateFile(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, ShowWhatColumns showWhatColumns)
 
         {
@@ -95,12 +98,9 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.SetIsPopulatingFile(dataGridView, false);
             //-----------------------------------------------------------------
         }
+        #endregion
 
-        private static void AddRowsDefault(DataGridView dataGridView)
-        {
-
-        }
-
+        #region PopulateSelectedFiles
         public static List<FileEntryAttribute> PopulateSelectedFiles(DataGridView dataGridView, HashSet<FileEntry> imageListViewSelectItems, DataGridViewSize dataGridViewSize, ShowWhatColumns showWhatColumns)
         {
             //-----------------------------------------------------------------
@@ -115,8 +115,6 @@ namespace PhotoTagsSynchronizer
             //Add Columns for all selected files, one column per select file
             DataGridViewHandlerCommon.AddColumnSelectedFiles(dataGridView, null, DatabaseAndCacheThumbnail, imageListViewSelectItems, true, ReadWriteAccess.ForceCellToReadOnly, showWhatColumns,
                 new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true)); 
-            //Add all default rows
-            AddRowsDefault(dataGridView);
             //Tell data default columns and rows are agregated
             DataGridViewHandler.SetIsAgregated(dataGridView, true);
             //-----------------------------------------------------------------
@@ -138,7 +136,7 @@ namespace PhotoTagsSynchronizer
 
             return allFileEntryAttributeDateVersions;
         }
+        #endregion
 
     }
-    
 }
