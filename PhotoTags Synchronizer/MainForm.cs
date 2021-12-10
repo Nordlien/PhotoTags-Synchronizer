@@ -907,7 +907,7 @@ namespace PhotoTagsSynchronizer
                     treeViewFolderBrowser1.Populate(folder);
                     if (treeViewFolderBrowser1.SelectedNode == null && treeViewFolderBrowser1.Nodes.Count >= 1)
                     {
-                        filesCutCopyPasteDrag.TreeViewFolderBrowserRefreshTreeNode(treeViewFolderBrowser1, treeViewFolderBrowser1.Nodes[0]);
+                        filesCutCopyPasteDrag.TreeViewFolderBrowser_RefreshTreeNode(treeViewFolderBrowser1, treeViewFolderBrowser1.Nodes[0]);
                     }
                     
                 }

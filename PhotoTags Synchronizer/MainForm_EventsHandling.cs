@@ -7085,7 +7085,7 @@ namespace PhotoTagsSynchronizer
             {
                 GlobalData.DoNotRefreshImageListView = true;
                 TreeNodePath selectedNode = (TreeNodePath)treeViewFolderBrowser1.SelectedNode;
-                filesCutCopyPasteDrag.TreeViewFolderBrowserRefreshTreeNode(treeViewFolderBrowser1, selectedNode);
+                TreeViewFolderBrowserHandler.RefreshTreeNode(treeViewFolderBrowser1, selectedNode);
                 GlobalData.DoNotRefreshImageListView = false;
                 ImageListView_Aggregate_FromFolder(false, true);
                 treeViewFolderBrowser1.Focus();

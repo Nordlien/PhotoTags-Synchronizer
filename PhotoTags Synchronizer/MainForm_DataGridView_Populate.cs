@@ -436,6 +436,7 @@ namespace PhotoTagsSynchronizer
                             if (DataGridViewHandlerPeople.HasBeenInitialized) DataGridViewHandlerPeople.PopulateFile(dataGridViewPeople, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             if (DataGridViewHandlerMap.HasBeenInitialized) DataGridViewHandlerMap.PopulateFile(dataGridViewMap, dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             if (DataGridViewHandlerDate.HasBeenInitialized) DataGridViewHandlerDate.PopulateFile(dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
+                            if (DataGridViewHandlerRename.HasBeenInitialized) DataGridViewHandlerRename.PopulateFile(dataGridView, fileEntryAttribute, DataGridViewHandlerRename.ShowFullPath);
                             break;
                         case LinkTabAndDataGridViewNamePeople:
                             DataGridViewHandlerPeople.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, false);
@@ -444,6 +445,7 @@ namespace PhotoTagsSynchronizer
                             //if (DataGridViewHandlerPeople.HasBeenInitialized) DataGridViewHandlerPeople.PopulateFile(dataGridViewPeople, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             if (DataGridViewHandlerMap.HasBeenInitialized) DataGridViewHandlerMap.PopulateFile(dataGridViewMap, dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             if (DataGridViewHandlerDate.HasBeenInitialized) DataGridViewHandlerDate.PopulateFile(dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
+                            if (DataGridViewHandlerRename.HasBeenInitialized) DataGridViewHandlerRename.PopulateFile(dataGridView, fileEntryAttribute, DataGridViewHandlerRename.ShowFullPath);
                             break;
                         case LinkTabAndDataGridViewNameMap:
                             DataGridViewHandlerMap.PopulateFile(dataGridView, dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, false);
@@ -452,6 +454,7 @@ namespace PhotoTagsSynchronizer
                             if (DataGridViewHandlerPeople.HasBeenInitialized) DataGridViewHandlerPeople.PopulateFile(dataGridViewPeople, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             //if (DataGridViewHandlerMap.HasBeenInitialized) DataGridViewHandlerMap.PopulateFile(dataGridViewMap, dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             if (DataGridViewHandlerDate.HasBeenInitialized) DataGridViewHandlerDate.PopulateFile(dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
+                            if (DataGridViewHandlerRename.HasBeenInitialized) DataGridViewHandlerRename.PopulateFile(dataGridView, fileEntryAttribute, DataGridViewHandlerRename.ShowFullPath);
                             break;
                         case LinkTabAndDataGridViewNameDates:
                             DataGridViewHandlerDate.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, false);
@@ -460,6 +463,7 @@ namespace PhotoTagsSynchronizer
                             if (DataGridViewHandlerPeople.HasBeenInitialized) DataGridViewHandlerPeople.PopulateFile(dataGridViewPeople, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             if (DataGridViewHandlerMap.HasBeenInitialized) DataGridViewHandlerMap.PopulateFile(dataGridViewMap, dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             //if (DataGridViewHandlerDate.HasBeenInitialized) DataGridViewHandlerDate.PopulateFile(dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
+                            if (DataGridViewHandlerRename.HasBeenInitialized) DataGridViewHandlerRename.PopulateFile(dataGridView, fileEntryAttribute, DataGridViewHandlerRename.ShowFullPath);
                             break;
 
                         case LinkTabAndDataGridViewNameExiftool:

@@ -12,6 +12,7 @@ using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
+
     public class FilesCutCopyPasteDrag
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
@@ -22,70 +23,6 @@ namespace PhotoTagsSynchronizer
         private ThumbnailDatabaseCache databaseAndCacheThumbnail;
         private ExiftoolDataDatabase databaseExiftoolData;
         private ExiftoolWarningDatabase databaseExiftoolWarning;
-
-        #region TreeViewFolderBrowser - Remove TreeNode
-        public void TreeViewFolderBrowserRemoveTreeNode(TreeViewFolderBrowser folderTreeViewFolder, TreeNode treeNode)
-        {
-            if (treeNode != null)
-            {
-                TreeNodePath node = (TreeNodePath)treeNode;
-                Raccoom.Win32.ShellItem folderItem = ((Raccoom.Win32.ShellItem)node.Tag);
-                folderItem.ClearFolders();
-                node.Remove();
-            }
-        }
-        #endregion
-
-        #region TreeViewFolderBrowser - Refresh TreeNode
-        public void TreeViewFolderBrowserRefreshTreeNode(TreeViewFolderBrowser folderTreeViewFolder, TreeNode treeNode)
-        {
-            if (treeNode != null)
-            {
-                
-                TreeNodePath node = (TreeNodePath)treeNode;
-                Raccoom.Win32.ShellItem folderItem = ((Raccoom.Win32.ShellItem)node.Tag);
-                folderItem.ClearFolders();
-                node.Refresh();
-                folderTreeViewFolder.UseWaitCursor = true;
-                folderTreeViewFolder.BeginUpdate();
-                treeNode.Collapse();
-                treeNode.Expand();
-                folderTreeViewFolder.EndUpdate();
-                folderTreeViewFolder.UseWaitCursor = false;
-            }
-        }
-        #endregion
-
-        #region TreeViewFOlderBrowserRefreshFolderWithName
-        public void TreeViewFOlderBrowserRefreshFolderWithName(TreeViewFolderBrowser folderTreeViewFolder, string folder)
-        {
-            List<TreeNode> treeNodes = new List<TreeNode>();
-            TreeViewFolderBrowserFindAllNodesRecursive(folderTreeViewFolder.Nodes, folder, ref treeNodes);
-            foreach (TreeNode treeNode in treeNodes) TreeViewFolderBrowserRefreshTreeNode(folderTreeViewFolder, treeNode);
-        }
-        #endregion
-
-        #region TreeViewFolderBrowser - FindAllNodes
-        public List<TreeNode> TreeViewFolderBrowserFindAllNodes(TreeNodeCollection treeNodeCollection, string directory)
-        {
-            List<TreeNode> treeNodeFound = new List<TreeNode>();
-            TreeViewFolderBrowserFindAllNodesRecursive(treeNodeCollection, directory, ref treeNodeFound);
-            return treeNodeFound;
-        }
-
-        public void TreeViewFolderBrowserFindAllNodesRecursive(TreeNodeCollection treeNodeCollection, string directory, ref List<TreeNode> treeNodeFound)
-        {
-            foreach (TreeNode treeNodeSearch in treeNodeCollection)
-            {
-                TreeNodePath treeNodePath = (TreeNodePath)treeNodeSearch;
-                if (treeNodePath.Path == directory)
-                {
-                    treeNodeFound.Add(treeNodeSearch);
-                }
-                if (treeNodeSearch.Nodes != null) TreeViewFolderBrowserFindAllNodesRecursive(treeNodeSearch.Nodes, directory, ref treeNodeFound);
-            }
-        }
-        #endregion
 
         #region FilesCutCopyPasteDrag - Constructor
         public FilesCutCopyPasteDrag(MetadataDatabaseCache databaseAndCacheMetadataExiftool, 
@@ -270,10 +207,10 @@ namespace PhotoTagsSynchronizer
             #region Update Node in TreeView
             GlobalData.DoNotRefreshImageListView = true;
             
-            TreeViewFolderBrowserRemoveTreeNode (folderTreeViewFolder, selectedNode);
+            TreeViewFolderBrowserHandler.RemoveTreeNode (folderTreeViewFolder, selectedNode);
             if (parentNode != null)
             {
-                TreeViewFolderBrowserRefreshTreeNode(folderTreeViewFolder, parentNode);
+                TreeViewFolderBrowserHandler.RefreshTreeNode(folderTreeViewFolder, parentNode);
             }
             GlobalData.DoNotRefreshImageListView = false;
             #endregion

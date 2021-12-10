@@ -230,7 +230,7 @@ namespace PhotoTagsSynchronizer
 
                         MoveFolder_UpdateTreeViewFolderBrowser(treeViewFolderBrowser1, sourceDirectory, newTagretDirectory, treeNodeParent);
 
-                        filesCutCopyPasteDrag.TreeViewFolderBrowserRefreshTreeNode(treeViewFolderBrowser1, treeNodeParent); //Need refresh, don't know why yet, it should already been done
+                        TreeViewFolderBrowserHandler.RefreshTreeNode(treeViewFolderBrowser1, treeNodeParent); //Need refresh, don't know why yet, it should already been done
                         //Set Selected Node back to the node that was renamed
                         foreach (TreeNode treeNode in treeNodeParent.Nodes)
                         {

@@ -41,7 +41,7 @@ namespace PhotoTagsSynchronizer
                     DirectoryInfo directoryInfo = new DirectoryInfo(newDirectory);
 
                     string parentDirector = directoryInfo.Parent.FullName;
-                    filesCutCopyPasteDrag.TreeViewFOlderBrowserRefreshFolderWithName(folderTreeView, parentDirector);
+                    TreeViewFolderBrowserHandler.RefreshFolderWithName(folderTreeView, parentDirector);
 
                     GlobalData.DoNotRefreshImageListView = false;
                 }
@@ -106,23 +106,16 @@ namespace PhotoTagsSynchronizer
                         //------ Update node tree -----
                         GlobalData.DoNotRefreshImageListView = true;
 
-                        string sourceFolder = Path.GetDirectoryName(sourceFullFilename);
-                        List<TreeNode> sourceNodes = filesCutCopyPasteDrag.TreeViewFolderBrowserFindAllNodes(treeViewFolderBrowser1.Nodes, sourceFolder);
-                        foreach (TreeNode sourceTreeNode in sourceNodes)
-                        {
-                            if (sourceTreeNode != null && sourceTreeNode != treeNodeTarget) filesCutCopyPasteDrag.TreeViewFolderBrowserRemoveTreeNode(folderTreeView, sourceTreeNode);
-                        }
-
                         if (treeNodeTarget == null)
                         {
                             string targetFolder = Path.GetDirectoryName(targetFullFilename);
-                            List<TreeNode> targetNodes = filesCutCopyPasteDrag.TreeViewFolderBrowserFindAllNodes(treeViewFolderBrowser1.Nodes, targetFolder);
+                            List<TreeNode> targetNodes = TreeViewFolderBrowserHandler.FindAllNodes(treeViewFolderBrowser1.Nodes, targetFolder);
                             foreach (TreeNode targetNode in targetNodes)
                             {
-                                filesCutCopyPasteDrag.TreeViewFolderBrowserRemoveTreeNode(folderTreeView, targetNode);
+                                TreeViewFolderBrowserHandler.RemoveTreeNode(folderTreeView, targetNode);
                             }
                         }
-                        else filesCutCopyPasteDrag.TreeViewFolderBrowserRefreshTreeNode(folderTreeView, treeNodeTarget);
+                        else TreeViewFolderBrowserHandler.RefreshTreeNode(folderTreeView, treeNodeTarget);
 
                         GlobalData.DoNotRefreshImageListView = false;
 
@@ -177,7 +170,7 @@ namespace PhotoTagsSynchronizer
 
                     //------ Update node tree -----
                     GlobalData.DoNotRefreshImageListView = true;
-                    filesCutCopyPasteDrag.TreeViewFOlderBrowserRefreshFolderWithName(folderTreeView, sourceDirectory);
+                    TreeViewFolderBrowserHandler.RefreshFolderWithName(folderTreeView, sourceDirectory);
                     GlobalData.DoNotRefreshImageListView = false;
 
                     //------ Update database -----
@@ -227,7 +220,7 @@ namespace PhotoTagsSynchronizer
                         if (directoryCreated)
                         {
                             GlobalData.DoNotRefreshImageListView = true;
-                            filesCutCopyPasteDrag.TreeViewFolderBrowserRefreshTreeNode(folderTreeView, targetNode);
+                            TreeViewFolderBrowserHandler.RefreshTreeNode(folderTreeView, targetNode);
                             GlobalData.DoNotRefreshImageListView = false;
                         }
                     }
@@ -293,8 +286,8 @@ namespace PhotoTagsSynchronizer
                         Logger.Trace("Copy from:" + sourceFullFilename + " to: " + targetFullFilename);
                         File.Copy(sourceFullFilename, sourceFullFilename.Replace(sourceDirectory, tagretDirectory), false);
 
-                        if (targetNode != null) 
-                            filesCutCopyPasteDrag.TreeViewFolderBrowserRefreshTreeNode(folderTreeView, targetNode);
+                        if (targetNode != null)
+                            TreeViewFolderBrowserHandler.RefreshTreeNode(folderTreeView, targetNode);
 
                         databaseAndCacheMetadataExiftool.Copy(
                             Path.GetDirectoryName(sourceFullFilename), Path.GetFileName(sourceFullFilename),
@@ -323,7 +316,7 @@ namespace PhotoTagsSynchronizer
 
             //------ Update node tree -----
             GlobalData.DoNotRefreshImageListView = true;
-            filesCutCopyPasteDrag.TreeViewFolderBrowserRefreshTreeNode(folderTreeView, targetNode);
+            TreeViewFolderBrowserHandler.RefreshTreeNode(folderTreeView, targetNode);
             GlobalData.DoNotRefreshImageListView = false;
         }
         #endregion

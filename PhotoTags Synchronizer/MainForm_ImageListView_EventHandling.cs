@@ -304,7 +304,8 @@ namespace PhotoTagsSynchronizer
                         }
                         else
                         {
-                            if (FileHandler.IsFileVirtual(fileEntry.FileFullPath)) e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorOneDriveNotRunning;
+                            if (!File.Exists(fileEntry.FileFullPath)) e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorFileNotExist; //A check was done ealier, but still can become removed, e.g. rename process
+                            else if (FileHandler.IsFileVirtual(fileEntry.FileFullPath)) e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorOneDriveNotRunning;
                             else if (isFileInCloud) e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorFileInCloud;
                             else e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorNoThumbnail;
                         }
