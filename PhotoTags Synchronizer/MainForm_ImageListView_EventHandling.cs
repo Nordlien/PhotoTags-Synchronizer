@@ -40,19 +40,9 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ImageListViewEnable
-        public void ImageListViewEnable(ImageListView imageListView, bool enabled)
-        {
-            //imageListView.Enabled = enabled;
-        }
-        #endregion
+        
 
-        #region TreeViewFolderBrowserEnabled
-        public void TreeViewFolderBrowserEnabled(TreeViewFolderBrowser treeViewFolderBrowser, bool enabled)
-        {
-            //treeViewFolderBrowser.Enabled = enabled;
-        }
-        #endregion
+        
 
         #region ImageListView - FileEntry cache
         private HashSet<FileEntry> imageListViewFileEntriesCache = null;
@@ -435,18 +425,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ImageListView - SetItemDirty
-        public void ImageListViewSetItemDirty(string fullfilename)
-        {
-            ImageListViewItem imageListViewItem = FilesCutCopyPasteDrag.FindItemInImageListView(imageListView1.Items, fullfilename);
-            if (imageListViewItem != null)
-            {
-                imageListViewItem.Dirty();
-                
-            }
-            imageListView1.Refresh();
-        }
-        #endregion
+        
 
         #region ImageListView - ReloadThumbnail - Filename - Invoke
         private void ImageListViewReloadThumbnailAndMetadataInvoke(ImageListView imageListView, string fullFileName)
@@ -460,7 +439,7 @@ namespace PhotoTagsSynchronizer
             GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
             try
             {
-                ImageListViewItem item = FilesCutCopyPasteDrag.FindItemInImageListView(imageListView1.Items, fullFileName);
+                ImageListViewItem item = ImageListViewHandler.FindItemInImageListView(imageListView1.Items, fullFileName);
                 if (item != null) ImageListViewReloadThumbnailInvoke(item);
             }
             catch (Exception ex)
@@ -648,7 +627,7 @@ namespace PhotoTagsSynchronizer
 
             ImageListViewClearAll(imageListView1);
 
-            ImageListViewEnable(imageListView1, false);
+            ImageListViewHandler.Enable(imageListView1, false);
             ImageListViewSuspendLayoutInvoke(imageListView1);
 
             FilterVerifyer filterVerifyerFolder = new FilterVerifyer();
@@ -697,7 +676,7 @@ namespace PhotoTagsSynchronizer
             //UpdateStatusImageListView("Sorting...");
             //ImageListViewSortByCheckedRdioButton();
 
-            ImageListViewEnable(imageListView1, true);
+            ImageListViewHandler.Enable(imageListView1, true);
             ImageListViewResumeLayoutInvoke(imageListView1);
             UpdateStatusImageListView(fileEntriesFound.Count + " files added");
 
@@ -717,7 +696,7 @@ namespace PhotoTagsSynchronizer
             #region Remove items with old names
             foreach (string filename in renameSuccess.Keys)
             {
-                ImageListViewItem foundItem = FilesCutCopyPasteDrag.FindItemInImageListView(imageListView.Items, filename);
+                ImageListViewItem foundItem = ImageListViewHandler.FindItemInImageListView(imageListView.Items, filename);
                 if (foundItem != null) ImageListViewRemoveItem(imageListView, foundItem);
             }
             #endregion
@@ -746,7 +725,7 @@ namespace PhotoTagsSynchronizer
                         AddErrorFileSystemRegion, AddErrorFileSystemMove, filename, renameFailed[filename],
                         "Failed rename " + filename + " to : " + renameFailed[filename]);
 
-                ImageListViewItem foundItem = FilesCutCopyPasteDrag.FindItemInImageListView(imageListView.Items, filename);
+                ImageListViewItem foundItem = ImageListViewHandler.FindItemInImageListView(imageListView.Items, filename);
                 if (foundItem != null) foundItem.Selected = true; 
             }
             #endregion 
@@ -756,7 +735,7 @@ namespace PhotoTagsSynchronizer
             {
                 foreach (string filename in renameSuccess.Values)
                 {
-                    ImageListViewItem foundItem = FilesCutCopyPasteDrag.FindItemInImageListView(imageListView.Items, filename);
+                    ImageListViewItem foundItem = ImageListViewHandler.FindItemInImageListView(imageListView.Items, filename);
                     if (foundItem != null) foundItem.Selected = true;
                 }
             }

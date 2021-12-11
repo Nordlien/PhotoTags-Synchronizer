@@ -366,7 +366,7 @@ namespace PhotoTagsSynchronizer
                     if (dataGridView != null) PopulateDataGrivViewForFileEntryAttributeAndTag(dataGridView, fileEntryAttribute, tag);
                 }
             
-                ImageListViewItem foundItem = FilesCutCopyPasteDrag.FindItemInImageListView(imageListView1.Items, fileEntryAttribute.FileFullPath);
+                ImageListViewItem foundItem = ImageListViewHandler.FindItemInImageListView(imageListView1.Items, fileEntryAttribute.FileFullPath);
                 if (foundItem != null)
                 {
                     if (foundItem.IsPropertyRequested()) foundItem.Update();

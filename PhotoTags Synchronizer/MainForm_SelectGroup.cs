@@ -55,8 +55,8 @@ namespace PhotoTagsSynchronizer
                 GlobalData.IsPopulatingImageListView = true; //Avoid one and one select item getting refreshed
                 GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
 
-                TreeViewFolderBrowserEnabled(treeViewFolderBrowser1, false);
-                ImageListViewEnable(imageListView, false);
+                TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, false);
+                ImageListViewHandler.Enable(imageListView, false);
                 ImageListViewSuspendLayoutInvoke(imageListView);
 
                 imageListView.ClearSelection();
@@ -89,14 +89,12 @@ namespace PhotoTagsSynchronizer
                 }
             }
 
-            
-
             GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
             GlobalData.IsPopulatingButtonAction = false;
             GlobalData.IsPopulatingImageListView = false;
 
-            ImageListViewEnable(imageListView, true);
-            TreeViewFolderBrowserEnabled(treeViewFolderBrowser1, true);
+            ImageListViewHandler.Enable(imageListView, true);
+            TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, true);
             ImageListViewResumeLayoutInvoke(imageListView);
             imageListView.Focus();
 
@@ -136,8 +134,8 @@ namespace PhotoTagsSynchronizer
                     GlobalData.IsPopulatingImageListView = true; //Avoid one and one select item getting refreshed
                     GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
 
-                    TreeViewFolderBrowserEnabled(treeViewFolderBrowser1, false);
-                    ImageListViewEnable(imageListView, false);
+                    TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, false);
+                    ImageListViewHandler.Enable(imageListView, false);
                     ImageListViewSuspendLayoutInvoke(imageListView);
 
                     imageListView.ClearSelection();
@@ -186,8 +184,8 @@ namespace PhotoTagsSynchronizer
                 GlobalData.IsPopulatingButtonAction = false;
                 GlobalData.IsPopulatingImageListView = false;
 
-                TreeViewFolderBrowserEnabled(treeViewFolderBrowser1, true);
-                ImageListViewEnable(imageListView, true);
+                TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, true);
+                ImageListViewHandler.Enable(imageListView, true);
                 ImageListViewResumeLayoutInvoke(imageListView);
                 imageListView.Focus();
 

@@ -545,7 +545,7 @@ namespace PhotoTagsSynchronizer
             {
                 Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
                 if (metadata == null) AddQueueExiftoolLock(fileEntry); //If Metadata don't exist in database, put it in read queue
-                else ImageListViewSetItemDirty(fileEntry.FileFullPath); //Refresh ImageListView with metadata
+                else ImageListViewHandler.ImageListViewSetItemDirty(imageListView1, fileEntry.FileFullPath); //Refresh ImageListView with metadata
 
                 //if (!databaseAndCacheMetadataExiftool.IsMetadataInCache(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool)) AddQueueExiftoolLock(fileEntry);
                 if (!databaseAndCacheMetadataMicrosoftPhotos.IsMetadataInCache(new FileEntryBroker(fileEntry, MetadataBrokerType.MicrosoftPhotos))) AddQueueMicrosoftPhotosLock(fileEntry);
@@ -1104,7 +1104,7 @@ namespace PhotoTagsSynchronizer
 
                                                 //Data was read, (even with errors), need to updated datagrid
                                                 AddQueueCreateRegionFromPosterLock(metadataRead);
-                                                ImageListViewSetItemDirty(metadataRead.FileFullPath);
+                                                ImageListViewHandler.ImageListViewSetItemDirty(imageListView1, metadataRead.FileFullPath);
                                                 PopulateImageListVieAndDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(metadataRead.FileFullPath, (DateTime)metadataRead.FileDateModified, FileEntryVersion.ExtractedNowFromMediaFile));
                                                 PopulateImageListVieAndDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(metadataRead.FileFullPath, (DateTime)metadataRead.FileDateModified, FileEntryVersion.Historical));
                                             }

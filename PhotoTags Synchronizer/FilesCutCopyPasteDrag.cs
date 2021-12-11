@@ -68,23 +68,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ImageListView - FindItem
-        public static ImageListViewItem FindItemInImageListView(ImageListViewItemCollection imageListViewItemCollection, string fullFilename)
-        {
-            ImageListViewItem foundItem = null;
-
-            foreach (ImageListViewItem item in imageListViewItemCollection)
-            {
-                if (item.FileFullPath == fullFilename)
-                {
-                    foundItem = item;
-                    break;
-                }
-            }
-            return foundItem;
-        }
-        #endregion
-
         #region FilesCutCopyPasteDrag - DeleteFileEntry
         public void DeleteFileEntries(List<FileEntry> fileEntries)
         {
@@ -165,7 +148,7 @@ namespace PhotoTagsSynchronizer
                     mainForm.UpdateStatusAction("Deleting the file " + fileEntry.FileFullPath + " and records in database");
                     if (deleteFromFileSystemAlso) File.Delete(fileEntry.FileFullPath);
                     this.DeleteFileAndHistory(fileEntry.FileFullPath);
-                    imageListView.Items.Remove(FindItemInImageListView(imageListView.Items, fileEntry.FileFullPath));
+                    imageListView.Items.Remove(ImageListViewHandler.FindItemInImageListView(imageListView.Items, fileEntry.FileFullPath));
                 }
                 catch (Exception ex)
                 {

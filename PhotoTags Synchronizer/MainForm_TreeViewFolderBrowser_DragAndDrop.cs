@@ -22,13 +22,6 @@ namespace PhotoTagsSynchronizer
 
     public partial class MainForm : KryptonForm
     {
-
-        #region FoldeTree
-
-         
-
-        #endregion
-
         #region Drag and Drop
 
         #region FolderTree - Drag and Drop - Detect Copy Or Move
@@ -196,7 +189,7 @@ namespace PhotoTagsSynchronizer
                 if (e.Node == null || e.Node.Parent == null) e.CancelEdit = true;
                 if (e.CancelEdit == false)
                 {
-                    string sourceDirectory = GetSelectedNodePath();
+                    string sourceDirectory = GetSelectedNodeFullRealPath();
                     DirectoryInfo directoryInfo = new DirectoryInfo(sourceDirectory);
                     if (directoryInfo.Parent == null || sourceDirectory == null || !Directory.Exists(sourceDirectory))
                     {
@@ -221,7 +214,7 @@ namespace PhotoTagsSynchronizer
                 using (new WaitCursor())
                 {
                     treeViewFolderBrowser1.SuspendLayout();
-                    string sourceDirectory = GetSelectedNodePath();
+                    string sourceDirectory = GetSelectedNodeFullRealPath();
                     if (Directory.Exists(sourceDirectory))
                     {
                         string newTagretDirectory = Path.Combine((new DirectoryInfo(sourceDirectory).Parent).FullName, newLabel);
@@ -279,7 +272,7 @@ namespace PhotoTagsSynchronizer
             {
                 Point targetPoint = treeViewFolderBrowser1.PointToClient(new Point(e.X, e.Y)); // Retrieve the client coordinates of the drop location.                          
                 TreeNode targetNode = treeViewFolderBrowser1.GetNodeAt(targetPoint); // Retrieve the node at the drop location.
-                string targetDirectory = GetNodeFolderPath(targetNode as TreeNodePath);
+                string targetDirectory = GetNodeFolderRealPath(targetNode as TreeNodePath);
 
                 #region Copy or Move media files dropped to new folder from external source
                 string[] filesAndFolders = (string[])e.Data.GetData(DataFormats.FileDrop); //Check if files been dropped
@@ -350,7 +343,7 @@ namespace PhotoTagsSynchronizer
             try
             {
                 TreeNode currentNode = (TreeNode)e.Item;
-                string sourceDirectory = GetNodeFolderPath(currentNode as TreeNodePath);
+                string sourceDirectory = GetNodeFolderRealPath(currentNode as TreeNodePath);
                 
                 if (currentNode != null && Directory.Exists(sourceDirectory))
                 {

@@ -69,5 +69,12 @@ namespace PhotoTagsSynchronizer
             }
         }
         #endregion
+
+        #region TreeViewFolderBrowserEnabled
+        public static void Enabled(TreeViewFolderBrowser treeViewFolderBrowser, bool enabled)
+        {
+            //treeViewFolderBrowser.Enabled = enabled;
+        }
+        #endregion
     }
 }

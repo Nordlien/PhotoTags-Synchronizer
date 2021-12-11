@@ -52,7 +52,7 @@ namespace PhotoTagsSynchronizer
             {
                 GlobalData.IsPopulatingFolderSelected = true; //Don't start twice
 
-                TreeViewFolderBrowserEnabled(treeViewFolderBrowser1, false);
+                TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, false);
                 LoadingItemsImageListView(1, 6);
                 UpdateStatusImageListView("Clear all old queues");
                 ClearAllQueues();
@@ -68,7 +68,7 @@ namespace PhotoTagsSynchronizer
                 UpdateStatusImageListView("Sorting...");
                 ImageListViewSortByCheckedRadioButton(false);
 
-                TreeViewFolderBrowserEnabled(treeViewFolderBrowser1, true);
+                TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, true);
                 GlobalData.IsPopulatingFolderSelected = false;
 
                 #region Read to cache
@@ -101,25 +101,32 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region GetNodeFolderPath / GetSelectedNodeFullPath
-        private string GetNodeFolderPath(TreeNodePath treeNodePath)
+        private string GetNodeFolderRealPath(TreeNodePath treeNodePath)
         {
-            string folder = treeNodePath?.Path == null ? "" : treeNodePath?.Path;
+            string folder = treeNodePath?.Path == null ? "" : treeNodePath?.Path; //"C:\\Users\\nordl\\OneDrive\\Skrivebord"
+            if (folder == "Desktop") return Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+            if (folder == "Documents") return Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            if (folder == "Music") return Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
+            if (folder == "Pictures") return Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+            if (folder == "Videos") return Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
+            //if (folder == "Downloads") return Environment.GetFolderPath(Environment.SpecialFolder.InternetCache);
             return Directory.Exists(folder) ? folder : "";
         }
-
-        private string GetSelectedNodePath()
+        private string GetSelectedNodeFullRealPath() 
         {
-            return GetNodeFolderPath(treeViewFolderBrowser1.SelectedNode as TreeNodePath);
+            return GetNodeFolderRealPath(treeViewFolderBrowser1.SelectedNode as TreeNodePath);
         }
 
-        private string GetNodeFolderFullPath(TreeNodePath treeNodePath)
+        private string GetNodeFolderFullLinkPath(TreeNodePath treeNodePath)
         {
-            return treeNodePath?.FullPath == null ? "" : treeNodePath?.FullPath;
+            return treeNodePath?.FullPath == null ? "" : treeNodePath?.FullPath; //"Desktop"
+            //Path     "C:\\Users\\nordl\\OneDrive\\Pictures JTNs OneDrive\\a-- PhotoTags Synchronizer --a"
+            //FullPath "Desktop\\This PC\\Pictures\\a-- PhotoTags Synchronizer --a"
         }
 
-        private string GetSelectedNodeFullPath()
+        private string GetSelectedNodeFullLinkPath() 
         {
-            return GetNodeFolderFullPath(treeViewFolderBrowser1.SelectedNode as TreeNodePath);
+            return GetNodeFolderFullLinkPath(treeViewFolderBrowser1.SelectedNode as TreeNodePath);
         }
         #endregion 
 
@@ -140,8 +147,8 @@ namespace PhotoTagsSynchronizer
             do
             {
                 #region Read folder files
-                string selectedFolder = GetSelectedNodePath();
-                Properties.Settings.Default.LastFolder = GetSelectedNodeFullPath();
+                string selectedFolder = GetSelectedNodeFullRealPath();
+                Properties.Settings.Default.LastFolder = GetSelectedNodeFullLinkPath();
 
                 UpdateStatusImageListView("Read files in folder: " + selectedFolder);
                 IEnumerable<FileData> fileDatas = GetFilesInSelectedFolder(selectedFolder, recursive);

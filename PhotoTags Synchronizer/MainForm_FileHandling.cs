@@ -46,7 +46,7 @@ namespace PhotoTagsSynchronizer
                     GlobalData.DoNotRefreshImageListView = false;
                 }
 
-                ImageListViewItem foundItem = FilesCutCopyPasteDrag.FindItemInImageListView(imageListView.Items, sourceFullFilename);
+                ImageListViewItem foundItem = ImageListViewHandler.FindItemInImageListView(imageListView.Items, sourceFullFilename);
                 if (foundItem != null) ImageListViewRemoveItem(imageListView, foundItem); 
             }
             catch (Exception ex)
@@ -119,7 +119,7 @@ namespace PhotoTagsSynchronizer
 
                         GlobalData.DoNotRefreshImageListView = false;
 
-                        ImageListViewItem foundItem = FilesCutCopyPasteDrag.FindItemInImageListView(imageListView.Items, sourceFullFilename);
+                        ImageListViewItem foundItem = ImageListViewHandler.FindItemInImageListView(imageListView.Items, sourceFullFilename);
                         if (foundItem != null) ImageListViewRemoveItem(imageListView, foundItem);
                     }
                     catch (Exception ex)

@@ -1414,7 +1414,7 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                string folder = GetNodeFolderPath(treeViewFolderBrowser1.SelectedNode as TreeNodePath);
+                string folder = GetNodeFolderRealPath(treeViewFolderBrowser1.SelectedNode as TreeNodePath);
                 if (!Directory.Exists (folder))
                 {
                     KryptonMessageBox.Show("Not a valid folder selected. Try select anoter folder.\r\nSelected system folder: " + (string.IsNullOrWhiteSpace(folder) ? "Unknown" : folder), "Invalid folder selection...", MessageBoxButtons.OK, MessageBoxIcon.Warning, true);
@@ -1721,7 +1721,7 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                string folder = GetNodeFolderPath(treeViewFolderBrowser1.SelectedNode as TreeNodePath);
+                string folder = GetNodeFolderRealPath(treeViewFolderBrowser1.SelectedNode as TreeNodePath);
                 if (!Directory.Exists(folder))
                 {
                     KryptonMessageBox.Show("Not a valid folder selected. Try select anoter folder.\r\nSelected system folder: " + (string.IsNullOrWhiteSpace(folder) ? "Unknown" : folder), "Invalid folder...", MessageBoxButtons.OK, MessageBoxIcon.Warning, true);
@@ -2021,7 +2021,7 @@ namespace PhotoTagsSynchronizer
                 using (new WaitCursor())
                 {
                     TreeNode targetTreeNode = treeViewFolderBrowser1.SelectedNode;
-                    string targetFolder = GetNodeFolderPath(targetTreeNode as TreeNodePath);
+                    string targetFolder = GetNodeFolderRealPath(targetTreeNode as TreeNodePath);
 
                     if (!Directory.Exists(targetFolder))
                     {
@@ -2344,8 +2344,8 @@ namespace PhotoTagsSynchronizer
                 if (GlobalData.IsPopulatingAnything()) return;
                 if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
 
-                TreeViewFolderBrowserEnabled(treeViewFolderBrowser1, false);
-                ImageListViewEnable(imageListView1, false);
+                TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, false);
+                ImageListViewHandler.Enable(imageListView1, false);
 
                 try
                 {
@@ -2372,8 +2372,8 @@ namespace PhotoTagsSynchronizer
                     KryptonMessageBox.Show(ex.Message, "Syntax error", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
                 }
 
-                TreeViewFolderBrowserEnabled(treeViewFolderBrowser1, true);
-                ImageListViewEnable(imageListView1, true);
+                TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, true);
+                ImageListViewHandler.Enable(imageListView1, true);
                 imageListView1.Focus();
                 DisplayAllQueueStatus();
             }
@@ -2393,7 +2393,7 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-                string folder = GetSelectedNodePath();
+                string folder = GetSelectedNodeFullRealPath();
                 if (folder == null || !Directory.Exists(folder))
                 {
                     KryptonMessageBox.Show("Can't delete folder. No valid folder selected.", "Invalid folder...", MessageBoxButtons.OK, MessageBoxIcon.Warning, true);
@@ -3227,7 +3227,7 @@ namespace PhotoTagsSynchronizer
             try
             {
                 kryptonWorkspaceCellFolderSearchFilter.SelectedPage = kryptonPageFolderSearchFilterSearch;
-                kryptonTextBoxSearchDirectory.Text = GetSelectedNodePath() == null ? "" : GetSelectedNodePath();
+                kryptonTextBoxSearchDirectory.Text = GetSelectedNodeFullRealPath() == null ? "" : GetSelectedNodeFullRealPath();
             }
             catch (Exception ex)
             {
@@ -3250,7 +3250,7 @@ namespace PhotoTagsSynchronizer
             try
             {
                 kryptonWorkspaceCellFolderSearchFilter.SelectedPage = kryptonPageFolderSearchFilterSearch;
-                kryptonTextBoxSearchDirectory.Text = GetSelectedNodePath() == null ? "" : GetSelectedNodePath();
+                kryptonTextBoxSearchDirectory.Text = GetSelectedNodeFullRealPath() == null ? "" : GetSelectedNodeFullRealPath();
                 if (imageListView1.SelectedItems.Count == 1) kryptonTextBoxSearchFilename.Text = imageListView1.SelectedItems[0].Text;
             }
             catch (Exception ex)
@@ -4943,7 +4943,7 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                string folder = GetSelectedNodePath();
+                string folder = GetSelectedNodeFullRealPath();
                 if (folder == null || !Directory.Exists(folder))
                 {
                     KryptonMessageBox.Show("Can't copy folder name. Not a valid folder selected.", "Invalid folder", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
@@ -7320,7 +7320,7 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-                string folder = GetSelectedNodePath();
+                string folder = GetSelectedNodeFullRealPath();
                 if (folder == null || !Directory.Exists(folder))
                 {
                     KryptonMessageBox.Show("Can't reach the folder. Not a valid folder selected.", "Invalid folder...", MessageBoxButtons.OK, MessageBoxIcon.Warning, true);
@@ -7475,7 +7475,7 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                string folder = GetSelectedNodePath();
+                string folder = GetSelectedNodeFullRealPath();
                 if (folder == null || !Directory.Exists(folder))
                 {
                     KryptonMessageBox.Show("Can't open folder location. Not a valid folder selected.", "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Warning, true);
@@ -8237,7 +8237,7 @@ namespace PhotoTagsSynchronizer
                 float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
                 int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
 
-                string selectedFolder = GetSelectedNodePath();
+                string selectedFolder = GetSelectedNodeFullRealPath();
                 if (selectedFolder == null || !Directory.Exists(selectedFolder))
                 {
                     KryptonMessageBox.Show("Can't run AutoCorrect. Not a valid folder selected.", "Invalid folder...", MessageBoxButtons.OK, MessageBoxIcon.Warning, true);
@@ -8459,7 +8459,7 @@ namespace PhotoTagsSynchronizer
                     AutoCorrectFormVaraibles autoCorrectFormVaraibles = formAutoCorrect.AutoCorrectFormVaraibles;
                     autoCorrectFormVaraibles.WriteAlbumOnDescription = autoCorrect.UpdateDescription;
 
-                    string selectedFolder = GetSelectedNodePath();
+                    string selectedFolder = GetSelectedNodeFullRealPath();
                     if (selectedFolder == null || !Directory.Exists(selectedFolder))
                     {
                         KryptonMessageBox.Show("Can't run AutoCorrect. Not a valid folder selected.", "Invalid folder...", MessageBoxButtons.OK, MessageBoxIcon.Warning, true);
@@ -8633,7 +8633,7 @@ namespace PhotoTagsSynchronizer
                     GlobalData.IsPopulatingButtonAction = true;
                     GlobalData.IsPopulatingImageListView = true; //Avoid one and one select item getting refreshed
                     GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
-                    TreeViewFolderBrowserEnabled(treeViewFolderBrowser1, false);
+                    TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, false);
                     ImageListViewSuspendLayoutInvoke(imageListView);
 
                     //Clean up ImageListView and other queues
@@ -8648,7 +8648,7 @@ namespace PhotoTagsSynchronizer
                     }
                     filesCutCopyPasteDrag.ImageListViewReload(imageListView.Items, updatedOnlySelected);
 
-                    TreeViewFolderBrowserEnabled(treeViewFolderBrowser1, true);
+                    TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, true);
                     ImageListViewResumeLayoutInvoke(imageListView);
                     GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
                     GlobalData.IsPopulatingButtonAction = false;
@@ -8793,7 +8793,7 @@ namespace PhotoTagsSynchronizer
             if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
             try
             {
-                string folder = GetSelectedNodePath();
+                string folder = GetSelectedNodeFullRealPath();
                 if (folder == null || !Directory.Exists(folder))
                 {
                     KryptonMessageBox.Show("Can't reload folder. Not a valid folder selected.", "Invalid folder...", MessageBoxButtons.OK, MessageBoxIcon.Warning, true);
@@ -8962,13 +8962,13 @@ namespace PhotoTagsSynchronizer
                         cacheFolderWebScraperDataSets = Properties.Settings.Default.CacheFolderWebScraperDataSets;
 
                         //
-                        TreeViewFolderBrowserEnabled(treeViewFolderBrowser1, false);
-                        ImageListViewEnable(imageListView1, false);
+                        TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, false);
+                        ImageListViewHandler.Enable(imageListView1, false);
                         
                         OnImageListViewSelect_FilesSelectedOrNoneSelected(true);
 
-                        ImageListViewEnable(imageListView1, true);
-                        TreeViewFolderBrowserEnabled(treeViewFolderBrowser1, true);
+                        ImageListViewHandler.Enable(imageListView1, true);
+                        TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, true);
                         imageListView1.Focus();
                     }
                     //Palette

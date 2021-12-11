@@ -97,12 +97,12 @@ namespace Raccoom.Windows.Forms
         protected override void SetIcon(TreeViewFolderBrowser treeView, TreeNodePath node)
         {
             //base.SetIcon(treeView, node);
-            Console.WriteLine("SetIcon {0} - {1}/{2} vs {3}/{4}", node.Text, node.ImageIndex, node.SelectedImageIndex, node.ImageKey, node.SelectedImageKey);
+            //Console.WriteLine("SetIcon {0} - {1}/{2} vs {3}/{4}", node.Text, node.ImageIndex, node.SelectedImageIndex, node.ImageKey, node.SelectedImageKey);
         }
 
         private void AddImageListImage(TreeViewFolderBrowser treeView, TreeNodePath node)
         {
-            Console.WriteLine("AddImage: " + node.Text + " " + node.ImageIndex + " " + node.SelectedImageIndex);
+            //Console.WriteLine("AddImage: " + node.Text + " " + node.ImageIndex + " " + node.SelectedImageIndex);
             if (treeView.ImageList == null) treeView.ImageList = new System.Windows.Forms.ImageList();
 
             if (node.ImageIndex != -1 && !node.TreeView.ImageList.Images.ContainsKey(node.ImageIndex.ToString()))
