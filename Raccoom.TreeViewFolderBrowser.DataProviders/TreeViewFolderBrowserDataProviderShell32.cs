@@ -164,20 +164,7 @@ namespace Raccoom.Windows.Forms
         
 
 
-        private TreeNodePath CreateTreeNode(string text, string path, bool addDummyNode, bool isSpecialFolder)
-        {
-            //
-            TreeNodePath newNode = new TreeNodePath(text, isSpecialFolder);
-            newNode.Path = path;
-            //						            
-            if (addDummyNode)
-            {
-                // add dummy node, otherwise there is no + sign
-                newNode.AddDummyNode();
-            }
-            //
-            return newNode;
-        }
+        
 
         const string ScannerNetworkTag = "NetworkScanner";
         const string ScannerComputerTag = "ComputerScanner";
@@ -328,7 +315,28 @@ namespace Raccoom.Windows.Forms
 
         #endregion
 
-        #region internal interface
+        #region CreateTreeNode
+        private TreeNodePath CreateTreeNode(string text, string path, bool addDummyNode, bool isSpecialFolder)
+        {
+            //
+            if (text == "Pictures" || text == "Videos")
+            {
+
+            }
+            TreeNodePath newNode = new TreeNodePath(text, isSpecialFolder);
+            newNode.Path = path;
+            //						            
+            if (addDummyNode)
+            {
+                // add dummy node, otherwise there is no + sign
+                newNode.AddDummyNode();
+            }
+            //
+            return newNode;
+        }
+        #endregion
+
+        #region CreateTreeNode
         protected virtual TreeNodePath CreateTreeNode(System.Windows.Forms.TreeNodeCollection parentCollection, TreeNodePath parentNode, Raccoom.Win32.ShellItem shellItem)
         {
             if (shellItem == null) throw new ArgumentNullException("shellItem");
@@ -346,6 +354,7 @@ namespace Raccoom.Windows.Forms
             };
             return node;
         }
+        #endregion
 
         #region FillMyComputer
         /// <summary>
@@ -402,6 +411,7 @@ namespace Raccoom.Windows.Forms
         }
         #endregion
 
+
         /// <summary>
         /// Do we have to add a dummy node (+ sign)
         /// </summary>
@@ -409,8 +419,6 @@ namespace Raccoom.Windows.Forms
         {
             return _showAllShellObjects || (fi.IsFileSystem && fi.IsFolder && !fi.IsBrowsable);
         }
-
-        #endregion
 
         public override string ToString()
         {

@@ -44,7 +44,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-
         #region PopulateImageListView
         private HashSet<FileEntry> ImageListView_Aggregate_FromReadFolderOrFilterOrDatabase(IEnumerable<FileData> fileDatas, HashSet<FileEntry> fileEntries, string selectedFolder, bool runPopulateFilter = true)
         {
@@ -104,12 +103,15 @@ namespace PhotoTagsSynchronizer
         private string GetNodeFolderRealPath(TreeNodePath treeNodePath)
         {
             string folder = treeNodePath?.Path == null ? "" : treeNodePath?.Path; //"C:\\Users\\nordl\\OneDrive\\Skrivebord"
-            if (folder == "Desktop") return Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-            if (folder == "Documents") return Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            if (folder == "Music") return Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
-            if (folder == "Pictures") return Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-            if (folder == "Videos") return Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
-            //if (folder == "Downloads") return Environment.GetFolderPath(Environment.SpecialFolder.InternetCache);
+            if (!Directory.Exists(folder))
+            {
+                try
+                {
+                    if (treeNodePath.Tag is Raccoom.Win32.ShellItem shellItem) folder = Raccoom.Win32.ShellItem.GetRealPath(shellItem);
+                    if (folder.StartsWith("::{")) folder = "";
+                }
+                catch { }
+            }
             return Directory.Exists(folder) ? folder : "";
         }
         private string GetSelectedNodeFullRealPath() 
