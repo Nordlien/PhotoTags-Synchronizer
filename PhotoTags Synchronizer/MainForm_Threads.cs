@@ -484,17 +484,15 @@ namespace PhotoTagsSynchronizer
                     {
                         if (fileEntryCheck.FileFullPath == fileEntryAttribute.FileFullPath) return true;
                     }
-                }
-                //private static List<FileEntryAttribute> commonQueueLazyLoadingThumbnail = new List<FileEntryAttribute>();
-                //private static List<Metadata> commonQueueReadPosterAndSaveFaceThumbnails = new List<Metadata>();
-                //private static List<FileEntryImage> commonQueueSaveThumbnailToDatabase = new List<FileEntryImage>();
-                //private static List<FileEntry> commonQueueReadMetadataFromMicrosoftPhotos = new List<FileEntry>();
-                //private static List<FileEntry> commonQueueReadMetadataFromWindowsLivePhotoGallery = new List<FileEntry>();                
+                }            
             } catch
             {
             }
             return false;
         }
+        #endregion
+
+        #region LazyLoadingDataGridView - DataGridView - GetDataGridViewWatingToBePopulatedCount
         public int GetDataGridViewWatingToBePopulatedCount()
         {
             DataGridView dataGridView = GetActiveTabDataGridView();
