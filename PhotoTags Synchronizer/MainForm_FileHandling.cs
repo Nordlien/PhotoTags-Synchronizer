@@ -46,8 +46,8 @@ namespace PhotoTagsSynchronizer
                     GlobalData.DoNotRefreshImageListView = false;
                 }
 
-                ImageListViewItem foundItem = ImageListViewHandler.FindItemInImageListView(imageListView.Items, sourceFullFilename);
-                if (foundItem != null) ImageListViewRemoveItem(imageListView, foundItem); 
+                ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView.Items, sourceFullFilename);
+                if (foundItem != null) ImageListViewHandler.ImageListViewRemoveItem(imageListView, foundItem); 
             }
             catch (Exception ex)
             {
@@ -119,8 +119,8 @@ namespace PhotoTagsSynchronizer
 
                         GlobalData.DoNotRefreshImageListView = false;
 
-                        ImageListViewItem foundItem = ImageListViewHandler.FindItemInImageListView(imageListView.Items, sourceFullFilename);
-                        if (foundItem != null) ImageListViewRemoveItem(imageListView, foundItem);
+                        ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView.Items, sourceFullFilename);
+                        if (foundItem != null) ImageListViewHandler.ImageListViewRemoveItem(imageListView, foundItem);
                     }
                     catch (Exception ex)
                     {
@@ -166,7 +166,7 @@ namespace PhotoTagsSynchronizer
                     System.IO.Directory.Move(sourceDirectory, targetDirectory);
 
                     //------ Clear ImageListView -----
-                    ImageListViewClearAll(imageListView1);
+                    ImageListViewHandler.ClearAllAndCaches(imageListView1);
 
                     //------ Update node tree -----
                     GlobalData.DoNotRefreshImageListView = true;

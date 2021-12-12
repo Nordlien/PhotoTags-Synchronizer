@@ -148,7 +148,7 @@ namespace PhotoTagsSynchronizer
                     mainForm.UpdateStatusAction("Deleting the file " + fileEntry.FileFullPath + " and records in database");
                     if (deleteFromFileSystemAlso) File.Delete(fileEntry.FileFullPath);
                     this.DeleteFileAndHistory(fileEntry.FileFullPath);
-                    imageListView.Items.Remove(ImageListViewHandler.FindItemInImageListView(imageListView.Items, fileEntry.FileFullPath));
+                    imageListView.Items.Remove(ImageListViewHandler.FindItem(imageListView.Items, fileEntry.FileFullPath));
                 }
                 catch (Exception ex)
                 {

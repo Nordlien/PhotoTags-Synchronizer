@@ -263,7 +263,7 @@ namespace PhotoTagsSynchronizer
                         break;
                     default: throw new NotImplementedException();
                 }
-                PopulateDataGridViewForSelectedItemsThread(GetImageListViewSelectedFileEntriesCache(true));
+                PopulateDataGridViewForSelectedItemsThread(ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));
             }
             catch (Exception ex)
             {
@@ -288,10 +288,10 @@ namespace PhotoTagsSynchronizer
                 GlobalData.IsPopulatingImageListView = true;
                 GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
 
-                HashSet<FileEntry> fileEntries = GetImageListViewSelectedFileEntriesCache(allowUseCache);
+                HashSet<FileEntry> fileEntries = ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, allowUseCache);
                 CheckIfSelectedFilesExist(ref fileEntries);
                 PopulateDataGridViewForSelectedItemsThread(fileEntries);
-                PopulateImageListViewOpenWithToolStripThread(fileEntries, GetImageListViewFileEntriesCache());
+                PopulateImageListViewOpenWithToolStripThread(fileEntries, ImageListViewHandler.GetFileEntriesAllItemsCache(imageListView1));
                 UpdateRibbonsWhenWorkspaceChanged();
                 
                 GlobalData.IsPopulatingImageListView = false;
@@ -335,7 +335,7 @@ namespace PhotoTagsSynchronizer
                             foreach (FileEntry fileEntry in filesDoesNotExist) fileEntries.Remove(fileEntry);
                             UpdateStatusAction("Deleing files and all record about files in database....");
                             filesCutCopyPasteDrag.DeleteSelectedFiles(this, imageListView1, filesDoesNotExist, false);
-                            SetImageListViewFileAndFileEntriesCacheClear();
+                            ImageListViewHandler.ClearCacheFileEntries(imageListView1);
                         }
                     }
                 }
@@ -366,7 +366,7 @@ namespace PhotoTagsSynchronizer
                     if (dataGridView != null) PopulateDataGrivViewForFileEntryAttributeAndTag(dataGridView, fileEntryAttribute, tag);
                 }
             
-                ImageListViewItem foundItem = ImageListViewHandler.FindItemInImageListView(imageListView1.Items, fileEntryAttribute.FileFullPath);
+                ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fileEntryAttribute.FileFullPath);
                 if (foundItem != null)
                 {
                     if (foundItem.IsPropertyRequested()) foundItem.Update();
@@ -651,7 +651,7 @@ namespace PhotoTagsSynchronizer
                     DataGridViewSize dataGridViewSize;
                     ShowWhatColumns showWhatColumnsForTab;
                     bool showProgressCircle = true;
-                    bool isSizeEnabled = GetImageListViewSelectedFileEntriesCache(true).Count > 0;
+                    bool isSizeEnabled = ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true).Count > 0;
                     bool isColumnsEnabled = isSizeEnabled;
                     switch (GetActiveTabTag())
                     {

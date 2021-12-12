@@ -706,7 +706,7 @@ namespace PhotoTagsSynchronizer
                 } else
                 {
                     GlobalData.IsApplicationClosing = true;
-                    ImageListViewClearAll(imageListView1);
+                    ImageListViewHandler.ClearAllAndCaches(imageListView1);
                     OnImageListViewSelect_FilesSelectedOrNoneSelected(true); //Even when 0 selected files, allocate data and flags, etc...
                 }
             }
@@ -802,7 +802,7 @@ namespace PhotoTagsSynchronizer
 
                     try
                     {
-                        ImageListViewClearAll(imageListView1);
+                        ImageListViewHandler.ClearAllAndCaches(imageListView1);
 
                         imageListView1.Dispose();
                         imageListView1.StoppBackgroundThreads();
