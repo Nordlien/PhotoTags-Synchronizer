@@ -665,7 +665,7 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandlerTagsAndKeywords.MediaAiTagConfidence = GetAiConfidence();
             try
             {
-                LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));
+                DataGridView_AfterPopulateSelectedFiles_LazyLoadOtherFileVersions(ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));
             }
             catch (Exception ex)
             {
@@ -963,8 +963,6 @@ namespace PhotoTagsSynchronizer
             }
         }
         #endregion 
-
-        
 
         #region EditingControlShowing
         private void dataGridViewTagsAndKeywords_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)

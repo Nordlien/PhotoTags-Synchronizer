@@ -19,115 +19,21 @@ namespace PhotoTagsSynchronizer
 
     public partial class MainForm : KryptonForm
     {
-        #region Workspace - FindWorkspaceCell
-        private Krypton.Workspace.KryptonWorkspaceCell FindWorkspaceCell(Krypton.Workspace.KryptonWorkspace kryptonWorkspace, string name)
+        #region DataGridView - UpdateColumnThumbnail - OnFileEntryAttribute - OnSelectedGrivView
+        private void DataGridView_UpdateColumnThumbnail_OnFileEntryAttribute(FileEntryAttribute fileEntryAttribute, Image image)
         {
-            Krypton.Workspace.KryptonWorkspaceCell kryptonWorkspaceCell = kryptonWorkspace.FirstVisibleCell();
-            while (kryptonWorkspaceCell != null)
+            if (InvokeRequired)
             {
-                if (kryptonWorkspaceCell.Name == name)
-                {
-                    return kryptonWorkspaceCell;
-                }
-                kryptonWorkspaceCell = kryptonWorkspace.NextVisibleCell(kryptonWorkspaceCell);
+                this.BeginInvoke(new Action<FileEntryAttribute, Image>(DataGridView_UpdateColumnThumbnail_OnFileEntryAttribute), fileEntryAttribute, image);
+                return;
             }
-            return null;
+
+            DataGridView dataGridView = GetActiveTabDataGridView();
+            if (dataGridView == null) return;
+
+            lock (GlobalData.populateSelectedLock) DataGridViewHandler.SetColumnHeaderThumbnail(dataGridView, fileEntryAttribute, image);
         }
         #endregion
-
-        #region Workspace - ActionMaximumWorkspaceCell
-        private void ActionMaximumWorkspaceCell(Krypton.Workspace.KryptonWorkspace kryptonWorkspace, Krypton.Workspace.KryptonWorkspaceCell kryptonWorkspaceCell)
-        {
-            kryptonWorkspace.MaximizedCell = kryptonWorkspaceCell;
-        }
-        #endregion
-
-        #region WorkspaceCellToolboxTags - MaximizeRestore
-
-        #region WorkspaceCellToolboxTags - MaximizeOrRestore()
-        private void WorkspaceCellToolboxTagsMaximizeOrRestore()
-        {
-            switch (GetActiveTabTag())
-            {
-                case LinkTabAndDataGridViewNameTags:
-                    Krypton.Workspace.KryptonWorkspaceCell kryptonWorkspaceCell = FindWorkspaceCell(kryptonWorkspaceToolboxTags, Properties.Settings.Default.WorkspaceToolboxTagsMaximizedCell);
-                    ActionMaximumWorkspaceCell(kryptonWorkspaceToolboxTags, kryptonWorkspaceCell);
-                    break;
-                case LinkTabAndDataGridViewNameMap:
-                case LinkTabAndDataGridViewNamePeople:
-                case LinkTabAndDataGridViewNameDates:
-                case LinkTabAndDataGridViewNameExiftool:
-                case LinkTabAndDataGridViewNameWarnings:
-                case LinkTabAndDataGridViewNameProperties:
-                case LinkTabAndDataGridViewNameRename:
-                case LinkTabAndDataGridViewNameConvertAndMerge:
-                    break;
-                default: throw new NotImplementedException();
-            }
-        }
-        #endregion 
-
-        #region WorkspaceCellToolboxTags - MaximizeRestore - Click
-        private void ActionMaximizeRestoreWorkspaceCellToolboxTags()
-        {
-            Properties.Settings.Default.WorkspaceToolboxTagsMaximizedCell = kryptonWorkspaceToolboxTags?.MaximizedCell?.Name ?? "";
-        }
-        #endregion
-
-        #region WorkspacToolboxTags - MaximizeRestore - Click
-        private void kryptonWorkspaceCellToolboxTagsDetails_MaximizeRestoreClicked(object sender, EventArgs e)
-        {
-            ActionMaximizeRestoreWorkspaceCellToolboxTags();
-        }
-
-        private void kryptonWorkspaceCellToolboxTagsKeywords_MaximizeRestoreClicked(object sender, EventArgs e)
-        {
-            ActionMaximizeRestoreWorkspaceCellToolboxTags();
-        }
-        #endregion
-
-        #endregion
-
-        #region WorkspaceMain - MaximizeRestore
-
-        #region WorkspaceMain - MaximizeWorkspaceMainCell
-        private void MaximizeOrRestoreWorkspaceMainCellAndChilds()
-        {
-            Krypton.Workspace.KryptonWorkspaceCell kryptonWorkspaceCell = FindWorkspaceCell(kryptonWorkspaceMain, Properties.Settings.Default.WorkspaceMainMaximizedCell);
-            ActionMaximumWorkspaceCell(kryptonWorkspaceMain, kryptonWorkspaceCell);
-            WorkspaceCellToolboxTagsMaximizeOrRestore();
-        }
-        #endregion
-
-        #region WorkspaceMain - ActionMaximizeRestoreWorkspaceMain
-        private void ActionMaximizeRestoreWorkspaceMain()
-        {
-            Properties.Settings.Default.WorkspaceMainMaximizedCell = kryptonWorkspaceMain?.MaximizedCell?.Name ?? "";
-            WorkspaceCellToolboxTagsMaximizeOrRestore(); //Not restore this but childs
-        }
-        #endregion
-
-        #region WorkspaceMain - MaximizeRestore - Click
-        private void kryptonWorkspaceCellFolderSearchFilter_MaximizeRestoreClicked(object sender, EventArgs e)
-        {
-            SetNavigatorModeSearch(NavigatorMode.OutlookFull);
-            ActionMaximizeRestoreWorkspaceMain();
-        }
-
-        private void kryptonWorkspaceCellMediaFiles_MaximizeRestoreClicked(object sender, EventArgs e)
-        {
-            ActionMaximizeRestoreWorkspaceMain();
-        }
-
-        private void kryptonWorkspaceCellToolbox_MaximizeRestoreClicked(object sender, EventArgs e)
-        {
-            ActionMaximizeRestoreWorkspaceMain();
-        }
-        #endregion
-
-        #endregion
-
-        
 
         #region DataGridView - GetDataGridViewForTag
         private DataGridView GetDataGridViewForTag(string tag)
@@ -184,23 +90,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region DataGridView - Update Image - OnFileEntry - OnSelectedGrivView
-        private void UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke(FileEntryAttribute fileEntryAttribute, Image image)
-        {
-            if (InvokeRequired)
-            {
-                this.BeginInvoke(new Action<FileEntryAttribute, Image>(UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke), fileEntryAttribute, image);
-                return;
-            }
-
-            DataGridView dataGridView = GetActiveTabDataGridView();
-            if (dataGridView == null) return;
-
-            lock (GlobalData.populateSelectedLock) DataGridViewHandler.SetDataGridImageOnFileEntryAttribute(dataGridView, fileEntryAttribute, image);
-        }
-        #endregion
-
-        #region DataGridVIew - IsActiveDataGridViewAgregated
+        #region DataGridView - IsActiveDataGridViewAgregated
         private bool IsActiveDataGridViewAgregated(string tag)
         {
             bool isAgregated = false;
@@ -238,122 +128,12 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-
-        #region -- SelectedPageChanged --
-        private void kryptonWorkspaceCellToolbox_SelectedPageChanged(object sender, EventArgs e)
-        {
-            if (isFormLoading) return;
-            try
-            {
-                ActionMaximumWorkspaceCell(kryptonWorkspaceMain, FindWorkspaceCell(kryptonWorkspaceMain, Properties.Settings.Default.WorkspaceMainMaximizedCell)); //Need to be in front of ActionMaximumWorkspaceCell(kryptonWorkspaceToolboxTags, kryptonWorkspaceToolboxTagPrevious);
-
-                switch (GetActiveTabTag())
-                {
-                    case LinkTabAndDataGridViewNameTags:
-                        ActionMaximumWorkspaceCell(kryptonWorkspaceToolboxTags, FindWorkspaceCell(kryptonWorkspaceToolboxTags, Properties.Settings.Default.WorkspaceToolboxTagsMaximizedCell));
-                        break;
-                    case LinkTabAndDataGridViewNameMap:
-                    case LinkTabAndDataGridViewNamePeople:
-                    case LinkTabAndDataGridViewNameDates:
-                    case LinkTabAndDataGridViewNameExiftool:
-                    case LinkTabAndDataGridViewNameWarnings:
-                    case LinkTabAndDataGridViewNameProperties:
-                    case LinkTabAndDataGridViewNameRename:
-                    case LinkTabAndDataGridViewNameConvertAndMerge:
-                        break;
-                    default: throw new NotImplementedException();
-                }
-                PopulateDataGridViewForSelectedItemsThread(ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));
-            }
-            catch (Exception ex)
-            {
-                KryptonMessageBox.Show(ex.Message, "Was not able to to populate data grid view", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
-                Logger.Error(ex);
-            }
-        }
-        #endregion
-
-        #region DataGridView - Populate DataGridView, OpenWith...
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="fileEntriesInImageListViewWithoutDragAndDrop">Null means, reread from ImageListView.Items</param>
-        private void OnImageListViewSelect_FilesSelectedOrNoneSelected(bool allowUseCache)
-        {
-            if (GlobalData.IsPopulatingAnything()) return; //E.g. Populate FolderSelect
-            if (GlobalData.DoNotRefreshDataGridViewWhileFileSelect) return;
-
-            using (new WaitCursor())
-            {
-                GlobalData.IsPopulatingImageListView = true;
-                GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
-
-                HashSet<FileEntry> fileEntries = ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, allowUseCache);
-                CheckIfSelectedFilesExist(ref fileEntries);
-                PopulateDataGridViewForSelectedItemsThread(fileEntries);
-                PopulateImageListViewOpenWithToolStripThread(fileEntries, ImageListViewHandler.GetFileEntriesAllItemsCache(imageListView1));
-                UpdateRibbonsWhenWorkspaceChanged();
-                
-                GlobalData.IsPopulatingImageListView = false;
-            }
-        }
-        #endregion
-
-        #region CheckIfSelectedFilesExist
-        private void CheckIfSelectedFilesExist(ref HashSet<FileEntry> fileEntries)
-        {
-            try
-            {
-                HashSet<FileEntry> filesDoesNotExist = new HashSet<FileEntry>();
-                foreach (FileEntry fileEntry in fileEntries)
-                {
-                    if (!File.Exists(fileEntry.FileFullPath) && !filesDoesNotExist.Contains(fileEntry)) filesDoesNotExist.Add(fileEntry);
-                }
-                if (filesDoesNotExist.Count > 0)
-                {
-                    string listOfFiles = "";
-                    int count = 0;
-                    foreach (FileEntry fileEntry in filesDoesNotExist) 
-                    {
-                        listOfFiles += fileEntry.FileFullPath + "\r\n";
-                        if (count++ > 4)
-                        {
-                            listOfFiles += "and more....\r\n";
-                            break;
-                        }
-                    }
-
-                    if (KryptonMessageBox.Show(
-                        (filesDoesNotExist.Count == 1 ? "File" : filesDoesNotExist.Count.ToString() + " files") + " doesn't exsist anymore\r\n" +
-                        "The files will be removed from the list of media files and from the database.\r\n\r\n" +
-                        "Example:\r\n" +
-                        listOfFiles, "File(s) does'n exist...",
-                        MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, true) == DialogResult.OK)
-                    {                        
-                        using (new WaitCursor())
-                        {
-                            foreach (FileEntry fileEntry in filesDoesNotExist) fileEntries.Remove(fileEntry);
-                            UpdateStatusAction("Deleing files and all record about files in database....");
-                            filesCutCopyPasteDrag.DeleteSelectedFiles(this, imageListView1, filesDoesNotExist, false);
-                            ImageListViewHandler.ClearCacheFileEntries(imageListView1);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Syntax error", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
-            }
-        }
-        #endregion
-
-        #region DataGridView - Populate File - For FileEntryAttribute missing Tag - Invoke
-        private void PopulateImageListVieAndDataGridViewForFileEntryAttributeInvoke(FileEntryAttribute fileEntryAttribute)
+        #region DataGridView - ImageListView - Populate File - For FileEntryAttribute missing Tag - Invoke
+        private void DataGridView_ImageListView_Populate_FileEntryAttributeInvoke(FileEntryAttribute fileEntryAttribute)
         {
             if (InvokeRequired)
             {
-                this.BeginInvoke(new Action<FileEntryAttribute>(PopulateImageListVieAndDataGridViewForFileEntryAttributeInvoke), fileEntryAttribute);
+                this.BeginInvoke(new Action<FileEntryAttribute>(DataGridView_ImageListView_Populate_FileEntryAttributeInvoke), fileEntryAttribute);
                 return;
             }
             if (GlobalData.IsApplicationClosing) return;
@@ -363,7 +143,7 @@ namespace PhotoTagsSynchronizer
                 if (!string.IsNullOrWhiteSpace(tag) && IsActiveDataGridViewAgregated(tag))
                 {
                     DataGridView dataGridView = GetDataGridViewForTag(tag);
-                    if (dataGridView != null) PopulateDataGrivViewForFileEntryAttributeAndTag(dataGridView, fileEntryAttribute, tag);
+                    if (dataGridView != null) DataGridView_Populate_FileEntryAttribute(dataGridView, fileEntryAttribute, tag);
                 }
             
                 ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fileEntryAttribute.FileFullPath);
@@ -378,13 +158,57 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region DataGridView - Populate File - For FileEntryAttribute and Tag
-        private void PopulateDataGrivViewForFileEntryAttributeAndTag(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, string tag)
+        #region DataGridView - Populate - SelectedExtrasDropdownAndColumnSizesInvoke (Populate DataGridView Extras)
+        private void DataGridView_Populate_ExtrasAsDropdownAndColumnSizesInvoke()
+        {
+            if (this.InvokeRequired)
+            {
+                BeginInvoke(new Action(DataGridView_Populate_ExtrasAsDropdownAndColumnSizesInvoke));
+                return;
+            }
+
+            if (GlobalData.IsApplicationClosing) return;
+
+            lock (GlobalData.populateSelectedLock)
+            {
+                DataGridView dataGridView = GetActiveTabDataGridView();
+                switch (GetActiveTabTag())
+                {
+                    case LinkTabAndDataGridViewNameTags:
+                        PopulateDetailViewTagsAndKeywords(dataGridView);
+                        break;
+                    case LinkTabAndDataGridViewNameMap:
+                        break;
+                    case LinkTabAndDataGridViewNamePeople:
+                        break;
+                    case LinkTabAndDataGridViewNameDates:
+                        break;
+                    case LinkTabAndDataGridViewNameExiftool:
+                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, GetDataGridViewWatingToBePopulatedCount());
+                        break;
+                    case LinkTabAndDataGridViewNameWarnings:
+                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, GetDataGridViewWatingToBePopulatedCount());
+                        break;
+                    case LinkTabAndDataGridViewNameProperties:
+                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, GetDataGridViewWatingToBePopulatedCount());
+                        break;
+                    case LinkTabAndDataGridViewNameRename:
+                        break;
+                    case LinkTabAndDataGridViewNameConvertAndMerge:
+                        break;
+                    default: throw new NotImplementedException();
+                }
+            }
+        }
+        #endregion
+
+        #region DataGridView - Populate - FileEntryAttribute -> PopulateDataGridViewForSelectedItemsExtrasDelayed();
+        private void DataGridView_Populate_FileEntryAttribute(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, string tabTag)
         {
             lock (GlobalData.populateSelectedLock)
             {
                 #region isFileInDataGridView
-                bool isFilSelectedInImageListView = DoesExistInSelectedFileImageListView(fileEntryAttribute.FileFullPath);
+                bool isFilSelectedInImageListView = ImageListViewHandler.DoesExistInSelectedFiles(imageListView1, fileEntryAttribute.FileFullPath);
                 #endregion
 
                 if (isFilSelectedInImageListView)
@@ -427,7 +251,7 @@ namespace PhotoTagsSynchronizer
                     #endregion
 
                     #region Popuate File
-                    switch (tag)
+                    switch (tabTag)
                     {
                         case LinkTabAndDataGridViewNameTags:
                             DataGridViewHandlerTagsAndKeywords.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, false);
@@ -496,19 +320,16 @@ namespace PhotoTagsSynchronizer
 
                     int queueCount = GetDataGridViewWatingToBePopulatedCount();
                     LazyLoadingDataGridViewProgressUpdateStatus(queueCount); //Update progressbar when File In DataGridView
-                    if (queueCount == 0) 
-                        PopulateDataGridViewForSelectedItemsExtrasDelayed();
+                    if (queueCount == 0) DataGridView_Populate_ExtrasAsDropdownAndColumnSizesInvoke();
 
                     DataGridViewHandler.ResumeLayoutDelayed(dataGridView); //Will resume when counter reach 0
                 }
-
-                
             }
         }
         #endregion
 
-        #region DataGridView - LazyLoad - Populate File - For Selected Files 
-        private void LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(HashSet<FileEntry> imageListViewSelectItems)
+        #region DataGridView - LazyLoad - AfterPopulateSelectedFilesLazyLoadOtherFileVersions 
+        private void DataGridView_AfterPopulateSelectedFiles_LazyLoadOtherFileVersions(HashSet<FileEntry> imageListViewSelectItems)
         {
             List<FileEntryAttribute> lazyLoadingAllExiftoolVersionOfMediaFile = new List<FileEntryAttribute>();
 
@@ -530,108 +351,31 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region DataGridView - PopulateDataGridViewForSelectedItemsExtrasInvoke (Populate DataGridView Extras)
-
-        private void PopulateDataGridViewForSelectedItemsExtrasDelayed()
-        {
-            PopulateDataGridViewForSelectedItemsExtrasInvoke();
-        }
-
-        private void PopulateDataGridViewForSelectedItemsExtrasInvoke()
-        {
-            if (this.InvokeRequired)
-            {
-                BeginInvoke(new Action(PopulateDataGridViewForSelectedItemsExtrasInvoke));
-                return;
-            }
-
-            if (GlobalData.IsApplicationClosing) return;
-
-            lock (GlobalData.populateSelectedLock)
-            {
-                DataGridView dataGridView = GetActiveTabDataGridView();
-                switch (GetActiveTabTag())
-                {
-                    case LinkTabAndDataGridViewNameTags:
-                        PopulateDetailViewTagsAndKeywords(dataGridView);
-                        break;
-                    case LinkTabAndDataGridViewNameMap:
-                        break;
-                    case LinkTabAndDataGridViewNamePeople:
-                        break;
-                    case LinkTabAndDataGridViewNameDates:
-                        break;
-                    case LinkTabAndDataGridViewNameExiftool:
-                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, GetDataGridViewWatingToBePopulatedCount());
-                        break;
-                    case LinkTabAndDataGridViewNameWarnings:
-                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, GetDataGridViewWatingToBePopulatedCount());
-                        break;
-                    case LinkTabAndDataGridViewNameProperties:
-                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, GetDataGridViewWatingToBePopulatedCount());
-                        break;
-                    case LinkTabAndDataGridViewNameRename:
-                        break;
-                    case LinkTabAndDataGridViewNameConvertAndMerge:
-                        break;
-                    default: throw new NotImplementedException();
-                }
-            }
-        }
-        #endregion
-
         #region DataGridView - Populate Selected Files - OnActiveDataGridView - Thread
-        private void PopulateDataGridViewForSelectedItemsThread(HashSet<FileEntry> imageListViewSelectItems)
+        private void DataGridView_Populate_SelectedItemsThread(HashSet<FileEntry> imageListViewSelectItems)
         {
             LazyLoadingDataGridViewProgressUpdateStatus(imageListViewSelectItems.Count + 5);
             Thread threadPopulateDataGridView = new Thread(() => {
-                PopulateDataGridViewForSelectedItemsInvoke(imageListViewSelectItems);
+                DataGridView_Populate_SelectedItemsInvoke(imageListViewSelectItems);
             });
 
             threadPopulateDataGridView.Start();
         }
         #endregion
 
-        #region DataGridView Handling - GetCellWidth
-        public static int GetColumnNameAndWidths(DataGridViewSize size, string large, string medium, string small)
-        {
-            switch (size)
-            {
-                case DataGridViewSize.Small:
-                    return 130;
-                case DataGridViewSize.Medium:
-                    return 230;
-                case DataGridViewSize.Large:
-                    return 330;
-
-                case DataGridViewSize.Small | DataGridViewSize.RenameConvertAndMergeSize:
-                    return 200; //Rename Grid
-                case DataGridViewSize.Medium | DataGridViewSize.RenameConvertAndMergeSize:
-                    return 400; //Rename Grid
-                case DataGridViewSize.Large | DataGridViewSize.RenameConvertAndMergeSize:
-                    return 600; //Rename Grid
-
-                case DataGridViewSize.ConfigSize:
-                    return 200;
-                default:
-                    throw new Exception("Not implemented");
-            }
-        }
-        #endregion
-
-        #region DataGridView - Populate Selected Files - OnActiveDataGridView - Invoke -> PopulateDataGridViewForSelectedItemsExtrasDelayed();
+        #region DataGridView - Populate Selected Files - OnActiveDataGridView - Invoke 
         /// <summary>
         /// Populate Active DataGridView with Seleted Files from ImageListView
         /// PS. When selected new files, all DataGridViews are maked as dirty.
         /// </summary>
         /// <param name="imageListViewSelectItems"></param>
-        private void PopulateDataGridViewForSelectedItemsInvoke(HashSet<FileEntry> imageListViewSelectItems)
+        private void DataGridView_Populate_SelectedItemsInvoke(HashSet<FileEntry> imageListViewSelectItems)
         {
             
             if (this.InvokeRequired)
             {
                 LazyLoadingDataGridViewProgressUpdateStatus(imageListViewSelectItems.Count + 4);
-                BeginInvoke(new Action<HashSet<FileEntry>>(PopulateDataGridViewForSelectedItemsInvoke), imageListViewSelectItems);
+                BeginInvoke(new Action<HashSet<FileEntry>>(DataGridView_Populate_SelectedItemsInvoke), imageListViewSelectItems);
                 return;
             }
 
@@ -728,7 +472,7 @@ namespace PhotoTagsSynchronizer
                             DataGridViewHandlerTagsAndKeywords.AutoKeywordConvertions = autoKeywordConvertions;
                             DataGridViewHandlerTagsAndKeywords.HasBeenInitialized = true;
                             DataGridViewHandlerTagsAndKeywords.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, dataGridViewSize, showWhatColumnsForTab);
-                            LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListViewSelectItems);
+                            DataGridView_AfterPopulateSelectedFiles_LazyLoadOtherFileVersions(imageListViewSelectItems);
                             break;
                         case LinkTabAndDataGridViewNameMap:
                             //splitContainerMap.SplitterDistance = Properties.Settings.Default.SplitContainerMap;
@@ -744,7 +488,7 @@ namespace PhotoTagsSynchronizer
                             DataGridViewHandlerMap.DatabaseAndCacheCameraOwner = databaseAndCahceCameraOwner;
                             DataGridViewHandlerMap.HasBeenInitialized = true;
                             DataGridViewHandlerMap.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, dataGridViewSize, showWhatColumnsForTab);
-                            LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListViewSelectItems);
+                            DataGridView_AfterPopulateSelectedFiles_LazyLoadOtherFileVersions(imageListViewSelectItems);
                             break;
                         case LinkTabAndDataGridViewNamePeople:
                             PopulatePeopleToolStripMenuItems();
@@ -756,7 +500,7 @@ namespace PhotoTagsSynchronizer
                             DataGridViewHandlerPeople.SuggestRegionNameTopMostCount = Properties.Settings.Default.SuggestRegionNameTopMostCount;
                             DataGridViewHandlerPeople.HasBeenInitialized = true;
                             DataGridViewHandlerPeople.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, dataGridViewSize, showWhatColumnsForTab);
-                            LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListViewSelectItems);
+                            DataGridView_AfterPopulateSelectedFiles_LazyLoadOtherFileVersions(imageListViewSelectItems);
                             break;
                         case LinkTabAndDataGridViewNameDates:
                             DataGridViewHandlerDate.DatabaseExiftoolData = databaseExiftoolData;
@@ -769,7 +513,7 @@ namespace PhotoTagsSynchronizer
                             DataGridViewHandlerDate.DatabaseAndCacheMetadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos;
                             DataGridViewHandlerDate.HasBeenInitialized = true;
                             DataGridViewHandlerDate.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, dataGridViewSize, showWhatColumnsForTab);
-                            LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListViewSelectItems);
+                            DataGridView_AfterPopulateSelectedFiles_LazyLoadOtherFileVersions(imageListViewSelectItems);
                             break;
                         case LinkTabAndDataGridViewNameExiftool:
                             DataGridViewHandlerExiftool.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
@@ -793,7 +537,7 @@ namespace PhotoTagsSynchronizer
                             DataGridViewHandlerProperties.WindowsPropertyReader = new WindowsPropertyReader();
                             DataGridViewHandlerProperties.HasBeenInitialized = true;
                             DataGridViewHandlerProperties.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, dataGridViewSize, showWhatColumnsForTab);
-                            PopulateDataGridViewForSelectedItemsExtrasDelayed();
+                            DataGridView_Populate_ExtrasAsDropdownAndColumnSizesInvoke();
                             break;
                         case LinkTabAndDataGridViewNameRename:
                             DataGridViewHandlerRename.FileDateTimeFormats = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
@@ -804,7 +548,7 @@ namespace PhotoTagsSynchronizer
                             checkBoxRenameShowFullPath.Checked = DataGridViewHandlerRename.ShowFullPath;
                             DataGridViewHandlerRename.HasBeenInitialized = true;
                             DataGridViewHandlerRename.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, dataGridViewSize, showWhatColumnsForTab, DataGridViewHandlerRename.ShowFullPath);
-                            LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListViewSelectItems);
+                            DataGridView_AfterPopulateSelectedFiles_LazyLoadOtherFileVersions(imageListViewSelectItems);
                             break;
                         case LinkTabAndDataGridViewNameConvertAndMerge:
                             DataGridViewHandlerConvertAndMerge.FileDateTimeFormats = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);

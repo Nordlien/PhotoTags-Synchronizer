@@ -25,23 +25,6 @@ namespace PhotoTagsSynchronizer
 
         #region Events 
 
-        #region ImageListView - Event *** SelectionChanged -> FileSelected ***
-        private void imageListView1_SelectionChanged(object sender, EventArgs e)
-        {
-            ImageListViewSelectedFileEntriesCacheClear();
-
-            if (GlobalData.DoNotRefreshDataGridViewWhileFileSelect) return;
-            if (!GlobalData.IsPopulatingFolderSelected && !GlobalData.IsApplicationClosing) SaveBeforeContinue(false);
-
-            GroupSelectionClear();
-            ImageListViewSuspendLayoutInvoke(imageListView1); //When Enabled = true, selection was cancelled during Updating the grid
-
-            OnImageListViewSelect_FilesSelectedOrNoneSelected(false);
-            ImageListViewResumeLayoutInvoke(imageListView1);
-            MaximizeOrRestoreWorkspaceMainCellAndChilds();
-        }
-        #endregion
-
         #region ImageListView - Event - Retrieve Metadata
         private void imageListView1_RetrieveItemMetadataDetails(object sender, RetrieveItemMetadataDetailsEventArgs e)
         {
@@ -359,7 +342,7 @@ namespace PhotoTagsSynchronizer
             {
                 FileEntry fileEntryFound = ImageListViewHandler.GetFileEntryFromSelectedFilesCached(imageListView1, e.FullFilePath);
                 if (fileEntryFound != null) 
-                    UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke(new FileEntryAttribute(fileEntryFound, FileEntryVersion.CurrentVersionInDatabase), e.LoadedImage); //Also show error thumbnail
+                    DataGridView_UpdateColumnThumbnail_OnFileEntryAttribute(new FileEntryAttribute(fileEntryFound, FileEntryVersion.CurrentVersionInDatabase), e.LoadedImage); //Also show error thumbnail
             } catch (Exception ex)
             {
                 Logger.Error(ex, "imageListView1_RetrieveImage failed on: " + e.FullFilePath);
@@ -368,11 +351,48 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region ImageListView - Event *** SelectionChanged -> OnImageListViewSelect_FilesSelectedOrNoneSelected ***
+        private void imageListView1_SelectionChanged(object sender, EventArgs e)
+        {
+            ImageListViewHandler.ClearCacheFileEntriesSelectedItems(imageListView1);
+
+            if (GlobalData.DoNotRefreshDataGridViewWhileFileSelect) return;
+            if (!GlobalData.IsPopulatingFolderSelected && !GlobalData.IsApplicationClosing) SaveBeforeContinue(false);
+
+            GroupSelectionClear();
+            ImageListViewSuspendLayoutInvoke(imageListView1); //When Enabled = true, selection was cancelled during Updating the grid
+
+            OnImageListViewSelect_FilesSelectedOrNoneSelected(false);
+            ImageListViewResumeLayoutInvoke(imageListView1);
+            MaximizeOrRestoreWorkspaceMainCellAndChilds();
+        }
         #endregion
 
-        
+        #endregion
 
-        
+        #region ImageListView - Actions
+
+        #region ImageListView - For Selected Files - Populate DataGridView, OpenWith...
+        private void OnImageListViewSelect_FilesSelectedOrNoneSelected(bool allowUseCache)
+        {
+            if (GlobalData.IsPopulatingAnything()) return; //E.g. Populate FolderSelect
+            if (GlobalData.DoNotRefreshDataGridViewWhileFileSelect) return;
+
+            using (new WaitCursor())
+            {
+                GlobalData.IsPopulatingImageListView = true;
+                GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
+
+                HashSet<FileEntry> fileEntries = ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, allowUseCache);
+                ImageListView_RemoveNoneExistFilesFromSelectedFiles(ref fileEntries);
+                DataGridView_Populate_SelectedItemsThread(fileEntries);
+                PopulateImageListViewOpenWithToolStripThread(fileEntries, ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));
+                UpdateRibbonsWhenWorkspaceChanged();
+
+                GlobalData.IsPopulatingImageListView = false;
+            }
+        }
+        #endregion
 
         #region ImageListView - ReloadThumbnail - Filename - Invoke
         private void ImageListViewReloadThumbnailAndMetadataInvoke(ImageListView imageListView, string fullFileName)
@@ -413,6 +433,59 @@ namespace PhotoTagsSynchronizer
             imageListViewItem.EndEdit();
         }
         #endregion
+
+        #region ImageListView - Selection - RemoveNoneExistFilesFromSelectedFiles
+        private void ImageListView_RemoveNoneExistFilesFromSelectedFiles(ref HashSet<FileEntry> fileEntries)
+        {
+            try
+            {
+                HashSet<FileEntry> filesDoesNotExist = new HashSet<FileEntry>();
+                foreach (FileEntry fileEntry in fileEntries)
+                {
+                    if (!File.Exists(fileEntry.FileFullPath) && !filesDoesNotExist.Contains(fileEntry)) filesDoesNotExist.Add(fileEntry);
+                }
+                if (filesDoesNotExist.Count > 0)
+                {
+                    string listOfFiles = "";
+                    int count = 0;
+                    foreach (FileEntry fileEntry in filesDoesNotExist)
+                    {
+                        listOfFiles += fileEntry.FileFullPath + "\r\n";
+                        if (count++ > 4)
+                        {
+                            listOfFiles += "and more....\r\n";
+                            break;
+                        }
+                    }
+
+                    if (KryptonMessageBox.Show(
+                        (filesDoesNotExist.Count == 1 ? "File" : filesDoesNotExist.Count.ToString() + " files") + " doesn't exsist anymore\r\n" +
+                        "The files will be removed from the list of media files and from the database.\r\n\r\n" +
+                        "Example:\r\n" +
+                        listOfFiles, "File(s) does'n exist...",
+                        MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, true) == DialogResult.OK)
+                    {
+                        using (new WaitCursor())
+                        {
+                            foreach (FileEntry fileEntry in filesDoesNotExist) fileEntries.Remove(fileEntry);
+                            UpdateStatusAction("Deleing files and all record about files in database....");
+                            filesCutCopyPasteDrag.DeleteSelectedFiles(this, imageListView1, filesDoesNotExist, false);
+                            ImageListViewHandler.ClearCacheFileEntries(imageListView1);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Syntax error", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+            }
+        }
+        #endregion
+
+        #endregion
+
+        #region ImageListView - Populate
 
         #region ImageListView - SuspendLayout - Invoke
         private void ImageListViewSuspendLayoutInvoke(ImageListView imageListView)
@@ -544,7 +617,7 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        #region ImageListView - Aggregate_FromReadFolderOrFilterOrDatabase
+        #region ImageListView - Aggregate - FromReadFolderOrFilterOrDatabase
         private HashSet<FileEntry> ImageListView_Aggregate_FromReadFolderOrFilterOrDatabase(IEnumerable<FileData> fileDatas, HashSet<FileEntry> fileEntries, string selectedFolder, bool runPopulateFilter = true)
         {
             using (new WaitCursor())
@@ -561,8 +634,8 @@ namespace PhotoTagsSynchronizer
                 LoadingItemsImageListView(2, 6);
                 UpdateStatusImageListView("Adding files to image list...");
                 fileEntries = ImageListView_Populate_MediaFiles_WithFilter(fileDatas, fileEntries);
-
                 ImageListViewHandler.SetFileEntriesNewCache(imageListView1, fileEntries);
+
                 LoadingItemsImageListView(3, 6);
                 UpdateStatusImageListView("Sorting...");
                 ImageListViewSortByCheckedRadioButton(false);
@@ -599,7 +672,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ImageListView - Aggregate_FromFolder
+        #region ImageListView - Aggregate - FromFolder
         private void ImageListView_Aggregate_FromFolder(bool recursive, bool runPopulateFilter)
         {
 
@@ -652,7 +725,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ImageListView - Aggregate_FromDatabaseSearchResult
+        #region ImageListView - Aggregate - FromDatabaseSearchResult
         private void ImageListView_Aggregate_FromDatabaseSearchResult(HashSet<FileEntry> searchFilterResult, bool runPopulateFilter = true)
         {
             if (GlobalData.IsPopulatingAnything()) return;
@@ -791,6 +864,6 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        
+        #endregion
     }
 }

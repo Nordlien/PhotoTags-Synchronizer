@@ -11,7 +11,7 @@ namespace PhotoTagsSynchronizer
         private static HashSet<FileEntry> imageListViewSelectedFileEntriesCache = null;
         private static HashSet<string> imageListViewSelectedFilesCache = null;
 
-        #region ImageListView - ClearAllAndCaches
+        #region ImageListView - Cache - ClearAllAndCaches
         public static void ClearAllAndCaches(ImageListView imageListeView)
         {
             imageListeView.ClearSelection();
@@ -24,21 +24,21 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ImageListView - ClearThumbnailCache
+        #region ImageListView - Cache - ClearThumbnailCache
         public static void ClearThumbnailCache(ImageListView imageListeView)
         {
             imageListeView.ClearThumbnailCache();
         }
         #endregion
 
-        #region ImageListView - ClearCacheFileEntries
+        #region ImageListView - Cache - ClearCacheFileEntries
         public static void ClearCacheFileEntries(ImageListView imageListView)
         {
             imageListViewFileEntriesCache = null;
         }
         #endregion
 
-        #region ImageListView - ClearCacheFileEntriesSelectedItems
+        #region ImageListView - Cache - ClearCacheFileEntriesSelectedItems
         public static void ClearCacheFileEntriesSelectedItems(ImageListView imageListView)
         {
             imageListViewSelectedFileEntriesCache = null;
@@ -46,23 +46,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ImageListView - HashSet<FileEntry> - GetFileEntriesAllItemsCache
-        public static HashSet<FileEntry> GetFileEntriesAllItemsCache(ImageListView imageListView)
-        {
-            if (imageListViewFileEntriesCache == null)
-            {
-                imageListViewFileEntriesCache = new HashSet<FileEntry>();
-                //Read to cache
-                foreach (ImageListViewItem imageListViewItem in imageListView.Items)
-                {
-                    imageListViewFileEntriesCache.Add(new FileEntry(imageListViewItem.FileFullPath, imageListViewItem.DateModified));
-                }
-            }
-            return imageListViewFileEntriesCache;
-        }
-        #endregion
-
-        #region ImageListView - HashSet<FileEntry> - GetFileEntriesSelectedItemsCache
+        #region ImageListView - Cache - HashSet<FileEntry> - GetFileEntriesSelectedItemsCache
         public static HashSet<FileEntry> GetFileEntriesSelectedItemsCache(ImageListView imageListView, bool allowUseCache)
         {
             if (!allowUseCache) imageListViewSelectedFileEntriesCache = null;
@@ -95,15 +79,15 @@ namespace PhotoTagsSynchronizer
                 }
                 //LoadingItemsImageListView(0, 0);
 
-                imageListViewSelectedFileEntriesCache = fileEntries;
-                imageListViewSelectedFilesCache = fullFilePaths;
+                imageListViewSelectedFileEntriesCache = new HashSet<FileEntry>(fileEntries);
+                imageListViewSelectedFilesCache = new HashSet<string>(fullFilePaths);
             }
             catch { }
             return fileEntries;
         }
         #endregion
 
-        #region ImageListView - FileEntry - GetFileEntryFromSelectedFilesCached
+        #region ImageListView - Cache - FileEntry - GetFileEntryFromSelectedFilesCached
         public static FileEntry GetFileEntryFromSelectedFilesCached(ImageListView imageListView, string fullFileName)
         {
             foreach (FileEntry fileEntry in GetFileEntriesSelectedItemsCache(imageListView, true))
@@ -114,13 +98,20 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ImageListView - SetFileEntriesNewCache
+        #region ImageListView - Cache - SetFileEntriesNewCache
         public static void SetFileEntriesNewCache(ImageListView imageListView, HashSet<FileEntry> newFileList)
         {
             imageListViewFileEntriesCache = new HashSet<FileEntry>(newFileList);
         }
         #endregion
 
+        #region ImageListView - Cache - DoesExistInSelectedFiles
+        public static bool DoesExistInSelectedFiles(ImageListView imageListView, string fullFilename)
+        {
+            if (imageListViewSelectedFileEntriesCache == null) return false;
+            return imageListViewSelectedFilesCache.Contains(fullFilename);
+        }
+        #endregion 
 
         #region ImageListView - AddItem
         public static void ImageListViewAddItem(ImageListView imageListView, string fullFilename)
@@ -169,5 +160,7 @@ namespace PhotoTagsSynchronizer
             //imageListView.Enabled = enabled;
         }
         #endregion
+
+        
     }
 }

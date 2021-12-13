@@ -5687,7 +5687,7 @@ namespace PhotoTagsSynchronizer
 
                     GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
                     //ImageListViewReloadThumbnailInvoke(imageListView1, null); //Why null
-                    LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));
+                    DataGridView_AfterPopulateSelectedFiles_LazyLoadOtherFileVersions(ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));
                     OnImageListViewSelect_FilesSelectedOrNoneSelected(false);
                 }
             }
@@ -7257,19 +7257,9 @@ namespace PhotoTagsSynchronizer
 
         #region GetImageListViewSelectedFileEntriesCache
 
-        private HashSet<FileEntry> imageListViewSelectedFileEntriesCache = null;
-        private HashSet<string> imageListViewSelectedFilesCache = null;
-        private void ImageListViewSelectedFileEntriesCacheClear()
-        {
-            imageListViewSelectedFileEntriesCache = null;
-            imageListViewSelectedFilesCache = null;
-        }
-
-        private bool DoesExistInSelectedFileImageListView(string fullFilename)
-        {
-            if (imageListViewSelectedFileEntriesCache == null) return false;
-            return imageListViewSelectedFilesCache.Contains(fullFilename);
-        }
+        //private HashSet<FileEntry> imageListViewSelectedFileEntriesCache = null;
+        //private HashSet<string> imageListViewSelectedFilesCache = null;
+        
 
         
 
@@ -7332,7 +7322,9 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #endregion 
+        #endregion
+
+        #endregion
 
         #region OpenExplorerLocation
 
@@ -8801,8 +8793,6 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        #endregion
-
         //---- Tools
 
         #region ImportLocations
@@ -9499,7 +9489,7 @@ namespace PhotoTagsSynchronizer
             {
                 Properties.Settings.Default.ShowHistortyColumns = kryptonRibbonGroupButtonDataGridViewColumnsHistory.Checked;
                 showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(kryptonRibbonGroupButtonDataGridViewColumnsHistory.Checked, kryptonRibbonGroupButtonDataGridViewColumnsErrors.Checked);
-                LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));
+                DataGridView_AfterPopulateSelectedFiles_LazyLoadOtherFileVersions(ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));
             }
             catch (Exception ex)
             {
@@ -9514,7 +9504,7 @@ namespace PhotoTagsSynchronizer
             {
                 Properties.Settings.Default.ShowErrorColumns = kryptonRibbonGroupButtonDataGridViewColumnsErrors.Checked;
                 showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(kryptonRibbonGroupButtonDataGridViewColumnsHistory.Checked, kryptonRibbonGroupButtonDataGridViewColumnsErrors.Checked);
-                LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));
+                DataGridView_AfterPopulateSelectedFiles_LazyLoadOtherFileVersions(ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));
             }
             catch (Exception ex)
             {

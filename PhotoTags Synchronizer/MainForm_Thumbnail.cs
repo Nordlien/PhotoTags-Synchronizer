@@ -51,8 +51,8 @@ namespace PhotoTagsSynchronizer
                     AddQueueLazyLoadingDataGridViewMetadataReadToCacheOrUpdateFromSoruce(fileEntry);
                     AddQueueSaveThumbnailMediaLock(new FileEntryImage(fileEntry, new Bitmap(thumbnailImage))); 
 
-                    UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke(new FileEntryAttribute(fileEntry, fileEntryVersion), new Bitmap(thumbnailImage));
-                    UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke(new FileEntryAttribute(fileEntry, FileEntryVersion.Error), new Bitmap(thumbnailImage));
+                    DataGridView_UpdateColumnThumbnail_OnFileEntryAttribute(new FileEntryAttribute(fileEntry, fileEntryVersion), new Bitmap(thumbnailImage));
+                    DataGridView_UpdateColumnThumbnail_OnFileEntryAttribute(new FileEntryAttribute(fileEntry, FileEntryVersion.Error), new Bitmap(thumbnailImage));
                 }
             }
 

@@ -1026,6 +1026,24 @@ namespace DataGridViewGeneric
         }
         #endregion
 
+        #region Column handling - SetColumnHeaderThumbnail
+        public static void SetColumnHeaderThumbnail(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, Image image)
+        {
+            if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return;      //Not default columns or rows added
+
+            DataGridViewHandler.SetIsPopulatingImage(dataGridView, true);
+
+            int columnIndex = GetColumnIndexUserInput(dataGridView, fileEntryAttribute);
+            if (columnIndex >= 0)
+            {
+                DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+                dataGridViewGenericColumn.Thumbnail = new Bitmap(image);
+                dataGridView.InvalidateCell(columnIndex, -1);
+            }
+            DataGridViewHandler.SetIsPopulatingImage(dataGridView, false);
+        }
+        #endregion
+
         #region Column handling - GetColumnCount
         public static int GetColumnCount(DataGridView dataGridView)
         {
@@ -3014,23 +3032,7 @@ namespace DataGridViewGeneric
 
         #endregion
 
-        #region DataGridView - Update Image - for FileEntryImage
-        public static void SetDataGridImageOnFileEntryAttribute(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, Image image)
-        {
-            if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return;      //Not default columns or rows added
-
-            DataGridViewHandler.SetIsPopulatingImage(dataGridView, true);
-            
-            int columnIndex = GetColumnIndexUserInput(dataGridView, fileEntryAttribute);
-            if (columnIndex >= 0)
-            {
-                DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-                dataGridViewGenericColumn.Thumbnail = new Bitmap(image);
-                dataGridView.InvalidateCell(columnIndex, -1);
-            }
-            DataGridViewHandler.SetIsPopulatingImage(dataGridView, false);
-        }
-        #endregion 
+         
 
         #region Cell Paint handling
         private const int roundedRadius = 8;
