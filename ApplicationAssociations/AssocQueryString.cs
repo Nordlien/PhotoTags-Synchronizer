@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -9,6 +10,8 @@ namespace ApplicationAssociations
 
     public class AssocQuery
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         public string DocType { get; set; }
         public string Command { get { return GetAssociation(AssocF.ASSOCF_VERIFY, AssocStr.ASSOCSTR_COMMAND, DocType); } }
         public string Executable { get { return GetAssociation(AssocF.ASSOCF_VERIFY, AssocStr.ASSOCSTR_EXECUTABLE, DocType); } }
@@ -124,7 +127,7 @@ namespace ApplicationAssociations
             }
             catch (Exception exception)
             {
-                Debug.WriteLine("Exception:" + exception.Message);
+                Logger.Warn(exception);
                 return null;
             }
         }

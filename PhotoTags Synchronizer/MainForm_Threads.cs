@@ -535,7 +535,6 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region LazyLoadingDataGridView - Metadata - AddQueue - Read from Cache, then Database, then Source and Save
-        private static Dictionary<string, DateTime> dontCheckAndReadOfflineFilesTwice = new Dictionary<string, DateTime>();
         public void AddQueueLazyLoadingDataGridViewMetadataReadToCacheOrUpdateFromSoruce(FileEntry fileEntry)
         {
             //When file is DELETE, LastWriteDateTime become null
@@ -545,13 +544,12 @@ namespace PhotoTagsSynchronizer
                 if (metadata == null) AddQueueExiftoolLock(fileEntry); //If Metadata don't exist in database, put it in read queue
                 else ImageListViewHandler.SetItemDirty(imageListView1, fileEntry.FileFullPath); //Refresh ImageListView with metadata
 
-                //if (!databaseAndCacheMetadataExiftool.IsMetadataInCache(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool)) AddQueueExiftoolLock(fileEntry);
                 if (!databaseAndCacheMetadataMicrosoftPhotos.IsMetadataInCache(new FileEntryBroker(fileEntry, MetadataBrokerType.MicrosoftPhotos))) AddQueueMicrosoftPhotosLock(fileEntry);
                 if (!databaseAndCacheMetadataWindowsLivePhotoGallery.IsMetadataInCache(new FileEntryBroker(fileEntry, MetadataBrokerType.WindowsLivePhotoGallery))) AddQueueWindowsLivePhotoGalleryLock(fileEntry);
             }
             else
             {
-                Debug.WriteLine("AddQueueAllUpadtedFileEntry was delete: (Check why), rename of exiftool maybe, need back then... " + fileEntry.FileFullPath);
+                //Debug.WriteLine("AddQueueAllUpadtedFileEntry was delete: (Check why), rename of exiftool maybe, need back then... " + fileEntry.FileFullPath);
             }
 
             TriggerAutoResetEventQueueEmpty();
@@ -692,6 +690,15 @@ namespace PhotoTagsSynchronizer
                 }
             }
         }
+
+        public void AddQueueLazyLoadningDataGridViewThumbnailLock(FileEntryAttribute fileEntryAttribute)
+        {
+            if (fileEntryAttribute == null) return;
+            lock (commonQueueLazyLoadingThumbnailLock)
+            {
+                if (!commonQueueLazyLoadingThumbnail.Contains(fileEntryAttribute)) commonQueueLazyLoadingThumbnail.Add(fileEntryAttribute);                
+            }
+        }
         #endregion
 
         #region LazyLoadingDataGridView - Thumbnail - Thread LazyLoadning
@@ -723,8 +730,11 @@ namespace PhotoTagsSynchronizer
 
                                     if (!databaseAndCacheThumbnail.DoesThumbnailExistInCache(fileEntryAttribute))
                                     {
-                                        Image image = databaseAndCacheThumbnail.ReadThumbnailFromCacheOrDatabase(fileEntryAttribute.FileEntry);
-                                        if (image != null) DataGridView_UpdateColumnThumbnail_OnFileEntryAttribute(fileEntryAttribute, image);
+                                        bool isFileInCloud = FileHandler.IsFileInCloud(fileEntryAttribute.FileFullPath);
+                                        bool dontReadFileFromCloud = Properties.Settings.Default.AvoidOfflineMediaFiles;
+                                        Image thumbnail = GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(fileEntryAttribute, dontReadFileFromCloud, isFileInCloud);
+                                        //Image thumbnail = databaseAndCacheThumbnail.ReadThumbnailFromCacheOrDatabase(fileEntryAttribute.FileEntry);
+                                        //if (thumbnail != null) DataGridView_UpdateColumnThumbnail_OnFileEntryAttribute(fileEntryAttribute, thumbnail);                                        
                                     }
                                 }
                                 lock (commonQueueLazyLoadingThumbnailLock) commonQueueLazyLoadingThumbnail.RemoveAt(0);

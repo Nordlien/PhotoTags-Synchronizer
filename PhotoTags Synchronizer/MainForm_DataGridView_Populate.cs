@@ -318,6 +318,12 @@ namespace PhotoTagsSynchronizer
                     }
                     #endregion
 
+                    #region Check if got thumbnail, if not, push to read queue
+                    Image thumbnailImage = databaseAndCacheThumbnail.ReadThumbnailFromCacheOnly(fileEntryAttribute);
+                    if (thumbnailImage == null)
+                        AddQueueLazyLoadningDataGridViewThumbnailLock(fileEntryAttribute);
+                    #endregion
+
                     int queueCount = GetDataGridViewWatingToBePopulatedCount();
                     LazyLoadingDataGridViewProgressUpdateStatus(queueCount); //Update progressbar when File In DataGridView
                     if (queueCount == 0) DataGridView_Populate_ExtrasAsDropdownAndColumnSizesInvoke();

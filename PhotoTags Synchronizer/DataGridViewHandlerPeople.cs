@@ -231,7 +231,7 @@ namespace PhotoTagsSynchronizer
             }
 
             //-----------------------------------------------------------------
-            Image thumbnail = DatabaseAndCacheThumbnail.ReadThumbnailFromCacheOnl(fileEntryAttribute);
+            Image thumbnail = DatabaseAndCacheThumbnail.ReadThumbnailFromCacheOnly(fileEntryAttribute);
             FileEntryBroker fileEntryBrokerReadVersion = fileEntryAttribute.GetFileEntryBroker(MetadataBrokerType.ExifTool);
 
             Metadata metadataExiftool = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBrokerReadVersion);

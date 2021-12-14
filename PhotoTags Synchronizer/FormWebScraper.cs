@@ -481,7 +481,6 @@ namespace PhotoTagsSynchronizer
         #region Browser - LoadingStateChanged
         private void Browser_LoadingStateChanged(object sender, LoadingStateChangedEventArgs e)
         {
-            Debug.WriteLine("Browser_LoadingStateChanged" + e.IsLoading);
             if (e.IsLoading == false) IsAnyPageLoaded = true;
             if (e.IsLoading == true && autoResetEventWaitPageLoading != null) autoResetEventWaitPageLoading.Set();
             if (e.IsLoading == false && autoResetEventWaitPageLoaded != null) autoResetEventWaitPageLoaded.Set();
@@ -491,12 +490,6 @@ namespace PhotoTagsSynchronizer
         #region Browser - FrameLoadEnd
         private void Browser_FrameLoadEnd(object sender, FrameLoadEndEventArgs e)
         {
-            Debug.WriteLine("FrameLoadEnd: " + e.Frame.Name + " " + e.HttpStatusCode + " " + e.Url);
-
-            if (!e.Frame.IsMain && e.Frame.IsValid && !e.Frame.IsDisposed)
-            {
-            }
-
         }
         #endregion
 
@@ -508,8 +501,6 @@ namespace PhotoTagsSynchronizer
                 this.BeginInvoke(new Action<object, AddressChangedEventArgs>(Browser_AddressChanged), sender, e);
                 return;
             }
-
-            Debug.WriteLine("Browser_AddressChanged: " + e.Address);
             textBoxBrowserURL.Text = e.Address;            
         }
         #endregion
@@ -739,7 +730,6 @@ namespace PhotoTagsSynchronizer
 
             do
             {
-                Debug.WriteLine("Scraping, retry left: " + retryWhenVerifyFails);
                 Task.Delay(webScrapingDelayOurScriptToRun).Wait(); //Give script some time to run
 
                 try
@@ -895,7 +885,6 @@ namespace PhotoTagsSynchronizer
         #region Scraping - CategoryLinks
         private async Task<ScrapingResult> ScrapingCategoryLinks(string script, string url, Dictionary<string, WebScrapingLinks> linkCatergories)            
         {
-            Debug.WriteLine(url);
             browser.Load(url);
             WaitPageLoadedEvent();
 
@@ -921,22 +910,13 @@ namespace PhotoTagsSynchronizer
                 {
                     newFound = true;
                     scrollPageDownCount = webScrapingPageDownCount;
-                    Debug.WriteLine("-----Unequal found");
                 }                    
                 else
                 {
                     newFound = false;
                     scrollPageDownCount--;
-                    Debug.WriteLine("-----EQUAL FOUND");
                 }
                 lastScrapingResult = scrapingResult;
-                
-                Debug.WriteLine(
-                    (!stopRequested) + " || (" + 
-                    (!newFound) + "&&" + 
-                    (scrollPageDownCount > 0) + ") =" + 
-                    (!newFound && scrollPageDownCount > 0) + " == " 
-                    + (!stopRequested && (newFound || (!newFound && scrollPageDownCount > 0))) + " " + scrollPageDownCount);
 
             } while (!stopRequested && (newFound || (!newFound && scrollPageDownCount > 0)));
             

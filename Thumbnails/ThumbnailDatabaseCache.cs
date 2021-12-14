@@ -69,7 +69,7 @@ namespace Thumbnails
             HashSet<FileEntry> fileEntriesPutInCache = new HashSet<FileEntry>();
             fileEntriesPutInCache.Add(fileEntry);
             ReadToCache(fileEntriesPutInCache);
-            return ReadThumbnailFromCacheOnl(fileEntry);
+            return ReadThumbnailFromCacheOnly(fileEntry);
 
         }
         #endregion
@@ -80,7 +80,7 @@ namespace Thumbnails
             List<FileEntry> fileEntriesPutInCache = new List<FileEntry>();
             foreach (FileEntry fileEntryToCheckInCache in fileEntries)
             {
-                Image image = ReadThumbnailFromCacheOnl(fileEntryToCheckInCache);
+                Image image = ReadThumbnailFromCacheOnly(fileEntryToCheckInCache);
                 if (image == null) fileEntriesPutInCache.Add(fileEntryToCheckInCache);
             }
 
@@ -291,7 +291,7 @@ namespace Thumbnails
         #endregion 
 
         #region Thumbnail - Cache - ReadThumbnailFromCacheOnly
-        public Image ReadThumbnailFromCacheOnl(FileEntry fileEntry)
+        public Image ReadThumbnailFromCacheOnly(FileEntry fileEntry)
         {
             if (fileEntry.GetType() != typeof(FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
             lock (thumbnailCacheLock) if (thumbnailCache.ContainsKey(fileEntry)) return thumbnailCache[fileEntry]; //Testing without clone, looks as unsafe code gone            

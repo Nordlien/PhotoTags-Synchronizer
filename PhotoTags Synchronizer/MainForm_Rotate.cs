@@ -305,7 +305,6 @@ namespace PhotoTagsSynchronizer
 
         private void FfMpeg_ConvertProgress(object sender, NReco.VideoConverter.ConvertProgressEventArgs e)
         {
-            Debug.WriteLine(e.TotalDuration.ToString() + " " + e.Processed.ToString());
         }
         #endregion
 

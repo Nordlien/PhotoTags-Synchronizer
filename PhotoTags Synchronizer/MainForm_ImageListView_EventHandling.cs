@@ -29,15 +29,13 @@ namespace PhotoTagsSynchronizer
         private void imageListView1_RetrieveItemMetadataDetails(object sender, RetrieveItemMetadataDetailsEventArgs e)
         {
             FileEntryBroker fileEntryBroker = new FileEntryBroker(e.FileName, File.GetLastWriteTime(e.FileName), MetadataBrokerType.ExifTool);
-            //bool isMetadataInCache = databaseAndCacheMetadataExiftool.IsMetadataInCache(fileEntryBroker);
             Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBroker);
 
+            //PS. Note: Make sure that the RetrieveItemMetadataDetails don't go in inless loop. Read data, flags as still dirty, read again, etc..
             try
             {
-
                 if (metadata == null || metadata.FileName == null)
                 {
-                    Logger.Debug("imageListView1_RetrieveItemMetadataDetails: Metadata not found. Added to LazyLoading: " + e.FileName);
                     AddQueueLazyLoadingDataGridViewMetadataReadToCacheOrUpdateFromSoruce(fileEntryBroker);
 
                     e.FileMetadata = new Utility.ShellImageFileInfo(); //Tell that data is create, all is good for internal void UpdateDetailsInternal(Utility.ShellImageFileInfo info)
@@ -74,8 +72,6 @@ namespace PhotoTagsSynchronizer
                         e.FileMetadata.FileDirectory = Path.GetDirectoryName(e.FileName);
                         #endregion
 
-
-
                         #region Provided by ShellImageFileInfo, MagickImage                                
                         e.FileMetadata.CameraMake = inCloud;
                         e.FileMetadata.CameraModel = inCloud;
@@ -108,12 +104,9 @@ namespace PhotoTagsSynchronizer
                     e.FileMetadata.Extension = Path.GetExtension(e.FileName);
                     e.FileMetadata.FileAttributes = FileAttributes.Normal;
                     #endregion
-
-
                 }
                 else
                 {
-                    Logger.Debug("imageListView1_RetrieveItemMetadataDetails: Metadata found " + e.FileName);
                     e.FileMetadata = new Utility.ShellImageFileInfo();
 
                     #region Provided by FileInfo
@@ -178,6 +171,24 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region IsStillInCloudAfterTouchFileActivateReadFromCloud
+        private bool IsStillInCloudAfterTouchFileActivateReadFromCloud(string fileFullPath)
+        {
+            try
+            {
+                byte[] buffer = new byte[512];
+                using (FileStream fs = new FileStream(fileFullPath, FileMode.Open, FileAccess.Read))
+                {
+                    var bytes_read = fs.Read(buffer, 0, buffer.Length); //Get OneDrive to start download the file
+                    fs.Close();
+                }
+                return false;
+            }
+            catch { }
+            return true;
+        }
+        #endregion
+
         #region ImageListView - Event - Retrieve Thumbnail 
         /// <summary>
         /// Occures when ImageListView need to "load" thumbnail
@@ -204,21 +215,7 @@ namespace PhotoTagsSynchronizer
                         if (GlobalData.ReloadAllowedFromCloud != null && GlobalData.ReloadAllowedFromCloud.Contains(fileEntry))
                         {
                             GlobalData.ReloadAllowedFromCloud.Remove(fileEntry);
-
-                            if (isFileInCloud)
-                            {
-                                try
-                                {
-                                    byte[] buffer = new byte[512];
-                                    using (FileStream fs = new FileStream(fileEntry.FileFullPath, FileMode.Open, FileAccess.Read))
-                                    {
-                                        var bytes_read = fs.Read(buffer, 0, buffer.Length); //Get OneDrive to start download the file
-                                        fs.Close();
-                                    }
-                                    isFileInCloud = false;
-                                }
-                                catch { }
-                            }
+                            if (isFileInCloud) isFileInCloud = IsStillInCloudAfterTouchFileActivateReadFromCloud(fileEntry.FileFullPath);
                             dontReadFileFromCloud = false;
                         }
                     }

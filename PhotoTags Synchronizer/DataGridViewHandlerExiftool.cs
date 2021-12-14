@@ -37,7 +37,7 @@ namespace PhotoTagsSynchronizer
             //-----------------------------------------------------------------
             exiftoolReader.MetadataReadPrioity.ReadOnlyOnce();
 
-            Image thumbnail = DatabaseAndCacheThumbnail.ReadThumbnailFromCacheOnl(fileEntryAttribute);
+            Image thumbnail = DatabaseAndCacheThumbnail.ReadThumbnailFromCacheOnly(fileEntryAttribute);
             int columnIndex = DataGridViewHandler.AddColumnOrUpdateNew(
                 dataGridView, fileEntryAttribute, thumbnail, null, ReadWriteAccess.ForceCellToReadOnly, showWhatColumns, 
                 new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true), out FileEntryVersionCompare fileEntryVersionCompareReason);

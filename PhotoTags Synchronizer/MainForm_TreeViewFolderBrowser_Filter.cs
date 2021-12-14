@@ -206,37 +206,43 @@ namespace PhotoTagsSynchronizer
         #region PopulateTreeViewFolderFilter - Add - Invoke
         private void PopulateTreeViewFolderFilterAdd(FileEntryBroker fileEntryBroker) //new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool)
         {
-            Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBroker);
-            //Application.DoEvents();
-
-            if (metadata != null)
+            try
             {
-                if (!string.IsNullOrEmpty(metadata.LocationName) && !treeViewFolderFilterLocations.Contains(metadata.LocationName)) treeViewFolderFilterLocations.Add(metadata.LocationName);
-                if (!string.IsNullOrEmpty(metadata.LocationCity) && !treeViewFolderFilterCities.Contains(metadata.LocationCity)) treeViewFolderFilterCities.Add(metadata.LocationCity);
-                if (!string.IsNullOrEmpty(metadata.LocationState) && !treeViewFolderFilterStates.Contains(metadata.LocationState)) treeViewFolderFilterStates.Add(metadata.LocationState);
-                if (!string.IsNullOrEmpty(metadata.LocationCountry) && !treeViewFolderFilterCountries.Contains(metadata.LocationCountry)) treeViewFolderFilterCountries.Add(metadata.LocationCountry);
+                Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBroker);
+                //Application.DoEvents();
 
-                if (!string.IsNullOrEmpty(metadata.PersonalAlbum) && !treeViewFolderFilterAlbums.Contains(metadata.PersonalAlbum)) treeViewFolderFilterAlbums.Add(metadata.PersonalAlbum);
-                if (!string.IsNullOrEmpty(metadata.PersonalTitle) && !treeViewFolderFilterTitles.Contains(metadata.PersonalTitle)) treeViewFolderFilterTitles.Add(metadata.PersonalTitle);
-                if (!string.IsNullOrEmpty(metadata.PersonalComments) && !treeViewFolderFilterComments.Contains(metadata.PersonalComments)) treeViewFolderFilterComments.Add(metadata.PersonalComments);
-                if (!string.IsNullOrEmpty(metadata.PersonalDescription) && !treeViewFolderFilterDescriptions.Contains(metadata.PersonalDescription)) treeViewFolderFilterDescriptions.Add(metadata.PersonalDescription);
-                if (!string.IsNullOrEmpty(metadata.PersonalAuthor) && !treeViewFolderFilterAuthors.Contains(metadata.PersonalAuthor)) treeViewFolderFilterAuthors.Add(metadata.PersonalAuthor);
-                if ((metadata.PersonalRating != null) && !treeViewFolderFilterRatings.Contains(metadata.PersonalRating.ToString())) treeViewFolderFilterRatings.Add(metadata.PersonalRating.ToString());
+                if (metadata != null)
+                {
+                    if (!string.IsNullOrEmpty(metadata.LocationName) && !treeViewFolderFilterLocations.Contains(metadata.LocationName)) treeViewFolderFilterLocations.Add(metadata.LocationName);
+                    if (!string.IsNullOrEmpty(metadata.LocationCity) && !treeViewFolderFilterCities.Contains(metadata.LocationCity)) treeViewFolderFilterCities.Add(metadata.LocationCity);
+                    if (!string.IsNullOrEmpty(metadata.LocationState) && !treeViewFolderFilterStates.Contains(metadata.LocationState)) treeViewFolderFilterStates.Add(metadata.LocationState);
+                    if (!string.IsNullOrEmpty(metadata.LocationCountry) && !treeViewFolderFilterCountries.Contains(metadata.LocationCountry)) treeViewFolderFilterCountries.Add(metadata.LocationCountry);
 
-                if (metadata.MediaDateTaken != null)
-                {
-                    string yearAndMonth = ((DateTime)metadata.MediaDateTaken).ToString("yyyy-MM");
-                    if (!treeViewFolderFilterDates.Contains(yearAndMonth)) treeViewFolderFilterDates.Add(yearAndMonth);
-                }
-                foreach (RegionStructure regionStructure in metadata.PersonalRegionList)
-                {
-                    if (!string.IsNullOrEmpty(regionStructure.Name) && !treeViewFolderFilterPeoples.Contains(regionStructure.Name)) treeViewFolderFilterPeoples.Add(regionStructure.Name);
-                }
+                    if (!string.IsNullOrEmpty(metadata.PersonalAlbum) && !treeViewFolderFilterAlbums.Contains(metadata.PersonalAlbum)) treeViewFolderFilterAlbums.Add(metadata.PersonalAlbum);
+                    if (!string.IsNullOrEmpty(metadata.PersonalTitle) && !treeViewFolderFilterTitles.Contains(metadata.PersonalTitle)) treeViewFolderFilterTitles.Add(metadata.PersonalTitle);
+                    if (!string.IsNullOrEmpty(metadata.PersonalComments) && !treeViewFolderFilterComments.Contains(metadata.PersonalComments)) treeViewFolderFilterComments.Add(metadata.PersonalComments);
+                    if (!string.IsNullOrEmpty(metadata.PersonalDescription) && !treeViewFolderFilterDescriptions.Contains(metadata.PersonalDescription)) treeViewFolderFilterDescriptions.Add(metadata.PersonalDescription);
+                    if (!string.IsNullOrEmpty(metadata.PersonalAuthor) && !treeViewFolderFilterAuthors.Contains(metadata.PersonalAuthor)) treeViewFolderFilterAuthors.Add(metadata.PersonalAuthor);
+                    if ((metadata.PersonalRating != null) && !treeViewFolderFilterRatings.Contains(metadata.PersonalRating.ToString())) treeViewFolderFilterRatings.Add(metadata.PersonalRating.ToString());
 
-                foreach (KeywordTag keywordTag in metadata.PersonalKeywordTags)
-                {
-                    if (!string.IsNullOrEmpty(keywordTag.Keyword) && !treeViewFolderFilterKeywords.Contains(keywordTag.Keyword)) treeViewFolderFilterKeywords.Add(keywordTag.Keyword);
+                    if (metadata.MediaDateTaken != null)
+                    {
+                        string yearAndMonth = ((DateTime)metadata.MediaDateTaken).ToString("yyyy-MM");
+                        if (!treeViewFolderFilterDates.Contains(yearAndMonth)) treeViewFolderFilterDates.Add(yearAndMonth);
+                    }
+                    foreach (RegionStructure regionStructure in metadata.PersonalRegionList) //Not thread safe
+                    {
+                        if (!string.IsNullOrEmpty(regionStructure.Name) && !treeViewFolderFilterPeoples.Contains(regionStructure.Name)) treeViewFolderFilterPeoples.Add(regionStructure.Name);
+                    }
+
+                    foreach (KeywordTag keywordTag in metadata.PersonalKeywordTags) //Not thread safe
+                    {
+                        if (!string.IsNullOrEmpty(keywordTag.Keyword) && !treeViewFolderFilterKeywords.Contains(keywordTag.Keyword)) treeViewFolderFilterKeywords.Add(keywordTag.Keyword);
+                    }
                 }
+            } catch (Exception ex)
+            {
+                Logger.Error(ex);
             }
         }
         #endregion 

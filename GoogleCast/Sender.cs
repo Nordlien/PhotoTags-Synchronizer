@@ -175,7 +175,7 @@ namespace GoogleCast
                         }
                         var payload = (castMessage.PayloadType == PayloadType.Binary ?
                             Encoding.UTF8.GetString(castMessage.PayloadBinary) : castMessage.PayloadUtf8);
-                        Debug.WriteLine($"RECEIVED: {castMessage.Namespace} : {payload}");
+                        
                         var channel = channels.FirstOrDefault(c => c.Namespace == castMessage.Namespace);
                         if (channel != null)
                         {
@@ -256,8 +256,6 @@ namespace GoogleCast
             await SendSemaphoreSlim.WaitAsync();
             try
             {
-                Debug.WriteLine($"SENT    : {castMessage.DestinationId}: {castMessage.PayloadUtf8}");
-
                 byte[] message;
                 using (var ms = new MemoryStream())
                 {
