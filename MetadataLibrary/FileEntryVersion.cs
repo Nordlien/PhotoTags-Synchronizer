@@ -84,8 +84,8 @@ namespace MetadataLibrary
         #region CompareFileEntryAttribute
         public static FileEntryVersionCompare CompareFileEntryAttribute(FileEntryAttribute fileEntryAttributeDataGridViewColumn, FileEntryAttribute fileEntryAttributeFromQueue)
         {
-            if (fileEntryAttributeFromQueue.FileName != fileEntryAttributeDataGridViewColumn.FileName) 
-                return FileEntryVersionCompare.LostNoneEqualFound;
+            if (String.Compare(fileEntryAttributeFromQueue.FileFullPath, fileEntryAttributeDataGridViewColumn.FileFullPath, 
+                comparisonType: StringComparison.OrdinalIgnoreCase) != 0) return FileEntryVersionCompare.LostNoneEqualFound;
 
             switch (fileEntryAttributeFromQueue.FileEntryVersion)
             {

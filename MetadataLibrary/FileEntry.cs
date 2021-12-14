@@ -40,7 +40,7 @@ namespace MetadataLibrary
         public override int GetHashCode()
         {
             var hashCode = -464453;
-            hashCode = hashCode * -1521 + EqualityComparer<string>.Default.GetHashCode(fullFilePath);
+            hashCode = hashCode * -1521 + EqualityComparer<string>.Default.GetHashCode(fullFilePath.ToLower());
             hashCode = hashCode * -1521 + lastWriteDateTime.GetHashCode();
             return hashCode;
         }
@@ -55,7 +55,7 @@ namespace MetadataLibrary
             // Note that the base class is not invoked because it is
             // System.Object, which defines Equals as reference equality.
             return
-                this.fullFilePath == other.fullFilePath &&
+                String.Compare(this.fullFilePath, other.fullFilePath, comparisonType: StringComparison.OrdinalIgnoreCase) == 0 &&
                 this.lastWriteDateTime == other.lastWriteDateTime;
         }
 

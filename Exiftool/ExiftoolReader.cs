@@ -821,10 +821,10 @@ namespace Exiftool
                                 case "File Name":
                                     string longFilename;
                                     if (shortfilesNames.ContainsKey(shortFilename)) longFilename = shortfilesNames[shortFilename];
-                                    if (metadata.FileName != parameter) //Convert short windows 8 filename to windows NT long filename
+                                    if (String.Compare(metadata.FileName, parameter, comparisonType: StringComparison.OrdinalIgnoreCase) != 0) //Convert short windows 8 filename to windows NT long filename
                                     {
                                         exifToolData.Parameter = Path.GetFileName(NativeMethods.LongFileName(Path.Combine(metadata.FileDirectory, parameter)));
-                                        if (metadata.FileName != exifToolData.Parameter) //Check if shortname been renamed during process and point to difffent long name
+                                        if (String.Compare(metadata.FileName, exifToolData.Parameter, comparisonType: StringComparison.OrdinalIgnoreCase) != 0) //Check if shortname been renamed during process and point to diffent long name
                                         {
                                             metadata.Broker = MetadataBrokerType.Empty;
                                             //throw new Exception("Filename doesn't match between Exiftool and reading of file, that means something went wrong with using exif tool and therefor crash");

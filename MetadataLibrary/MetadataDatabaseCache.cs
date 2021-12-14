@@ -2699,7 +2699,8 @@ namespace MetadataLibrary
                     {
                         foreach (FileEntryBroker fileEntryBroker in metadataCache.Keys)
                         {
-                            if (fileEntryBroker.Directory == directory && fileEntryBroker.FileName == fileName)
+                            if (String.Compare(fileEntryBroker.Directory, directory, comparisonType: StringComparison.OrdinalIgnoreCase) == 0 &&                                
+                                String.Compare(fileEntryBroker.FileName, fileName, comparisonType: StringComparison.OrdinalIgnoreCase) == 0)
                             {
                                 fileEntryBrokerFound = fileEntryBroker;
                                 found = true;
@@ -2732,7 +2733,7 @@ namespace MetadataLibrary
                     {
                         foreach (FileEntryBroker fileEntryBroker in metadataCache.Keys)
                         {
-                            if (fileEntryBroker.Directory == directory)
+                            if (String.Compare(fileEntryBroker.Directory, directory, comparisonType: StringComparison.OrdinalIgnoreCase) == 0)
                             {
                                 fileEntryBrokerFound = fileEntryBroker;
                                 found = true;
@@ -2760,7 +2761,9 @@ namespace MetadataLibrary
                 {
                     foreach (FileEntryBroker fileEntryBroker in metadataCache.Keys)
                     {
-                        if (fileEntryBroker.Broker == broker && fileEntryBroker.Directory == directory && fileEntryBroker.LastWriteDateTime == dateTime)
+                        if (fileEntryBroker.Broker == broker &&
+                            String.Compare(fileEntryBroker.Directory, directory, comparisonType: StringComparison.OrdinalIgnoreCase) == 0 &&
+                            fileEntryBroker.LastWriteDateTime == dateTime)
                         {
                             foundKeys.Add(fileEntryBroker);
                         }

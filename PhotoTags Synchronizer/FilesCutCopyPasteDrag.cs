@@ -24,6 +24,14 @@ namespace PhotoTagsSynchronizer
         private ExiftoolDataDatabase databaseExiftoolData;
         private ExiftoolWarningDatabase databaseExiftoolWarning;
 
+        public static bool IsFilenameEqual(string fullFileName1, string fullFileName2)
+        {
+            if (fullFileName1 == null && fullFileName2 != null) return false;
+            if (fullFileName1 != null && fullFileName2 == null) return false;
+            if (fullFileName1 == null && fullFileName2 == null) return true;
+            return String.Compare(fullFileName1, fullFileName2, comparisonType: StringComparison.OrdinalIgnoreCase) == 0;
+        }
+
         #region FilesCutCopyPasteDrag - Constructor
         public FilesCutCopyPasteDrag(MetadataDatabaseCache databaseAndCacheMetadataExiftool, 
             MetadataDatabaseCache databaseAndCacheMetadataWindowsLivePhotoGallery, 
@@ -283,7 +291,7 @@ namespace PhotoTagsSynchronizer
                     Directory.CreateDirectory(newDirectory);
                     directoryCreated = true;
                 }
-                if (sourceFullFilename != targetFullFilename)
+                if (!IsFilenameEqual(sourceFullFilename, targetFullFilename))
                 {
                     File.Move(sourceFullFilename, targetFullFilename);
                     if (!databaseAndCacheMetadataExiftool.Move(oldDirectory, oldFilename, newDirectory, newFilename))

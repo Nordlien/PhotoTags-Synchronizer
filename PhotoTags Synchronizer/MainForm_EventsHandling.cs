@@ -1992,7 +1992,7 @@ namespace PhotoTagsSynchronizer
 
                         foreach (ImageListViewItem item in imageListView1.Items)
                         {
-                            if (item.FileFullPath == fullFilename)
+                            if (FilesCutCopyPasteDrag.IsFilenameEqual(item.FileFullPath, fullFilename))
                             {
                                 fileFound = true;
                                 break;

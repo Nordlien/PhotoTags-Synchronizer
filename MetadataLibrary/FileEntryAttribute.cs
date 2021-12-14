@@ -49,11 +49,12 @@ namespace MetadataLibrary
             if (other is null) return false; // If parameter is null, return false.
             if (Object.ReferenceEquals(this, other)) return true; // Optimization for a common success case.
 
-            // Let base class check its own fields and do the run-time type comparison.
-            return
-                this.FileFullPath == other.FileFullPath &&
-                this.FileEntryVersion == other.FileEntryVersion &&
-                this.LastWriteDateTime == other.LastWriteDateTime;
+            if (this.FileEntryVersion == other.FileEntryVersion)
+            {
+                // Let base class check its own fields and do the run-time type comparison.
+                return base.Equals((FileEntry)other);
+            }
+            else return false;
         }
 
         public static bool operator ==(FileEntryAttribute left, FileEntryAttribute right)

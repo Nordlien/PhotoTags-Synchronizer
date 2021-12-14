@@ -474,7 +474,7 @@ namespace PhotoTagsSynchronizer
                 {
                     foreach (FileEntryAttribute fileEntryAttributeCheck in commonQueueLazyLoadingMetadata)
                     {
-                        if (fileEntryAttributeCheck.FileFullPath == fileEntryAttribute.FileFullPath) return true;
+                        if (FilesCutCopyPasteDrag.IsFilenameEqual(fileEntryAttributeCheck.FileFullPath, fileEntryAttribute.FileFullPath)) return true;
                     }
                 }
 
@@ -482,7 +482,7 @@ namespace PhotoTagsSynchronizer
                 {
                     foreach (FileEntry fileEntryCheck in commonQueueReadMetadataFromExiftool)
                     {
-                        if (fileEntryCheck.FileFullPath == fileEntryAttribute.FileFullPath) return true;
+                        if (FilesCutCopyPasteDrag.IsFilenameEqual(fileEntryCheck.FileFullPath, fileEntryAttribute.FileFullPath)) return true;
                     }
                 }            
             } catch
@@ -1924,7 +1924,7 @@ namespace PhotoTagsSynchronizer
                                             { metadataActiveAlreadyCopy = commonQueueReadPosterAndSaveFaceThumbnails[thumbnailIndex]; }
 
                                             //Find current file entry in queue, Exiftool, Microsoft Photos, Windows Live Gallery, etc...
-                                            if (metadataActiveAlreadyCopy.FileFullPath == fileEntryRegion.FileFullPath &&
+                                            if (FilesCutCopyPasteDrag.IsFilenameEqual(metadataActiveAlreadyCopy.FileFullPath, fileEntryRegion.FileFullPath) &&
                                             metadataActiveAlreadyCopy.FileDateModified == fileEntryRegion.LastWriteDateTime)
                                             {
 
@@ -2130,7 +2130,7 @@ namespace PhotoTagsSynchronizer
             lock (commonQueueReadPosterAndSaveFaceThumbnailsLock)
                 foreach (Metadata metadata in commonQueueReadPosterAndSaveFaceThumbnails)
                 {
-                    if (metadata.FileFullPath == fullFilename)
+                    if (FilesCutCopyPasteDrag.IsFilenameEqual(metadata.FileFullPath, fullFilename))
                     {
                         fileInUse = true;
                         break;
@@ -2148,7 +2148,7 @@ namespace PhotoTagsSynchronizer
             lock (commonQueueSaveThumbnailToDatabaseLock)
                 foreach (FileEntryImage fileEntry in commonQueueSaveThumbnailToDatabase)
                 {
-                    if (fileEntry.FileFullPath.StartsWith(folder))
+                    if (fileEntry.FileFullPath.StartsWith(folder, comparisonType: StringComparison.OrdinalIgnoreCase))
                     {
                         folderInUse = true;
                         break;
@@ -2165,7 +2165,7 @@ namespace PhotoTagsSynchronizer
             lock (commonQueueSaveThumbnailToDatabaseLock)
                 foreach (FileEntryImage fileEntry in commonQueueSaveThumbnailToDatabase)
                 {
-                    if (fileEntry.FileFullPath == fullFilename)
+                    if (FilesCutCopyPasteDrag.IsFilenameEqual(fileEntry.FileFullPath, fullFilename))
                     {
                         fileInUse = true;
                         break;
@@ -2183,7 +2183,7 @@ namespace PhotoTagsSynchronizer
             lock (commonQueueReadMetadataFromMicrosoftPhotosLock)
                 foreach (FileEntry fileEntry in commonQueueReadMetadataFromMicrosoftPhotos)
                 {
-                    if (fileEntry.FileFullPath.StartsWith(folder))
+                    if (fileEntry.FileFullPath.StartsWith(folder, comparisonType: StringComparison.OrdinalIgnoreCase))
                     {
                         folderInUse = true;
                         break;
@@ -2202,7 +2202,7 @@ namespace PhotoTagsSynchronizer
             {
                 foreach (FileEntry fileEntry in commonQueueReadMetadataFromMicrosoftPhotos)
                 {
-                    if (fileEntry.FileFullPath == fullFilename)
+                    if (FilesCutCopyPasteDrag.IsFilenameEqual(fileEntry.FileFullPath, fullFilename))
                     {
                         fileInUse = true;
                         break;
@@ -2222,7 +2222,7 @@ namespace PhotoTagsSynchronizer
                 lock (commonQueueReadMetadataFromWindowsLivePhotoGalleryLock)
                     foreach (FileEntry fileEntry in commonQueueReadMetadataFromWindowsLivePhotoGallery)
                     {
-                        if (fileEntry.FileFullPath.StartsWith(folder))
+                        if (fileEntry.FileFullPath.StartsWith(folder, comparisonType: StringComparison.OrdinalIgnoreCase))
                         {
                             folderInUse = true;
                             break;
@@ -2240,7 +2240,7 @@ namespace PhotoTagsSynchronizer
             lock (commonQueueReadMetadataFromWindowsLivePhotoGalleryLock)
                 foreach (FileEntry fileEntry in commonQueueReadMetadataFromWindowsLivePhotoGallery)
                 {
-                    if (fileEntry.FileFullPath == fullFilename)
+                    if (FilesCutCopyPasteDrag.IsFilenameEqual(fileEntry.FileFullPath, fullFilename))
                     {
                         fileInUse = true;
                         break;
@@ -2256,15 +2256,11 @@ namespace PhotoTagsSynchronizer
         {
             bool folderInUse = false;
 
-            //commonQueueReadMetadataFromExiftool
-            //mediaFilesNotInDatabaseCheckInCloud
-            //MediaFilesNotInDatabaseCountLock
-
             if (!folderInUse)
                 lock (commonQueueReadMetadataFromExiftoolLock)
                     foreach (FileEntry fileEntry in commonQueueReadMetadataFromExiftool)
                     {
-                        if (fileEntry.FileFullPath.StartsWith(folder))
+                        if (fileEntry.FileFullPath.StartsWith(folder, comparisonType: StringComparison.OrdinalIgnoreCase))
                         {
                             folderInUse = true;
                             break;
@@ -2275,7 +2271,7 @@ namespace PhotoTagsSynchronizer
                 lock (mediaFilesNotInDatabaseLock)
                     foreach (FileEntry fileEntry in mediaFilesNotInDatabase)
                     {
-                        if (fileEntry.FileFullPath.StartsWith(folder))
+                        if (fileEntry.FileFullPath.StartsWith(folder, comparisonType: StringComparison.OrdinalIgnoreCase))
                         {
                             folderInUse = true;
                             break;
@@ -2294,7 +2290,7 @@ namespace PhotoTagsSynchronizer
                 lock (commonQueueReadMetadataFromExiftoolLock)
                     foreach (FileEntry fileEntry in commonQueueReadMetadataFromExiftool)
                     {
-                        if (fileEntry.FileFullPath == fullFilename)
+                        if (FilesCutCopyPasteDrag.IsFilenameEqual(fileEntry.FileFullPath, fullFilename))
                         {
                             fileInUse = true;
                             break;
@@ -2305,7 +2301,7 @@ namespace PhotoTagsSynchronizer
                 lock (mediaFilesNotInDatabaseLock)
                     foreach (FileEntry fileEntry in mediaFilesNotInDatabase)
                     {
-                        if (fileEntry.FileFullPath == fullFilename)
+                        if (FilesCutCopyPasteDrag.IsFilenameEqual(fileEntry.FileFullPath, fullFilename))
                         {
                             fileInUse = true;
                             break;
@@ -2324,7 +2320,7 @@ namespace PhotoTagsSynchronizer
                 lock (commonQueueSaveMetadataUpdatedByUserLock)
                     foreach (Metadata metadata in commonQueueSaveMetadataUpdatedByUser)
                     {
-                        if (metadata.FileFullPath.StartsWith(folder))
+                        if (metadata.FileFullPath.StartsWith(folder, comparisonType: StringComparison.OrdinalIgnoreCase))
                         {
                             folderInUse = true;
                             break;
@@ -2336,7 +2332,7 @@ namespace PhotoTagsSynchronizer
                 lock (commonQueueSubsetMetadataToSaveLock)
                     foreach (Metadata metadata in commonQueueSubsetMetadataToSave)
                     {
-                        if (metadata.FileFullPath.StartsWith(folder))
+                        if (metadata.FileFullPath.StartsWith(folder, comparisonType: StringComparison.OrdinalIgnoreCase))
                         {
                             folderInUse = true;
                             break;
@@ -2347,7 +2343,7 @@ namespace PhotoTagsSynchronizer
                 lock (mediaFilesNotInDatabaseLock)
                     foreach (FileEntry fileEntry in mediaFilesNotInDatabase)
                     {
-                        if (fileEntry.FileFullPath.StartsWith(folder))
+                        if (fileEntry.FileFullPath.StartsWith(folder, comparisonType: StringComparison.OrdinalIgnoreCase))
                         {
                             folderInUse = true;
                             break;
@@ -2366,7 +2362,7 @@ namespace PhotoTagsSynchronizer
                 lock (commonQueueSaveMetadataUpdatedByUserLock)
                     foreach (Metadata metadata in commonQueueSaveMetadataUpdatedByUser)
                     {
-                        if (metadata.FileFullPath == fullFilename)
+                        if (FilesCutCopyPasteDrag.IsFilenameEqual(metadata.FileFullPath, fullFilename))
                         {
                             fileInUse = true;
                             break;
@@ -2377,7 +2373,7 @@ namespace PhotoTagsSynchronizer
                 lock (commonQueueSaveMetadataUpdatedByUserLock)
                     foreach (Metadata metadata in commonQueueSubsetMetadataToSave)
                     {
-                        if (metadata.FileFullPath == fullFilename)
+                        if (FilesCutCopyPasteDrag.IsFilenameEqual(metadata.FileFullPath, fullFilename))
                         {
                             fileInUse = true;
                             break;
@@ -2388,7 +2384,7 @@ namespace PhotoTagsSynchronizer
                 lock (mediaFilesNotInDatabaseLock)
                     foreach (FileEntry fileEntry in mediaFilesNotInDatabase)
                     {
-                        if (fileEntry.FileFullPath == fullFilename)
+                        if (FilesCutCopyPasteDrag.IsFilenameEqual(fileEntry.FileFullPath, fullFilename))
                         {
                             fileInUse = true;
                             break;
@@ -2549,7 +2545,7 @@ namespace PhotoTagsSynchronizer
                                             string newFullFilename = FileHandler.CombinePathAndName(oldDirectory, newFilename);
                                             #endregion
 
-                                            RenameFile_Thread_UpdateTreeViewFolderBroswer(treeViewFolderBrowser1, imageListView1, CommonQueueRenameCountLock(), fullFilename, newFullFilename);
+                                            RenameFile_Thread_UpdateTreeViewFolderBrowser(treeViewFolderBrowser1, imageListView1, CommonQueueRenameCountLock(), fullFilename, newFullFilename);
 
                                         }
                                         else

@@ -440,7 +440,7 @@ namespace Manina.Windows.Forms
                         {                          
                             foreach (ImageListViewItem item in mImageListView.SelectedItems)
                             {
-                                if (item.FileFullPath == fullFilename)
+                                if (String.Compare(item.FileFullPath, fullFilename, comparisonType: StringComparison.OrdinalIgnoreCase) == 0)
                                 {
                                     if (!File.Exists(fullFilename))
                                     {

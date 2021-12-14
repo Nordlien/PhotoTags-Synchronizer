@@ -200,8 +200,8 @@ namespace MetadataLibrary
             if (m1.Broker != m2.Broker) return false;
 
             //File
-            if (m1.FileName != m2.FileName) return false;
-            if (m1.fileDirectory != m2.fileDirectory) return false;
+            if (String.Compare(m1.FileName, m2.FileName, comparisonType: StringComparison.OrdinalIgnoreCase) != 0) return false;
+            if (String.Compare(m1.fileDirectory, m2.fileDirectory, comparisonType: StringComparison.OrdinalIgnoreCase) != 0) return false;
             if (m1.FileSize != m2.FileSize) return false;
             if (!TimeZoneLibrary.IsDateTimeEqualWithinOneSecond(m1.FileDateCreated, m2.FileDateCreated)) return false;
             if (!TimeZoneLibrary.IsDateTimeEqualWithinOneSecond(m1.FileDateModified, m2.FileDateModified)) return false;
@@ -925,8 +925,8 @@ namespace MetadataLibrary
 
             //File
             if (m1.Broker != m2.Broker) errors += "Broker\r\n";
-            if (m1.FileName != m2.FileName) errors += AddError("File name", m1.FileName, m2.FileName);
-            if (m1.fileDirectory != m2.fileDirectory) errors += AddError("File direcotry", m1.fileDirectory, m2.fileDirectory);
+            if (String.Compare(m1.FileName, m2.FileName, comparisonType: StringComparison.OrdinalIgnoreCase) != 0) errors += AddError("File name", m1.FileName, m2.FileName);
+            if (String.Compare(m1.fileDirectory, m2.fileDirectory, comparisonType: StringComparison.OrdinalIgnoreCase) != 0) errors += AddError("File direcotry", m1.fileDirectory, m2.fileDirectory);
             if (m1.FileSize != m2.FileSize) errors += AddError("File size", m1.FileSize, m2.FileSize);
             if (m1.FileDateCreated != m2.FileDateCreated) errors += AddError("File Date Created", m1.FileDateCreated, m2.FileDateCreated);
             if (m1.FileDateModified != m2.FileDateModified) errors += AddError("File Date Modified", m1.FileDateModified, m2.FileDateModified);

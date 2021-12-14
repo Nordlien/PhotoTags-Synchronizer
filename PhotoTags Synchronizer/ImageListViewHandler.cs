@@ -92,7 +92,7 @@ namespace PhotoTagsSynchronizer
         {
             foreach (FileEntry fileEntry in GetFileEntriesSelectedItemsCache(imageListView, true))
             {
-                if (fileEntry.FileFullPath == fullFileName) return fileEntry;
+                if (FilesCutCopyPasteDrag.IsFilenameEqual(fileEntry.FileFullPath, fullFileName)) return fileEntry;
             }
             return null;
         }
@@ -136,7 +136,7 @@ namespace PhotoTagsSynchronizer
 
             foreach (ImageListViewItem item in imageListViewItemCollection)
             {
-                if (item.FileFullPath == fullFilename)
+                if (FilesCutCopyPasteDrag.IsFilenameEqual(item.FileFullPath, fullFilename))
                 {
                     foundItem = item;
                     break;

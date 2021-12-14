@@ -16,11 +16,11 @@ namespace PhotoTagsSynchronizer
     public partial class MainForm : KryptonForm
     {
         #region RenameFileProcess from thread queue
-        private void RenameFile_Thread_UpdateTreeViewFolderBroswer(TreeViewFolderBrowser folderTreeView, ImageListView imageListView, int renameQueueCount, string sourceFullFilename, string targetFullFilename)
+        private void RenameFile_Thread_UpdateTreeViewFolderBrowser(TreeViewFolderBrowser folderTreeView, ImageListView imageListView, int renameQueueCount, string sourceFullFilename, string targetFullFilename)
         {
             if (InvokeRequired)
             {
-                this.BeginInvoke(new Action<TreeViewFolderBrowser, ImageListView, int, string, string>(RenameFile_Thread_UpdateTreeViewFolderBroswer), folderTreeView, imageListView, renameQueueCount, sourceFullFilename, targetFullFilename);
+                this.BeginInvoke(new Action<TreeViewFolderBrowser, ImageListView, int, string, string>(RenameFile_Thread_UpdateTreeViewFolderBrowser), folderTreeView, imageListView, renameQueueCount, sourceFullFilename, targetFullFilename);
                 return;
             }
 
@@ -30,7 +30,6 @@ namespace PhotoTagsSynchronizer
             try
             {
                 bool isFileUnLockedAndExist = FileHandler.WaitLockedFileToBecomeUnlocked(sourceFullFilename, true, this);
-
                 bool directoryCreated = filesCutCopyPasteDrag.MoveFile(sourceFullFilename, targetFullFilename);
 
                 if (directoryCreated)
