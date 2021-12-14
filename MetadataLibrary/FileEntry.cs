@@ -66,7 +66,7 @@ namespace MetadataLibrary
 
         public int CompareTo(FileEntry other)
         {
-            int compare = FileFullPath.CompareTo(other.FileFullPath);
+            int compare = String.Compare(FileFullPath, other.FileFullPath, comparisonType: StringComparison.OrdinalIgnoreCase);
             if (compare == 0)
             {
                 if (this.LastWriteDateTime > other.LastWriteDateTime) compare = -1;
