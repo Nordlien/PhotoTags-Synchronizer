@@ -29,6 +29,14 @@ namespace DataGridViewGeneric
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
+        public static bool IsFilenameEqual(string fullFileName1, string fullFileName2)
+        {
+            if (fullFileName1 == null && fullFileName2 != null) return false;
+            if (fullFileName1 != null && fullFileName2 == null) return false;
+            if (fullFileName1 == null && fullFileName2 == null) return true;
+            return String.Compare(fullFileName1, fullFileName2, comparisonType: StringComparison.OrdinalIgnoreCase) == 0;
+        }
+
         #region Palette Colors
 
         #region Color - Cell - Normal
@@ -1063,7 +1071,7 @@ namespace DataGridViewGeneric
         {
             for (int columnIndex = 0; columnIndex < dataGridView.ColumnCount; columnIndex++)
             {
-                if (dataGridView.Columns[columnIndex].Tag is DataGridViewGenericColumn column && column.FileEntryAttribute.FileFullPath == fullFilePath)
+                if (dataGridView.Columns[columnIndex].Tag is DataGridViewGenericColumn column && IsFilenameEqual(column.FileEntryAttribute.FileFullPath, fullFilePath))
                 {
                     return columnIndex;
                 }
@@ -1105,7 +1113,7 @@ namespace DataGridViewGeneric
                             case FileEntryVersion.CurrentVersionInDatabase:
 
                                 if (FileEntryVersionHandler.IsCurrenOrUpdatedVersion(dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion) &&
-                                    fileEntryAttribute.FileName == dataGridViewGenericColumn.FileEntryAttribute.FileName &&
+                                    IsFilenameEqual(fileEntryAttribute.FileFullPath, dataGridViewGenericColumn.FileEntryAttribute.FileFullPath) &&
                                     fileEntryAttribute.LastWriteDateTime == dataGridViewGenericColumn.FileEntryAttribute.LastWriteDateTime
                                     )
                                     return columnIndex;                                
@@ -1255,7 +1263,7 @@ namespace DataGridViewGeneric
                     {
                         while (columnIndexFilename < dataGridView.Columns.Count &&
                             dataGridView.Columns[columnIndexFilename].Tag is DataGridViewGenericColumn column &&
-                            column.FileEntryAttribute.FileFullPath == fileEntryAttribute.FileFullPath &&                //Correct filename on column
+                            IsFilenameEqual(column.FileEntryAttribute.FileFullPath, fileEntryAttribute.FileFullPath) &&                //Correct filename on column
                             (
                                 FileEntryVersionHandler.IsCurrenOrUpdatedVersion(column.FileEntryAttribute.FileEntryVersion) || //Move behind Current, AutoCorrect and Database 
                                 column.FileEntryAttribute.LastWriteDateTime > fileEntryAttribute.LastWriteDateTime)     //ALso move behind new dates
@@ -1271,7 +1279,7 @@ namespace DataGridViewGeneric
                     if (isErrorOrHistoricalColumn)  //History or Error column added, then find correct postion
                     {
                         if (columnIndexFilename < dataGridView.Columns.Count && dataGridView.Columns[columnIndexFilename].Tag is DataGridViewGenericColumn column2 &&
-                            column2.FileEntryAttribute.FileFullPath == fileEntryAttribute.FileFullPath &&           //Correct filename on column
+                            IsFilenameEqual(column2.FileEntryAttribute.FileFullPath, fileEntryAttribute.FileFullPath) &&           //Correct filename on column
                             (
                             FileEntryVersionHandler.IsCurrenOrUpdatedVersion(column2.FileEntryAttribute.FileEntryVersion) || //Edit version, move to next column -> edit always first
                             column2.FileEntryAttribute.LastWriteDateTime > fileEntryAttribute.LastWriteDateTime)    //Is older, move next -> Newst always frist
@@ -1293,7 +1301,7 @@ namespace DataGridViewGeneric
                         dataGridView.Columns[columnIndexFilename].Tag is DataGridViewGenericColumn columnCheck)
                     {
                         if (FileEntryVersionHandler.IsCurrenOrUpdatedVersion(columnCheck.FileEntryAttribute.FileEntryVersion) &&
-                            columnCheck.FileEntryAttribute.FileFullPath == fileEntryAttribute.FileFullPath) createNewColumn = false;
+                            IsFilenameEqual(columnCheck.FileEntryAttribute.FileFullPath, fileEntryAttribute.FileFullPath)) createNewColumn = false;
                     }
                     #endregion
 
@@ -1332,15 +1340,22 @@ namespace DataGridViewGeneric
                             if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect)
                             {
                                 currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed, expected behaviour
+                                currentDataGridViewGenericColumn.Metadata = metadata; //Keep newest version, PS All columns get added with empty Metadata
                             } 
                             else 
                             { 
                                 fileEntryVersionCompareReason = FileEntryVersionCompare.LostOverUserInput;
-                                if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.CurrentVersionInDatabase)
+                                if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.CurrentVersionInDatabase ||
+                                    fileEntryAttribute.FileEntryVersion == FileEntryVersion.ExtractedNowFromExternalSource ||
+                                    fileEntryAttribute.FileEntryVersion == FileEntryVersion.ExtractedNowFromMediaFile)
+                                {
                                     currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No need to Warn, same version as in past
+                                    currentDataGridViewGenericColumn.Metadata = metadata; //Keep newest version, PS All columns get added with empty Metadata
+                                }
                                 else
+                                {
                                     currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = true; //Warn, new files can't be shown
-                                    
+                                }
                             }
                             break;
                         case FileEntryVersionCompare.LostFoundOlder:
@@ -1378,6 +1393,7 @@ namespace DataGridViewGeneric
                 }
                 #endregion
 
+                //if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.ExtractedNowFromExternalSource)
                 #region Updated - currentDataGridViewGenericColumn
                 switch (fileEntryVersionCompareReason)
                 {
