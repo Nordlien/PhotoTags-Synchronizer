@@ -254,18 +254,6 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-        #region DataGridView events handling - IsDataGridViewDirty
-        public static bool IsDataGridViewDirty(DataGridView dataGridView)
-        {
-            for (int columnIndex = 0; columnIndex < GetColumnCount(dataGridView); columnIndex++)
-            {
-                DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-                if (dataGridViewGenericColumn != null) if (dataGridViewGenericColumn.IsDirty) return true;
-            }
-            return false;
-        }
-        #endregion
-
         #region DataGridView events handling - ClearDataGridViewDirty
         public static void ClearDataGridViewDirty(DataGridView dataGridView)
         {
@@ -1345,9 +1333,9 @@ namespace DataGridViewGeneric
                             else 
                             { 
                                 fileEntryVersionCompareReason = FileEntryVersionCompare.LostOverUserInput;
-                                if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.CurrentVersionInDatabase ||
-                                    fileEntryAttribute.FileEntryVersion == FileEntryVersion.ExtractedNowFromExternalSource ||
-                                    fileEntryAttribute.FileEntryVersion == FileEntryVersion.ExtractedNowFromMediaFile)
+                                if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.CurrentVersionInDatabase)
+                                    //|| fileEntryAttribute.FileEntryVersion == FileEntryVersion.ExtractedNowFromExternalSource ||
+                                    // fileEntryAttribute.FileEntryVersion == FileEntryVersion.ExtractedNowFromMediaFile)
                                 {
                                     currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No need to Warn, same version as in past
                                     currentDataGridViewGenericColumn.Metadata = metadata; //Keep newest version, PS All columns get added with empty Metadata

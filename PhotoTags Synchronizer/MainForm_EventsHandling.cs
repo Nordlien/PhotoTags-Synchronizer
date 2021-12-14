@@ -5438,20 +5438,14 @@ namespace PhotoTagsSynchronizer
             try
             {
                 int listOfUpdatesCount = 0;
-                //if (!isAnyDataUnsaved && GlobalData.IsAgregatedTags) isAnyDataUnsaved = DataGridViewHandler.IsDataGridViewDirty(dataGridViewTagsAndKeywords);
-                //if (!isAnyDataUnsaved && GlobalData.IsAgregatedMap) isAnyDataUnsaved = DataGridViewHandler.IsDataGridViewDirty(dataGridViewMap);
-                //if (!isAnyDataUnsaved && GlobalData.IsAgregatedPeople) isAnyDataUnsaved = DataGridViewHandler.IsDataGridViewDirty(dataGridViewPeople);
-                //if (!isAnyDataUnsaved && GlobalData.IsAgregatedDate) isAnyDataUnsaved = DataGridViewHandler.IsDataGridViewDirty(dataGridViewDate);
-                //if (!isAnyDataUnsaved && GlobalData.IsAgregatedProperties) isAnyDataUnsaved = DataGridViewHandler.IsDataGridViewDirty(dataGridViewProperties);
-                //if (!isAnyDataUnsaved) //Do big test, if something unsaved
-                {
-                    GetDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView);
-                    //Find what columns are updated / changed by user
-                    List<int> listOfUpdates = ExiftoolWriter.GetListOfMetadataChangedByUser(metadataListOriginalExiftool, metadataListFromDataGridView);
-                    listOfUpdatesCount = listOfUpdates.Count;
+                
+                GetDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView, false);
+                //Find what columns are updated / changed by user
+                List<int> listOfUpdates = ExiftoolWriter.GetListOfMetadataChangedByUser(metadataListOriginalExiftool, metadataListFromDataGridView);
+                listOfUpdatesCount = listOfUpdates.Count;
 
-                    isAnyDataUnsaved = (listOfUpdatesCount > 0);
-                }      
+                isAnyDataUnsaved = (listOfUpdatesCount > 0);
+                      
             }
             catch (Exception ex)
             {
@@ -5542,7 +5536,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region GetDataGridViewData - All
-        private void GetDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView)
+        private void GetDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView, bool clearDirtyFlagAndUpdatedMetadata)
         {
             
             metadataListOriginalExiftool = new List<Metadata>();
@@ -5566,6 +5560,12 @@ namespace PhotoTagsSynchronizer
 
                         metadataListOriginalExiftool.Add(new Metadata(dataGridViewGenericColumn.Metadata));
                         metadataListFromDataGridView.Add(new Metadata(metadataFromDataGridView));
+                        
+                        if (clearDirtyFlagAndUpdatedMetadata)
+                            dataGridViewGenericColumn.Metadata = new Metadata(metadataFromDataGridView);
+                        
+
+                        
                     }
                 }
             }
@@ -5593,7 +5593,7 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-                GetDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView);
+                GetDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView, true);
 
                 //Find what columns are updated / changed by user
                 List<int> listOfUpdates = ExiftoolWriter.GetListOfMetadataChangedByUser(metadataListOriginalExiftool, metadataListFromDataGridView);
@@ -5604,6 +5604,7 @@ namespace PhotoTagsSynchronizer
                 }
 
                 ClearDataGridDirtyFlag(); //Clear before save; To track if become dirty during save process
+
                 GlobalData.ListOfAutoCorrectFilesClear();
 
                 foreach (int updatedRecord in listOfUpdates)
@@ -7988,7 +7989,7 @@ namespace PhotoTagsSynchronizer
 
                     FormSplash.UpdateStatus("Create argument file...");
                     #region Create ArgumentFile file
-                    GetDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView);
+                    GetDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView, false);
 
                     ExiftoolWriter.CreateExiftoolArguFileText(
                         metadataListFromDataGridView, metadataListOriginalExiftool, allowedFileNameDateTimeFormats, writeMetadataTagsVariable, writeMetadataKeywordAddVariable,

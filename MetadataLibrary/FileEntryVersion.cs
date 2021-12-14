@@ -43,6 +43,7 @@ namespace MetadataLibrary
         }
         #endregion
 
+        #region IsReadOnlyType
         public static bool IsReadOnlyType(FileEntryVersion fileEntryVersion)
         {
             switch (fileEntryVersion)
@@ -60,6 +61,7 @@ namespace MetadataLibrary
                     throw new NotImplementedException();
             }
         }
+        #endregion
 
         #region NeedUpdate
         public static bool NeedUpdate(FileEntryVersionCompare fileEntryVersionCompare)
