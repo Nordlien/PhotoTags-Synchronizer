@@ -24,6 +24,7 @@ namespace PhotoTagsSynchronizer
         private ExiftoolDataDatabase databaseExiftoolData;
         private ExiftoolWarningDatabase databaseExiftoolWarning;
 
+        #region IsFilenameEqual
         public static bool IsFilenameEqual(string fullFileName1, string fullFileName2)
         {
             if (fullFileName1 == null && fullFileName2 != null) return false;
@@ -31,6 +32,7 @@ namespace PhotoTagsSynchronizer
             if (fullFileName1 == null && fullFileName2 == null) return true;
             return String.Compare(fullFileName1, fullFileName2, comparisonType: StringComparison.OrdinalIgnoreCase) == 0;
         }
+        #endregion
 
         #region FilesCutCopyPasteDrag - Constructor
         public FilesCutCopyPasteDrag(MetadataDatabaseCache databaseAndCacheMetadataExiftool, 
