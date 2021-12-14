@@ -2484,6 +2484,7 @@ namespace MetadataLibrary
         private static Dictionary<FileEntryBroker, Metadata> metadataCache = new Dictionary<FileEntryBroker, Metadata>();
         private static readonly Object metadataCacheLock = new Object();
 
+        #region GetAllCacheData
         public List<FileEntryBroker> GetAllCacheData()
         {
             List<FileEntryBroker> fileEntryBrokers = new List<FileEntryBroker>();
@@ -2494,6 +2495,7 @@ namespace MetadataLibrary
             }
             return fileEntryBrokers;
         }
+        #endregion 
 
         #region Cache Metadata - Read Name
         public Image ReadRegionThumbnailFromCache(string name)
