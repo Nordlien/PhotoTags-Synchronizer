@@ -26,7 +26,8 @@ namespace FileHandeling
 
             try
             {
-                FileAttributes fileAttributes = File.GetAttributes(fullFileName);
+                FileAttributes fileAttributes = (FileAttributes)0;
+                if (File.Exists(fullFileName)) fileAttributes = File.GetAttributes(fullFileName);
                 if ((((int)fileAttributes) & 0x000400000) == 0x000400000) return true;
             }
             catch 
@@ -43,7 +44,8 @@ namespace FileHandeling
             //FILE_ATTRIBUTE_VIRTUAL - 500000 - This value is reserved for system use.
             try
             {
-                FileAttributes fileAttributes = File.GetAttributes(fullFileName);
+                FileAttributes fileAttributes = (FileAttributes)0;
+                if (File.Exists(fullFileName)) fileAttributes = File.GetAttributes(fullFileName);
                 if ((((int)fileAttributes) & 0x000500000) == 0x000500000) return true;
             }
             catch { return true; }
@@ -57,7 +59,8 @@ namespace FileHandeling
             bool isReadOnly;
             try
             {
-                isReadOnly = new FileInfo(fileFullPath).IsReadOnly;
+                if (File.Exists(fileFullPath)) isReadOnly = new FileInfo(fileFullPath).IsReadOnly;
+                else isReadOnly = true;
             }
             catch
             {

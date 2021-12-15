@@ -149,32 +149,29 @@ namespace ImageAndMovieFileExtentions
             Image thumbnailReturn = null;
             try
             {
-                using (MagickImage image = new MagickImage(fullFilename))
+                if (File.Exists(fullFilename))
                 {
-                    var profile = image.GetExifProfile();
-                    // Create thumbnail from exif information
-                    if (profile != null)
+                    using (MagickImage image = new MagickImage(fullFilename))
                     {
-                        if (profile.ThumbnailLength > 0)
+                        var profile = image.GetExifProfile();
+                        // Create thumbnail from exif information
+                        if (profile != null)
                         {
-                            /*
-                            using (var thumbnail = profile.CreateThumbnail())
+                            if (profile.ThumbnailLength > 0)
                             {
-                                if (thumbnail != null && profile.ThumbnailLength > 0) thumbnailReturn = thumbnail.ToBitmap();
-                            }*/
+                                var thumbnailLength = profile.ThumbnailLength;
+                                var thumbnailOffset = profile.ThumbnailOffset;
 
-                            var thumbnailLength = profile.ThumbnailLength;
-                            var thumbnailOffset = profile.ThumbnailOffset;
+                                if (thumbnailLength != 0 || thumbnailOffset != 0)
+                                {
+                                    var data = profile.GetData();
 
-                            if (thumbnailLength != 0 || thumbnailOffset != 0)
-                            {
-                                var data = profile.GetData();
+                                    if (data == null || data.Length < (thumbnailOffset + thumbnailLength)) return null;
 
-                                if (data == null || data.Length < (thumbnailOffset + thumbnailLength)) return null;
-
-                                var result = new byte[thumbnailLength];
-                                Array.Copy(data, thumbnailOffset, result, 0, thumbnailLength);
-                                thumbnailReturn = new MagickImage(result).ToBitmap();
+                                    var result = new byte[thumbnailLength];
+                                    Array.Copy(data, thumbnailOffset, result, 0, thumbnailLength);
+                                    thumbnailReturn = new MagickImage(result).ToBitmap();
+                                }
                             }
                         }
                     }

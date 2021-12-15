@@ -220,10 +220,6 @@ namespace PhotoTagsSynchronizer
 
             if (FileEntryVersionHandler.NeedUpdate(fileEntryVersionCompareReason))
             {
-                if (metadataExiftool == null)
-                {
-                    //DEBUG - so far, not a problem
-                }
                 //Media
                 int rowIndex;
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia), false);

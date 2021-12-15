@@ -132,29 +132,32 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-                FileHandler.WaitLockedFileToBecomeUnlocked(fullFilePath, false, this);
-                if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(fullFilePath))
+                if (File.Exists(fullFilePath)) //Files can always be moved, deleted or become change outside application (Also may occure when this Rename files)
                 {
-                    var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
-
-                    using (Stream memoryStream = new MemoryStream())
+                    FileHandler.WaitLockedFileToBecomeUnlocked(fullFilePath, false, this);
+                    if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(fullFilePath))
                     {
-                        ffMpeg.GetVideoThumbnail(fullFilePath, memoryStream);
+                        var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
 
-                        if (memoryStream.Length > 0) image = Image.FromStream(memoryStream);
-                        else image = null;
+                        using (Stream memoryStream = new MemoryStream())
+                        {
+                            ffMpeg.GetVideoThumbnail(fullFilePath, memoryStream);
+
+                            if (memoryStream.Length > 0) image = Image.FromStream(memoryStream);
+                            else image = null;
+                        }
                     }
-                }
-                else if (ImageAndMovieFileExtentionsUtility.IsImageFormat(fullFilePath))
-                {
-                    bool wasFileLocked = false;
-                    image = ImageAndMovieFileExtentionsUtility.LoadImage(fullFilePath, out wasFileLocked);
-                    if (image == null && wasFileLocked && File.Exists(fullFilePath))
+                    else if (ImageAndMovieFileExtentionsUtility.IsImageFormat(fullFilePath))
                     {
-                        FileHandler.WaitLockedFileToBecomeUnlocked(fullFilePath, false, this);
-                        image = ImageAndMovieFileExtentionsUtility.LoadImage(fullFilePath, out wasFileLocked);                        
+                        bool wasFileLocked = false;
+                        image = ImageAndMovieFileExtentionsUtility.LoadImage(fullFilePath, out wasFileLocked);
+                        if (image == null && wasFileLocked && File.Exists(fullFilePath))
+                        {
+                            FileHandler.WaitLockedFileToBecomeUnlocked(fullFilePath, false, this);
+                            image = ImageAndMovieFileExtentionsUtility.LoadImage(fullFilePath, out wasFileLocked);
+                        }
+                        if (image == null) image = Utility.LoadImageWithoutLock(fullFilePath);
                     }
-                    if (image == null) image = Utility.LoadImageWithoutLock(fullFilePath);
                 }
             } catch (Exception ex)
             {
