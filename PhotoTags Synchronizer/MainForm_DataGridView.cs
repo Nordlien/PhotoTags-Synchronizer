@@ -13,6 +13,7 @@ using Krypton.Toolkit;
 using Krypton.Navigator;
 using System.Diagnostics;
 using System.IO;
+using Exiftool;
 
 namespace PhotoTagsSynchronizer
 {
