@@ -33,13 +33,13 @@ namespace PhotoTagsSynchronizer
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormConfig));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             this.labelApplicationRegionThumbnailSize = new Krypton.Toolkit.KryptonLabel();
             this.labelWebScraperJavaScriptExecuteTimeoutDescription = new Krypton.Toolkit.KryptonLabel();
             this.labelWebScraperWebScrapingRetryDescription = new Krypton.Toolkit.KryptonLabel();
@@ -302,6 +302,37 @@ namespace PhotoTagsSynchronizer
             this.textBoxConvertAndMergeFFmpeg = new Krypton.Toolkit.KryptonTextBox();
             this.labelConvertAndMergeCommandPathExe = new Krypton.Toolkit.KryptonLabel();
             this.kryptonWorkspaceConfig = new Krypton.Workspace.KryptonWorkspace();
+            this.kryptonPageAutoCorrect = new Krypton.Navigator.KryptonPage();
+            this.kryptonWorkspaceAutoCorrect = new Krypton.Workspace.KryptonWorkspace();
+            this.kryptonPageAutoCorrectAutoKeywords = new Krypton.Navigator.KryptonPage();
+            this.kryptonWorkspaceCellAutoCorrect = new Krypton.Workspace.KryptonWorkspaceCell();
+            this.kryptonPageAutoCorrectAutoCorrectHelp = new Krypton.Navigator.KryptonPage();
+            this.kryptonPageAutoCorrectDateAndTimeDigitized = new Krypton.Navigator.KryptonPage();
+            this.tableLayoutPanel12 = new System.Windows.Forms.TableLayoutPanel();
+            this.imageListViewOrderDateTaken = new PhotoTagsCommonComponets.ImageListViewOrder();
+            this.kryptonPageAutoCorrectGPSLocationAndDateTime = new Krypton.Navigator.KryptonPage();
+            this.tableLayoutPanel13 = new System.Windows.Forms.TableLayoutPanel();
+            this.kryptonCheckBoxAutoCorrectUseSmartDate = new Krypton.Toolkit.KryptonCheckBox();
+            this.kryptonPageAutoCorrectLocationInformation = new Krypton.Navigator.KryptonPage();
+            this.tableLayoutPanel14 = new System.Windows.Forms.TableLayoutPanel();
+            this.kryptonPageAutoCorrectTitle = new Krypton.Navigator.KryptonPage();
+            this.tableLayoutPanel15 = new System.Windows.Forms.TableLayoutPanel();
+            this.imageListViewOrderTitle = new PhotoTagsCommonComponets.ImageListViewOrder();
+            this.kryptonPageAutoCorrectAlbum = new Krypton.Navigator.KryptonPage();
+            this.tableLayoutPanel16 = new System.Windows.Forms.TableLayoutPanel();
+            this.imageListViewOrderAlbum = new PhotoTagsCommonComponets.ImageListViewOrder();
+            this.kryptonPageAutoCorrectAuthor = new Krypton.Navigator.KryptonPage();
+            this.tableLayoutPanel17 = new System.Windows.Forms.TableLayoutPanel();
+            this.kryptonPageAutoCorrectKeywordTags = new Krypton.Navigator.KryptonPage();
+            this.tableLayoutPanel18 = new System.Windows.Forms.TableLayoutPanel();
+            this.kryptonPageAutoCorrectBackupOfTags = new Krypton.Navigator.KryptonPage();
+            this.tableLayoutPanel19 = new System.Windows.Forms.TableLayoutPanel();
+            this.kryptonPageAutoCorrectFaceRegionFields = new Krypton.Navigator.KryptonPage();
+            this.tableLayoutPanel20 = new System.Windows.Forms.TableLayoutPanel();
+            this.kryptonPageAutoCorrectKeywordsHelp = new Krypton.Navigator.KryptonPage();
+            this.kryptonPageAutoCorrectRename = new Krypton.Navigator.KryptonPage();
+            this.tableLayoutPanel21 = new System.Windows.Forms.TableLayoutPanel();
+            this.kryptonWorkspaceCellConfig = new Krypton.Workspace.KryptonWorkspaceCell();
             this.kryptonPageApplication = new Krypton.Navigator.KryptonPage();
             this.kryptonWorkspaceConfigApplication = new Krypton.Workspace.KryptonWorkspace();
             this.kryptonPageApplicationThumbnail = new Krypton.Navigator.KryptonPage();
@@ -322,8 +353,8 @@ namespace PhotoTagsSynchronizer
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.kryptonPageApplicationGPSLocationAccuracy = new Krypton.Navigator.KryptonPage();
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
-            this.kryptonPageApplicationDateAndTimeInFilenames = new Krypton.Navigator.KryptonPage();
             this.kryptonPageAppliactionDateTimeFormatsInFilenamesHelp = new Krypton.Navigator.KryptonPage();
+            this.kryptonPageApplicationDateAndTimeInFilenames = new Krypton.Navigator.KryptonPage();
             this.kryptonPageThemes = new Krypton.Navigator.KryptonPage();
             this.kryptonWorkspaceApplicationThemes = new Krypton.Workspace.KryptonWorkspace();
             this.kryptonPageApplicationThemesSelect = new Krypton.Navigator.KryptonPage();
@@ -377,7 +408,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceCellApplicationThemesProperties = new Krypton.Workspace.KryptonWorkspaceCell();
             this.kryptonPageApplicationThemesProperties = new Krypton.Navigator.KryptonPage();
             this.propertyGrid = new System.Windows.Forms.PropertyGrid();
-            this.kryptonWorkspaceCellConfig = new Krypton.Workspace.KryptonWorkspaceCell();
             this.kryptonPageMetadata = new Krypton.Navigator.KryptonPage();
             this.kryptonWorkspaceConfigMetadata = new Krypton.Workspace.KryptonWorkspace();
             this.kryptonPageMetadataReadHelp = new Krypton.Navigator.KryptonPage();
@@ -398,48 +428,16 @@ namespace PhotoTagsSynchronizer
             this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
             this.kryptonPageWebScraper = new Krypton.Navigator.KryptonPage();
             this.kryptonWorkspaceWebScraper = new Krypton.Workspace.KryptonWorkspace();
-            this.kryptonPageWebScraperWebScrapingStartPages = new Krypton.Navigator.KryptonPage();
-            this.kryptonWorkspaceCellWebScraper = new Krypton.Workspace.KryptonWorkspaceCell();
             this.kryptonPageWebScraperWebScrapingSettings = new Krypton.Navigator.KryptonPage();
             this.tableLayoutPanel11 = new System.Windows.Forms.TableLayoutPanel();
-            this.kryptonPageAutoCorrect = new Krypton.Navigator.KryptonPage();
-            this.kryptonWorkspaceAutoCorrect = new Krypton.Workspace.KryptonWorkspace();
-            this.kryptonPageAutoCorrectAutoCorrectHelp = new Krypton.Navigator.KryptonPage();
-            this.kryptonWorkspaceCellAutoCorrect = new Krypton.Workspace.KryptonWorkspaceCell();
-            this.kryptonPageAutoCorrectDateAndTimeDigitized = new Krypton.Navigator.KryptonPage();
-            this.tableLayoutPanel12 = new System.Windows.Forms.TableLayoutPanel();
-            this.imageListViewOrderDateTaken = new PhotoTagsCommonComponets.ImageListViewOrder();
-            this.kryptonPageAutoCorrectGPSLocationAndDateTime = new Krypton.Navigator.KryptonPage();
-            this.tableLayoutPanel13 = new System.Windows.Forms.TableLayoutPanel();
-            this.kryptonCheckBoxAutoCorrectUseSmartDate = new Krypton.Toolkit.KryptonCheckBox();
-            this.kryptonPageAutoCorrectLocationInformation = new Krypton.Navigator.KryptonPage();
-            this.tableLayoutPanel14 = new System.Windows.Forms.TableLayoutPanel();
-            this.kryptonPageAutoCorrectTitle = new Krypton.Navigator.KryptonPage();
-            this.tableLayoutPanel15 = new System.Windows.Forms.TableLayoutPanel();
-            this.imageListViewOrderTitle = new PhotoTagsCommonComponets.ImageListViewOrder();
-            this.kryptonPageAutoCorrectAlbum = new Krypton.Navigator.KryptonPage();
-            this.tableLayoutPanel16 = new System.Windows.Forms.TableLayoutPanel();
-            this.imageListViewOrderAlbum = new PhotoTagsCommonComponets.ImageListViewOrder();
-            this.kryptonPageAutoCorrectAuthor = new Krypton.Navigator.KryptonPage();
-            this.tableLayoutPanel17 = new System.Windows.Forms.TableLayoutPanel();
-            this.kryptonPageAutoCorrectKeywordTags = new Krypton.Navigator.KryptonPage();
-            this.tableLayoutPanel18 = new System.Windows.Forms.TableLayoutPanel();
-            this.kryptonPageAutoCorrectBackupOfTags = new Krypton.Navigator.KryptonPage();
-            this.tableLayoutPanel19 = new System.Windows.Forms.TableLayoutPanel();
-            this.kryptonPageAutoCorrectFaceRegionFields = new Krypton.Navigator.KryptonPage();
-            this.tableLayoutPanel20 = new System.Windows.Forms.TableLayoutPanel();
-            this.kryptonPageAutoCorrectKeywordsHelp = new Krypton.Navigator.KryptonPage();
-            this.kryptonPageAutoCorrectRename = new Krypton.Navigator.KryptonPage();
-            this.tableLayoutPanel21 = new System.Windows.Forms.TableLayoutPanel();
-            this.kryptonPageAutoCorrectAutoKeywords = new Krypton.Navigator.KryptonPage();
+            this.kryptonWorkspaceCellWebScraper = new Krypton.Workspace.KryptonWorkspaceCell();
+            this.kryptonPageWebScraperWebScrapingStartPages = new Krypton.Navigator.KryptonPage();
             this.kryptonPageLocation = new Krypton.Navigator.KryptonPage();
             this.kryptonWorkspaceLocation = new Krypton.Workspace.KryptonWorkspace();
             this.kryptonPageLocationCamerOwnerHelp = new Krypton.Navigator.KryptonPage();
             this.kryptonWorkspaceCellLocation = new Krypton.Workspace.KryptonWorkspaceCell();
             this.kryptonPageLocationCamerOwner = new Krypton.Navigator.KryptonPage();
             this.kryptonPageLocationLocationNamesHelp = new Krypton.Navigator.KryptonPage();
-            this.kryptonPageLocationImportExport = new Krypton.Navigator.KryptonPage();
-            this.tableLayoutPanel28 = new System.Windows.Forms.TableLayoutPanel();
             this.kryptonPageLocationLocationNames = new Krypton.Navigator.KryptonPage();
             this.kryptonWorkspaceLocationLocationNames = new Krypton.Workspace.KryptonWorkspace();
             this.kryptonPageLocationLocationNameNames = new Krypton.Navigator.KryptonPage();
@@ -448,6 +446,8 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageLocationLocationNameMap = new Krypton.Navigator.KryptonPage();
             this.tableLayoutPanel29 = new System.Windows.Forms.TableLayoutPanel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.kryptonPageLocationImportExport = new Krypton.Navigator.KryptonPage();
+            this.tableLayoutPanel28 = new System.Windows.Forms.TableLayoutPanel();
             this.kryptonPageConvertAndMerge = new Krypton.Navigator.KryptonPage();
             this.kryptonWorkspaceConvertAndMerge = new Krypton.Workspace.KryptonWorkspace();
             this.kryptonPageConvertAndMergeCommand = new Krypton.Navigator.KryptonPage();
@@ -614,108 +614,16 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownConvertAndMergeImageDuration)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceConfig)).BeginInit();
             this.kryptonWorkspaceConfig.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplication)).BeginInit();
-            this.kryptonPageApplication.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceConfigApplication)).BeginInit();
-            this.kryptonWorkspaceConfigApplication.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationThumbnail)).BeginInit();
-            this.kryptonPageApplicationThumbnail.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellApplication)).BeginInit();
-            this.kryptonWorkspaceCellApplication.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationNominatim)).BeginInit();
-            this.kryptonPageApplicationNominatim.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationSearch)).BeginInit();
-            this.kryptonPageApplicationSearch.SuspendLayout();
-            this.tableLayoutPanel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationRegionSuggestion)).BeginInit();
-            this.kryptonPageApplicationRegionSuggestion.SuspendLayout();
-            this.tableLayoutPanel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageRegionAccuracy)).BeginInit();
-            this.kryptonPageRegionAccuracy.SuspendLayout();
-            this.tableLayoutPanel5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationCloudAndVirtualFiles)).BeginInit();
-            this.kryptonPageApplicationCloudAndVirtualFiles.SuspendLayout();
-            this.tableLayoutPanel6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationGPSLocationAccuracy)).BeginInit();
-            this.kryptonPageApplicationGPSLocationAccuracy.SuspendLayout();
-            this.tableLayoutPanel7.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationDateAndTimeInFilenames)).BeginInit();
-            this.kryptonPageApplicationDateAndTimeInFilenames.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageAppliactionDateTimeFormatsInFilenamesHelp)).BeginInit();
-            this.kryptonPageAppliactionDateTimeFormatsInFilenamesHelp.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageThemes)).BeginInit();
-            this.kryptonPageThemes.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceApplicationThemes)).BeginInit();
-            this.kryptonWorkspaceApplicationThemes.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationThemesSelect)).BeginInit();
-            this.kryptonPageApplicationThemesSelect.SuspendLayout();
-            this.C.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellApplicationThemesSelect)).BeginInit();
-            this.kryptonWorkspaceCellApplicationThemesSelect.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellApplicationThemesPreview)).BeginInit();
-            this.kryptonWorkspaceCellApplicationThemesPreview.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationThemesPreview)).BeginInit();
-            this.kryptonPageApplicationThemesPreview.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonDataGridViewShowPalette)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1.Panel)).BeginInit();
-            this.kryptonGroupBox1.Panel.SuspendLayout();
-            this.kryptonGroupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellApplicationThemesProperties)).BeginInit();
-            this.kryptonWorkspaceCellApplicationThemesProperties.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationThemesProperties)).BeginInit();
-            this.kryptonPageApplicationThemesProperties.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellConfig)).BeginInit();
-            this.kryptonWorkspaceCellConfig.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageMetadata)).BeginInit();
-            this.kryptonPageMetadata.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceConfigMetadata)).BeginInit();
-            this.kryptonWorkspaceConfigMetadata.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageMetadataReadHelp)).BeginInit();
-            this.kryptonPageMetadataReadHelp.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellMetadata)).BeginInit();
-            this.kryptonWorkspaceCellMetadata.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageMetadataReadPriority)).BeginInit();
-            this.kryptonPageMetadataReadPriority.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageMetadataWriteHelp)).BeginInit();
-            this.kryptonPageMetadataWriteHelp.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageMetadataWriteWindowsXtraProperties)).BeginInit();
-            this.kryptonPageMetadataWriteWindowsXtraProperties.SuspendLayout();
-            this.tableLayoutPanel9.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageMetadataWriteFileAttributeDateTimeCreated)).BeginInit();
-            this.kryptonPageMetadataWriteFileAttributeDateTimeCreated.SuspendLayout();
-            this.tableLayoutPanel10.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageMetadataExiftoolHelp)).BeginInit();
-            this.kryptonPageMetadataExiftoolHelp.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageMetadataExiftoolForEachKeyword)).BeginInit();
-            this.kryptonPageMetadataExiftoolForEachKeyword.SuspendLayout();
-            this.tableLayoutPanel26.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageMetadataExiftoolForEachNewKeyword)).BeginInit();
-            this.kryptonPageMetadataExiftoolForEachNewKeyword.SuspendLayout();
-            this.tableLayoutPanel8.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageWebScraper)).BeginInit();
-            this.kryptonPageWebScraper.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceWebScraper)).BeginInit();
-            this.kryptonWorkspaceWebScraper.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageWebScraperWebScrapingStartPages)).BeginInit();
-            this.kryptonPageWebScraperWebScrapingStartPages.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellWebScraper)).BeginInit();
-            this.kryptonWorkspaceCellWebScraper.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageWebScraperWebScrapingSettings)).BeginInit();
-            this.kryptonPageWebScraperWebScrapingSettings.SuspendLayout();
-            this.tableLayoutPanel11.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageAutoCorrect)).BeginInit();
             this.kryptonPageAutoCorrect.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceAutoCorrect)).BeginInit();
             this.kryptonWorkspaceAutoCorrect.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageAutoCorrectAutoCorrectHelp)).BeginInit();
-            this.kryptonPageAutoCorrectAutoCorrectHelp.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageAutoCorrectAutoKeywords)).BeginInit();
+            this.kryptonPageAutoCorrectAutoKeywords.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellAutoCorrect)).BeginInit();
             this.kryptonWorkspaceCellAutoCorrect.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageAutoCorrectAutoCorrectHelp)).BeginInit();
+            this.kryptonPageAutoCorrectAutoCorrectHelp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageAutoCorrectDateAndTimeDigitized)).BeginInit();
             this.kryptonPageAutoCorrectDateAndTimeDigitized.SuspendLayout();
             this.tableLayoutPanel12.SuspendLayout();
@@ -747,8 +655,100 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageAutoCorrectRename)).BeginInit();
             this.kryptonPageAutoCorrectRename.SuspendLayout();
             this.tableLayoutPanel21.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageAutoCorrectAutoKeywords)).BeginInit();
-            this.kryptonPageAutoCorrectAutoKeywords.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellConfig)).BeginInit();
+            this.kryptonWorkspaceCellConfig.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplication)).BeginInit();
+            this.kryptonPageApplication.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceConfigApplication)).BeginInit();
+            this.kryptonWorkspaceConfigApplication.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationThumbnail)).BeginInit();
+            this.kryptonPageApplicationThumbnail.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellApplication)).BeginInit();
+            this.kryptonWorkspaceCellApplication.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationNominatim)).BeginInit();
+            this.kryptonPageApplicationNominatim.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationSearch)).BeginInit();
+            this.kryptonPageApplicationSearch.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationRegionSuggestion)).BeginInit();
+            this.kryptonPageApplicationRegionSuggestion.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageRegionAccuracy)).BeginInit();
+            this.kryptonPageRegionAccuracy.SuspendLayout();
+            this.tableLayoutPanel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationCloudAndVirtualFiles)).BeginInit();
+            this.kryptonPageApplicationCloudAndVirtualFiles.SuspendLayout();
+            this.tableLayoutPanel6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationGPSLocationAccuracy)).BeginInit();
+            this.kryptonPageApplicationGPSLocationAccuracy.SuspendLayout();
+            this.tableLayoutPanel7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageAppliactionDateTimeFormatsInFilenamesHelp)).BeginInit();
+            this.kryptonPageAppliactionDateTimeFormatsInFilenamesHelp.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationDateAndTimeInFilenames)).BeginInit();
+            this.kryptonPageApplicationDateAndTimeInFilenames.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageThemes)).BeginInit();
+            this.kryptonPageThemes.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceApplicationThemes)).BeginInit();
+            this.kryptonWorkspaceApplicationThemes.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationThemesSelect)).BeginInit();
+            this.kryptonPageApplicationThemesSelect.SuspendLayout();
+            this.C.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellApplicationThemesSelect)).BeginInit();
+            this.kryptonWorkspaceCellApplicationThemesSelect.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellApplicationThemesPreview)).BeginInit();
+            this.kryptonWorkspaceCellApplicationThemesPreview.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationThemesPreview)).BeginInit();
+            this.kryptonPageApplicationThemesPreview.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonDataGridViewShowPalette)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1.Panel)).BeginInit();
+            this.kryptonGroupBox1.Panel.SuspendLayout();
+            this.kryptonGroupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellApplicationThemesProperties)).BeginInit();
+            this.kryptonWorkspaceCellApplicationThemesProperties.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationThemesProperties)).BeginInit();
+            this.kryptonPageApplicationThemesProperties.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageMetadata)).BeginInit();
+            this.kryptonPageMetadata.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceConfigMetadata)).BeginInit();
+            this.kryptonWorkspaceConfigMetadata.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageMetadataReadHelp)).BeginInit();
+            this.kryptonPageMetadataReadHelp.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellMetadata)).BeginInit();
+            this.kryptonWorkspaceCellMetadata.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageMetadataReadPriority)).BeginInit();
+            this.kryptonPageMetadataReadPriority.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageMetadataWriteHelp)).BeginInit();
+            this.kryptonPageMetadataWriteHelp.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageMetadataWriteWindowsXtraProperties)).BeginInit();
+            this.kryptonPageMetadataWriteWindowsXtraProperties.SuspendLayout();
+            this.tableLayoutPanel9.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageMetadataWriteFileAttributeDateTimeCreated)).BeginInit();
+            this.kryptonPageMetadataWriteFileAttributeDateTimeCreated.SuspendLayout();
+            this.tableLayoutPanel10.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageMetadataExiftoolHelp)).BeginInit();
+            this.kryptonPageMetadataExiftoolHelp.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageMetadataExiftoolForEachKeyword)).BeginInit();
+            this.kryptonPageMetadataExiftoolForEachKeyword.SuspendLayout();
+            this.tableLayoutPanel26.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageMetadataExiftoolForEachNewKeyword)).BeginInit();
+            this.kryptonPageMetadataExiftoolForEachNewKeyword.SuspendLayout();
+            this.tableLayoutPanel8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageWebScraper)).BeginInit();
+            this.kryptonPageWebScraper.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceWebScraper)).BeginInit();
+            this.kryptonWorkspaceWebScraper.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageWebScraperWebScrapingSettings)).BeginInit();
+            this.kryptonPageWebScraperWebScrapingSettings.SuspendLayout();
+            this.tableLayoutPanel11.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellWebScraper)).BeginInit();
+            this.kryptonWorkspaceCellWebScraper.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageWebScraperWebScrapingStartPages)).BeginInit();
+            this.kryptonPageWebScraperWebScrapingStartPages.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageLocation)).BeginInit();
             this.kryptonPageLocation.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceLocation)).BeginInit();
@@ -761,9 +761,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageLocationCamerOwner.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageLocationLocationNamesHelp)).BeginInit();
             this.kryptonPageLocationLocationNamesHelp.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageLocationImportExport)).BeginInit();
-            this.kryptonPageLocationImportExport.SuspendLayout();
-            this.tableLayoutPanel28.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageLocationLocationNames)).BeginInit();
             this.kryptonPageLocationLocationNames.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceLocationLocationNames)).BeginInit();
@@ -778,6 +775,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageLocationLocationNameMap.SuspendLayout();
             this.tableLayoutPanel29.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageLocationImportExport)).BeginInit();
+            this.kryptonPageLocationImportExport.SuspendLayout();
+            this.tableLayoutPanel28.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageConvertAndMerge)).BeginInit();
             this.kryptonPageConvertAndMerge.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceConvertAndMerge)).BeginInit();
@@ -1196,7 +1196,7 @@ namespace PhotoTagsSynchronizer
         '\"',
         '\'',
         '\''};
-            this.fastColoredTextBoxConfigFilenameDateFormats.AutoScrollMinSize = new System.Drawing.Size(27, 14);
+            this.fastColoredTextBoxConfigFilenameDateFormats.AutoScrollMinSize = new System.Drawing.Size(2, 14);
             this.fastColoredTextBoxConfigFilenameDateFormats.BackBrush = null;
             this.fastColoredTextBoxConfigFilenameDateFormats.CharHeight = 14;
             this.fastColoredTextBoxConfigFilenameDateFormats.CharWidth = 8;
@@ -1958,16 +1958,16 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewAutoKeywords.Name = "dataGridViewAutoKeywords";
             this.dataGridViewAutoKeywords.RowHeadersWidth = 80;
             this.dataGridViewAutoKeywords.RowTemplate.Height = 24;
-            this.dataGridViewAutoKeywords.Size = new System.Drawing.Size(664, 514);
+            this.dataGridViewAutoKeywords.Size = new System.Drawing.Size(671, 491);
             this.dataGridViewAutoKeywords.TabIndex = 0;
             this.dataGridViewAutoKeywords.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewAutoKeywords_CellBeginEdit);
             this.dataGridViewAutoKeywords.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridViewAutoKeywords_RowsAdded);
             // 
             // LocationName
             // 
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.LocationName.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.LocationName.DefaultCellStyle = dataGridViewCellStyle1;
             this.LocationName.HeaderText = "LocationName";
             this.LocationName.MinimumWidth = 6;
             this.LocationName.Name = "LocationName";
@@ -1975,9 +1975,9 @@ namespace PhotoTagsSynchronizer
             // 
             // Title
             // 
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Title.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Title.DefaultCellStyle = dataGridViewCellStyle2;
             this.Title.HeaderText = "Title";
             this.Title.MinimumWidth = 6;
             this.Title.Name = "Title";
@@ -1985,9 +1985,9 @@ namespace PhotoTagsSynchronizer
             // 
             // Album
             // 
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Album.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Album.DefaultCellStyle = dataGridViewCellStyle3;
             this.Album.HeaderText = "Album";
             this.Album.MinimumWidth = 6;
             this.Album.Name = "Album";
@@ -1995,9 +1995,9 @@ namespace PhotoTagsSynchronizer
             // 
             // Description
             // 
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Description.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Description.DefaultCellStyle = dataGridViewCellStyle4;
             this.Description.HeaderText = "Description";
             this.Description.MinimumWidth = 6;
             this.Description.Name = "Description";
@@ -2005,9 +2005,9 @@ namespace PhotoTagsSynchronizer
             // 
             // Comments
             // 
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Comments.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Comments.DefaultCellStyle = dataGridViewCellStyle5;
             this.Comments.HeaderText = "Comments";
             this.Comments.MinimumWidth = 6;
             this.Comments.Name = "Comments";
@@ -2015,9 +2015,9 @@ namespace PhotoTagsSynchronizer
             // 
             // Keywords
             // 
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Keywords.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Keywords.DefaultCellStyle = dataGridViewCellStyle6;
             this.Keywords.HeaderText = "Keywords";
             this.Keywords.MinimumWidth = 6;
             this.Keywords.Name = "Keywords";
@@ -2025,9 +2025,9 @@ namespace PhotoTagsSynchronizer
             // 
             // AddKeywords
             // 
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.AddKeywords.DefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.AddKeywords.DefaultCellStyle = dataGridViewCellStyle7;
             this.AddKeywords.HeaderText = "AddKeywords";
             this.AddKeywords.MinimumWidth = 6;
             this.AddKeywords.Name = "AddKeywords";
@@ -2060,7 +2060,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.kryptonContextMenuItemAutoKeywordCopy.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditCopy32x32;
             this.kryptonContextMenuItemAutoKeywordCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.kryptonContextMenuItemAutoKeywordCopy.Text = "Copy AutoKeyword";
+            this.kryptonContextMenuItemAutoKeywordCopy.Text = "Copy";
             // 
             // kryptonContextMenuItemAutoKeywordPaste
             // 
@@ -2180,41 +2180,49 @@ namespace PhotoTagsSynchronizer
             // kryptonContextMenuItemLocationNamesCut
             // 
             this.kryptonContextMenuItemLocationNamesCut.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditCut32x32;
+            this.kryptonContextMenuItemLocationNamesCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
             this.kryptonContextMenuItemLocationNamesCut.Text = "Cut";
             // 
             // kryptonContextMenuItemLocationNamesCopy
             // 
             this.kryptonContextMenuItemLocationNamesCopy.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditCopy32x32;
-            this.kryptonContextMenuItemLocationNamesCopy.Text = "Copy Location";
+            this.kryptonContextMenuItemLocationNamesCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.kryptonContextMenuItemLocationNamesCopy.Text = "Copy";
             // 
             // kryptonContextMenuItemLocationNamesPaste
             // 
             this.kryptonContextMenuItemLocationNamesPaste.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditPaste32x32;
+            this.kryptonContextMenuItemLocationNamesPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
             this.kryptonContextMenuItemLocationNamesPaste.Text = "Paste";
             // 
             // kryptonContextMenuItemLocationNamesDelete
             // 
             this.kryptonContextMenuItemLocationNamesDelete.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemDelete32x32;
+            this.kryptonContextMenuItemLocationNamesDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
             this.kryptonContextMenuItemLocationNamesDelete.Text = "Delete";
             // 
             // kryptonContextMenuItemLocationNamesUndo
             // 
             this.kryptonContextMenuItemLocationNamesUndo.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditUndo32x32;
+            this.kryptonContextMenuItemLocationNamesUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
             this.kryptonContextMenuItemLocationNamesUndo.Text = "Undo";
             // 
             // kryptonContextMenuItemLocationNamesRedo
             // 
             this.kryptonContextMenuItemLocationNamesRedo.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditRedo32x32;
+            this.kryptonContextMenuItemLocationNamesRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
             this.kryptonContextMenuItemLocationNamesRedo.Text = "Redo";
             // 
             // kryptonContextMenuItemLocationNamesFind
             // 
             this.kryptonContextMenuItemLocationNamesFind.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditFind32x32;
+            this.kryptonContextMenuItemLocationNamesFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
             this.kryptonContextMenuItemLocationNamesFind.Text = "Find";
             // 
             // kryptonContextMenuItemLocationNamesReplace
             // 
             this.kryptonContextMenuItemLocationNamesReplace.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditReplace32x32;
+            this.kryptonContextMenuItemLocationNamesReplace.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
             this.kryptonContextMenuItemLocationNamesReplace.Text = "Replace";
             // 
             // kryptonContextMenuItemLocationNamesAddFavorite
@@ -2650,7 +2658,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxApplicationPreferredLanguages.Location = new System.Drawing.Point(131, 56);
             this.textBoxApplicationPreferredLanguages.Name = "textBoxApplicationPreferredLanguages";
-            this.textBoxApplicationPreferredLanguages.Size = new System.Drawing.Size(556, 23);
+            this.textBoxApplicationPreferredLanguages.Size = new System.Drawing.Size(558, 23);
             this.textBoxApplicationPreferredLanguages.TabIndex = 1;
             // 
             // comboBoxApplicationLanguages
@@ -2864,7 +2872,7 @@ namespace PhotoTagsSynchronizer
             "zu - Zulu"});
             this.comboBoxApplicationLanguages.Location = new System.Drawing.Point(131, 29);
             this.comboBoxApplicationLanguages.Name = "comboBoxApplicationLanguages";
-            this.comboBoxApplicationLanguages.Size = new System.Drawing.Size(556, 21);
+            this.comboBoxApplicationLanguages.Size = new System.Drawing.Size(558, 21);
             this.comboBoxApplicationLanguages.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxApplicationLanguages.TabIndex = 0;
             this.comboBoxApplicationLanguages.SelectionChangeCommitted += new System.EventHandler(this.comboBoxApplicationLanguages_SelectionChangeCommitted);
@@ -3008,7 +3016,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.kryptonContextMenuItemMetadataReadCopy.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditCopy32x32;
             this.kryptonContextMenuItemMetadataReadCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.kryptonContextMenuItemMetadataReadCopy.Text = "Copy Metadata Read";
+            this.kryptonContextMenuItemMetadataReadCopy.Text = "Copy";
             // 
             // kryptonContextMenuItemMetadataReadPaste
             // 
@@ -3139,7 +3147,7 @@ namespace PhotoTagsSynchronizer
         '\"',
         '\'',
         '\''};
-            this.fastColoredTextBoxMetadataWriteKeywordAdd.AutoScrollMinSize = new System.Drawing.Size(179, 14);
+            this.fastColoredTextBoxMetadataWriteKeywordAdd.AutoScrollMinSize = new System.Drawing.Size(154, 14);
             this.fastColoredTextBoxMetadataWriteKeywordAdd.BackBrush = null;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.CharHeight = 14;
@@ -3453,7 +3461,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxMetadataWriteTags.AutoIndent = false;
             this.fastColoredTextBoxMetadataWriteTags.AutoIndentChars = false;
             this.fastColoredTextBoxMetadataWriteTags.AutoIndentExistingLines = false;
-            this.fastColoredTextBoxMetadataWriteTags.AutoScrollMinSize = new System.Drawing.Size(179, 14);
+            this.fastColoredTextBoxMetadataWriteTags.AutoScrollMinSize = new System.Drawing.Size(154, 14);
             this.fastColoredTextBoxMetadataWriteTags.BackBrush = null;
             this.fastColoredTextBoxMetadataWriteTags.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.fastColoredTextBoxMetadataWriteTags.CharHeight = 14;
@@ -3966,1428 +3974,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceConfig.TabIndex = 4;
             this.kryptonWorkspaceConfig.TabStop = true;
             // 
-            // kryptonPageApplication
-            // 
-            this.kryptonPageApplication.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageApplication.Controls.Add(this.kryptonWorkspaceConfigApplication);
-            this.kryptonPageApplication.Flags = 65534;
-            this.kryptonPageApplication.LastVisibleSet = true;
-            this.kryptonPageApplication.MinimumSize = new System.Drawing.Size(50, 50);
-            this.kryptonPageApplication.Name = "kryptonPageApplication";
-            this.kryptonPageApplication.Size = new System.Drawing.Size(873, 493);
-            this.kryptonPageApplication.Text = "Application";
-            this.kryptonPageApplication.ToolTipTitle = "Page ToolTip";
-            this.kryptonPageApplication.UniqueName = "c215c1585f354e12bb77a1549ead7e7c";
-            // 
-            // kryptonWorkspaceConfigApplication
-            // 
-            this.kryptonWorkspaceConfigApplication.ActivePage = this.kryptonPageApplicationThumbnail;
-            this.kryptonWorkspaceConfigApplication.AllowPageDrag = false;
-            this.kryptonWorkspaceConfigApplication.ContextMenus.ShowContextMenu = false;
-            this.kryptonWorkspaceConfigApplication.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kryptonWorkspaceConfigApplication.Location = new System.Drawing.Point(0, 0);
-            this.kryptonWorkspaceConfigApplication.Name = "kryptonWorkspaceConfigApplication";
-            // 
-            // 
-            // 
-            this.kryptonWorkspaceConfigApplication.Root.Children.AddRange(new System.ComponentModel.Component[] {
-            this.kryptonWorkspaceCellApplication});
-            this.kryptonWorkspaceConfigApplication.Root.UniqueName = "521b7cae8fa74ef7b9e0bd987fac84ec";
-            this.kryptonWorkspaceConfigApplication.Root.WorkspaceControl = this.kryptonWorkspaceConfigApplication;
-            this.kryptonWorkspaceConfigApplication.SeparatorStyle = Krypton.Toolkit.SeparatorStyle.HighProfile;
-            this.kryptonWorkspaceConfigApplication.Size = new System.Drawing.Size(873, 493);
-            this.kryptonWorkspaceConfigApplication.TabIndex = 0;
-            this.kryptonWorkspaceConfigApplication.TabStop = true;
-            // 
-            // kryptonPageApplicationThumbnail
-            // 
-            this.kryptonPageApplicationThumbnail.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageApplicationThumbnail.Controls.Add(this.tableLayoutPanel1);
-            this.kryptonPageApplicationThumbnail.Flags = 65534;
-            this.kryptonPageApplicationThumbnail.LastVisibleSet = true;
-            this.kryptonPageApplicationThumbnail.MinimumSize = new System.Drawing.Size(50, 50);
-            this.kryptonPageApplicationThumbnail.Name = "kryptonPageApplicationThumbnail";
-            this.kryptonPageApplicationThumbnail.Size = new System.Drawing.Size(692, 491);
-            this.kryptonPageApplicationThumbnail.Text = "Thumbnail";
-            this.kryptonPageApplicationThumbnail.ToolTipTitle = "Page ToolTip";
-            this.kryptonPageApplicationThumbnail.UniqueName = "533a958d219a47959b59a1e3163ef8df";
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.AutoSize = true;
-            this.tableLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
-            this.tableLayoutPanel1.ColumnCount = 3;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Controls.Add(this.labelApplicationPosterThumbnailSize, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.labelApplicationRegionThumbnailSizeDescription, 2, 1);
-            this.tableLayoutPanel1.Controls.Add(this.labelApplicationRegionThumbnailSize, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.labelApplicationPosterThumbnailSizeDescription, 2, 0);
-            this.tableLayoutPanel1.Controls.Add(this.comboBoxApplicationThumbnailSizes, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.comboBoxApplicationRegionThumbnailSizes, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.labelApplicationThumbnailSizeHelp, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.kryptonLabel4, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.kryptonNumericUpDownApplicationGroupSizeRenameNames, 1, 3);
-            this.tableLayoutPanel1.Controls.Add(this.kryptonLabel5, 2, 3);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 4;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(692, 491);
-            this.tableLayoutPanel1.TabIndex = 8;
-            // 
-            // kryptonLabel4
-            // 
-            this.kryptonLabel4.Location = new System.Drawing.Point(3, 99);
-            this.kryptonLabel4.Name = "kryptonLabel4";
-            this.kryptonLabel4.Size = new System.Drawing.Size(71, 20);
-            this.kryptonLabel4.TabIndex = 8;
-            this.kryptonLabel4.Values.Text = "Group size:";
-            // 
-            // kryptonNumericUpDownApplicationGroupSizeRenameNames
-            // 
-            this.kryptonNumericUpDownApplicationGroupSizeRenameNames.Location = new System.Drawing.Point(183, 99);
-            this.kryptonNumericUpDownApplicationGroupSizeRenameNames.Maximum = new decimal(new int[] {
-            50,
-            0,
-            0,
-            0});
-            this.kryptonNumericUpDownApplicationGroupSizeRenameNames.Minimum = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
-            this.kryptonNumericUpDownApplicationGroupSizeRenameNames.Name = "kryptonNumericUpDownApplicationGroupSizeRenameNames";
-            this.kryptonNumericUpDownApplicationGroupSizeRenameNames.Size = new System.Drawing.Size(120, 22);
-            this.kryptonNumericUpDownApplicationGroupSizeRenameNames.TabIndex = 9;
-            this.kryptonNumericUpDownApplicationGroupSizeRenameNames.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            // 
-            // kryptonLabel5
-            // 
-            this.kryptonLabel5.Location = new System.Drawing.Point(363, 99);
-            this.kryptonLabel5.Name = "kryptonLabel5";
-            this.kryptonLabel5.Size = new System.Drawing.Size(221, 36);
-            this.kryptonLabel5.TabIndex = 10;
-            this.kryptonLabel5.Values.Text = "In People / \"Rename all\" Contextmenu, \r\ngroup names by count of names";
-            // 
-            // kryptonWorkspaceCellApplication
-            // 
-            this.kryptonWorkspaceCellApplication.AllowPageDrag = true;
-            this.kryptonWorkspaceCellApplication.AllowPageReorder = false;
-            this.kryptonWorkspaceCellApplication.AllowTabFocus = false;
-            this.kryptonWorkspaceCellApplication.Bar.BarOrientation = Krypton.Toolkit.VisualOrientation.Left;
-            this.kryptonWorkspaceCellApplication.Bar.ItemOrientation = Krypton.Toolkit.ButtonOrientation.FixedTop;
-            this.kryptonWorkspaceCellApplication.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
-            this.kryptonWorkspaceCellApplication.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
-            this.kryptonWorkspaceCellApplication.Name = "kryptonWorkspaceCellApplication";
-            this.kryptonWorkspaceCellApplication.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
-            this.kryptonPageApplicationThumbnail,
-            this.kryptonPageApplicationNominatim,
-            this.kryptonPageApplicationSearch,
-            this.kryptonPageApplicationRegionSuggestion,
-            this.kryptonPageRegionAccuracy,
-            this.kryptonPageApplicationCloudAndVirtualFiles,
-            this.kryptonPageApplicationGPSLocationAccuracy,
-            this.kryptonPageAppliactionDateTimeFormatsInFilenamesHelp,
-            this.kryptonPageApplicationDateAndTimeInFilenames,
-            this.kryptonPageThemes});
-            this.kryptonWorkspaceCellApplication.SelectedIndex = 0;
-            this.kryptonWorkspaceCellApplication.UniqueName = "509b106994a8437cbec6056b8eeed6d9";
-            // 
-            // kryptonPageApplicationNominatim
-            // 
-            this.kryptonPageApplicationNominatim.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageApplicationNominatim.Controls.Add(this.tableLayoutPanel2);
-            this.kryptonPageApplicationNominatim.Flags = 65534;
-            this.kryptonPageApplicationNominatim.LastVisibleSet = true;
-            this.kryptonPageApplicationNominatim.MinimumSize = new System.Drawing.Size(50, 50);
-            this.kryptonPageApplicationNominatim.Name = "kryptonPageApplicationNominatim";
-            this.kryptonPageApplicationNominatim.Size = new System.Drawing.Size(685, 514);
-            this.kryptonPageApplicationNominatim.Text = "Nominatim look-up";
-            this.kryptonPageApplicationNominatim.ToolTipTitle = "Page ToolTip";
-            this.kryptonPageApplicationNominatim.UniqueName = "73c2d6e844994988959c446a2bf05e6b";
-            // 
-            // tableLayoutPanel2
-            // 
-            this.tableLayoutPanel2.AutoSize = true;
-            this.tableLayoutPanel2.BackColor = System.Drawing.Color.Transparent;
-            this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel2.Controls.Add(this.labelApplicationNominatimTitle, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.labelApplicationNominatimPreferredLanguagesHelp, 1, 3);
-            this.tableLayoutPanel2.Controls.Add(this.comboBoxApplicationLanguages, 1, 1);
-            this.tableLayoutPanel2.Controls.Add(this.textBoxApplicationPreferredLanguages, 1, 2);
-            this.tableLayoutPanel2.Controls.Add(this.labelApplicationPreferredLanguages, 0, 2);
-            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 4;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(685, 514);
-            this.tableLayoutPanel2.TabIndex = 7;
-            // 
-            // kryptonPageApplicationSearch
-            // 
-            this.kryptonPageApplicationSearch.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageApplicationSearch.Controls.Add(this.tableLayoutPanel3);
-            this.kryptonPageApplicationSearch.Flags = 65534;
-            this.kryptonPageApplicationSearch.LastVisibleSet = true;
-            this.kryptonPageApplicationSearch.MinimumSize = new System.Drawing.Size(50, 50);
-            this.kryptonPageApplicationSearch.Name = "kryptonPageApplicationSearch";
-            this.kryptonPageApplicationSearch.Size = new System.Drawing.Size(685, 514);
-            this.kryptonPageApplicationSearch.Text = "Search";
-            this.kryptonPageApplicationSearch.ToolTipTitle = "Page ToolTip";
-            this.kryptonPageApplicationSearch.UniqueName = "27a2ac3290f04f38a1a52296e9f1903b";
-            // 
-            // tableLayoutPanel3
-            // 
-            this.tableLayoutPanel3.BackColor = System.Drawing.Color.Transparent;
-            this.tableLayoutPanel3.ColumnCount = 2;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel3.Controls.Add(this.labelApplicationSearch, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.numericUpDownApplicationMaxRowsInSearchResult, 1, 0);
-            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 1;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(685, 514);
-            this.tableLayoutPanel3.TabIndex = 1;
-            // 
-            // kryptonPageApplicationRegionSuggestion
-            // 
-            this.kryptonPageApplicationRegionSuggestion.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageApplicationRegionSuggestion.Controls.Add(this.tableLayoutPanel4);
-            this.kryptonPageApplicationRegionSuggestion.Flags = 65534;
-            this.kryptonPageApplicationRegionSuggestion.LastVisibleSet = true;
-            this.kryptonPageApplicationRegionSuggestion.MinimumSize = new System.Drawing.Size(50, 50);
-            this.kryptonPageApplicationRegionSuggestion.Name = "kryptonPageApplicationRegionSuggestion";
-            this.kryptonPageApplicationRegionSuggestion.Size = new System.Drawing.Size(685, 514);
-            this.kryptonPageApplicationRegionSuggestion.Text = "Region suggestion ";
-            this.kryptonPageApplicationRegionSuggestion.ToolTipTitle = "Page ToolTip";
-            this.kryptonPageApplicationRegionSuggestion.UniqueName = "91d103da57554355ad508c89fe569a44";
-            // 
-            // tableLayoutPanel4
-            // 
-            this.tableLayoutPanel4.BackColor = System.Drawing.Color.Transparent;
-            this.tableLayoutPanel4.ColumnCount = 3;
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel4.Controls.Add(this.labelApplicationNumberOfDays, 0, 0);
-            this.tableLayoutPanel4.Controls.Add(this.labelApplicationNumberOfMostCommonDescription, 2, 1);
-            this.tableLayoutPanel4.Controls.Add(this.labelApplicationNumberOfMostCommon, 0, 1);
-            this.tableLayoutPanel4.Controls.Add(this.labelApplicationNumberOfDaysDescription, 2, 0);
-            this.tableLayoutPanel4.Controls.Add(this.numericUpDownPeopleSuggestNameDaysInterval, 1, 0);
-            this.tableLayoutPanel4.Controls.Add(this.numericUpDownPeopleSuggestNameTopMost, 1, 1);
-            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
-            this.tableLayoutPanel4.RowCount = 2;
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(685, 100);
-            this.tableLayoutPanel4.TabIndex = 12;
-            // 
-            // kryptonPageRegionAccuracy
-            // 
-            this.kryptonPageRegionAccuracy.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageRegionAccuracy.Controls.Add(this.tableLayoutPanel5);
-            this.kryptonPageRegionAccuracy.Flags = 65534;
-            this.kryptonPageRegionAccuracy.LastVisibleSet = true;
-            this.kryptonPageRegionAccuracy.MinimumSize = new System.Drawing.Size(50, 50);
-            this.kryptonPageRegionAccuracy.Name = "kryptonPageRegionAccuracy";
-            this.kryptonPageRegionAccuracy.Size = new System.Drawing.Size(685, 514);
-            this.kryptonPageRegionAccuracy.Text = "Region accuracy";
-            this.kryptonPageRegionAccuracy.ToolTipTitle = "Page ToolTip";
-            this.kryptonPageRegionAccuracy.UniqueName = "eb580b8b963e42cc8c659a3987162706";
-            // 
-            // tableLayoutPanel5
-            // 
-            this.tableLayoutPanel5.BackColor = System.Drawing.Color.Transparent;
-            this.tableLayoutPanel5.ColumnCount = 3;
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel5.Controls.Add(this.labelApplicationRegionAccuracy, 0, 1);
-            this.tableLayoutPanel5.Controls.Add(this.labelApplicationRegionAccuracyHelp, 2, 0);
-            this.tableLayoutPanel5.Controls.Add(this.labelApplicationRegionAccuracyDescription, 2, 1);
-            this.tableLayoutPanel5.Controls.Add(this.numericUpDownRegionMissmatchProcent, 1, 1);
-            this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel5.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
-            this.tableLayoutPanel5.RowCount = 2;
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(685, 514);
-            this.tableLayoutPanel5.TabIndex = 4;
-            // 
-            // kryptonPageApplicationCloudAndVirtualFiles
-            // 
-            this.kryptonPageApplicationCloudAndVirtualFiles.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageApplicationCloudAndVirtualFiles.Controls.Add(this.tableLayoutPanel6);
-            this.kryptonPageApplicationCloudAndVirtualFiles.Flags = 65534;
-            this.kryptonPageApplicationCloudAndVirtualFiles.LastVisibleSet = true;
-            this.kryptonPageApplicationCloudAndVirtualFiles.MinimumSize = new System.Drawing.Size(50, 50);
-            this.kryptonPageApplicationCloudAndVirtualFiles.Name = "kryptonPageApplicationCloudAndVirtualFiles";
-            this.kryptonPageApplicationCloudAndVirtualFiles.Size = new System.Drawing.Size(685, 514);
-            this.kryptonPageApplicationCloudAndVirtualFiles.Text = "Cloud and Virual files";
-            this.kryptonPageApplicationCloudAndVirtualFiles.ToolTipTitle = "Page ToolTip";
-            this.kryptonPageApplicationCloudAndVirtualFiles.UniqueName = "0267042819a846f3ab4e9b312d1e09bc";
-            // 
-            // tableLayoutPanel6
-            // 
-            this.tableLayoutPanel6.BackColor = System.Drawing.Color.Transparent;
-            this.tableLayoutPanel6.ColumnCount = 1;
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel6.Controls.Add(this.checkBoxApplicationAvoidReadMediaFromCloud, 0, 0);
-            this.tableLayoutPanel6.Controls.Add(this.checkBoxApplicationImageListViewCacheModeOnDemand, 0, 2);
-            this.tableLayoutPanel6.Controls.Add(this.checkBoxApplicationAvoidReadExifFromCloud, 0, 1);
-            this.tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel6.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
-            this.tableLayoutPanel6.RowCount = 3;
-            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(685, 514);
-            this.tableLayoutPanel6.TabIndex = 3;
-            // 
-            // kryptonPageApplicationGPSLocationAccuracy
-            // 
-            this.kryptonPageApplicationGPSLocationAccuracy.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageApplicationGPSLocationAccuracy.Controls.Add(this.tableLayoutPanel7);
-            this.kryptonPageApplicationGPSLocationAccuracy.Flags = 65534;
-            this.kryptonPageApplicationGPSLocationAccuracy.LastVisibleSet = true;
-            this.kryptonPageApplicationGPSLocationAccuracy.MinimumSize = new System.Drawing.Size(50, 50);
-            this.kryptonPageApplicationGPSLocationAccuracy.Name = "kryptonPageApplicationGPSLocationAccuracy";
-            this.kryptonPageApplicationGPSLocationAccuracy.Size = new System.Drawing.Size(685, 514);
-            this.kryptonPageApplicationGPSLocationAccuracy.Text = "GPS Location Accuracy";
-            this.kryptonPageApplicationGPSLocationAccuracy.ToolTipTitle = "Page ToolTip";
-            this.kryptonPageApplicationGPSLocationAccuracy.UniqueName = "ee40c1ac2a5048c386af9eac94b1a48d";
-            // 
-            // tableLayoutPanel7
-            // 
-            this.tableLayoutPanel7.BackColor = System.Drawing.Color.Transparent;
-            this.tableLayoutPanel7.ColumnCount = 3;
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel7.Controls.Add(this.labelApplicationAccuracyLonftitude, 0, 2);
-            this.tableLayoutPanel7.Controls.Add(this.labelApplicationGPSLocationAccuracy, 2, 0);
-            this.tableLayoutPanel7.Controls.Add(this.labelApplicationAccuracyLatitude, 0, 1);
-            this.tableLayoutPanel7.Controls.Add(this.numericUpDownLocationAccuracyLongitude, 1, 2);
-            this.tableLayoutPanel7.Controls.Add(this.numericUpDownLocationAccuracyLatitude, 1, 1);
-            this.tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel7.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel7.Name = "tableLayoutPanel7";
-            this.tableLayoutPanel7.RowCount = 3;
-            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel7.Size = new System.Drawing.Size(685, 514);
-            this.tableLayoutPanel7.TabIndex = 5;
-            // 
-            // kryptonPageApplicationDateAndTimeInFilenames
-            // 
-            this.kryptonPageApplicationDateAndTimeInFilenames.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageApplicationDateAndTimeInFilenames.Controls.Add(this.fastColoredTextBoxConfigFilenameDateFormats);
-            this.kryptonPageApplicationDateAndTimeInFilenames.Flags = 65534;
-            this.kryptonPageApplicationDateAndTimeInFilenames.LastVisibleSet = true;
-            this.kryptonPageApplicationDateAndTimeInFilenames.MinimumSize = new System.Drawing.Size(50, 50);
-            this.kryptonPageApplicationDateAndTimeInFilenames.Name = "kryptonPageApplicationDateAndTimeInFilenames";
-            this.kryptonPageApplicationDateAndTimeInFilenames.Size = new System.Drawing.Size(680, 491);
-            this.kryptonPageApplicationDateAndTimeInFilenames.Text = "DateTime formats in filenames";
-            this.kryptonPageApplicationDateAndTimeInFilenames.ToolTipTitle = "Page ToolTip";
-            this.kryptonPageApplicationDateAndTimeInFilenames.UniqueName = "9005463b04cf40ed9c256d2baa999bba";
-            // 
-            // kryptonPageAppliactionDateTimeFormatsInFilenamesHelp
-            // 
-            this.kryptonPageAppliactionDateTimeFormatsInFilenamesHelp.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageAppliactionDateTimeFormatsInFilenamesHelp.Controls.Add(this.textBoxApplicationDateTimeFormatHelp);
-            this.kryptonPageAppliactionDateTimeFormatsInFilenamesHelp.Flags = 65534;
-            this.kryptonPageAppliactionDateTimeFormatsInFilenamesHelp.LastVisibleSet = true;
-            this.kryptonPageAppliactionDateTimeFormatsInFilenamesHelp.MinimumSize = new System.Drawing.Size(50, 50);
-            this.kryptonPageAppliactionDateTimeFormatsInFilenamesHelp.Name = "kryptonPageAppliactionDateTimeFormatsInFilenamesHelp";
-            this.kryptonPageAppliactionDateTimeFormatsInFilenamesHelp.Size = new System.Drawing.Size(692, 491);
-            this.kryptonPageAppliactionDateTimeFormatsInFilenamesHelp.Text = "DateTime formats help";
-            this.kryptonPageAppliactionDateTimeFormatsInFilenamesHelp.ToolTipTitle = "Page ToolTip";
-            this.kryptonPageAppliactionDateTimeFormatsInFilenamesHelp.UniqueName = "6e2d844a426a4ac6beb646b2829aaf0e";
-            // 
-            // kryptonPageThemes
-            // 
-            this.kryptonPageThemes.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageThemes.Controls.Add(this.kryptonWorkspaceApplicationThemes);
-            this.kryptonPageThemes.Flags = 65534;
-            this.kryptonPageThemes.LastVisibleSet = true;
-            this.kryptonPageThemes.MinimumSize = new System.Drawing.Size(50, 50);
-            this.kryptonPageThemes.Name = "kryptonPageThemes";
-            this.kryptonPageThemes.Size = new System.Drawing.Size(685, 514);
-            this.kryptonPageThemes.Text = "Themes";
-            this.kryptonPageThemes.ToolTipTitle = "Page ToolTip";
-            this.kryptonPageThemes.UniqueName = "b2d4daf37cae46659ec6648c4ae005e4";
-            // 
-            // kryptonWorkspaceApplicationThemes
-            // 
-            this.kryptonWorkspaceApplicationThemes.ActivePage = this.kryptonPageApplicationThemesSelect;
-            this.kryptonWorkspaceApplicationThemes.AllowPageDrag = false;
-            this.kryptonWorkspaceApplicationThemes.ContextMenus.ShowContextMenu = false;
-            this.kryptonWorkspaceApplicationThemes.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kryptonWorkspaceApplicationThemes.Location = new System.Drawing.Point(0, 0);
-            this.kryptonWorkspaceApplicationThemes.Name = "kryptonWorkspaceApplicationThemes";
-            // 
-            // 
-            // 
-            this.kryptonWorkspaceApplicationThemes.Root.Children.AddRange(new System.ComponentModel.Component[] {
-            this.kryptonWorkspaceCellApplicationThemesSelect,
-            this.kryptonWorkspaceCellApplicationThemesPreview,
-            this.kryptonWorkspaceCellApplicationThemesProperties});
-            this.kryptonWorkspaceApplicationThemes.Root.UniqueName = "356dac622a92491b8e537305cfe3c2ac";
-            this.kryptonWorkspaceApplicationThemes.Root.WorkspaceControl = this.kryptonWorkspaceApplicationThemes;
-            this.kryptonWorkspaceApplicationThemes.SeparatorStyle = Krypton.Toolkit.SeparatorStyle.HighProfile;
-            this.kryptonWorkspaceApplicationThemes.Size = new System.Drawing.Size(685, 514);
-            this.kryptonWorkspaceApplicationThemes.TabIndex = 13;
-            this.kryptonWorkspaceApplicationThemes.TabStop = true;
-            // 
-            // kryptonPageApplicationThemesSelect
-            // 
-            this.kryptonPageApplicationThemesSelect.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageApplicationThemesSelect.Controls.Add(this.C);
-            this.kryptonPageApplicationThemesSelect.Flags = 65534;
-            this.kryptonPageApplicationThemesSelect.LastVisibleSet = true;
-            this.kryptonPageApplicationThemesSelect.MinimumSize = new System.Drawing.Size(50, 50);
-            this.kryptonPageApplicationThemesSelect.Name = "kryptonPageApplicationThemesSelect";
-            this.kryptonPageApplicationThemesSelect.Size = new System.Drawing.Size(168, 461);
-            this.kryptonPageApplicationThemesSelect.Text = "Themes";
-            this.kryptonPageApplicationThemesSelect.TextDescription = "Select, Import and export Themes";
-            this.kryptonPageApplicationThemesSelect.TextTitle = "Themes";
-            this.kryptonPageApplicationThemesSelect.ToolTipTitle = "Page ToolTip";
-            this.kryptonPageApplicationThemesSelect.UniqueName = "0e93300d641c4e4e8207572c84f0acc7";
-            // 
-            // C
-            // 
-            this.C.AutoScroll = true;
-            this.C.BackColor = System.Drawing.Color.Transparent;
-            this.C.ColumnCount = 1;
-            this.C.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.C.Controls.Add(this.buttonSparklePurple, 0, 21);
-            this.C.Controls.Add(this.buttonSparkleOrange, 0, 20);
-            this.C.Controls.Add(this.buttonOffice2007White, 0, 17);
-            this.C.Controls.Add(this.buttonOffice2010White, 0, 13);
-            this.C.Controls.Add(this.buttonSparkleBlue, 0, 19);
-            this.C.Controls.Add(this.buttonOffice365White, 0, 9);
-            this.C.Controls.Add(this.buttonOffice2003, 0, 18);
-            this.C.Controls.Add(this.kryptonButtonApplicationThemesExport, 0, 0);
-            this.C.Controls.Add(this.buttonOffice2010Silver, 0, 12);
-            this.C.Controls.Add(this.buttonOffice2007Silver, 0, 16);
-            this.C.Controls.Add(this.buttonOffice2007Black, 0, 14);
-            this.C.Controls.Add(this.buttonOffice2007Blue, 0, 15);
-            this.C.Controls.Add(this.buttonOffice2010Black, 0, 10);
-            this.C.Controls.Add(this.buttonOffice2010Blue, 0, 11);
-            this.C.Controls.Add(this.buttonOffice365Silver, 0, 8);
-            this.C.Controls.Add(this.buttonOffice365Black, 0, 6);
-            this.C.Controls.Add(this.buttonOffice365Blue, 0, 7);
-            this.C.Controls.Add(this.kryptonButtonApplicationThemesImport, 0, 1);
-            this.C.Controls.Add(this.buttonSystem, 0, 2);
-            this.C.Controls.Add(this.buttonDarkMode, 0, 3);
-            this.C.Controls.Add(this.buttonOffice2013White, 0, 5);
-            this.C.Controls.Add(this.buttonOffice2013, 0, 4);
-            this.C.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.C.Location = new System.Drawing.Point(0, 0);
-            this.C.Name = "C";
-            this.C.RowCount = 23;
-            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.C.Size = new System.Drawing.Size(168, 461);
-            this.C.TabIndex = 4;
-            // 
-            // buttonSparklePurple
-            // 
-            this.buttonSparklePurple.Location = new System.Drawing.Point(3, 692);
-            this.buttonSparklePurple.Name = "buttonSparklePurple";
-            this.buttonSparklePurple.Size = new System.Drawing.Size(138, 27);
-            this.buttonSparklePurple.TabIndex = 21;
-            this.buttonSparklePurple.Values.Text = "Sparkle - Purple";
-            this.buttonSparklePurple.Click += new System.EventHandler(this.buttonSparklePurple_Click);
-            // 
-            // buttonSparkleOrange
-            // 
-            this.buttonSparkleOrange.Location = new System.Drawing.Point(3, 659);
-            this.buttonSparkleOrange.Name = "buttonSparkleOrange";
-            this.buttonSparkleOrange.Size = new System.Drawing.Size(138, 27);
-            this.buttonSparkleOrange.TabIndex = 20;
-            this.buttonSparkleOrange.Values.Text = "Sparkle - Orange";
-            this.buttonSparkleOrange.Click += new System.EventHandler(this.buttonSparkleOrange_Click);
-            // 
-            // buttonOffice2007White
-            // 
-            this.buttonOffice2007White.Location = new System.Drawing.Point(3, 560);
-            this.buttonOffice2007White.Name = "buttonOffice2007White";
-            this.buttonOffice2007White.Size = new System.Drawing.Size(138, 27);
-            this.buttonOffice2007White.TabIndex = 24;
-            this.buttonOffice2007White.Values.Text = "Office 2007 - White";
-            this.buttonOffice2007White.Click += new System.EventHandler(this.buttonOffice2007White_Click);
-            // 
-            // buttonOffice2010White
-            // 
-            this.buttonOffice2010White.Location = new System.Drawing.Point(3, 428);
-            this.buttonOffice2010White.Name = "buttonOffice2010White";
-            this.buttonOffice2010White.Size = new System.Drawing.Size(138, 27);
-            this.buttonOffice2010White.TabIndex = 26;
-            this.buttonOffice2010White.Values.Text = "Office 2010 - White";
-            this.buttonOffice2010White.Click += new System.EventHandler(this.buttonOffice2010White_Click);
-            // 
-            // buttonSparkleBlue
-            // 
-            this.buttonSparkleBlue.Location = new System.Drawing.Point(3, 626);
-            this.buttonSparkleBlue.Name = "buttonSparkleBlue";
-            this.buttonSparkleBlue.Size = new System.Drawing.Size(138, 27);
-            this.buttonSparkleBlue.TabIndex = 19;
-            this.buttonSparkleBlue.Values.Text = "Sparkle - Blue";
-            this.buttonSparkleBlue.Click += new System.EventHandler(this.buttonSparkleBlue_Click);
-            // 
-            // buttonOffice365White
-            // 
-            this.buttonOffice365White.Location = new System.Drawing.Point(3, 296);
-            this.buttonOffice365White.Name = "buttonOffice365White";
-            this.buttonOffice365White.Size = new System.Drawing.Size(138, 27);
-            this.buttonOffice365White.TabIndex = 32;
-            this.buttonOffice365White.Values.Text = "Office 365 - White";
-            this.buttonOffice365White.Click += new System.EventHandler(this.buttonOffice365White_Click);
-            // 
-            // buttonOffice2003
-            // 
-            this.buttonOffice2003.Location = new System.Drawing.Point(3, 593);
-            this.buttonOffice2003.Name = "buttonOffice2003";
-            this.buttonOffice2003.Size = new System.Drawing.Size(138, 27);
-            this.buttonOffice2003.TabIndex = 18;
-            this.buttonOffice2003.Values.Text = "Office 2003";
-            this.buttonOffice2003.Click += new System.EventHandler(this.buttonOffice2003_Click);
-            // 
-            // kryptonButtonApplicationThemesExport
-            // 
-            this.kryptonButtonApplicationThemesExport.Location = new System.Drawing.Point(2, 2);
-            this.kryptonButtonApplicationThemesExport.Margin = new System.Windows.Forms.Padding(2);
-            this.kryptonButtonApplicationThemesExport.Name = "kryptonButtonApplicationThemesExport";
-            this.kryptonButtonApplicationThemesExport.Size = new System.Drawing.Size(138, 27);
-            this.kryptonButtonApplicationThemesExport.TabIndex = 3;
-            this.kryptonButtonApplicationThemesExport.Values.Text = "Export Theme";
-            this.kryptonButtonApplicationThemesExport.Click += new System.EventHandler(this.kryptonButtonApplicationThemesExport_Click);
-            // 
-            // buttonOffice2010Silver
-            // 
-            this.buttonOffice2010Silver.Location = new System.Drawing.Point(3, 395);
-            this.buttonOffice2010Silver.Name = "buttonOffice2010Silver";
-            this.buttonOffice2010Silver.Size = new System.Drawing.Size(138, 27);
-            this.buttonOffice2010Silver.TabIndex = 13;
-            this.buttonOffice2010Silver.Values.Text = "Office 2010 - Silver";
-            this.buttonOffice2010Silver.Click += new System.EventHandler(this.buttonOffice2010Silver_Click);
-            // 
-            // buttonOffice2007Silver
-            // 
-            this.buttonOffice2007Silver.Location = new System.Drawing.Point(3, 527);
-            this.buttonOffice2007Silver.Name = "buttonOffice2007Silver";
-            this.buttonOffice2007Silver.Size = new System.Drawing.Size(138, 27);
-            this.buttonOffice2007Silver.TabIndex = 16;
-            this.buttonOffice2007Silver.Values.Text = "Office 2007 - Silver";
-            this.buttonOffice2007Silver.Click += new System.EventHandler(this.buttonOffice2007Silver_Click);
-            // 
-            // buttonOffice2007Black
-            // 
-            this.buttonOffice2007Black.Location = new System.Drawing.Point(3, 461);
-            this.buttonOffice2007Black.Name = "buttonOffice2007Black";
-            this.buttonOffice2007Black.Size = new System.Drawing.Size(138, 27);
-            this.buttonOffice2007Black.TabIndex = 17;
-            this.buttonOffice2007Black.Values.Text = "Office 2007 - Black";
-            this.buttonOffice2007Black.Click += new System.EventHandler(this.buttonOffice2007Black_Click);
-            // 
-            // buttonOffice2007Blue
-            // 
-            this.buttonOffice2007Blue.Location = new System.Drawing.Point(3, 494);
-            this.buttonOffice2007Blue.Name = "buttonOffice2007Blue";
-            this.buttonOffice2007Blue.Size = new System.Drawing.Size(138, 27);
-            this.buttonOffice2007Blue.TabIndex = 15;
-            this.buttonOffice2007Blue.Values.Text = "Office 2007 - Blue";
-            this.buttonOffice2007Blue.Click += new System.EventHandler(this.buttonOffice2007Blue_Click);
-            // 
-            // buttonOffice2010Black
-            // 
-            this.buttonOffice2010Black.Location = new System.Drawing.Point(3, 329);
-            this.buttonOffice2010Black.Name = "buttonOffice2010Black";
-            this.buttonOffice2010Black.Size = new System.Drawing.Size(138, 27);
-            this.buttonOffice2010Black.TabIndex = 14;
-            this.buttonOffice2010Black.Values.Text = "Office 2010 - Black";
-            this.buttonOffice2010Black.Click += new System.EventHandler(this.buttonOffice2010Black_Click);
-            // 
-            // buttonOffice2010Blue
-            // 
-            this.buttonOffice2010Blue.Location = new System.Drawing.Point(3, 362);
-            this.buttonOffice2010Blue.Name = "buttonOffice2010Blue";
-            this.buttonOffice2010Blue.Size = new System.Drawing.Size(138, 27);
-            this.buttonOffice2010Blue.TabIndex = 12;
-            this.buttonOffice2010Blue.Values.Text = "Office 2010 - Blue";
-            this.buttonOffice2010Blue.Click += new System.EventHandler(this.buttonOffice2010Blue_Click);
-            // 
-            // buttonOffice365Silver
-            // 
-            this.buttonOffice365Silver.Location = new System.Drawing.Point(3, 263);
-            this.buttonOffice365Silver.Name = "buttonOffice365Silver";
-            this.buttonOffice365Silver.Size = new System.Drawing.Size(138, 27);
-            this.buttonOffice365Silver.TabIndex = 30;
-            this.buttonOffice365Silver.Values.Text = "Office 365 - Silver";
-            this.buttonOffice365Silver.Click += new System.EventHandler(this.buttonOffice365Silver_Click);
-            // 
-            // buttonOffice365Black
-            // 
-            this.buttonOffice365Black.Location = new System.Drawing.Point(3, 197);
-            this.buttonOffice365Black.Name = "buttonOffice365Black";
-            this.buttonOffice365Black.Size = new System.Drawing.Size(138, 27);
-            this.buttonOffice365Black.TabIndex = 31;
-            this.buttonOffice365Black.Values.Text = "Office 365 - Black";
-            this.buttonOffice365Black.Click += new System.EventHandler(this.buttonOffice365Black_Click);
-            // 
-            // buttonOffice365Blue
-            // 
-            this.buttonOffice365Blue.Location = new System.Drawing.Point(3, 230);
-            this.buttonOffice365Blue.Name = "buttonOffice365Blue";
-            this.buttonOffice365Blue.Size = new System.Drawing.Size(138, 27);
-            this.buttonOffice365Blue.TabIndex = 29;
-            this.buttonOffice365Blue.Values.Text = "Office 365 - Blue";
-            this.buttonOffice365Blue.Click += new System.EventHandler(this.buttonOffice365Blue_Click);
-            // 
-            // kryptonButtonApplicationThemesImport
-            // 
-            this.kryptonButtonApplicationThemesImport.Location = new System.Drawing.Point(2, 33);
-            this.kryptonButtonApplicationThemesImport.Margin = new System.Windows.Forms.Padding(2);
-            this.kryptonButtonApplicationThemesImport.Name = "kryptonButtonApplicationThemesImport";
-            this.kryptonButtonApplicationThemesImport.Size = new System.Drawing.Size(138, 27);
-            this.kryptonButtonApplicationThemesImport.TabIndex = 4;
-            this.kryptonButtonApplicationThemesImport.Values.Text = "Import Theme";
-            this.kryptonButtonApplicationThemesImport.Click += new System.EventHandler(this.kryptonButtonApplicationThemesImport_Click);
-            // 
-            // buttonSystem
-            // 
-            this.buttonSystem.Location = new System.Drawing.Point(3, 65);
-            this.buttonSystem.Name = "buttonSystem";
-            this.buttonSystem.Size = new System.Drawing.Size(138, 27);
-            this.buttonSystem.TabIndex = 22;
-            this.buttonSystem.Values.Text = "System";
-            this.buttonSystem.Click += new System.EventHandler(this.buttonSystem_Click);
-            // 
-            // buttonDarkMode
-            // 
-            this.buttonDarkMode.Location = new System.Drawing.Point(3, 98);
-            this.buttonDarkMode.Name = "buttonDarkMode";
-            this.buttonDarkMode.Size = new System.Drawing.Size(138, 27);
-            this.buttonDarkMode.TabIndex = 25;
-            this.buttonDarkMode.Values.Text = "Dark mode";
-            this.buttonDarkMode.Click += new System.EventHandler(this.buttonDarkMode_Click);
-            // 
-            // buttonOffice2013White
-            // 
-            this.buttonOffice2013White.Location = new System.Drawing.Point(3, 164);
-            this.buttonOffice2013White.Name = "buttonOffice2013White";
-            this.buttonOffice2013White.Size = new System.Drawing.Size(138, 27);
-            this.buttonOffice2013White.TabIndex = 28;
-            this.buttonOffice2013White.Values.Text = "Office 2013 White";
-            this.buttonOffice2013White.Click += new System.EventHandler(this.buttonOffice2013White_Click);
-            // 
-            // buttonOffice2013
-            // 
-            this.buttonOffice2013.Location = new System.Drawing.Point(3, 131);
-            this.buttonOffice2013.Name = "buttonOffice2013";
-            this.buttonOffice2013.Size = new System.Drawing.Size(138, 27);
-            this.buttonOffice2013.TabIndex = 27;
-            this.buttonOffice2013.Values.Text = "Office 2013";
-            this.buttonOffice2013.Click += new System.EventHandler(this.buttonOffice2013_Click);
-            // 
-            // kryptonWorkspaceCellApplicationThemesSelect
-            // 
-            this.kryptonWorkspaceCellApplicationThemesSelect.AllowPageDrag = true;
-            this.kryptonWorkspaceCellApplicationThemesSelect.AllowTabFocus = false;
-            this.kryptonWorkspaceCellApplicationThemesSelect.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
-            this.kryptonWorkspaceCellApplicationThemesSelect.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
-            this.kryptonWorkspaceCellApplicationThemesSelect.Name = "kryptonWorkspaceCellApplicationThemesSelect";
-            this.kryptonWorkspaceCellApplicationThemesSelect.NavigatorMode = Krypton.Navigator.NavigatorMode.HeaderGroup;
-            this.kryptonWorkspaceCellApplicationThemesSelect.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
-            this.kryptonPageApplicationThemesSelect});
-            this.kryptonWorkspaceCellApplicationThemesSelect.SelectedIndex = 0;
-            this.kryptonWorkspaceCellApplicationThemesSelect.StarSize = "170,10*";
-            this.kryptonWorkspaceCellApplicationThemesSelect.UniqueName = "7933941339df4b21a8e5d81fb99e99af";
-            // 
-            // kryptonWorkspaceCellApplicationThemesPreview
-            // 
-            this.kryptonWorkspaceCellApplicationThemesPreview.AllowPageDrag = true;
-            this.kryptonWorkspaceCellApplicationThemesPreview.AllowTabFocus = false;
-            this.kryptonWorkspaceCellApplicationThemesPreview.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
-            this.kryptonWorkspaceCellApplicationThemesPreview.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
-            this.kryptonWorkspaceCellApplicationThemesPreview.Name = "kryptonWorkspaceCellApplicationThemesPreview";
-            this.kryptonWorkspaceCellApplicationThemesPreview.NavigatorMode = Krypton.Navigator.NavigatorMode.HeaderGroup;
-            this.kryptonWorkspaceCellApplicationThemesPreview.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
-            this.kryptonPageApplicationThemesPreview});
-            this.kryptonWorkspaceCellApplicationThemesPreview.SelectedIndex = 0;
-            this.kryptonWorkspaceCellApplicationThemesPreview.UniqueName = "9dfb0ee646c348abbb862ac0b829be3e";
-            // 
-            // kryptonPageApplicationThemesPreview
-            // 
-            this.kryptonPageApplicationThemesPreview.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageApplicationThemesPreview.Controls.Add(this.kryptonDataGridViewShowPalette);
-            this.kryptonPageApplicationThemesPreview.Controls.Add(this.kryptonButtonShowContectMenu);
-            this.kryptonPageApplicationThemesPreview.Controls.Add(this.kryptonCheckedListBox1);
-            this.kryptonPageApplicationThemesPreview.Controls.Add(this.kryptonDateTimePicker1);
-            this.kryptonPageApplicationThemesPreview.Controls.Add(this.kryptonComboBox2);
-            this.kryptonPageApplicationThemesPreview.Controls.Add(this.kryptonGroupBox1);
-            this.kryptonPageApplicationThemesPreview.Controls.Add(this.kryptonCheckButton1);
-            this.kryptonPageApplicationThemesPreview.Controls.Add(this.kryptonLabelApplicationThemesNormalLabel);
-            this.kryptonPageApplicationThemesPreview.Controls.Add(this.kryptonLabelApplicationThemesTitle);
-            this.kryptonPageApplicationThemesPreview.Controls.Add(this.kryptonButton1);
-            this.kryptonPageApplicationThemesPreview.Controls.Add(this.kryptonButton2);
-            this.kryptonPageApplicationThemesPreview.Flags = 65534;
-            this.kryptonPageApplicationThemesPreview.LastVisibleSet = true;
-            this.kryptonPageApplicationThemesPreview.MinimumSize = new System.Drawing.Size(50, 50);
-            this.kryptonPageApplicationThemesPreview.Name = "kryptonPageApplicationThemesPreview";
-            this.kryptonPageApplicationThemesPreview.Size = new System.Drawing.Size(250, 461);
-            this.kryptonPageApplicationThemesPreview.Text = "Preview";
-            this.kryptonPageApplicationThemesPreview.TextDescription = "Preview of properies changes";
-            this.kryptonPageApplicationThemesPreview.TextTitle = "Preview";
-            this.kryptonPageApplicationThemesPreview.ToolTipTitle = "Page ToolTip";
-            this.kryptonPageApplicationThemesPreview.UniqueName = "7aef3c9831484af3b4cba4008fac6852";
-            // 
-            // kryptonDataGridViewShowPalette
-            // 
-            this.kryptonDataGridViewShowPalette.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.kryptonDataGridViewShowPalette.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column1,
-            this.Column2,
-            this.Column3,
-            this.Column4,
-            this.Column5});
-            this.kryptonDataGridViewShowPalette.Location = new System.Drawing.Point(9, 333);
-            this.kryptonDataGridViewShowPalette.Name = "kryptonDataGridViewShowPalette";
-            this.kryptonDataGridViewShowPalette.RowHeadersWidth = 80;
-            this.kryptonDataGridViewShowPalette.Size = new System.Drawing.Size(235, 118);
-            this.kryptonDataGridViewShowPalette.TabIndex = 14;
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "Edit";
-            this.Column1.Name = "Column1";
-            this.Column1.Width = 50;
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "Edit";
-            this.Column2.Name = "Column2";
-            this.Column2.Width = 50;
-            // 
-            // Column3
-            // 
-            this.Column3.HeaderText = "Error";
-            this.Column3.Name = "Column3";
-            this.Column3.Width = 50;
-            // 
-            // Column4
-            // 
-            this.Column4.HeaderText = "Warning";
-            this.Column4.Name = "Column4";
-            this.Column4.Width = 50;
-            // 
-            // Column5
-            // 
-            this.Column5.HeaderText = "Image";
-            this.Column5.Name = "Column5";
-            this.Column5.Width = 50;
-            // 
-            // kryptonButtonShowContectMenu
-            // 
-            this.kryptonButtonShowContectMenu.Location = new System.Drawing.Point(20, 12);
-            this.kryptonButtonShowContectMenu.Name = "kryptonButtonShowContectMenu";
-            this.kryptonButtonShowContectMenu.Size = new System.Drawing.Size(215, 25);
-            this.kryptonButtonShowContectMenu.TabIndex = 13;
-            this.kryptonButtonShowContectMenu.Values.Text = "Show ContectMenu";
-            this.kryptonButtonShowContectMenu.Click += new System.EventHandler(this.kryptonButtonShowContectMenu_Click);
-            // 
-            // kryptonCheckedListBox1
-            // 
-            this.kryptonCheckedListBox1.Items.AddRange(new object[] {
-            "Item1",
-            "Item2",
-            "Item3"});
-            this.kryptonCheckedListBox1.Location = new System.Drawing.Point(153, 42);
-            this.kryptonCheckedListBox1.Name = "kryptonCheckedListBox1";
-            this.kryptonCheckedListBox1.Size = new System.Drawing.Size(82, 88);
-            this.kryptonCheckedListBox1.TabIndex = 12;
-            // 
-            // kryptonDateTimePicker1
-            // 
-            this.kryptonDateTimePicker1.CalendarTodayDate = new System.DateTime(2021, 9, 19, 0, 0, 0, 0);
-            this.kryptonDateTimePicker1.Location = new System.Drawing.Point(20, 111);
-            this.kryptonDateTimePicker1.Name = "kryptonDateTimePicker1";
-            this.kryptonDateTimePicker1.Size = new System.Drawing.Size(122, 21);
-            this.kryptonDateTimePicker1.TabIndex = 11;
-            // 
-            // kryptonComboBox2
-            // 
-            this.kryptonComboBox2.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.kryptonComboBox2.DropDownWidth = 121;
-            this.kryptonComboBox2.IntegralHeight = false;
-            this.kryptonComboBox2.Items.AddRange(new object[] {
-            "Item 1",
-            "Item 2 - lot of text, this is just to see a long line",
-            "Item 3"});
-            this.kryptonComboBox2.Location = new System.Drawing.Point(20, 86);
-            this.kryptonComboBox2.Name = "kryptonComboBox2";
-            this.kryptonComboBox2.Size = new System.Drawing.Size(121, 21);
-            this.kryptonComboBox2.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
-            this.kryptonComboBox2.TabIndex = 10;
-            this.kryptonComboBox2.Text = "ComboBox";
-            // 
-            // kryptonGroupBox1
-            // 
-            this.kryptonGroupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.kryptonGroupBox1.Location = new System.Drawing.Point(10, 136);
-            this.kryptonGroupBox1.Name = "kryptonGroupBox1";
-            // 
-            // kryptonGroupBox1.Panel
-            // 
-            this.kryptonGroupBox1.Panel.Controls.Add(this.kryptonCheckedListBox2);
-            this.kryptonGroupBox1.Panel.Controls.Add(this.kryptonLabel2);
-            this.kryptonGroupBox1.Panel.Controls.Add(this.kryptonDateTimePicker2);
-            this.kryptonGroupBox1.Panel.Controls.Add(this.kryptonLabel1);
-            this.kryptonGroupBox1.Panel.Controls.Add(this.kryptonComboBox1);
-            this.kryptonGroupBox1.Size = new System.Drawing.Size(235, 119);
-            this.kryptonGroupBox1.TabIndex = 9;
-            // 
-            // kryptonCheckedListBox2
-            // 
-            this.kryptonCheckedListBox2.Items.AddRange(new object[] {
-            "Item1",
-            "Item2",
-            "Item3"});
-            this.kryptonCheckedListBox2.Location = new System.Drawing.Point(141, 4);
-            this.kryptonCheckedListBox2.Name = "kryptonCheckedListBox2";
-            this.kryptonCheckedListBox2.Size = new System.Drawing.Size(82, 88);
-            this.kryptonCheckedListBox2.TabIndex = 17;
-            // 
-            // kryptonLabel2
-            // 
-            this.kryptonLabel2.LabelStyle = Krypton.Toolkit.LabelStyle.TitleControl;
-            this.kryptonLabel2.Location = new System.Drawing.Point(8, 4);
-            this.kryptonLabel2.Name = "kryptonLabel2";
-            this.kryptonLabel2.Size = new System.Drawing.Size(116, 29);
-            this.kryptonLabel2.TabIndex = 13;
-            this.kryptonLabel2.Values.Text = "Label (Title)";
-            // 
-            // kryptonDateTimePicker2
-            // 
-            this.kryptonDateTimePicker2.CalendarTodayDate = new System.DateTime(2021, 9, 19, 0, 0, 0, 0);
-            this.kryptonDateTimePicker2.Location = new System.Drawing.Point(8, 73);
-            this.kryptonDateTimePicker2.Name = "kryptonDateTimePicker2";
-            this.kryptonDateTimePicker2.Size = new System.Drawing.Size(122, 21);
-            this.kryptonDateTimePicker2.TabIndex = 16;
-            // 
-            // kryptonLabel1
-            // 
-            this.kryptonLabel1.Location = new System.Drawing.Point(8, 27);
-            this.kryptonLabel1.Name = "kryptonLabel1";
-            this.kryptonLabel1.Size = new System.Drawing.Size(91, 20);
-            this.kryptonLabel1.TabIndex = 14;
-            this.kryptonLabel1.Values.Text = "Label (Normal)";
-            // 
-            // kryptonComboBox1
-            // 
-            this.kryptonComboBox1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.kryptonComboBox1.DropDownWidth = 121;
-            this.kryptonComboBox1.IntegralHeight = false;
-            this.kryptonComboBox1.Items.AddRange(new object[] {
-            "Item 1",
-            "Item 2 - lot of text, this is just to see a long line",
-            "Item 3"});
-            this.kryptonComboBox1.Location = new System.Drawing.Point(8, 48);
-            this.kryptonComboBox1.Name = "kryptonComboBox1";
-            this.kryptonComboBox1.Size = new System.Drawing.Size(121, 21);
-            this.kryptonComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
-            this.kryptonComboBox1.TabIndex = 15;
-            this.kryptonComboBox1.Text = "ComboBox";
-            // 
-            // kryptonCheckButton1
-            // 
-            this.kryptonCheckButton1.AutoSize = true;
-            this.kryptonCheckButton1.Checked = true;
-            this.kryptonCheckButton1.Location = new System.Drawing.Point(133, 259);
-            this.kryptonCheckButton1.Name = "kryptonCheckButton1";
-            this.kryptonCheckButton1.Size = new System.Drawing.Size(110, 27);
-            this.kryptonCheckButton1.TabIndex = 8;
-            this.kryptonCheckButton1.Values.Text = "Checked Button";
-            // 
-            // kryptonLabelApplicationThemesNormalLabel
-            // 
-            this.kryptonLabelApplicationThemesNormalLabel.Location = new System.Drawing.Point(20, 65);
-            this.kryptonLabelApplicationThemesNormalLabel.Name = "kryptonLabelApplicationThemesNormalLabel";
-            this.kryptonLabelApplicationThemesNormalLabel.Size = new System.Drawing.Size(91, 20);
-            this.kryptonLabelApplicationThemesNormalLabel.TabIndex = 6;
-            this.kryptonLabelApplicationThemesNormalLabel.Values.Text = "Label (Normal)";
-            // 
-            // kryptonLabelApplicationThemesTitle
-            // 
-            this.kryptonLabelApplicationThemesTitle.LabelStyle = Krypton.Toolkit.LabelStyle.TitleControl;
-            this.kryptonLabelApplicationThemesTitle.Location = new System.Drawing.Point(20, 42);
-            this.kryptonLabelApplicationThemesTitle.Name = "kryptonLabelApplicationThemesTitle";
-            this.kryptonLabelApplicationThemesTitle.Size = new System.Drawing.Size(116, 29);
-            this.kryptonLabelApplicationThemesTitle.TabIndex = 5;
-            this.kryptonLabelApplicationThemesTitle.Values.Text = "Label (Title)";
-            // 
-            // kryptonButton1
-            // 
-            this.kryptonButton1.AutoSize = true;
-            this.kryptonButton1.Location = new System.Drawing.Point(17, 259);
-            this.kryptonButton1.Name = "kryptonButton1";
-            this.kryptonButton1.Size = new System.Drawing.Size(110, 27);
-            this.kryptonButton1.TabIndex = 3;
-            // 
-            // kryptonButton2
-            // 
-            this.kryptonButton2.AutoSize = true;
-            this.kryptonButton2.Location = new System.Drawing.Point(17, 289);
-            this.kryptonButton2.Name = "kryptonButton2";
-            this.kryptonButton2.Size = new System.Drawing.Size(110, 27);
-            this.kryptonButton2.TabIndex = 4;
-            this.kryptonButton2.Values.Text = "Cancel Button";
-            // 
-            // kryptonWorkspaceCellApplicationThemesProperties
-            // 
-            this.kryptonWorkspaceCellApplicationThemesProperties.AllowPageDrag = true;
-            this.kryptonWorkspaceCellApplicationThemesProperties.AllowTabFocus = false;
-            this.kryptonWorkspaceCellApplicationThemesProperties.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
-            this.kryptonWorkspaceCellApplicationThemesProperties.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
-            this.kryptonWorkspaceCellApplicationThemesProperties.Name = "kryptonWorkspaceCellApplicationThemesProperties";
-            this.kryptonWorkspaceCellApplicationThemesProperties.NavigatorMode = Krypton.Navigator.NavigatorMode.HeaderGroup;
-            this.kryptonWorkspaceCellApplicationThemesProperties.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
-            this.kryptonPageApplicationThemesProperties});
-            this.kryptonWorkspaceCellApplicationThemesProperties.SelectedIndex = 0;
-            this.kryptonWorkspaceCellApplicationThemesProperties.UniqueName = "8a59ecb4e66c42f4a41b20028d7f52fb";
-            // 
-            // kryptonPageApplicationThemesProperties
-            // 
-            this.kryptonPageApplicationThemesProperties.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageApplicationThemesProperties.Controls.Add(this.propertyGrid);
-            this.kryptonPageApplicationThemesProperties.Flags = 65534;
-            this.kryptonPageApplicationThemesProperties.LastVisibleSet = true;
-            this.kryptonPageApplicationThemesProperties.MinimumSize = new System.Drawing.Size(50, 50);
-            this.kryptonPageApplicationThemesProperties.Name = "kryptonPageApplicationThemesProperties";
-            this.kryptonPageApplicationThemesProperties.Size = new System.Drawing.Size(251, 461);
-            this.kryptonPageApplicationThemesProperties.Text = "Properties";
-            this.kryptonPageApplicationThemesProperties.TextDescription = "Properties for Selected KryptonPalette";
-            this.kryptonPageApplicationThemesProperties.TextTitle = "Properties";
-            this.kryptonPageApplicationThemesProperties.ToolTipTitle = "Page ToolTip";
-            this.kryptonPageApplicationThemesProperties.UniqueName = "413847226e614dae94f8b51de04f255f";
-            // 
-            // propertyGrid
-            // 
-            this.propertyGrid.BackColor = System.Drawing.Color.White;
-            this.propertyGrid.CategoryForeColor = System.Drawing.Color.Black;
-            this.propertyGrid.CategorySplitterColor = System.Drawing.Color.WhiteSmoke;
-            this.propertyGrid.CommandsBorderColor = System.Drawing.Color.DarkGray;
-            this.propertyGrid.CommandsDisabledLinkColor = System.Drawing.Color.Gray;
-            this.propertyGrid.CommandsForeColor = System.Drawing.Color.Black;
-            this.propertyGrid.CommandsLinkColor = System.Drawing.Color.RoyalBlue;
-            this.propertyGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.propertyGrid.HelpBackColor = System.Drawing.Color.WhiteSmoke;
-            this.propertyGrid.HelpBorderColor = System.Drawing.Color.DarkGray;
-            this.propertyGrid.HelpForeColor = System.Drawing.Color.Black;
-            this.propertyGrid.LineColor = System.Drawing.Color.WhiteSmoke;
-            this.propertyGrid.Location = new System.Drawing.Point(0, 0);
-            this.propertyGrid.Name = "propertyGrid";
-            this.propertyGrid.SelectedItemWithFocusBackColor = System.Drawing.Color.SteelBlue;
-            this.propertyGrid.SelectedItemWithFocusForeColor = System.Drawing.Color.Gainsboro;
-            this.propertyGrid.Size = new System.Drawing.Size(251, 461);
-            this.propertyGrid.TabIndex = 3;
-            this.propertyGrid.ToolbarVisible = false;
-            this.propertyGrid.ViewBackColor = System.Drawing.Color.White;
-            this.propertyGrid.ViewBorderColor = System.Drawing.Color.DarkGray;
-            this.propertyGrid.ViewForeColor = System.Drawing.Color.Black;
-            this.propertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid_PropertyValueChanged);
-            // 
-            // kryptonWorkspaceCellConfig
-            // 
-            this.kryptonWorkspaceCellConfig.AllowPageDrag = true;
-            this.kryptonWorkspaceCellConfig.AllowTabFocus = false;
-            this.kryptonWorkspaceCellConfig.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
-            this.kryptonWorkspaceCellConfig.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
-            this.kryptonWorkspaceCellConfig.Name = "kryptonWorkspaceCellConfig";
-            this.kryptonWorkspaceCellConfig.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
-            this.kryptonPageApplication,
-            this.kryptonPageMetadata,
-            this.kryptonPageWebScraper,
-            this.kryptonPageAutoCorrect,
-            this.kryptonPageLocation,
-            this.kryptonPageConvertAndMerge,
-            this.kryptonPageChromecast,
-            this.kryptonPageLog});
-            this.kryptonWorkspaceCellConfig.SelectedIndex = 0;
-            this.kryptonWorkspaceCellConfig.UniqueName = "6c55e441207441569a9cebe15f1d63b7";
-            // 
-            // kryptonPageMetadata
-            // 
-            this.kryptonPageMetadata.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageMetadata.Controls.Add(this.kryptonWorkspaceConfigMetadata);
-            this.kryptonPageMetadata.Flags = 65534;
-            this.kryptonPageMetadata.LastVisibleSet = true;
-            this.kryptonPageMetadata.MinimumSize = new System.Drawing.Size(50, 50);
-            this.kryptonPageMetadata.Name = "kryptonPageMetadata";
-            this.kryptonPageMetadata.Size = new System.Drawing.Size(873, 493);
-            this.kryptonPageMetadata.Text = "Metadata";
-            this.kryptonPageMetadata.ToolTipTitle = "Page ToolTip";
-            this.kryptonPageMetadata.UniqueName = "d5cb9d54763045a6ac874ae78ebe0c03";
-            // 
-            // kryptonWorkspaceConfigMetadata
-            // 
-            this.kryptonWorkspaceConfigMetadata.ActivePage = this.kryptonPageMetadataReadHelp;
-            this.kryptonWorkspaceConfigMetadata.AllowPageDrag = false;
-            this.kryptonWorkspaceConfigMetadata.ContextMenus.ShowContextMenu = false;
-            this.kryptonWorkspaceConfigMetadata.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kryptonWorkspaceConfigMetadata.Location = new System.Drawing.Point(0, 0);
-            this.kryptonWorkspaceConfigMetadata.Name = "kryptonWorkspaceConfigMetadata";
-            // 
-            // 
-            // 
-            this.kryptonWorkspaceConfigMetadata.Root.Children.AddRange(new System.ComponentModel.Component[] {
-            this.kryptonWorkspaceCellMetadata});
-            this.kryptonWorkspaceConfigMetadata.Root.UniqueName = "e7f6d4a4944e4f5ab606df51ef6d45b8";
-            this.kryptonWorkspaceConfigMetadata.Root.WorkspaceControl = this.kryptonWorkspaceConfigMetadata;
-            this.kryptonWorkspaceConfigMetadata.Size = new System.Drawing.Size(873, 493);
-            this.kryptonWorkspaceConfigMetadata.TabIndex = 0;
-            this.kryptonWorkspaceConfigMetadata.TabStop = true;
-            // 
-            // kryptonPageMetadataReadHelp
-            // 
-            this.kryptonPageMetadataReadHelp.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageMetadataReadHelp.Controls.Add(this.kryptonTextBoxMetadataReadHelpText);
-            this.kryptonPageMetadataReadHelp.Flags = 65534;
-            this.kryptonPageMetadataReadHelp.LastVisibleSet = true;
-            this.kryptonPageMetadataReadHelp.MinimumSize = new System.Drawing.Size(50, 50);
-            this.kryptonPageMetadataReadHelp.Name = "kryptonPageMetadataReadHelp";
-            this.kryptonPageMetadataReadHelp.Size = new System.Drawing.Size(672, 491);
-            this.kryptonPageMetadataReadHelp.Text = "Read help text";
-            this.kryptonPageMetadataReadHelp.ToolTipTitle = "Page ToolTip";
-            this.kryptonPageMetadataReadHelp.UniqueName = "eec060a13b4e45ebbc18d3f53eab1529";
-            // 
-            // kryptonTextBoxMetadataReadHelpText
-            // 
-            this.kryptonTextBoxMetadataReadHelpText.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kryptonTextBoxMetadataReadHelpText.Location = new System.Drawing.Point(0, 0);
-            this.kryptonTextBoxMetadataReadHelpText.Multiline = true;
-            this.kryptonTextBoxMetadataReadHelpText.Name = "kryptonTextBoxMetadataReadHelpText";
-            this.kryptonTextBoxMetadataReadHelpText.Size = new System.Drawing.Size(672, 491);
-            this.kryptonTextBoxMetadataReadHelpText.TabIndex = 0;
-            this.kryptonTextBoxMetadataReadHelpText.Text = resources.GetString("kryptonTextBoxMetadataReadHelpText.Text");
-            // 
-            // kryptonWorkspaceCellMetadata
-            // 
-            this.kryptonWorkspaceCellMetadata.AllowDroppingPages = false;
-            this.kryptonWorkspaceCellMetadata.AllowPageDrag = true;
-            this.kryptonWorkspaceCellMetadata.AllowPageReorder = false;
-            this.kryptonWorkspaceCellMetadata.AllowTabFocus = false;
-            this.kryptonWorkspaceCellMetadata.Bar.BarOrientation = Krypton.Toolkit.VisualOrientation.Left;
-            this.kryptonWorkspaceCellMetadata.Bar.ItemOrientation = Krypton.Toolkit.ButtonOrientation.FixedTop;
-            this.kryptonWorkspaceCellMetadata.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
-            this.kryptonWorkspaceCellMetadata.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
-            this.kryptonWorkspaceCellMetadata.Name = "kryptonWorkspaceCellMetadata";
-            this.kryptonWorkspaceCellMetadata.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
-            this.kryptonPageMetadataReadHelp,
-            this.kryptonPageMetadataReadPriority,
-            this.kryptonPageMetadataWriteHelp,
-            this.kryptonPageMetadataWriteWindowsXtraProperties,
-            this.kryptonPageMetadataWriteFileAttributeDateTimeCreated,
-            this.kryptonPageMetadataExiftoolHelp,
-            this.kryptonPageMetadataExiftoolForEachKeyword,
-            this.kryptonPageMetadataExiftoolForEachNewKeyword});
-            this.kryptonWorkspaceCellMetadata.SelectedIndex = 0;
-            this.kryptonWorkspaceCellMetadata.UniqueName = "dc14c7222a5b4f1988263e23e6ff262d";
-            // 
-            // kryptonPageMetadataReadPriority
-            // 
-            this.kryptonPageMetadataReadPriority.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageMetadataReadPriority.Controls.Add(this.dataGridViewMetadataReadPriority);
-            this.kryptonPageMetadataReadPriority.Flags = 65534;
-            this.kryptonPageMetadataReadPriority.LastVisibleSet = true;
-            this.kryptonPageMetadataReadPriority.MinimumSize = new System.Drawing.Size(50, 50);
-            this.kryptonPageMetadataReadPriority.Name = "kryptonPageMetadataReadPriority";
-            this.kryptonPageMetadataReadPriority.Size = new System.Drawing.Size(665, 514);
-            this.kryptonPageMetadataReadPriority.Text = "Read priority";
-            this.kryptonPageMetadataReadPriority.ToolTipTitle = "Page ToolTip";
-            this.kryptonPageMetadataReadPriority.UniqueName = "4d859c3a564943e8805ced2985a13756";
-            // 
-            // kryptonPageMetadataWriteHelp
-            // 
-            this.kryptonPageMetadataWriteHelp.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageMetadataWriteHelp.Controls.Add(this.textBoxMetadataWriteHelpText);
-            this.kryptonPageMetadataWriteHelp.Flags = 65534;
-            this.kryptonPageMetadataWriteHelp.LastVisibleSet = true;
-            this.kryptonPageMetadataWriteHelp.MinimumSize = new System.Drawing.Size(50, 50);
-            this.kryptonPageMetadataWriteHelp.Name = "kryptonPageMetadataWriteHelp";
-            this.kryptonPageMetadataWriteHelp.Size = new System.Drawing.Size(672, 491);
-            this.kryptonPageMetadataWriteHelp.Text = "Write Windows Xtra help text";
-            this.kryptonPageMetadataWriteHelp.ToolTipTitle = "Page ToolTip";
-            this.kryptonPageMetadataWriteHelp.UniqueName = "79b2d292fc224d60b32cbd5059a64081";
-            // 
-            // kryptonPageMetadataWriteWindowsXtraProperties
-            // 
-            this.kryptonPageMetadataWriteWindowsXtraProperties.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageMetadataWriteWindowsXtraProperties.Controls.Add(this.tableLayoutPanel9);
-            this.kryptonPageMetadataWriteWindowsXtraProperties.Flags = 65534;
-            this.kryptonPageMetadataWriteWindowsXtraProperties.LastVisibleSet = true;
-            this.kryptonPageMetadataWriteWindowsXtraProperties.MinimumSize = new System.Drawing.Size(50, 50);
-            this.kryptonPageMetadataWriteWindowsXtraProperties.Name = "kryptonPageMetadataWriteWindowsXtraProperties";
-            this.kryptonPageMetadataWriteWindowsXtraProperties.Size = new System.Drawing.Size(665, 514);
-            this.kryptonPageMetadataWriteWindowsXtraProperties.Text = "Write Winows Xtra properties";
-            this.kryptonPageMetadataWriteWindowsXtraProperties.ToolTipTitle = "Page ToolTip";
-            this.kryptonPageMetadataWriteWindowsXtraProperties.UniqueName = "6b72f4451e6b436d99f25058fd1c1672";
-            // 
-            // tableLayoutPanel9
-            // 
-            this.tableLayoutPanel9.BackColor = System.Drawing.Color.Transparent;
-            this.tableLayoutPanel9.ColumnCount = 4;
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel9.Controls.Add(this.labelMetadataXtraKeywords, 0, 2);
-            this.tableLayoutPanel9.Controls.Add(this.checkBoxWriteXtraAtomRatingPicture, 2, 9);
-            this.tableLayoutPanel9.Controls.Add(this.textBoxWriteXtraAtomArtist, 3, 8);
-            this.tableLayoutPanel9.Controls.Add(this.checkBoxWriteXtraAtomRatingVideo, 1, 9);
-            this.tableLayoutPanel9.Controls.Add(this.checkBoxWriteXtraAtomKeywordsVideo, 1, 2);
-            this.tableLayoutPanel9.Controls.Add(this.labelMetadataXtraRating, 0, 9);
-            this.tableLayoutPanel9.Controls.Add(this.checkBoxWriteXtraAtomArtistVideo, 1, 8);
-            this.tableLayoutPanel9.Controls.Add(this.labelMetadataWriteOnVideoAndPictureFiles, 3, 0);
-            this.tableLayoutPanel9.Controls.Add(this.labelMetadataXtraArtist, 0, 8);
-            this.tableLayoutPanel9.Controls.Add(this.textBoxWriteXtraAtomKeywords, 3, 2);
-            this.tableLayoutPanel9.Controls.Add(this.textBoxWriteXtraAtomComment, 3, 7);
-            this.tableLayoutPanel9.Controls.Add(this.checkBoxWriteXtraAtomCategoriesVideo, 1, 3);
-            this.tableLayoutPanel9.Controls.Add(this.labelMetadataXtraComment, 0, 7);
-            this.tableLayoutPanel9.Controls.Add(this.checkBoxWriteXtraAtomCommentVideo, 1, 7);
-            this.tableLayoutPanel9.Controls.Add(this.textBoxWriteXtraAtomSubject, 3, 6);
-            this.tableLayoutPanel9.Controls.Add(this.checkBoxWriteXtraAtomCommentPicture, 2, 7);
-            this.tableLayoutPanel9.Controls.Add(this.labelMetadataXtraAlbum, 0, 4);
-            this.tableLayoutPanel9.Controls.Add(this.labelMetadataXtraSubject, 0, 6);
-            this.tableLayoutPanel9.Controls.Add(this.checkBoxWriteXtraAtomSubjectVideo, 1, 6);
-            this.tableLayoutPanel9.Controls.Add(this.textBoxWriteXtraAtomSubtitle, 3, 5);
-            this.tableLayoutPanel9.Controls.Add(this.labelSubtitle, 0, 5);
-            this.tableLayoutPanel9.Controls.Add(this.checkBoxWriteXtraAtomSubjectPicture, 2, 6);
-            this.tableLayoutPanel9.Controls.Add(this.labelMetadataXtraCategories, 0, 3);
-            this.tableLayoutPanel9.Controls.Add(this.comboBoxWriteXtraAtomVariables, 3, 1);
-            this.tableLayoutPanel9.Controls.Add(this.checkBoxWriteXtraAtomSubtitleVideo, 1, 5);
-            this.tableLayoutPanel9.Controls.Add(this.labelMetadataWriteOnVideoAndPictureFilesVariables, 0, 1);
-            this.tableLayoutPanel9.Controls.Add(this.textBoxWriteXtraAtomAlbum, 3, 4);
-            this.tableLayoutPanel9.Controls.Add(this.textBoxWriteXtraAtomCategories, 3, 3);
-            this.tableLayoutPanel9.Controls.Add(this.checkBoxWriteXtraAtomAlbumVideo, 1, 4);
-            this.tableLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel9.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel9.Name = "tableLayoutPanel9";
-            this.tableLayoutPanel9.RowCount = 10;
-            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel9.Size = new System.Drawing.Size(665, 514);
-            this.tableLayoutPanel9.TabIndex = 27;
-            // 
-            // kryptonPageMetadataWriteFileAttributeDateTimeCreated
-            // 
-            this.kryptonPageMetadataWriteFileAttributeDateTimeCreated.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageMetadataWriteFileAttributeDateTimeCreated.Controls.Add(this.tableLayoutPanel10);
-            this.kryptonPageMetadataWriteFileAttributeDateTimeCreated.Flags = 65534;
-            this.kryptonPageMetadataWriteFileAttributeDateTimeCreated.LastVisibleSet = true;
-            this.kryptonPageMetadataWriteFileAttributeDateTimeCreated.MinimumSize = new System.Drawing.Size(50, 50);
-            this.kryptonPageMetadataWriteFileAttributeDateTimeCreated.Name = "kryptonPageMetadataWriteFileAttributeDateTimeCreated";
-            this.kryptonPageMetadataWriteFileAttributeDateTimeCreated.Size = new System.Drawing.Size(664, 514);
-            this.kryptonPageMetadataWriteFileAttributeDateTimeCreated.Text = "Update files Create Date and Time";
-            this.kryptonPageMetadataWriteFileAttributeDateTimeCreated.ToolTipTitle = "Page ToolTip";
-            this.kryptonPageMetadataWriteFileAttributeDateTimeCreated.UniqueName = "db2d5ffa4b884a8fb83555535360f119";
-            // 
-            // tableLayoutPanel10
-            // 
-            this.tableLayoutPanel10.BackColor = System.Drawing.Color.Transparent;
-            this.tableLayoutPanel10.ColumnCount = 3;
-            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel10.Controls.Add(this.checkBoxWriteFileAttributeCreatedDate, 1, 0);
-            this.tableLayoutPanel10.Controls.Add(this.labelMetadataFileCreateDateTimDiffrentDescription, 2, 1);
-            this.tableLayoutPanel10.Controls.Add(this.kryptonLabel3, 2, 0);
-            this.tableLayoutPanel10.Controls.Add(this.numericUpDownWriteFileAttributeCreatedDateTimeIntervalAccepted, 1, 1);
-            this.tableLayoutPanel10.Controls.Add(this.labelMetadataFileCreateDateTimDiffrent, 0, 1);
-            this.tableLayoutPanel10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel10.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel10.Name = "tableLayoutPanel10";
-            this.tableLayoutPanel10.RowCount = 2;
-            this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel10.Size = new System.Drawing.Size(664, 514);
-            this.tableLayoutPanel10.TabIndex = 5;
-            // 
-            // kryptonLabel3
-            // 
-            this.kryptonLabel3.Location = new System.Drawing.Point(298, 3);
-            this.kryptonLabel3.Name = "kryptonLabel3";
-            this.kryptonLabel3.Size = new System.Drawing.Size(494, 20);
-            this.kryptonLabel3.TabIndex = 1;
-            this.kryptonLabel3.Values.Text = "Update File Created Date/Time when Media taken exists and time zone can be estima" +
-    "ted";
-            // 
-            // kryptonPageMetadataExiftoolHelp
-            // 
-            this.kryptonPageMetadataExiftoolHelp.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageMetadataExiftoolHelp.Controls.Add(this.kryptonTextBox1);
-            this.kryptonPageMetadataExiftoolHelp.Flags = 65534;
-            this.kryptonPageMetadataExiftoolHelp.LastVisibleSet = true;
-            this.kryptonPageMetadataExiftoolHelp.MinimumSize = new System.Drawing.Size(50, 50);
-            this.kryptonPageMetadataExiftoolHelp.Name = "kryptonPageMetadataExiftoolHelp";
-            this.kryptonPageMetadataExiftoolHelp.Size = new System.Drawing.Size(672, 491);
-            this.kryptonPageMetadataExiftoolHelp.Text = "Exiftool help text";
-            this.kryptonPageMetadataExiftoolHelp.ToolTipTitle = "Page ToolTip";
-            this.kryptonPageMetadataExiftoolHelp.UniqueName = "411a97c64b304462ad916c57ea93841b";
-            // 
-            // kryptonTextBox1
-            // 
-            this.kryptonTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kryptonTextBox1.Location = new System.Drawing.Point(0, 0);
-            this.kryptonTextBox1.Margin = new System.Windows.Forms.Padding(2);
-            this.kryptonTextBox1.Multiline = true;
-            this.kryptonTextBox1.Name = "kryptonTextBox1";
-            this.kryptonTextBox1.ReadOnly = true;
-            this.kryptonTextBox1.Size = new System.Drawing.Size(672, 491);
-            this.kryptonTextBox1.TabIndex = 4;
-            this.kryptonTextBox1.Text = resources.GetString("kryptonTextBox1.Text");
-            // 
-            // kryptonPageMetadataExiftoolForEachKeyword
-            // 
-            this.kryptonPageMetadataExiftoolForEachKeyword.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageMetadataExiftoolForEachKeyword.Controls.Add(this.tableLayoutPanel26);
-            this.kryptonPageMetadataExiftoolForEachKeyword.Flags = 65534;
-            this.kryptonPageMetadataExiftoolForEachKeyword.LastVisibleSet = true;
-            this.kryptonPageMetadataExiftoolForEachKeyword.MinimumSize = new System.Drawing.Size(50, 50);
-            this.kryptonPageMetadataExiftoolForEachKeyword.Name = "kryptonPageMetadataExiftoolForEachKeyword";
-            this.kryptonPageMetadataExiftoolForEachKeyword.Size = new System.Drawing.Size(672, 491);
-            this.kryptonPageMetadataExiftoolForEachKeyword.Text = "How to write metadata";
-            this.kryptonPageMetadataExiftoolForEachKeyword.ToolTipTitle = "Page ToolTip";
-            this.kryptonPageMetadataExiftoolForEachKeyword.UniqueName = "b02b2f3292bb4233aeabddbf663b823a";
-            // 
-            // tableLayoutPanel26
-            // 
-            this.tableLayoutPanel26.BackColor = System.Drawing.Color.Transparent;
-            this.tableLayoutPanel26.ColumnCount = 2;
-            this.tableLayoutPanel26.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel26.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel26.Controls.Add(this.comboBoxMetadataWriteStandardTags, 1, 0);
-            this.tableLayoutPanel26.Controls.Add(this.fastColoredTextBoxMetadataWriteTags, 0, 1);
-            this.tableLayoutPanel26.Controls.Add(this.labelMetadataForeachKeyword, 0, 0);
-            this.tableLayoutPanel26.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel26.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel26.Name = "tableLayoutPanel26";
-            this.tableLayoutPanel26.RowCount = 2;
-            this.tableLayoutPanel26.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel26.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel26.Size = new System.Drawing.Size(672, 491);
-            this.tableLayoutPanel26.TabIndex = 8;
-            // 
-            // kryptonPageMetadataExiftoolForEachNewKeyword
-            // 
-            this.kryptonPageMetadataExiftoolForEachNewKeyword.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageMetadataExiftoolForEachNewKeyword.Controls.Add(this.tableLayoutPanel8);
-            this.kryptonPageMetadataExiftoolForEachNewKeyword.Flags = 65534;
-            this.kryptonPageMetadataExiftoolForEachNewKeyword.LastVisibleSet = true;
-            this.kryptonPageMetadataExiftoolForEachNewKeyword.MinimumSize = new System.Drawing.Size(50, 50);
-            this.kryptonPageMetadataExiftoolForEachNewKeyword.Name = "kryptonPageMetadataExiftoolForEachNewKeyword";
-            this.kryptonPageMetadataExiftoolForEachNewKeyword.Size = new System.Drawing.Size(672, 491);
-            this.kryptonPageMetadataExiftoolForEachNewKeyword.Text = "Added lines for each keyword";
-            this.kryptonPageMetadataExiftoolForEachNewKeyword.ToolTipTitle = "Page ToolTip";
-            this.kryptonPageMetadataExiftoolForEachNewKeyword.UniqueName = "63c73fc6dac348b78f574a6515bac69f";
-            // 
-            // tableLayoutPanel8
-            // 
-            this.tableLayoutPanel8.BackColor = System.Drawing.Color.Transparent;
-            this.tableLayoutPanel8.ColumnCount = 2;
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel8.Controls.Add(this.labelMetadataForeachNewKeyword, 0, 0);
-            this.tableLayoutPanel8.Controls.Add(this.fastColoredTextBoxMetadataWriteKeywordAdd, 0, 2);
-            this.tableLayoutPanel8.Controls.Add(this.checkBoxWriteMetadataAddAutoKeywords, 0, 1);
-            this.tableLayoutPanel8.Controls.Add(this.comboBoxMetadataWriteKeywordAdd, 1, 0);
-            this.tableLayoutPanel8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel8.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel8.Name = "tableLayoutPanel8";
-            this.tableLayoutPanel8.RowCount = 3;
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel8.Size = new System.Drawing.Size(672, 491);
-            this.tableLayoutPanel8.TabIndex = 7;
-            // 
-            // kryptonPageWebScraper
-            // 
-            this.kryptonPageWebScraper.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageWebScraper.Controls.Add(this.kryptonWorkspaceWebScraper);
-            this.kryptonPageWebScraper.Flags = 65534;
-            this.kryptonPageWebScraper.LastVisibleSet = true;
-            this.kryptonPageWebScraper.MinimumSize = new System.Drawing.Size(50, 50);
-            this.kryptonPageWebScraper.Name = "kryptonPageWebScraper";
-            this.kryptonPageWebScraper.Size = new System.Drawing.Size(873, 493);
-            this.kryptonPageWebScraper.Text = "WebScraper";
-            this.kryptonPageWebScraper.ToolTipTitle = "Page ToolTip";
-            this.kryptonPageWebScraper.UniqueName = "ed4ced01f1e442d090efd8da6eee1139";
-            // 
-            // kryptonWorkspaceWebScraper
-            // 
-            this.kryptonWorkspaceWebScraper.ActivePage = this.kryptonPageWebScraperWebScrapingSettings;
-            this.kryptonWorkspaceWebScraper.AllowPageDrag = false;
-            this.kryptonWorkspaceWebScraper.ContextMenus.ShowContextMenu = false;
-            this.kryptonWorkspaceWebScraper.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kryptonWorkspaceWebScraper.Location = new System.Drawing.Point(0, 0);
-            this.kryptonWorkspaceWebScraper.Name = "kryptonWorkspaceWebScraper";
-            // 
-            // 
-            // 
-            this.kryptonWorkspaceWebScraper.Root.Children.AddRange(new System.ComponentModel.Component[] {
-            this.kryptonWorkspaceCellWebScraper});
-            this.kryptonWorkspaceWebScraper.Root.UniqueName = "1205cc50e85d4bb2a77e1b84daa27be4";
-            this.kryptonWorkspaceWebScraper.Root.WorkspaceControl = this.kryptonWorkspaceWebScraper;
-            this.kryptonWorkspaceWebScraper.SeparatorStyle = Krypton.Toolkit.SeparatorStyle.HighProfile;
-            this.kryptonWorkspaceWebScraper.Size = new System.Drawing.Size(873, 493);
-            this.kryptonWorkspaceWebScraper.TabIndex = 0;
-            this.kryptonWorkspaceWebScraper.TabStop = true;
-            // 
-            // kryptonPageWebScraperWebScrapingStartPages
-            // 
-            this.kryptonPageWebScraperWebScrapingStartPages.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageWebScraperWebScrapingStartPages.Controls.Add(this.textBoxWebScrapingStartPages);
-            this.kryptonPageWebScraperWebScrapingStartPages.Flags = 65534;
-            this.kryptonPageWebScraperWebScrapingStartPages.LastVisibleSet = true;
-            this.kryptonPageWebScraperWebScrapingStartPages.MinimumSize = new System.Drawing.Size(50, 50);
-            this.kryptonPageWebScraperWebScrapingStartPages.Name = "kryptonPageWebScraperWebScrapingStartPages";
-            this.kryptonPageWebScraperWebScrapingStartPages.Size = new System.Drawing.Size(671, 491);
-            this.kryptonPageWebScraperWebScrapingStartPages.Text = "Start pages for Web Scraping categories";
-            this.kryptonPageWebScraperWebScrapingStartPages.ToolTipTitle = "Page ToolTip";
-            this.kryptonPageWebScraperWebScrapingStartPages.UniqueName = "b781a220c40540408e12e0d66ffe3d79";
-            // 
-            // kryptonWorkspaceCellWebScraper
-            // 
-            this.kryptonWorkspaceCellWebScraper.AllowDroppingPages = false;
-            this.kryptonWorkspaceCellWebScraper.AllowPageDrag = true;
-            this.kryptonWorkspaceCellWebScraper.AllowPageReorder = false;
-            this.kryptonWorkspaceCellWebScraper.AllowTabFocus = false;
-            this.kryptonWorkspaceCellWebScraper.Bar.BarOrientation = Krypton.Toolkit.VisualOrientation.Left;
-            this.kryptonWorkspaceCellWebScraper.Bar.ItemOrientation = Krypton.Toolkit.ButtonOrientation.FixedTop;
-            this.kryptonWorkspaceCellWebScraper.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
-            this.kryptonWorkspaceCellWebScraper.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
-            this.kryptonWorkspaceCellWebScraper.Name = "kryptonWorkspaceCellWebScraper";
-            this.kryptonWorkspaceCellWebScraper.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
-            this.kryptonPageWebScraperWebScrapingSettings,
-            this.kryptonPageWebScraperWebScrapingStartPages});
-            this.kryptonWorkspaceCellWebScraper.SelectedIndex = 0;
-            this.kryptonWorkspaceCellWebScraper.UniqueName = "c17b77f2ada7440682e51549724c089a";
-            // 
-            // kryptonPageWebScraperWebScrapingSettings
-            // 
-            this.kryptonPageWebScraperWebScrapingSettings.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageWebScraperWebScrapingSettings.Controls.Add(this.tableLayoutPanel11);
-            this.kryptonPageWebScraperWebScrapingSettings.Flags = 65534;
-            this.kryptonPageWebScraperWebScrapingSettings.LastVisibleSet = true;
-            this.kryptonPageWebScraperWebScrapingSettings.MinimumSize = new System.Drawing.Size(50, 50);
-            this.kryptonPageWebScraperWebScrapingSettings.Name = "kryptonPageWebScraperWebScrapingSettings";
-            this.kryptonPageWebScraperWebScrapingSettings.Size = new System.Drawing.Size(671, 491);
-            this.kryptonPageWebScraperWebScrapingSettings.Text = "Web Scraping settings";
-            this.kryptonPageWebScraperWebScrapingSettings.ToolTipTitle = "Page ToolTip";
-            this.kryptonPageWebScraperWebScrapingSettings.UniqueName = "c7483a73647b426f9f71d583cd42e1b4";
-            // 
-            // tableLayoutPanel11
-            // 
-            this.tableLayoutPanel11.BackColor = System.Drawing.Color.Transparent;
-            this.tableLayoutPanel11.ColumnCount = 3;
-            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel11.Controls.Add(this.labelWebScraperJavaScriptExecuteTimeout, 0, 0);
-            this.tableLayoutPanel11.Controls.Add(this.labelWebScraperNumberOfPageDownDescription, 2, 6);
-            this.tableLayoutPanel11.Controls.Add(this.labelWebScraperPageLoadedTimeoutDescription, 2, 5);
-            this.tableLayoutPanel11.Controls.Add(this.numericUpDownWebScrapingPageDownCount, 1, 6);
-            this.tableLayoutPanel11.Controls.Add(this.labelWebScraperNumberOfPageDown, 0, 6);
-            this.tableLayoutPanel11.Controls.Add(this.labelWebScraperPageStartLoadingTimeoutDescription, 2, 4);
-            this.tableLayoutPanel11.Controls.Add(this.labelWebScraperPageLoadedTimeout, 0, 5);
-            this.tableLayoutPanel11.Controls.Add(this.labelWebScraperWebScrapingDelayDescription, 2, 3);
-            this.tableLayoutPanel11.Controls.Add(this.labelWebScraperPageStartLoadingTimeout, 0, 4);
-            this.tableLayoutPanel11.Controls.Add(this.numericUpDownWaitEventPageLoadedTimeout, 1, 5);
-            this.tableLayoutPanel11.Controls.Add(this.labelWebScraperWebScrapingRetryDescription, 2, 2);
-            this.tableLayoutPanel11.Controls.Add(this.labelWebScraperWebScrapingDelay, 0, 3);
-            this.tableLayoutPanel11.Controls.Add(this.labelWebScraperJavaScriptExecuteTimeoutDescription, 2, 0);
-            this.tableLayoutPanel11.Controls.Add(this.labelWebScraperWebScrapingRetry, 0, 2);
-            this.tableLayoutPanel11.Controls.Add(this.labelWebScraperWebScrapringDelay, 0, 1);
-            this.tableLayoutPanel11.Controls.Add(this.numericUpDownWaitEventPageStartLoadingTimeout, 1, 4);
-            this.tableLayoutPanel11.Controls.Add(this.labelWebScraperWebScrapringDelayDescription, 2, 1);
-            this.tableLayoutPanel11.Controls.Add(this.numericUpDownJavaScriptExecuteTimeout, 1, 0);
-            this.tableLayoutPanel11.Controls.Add(this.numericUpDownWebScrapingDelayOurScriptToRun, 1, 1);
-            this.tableLayoutPanel11.Controls.Add(this.numericUpDownWebScrapingRetry, 1, 2);
-            this.tableLayoutPanel11.Controls.Add(this.numericUpDownWebScrapingDelayInPageScriptToRun, 1, 3);
-            this.tableLayoutPanel11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel11.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel11.Name = "tableLayoutPanel11";
-            this.tableLayoutPanel11.RowCount = 7;
-            this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel11.Size = new System.Drawing.Size(671, 491);
-            this.tableLayoutPanel11.TabIndex = 21;
-            // 
             // kryptonPageAutoCorrect
             // 
             this.kryptonPageAutoCorrect.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
@@ -5421,18 +4007,18 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceAutoCorrect.TabIndex = 0;
             this.kryptonWorkspaceAutoCorrect.TabStop = true;
             // 
-            // kryptonPageAutoCorrectAutoCorrectHelp
+            // kryptonPageAutoCorrectAutoKeywords
             // 
-            this.kryptonPageAutoCorrectAutoCorrectHelp.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageAutoCorrectAutoCorrectHelp.Controls.Add(this.textBoxHelpAutoCorrect);
-            this.kryptonPageAutoCorrectAutoCorrectHelp.Flags = 65534;
-            this.kryptonPageAutoCorrectAutoCorrectHelp.LastVisibleSet = true;
-            this.kryptonPageAutoCorrectAutoCorrectHelp.MinimumSize = new System.Drawing.Size(50, 50);
-            this.kryptonPageAutoCorrectAutoCorrectHelp.Name = "kryptonPageAutoCorrectAutoCorrectHelp";
-            this.kryptonPageAutoCorrectAutoCorrectHelp.Size = new System.Drawing.Size(671, 491);
-            this.kryptonPageAutoCorrectAutoCorrectHelp.Text = "AutoCorrect help";
-            this.kryptonPageAutoCorrectAutoCorrectHelp.ToolTipTitle = "Page ToolTip";
-            this.kryptonPageAutoCorrectAutoCorrectHelp.UniqueName = "0892d4403d444998aa1f77cc6dd73b02";
+            this.kryptonPageAutoCorrectAutoKeywords.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageAutoCorrectAutoKeywords.Controls.Add(this.dataGridViewAutoKeywords);
+            this.kryptonPageAutoCorrectAutoKeywords.Flags = 65534;
+            this.kryptonPageAutoCorrectAutoKeywords.LastVisibleSet = true;
+            this.kryptonPageAutoCorrectAutoKeywords.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageAutoCorrectAutoKeywords.Name = "kryptonPageAutoCorrectAutoKeywords";
+            this.kryptonPageAutoCorrectAutoKeywords.Size = new System.Drawing.Size(671, 491);
+            this.kryptonPageAutoCorrectAutoKeywords.Text = "Keyword synonyms";
+            this.kryptonPageAutoCorrectAutoKeywords.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageAutoCorrectAutoKeywords.UniqueName = "370125c5671e4d168de35cf939a4e3aa";
             // 
             // kryptonWorkspaceCellAutoCorrect
             // 
@@ -5461,6 +4047,19 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageAutoCorrectAutoKeywords});
             this.kryptonWorkspaceCellAutoCorrect.SelectedIndex = 0;
             this.kryptonWorkspaceCellAutoCorrect.UniqueName = "ac9d0e4214674cdeb45441915a7be906";
+            // 
+            // kryptonPageAutoCorrectAutoCorrectHelp
+            // 
+            this.kryptonPageAutoCorrectAutoCorrectHelp.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageAutoCorrectAutoCorrectHelp.Controls.Add(this.textBoxHelpAutoCorrect);
+            this.kryptonPageAutoCorrectAutoCorrectHelp.Flags = 65534;
+            this.kryptonPageAutoCorrectAutoCorrectHelp.LastVisibleSet = true;
+            this.kryptonPageAutoCorrectAutoCorrectHelp.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageAutoCorrectAutoCorrectHelp.Name = "kryptonPageAutoCorrectAutoCorrectHelp";
+            this.kryptonPageAutoCorrectAutoCorrectHelp.Size = new System.Drawing.Size(671, 491);
+            this.kryptonPageAutoCorrectAutoCorrectHelp.Text = "AutoCorrect help";
+            this.kryptonPageAutoCorrectAutoCorrectHelp.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageAutoCorrectAutoCorrectHelp.UniqueName = "0892d4403d444998aa1f77cc6dd73b02";
             // 
             // kryptonPageAutoCorrectDateAndTimeDigitized
             // 
@@ -5904,18 +4503,1427 @@ namespace PhotoTagsSynchronizer
             this.tableLayoutPanel21.Size = new System.Drawing.Size(664, 514);
             this.tableLayoutPanel21.TabIndex = 5;
             // 
-            // kryptonPageAutoCorrectAutoKeywords
+            // kryptonWorkspaceCellConfig
             // 
-            this.kryptonPageAutoCorrectAutoKeywords.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageAutoCorrectAutoKeywords.Controls.Add(this.dataGridViewAutoKeywords);
-            this.kryptonPageAutoCorrectAutoKeywords.Flags = 65534;
-            this.kryptonPageAutoCorrectAutoKeywords.LastVisibleSet = true;
-            this.kryptonPageAutoCorrectAutoKeywords.MinimumSize = new System.Drawing.Size(50, 50);
-            this.kryptonPageAutoCorrectAutoKeywords.Name = "kryptonPageAutoCorrectAutoKeywords";
-            this.kryptonPageAutoCorrectAutoKeywords.Size = new System.Drawing.Size(664, 514);
-            this.kryptonPageAutoCorrectAutoKeywords.Text = "Keyword synonyms";
-            this.kryptonPageAutoCorrectAutoKeywords.ToolTipTitle = "Page ToolTip";
-            this.kryptonPageAutoCorrectAutoKeywords.UniqueName = "370125c5671e4d168de35cf939a4e3aa";
+            this.kryptonWorkspaceCellConfig.AllowPageDrag = true;
+            this.kryptonWorkspaceCellConfig.AllowTabFocus = false;
+            this.kryptonWorkspaceCellConfig.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonWorkspaceCellConfig.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCellConfig.Name = "kryptonWorkspaceCellConfig";
+            this.kryptonWorkspaceCellConfig.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
+            this.kryptonPageApplication,
+            this.kryptonPageMetadata,
+            this.kryptonPageWebScraper,
+            this.kryptonPageAutoCorrect,
+            this.kryptonPageLocation,
+            this.kryptonPageConvertAndMerge,
+            this.kryptonPageChromecast,
+            this.kryptonPageLog});
+            this.kryptonWorkspaceCellConfig.SelectedIndex = 0;
+            this.kryptonWorkspaceCellConfig.UniqueName = "6c55e441207441569a9cebe15f1d63b7";
+            // 
+            // kryptonPageApplication
+            // 
+            this.kryptonPageApplication.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageApplication.Controls.Add(this.kryptonWorkspaceConfigApplication);
+            this.kryptonPageApplication.Flags = 65534;
+            this.kryptonPageApplication.LastVisibleSet = true;
+            this.kryptonPageApplication.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageApplication.Name = "kryptonPageApplication";
+            this.kryptonPageApplication.Size = new System.Drawing.Size(873, 493);
+            this.kryptonPageApplication.Text = "Application";
+            this.kryptonPageApplication.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageApplication.UniqueName = "c215c1585f354e12bb77a1549ead7e7c";
+            // 
+            // kryptonWorkspaceConfigApplication
+            // 
+            this.kryptonWorkspaceConfigApplication.ActivePage = this.kryptonPageApplicationThumbnail;
+            this.kryptonWorkspaceConfigApplication.AllowPageDrag = false;
+            this.kryptonWorkspaceConfigApplication.ContextMenus.ShowContextMenu = false;
+            this.kryptonWorkspaceConfigApplication.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kryptonWorkspaceConfigApplication.Location = new System.Drawing.Point(0, 0);
+            this.kryptonWorkspaceConfigApplication.Name = "kryptonWorkspaceConfigApplication";
+            // 
+            // 
+            // 
+            this.kryptonWorkspaceConfigApplication.Root.Children.AddRange(new System.ComponentModel.Component[] {
+            this.kryptonWorkspaceCellApplication});
+            this.kryptonWorkspaceConfigApplication.Root.UniqueName = "521b7cae8fa74ef7b9e0bd987fac84ec";
+            this.kryptonWorkspaceConfigApplication.Root.WorkspaceControl = this.kryptonWorkspaceConfigApplication;
+            this.kryptonWorkspaceConfigApplication.SeparatorStyle = Krypton.Toolkit.SeparatorStyle.HighProfile;
+            this.kryptonWorkspaceConfigApplication.Size = new System.Drawing.Size(873, 493);
+            this.kryptonWorkspaceConfigApplication.TabIndex = 0;
+            this.kryptonWorkspaceConfigApplication.TabStop = true;
+            // 
+            // kryptonPageApplicationThumbnail
+            // 
+            this.kryptonPageApplicationThumbnail.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageApplicationThumbnail.Controls.Add(this.tableLayoutPanel1);
+            this.kryptonPageApplicationThumbnail.Flags = 65534;
+            this.kryptonPageApplicationThumbnail.LastVisibleSet = true;
+            this.kryptonPageApplicationThumbnail.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageApplicationThumbnail.Name = "kryptonPageApplicationThumbnail";
+            this.kryptonPageApplicationThumbnail.Size = new System.Drawing.Size(692, 491);
+            this.kryptonPageApplicationThumbnail.Text = "Thumbnail";
+            this.kryptonPageApplicationThumbnail.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageApplicationThumbnail.UniqueName = "533a958d219a47959b59a1e3163ef8df";
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.AutoSize = true;
+            this.tableLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
+            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.Controls.Add(this.labelApplicationPosterThumbnailSize, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.labelApplicationRegionThumbnailSizeDescription, 2, 1);
+            this.tableLayoutPanel1.Controls.Add(this.labelApplicationRegionThumbnailSize, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.labelApplicationPosterThumbnailSizeDescription, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.comboBoxApplicationThumbnailSizes, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.comboBoxApplicationRegionThumbnailSizes, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.labelApplicationThumbnailSizeHelp, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.kryptonLabel4, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.kryptonNumericUpDownApplicationGroupSizeRenameNames, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.kryptonLabel5, 2, 3);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 4;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(692, 491);
+            this.tableLayoutPanel1.TabIndex = 8;
+            // 
+            // kryptonLabel4
+            // 
+            this.kryptonLabel4.Location = new System.Drawing.Point(3, 99);
+            this.kryptonLabel4.Name = "kryptonLabel4";
+            this.kryptonLabel4.Size = new System.Drawing.Size(71, 20);
+            this.kryptonLabel4.TabIndex = 8;
+            this.kryptonLabel4.Values.Text = "Group size:";
+            // 
+            // kryptonNumericUpDownApplicationGroupSizeRenameNames
+            // 
+            this.kryptonNumericUpDownApplicationGroupSizeRenameNames.Location = new System.Drawing.Point(183, 99);
+            this.kryptonNumericUpDownApplicationGroupSizeRenameNames.Maximum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            this.kryptonNumericUpDownApplicationGroupSizeRenameNames.Minimum = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.kryptonNumericUpDownApplicationGroupSizeRenameNames.Name = "kryptonNumericUpDownApplicationGroupSizeRenameNames";
+            this.kryptonNumericUpDownApplicationGroupSizeRenameNames.Size = new System.Drawing.Size(120, 22);
+            this.kryptonNumericUpDownApplicationGroupSizeRenameNames.TabIndex = 9;
+            this.kryptonNumericUpDownApplicationGroupSizeRenameNames.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            // 
+            // kryptonLabel5
+            // 
+            this.kryptonLabel5.Location = new System.Drawing.Point(363, 99);
+            this.kryptonLabel5.Name = "kryptonLabel5";
+            this.kryptonLabel5.Size = new System.Drawing.Size(221, 36);
+            this.kryptonLabel5.TabIndex = 10;
+            this.kryptonLabel5.Values.Text = "In People / \"Rename all\" Contextmenu, \r\ngroup names by count of names";
+            // 
+            // kryptonWorkspaceCellApplication
+            // 
+            this.kryptonWorkspaceCellApplication.AllowPageDrag = true;
+            this.kryptonWorkspaceCellApplication.AllowPageReorder = false;
+            this.kryptonWorkspaceCellApplication.AllowTabFocus = false;
+            this.kryptonWorkspaceCellApplication.Bar.BarOrientation = Krypton.Toolkit.VisualOrientation.Left;
+            this.kryptonWorkspaceCellApplication.Bar.ItemOrientation = Krypton.Toolkit.ButtonOrientation.FixedTop;
+            this.kryptonWorkspaceCellApplication.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonWorkspaceCellApplication.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCellApplication.Name = "kryptonWorkspaceCellApplication";
+            this.kryptonWorkspaceCellApplication.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
+            this.kryptonPageApplicationThumbnail,
+            this.kryptonPageApplicationNominatim,
+            this.kryptonPageApplicationSearch,
+            this.kryptonPageApplicationRegionSuggestion,
+            this.kryptonPageRegionAccuracy,
+            this.kryptonPageApplicationCloudAndVirtualFiles,
+            this.kryptonPageApplicationGPSLocationAccuracy,
+            this.kryptonPageAppliactionDateTimeFormatsInFilenamesHelp,
+            this.kryptonPageApplicationDateAndTimeInFilenames,
+            this.kryptonPageThemes});
+            this.kryptonWorkspaceCellApplication.SelectedIndex = 0;
+            this.kryptonWorkspaceCellApplication.UniqueName = "509b106994a8437cbec6056b8eeed6d9";
+            // 
+            // kryptonPageApplicationNominatim
+            // 
+            this.kryptonPageApplicationNominatim.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageApplicationNominatim.Controls.Add(this.tableLayoutPanel2);
+            this.kryptonPageApplicationNominatim.Flags = 65534;
+            this.kryptonPageApplicationNominatim.LastVisibleSet = true;
+            this.kryptonPageApplicationNominatim.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageApplicationNominatim.Name = "kryptonPageApplicationNominatim";
+            this.kryptonPageApplicationNominatim.Size = new System.Drawing.Size(692, 491);
+            this.kryptonPageApplicationNominatim.Text = "Nominatim look-up";
+            this.kryptonPageApplicationNominatim.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageApplicationNominatim.UniqueName = "73c2d6e844994988959c446a2bf05e6b";
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.AutoSize = true;
+            this.tableLayoutPanel2.BackColor = System.Drawing.Color.Transparent;
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel2.Controls.Add(this.labelApplicationNominatimTitle, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.labelApplicationNominatimPreferredLanguagesHelp, 1, 3);
+            this.tableLayoutPanel2.Controls.Add(this.comboBoxApplicationLanguages, 1, 1);
+            this.tableLayoutPanel2.Controls.Add(this.textBoxApplicationPreferredLanguages, 1, 2);
+            this.tableLayoutPanel2.Controls.Add(this.labelApplicationPreferredLanguages, 0, 2);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 4;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(692, 491);
+            this.tableLayoutPanel2.TabIndex = 7;
+            // 
+            // kryptonPageApplicationSearch
+            // 
+            this.kryptonPageApplicationSearch.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageApplicationSearch.Controls.Add(this.tableLayoutPanel3);
+            this.kryptonPageApplicationSearch.Flags = 65534;
+            this.kryptonPageApplicationSearch.LastVisibleSet = true;
+            this.kryptonPageApplicationSearch.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageApplicationSearch.Name = "kryptonPageApplicationSearch";
+            this.kryptonPageApplicationSearch.Size = new System.Drawing.Size(692, 491);
+            this.kryptonPageApplicationSearch.Text = "Search";
+            this.kryptonPageApplicationSearch.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageApplicationSearch.UniqueName = "27a2ac3290f04f38a1a52296e9f1903b";
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.BackColor = System.Drawing.Color.Transparent;
+            this.tableLayoutPanel3.ColumnCount = 2;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel3.Controls.Add(this.labelApplicationSearch, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.numericUpDownApplicationMaxRowsInSearchResult, 1, 0);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 1;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(692, 491);
+            this.tableLayoutPanel3.TabIndex = 1;
+            // 
+            // kryptonPageApplicationRegionSuggestion
+            // 
+            this.kryptonPageApplicationRegionSuggestion.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageApplicationRegionSuggestion.Controls.Add(this.tableLayoutPanel4);
+            this.kryptonPageApplicationRegionSuggestion.Flags = 65534;
+            this.kryptonPageApplicationRegionSuggestion.LastVisibleSet = true;
+            this.kryptonPageApplicationRegionSuggestion.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageApplicationRegionSuggestion.Name = "kryptonPageApplicationRegionSuggestion";
+            this.kryptonPageApplicationRegionSuggestion.Size = new System.Drawing.Size(692, 491);
+            this.kryptonPageApplicationRegionSuggestion.Text = "Region suggestion ";
+            this.kryptonPageApplicationRegionSuggestion.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageApplicationRegionSuggestion.UniqueName = "91d103da57554355ad508c89fe569a44";
+            // 
+            // tableLayoutPanel4
+            // 
+            this.tableLayoutPanel4.BackColor = System.Drawing.Color.Transparent;
+            this.tableLayoutPanel4.ColumnCount = 3;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel4.Controls.Add(this.labelApplicationNumberOfDays, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.labelApplicationNumberOfMostCommonDescription, 2, 1);
+            this.tableLayoutPanel4.Controls.Add(this.labelApplicationNumberOfMostCommon, 0, 1);
+            this.tableLayoutPanel4.Controls.Add(this.labelApplicationNumberOfDaysDescription, 2, 0);
+            this.tableLayoutPanel4.Controls.Add(this.numericUpDownPeopleSuggestNameDaysInterval, 1, 0);
+            this.tableLayoutPanel4.Controls.Add(this.numericUpDownPeopleSuggestNameTopMost, 1, 1);
+            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 2;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(692, 100);
+            this.tableLayoutPanel4.TabIndex = 12;
+            // 
+            // kryptonPageRegionAccuracy
+            // 
+            this.kryptonPageRegionAccuracy.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageRegionAccuracy.Controls.Add(this.tableLayoutPanel5);
+            this.kryptonPageRegionAccuracy.Flags = 65534;
+            this.kryptonPageRegionAccuracy.LastVisibleSet = true;
+            this.kryptonPageRegionAccuracy.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageRegionAccuracy.Name = "kryptonPageRegionAccuracy";
+            this.kryptonPageRegionAccuracy.Size = new System.Drawing.Size(692, 491);
+            this.kryptonPageRegionAccuracy.Text = "Region accuracy";
+            this.kryptonPageRegionAccuracy.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageRegionAccuracy.UniqueName = "eb580b8b963e42cc8c659a3987162706";
+            // 
+            // tableLayoutPanel5
+            // 
+            this.tableLayoutPanel5.BackColor = System.Drawing.Color.Transparent;
+            this.tableLayoutPanel5.ColumnCount = 3;
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel5.Controls.Add(this.labelApplicationRegionAccuracy, 0, 1);
+            this.tableLayoutPanel5.Controls.Add(this.labelApplicationRegionAccuracyHelp, 2, 0);
+            this.tableLayoutPanel5.Controls.Add(this.labelApplicationRegionAccuracyDescription, 2, 1);
+            this.tableLayoutPanel5.Controls.Add(this.numericUpDownRegionMissmatchProcent, 1, 1);
+            this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
+            this.tableLayoutPanel5.RowCount = 2;
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(692, 491);
+            this.tableLayoutPanel5.TabIndex = 4;
+            // 
+            // kryptonPageApplicationCloudAndVirtualFiles
+            // 
+            this.kryptonPageApplicationCloudAndVirtualFiles.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageApplicationCloudAndVirtualFiles.Controls.Add(this.tableLayoutPanel6);
+            this.kryptonPageApplicationCloudAndVirtualFiles.Flags = 65534;
+            this.kryptonPageApplicationCloudAndVirtualFiles.LastVisibleSet = true;
+            this.kryptonPageApplicationCloudAndVirtualFiles.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageApplicationCloudAndVirtualFiles.Name = "kryptonPageApplicationCloudAndVirtualFiles";
+            this.kryptonPageApplicationCloudAndVirtualFiles.Size = new System.Drawing.Size(692, 491);
+            this.kryptonPageApplicationCloudAndVirtualFiles.Text = "Cloud and Virual files";
+            this.kryptonPageApplicationCloudAndVirtualFiles.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageApplicationCloudAndVirtualFiles.UniqueName = "0267042819a846f3ab4e9b312d1e09bc";
+            // 
+            // tableLayoutPanel6
+            // 
+            this.tableLayoutPanel6.BackColor = System.Drawing.Color.Transparent;
+            this.tableLayoutPanel6.ColumnCount = 1;
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel6.Controls.Add(this.checkBoxApplicationAvoidReadMediaFromCloud, 0, 0);
+            this.tableLayoutPanel6.Controls.Add(this.checkBoxApplicationImageListViewCacheModeOnDemand, 0, 2);
+            this.tableLayoutPanel6.Controls.Add(this.checkBoxApplicationAvoidReadExifFromCloud, 0, 1);
+            this.tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel6.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
+            this.tableLayoutPanel6.RowCount = 3;
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(692, 491);
+            this.tableLayoutPanel6.TabIndex = 3;
+            // 
+            // kryptonPageApplicationGPSLocationAccuracy
+            // 
+            this.kryptonPageApplicationGPSLocationAccuracy.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageApplicationGPSLocationAccuracy.Controls.Add(this.tableLayoutPanel7);
+            this.kryptonPageApplicationGPSLocationAccuracy.Flags = 65534;
+            this.kryptonPageApplicationGPSLocationAccuracy.LastVisibleSet = true;
+            this.kryptonPageApplicationGPSLocationAccuracy.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageApplicationGPSLocationAccuracy.Name = "kryptonPageApplicationGPSLocationAccuracy";
+            this.kryptonPageApplicationGPSLocationAccuracy.Size = new System.Drawing.Size(692, 491);
+            this.kryptonPageApplicationGPSLocationAccuracy.Text = "GPS Location Accuracy";
+            this.kryptonPageApplicationGPSLocationAccuracy.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageApplicationGPSLocationAccuracy.UniqueName = "ee40c1ac2a5048c386af9eac94b1a48d";
+            // 
+            // tableLayoutPanel7
+            // 
+            this.tableLayoutPanel7.BackColor = System.Drawing.Color.Transparent;
+            this.tableLayoutPanel7.ColumnCount = 3;
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel7.Controls.Add(this.labelApplicationAccuracyLonftitude, 0, 2);
+            this.tableLayoutPanel7.Controls.Add(this.labelApplicationGPSLocationAccuracy, 2, 0);
+            this.tableLayoutPanel7.Controls.Add(this.labelApplicationAccuracyLatitude, 0, 1);
+            this.tableLayoutPanel7.Controls.Add(this.numericUpDownLocationAccuracyLongitude, 1, 2);
+            this.tableLayoutPanel7.Controls.Add(this.numericUpDownLocationAccuracyLatitude, 1, 1);
+            this.tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel7.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel7.Name = "tableLayoutPanel7";
+            this.tableLayoutPanel7.RowCount = 3;
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel7.Size = new System.Drawing.Size(692, 491);
+            this.tableLayoutPanel7.TabIndex = 5;
+            // 
+            // kryptonPageAppliactionDateTimeFormatsInFilenamesHelp
+            // 
+            this.kryptonPageAppliactionDateTimeFormatsInFilenamesHelp.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageAppliactionDateTimeFormatsInFilenamesHelp.Controls.Add(this.textBoxApplicationDateTimeFormatHelp);
+            this.kryptonPageAppliactionDateTimeFormatsInFilenamesHelp.Flags = 65534;
+            this.kryptonPageAppliactionDateTimeFormatsInFilenamesHelp.LastVisibleSet = true;
+            this.kryptonPageAppliactionDateTimeFormatsInFilenamesHelp.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageAppliactionDateTimeFormatsInFilenamesHelp.Name = "kryptonPageAppliactionDateTimeFormatsInFilenamesHelp";
+            this.kryptonPageAppliactionDateTimeFormatsInFilenamesHelp.Size = new System.Drawing.Size(692, 491);
+            this.kryptonPageAppliactionDateTimeFormatsInFilenamesHelp.Text = "DateTime formats help";
+            this.kryptonPageAppliactionDateTimeFormatsInFilenamesHelp.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageAppliactionDateTimeFormatsInFilenamesHelp.UniqueName = "6e2d844a426a4ac6beb646b2829aaf0e";
+            // 
+            // kryptonPageApplicationDateAndTimeInFilenames
+            // 
+            this.kryptonPageApplicationDateAndTimeInFilenames.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageApplicationDateAndTimeInFilenames.Controls.Add(this.fastColoredTextBoxConfigFilenameDateFormats);
+            this.kryptonPageApplicationDateAndTimeInFilenames.Flags = 65534;
+            this.kryptonPageApplicationDateAndTimeInFilenames.LastVisibleSet = true;
+            this.kryptonPageApplicationDateAndTimeInFilenames.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageApplicationDateAndTimeInFilenames.Name = "kryptonPageApplicationDateAndTimeInFilenames";
+            this.kryptonPageApplicationDateAndTimeInFilenames.Size = new System.Drawing.Size(680, 491);
+            this.kryptonPageApplicationDateAndTimeInFilenames.Text = "DateTime formats in filenames";
+            this.kryptonPageApplicationDateAndTimeInFilenames.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageApplicationDateAndTimeInFilenames.UniqueName = "9005463b04cf40ed9c256d2baa999bba";
+            // 
+            // kryptonPageThemes
+            // 
+            this.kryptonPageThemes.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageThemes.Controls.Add(this.kryptonWorkspaceApplicationThemes);
+            this.kryptonPageThemes.Flags = 65534;
+            this.kryptonPageThemes.LastVisibleSet = true;
+            this.kryptonPageThemes.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageThemes.Name = "kryptonPageThemes";
+            this.kryptonPageThemes.Size = new System.Drawing.Size(692, 491);
+            this.kryptonPageThemes.Text = "Themes";
+            this.kryptonPageThemes.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageThemes.UniqueName = "b2d4daf37cae46659ec6648c4ae005e4";
+            // 
+            // kryptonWorkspaceApplicationThemes
+            // 
+            this.kryptonWorkspaceApplicationThemes.ActivePage = this.kryptonPageApplicationThemesSelect;
+            this.kryptonWorkspaceApplicationThemes.AllowPageDrag = false;
+            this.kryptonWorkspaceApplicationThemes.ContextMenus.ShowContextMenu = false;
+            this.kryptonWorkspaceApplicationThemes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kryptonWorkspaceApplicationThemes.Location = new System.Drawing.Point(0, 0);
+            this.kryptonWorkspaceApplicationThemes.Name = "kryptonWorkspaceApplicationThemes";
+            // 
+            // 
+            // 
+            this.kryptonWorkspaceApplicationThemes.Root.Children.AddRange(new System.ComponentModel.Component[] {
+            this.kryptonWorkspaceCellApplicationThemesSelect,
+            this.kryptonWorkspaceCellApplicationThemesPreview,
+            this.kryptonWorkspaceCellApplicationThemesProperties});
+            this.kryptonWorkspaceApplicationThemes.Root.UniqueName = "356dac622a92491b8e537305cfe3c2ac";
+            this.kryptonWorkspaceApplicationThemes.Root.WorkspaceControl = this.kryptonWorkspaceApplicationThemes;
+            this.kryptonWorkspaceApplicationThemes.SeparatorStyle = Krypton.Toolkit.SeparatorStyle.HighProfile;
+            this.kryptonWorkspaceApplicationThemes.Size = new System.Drawing.Size(692, 491);
+            this.kryptonWorkspaceApplicationThemes.TabIndex = 13;
+            this.kryptonWorkspaceApplicationThemes.TabStop = true;
+            // 
+            // kryptonPageApplicationThemesSelect
+            // 
+            this.kryptonPageApplicationThemesSelect.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageApplicationThemesSelect.Controls.Add(this.C);
+            this.kryptonPageApplicationThemesSelect.Flags = 65534;
+            this.kryptonPageApplicationThemesSelect.LastVisibleSet = true;
+            this.kryptonPageApplicationThemesSelect.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageApplicationThemesSelect.Name = "kryptonPageApplicationThemesSelect";
+            this.kryptonPageApplicationThemesSelect.Size = new System.Drawing.Size(168, 438);
+            this.kryptonPageApplicationThemesSelect.Text = "Themes";
+            this.kryptonPageApplicationThemesSelect.TextDescription = "Select, Import and export Themes";
+            this.kryptonPageApplicationThemesSelect.TextTitle = "Themes";
+            this.kryptonPageApplicationThemesSelect.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageApplicationThemesSelect.UniqueName = "0e93300d641c4e4e8207572c84f0acc7";
+            // 
+            // C
+            // 
+            this.C.AutoScroll = true;
+            this.C.BackColor = System.Drawing.Color.Transparent;
+            this.C.ColumnCount = 1;
+            this.C.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.C.Controls.Add(this.buttonSparklePurple, 0, 21);
+            this.C.Controls.Add(this.buttonSparkleOrange, 0, 20);
+            this.C.Controls.Add(this.buttonOffice2007White, 0, 17);
+            this.C.Controls.Add(this.buttonOffice2010White, 0, 13);
+            this.C.Controls.Add(this.buttonSparkleBlue, 0, 19);
+            this.C.Controls.Add(this.buttonOffice365White, 0, 9);
+            this.C.Controls.Add(this.buttonOffice2003, 0, 18);
+            this.C.Controls.Add(this.kryptonButtonApplicationThemesExport, 0, 0);
+            this.C.Controls.Add(this.buttonOffice2010Silver, 0, 12);
+            this.C.Controls.Add(this.buttonOffice2007Silver, 0, 16);
+            this.C.Controls.Add(this.buttonOffice2007Black, 0, 14);
+            this.C.Controls.Add(this.buttonOffice2007Blue, 0, 15);
+            this.C.Controls.Add(this.buttonOffice2010Black, 0, 10);
+            this.C.Controls.Add(this.buttonOffice2010Blue, 0, 11);
+            this.C.Controls.Add(this.buttonOffice365Silver, 0, 8);
+            this.C.Controls.Add(this.buttonOffice365Black, 0, 6);
+            this.C.Controls.Add(this.buttonOffice365Blue, 0, 7);
+            this.C.Controls.Add(this.kryptonButtonApplicationThemesImport, 0, 1);
+            this.C.Controls.Add(this.buttonSystem, 0, 2);
+            this.C.Controls.Add(this.buttonDarkMode, 0, 3);
+            this.C.Controls.Add(this.buttonOffice2013White, 0, 5);
+            this.C.Controls.Add(this.buttonOffice2013, 0, 4);
+            this.C.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.C.Location = new System.Drawing.Point(0, 0);
+            this.C.Name = "C";
+            this.C.RowCount = 23;
+            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.C.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.C.Size = new System.Drawing.Size(168, 438);
+            this.C.TabIndex = 4;
+            // 
+            // buttonSparklePurple
+            // 
+            this.buttonSparklePurple.Location = new System.Drawing.Point(3, 692);
+            this.buttonSparklePurple.Name = "buttonSparklePurple";
+            this.buttonSparklePurple.Size = new System.Drawing.Size(138, 27);
+            this.buttonSparklePurple.TabIndex = 21;
+            this.buttonSparklePurple.Values.Text = "Sparkle - Purple";
+            this.buttonSparklePurple.Click += new System.EventHandler(this.buttonSparklePurple_Click);
+            // 
+            // buttonSparkleOrange
+            // 
+            this.buttonSparkleOrange.Location = new System.Drawing.Point(3, 659);
+            this.buttonSparkleOrange.Name = "buttonSparkleOrange";
+            this.buttonSparkleOrange.Size = new System.Drawing.Size(138, 27);
+            this.buttonSparkleOrange.TabIndex = 20;
+            this.buttonSparkleOrange.Values.Text = "Sparkle - Orange";
+            this.buttonSparkleOrange.Click += new System.EventHandler(this.buttonSparkleOrange_Click);
+            // 
+            // buttonOffice2007White
+            // 
+            this.buttonOffice2007White.Location = new System.Drawing.Point(3, 560);
+            this.buttonOffice2007White.Name = "buttonOffice2007White";
+            this.buttonOffice2007White.Size = new System.Drawing.Size(138, 27);
+            this.buttonOffice2007White.TabIndex = 24;
+            this.buttonOffice2007White.Values.Text = "Office 2007 - White";
+            this.buttonOffice2007White.Click += new System.EventHandler(this.buttonOffice2007White_Click);
+            // 
+            // buttonOffice2010White
+            // 
+            this.buttonOffice2010White.Location = new System.Drawing.Point(3, 428);
+            this.buttonOffice2010White.Name = "buttonOffice2010White";
+            this.buttonOffice2010White.Size = new System.Drawing.Size(138, 27);
+            this.buttonOffice2010White.TabIndex = 26;
+            this.buttonOffice2010White.Values.Text = "Office 2010 - White";
+            this.buttonOffice2010White.Click += new System.EventHandler(this.buttonOffice2010White_Click);
+            // 
+            // buttonSparkleBlue
+            // 
+            this.buttonSparkleBlue.Location = new System.Drawing.Point(3, 626);
+            this.buttonSparkleBlue.Name = "buttonSparkleBlue";
+            this.buttonSparkleBlue.Size = new System.Drawing.Size(138, 27);
+            this.buttonSparkleBlue.TabIndex = 19;
+            this.buttonSparkleBlue.Values.Text = "Sparkle - Blue";
+            this.buttonSparkleBlue.Click += new System.EventHandler(this.buttonSparkleBlue_Click);
+            // 
+            // buttonOffice365White
+            // 
+            this.buttonOffice365White.Location = new System.Drawing.Point(3, 296);
+            this.buttonOffice365White.Name = "buttonOffice365White";
+            this.buttonOffice365White.Size = new System.Drawing.Size(138, 27);
+            this.buttonOffice365White.TabIndex = 32;
+            this.buttonOffice365White.Values.Text = "Office 365 - White";
+            this.buttonOffice365White.Click += new System.EventHandler(this.buttonOffice365White_Click);
+            // 
+            // buttonOffice2003
+            // 
+            this.buttonOffice2003.Location = new System.Drawing.Point(3, 593);
+            this.buttonOffice2003.Name = "buttonOffice2003";
+            this.buttonOffice2003.Size = new System.Drawing.Size(138, 27);
+            this.buttonOffice2003.TabIndex = 18;
+            this.buttonOffice2003.Values.Text = "Office 2003";
+            this.buttonOffice2003.Click += new System.EventHandler(this.buttonOffice2003_Click);
+            // 
+            // kryptonButtonApplicationThemesExport
+            // 
+            this.kryptonButtonApplicationThemesExport.Location = new System.Drawing.Point(2, 2);
+            this.kryptonButtonApplicationThemesExport.Margin = new System.Windows.Forms.Padding(2);
+            this.kryptonButtonApplicationThemesExport.Name = "kryptonButtonApplicationThemesExport";
+            this.kryptonButtonApplicationThemesExport.Size = new System.Drawing.Size(138, 27);
+            this.kryptonButtonApplicationThemesExport.TabIndex = 3;
+            this.kryptonButtonApplicationThemesExport.Values.Text = "Export Theme";
+            this.kryptonButtonApplicationThemesExport.Click += new System.EventHandler(this.kryptonButtonApplicationThemesExport_Click);
+            // 
+            // buttonOffice2010Silver
+            // 
+            this.buttonOffice2010Silver.Location = new System.Drawing.Point(3, 395);
+            this.buttonOffice2010Silver.Name = "buttonOffice2010Silver";
+            this.buttonOffice2010Silver.Size = new System.Drawing.Size(138, 27);
+            this.buttonOffice2010Silver.TabIndex = 13;
+            this.buttonOffice2010Silver.Values.Text = "Office 2010 - Silver";
+            this.buttonOffice2010Silver.Click += new System.EventHandler(this.buttonOffice2010Silver_Click);
+            // 
+            // buttonOffice2007Silver
+            // 
+            this.buttonOffice2007Silver.Location = new System.Drawing.Point(3, 527);
+            this.buttonOffice2007Silver.Name = "buttonOffice2007Silver";
+            this.buttonOffice2007Silver.Size = new System.Drawing.Size(138, 27);
+            this.buttonOffice2007Silver.TabIndex = 16;
+            this.buttonOffice2007Silver.Values.Text = "Office 2007 - Silver";
+            this.buttonOffice2007Silver.Click += new System.EventHandler(this.buttonOffice2007Silver_Click);
+            // 
+            // buttonOffice2007Black
+            // 
+            this.buttonOffice2007Black.Location = new System.Drawing.Point(3, 461);
+            this.buttonOffice2007Black.Name = "buttonOffice2007Black";
+            this.buttonOffice2007Black.Size = new System.Drawing.Size(138, 27);
+            this.buttonOffice2007Black.TabIndex = 17;
+            this.buttonOffice2007Black.Values.Text = "Office 2007 - Black";
+            this.buttonOffice2007Black.Click += new System.EventHandler(this.buttonOffice2007Black_Click);
+            // 
+            // buttonOffice2007Blue
+            // 
+            this.buttonOffice2007Blue.Location = new System.Drawing.Point(3, 494);
+            this.buttonOffice2007Blue.Name = "buttonOffice2007Blue";
+            this.buttonOffice2007Blue.Size = new System.Drawing.Size(138, 27);
+            this.buttonOffice2007Blue.TabIndex = 15;
+            this.buttonOffice2007Blue.Values.Text = "Office 2007 - Blue";
+            this.buttonOffice2007Blue.Click += new System.EventHandler(this.buttonOffice2007Blue_Click);
+            // 
+            // buttonOffice2010Black
+            // 
+            this.buttonOffice2010Black.Location = new System.Drawing.Point(3, 329);
+            this.buttonOffice2010Black.Name = "buttonOffice2010Black";
+            this.buttonOffice2010Black.Size = new System.Drawing.Size(138, 27);
+            this.buttonOffice2010Black.TabIndex = 14;
+            this.buttonOffice2010Black.Values.Text = "Office 2010 - Black";
+            this.buttonOffice2010Black.Click += new System.EventHandler(this.buttonOffice2010Black_Click);
+            // 
+            // buttonOffice2010Blue
+            // 
+            this.buttonOffice2010Blue.Location = new System.Drawing.Point(3, 362);
+            this.buttonOffice2010Blue.Name = "buttonOffice2010Blue";
+            this.buttonOffice2010Blue.Size = new System.Drawing.Size(138, 27);
+            this.buttonOffice2010Blue.TabIndex = 12;
+            this.buttonOffice2010Blue.Values.Text = "Office 2010 - Blue";
+            this.buttonOffice2010Blue.Click += new System.EventHandler(this.buttonOffice2010Blue_Click);
+            // 
+            // buttonOffice365Silver
+            // 
+            this.buttonOffice365Silver.Location = new System.Drawing.Point(3, 263);
+            this.buttonOffice365Silver.Name = "buttonOffice365Silver";
+            this.buttonOffice365Silver.Size = new System.Drawing.Size(138, 27);
+            this.buttonOffice365Silver.TabIndex = 30;
+            this.buttonOffice365Silver.Values.Text = "Office 365 - Silver";
+            this.buttonOffice365Silver.Click += new System.EventHandler(this.buttonOffice365Silver_Click);
+            // 
+            // buttonOffice365Black
+            // 
+            this.buttonOffice365Black.Location = new System.Drawing.Point(3, 197);
+            this.buttonOffice365Black.Name = "buttonOffice365Black";
+            this.buttonOffice365Black.Size = new System.Drawing.Size(138, 27);
+            this.buttonOffice365Black.TabIndex = 31;
+            this.buttonOffice365Black.Values.Text = "Office 365 - Black";
+            this.buttonOffice365Black.Click += new System.EventHandler(this.buttonOffice365Black_Click);
+            // 
+            // buttonOffice365Blue
+            // 
+            this.buttonOffice365Blue.Location = new System.Drawing.Point(3, 230);
+            this.buttonOffice365Blue.Name = "buttonOffice365Blue";
+            this.buttonOffice365Blue.Size = new System.Drawing.Size(138, 27);
+            this.buttonOffice365Blue.TabIndex = 29;
+            this.buttonOffice365Blue.Values.Text = "Office 365 - Blue";
+            this.buttonOffice365Blue.Click += new System.EventHandler(this.buttonOffice365Blue_Click);
+            // 
+            // kryptonButtonApplicationThemesImport
+            // 
+            this.kryptonButtonApplicationThemesImport.Location = new System.Drawing.Point(2, 33);
+            this.kryptonButtonApplicationThemesImport.Margin = new System.Windows.Forms.Padding(2);
+            this.kryptonButtonApplicationThemesImport.Name = "kryptonButtonApplicationThemesImport";
+            this.kryptonButtonApplicationThemesImport.Size = new System.Drawing.Size(138, 27);
+            this.kryptonButtonApplicationThemesImport.TabIndex = 4;
+            this.kryptonButtonApplicationThemesImport.Values.Text = "Import Theme";
+            this.kryptonButtonApplicationThemesImport.Click += new System.EventHandler(this.kryptonButtonApplicationThemesImport_Click);
+            // 
+            // buttonSystem
+            // 
+            this.buttonSystem.Location = new System.Drawing.Point(3, 65);
+            this.buttonSystem.Name = "buttonSystem";
+            this.buttonSystem.Size = new System.Drawing.Size(138, 27);
+            this.buttonSystem.TabIndex = 22;
+            this.buttonSystem.Values.Text = "System";
+            this.buttonSystem.Click += new System.EventHandler(this.buttonSystem_Click);
+            // 
+            // buttonDarkMode
+            // 
+            this.buttonDarkMode.Location = new System.Drawing.Point(3, 98);
+            this.buttonDarkMode.Name = "buttonDarkMode";
+            this.buttonDarkMode.Size = new System.Drawing.Size(138, 27);
+            this.buttonDarkMode.TabIndex = 25;
+            this.buttonDarkMode.Values.Text = "Dark mode";
+            this.buttonDarkMode.Click += new System.EventHandler(this.buttonDarkMode_Click);
+            // 
+            // buttonOffice2013White
+            // 
+            this.buttonOffice2013White.Location = new System.Drawing.Point(3, 164);
+            this.buttonOffice2013White.Name = "buttonOffice2013White";
+            this.buttonOffice2013White.Size = new System.Drawing.Size(138, 27);
+            this.buttonOffice2013White.TabIndex = 28;
+            this.buttonOffice2013White.Values.Text = "Office 2013 White";
+            this.buttonOffice2013White.Click += new System.EventHandler(this.buttonOffice2013White_Click);
+            // 
+            // buttonOffice2013
+            // 
+            this.buttonOffice2013.Location = new System.Drawing.Point(3, 131);
+            this.buttonOffice2013.Name = "buttonOffice2013";
+            this.buttonOffice2013.Size = new System.Drawing.Size(138, 27);
+            this.buttonOffice2013.TabIndex = 27;
+            this.buttonOffice2013.Values.Text = "Office 2013";
+            this.buttonOffice2013.Click += new System.EventHandler(this.buttonOffice2013_Click);
+            // 
+            // kryptonWorkspaceCellApplicationThemesSelect
+            // 
+            this.kryptonWorkspaceCellApplicationThemesSelect.AllowPageDrag = true;
+            this.kryptonWorkspaceCellApplicationThemesSelect.AllowTabFocus = false;
+            this.kryptonWorkspaceCellApplicationThemesSelect.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonWorkspaceCellApplicationThemesSelect.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCellApplicationThemesSelect.Name = "kryptonWorkspaceCellApplicationThemesSelect";
+            this.kryptonWorkspaceCellApplicationThemesSelect.NavigatorMode = Krypton.Navigator.NavigatorMode.HeaderGroup;
+            this.kryptonWorkspaceCellApplicationThemesSelect.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
+            this.kryptonPageApplicationThemesSelect});
+            this.kryptonWorkspaceCellApplicationThemesSelect.SelectedIndex = 0;
+            this.kryptonWorkspaceCellApplicationThemesSelect.StarSize = "170,10*";
+            this.kryptonWorkspaceCellApplicationThemesSelect.UniqueName = "7933941339df4b21a8e5d81fb99e99af";
+            // 
+            // kryptonWorkspaceCellApplicationThemesPreview
+            // 
+            this.kryptonWorkspaceCellApplicationThemesPreview.AllowPageDrag = true;
+            this.kryptonWorkspaceCellApplicationThemesPreview.AllowTabFocus = false;
+            this.kryptonWorkspaceCellApplicationThemesPreview.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonWorkspaceCellApplicationThemesPreview.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCellApplicationThemesPreview.Name = "kryptonWorkspaceCellApplicationThemesPreview";
+            this.kryptonWorkspaceCellApplicationThemesPreview.NavigatorMode = Krypton.Navigator.NavigatorMode.HeaderGroup;
+            this.kryptonWorkspaceCellApplicationThemesPreview.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
+            this.kryptonPageApplicationThemesPreview});
+            this.kryptonWorkspaceCellApplicationThemesPreview.SelectedIndex = 0;
+            this.kryptonWorkspaceCellApplicationThemesPreview.UniqueName = "9dfb0ee646c348abbb862ac0b829be3e";
+            // 
+            // kryptonPageApplicationThemesPreview
+            // 
+            this.kryptonPageApplicationThemesPreview.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageApplicationThemesPreview.Controls.Add(this.kryptonDataGridViewShowPalette);
+            this.kryptonPageApplicationThemesPreview.Controls.Add(this.kryptonButtonShowContectMenu);
+            this.kryptonPageApplicationThemesPreview.Controls.Add(this.kryptonCheckedListBox1);
+            this.kryptonPageApplicationThemesPreview.Controls.Add(this.kryptonDateTimePicker1);
+            this.kryptonPageApplicationThemesPreview.Controls.Add(this.kryptonComboBox2);
+            this.kryptonPageApplicationThemesPreview.Controls.Add(this.kryptonGroupBox1);
+            this.kryptonPageApplicationThemesPreview.Controls.Add(this.kryptonCheckButton1);
+            this.kryptonPageApplicationThemesPreview.Controls.Add(this.kryptonLabelApplicationThemesNormalLabel);
+            this.kryptonPageApplicationThemesPreview.Controls.Add(this.kryptonLabelApplicationThemesTitle);
+            this.kryptonPageApplicationThemesPreview.Controls.Add(this.kryptonButton1);
+            this.kryptonPageApplicationThemesPreview.Controls.Add(this.kryptonButton2);
+            this.kryptonPageApplicationThemesPreview.Flags = 65534;
+            this.kryptonPageApplicationThemesPreview.LastVisibleSet = true;
+            this.kryptonPageApplicationThemesPreview.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageApplicationThemesPreview.Name = "kryptonPageApplicationThemesPreview";
+            this.kryptonPageApplicationThemesPreview.Size = new System.Drawing.Size(254, 438);
+            this.kryptonPageApplicationThemesPreview.Text = "Preview";
+            this.kryptonPageApplicationThemesPreview.TextDescription = "Preview of properies changes";
+            this.kryptonPageApplicationThemesPreview.TextTitle = "Preview";
+            this.kryptonPageApplicationThemesPreview.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageApplicationThemesPreview.UniqueName = "7aef3c9831484af3b4cba4008fac6852";
+            // 
+            // kryptonDataGridViewShowPalette
+            // 
+            this.kryptonDataGridViewShowPalette.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.kryptonDataGridViewShowPalette.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column1,
+            this.Column2,
+            this.Column3,
+            this.Column4,
+            this.Column5});
+            this.kryptonDataGridViewShowPalette.Location = new System.Drawing.Point(9, 333);
+            this.kryptonDataGridViewShowPalette.Name = "kryptonDataGridViewShowPalette";
+            this.kryptonDataGridViewShowPalette.RowHeadersWidth = 80;
+            this.kryptonDataGridViewShowPalette.Size = new System.Drawing.Size(239, 95);
+            this.kryptonDataGridViewShowPalette.TabIndex = 14;
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "Edit";
+            this.Column1.Name = "Column1";
+            this.Column1.Width = 50;
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "Edit";
+            this.Column2.Name = "Column2";
+            this.Column2.Width = 50;
+            // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "Error";
+            this.Column3.Name = "Column3";
+            this.Column3.Width = 50;
+            // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "Warning";
+            this.Column4.Name = "Column4";
+            this.Column4.Width = 50;
+            // 
+            // Column5
+            // 
+            this.Column5.HeaderText = "Image";
+            this.Column5.Name = "Column5";
+            this.Column5.Width = 50;
+            // 
+            // kryptonButtonShowContectMenu
+            // 
+            this.kryptonButtonShowContectMenu.Location = new System.Drawing.Point(20, 12);
+            this.kryptonButtonShowContectMenu.Name = "kryptonButtonShowContectMenu";
+            this.kryptonButtonShowContectMenu.Size = new System.Drawing.Size(215, 25);
+            this.kryptonButtonShowContectMenu.TabIndex = 13;
+            this.kryptonButtonShowContectMenu.Values.Text = "Show ContectMenu";
+            this.kryptonButtonShowContectMenu.Click += new System.EventHandler(this.kryptonButtonShowContectMenu_Click);
+            // 
+            // kryptonCheckedListBox1
+            // 
+            this.kryptonCheckedListBox1.Items.AddRange(new object[] {
+            "Item1",
+            "Item2",
+            "Item3"});
+            this.kryptonCheckedListBox1.Location = new System.Drawing.Point(153, 42);
+            this.kryptonCheckedListBox1.Name = "kryptonCheckedListBox1";
+            this.kryptonCheckedListBox1.Size = new System.Drawing.Size(82, 88);
+            this.kryptonCheckedListBox1.TabIndex = 12;
+            // 
+            // kryptonDateTimePicker1
+            // 
+            this.kryptonDateTimePicker1.CalendarTodayDate = new System.DateTime(2021, 9, 19, 0, 0, 0, 0);
+            this.kryptonDateTimePicker1.Location = new System.Drawing.Point(20, 111);
+            this.kryptonDateTimePicker1.Name = "kryptonDateTimePicker1";
+            this.kryptonDateTimePicker1.Size = new System.Drawing.Size(122, 21);
+            this.kryptonDateTimePicker1.TabIndex = 11;
+            // 
+            // kryptonComboBox2
+            // 
+            this.kryptonComboBox2.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.kryptonComboBox2.DropDownWidth = 121;
+            this.kryptonComboBox2.IntegralHeight = false;
+            this.kryptonComboBox2.Items.AddRange(new object[] {
+            "Item 1",
+            "Item 2 - lot of text, this is just to see a long line",
+            "Item 3"});
+            this.kryptonComboBox2.Location = new System.Drawing.Point(20, 86);
+            this.kryptonComboBox2.Name = "kryptonComboBox2";
+            this.kryptonComboBox2.Size = new System.Drawing.Size(121, 21);
+            this.kryptonComboBox2.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
+            this.kryptonComboBox2.TabIndex = 10;
+            this.kryptonComboBox2.Text = "ComboBox";
+            // 
+            // kryptonGroupBox1
+            // 
+            this.kryptonGroupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.kryptonGroupBox1.Location = new System.Drawing.Point(10, 136);
+            this.kryptonGroupBox1.Name = "kryptonGroupBox1";
+            // 
+            // kryptonGroupBox1.Panel
+            // 
+            this.kryptonGroupBox1.Panel.Controls.Add(this.kryptonCheckedListBox2);
+            this.kryptonGroupBox1.Panel.Controls.Add(this.kryptonLabel2);
+            this.kryptonGroupBox1.Panel.Controls.Add(this.kryptonDateTimePicker2);
+            this.kryptonGroupBox1.Panel.Controls.Add(this.kryptonLabel1);
+            this.kryptonGroupBox1.Panel.Controls.Add(this.kryptonComboBox1);
+            this.kryptonGroupBox1.Size = new System.Drawing.Size(239, 119);
+            this.kryptonGroupBox1.TabIndex = 9;
+            // 
+            // kryptonCheckedListBox2
+            // 
+            this.kryptonCheckedListBox2.Items.AddRange(new object[] {
+            "Item1",
+            "Item2",
+            "Item3"});
+            this.kryptonCheckedListBox2.Location = new System.Drawing.Point(141, 4);
+            this.kryptonCheckedListBox2.Name = "kryptonCheckedListBox2";
+            this.kryptonCheckedListBox2.Size = new System.Drawing.Size(82, 88);
+            this.kryptonCheckedListBox2.TabIndex = 17;
+            // 
+            // kryptonLabel2
+            // 
+            this.kryptonLabel2.LabelStyle = Krypton.Toolkit.LabelStyle.TitleControl;
+            this.kryptonLabel2.Location = new System.Drawing.Point(8, 4);
+            this.kryptonLabel2.Name = "kryptonLabel2";
+            this.kryptonLabel2.Size = new System.Drawing.Size(116, 29);
+            this.kryptonLabel2.TabIndex = 13;
+            this.kryptonLabel2.Values.Text = "Label (Title)";
+            // 
+            // kryptonDateTimePicker2
+            // 
+            this.kryptonDateTimePicker2.CalendarTodayDate = new System.DateTime(2021, 9, 19, 0, 0, 0, 0);
+            this.kryptonDateTimePicker2.Location = new System.Drawing.Point(8, 73);
+            this.kryptonDateTimePicker2.Name = "kryptonDateTimePicker2";
+            this.kryptonDateTimePicker2.Size = new System.Drawing.Size(122, 21);
+            this.kryptonDateTimePicker2.TabIndex = 16;
+            // 
+            // kryptonLabel1
+            // 
+            this.kryptonLabel1.Location = new System.Drawing.Point(8, 27);
+            this.kryptonLabel1.Name = "kryptonLabel1";
+            this.kryptonLabel1.Size = new System.Drawing.Size(91, 20);
+            this.kryptonLabel1.TabIndex = 14;
+            this.kryptonLabel1.Values.Text = "Label (Normal)";
+            // 
+            // kryptonComboBox1
+            // 
+            this.kryptonComboBox1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.kryptonComboBox1.DropDownWidth = 121;
+            this.kryptonComboBox1.IntegralHeight = false;
+            this.kryptonComboBox1.Items.AddRange(new object[] {
+            "Item 1",
+            "Item 2 - lot of text, this is just to see a long line",
+            "Item 3"});
+            this.kryptonComboBox1.Location = new System.Drawing.Point(8, 48);
+            this.kryptonComboBox1.Name = "kryptonComboBox1";
+            this.kryptonComboBox1.Size = new System.Drawing.Size(121, 21);
+            this.kryptonComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
+            this.kryptonComboBox1.TabIndex = 15;
+            this.kryptonComboBox1.Text = "ComboBox";
+            // 
+            // kryptonCheckButton1
+            // 
+            this.kryptonCheckButton1.AutoSize = true;
+            this.kryptonCheckButton1.Checked = true;
+            this.kryptonCheckButton1.Location = new System.Drawing.Point(133, 259);
+            this.kryptonCheckButton1.Name = "kryptonCheckButton1";
+            this.kryptonCheckButton1.Size = new System.Drawing.Size(110, 27);
+            this.kryptonCheckButton1.TabIndex = 8;
+            this.kryptonCheckButton1.Values.Text = "Checked Button";
+            // 
+            // kryptonLabelApplicationThemesNormalLabel
+            // 
+            this.kryptonLabelApplicationThemesNormalLabel.Location = new System.Drawing.Point(20, 65);
+            this.kryptonLabelApplicationThemesNormalLabel.Name = "kryptonLabelApplicationThemesNormalLabel";
+            this.kryptonLabelApplicationThemesNormalLabel.Size = new System.Drawing.Size(91, 20);
+            this.kryptonLabelApplicationThemesNormalLabel.TabIndex = 6;
+            this.kryptonLabelApplicationThemesNormalLabel.Values.Text = "Label (Normal)";
+            // 
+            // kryptonLabelApplicationThemesTitle
+            // 
+            this.kryptonLabelApplicationThemesTitle.LabelStyle = Krypton.Toolkit.LabelStyle.TitleControl;
+            this.kryptonLabelApplicationThemesTitle.Location = new System.Drawing.Point(20, 42);
+            this.kryptonLabelApplicationThemesTitle.Name = "kryptonLabelApplicationThemesTitle";
+            this.kryptonLabelApplicationThemesTitle.Size = new System.Drawing.Size(116, 29);
+            this.kryptonLabelApplicationThemesTitle.TabIndex = 5;
+            this.kryptonLabelApplicationThemesTitle.Values.Text = "Label (Title)";
+            // 
+            // kryptonButton1
+            // 
+            this.kryptonButton1.AutoSize = true;
+            this.kryptonButton1.Location = new System.Drawing.Point(17, 259);
+            this.kryptonButton1.Name = "kryptonButton1";
+            this.kryptonButton1.Size = new System.Drawing.Size(110, 27);
+            this.kryptonButton1.TabIndex = 3;
+            // 
+            // kryptonButton2
+            // 
+            this.kryptonButton2.AutoSize = true;
+            this.kryptonButton2.Location = new System.Drawing.Point(17, 289);
+            this.kryptonButton2.Name = "kryptonButton2";
+            this.kryptonButton2.Size = new System.Drawing.Size(110, 27);
+            this.kryptonButton2.TabIndex = 4;
+            this.kryptonButton2.Values.Text = "Cancel Button";
+            // 
+            // kryptonWorkspaceCellApplicationThemesProperties
+            // 
+            this.kryptonWorkspaceCellApplicationThemesProperties.AllowPageDrag = true;
+            this.kryptonWorkspaceCellApplicationThemesProperties.AllowTabFocus = false;
+            this.kryptonWorkspaceCellApplicationThemesProperties.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonWorkspaceCellApplicationThemesProperties.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCellApplicationThemesProperties.Name = "kryptonWorkspaceCellApplicationThemesProperties";
+            this.kryptonWorkspaceCellApplicationThemesProperties.NavigatorMode = Krypton.Navigator.NavigatorMode.HeaderGroup;
+            this.kryptonWorkspaceCellApplicationThemesProperties.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
+            this.kryptonPageApplicationThemesProperties});
+            this.kryptonWorkspaceCellApplicationThemesProperties.SelectedIndex = 0;
+            this.kryptonWorkspaceCellApplicationThemesProperties.UniqueName = "8a59ecb4e66c42f4a41b20028d7f52fb";
+            // 
+            // kryptonPageApplicationThemesProperties
+            // 
+            this.kryptonPageApplicationThemesProperties.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageApplicationThemesProperties.Controls.Add(this.propertyGrid);
+            this.kryptonPageApplicationThemesProperties.Flags = 65534;
+            this.kryptonPageApplicationThemesProperties.LastVisibleSet = true;
+            this.kryptonPageApplicationThemesProperties.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageApplicationThemesProperties.Name = "kryptonPageApplicationThemesProperties";
+            this.kryptonPageApplicationThemesProperties.Size = new System.Drawing.Size(254, 438);
+            this.kryptonPageApplicationThemesProperties.Text = "Properties";
+            this.kryptonPageApplicationThemesProperties.TextDescription = "Properties for Selected KryptonPalette";
+            this.kryptonPageApplicationThemesProperties.TextTitle = "Properties";
+            this.kryptonPageApplicationThemesProperties.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageApplicationThemesProperties.UniqueName = "413847226e614dae94f8b51de04f255f";
+            // 
+            // propertyGrid
+            // 
+            this.propertyGrid.BackColor = System.Drawing.Color.White;
+            this.propertyGrid.CategoryForeColor = System.Drawing.Color.Black;
+            this.propertyGrid.CategorySplitterColor = System.Drawing.Color.WhiteSmoke;
+            this.propertyGrid.CommandsBorderColor = System.Drawing.Color.DarkGray;
+            this.propertyGrid.CommandsDisabledLinkColor = System.Drawing.Color.Gray;
+            this.propertyGrid.CommandsForeColor = System.Drawing.Color.Black;
+            this.propertyGrid.CommandsLinkColor = System.Drawing.Color.RoyalBlue;
+            this.propertyGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.propertyGrid.HelpBackColor = System.Drawing.Color.WhiteSmoke;
+            this.propertyGrid.HelpBorderColor = System.Drawing.Color.DarkGray;
+            this.propertyGrid.HelpForeColor = System.Drawing.Color.Black;
+            this.propertyGrid.LineColor = System.Drawing.Color.WhiteSmoke;
+            this.propertyGrid.Location = new System.Drawing.Point(0, 0);
+            this.propertyGrid.Name = "propertyGrid";
+            this.propertyGrid.SelectedItemWithFocusBackColor = System.Drawing.Color.SteelBlue;
+            this.propertyGrid.SelectedItemWithFocusForeColor = System.Drawing.Color.Gainsboro;
+            this.propertyGrid.Size = new System.Drawing.Size(254, 438);
+            this.propertyGrid.TabIndex = 3;
+            this.propertyGrid.ToolbarVisible = false;
+            this.propertyGrid.ViewBackColor = System.Drawing.Color.White;
+            this.propertyGrid.ViewBorderColor = System.Drawing.Color.DarkGray;
+            this.propertyGrid.ViewForeColor = System.Drawing.Color.Black;
+            this.propertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid_PropertyValueChanged);
+            // 
+            // kryptonPageMetadata
+            // 
+            this.kryptonPageMetadata.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageMetadata.Controls.Add(this.kryptonWorkspaceConfigMetadata);
+            this.kryptonPageMetadata.Flags = 65534;
+            this.kryptonPageMetadata.LastVisibleSet = true;
+            this.kryptonPageMetadata.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageMetadata.Name = "kryptonPageMetadata";
+            this.kryptonPageMetadata.Size = new System.Drawing.Size(873, 493);
+            this.kryptonPageMetadata.Text = "Metadata";
+            this.kryptonPageMetadata.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageMetadata.UniqueName = "d5cb9d54763045a6ac874ae78ebe0c03";
+            // 
+            // kryptonWorkspaceConfigMetadata
+            // 
+            this.kryptonWorkspaceConfigMetadata.ActivePage = this.kryptonPageMetadataReadHelp;
+            this.kryptonWorkspaceConfigMetadata.AllowPageDrag = false;
+            this.kryptonWorkspaceConfigMetadata.ContextMenus.ShowContextMenu = false;
+            this.kryptonWorkspaceConfigMetadata.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kryptonWorkspaceConfigMetadata.Location = new System.Drawing.Point(0, 0);
+            this.kryptonWorkspaceConfigMetadata.Name = "kryptonWorkspaceConfigMetadata";
+            // 
+            // 
+            // 
+            this.kryptonWorkspaceConfigMetadata.Root.Children.AddRange(new System.ComponentModel.Component[] {
+            this.kryptonWorkspaceCellMetadata});
+            this.kryptonWorkspaceConfigMetadata.Root.UniqueName = "e7f6d4a4944e4f5ab606df51ef6d45b8";
+            this.kryptonWorkspaceConfigMetadata.Root.WorkspaceControl = this.kryptonWorkspaceConfigMetadata;
+            this.kryptonWorkspaceConfigMetadata.Size = new System.Drawing.Size(873, 493);
+            this.kryptonWorkspaceConfigMetadata.TabIndex = 0;
+            this.kryptonWorkspaceConfigMetadata.TabStop = true;
+            // 
+            // kryptonPageMetadataReadHelp
+            // 
+            this.kryptonPageMetadataReadHelp.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageMetadataReadHelp.Controls.Add(this.kryptonTextBoxMetadataReadHelpText);
+            this.kryptonPageMetadataReadHelp.Flags = 65534;
+            this.kryptonPageMetadataReadHelp.LastVisibleSet = true;
+            this.kryptonPageMetadataReadHelp.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageMetadataReadHelp.Name = "kryptonPageMetadataReadHelp";
+            this.kryptonPageMetadataReadHelp.Size = new System.Drawing.Size(672, 491);
+            this.kryptonPageMetadataReadHelp.Text = "Read help text";
+            this.kryptonPageMetadataReadHelp.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageMetadataReadHelp.UniqueName = "eec060a13b4e45ebbc18d3f53eab1529";
+            // 
+            // kryptonTextBoxMetadataReadHelpText
+            // 
+            this.kryptonTextBoxMetadataReadHelpText.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kryptonTextBoxMetadataReadHelpText.Location = new System.Drawing.Point(0, 0);
+            this.kryptonTextBoxMetadataReadHelpText.Multiline = true;
+            this.kryptonTextBoxMetadataReadHelpText.Name = "kryptonTextBoxMetadataReadHelpText";
+            this.kryptonTextBoxMetadataReadHelpText.Size = new System.Drawing.Size(672, 491);
+            this.kryptonTextBoxMetadataReadHelpText.TabIndex = 0;
+            this.kryptonTextBoxMetadataReadHelpText.Text = resources.GetString("kryptonTextBoxMetadataReadHelpText.Text");
+            // 
+            // kryptonWorkspaceCellMetadata
+            // 
+            this.kryptonWorkspaceCellMetadata.AllowDroppingPages = false;
+            this.kryptonWorkspaceCellMetadata.AllowPageDrag = true;
+            this.kryptonWorkspaceCellMetadata.AllowPageReorder = false;
+            this.kryptonWorkspaceCellMetadata.AllowTabFocus = false;
+            this.kryptonWorkspaceCellMetadata.Bar.BarOrientation = Krypton.Toolkit.VisualOrientation.Left;
+            this.kryptonWorkspaceCellMetadata.Bar.ItemOrientation = Krypton.Toolkit.ButtonOrientation.FixedTop;
+            this.kryptonWorkspaceCellMetadata.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonWorkspaceCellMetadata.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCellMetadata.Name = "kryptonWorkspaceCellMetadata";
+            this.kryptonWorkspaceCellMetadata.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
+            this.kryptonPageMetadataReadHelp,
+            this.kryptonPageMetadataReadPriority,
+            this.kryptonPageMetadataWriteHelp,
+            this.kryptonPageMetadataWriteWindowsXtraProperties,
+            this.kryptonPageMetadataWriteFileAttributeDateTimeCreated,
+            this.kryptonPageMetadataExiftoolHelp,
+            this.kryptonPageMetadataExiftoolForEachKeyword,
+            this.kryptonPageMetadataExiftoolForEachNewKeyword});
+            this.kryptonWorkspaceCellMetadata.SelectedIndex = 0;
+            this.kryptonWorkspaceCellMetadata.UniqueName = "dc14c7222a5b4f1988263e23e6ff262d";
+            // 
+            // kryptonPageMetadataReadPriority
+            // 
+            this.kryptonPageMetadataReadPriority.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageMetadataReadPriority.Controls.Add(this.dataGridViewMetadataReadPriority);
+            this.kryptonPageMetadataReadPriority.Flags = 65534;
+            this.kryptonPageMetadataReadPriority.LastVisibleSet = true;
+            this.kryptonPageMetadataReadPriority.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageMetadataReadPriority.Name = "kryptonPageMetadataReadPriority";
+            this.kryptonPageMetadataReadPriority.Size = new System.Drawing.Size(665, 514);
+            this.kryptonPageMetadataReadPriority.Text = "Read priority";
+            this.kryptonPageMetadataReadPriority.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageMetadataReadPriority.UniqueName = "4d859c3a564943e8805ced2985a13756";
+            // 
+            // kryptonPageMetadataWriteHelp
+            // 
+            this.kryptonPageMetadataWriteHelp.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageMetadataWriteHelp.Controls.Add(this.textBoxMetadataWriteHelpText);
+            this.kryptonPageMetadataWriteHelp.Flags = 65534;
+            this.kryptonPageMetadataWriteHelp.LastVisibleSet = true;
+            this.kryptonPageMetadataWriteHelp.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageMetadataWriteHelp.Name = "kryptonPageMetadataWriteHelp";
+            this.kryptonPageMetadataWriteHelp.Size = new System.Drawing.Size(672, 491);
+            this.kryptonPageMetadataWriteHelp.Text = "Write Windows Xtra help text";
+            this.kryptonPageMetadataWriteHelp.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageMetadataWriteHelp.UniqueName = "79b2d292fc224d60b32cbd5059a64081";
+            // 
+            // kryptonPageMetadataWriteWindowsXtraProperties
+            // 
+            this.kryptonPageMetadataWriteWindowsXtraProperties.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageMetadataWriteWindowsXtraProperties.Controls.Add(this.tableLayoutPanel9);
+            this.kryptonPageMetadataWriteWindowsXtraProperties.Flags = 65534;
+            this.kryptonPageMetadataWriteWindowsXtraProperties.LastVisibleSet = true;
+            this.kryptonPageMetadataWriteWindowsXtraProperties.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageMetadataWriteWindowsXtraProperties.Name = "kryptonPageMetadataWriteWindowsXtraProperties";
+            this.kryptonPageMetadataWriteWindowsXtraProperties.Size = new System.Drawing.Size(665, 514);
+            this.kryptonPageMetadataWriteWindowsXtraProperties.Text = "Write Winows Xtra properties";
+            this.kryptonPageMetadataWriteWindowsXtraProperties.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageMetadataWriteWindowsXtraProperties.UniqueName = "6b72f4451e6b436d99f25058fd1c1672";
+            // 
+            // tableLayoutPanel9
+            // 
+            this.tableLayoutPanel9.BackColor = System.Drawing.Color.Transparent;
+            this.tableLayoutPanel9.ColumnCount = 4;
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel9.Controls.Add(this.labelMetadataXtraKeywords, 0, 2);
+            this.tableLayoutPanel9.Controls.Add(this.checkBoxWriteXtraAtomRatingPicture, 2, 9);
+            this.tableLayoutPanel9.Controls.Add(this.textBoxWriteXtraAtomArtist, 3, 8);
+            this.tableLayoutPanel9.Controls.Add(this.checkBoxWriteXtraAtomRatingVideo, 1, 9);
+            this.tableLayoutPanel9.Controls.Add(this.checkBoxWriteXtraAtomKeywordsVideo, 1, 2);
+            this.tableLayoutPanel9.Controls.Add(this.labelMetadataXtraRating, 0, 9);
+            this.tableLayoutPanel9.Controls.Add(this.checkBoxWriteXtraAtomArtistVideo, 1, 8);
+            this.tableLayoutPanel9.Controls.Add(this.labelMetadataWriteOnVideoAndPictureFiles, 3, 0);
+            this.tableLayoutPanel9.Controls.Add(this.labelMetadataXtraArtist, 0, 8);
+            this.tableLayoutPanel9.Controls.Add(this.textBoxWriteXtraAtomKeywords, 3, 2);
+            this.tableLayoutPanel9.Controls.Add(this.textBoxWriteXtraAtomComment, 3, 7);
+            this.tableLayoutPanel9.Controls.Add(this.checkBoxWriteXtraAtomCategoriesVideo, 1, 3);
+            this.tableLayoutPanel9.Controls.Add(this.labelMetadataXtraComment, 0, 7);
+            this.tableLayoutPanel9.Controls.Add(this.checkBoxWriteXtraAtomCommentVideo, 1, 7);
+            this.tableLayoutPanel9.Controls.Add(this.textBoxWriteXtraAtomSubject, 3, 6);
+            this.tableLayoutPanel9.Controls.Add(this.checkBoxWriteXtraAtomCommentPicture, 2, 7);
+            this.tableLayoutPanel9.Controls.Add(this.labelMetadataXtraAlbum, 0, 4);
+            this.tableLayoutPanel9.Controls.Add(this.labelMetadataXtraSubject, 0, 6);
+            this.tableLayoutPanel9.Controls.Add(this.checkBoxWriteXtraAtomSubjectVideo, 1, 6);
+            this.tableLayoutPanel9.Controls.Add(this.textBoxWriteXtraAtomSubtitle, 3, 5);
+            this.tableLayoutPanel9.Controls.Add(this.labelSubtitle, 0, 5);
+            this.tableLayoutPanel9.Controls.Add(this.checkBoxWriteXtraAtomSubjectPicture, 2, 6);
+            this.tableLayoutPanel9.Controls.Add(this.labelMetadataXtraCategories, 0, 3);
+            this.tableLayoutPanel9.Controls.Add(this.comboBoxWriteXtraAtomVariables, 3, 1);
+            this.tableLayoutPanel9.Controls.Add(this.checkBoxWriteXtraAtomSubtitleVideo, 1, 5);
+            this.tableLayoutPanel9.Controls.Add(this.labelMetadataWriteOnVideoAndPictureFilesVariables, 0, 1);
+            this.tableLayoutPanel9.Controls.Add(this.textBoxWriteXtraAtomAlbum, 3, 4);
+            this.tableLayoutPanel9.Controls.Add(this.textBoxWriteXtraAtomCategories, 3, 3);
+            this.tableLayoutPanel9.Controls.Add(this.checkBoxWriteXtraAtomAlbumVideo, 1, 4);
+            this.tableLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel9.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel9.Name = "tableLayoutPanel9";
+            this.tableLayoutPanel9.RowCount = 10;
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel9.Size = new System.Drawing.Size(665, 514);
+            this.tableLayoutPanel9.TabIndex = 27;
+            // 
+            // kryptonPageMetadataWriteFileAttributeDateTimeCreated
+            // 
+            this.kryptonPageMetadataWriteFileAttributeDateTimeCreated.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageMetadataWriteFileAttributeDateTimeCreated.Controls.Add(this.tableLayoutPanel10);
+            this.kryptonPageMetadataWriteFileAttributeDateTimeCreated.Flags = 65534;
+            this.kryptonPageMetadataWriteFileAttributeDateTimeCreated.LastVisibleSet = true;
+            this.kryptonPageMetadataWriteFileAttributeDateTimeCreated.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageMetadataWriteFileAttributeDateTimeCreated.Name = "kryptonPageMetadataWriteFileAttributeDateTimeCreated";
+            this.kryptonPageMetadataWriteFileAttributeDateTimeCreated.Size = new System.Drawing.Size(664, 514);
+            this.kryptonPageMetadataWriteFileAttributeDateTimeCreated.Text = "Update files Create Date and Time";
+            this.kryptonPageMetadataWriteFileAttributeDateTimeCreated.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageMetadataWriteFileAttributeDateTimeCreated.UniqueName = "db2d5ffa4b884a8fb83555535360f119";
+            // 
+            // tableLayoutPanel10
+            // 
+            this.tableLayoutPanel10.BackColor = System.Drawing.Color.Transparent;
+            this.tableLayoutPanel10.ColumnCount = 3;
+            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel10.Controls.Add(this.checkBoxWriteFileAttributeCreatedDate, 1, 0);
+            this.tableLayoutPanel10.Controls.Add(this.labelMetadataFileCreateDateTimDiffrentDescription, 2, 1);
+            this.tableLayoutPanel10.Controls.Add(this.kryptonLabel3, 2, 0);
+            this.tableLayoutPanel10.Controls.Add(this.numericUpDownWriteFileAttributeCreatedDateTimeIntervalAccepted, 1, 1);
+            this.tableLayoutPanel10.Controls.Add(this.labelMetadataFileCreateDateTimDiffrent, 0, 1);
+            this.tableLayoutPanel10.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel10.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel10.Name = "tableLayoutPanel10";
+            this.tableLayoutPanel10.RowCount = 2;
+            this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel10.Size = new System.Drawing.Size(664, 514);
+            this.tableLayoutPanel10.TabIndex = 5;
+            // 
+            // kryptonLabel3
+            // 
+            this.kryptonLabel3.Location = new System.Drawing.Point(298, 3);
+            this.kryptonLabel3.Name = "kryptonLabel3";
+            this.kryptonLabel3.Size = new System.Drawing.Size(494, 20);
+            this.kryptonLabel3.TabIndex = 1;
+            this.kryptonLabel3.Values.Text = "Update File Created Date/Time when Media taken exists and time zone can be estima" +
+    "ted";
+            // 
+            // kryptonPageMetadataExiftoolHelp
+            // 
+            this.kryptonPageMetadataExiftoolHelp.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageMetadataExiftoolHelp.Controls.Add(this.kryptonTextBox1);
+            this.kryptonPageMetadataExiftoolHelp.Flags = 65534;
+            this.kryptonPageMetadataExiftoolHelp.LastVisibleSet = true;
+            this.kryptonPageMetadataExiftoolHelp.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageMetadataExiftoolHelp.Name = "kryptonPageMetadataExiftoolHelp";
+            this.kryptonPageMetadataExiftoolHelp.Size = new System.Drawing.Size(672, 491);
+            this.kryptonPageMetadataExiftoolHelp.Text = "Exiftool help text";
+            this.kryptonPageMetadataExiftoolHelp.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageMetadataExiftoolHelp.UniqueName = "411a97c64b304462ad916c57ea93841b";
+            // 
+            // kryptonTextBox1
+            // 
+            this.kryptonTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kryptonTextBox1.Location = new System.Drawing.Point(0, 0);
+            this.kryptonTextBox1.Margin = new System.Windows.Forms.Padding(2);
+            this.kryptonTextBox1.Multiline = true;
+            this.kryptonTextBox1.Name = "kryptonTextBox1";
+            this.kryptonTextBox1.ReadOnly = true;
+            this.kryptonTextBox1.Size = new System.Drawing.Size(672, 491);
+            this.kryptonTextBox1.TabIndex = 4;
+            this.kryptonTextBox1.Text = resources.GetString("kryptonTextBox1.Text");
+            // 
+            // kryptonPageMetadataExiftoolForEachKeyword
+            // 
+            this.kryptonPageMetadataExiftoolForEachKeyword.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageMetadataExiftoolForEachKeyword.Controls.Add(this.tableLayoutPanel26);
+            this.kryptonPageMetadataExiftoolForEachKeyword.Flags = 65534;
+            this.kryptonPageMetadataExiftoolForEachKeyword.LastVisibleSet = true;
+            this.kryptonPageMetadataExiftoolForEachKeyword.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageMetadataExiftoolForEachKeyword.Name = "kryptonPageMetadataExiftoolForEachKeyword";
+            this.kryptonPageMetadataExiftoolForEachKeyword.Size = new System.Drawing.Size(672, 491);
+            this.kryptonPageMetadataExiftoolForEachKeyword.Text = "How to write metadata";
+            this.kryptonPageMetadataExiftoolForEachKeyword.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageMetadataExiftoolForEachKeyword.UniqueName = "b02b2f3292bb4233aeabddbf663b823a";
+            // 
+            // tableLayoutPanel26
+            // 
+            this.tableLayoutPanel26.BackColor = System.Drawing.Color.Transparent;
+            this.tableLayoutPanel26.ColumnCount = 2;
+            this.tableLayoutPanel26.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel26.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel26.Controls.Add(this.comboBoxMetadataWriteStandardTags, 1, 0);
+            this.tableLayoutPanel26.Controls.Add(this.fastColoredTextBoxMetadataWriteTags, 0, 1);
+            this.tableLayoutPanel26.Controls.Add(this.labelMetadataForeachKeyword, 0, 0);
+            this.tableLayoutPanel26.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel26.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel26.Name = "tableLayoutPanel26";
+            this.tableLayoutPanel26.RowCount = 2;
+            this.tableLayoutPanel26.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel26.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel26.Size = new System.Drawing.Size(672, 491);
+            this.tableLayoutPanel26.TabIndex = 8;
+            // 
+            // kryptonPageMetadataExiftoolForEachNewKeyword
+            // 
+            this.kryptonPageMetadataExiftoolForEachNewKeyword.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageMetadataExiftoolForEachNewKeyword.Controls.Add(this.tableLayoutPanel8);
+            this.kryptonPageMetadataExiftoolForEachNewKeyword.Flags = 65534;
+            this.kryptonPageMetadataExiftoolForEachNewKeyword.LastVisibleSet = true;
+            this.kryptonPageMetadataExiftoolForEachNewKeyword.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageMetadataExiftoolForEachNewKeyword.Name = "kryptonPageMetadataExiftoolForEachNewKeyword";
+            this.kryptonPageMetadataExiftoolForEachNewKeyword.Size = new System.Drawing.Size(672, 491);
+            this.kryptonPageMetadataExiftoolForEachNewKeyword.Text = "Added lines for each keyword";
+            this.kryptonPageMetadataExiftoolForEachNewKeyword.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageMetadataExiftoolForEachNewKeyword.UniqueName = "63c73fc6dac348b78f574a6515bac69f";
+            // 
+            // tableLayoutPanel8
+            // 
+            this.tableLayoutPanel8.BackColor = System.Drawing.Color.Transparent;
+            this.tableLayoutPanel8.ColumnCount = 2;
+            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel8.Controls.Add(this.labelMetadataForeachNewKeyword, 0, 0);
+            this.tableLayoutPanel8.Controls.Add(this.fastColoredTextBoxMetadataWriteKeywordAdd, 0, 2);
+            this.tableLayoutPanel8.Controls.Add(this.checkBoxWriteMetadataAddAutoKeywords, 0, 1);
+            this.tableLayoutPanel8.Controls.Add(this.comboBoxMetadataWriteKeywordAdd, 1, 0);
+            this.tableLayoutPanel8.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel8.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel8.Name = "tableLayoutPanel8";
+            this.tableLayoutPanel8.RowCount = 3;
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel8.Size = new System.Drawing.Size(672, 491);
+            this.tableLayoutPanel8.TabIndex = 7;
+            // 
+            // kryptonPageWebScraper
+            // 
+            this.kryptonPageWebScraper.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageWebScraper.Controls.Add(this.kryptonWorkspaceWebScraper);
+            this.kryptonPageWebScraper.Flags = 65534;
+            this.kryptonPageWebScraper.LastVisibleSet = true;
+            this.kryptonPageWebScraper.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageWebScraper.Name = "kryptonPageWebScraper";
+            this.kryptonPageWebScraper.Size = new System.Drawing.Size(873, 493);
+            this.kryptonPageWebScraper.Text = "WebScraper";
+            this.kryptonPageWebScraper.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageWebScraper.UniqueName = "ed4ced01f1e442d090efd8da6eee1139";
+            // 
+            // kryptonWorkspaceWebScraper
+            // 
+            this.kryptonWorkspaceWebScraper.ActivePage = this.kryptonPageWebScraperWebScrapingSettings;
+            this.kryptonWorkspaceWebScraper.AllowPageDrag = false;
+            this.kryptonWorkspaceWebScraper.ContextMenus.ShowContextMenu = false;
+            this.kryptonWorkspaceWebScraper.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kryptonWorkspaceWebScraper.Location = new System.Drawing.Point(0, 0);
+            this.kryptonWorkspaceWebScraper.Name = "kryptonWorkspaceWebScraper";
+            // 
+            // 
+            // 
+            this.kryptonWorkspaceWebScraper.Root.Children.AddRange(new System.ComponentModel.Component[] {
+            this.kryptonWorkspaceCellWebScraper});
+            this.kryptonWorkspaceWebScraper.Root.UniqueName = "1205cc50e85d4bb2a77e1b84daa27be4";
+            this.kryptonWorkspaceWebScraper.Root.WorkspaceControl = this.kryptonWorkspaceWebScraper;
+            this.kryptonWorkspaceWebScraper.SeparatorStyle = Krypton.Toolkit.SeparatorStyle.HighProfile;
+            this.kryptonWorkspaceWebScraper.Size = new System.Drawing.Size(873, 493);
+            this.kryptonWorkspaceWebScraper.TabIndex = 0;
+            this.kryptonWorkspaceWebScraper.TabStop = true;
+            // 
+            // kryptonPageWebScraperWebScrapingSettings
+            // 
+            this.kryptonPageWebScraperWebScrapingSettings.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageWebScraperWebScrapingSettings.Controls.Add(this.tableLayoutPanel11);
+            this.kryptonPageWebScraperWebScrapingSettings.Flags = 65534;
+            this.kryptonPageWebScraperWebScrapingSettings.LastVisibleSet = true;
+            this.kryptonPageWebScraperWebScrapingSettings.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageWebScraperWebScrapingSettings.Name = "kryptonPageWebScraperWebScrapingSettings";
+            this.kryptonPageWebScraperWebScrapingSettings.Size = new System.Drawing.Size(671, 491);
+            this.kryptonPageWebScraperWebScrapingSettings.Text = "Web Scraping settings";
+            this.kryptonPageWebScraperWebScrapingSettings.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageWebScraperWebScrapingSettings.UniqueName = "c7483a73647b426f9f71d583cd42e1b4";
+            // 
+            // tableLayoutPanel11
+            // 
+            this.tableLayoutPanel11.BackColor = System.Drawing.Color.Transparent;
+            this.tableLayoutPanel11.ColumnCount = 3;
+            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel11.Controls.Add(this.labelWebScraperJavaScriptExecuteTimeout, 0, 0);
+            this.tableLayoutPanel11.Controls.Add(this.labelWebScraperNumberOfPageDownDescription, 2, 6);
+            this.tableLayoutPanel11.Controls.Add(this.labelWebScraperPageLoadedTimeoutDescription, 2, 5);
+            this.tableLayoutPanel11.Controls.Add(this.numericUpDownWebScrapingPageDownCount, 1, 6);
+            this.tableLayoutPanel11.Controls.Add(this.labelWebScraperNumberOfPageDown, 0, 6);
+            this.tableLayoutPanel11.Controls.Add(this.labelWebScraperPageStartLoadingTimeoutDescription, 2, 4);
+            this.tableLayoutPanel11.Controls.Add(this.labelWebScraperPageLoadedTimeout, 0, 5);
+            this.tableLayoutPanel11.Controls.Add(this.labelWebScraperWebScrapingDelayDescription, 2, 3);
+            this.tableLayoutPanel11.Controls.Add(this.labelWebScraperPageStartLoadingTimeout, 0, 4);
+            this.tableLayoutPanel11.Controls.Add(this.numericUpDownWaitEventPageLoadedTimeout, 1, 5);
+            this.tableLayoutPanel11.Controls.Add(this.labelWebScraperWebScrapingRetryDescription, 2, 2);
+            this.tableLayoutPanel11.Controls.Add(this.labelWebScraperWebScrapingDelay, 0, 3);
+            this.tableLayoutPanel11.Controls.Add(this.labelWebScraperJavaScriptExecuteTimeoutDescription, 2, 0);
+            this.tableLayoutPanel11.Controls.Add(this.labelWebScraperWebScrapingRetry, 0, 2);
+            this.tableLayoutPanel11.Controls.Add(this.labelWebScraperWebScrapringDelay, 0, 1);
+            this.tableLayoutPanel11.Controls.Add(this.numericUpDownWaitEventPageStartLoadingTimeout, 1, 4);
+            this.tableLayoutPanel11.Controls.Add(this.labelWebScraperWebScrapringDelayDescription, 2, 1);
+            this.tableLayoutPanel11.Controls.Add(this.numericUpDownJavaScriptExecuteTimeout, 1, 0);
+            this.tableLayoutPanel11.Controls.Add(this.numericUpDownWebScrapingDelayOurScriptToRun, 1, 1);
+            this.tableLayoutPanel11.Controls.Add(this.numericUpDownWebScrapingRetry, 1, 2);
+            this.tableLayoutPanel11.Controls.Add(this.numericUpDownWebScrapingDelayInPageScriptToRun, 1, 3);
+            this.tableLayoutPanel11.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel11.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel11.Name = "tableLayoutPanel11";
+            this.tableLayoutPanel11.RowCount = 7;
+            this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel11.Size = new System.Drawing.Size(671, 491);
+            this.tableLayoutPanel11.TabIndex = 21;
+            // 
+            // kryptonWorkspaceCellWebScraper
+            // 
+            this.kryptonWorkspaceCellWebScraper.AllowDroppingPages = false;
+            this.kryptonWorkspaceCellWebScraper.AllowPageDrag = true;
+            this.kryptonWorkspaceCellWebScraper.AllowPageReorder = false;
+            this.kryptonWorkspaceCellWebScraper.AllowTabFocus = false;
+            this.kryptonWorkspaceCellWebScraper.Bar.BarOrientation = Krypton.Toolkit.VisualOrientation.Left;
+            this.kryptonWorkspaceCellWebScraper.Bar.ItemOrientation = Krypton.Toolkit.ButtonOrientation.FixedTop;
+            this.kryptonWorkspaceCellWebScraper.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonWorkspaceCellWebScraper.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCellWebScraper.Name = "kryptonWorkspaceCellWebScraper";
+            this.kryptonWorkspaceCellWebScraper.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
+            this.kryptonPageWebScraperWebScrapingSettings,
+            this.kryptonPageWebScraperWebScrapingStartPages});
+            this.kryptonWorkspaceCellWebScraper.SelectedIndex = 0;
+            this.kryptonWorkspaceCellWebScraper.UniqueName = "c17b77f2ada7440682e51549724c089a";
+            // 
+            // kryptonPageWebScraperWebScrapingStartPages
+            // 
+            this.kryptonPageWebScraperWebScrapingStartPages.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageWebScraperWebScrapingStartPages.Controls.Add(this.textBoxWebScrapingStartPages);
+            this.kryptonPageWebScraperWebScrapingStartPages.Flags = 65534;
+            this.kryptonPageWebScraperWebScrapingStartPages.LastVisibleSet = true;
+            this.kryptonPageWebScraperWebScrapingStartPages.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageWebScraperWebScrapingStartPages.Name = "kryptonPageWebScraperWebScrapingStartPages";
+            this.kryptonPageWebScraperWebScrapingStartPages.Size = new System.Drawing.Size(671, 491);
+            this.kryptonPageWebScraperWebScrapingStartPages.Text = "Start pages for Web Scraping categories";
+            this.kryptonPageWebScraperWebScrapingStartPages.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageWebScraperWebScrapingStartPages.UniqueName = "b781a220c40540408e12e0d66ffe3d79";
             // 
             // kryptonPageLocation
             // 
@@ -6008,35 +6016,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageLocationLocationNamesHelp.Text = "Location names - help";
             this.kryptonPageLocationLocationNamesHelp.ToolTipTitle = "Page ToolTip";
             this.kryptonPageLocationLocationNamesHelp.UniqueName = "ed82dc85818a43c18e0eb421001c448a";
-            // 
-            // kryptonPageLocationImportExport
-            // 
-            this.kryptonPageLocationImportExport.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageLocationImportExport.Controls.Add(this.tableLayoutPanel28);
-            this.kryptonPageLocationImportExport.Flags = 65534;
-            this.kryptonPageLocationImportExport.LastVisibleSet = true;
-            this.kryptonPageLocationImportExport.MinimumSize = new System.Drawing.Size(50, 50);
-            this.kryptonPageLocationImportExport.Name = "kryptonPageLocationImportExport";
-            this.kryptonPageLocationImportExport.Size = new System.Drawing.Size(738, 491);
-            this.kryptonPageLocationImportExport.Text = "Import and Export";
-            this.kryptonPageLocationImportExport.ToolTipTitle = "Page ToolTip";
-            this.kryptonPageLocationImportExport.UniqueName = "d3e4db5922324857ab48af92e79d74bf";
-            // 
-            // tableLayoutPanel28
-            // 
-            this.tableLayoutPanel28.BackColor = System.Drawing.Color.Transparent;
-            this.tableLayoutPanel28.ColumnCount = 2;
-            this.tableLayoutPanel28.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel28.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel28.Controls.Add(this.buttonLocationExport, 0, 0);
-            this.tableLayoutPanel28.Controls.Add(this.buttonLocationImport, 1, 0);
-            this.tableLayoutPanel28.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel28.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel28.Name = "tableLayoutPanel28";
-            this.tableLayoutPanel28.RowCount = 1;
-            this.tableLayoutPanel28.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel28.Size = new System.Drawing.Size(738, 491);
-            this.tableLayoutPanel28.TabIndex = 9;
             // 
             // kryptonPageLocationLocationNames
             // 
@@ -6160,6 +6139,35 @@ namespace PhotoTagsSynchronizer
             this.pictureBox1.Size = new System.Drawing.Size(34, 26);
             this.pictureBox1.TabIndex = 19;
             this.pictureBox1.TabStop = false;
+            // 
+            // kryptonPageLocationImportExport
+            // 
+            this.kryptonPageLocationImportExport.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageLocationImportExport.Controls.Add(this.tableLayoutPanel28);
+            this.kryptonPageLocationImportExport.Flags = 65534;
+            this.kryptonPageLocationImportExport.LastVisibleSet = true;
+            this.kryptonPageLocationImportExport.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageLocationImportExport.Name = "kryptonPageLocationImportExport";
+            this.kryptonPageLocationImportExport.Size = new System.Drawing.Size(738, 491);
+            this.kryptonPageLocationImportExport.Text = "Import and Export";
+            this.kryptonPageLocationImportExport.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageLocationImportExport.UniqueName = "d3e4db5922324857ab48af92e79d74bf";
+            // 
+            // tableLayoutPanel28
+            // 
+            this.tableLayoutPanel28.BackColor = System.Drawing.Color.Transparent;
+            this.tableLayoutPanel28.ColumnCount = 2;
+            this.tableLayoutPanel28.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel28.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel28.Controls.Add(this.buttonLocationExport, 0, 0);
+            this.tableLayoutPanel28.Controls.Add(this.buttonLocationImport, 1, 0);
+            this.tableLayoutPanel28.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel28.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel28.Name = "tableLayoutPanel28";
+            this.tableLayoutPanel28.RowCount = 1;
+            this.tableLayoutPanel28.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel28.Size = new System.Drawing.Size(738, 491);
+            this.tableLayoutPanel28.TabIndex = 9;
             // 
             // kryptonPageConvertAndMerge
             // 
@@ -7587,7 +7595,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.kryptonContextMenuItemCameraOwnerCopy.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditCopy32x32;
             this.kryptonContextMenuItemCameraOwnerCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.kryptonContextMenuItemCameraOwnerCopy.Text = "Copy Camera Owner";
+            this.kryptonContextMenuItemCameraOwnerCopy.Text = "Copy";
             // 
             // kryptonContextMenuItemCameraOwnerPaste
             // 
@@ -7766,130 +7774,17 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownConvertAndMergeImageDuration)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceConfig)).EndInit();
             this.kryptonWorkspaceConfig.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplication)).EndInit();
-            this.kryptonPageApplication.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceConfigApplication)).EndInit();
-            this.kryptonWorkspaceConfigApplication.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationThumbnail)).EndInit();
-            this.kryptonPageApplicationThumbnail.ResumeLayout(false);
-            this.kryptonPageApplicationThumbnail.PerformLayout();
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellApplication)).EndInit();
-            this.kryptonWorkspaceCellApplication.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationNominatim)).EndInit();
-            this.kryptonPageApplicationNominatim.ResumeLayout(false);
-            this.kryptonPageApplicationNominatim.PerformLayout();
-            this.tableLayoutPanel2.ResumeLayout(false);
-            this.tableLayoutPanel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationSearch)).EndInit();
-            this.kryptonPageApplicationSearch.ResumeLayout(false);
-            this.tableLayoutPanel3.ResumeLayout(false);
-            this.tableLayoutPanel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationRegionSuggestion)).EndInit();
-            this.kryptonPageApplicationRegionSuggestion.ResumeLayout(false);
-            this.tableLayoutPanel4.ResumeLayout(false);
-            this.tableLayoutPanel4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageRegionAccuracy)).EndInit();
-            this.kryptonPageRegionAccuracy.ResumeLayout(false);
-            this.tableLayoutPanel5.ResumeLayout(false);
-            this.tableLayoutPanel5.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationCloudAndVirtualFiles)).EndInit();
-            this.kryptonPageApplicationCloudAndVirtualFiles.ResumeLayout(false);
-            this.tableLayoutPanel6.ResumeLayout(false);
-            this.tableLayoutPanel6.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationGPSLocationAccuracy)).EndInit();
-            this.kryptonPageApplicationGPSLocationAccuracy.ResumeLayout(false);
-            this.tableLayoutPanel7.ResumeLayout(false);
-            this.tableLayoutPanel7.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationDateAndTimeInFilenames)).EndInit();
-            this.kryptonPageApplicationDateAndTimeInFilenames.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageAppliactionDateTimeFormatsInFilenamesHelp)).EndInit();
-            this.kryptonPageAppliactionDateTimeFormatsInFilenamesHelp.ResumeLayout(false);
-            this.kryptonPageAppliactionDateTimeFormatsInFilenamesHelp.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageThemes)).EndInit();
-            this.kryptonPageThemes.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceApplicationThemes)).EndInit();
-            this.kryptonWorkspaceApplicationThemes.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationThemesSelect)).EndInit();
-            this.kryptonPageApplicationThemesSelect.ResumeLayout(false);
-            this.C.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellApplicationThemesSelect)).EndInit();
-            this.kryptonWorkspaceCellApplicationThemesSelect.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellApplicationThemesPreview)).EndInit();
-            this.kryptonWorkspaceCellApplicationThemesPreview.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationThemesPreview)).EndInit();
-            this.kryptonPageApplicationThemesPreview.ResumeLayout(false);
-            this.kryptonPageApplicationThemesPreview.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonDataGridViewShowPalette)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1.Panel)).EndInit();
-            this.kryptonGroupBox1.Panel.ResumeLayout(false);
-            this.kryptonGroupBox1.Panel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1)).EndInit();
-            this.kryptonGroupBox1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellApplicationThemesProperties)).EndInit();
-            this.kryptonWorkspaceCellApplicationThemesProperties.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationThemesProperties)).EndInit();
-            this.kryptonPageApplicationThemesProperties.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellConfig)).EndInit();
-            this.kryptonWorkspaceCellConfig.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageMetadata)).EndInit();
-            this.kryptonPageMetadata.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceConfigMetadata)).EndInit();
-            this.kryptonWorkspaceConfigMetadata.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageMetadataReadHelp)).EndInit();
-            this.kryptonPageMetadataReadHelp.ResumeLayout(false);
-            this.kryptonPageMetadataReadHelp.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellMetadata)).EndInit();
-            this.kryptonWorkspaceCellMetadata.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageMetadataReadPriority)).EndInit();
-            this.kryptonPageMetadataReadPriority.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageMetadataWriteHelp)).EndInit();
-            this.kryptonPageMetadataWriteHelp.ResumeLayout(false);
-            this.kryptonPageMetadataWriteHelp.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageMetadataWriteWindowsXtraProperties)).EndInit();
-            this.kryptonPageMetadataWriteWindowsXtraProperties.ResumeLayout(false);
-            this.tableLayoutPanel9.ResumeLayout(false);
-            this.tableLayoutPanel9.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageMetadataWriteFileAttributeDateTimeCreated)).EndInit();
-            this.kryptonPageMetadataWriteFileAttributeDateTimeCreated.ResumeLayout(false);
-            this.tableLayoutPanel10.ResumeLayout(false);
-            this.tableLayoutPanel10.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageMetadataExiftoolHelp)).EndInit();
-            this.kryptonPageMetadataExiftoolHelp.ResumeLayout(false);
-            this.kryptonPageMetadataExiftoolHelp.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageMetadataExiftoolForEachKeyword)).EndInit();
-            this.kryptonPageMetadataExiftoolForEachKeyword.ResumeLayout(false);
-            this.tableLayoutPanel26.ResumeLayout(false);
-            this.tableLayoutPanel26.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageMetadataExiftoolForEachNewKeyword)).EndInit();
-            this.kryptonPageMetadataExiftoolForEachNewKeyword.ResumeLayout(false);
-            this.tableLayoutPanel8.ResumeLayout(false);
-            this.tableLayoutPanel8.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageWebScraper)).EndInit();
-            this.kryptonPageWebScraper.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceWebScraper)).EndInit();
-            this.kryptonWorkspaceWebScraper.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageWebScraperWebScrapingStartPages)).EndInit();
-            this.kryptonPageWebScraperWebScrapingStartPages.ResumeLayout(false);
-            this.kryptonPageWebScraperWebScrapingStartPages.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellWebScraper)).EndInit();
-            this.kryptonWorkspaceCellWebScraper.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageWebScraperWebScrapingSettings)).EndInit();
-            this.kryptonPageWebScraperWebScrapingSettings.ResumeLayout(false);
-            this.tableLayoutPanel11.ResumeLayout(false);
-            this.tableLayoutPanel11.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageAutoCorrect)).EndInit();
             this.kryptonPageAutoCorrect.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceAutoCorrect)).EndInit();
             this.kryptonWorkspaceAutoCorrect.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageAutoCorrectAutoKeywords)).EndInit();
+            this.kryptonPageAutoCorrectAutoKeywords.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellAutoCorrect)).EndInit();
+            this.kryptonWorkspaceCellAutoCorrect.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageAutoCorrectAutoCorrectHelp)).EndInit();
             this.kryptonPageAutoCorrectAutoCorrectHelp.ResumeLayout(false);
             this.kryptonPageAutoCorrectAutoCorrectHelp.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellAutoCorrect)).EndInit();
-            this.kryptonWorkspaceCellAutoCorrect.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageAutoCorrectDateAndTimeDigitized)).EndInit();
             this.kryptonPageAutoCorrectDateAndTimeDigitized.ResumeLayout(false);
             this.tableLayoutPanel12.ResumeLayout(false);
@@ -7931,8 +7826,121 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageAutoCorrectRename.ResumeLayout(false);
             this.tableLayoutPanel21.ResumeLayout(false);
             this.tableLayoutPanel21.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageAutoCorrectAutoKeywords)).EndInit();
-            this.kryptonPageAutoCorrectAutoKeywords.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellConfig)).EndInit();
+            this.kryptonWorkspaceCellConfig.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplication)).EndInit();
+            this.kryptonPageApplication.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceConfigApplication)).EndInit();
+            this.kryptonWorkspaceConfigApplication.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationThumbnail)).EndInit();
+            this.kryptonPageApplicationThumbnail.ResumeLayout(false);
+            this.kryptonPageApplicationThumbnail.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellApplication)).EndInit();
+            this.kryptonWorkspaceCellApplication.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationNominatim)).EndInit();
+            this.kryptonPageApplicationNominatim.ResumeLayout(false);
+            this.kryptonPageApplicationNominatim.PerformLayout();
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationSearch)).EndInit();
+            this.kryptonPageApplicationSearch.ResumeLayout(false);
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationRegionSuggestion)).EndInit();
+            this.kryptonPageApplicationRegionSuggestion.ResumeLayout(false);
+            this.tableLayoutPanel4.ResumeLayout(false);
+            this.tableLayoutPanel4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageRegionAccuracy)).EndInit();
+            this.kryptonPageRegionAccuracy.ResumeLayout(false);
+            this.tableLayoutPanel5.ResumeLayout(false);
+            this.tableLayoutPanel5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationCloudAndVirtualFiles)).EndInit();
+            this.kryptonPageApplicationCloudAndVirtualFiles.ResumeLayout(false);
+            this.tableLayoutPanel6.ResumeLayout(false);
+            this.tableLayoutPanel6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationGPSLocationAccuracy)).EndInit();
+            this.kryptonPageApplicationGPSLocationAccuracy.ResumeLayout(false);
+            this.tableLayoutPanel7.ResumeLayout(false);
+            this.tableLayoutPanel7.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageAppliactionDateTimeFormatsInFilenamesHelp)).EndInit();
+            this.kryptonPageAppliactionDateTimeFormatsInFilenamesHelp.ResumeLayout(false);
+            this.kryptonPageAppliactionDateTimeFormatsInFilenamesHelp.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationDateAndTimeInFilenames)).EndInit();
+            this.kryptonPageApplicationDateAndTimeInFilenames.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageThemes)).EndInit();
+            this.kryptonPageThemes.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceApplicationThemes)).EndInit();
+            this.kryptonWorkspaceApplicationThemes.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationThemesSelect)).EndInit();
+            this.kryptonPageApplicationThemesSelect.ResumeLayout(false);
+            this.C.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellApplicationThemesSelect)).EndInit();
+            this.kryptonWorkspaceCellApplicationThemesSelect.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellApplicationThemesPreview)).EndInit();
+            this.kryptonWorkspaceCellApplicationThemesPreview.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationThemesPreview)).EndInit();
+            this.kryptonPageApplicationThemesPreview.ResumeLayout(false);
+            this.kryptonPageApplicationThemesPreview.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonDataGridViewShowPalette)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1.Panel)).EndInit();
+            this.kryptonGroupBox1.Panel.ResumeLayout(false);
+            this.kryptonGroupBox1.Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1)).EndInit();
+            this.kryptonGroupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellApplicationThemesProperties)).EndInit();
+            this.kryptonWorkspaceCellApplicationThemesProperties.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageApplicationThemesProperties)).EndInit();
+            this.kryptonPageApplicationThemesProperties.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageMetadata)).EndInit();
+            this.kryptonPageMetadata.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceConfigMetadata)).EndInit();
+            this.kryptonWorkspaceConfigMetadata.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageMetadataReadHelp)).EndInit();
+            this.kryptonPageMetadataReadHelp.ResumeLayout(false);
+            this.kryptonPageMetadataReadHelp.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellMetadata)).EndInit();
+            this.kryptonWorkspaceCellMetadata.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageMetadataReadPriority)).EndInit();
+            this.kryptonPageMetadataReadPriority.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageMetadataWriteHelp)).EndInit();
+            this.kryptonPageMetadataWriteHelp.ResumeLayout(false);
+            this.kryptonPageMetadataWriteHelp.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageMetadataWriteWindowsXtraProperties)).EndInit();
+            this.kryptonPageMetadataWriteWindowsXtraProperties.ResumeLayout(false);
+            this.tableLayoutPanel9.ResumeLayout(false);
+            this.tableLayoutPanel9.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageMetadataWriteFileAttributeDateTimeCreated)).EndInit();
+            this.kryptonPageMetadataWriteFileAttributeDateTimeCreated.ResumeLayout(false);
+            this.tableLayoutPanel10.ResumeLayout(false);
+            this.tableLayoutPanel10.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageMetadataExiftoolHelp)).EndInit();
+            this.kryptonPageMetadataExiftoolHelp.ResumeLayout(false);
+            this.kryptonPageMetadataExiftoolHelp.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageMetadataExiftoolForEachKeyword)).EndInit();
+            this.kryptonPageMetadataExiftoolForEachKeyword.ResumeLayout(false);
+            this.tableLayoutPanel26.ResumeLayout(false);
+            this.tableLayoutPanel26.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageMetadataExiftoolForEachNewKeyword)).EndInit();
+            this.kryptonPageMetadataExiftoolForEachNewKeyword.ResumeLayout(false);
+            this.tableLayoutPanel8.ResumeLayout(false);
+            this.tableLayoutPanel8.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageWebScraper)).EndInit();
+            this.kryptonPageWebScraper.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceWebScraper)).EndInit();
+            this.kryptonWorkspaceWebScraper.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageWebScraperWebScrapingSettings)).EndInit();
+            this.kryptonPageWebScraperWebScrapingSettings.ResumeLayout(false);
+            this.tableLayoutPanel11.ResumeLayout(false);
+            this.tableLayoutPanel11.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellWebScraper)).EndInit();
+            this.kryptonWorkspaceCellWebScraper.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageWebScraperWebScrapingStartPages)).EndInit();
+            this.kryptonPageWebScraperWebScrapingStartPages.ResumeLayout(false);
+            this.kryptonPageWebScraperWebScrapingStartPages.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageLocation)).EndInit();
             this.kryptonPageLocation.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceLocation)).EndInit();
@@ -7947,9 +7955,6 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageLocationLocationNamesHelp)).EndInit();
             this.kryptonPageLocationLocationNamesHelp.ResumeLayout(false);
             this.kryptonPageLocationLocationNamesHelp.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageLocationImportExport)).EndInit();
-            this.kryptonPageLocationImportExport.ResumeLayout(false);
-            this.tableLayoutPanel28.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageLocationLocationNames)).EndInit();
             this.kryptonPageLocationLocationNames.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceLocationLocationNames)).EndInit();
@@ -7965,6 +7970,9 @@ namespace PhotoTagsSynchronizer
             this.tableLayoutPanel29.ResumeLayout(false);
             this.tableLayoutPanel29.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageLocationImportExport)).EndInit();
+            this.kryptonPageLocationImportExport.ResumeLayout(false);
+            this.tableLayoutPanel28.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageConvertAndMerge)).EndInit();
             this.kryptonPageConvertAndMerge.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceConvertAndMerge)).EndInit();

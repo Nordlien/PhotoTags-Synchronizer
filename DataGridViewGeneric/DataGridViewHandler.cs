@@ -2341,9 +2341,10 @@ namespace DataGridViewGeneric
                 }
                 else
                 {
-                    if ((dataGridViewCell.Value == null && value != null) ||
+                    if ((dataGridViewCell.Value != null && value != null) &&
+                        ((dataGridViewCell.Value == null && value != null) ||
                         (dataGridViewCell.Value != null && value == null) ||
-                        dataGridViewCell.Value.ToString() != value.ToString()) DataGridViewHandler.SetColumnDirtyFlag(dataGridView, dataGridViewCell.ColumnIndex, true);
+                        dataGridViewCell.Value.ToString() != value.ToString())) DataGridViewHandler.SetColumnDirtyFlag(dataGridView, dataGridViewCell.ColumnIndex, true);
                     dataGridViewCell.Value = value;
                 }
             }

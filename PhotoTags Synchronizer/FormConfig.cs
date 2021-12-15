@@ -66,9 +66,6 @@ namespace PhotoTagsSynchronizer
         {
             InitializeComponent();
 
-            dataGridViewAutoKeywords.ContextMenu = null;
-            dataGridViewAutoKeywords.KryptonContextMenu = kryptonContextMenuAutoKeyword;
-
             dataGridViewMetadataReadPriority.ContextMenu = null;
             dataGridViewMetadataReadPriority.KryptonContextMenu = kryptonContextMenuMetadataRead;
             
@@ -78,6 +75,10 @@ namespace PhotoTagsSynchronizer
             dataGridViewCameraOwner.ContextMenu = null;
             dataGridViewCameraOwner.KryptonContextMenu = kryptonContextMenuCameraOwner;
 
+            dataGridViewAutoKeywords.ContextMenu = null;
+            dataGridViewAutoKeywords.KryptonContextMenu = kryptonContextMenuAutoKeyword;
+
+            #region CameraOwner
             this.kryptonContextMenuItemCameraOwnerCut.Click += KryptonContextMenuItemCameraOwnerCut_Click;
             this.kryptonContextMenuItemCameraOwnerCopy.Click += KryptonContextMenuItemCameraOwnerCopy_Click;
             this.kryptonContextMenuItemCameraOwnerPaste.Click += KryptonContextMenuItemCameraOwnerPaste_Click;
@@ -92,7 +93,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuItemToggleFavorite.Click += KryptonContextMenuItemToggleFavorite_Click;
             //this.kryptonContextMenuSeparator2,
             this.kryptonContextMenuItemCameraOwnerShowOnlyFavoriteRows.Click += KryptonContextMenuItemCameraOwnerShowOnlyFavoriteRows_Click;
-            //
+            #endregion
+
+            #region AutoKeyword
             this.kryptonContextMenuItemAutoKeywordCut.Click += KryptonContextMenuItemAutoKeywordCut_Click;
             this.kryptonContextMenuItemAutoKeywordCopy.Click += KryptonContextMenuItemAutoKeywordCopy_Click;
             this.kryptonContextMenuItemAutoKeywordPaste.Click += KryptonContextMenuItemAutoKeywordPaste_Click;
@@ -101,7 +104,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuItemAutoKeywordRedo.Click += KryptonContextMenuItemAutoKeywordRedo_Click;
             this.kryptonContextMenuItemAutoKeywordFind.Click += KryptonContextMenuItemAutoKeywordFind_Click;
             this.kryptonContextMenuItemAutoKeywordReplace.Click += KryptonContextMenuItemAutoKeywordReplace_Click;
-            //
+            #endregion
+
+            #region MetadataRead
             //this.kryptonContextMenuItemMetadataReadAssignToTag,
             //this.kryptonContextMenuSeparatorMetadataRead5,
             this.kryptonContextMenuItemMetadataReadCut.Click += KryptonContextMenuItemMetadataReadCut_Click;
@@ -118,7 +123,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuItemMetadataReadToggleFavorite.Click += KryptonContextMenuItemMetadataReadToggleFavorite_Click;
             //this.kryptonContextMenuSeparatorMetadataRead2,
             this.kryptonContextMenuItemMetadataReadShowFavorite.Click += KryptonContextMenuItemMetadataReadShowFavorite_Click;
-            //
+            #endregion
+
+            #region LocationNames
             this.kryptonContextMenuItemLocationNamesCut.Click += KryptonContextMenuItemLocationNamesCut_Click;
             this.kryptonContextMenuItemLocationNamesCopy.Click += KryptonContextMenuItemLocationNamesCopy_Click;
             this.kryptonContextMenuItemLocationNamesPaste.Click += KryptonContextMenuItemLocationNamesPaste_Click;
@@ -140,7 +147,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuItemLocationNamesReloadUsingNominatim.Click += KryptonContextMenuItemLocationNamesReloadUsingNominatim_Click;
             
             this.kryptonContextMenuItemLocationNamesSearchInMediaFiles.Click += KryptonContextMenuItemLocationNamesSearchInMediaFiles_Click;
-
+            #endregion 
 
 
             kryptonManager1 = kryptonManager;
@@ -164,12 +171,12 @@ namespace PhotoTagsSynchronizer
 
             browser.AddressChanged += Browser_AddressChanged;
 
-            typeof(DataGridView).InvokeMember(
-                   "DoubleBuffered",
-                   BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty,
-                   null,
-                   dataGridViewAutoKeywords,
-                   new object[] { true });
+            //typeof(DataGridView).InvokeMember(
+            //       "DoubleBuffered",
+            //       BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty,
+            //       null,
+            //       dataGridViewAutoKeywords,
+            //       new object[] { true });
 
             isConfigClosing = false;
         }
