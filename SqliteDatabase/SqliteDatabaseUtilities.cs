@@ -427,8 +427,8 @@ namespace SqliteDatabase
                 sqlCommand =
                     "CREATE TABLE MediaMetadata (" +
                     "Broker INTEGER NOT NULL, " +
-                    "FileDirectory TEXT NOT NULL, " +
-                    "FileName TEXT NOT NULL, " +
+                    "FileDirectory TEXT NOT NULL COLLATE NOCASE, " +
+                    "FileName TEXT NOT NULL COLLATE NOCASE, " +
                     "FileDateModified " + SqliteDateTimeFormat + " NOT NULL, " +
                     "FileDateCreated " + SqliteDateTimeFormat + " NOT NULL, " +
                     "FileLastAccessed " + SqliteDateTimeFormat + " NOT NULL, " +
@@ -456,21 +456,21 @@ namespace SqliteDatabase
                     "LocationCity TEXT, " +
                     "LocationState TEXT, " +
                     "RowChangedDated " + SqliteDateTimeFormat + ", " +
-                    "UNIQUE (Broker, FileDirectory, FileName, FileDateModified) )";
+                    "UNIQUE (Broker, FileDirectory COLLATE NOCASE, FileName COLLATE NOCASE, FileDateModified) )";
                 using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, this.connectionDatabase))
                 {
                     commandDatabase.ExecuteNonQuery();                  // Execute the query
                 }
 
                 sqlCommand =
-                        "CREATE TABLE MediaPersonalKeywords ( " +
-                        "Broker                 INTEGER NOT NULL, " +
-                        "FileDirectory          TEXT NOT NULL, " +
-                        "FileName               TEXT NOT NULL, " +
-                        "FileDateModified       " + SqliteDateTimeFormat + " NOT NULL, " +
-                        "Keyword                TEXT NOT NULL, " +
-                        "Confidence             " + SqliteNumberFormat + ", " +
-                        "UNIQUE (Broker, FileDirectory, FileName, FileDateModified, Keyword) )"; 
+                    "CREATE TABLE MediaPersonalKeywords ( " +
+                    "Broker                 INTEGER NOT NULL, " +
+                    "FileDirectory          TEXT NOT NULL COLLATE NOCASE, " +
+                    "FileName               TEXT NOT NULL COLLATE NOCASE, " +
+                    "FileDateModified       " + SqliteDateTimeFormat + " NOT NULL, " +
+                    "Keyword                TEXT NOT NULL, " +
+                    "Confidence             " + SqliteNumberFormat + ", " +
+                    "UNIQUE (Broker, FileDirectory COLLATE NOCASE, FileName COLLATE NOCASE, FileDateModified, Keyword) )"; 
                 using (var commandDatabase = new CommonSqliteCommand(sqlCommand, this.connectionDatabase))
                 {
                     commandDatabase.ExecuteNonQuery();                  // Execute the query
@@ -479,8 +479,8 @@ namespace SqliteDatabase
                 sqlCommand =
                         "CREATE TABLE MediaPersonalRegions ( " +
                         "Broker                 INTEGER NOT NULL, " +
-                        "FileDirectory          TEXT NOT NULL, " +
-                        "FileName               TEXT NOT NULL, " +
+                        "FileDirectory          TEXT NOT NULL COLLATE NOCASE, " +
+                        "FileName               TEXT NOT NULL COLLATE NOCASE, " +
                         "FileDateModified       " + SqliteDateTimeFormat + " NOT NULL, " +
                         "Type                   TEXT, " +
                         "Name                   TEXT, " +
@@ -490,7 +490,7 @@ namespace SqliteDatabase
                         "AreaHeight             " + SqliteNumberFormat + ", " +
                         "RegionStructureType    INTEGER, " +
                         "Thumbnail              BLOB, " +
-                        "UNIQUE (Broker, FileDirectory, FileName, FileDateModified, Type, Name, AreaX, AreaY, AreaWidth, AreaHeight, RegionStructureType) )"; 
+                        "UNIQUE (Broker, FileDirectory COLLATE NOCASE, FileName COLLATE NOCASE, FileDateModified, Type, Name, AreaX, AreaY, AreaWidth, AreaHeight, RegionStructureType) )"; 
 
                 using (var commandDatabase = new CommonSqliteCommand(sqlCommand, this.connectionDatabase))
                 {
@@ -498,11 +498,11 @@ namespace SqliteDatabase
                 }
 
                 sqlCommand = "CREATE TABLE MediaThumbnail (" +
-                    "FileDirectory          TEXT NOT NULL, " +
-                    "FileName               TEXT NOT NULL, " +
+                    "FileDirectory          TEXT NOT NULL COLLATE NOCASE, " +
+                    "FileName               TEXT NOT NULL COLLATE NOCASE, " +
                     "FileDateModified       " + SqliteDateTimeFormat + " NOT NULL, " +
                     "Image                  BLOB, " +
-                    "UNIQUE (FileDirectory, FileName, FileDateModified) )";
+                    "UNIQUE (FileDirectory COLLATE NOCASE, FileName COLLATE NOCASE, FileDateModified) )";
                 using (var commandDatabase = new CommonSqliteCommand(sqlCommand, this.connectionDatabase))
                 {
                     commandDatabase.ExecuteNonQuery();                  // Execute the query
@@ -510,13 +510,13 @@ namespace SqliteDatabase
 
                 sqlCommand =
                     "CREATE TABLE MediaExiftoolTags ( " +
-                    "FileDirectory          TEXT NOT NULL, " +
-                    "FileName               TEXT NOT NULL, " +
+                    "FileDirectory          TEXT NOT NULL COLLATE NOCASE, " +
+                    "FileName               TEXT NOT NULL COLLATE NOCASE, " +
                     "FileDateModified       " + SqliteDateTimeFormat + " NOT NULL, " +
                     "Region                 TEXT NOT NULL, " +
                     "Command                TEXT NOT NULL, " +
                     "Parameter              TEXT, " +
-                    "UNIQUE (FileDirectory, FileName, FileDateModified, Region, Command, Parameter) )";
+                    "UNIQUE (FileDirectory COLLATE NOCASE, FileName COLLATE NOCASE, FileDateModified, Region, Command, Parameter) )";
 
                 using (var commandDatabase = new CommonSqliteCommand(sqlCommand, this.connectionDatabase))
                 {
@@ -524,8 +524,8 @@ namespace SqliteDatabase
                 }
                 
                 sqlCommand = "CREATE TABLE MediaExiftoolTagsWarning ("+
-	                "FileDirectory      TEXT NOT NULL, " +
-                    "FileName           TEXT NOT NULL, " +
+                    "FileDirectory      TEXT NOT NULL COLLATE NOCASE, " +
+                    "FileName           TEXT NOT NULL COLLATE NOCASE, " +
                     "FileDateModified 	" + SqliteDateTimeFormat + " NOT NULL, " +
 	                "OldRegion 	        TEXT, " +
 	                "OldCommand 	    TEXT, " +
@@ -534,7 +534,7 @@ namespace SqliteDatabase
                     "NewCommand 	    TEXT NOT NULL, " +
                     "NewParameter  	    TEXT NOT NULL, " +
                     "Warning 	        TEXT NOT NULL, " +
-                    "UNIQUE (FileDirectory, FileName, FileDateModified, OldRegion, OldCommand, NewRegion, NewCommand) )";
+                    "UNIQUE (FileDirectory COLLATE NOCASE, FileName COLLATE NOCASE, FileDateModified, OldRegion, OldCommand, NewRegion, NewCommand) )";
                 using (var commandDatabase = new CommonSqliteCommand(sqlCommand, this.connectionDatabase)) 
                 {
                     commandDatabase.ExecuteNonQuery();                  // Execute the query
@@ -543,11 +543,11 @@ namespace SqliteDatabase
                 #region Location
                 sqlCommand = "CREATE TABLE LocationSource (" +
                     "UserAccount        TEXT NOT NULL, " +
-                    "FileDirectory      TEXT NOT NULL, " +
-                    "FileName           TEXT NOT NULL, " +
+                    "FileDirectory      TEXT NOT NULL COLLATE NOCASE, " +
+                    "FileName           TEXT NOT NULL COLLATE NOCASE, " +
                     "FileDateModified   " + SqliteDateTimeFormat + " NOT NULL, " +
                     "FileDateImported   " + SqliteDateTimeFormat + " NOT NULL, " +
-                    "UNIQUE (UserAccount, FileDirectory, FileName, FileDateModified) )";
+                    "UNIQUE (UserAccount, FileDirectory COLLATE NOCASE, FileName COLLATE NOCASE, FileDateModified) )";
 
                 using (var commandDatabase = new CommonSqliteCommand(sqlCommand, this.connectionDatabase))
                 {
