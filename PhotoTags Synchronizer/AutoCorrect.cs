@@ -960,7 +960,7 @@ namespace PhotoTagsSynchronizer
             #region Author
             if (UpdateAuthor)
             {
-                if (!UpdateAuthorOnlyWhenEmpty || !string.IsNullOrWhiteSpace(metadataCopy?.PersonalAuthor))
+                if (!UpdateAuthorOnlyWhenEmpty || (UpdateAuthorOnlyWhenEmpty && string.IsNullOrWhiteSpace(metadataCopy?.PersonalAuthor)))
                 {
                     string author = cameraOwnersDatabaseCache.GetOwenerForCameraMakeModel(metadataCopy?.CameraMake, metadataCopy?.CameraModel);
                     if (!string.IsNullOrWhiteSpace(author)) metadataCopy.PersonalAuthor = author;

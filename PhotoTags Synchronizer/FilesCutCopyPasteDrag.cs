@@ -301,6 +301,7 @@ namespace PhotoTagsSynchronizer
                         DeleteFileAndHistory(Path.Combine(newDirectory, newFilename));
                         databaseAndCacheMetadataExiftool.Move(oldDirectory, oldFilename, newDirectory, newFilename);
                     }
+                    
                 }
             }
             return directoryCreated;

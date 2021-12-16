@@ -171,12 +171,12 @@ namespace PhotoTagsSynchronizer
 
             browser.AddressChanged += Browser_AddressChanged;
 
-            //typeof(DataGridView).InvokeMember(
-            //       "DoubleBuffered",
-            //       BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty,
-            //       null,
-            //       dataGridViewAutoKeywords,
-            //       new object[] { true });
+            typeof(DataGridView).InvokeMember(
+                   "DoubleBuffered",
+                   BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty,
+                   null,
+                   dataGridViewAutoKeywords,
+                   new object[] { true });
 
             isConfigClosing = false;
         }
@@ -318,8 +318,11 @@ namespace PhotoTagsSynchronizer
             isSettingDefaultComboxValuesZoomLevel = false;
 
             //AutoCorrect
+            DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridViewAutoKeywords, (KryptonPalette)kryptonManager1.GlobalPalette, "AutoKeywords", "AutoKeywords", DataGridViewSize.ConfigSize);
+            //DataGridViewHandler.Clear(dataGridViewAutoKeywords, DataGridViewSize.ConfigSize);
             autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
             PopulateAutoCorrectPoperties();
+
 
             //AutoKeywords
             LoadAutoKeywords();
@@ -1035,24 +1038,6 @@ namespace PhotoTagsSynchronizer
                 int rowIndex = DataGridViewHandler.AddRow(dataGridView, columnIndexOwner, 
                     new DataGridViewGenericRow(cameraOwner.Make, cameraOwner.Model),
                     cameraOwner.Owner, false, false);
-
-                //DataGridViewComboBoxCell dataGridViewComboBoxCellCameraOwners = new DataGridViewComboBoxCell();
-                //dataGridViewComboBoxCellCameraOwners.FlatStyle = FlatStyle.Flat;
-                //dataGridViewComboBoxCellCameraOwners.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
-                //dataGridViewComboBoxCellCameraOwners.AutoComplete = true;
-                //dataGridViewComboBoxCellCameraOwners.Items.AddRange(DatabaseAndCacheCameraOwner.ReadCameraOwners().ToArray());
-
-                //if (cameraOwner.Owner != null && !dataGridViewComboBoxCellCameraOwners.Items.Contains(cameraOwner.Owner)) dataGridViewComboBoxCellCameraOwners.Items.Insert(0, cameraOwner.Owner);
-                //if (cameraOwner.Owner == null && !dataGridViewComboBoxCellCameraOwners.Items.Contains("")) dataGridViewComboBoxCellCameraOwners.Items.Insert(0, "");
-                //dataGridViewComboBoxCellCameraOwners.Value = (cameraOwner.Owner == null ? "" : cameraOwner.Owner);
-
-                //DataGridViewHandler.SetCellControlType(dataGridView, columnIndexOwner, rowIndex, dataGridViewComboBoxCellCameraOwners);
-
-                //if (!string.IsNullOrWhiteSpace(cameraOwner.Owner) && dataGridViewComboBoxCellCameraOwners.Items.Contains(cameraOwner.Owner))
-                //    DataGridViewHandler.SetCellValue(dataGridView, columnIndexOwner, rowIndex, cameraOwner.Owner);
-                //else
-                //    DataGridViewHandler.SetCellValue(dataGridView, columnIndexOwner, rowIndex, "");
-                
             }
             isCellValueUpdating = false;
         }
@@ -1402,7 +1387,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
         
-        #region  Location names - BrowserURL_KeyPress
+        #region Location names - BrowserURL_KeyPress
         private void textBoxBrowserURL_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
