@@ -261,19 +261,19 @@ namespace PhotoTagsSynchronizer
             if (autoCorrectFormVaraibles != null)
             {
                 if (autoCorrectFormVaraibles.UseAlbum) metadataToSave.PersonalAlbum = autoCorrectFormVaraibles.Album;
-                if (!autoCorrectFormVaraibles.UseAlbum || string.IsNullOrWhiteSpace(metadataToSave.PersonalAlbum)) metadataToSave.PersonalAlbum = null;
+                if (string.IsNullOrWhiteSpace(metadataToSave.PersonalAlbum)) metadataToSave.PersonalAlbum = null;
 
                 if (autoCorrectFormVaraibles.UseAuthor) metadataToSave.PersonalAuthor = autoCorrectFormVaraibles.Author;
-                if (!autoCorrectFormVaraibles.UseAuthor || string.IsNullOrWhiteSpace(metadataToSave.PersonalAuthor)) metadataToSave.PersonalAuthor = null;
+                if (string.IsNullOrWhiteSpace(metadataToSave.PersonalAuthor)) metadataToSave.PersonalAuthor = null;
 
                 if (autoCorrectFormVaraibles.UseComments) metadataToSave.PersonalComments = autoCorrectFormVaraibles.Comments;
-                if (!autoCorrectFormVaraibles.UseComments || string.IsNullOrWhiteSpace(metadataToSave.PersonalComments)) metadataToSave.PersonalComments = null;
+                if (string.IsNullOrWhiteSpace(metadataToSave.PersonalComments)) metadataToSave.PersonalComments = null;
 
                 if (autoCorrectFormVaraibles.UseDescription) metadataToSave.PersonalDescription = autoCorrectFormVaraibles.Description;
-                if (!autoCorrectFormVaraibles.UseDescription || string.IsNullOrWhiteSpace(metadataToSave.PersonalDescription)) metadataToSave.PersonalDescription = null;
+                if (string.IsNullOrWhiteSpace(metadataToSave.PersonalDescription)) metadataToSave.PersonalDescription = null;
 
                 if (autoCorrectFormVaraibles.UseTitle) metadataToSave.PersonalTitle = autoCorrectFormVaraibles.Title;
-                if (!autoCorrectFormVaraibles.UseTitle || string.IsNullOrWhiteSpace(metadataToSave.PersonalTitle)) metadataToSave.PersonalTitle = null;
+                if (string.IsNullOrWhiteSpace(metadataToSave.PersonalTitle)) metadataToSave.PersonalTitle = null;
 
                 #region Description
                 if (autoCorrectFormVaraibles.WriteAlbumOnDescription) metadataToSave.PersonalDescription = metadataToSave.PersonalAlbum;
