@@ -5413,6 +5413,7 @@ namespace PhotoTagsSynchronizer
 
             try
             {
+                
                 GetDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView, true);
 
                 //Find what columns are updated / changed by user
@@ -5422,42 +5423,44 @@ namespace PhotoTagsSynchronizer
                     KryptonMessageBox.Show("Can't find any value that was changed.", "Nothing to save...", MessageBoxButtons.OK, MessageBoxIcon.Warning, true);
                     return;
                 }
-
-                ClearDataGridDirtyFlag(); //Clear before save; To track if become dirty during save process
-
-                GlobalData.ListOfAutoCorrectFilesClear();
-
-                foreach (int updatedRecord in listOfUpdates)
+                using (new WaitCursor())
                 {
-                    if (useAutoCorrect)
-                    {
-                        AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
-                        float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
-                        float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
-                        int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
+                    ClearDataGridDirtyFlag(); //Clear before save; To track if become dirty during save process
 
-                        Metadata metadataToSave = autoCorrect.FixAndSave(
-                            metadataListFromDataGridView[updatedRecord].FileEntry,
-                            metadataListFromDataGridView[updatedRecord],
-                            databaseAndCacheMetadataExiftool,
-                            databaseAndCacheMetadataMicrosoftPhotos,
-                            databaseAndCacheMetadataWindowsLivePhotoGallery,
-                            databaseAndCahceCameraOwner,
-                            databaseLocationAddress,
-                            databaseGoogleLocationHistory,
-                            locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
-                            autoKeywordConvertions,
-                            Properties.Settings.Default.RenameDateFormats);
-                        if (metadataToSave != null)
+                    GlobalData.ListOfAutoCorrectFilesClear();
+
+                    foreach (int updatedRecord in listOfUpdates)
+                    {
+                        if (useAutoCorrect)
                         {
-                            AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, metadataListOriginalExiftool[updatedRecord]);
-                        }
+                            AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
+                            float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
+                            float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
+                            int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
 
-                    }
-                    else
-                    {
-                        //Add only metadata to save queue that that has changed by users
-                        AddQueueSaveMetadataUpdatedByUserLock(metadataListFromDataGridView[updatedRecord], metadataListOriginalExiftool[updatedRecord]);
+                            Metadata metadataToSave = autoCorrect.FixAndSave(
+                                metadataListFromDataGridView[updatedRecord].FileEntry,
+                                metadataListFromDataGridView[updatedRecord],
+                                databaseAndCacheMetadataExiftool,
+                                databaseAndCacheMetadataMicrosoftPhotos,
+                                databaseAndCacheMetadataWindowsLivePhotoGallery,
+                                databaseAndCahceCameraOwner,
+                                databaseLocationAddress,
+                                databaseGoogleLocationHistory,
+                                locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
+                                autoKeywordConvertions,
+                                Properties.Settings.Default.RenameDateFormats);
+                            if (metadataToSave != null)
+                            {
+                                AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, metadataListOriginalExiftool[updatedRecord]);
+                            }
+
+                        }
+                        else
+                        {
+                            //Add only metadata to save queue that that has changed by users
+                            AddQueueSaveMetadataUpdatedByUserLock(metadataListFromDataGridView[updatedRecord], metadataListOriginalExiftool[updatedRecord]);
+                        }
                     }
                 }
                 ThreadSaveMetadata();
@@ -7016,137 +7019,6 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        #region Get files (Folder or Selected or DataGridView)
-
-        #region GetSelectedFilesFromActiveDataGridView
-        private HashSet<FileEntry> GetSelectedFilesFromActiveDataGridView()
-        {
-            HashSet<FileEntry> files = new HashSet<FileEntry>();
-            try
-            {
-                DataGridView dataGridView;
-                switch (ActiveKryptonPage)
-                {
-                    case KryptonPages.None:
-                    case KryptonPages.kryptonPageFolderSearchFilterFolder:
-                    case KryptonPages.kryptonPageFolderSearchFilterSearch:
-                    case KryptonPages.kryptonPageFolderSearchFilterFilter:
-                    case KryptonPages.kryptonPageMediaFiles:
-                        break;
-                    case KryptonPages.kryptonPageToolboxTags:
-                    case KryptonPages.kryptonPageToolboxPeople:
-                    case KryptonPages.kryptonPageToolboxMap:
-                    case KryptonPages.kryptonPageToolboxDates:
-                    case KryptonPages.kryptonPageToolboxExiftool:
-                    case KryptonPages.kryptonPageToolboxWarnings:
-                    case KryptonPages.kryptonPageToolboxProperties:
-                        dataGridView = GetActiveTabDataGridView();
-                        if (dataGridView != null)
-                        {
-                            foreach (int columnIndex in DataGridViewHandler.GetColumnSelected(GetActiveTabDataGridView()))
-                            {
-                                DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(GetActiveTabDataGridView(), columnIndex);
-                                if (dataGridViewGenericColumn != null && !files.Contains(dataGridViewGenericColumn.FileEntryAttribute.FileEntry)) files.Add(dataGridViewGenericColumn.FileEntryAttribute.FileEntry);
-                            }
-                        }
-                        break;
-                    case KryptonPages.kryptonPageToolboxRename:
-                    case KryptonPages.kryptonPageToolboxConvertAndMerge:
-                        dataGridView = GetActiveTabDataGridView();
-                        if (dataGridView != null)
-                        {
-                            foreach (int rowIndex in DataGridViewHandler.GetRowSelected(GetActiveTabDataGridView()))
-                            {
-                                DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(GetActiveTabDataGridView(), rowIndex);
-                                FileEntry fileEntry = dataGridViewGenericRow.FileEntry;
-                                if (dataGridViewGenericRow != null && !dataGridViewGenericRow.IsHeader && !files.Contains(fileEntry)) files.Add(fileEntry);
-                            }
-                        }
-                        break;
-                    default:
-                        throw new NotImplementedException();
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
-            }
-            return files;
-        }
-        #endregion
-
-        #region GetImageListViewSelectedFileEntriesCache
-
-        //private HashSet<FileEntry> imageListViewSelectedFileEntriesCache = null;
-        //private HashSet<string> imageListViewSelectedFilesCache = null;
-        
-
-        
-
-        #region GetFilesInSelectedFolderCached
-        private string cachedFolder = "";
-        private HashSet<FileEntry> fileEntriesFolderCached = new HashSet<FileEntry>();
-        private HashSet<FileEntry> GetFilesInSelectedFolderCached()
-        {
-
-            try
-            {
-                string folder = GetSelectedNodeFullRealPath();
-                if (folder == null || !Directory.Exists(folder))
-                {
-                    KryptonMessageBox.Show("Can't reach the folder. Not a valid folder selected.", "Invalid folder...", MessageBoxButtons.OK, MessageBoxIcon.Warning, true);
-                    cachedFolder = "";
-                    fileEntriesFolderCached = new HashSet<FileEntry>();
-                    return fileEntriesFolderCached;
-                }
-
-                if (cachedFolder != folder) //Need updated cache
-                {
-                    IEnumerable<FileData> fileDatas = ImageAndMovieFileExtentionsUtility.GetFilesByEnumerableFast(folder, false);
-                    HashSet<FileEntry> fileEntriesFolder = new HashSet<FileEntry>();
-                    foreach (FileData fileData in fileDatas)
-                    {
-                        if (ImageAndMovieFileExtentionsUtility.IsMediaFormat(fileData)) fileEntriesFolder.Add(new FileEntry(fileData.Path, fileData.LastWriteTime));
-                    }
-                    fileEntriesFolderCached = fileEntriesFolder;
-                    cachedFolder = folder;
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "");
-            }
-
-            return fileEntriesFolderCached;
-        }
-        #endregion
-
-        #region GetFilesInSelectedFolder
-        private IEnumerable<FileData> GetFilesInSelectedFolder(string folder, bool recursive = false)
-        {
-            IEnumerable<FileData> fileDatas = null;
-            try
-            {
-                if (folder == null || !Directory.Exists(folder))
-                {
-                    KryptonMessageBox.Show("Can't reach the folder. Not a valid folder selected.", "Invalid folder...", MessageBoxButtons.OK, MessageBoxIcon.Warning, true);
-                    return fileDatas;
-                }
-                fileDatas = ImageAndMovieFileExtentionsUtility.GetFilesByEnumerableFast(folder, recursive);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "");
-            }
-            return fileDatas;
-        }
-        #endregion
-
-        #endregion
-
-        #endregion
-
         #region OpenExplorerLocation
 
         #region OpenExplorerLocation
@@ -7964,32 +7836,34 @@ namespace PhotoTagsSynchronizer
             if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
             try
             {
-                AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
-                float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
-                float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
-                int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
-
-                foreach (ImageListViewItem item in imageListView1.SelectedItems)
+                using (new WaitCursor())
                 {
-                    Metadata metadataToSave = autoCorrect.FixAndSave(
-                        new FileEntry(item.FileFullPath, item.DateModified),
-                        null,
-                        databaseAndCacheMetadataExiftool,
-                        databaseAndCacheMetadataMicrosoftPhotos,
-                        databaseAndCacheMetadataWindowsLivePhotoGallery,
-                        databaseAndCahceCameraOwner,
-                        databaseLocationAddress,
-                        databaseGoogleLocationHistory,
-                        locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted, 
-                        autoKeywordConvertions,
-                        Properties.Settings.Default.RenameDateFormats);
-                    if (metadataToSave != null)
+                    AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
+                    float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
+                    float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
+                    int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
+
+                    foreach (ImageListViewItem item in imageListView1.SelectedItems)
                     {
-                        AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
-                        AddQueueRenameLock(item.FileFullPath, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
+                        Metadata metadataToSave = autoCorrect.FixAndSave(
+                            new FileEntry(item.FileFullPath, item.DateModified),
+                            null,
+                            databaseAndCacheMetadataExiftool,
+                            databaseAndCacheMetadataMicrosoftPhotos,
+                            databaseAndCacheMetadataWindowsLivePhotoGallery,
+                            databaseAndCahceCameraOwner,
+                            databaseLocationAddress,
+                            databaseGoogleLocationHistory,
+                            locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
+                            autoKeywordConvertions,
+                            Properties.Settings.Default.RenameDateFormats);
+                        if (metadataToSave != null)
+                        {
+                            AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
+                            AddQueueRenameLock(item.FileFullPath, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
+                        }
                     }
                 }
-
                 StartThreads();
             }
             catch (Exception ex)
@@ -8006,35 +7880,38 @@ namespace PhotoTagsSynchronizer
             if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
             try
             {
-                AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
-                float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
-                float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
-                int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
+                using (new WaitCursor())
+                {
+                    AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
+                    float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
+                    float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
+                    int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
 
-                string selectedFolder = GetSelectedNodeFullRealPath();
-                if (selectedFolder == null || !Directory.Exists(selectedFolder))
-                {
-                    KryptonMessageBox.Show("Can't run AutoCorrect. Not a valid folder selected.", "Invalid folder...", MessageBoxButtons.OK, MessageBoxIcon.Warning, true);
-                    return;
-                }
-                string[] files = Directory.GetFiles(selectedFolder, "*.*");
-                foreach (string file in files)
-                {
-                    Metadata metadataToSave = autoCorrect.FixAndSave(
-                        new FileEntry(file, File.GetLastWriteTime(file)),
-                        null,
-                        databaseAndCacheMetadataExiftool,
-                        databaseAndCacheMetadataMicrosoftPhotos,
-                        databaseAndCacheMetadataWindowsLivePhotoGallery,
-                        databaseAndCahceCameraOwner,
-                        databaseLocationAddress,
-                        databaseGoogleLocationHistory, locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
-                        autoKeywordConvertions,
-                        Properties.Settings.Default.RenameDateFormats);
-                    if (metadataToSave != null)
+                    string selectedFolder = GetSelectedNodeFullRealPath();
+                    if (selectedFolder == null || !Directory.Exists(selectedFolder))
                     {
-                        AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
-                        AddQueueRenameLock(file, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
+                        KryptonMessageBox.Show("Can't run AutoCorrect. Not a valid folder selected.", "Invalid folder...", MessageBoxButtons.OK, MessageBoxIcon.Warning, true);
+                        return;
+                    }
+                    string[] files = Directory.GetFiles(selectedFolder, "*.*");
+                    foreach (string file in files)
+                    {
+                        Metadata metadataToSave = autoCorrect.FixAndSave(
+                            new FileEntry(file, File.GetLastWriteTime(file)),
+                            null,
+                            databaseAndCacheMetadataExiftool,
+                            databaseAndCacheMetadataMicrosoftPhotos,
+                            databaseAndCacheMetadataWindowsLivePhotoGallery,
+                            databaseAndCahceCameraOwner,
+                            databaseLocationAddress,
+                            databaseGoogleLocationHistory, locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
+                            autoKeywordConvertions,
+                            Properties.Settings.Default.RenameDateFormats);
+                        if (metadataToSave != null)
+                        {
+                            AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
+                            AddQueueRenameLock(file, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
+                        }
                     }
                 }
                 StartThreads();
@@ -8064,21 +7941,24 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-                List<FileEntryAttribute> fileEntryAttributes = new List<FileEntryAttribute>();
-                
-                foreach (int columIndex in DataGridViewHandler.GetColumnSelected(dataGridView))
+                using (new WaitCursor())
                 {
-                    DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columIndex);
-                    if (dataGridViewGenericColumn != null && dataGridViewGenericColumn.Metadata != null)
+                    List<FileEntryAttribute> fileEntryAttributes = new List<FileEntryAttribute>();
+
+                    foreach (int columIndex in DataGridViewHandler.GetColumnSelected(dataGridView))
                     {
-                        GlobalData.ListOfAutoCorrectFilesAdd(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath, null);
-                        fileEntryAttributes.Add(new FileEntryAttribute(
-                            dataGridViewGenericColumn.Metadata.FileEntry.FileFullPath,
-                            dataGridViewGenericColumn.Metadata.FileEntry.LastWriteDateTime,
-                            FileEntryVersion.AutoCorrect));
+                        DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columIndex);
+                        if (dataGridViewGenericColumn != null && dataGridViewGenericColumn.Metadata != null)
+                        {
+                            GlobalData.ListOfAutoCorrectFilesAdd(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath, null);
+                            fileEntryAttributes.Add(new FileEntryAttribute(
+                                dataGridViewGenericColumn.Metadata.FileEntry.FileFullPath,
+                                dataGridViewGenericColumn.Metadata.FileEntry.LastWriteDateTime,
+                                FileEntryVersion.AutoCorrect));
+                        }
                     }
+                    AddQueueLazyLoadningDataGridViewMetadataLock(fileEntryAttributes);
                 }
-                AddQueueLazyLoadningDataGridViewMetadataLock(fileEntryAttributes);
             }
             catch (Exception ex)
             {
@@ -8171,38 +8051,39 @@ namespace PhotoTagsSynchronizer
                 FormAutoCorrect formAutoCorrect = new FormAutoCorrect();
                 if (formAutoCorrect.ShowDialog() == DialogResult.OK)
                 {
-
-                    AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
-                    float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
-                    float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
-                    int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
-
-                    AutoCorrectFormVaraibles autoCorrectFormVaraibles = formAutoCorrect.AutoCorrectFormVaraibles;
-                    autoCorrectFormVaraibles.WriteAlbumOnDescription = autoCorrect.UpdateDescription;
-
-                    foreach (ImageListViewItem item in imageListView1.SelectedItems)
+                    using (new WaitCursor())
                     {
-                        Metadata metadataToSave = autoCorrect.FixAndSave(
-                            new FileEntry(item.FileFullPath, item.DateModified),
-                            null,
-                            databaseAndCacheMetadataExiftool,
-                            databaseAndCacheMetadataMicrosoftPhotos,
-                            databaseAndCacheMetadataWindowsLivePhotoGallery,
-                            databaseAndCahceCameraOwner,
-                            databaseLocationAddress,
-                            databaseGoogleLocationHistory,
-                            locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted, 
-                            autoKeywordConvertions,
-                            Properties.Settings.Default.RenameDateFormats);
+                        AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
+                        float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
+                        float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
+                        int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
 
-                        if (metadataToSave != null)
+                        AutoCorrectFormVaraibles autoCorrectFormVaraibles = formAutoCorrect.AutoCorrectFormVaraibles;
+                        autoCorrectFormVaraibles.WriteAlbumOnDescription = autoCorrect.UpdateDescription;
+
+                        foreach (ImageListViewItem item in imageListView1.SelectedItems)
                         {
-                            AutoCorrectFormVaraibles.UpdateMetaData(ref metadataToSave, autoCorrectFormVaraibles);
-                            AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
-                            AddQueueRenameLock(item.FileFullPath, autoCorrect.RenameVariable);
+                            Metadata metadataToSave = autoCorrect.FixAndSave(
+                                new FileEntry(item.FileFullPath, item.DateModified),
+                                null,
+                                databaseAndCacheMetadataExiftool,
+                                databaseAndCacheMetadataMicrosoftPhotos,
+                                databaseAndCacheMetadataWindowsLivePhotoGallery,
+                                databaseAndCahceCameraOwner,
+                                databaseLocationAddress,
+                                databaseGoogleLocationHistory,
+                                locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
+                                autoKeywordConvertions,
+                                Properties.Settings.Default.RenameDateFormats);
+
+                            if (metadataToSave != null)
+                            {
+                                AutoCorrectFormVaraibles.UpdateMetaData(ref metadataToSave, autoCorrectFormVaraibles);
+                                AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
+                                AddQueueRenameLock(item.FileFullPath, autoCorrect.RenameVariable);
+                            }
                         }
                     }
-
                     StartThreads();
                 }
             }
@@ -8223,46 +8104,46 @@ namespace PhotoTagsSynchronizer
                 FormAutoCorrect formAutoCorrect = new FormAutoCorrect();
                 if (formAutoCorrect.ShowDialog() == DialogResult.OK)
                 {
-
-                    
-                    AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
-                    float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
-                    float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
-                    int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
-
-                    AutoCorrectFormVaraibles autoCorrectFormVaraibles = formAutoCorrect.AutoCorrectFormVaraibles;
-                    autoCorrectFormVaraibles.WriteAlbumOnDescription = autoCorrect.UpdateDescription;
-
-                    string selectedFolder = GetSelectedNodeFullRealPath();
-                    if (selectedFolder == null || !Directory.Exists(selectedFolder))
+                    using (new WaitCursor())
                     {
-                        KryptonMessageBox.Show("Can't run AutoCorrect. Not a valid folder selected.", "Invalid folder...", MessageBoxButtons.OK, MessageBoxIcon.Warning, true);
-                        return;
-                    }
-                    string[] files = Directory.GetFiles(selectedFolder, "*.*");
-                    foreach (string file in files)
-                    {
-                        Metadata metadataToSave = autoCorrect.FixAndSave(
-                            new FileEntry(file, File.GetLastWriteTime(file)),
-                            null,
-                            databaseAndCacheMetadataExiftool,
-                            databaseAndCacheMetadataMicrosoftPhotos,
-                            databaseAndCacheMetadataWindowsLivePhotoGallery,
-                            databaseAndCahceCameraOwner,
-                            databaseLocationAddress,
-                            databaseGoogleLocationHistory,
-                            locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
-                            autoKeywordConvertions,
-                            Properties.Settings.Default.RenameDateFormats);
+                        AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
+                        float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
+                        float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
+                        int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
 
-                        if (metadataToSave != null)
+                        AutoCorrectFormVaraibles autoCorrectFormVaraibles = formAutoCorrect.AutoCorrectFormVaraibles;
+                        autoCorrectFormVaraibles.WriteAlbumOnDescription = autoCorrect.UpdateDescription;
+
+                        string selectedFolder = GetSelectedNodeFullRealPath();
+                        if (selectedFolder == null || !Directory.Exists(selectedFolder))
                         {
-                            AutoCorrectFormVaraibles.UpdateMetaData(ref metadataToSave, autoCorrectFormVaraibles);
-                            AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
-                            AddQueueRenameLock(file, autoCorrect.RenameVariable);
+                            KryptonMessageBox.Show("Can't run AutoCorrect. Not a valid folder selected.", "Invalid folder...", MessageBoxButtons.OK, MessageBoxIcon.Warning, true);
+                            return;
+                        }
+                        string[] files = Directory.GetFiles(selectedFolder, "*.*");
+                        foreach (string file in files)
+                        {
+                            Metadata metadataToSave = autoCorrect.FixAndSave(
+                                new FileEntry(file, File.GetLastWriteTime(file)),
+                                null,
+                                databaseAndCacheMetadataExiftool,
+                                databaseAndCacheMetadataMicrosoftPhotos,
+                                databaseAndCacheMetadataWindowsLivePhotoGallery,
+                                databaseAndCahceCameraOwner,
+                                databaseLocationAddress,
+                                databaseGoogleLocationHistory,
+                                locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
+                                autoKeywordConvertions,
+                                Properties.Settings.Default.RenameDateFormats);
+
+                            if (metadataToSave != null)
+                            {
+                                AutoCorrectFormVaraibles.UpdateMetaData(ref metadataToSave, autoCorrectFormVaraibles);
+                                AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
+                                AddQueueRenameLock(file, autoCorrect.RenameVariable);
+                            }
                         }
                     }
-
                     StartThreads();
                 }
             }
@@ -8295,30 +8176,32 @@ namespace PhotoTagsSynchronizer
                 FormAutoCorrect formAutoCorrect = new FormAutoCorrect();
                 if (formAutoCorrect.ShowDialog() == DialogResult.OK)
                 {
-
-                    AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
-                    float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
-                    float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
-                    int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
-
-                    AutoCorrectFormVaraibles autoCorrectFormVaraibles = formAutoCorrect.AutoCorrectFormVaraibles;
-                    autoCorrectFormVaraibles.WriteAlbumOnDescription = autoCorrect.UpdateDescription;
-
-                    List<FileEntryAttribute> fileEntryAttributes = new List<FileEntryAttribute>();
-                    foreach (int columIndex in DataGridViewHandler.GetColumnSelected(dataGridView))
+                    using (new WaitCursor())
                     {
-                        
-                        DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columIndex);
-                        if (dataGridViewGenericColumn != null && dataGridViewGenericColumn.Metadata != null)
+                        AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
+                        float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
+                        float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
+                        int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
+
+                        AutoCorrectFormVaraibles autoCorrectFormVaraibles = formAutoCorrect.AutoCorrectFormVaraibles;
+                        autoCorrectFormVaraibles.WriteAlbumOnDescription = autoCorrect.UpdateDescription;
+
+                        List<FileEntryAttribute> fileEntryAttributes = new List<FileEntryAttribute>();
+                        foreach (int columIndex in DataGridViewHandler.GetColumnSelected(dataGridView))
                         {
-                            GlobalData.ListOfAutoCorrectFilesAdd(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath, autoCorrectFormVaraibles);
-                            fileEntryAttributes.Add(new FileEntryAttribute(
-                                dataGridViewGenericColumn.Metadata.FileEntry.FileFullPath,
-                                dataGridViewGenericColumn.Metadata.FileEntry.LastWriteDateTime,
-                                FileEntryVersion.AutoCorrect));
+
+                            DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columIndex);
+                            if (dataGridViewGenericColumn != null && dataGridViewGenericColumn.Metadata != null)
+                            {
+                                GlobalData.ListOfAutoCorrectFilesAdd(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath, autoCorrectFormVaraibles);
+                                fileEntryAttributes.Add(new FileEntryAttribute(
+                                    dataGridViewGenericColumn.Metadata.FileEntry.FileFullPath,
+                                    dataGridViewGenericColumn.Metadata.FileEntry.LastWriteDateTime,
+                                    FileEntryVersion.AutoCorrect));
+                            }
                         }
+                        AddQueueLazyLoadningDataGridViewMetadataLock(fileEntryAttributes);
                     }
-                    AddQueueLazyLoadningDataGridViewMetadataLock(fileEntryAttributes);
                     StartThreads();
                 }
             }

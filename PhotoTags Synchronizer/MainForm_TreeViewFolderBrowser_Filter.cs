@@ -5,6 +5,9 @@ using MetadataLibrary;
 using System.Threading;
 using Krypton.Toolkit;
 using System.Drawing;
+using FileHandeling;
+using System.IO;
+using DataGridViewGeneric;
 
 namespace PhotoTagsSynchronizer
 { 
@@ -542,9 +545,128 @@ namespace PhotoTagsSynchronizer
             //ImageListView_Aggregate_FromReadFolderOrFilterOrDatabase(null, GlobalData.SerachFilterResult, null, true); //Same as above
         }
         #endregion 
+
+        
+        #region GetSelectedFilesFromActiveDataGridView
+        private HashSet<FileEntry> GetSelectedFilesFromActiveDataGridView()
+        {
+            HashSet<FileEntry> files = new HashSet<FileEntry>();
+            try
+            {
+                DataGridView dataGridView;
+                switch (ActiveKryptonPage)
+                {
+                    case KryptonPages.None:
+                    case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                    case KryptonPages.kryptonPageFolderSearchFilterSearch:
+                    case KryptonPages.kryptonPageFolderSearchFilterFilter:
+                    case KryptonPages.kryptonPageMediaFiles:
+                        break;
+                    case KryptonPages.kryptonPageToolboxTags:
+                    case KryptonPages.kryptonPageToolboxPeople:
+                    case KryptonPages.kryptonPageToolboxMap:
+                    case KryptonPages.kryptonPageToolboxDates:
+                    case KryptonPages.kryptonPageToolboxExiftool:
+                    case KryptonPages.kryptonPageToolboxWarnings:
+                    case KryptonPages.kryptonPageToolboxProperties:
+                        dataGridView = GetActiveTabDataGridView();
+                        if (dataGridView != null)
+                        {
+                            foreach (int columnIndex in DataGridViewHandler.GetColumnSelected(GetActiveTabDataGridView()))
+                            {
+                                DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(GetActiveTabDataGridView(), columnIndex);
+                                if (dataGridViewGenericColumn != null && !files.Contains(dataGridViewGenericColumn.FileEntryAttribute.FileEntry)) files.Add(dataGridViewGenericColumn.FileEntryAttribute.FileEntry);
+                            }
+                        }
+                        break;
+                    case KryptonPages.kryptonPageToolboxRename:
+                    case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                        dataGridView = GetActiveTabDataGridView();
+                        if (dataGridView != null)
+                        {
+                            foreach (int rowIndex in DataGridViewHandler.GetRowSelected(GetActiveTabDataGridView()))
+                            {
+                                DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(GetActiveTabDataGridView(), rowIndex);
+                                FileEntry fileEntry = dataGridViewGenericRow.FileEntry;
+                                if (dataGridViewGenericRow != null && !dataGridViewGenericRow.IsHeader && !files.Contains(fileEntry)) files.Add(fileEntry);
+                            }
+                        }
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+            }
+            return files;
+        }
+        #endregion
+
+        #region GetFilesInSelectedFolderCached
+        private string cachedFolder = "";
+        private HashSet<FileEntry> fileEntriesFolderCached = new HashSet<FileEntry>();
+        private HashSet<FileEntry> GetFilesInSelectedFolderCached()
+        {
+
+            try
+            {
+                string folder = GetSelectedNodeFullRealPath();
+                if (folder == null || !Directory.Exists(folder))
+                {
+                    KryptonMessageBox.Show("Can't reach the folder. Not a valid folder selected.", "Invalid folder...", MessageBoxButtons.OK, MessageBoxIcon.Warning, true);
+                    cachedFolder = "";
+                    fileEntriesFolderCached = new HashSet<FileEntry>();
+                    return fileEntriesFolderCached;
+                }
+
+                if (cachedFolder != folder) //Need updated cache
+                {
+                    IEnumerable<FileData> fileDatas = ImageAndMovieFileExtentionsUtility.GetFilesByEnumerableFast(folder, false);
+                    HashSet<FileEntry> fileEntriesFolder = new HashSet<FileEntry>();
+                    foreach (FileData fileData in fileDatas)
+                    {
+                        if (ImageAndMovieFileExtentionsUtility.IsMediaFormat(fileData)) fileEntriesFolder.Add(new FileEntry(fileData.Path, fileData.LastWriteTime));
+                    }
+                    fileEntriesFolderCached = fileEntriesFolder;
+                    cachedFolder = folder;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+            }
+
+            return fileEntriesFolderCached;
+        }
+        #endregion
+
+        #region GetFilesInSelectedFolder
+        private IEnumerable<FileData> GetFilesInSelectedFolder(string folder, bool recursive = false)
+        {
+            IEnumerable<FileData> fileDatas = null;
+            try
+            {
+                if (folder == null || !Directory.Exists(folder))
+                {
+                    KryptonMessageBox.Show("Can't reach the folder. Not a valid folder selected.", "Invalid folder...", MessageBoxButtons.OK, MessageBoxIcon.Warning, true);
+                    return fileDatas;
+                }
+                fileDatas = ImageAndMovieFileExtentionsUtility.GetFilesByEnumerableFast(folder, recursive);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+            }
+            return fileDatas;
+        }
+        #endregion
+
     }
 
-    
+
 
 }
 
