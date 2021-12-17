@@ -825,36 +825,39 @@ namespace PhotoTagsSynchronizer
                                         fileEntryImage = new FileEntryImage(commonQueueSaveThumbnailToDatabase[0]);
                                     }
 
-                                    try
+                                    if (!databaseAndCacheThumbnail.DoesThumbnailExistInCache(fileEntryImage))
                                     {
-                                        if (fileEntryImage.Image == null)
+                                        try
                                         {
-                                            fileEntryImage.Image = LoadMediaCoverArtThumbnail(fileEntryImage.FileFullPath, ThumbnailSaveSize, false);
+                                            if (fileEntryImage.Image == null)
+                                            {
+                                                fileEntryImage.Image = LoadMediaCoverArtThumbnail(fileEntryImage.FileFullPath, ThumbnailSaveSize, false);
+                                                if (fileEntryImage.Image != null)
+                                                    ImageListViewReloadThumbnailAndMetadataInvoke(imageListView1, fileEntryImage.FileFullPath);
+                                            }
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            Logger.Error(ex, "ThreadSaveThumbnail - LoadMediaCoverArtThumbnail failed");
+                                        }
+
+                                        try
+                                        {
                                             if (fileEntryImage.Image != null)
-                                                ImageListViewReloadThumbnailAndMetadataInvoke(imageListView1, fileEntryImage.FileFullPath);
-                                        }
-                                    } 
-                                    catch (Exception ex)
-                                    {
-                                        Logger.Error(ex, "ThreadSaveThumbnail - LoadMediaCoverArtThumbnail failed");
-                                    }
+                                            {
+                                                databaseAndCacheThumbnail.TransactionBeginBatch();
+                                                databaseAndCacheThumbnail.WriteThumbnail(fileEntryImage, fileEntryImage.Image);
+                                                databaseAndCacheThumbnail.TransactionCommitBatch();
 
-                                    try
-                                    {
-                                        if (fileEntryImage.Image != null) // && !databaseAndCacheThumbnail.DoesThumbnailExist(fileEntryImage))
+                                                DataGridView_UpdateColumnThumbnail_OnFileEntryAttribute(new FileEntryAttribute(fileEntryImage, FileEntryVersion.ExtractedNowFromMediaFile), fileEntryImage.Image);
+                                                DataGridView_UpdateColumnThumbnail_OnFileEntryAttribute(new FileEntryAttribute(fileEntryImage, FileEntryVersion.Error), fileEntryImage.Image);
+                                            }
+                                        }
+                                        catch (Exception ex)
                                         {
-                                            databaseAndCacheThumbnail.TransactionBeginBatch();
-                                            databaseAndCacheThumbnail.WriteThumbnail(fileEntryImage, fileEntryImage.Image);
-                                            databaseAndCacheThumbnail.TransactionCommitBatch();
-
-                                            DataGridView_UpdateColumnThumbnail_OnFileEntryAttribute(new FileEntryAttribute(fileEntryImage, FileEntryVersion.ExtractedNowFromMediaFile), fileEntryImage.Image);
-                                            DataGridView_UpdateColumnThumbnail_OnFileEntryAttribute(new FileEntryAttribute(fileEntryImage, FileEntryVersion.Error), fileEntryImage.Image);
+                                            Logger.Error(ex, "ThreadSaveThumbnail - WriteThumbnail failed");
                                         }
                                     } 
-                                    catch (Exception ex)
-                                    {
-                                        Logger.Error(ex, "ThreadSaveThumbnail - WriteThumbnail failed");
-                                    }
 
                                     lock (commonQueueSaveThumbnailToDatabaseLock)
                                     {
