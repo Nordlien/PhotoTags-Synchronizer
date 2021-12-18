@@ -971,21 +971,6 @@ namespace MetadataLibrary
         }
         #endregion
 
-        //#region Updated - Region - UpdateRegionThumbnailWebScraper
-        //public void UpdateRegionThumbnailWebScraper(Metadata metadata, RegionStructure regionStructure)
-        //{
-        //    DateTime? dateTimeLastPackageDate = GetWebScraperLastPackageDate();
-        //    if (dateTimeLastPackageDate == null) return;
-        //    Metadata metadataWebScarper = new Metadata(metadata);
-        //    metadataWebScarper.Broker = metadata.Broker;
-        //    metadataWebScarper.FileDirectory = WebScapingFolderName;
-        //    metadataWebScarper.FileName = metadata.FileName;
-        //    metadataWebScarper.FileDateModified = dateTimeLastPackageDate;
-        //    UpdateRegionThumbnail(metadataWebScarper, regionStructure);
-        //}
-
-        //#endregion 
-
         #region Updated - Region - UpdateRegionThumbnail
         /// <summary>
         /// Updated Region data for Give media file
