@@ -1989,16 +1989,16 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region PopulateFile
-        public static void PopulateFile(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute)
+        public static int PopulateFile(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute)
         {
             //-----------------------------------------------------------------
             //Chech if need to stop
-            if (GlobalData.IsApplicationClosing) return;
-            if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return;      //Not default columns or rows added
-            if (DataGridViewHandler.GetIsPopulatingFile(dataGridView)) return;  //In progress doing so
+            if (GlobalData.IsApplicationClosing) return -1;
+            if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return -1;      //Not default columns or rows added
+            if (DataGridViewHandler.GetIsPopulatingFile(dataGridView)) return -1;  //In progress doing so
 
             //Check if file is in DataGridView, and needs updated
-            if (!DataGridViewHandler.DoesColumnFilenameExist(dataGridView, headerConvertAndMergeFilename)) return;
+            if (!DataGridViewHandler.DoesColumnFilenameExist(dataGridView, headerConvertAndMergeFilename)) return -1;
 
             //When file found, Tell it's populating file, avoid two process updates
             DataGridViewHandler.SetIsPopulatingFile(dataGridView, true);
@@ -2022,6 +2022,7 @@ namespace PhotoTagsSynchronizer
             //-----------------------------------------------------------------
             DataGridViewHandler.SetIsPopulatingFile(dataGridView, false);
             //-----------------------------------------------------------------
+            return columnIndex;
         }
         #endregion 
 

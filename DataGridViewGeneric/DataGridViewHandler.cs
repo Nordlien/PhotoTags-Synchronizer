@@ -964,6 +964,7 @@ namespace DataGridViewGeneric
         #region Column handling - SetColumnDirtyFlag
         public static void SetColumnDirtyFlag(DataGridView dataGridView, int columnIndex, bool isDirty)
         {
+            if (columnIndex == -1) return;
             DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
             if (dataGridViewGenericColumn != null) dataGridViewGenericColumn.IsDirty = isDirty;
             InvalidateCellColumnHeader(dataGridView, columnIndex);

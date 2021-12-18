@@ -1021,19 +1021,15 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        
+
         #region UpdateDataGridViewDirtyFlagsWhenPageActivated()
         private void ActionUpdateDataGridViewDirtyFlagsWhenPageActivated()
         {
             try
             {
                 DataGridView dataGridView = GetActiveTabDataGridView();
-                if (dataGridView != null)
-                {
-                    for (int columnIndex = 0; columnIndex < DataGridViewHandler.GetColumnCount(dataGridView); columnIndex++)
-                    {
-                        DataGridViewHandler.SetColumnDirtyFlag(dataGridView, columnIndex, IsDataGridViewColumnDirty(dataGridView, columnIndex));
-                    }
-                }
+                DataGridView_UpdatedDirtyFlags(dataGridView);
             }
             catch (Exception ex)
             {
@@ -1043,8 +1039,6 @@ namespace PhotoTagsSynchronizer
         }
         private void UpdateDataGridViewDirtyFlagsWhenPageActivated()
         {
-            
-
             try
             {
                 switch (ActiveKryptonPage)

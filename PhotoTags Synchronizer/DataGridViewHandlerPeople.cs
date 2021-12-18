@@ -189,16 +189,16 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region PopulateFile
-        public static void PopulateFile(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, ShowWhatColumns showWhatColumns, Metadata metadataAutoCorrected, bool onlyRefresh)
+        public static int PopulateFile(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, ShowWhatColumns showWhatColumns, Metadata metadataAutoCorrected, bool onlyRefresh)
         {
             //-----------------------------------------------------------------
             //Chech if need to stop
-            if (GlobalData.IsApplicationClosing) return;
-            if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return;      //Not default columns or rows added
-            if (DataGridViewHandler.GetIsPopulatingFile(dataGridView)) return;  //In progress doing so
+            if (GlobalData.IsApplicationClosing) return -1;
+            if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return -1;      //Not default columns or rows added
+            if (DataGridViewHandler.GetIsPopulatingFile(dataGridView)) return -1;  //In progress doing so
 
             //Check if file is in DataGridView, and needs updated
-            if (!DataGridViewHandler.DoesColumnFilenameExist(dataGridView, fileEntryAttribute.FileFullPath)) return;
+            if (!DataGridViewHandler.DoesColumnFilenameExist(dataGridView, fileEntryAttribute.FileFullPath)) return -1;
 
             //When file found, Tell it's populating file, avoid two process updates
             DataGridViewHandler.SetIsPopulatingFile(dataGridView, true);
@@ -264,8 +264,9 @@ namespace PhotoTagsSynchronizer
                     Metadata metadataWebScrapingCopy = metadataWebScraping == null ? null : new Metadata(metadataWebScraping);
 
                     //Remove doubles and add names where missing, only work with copy, don't change metadata in buffer.
-                    if (metadataWindowsLivePhotoGalleryCopy != null) metadataWindowsLivePhotoGalleryCopy.PersonalRegionRemoveNamelessDoubleRegions(metadataCopy.PersonalRegionList);
-                    if (metadataMicrosoftPhotosCopy != null) metadataMicrosoftPhotosCopy.PersonalRegionRemoveNamelessDoubleRegions(metadataCopy.PersonalRegionList);
+                    //Don't remove region in ExifTool metadata when found other places 
+                    //if (metadataWindowsLivePhotoGalleryCopy != null) metadataWindowsLivePhotoGalleryCopy.PersonalRegionRemoveNamelessDoubleRegions(metadataCopy.PersonalRegionList);
+                    //if (metadataMicrosoftPhotosCopy != null) metadataMicrosoftPhotosCopy.PersonalRegionRemoveNamelessDoubleRegions(metadataCopy.PersonalRegionList);
                     
                     if (metadataWindowsLivePhotoGalleryCopy != null) metadataCopy.PersonalRegionSetNamelessRegions(metadataWindowsLivePhotoGalleryCopy.PersonalRegionList);
                     if (metadataMicrosoftPhotosCopy != null) metadataCopy.PersonalRegionSetNamelessRegions(metadataMicrosoftPhotosCopy.PersonalRegionList);
@@ -362,6 +363,8 @@ namespace PhotoTagsSynchronizer
             //-----------------------------------------------------------------
             DataGridViewHandler.SetIsPopulatingFile(dataGridView, false);
             //-----------------------------------------------------------------
+
+            return columnIndex;
         }
         #endregion
 
