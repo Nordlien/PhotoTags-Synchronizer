@@ -129,7 +129,7 @@ namespace MetadataLibrary
             fileEntryBrokersToPutInCache.Add(file);
             ReadToCache(fileEntryBrokersToPutInCache);
             return ReadMetadataFromCacheOnly(file);
-            
+
         }
         #endregion
 
@@ -178,14 +178,14 @@ namespace MetadataLibrary
         #region ReadToCache - List<FileEntryBroker>
         private void ReadToCache(List<FileEntryBroker> fileEntriesBroker)
         {
-            
+
             List<FileEntryBroker> fileEntryBrokersToPutInCache = new List<FileEntryBroker>();
             foreach (FileEntryBroker fileEntryBrokerToCheckInCache in fileEntriesBroker)
             {
-                if (StopCaching) 
-                { 
-                    StopCaching = false; 
-                    return; 
+                if (StopCaching)
+                {
+                    StopCaching = false;
+                    return;
                 }
                 if (!IsMetadataInCache(fileEntryBrokerToCheckInCache)) fileEntryBrokersToPutInCache.Add(fileEntryBrokerToCheckInCache);
             }
@@ -222,12 +222,12 @@ namespace MetadataLibrary
                         ReadToCacheFileEntriesRecordEventArgs readToCacheFileEntriesRecordEventArgsAbort = new ReadToCacheFileEntriesRecordEventArgs(readToCacheFileEntriesRecordEventArgsInit);
                         readToCacheFileEntriesRecordEventArgsAbort.Aborted = true;
                         if (OnRecordReadToCache != null) OnRecordReadToCache(this, readToCacheFileEntriesRecordEventArgsAbort);
-                        StopCaching = false; 
+                        StopCaching = false;
                         return;
                     }
 
                     readToCacheFileEntriesRecordEventArgsInit.MetadataCount++;
-                    ReadToCacheFileEntriesRecordEventArgs readToCacheFileEntriesRecordEventArgs = new ReadToCacheFileEntriesRecordEventArgs(readToCacheFileEntriesRecordEventArgsInit);                   
+                    ReadToCacheFileEntriesRecordEventArgs readToCacheFileEntriesRecordEventArgs = new ReadToCacheFileEntriesRecordEventArgs(readToCacheFileEntriesRecordEventArgsInit);
                     if (OnRecordReadToCache != null) OnRecordReadToCache(this, readToCacheFileEntriesRecordEventArgs);
 
                     //commandDatabase.Prepare();
@@ -302,7 +302,7 @@ namespace MetadataLibrary
                     }
                     readToCacheFileEntriesRecordEventArgsInit.KeywordCount++;
                     ReadToCacheFileEntriesRecordEventArgs readToCacheFileEntriesRecordEventArgs = new ReadToCacheFileEntriesRecordEventArgs(readToCacheFileEntriesRecordEventArgsInit);
-                    
+
                     if (OnRecordReadToCache != null) OnRecordReadToCache(this, readToCacheFileEntriesRecordEventArgs);
 
                     Metadata metadata = ReadMetadataFromCacheOnly(fileEntryBroker);
@@ -353,7 +353,7 @@ namespace MetadataLibrary
                     }
 
                     readToCacheFileEntriesRecordEventArgsInit.RegionCount++;
-                    ReadToCacheFileEntriesRecordEventArgs readToCacheFileEntriesRecordEventArgs = new ReadToCacheFileEntriesRecordEventArgs(readToCacheFileEntriesRecordEventArgsInit);                    
+                    ReadToCacheFileEntriesRecordEventArgs readToCacheFileEntriesRecordEventArgs = new ReadToCacheFileEntriesRecordEventArgs(readToCacheFileEntriesRecordEventArgsInit);
                     if (OnRecordReadToCache != null) OnRecordReadToCache(this, readToCacheFileEntriesRecordEventArgs);
 
                     Metadata metadata = ReadMetadataFromCacheOnly(fileEntryBroker);
@@ -373,7 +373,7 @@ namespace MetadataLibrary
                                 region.Name = dbTools.ConvertFromDBValString(reader["Name"]);
                                 region.AreaX = (float)(dbTools.ConvertFromDBValFloat(reader["AreaX"]) == null ? 0 : dbTools.ConvertFromDBValFloat(reader["AreaX"]));
                                 region.AreaY = (float)(dbTools.ConvertFromDBValFloat(reader["AreaY"]) == null ? 0 : dbTools.ConvertFromDBValFloat(reader["AreaY"]));
-                                region.AreaWidth = (float)(dbTools.ConvertFromDBValFloat(reader["AreaWidth"]) == null ? 1 : dbTools.ConvertFromDBValFloat(reader["AreaWidth"])); 
+                                region.AreaWidth = (float)(dbTools.ConvertFromDBValFloat(reader["AreaWidth"]) == null ? 1 : dbTools.ConvertFromDBValFloat(reader["AreaWidth"]));
                                 region.AreaHeight = (float)(dbTools.ConvertFromDBValFloat(reader["AreaHeight"]) == null ? 1 : dbTools.ConvertFromDBValFloat(reader["AreaHeight"]));
                                 region.RegionStructureType = (RegionStructureTypes)(int)dbTools.ConvertFromDBValInt(reader["RegionStructureType"]);
                                 region.Thumbnail = dbTools.ByteArrayToImage(dbTools.ConvertFromDBValByteArray(reader["Thumbnail"]));
@@ -442,7 +442,7 @@ namespace MetadataLibrary
 
             public int CompareTo(ReadToCacheParameters other)
             {
-                int compare = MetadataBrokerType.CompareTo(other.MetadataBrokerType);  
+                int compare = MetadataBrokerType.CompareTo(other.MetadataBrokerType);
 
                 if (Folder == null)
                 {
@@ -540,7 +540,7 @@ namespace MetadataLibrary
                 if (folder != null) commandDatabase.Parameters.AddWithValue("@FileDirectory", folder);
                 if (filename != null) commandDatabase.Parameters.AddWithValue("@FileName", filename);
                 if (fileDateModified != null) commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileDateModified));
-                
+
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
                     while (reader.Read())
@@ -552,14 +552,14 @@ namespace MetadataLibrary
                             }
                             catch { }
                             readRecordEventArgs.Aborted = true;
-                            if (OnRecordReadToCacheParameter != null) OnRecordReadToCacheParameter(this, readRecordEventArgs); 
-                            StopCaching = false; 
-                            return; 
+                            if (OnRecordReadToCacheParameter != null) OnRecordReadToCacheParameter(this, readRecordEventArgs);
+                            StopCaching = false;
+                            return;
                         }
                         readRecordEventArgs.MetadataCount++;
                         if (OnRecordReadToCacheParameter != null) OnRecordReadToCacheParameter(this, readRecordEventArgs);
 
-                        
+
                         if (readDataIntoCache)
                         {
                             Metadata metadata = new Metadata(metadataBrokerType);
@@ -613,7 +613,7 @@ namespace MetadataLibrary
                 if (folder != null) commandDatabase.Parameters.AddWithValue("@FileDirectory", folder);
                 if (filename != null) commandDatabase.Parameters.AddWithValue("@FileName", filename);
                 if (fileDateModified != null) commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileDateModified));
-                
+
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
                     while (reader.Read())
@@ -627,7 +627,7 @@ namespace MetadataLibrary
                             catch { }
                             readRecordEventArgs.Aborted = true;
                             if (OnRecordReadToCacheParameter != null) OnRecordReadToCacheParameter(this, readRecordEventArgs);
-                            StopCaching = false; 
+                            StopCaching = false;
                             return;
                         }
                         readRecordEventArgs.KeywordCount++;
@@ -671,7 +671,7 @@ namespace MetadataLibrary
                 if (folder != null) commandDatabase.Parameters.AddWithValue("@FileDirectory", folder);
                 if (filename != null) commandDatabase.Parameters.AddWithValue("@FileName", filename);
                 if (fileDateModified != null) commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileDateModified));
-                
+
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
                     while (reader.Read())
@@ -685,7 +685,7 @@ namespace MetadataLibrary
                             catch { }
                             readRecordEventArgs.Aborted = true;
                             if (OnRecordReadToCacheParameter != null) OnRecordReadToCacheParameter(this, readRecordEventArgs);
-                            StopCaching = false; 
+                            StopCaching = false;
                             return;
                         }
                         readRecordEventArgs.RegionCount++;
@@ -811,7 +811,7 @@ namespace MetadataLibrary
                 commandDatabase.Parameters.AddWithValue("@LocationCity", metadata.LocationCity);
                 commandDatabase.Parameters.AddWithValue("@LocationState", metadata.LocationState);
                 commandDatabase.Parameters.AddWithValue("@RowChangedDated", dbTools.ConvertFromDateTimeToDBVal(DateTime.Now));
-;
+                ;
                 //commandDatabase.ExecuteNonQuery();
                 if (commandDatabase.ExecuteNonQuery() == -1)
                 {
@@ -841,7 +841,7 @@ namespace MetadataLibrary
                     commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(metadata.FileDateModified));
                     commandDatabase.Parameters.AddWithValue("@Keyword", tag.Keyword);
                     commandDatabase.Parameters.AddWithValue("@Confidence", tag.Confidence);
-                    
+
                     if (commandDatabase.ExecuteNonQuery() == -1)
                     {
                         Logger.Warn("Delete MediaPersonalKeywords data due to previous application crash for file: " + metadata.FileFullPath);
@@ -879,7 +879,7 @@ namespace MetadataLibrary
                     commandDatabase.Parameters.AddWithValue("@RegionStructureType", region.RegionStructureType);
                     if (region.Thumbnail == null) commandDatabase.Parameters.AddWithValue("@Thumbnail", DBNull.Value);
                     else commandDatabase.Parameters.AddWithValue("@Thumbnail", dbTools.ImageToByteArray(region.Thumbnail));
-                    
+
                     if (commandDatabase.ExecuteNonQuery() == -1)
                     {
                         Logger.Warn("Delete MediaPersonalRegions data due to previous application crash for file: " + metadata.FileFullPath);
@@ -932,7 +932,7 @@ namespace MetadataLibrary
         {
             Image image = null;
             if (randomThumbnailCache.ContainsKey(name)) image = randomThumbnailCache[name];
-            
+
             if (image == null)
             {
                 if (image == null) image = ReadRegionThumbnailFromCache(name);
@@ -948,7 +948,7 @@ namespace MetadataLibrary
 
         public Image ReadRandomThumbnailFromDatabase(string name)
         {
-            
+
 
             Image image = null;
             string sqlCommand = "SELECT Thumbnail FROM MediaPersonalRegions WHERE Name = @Name AND Thumbnail IS NOT NULL ORDER BY FileDateModified LIMIT 1";
@@ -969,7 +969,22 @@ namespace MetadataLibrary
             }
             return image;
         }
-        #endregion 
+        #endregion
+
+        //#region Updated - Region - UpdateRegionThumbnailWebScraper
+        //public void UpdateRegionThumbnailWebScraper(Metadata metadata, RegionStructure regionStructure)
+        //{
+        //    DateTime? dateTimeLastPackageDate = GetWebScraperLastPackageDate();
+        //    if (dateTimeLastPackageDate == null) return;
+        //    Metadata metadataWebScarper = new Metadata(metadata);
+        //    metadataWebScarper.Broker = metadata.Broker;
+        //    metadataWebScarper.FileDirectory = WebScapingFolderName;
+        //    metadataWebScarper.FileName = metadata.FileName;
+        //    metadataWebScarper.FileDateModified = dateTimeLastPackageDate;
+        //    UpdateRegionThumbnail(metadataWebScarper, regionStructure);
+        //}
+
+        //#endregion 
 
         #region Updated - Region - UpdateRegionThumbnail
         /// <summary>
@@ -979,6 +994,7 @@ namespace MetadataLibrary
         /// <param name="regionStructure">New RegionStructure that will be saved</param>
         public void UpdateRegionThumbnail(Metadata metadata, RegionStructure regionStructure)
         {
+            
             MetadataRegionCacheUpdate(metadata, regionStructure);
 
             string sqlCommand =

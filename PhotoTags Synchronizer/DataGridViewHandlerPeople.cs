@@ -41,10 +41,6 @@ namespace PhotoTagsSynchronizer
                 {
                     RegionStructure regionStructure = DataGridViewHandler.GetCellRegionStructure(dataGridView, columnIndex, rowIndex);
                     if (regionStructure != null) metadata.PersonalRegionListAddIfNotAreaAndNameExists(regionStructure);
-                    else
-                    {
-                        //DEBUG
-                    }
                 }               
             }
         }
@@ -63,12 +59,6 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.SetCellDefaultAfterUpdated(dataGridView, metadataBrokerType, columnIndex, rowIndexUsed);
         }
         #endregion
-
-        private static int AddRowSuggestion(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericDataRow, bool sort)
-        {
-            DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefault = new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true);
-            return DataGridViewHandler.AddRow(dataGridView, columnIndex, dataGridViewGenericDataRow, null, dataGridViewGenericCellStatusDefault, sort);
-        }
 
         #region AddRowPeople
         public static void AddRowPeople(DataGridView dataGridView, string regionName)

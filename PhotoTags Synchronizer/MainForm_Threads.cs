@@ -628,6 +628,21 @@ namespace PhotoTagsSynchronizer
                                         Metadata metadata = databaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.WindowsLivePhotoGallery));
                                         if (metadata != null && metadata.PersonalRegionIsThumbnailMissing()) AddQueueCreateRegionFromPosterLock(metadata);
                                     }
+
+                                    if (databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.WebScraping)) == null)
+                                    {
+                                        Metadata metadata = databaseAndCacheMetadataExiftool.ReadWebScraperMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.WebScraping));
+                                        //Metadata folder will change to common folder name "WebScraper"
+
+                                        if (metadata != null && metadata.PersonalRegionIsThumbnailMissing())
+                                        {
+                                            Metadata metadataWithFullPath = new Metadata(metadata);
+                                            metadataWithFullPath.FileName = fileEntryAttribute.FileName;
+                                            metadataWithFullPath.FileDirectory = fileEntryAttribute.Directory;
+                                            metadataWithFullPath.FileDateModified = fileEntryAttribute.LastWriteDateTime;
+                                            AddQueueCreateRegionFromPosterLock(metadataWithFullPath);
+                                        }
+                                    }
                                 }
 
                                 lock (commonQueueLazyLoadingMetadataLock) commonQueueLazyLoadingMetadata.RemoveAt(0);
@@ -826,8 +841,7 @@ namespace PhotoTagsSynchronizer
                                             if (fileEntryImage.Image == null)
                                             {
                                                 fileEntryImage.Image = LoadMediaCoverArtThumbnail(fileEntryImage.FileFullPath, ThumbnailSaveSize, false);
-                                                if (fileEntryImage.Image != null)
-                                                    ImageListViewReloadThumbnailAndMetadataInvoke(imageListView1, fileEntryImage.FileFullPath);
+                                                if (fileEntryImage.Image != null) ImageListViewReloadThumbnailAndMetadataInvoke(imageListView1, fileEntryImage.FileFullPath);
                                             }
                                         }
                                         catch (Exception ex)
@@ -1895,9 +1909,8 @@ namespace PhotoTagsSynchronizer
                             {
                                 try
                                 {
-                                    FileEntry fileEntryRegion;
-                                    lock (commonQueueReadPosterAndSaveFaceThumbnailsLock)
-                                    { fileEntryRegion = new FileEntry(commonQueueReadPosterAndSaveFaceThumbnails[indexSource].FileEntryBroker); }
+                                    FileEntryBroker fileEntryBrokerRegion;
+                                    lock (commonQueueReadPosterAndSaveFaceThumbnailsLock) { fileEntryBrokerRegion = new FileEntryBroker(commonQueueReadPosterAndSaveFaceThumbnails[indexSource].FileEntryBroker); }
 
                                     int fileIndexFound; //Loop all files and check more version of the file
                                     bool fileFoundNeedCheckForMoreWithSameFilename; //Due to remove item, need loop queue once more
@@ -1917,12 +1930,11 @@ namespace PhotoTagsSynchronizer
                                         for (int thumbnailIndex = indexSource; thumbnailIndex < queueCount; thumbnailIndex++) //Not need to check already checked -> thumbnailIndex = indexSource
                                         {
                                             Metadata metadataActiveAlreadyCopy = null;
-                                            lock (commonQueueReadPosterAndSaveFaceThumbnailsLock)
-                                            { metadataActiveAlreadyCopy = commonQueueReadPosterAndSaveFaceThumbnails[thumbnailIndex]; }
+                                            lock (commonQueueReadPosterAndSaveFaceThumbnailsLock) { metadataActiveAlreadyCopy = commonQueueReadPosterAndSaveFaceThumbnails[thumbnailIndex]; }
 
                                             //Find current file entry in queue, Exiftool, Microsoft Photos, Windows Live Gallery, etc...
-                                            if (FilesCutCopyPasteDrag.IsFilenameEqual(metadataActiveAlreadyCopy.FileFullPath, fileEntryRegion.FileFullPath) &&
-                                            metadataActiveAlreadyCopy.FileDateModified == fileEntryRegion.LastWriteDateTime)
+                                            if (FilesCutCopyPasteDrag.IsFilenameEqual(metadataActiveAlreadyCopy.FileFullPath, fileEntryBrokerRegion.FileFullPath) &&
+                                            metadataActiveAlreadyCopy.FileDateModified == fileEntryBrokerRegion.LastWriteDateTime)
                                             {
 
                                                 fileIndexFound = thumbnailIndex;
@@ -1938,25 +1950,47 @@ namespace PhotoTagsSynchronizer
                                                 {
                                                     if (onlyDoWhatIsInCacheToAvoidHarddriveOverload)
                                                     {
-                                                        image = PosterCacheRead(fileEntryRegion.FileFullPath);
                                                         if (image != null)
-                                                            fileFoundRemoveFromList = true;
-                                                        else
-                                                            fileFoundRemoveFromList = false; //Not in cache, need wait for loading starts (that's after all other queue empty)
+                                                        {
+                                                            //DEBUG Does the images come
+                                                        }
+                                                        image = PosterCacheRead(fileEntryBrokerRegion.FileFullPath);
+                                                        if (image != null) fileFoundRemoveFromList = true;
+                                                        else fileFoundRemoveFromList = false; //Not in cache, need wait for loading starts (that's after all other queue empty)
                                                     }
                                                     else
                                                     {
                                                         fileFoundRemoveFromList = true;
-                                                        bool isFileUnLockedAndExist = FileHandler.WaitLockedFileToBecomeUnlocked(fileEntryRegion.FileFullPath, false, this);
+                                                        bool isFileUnLockedAndExist = FileHandler.WaitLockedFileToBecomeUnlocked(fileEntryBrokerRegion.FileFullPath, false, this);
 
-                                                        //Check if the current Metadata are same as newst file... If not file exist anymore, date will become {01.01.1601 01:00:00}
-                                                        if (isFileUnLockedAndExist && File.GetLastWriteTime(fileEntryRegion.FileFullPath) == fileEntryRegion.LastWriteDateTime)
+                                                        
+                                                        if (
+                                                            isFileUnLockedAndExist && (
+                                                            fileEntryBrokerRegion.Broker == MetadataBrokerType.WebScraping || //If source WebScraper, date and time will not match                                                        
+                                                            File.GetLastWriteTime(fileEntryBrokerRegion.FileFullPath) == fileEntryBrokerRegion.LastWriteDateTime) //Check if the current Metadata are same as newest file... If not file exist anymore, date will become {01.01.1601 01:00:00}
+                                                        )
                                                         {
-                                                            bool isFileInCloud = FileHandler.IsFileInCloud(fileEntryRegion.FileFullPath);
+                                                            bool isFullSizeThumbnail = true;
+                                                            foreach (RegionStructure regionStructure in metadataActiveAlreadyCopy.PersonalRegionList)
+                                                            {
+                                                                if (regionStructure.AreaX != 0 ||
+                                                                    regionStructure.AreaY != 0 ||
+                                                                    regionStructure.AreaWidth != 1 ||
+                                                                    regionStructure.AreaHeight != 1)
+                                                                {
+                                                                    isFullSizeThumbnail = false;
+                                                                    break;
+                                                                }
+                                                            }
+                                                            if (isFullSizeThumbnail) image = databaseAndCacheThumbnail.ReadThumbnailFromCacheOrDatabase(fileEntryBrokerRegion);
 
                                                             try
                                                             {
-                                                                if (!isFileInCloud || (isFileInCloud && !dontReadFilesInCloud)) image = LoadMediaCoverArtPoster(fileEntryRegion.FileFullPath);
+                                                                if (image == null)
+                                                                {
+                                                                    bool isFileInCloud = FileHandler.IsFileInCloud(fileEntryBrokerRegion.FileFullPath);
+                                                                    if (!isFileInCloud || (isFileInCloud && !dontReadFilesInCloud)) image = LoadMediaCoverArtPoster(fileEntryBrokerRegion.FileFullPath);
+                                                                }
                                                             }
                                                             catch (Exception ex)
                                                             {
@@ -1965,15 +1999,15 @@ namespace PhotoTagsSynchronizer
 
                                                             if (image == null) //If failed load cover art, often occur after filed is moved or deleted
                                                             {
-                                                                if (!(FileHandler.IsFileInCloud(fileEntryRegion.FileFullPath) && dontReadFilesInCloud))
+                                                                if (!(FileHandler.IsFileInCloud(fileEntryBrokerRegion.FileFullPath) && dontReadFilesInCloud))
                                                                 {
-                                                                    string writeErrorDesciption = "Failed loading mediafile. Was not able to update thumbnail for region for the file:" + fileEntryRegion.FileFullPath;
+                                                                    string writeErrorDesciption = "Failed loading mediafile. Was not able to update thumbnail for region for the file:" + fileEntryBrokerRegion.FileFullPath;
                                                                     Logger.Error(writeErrorDesciption);
 
                                                                     AddError(
-                                                                        fileEntryRegion.Directory,
-                                                                        fileEntryRegion.FileName,
-                                                                        fileEntryRegion.LastWriteDateTime,
+                                                                        fileEntryBrokerRegion.Directory,
+                                                                        fileEntryBrokerRegion.FileName,
+                                                                        fileEntryBrokerRegion.LastWriteDateTime,
                                                                         AddErrorFileSystemRegion, AddErrorFileSystemRead,
                                                                         AddErrorFileSystemRead, AddErrorFileSystemRead,
                                                                         writeErrorDesciption);
@@ -1986,15 +2020,15 @@ namespace PhotoTagsSynchronizer
                                                     {
                                                         try
                                                         {
-                                                            databaseAndCacheThumbnail.TransactionBeginBatch();
-                                                            RegionThumbnailHandler.SaveThumbnailsForRegioList(databaseAndCacheMetadataExiftool, metadataActiveAlreadyCopy, image);
+                                                            databaseAndCacheThumbnail.TransactionBeginBatch();                                                            
+                                                            RegionThumbnailHandler.SaveThumbnailsForRegioList_AlsoWebScarper(databaseAndCacheMetadataExiftool, metadataActiveAlreadyCopy, image);                                                            
                                                             databaseAndCacheThumbnail.TransactionCommitBatch();
                                                         }
                                                         catch (Exception ex)
                                                         {
                                                             Logger.Error(ex, "ThreadReadMediaPosterSaveRegions - SaveThumbnailsForRegioList");
                                                         }
-                                                        DataGridView_ImageListView_Populate_FileEntryAttributeInvoke(new FileEntryAttribute(fileEntryRegion, FileEntryVersion.ExtractedNowFromMediaFile)); //Updated Gridview
+                                                        DataGridView_ImageListView_Populate_FileEntryAttributeInvoke(new FileEntryAttribute(fileEntryBrokerRegion, FileEntryVersion.ExtractedNowFromMediaFile)); //Updated Gridview
                                                     }
                                                 }
 
@@ -2018,7 +2052,7 @@ namespace PhotoTagsSynchronizer
 
                                     if (!fileFoundInList) //Should never occur ;-)
                                     {
-                                        string writeErrorDesciption = "ThreadReadMediaPosterSaveRegions, file not found list for updated:" + fileEntryRegion.FileFullPath;
+                                        string writeErrorDesciption = "ThreadReadMediaPosterSaveRegions, file not found list for updated:" + fileEntryBrokerRegion.FileFullPath;
                                         Logger.Error(writeErrorDesciption);
                                     }
                                 }

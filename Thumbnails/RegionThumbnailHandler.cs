@@ -60,9 +60,21 @@ namespace Thumbnails
         /// <param name="metadata">The media file matadata class with RegionList</param>
         /// <param name="image">The image to create region thumbnails from</param>
         /// <returns>Return true if data updated</returns>
-        public static bool SaveThumbnailsForRegioList(MetadataDatabaseCache metadataDatabase, Metadata metadata, Image image)
+        public static bool SaveThumbnailsForRegioList_AlsoWebScarper(MetadataDatabaseCache metadataDatabase, Metadata metadata, Image image)
         {
             if (metadata == null) return false; //When new directory selected, array are become empty and list of null will be created
+
+            if (metadata.Broker == MetadataBrokerType.WebScraping)
+            {
+                DateTime? dateTimeLastPackageDate = metadataDatabase.GetWebScraperLastPackageDate();
+                if (dateTimeLastPackageDate == null) return false;
+                Metadata metadataWebScarper = new Metadata(metadata);
+                metadataWebScarper.Broker = metadata.Broker;
+                metadataWebScarper.FileDirectory = MetadataDatabaseCache.WebScapingFolderName;
+                metadataWebScarper.FileName = metadata.FileName;
+                metadataWebScarper.FileDateModified = dateTimeLastPackageDate;
+                metadata = metadataWebScarper;
+            }
 
             RegionStructure regionStructure;
             for (int i = 0; i < metadata.PersonalRegionList.Count; i++)
