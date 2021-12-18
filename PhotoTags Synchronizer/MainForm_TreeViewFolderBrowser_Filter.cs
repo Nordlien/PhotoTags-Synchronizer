@@ -15,7 +15,34 @@ namespace PhotoTagsSynchronizer
 
     public partial class MainForm : KryptonForm
     {
-        #region ImageListView_Aggregate_UsingFiltersOnExistingFiles(TreeView treeView)
+        private static List<string> treeViewFolderFilterAlbums = new List<string>();
+        private static int treeViewFolderFilterAlbumsCount = 0;
+        private static List<string> treeViewFolderFilterTitles = new List<string>();
+        private static int treeViewFolderFilterTitlesCount = 0;
+        private static List<string> treeViewFolderFilterComments = new List<string>();
+        private static int treeViewFolderFilterCommentsCount = 0;
+        private static List<string> treeViewFolderFilterDescriptions = new List<string>();
+        private static int treeViewFolderFilterDescriptionsCount = 0;
+        private static List<string> treeViewFolderFilterAuthors = new List<string>();
+        private static int treeViewFolderFilterAuthorsCount = 0;
+        private static List<string> treeViewFolderFilterRatings = new List<string>();
+        private static int treeViewFolderFilterRatingsCount = 0;
+        private static List<string> treeViewFolderFilterDates = new List<string>();
+        private static int treeViewFolderFilterDatesCount = 0;
+        private static List<string> treeViewFolderFilterLocations = new List<string>();
+        private static int treeViewFolderFilterLocationsCount = 0;
+        private static List<string> treeViewFolderFilterCities = new List<string>();
+        private static int treeViewFolderFilterCitiesCount = 0;
+        private static List<string> treeViewFolderFilterStates = new List<string>();
+        private static int treeViewFolderFilterStatesCount = 0;
+        private static List<string> treeViewFolderFilterCountries = new List<string>();
+        private static int treeViewFolderFilterCountriesCount = 0;
+        private static List<string> treeViewFolderFilterPeoples = new List<string>();
+        private static int treeViewFolderFilterPeoplesCount = 0;
+        private static List<string> treeViewFolderFilterKeywords = new List<string>();
+        private static int treeViewFolderFilterKeywordsCount = 0;
+
+        #region ImageListView - Aggregate - UsingFiltersOnExistingFiles(TreeView treeView)
         private void ImageListView_Aggregate_UsingFiltersOnExistingFiles(KryptonTreeView treeView)
         {
             if (treeView.Nodes == null) return;
@@ -69,7 +96,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region FilterReplaceNullWithIsNotDefineText
+        #region Filter Helper - FilterReplaceNullWithIsNotDefineText
         private void FilterReplaceNullWithIsNotDefineText(List<string> list)
         {
             if (list.Contains(null)) list.Remove(null);
@@ -77,36 +104,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-
-        private static List<string> treeViewFolderFilterAlbums = new List<string>();
-        private static int treeViewFolderFilterAlbumsCount = 0;
-        private static List<string> treeViewFolderFilterTitles = new List<string>();
-        private static int treeViewFolderFilterTitlesCount = 0;
-        private static List<string> treeViewFolderFilterComments = new List<string>();
-        private static int treeViewFolderFilterCommentsCount = 0;
-        private static List<string> treeViewFolderFilterDescriptions = new List<string>();
-        private static int treeViewFolderFilterDescriptionsCount = 0;
-        private static List<string> treeViewFolderFilterAuthors = new List<string>();
-        private static int treeViewFolderFilterAuthorsCount = 0;
-        private static List<string> treeViewFolderFilterRatings = new List<string>();
-        private static int treeViewFolderFilterRatingsCount = 0;
-        private static List<string> treeViewFolderFilterDates = new List<string>();
-        private static int treeViewFolderFilterDatesCount = 0;
-        private static List<string> treeViewFolderFilterLocations = new List<string>();
-        private static int treeViewFolderFilterLocationsCount = 0;
-        private static List<string> treeViewFolderFilterCities = new List<string>();
-        private static int treeViewFolderFilterCitiesCount = 0;
-        private static List<string> treeViewFolderFilterStates = new List<string>();
-        private static int treeViewFolderFilterStatesCount = 0;
-        private static List<string> treeViewFolderFilterCountries = new List<string>();
-        private static int treeViewFolderFilterCountriesCount = 0;
-        private static List<string> treeViewFolderFilterPeoples = new List<string>();
-        private static int treeViewFolderFilterPeoplesCount = 0;
-        private static List<string> treeViewFolderFilterKeywords = new List<string>();
-        private static int treeViewFolderFilterKeywordsCount = 0;
-
-
-        #region PopulateDatabaseFilter
+        #region Filter Helper - PopulateDatabaseFilter
         public void PopulateDatabaseFilter()
         {
 
@@ -182,7 +180,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region PopulateTreeViewFolderFilter - Thread
+        #region Filter Helper - PopulateTreeViewFolderFilter - Thread
         private bool IsPopulateTreeViewFolderFilterThreadRunning { get; set; }
         Thread threadPopulateFilter = null;
         private void PopulateTreeViewFolderFilterThread(HashSet<FileEntry> imageListViewFileEntryItems)
@@ -207,7 +205,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region PopulateTreeViewFolderFilter - Add - Invoke
+        #region Filter Helper - PopulateTreeViewFolderFilter - Add - Invoke
         private void PopulateTreeViewFolderFilterAdd(FileEntryBroker fileEntryBroker) //new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool)
         {
             try
@@ -251,7 +249,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region PopulateTreeViewFolderFilterUpdatedTreeViewFilterInvoke
+        #region Filter Helper - PopulateTreeViewFolderFilterUpdatedTreeViewFilterInvoke
         private void PopulateTreeViewFolderFilterUpdatedTreeViewFilterInvoke()
         {
             if (InvokeRequired)
@@ -358,7 +356,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region PopulateTreeViewFolderFilterInvoke     
+        #region Filter Helper - PopulateTreeViewFolderFilterInvoke     
         private void PopulateTreeViewFolderFilterInvoke(HashSet<FileEntry> imageListViewFileEntryItems)
         {
             if (InvokeRequired)
@@ -547,9 +545,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        
-        #region GetSelectedFilesFromActiveDataGridView
-        private HashSet<FileEntry> GetSelectedFilesFromActiveDataGridView()
+        #region DataGridView - GetSelectedFilesFromActiveDataGridView
+        private HashSet<FileEntry> DataGridView_GetSelectedFilesFromActive()
         {
             HashSet<FileEntry> files = new HashSet<FileEntry>();
             try
@@ -606,7 +603,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region GetFilesInSelectedFolderCached
+        #region Files In Folder Helper - GetFilesInSelectedFolderCached
         private string cachedFolder = "";
         private HashSet<FileEntry> fileEntriesFolderCached = new HashSet<FileEntry>();
         private HashSet<FileEntry> GetFilesInSelectedFolderCached()
@@ -644,7 +641,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region GetFilesInSelectedFolder
+        #region Files In Folder Helper - GetFilesInSelectedFolder
         private IEnumerable<FileData> GetFilesInSelectedFolder(string folder, bool recursive = false)
         {
             IEnumerable<FileData> fileDatas = null;

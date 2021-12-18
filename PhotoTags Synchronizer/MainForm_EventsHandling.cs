@@ -7041,31 +7041,31 @@ namespace PhotoTagsSynchronizer
                         MediaFilesOpenExplorerLocation_Click(ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));
                         break;
                     case KryptonPages.kryptonPageToolboxTags:
-                        MediaFilesOpenExplorerLocation_Click(GetSelectedFilesFromActiveDataGridView());
+                        MediaFilesOpenExplorerLocation_Click(DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxPeople:
-                        MediaFilesOpenExplorerLocation_Click(GetSelectedFilesFromActiveDataGridView());
+                        MediaFilesOpenExplorerLocation_Click(DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxMap:
-                        MediaFilesOpenExplorerLocation_Click(GetSelectedFilesFromActiveDataGridView());
+                        MediaFilesOpenExplorerLocation_Click(DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxDates:
-                        MediaFilesOpenExplorerLocation_Click(GetSelectedFilesFromActiveDataGridView());
+                        MediaFilesOpenExplorerLocation_Click(DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxExiftool:
-                        MediaFilesOpenExplorerLocation_Click(GetSelectedFilesFromActiveDataGridView());
+                        MediaFilesOpenExplorerLocation_Click(DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxWarnings:
-                        MediaFilesOpenExplorerLocation_Click(GetSelectedFilesFromActiveDataGridView());
+                        MediaFilesOpenExplorerLocation_Click(DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxProperties:
-                        MediaFilesOpenExplorerLocation_Click(GetSelectedFilesFromActiveDataGridView());
+                        MediaFilesOpenExplorerLocation_Click(DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxRename:
-                        MediaFilesOpenExplorerLocation_Click(GetSelectedFilesFromActiveDataGridView());
+                        MediaFilesOpenExplorerLocation_Click(DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxConvertAndMerge:
-                        MediaFilesOpenExplorerLocation_Click(GetSelectedFilesFromActiveDataGridView());
+                        MediaFilesOpenExplorerLocation_Click(DataGridView_GetSelectedFilesFromActive());
                         break;
                     default:
                         throw new NotImplementedException();
@@ -7165,7 +7165,7 @@ namespace PhotoTagsSynchronizer
                     case KryptonPages.kryptonPageToolboxExiftool:
                     case KryptonPages.kryptonPageToolboxWarnings:
                     case KryptonPages.kryptonPageToolboxProperties:
-                        if (columnIndex == null || rowIndex == null) MediaFilesVerbOpen_Click(GetSelectedFilesFromActiveDataGridView());
+                        if (columnIndex == null || rowIndex == null) MediaFilesVerbOpen_Click(DataGridView_GetSelectedFilesFromActive());
                         else if (columnIndex > -1 && rowIndex <= 0) //Head and first row allowd
                         {
                             HashSet<FileEntry> files = new HashSet<FileEntry>();
@@ -7179,7 +7179,7 @@ namespace PhotoTagsSynchronizer
                         break;
                     case KryptonPages.kryptonPageToolboxRename:
                     case KryptonPages.kryptonPageToolboxConvertAndMerge:
-                        if (columnIndex == null || rowIndex == null) MediaFilesVerbOpen_Click(GetSelectedFilesFromActiveDataGridView());
+                        if (columnIndex == null || rowIndex == null) MediaFilesVerbOpen_Click(DataGridView_GetSelectedFilesFromActive());
                         else if (rowIndex > 0)
                         {
                             HashSet<FileEntry> files = new HashSet<FileEntry>();
@@ -7327,31 +7327,31 @@ namespace PhotoTagsSynchronizer
                         OpenWithSelectedVerb(applicationData, ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));
                         break;
                     case KryptonPages.kryptonPageToolboxTags:
-                        OpenWithSelectedVerb(applicationData, GetSelectedFilesFromActiveDataGridView());
+                        OpenWithSelectedVerb(applicationData, DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxPeople:
-                        OpenWithSelectedVerb(applicationData, GetSelectedFilesFromActiveDataGridView());
+                        OpenWithSelectedVerb(applicationData, DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxMap:
-                        OpenWithSelectedVerb(applicationData, GetSelectedFilesFromActiveDataGridView());
+                        OpenWithSelectedVerb(applicationData, DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxDates:
-                        OpenWithSelectedVerb(applicationData, GetSelectedFilesFromActiveDataGridView());
+                        OpenWithSelectedVerb(applicationData, DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxExiftool:
-                        OpenWithSelectedVerb(applicationData, GetSelectedFilesFromActiveDataGridView());
+                        OpenWithSelectedVerb(applicationData, DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxWarnings:
-                        OpenWithSelectedVerb(applicationData, GetSelectedFilesFromActiveDataGridView());
+                        OpenWithSelectedVerb(applicationData, DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxProperties:
-                        OpenWithSelectedVerb(applicationData, GetSelectedFilesFromActiveDataGridView());
+                        OpenWithSelectedVerb(applicationData, DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxRename:
-                        OpenWithSelectedVerb(applicationData, GetSelectedFilesFromActiveDataGridView());
+                        OpenWithSelectedVerb(applicationData, DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxConvertAndMerge:
-                        OpenWithSelectedVerb(applicationData, GetSelectedFilesFromActiveDataGridView());
+                        OpenWithSelectedVerb(applicationData, DataGridView_GetSelectedFilesFromActive());
                         break;
                     default:
                         throw new NotImplementedException();
@@ -7422,31 +7422,31 @@ namespace PhotoTagsSynchronizer
                         MediaFilesOpenAndAssociateWithDialog_Click(ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));
                         break;
                     case KryptonPages.kryptonPageToolboxTags:
-                        MediaFilesOpenAndAssociateWithDialog_Click(GetSelectedFilesFromActiveDataGridView());
+                        MediaFilesOpenAndAssociateWithDialog_Click(DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxPeople:
-                        MediaFilesOpenAndAssociateWithDialog_Click(GetSelectedFilesFromActiveDataGridView());
+                        MediaFilesOpenAndAssociateWithDialog_Click(DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxMap:
-                        MediaFilesOpenAndAssociateWithDialog_Click(GetSelectedFilesFromActiveDataGridView());
+                        MediaFilesOpenAndAssociateWithDialog_Click(DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxDates:
-                        MediaFilesOpenAndAssociateWithDialog_Click(GetSelectedFilesFromActiveDataGridView());
+                        MediaFilesOpenAndAssociateWithDialog_Click(DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxExiftool:
-                        MediaFilesOpenAndAssociateWithDialog_Click(GetSelectedFilesFromActiveDataGridView());
+                        MediaFilesOpenAndAssociateWithDialog_Click(DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxWarnings:
-                        MediaFilesOpenAndAssociateWithDialog_Click(GetSelectedFilesFromActiveDataGridView());
+                        MediaFilesOpenAndAssociateWithDialog_Click(DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxProperties:
-                        MediaFilesOpenAndAssociateWithDialog_Click(GetSelectedFilesFromActiveDataGridView());
+                        MediaFilesOpenAndAssociateWithDialog_Click(DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxRename:
-                        MediaFilesOpenAndAssociateWithDialog_Click(GetSelectedFilesFromActiveDataGridView());
+                        MediaFilesOpenAndAssociateWithDialog_Click(DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxConvertAndMerge:
-                        MediaFilesOpenAndAssociateWithDialog_Click(GetSelectedFilesFromActiveDataGridView());
+                        MediaFilesOpenAndAssociateWithDialog_Click(DataGridView_GetSelectedFilesFromActive());
                         break;
                     default:
                         throw new NotImplementedException();
@@ -7515,31 +7515,31 @@ namespace PhotoTagsSynchronizer
                         MediaFilesVerbEdit_Click(ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));
                         break;
                     case KryptonPages.kryptonPageToolboxTags:
-                        MediaFilesVerbEdit_Click(GetSelectedFilesFromActiveDataGridView());
+                        MediaFilesVerbEdit_Click(DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxPeople:
-                        MediaFilesVerbEdit_Click(GetSelectedFilesFromActiveDataGridView());
+                        MediaFilesVerbEdit_Click(DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxMap:
-                        MediaFilesVerbEdit_Click(GetSelectedFilesFromActiveDataGridView());
+                        MediaFilesVerbEdit_Click(DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxDates:
-                        MediaFilesVerbEdit_Click(GetSelectedFilesFromActiveDataGridView());
+                        MediaFilesVerbEdit_Click(DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxExiftool:
-                        MediaFilesVerbEdit_Click(GetSelectedFilesFromActiveDataGridView());
+                        MediaFilesVerbEdit_Click(DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxWarnings:
-                        MediaFilesVerbEdit_Click(GetSelectedFilesFromActiveDataGridView());
+                        MediaFilesVerbEdit_Click(DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxProperties:
-                        MediaFilesVerbEdit_Click(GetSelectedFilesFromActiveDataGridView());
+                        MediaFilesVerbEdit_Click(DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxRename:
-                        MediaFilesVerbEdit_Click(GetSelectedFilesFromActiveDataGridView());
+                        MediaFilesVerbEdit_Click(DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxConvertAndMerge:
-                        MediaFilesVerbEdit_Click(GetSelectedFilesFromActiveDataGridView());
+                        MediaFilesVerbEdit_Click(DataGridView_GetSelectedFilesFromActive());
                         break;
                     default:
                         throw new NotImplementedException();
@@ -7613,31 +7613,31 @@ namespace PhotoTagsSynchronizer
                         MediaFilesRunCommand(ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));
                         break;
                     case KryptonPages.kryptonPageToolboxTags:
-                        MediaFilesRunCommand(GetSelectedFilesFromActiveDataGridView());
+                        MediaFilesRunCommand(DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxPeople:
-                        MediaFilesRunCommand(GetSelectedFilesFromActiveDataGridView());
+                        MediaFilesRunCommand(DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxMap:
-                        MediaFilesRunCommand(GetSelectedFilesFromActiveDataGridView());
+                        MediaFilesRunCommand(DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxDates:
-                        MediaFilesRunCommand(GetSelectedFilesFromActiveDataGridView());
+                        MediaFilesRunCommand(DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxExiftool:
-                        MediaFilesRunCommand(GetSelectedFilesFromActiveDataGridView());
+                        MediaFilesRunCommand(DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxWarnings:
-                        MediaFilesRunCommand(GetSelectedFilesFromActiveDataGridView());
+                        MediaFilesRunCommand(DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxProperties:
-                        MediaFilesRunCommand(GetSelectedFilesFromActiveDataGridView());
+                        MediaFilesRunCommand(DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxRename:
-                        MediaFilesRunCommand(GetSelectedFilesFromActiveDataGridView());
+                        MediaFilesRunCommand(DataGridView_GetSelectedFilesFromActive());
                         break;
                     case KryptonPages.kryptonPageToolboxConvertAndMerge:
-                        MediaFilesRunCommand(GetSelectedFilesFromActiveDataGridView());
+                        MediaFilesRunCommand(DataGridView_GetSelectedFilesFromActive());
                         break;
                     default:
                         throw new NotImplementedException();
