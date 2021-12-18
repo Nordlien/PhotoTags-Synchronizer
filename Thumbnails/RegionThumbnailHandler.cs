@@ -52,7 +52,7 @@ namespace Thumbnails
         }
         #endregion 
 
-        #region SaveThumbnailsForRegioList
+        #region SaveThumbnailsForRegioList_AlsoWebScarper
         /// <summary>
         /// Save all thumbnails regions from the RegionList in the metadata class
         /// </summary>
