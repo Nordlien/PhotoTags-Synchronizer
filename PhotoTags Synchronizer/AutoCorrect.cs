@@ -505,23 +505,23 @@ namespace PhotoTagsSynchronizer
 
             Metadata metadataCopy = new Metadata(metadata); //Make a copy
 
-            //MicrosoftPhotos
+            #region MicrosoftPhotos
             FileEntryBroker fileEntryBrokerMicrosoftPhotos = new FileEntryBroker(fileEntry, MetadataBrokerType.MicrosoftPhotos);
             Metadata metadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOrDatabase(fileEntryBrokerMicrosoftPhotos);
             Metadata metadataMicrosoftPhotosCopy = metadataMicrosoftPhotos == null ? null : new Metadata(metadataMicrosoftPhotos);
-            if (metadataMicrosoftPhotosCopy == null) Logger.Debug("FixAndSave: metadataWindowsLivePhotoGalleryCopy is null");
+            #endregion
 
-            //WindowsLivePhotoGallery
+            #region WindowsLivePhotoGallery
             FileEntryBroker fileEntryBrokerWindowsLivePhotoGallery = new FileEntryBroker(fileEntry, MetadataBrokerType.WindowsLivePhotoGallery);
             Metadata metadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOrDatabase(fileEntryBrokerWindowsLivePhotoGallery);
             Metadata metadataWindowsLivePhotoGalleryCopy = metadataWindowsLivePhotoGallery == null ? null : new Metadata(metadataWindowsLivePhotoGallery);
-            if (metadataWindowsLivePhotoGalleryCopy == null) Logger.Debug("FixAndSave: metadataWindowsLivePhotoGalleryCopy is null");
+            #endregion
 
-            //WebScraping
+            #region WebScraping
             FileEntryBroker fileEntryBrokerWebScraping = new FileEntryBroker(fileEntry, MetadataBrokerType.WebScraping);
             Metadata metadataWebScraping = metadataAndCacheMetadataExiftool.ReadWebScraperMetadataFromCacheOrDatabase(fileEntryBrokerWebScraping);
             Metadata metadataWebScrapingCopy = metadataWebScraping == null ? null : new Metadata(metadataWebScraping);
-            if (metadataWebScrapingCopy == null) Logger.Debug("FixAndSave: metadataWebScrapingCopy is null");
+            #endregion
 
             #region Find best guess on GPS Location Latitude Longitude
             if (UpdateGPSLocation || UpdateGPSLocationNearByMedia)
@@ -736,20 +736,23 @@ namespace PhotoTagsSynchronizer
             #endregion
 
             #region Face region
+            //If Exiftool Metadata missing names, find name in other sources
+            if (UseFaceRegionFromWindowsLivePhotoGallery && metadataWindowsLivePhotoGalleryCopy != null) metadataWindowsLivePhotoGalleryCopy.PersonalRegionSetNamelessRegions(metadataCopy.PersonalRegionList);
+            if (UseFaceRegionFromMicrosoftPhotos && metadataMicrosoftPhotosCopy != null) metadataMicrosoftPhotosCopy.PersonalRegionSetNamelessRegions(metadataCopy.PersonalRegionList);
 
-            //Remove doubles and add names where missing, only work with copy, don't change metadata in buffer.
+            //Remove doubles and add names where missing, (only chnage/update the metadata copy, don't change metadata in buffer).
             if (UseFaceRegionFromWindowsLivePhotoGallery && metadataWindowsLivePhotoGalleryCopy != null) metadataWindowsLivePhotoGalleryCopy.PersonalRegionRemoveNamelessDoubleRegions(metadataCopy.PersonalRegionList);
             if (UseFaceRegionFromMicrosoftPhotos && metadataMicrosoftPhotosCopy != null) metadataMicrosoftPhotosCopy.PersonalRegionRemoveNamelessDoubleRegions(metadataCopy.PersonalRegionList);
 
             if (UseFaceRegionFromWindowsLivePhotoGallery && metadataWindowsLivePhotoGalleryCopy != null) metadataCopy.PersonalRegionSetNamelessRegions(metadataWindowsLivePhotoGalleryCopy.PersonalRegionList);
             if (UseFaceRegionFromMicrosoftPhotos && metadataMicrosoftPhotosCopy != null) metadataCopy.PersonalRegionSetNamelessRegions(metadataMicrosoftPhotosCopy.PersonalRegionList);
 
+
             if (metadataWebScrapingCopy != null)
             {
                 metadataWebScrapingCopy.MediaHeight = metadataCopy.MediaHeight;
                 metadataWebScrapingCopy.MediaWidth = metadataCopy.MediaWidth;
                 metadataWebScrapingCopy.MediaOrientation = metadataCopy.MediaOrientation;
-                metadataWebScrapingCopy.MediaSize = metadataCopy.MediaSize;
                 metadataWebScrapingCopy.MediaVideoLength = metadataCopy.MediaVideoLength;
 
                 if (metadataCopy != null) metadataCopy.PersonalRegionSetRegionlessRegions(metadataWebScrapingCopy.PersonalRegionList);

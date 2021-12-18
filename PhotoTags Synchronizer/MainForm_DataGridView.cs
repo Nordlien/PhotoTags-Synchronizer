@@ -254,8 +254,9 @@ namespace PhotoTagsSynchronizer
                         }
                     }
                     #endregion
-                    int columnIndex;
+
                     #region Popuate File
+                    int columnIndex;
                     switch (tabTag)
                     {
                         case LinkTabAndDataGridViewNameTags:
@@ -346,8 +347,6 @@ namespace PhotoTagsSynchronizer
                             throw new NotImplementedException();
                     }
                     #endregion
-
-                    
 
                     #region PopulateTreeViewFolderFilter
                     if (!IsPopulateTreeViewFolderFilterThreadRunning)
