@@ -535,7 +535,7 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region LazyLoadingDataGridView - Metadata - AddQueue - Read from Cache, then Database, then Source and Save
-        public void AddQueueLazyLoadingDataGridViewMetadataReadToCacheOrUpdateFromSoruce(FileEntry fileEntry)
+        public void AddQueueLazyLoading_ReadMetaDataAllSources_FromCacheOrUpdateFromSoruce(FileEntry fileEntry)
         {
             //When file is DELETE, LastWriteDateTime become null
             if (fileEntry.LastWriteDateTime != null)
@@ -1546,7 +1546,7 @@ namespace PhotoTagsSynchronizer
                                                 lock (commonQueueSubsetMetadataToSaveLock) currentMetadata = new Metadata(commonQueueSubsetMetadataToSave[indexInVerifyQueue]);
                                                 currentMetadata.FileDateModified = currentLastWrittenDateTime;
                                                 if (File.Exists(currentMetadata.FileFullPath) && currentLastWrittenDateTime != previousLastWrittenDateTime) AddQueueVerifyMetadataLock(currentMetadata);
-                                                AddQueueLazyLoadingDataGridViewMetadataReadToCacheOrUpdateFromSoruce(currentMetadata.FileEntryBroker);
+                                                AddQueueLazyLoading_ReadMetaDataAllSources_FromCacheOrUpdateFromSoruce(currentMetadata.FileEntryBroker);
                                                 ImageListViewReloadThumbnailAndMetadataInvoke(imageListView1, fileSuposeToBeUpdated.FileFullPath);
 
                                             }

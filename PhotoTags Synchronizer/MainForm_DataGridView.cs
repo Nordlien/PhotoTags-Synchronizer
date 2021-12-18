@@ -380,7 +380,7 @@ namespace PhotoTagsSynchronizer
                 //When list is 0, then Metadata was not readed from mediafile and needs put back in read queue
                 if (fileEntryAttributeDateVersions.Count == 0)
                 {
-                    AddQueueLazyLoadingDataGridViewMetadataReadToCacheOrUpdateFromSoruce(new FileEntry(imageListViewItem.FileFullPath, imageListViewItem.LastWriteDateTime));
+                    AddQueueLazyLoading_ReadMetaDataAllSources_FromCacheOrUpdateFromSoruce(new FileEntry(imageListViewItem.FileFullPath, imageListViewItem.LastWriteDateTime));
                 }
                 lazyLoadingAllExiftoolVersionOfMediaFile.AddRange(fileEntryAttributeDateVersions);
             }

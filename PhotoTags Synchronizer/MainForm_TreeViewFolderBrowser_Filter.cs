@@ -8,6 +8,7 @@ using System.Drawing;
 using FileHandeling;
 using System.IO;
 using DataGridViewGeneric;
+using ImageAndMovieFileExtentions;
 
 namespace PhotoTagsSynchronizer
 { 
