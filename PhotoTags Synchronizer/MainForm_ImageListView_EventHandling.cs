@@ -167,7 +167,7 @@ namespace PhotoTagsSynchronizer
                 e.FileMetadata.FileDirectory = Path.GetDirectoryName(e.FileName);
             }
 
-            ((ImageListView)sender).RefreshDelay();
+            //((ImageListView)sender).RefreshDelay();
         }
         #endregion
 
@@ -404,7 +404,7 @@ namespace PhotoTagsSynchronizer
             try
             {
                 ImageListViewItem item = ImageListViewHandler.FindItem(imageListView1.Items, fullFileName);
-                if (item != null) ImageListViewReloadThumbnailInvoke(item);
+                if (item != null) item.Update(); //ImageListViewReloadThumbnailInvoke(item);
             }
             catch (Exception ex)
             {
@@ -421,13 +421,13 @@ namespace PhotoTagsSynchronizer
         {
             if (InvokeRequired)
             {
-                this.BeginInvoke(new Action<ImageListViewItem>(ImageListViewReloadThumbnailInvoke), imageListViewItem);
+                //this.BeginInvoke(new Action<ImageListViewItem>(ImageListViewReloadThumbnailInvoke), imageListViewItem);
                 return;
             }
 
-            imageListViewItem.BeginEdit();
+            //imageListViewItem.BeginEdit(); ////if Thumbnail not exist it will trigger -> Image img = RetrieveImageFromExternaThenFromFile(filename))
             imageListViewItem.Update();
-            imageListViewItem.EndEdit();
+            //imageListViewItem.EndEdit();
         }
         #endregion
 

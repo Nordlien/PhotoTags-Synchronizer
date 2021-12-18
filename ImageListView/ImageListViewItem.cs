@@ -900,9 +900,8 @@ namespace Manina.Windows.Forms
                 throw new InvalidOperationException("Owner control is null.");
 
             UpdateFileInfo(PropertyStatus.IsSet);
-            mImageListView.cacheManager.BeginItemEdit(mGuid, mFileName);
-            mImageListView.itemCacheManager.BeginItemEdit(mGuid);
-
+            mImageListView.cacheManager.BeginItemEdit(mGuid, mFileName); //if Thumbnail not exist it will trigger -> Image img = RetrieveImageFromExternaThenFromFile(filename))
+            
             editing = true;
         }
         #endregion

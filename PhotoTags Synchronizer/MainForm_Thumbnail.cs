@@ -48,12 +48,10 @@ namespace PhotoTagsSynchronizer
                 if (thumbnailImage != null)
                 {
                     databaseAndCacheThumbnail.ThumbnailCacheUpdate(fileEntry, new Bitmap(thumbnailImage)); //Remember the Thumbnail, before Save, for show in DataGridView etc., no need to load again                        
-                    //AddQueueLazyLoadingDataGridViewMetadataReadToCacheOrUpdateFromSoruce(fileEntry);
-                    AddQueueSaveThumbnailMediaLock(new FileEntryImage(fileEntry, new Bitmap(thumbnailImage))); 
-
                     DataGridView_UpdateColumnThumbnail_OnFileEntryAttribute(new FileEntryAttribute(fileEntry, fileEntryVersion), new Bitmap(thumbnailImage));
                     DataGridView_UpdateColumnThumbnail_OnFileEntryAttribute(new FileEntryAttribute(fileEntry, FileEntryVersion.Error), new Bitmap(thumbnailImage));
                 }
+                AddQueueSaveThumbnailMediaLock(new FileEntryImage(fileEntry, thumbnailImage == null ? null : new Bitmap(thumbnailImage)));
             }
 
             return thumbnailImage;

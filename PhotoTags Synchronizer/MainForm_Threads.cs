@@ -547,10 +547,6 @@ namespace PhotoTagsSynchronizer
                 if (!databaseAndCacheMetadataMicrosoftPhotos.IsMetadataInCache(new FileEntryBroker(fileEntry, MetadataBrokerType.MicrosoftPhotos))) AddQueueMicrosoftPhotosLock(fileEntry);
                 if (!databaseAndCacheMetadataWindowsLivePhotoGallery.IsMetadataInCache(new FileEntryBroker(fileEntry, MetadataBrokerType.WindowsLivePhotoGallery))) AddQueueWindowsLivePhotoGalleryLock(fileEntry);
             }
-            else
-            {
-                //Debug.WriteLine("AddQueueAllUpadtedFileEntry was delete: (Check why), rename of exiftool maybe, need back then... " + fileEntry.FileFullPath);
-            }
 
             TriggerAutoResetEventQueueEmpty();
         }
@@ -732,9 +728,7 @@ namespace PhotoTagsSynchronizer
                                     {
                                         bool isFileInCloud = FileHandler.IsFileInCloud(fileEntryAttribute.FileFullPath);
                                         bool dontReadFileFromCloud = Properties.Settings.Default.AvoidOfflineMediaFiles;
-                                        Image thumbnail = GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(fileEntryAttribute, dontReadFileFromCloud, isFileInCloud);
-                                        //Image thumbnail = databaseAndCacheThumbnail.ReadThumbnailFromCacheOrDatabase(fileEntryAttribute.FileEntry);
-                                        //if (thumbnail != null) DataGridView_UpdateColumnThumbnail_OnFileEntryAttribute(fileEntryAttribute, thumbnail);                                        
+                                        Image thumbnail = GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(fileEntryAttribute, dontReadFileFromCloud, isFileInCloud);                                       
                                     }
                                 }
                                 lock (commonQueueLazyLoadingThumbnailLock) commonQueueLazyLoadingThumbnail.RemoveAt(0);
@@ -909,7 +903,7 @@ namespace PhotoTagsSynchronizer
 
         #region Exiftool 
 
-        #region AddQueue - AddQueueExiftool(FileEntry fileEntry)
+        #region Exiftool - AddQueue - AddQueueExiftool(FileEntry fileEntry)
         /// <summary>
         /// Add File Entry to Read "Metadata Queue"
         /// Inside Queue -> 
@@ -936,7 +930,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Thread - ThreadCollectMetadataExiftool
+        #region Exiftool - Thread - ThreadCollectMetadataExiftool
         public void ThreadCollectMetadataExiftool()
         {
             try
@@ -1245,7 +1239,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region AddQueue - AddQueueSaveMetadataUpdatedByUser
+        #region Exiftool - AddQueue - AddQueueSaveMetadataUpdatedByUser
         public void AddQueueSaveMetadataUpdatedByUserLock(Metadata metadataToSave, Metadata metadataOriginal)
         {
             lock (commonQueueSaveMetadataUpdatedByUserLock) commonQueueSaveMetadataUpdatedByUser.Add(metadataToSave);
@@ -1253,14 +1247,14 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region AddQueue - AddQueueVerifyMetadata(Metadata metadataToVerify)
+        #region Exiftool - AddQueue - AddQueueVerifyMetadata(Metadata metadataToVerify)
         public void AddQueueVerifyMetadataLock(Metadata metadataToVerifyAfterSavedByExiftool)
         {
             lock (commonQueueMetadataWrittenByExiftoolReadyToVerifyLock) commonQueueMetadataWrittenByExiftoolReadyToVerify.Add(metadataToVerifyAfterSavedByExiftool);
         }
         #endregion 
 
-        #region Thread - ThreadSaveMetadata
+        #region Exiftool - Thread - ThreadSaveMetadata
         public void ThreadSaveMetadata()
         {
             try
@@ -1619,7 +1613,7 @@ namespace PhotoTagsSynchronizer
 
         #region MicrosoftPhotos
 
-        #region AddQueue - AddQueueMicrosoftPhotos(FileEntry fileEntry)
+        #region MicrosoftPhotos - AddQueue - AddQueueMicrosoftPhotos(FileEntry fileEntry)
         /// <summary>
         /// Add File Entry to Read "Metadata Queue"
         /// Inside Queue -> 
@@ -1639,7 +1633,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Thread - ThreadCollectMetadataMicrosoftPhotos 
+        #region MicrosoftPhotos - Thread - ThreadCollectMetadataMicrosoftPhotos 
         public void ThreadCollectMetadataMicrosoftPhotos()
         {
             try
@@ -1738,7 +1732,7 @@ namespace PhotoTagsSynchronizer
 
         #region WindowsLivePhotoGallery
 
-        #region AddQueue - AddQueueWindowsLivePhotoGallery(FileEntry fileEntry)
+        #region WindowsLivePhotoGallery - AddQueue - AddQueueWindowsLivePhotoGallery(FileEntry fileEntry)
         /// <summary>
         /// Add File Entry to Read "Metadata Queue"
         /// Inside Queue -> 
@@ -1758,7 +1752,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Thread - ThreadCollectMetadataWindowsLiveGallery
+        #region WindowsLivePhotoGallery - Thread - ThreadCollectMetadataWindowsLiveGallery
         public void ThreadCollectMetadataWindowsLiveGallery()
         {
             try
@@ -1856,7 +1850,7 @@ namespace PhotoTagsSynchronizer
 
         #region Region RegionFromPoster
 
-        #region AddQueue - AddQueueCreateRegionFromPoster(Metadata metadata)
+        #region RegionFromPoster - AddQueue - AddQueueCreateRegionFromPoster(Metadata metadata)
         private void AddQueueCreateRegionFromPosterLock(Metadata metadata)
         {
             //Need to add to the end, due due read queue read potion [0] end delete after, not thread safe
@@ -1867,7 +1861,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Thread - ReadMediaPosterSaveRegions()
+        #region RegionFromPoster - Thread - ReadMediaPosterSaveRegions()
         /// <summary>
         /// Read list of Metadata with list of face region inside
         /// 1. Read media poster for "Media file"
@@ -2070,9 +2064,9 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        #region IsFileInThredQueue
+        #region Check ThreadQueues
 
-        #region IsFileInThreadQueue
+        #region Check ThreadQueues - IsFileInThreadQueue
         /// <summary>
         /// Check if given files is in one of queue and wait to be processed
         /// </summary>
@@ -2090,7 +2084,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region IsFileInThreadQueue
+        #region Check ThreadQueues - IsFileInThreadQueue
         /// <summary>
         /// Check if given files is in one of queue and wait to be processed
         /// </summary>
@@ -2108,7 +2102,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ExistFolderInReadPosterAndSaveFaceThumbnailsQueue
+        #region Check ThreadQueues - ExistFolderInReadPosterAndSaveFaceThumbnailsQueue
         public bool ExistFolderInReadPosterAndSaveFaceThumbnailsQueue (string folder)
         {
             bool folderInUse = false;
@@ -2125,7 +2119,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ExistFileInReadPosterAndSaveFaceThumbnailsQueue
+        #region Check ThreadQueues - ExistFileInReadPosterAndSaveFaceThumbnailsQueue
         public bool ExistFileInReadPosterAndSaveFaceThumbnailsQueue(string fullFilename)
         {
             bool fileInUse = false;
@@ -2143,7 +2137,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ExistFolderInQueueSaveThumbnailToDatabase
+        #region Check ThreadQueues - ExistFolderInQueueSaveThumbnailToDatabase
         public bool ExistFolderInQueueSaveThumbnailToDatabase(string folder)
         {
             bool folderInUse = false;
@@ -2161,7 +2155,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ExistFileInQueueSaveThumbnailToDatabase
+        #region Check ThreadQueues - ExistFileInQueueSaveThumbnailToDatabase
         public bool ExistFileInQueueSaveThumbnailToDatabase(string fullFilename)
         {
             bool fileInUse = false;
@@ -2178,7 +2172,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ExistFolderQueueReadMetadataFromMicrosoftPhotos
+        #region Check ThreadQueues - ExistFolderQueueReadMetadataFromMicrosoftPhotos
         public bool ExistFolderQueueReadMetadataFromMicrosoftPhotos(string folder)
         {
             bool folderInUse = false;
@@ -2196,7 +2190,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ExistFileQueueReadMetadataFromMicrosoftPhotos
+        #region Check ThreadQueues - ExistFileQueueReadMetadataFromMicrosoftPhotos
         public bool ExistFileQueueReadMetadataFromMicrosoftPhotos(string fullFilename)
         {
             bool fileInUse = false;
@@ -2216,7 +2210,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ExistFolderInQueueReadMetadataFromWindowsLivePhotoGallery
+        #region Check ThreadQueues - ExistFolderInQueueReadMetadataFromWindowsLivePhotoGallery
         public bool ExistFolderInQueueReadMetadataFromWindowsLivePhotoGallery(string folder)
         {
             bool folderInUse = false;
@@ -2236,7 +2230,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ExistFileInQueueReadMetadataFromWindowsLivePhotoGallery
+        #region Check ThreadQueues - ExistFileInQueueReadMetadataFromWindowsLivePhotoGallery
         public bool ExistFileInQueueReadMetadataFromWindowsLivePhotoGallery(string fullFilename)
         {
             bool fileInUse = false;
@@ -2254,7 +2248,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ExistFolderInQueueReadMetadataFromExiftool
+        #region Check ThreadQueues - ExistFolderInQueueReadMetadataFromExiftool
         public bool ExistFolderInQueueReadMetadataFromExiftool(string folder)
         {
             bool folderInUse = false;
@@ -2284,7 +2278,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ExistFileInQueueReadMetadataFromExiftool
+        #region Check ThreadQueues - ExistFileInQueueReadMetadataFromExiftool
         public bool ExistFileInQueueReadMetadataFromExiftool(string fullFilename)
         {
             bool fileInUse = false;
@@ -2314,7 +2308,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ExisitFolderInQueueSaveMetadata
+        #region Check ThreadQueues - ExisitFolderInQueueSaveMetadata
         public bool ExisitFolderInQueueSaveMetadata(string folder)
         {
             bool folderInUse = false;
@@ -2357,7 +2351,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ExisitFileInQueueSaveMetadata
+        #region Check ThreadQueues - ExisitFileInQueueSaveMetadata
         public bool ExisitFileInQueueSaveMetadata(string fullFilename)
         {
             bool fileInUse = false;
@@ -2398,7 +2392,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region IsFileInThreadQueue
+        #region Check ThreadQueues - IsFileInThreadQueue
         /// <summary>
         /// Check if given files is in one of queue and wait to be processed
         /// </summary>
@@ -2416,7 +2410,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region IsFolderInThreadQueue
+        #region Check ThreadQueues - IsFolderInThreadQueue
         /// <summary>
         /// Check if given files is in one of queue and wait to be processed
         /// </summary>
@@ -2435,7 +2429,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region IsFileInThreadQueue
+        #region Check ThreadQueues - IsFileInThreadQueue
         /// <summary>
         /// Check if given file is in one of queue and wait to be processed
         /// </summary>
