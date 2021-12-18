@@ -171,24 +171,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region IsStillInCloudAfterTouchFileActivateReadFromCloud
-        private bool IsStillInCloudAfterTouchFileActivateReadFromCloud(string fileFullPath)
-        {
-            try
-            {
-                byte[] buffer = new byte[512];
-                using (FileStream fs = new FileStream(fileFullPath, FileMode.Open, FileAccess.Read))
-                {
-                    var bytes_read = fs.Read(buffer, 0, buffer.Length); //Get OneDrive to start download the file
-                    fs.Close();
-                }
-                return false;
-            }
-            catch { }
-            return true;
-        }
-        #endregion
-
         #region ImageListView - Event - Retrieve Thumbnail 
         /// <summary>
         /// Occures when ImageListView need to "load" thumbnail
@@ -215,7 +197,7 @@ namespace PhotoTagsSynchronizer
                         if (GlobalData.ReloadAllowedFromCloud != null && GlobalData.ReloadAllowedFromCloud.Contains(fileEntry))
                         {
                             GlobalData.ReloadAllowedFromCloud.Remove(fileEntry);
-                            if (isFileInCloud) isFileInCloud = IsStillInCloudAfterTouchFileActivateReadFromCloud(fileEntry.FileFullPath);
+                            if (isFileInCloud) isFileInCloud = FileHandler.IsStillInCloudAfterTouchFileActivateReadFromCloud(fileEntry.FileFullPath);
                             dontReadFileFromCloud = false;
                         }
                     }
@@ -413,21 +395,6 @@ namespace PhotoTagsSynchronizer
             }
             GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
             //return existAndUpdated;
-        }
-        #endregion
-
-        #region ImageListView - ReloadThumbnail - ImageListViewItem - Invoke
-        private void ImageListViewReloadThumbnailInvoke(ImageListViewItem imageListViewItem)
-        {
-            if (InvokeRequired)
-            {
-                //this.BeginInvoke(new Action<ImageListViewItem>(ImageListViewReloadThumbnailInvoke), imageListViewItem);
-                return;
-            }
-
-            //imageListViewItem.BeginEdit(); ////if Thumbnail not exist it will trigger -> Image img = RetrieveImageFromExternaThenFromFile(filename))
-            imageListViewItem.Update();
-            //imageListViewItem.EndEdit();
         }
         #endregion
 

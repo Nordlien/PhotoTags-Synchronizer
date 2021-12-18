@@ -38,6 +38,24 @@ namespace FileHandeling
         }
         #endregion 
 
+        #region IsStillInCloudAfterTouchFileActivateReadFromCloud
+        public static bool IsStillInCloudAfterTouchFileActivateReadFromCloud(string fileFullPath)
+        {
+            try
+            {
+                byte[] buffer = new byte[512];
+                using (FileStream fs = new FileStream(fileFullPath, FileMode.Open, FileAccess.Read))
+                {
+                    var bytes_read = fs.Read(buffer, 0, buffer.Length); //Get OneDrive to start download the file
+                    fs.Close();
+                }
+                return false;
+            }
+            catch { }
+            return true;
+        }
+        #endregion
+
         #region IsFileVirual
         public static bool IsFileVirtual(string fullFileName)
         {
