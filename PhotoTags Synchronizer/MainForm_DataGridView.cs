@@ -181,6 +181,15 @@ namespace PhotoTagsSynchronizer
                     case LinkTabAndDataGridViewNameMap:
                         break;
                     case LinkTabAndDataGridViewNamePeople:
+                        List<DataGridViewGenericColumn> dataGridViewGenericColumns = DataGridViewHandler.GetColumnsDataGridViewGenericColumnCurrentOrAutoCorrect(dataGridView, true);
+                        PopulatePeopleToolStripMenuItems(null,
+                                Properties.Settings.Default.SuggestRegionNameNearbyDays,
+                                //Properties.Settings.Default.SuggestRegionNameNearByCount,
+                                Properties.Settings.Default.SuggestRegionNameNearByContextMenuCount,
+                                Properties.Settings.Default.SuggestRegionNameMostUsedContextMenuCount,
+                                Properties.Settings.Default.ApplicationSizeOfRegionNamesGroup,
+                                Properties.Settings.Default.RenameDateFormats);
+
                         break;
                     case LinkTabAndDataGridViewNameDates:
                         break;
@@ -535,18 +544,20 @@ namespace PhotoTagsSynchronizer
                             DataGridView_AfterPopulateSelectedFiles_LazyLoadOtherFileVersions(imageListViewSelectItems);
                             break;
                         case LinkTabAndDataGridViewNamePeople:
-                            PopulatePeopleToolStripMenuItems(imageListViewSelectItems, 
+                            PopulatePeopleToolStripMenuItems(null, 
                                 Properties.Settings.Default.SuggestRegionNameNearbyDays, 
                                 //Properties.Settings.Default.SuggestRegionNameNearByCount,
                                 Properties.Settings.Default.SuggestRegionNameNearByContextMenuCount,
                                 Properties.Settings.Default.SuggestRegionNameMostUsedContextMenuCount,
-                                Properties.Settings.Default.ApplicationSizeOfRegionNamesGroup);
+                                Properties.Settings.Default.ApplicationSizeOfRegionNamesGroup,
+                                Properties.Settings.Default.RenameDateFormats);
                             DataGridViewHandlerPeople.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
                             DataGridViewHandlerPeople.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
                             DataGridViewHandlerPeople.DatabaseAndCacheMetadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery;
                             DataGridViewHandlerPeople.DatabaseAndCacheMetadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos;
                             DataGridViewHandlerPeople.SuggestRegionNameNearByDays = Properties.Settings.Default.SuggestRegionNameNearbyDays;
                             DataGridViewHandlerPeople.SuggestRegionNameNearByTopMostCount = Properties.Settings.Default.SuggestRegionNameNearByCount;
+                            DataGridViewHandlerPeople.RenameDateFormats = Properties.Settings.Default.RenameDateFormats;
                             DataGridViewHandlerPeople.HasBeenInitialized = true;
                             DataGridViewHandlerPeople.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, dataGridViewSize, showWhatColumnsForTab);
                             DataGridView_AfterPopulateSelectedFiles_LazyLoadOtherFileVersions(imageListViewSelectItems);

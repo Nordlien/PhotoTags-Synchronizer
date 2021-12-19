@@ -25,6 +25,7 @@ namespace PhotoTagsSynchronizer
 
         public static int SuggestRegionNameNearByTopMostCount { get; set; } = 10;
         public static int SuggestRegionNameNearByDays { get; set; } = 10;
+        public static string RenameDateFormats { get; set; } = "";
 
         #region GetUserInputChanges
         public static void GetUserInputChanges(ref KryptonDataGridView dataGridView, Metadata metadata, FileEntryAttribute fileEntry)
@@ -298,12 +299,12 @@ namespace PhotoTagsSynchronizer
                 DataGridViewHandler.SetColumnPopulatedFlag(dataGridView, columnIndex, true);
             }
 
-            if (FileEntryVersionHandler.IsCurrenOrUpdatedVersion(fileEntryAttribute.FileEntryVersion))
+            if (FileEntryVersionHandler.IsCurrenOrUpdatedVersion(fileEntryAttribute.FileEntryVersion) && metadataExiftool != null)
             {
                 #region Suggestion of Names - Near date
                 int columnIndexDummy = -1;
                 List<string> regioNameSuggestions = null;
-                DateTime? dateTimeSmartDate = metadataExiftool.FileDate; //SmartDate (allowedDateFormats);
+                DateTime? dateTimeSmartDate = metadataExiftool.FileSmartDate(RenameDateFormats);
 
                 if (dateTimeSmartDate != null)
                 {

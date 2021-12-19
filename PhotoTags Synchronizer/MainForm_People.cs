@@ -487,13 +487,10 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region PopulatePeopleToolStripMenuItems
-        //PopulatePeopleToolStripMenuItems(imageListViewSelectItems, 
-        //Properties.Settings.Default.SuggestRegionNameNearbyDays, 
-        //Properties.Settings.Default.SuggestRegionNameNearByCount or Properties.Settings.Default.SuggestRegionNameNearByContextMenuCount,
-        //                        Properties.Settings.Default.ApplicationSizeOfRegionNamesGroup);
-        public void PopulatePeopleToolStripMenuItems(HashSet<FileEntry> imageListViewSelectItems, 
+        public void PopulatePeopleToolStripMenuItems(List<DataGridViewGenericColumn> dataGridViewGenericColumns, 
             int suggestRegionNameNearbyDays, 
-            int suggestRegionNameNearByContextMenuCount, int suggestRegionNameMostUsedContextMenuCount, int applicationSizeOfRegionNamesGroup)
+            int suggestRegionNameNearByContextMenuCount, int suggestRegionNameMostUsedContextMenuCount, int applicationSizeOfRegionNamesGroup,
+            string allowedDateFormats)
         {
             try
             {
@@ -517,15 +514,18 @@ namespace PhotoTagsSynchronizer
                 #region Near By
                 kryptonContextMenuItemsGenericRegionRenameFromNearByList.Items.Clear();
                 regionNames = new List<string>();
-                if (imageListViewSelectItems != null)
+                if (dataGridViewGenericColumns != null)
                 {
-                    Dictionary<StringNullable, int> nameCount = new Dictionary<StringNullable, int>(); 
-                    foreach (FileEntry fileEntry in imageListViewSelectItems)
+                    Dictionary<StringNullable, int> nameCount = new Dictionary<StringNullable, int>();
+                    foreach (DataGridViewGenericColumn dataGridViewGenericColumn in dataGridViewGenericColumns)
                     {
-                        DateTime date = new DateTime(((DateTime)fileEntry.LastWriteDateTime).Year, ((DateTime)fileEntry.LastWriteDateTime).Month, ((DateTime)fileEntry.LastWriteDateTime).Day);
-                        DateTime dateTimeFrom = date.AddDays(-suggestRegionNameNearbyDays);
-                        DateTime dateTimeTo = date.AddDays(suggestRegionNameNearbyDays);
-                        nameCount = databaseAndCacheMetadataExiftool.MergeRegionNameCount(nameCount, databaseAndCacheMetadataExiftool.ListAllRegionNameCountNearByCache(MetadataBrokerType.ExifTool, dateTimeFrom, dateTimeTo));
+                        if (dataGridViewGenericColumn.Metadata != null)
+                        {
+                            DateTime date = (DateTime)dataGridViewGenericColumn.Metadata.FileSmartDate(allowedDateFormats);
+                            DateTime dateTimeFrom = date.AddDays(-suggestRegionNameNearbyDays);
+                            DateTime dateTimeTo = date.AddDays(suggestRegionNameNearbyDays);
+                            nameCount = databaseAndCacheMetadataExiftool.MergeRegionNameCount(nameCount, databaseAndCacheMetadataExiftool.ListAllRegionNameCountNearByCache(MetadataBrokerType.ExifTool, dateTimeFrom, dateTimeTo));
+                        }
                     }
                     regionNames = databaseAndCacheMetadataExiftool.ConvertRegionNameCount(nameCount, suggestRegionNameNearByContextMenuCount);
                 }

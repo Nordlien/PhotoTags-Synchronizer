@@ -596,7 +596,8 @@ namespace PhotoTagsSynchronizer
                 Properties.Settings.Default.SuggestRegionNameNearbyDays, 
                 Properties.Settings.Default.SuggestRegionNameNearByContextMenuCount,
                 Properties.Settings.Default.SuggestRegionNameMostUsedContextMenuCount,
-                Properties.Settings.Default.ApplicationSizeOfRegionNamesGroup);
+                Properties.Settings.Default.ApplicationSizeOfRegionNamesGroup,
+                Properties.Settings.Default.RenameDateFormats);
             #endregion
 
             #region Initialize layout - Sort Order - ImageListView
