@@ -690,11 +690,17 @@ namespace Exiftool
                                     CheckTimeZone(metadata, ref metadata.errors);
                                     metaDataCollections.Add(metadata); //Add list of metadatas read
 
-                                    metadataDatabaseCache.TransactionBeginBatch();
-                                    metadataDatabaseCache.Write(metadata);
-                                    metadataDatabaseCache.TransactionCommitBatch();
-
-                                    if (afterNewMediaFoundEvent != null) afterNewMediaFoundEvent.Invoke(new FileEntry(Path.Combine(metadata.FileDirectory, metadata.FileName), (DateTime)metadata.FileDateModified));
+                                    if (metadata.FileDateAccessed != null && metadata.FileSize != null)
+                                    {
+                                        metadataDatabaseCache.TransactionBeginBatch();
+                                        metadataDatabaseCache.Write(metadata);
+                                        metadataDatabaseCache.TransactionCommitBatch();
+                                        if (afterNewMediaFoundEvent != null) afterNewMediaFoundEvent.Invoke(new FileEntry(Path.Combine(metadata.FileDirectory, metadata.FileName), (DateTime)metadata.FileDateModified));
+                                    }
+                                    else
+                                    {
+                                        //DEBUG - Often occure when OneDrive download files
+                                    }
                                 }
                                 #endregion
 
