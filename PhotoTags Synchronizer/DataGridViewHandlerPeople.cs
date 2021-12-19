@@ -303,11 +303,11 @@ namespace PhotoTagsSynchronizer
                 #region Suggestion of Names - Near date
                 int columnIndexDummy = -1;
                 List<string> regioNameSuggestions = null;
-                DateTime? dateTimeFileDateModified = metadataExiftool?.FileDateModified;
+                DateTime? dateTimeSmartDate = metadataExiftool.FileDate; //SmartDate (allowedDateFormats);
 
-                if (dateTimeFileDateModified != null)
+                if (dateTimeSmartDate != null)
                 {
-                    DateTime date = new DateTime(((DateTime)dateTimeFileDateModified).Year, ((DateTime)dateTimeFileDateModified).Month, ((DateTime)dateTimeFileDateModified).Day);
+                    DateTime date = new DateTime(((DateTime)dateTimeSmartDate).Year, ((DateTime)dateTimeSmartDate).Month, ((DateTime)dateTimeSmartDate).Day);
                     DateTime dateTimeFrom = date.AddDays(-SuggestRegionNameNearByDays);
                     DateTime dateTimeTo = date.AddDays(SuggestRegionNameNearByDays);
 

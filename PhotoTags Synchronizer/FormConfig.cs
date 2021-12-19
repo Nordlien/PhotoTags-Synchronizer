@@ -372,12 +372,16 @@ namespace PhotoTagsSynchronizer
                 //Application
                 Properties.Settings.Default.ApplicationThumbnail = ThumbnailSizes[comboBoxApplicationThumbnailSizes.SelectedIndex];
                 Properties.Settings.Default.ApplicationRegionThumbnail = ThumbnailSizes[comboBoxApplicationRegionThumbnailSizes.SelectedIndex];
-                Properties.Settings.Default.ApplicationSizeOfRegionNamesGroup = (int)kryptonNumericUpDownApplicationGroupSizeRenameNames.Value;
+                
 
                 Properties.Settings.Default.ApplicationPreferredLanguages = textBoxApplicationPreferredLanguages.Text;
                 Properties.Settings.Default.MaxRowsInSearchResult = (int)numericUpDownApplicationMaxRowsInSearchResult.Value;
-                Properties.Settings.Default.SuggestRegionNameNearbyDays = (int)numericUpDownPeopleSuggestNameDaysInterval.Value;
-                Properties.Settings.Default.SuggestRegionNameNearByCount = (int)numericUpDownPeopleSuggestNameTopMost.Value;
+                Properties.Settings.Default.SuggestRegionNameNearbyDays = (int)numericUpDownPeopleSuggestNearByDaysInterval.Value;
+                Properties.Settings.Default.SuggestRegionNameNearByCount = (int)numericUpDownPeopleSuggestNameNearBy.Value;
+                Properties.Settings.Default.SuggestRegionNameNearByContextMenuCount = (int)numericUpDownSuggestRegionNameNearByContextMenuCount.Value;
+                Properties.Settings.Default.SuggestRegionNameMostUsedContextMenuCount= (int)numericUpDownSuggestRegionNameMostUsedContextMenuCount.Value;
+                Properties.Settings.Default.ApplicationSizeOfRegionNamesGroup = (int)kryptonNumericUpDownApplicationGroupSizeRenameNames.Value;
+
                 Properties.Settings.Default.RegionMissmatchProcent = (float)numericUpDownRegionMissmatchProcent.Value;
                 Properties.Settings.Default.LocationAccuracyLatitude = (float)numericUpDownLocationAccuracyLatitude.Value;
                 Properties.Settings.Default.LocationAccuracyLongitude = (float)numericUpDownLocationAccuracyLongitude.Value;
@@ -565,12 +569,16 @@ namespace PhotoTagsSynchronizer
 
             comboBoxApplicationThumbnailSizes.Text = Properties.Settings.Default.ApplicationThumbnail.ToString();
             comboBoxApplicationRegionThumbnailSizes.Text = Properties.Settings.Default.ApplicationRegionThumbnail.ToString();
-            kryptonNumericUpDownApplicationGroupSizeRenameNames.Value = Properties.Settings.Default.ApplicationSizeOfRegionNamesGroup;
-
+            
             textBoxApplicationPreferredLanguages.Text = Properties.Settings.Default.ApplicationPreferredLanguages;
             numericUpDownApplicationMaxRowsInSearchResult.Value = Properties.Settings.Default.MaxRowsInSearchResult;
-            numericUpDownPeopleSuggestNameDaysInterval.Value = Properties.Settings.Default.SuggestRegionNameNearbyDays;
-            numericUpDownPeopleSuggestNameTopMost.Value = Properties.Settings.Default.SuggestRegionNameNearByCount;
+            
+            numericUpDownPeopleSuggestNearByDaysInterval.Value = Properties.Settings.Default.SuggestRegionNameNearbyDays;
+            numericUpDownPeopleSuggestNameNearBy.Value = Properties.Settings.Default.SuggestRegionNameNearByCount;
+            numericUpDownSuggestRegionNameNearByContextMenuCount.Value = Properties.Settings.Default.SuggestRegionNameNearByContextMenuCount;
+            numericUpDownSuggestRegionNameMostUsedContextMenuCount.Value = Properties.Settings.Default.SuggestRegionNameMostUsedContextMenuCount;
+            kryptonNumericUpDownApplicationGroupSizeRenameNames.Value = Properties.Settings.Default.ApplicationSizeOfRegionNamesGroup;
+
             numericUpDownRegionMissmatchProcent.Value = (decimal)Properties.Settings.Default.RegionMissmatchProcent;
 
             numericUpDownLocationAccuracyLatitude.Value = (decimal)Properties.Settings.Default.LocationAccuracyLatitude;
