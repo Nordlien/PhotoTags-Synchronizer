@@ -778,11 +778,11 @@ riff=UTF8
 {FileFullPath}
 -execute</Value>
     </Setting>
-    <Setting Name="SuggestRegionNameTopMostCount" Type="System.Int32" Scope="User">
+    <Setting Name="SuggestRegionNameNearByCount" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">10</Value>
     </Setting>
     <Setting Name="SuggestRegionNameNearbyDays" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">10</Value>
+      <Value Profile="(Default)">5</Value>
     </Setting>
     <Setting Name="RegionMissmatchProcent" Type="System.Single" Scope="User">
       <Value Profile="(Default)">0.3</Value>
@@ -1266,6 +1266,12 @@ Dimensions</Value>
     </Setting>
     <Setting Name="ImageListViewSortingOrder" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="SuggestRegionNameNearByContextMenuCount" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">30</Value>
+    </Setting>
+    <Setting Name="SuggestRegionNameMostUsedContextMenuCount" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">30</Value>
     </Setting>
   </Settings>
 </SettingsFile>

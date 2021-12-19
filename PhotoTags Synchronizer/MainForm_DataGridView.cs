@@ -535,13 +535,18 @@ namespace PhotoTagsSynchronizer
                             DataGridView_AfterPopulateSelectedFiles_LazyLoadOtherFileVersions(imageListViewSelectItems);
                             break;
                         case LinkTabAndDataGridViewNamePeople:
-                            PopulatePeopleToolStripMenuItems();
+                            PopulatePeopleToolStripMenuItems(imageListViewSelectItems, 
+                                Properties.Settings.Default.SuggestRegionNameNearbyDays, 
+                                //Properties.Settings.Default.SuggestRegionNameNearByCount,
+                                Properties.Settings.Default.SuggestRegionNameNearByContextMenuCount,
+                                Properties.Settings.Default.SuggestRegionNameMostUsedContextMenuCount,
+                                Properties.Settings.Default.ApplicationSizeOfRegionNamesGroup);
                             DataGridViewHandlerPeople.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
                             DataGridViewHandlerPeople.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
                             DataGridViewHandlerPeople.DatabaseAndCacheMetadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery;
                             DataGridViewHandlerPeople.DatabaseAndCacheMetadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos;
-                            DataGridViewHandlerPeople.SuggestRegionNameNearbyDays = Properties.Settings.Default.SuggestRegionNameNearbyDays;
-                            DataGridViewHandlerPeople.SuggestRegionNameTopMostCount = Properties.Settings.Default.SuggestRegionNameTopMostCount;
+                            DataGridViewHandlerPeople.SuggestRegionNameNearByDays = Properties.Settings.Default.SuggestRegionNameNearbyDays;
+                            DataGridViewHandlerPeople.SuggestRegionNameNearByTopMostCount = Properties.Settings.Default.SuggestRegionNameNearByCount;
                             DataGridViewHandlerPeople.HasBeenInitialized = true;
                             DataGridViewHandlerPeople.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, dataGridViewSize, showWhatColumnsForTab);
                             DataGridView_AfterPopulateSelectedFiles_LazyLoadOtherFileVersions(imageListViewSelectItems);

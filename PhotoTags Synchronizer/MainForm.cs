@@ -176,6 +176,11 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuItemGenericRegionRename1.Click += KryptonContextMenuItemGenericRegionRenameGeneric_Click;
             this.kryptonContextMenuItemGenericRegionRename2.Click += KryptonContextMenuItemGenericRegionRenameGeneric_Click;
             this.kryptonContextMenuItemGenericRegionRename3.Click += KryptonContextMenuItemGenericRegionRenameGeneric_Click;
+            this.kryptonContextMenuItemGenericRegionRename4.Click += KryptonContextMenuItemGenericRegionRenameGeneric_Click;
+            this.kryptonContextMenuItemGenericRegionRename5.Click += KryptonContextMenuItemGenericRegionRenameGeneric_Click;
+            //this.kryptonContextMenuItemGenericRegionRenameMostUsed
+            //this.kryptonContextMenuItemGenericRegionRenameMostUsedList
+
             //this.kryptonContextMenuItemGenericRegionRenameFromLastUsed.Click += KryptonContextMenuItemRegionRenameGeneric_Click;
             //this.kryptonContextMenuItemGenericRegionRenameListAll.Click += KryptonContextMenuItemRegionRenameGeneric_Click;
             //this.kryptonContextMenuSeparatorGenericEndOfRegionRename
@@ -587,7 +592,11 @@ namespace PhotoTagsSynchronizer
 
             #region Initialize layout setup - Initialize layout toolstrip: People
             FormSplash.UpdateStatus("Initialize layout toolstrip: People...");
-            PopulatePeopleToolStripMenuItems();
+            PopulatePeopleToolStripMenuItems(null, 
+                Properties.Settings.Default.SuggestRegionNameNearbyDays, 
+                Properties.Settings.Default.SuggestRegionNameNearByContextMenuCount,
+                Properties.Settings.Default.SuggestRegionNameMostUsedContextMenuCount,
+                Properties.Settings.Default.ApplicationSizeOfRegionNamesGroup);
             #endregion
 
             #region Initialize layout - Sort Order - ImageListView
@@ -671,7 +680,7 @@ namespace PhotoTagsSynchronizer
             MaximizeOrRestoreWorkspaceMainCellAndChilds();
         }
 
-        
+
         #endregion
 
         #region Resize and restore windows size when reopen application

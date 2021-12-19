@@ -7,6 +7,7 @@ using DataGridViewGeneric;
 using MetadataLibrary;
 using Thumbnails;
 using Krypton.Toolkit;
+using System.Linq;
 
 namespace PhotoTagsSynchronizer
 {
@@ -341,7 +342,7 @@ namespace PhotoTagsSynchronizer
             AutoCompleteStringCollection autoCompleteStringCollection = new AutoCompleteStringCollection();
             try
             {
-                List<string> regionNames = databaseAndCacheMetadataExiftool.ListAllPersonalRegionsCache();
+                List<string> regionNames = databaseAndCacheMetadataExiftool.ListAllPersonalRegionName();
                 foreach (string regionName in regionNames)
                 {
                     if (!string.IsNullOrWhiteSpace(regionName)) autoCompleteStringCollection.Add(regionName);
@@ -390,7 +391,7 @@ namespace PhotoTagsSynchronizer
             {
                 if (lastUsedNames.Contains(name)) lastUsedNames.Remove(name);
                 lastUsedNames.Insert(0, name);
-                while (lastUsedNames.Count > 3) lastUsedNames.RemoveAt(3);
+                while (lastUsedNames.Count > 5) lastUsedNames.RemoveAt(5);
 
                 if (lastUsedNames.Count > 0)
                 {
@@ -412,6 +413,20 @@ namespace PhotoTagsSynchronizer
                     kryptonContextMenuItemGenericRegionRename3.Visible = true;
                 }
                 else kryptonContextMenuItemGenericRegionRename3.Visible = false;
+
+                if (lastUsedNames.Count > 3)
+                {
+                    SetPeopleStripToolMenu(kryptonContextMenuItemGenericRegionRename4, 4, lastUsedNames[3]);
+                    kryptonContextMenuItemGenericRegionRename4.Visible = true;
+                }
+                else kryptonContextMenuItemGenericRegionRename4.Visible = false;
+
+                if (lastUsedNames.Count > 4)
+                {
+                    SetPeopleStripToolMenu(kryptonContextMenuItemGenericRegionRename5, 5, lastUsedNames[4]);
+                    kryptonContextMenuItemGenericRegionRename5.Visible = true;
+                }
+                else kryptonContextMenuItemGenericRegionRename5.Visible = false;
             }
             catch (Exception ex)
             {
@@ -472,32 +487,68 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region PopulatePeopleToolStripMenuItems
-        public void PopulatePeopleToolStripMenuItems()
+        //PopulatePeopleToolStripMenuItems(imageListViewSelectItems, 
+        //Properties.Settings.Default.SuggestRegionNameNearbyDays, 
+        //Properties.Settings.Default.SuggestRegionNameNearByCount or Properties.Settings.Default.SuggestRegionNameNearByContextMenuCount,
+        //                        Properties.Settings.Default.ApplicationSizeOfRegionNamesGroup);
+        public void PopulatePeopleToolStripMenuItems(HashSet<FileEntry> imageListViewSelectItems, 
+            int suggestRegionNameNearbyDays, 
+            int suggestRegionNameNearByContextMenuCount, int suggestRegionNameMostUsedContextMenuCount, int applicationSizeOfRegionNamesGroup)
         {
             try
             {
-                kryptonContextMenuItemsGenericRegionRenameListAllList.Items.Clear();
-                kryptonContextMenuItemsGenericRegionRenameFromLastUsedList.Items.Clear();
+                List<string> regionNames = new List<string>();
 
-                List<string> regioNames;
-                regioNames = databaseAndCacheMetadataExiftool.ListAllPersonalRegionNameTopCountCache(MetadataBrokerType.ExifTool, Properties.Settings.Default.SuggestRegionNameTopMostCount);
-                foreach (string name in regioNames)
+                #region Most used
+                kryptonContextMenuItemGenericRegionRenameMostUsedList.Items.Clear();
+                regionNames = databaseAndCacheMetadataExiftool.ListAllPersonalRegionName(suggestRegionNameMostUsedContextMenuCount);
+                regionNames.Sort();
+                foreach (string name in regionNames)
+                {
+                    regionNamesRenameFromTopCoundAdded.Add(name);
+                    KryptonContextMenuItem kryptonContextMenuItemGenericRegionRename = new KryptonContextMenuItem();
+                    kryptonContextMenuItemGenericRegionRename.Tag = name;
+                    kryptonContextMenuItemGenericRegionRename.Text = name;
+                    kryptonContextMenuItemGenericRegionRename.Click += KryptonContextMenuItemRegionRenameGeneric_Click;
+                    this.kryptonContextMenuItemGenericRegionRenameMostUsedList.Items.Add(kryptonContextMenuItemGenericRegionRename);
+                }
+                #endregion
+
+                #region Near By
+                kryptonContextMenuItemsGenericRegionRenameFromNearByList.Items.Clear();
+                regionNames = new List<string>();
+                if (imageListViewSelectItems != null)
+                {
+                    Dictionary<StringNullable, int> nameCount = new Dictionary<StringNullable, int>(); 
+                    foreach (FileEntry fileEntry in imageListViewSelectItems)
+                    {
+                        DateTime date = new DateTime(((DateTime)fileEntry.LastWriteDateTime).Year, ((DateTime)fileEntry.LastWriteDateTime).Month, ((DateTime)fileEntry.LastWriteDateTime).Day);
+                        DateTime dateTimeFrom = date.AddDays(-suggestRegionNameNearbyDays);
+                        DateTime dateTimeTo = date.AddDays(suggestRegionNameNearbyDays);
+                        nameCount = databaseAndCacheMetadataExiftool.MergeRegionNameCount(nameCount, databaseAndCacheMetadataExiftool.ListAllRegionNameCountNearByCache(MetadataBrokerType.ExifTool, dateTimeFrom, dateTimeTo));
+                    }
+                    regionNames = databaseAndCacheMetadataExiftool.ConvertRegionNameCount(nameCount, suggestRegionNameNearByContextMenuCount);
+                }
+                regionNames.Sort();
+
+                foreach (string name in regionNames)
                 {
                     regionNamesRenameFromTopCoundAdded.Add(name);
                     KryptonContextMenuItem kryptonContextMenuItemGenericRegionRenameFromLastUsed = new KryptonContextMenuItem();
                     kryptonContextMenuItemGenericRegionRenameFromLastUsed.Tag = name;
                     kryptonContextMenuItemGenericRegionRenameFromLastUsed.Text = name;
                     kryptonContextMenuItemGenericRegionRenameFromLastUsed.Click += KryptonContextMenuItemRegionRenameGeneric_Click;
-                    this.kryptonContextMenuItemsGenericRegionRenameFromLastUsedList.Items.Add(kryptonContextMenuItemGenericRegionRenameFromLastUsed);
+                    this.kryptonContextMenuItemsGenericRegionRenameFromNearByList.Items.Add(kryptonContextMenuItemGenericRegionRenameFromLastUsed);
                 }
+                #endregion
 
-
-                int groupSize = Properties.Settings.Default.ApplicationSizeOfRegionNamesGroup;
-
-                regioNames = databaseAndCacheMetadataExiftool.ListAllPersonalRegionsCache();
-                if (regioNames.Count <= groupSize)
+                #region All Region names
+                kryptonContextMenuItemsGenericRegionRenameListAllList.Items.Clear();
+                regionNames = databaseAndCacheMetadataExiftool.ListAllPersonalRegionName();
+                regionNames.Sort();
+                if (regionNames.Count <= applicationSizeOfRegionNamesGroup)
                 {
-                    foreach (string name in regioNames)
+                    foreach (string name in regionNames)
                     {
                         regionNamesRenameFromAllAdded.Add(name);
                         KryptonContextMenuItem kryptonContextMenuItemGenericRegionRenameFromListAll = new KryptonContextMenuItem();
@@ -527,7 +578,7 @@ namespace PhotoTagsSynchronizer
                     int indexName = 0;
                     bool nameFixed = false;
 
-                    foreach (string name in regioNames)
+                    foreach (string name in regionNames)
                     {
                         if (kryptonContextMenuItemGenericGroupName == null)
                         {
@@ -548,7 +599,7 @@ namespace PhotoTagsSynchronizer
                         kryptonContextMenuItemGenericGroupList.Items.Add(kryptonContextMenuItemGenericRegionRenameFromListAll);
 
                         if (indexName == 0) firstNameInGroupCurrent = name;
-                        if (indexName >= groupSize - 1)
+                        if (indexName >= applicationSizeOfRegionNamesGroup - 1)
                         {
                             lastNameInGroupCurrent = name;
 
@@ -581,10 +632,6 @@ namespace PhotoTagsSynchronizer
                             nameFixed = true;
                         }
                         else indexName++;
-
-
-
-
                     }
 
                     if (!nameFixed)
@@ -599,6 +646,7 @@ namespace PhotoTagsSynchronizer
                 {
                     PeopleAddNewLastUseName(renameNames[i]);
                 }
+                #endregion
             }
             catch (Exception ex)
             {
@@ -609,7 +657,7 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        #region PeopleRenameCell
+        #region People rename - PeopleRenameCell
         private bool PeopleRenameCell(DataGridView dataGridView, DataGridViewCell cell, string nameSelected, Dictionary<CellLocation, DataGridViewGenericCell> updatedCells)
         {
             bool cellUpdated = false;
@@ -697,7 +745,7 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        #region ActionRegionRename
+        #region People rename - ActionRegionRename
         private void ActionRegionRename(string name)
         {
             try
@@ -714,7 +762,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region RegionRename1, 2, 3 - Click Events Sources
+        #region People rename - RegionRename 1, 2, 3, 4, 5 - Click Events Sources
         private void KryptonContextMenuItemGenericRegionRenameGeneric_Click(object sender, EventArgs e)
         {
             try

@@ -1021,8 +1021,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        
-
         #region UpdateDataGridViewDirtyFlagsWhenPageActivated()
         private void ActionUpdateDataGridViewDirtyFlagsWhenPageActivated()
         {
@@ -1179,7 +1177,14 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuItemGenericRegionRename1.Visible = visible;
             this.kryptonContextMenuItemGenericRegionRename2.Visible = visible;
             this.kryptonContextMenuItemGenericRegionRename3.Visible = visible;
-            this.kryptonContextMenuItemGenericRegionRenameFromLastUsed.Visible = visible;
+            this.kryptonContextMenuItemGenericRegionRename4.Visible = visible;
+            this.kryptonContextMenuItemGenericRegionRename5.Visible = visible;
+            this.kryptonContextMenuItemGenericRegionRenameFromNearBy.Visible = visible;
+
+            this.kryptonContextMenuItemGenericRegionRenameMostUsed.Visible = visible;
+            //this.kryptonContextMenuItemGenericRegionRenameMostUsedList
+            //this.kryptonContextMenuItemGenericRegionRenameMostUsedExample
+
             //this.kryptonContextMenuItemsGenericRegionRenameFromLastUsedList.Visible = visible; //GenericRegionRenameFromLastUsed
             //this.kryptonContextMenuItemGenericRegionRenameFormLastUsedExample.Visible = visible; //GenericRegionRenameFromLastUsed
             this.kryptonContextMenuItemGenericRegionRenameListAll.Visible = visible;

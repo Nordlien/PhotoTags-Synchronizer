@@ -1123,18 +1123,18 @@ explorer ms-photos?filename=""{FileFullPath}""")]
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("10")]
-        public int SuggestRegionNameTopMostCount {
+        public int SuggestRegionNameNearByCount {
             get {
-                return ((int)(this["SuggestRegionNameTopMostCount"]));
+                return ((int)(this["SuggestRegionNameNearByCount"]));
             }
             set {
-                this["SuggestRegionNameTopMostCount"] = value;
+                this["SuggestRegionNameNearByCount"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
         public int SuggestRegionNameNearbyDays {
             get {
                 return ((int)(this["SuggestRegionNameNearbyDays"]));
@@ -2640,6 +2640,30 @@ explorer ms-photos?filename=""{FileFullPath}""")]
             }
             set {
                 this["ImageListViewSortingOrder"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("30")]
+        public int SuggestRegionNameNearByContextMenuCount {
+            get {
+                return ((int)(this["SuggestRegionNameNearByContextMenuCount"]));
+            }
+            set {
+                this["SuggestRegionNameNearByContextMenuCount"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("30")]
+        public int SuggestRegionNameMostUsedContextMenuCount {
+            get {
+                return ((int)(this["SuggestRegionNameMostUsedContextMenuCount"]));
+            }
+            set {
+                this["SuggestRegionNameMostUsedContextMenuCount"] = value;
             }
         }
     }

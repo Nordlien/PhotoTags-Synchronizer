@@ -162,7 +162,7 @@ namespace PhotoTagsSynchronizer
             comboBoxSearchLocationCountry.Items.Clear();
             comboBoxSearchLocationCountry.Items.AddRange(countries.ToArray());
 
-            List<string> peoples = databaseAndCacheMetadataExiftool.ListAllPersonalRegionsCache(MetadataBrokerType.ExifTool);
+            List<string> peoples = databaseAndCacheMetadataExiftool.ListAllPersonalRegionName(MetadataBrokerType.ExifTool);
             peoples.Sort();
             FilterReplaceNullWithIsNotDefineText(peoples);
             checkedListBoxSearchPeople.Items.Clear();

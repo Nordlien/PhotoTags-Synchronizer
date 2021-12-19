@@ -2250,11 +2250,11 @@ namespace MetadataLibrary
         }
         #endregion
 
-        #region ListAllPersonalRegionNameCountCache
+        #region PersonalRegionNameCount - Cache
         private static Dictionary<MetadataBrokerType, Dictionary<StringNullable, int>> metadataRegionNameCountCache = null;
         private static readonly Object metadataRegionNameCountCacheLock = new Object();
 
-        #region ListAllPersonalRegionNameCountCache - ListAllPersonalRegionNameCountCacheClear
+        #region PersonalRegionNameCount - Cache - ListAllPersonalRegionNameCountCacheClear
         public void ListAllPersonalRegionNameCountCacheClear()
         {
             lock (metadataRegionNameCountCacheLock)
@@ -2265,7 +2265,7 @@ namespace MetadataLibrary
         }
         #endregion
 
-        #region ListAllPersonalRegionNameCountCache - ListAllPersonalRegionNameCount
+        #region PersonalRegionNameCount - Cache - ListAllPersonalRegionNameCount
         private Dictionary<StringNullable, int> ListAllPersonalRegionNameCount(MetadataBrokerType metadataBrokerType)
         {
             //Private due to fake null hack
@@ -2292,13 +2292,14 @@ namespace MetadataLibrary
         }
         #endregion
 
-        #region RegionNamesUpdated
+        #region PersonalRegionNameCount - Cache - RegionNamesUpdated
         public void PersonalRegionNameCountCacheUpdated(MetadataBrokerType metadataBrokerType, string name)
         {
             if (metadataRegionNameCountCache == null) 
                 metadataRegionNameCountCache = new Dictionary<MetadataBrokerType, Dictionary<StringNullable, int>>(); //It should already been created, why isn'y
             if (!metadataRegionNameCountCache.ContainsKey(metadataBrokerType)) 
                 metadataRegionNameCountCache.Add(metadataBrokerType, new Dictionary<StringNullable, int>()); //It should already been created, why isn'y
+            
             StringNullable stringNullableName = new StringNullable(name);
             if (!metadataRegionNameCountCache[metadataBrokerType].ContainsKey(stringNullableName)) 
             {
@@ -2308,27 +2309,42 @@ namespace MetadataLibrary
                 metadataRegionNameCountCache[metadataBrokerType][stringNullableName]++;
             }
         }
+        #endregion
 
-        #endregion 
-
-        #region ListAllPersonalRegionNameCountCache - ListAllPersonalRegionNameCountCache
+        #region PersonalRegionNameCount - Cache - ListAllPersonalRegionNameCountCache
         private Dictionary<StringNullable, int> ListAllPersonalRegionNameCountCache(MetadataBrokerType metadataBrokerType)
         {
             lock (metadataRegionNameCountCacheLock)
             {
                 if (metadataRegionNameCountCache == null) metadataRegionNameCountCache = new Dictionary<MetadataBrokerType, Dictionary<StringNullable, int>>();
-                if (!metadataRegionNameCountCache.ContainsKey(metadataBrokerType)) metadataRegionNameCountCache.Add(metadataBrokerType, new Dictionary<StringNullable, int>());
-                metadataRegionNameCountCache[metadataBrokerType] = ListAllPersonalRegionNameCount(metadataBrokerType);
+                if (!metadataRegionNameCountCache.ContainsKey(metadataBrokerType))
+                {
+                    metadataRegionNameCountCache.Add(metadataBrokerType, new Dictionary<StringNullable, int>());
+                    metadataRegionNameCountCache[metadataBrokerType] = ListAllPersonalRegionNameCount(metadataBrokerType);
+                }
                 return metadataRegionNameCountCache[metadataBrokerType];
             }
         }
         #endregion
 
-        #region ListAllPersonalRegionNameCountCache - ListAllPersonalRegionNameCountCache
-        public List<string> ListAllPersonalRegionNameNotInListCache(MetadataBrokerType metadataBrokerType, List<string> namesdontIncludeList1, List<string> namesdontIncludeList2, int topCount, bool includeEmpty = false)
+        #region PersonalRegionNameCount - Cache - MergeRegionNameCount
+        public Dictionary<StringNullable, int> MergeRegionNameCount(Dictionary<StringNullable, int> list1, Dictionary<StringNullable, int> list2)
+        {
+            Dictionary<StringNullable, int> mergedLists = new Dictionary<StringNullable, int>(list1);
+
+            foreach (KeyValuePair<StringNullable, int> keyValuePair in list2)
+            {
+                if (!mergedLists.ContainsKey(keyValuePair.Key)) mergedLists.Add(keyValuePair.Key, keyValuePair.Value);
+                else mergedLists[keyValuePair.Key] += keyValuePair.Value;
+            }
+            return mergedLists;
+        }
+        #endregion
+
+        #region PersonalRegionNameCount - Cache - ConvertRegionNameCount
+        public List<string> ConvertRegionNameCount(Dictionary<StringNullable, int> metadataRegionNameCountDictionary, int topCount = int.MaxValue, bool includeEmpty = false, List<string> namesdontIncludeList1 = null, List<string> namesdontIncludeList2 = null)
         {
             List<string> list = new List<string>();
-            Dictionary<StringNullable, int> metadataRegionNameCountDictionary = ListAllPersonalRegionNameCountCache(metadataBrokerType);
 
             var ordered = metadataRegionNameCountDictionary.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
 
@@ -2342,7 +2358,7 @@ namespace MetadataLibrary
                     if (namesdontIncludeList1 != null && namesdontIncludeList1.Contains(keyValuePair.Key.StringValue)) doNotInclude = true;
                     if (namesdontIncludeList2 != null && namesdontIncludeList2.Contains(keyValuePair.Key.StringValue)) doNotInclude = true;
                     if (!includeEmpty && string.IsNullOrEmpty(brokerRegionName.StringValue)) doNotInclude = true;
-                    
+
                     if (!doNotInclude)
                     {
                         list.Add(keyValuePair.Key.StringValue);
@@ -2351,91 +2367,86 @@ namespace MetadataLibrary
                     }
                 }
             }
-            list.Sort();
             return list;
         }
         #endregion
 
-        #region ListAllPersonalRegionNameCountCache - ListAllPersonalRegionNameTopCountCache
-        public List<string> ListAllPersonalRegionNameTopCountCache(MetadataBrokerType metadataBrokerType, int topCount)
+        #region PersonalRegionNameCount - Cache - ListAllPersonalRegionNameCountCache
+        public List<string> ListAllPersonalRegionName(int topCount = int.MaxValue, List<string> namesdontIncludeList1 = null, List<string> namesdontIncludeList2 = null, bool includeEmpty = false)
         {
-            return ListAllPersonalRegionNameNotInListCache(metadataBrokerType, null, null, topCount);
+            Dictionary<StringNullable, int> allRegionCounts = new Dictionary<StringNullable, int>();
+            allRegionCounts = MergeRegionNameCount(allRegionCounts, ListAllPersonalRegionNameCountCache(MetadataBrokerType.ExifTool));
+            allRegionCounts = MergeRegionNameCount(allRegionCounts, ListAllPersonalRegionNameCountCache(MetadataBrokerType.WebScraping));
+            allRegionCounts = MergeRegionNameCount(allRegionCounts, ListAllPersonalRegionNameCountCache(MetadataBrokerType.WindowsLivePhotoGallery));
+            allRegionCounts = MergeRegionNameCount(allRegionCounts, ListAllPersonalRegionNameCountCache(MetadataBrokerType.MicrosoftPhotos));
+            return ConvertRegionNameCount(allRegionCounts, topCount, includeEmpty, namesdontIncludeList1, namesdontIncludeList2);
+        }
+
+        public List<string> ListAllPersonalRegionName(MetadataBrokerType metadataBrokerType, int topCount = int.MaxValue, bool includeEmpty = false)
+        {
+            Dictionary<StringNullable, int> allRegionCounts = ListAllPersonalRegionNameCountCache(metadataBrokerType);
+            return ConvertRegionNameCount(allRegionCounts, topCount, includeEmpty);
         }
         #endregion
 
-        #region ListAllPersonalRegionsCache
-        public List<string> ListAllPersonalRegionsCache(MetadataBrokerType metadataBrokerType)
-        {
-            return ListAllPersonalRegionNameTopCountCache(metadataBrokerType, int.MaxValue); 
-        }
-
-        public List<string> ListAllPersonalRegionsCache()
-        {
-            List<string> joinAllRegions = ListAllPersonalRegionNameTopCountCache(MetadataBrokerType.ExifTool, int.MaxValue);
-
-            List<string> joinAddRegions = ListAllPersonalRegionNameTopCountCache(MetadataBrokerType.WebScraping, int.MaxValue);
-            foreach (string addRegion in joinAddRegions) if (!joinAllRegions.Contains(addRegion)) joinAllRegions.Add(addRegion);
-
-            joinAddRegions = ListAllPersonalRegionNameTopCountCache(MetadataBrokerType.WindowsLivePhotoGallery, int.MaxValue);
-            foreach (string addRegion in joinAddRegions) if (!joinAllRegions.Contains(addRegion)) joinAllRegions.Add(addRegion);
-
-            joinAddRegions = ListAllPersonalRegionNameTopCountCache(MetadataBrokerType.MicrosoftPhotos, int.MaxValue);
-            foreach (string addRegion in joinAddRegions) if (!joinAllRegions.Contains(addRegion)) joinAllRegions.Add(addRegion);
-
-            joinAllRegions.Sort();
-            return joinAllRegions;
-        }
-        #endregion
 
         #endregion
 
-        #region MetadataRegionNamesCache
-        private static Dictionary<MetadataRegionNameKey, List<string>> metadataRegionNamesCache = new Dictionary<MetadataRegionNameKey, List<string>>();
+        #region RegionNamesNearBy - Cache
+        private static Dictionary<MetadataRegionNameKey, Dictionary<StringNullable, int>> metadataRegionNamesCache = new Dictionary<MetadataRegionNameKey, Dictionary<StringNullable, int>>();
         private static readonly Object _metadataRegionNamesCacheLock = new Object();
 
-        #region MetadataRegionNamesCache - MetadataRegionNamesCacheClear
-        public void MetadataRegionNamesCacheClear()
+        #region RegionNamesNearBy - Cache - RegionNamesNearByCacheClear
+        public void RegionNamesNearByCacheClear()
         {
             lock (_metadataRegionNamesCacheLock)
             {
                 metadataRegionNamesCache = null;
-                metadataRegionNamesCache = new Dictionary<MetadataRegionNameKey, List<string>>();
+                metadataRegionNamesCache = new Dictionary<MetadataRegionNameKey, Dictionary<StringNullable, int>>();
             }
         }
         #endregion
 
-        #region MetadataRegionNamesCache - ListAllRegionNamesCache
-        public List<string> ListAllRegionNamesCache(MetadataBrokerType metadataBrokerType, DateTime? dateTimeFrom, DateTime? dateTimeTo)
+        #region RegionNamesNearBy - Cache - ListAllRegionNamesNearByCache
+        public List<string> ListAllRegionNamesNearByCache(MetadataBrokerType metadataBrokerType, DateTime? dateTimeFrom, DateTime? dateTimeTo, int topCount = int.MaxValue, List<string> namesdontIncludeList1 = null, List<string> namesdontIncludeList2 = null, bool includeEmpty = false)
+        {
+            Dictionary<StringNullable, int> allRegionCounts = ListAllRegionNameCountNearByCache(metadataBrokerType, dateTimeFrom, dateTimeTo);
+            return ConvertRegionNameCount(allRegionCounts, topCount, includeEmpty, namesdontIncludeList1, namesdontIncludeList2);
+        }
+        #endregion
+
+        #region RegionNamesNearBy - Cache - ListAllRegionNamesNearByCache
+        public Dictionary<StringNullable, int> ListAllRegionNameCountNearByCache(MetadataBrokerType metadataBrokerType, DateTime? dateTimeFrom, DateTime? dateTimeTo)
         {
             MetadataRegionNameKey metadataRegionNameKey = new MetadataRegionNameKey(metadataBrokerType, 
                 (dateTimeFrom == null ? DateTime.MinValue : (DateTime)dateTimeFrom), 
                 (dateTimeTo == null ? DateTime.MaxValue : (DateTime)dateTimeTo)
                 );
             
-            if (MetadataRegionNamesCacheContainsKey(metadataRegionNameKey)) return MetadataRegionNamesCacheGet(metadataRegionNameKey);
+            if (RegionNamesNearByCacheContainsKey(metadataRegionNameKey)) return RegionNamesNearByCacheGet(metadataRegionNameKey);
 
-            List<string> regionNames = ListAllRegionNames(metadataBrokerType, dateTimeFrom, dateTimeTo);
+            Dictionary<StringNullable, int> regionNames = ListAllRegionNamesNearBy(metadataBrokerType, dateTimeFrom, dateTimeTo);
             if (regionNames != null)
             {
-                MetadataRegionNamesCacheUpdate(metadataRegionNameKey, regionNames);
+                RegionNamesNearByCacheUpdate(metadataRegionNameKey, regionNames);
                 return regionNames;
             }
             else return null;            
         }
         #endregion
 
-        #region MetadataRegionNamesCache - ListAllRegionNames
-        public List<string> ListAllRegionNames(MetadataBrokerType metadataBrokerType, DateTime? dateTimeFrom, DateTime? dateTimeTo)
+        #region RegionNamesNearBy - Cache - ListAllRegionNamesNearBy
+        private Dictionary<StringNullable, int> ListAllRegionNamesNearBy(MetadataBrokerType metadataBrokerType, DateTime? dateTimeFrom, DateTime? dateTimeTo, bool leaveOutNullOrWhiteSpace = true)
         {
-            List<string> listing = new List<string>();
+            Dictionary<StringNullable, int> listing = new Dictionary<StringNullable, int>();
 
             string sqlCommand = "";
             if (metadataBrokerType != MetadataBrokerType.Empty) sqlCommand += (string.IsNullOrEmpty(sqlCommand) ? "" : "AND ") + "Broker = @Broker ";
             if (dateTimeFrom != null) sqlCommand += (string.IsNullOrEmpty(sqlCommand) ? "" : "AND ") + "FileDateModified >= @FileDateModifiedFrom ";
             if (dateTimeTo != null) sqlCommand += (string.IsNullOrEmpty(sqlCommand) ? "" : "AND ") + "FileDateModified <= @FileDateModifiedTo ";
 
-            sqlCommand = "SELECT DISTINCT Name FROM MediaPersonalRegions " + (string.IsNullOrEmpty(sqlCommand) ? "" : "WHERE ") + sqlCommand;
-            
+            sqlCommand = "SELECT Name, Count(1) AS CountNames FROM MediaPersonalRegions " + (string.IsNullOrEmpty(sqlCommand) ? "" : "WHERE ") + sqlCommand + " GROUP BY Name";
+
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
                 //commandDatabase.Prepare();
@@ -2445,7 +2456,12 @@ namespace MetadataLibrary
 
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
-                    while (reader.Read()) listing.Add(dbTools.ConvertFromDBValString(reader["Name"]));
+                    while (reader.Read())
+                    {
+                        string regionName = dbTools.ConvertFromDBValString(reader["Name"]);
+                        int countNames = (int)dbTools.ConvertFromDBValInt(reader["CountNames"]);
+                        if (!leaveOutNullOrWhiteSpace || (leaveOutNullOrWhiteSpace && !string.IsNullOrWhiteSpace(regionName))) listing.Add(new StringNullable(regionName), countNames);
+                    }
                 }
             }
 
@@ -2453,28 +2469,28 @@ namespace MetadataLibrary
         }
         #endregion
 
-        #region MetadataRegionNamesCache - MetadataRegionNamesCacheContainsKey
-        private bool MetadataRegionNamesCacheContainsKey(MetadataRegionNameKey key)
+        #region RegionNamesNearBy - Cache - MetadataRegionNamesCacheContainsKey
+        private bool RegionNamesNearByCacheContainsKey(MetadataRegionNameKey key)
         {
             lock (_metadataRegionNamesCacheLock) return metadataRegionNamesCache.ContainsKey(key);
         }
         #endregion
 
-        #region MetadataRegionNamesCache - MetadataRegionNamesCacheGet
-        private List<string> MetadataRegionNamesCacheGet(MetadataRegionNameKey key)
+        #region RegionNamesNearBy - Cache - MetadataRegionNamesCacheGet
+        private Dictionary<StringNullable, int> RegionNamesNearByCacheGet(MetadataRegionNameKey key)
         {
             lock (_metadataRegionNamesCacheLock) return metadataRegionNamesCache[key];
         }
         #endregion
 
-        #region MetadataRegionNamesCache - MetadataRegionNamesCacheUpdate
-        private void MetadataRegionNamesCacheUpdate(MetadataRegionNameKey key, List<string> regionNames)
+        #region RegionNamesNearBy - Cache - RegionNamesNearByCacheUpdate
+        private void RegionNamesNearByCacheUpdate(MetadataRegionNameKey key, Dictionary<StringNullable, int> regionNameCount)
         {
             //Update cache
             lock (_metadataRegionNamesCacheLock)
             {
-                if (MetadataRegionNamesCacheContainsKey(key)) metadataRegionNamesCache[key] = regionNames;
-                else metadataRegionNamesCache.Add(key, regionNames);
+                if (RegionNamesNearByCacheContainsKey(key)) metadataRegionNamesCache[key] = regionNameCount;
+                else metadataRegionNamesCache.Add(key, regionNameCount);
             }
         }
         #endregion
@@ -2674,7 +2690,7 @@ namespace MetadataLibrary
 
         public void MetadataCacheRemove(List<FileEntryBroker> fileEntryBrokers)
         {
-            MetadataRegionNamesCacheClear();
+            RegionNamesNearByCacheClear();
             ListAllPersonalRegionNameCountCacheClear();
 
             foreach (FileEntryBroker fileEntryBroker in fileEntryBrokers)

@@ -14,7 +14,7 @@ namespace PhotoTagsSynchronizer
     public static class DataGridViewHandlerPeople 
     {
         public const string headerPeople = "People";
-        public const string headerPeopleSuggestion = "Suggestion";
+        public const string headerPeopleSuggestion = "Suggestion near date";
         public const string headerPeopleMostUsed = "Most used";
         public const string headerPeopleAdded = "Added";
         public static bool HasBeenInitialized { get; set; } = false;
@@ -23,8 +23,8 @@ namespace PhotoTagsSynchronizer
         public static MetadataDatabaseCache DatabaseAndCacheMetadataMicrosoftPhotos { get; set; }
         public static MetadataDatabaseCache DatabaseAndCacheMetadataWindowsLivePhotoGallery { get; set; }
 
-        public static int SuggestRegionNameTopMostCount { get; set; } = 10;
-        public static int SuggestRegionNameNearbyDays { get; set; } = 10;
+        public static int SuggestRegionNameNearByTopMostCount { get; set; } = 10;
+        public static int SuggestRegionNameNearByDays { get; set; } = 10;
 
         #region GetUserInputChanges
         public static void GetUserInputChanges(ref KryptonDataGridView dataGridView, Metadata metadata, FileEntryAttribute fileEntry)
@@ -274,7 +274,6 @@ namespace PhotoTagsSynchronizer
                         metadataWebScrapingCopy.MediaHeight = metadataCopy.MediaHeight;
                         metadataWebScrapingCopy.MediaWidth = metadataCopy.MediaWidth;
                         metadataWebScrapingCopy.MediaOrientation = metadataCopy.MediaOrientation;
-                        metadataWebScrapingCopy.MediaSize = metadataCopy.MediaSize;
                         metadataWebScrapingCopy.MediaVideoLength = metadataCopy.MediaVideoLength;
                         
                         if (metadataCopy != null) metadataCopy.PersonalRegionSetRegionlessRegions(metadataWebScrapingCopy.PersonalRegionList);
@@ -304,14 +303,17 @@ namespace PhotoTagsSynchronizer
                 #region Suggestion of Names - Near date
                 int columnIndexDummy = -1;
                 List<string> regioNameSuggestions = null;
-                DateTime? dateTimeMediaTaken = metadataExiftool?.MediaDateTaken;
-                if (dateTimeMediaTaken != null)
+                DateTime? dateTimeFileDateModified = metadataExiftool?.FileDateModified;
+
+                if (dateTimeFileDateModified != null)
                 {
-                    DateTime dateTimeFrom = ((DateTime)dateTimeMediaTaken).AddDays(-SuggestRegionNameNearbyDays);
-                    DateTime dateTimeTo = ((DateTime)dateTimeMediaTaken).AddDays(SuggestRegionNameNearbyDays);
+                    DateTime date = new DateTime(((DateTime)dateTimeFileDateModified).Year, ((DateTime)dateTimeFileDateModified).Month, ((DateTime)dateTimeFileDateModified).Day);
+                    DateTime dateTimeFrom = date.AddDays(-SuggestRegionNameNearByDays);
+                    DateTime dateTimeTo = date.AddDays(SuggestRegionNameNearByDays);
 
                     bool isHeaderPeopleSuggestionAdded = false;
-                    regioNameSuggestions = DatabaseAndCacheMetadataExiftool.ListAllRegionNamesCache(MetadataBrokerType.ExifTool, (DateTime)dateTimeFrom, (DateTime)dateTimeTo);
+                    regioNameSuggestions = DatabaseAndCacheMetadataExiftool.ListAllRegionNamesNearByCache(MetadataBrokerType.ExifTool, 
+                        (DateTime)dateTimeFrom, (DateTime)dateTimeTo, SuggestRegionNameNearByTopMostCount);
 
                     if (regioNameSuggestions != null && regioNameSuggestions.Count > 0)
                     {
@@ -340,8 +342,8 @@ namespace PhotoTagsSynchronizer
                 }
                 #endregion
 
-                #region Sugegstion of names - Top Most
-                List<string> regioNamesTopMost = DatabaseAndCacheMetadataExiftool.ListAllPersonalRegionNameNotInListCache(MetadataBrokerType.ExifTool, regionNamesAddedPeople, regioNameSuggestions, SuggestRegionNameTopMostCount - regionNamesAddedTopMost.Count);
+                #region Suggestion of names - Top Most
+                List<string> regioNamesTopMost = DatabaseAndCacheMetadataExiftool.ListAllPersonalRegionName(SuggestRegionNameNearByTopMostCount - regionNamesAddedTopMost.Count, regionNamesAddedPeople, regioNameSuggestions);
                 if (regioNamesTopMost != null && regioNamesTopMost.Count > 0)
                 {
                     AddRowHeader(dataGridView, columnIndexDummy, new DataGridViewGenericRow(headerPeopleMostUsed), false);
