@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -30,7 +24,7 @@ namespace Krypton.Toolkit
         private const int WEEKS = 6;
         private const int WEEKDAYS = 7;
         private const int DAYS = 42;
-        private static readonly TimeSpan TIMESPAN_1DAY = new TimeSpan(1, 0, 0, 0);
+        private static readonly TimeSpan TIMESPAN_1DAY = new(1, 0, 0, 0);
         #endregion
 
         #region Instance Fields
@@ -64,11 +58,9 @@ namespace Krypton.Toolkit
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawMonthDays:" + Id;
-        }
+            "ViewDrawMonthDays:" + Id;
 
         /// <summary>
         /// Release unmanaged and optionally managed resources.
@@ -211,12 +203,7 @@ namespace Krypton.Toolkit
                 return _lastDay;
             }
 
-            if (retDate < _month)
-            {
-                return _month;
-            }
-
-            return retDate;
+            return retDate < _month ? _month : retDate;
         }
         #endregion
 
@@ -250,8 +237,8 @@ namespace Krypton.Toolkit
 
             int layoutXCell = ClientLocation.X;
             int layoutXDay = ClientLocation.X + ((_months.SizeDays.Width - _months.SizeDay.Width) / 2);
-            Rectangle layoutRectCell = new Rectangle(layoutXCell, ClientLocation.Y, _months.SizeDays.Width, _months.SizeDays.Height);
-            Rectangle layoutRectDay = new Rectangle(layoutXDay, ClientLocation.Y, _months.SizeDay.Width, _months.SizeDays.Height);
+            Rectangle layoutRectCell = new(layoutXCell, ClientLocation.Y, _months.SizeDays.Width, _months.SizeDays.Height);
+            Rectangle layoutRectDay = new(layoutXDay, ClientLocation.Y, _months.SizeDay.Width, _months.SizeDays.Height);
 
             // Layout each week as a row
             DateTime todayDate = _calendar.TodayDate;
@@ -383,8 +370,8 @@ namespace Krypton.Toolkit
 
             int layoutXCell = ClientLocation.X;
             int layoutXDay = ClientLocation.X + ((_months.SizeDays.Width - _months.SizeDay.Width) / 2);
-            Rectangle drawRectCell = new Rectangle(layoutXCell, ClientLocation.Y, _months.SizeDays.Width, _months.SizeDays.Height);
-            Rectangle drawRectDay = new Rectangle(layoutXDay, ClientLocation.Y, _months.SizeDay.Width, _months.SizeDays.Height);
+            Rectangle drawRectCell = new(layoutXCell, ClientLocation.Y, _months.SizeDays.Width, _months.SizeDays.Height);
+            Rectangle drawRectDay = new(layoutXDay, ClientLocation.Y, _months.SizeDay.Width, _months.SizeDays.Height);
 
             // Draw each week as a row
             DateTime todayDate = _calendar.TodayDate;
@@ -463,11 +450,9 @@ namespace Krypton.Toolkit
                             // Do we need to draw the background?
                             if (paletteTriple.PaletteBack.GetBackDraw(paletteState) == InheritBool.True)
                             {
-                                using (GraphicsPath path = context.Renderer.RenderStandardBorder.GetBackPath(context, drawRectCell, paletteTriple.PaletteBorder, 
-                                                                                                             VisualOrientation.Top, paletteState))
-                                {
-                                    context.Renderer.RenderStandardBack.DrawBack(context, drawRectCell, path, paletteTriple.PaletteBack, VisualOrientation.Top, paletteState, null);
-                                }
+                                using GraphicsPath path = context.Renderer.RenderStandardBorder.GetBackPath(context, drawRectCell, paletteTriple.PaletteBorder, 
+                                    VisualOrientation.Top, paletteState);
+                                context.Renderer.RenderStandardBack.DrawBack(context, drawRectCell, path, paletteTriple.PaletteBack, VisualOrientation.Top, paletteState, null);
                             }
 
                             // Do we need to draw the border?
@@ -508,38 +493,27 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state)
-        {
-            return null;
-        }
+        public Image GetImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the image color that should be transparent.
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Color value.</returns>
-        public Color GetImageTransparentColor(PaletteState state)
-        {
-            return Color.Empty;
-        }
+        public Color GetImageTransparentColor(PaletteState state) => Color.Empty;
 
         /// <summary>
         /// Gets the content short text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetShortText()
-        {
-            return _drawText;
-        }
+        public string GetShortText() => _drawText;
 
         /// <summary>
         /// Gets the content long text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetLongText()
-        {
-            return string.Empty;
-        }
+        public string GetLongText() => string.Empty;
+
         #endregion
 
         #region Implementation

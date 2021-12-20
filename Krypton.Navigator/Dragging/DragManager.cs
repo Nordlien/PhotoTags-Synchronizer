@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.IO;
-using Krypton.Toolkit;
 
 namespace Krypton.Navigator
 {
@@ -56,12 +49,12 @@ namespace Krypton.Navigator
         /// </summary>
         static DragManager()
         {
-            using (MemoryStream ms = new MemoryStream(Properties.Resources.DocumentValid))
+            using (MemoryStream ms = new(Properties.Resources.DocumentValid))
             {
                 _validCursor = new Cursor(ms);
             }
 
-            using (MemoryStream ms = new MemoryStream(Properties.Resources.DocumentInvalid))
+            using (MemoryStream ms = new(Properties.Resources.DocumentInvalid))
             {
                 _invalidCursor = new Cursor(ms);
             }
@@ -104,6 +97,7 @@ namespace Krypton.Navigator
                 // Dispose of managed and unmanaged resources
                 Dispose(true);
             }
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
@@ -115,8 +109,6 @@ namespace Krypton.Navigator
             // If called from explicit call to Dispose
             if (disposing)
             {
-                // No need to call destructor once dispose has occured
-                GC.SuppressFinalize(this);
                 ClearDragFeedback();
             }
 
@@ -378,10 +370,7 @@ namespace Krypton.Navigator
         /// <param name="sender">Source of the page drag; can be null.</param>
         /// <param name="e">Event arguments containing the new screen point of the mouse.</param>
         /// <returns>Drop was performed and the source can perform any removal of pages as required.</returns>
-        public virtual bool PageDragEnd(object sender, PointEventArgs e)
-        {
-            return DragEnd(e.Point);
-        }
+        public virtual bool PageDragEnd(object sender, PointEventArgs e) => DragEnd(e.Point);
 
         /// <summary>
         /// Occurs when dragging pages has been cancelled.
@@ -399,10 +388,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="dropData">Proposed drop data.</param>
         /// <returns>Actual drop data</returns>
-        protected virtual PageDragEndData CreateDropData(PageDragEndData dropData)
-        {
-            return dropData;
-        }
+        protected virtual PageDragEndData CreateDropData(PageDragEndData dropData) => dropData;
 
         /// <summary>
         /// Update the displayed cursor to reflect the current dragging state.
@@ -438,15 +424,11 @@ namespace Krypton.Navigator
         private void ResolvePaletteRenderer()
         {
             // Resolve the correct palette instance to use
-            switch (_paletteMode)
+            _dragPalette = _paletteMode switch
             {
-                case PaletteMode.Custom:
-                    _dragPalette = _localPalette;
-                    break;
-                default:
-                    _dragPalette = KryptonManager.GetPaletteForMode(_paletteMode);
-                    break;
-            }
+                PaletteMode.Custom => _localPalette,
+                _ => KryptonManager.GetPaletteForMode(_paletteMode)
+            };
 
             // Update redirector to point at the resolved palette
             _redirector.Target = _dragPalette;
@@ -482,16 +464,11 @@ namespace Krypton.Navigator
                 }
             }
 
-            switch (dragFeedback)
+            _dragFeedback = dragFeedback switch
             {
-                case PaletteDragFeedback.Rounded:
-                case PaletteDragFeedback.Square:
-                    _dragFeedback = new DragFeedbackDocking(dragFeedback);
-                    break;
-                default:
-                    _dragFeedback = new DragFeedbackSolid();
-                    break;
-            }
+                PaletteDragFeedback.Rounded or PaletteDragFeedback.Square => new DragFeedbackDocking(dragFeedback),
+                _ => new DragFeedbackSolid()
+            };
         }
 
         private void ClearDragFeedback()

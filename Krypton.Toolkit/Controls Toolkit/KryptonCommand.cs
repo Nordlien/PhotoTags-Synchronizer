@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Drawing.Design;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -28,7 +21,7 @@ namespace Krypton.Toolkit
     [DefaultEvent("Click")]
     [DefaultProperty("Text")]
     [DesignerCategory("code")]
-    [Designer(typeof(KryptonCommandDesigner))]
+    [Designer("Krypton.Toolkit.KryptonCommandDesigner, Krypton.Toolkit")]
     [Description("Defines state and events for a single command.")]
     public class KryptonCommand : Component, IKryptonCommand, INotifyPropertyChanged
     {
@@ -111,7 +104,7 @@ namespace Krypton.Toolkit
                 if (_enabled != value)
                 {
                     _enabled = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Enabled"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Enabled)));
                 }
             }
         }
@@ -136,8 +129,8 @@ namespace Krypton.Toolkit
                     _checkState = (_checked ? CheckState.Checked : CheckState.Unchecked);
 
                     // Generate events
-                    OnPropertyChanged(new PropertyChangedEventArgs("Checked"));
-                    OnPropertyChanged(new PropertyChangedEventArgs("CheckState"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Checked)));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(CheckState)));
                 }
             }
         }
@@ -166,10 +159,10 @@ namespace Krypton.Toolkit
                     // Generate events
                     if (checkedChanged)
                     {
-                        OnPropertyChanged(new PropertyChangedEventArgs("Checked"));
+                        OnPropertyChanged(new PropertyChangedEventArgs(nameof(Checked)));
                     }
 
-                    OnPropertyChanged(new PropertyChangedEventArgs("CheckState"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(CheckState)));
                 }
             }
         }
@@ -181,7 +174,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Command text.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public string Text
         {
             get => _text;
@@ -191,7 +184,7 @@ namespace Krypton.Toolkit
                 if (_text != value)
                 {
                     _text = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Text"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Text)));
                 }
             }
         }
@@ -201,10 +194,7 @@ namespace Krypton.Toolkit
             Text = string.Empty;
         }
 
-        private bool ShouldSerializeText()
-        {
-            return !string.IsNullOrEmpty(Text);
-        }
+        private bool ShouldSerializeText() => !string.IsNullOrEmpty(Text);
 
         /// <summary>
         /// Gets and sets the command extra text.
@@ -213,7 +203,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Command extra text.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public string ExtraText
         {
             get => _extraText;
@@ -223,7 +213,7 @@ namespace Krypton.Toolkit
                 if (_extraText != value)
                 {
                     _extraText = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("ExtraText"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ExtraText)));
                 }
             }
         }
@@ -233,10 +223,7 @@ namespace Krypton.Toolkit
             ExtraText = string.Empty;
         }
 
-        private bool ShouldSerializeExtraText()
-        {
-            return !string.IsNullOrEmpty(ExtraText);
-        }
+        private bool ShouldSerializeExtraText() => !string.IsNullOrEmpty(ExtraText);
 
         /// <summary>
         /// Gets and sets the command text line 1 for use in KryptonRibbon.
@@ -254,7 +241,7 @@ namespace Krypton.Toolkit
                 if (_textLine1 != value)
                 {
                     _textLine1 = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("TextLine1"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(TextLine1)));
                 }
             }
         }
@@ -264,10 +251,7 @@ namespace Krypton.Toolkit
             TextLine1 = string.Empty;
         }
 
-        private bool ShouldSerializeTextLine1()
-        {
-            return !string.IsNullOrEmpty(TextLine1);
-        }
+        private bool ShouldSerializeTextLine1() => !string.IsNullOrEmpty(TextLine1);
 
         /// <summary>
         /// Gets and sets the command text line 2 for use in KryptonRibbon.
@@ -285,7 +269,7 @@ namespace Krypton.Toolkit
                 if (_textLine2 != value)
                 {
                     _textLine2 = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("TextLine2"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(TextLine2)));
                 }
             }
         }
@@ -295,10 +279,7 @@ namespace Krypton.Toolkit
             TextLine2 = string.Empty;
         }
 
-        private bool ShouldSerializeTextLine2()
-        {
-            return !string.IsNullOrEmpty(TextLine2);
-        }
+        private bool ShouldSerializeTextLine2() => !string.IsNullOrEmpty(TextLine2);
 
         /// <summary>
         /// Gets and sets the command small image.
@@ -316,7 +297,7 @@ namespace Krypton.Toolkit
                 if (_imageSmall != value)
                 {
                     _imageSmall = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("ImageSmall"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ImageSmall)));
                 }
             }
         }
@@ -326,10 +307,7 @@ namespace Krypton.Toolkit
             ImageSmall = null;
         }
 
-        private bool ShouldSerializeImageSmall()
-        {
-            return (ImageSmall != null);
-        }
+        private bool ShouldSerializeImageSmall() => (ImageSmall != null);
 
         /// <summary>
         /// Gets and sets the command large image.
@@ -347,7 +325,7 @@ namespace Krypton.Toolkit
                 if (_imageLarge != value)
                 {
                     _imageLarge = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("ImageLarge"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ImageLarge)));
                 }
             }
         }
@@ -357,10 +335,7 @@ namespace Krypton.Toolkit
             ImageLarge = null;
         }
 
-        private bool ShouldSerializeImageLarge()
-        {
-            return (ImageLarge != null);
-        }
+        private bool ShouldSerializeImageLarge() => (ImageLarge != null);
 
         /// <summary>
         /// Gets and sets the command image transparent color.
@@ -369,7 +344,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Command image transparent color.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color ImageTransparentColor
         {
             get => _imageTransparentColor;
@@ -379,7 +354,7 @@ namespace Krypton.Toolkit
                 if (_imageTransparentColor != value)
                 {
                     _imageTransparentColor = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("ImageTransparentColor"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ImageTransparentColor)));
                 }
             }
         }
@@ -396,10 +371,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Generates a Execute event for a button.
         /// </summary>
-        public void PerformExecute()
-        {
-            OnExecute(EventArgs.Empty);
-        }
+        public void PerformExecute() => OnExecute(EventArgs.Empty);
+
         #endregion
 
         #region Protected
@@ -407,19 +380,14 @@ namespace Krypton.Toolkit
         /// Raises the Execute event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnExecute(EventArgs e)
-        {
-            Execute?.Invoke(this, e);
-        }
+        protected virtual void OnExecute(EventArgs e) => Execute?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="e">A PropertyChangedEventArgs containing the event data.</param>
-        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
-        {
-            PropertyChanged?.Invoke(this, e);
-        }
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e) => PropertyChanged?.Invoke(this, e);
+
         #endregion
     }
 

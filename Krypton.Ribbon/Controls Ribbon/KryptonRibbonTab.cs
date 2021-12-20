@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.ComponentModel;
-using System.Windows.Forms;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -25,7 +18,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonTab), "ToolboxBitmaps.KryptonRibbonTab.bmp")]
-    [Designer(typeof(Krypton.Ribbon.KryptonRibbonTabDesigner))]
+    [Designer("Krypton.Ribbon.KryptonRibbonTabDesigner, Krypton.Ribbon")]
     [DefaultProperty("Text")]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
@@ -140,7 +133,7 @@ namespace Krypton.Ribbon
         {
             get => _text;
 
-            set 
+            set
             {
                 // We never allow an empty text value
                 if (string.IsNullOrEmpty(value))
@@ -151,7 +144,7 @@ namespace Krypton.Ribbon
                 if (value != _text)
                 {
                     _text = value;
-                    OnPropertyChanged("Text");
+                    OnPropertyChanged(nameof(Text));
 
                     // Only need to update display if this tab is visible
                     if ((_ribbon != null) && Visible)
@@ -174,7 +167,7 @@ namespace Krypton.Ribbon
         {
             get => _keyTip;
 
-            set 
+            set
             {
                 if (string.IsNullOrEmpty(value))
                 {
@@ -184,7 +177,7 @@ namespace Krypton.Ribbon
                 _keyTip = value.ToUpper();
             }
         }
-            
+
         /// <summary>
         /// Gets and sets the name of the context this tab is associated with.
         /// </summary>
@@ -208,7 +201,7 @@ namespace Krypton.Ribbon
                 if (value != _contextName)
                 {
                     _contextName = value;
-                    OnPropertyChanged("ContextName");
+                    OnPropertyChanged(nameof(ContextName));
 
                     // Only need to update display if this tab is visible
                     if ((_ribbon != null) && Visible)
@@ -219,10 +212,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private bool ShouldSerializeContextName()
-        {
-            return !string.IsNullOrEmpty(_contextName);
-        }
+        private bool ShouldSerializeContextName() => !string.IsNullOrEmpty(_contextName);
 
         /// <summary>
         /// Reset the ContextName to the default value.
@@ -248,7 +238,7 @@ namespace Krypton.Ribbon
                 if (value != _visible)
                 {
                     _visible = value;
-                    OnPropertyChanged("Visible");
+                    OnPropertyChanged(nameof(Visible));
 
                     // Must try and layout to show change
                     if (_ribbon != null)
@@ -306,15 +296,12 @@ namespace Krypton.Ribbon
                 if (value != _tag)
                 {
                     _tag = value;
-                    OnPropertyChanged("Tag");
+                    OnPropertyChanged(nameof(Tag));
                 }
             }
         }
 
-        private bool ShouldSerializeTag()
-        {
-            return (Tag != null);
-        }
+        private bool ShouldSerializeTag() => (Tag != null);
 
         private void ResetTag()
         {

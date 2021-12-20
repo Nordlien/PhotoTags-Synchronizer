@@ -2,23 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Runtime.InteropServices;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -58,11 +49,7 @@ namespace Krypton.Toolkit
                 case PI.WM_.WINDOWPOSCHANGED:
                     {
                         PI.WINDOWPOS structure = (PI.WINDOWPOS)Marshal.PtrToStructure(m.LParam, typeof(PI.WINDOWPOS));
-#if NET35
-                        bool move = (structure.flags & (PI.SWP_.NOSIZE | PI.SWP_.NOMOVE)) == 0;
-#else
                         bool move = !structure.flags.HasFlag(PI.SWP_.NOSIZE | PI.SWP_.NOMOVE);
-#endif
                         PositionShadowForms(move);
                         if (!move)
                         {
@@ -116,7 +103,7 @@ namespace Krypton.Toolkit
         private void FormLoaded(object sender, EventArgs e)
         {
             _allowDrawing = (LicenseManager.UsageMode != LicenseUsageMode.Designtime)
-                            && (System.Diagnostics.Process.GetCurrentProcess().ProcessName != @"devenv");
+                            && (Process.GetCurrentProcess().ProcessName != @"devenv");
             if (_shadowForms == null)
             {
                 InitialiseShadowForms();
@@ -139,25 +126,13 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ShadowValues_ColourChanged(object sender, ColorEventArgs e)
-        {
-            ReCalcBrushes();
-        }
+        private void ShadowValues_ColourChanged(object sender, ColorEventArgs e) => ReCalcBrushes();
 
-        private void ShadowValues_BlurDistanceChanged(object sender, EventArgs e)
-        {
-            ReCalcBrushes();
-        }
+        private void ShadowValues_BlurDistanceChanged(object sender, EventArgs e) => ReCalcBrushes();
 
-        private void ShadowValues_OpacityChanged(object sender, EventArgs e)
-        {
-            ReCalcBrushes();
-        }
+        private void ShadowValues_OpacityChanged(object sender, EventArgs e) => ReCalcBrushes();
 
-        private void ShadowValues_MarginsChanged(object sender, EventArgs e)
-        {
-            SetShadowFormsSizes();
-        }
+        private void ShadowValues_MarginsChanged(object sender, EventArgs e) => SetShadowFormsSizes();
 
         private void ShadowValues_EnableShadowsChanged(object sender, EventArgs e)
         {
@@ -189,12 +164,10 @@ namespace Krypton.Toolkit
 
             // calculate the "whole" shadow
             Rectangle clientRectangle = CommonHelper.RealClientRectangle(_parentForm.Handle);
-            using (Bitmap allShadow = DrawShadowBitmap(clientRectangle))
+            using Bitmap allShadow = DrawShadowBitmap(clientRectangle);
+            foreach (VisualShadowBase shadowForm in _shadowForms)
             {
-                foreach (VisualShadowBase shadowForm in _shadowForms)
-                {
-                    shadowForm.ReCalcShadow(allShadow, clientRectangle);
-                }
+                shadowForm.ReCalcShadow(allShadow, clientRectangle);
             }
         }
 
@@ -213,75 +186,73 @@ namespace Krypton.Toolkit
             float solidW = clientRectangle.Width + blur * 2;
             float solidH = clientRectangle.Height + blur * 2;
             float blurOffset = _shadowValues.ExtraWidth - blur;
-            Bitmap bitmap = new Bitmap(w, h);
+            Bitmap bitmap = new(w, h);
             bitmap.MakeTransparent();
-            using (Graphics g = Graphics.FromImage(bitmap))
+            using Graphics g = Graphics.FromImage(bitmap);
+            // fill background
+            //g.FillRectangle(Brushes.Magenta, 0,0,w,h);
+            // +1 to fill the gap
+            g.FillRectangle(new SolidBrush(_shadowValues.Colour),
+                blurOffset, blurOffset, solidW + 1, solidH + 1);
+
+            // four dir gradient
+            if (blurOffset > 0)
             {
-                // fill background
-                //g.FillRectangle(Brushes.Magenta, 0,0,w,h);
-                // +1 to fill the gap
-                g.FillRectangle(new SolidBrush(_shadowValues.Colour),
-                    blurOffset, blurOffset, solidW + 1, solidH + 1);
-
-                // four dir gradient
-                if (blurOffset > 0)
+                using (LinearGradientBrush brush = new(new PointF(0, 0), new PointF(blurOffset, 0),
+                    Color.Transparent, _shadowValues.Colour))
                 {
-                    using (LinearGradientBrush brush = new LinearGradientBrush(new PointF(0, 0), new PointF(blurOffset, 0),
-                        Color.Transparent, _shadowValues.Colour))
+                    // Left
+                    g.FillRectangle(brush, 0, blurOffset, blurOffset, solidH);
+
+                    // Top
+                    brush.RotateTransform(90);
+                    g.FillRectangle(brush, blurOffset, 0, solidW, blurOffset);
+
+                    // Right
+                    // make sure pattern is correct
+                    brush.ResetTransform();
+                    brush.TranslateTransform(w % blurOffset, h % blurOffset);
+
+                    brush.RotateTransform(180);
+                    g.FillRectangle(brush, w - blurOffset, blurOffset, blurOffset, solidH);
+                    // Bottom
+                    brush.RotateTransform(90);
+                    g.FillRectangle(brush, blurOffset, h - blurOffset, solidW, blurOffset);
+                }
+
+
+                // four corner
+                using (GraphicsPath gp = new())
+                using (Matrix matrix = new())
+                {
+                    gp.AddEllipse(0, 0, blurOffset * 2, blurOffset * 2);
+                    using (PathGradientBrush pgb = new(gp)
                     {
-                        // Left
-                        g.FillRectangle(brush, 0, blurOffset, blurOffset, solidH);
-
-                        // Top
-                        brush.RotateTransform(90);
-                        g.FillRectangle(brush, blurOffset, 0, solidW, blurOffset);
-
-                        // Right
-                        // make sure pattern is correct
-                        brush.ResetTransform();
-                        brush.TranslateTransform(w % blurOffset, h % blurOffset);
-
-                        brush.RotateTransform(180);
-                        g.FillRectangle(brush, w - blurOffset, blurOffset, blurOffset, solidH);
-                        // Bottom
-                        brush.RotateTransform(90);
-                        g.FillRectangle(brush, blurOffset, h - blurOffset, solidW, blurOffset);
-                    }
-
-
-                    // four corner
-                    using (GraphicsPath gp = new GraphicsPath())
-                    using (Matrix matrix = new Matrix())
+                        CenterColor = _shadowValues.Colour,
+                        SurroundColors = new[] { Color.Transparent },
+                        CenterPoint = new PointF(blurOffset, blurOffset)
+                    })
                     {
-                        gp.AddEllipse(0, 0, blurOffset * 2, blurOffset * 2);
-                        using (PathGradientBrush pgb = new PathGradientBrush(gp)
-                        {
-                            CenterColor = _shadowValues.Colour,
-                            SurroundColors = new[] { Color.Transparent },
-                            CenterPoint = new PointF(blurOffset, blurOffset)
-                        })
-                        {
-                            // left-Top
-                            g.FillPie(pgb, 0, 0, blurOffset * 2, blurOffset * 2, 180, 90);
+                        // left-Top
+                        g.FillPie(pgb, 0, 0, blurOffset * 2, blurOffset * 2, 180, 90);
 
-                            // right-Top
-                            matrix.Translate(w - blurOffset * 2, 0);
+                        // right-Top
+                        matrix.Translate(w - blurOffset * 2, 0);
 
-                            pgb.Transform = matrix;
-                            //pgb.Transform.Translate(w-blur*2, 0);
-                            g.FillPie(pgb, w - blurOffset * 2, 0, blurOffset * 2, blurOffset * 2, 270, 90);
+                        pgb.Transform = matrix;
+                        //pgb.Transform.Translate(w-blur*2, 0);
+                        g.FillPie(pgb, w - blurOffset * 2, 0, blurOffset * 2, blurOffset * 2, 270, 90);
 
-                            // right-Bottom
-                            matrix.Translate(0, h - blurOffset * 2);
-                            pgb.Transform = matrix;
-                            g.FillPie(pgb, w - blurOffset * 2, h - blurOffset * 2, blurOffset * 2, blurOffset * 2, 0, 90);
+                        // right-Bottom
+                        matrix.Translate(0, h - blurOffset * 2);
+                        pgb.Transform = matrix;
+                        g.FillPie(pgb, w - blurOffset * 2, h - blurOffset * 2, blurOffset * 2, blurOffset * 2, 0, 90);
 
-                            // left-Bottom
-                            matrix.Reset();
-                            matrix.Translate(0, h - blurOffset * 2);
-                            pgb.Transform = matrix;
-                            g.FillPie(pgb, 0, h - blurOffset * 2, blurOffset * 2, blurOffset * 2, 90, 90);
-                        }
+                        // left-Bottom
+                        matrix.Reset();
+                        matrix.Translate(0, h - blurOffset * 2);
+                        pgb.Transform = matrix;
+                        g.FillPie(pgb, 0, h - blurOffset * 2, blurOffset * 2, blurOffset * 2, 90, 90);
                     }
                 }
             }
@@ -356,7 +327,7 @@ namespace Krypton.Toolkit
     /// </summary>
     internal static class FlashWindowExListener
     {
-        private static readonly Dictionary<IntPtr, Form> _forms = new Dictionary<IntPtr, Form>();
+        private static readonly Dictionary<IntPtr, Form> _forms = new();
         private static readonly IntPtr _hHook;
         // Keep the HookProc delegate alive manually, such as using a class member as shown below,
         // otherwise the garbage collector will clean up the hook delegate eventually,

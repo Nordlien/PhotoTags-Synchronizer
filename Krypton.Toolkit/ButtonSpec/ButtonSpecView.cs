@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -148,18 +141,12 @@ namespace Krypton.Toolkit
         /// Requests a repaint and optional layout be performed.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        public void PerformNeedPaint(bool needLayout)
-        {
-            Manager.PerformNeedPaint(this, needLayout);
-        }
+        public void PerformNeedPaint(bool needLayout) => Manager.PerformNeedPaint(this, needLayout);
 
         /// <summary>
         /// Update the button style to reflect new button style setting.
         /// </summary>
-        public void UpdateButtonStyle()
-        {
-            _palette.SetStyles(ButtonSpec.GetStyle(_redirector));
-        }
+        public void UpdateButtonStyle() => _palette.SetStyles(ButtonSpec.GetStyle(_redirector));
 
         /// <summary>
         /// Update view button to reflect new button visible setting.
@@ -312,11 +299,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnFinishDelegate(object sender, EventArgs e)
-        {
+        protected virtual void OnFinishDelegate(object sender, EventArgs e) =>
             // Ask the button to remove the fixed pressed appearance
             _controller.RemoveFixed();
-        }
+
         #endregion
 
         #region IContentValues
@@ -325,42 +311,35 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state)
-        {
-            // Get value from button spec passing inheritence redirector
-            return ButtonSpec.GetImage(_redirector, state);
-        }
+        public Image GetImage(PaletteState state) =>
+            // Get value from button spec passing inheritance redirector
+            ButtonSpec.GetImage(_redirector, state);
 
         /// <summary>
         /// Gets the content image transparent color.
         /// </summary>
         /// <param name="state">The state for which the image color is needed.</param>
         /// <returns>Color value.</returns>
-        public Color GetImageTransparentColor(PaletteState state)
-        {
-            // Get value from button spec passing inheritence redirector
-            return ButtonSpec.GetImageTransparentColor(_redirector);
-        }
+        public Color GetImageTransparentColor(PaletteState state) =>
+            // Get value from button spec passing inheritance redirector
+            ButtonSpec.GetImageTransparentColor(_redirector);
 
         /// <summary>
         /// Gets the content short text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetShortText()
-        {
-            // Get value from button spec passing inheritence redirector
-            return ButtonSpec.GetShortText(_redirector);
-        }
+        public string GetShortText() =>
+            // Get value from button spec passing inheritance redirector
+            ButtonSpec.GetShortText(_redirector);
 
         /// <summary>
         /// Gets the content long text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetLongText()
-        {
-            // Get value from button spec passing inheritence redirector
-            return ButtonSpec.GetLongText(_redirector);
-        }
+        public string GetLongText() =>
+            // Get value from button spec passing inheritance redirector
+            ButtonSpec.GetLongText(_redirector);
+
         #endregion
 
         #region Implementation
@@ -429,10 +408,7 @@ namespace Krypton.Toolkit
             OnFinishDelegate(sender, e);
         }
 
-        private void OnNeedPaint(object sender, NeedLayoutEventArgs e)
-        {
-            PerformNeedPaint(e.NeedLayout);
-        }
+        private void OnNeedPaint(object sender, NeedLayoutEventArgs e) => PerformNeedPaint(e.NeedLayout);
 
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {

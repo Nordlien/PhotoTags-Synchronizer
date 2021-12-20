@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
 // ReSharper disable MemberCanBeProtected.Global
 // ReSharper disable MemberCanBeInternal
 // ReSharper disable MemberCanBePrivate.Global
@@ -78,7 +74,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Behavior")]
         [Description("Should the button be shown.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(true)]
         public bool Visible
         {
@@ -89,7 +85,7 @@ namespace Krypton.Toolkit
                 if (_visible != value)
                 {
                     _visible = value;
-                    OnButtonSpecPropertyChanged(@"Visible");
+                    OnButtonSpecPropertyChanged(nameof(Visible));
                 }
             }
         }
@@ -110,7 +106,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Behavior")]
         [Description("Defines the button enabled state.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(ButtonEnabled), "Container")]
         public ButtonEnabled Enabled
         {
@@ -121,18 +117,18 @@ namespace Krypton.Toolkit
                 if (_enabled != value)
                 {
                     _enabled = value;
-                    OnButtonSpecPropertyChanged(@"Enabled");
+                    OnButtonSpecPropertyChanged(nameof(Enabled));
                 }
             }
         }
 
+        private bool ShouldSerializeEnabled() => Enabled != ButtonEnabled.Container;
+
         /// <summary>
         /// Resets the Enabled property to its default value.
         /// </summary>
-        public void ResetEnabled()
-        {
-            Enabled = ButtonEnabled.Container;
-        }
+        private void ResetEnabled() => Enabled = ButtonEnabled.Container;
+
         #endregion
 
         #region Checked
@@ -142,7 +138,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Behavior")]
         [Description("Defines if the button is checked or capable of being checked.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(ButtonCheckState), "NotCheckButton")]
         public ButtonCheckState Checked
         {
@@ -153,23 +149,18 @@ namespace Krypton.Toolkit
                 if (_checked != value)
                 {
                     _checked = value;
-                    OnButtonSpecPropertyChanged(@"Checked");
+                    OnButtonSpecPropertyChanged(nameof(Checked));
                 }
             }
         }
 
-        private bool ShouldSerializeChecked()
-        {
-            return (Checked != ButtonCheckState.NotCheckButton);
-        }
+        private bool ShouldSerializeChecked() => (Checked != ButtonCheckState.NotCheckButton);
 
         /// <summary>
         /// Resets the Checked property to its default value.
         /// </summary>
-        public void ResetChecked()
-        {
-            Checked = ButtonCheckState.NotCheckButton;
-        }
+        public void ResetChecked() => Checked = ButtonCheckState.NotCheckButton;
+
         #endregion
 
         #region KryptonCommand
@@ -178,7 +169,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Behavior")]
         [Description("Command associated with the button.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(null)]
         public override KryptonCommand KryptonCommand
         {
@@ -213,7 +204,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Behavior")]
         [Description("Defines the type of button specification.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(PaletteButtonSpecStyle), "Generic")]
         public PaletteButtonSpecStyle Type
         {
@@ -224,18 +215,18 @@ namespace Krypton.Toolkit
                 if (ProtectedType != value)
                 {
                     ProtectedType = value;
-                    OnButtonSpecPropertyChanged(@"Type");
+                    OnButtonSpecPropertyChanged(nameof(Type));
                 }
             }
         }
 
+        private bool ShouldSerializeType() => Type != PaletteButtonSpecStyle.Generic;
+
         /// <summary>
         /// Resets the Type property to its default value.
         /// </summary>
-        public void ResetType()
-        {
-            Type = PaletteButtonSpecStyle.Generic;
-        }
+        private void ResetType() => Type = PaletteButtonSpecStyle.Generic;
+
         #endregion
 
         #region CopyFrom
@@ -261,30 +252,22 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button visibility.</returns>
-        public override bool GetVisible(IPalette palette)
-        {
-            return Visible;
-        }
+        public override bool GetVisible(IPalette palette) => Visible;
 
         /// <summary>
         /// Gets the button enabled state.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button enabled state.</returns>
-        public override ButtonEnabled GetEnabled(IPalette palette)
-        {
-            return Enabled;
-        }
+        public override ButtonEnabled GetEnabled(IPalette palette) => Enabled;
 
         /// <summary>
         /// Gets the button checked state.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button checked state.</returns>
-        public override ButtonCheckState GetChecked(IPalette palette)
-        {
-            return Checked;
-        }
+        public override ButtonCheckState GetChecked(IPalette palette) => Checked;
+
         #endregion
 
         #region Protected

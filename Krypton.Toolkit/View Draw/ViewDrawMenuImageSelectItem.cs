@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -70,11 +64,10 @@ namespace Krypton.Toolkit
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawMenuImageSelectItem:" + Id;
-        }
+            "ViewDrawMenuImageSelectItem:" + Id;
+
         #endregion
 
         #region Track
@@ -139,15 +132,12 @@ namespace Krypton.Toolkit
             PaletteState tempState = ElementState;
             if (_imageSelect.TrackingIndex == _imageIndex)
             {
-                switch (tempState)
+                ElementState = tempState switch
                 {
-                    case PaletteState.Normal:
-                        ElementState = PaletteState.Tracking;
-                        break;
-                    case PaletteState.CheckedNormal:
-                        ElementState = PaletteState.CheckedTracking;
-                        break;
-                }
+                    PaletteState.Normal => PaletteState.Tracking,
+                    PaletteState.CheckedNormal => PaletteState.CheckedTracking,
+                    _ => ElementState
+                };
             }
 
             // Let base class draw using the temp state, then put back to original
@@ -162,43 +152,25 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public virtual Image GetImage(PaletteState state)
-        {
-            if ((_imageList != null) && (_imageIndex >= 0))
-            {
-                return _imageList.Images[_imageIndex];
-            }
-            else
-            {
-                return null;
-            }
-        }
+        public virtual Image GetImage(PaletteState state) => (_imageList != null) && (_imageIndex >= 0) ? _imageList.Images[_imageIndex] : null;
 
         /// <summary>
         /// Gets the image color that should be transparent.
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Color value.</returns>
-        public Color GetImageTransparentColor(PaletteState state)
-        {
-            return Color.Empty;
-        }
+        public Color GetImageTransparentColor(PaletteState state) => Color.Empty;
 
         /// <summary>
         /// Gets the content short text.
         /// </summary>
-        public string GetShortText()
-        {
-            return string.Empty;
-        }
+        public string GetShortText() => string.Empty;
 
         /// <summary>
         /// Gets the content long text.
         /// </summary>
-        public string GetLongText()
-        {
-            return string.Empty;
-        }
+        public string GetLongText() => string.Empty;
+
         #endregion
 
         #region Private
@@ -217,7 +189,7 @@ namespace Krypton.Toolkit
                 if (_layout.CanCloseMenu)
                 {
                     // Ask the original context menu definition, if we can close
-                    CancelEventArgs cea = new CancelEventArgs();
+                    CancelEventArgs cea = new();
                     _layout.Closing(cea);
 
                     if (!cea.Cancel)

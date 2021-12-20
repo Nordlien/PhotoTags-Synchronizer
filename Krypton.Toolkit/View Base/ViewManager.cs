@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -87,6 +80,7 @@ namespace Krypton.Toolkit
         {
             // Dispose of the associated element hierarchy
             _root?.Dispose();
+            GC.SuppressFinalize(this);
         }
         #endregion
 
@@ -110,7 +104,7 @@ namespace Krypton.Toolkit
         public ViewBase Root
         {
             [DebuggerStepThrough]
-            get { return _root; }
+            get => _root;
 
             set
             {
@@ -182,14 +176,12 @@ namespace Krypton.Toolkit
             if (!Control.IsDisposed)
             {
                 // Create a layout context for calculating size and positioning
-                using (ViewLayoutContext context = new ViewLayoutContext(this,
-                                                                         Control,
-                                                                         AlignControl,
-                                                                         renderer,
-                                                                         proposedSize))
-                {
-                    retSize = Root.GetPreferredSize(context);
-                }
+                using ViewLayoutContext context = new(this,
+                    Control,
+                    AlignControl,
+                    renderer,
+                    proposedSize);
+                retSize = Root.GetPreferredSize(context);
             }
 
             if (OutputDebug)
@@ -225,14 +217,12 @@ namespace Krypton.Toolkit
             }
 
             // Create a layout context for calculating size and positioning
-            using (ViewContext context = new ViewContext(this,
-                                                         Control,
-                                                         AlignControl,
-                                                          renderer))
-            {
-                // Ask the view to perform operation
-                return Root.EvalTransparentPaint(context);
-            }
+            using ViewContext context = new(this,
+                Control,
+                AlignControl,
+                renderer);
+            // Ask the view to perform operation
+            return Root.EvalTransparentPaint(context);
         }
         #endregion
 
@@ -309,13 +299,11 @@ namespace Krypton.Toolkit
             if (!Control.IsDisposed)
             {
                 // Create a layout context for calculating size and positioning
-                using (ViewLayoutContext context = new ViewLayoutContext(this,
-                                                                         Control,
-                                                                         AlignControl,
-                                                                         renderer))
-                {
-                    Layout(context);
-                }
+                using ViewLayoutContext context = new(this,
+                    Control,
+                    AlignControl,
+                    renderer);
+                Layout(context);
             }
         }
 
@@ -401,15 +389,13 @@ namespace Krypton.Toolkit
             if (!Control.IsDisposed)
             {
                 // Create a render context for drawing the view
-                using (RenderContext context = new RenderContext(this,
-                                                                 Control,
-                                                                 AlignControl,
-                                                                 e.Graphics,
-                                                                 e.ClipRectangle,
-                                                                 renderer))
-                {
-                    Paint(context);
-                }
+                using RenderContext context = new(this,
+                    Control,
+                    AlignControl,
+                    e.Graphics,
+                    e.ClipRectangle,
+                    renderer);
+                Paint(context);
             }
         }
 
@@ -476,7 +462,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(e));
             }
 
-            Point pt = new Point(e.X, e.Y);
+            Point pt = new(e.X, e.Y);
 
             // Set the correct active view from the point
             UpdateViewFromPoint(Control, pt);
@@ -501,7 +487,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(e));
             }
 
-            Point pt = new Point(e.X, e.Y);
+            Point pt = new(e.X, e.Y);
 
             // Set the correct active view from the point
             UpdateViewFromPoint(Control, pt);
@@ -532,7 +518,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(e));
             }
 
-            Point pt = new Point(e.X, e.Y);
+            Point pt = new(e.X, e.Y);
 
             // Set the correct active view from the point
             UpdateViewFromPoint(Control, pt);
@@ -591,19 +577,14 @@ namespace Krypton.Toolkit
         /// Raises the MouseDownProcessed event.
         /// </summary>
         /// <param name="e">A MouseEventArgs containing the event data.</param>
-        public void PerformMouseDownProcessed(MouseEventArgs e)
-        {
-            MouseDownProcessed?.Invoke(this, e);
-        }
+        public void PerformMouseDownProcessed(MouseEventArgs e) => MouseDownProcessed?.Invoke(this, e);
 
         /// <summary>
         /// Raises the MouseUpProcessed event.
         /// </summary>
         /// <param name="e">A MouseEventArgs containing the event data.</param>
-        public void PerformMouseUpProcessed(MouseEventArgs e)
-        {
-            MouseUpProcessed?.Invoke(this, e);
-        }
+        public void PerformMouseUpProcessed(MouseEventArgs e) => MouseUpProcessed?.Invoke(this, e);
+
         #endregion
 
         #region Key

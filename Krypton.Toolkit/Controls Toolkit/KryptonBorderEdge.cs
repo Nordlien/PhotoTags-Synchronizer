@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -26,7 +20,7 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonBorderEdge), "ToolboxBitmaps.KryptonBorderEdge.bmp")]
     [DefaultEvent("Paint")]
     [DefaultProperty("Orientation")]
-    [Designer(typeof(KryptonBorderEdgeDesigner))]
+    [Designer("Krypton.Toolkit.KryptonBorderEdgeDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Displays a vertical or horizontal border edge.")]
     public class KryptonBorderEdge : VisualControlBase
@@ -211,10 +205,7 @@ namespace Krypton.Toolkit
             BorderStyle = PaletteBorderStyle.ControlClient;
         }
 
-        private bool ShouldSerializeBorderStyle()
-        {
-            return (BorderStyle != PaletteBorderStyle.ControlClient);
-        }
+        private bool ShouldSerializeBorderStyle() => (BorderStyle != PaletteBorderStyle.ControlClient);
 
         /// <summary>
         /// Gets and sets the orientation of the border edge used to determine sizing.
@@ -244,10 +235,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBorderEdgeRedirect StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled border edge appearance.
@@ -257,10 +245,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBorderEdge StateDisabled { get; }
 
-        private bool ShouldSerializeStateDisabled()
-        {
-            return !StateDisabled.IsDefault;
-        }
+        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
         /// <summary>
         /// Gets access to the normal border edge appearance.
@@ -270,10 +255,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBorderEdge StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
         /// <summary>
         /// Get the preferred size of the control based on a proposed size.
@@ -316,7 +298,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new Size(50, 50);
+        protected override Size DefaultSize => new(50, 50);
 
         /// <summary>
         /// Raises the EnabledChanged event.

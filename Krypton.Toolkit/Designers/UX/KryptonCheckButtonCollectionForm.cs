@@ -2,25 +2,18 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
-    internal partial class KryptonCheckButtonCollectionForm : Form
+    internal partial class KryptonCheckButtonCollectionForm : KryptonForm
     {
         #region Type Definitions
         private class ListEntry
@@ -44,10 +37,8 @@ namespace Krypton.Toolkit
             /// Gets a string representation of the encapsulated check button.
             /// </summary>
             /// <returns>String instance.</returns>
-            public override string ToString()
-            {
-                return CheckButton.Site.Name + "  (Text: " + CheckButton.Text + ")";
-            }
+            public override string ToString() => CheckButton.Site.Name + "  (Text: " + CheckButton.Text + ")";
+
             #endregion
 
             #region Public

@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -59,38 +55,27 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state)
-        {
-            return _buttonSpec.ToolTipImage;
-        }
+        public Image GetImage(PaletteState state) => _buttonSpec.ToolTipImage;
 
         /// <summary>
         /// Gets the image color that should be transparent.
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Color value.</returns>
-        public Color GetImageTransparentColor(PaletteState state)
-        {
-            return _buttonSpec.ToolTipImageTransparentColor;
-        }
+        public Color GetImageTransparentColor(PaletteState state) => _buttonSpec.ToolTipImageTransparentColor;
 
         /// <summary>
         /// Gets the content short text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetShortText()
-        {
-            return _buttonSpec.GetToolTipTitle(_palette);
-        }
+        public string GetShortText() => _buttonSpec.GetToolTipTitle(_palette);
 
         /// <summary>
         /// Gets the content long text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetLongText()
-        {
-            return _buttonSpec.ToolTipBody;
-        }
+        public string GetLongText() => _buttonSpec.ToolTipBody;
+
         #endregion
     }
 }

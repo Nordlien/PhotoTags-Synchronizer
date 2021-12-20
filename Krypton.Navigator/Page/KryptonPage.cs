@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using Krypton.Toolkit;
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Drawing.Design;
-using System.Windows.Forms;
 
 namespace Krypton.Navigator
 {
@@ -28,7 +20,7 @@ namespace Krypton.Navigator
     [ToolboxBitmap(typeof(KryptonPage), "ToolboxBitmaps.KryptonPage.bmp")]
     [DefaultEvent("Click")]
     [DefaultProperty("Text")]
-    [Designer(typeof(KryptonPageDesigner))]
+    [Designer(@"Krypton.Navigator.KryptonPageDesigner, Krypton.Navigator")]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     public class KryptonPage : VisualPanel
@@ -60,14 +52,13 @@ namespace Krypton.Navigator
         private string _toolTipTitle;
         private string _toolTipBody;
         private string _uniqueName;
-        private Image _imageSmall;
-        private Image _imageMedium;
-        private Image _imageLarge;
-        private Image _toolTipImage;
+        private Bitmap _imageSmall;
+        private Bitmap _imageMedium;
+        private Bitmap _imageLarge;
+        private Bitmap _toolTipImage;
         private Color _toolTipImageTransparentColor;
         private bool _setVisible;
         private LabelStyle _toolTipStyle;
-        private KryptonContextMenu _kcm;
         private Size _autoHiddenSlideSize;
         #endregion
 
@@ -168,7 +159,7 @@ namespace Krypton.Navigator
         /// <param name="text">Initial text.</param>
         /// <param name="imageSmall">Initial small image.</param>
         /// <param name="uniqueName">Initial unique name.</param>
-        public KryptonPage(string text, Image imageSmall, string uniqueName)
+        public KryptonPage(string text, Bitmap imageSmall, string uniqueName)
         {
             // Default properties
             Text = text;
@@ -253,10 +244,8 @@ namespace Krypton.Navigator
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
-            return "KryptonPage " + Text;
-        }
+        public override string ToString() => "KryptonPage " + Text;
+
         #endregion
 
         #region Public
@@ -268,9 +257,9 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new PaletteMode PaletteMode
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return base.PaletteMode; }
-            set { throw new OperationCanceledException("Cannot change PaletteMode property"); }
+            [DebuggerStepThrough]
+            get => base.PaletteMode;
+            set => throw new OperationCanceledException("Cannot change PaletteMode property");
         }
 
         /// <summary>
@@ -281,9 +270,9 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new IPalette Palette
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return base.Palette; }
-            set { throw new OperationCanceledException("Cannot change PaletteMode property"); }
+            [DebuggerStepThrough]
+            get => base.Palette;
+            set => throw new OperationCanceledException("Cannot change PaletteMode property");
         }
 
         /// <summary>
@@ -302,14 +291,11 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteNavigatorRedirect StateCommon
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return _stateCommon; }
+            [DebuggerStepThrough]
+            get => _stateCommon;
         }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled page appearance entries.
@@ -319,14 +305,11 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteNavigator StateDisabled
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return _stateDisabled; }
+            [DebuggerStepThrough]
+            get => _stateDisabled;
         }
 
-        private bool ShouldSerializeStateDisabled()
-        {
-            return !StateDisabled.IsDefault;
-        }
+        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
         /// <summary>
         /// Gets access to the normal page appearance entries.
@@ -336,14 +319,11 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteNavigator StateNormal
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return _stateNormal; }
+            [DebuggerStepThrough]
+            get => _stateNormal;
         }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
         /// <summary>
         /// Gets access to the tracking page appearance entries.
@@ -353,14 +333,11 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteNavigatorOtherEx StateTracking
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get;
         }
 
-        private bool ShouldSerializeStateTracking()
-        {
-            return !StateTracking.IsDefault;
-        }
+        private bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
 
         /// <summary>
         /// Gets access to the pressed page appearance entries.
@@ -370,14 +347,11 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteNavigatorOtherEx StatePressed
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get;
         }
 
-        private bool ShouldSerializeStatePressed()
-        {
-            return !StatePressed.IsDefault;
-        }
+        private bool ShouldSerializeStatePressed() => !StatePressed.IsDefault;
 
         /// <summary>
         /// Gets access to the selected page appearance entries.
@@ -387,14 +361,11 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteNavigatorOther StateSelected
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get;
         }
 
-        private bool ShouldSerializeStateSelected()
-        {
-            return !StateSelected.IsDefault;
-        }
+        private bool ShouldSerializeStateSelected() => !StateSelected.IsDefault;
 
         /// <summary>
         /// Gets access to the focus page appearance entries.
@@ -404,14 +375,11 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteNavigatorOtherRedirect OverrideFocus
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get;
         }
 
-        private bool ShouldSerializeOverrideFocus()
-        {
-            return !OverrideFocus.IsDefault;
-        }
+        private bool ShouldSerializeOverrideFocus() => !OverrideFocus.IsDefault;
 
         /// <summary>
         /// Gets and sets the page text.
@@ -424,15 +392,15 @@ namespace Krypton.Navigator
         [EditorBrowsable(EditorBrowsableState.Always)]
         public override string Text
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return base.Text; }
+            [DebuggerStepThrough]
+            get => base.Text;
 
             set
             {
                 if (base.Text != value)
                 {
                     base.Text = value;
-                    OnAppearancePropertyChanged("Text");
+                    OnAppearancePropertyChanged(nameof(Text));
                 }
             }
         }
@@ -447,15 +415,15 @@ namespace Krypton.Navigator
         [DefaultValue("Page Title")]
         public virtual string TextTitle
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return _textTitle; }
+            [DebuggerStepThrough]
+            get => _textTitle;
 
             set
             {
                 if (_textTitle != value)
                 {
                     _textTitle = value;
-                    OnAppearancePropertyChanged("TextTitle");
+                    OnAppearancePropertyChanged(nameof(TextTitle));
                 }
             }
         }
@@ -478,15 +446,15 @@ namespace Krypton.Navigator
         [DefaultValue("Page Description")]
         public virtual string TextDescription
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return _textDescription; }
+            [DebuggerStepThrough]
+            get => _textDescription;
 
             set
             {
                 if (_textDescription != value)
                 {
                     _textDescription = value;
-                    OnAppearancePropertyChanged("TextDescription");
+                    OnAppearancePropertyChanged(nameof(TextDescription));
                 }
             }
         }
@@ -494,10 +462,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the TextDescription property to its default value.
         /// </summary>
-        public void ResetTextDescription()
-        {
-            TextDescription = null;
-        }
+        public void ResetTextDescription() => TextDescription = null;
 
         /// <summary>
         /// Gets and sets the small image for the page.
@@ -506,17 +471,17 @@ namespace Krypton.Navigator
         [Description("The small image that represents the page.")]
         [Localizable(true)]
         [DefaultValue(null)]
-        public virtual Image ImageSmall
+        public virtual Bitmap ImageSmall
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return _imageSmall; }
+            [DebuggerStepThrough]
+            get => _imageSmall;
 
             set
             {
                 if (_imageSmall != value)
                 {
                     _imageSmall = value;
-                    OnAppearancePropertyChanged("ImageSmall");
+                    OnAppearancePropertyChanged(nameof(ImageSmall));
                 }
             }
         }
@@ -536,17 +501,17 @@ namespace Krypton.Navigator
         [Description("The medium image that represents the page.")]
         [Localizable(true)]
         [DefaultValue(null)]
-        public virtual Image ImageMedium
+        public virtual Bitmap ImageMedium
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return _imageMedium; }
+            [DebuggerStepThrough]
+            get => _imageMedium;
 
             set
             {
                 if (_imageMedium != value)
                 {
                     _imageMedium = value;
-                    OnAppearancePropertyChanged("ImageMedium");
+                    OnAppearancePropertyChanged(nameof(ImageMedium));
                 }
             }
         }
@@ -566,17 +531,17 @@ namespace Krypton.Navigator
         [Description("The large image that represents the page.")]
         [Localizable(true)]
         [DefaultValue(null)]
-        public virtual Image ImageLarge
+        public virtual Bitmap ImageLarge
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return _imageLarge; }
+            [DebuggerStepThrough]
+            get => _imageLarge;
 
             set
             {
                 if (_imageLarge != value)
                 {
                     _imageLarge = value;
-                    OnAppearancePropertyChanged("ImageLarge");
+                    OnAppearancePropertyChanged(nameof(ImageLarge));
                 }
             }
         }
@@ -596,7 +561,7 @@ namespace Krypton.Navigator
         [Category("Appearance")]
         [Description("Page tooltip image.")]
         [DefaultValue(null)]
-        public virtual Image ToolTipImage
+        public virtual Bitmap ToolTipImage
         {
             get => _toolTipImage;
 
@@ -605,15 +570,12 @@ namespace Krypton.Navigator
                 if (_toolTipImage != value)
                 {
                     _toolTipImage = value;
-                    OnAppearancePropertyChanged("ToolTipImage");
+                    OnAppearancePropertyChanged(nameof(ToolTipImage));
                 }
             }
         }
 
-        private bool ShouldSerializeToolTipImage()
-        {
-            return ToolTipImage != null;
-        }
+        private bool ShouldSerializeToolTipImage() => ToolTipImage != null;
 
         /// <summary>
         /// Resets the ToolTipImage property to its default value.
@@ -629,7 +591,7 @@ namespace Krypton.Navigator
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Page tooltip image transparent color.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public virtual Color ToolTipImageTransparentColor
         {
             get => _toolTipImageTransparentColor;
@@ -639,23 +601,17 @@ namespace Krypton.Navigator
                 if (_toolTipImageTransparentColor != value)
                 {
                     _toolTipImageTransparentColor = value;
-                    OnAppearancePropertyChanged("ToolTipImageTransparentColor");
+                    OnAppearancePropertyChanged(nameof(ToolTipImageTransparentColor));
                 }
             }
         }
 
-        private bool ShouldSerializeToolTipImageTransparentColor()
-        {
-            return ToolTipImageTransparentColor != Color.Empty;
-        }
+        private bool ShouldSerializeToolTipImageTransparentColor() => ToolTipImageTransparentColor != Color.Empty;
 
         /// <summary>
         /// Resets the ToolTipImageTransparentColor property to its default value.
         /// </summary>
-        public void ResetToolTipImageTransparentColor()
-        {
-            ToolTipImageTransparentColor = Color.Empty;
-        }
+        public void ResetToolTipImageTransparentColor() => ToolTipImageTransparentColor = Color.Empty;
 
         /// <summary>
         /// Gets and sets the page tooltip title text.
@@ -663,7 +619,7 @@ namespace Krypton.Navigator
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Page tooltip title text.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         public virtual string ToolTipTitle
         {
@@ -674,23 +630,18 @@ namespace Krypton.Navigator
                 if (_toolTipTitle != value)
                 {
                     _toolTipTitle = value;
-                    OnAppearancePropertyChanged("ToolTipTitle");
+                    OnAppearancePropertyChanged(nameof(ToolTipTitle));
                 }
             }
         }
 
-        private bool ShouldSerializeToolTipTitle()
-        {
-            return ToolTipTitle != string.Empty;
-        }
+        private bool ShouldSerializeToolTipTitle() => ToolTipTitle != string.Empty;
 
         /// <summary>
         /// Resets the ToolTipTitle property to its default value.
         /// </summary>
         public void ResetToolTipTitle()
-        {
-            ToolTipTitle = string.Empty;
-        }
+        => ToolTipTitle = string.Empty;
 
         /// <summary>
         /// Gets and sets the page tooltip body text.
@@ -698,7 +649,7 @@ namespace Krypton.Navigator
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Page tooltip body text.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         public virtual string ToolTipBody
         {
@@ -709,23 +660,17 @@ namespace Krypton.Navigator
                 if (_toolTipBody != value)
                 {
                     _toolTipBody = value;
-                    OnAppearancePropertyChanged("ToolTipBody");
+                    OnAppearancePropertyChanged(nameof(ToolTipBody));
                 }
             }
         }
 
-        private bool ShouldSerializeToolTipBody()
-        {
-            return ToolTipBody != string.Empty;
-        }
+        private bool ShouldSerializeToolTipBody() => ToolTipBody != string.Empty;
 
         /// <summary>
         /// Resets the ToolTipBody property to its default value.
         /// </summary>
-        public void ResetToolTipBody()
-        {
-            ToolTipBody = string.Empty;
-        }
+        public void ResetToolTipBody() => ToolTipBody = string.Empty;
 
         /// <summary>
         /// Gets and sets the tooltip label style.
@@ -742,52 +687,17 @@ namespace Krypton.Navigator
                 if (_toolTipStyle != value)
                 {
                     _toolTipStyle = value;
-                    OnAppearancePropertyChanged("ToolTipStyle");
+                    OnAppearancePropertyChanged(nameof(ToolTipStyle));
                 }
             }
         }
 
-        private bool ShouldSerializeToolTipStyle()
-        {
-            return ToolTipStyle != LabelStyle.ToolTip;
-        }
+        private bool ShouldSerializeToolTipStyle() => ToolTipStyle != LabelStyle.ToolTip;
 
         /// <summary>
         /// Resets the ToolTipStyle property to its default value.
         /// </summary>
-        public void ResetToolTipStyle()
-        {
-            ToolTipStyle = LabelStyle.ToolTip;
-        }
-
-        /// <summary>
-        /// Gets and sets the KryptonContextMenu to show when right clicked.
-        /// </summary>
-        [Category("Behavior")]
-        [Description("The shortcut menu to show when the user right-clicks the page.")]
-        [DefaultValue(null)]
-        public virtual KryptonContextMenu KryptonContextMenu
-        {
-            get => _kcm;
-
-            set
-            {
-                if (_kcm != value)
-                {
-                    if (_kcm != null)
-                    {
-                        _kcm.Disposed += OnKryptonContextMenuDisposed;
-                    }
-
-                    _kcm = value;
-
-                    if (_kcm != null)
-                    {
-                        _kcm.Disposed -= OnKryptonContextMenuDisposed;
-                    }
-                }
-            }
-        }
+        public void ResetToolTipStyle() => ToolTipStyle = LabelStyle.ToolTip;
 
         /// <summary>
         /// Gets and sets the unique name of the page.
@@ -796,20 +706,17 @@ namespace Krypton.Navigator
         [Description("The unique name of the page.")]
         public virtual string UniqueName
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return _uniqueName; }
+            [DebuggerStepThrough]
+            get => _uniqueName;
 
-            [System.Diagnostics.DebuggerStepThrough]
-            set { _uniqueName = value; }
+            [DebuggerStepThrough]
+            set => _uniqueName = value;
         }
 
         /// <summary>
         /// Resets the UniqueName property to its default value.
         /// </summary>
-        public void ResetUniqueName()
-        {
-            UniqueName = CommonHelper.UniqueString;
-        }
+        public void ResetUniqueName() => UniqueName = CommonHelper.UniqueString;
 
         /// <summary>
         /// Fix the control to a particular palette state.
@@ -1178,8 +1085,8 @@ namespace Krypton.Navigator
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public Control KryptonParentContainer
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return ViewManager.AlignControl; }
+            [DebuggerStepThrough]
+            get => ViewManager.AlignControl;
         }
 
         /// <summary>
@@ -1235,10 +1142,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="flags">Flags to test.</param>
         /// <returns>True if all provided flags are defined as true; otherwise false.</returns>
-        public virtual bool AreFlagsSet(KryptonPageFlags flags)
-        {
-            return _flags.AreFlagsSet((int)flags);
-        }
+        public virtual bool AreFlagsSet(KryptonPageFlags flags) => _flags.AreFlagsSet((int)flags);
 
         /// <summary>
         /// Gets the last value set to the Visible property.
@@ -1297,7 +1201,7 @@ namespace Krypton.Navigator
                 if (KryptonContextMenu != null)
                 {
                     // Extract the screen mouse position (if might not actually be provided)
-                    Point mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                    Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                     // If keyboard activated, the menu position is centered
                     mousePt = ((int)((long)m.LParam)) == -1 ? new Point(Width / 2, Height / 2) : PointToClient(mousePt);
@@ -1421,7 +1325,7 @@ namespace Krypton.Navigator
         {
             if (!Enabled)
             {
-                OnAppearancePropertyChanged("Palette");
+                OnAppearancePropertyChanged(nameof(Palette));
                 OnNeedPaint(this, e);
             }
         }
@@ -1435,7 +1339,7 @@ namespace Krypton.Navigator
         {
             if (Enabled)
             {
-                OnAppearancePropertyChanged("Palette");
+                OnAppearancePropertyChanged(nameof(Palette));
                 OnNeedPaint(this, e);
             }
         }

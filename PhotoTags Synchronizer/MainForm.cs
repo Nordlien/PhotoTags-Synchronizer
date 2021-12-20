@@ -137,7 +137,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message, "Was not able to load VLC player", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                KryptonMessageBox.Show(ex.Message, "Was not able to load VLC player", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
                 return;
             }
             #endregion
@@ -345,7 +345,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message, "Was not able to start the database...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                KryptonMessageBox.Show(ex.Message, "Was not able to start the database...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
                 Close();
                 return;
             }
@@ -709,7 +709,7 @@ namespace PhotoTagsSynchronizer
                     (IsAnyDataUnsaved() ? "You have unsaved changes in DataGridView\r\n" : "") +
                     "Are you sure you will close application?",
                     "Press Ok will quit application and changed will get lost.\r\n" +
-                    "Press Cancel and return back to application.", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, true) == DialogResult.Cancel)
+                    "Press Cancel and return back to application.", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, showCtrlCopy: true) == DialogResult.Cancel)
                 {
                     e.Cancel = true;
                     return;
@@ -733,7 +733,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    KryptonMessageBox.Show(ex.Message, "Can't save settings, Metadata Group Priorities", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                    KryptonMessageBox.Show(ex.Message, "Can't save settings, Metadata Group Priorities", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
                 }
 
                 try
@@ -797,7 +797,7 @@ namespace PhotoTagsSynchronizer
                     }
                     catch (Exception ex)
                     {
-                        KryptonMessageBox.Show(ex.Message, "Can't save settings", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                        KryptonMessageBox.Show(ex.Message, "Can't save settings", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
                     }
                     //---------------------------------------------------------
 
@@ -867,7 +867,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    KryptonMessageBox.Show(ex.Message, "Problems during close all threads and other process during closing application", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                    KryptonMessageBox.Show(ex.Message, "Problems during close all threads and other process during closing application", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
                 }
             }
             isClosingProcesAlreadyStarted = false;
@@ -923,14 +923,14 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ee)
                 {
-                    KryptonMessageBox.Show(Application.ProductName + "\r\n\r\n" + ee.Message, "Initialize folder tree failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                    KryptonMessageBox.Show(Application.ProductName + "\r\n\r\n" + ee.Message, "Initialize folder tree failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
                 }
 
                 GlobalData.IsPopulatingFolderTree = false;
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message, "Initialize folder tree failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                KryptonMessageBox.Show(ex.Message, "Initialize folder tree failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
             #endregion
 
@@ -944,7 +944,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message, "Populate search failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                KryptonMessageBox.Show(ex.Message, "Populate search failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
             #endregion
 

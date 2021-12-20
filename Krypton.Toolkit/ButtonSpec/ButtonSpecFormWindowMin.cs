@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -38,7 +34,7 @@ namespace Krypton.Toolkit
         /// Gets the button visible value.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
-        /// <returns>Button visibiliy.</returns>
+        /// <returns>Button visibility.</returns>
         public override bool GetVisible(IPalette palette)
         {
             // We do not show if the custom chrome is combined with composition,
@@ -71,22 +67,19 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button enabled state.</returns>
-        public override ButtonEnabled GetEnabled(IPalette palette)
-        {
+        public override ButtonEnabled GetEnabled(IPalette palette) =>
             // Has the minimize buttons been turned off?
-            return !KryptonForm.MinimizeBox ? ButtonEnabled.False : ButtonEnabled.True;
-        }
+            !KryptonForm.MinimizeBox ? ButtonEnabled.False : ButtonEnabled.True;
 
         /// <summary>
         /// Gets the button checked state.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button checked state.</returns>
-        public override ButtonCheckState GetChecked(IPalette palette)
-        {
+        public override ButtonCheckState GetChecked(IPalette palette) =>
             // Close button is never shown as checked
-            return ButtonCheckState.NotCheckButton;
-        }
+            ButtonCheckState.NotCheckButton;
+
         #endregion    
 
         #region Protected Overrides

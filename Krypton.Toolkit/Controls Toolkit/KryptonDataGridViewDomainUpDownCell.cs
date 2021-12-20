@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Globalization;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -32,8 +25,8 @@ namespace Krypton.Toolkit
         private const DataGridViewContentAlignment ANY_RIGHT = DataGridViewContentAlignment.TopRight | DataGridViewContentAlignment.MiddleRight | DataGridViewContentAlignment.BottomRight;
         private const DataGridViewContentAlignment ANY_CENTER = DataGridViewContentAlignment.TopCenter | DataGridViewContentAlignment.MiddleCenter | DataGridViewContentAlignment.BottomCenter;
         private static readonly Type _defaultEditType = typeof(KryptonDataGridViewDomainUpDownEditingControl);
-        private static readonly Type _defaultValueType = typeof(String);
-        private static readonly Size _sizeLarge = new Size(10000, 10000);
+        private static readonly Type _defaultValueType = typeof(string);
+        private static readonly Size _sizeLarge = new(10000, 10000);
         #endregion
 
         #region Identity
@@ -55,11 +48,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Returns a standard textual representation of the cell.
         /// </summary>
-        public override string ToString()
-        {
-            return "DataGridViewDomainUpDownCell { ColumnIndex=" + ColumnIndex.ToString(CultureInfo.CurrentCulture) +
-                   ", RowIndex=" + RowIndex.ToString(CultureInfo.CurrentCulture) + " }";
-        }
+        public override string ToString() =>
+            "DataGridViewDomainUpDownCell { ColumnIndex=" + ColumnIndex.ToString(CultureInfo.CurrentCulture) +
+            ", RowIndex=" + RowIndex.ToString(CultureInfo.CurrentCulture) + " }";
+
         #endregion
 
         #region Public
@@ -138,7 +130,7 @@ namespace Krypton.Toolkit
                     }
                 }
 
-                if (!(initialFormattedValue is string initialFormattedValueStr))
+                if (initialFormattedValue is not string initialFormattedValueStr)
                 {
                     domainUpDown.Text = string.Empty;
                 }
@@ -221,7 +213,7 @@ namespace Krypton.Toolkit
         private void OnButtonClick(object sender, EventArgs e)
         {
             KryptonDataGridViewDomainUpDownColumn domainColumn = OwningColumn as KryptonDataGridViewDomainUpDownColumn;
-            DataGridViewButtonSpecClickEventArgs args = new DataGridViewButtonSpecClickEventArgs(domainColumn, this, (ButtonSpecAny)sender);
+            DataGridViewButtonSpecClickEventArgs args = new(domainColumn, this, (ButtonSpecAny)sender);
             domainColumn.PerfomButtonSpecClick(args);
         }
 
@@ -267,21 +259,14 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool OwnsEditingDomainUpDown(int rowIndex)
-        {
-            if ((rowIndex == -1) || (DataGridView == null))
-            {
-                return false;
-            }
+        private bool OwnsEditingDomainUpDown(int rowIndex) =>
+            (rowIndex == -1) || (DataGridView == null)
+                ? false
+                : (DataGridView.EditingControl is KryptonDataGridViewDomainUpDownEditingControl control)
+                  && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
 
-            return (DataGridView.EditingControl is KryptonDataGridViewDomainUpDownEditingControl control)
-                   && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
-        }
+        private static bool PartPainted(DataGridViewPaintParts paintParts, DataGridViewPaintParts paintPart) => (paintParts & paintPart) != 0;
 
-        private static bool PartPainted(DataGridViewPaintParts paintParts, DataGridViewPaintParts paintPart)
-        {
-            return (paintParts & paintPart) != 0;
-        }
         #endregion
 
         #region Internal
@@ -291,13 +276,9 @@ namespace Krypton.Toolkit
             {
                 return HorizontalAlignment.Right;
             }
-            else if ((align & ANY_CENTER) != 0)
-            {
-                return HorizontalAlignment.Center;
-            }
             else
             {
-                return HorizontalAlignment.Left;
+                return (align & ANY_CENTER) != 0 ? HorizontalAlignment.Center : HorizontalAlignment.Left;
             }
         }
         #endregion

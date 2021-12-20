@@ -2,19 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.ComponentModel;
-using System.Windows.Forms;
-using Krypton.Toolkit;
 
 namespace Krypton.Workspace
 {
@@ -109,7 +104,7 @@ namespace Krypton.Workspace
         /// </summary>
         [Category("Visuals")]
         [Description("Text to use for the close context menu item.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("&Close")]
         [Localizable(true)]
         public string TextClose { get; set; }
@@ -129,7 +124,7 @@ namespace Krypton.Workspace
         /// </summary>
         [Category("Visuals")]
         [Description("Text to use for the 'close all but this' context menu item.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Close &All But This")]
         [Localizable(true)]
         public string TextCloseAllButThis { get; set; }
@@ -149,7 +144,7 @@ namespace Krypton.Workspace
         /// </summary>
         [Category("Visuals")]
         [Description("Text to use for the move next context menu item.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Move &Next")]
         [Localizable(true)]
         public string TextMoveNext { get; set; }
@@ -169,7 +164,7 @@ namespace Krypton.Workspace
         /// </summary>
         [Category("Visuals")]
         [Description("Text to use for the move previous context menu item.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Move &Previous")]
         [Localizable(true)]
         public string TextMovePrevious { get; set; }
@@ -189,7 +184,7 @@ namespace Krypton.Workspace
         /// </summary>
         [Category("Visuals")]
         [Description("Text to use for the split vertical context menu item.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Split &Vertical")]
         [Localizable(true)]
         public string TextSplitVertical { get; set; }
@@ -209,7 +204,7 @@ namespace Krypton.Workspace
         /// </summary>
         [Category("Visuals")]
         [Description("Text to use for the split horizontal context menu item.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Split &Horizontal")]
         [Localizable(true)]
         public string TextSplitHorizontal { get; set; }
@@ -229,7 +224,7 @@ namespace Krypton.Workspace
         /// </summary>
         [Category("Visuals")]
         [Description("Text to use for the rebalance context menu item.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("&Rebalance")]
         [Localizable(true)]
         public string TextRebalance { get; set; }
@@ -249,7 +244,7 @@ namespace Krypton.Workspace
         /// </summary>
         [Category("Visuals")]
         [Description("Text to use for the maximize context menu item.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("&Maximize")]
         [Localizable(true)]
         public string TextMaximize { get; set; }
@@ -269,7 +264,7 @@ namespace Krypton.Workspace
         /// </summary>
         [Category("Visuals")]
         [Description("Text to use for the restore context menu item.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Res&tore")]
         [Localizable(true)]
         public string TextRestore { get; set; }
@@ -289,17 +284,14 @@ namespace Krypton.Workspace
         /// </summary>
         [Category("Visuals")]
         [Description("Shortcut for closing the current page.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Keys ShortcutClose { get; set; }
 
         /// <summary>
         /// Decide if the shortcut for closing the current page.
         /// </summary>
         /// <returns>True if value should be serialized.</returns>
-        protected bool ShouldSerializeShortcutClose()
-        {
-            return !ShortcutClose.Equals(DEFAULT_SHORTCUT_CLOSE);
-        }
+        protected bool ShouldSerializeShortcutClose() => !ShortcutClose.Equals(DEFAULT_SHORTCUT_CLOSE);
 
         /// <summary>
         /// Resets the ShortcutClose property to its default value.
@@ -316,17 +308,14 @@ namespace Krypton.Workspace
         /// </summary>
         [Category("Visuals")]
         [Description("Shortcut for 'close all but this' page.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Keys ShortcutCloseAllButThis { get; set; }
 
         /// <summary>
         /// Decide if the shortcut for 'close all but this' page.
         /// </summary>
         /// <returns>True if value should be serialized.</returns>
-        protected bool ShouldSerializeShortcutCloseAllButThis()
-        {
-            return !ShortcutCloseAllButThis.Equals(DEFAULT_SHORTCUT_CLOSE_ALL_BUT_THIS);
-        }
+        protected bool ShouldSerializeShortcutCloseAllButThis() => !ShortcutCloseAllButThis.Equals(DEFAULT_SHORTCUT_CLOSE_ALL_BUT_THIS);
 
         /// <summary>
         /// Resets the ShortcutCloseAllButThis property to its default value.
@@ -343,17 +332,14 @@ namespace Krypton.Workspace
         /// </summary>
         [Category("Visuals")]
         [Description("Shortcut for moving the current page to the next cell.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Keys ShortcutMoveNext { get; set; }
 
         /// <summary>
         /// Decide if the shortcut for moving the current page to the next cell.
         /// </summary>
         /// <returns>True if value should be serialized.</returns>
-        protected bool ShouldSerializeShortcutMoveNext()
-        {
-            return !ShortcutMoveNext.Equals(DEFAULT_SHORTCUT_MOVE_NEXT);
-        }
+        protected bool ShouldSerializeShortcutMoveNext() => !ShortcutMoveNext.Equals(DEFAULT_SHORTCUT_MOVE_NEXT);
 
         /// <summary>
         /// Resets the ShortcutMoveNext property to its default value.
@@ -370,17 +356,14 @@ namespace Krypton.Workspace
         /// </summary>
         [Category("Visuals")]
         [Description("Shortcut for moving the current page to the previous cell.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Keys ShortcutMovePrevious { get; set; }
 
         /// <summary>
         /// Decide if the shortcut for moving the current page to the previous cell.
         /// </summary>
         /// <returns>True if value should be serialized.</returns>
-        protected bool ShouldSerializeShortcutMovePrevious()
-        {
-            return !ShortcutMovePrevious.Equals(DEFAULT_SHORTCUT_MOVE_PREVIOUS);
-        }
+        protected bool ShouldSerializeShortcutMovePrevious() => !ShortcutMovePrevious.Equals(DEFAULT_SHORTCUT_MOVE_PREVIOUS);
 
         /// <summary>
         /// Resets the ShortcutMovePrevious property to its default value.
@@ -397,17 +380,14 @@ namespace Krypton.Workspace
         /// </summary>
         [Category("Visuals")]
         [Description("Shortcut for splitting the current page into a vertical aligned page.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Keys ShortcutSplitVertical { get; set; }
 
         /// <summary>
         /// Decide if the shortcut for splitting the current page into a vertical aligned page.
         /// </summary>
         /// <returns>True if value should be serialized.</returns>
-        protected bool ShouldSerializeShortcutSplitVertical()
-        {
-            return !ShortcutSplitVertical.Equals(DEFAULT_SHORTCUT_SPLIT_VERTICAL);
-        }
+        protected bool ShouldSerializeShortcutSplitVertical() => !ShortcutSplitVertical.Equals(DEFAULT_SHORTCUT_SPLIT_VERTICAL);
 
         /// <summary>
         /// Resets the ShortcutSplitVertical property to its default value.
@@ -424,17 +404,14 @@ namespace Krypton.Workspace
         /// </summary>
         [Category("Visuals")]
         [Description("Shortcut for splitting the current page into a horizontal aligned page.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Keys ShortcutSplitHorizontal { get; set; }
 
         /// <summary>
         /// Decide if the shortcut for splitting the current page into a horizontal aligned page.
         /// </summary>
         /// <returns>True if value should be serialized.</returns>
-        protected bool ShouldSerializeShortcutSplitHorizontal()
-        {
-            return !ShortcutSplitHorizontal.Equals(DEFAULT_SHORTCUT_SPLIT_HORIZONTAL);
-        }
+        protected bool ShouldSerializeShortcutSplitHorizontal() => !ShortcutSplitHorizontal.Equals(DEFAULT_SHORTCUT_SPLIT_HORIZONTAL);
 
         /// <summary>
         /// Resets the ShortcutSplitHorizontal property to its default value.
@@ -451,17 +428,14 @@ namespace Krypton.Workspace
         /// </summary>
         [Category("Visuals")]
         [Description("Shortcut for rebalancing the layout.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Keys ShortcutRebalance { get; set; }
 
         /// <summary>
         /// Decide if the shortcut for rebalancing the layout.
         /// </summary>
         /// <returns>True if value should be serialized.</returns>
-        protected bool ShouldSerializeShortcutRebalance()
-        {
-            return !ShortcutRebalance.Equals(DEFAULT_SHORTCUT_REBALANCE);
-        }
+        protected bool ShouldSerializeShortcutRebalance() => !ShortcutRebalance.Equals(DEFAULT_SHORTCUT_REBALANCE);
 
         /// <summary>
         /// Resets the ShortcutRebalance property to its default value.
@@ -478,17 +452,14 @@ namespace Krypton.Workspace
         /// </summary>
         [Category("Visuals")]
         [Description("Shortcut for maximizing/restoring the layout.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Keys ShortcutMaximizeRestore { get; set; }
 
         /// <summary>
         /// Decide if the shortcut for maximizing/restoring the layout.
         /// </summary>
         /// <returns>True if value should be serialized.</returns>
-        protected bool ShouldSerializeShortcutMaximizeRestore()
-        {
-            return !ShortcutMaximizeRestore.Equals(DEFAULT_SHORTCUT_MAXIMIZE_RESTORE);
-        }
+        protected bool ShouldSerializeShortcutMaximizeRestore() => !ShortcutMaximizeRestore.Equals(DEFAULT_SHORTCUT_MAXIMIZE_RESTORE);
 
         /// <summary>
         /// Resets the ShortcutMaximizeRestore property to its default value.
@@ -505,7 +476,7 @@ namespace Krypton.Workspace
         /// </summary>
         [Category("Visuals")]
         [Description("Determines if a workspace context menu is added on tab right clicking.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(true)]
         public bool ShowContextMenu { get; set; }
 

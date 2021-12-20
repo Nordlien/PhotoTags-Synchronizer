@@ -2,23 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Drawing.Design;
-using System.Windows.Forms;
-
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -27,7 +18,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupTextBox), "ToolboxBitmaps.KryptonRibbonGroupTextBox.bmp")]
-    [Designer(typeof(Krypton.Ribbon.KryptonRibbonGroupTextBoxDesigner))]
+    [Designer("Krypton.Ribbon.KryptonRibbonGroupTextBoxDesigner, Krypton.Ribbon")]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultEvent("TextChanged")]
@@ -243,10 +234,7 @@ namespace Krypton.Ribbon
         [Description("Shortcut key combination to set focus to the text box.")]
         public Keys ShortcutKeys { get; set; }
 
-        private bool ShouldSerializeShortcutKeys()
-        {
-            return (ShortcutKeys != Keys.None);
-        }
+        private bool ShouldSerializeShortcutKeys() => (ShortcutKeys != Keys.None);
 
         /// <summary>
         /// Resets the ShortcutKeys property to its default value.
@@ -307,7 +295,7 @@ namespace Krypton.Ribbon
                 if (value != _visible)
                 {
                     _visible = value;
-                    OnPropertyChanged("Visible");
+                    OnPropertyChanged(nameof(Visible));
                 }
             }
         }
@@ -344,7 +332,7 @@ namespace Krypton.Ribbon
                 if (_enabled != value)
                 {
                     _enabled = value;
-                    OnPropertyChanged("Enabled");
+                    OnPropertyChanged(nameof(Enabled));
                 }
             }
         }
@@ -378,7 +366,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Appearance")]
         [Description("Text associated with the control.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public string Text
         {
             get => TextBox.Text;
@@ -390,7 +378,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Appearance")]
         [Description("The lines of text in a multiline edit, as an array of String values.")]
-        [Editor("System.Windows.Forms.Design.StringArrayEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.StringArrayEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [MergableProperty(false)]
         [Localizable(true)]
@@ -594,7 +582,7 @@ namespace Krypton.Ribbon
         /// Gets or sets the StringCollection to use when the AutoCompleteSource property is set to CustomSource.
         /// </summary>
         [Description("The StringCollection to use when the AutoCompleteSource property is set to CustomSource.")]
-        [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Localizable(true)]
@@ -642,8 +630,8 @@ namespace Krypton.Ribbon
             get => TextBox.AllowButtonSpecToolTips;
             set => TextBox.AllowButtonSpecToolTips = value;
         }
-		
-		 /// <summary>
+
+        /// <summary>
         /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
         /// </summary>
         [Category("Visuals")]
@@ -813,59 +801,41 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="pt">The location from which to seek the nearest character.</param>
         /// <returns>The character at the specified location.</returns>
-        public int GetCharFromPosition(Point pt)
-        {
-            return TextBox.GetCharFromPosition(pt);
-        }
+        public int GetCharFromPosition(Point pt) => TextBox.GetCharFromPosition(pt);
 
         /// <summary>
         /// Retrieves the index of the character nearest to the specified location.
         /// </summary>
         /// <param name="pt">The location to search.</param>
         /// <returns>The zero-based character index at the specified location.</returns>
-        public int GetCharIndexFromPosition(Point pt)
-        {
-            return TextBox.GetCharIndexFromPosition(pt);
-        }
+        public int GetCharIndexFromPosition(Point pt) => TextBox.GetCharIndexFromPosition(pt);
 
         /// <summary>
         /// Retrieves the index of the first character of a given line.
         /// </summary>
         /// <param name="lineNumber">The line for which to get the index of its first character.</param>
         /// <returns>The zero-based character index in the specified line.</returns>
-        public int GetFirstCharIndexFromLine(int lineNumber)
-        {
-            return TextBox.GetFirstCharIndexFromLine(lineNumber);
-        }
+        public int GetFirstCharIndexFromLine(int lineNumber) => TextBox.GetFirstCharIndexFromLine(lineNumber);
 
         /// <summary>
         /// Retrieves the index of the first character of the current line.
         /// </summary>
         /// <returns>The zero-based character index in the current line.</returns>
-        public int GetFirstCharIndexOfCurrentLine()
-        {
-            return TextBox.GetFirstCharIndexOfCurrentLine();
-        }
+        public int GetFirstCharIndexOfCurrentLine() => TextBox.GetFirstCharIndexOfCurrentLine();
 
         /// <summary>
         /// Retrieves the line number from the specified character position within the text of the RichTextBox control.
         /// </summary>
         /// <param name="index">The character index position to search.</param>
         /// <returns>The zero-based line number in which the character index is located.</returns>
-        public int GetLineFromCharIndex(int index)
-        {
-            return TextBox.GetLineFromCharIndex(index);
-        }
+        public int GetLineFromCharIndex(int index) => TextBox.GetLineFromCharIndex(index);
 
         /// <summary>
         /// Retrieves the location within the control at the specified character index.
         /// </summary>
         /// <param name="index">The index of the character for which to retrieve the location.</param>
         /// <returns>The location of the specified character.</returns>
-        public Point GetPositionFromCharIndex(int index)
-        {
-            return TextBox.GetPositionFromCharIndex(index);
-        }
+        public Point GetPositionFromCharIndex(int index) => TextBox.GetPositionFromCharIndex(index);
 
         /// <summary>
         /// Gets and sets the maximum allowed size of the item.
@@ -875,7 +845,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override GroupItemSize ItemSizeMaximum
         {
-            get { return GroupItemSize.Large; }
+            get => GroupItemSize.Large;
             set { }
         }
 
@@ -887,7 +857,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override GroupItemSize ItemSizeMinimum
         {
-            get { return GroupItemSize.Small; }
+            get => GroupItemSize.Small;
             set { }
         }
 
@@ -906,7 +876,7 @@ namespace Krypton.Ribbon
                 if (_itemSizeCurrent != value)
                 {
                     _itemSizeCurrent = value;
-                    OnPropertyChanged("ItemSizeCurrent");
+                    OnPropertyChanged(nameof(ItemSizeCurrent));
                 }
             }
         }
@@ -918,11 +888,9 @@ namespace Krypton.Ribbon
         /// <param name="needPaint">Delegate for notifying changes in display.</param>
         /// <returns>ViewBase derived instance.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override ViewBase CreateView(KryptonRibbon ribbon, 
-                                            NeedPaintHandler needPaint)
-        {
-            return new ViewDrawRibbonGroupTextBox(ribbon, this, needPaint);
-        }
+        public override ViewBase CreateView(KryptonRibbon ribbon,
+                                            NeedPaintHandler needPaint) =>
+            new ViewDrawRibbonGroupTextBox(ribbon, this, needPaint);
 
         /// <summary>
         /// Gets and sets the associated designer.
@@ -1095,7 +1063,7 @@ namespace Krypton.Ribbon
                     if (ShortcutKeys == keyData)
                     {
                         // Can the text box take the focus
-                        if ((LastTextBox != null) && (LastTextBox.CanFocus))
+                        if (LastTextBox is { CanFocus: true })
                         {
                             LastTextBox.TextBox.Focus();
                         }

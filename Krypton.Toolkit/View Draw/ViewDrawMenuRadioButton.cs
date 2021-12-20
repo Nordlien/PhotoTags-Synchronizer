@@ -2,19 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Diagnostics;
-using System.ComponentModel;
 
 namespace Krypton.Toolkit
 {
@@ -91,7 +86,7 @@ namespace Krypton.Toolkit
             };
 
             // Use context menu specific version of the radio button controller
-            MenuRadioButtonController mrbc = new MenuRadioButtonController(provider.ProviderViewManager, _innerDocker, this, provider.ProviderNeedPaintDelegate);
+            MenuRadioButtonController mrbc = new(provider.ProviderViewManager, _innerDocker, this, provider.ProviderNeedPaintDelegate);
             mrbc.Click += OnClick;
             _innerDocker.MouseController = mrbc;
             _innerDocker.KeyController = mrbc;
@@ -107,11 +102,9 @@ namespace Krypton.Toolkit
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawMenuRadioButton:" + Id;
-        }
+            "ViewDrawMenuRadioButton:" + Id;
 
         /// <summary>
         /// Release unmanaged and optionally managed resources.
@@ -180,10 +173,8 @@ namespace Krypton.Toolkit
         /// Raises the Closing event on the provider.
         /// </summary>
         /// <param name="cea">A CancelEventArgs containing the event data.</param>
-        public void Closing(CancelEventArgs cea)
-        {
-            _provider.OnClosing(cea);
-        }
+        public void Closing(CancelEventArgs cea) => _provider.OnClosing(cea);
+
         #endregion
 
         #region Close
@@ -191,10 +182,8 @@ namespace Krypton.Toolkit
         /// Raises the Close event on the provider.
         /// </summary>
         /// <param name="e">A CancelEventArgs containing the event data.</param>
-        public void Close(CloseReasonEventArgs e)
-        {
-            _provider.OnClose(e);
-        }
+        public void Close(CloseReasonEventArgs e) => _provider.OnClose(e);
+
         #endregion
 
         #region Layout
@@ -229,10 +218,8 @@ namespace Krypton.Toolkit
             _provider.ProviderNeedPaintDelegate(this, new NeedLayoutEventArgs(false));
         }
 
-        private void OnClick(object sender, EventArgs e)
-        {
-            KryptonContextMenuRadioButton.PerformClick();
-        }
+        private void OnClick(object sender, EventArgs e) => KryptonContextMenuRadioButton.PerformClick();
+
         #endregion
     }
 }

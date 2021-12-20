@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -161,10 +154,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="charCode">Key code to test against.</param>
         /// <returns>True if a match is found; otherwise false.</returns>
-        public bool MatchMnemonic(char charCode)
-        {
-            return Control.IsMnemonic(charCode, _target.ButtonValues.GetShortText());
-        }
+        public bool MatchMnemonic(char charCode) => Control.IsMnemonic(charCode, _target.ButtonValues.GetShortText());
 
         /// <summary>
         /// Activate the item because of a mnemonic key press.
@@ -178,10 +168,7 @@ namespace Krypton.Ribbon
         /// Gets the view element that should be used when this target is active.
         /// </summary>
         /// <returns>View element to become active.</returns>
-        public ViewBase GetActiveView()
-        {
-            return _target;
-        }
+        public ViewBase GetActiveView() => _target;
 
         /// <summary>
         /// Get the client rectangle for the display of this target.
@@ -193,10 +180,8 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="pt">Client coordinates point.</param>
         /// <returns>True to become current; otherwise false.</returns>
-        public bool DoesStackedClientMouseDownBecomeCurrent(Point pt)
-        {
-            return true;
-        }
+        public bool DoesStackedClientMouseDownBecomeCurrent(Point pt) => true;
+
         #endregion
     }
 }

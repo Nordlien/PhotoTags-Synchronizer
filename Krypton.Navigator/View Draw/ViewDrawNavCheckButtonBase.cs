@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Diagnostics;
-using System.ComponentModel;
-using Krypton.Toolkit;
 
 namespace Krypton.Navigator
 {
@@ -196,11 +188,10 @@ namespace Krypton.Navigator
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawNavCheckButtonBase:" + Id;
-        }
+            "ViewDrawNavCheckButtonBase:" + Id;
+
         #endregion
 
         #region NeedPaint
@@ -300,10 +291,8 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public ButtonSpec ButtonSpecFromView(ViewBase element)
-        {
-            return ButtonSpecManager?.ButtonSpecFromView(element);
-        }
+        public ButtonSpec ButtonSpecFromView(ViewBase element) => ButtonSpecManager?.ButtonSpecFromView(element);
+
         #endregion
 
         #region AllowButtonSpecs
@@ -337,10 +326,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Color value.</returns>
-        public Color GetImageTransparentColor(PaletteState state)
-        {
-            return Color.Empty;
-        }
+        public Color GetImageTransparentColor(PaletteState state) => Color.Empty;
 
         /// <summary>
         /// Gets the content short text.
@@ -415,8 +401,8 @@ namespace Krypton.Navigator
             KeyController = _buttonController;
 
             // Create two decorators in order to support tooltips and hover events
-            ToolTipController toolTipController = new ToolTipController(Navigator.ToolTipManager, this, _buttonController);
-            ToolTipController hoverController = new ToolTipController(Navigator.HoverManager, this, toolTipController);
+            ToolTipController toolTipController = new(Navigator.ToolTipManager, this, _buttonController);
+            ToolTipController hoverController = new(Navigator.HoverManager, this, toolTipController);
             return hoverController;
         }
         #endregion
@@ -485,7 +471,7 @@ namespace Krypton.Navigator
             }
 
             // Generate event so user can decide what, if any, context menu to show
-            ShowContextMenuArgs scma = new ShowContextMenuArgs(_page, Navigator.Pages.IndexOf(_page));
+            ShowContextMenuArgs scma = new(_page, Navigator.Pages.IndexOf(_page));
             Navigator.OnShowContextMenu(scma);
 
             // Do we need to show a context menu

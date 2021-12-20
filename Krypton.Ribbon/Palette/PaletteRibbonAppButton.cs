@@ -2,19 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.ComponentModel;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -88,7 +83,7 @@ namespace Krypton.Ribbon
 
         #region SetInherit
         /// <summary>
-        /// Sets the inheritence parent.
+        /// Sets the inheritance parent.
         /// </summary>
         public virtual void SetInherit(PaletteRibbonRedirect inherit)
         {
@@ -110,10 +105,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonAppButton => _ribbonAppButton;
 
-        private bool ShouldSerializeRibbonAppButton()
-        {
-            return !_ribbonAppButton.IsDefault;
-        }
+        private bool ShouldSerializeRibbonAppButton() => !_ribbonAppButton.IsDefault;
+
         #endregion
 
         #region RibbonGroupCollapsedBorder
@@ -125,10 +118,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonGroupCollapsedBorder => _ribbonGroupCollapsedBorder;
 
-        private bool ShouldSerializeRibbonGroupCollapsedBorder()
-        {
-            return !_ribbonGroupCollapsedBorder.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGroupCollapsedBorder() => !_ribbonGroupCollapsedBorder.IsDefault;
+
         #endregion
 
         #region RibbonGroupCollapsedBack
@@ -140,10 +131,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonGroupCollapsedBack => _ribbonGroupCollapsedBack;
 
-        private bool ShouldSerializeRibbonGroupCollapsedBack()
-        {
-            return !_ribbonGroupCollapsedBack.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGroupCollapsedBack() => !_ribbonGroupCollapsedBack.IsDefault;
+
         #endregion
 
         #region RibbonGroupCollapsedFrameBorder
@@ -155,10 +144,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonGroupCollapsedFrameBorder => _ribbonGroupCollapsedFrameBorder;
 
-        private bool ShouldSerializeRibbonGroupCollapsedFrameBorder()
-        {
-            return !_ribbonGroupCollapsedFrameBorder.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGroupCollapsedFrameBorder() => !_ribbonGroupCollapsedFrameBorder.IsDefault;
+
         #endregion
 
         #region RibbonGroupCollapsedFrameBack
@@ -170,10 +157,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonGroupCollapsedFrameBack => _ribbonGroupCollapsedFrameBack;
 
-        private bool ShouldSerializeRibbonGroupCollapsedFrameBack()
-        {
-            return !_ribbonGroupCollapsedFrameBack.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGroupCollapsedFrameBack() => !_ribbonGroupCollapsedFrameBack.IsDefault;
+
         #endregion
 
         #region RibbonGroupCollapsedText
@@ -185,10 +170,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonText RibbonGroupCollapsedText => _ribbonGroupCollapsedText;
 
-        private bool ShouldSerializeRibbonGroupCollapsedText()
-        {
-            return !_ribbonGroupCollapsedText.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGroupCollapsedText() => !_ribbonGroupCollapsedText.IsDefault;
+
         #endregion
     }
 }

@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -243,20 +236,20 @@ namespace Krypton.Toolkit
                         _panelMainText.Left -= _messageIcon.Right;
                         break;
                     case MessageBoxIcon.Question:
-                        _messageIcon.Image = Properties.Resources.help2;
-                        System.Media.SystemSounds.Question.Play();
+                        _messageIcon.Image = VisualTaskDialogImageResources.QuestionSmall;
+                        SystemSounds.Question.Play();
                         break;
                     case MessageBoxIcon.Information:
-                        _messageIcon.Image = Properties.Resources.information;
-                        System.Media.SystemSounds.Asterisk.Play();
+                        _messageIcon.Image = VisualTaskDialogImageResources.InformationSmall;
+                        SystemSounds.Asterisk.Play();
                         break;
                     case MessageBoxIcon.Warning:
-                        _messageIcon.Image = Properties.Resources.sign_warning;
-                        System.Media.SystemSounds.Exclamation.Play();
+                        _messageIcon.Image = VisualTaskDialogImageResources.WarningSmall;
+                        SystemSounds.Exclamation.Play();
                         break;
                     case MessageBoxIcon.Error:
-                        _messageIcon.Image = Properties.Resources.error;
-                        System.Media.SystemSounds.Hand.Play();
+                        _messageIcon.Image = VisualTaskDialogImageResources.CriticalSmall;
+                        SystemSounds.Hand.Play();
                         break;
                 }
             }
@@ -277,7 +270,7 @@ namespace Krypton.Toolkit
                 foreach (KryptonTaskDialogCommand command in _radioButtons)
                 {
                     // Create and add a new radio button instance
-                    KryptonRadioButton button = new KryptonRadioButton
+                    KryptonRadioButton button = new()
                     {
                         LabelStyle = LabelStyle.NormalPanel
                     };
@@ -305,7 +298,7 @@ namespace Krypton.Toolkit
                 maxButtonSize.Width = Math.Min(Math.Max(maxButtonSize.Width, 150), 400);
 
                 // Position the radio buttons in a vertical stack and size owning panel
-                Point offset = new Point(BUTTON_GAP - 1, 2);
+                Point offset = new(BUTTON_GAP - 1, 2);
                 foreach (KryptonRadioButton button in _panelMainRadio.Controls)
                 {
                     button.Location = offset;
@@ -333,7 +326,7 @@ namespace Krypton.Toolkit
                 foreach (KryptonTaskDialogCommand command in _commandButtons)
                 {
                     // Create and add a new button instance
-                    KryptonButton button = new KryptonButton
+                    KryptonButton button = new()
                     {
                         ButtonStyle = ButtonStyle.Command
                     };
@@ -360,7 +353,7 @@ namespace Krypton.Toolkit
                 maxButtonSize.Width = Math.Min(Math.Max(maxButtonSize.Width, 150), 400);
 
                 // Position the buttons in a vertical stack and size owning panel
-                Point offset = new Point(BUTTON_GAP - 1, 2);
+                Point offset = new(BUTTON_GAP - 1, 2);
                 foreach (KryptonButton button in _panelMainCommands.Controls)
                 {
                     button.Location = offset;
@@ -522,22 +515,23 @@ namespace Krypton.Toolkit
             }
             else
             {
+                // TODO: These icons may need to be 16 x 16
                 switch (_footerIcon)
                 {
                     case MessageBoxIcon.None:
                         _iconFooter.Visible = false;
                         break;
                     case MessageBoxIcon.Question:
-                        _iconFooter.Image = Properties.Resources.help2Small;
+                        _iconFooter.Image = MessageBoxResources.Question;
                         break;
                     case MessageBoxIcon.Information:
-                        _iconFooter.Image = Properties.Resources.informationSmall;
+                        _iconFooter.Image = MessageBoxResources.Information;
                         break;
                     case MessageBoxIcon.Warning:
-                        _iconFooter.Image = Properties.Resources.sign_warningSmall;
+                        _iconFooter.Image = MessageBoxResources.Warning;
                         break;
                     case MessageBoxIcon.Error:
-                        _iconFooter.Image = Properties.Resources.errorSmall;
+                        _iconFooter.Image = MessageBoxResources.Critical;
                         break;
                 }
             }
@@ -599,7 +593,7 @@ namespace Krypton.Toolkit
 
                 int h = (int)Math.Min(messageContentSize.Height, dispSize.Height * 0.6);
                 int w = (int)Math.Min(messageContentSize.Width, dispSize.Width * 0.6);
-                Size sz = new Size(w, h);
+                Size sz = new(w, h);
                 if (messageContentSize != sz)
                 {
                     messageContentSize = sz;
@@ -633,10 +627,7 @@ namespace Krypton.Toolkit
             return _panelMainText.Size;
         }
 
-        private Size UpdateIconSizing()
-        {
-            return _messageIcon.Image == null ? Size.Empty : _panelIcon.Size;
-        }
+        private Size UpdateIconSizing() => _messageIcon.Image == null ? Size.Empty : _panelIcon.Size;
 
         private Size UpdateRadioSizing()
         {
@@ -794,7 +785,7 @@ namespace Krypton.Toolkit
             {
                 _panelButtons.Visible = true;
 
-                Size panelButtonSize = new Size((maxButtonSize.Width * numButtons) + (BUTTON_GAP * (numButtons + 1)), maxButtonSize.Height + (BUTTON_GAP * 2));
+                Size panelButtonSize = new((maxButtonSize.Width * numButtons) + (BUTTON_GAP * (numButtons + 1)), maxButtonSize.Height + (BUTTON_GAP * 2));
 
                 if (!checkboxSize.IsEmpty)
                 {
@@ -810,80 +801,78 @@ namespace Krypton.Toolkit
         private Size UpdateFooterSizing()
         {
             // Update size of the footer but applying a sensible maximum
-            using (Graphics g = CreateGraphics())
+            using Graphics g = CreateGraphics();
+            // Find size of the labels when it has a maximum length of 400
+            _footerLabel.UpdateFont();
+            Size footerTextSize = g.MeasureString(_footerText, _footerLabel.Font, 200).ToSize();
+            Size footerHyperlinkSize = g.MeasureString(_footerHyperlink, _footerLabel.Font, 200).ToSize();
+
+            // Always add on an extra 5 pixels as sometimes the measure size does not draw the last 
+            // character it contains, this ensures there is always definitely enough space for it all
+            footerTextSize.Width += 5;
+            footerHyperlinkSize.Width += 5;
+            _footerLabel.Size = footerTextSize;
+            _linkLabelFooter.Size = footerHyperlinkSize;
+
+            // Find required size of the footer panel
+            Size requiredSize = Size.Empty;
+
+            if (!string.IsNullOrEmpty(_footerText))
             {
-                // Find size of the labels when it has a maximum length of 400
-                _footerLabel.UpdateFont();
-                Size footerTextSize = g.MeasureString(_footerText, _footerLabel.Font, 200).ToSize();
-                Size footerHyperlinkSize = g.MeasureString(_footerHyperlink, _footerLabel.Font, 200).ToSize();
+                requiredSize.Width += footerTextSize.Width;
+                requiredSize.Height = footerTextSize.Height;
+            }
 
-                // Always add on an extra 5 pixels as sometimes the measure size does not draw the last 
-                // character it contains, this ensures there is always definitely enough space for it all
-                footerTextSize.Width += 5;
-                footerHyperlinkSize.Width += 5;
-                _footerLabel.Size = footerTextSize;
-                _linkLabelFooter.Size = footerHyperlinkSize;
+            if (!string.IsNullOrEmpty(_footerHyperlink))
+            {
+                requiredSize.Width += footerHyperlinkSize.Width;
+                requiredSize.Height = Math.Max(requiredSize.Height, footerHyperlinkSize.Height);
+            }
 
-                // Find required size of the footer panel
-                Size requiredSize = Size.Empty;
+            if ((_footerIcon != MessageBoxIcon.None) || (_customFooterIcon != null))
+            {
+                requiredSize.Width += _iconFooter.Width + BUTTON_GAP;
+                requiredSize.Height = Math.Max(requiredSize.Height, _iconFooter.Size.Height);
+            }
+
+            if (requiredSize.Width > 0)
+            {
+                requiredSize.Width += BUTTON_GAP * 2;
+                requiredSize.Height += BUTTON_GAP * 2;
+            }
+
+            // Do we have anything to show?
+            _panelFooter.Visible = (requiredSize.Width > 0);
+
+            // Position the footer elements
+            if (requiredSize.Width > 0)
+            {
+                _panelFooter.Size = requiredSize;
+                int offset = BUTTON_GAP;
+
+                if ((_footerIcon != MessageBoxIcon.None) || (_customFooterIcon != null))
+                {
+                    _iconFooter.Location = new Point(offset, (requiredSize.Height - _iconFooter.Height) / 2);
+                    offset += _iconFooter.Width + (BUTTON_GAP / 2);
+                }
 
                 if (!string.IsNullOrEmpty(_footerText))
                 {
-                    requiredSize.Width += footerTextSize.Width;
-                    requiredSize.Height = footerTextSize.Height;
+                    _footerLabel.Location = new Point(offset, (requiredSize.Height - footerTextSize.Height) / 2);
+                    offset += _footerLabel.Width - 8;
                 }
 
                 if (!string.IsNullOrEmpty(_footerHyperlink))
                 {
-                    requiredSize.Width += footerHyperlinkSize.Width;
-                    requiredSize.Height = Math.Max(requiredSize.Height, footerHyperlinkSize.Height);
+                    _linkLabelFooter.Location = !string.IsNullOrEmpty(_footerText)
+                        ? new Point(offset, _footerLabel.Location.Y - 1)
+                        : new Point(offset, (requiredSize.Height - footerHyperlinkSize.Height) / 2);
+
+                    offset += _footerLabel.Width;
                 }
-
-                if ((_footerIcon != MessageBoxIcon.None) || (_customFooterIcon != null))
-                {
-                    requiredSize.Width += _iconFooter.Width + BUTTON_GAP;
-                    requiredSize.Height = Math.Max(requiredSize.Height, _iconFooter.Size.Height);
-                }
-
-                if (requiredSize.Width > 0)
-                {
-                    requiredSize.Width += BUTTON_GAP * 2;
-                    requiredSize.Height += BUTTON_GAP * 2;
-                }
-
-                // Do we have anything to show?
-                _panelFooter.Visible = (requiredSize.Width > 0);
-
-                // Position the footer elements
-                if (requiredSize.Width > 0)
-                {
-                    _panelFooter.Size = requiredSize;
-                    int offset = BUTTON_GAP;
-
-                    if ((_footerIcon != MessageBoxIcon.None) || (_customFooterIcon != null))
-                    {
-                        _iconFooter.Location = new Point(offset, (requiredSize.Height - _iconFooter.Height) / 2);
-                        offset += _iconFooter.Width + (BUTTON_GAP / 2);
-                    }
-
-                    if (!string.IsNullOrEmpty(_footerText))
-                    {
-                        _footerLabel.Location = new Point(offset, (requiredSize.Height - footerTextSize.Height) / 2);
-                        offset += _footerLabel.Width - 8;
-                    }
-
-                    if (!string.IsNullOrEmpty(_footerHyperlink))
-                    {
-                        _linkLabelFooter.Location = !string.IsNullOrEmpty(_footerText)
-                            ? new Point(offset, _footerLabel.Location.Y - 1)
-                            : new Point(offset, (requiredSize.Height - footerHyperlinkSize.Height) / 2);
-
-                        offset += _footerLabel.Width;
-                    }
-                }
-
-                return requiredSize;
             }
+
+            return requiredSize;
         }
 
         private void OnRadioButtonCheckedChanged(object sender, EventArgs e)
@@ -927,15 +916,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void _linkLabelFooter_LinkClicked(object sender, EventArgs e)
-        {
-            _taskDialog?.RaiseFooterHyperlinkClicked();
-        }
+        private void _linkLabelFooter_LinkClicked(object sender, EventArgs e) => _taskDialog?.RaiseFooterHyperlinkClicked();
 
-        private void _buttonClose_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
+        private void _buttonClose_Click(object sender, EventArgs e) => Close();
 
 #pragma warning disable IDE1006 // Naming Styles
         private void button_keyDown(object sender, KeyEventArgs e)
@@ -952,7 +935,7 @@ namespace Krypton.Toolkit
                 if ((e.Modifiers == Keys.Control)
                     && (e.KeyCode == Keys.C))
                 {
-                    StringBuilder sb = new StringBuilder();
+                    StringBuilder sb = new();
 
                     sb.AppendLine("---------------------------");
                     sb.AppendLine(_windowTitle);

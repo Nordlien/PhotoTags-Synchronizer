@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Design;
-using System.ComponentModel;
-using System.Windows.Forms;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -26,7 +18,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupComboBox), "ToolboxBitmaps.KryptonRibbonGroupComboBox.bmp")]
-    [Designer(typeof(Krypton.Ribbon.KryptonRibbonGroupComboBoxDesigner))]
+    [Designer("Krypton.Ribbon.KryptonRibbonGroupComboBoxDesigner, Krypton.Ribbon")]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultEvent("SelectedTextChanged")]
@@ -297,10 +289,7 @@ namespace Krypton.Ribbon
         [Description("Shortcut key combination to set focus to the combo box.")]
         public Keys ShortcutKeys { get; set; }
 
-        private bool ShouldSerializeShortcutKeys()
-        {
-            return (ShortcutKeys != Keys.None);
-        }
+        private bool ShouldSerializeShortcutKeys() => (ShortcutKeys != Keys.None);
 
         /// <summary>
         /// Resets the ShortcutKeys property to its default value.
@@ -361,7 +350,7 @@ namespace Krypton.Ribbon
                 if (value != _visible)
                 {
                     _visible = value;
-                    OnPropertyChanged("Visible");
+                    OnPropertyChanged(nameof(Visible));
                 }
             }
         }
@@ -398,7 +387,7 @@ namespace Krypton.Ribbon
                 if (_enabled != value)
                 {
                     _enabled = value;
-                    OnPropertyChanged("Enabled");
+                    OnPropertyChanged(nameof(Enabled));
                 }
             }
         }
@@ -432,7 +421,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Appearance")]
         [Description("Text associated with the control.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public string Text
         {
             get => ComboBox.Text;
@@ -468,7 +457,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Data")]
         [Description("Indicates the property to use as the actual value of the items in the control.")]
-        [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DefaultValue("")]
         public string ValueMember
         {
@@ -495,8 +484,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Data")]
         [Description("Indicates the property to display for the items in this control.")]
-        [TypeConverter("System.Windows.Forms.Design.DataMemberFieldConverter, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
-        [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [TypeConverter("System.Windows.Forms.Design.DataMemberFieldConverter, " + AssemblyRef.SystemWinformsDesign)]
+        [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DefaultValue("")]
         public string DisplayMember
         {
@@ -600,7 +589,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Data")]
         [Description("The items in the KryptonComboBox.")]
-        [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [MergableProperty(false)]
         [Localizable(true)]
@@ -617,8 +606,8 @@ namespace Krypton.Ribbon
             get => ComboBox.AllowButtonSpecToolTips;
             set => ComboBox.AllowButtonSpecToolTips = value;
         }
-		
-		/// <summary>
+
+        /// <summary>
         /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
         /// </summary>
         [Category("Visuals")]
@@ -642,7 +631,7 @@ namespace Krypton.Ribbon
         /// Gets or sets the StringCollection to use when the AutoCompleteSource property is set to CustomSource.
         /// </summary>
         [Description("The StringCollection to use when the AutoCompleteSource property is set to CustomSource.")]
-        [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Localizable(true)]
@@ -683,7 +672,7 @@ namespace Krypton.Ribbon
         /// Gets or sets the format specifier characters that indicate how a value is to be displayed.
         /// </summary>
         [Description("The format specifier characters that indicate how a value is to be displayed.")]
-        [Editor("System.Windows.Forms.Design.FormatStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.FormatStringEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [MergableProperty(false)]
         [DefaultValue("")]
         public string FormatString
@@ -800,10 +789,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="str">The String to search for.</param>
         /// <returns>The zero-based index of the first item found; returns -1 if no match is found.</returns>
-        public int FindString(string str)
-        {
-            return ComboBox.FindString(str);
-        }
+        public int FindString(string str) => ComboBox.FindString(str);
 
         /// <summary>
         /// Finds the first item after the given index which starts with the given string. The search is not case sensitive.
@@ -811,20 +797,14 @@ namespace Krypton.Ribbon
         /// <param name="str">The String to search for.</param>
         /// <param name="startIndex">The zero-based index of the item before the first item to be searched. Set to -1 to search from the beginning of the control.</param>
         /// <returns>The zero-based index of the first item found; returns -1 if no match is found, or 0 if the s parameter specifies Empty.</returns>
-        public int FindString(string str, int startIndex)
-        {
-            return ComboBox.FindString(str, startIndex);
-        }
+        public int FindString(string str, int startIndex) => ComboBox.FindString(str, startIndex);
 
         /// <summary>
         /// Finds the first item in the combo box that matches the specified string.
         /// </summary>
         /// <param name="str">The String to search for.</param>
         /// <returns>The zero-based index of the first item found; returns -1 if no match is found.</returns>
-        public int FindStringExact(string str)
-        {
-            return ComboBox.FindStringExact(str);
-        }
+        public int FindStringExact(string str) => ComboBox.FindStringExact(str);
 
         /// <summary>
         /// Finds the first item after the specified index that matches the specified string.
@@ -832,30 +812,21 @@ namespace Krypton.Ribbon
         /// <param name="str">The String to search for.</param>
         /// <param name="startIndex">The zero-based index of the item before the first item to be searched. Set to -1 to search from the beginning of the control.</param>
         /// <returns>The zero-based index of the first item found; returns -1 if no match is found, or 0 if the s parameter specifies Empty.</returns>
-        public int FindStringExact(string str, int startIndex)
-        {
-            return ComboBox.FindStringExact(str, startIndex);
-        }
+        public int FindStringExact(string str, int startIndex) => ComboBox.FindStringExact(str, startIndex);
 
         /// <summary>
         /// Returns the height of an item in the ComboBox.
         /// </summary>
         /// <param name="index">The index of the item to return the height of.</param>
         /// <returns>The height, in pixels, of the item at the specified index.</returns>
-        public int GetItemHeight(int index)
-        {
-            return ComboBox.GetItemHeight(index);
-        }
+        public int GetItemHeight(int index) => ComboBox.GetItemHeight(index);
 
         /// <summary>
         /// Returns the text representation of the specified item.
         /// </summary>
         /// <param name="item">The object from which to get the contents to display.</param>
         /// <returns>If the DisplayMember property is not specified, the value returned by GetItemText is the value of the item's ToString method. Otherwise, the method returns the string value of the member specified in the DisplayMember property for the object specified in the item parameter.</returns>
-        public string GetItemText(object item)
-        {
-            return ComboBox.GetItemText(item);
-        }
+        public string GetItemText(object item) => ComboBox.GetItemText(item);
 
         /// <summary>
         /// Selects a range of text in the control.
@@ -883,7 +854,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override GroupItemSize ItemSizeMaximum
         {
-            get { return GroupItemSize.Large; }
+            get => GroupItemSize.Large;
             set { }
         }
 
@@ -895,7 +866,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override GroupItemSize ItemSizeMinimum
         {
-            get { return GroupItemSize.Small; }
+            get => GroupItemSize.Small;
             set { }
         }
 
@@ -914,7 +885,7 @@ namespace Krypton.Ribbon
                 if (_itemSizeCurrent != value)
                 {
                     _itemSizeCurrent = value;
-                    OnPropertyChanged("ItemSizeCurrent");
+                    OnPropertyChanged(nameof(ItemSizeCurrent));
                 }
             }
         }
@@ -926,11 +897,9 @@ namespace Krypton.Ribbon
         /// <param name="needPaint">Delegate for notifying changes in display.</param>
         /// <returns>ViewBase derived instance.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override ViewBase CreateView(KryptonRibbon ribbon, 
-                                            NeedPaintHandler needPaint)
-        {
-            return new ViewDrawRibbonGroupComboBox(ribbon, this, needPaint);
-        }
+        public override ViewBase CreateView(KryptonRibbon ribbon,
+                                            NeedPaintHandler needPaint) =>
+            new ViewDrawRibbonGroupComboBox(ribbon, this, needPaint);
 
         /// <summary>
         /// Gets and sets the associated designer.
@@ -940,10 +909,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         public IKryptonDesignObject ComboBoxDesigner { get; set; }
 
-        private bool ShouldSerializeComboBoxDesigner()
-        {
-            return false;
-        }
+        private bool ShouldSerializeComboBoxDesigner() => false;
 
         /// <summary>
         /// Internal design time properties.
@@ -1172,7 +1138,7 @@ namespace Krypton.Ribbon
                     if (ShortcutKeys == keyData)
                     {
                         // Can the combo box take the focus
-                        if ((LastComboBox != null) && (LastComboBox.CanFocus))
+                        if (LastComboBox is { CanFocus: true })
                         {
                             LastComboBox.ComboBox.Focus();
                         }

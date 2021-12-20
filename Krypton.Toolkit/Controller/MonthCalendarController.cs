@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.ComponentModel;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -103,10 +96,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="charCode">Key code to test against.</param>
         /// <returns>True if a match is found; otherwise false.</returns>
-        public bool MatchMnemonic(char charCode)
-        {
-            return false;
-        }
+        public bool MatchMnemonic(char charCode) => false;
 
         /// <summary>
         /// Activate the item because of a mnemonic key press.
@@ -119,10 +109,7 @@ namespace Krypton.Toolkit
         /// Gets the view element that should be used when this target is active.
         /// </summary>
         /// <returns>View element to become active.</returns>
-        public ViewBase GetActiveView()
-        {
-            return _months;
-        }
+        public ViewBase GetActiveView() => _months;
 
         /// <summary>
         /// Get the client rectangle for the display of this target.
@@ -134,10 +121,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="pt">Client coordinates point.</param>
         /// <returns>True to become current; otherwise false.</returns>
-        public bool DoesStackedClientMouseDownBecomeCurrent(Point pt)
-        {
-            return true;
-        }
+        public bool DoesStackedClientMouseDownBecomeCurrent(Point pt) => true;
+
         #endregion
 
         #region Mouse Notifications
@@ -172,7 +157,7 @@ namespace Krypton.Toolkit
 
                         // Enforce the maximum number of days
                         DateTime selectStart = _selectionStart;
-                        TimeSpan span = new TimeSpan(_months.Calendar.MaxSelectionCount - 1, 0, 0, 0);
+                        TimeSpan span = new(_months.Calendar.MaxSelectionCount - 1, 0, 0, 0);
                         if (selectEnd > selectStart)
                         {
                             if ((selectEnd - selectStart) > span)
@@ -276,7 +261,7 @@ namespace Krypton.Toolkit
                             if (_months.Provider.ProviderCanCloseMenu)
                             {
                                 // Ask the original context menu definition, if we can close
-                                CancelEventArgs cea = new CancelEventArgs();
+                                CancelEventArgs cea = new();
                                 _months.Provider.OnClosing(cea);
 
                                 if (!cea.Cancel)
@@ -420,7 +405,7 @@ namespace Krypton.Toolkit
                         if (_months.Provider.ProviderCanCloseMenu)
                         {
                             // Ask the original context menu definition, if we can close
-                            CancelEventArgs cea = new CancelEventArgs();
+                            CancelEventArgs cea = new();
                             _months.Provider.OnClosing(cea);
 
                             if (!cea.Cancel)
@@ -501,10 +486,8 @@ namespace Krypton.Toolkit
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public virtual bool KeyUp(Control c, KeyEventArgs e)
-        {
-            return false;
-        }
+        public virtual bool KeyUp(Control c, KeyEventArgs e) => false;
+
         #endregion
 
         #region Source Notifications

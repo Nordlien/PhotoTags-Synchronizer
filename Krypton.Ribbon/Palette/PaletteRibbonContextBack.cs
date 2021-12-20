@@ -2,24 +2,19 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
     /// <summary>
-    /// Return inhertied values unless empty in which case return the context color.
+    /// Return inherited values unless empty in which case return the context color.
     /// </summary>
     public class PaletteRibbonContextBack: IPaletteRibbonBack
     {
@@ -42,7 +37,7 @@ namespace Krypton.Ribbon
 
         #region SetInherit
         /// <summary>
-        /// Sets the inheritence parent.
+        /// Sets the inheritance parent.
         /// </summary>
         public void SetInherit(IPaletteRibbonBack inherit)
         {
@@ -56,10 +51,8 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public PaletteRibbonColorStyle GetRibbonBackColorStyle(PaletteState state)
-        {
-            return _inherit.GetRibbonBackColorStyle(state);
-        }
+        public PaletteRibbonColorStyle GetRibbonBackColorStyle(PaletteState state) => _inherit.GetRibbonBackColorStyle(state);
+
         #endregion
 
         #region BackColor1

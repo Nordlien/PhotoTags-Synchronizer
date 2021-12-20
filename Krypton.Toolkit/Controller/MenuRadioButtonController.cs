@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Diagnostics;
-using System.ComponentModel;
 
 namespace Krypton.Toolkit
 {
@@ -78,18 +71,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// This target should display as the active target.
         /// </summary>
-        public virtual void ShowTarget()
-        {
-            HighlightState();
-        }
+        public virtual void ShowTarget() => HighlightState();
 
         /// <summary>
         /// This target should clear any active display.
         /// </summary>
-        public virtual void ClearTarget()
-        {
-            NormalState();
-        }
+        public virtual void ClearTarget() => NormalState();
 
         /// <summary>
         /// This target should show any appropriate sub menu.
@@ -110,11 +97,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="charCode">Key code to test against.</param>
         /// <returns>True if a match is found; otherwise false.</returns>
-        public bool MatchMnemonic(char charCode)
-        {
+        public bool MatchMnemonic(char charCode) =>
             // Only interested in enabled items
-            return _menuRadioButton.ItemEnabled && Control.IsMnemonic(charCode, _menuRadioButton.ItemText);
-        }
+            _menuRadioButton.ItemEnabled && Control.IsMnemonic(charCode, _menuRadioButton.ItemText);
 
         /// <summary>
         /// Activate the item because of a mnemonic key press.
@@ -132,10 +117,7 @@ namespace Krypton.Toolkit
         /// Gets the view element that should be used when this target is active.
         /// </summary>
         /// <returns>View element to become active.</returns>
-        public ViewBase GetActiveView()
-        {
-            return _target;
-        }
+        public ViewBase GetActiveView() => _target;
 
         /// <summary>
         /// Get the client rectangle for the display of this target.
@@ -147,10 +129,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="pt">Client coordinates point.</param>
         /// <returns>True to become current; otherwise false.</returns>
-        public bool DoesStackedClientMouseDownBecomeCurrent(Point pt)
-        {
-            return true;
-        }
+        public bool DoesStackedClientMouseDownBecomeCurrent(Point pt) => true;
+
         #endregion
         
         #region Mouse Notifications
@@ -352,12 +332,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(c));
             }
 
-            if (e == null)
-            {
-                throw new ArgumentNullException(nameof(e));
-            }
-
-            return false;
+            return e == null ? throw new ArgumentNullException(nameof(e)) : false;
         }
         #endregion
 
@@ -400,10 +375,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Fires the NeedPaint event.
         /// </summary>
-        public void PerformNeedPaint()
-        {
-            OnNeedPaint();
-        }
+        public void PerformNeedPaint() => OnNeedPaint();
+
         #endregion
 
         #region Private
@@ -425,7 +398,7 @@ namespace Krypton.Toolkit
                 if (_menuRadioButton.CanCloseMenu)
                 {
                     // Ask the original context menu definition, if we can close
-                    CancelEventArgs cea = new CancelEventArgs();
+                    CancelEventArgs cea = new();
                     _menuRadioButton.Closing(cea);
 
                     if (!cea.Cancel)
@@ -455,10 +428,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnNeedPaint()
-        {
-            _needPaint?.Invoke(this, new NeedLayoutEventArgs(false));
-        }
+        private void OnNeedPaint() => _needPaint?.Invoke(this, new NeedLayoutEventArgs(false));
 
         private void HighlightState()
         {

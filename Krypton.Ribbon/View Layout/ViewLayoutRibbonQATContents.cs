@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -70,11 +62,9 @@ namespace Krypton.Ribbon
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewLayoutRibbonQATContents:" + Id;
-        }
+            "ViewLayoutRibbonQATContents:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -143,12 +133,12 @@ namespace Krypton.Ribbon
 
             // If integrated into the caption area then get the caption area height
             Padding borders = Padding.Empty;
-            if ((ownerForm != null) && !ownerForm.ApplyComposition)
+            if (ownerForm is { ApplyComposition: false })
             {
                 borders = ownerForm.RealWindowBorders;
             }
 
-            KeyTipInfoList keyTipList = new KeyTipInfoList();
+            KeyTipInfoList keyTipList = new();
 
             foreach (ViewBase child in this)
             {
@@ -163,7 +153,7 @@ namespace Krypton.Ribbon
                     Rectangle viewRect = ParentControl.RectangleToScreen(viewQAT.ClientRectangle);
 
                     // The keytip should be centered on the bottom center of the view
-                    Point screenPt = new Point((viewRect.Left + (viewRect.Width / 2)) - borders.Left, 
+                    Point screenPt = new((viewRect.Left + (viewRect.Width / 2)) - borders.Left, 
                                                viewRect.Bottom - 2 - borders.Top);
 
                     // Create new key tip that invokes the qat controller
@@ -173,13 +163,13 @@ namespace Krypton.Ribbon
             }
 
             // If we have the extra button and it is in overflow appearance
-            if ((_extraButton != null) && _extraButton.Overflow)
+            if (_extraButton is { Overflow: true })
             {
                 // Get the screen location of the extra button
                 Rectangle viewRect = ParentControl.RectangleToScreen(_extraButton.ClientRectangle);
 
                 // The keytip should be centered on the bottom center of the view
-                Point screenPt = new Point((viewRect.Left + (viewRect.Width / 2)) - borders.Left,
+                Point screenPt = new((viewRect.Left + (viewRect.Width / 2)) - borders.Left,
                                            viewRect.Bottom - 2 - borders.Top);
 
                 // Create fixed key tip of '00' that invokes the extra button contoller
@@ -530,7 +520,7 @@ namespace Krypton.Ribbon
             Clear();
 
             // Create a new lookup that reflects any changes in QAT buttons
-            QATButtonToView regenerate = new QATButtonToView();
+            QATButtonToView regenerate = new();
 
             // Get an array with all the buttons to be considered for display
             IQuickAccessToolbarButton[] qatButtons = QATButtons;

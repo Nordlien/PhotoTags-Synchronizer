@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.ComponentModel;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -77,7 +73,7 @@ namespace Krypton.Ribbon
 
         #region SetInherit
         /// <summary>
-        /// Sets the inheritence parent.
+        /// Sets the inheritance parent.
         /// </summary>
         public override void SetInherit(PaletteRibbonRedirect inherit)
         {
@@ -98,10 +94,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonText RibbonGroupCheckBoxText => _ribbonGroupCheckBoxText;
 
-        private bool ShouldSerializeRibbonGroupCheckBoxText()
-        {
-            return !_ribbonGroupCheckBoxText.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGroupCheckBoxText() => !_ribbonGroupCheckBoxText.IsDefault;
+
         #endregion
 
         #region RibbonGroupButtonText
@@ -113,10 +107,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonText RibbonGroupButtonText => _ribbonGroupButtonText;
 
-        private bool ShouldSerializeRibbonGroupButtonText()
-        {
-            return !_ribbonGroupButtonText.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGroupButtonText() => !_ribbonGroupButtonText.IsDefault;
+
         #endregion
 
         #region RibbonGroupLabelText
@@ -128,10 +120,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonText RibbonGroupLabelText => _ribbonGroupLabelText;
 
-        private bool ShouldSerializeRibbonGroupLabelText()
-        {
-            return !_ribbonGroupLabelText.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGroupLabelText() => !_ribbonGroupLabelText.IsDefault;
+
         #endregion
 
         #region RibbonGroupRadioButtonTetxt
@@ -143,10 +133,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonText RibbonGroupRadioButtonText => _ribbonGroupRadioButtonText;
 
-        private bool ShouldSerializeRibbonGroupRadioButtonText()
-        {
-            return !_ribbonGroupRadioButtonText.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGroupRadioButtonText() => !_ribbonGroupRadioButtonText.IsDefault;
+
         #endregion
     }
 }

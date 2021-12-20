@@ -2,22 +2,13 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
-
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Drawing.Design;
-using System.Globalization;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -29,7 +20,7 @@ namespace Krypton.Toolkit
     [DefaultEvent("MaskInputRejected")]
     [DefaultProperty("Mask")]
     [DefaultBindingProperty("Text")]
-    [Designer(typeof(KryptonMaskedTextBoxDesigner))]
+    [Designer("Krypton.Toolkit.KryptonMaskedTextBoxDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Uses a mask to distinguish between proper and improper user input.")]
     public class KryptonMaskedTextBox : VisualControlBase,
@@ -53,11 +44,7 @@ namespace Krypton.Toolkit
                 {
                     _hint = value;
 
-#if NET35
-                    if (string.IsNullOrEmpty(Text) && Hint.Trim() != string.Empty)
-#else
                     if (string.IsNullOrEmpty(Text) && !string.IsNullOrWhiteSpace(Hint))
-#endif
                     {
                         PI.SendMessage(Handle, PI.EM_SETCUEBANNER, (IntPtr)1, Hint);
                     }
@@ -65,9 +52,9 @@ namespace Krypton.Toolkit
                     Refresh();
                 }
             }
-#endregion
+            #endregion
 
-#region Events
+            #region Events
             /// <summary>
             /// Occurs when the mouse enters the InternalMaskedTextBox.
             /// </summary>
@@ -77,9 +64,9 @@ namespace Krypton.Toolkit
             /// Occurs when the mouse leaves the InternalMaskedTextBox.
             /// </summary>
             public event EventHandler TrackMouseLeave;
-#endregion
+            #endregion
 
-#region Identity
+            #region Identity
             /// <summary>
             /// Initialize a new instance of the InternalMaskedTextBox class.
             /// </summary>
@@ -94,9 +81,9 @@ namespace Krypton.Toolkit
                 // We provide the border manually
                 BorderStyle = BorderStyle.None;
             }
-#endregion
+            #endregion
 
-#region MouseOver
+            #region MouseOver
             /// <summary>
             /// Gets and sets if the mouse is currently over the combo box.
             /// </summary>
@@ -123,9 +110,9 @@ namespace Krypton.Toolkit
                     }
                 }
             }
-#endregion
+            #endregion
 
-#region Protected
+            #region Protected
             /// <summary>
             /// Process Windows-based messages.
             /// </summary>
@@ -165,7 +152,7 @@ namespace Krypton.Toolkit
                     case PI.WM_.PRINTCLIENT:
                     case PI.WM_.PAINT:
                         {
-                            PI.PAINTSTRUCT ps = new PI.PAINTSTRUCT();
+                            PI.PAINTSTRUCT ps = new();
 
                             // Do we need to BeginPaint or just take the given HDC?
                             IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
@@ -177,7 +164,7 @@ namespace Krypton.Toolkit
                                 PI.GetClientRect(Handle, out PI.RECT rect);
 
                                 // Drawn entire client area in the background color
-                                using (SolidBrush backBrush = new SolidBrush(BackColor))
+                                using (SolidBrush backBrush = new(BackColor))
                                 {
                                     g.FillRectangle(backBrush, new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top));
                                 }
@@ -209,54 +196,43 @@ namespace Krypton.Toolkit
                                     g.TextRenderingHint = CommonHelper.PaletteTextHintToRenderingHint(_kryptonMaskedTextBox.StateDisabled.PaletteContent.GetContentShortTextHint(PaletteState.Disabled));
 
                                     // Define the string formatting requirements
-                                    StringFormat stringFormat = new StringFormat
+                                    StringFormat stringFormat = new()
                                     {
                                         LineAlignment = StringAlignment.Center,
                                         FormatFlags = StringFormatFlags.NoWrap,
                                         Trimming = StringTrimming.None
                                     };
 
-                                    switch (_kryptonMaskedTextBox.TextAlign)
+                                    stringFormat.Alignment = _kryptonMaskedTextBox.TextAlign switch
                                     {
-                                        case HorizontalAlignment.Left:
-                                            stringFormat.Alignment = RightToLeft == RightToLeft.Yes
-                                                ? StringAlignment.Far
-                                                : StringAlignment.Near;
-
-                                            break;
-                                        case HorizontalAlignment.Right:
-                                            stringFormat.Alignment = RightToLeft == RightToLeft.Yes
-                                                ? StringAlignment.Near
-                                                : StringAlignment.Far;
-
-                                            break;
-                                        case HorizontalAlignment.Center:
-                                            stringFormat.Alignment = StringAlignment.Center;
-                                            break;
-                                    }
+                                        HorizontalAlignment.Left => RightToLeft == RightToLeft.Yes
+                                            ? StringAlignment.Far
+                                            : StringAlignment.Near,
+                                        HorizontalAlignment.Right => RightToLeft == RightToLeft.Yes
+                                            ? StringAlignment.Near
+                                            : StringAlignment.Far,
+                                        HorizontalAlignment.Center => StringAlignment.Center,
+                                        _ => stringFormat.Alignment
+                                    };
 
                                     // Use the correct prefix setting
-                                    stringFormat.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
+                                    stringFormat.HotkeyPrefix = HotkeyPrefix.None;
 
                                     // Draw using a solid brush
                                     string drawText = MaskedTextProvider?.ToDisplayString() ?? Text;
                                     try
                                     {
-                                        using (SolidBrush foreBrush = new SolidBrush(ForeColor))
-                                        {
-                                            g.DrawString(drawText, Font, foreBrush,
-                                                         new RectangleF(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top),
-                                                         stringFormat);
-                                        }
+                                        using SolidBrush foreBrush = new(ForeColor);
+                                        g.DrawString(drawText, Font, foreBrush,
+                                            new RectangleF(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top),
+                                            stringFormat);
                                     }
                                     catch (ArgumentException)
                                     {
-                                        using (SolidBrush foreBrush = new SolidBrush(ForeColor))
-                                        {
-                                            g.DrawString(drawText, _kryptonMaskedTextBox.GetTripleState().PaletteContent.GetContentShortTextFont(PaletteState.Disabled), foreBrush,
-                                                         new RectangleF(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top),
-                                                         stringFormat);
-                                        }
+                                        using SolidBrush foreBrush = new(ForeColor);
+                                        g.DrawString(drawText, _kryptonMaskedTextBox.GetTripleState().PaletteContent.GetContentShortTextFont(PaletteState.Disabled), foreBrush,
+                                            new RectangleF(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top),
+                                            stringFormat);
                                     }
                                 }
 
@@ -276,7 +252,7 @@ namespace Krypton.Toolkit
                         if (_kryptonMaskedTextBox.KryptonContextMenu != null)
                         {
                             // Extract the screen mouse position (if might not actually be provided)
-                            Point mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                            Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                             // If keyboard activated, the menu position is centered
                             if (((int)((long)m.LParam)) == -1)
@@ -302,30 +278,25 @@ namespace Krypton.Toolkit
             /// Raises the TrackMouseEnter event.
             /// </summary>
             /// <param name="e">An EventArgs containing the event data.</param>
-            protected virtual void OnTrackMouseEnter(EventArgs e)
-            {
-                TrackMouseEnter?.Invoke(this, e);
-            }
+            protected virtual void OnTrackMouseEnter(EventArgs e) => TrackMouseEnter?.Invoke(this, e);
 
             /// <summary>
             /// Raises the TrackMouseLeave event.
             /// </summary>
             /// <param name="e">An EventArgs containing the event data.</param>
-            protected virtual void OnTrackMouseLeave(EventArgs e)
-            {
-                TrackMouseLeave?.Invoke(this, e);
-            }
-#endregion
-        }
-#endregion
+            protected virtual void OnTrackMouseLeave(EventArgs e) => TrackMouseLeave?.Invoke(this, e);
 
-#region Type Definitions
+            #endregion
+        }
+        #endregion
+
+        #region Type Definitions
         /// <summary>
         /// Collection for managing ButtonSpecAny instances.
         /// </summary>
         public class MaskedTextBoxButtonSpecCollection : ButtonSpecCollection<ButtonSpecAny>
         {
-#region Identity
+            #region Identity
             /// <summary>
             /// Initialize a new instance of the MaskedTextBoxButtonSpecCollection class.
             /// </summary>
@@ -334,11 +305,11 @@ namespace Krypton.Toolkit
                 : base(owner)
             {
             }
-#endregion
+            #endregion
         }
-#endregion
+        #endregion
 
-#region Instance Fields
+        #region Instance Fields
 
         private VisualPopupToolTip _visualPopupToolTip;
         private readonly ButtonSpecManagerLayout _buttonManager;
@@ -347,16 +318,16 @@ namespace Krypton.Toolkit
         private readonly ViewLayoutFill _layoutFill;
         private readonly InternalMaskedTextBox _maskedTextBox;
         private InputControlStyle _inputControlStyle;
-        private Nullable<bool> _fixedActive;
+        private bool? _fixedActive;
         private bool _forcedLayout;
         private bool _autoSize;
         private bool _mouseOver;
         private bool _alwaysActive;
         private bool _trackingMouseEnter;
         private int _cachedHeight;
-#endregion
+        #endregion
 
-#region Events
+        #region Events
         /// <summary>
         /// Occurs when the value of the HideSelection property changes.
         /// </summary>
@@ -456,9 +427,9 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public new event EventHandler ForeColorChanged;
-#endregion
+        #endregion
 
-#region Identity
+        #region Identity
         /// <summary>
         /// Initialize a new instance of the KryptonMaskedTextBox class.
         /// </summary>
@@ -479,7 +450,7 @@ namespace Krypton.Toolkit
             _cachedHeight = -1;
             _alwaysActive = true;
             AllowButtonSpecToolTips = false;
-			AllowButtonSpecToolTipPriority = false;
+            AllowButtonSpecToolTipPriority = false;
 
             // Create storage properties
             ButtonSpecs = new MaskedTextBoxButtonSpecCollection(this);
@@ -512,7 +483,7 @@ namespace Krypton.Toolkit
             _maskedTextBox.Validating += OnMaskedTextBoxValidating;
             _maskedTextBox.Validated += OnMaskedTextBoxValidated;
 
-            // Create the element that fills the remainder space and remembers fill rectange
+            // Create the element that fills the remainder space and remembers fill rectangle
             _layoutFill = new ViewLayoutFill(_maskedTextBox);
 
             // Create inner view for placing inside the drawing docker
@@ -566,19 +537,12 @@ namespace Krypton.Toolkit
 
             base.Dispose(disposing);
         }
-#endregion
+        #endregion
 
-#region Public
+        #region Public
         public string Hint { get => _maskedTextBox.Hint; set => _maskedTextBox.Hint = value; }
 
-        private bool ShouldSerializeHint()
-        {
-#if NET35
-            return !string.IsNullOrEmpty(Hint) && Hint.Trim() != string.Empty;
-#else
-            return !string.IsNullOrWhiteSpace(Hint);
-#endif
-        }
+        private bool ShouldSerializeHint() => !string.IsNullOrWhiteSpace(Hint);
 
 
         /// <summary>
@@ -592,10 +556,7 @@ namespace Krypton.Toolkit
         /// Overridden. Returns a string that represents the current masked text box. This method overrides ToString.
         /// </summary>
         /// <returns></returns>
-        public override string ToString()
-        {
-            return _maskedTextBox.ToString();
-        }
+        public override string ToString() => _maskedTextBox.ToString();
 
         /// <summary>
         /// Gets and sets if the control is in the tab chain.
@@ -709,7 +670,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the text associated with the control.
         /// </summary>
-        [Editor("System.Windows.Forms.Design.MaskedTextBoxTextEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.MaskedTextBoxTextEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [RefreshProperties(RefreshProperties.All)]
         public override string Text
         {
@@ -941,10 +902,7 @@ namespace Krypton.Toolkit
             set => _maskedTextBox.Culture = value;
         }
 
-        private bool ShouldSerializeCulture()
-        {
-            return !CultureInfo.CurrentCulture.Equals(Culture);
-        }
+        private bool ShouldSerializeCulture() => !CultureInfo.CurrentCulture.Equals(Culture);
 
         /// <summary>
         /// Gets or sets a value that determines whether literals and prompt characters are copied to the clipboard.
@@ -1144,10 +1102,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeInputControlStyle()
-        {
-            return (InputControlStyle != InputControlStyle.Standalone);
-        }
+        private bool ShouldSerializeInputControlStyle() => (InputControlStyle != InputControlStyle.Standalone);
 
         private void ResetInputControlStyle()
         {
@@ -1161,8 +1116,8 @@ namespace Krypton.Toolkit
         [Description("Should tooltips be displayed for button specs.")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips { get; set; }
-		
-		/// <summary>
+
+        /// <summary>
         /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
         /// </summary>
         [Category("Visuals")]
@@ -1186,10 +1141,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleRedirect StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled textbox appearance entries.
@@ -1199,10 +1151,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleStates StateDisabled { get; }
 
-        private bool ShouldSerializeStateDisabled()
-        {
-            return !StateDisabled.IsDefault;
-        }
+        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
         /// <summary>
         /// Gets access to the normal textbox appearance entries.
@@ -1212,10 +1161,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleStates StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
         /// <summary>
         /// Gets access to the active textbox appearance entries.
@@ -1225,107 +1171,71 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleStates StateActive { get; }
 
-        private bool ShouldSerializeStateActive()
-        {
-            return !StateActive.IsDefault;
-        }
+        private bool ShouldSerializeStateActive() => !StateActive.IsDefault;
 
         /// <summary>
         /// Appends text to the current text of a rich text box.
         /// </summary>
         /// <param name="text">The text to append to the current contents of the text box.</param>
-        public void AppendText(string text)
-        {
-            _maskedTextBox.AppendText(text);
-        }
+        public void AppendText(string text) => _maskedTextBox.AppendText(text);
 
         /// <summary>
         /// Clears all text from the text box control.
         /// </summary>
-        public void Clear()
-        {
-            _maskedTextBox.Clear();
-        }
+        public void Clear() => _maskedTextBox.Clear();
 
         /// <summary>
         /// Copies the current selection in the text box to the Clipboard.
         /// </summary>
-        public void Copy()
-        {
-            _maskedTextBox.Copy();
-        }
+        public void Copy() => _maskedTextBox.Copy();
 
         /// <summary>
         /// Moves the current selection in the text box to the Clipboard.
         /// </summary>
-        public void Cut()
-        {
-            _maskedTextBox.Cut();
-        }
+        public void Cut() => _maskedTextBox.Cut();
 
         /// <summary>
         /// Replaces the current selection in the text box with the contents of the Clipboard.
         /// </summary>
-        public void Paste()
-        {
-            _maskedTextBox.Paste();
-        }
+        public void Paste() => _maskedTextBox.Paste();
 
         /// <summary>
         /// Selects a range of text in the control.
         /// </summary>
         /// <param name="start">The position of the first character in the current text selection within the text box.</param>
         /// <param name="length">The number of characters to select.</param>
-        public void Select(int start, int length)
-        {
-            _maskedTextBox.Select(start, length);
-        }
+        public void Select(int start, int length) => _maskedTextBox.Select(start, length);
 
         /// <summary>
         /// Selects all text in the control.
         /// </summary>
-        public void SelectAll()
-        {
-            _maskedTextBox.SelectAll();
-        }
+        public void SelectAll() => _maskedTextBox.SelectAll();
 
         /// <summary>
         /// Specifies that the value of the SelectionLength property is zero so that no characters are selected in the control.
         /// </summary>
-        public void DeselectAll()
-        {
-            _maskedTextBox.DeselectAll();
-        }
+        public void DeselectAll() => _maskedTextBox.DeselectAll();
 
         /// <summary>
         /// Retrieves the character that is closest to the specified location within the control.
         /// </summary>
         /// <param name="pt">The location from which to seek the nearest character.</param>
         /// <returns>The character at the specified location.</returns>
-        public int GetCharFromPosition(Point pt)
-        {
-            return _maskedTextBox.GetCharFromPosition(pt);
-        }
+        public int GetCharFromPosition(Point pt) => _maskedTextBox.GetCharFromPosition(pt);
 
         /// <summary>
         /// Retrieves the index of the character nearest to the specified location.
         /// </summary>
         /// <param name="pt">The location to search.</param>
         /// <returns>The zero-based character index at the specified location.</returns>
-        public int GetCharIndexFromPosition(Point pt)
-        {
-            return _maskedTextBox.GetCharIndexFromPosition(pt);
-        }
+        public int GetCharIndexFromPosition(Point pt) => _maskedTextBox.GetCharIndexFromPosition(pt);
 
         /// <summary>
         /// Retrieves the location within the control at the specified character index.
         /// </summary>
         /// <param name="index">The index of the character for which to retrieve the location.</param>
         /// <returns>The location of the specified character.</returns>
-        public Point GetPositionFromCharIndex(int index)
-        {
-            return _maskedTextBox.GetPositionFromCharIndex(index);
-        }
+        public Point GetPositionFromCharIndex(int index) => _maskedTextBox.GetPositionFromCharIndex(index);
 
         /// <summary>
         /// Sets the fixed state of the control.
@@ -1340,10 +1250,7 @@ namespace Krypton.Toolkit
         /// Converts the user input string to an instance of the validating type.
         /// </summary>
         /// <returns></returns>
-        public object ValidateText()
-        {
-            return _maskedTextBox.ValidateText();
-        }
+        public object ValidateText() => _maskedTextBox.ValidateText();
 
         /// <summary>
         /// Gets access to the ToolTipManager used for displaying tool tips.
@@ -1357,20 +1264,10 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public bool IsActive
-        {
-            get
-            {
-                if (_fixedActive != null)
-                {
-                    return _fixedActive.Value;
-                }
-                else
-                {
-                    return (DesignMode || AlwaysActive || ContainsFocus || _mouseOver || _maskedTextBox.MouseOver);
-                }
-            }
-        }
+        public bool IsActive =>
+            _fixedActive != null
+                ? _fixedActive.Value
+                : DesignMode || AlwaysActive || ContainsFocus || _mouseOver || _maskedTextBox.MouseOver;
 
         /// <summary>
         /// Sets input focus to the control.
@@ -1475,28 +1372,24 @@ namespace Krypton.Toolkit
         /// <param name="pt">Mouse location.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public Component DesignerComponentFromPoint(Point pt)
-        {
+        public Component DesignerComponentFromPoint(Point pt) =>
             // Ignore call as view builder is already destructed
-            return IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
+            IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
 
-            // Ask the current view for a decision
-        }
-
+        // Ask the current view for a decision
         /// <summary>
         /// Internal design time method.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public void DesignerMouseLeave()
-        {
+        public void DesignerMouseLeave() =>
             // Simulate the mouse leaving the control so that the tracking
             // element that thinks it has the focus is informed it does not
             OnMouseLeave(EventArgs.Empty);
-        }
-#endregion
 
-#region Protected
+        #endregion
+
+        #region Protected
         /// <summary>
         /// Force the layout logic to size and position the controls.
         /// </summary>
@@ -1506,112 +1399,79 @@ namespace Krypton.Toolkit
             OnLayout(new LayoutEventArgs(null, null));
             _forcedLayout = false;
         }
-#endregion
+        #endregion
 
-#region Protected Virtual
+        #region Protected Virtual
         // ReSharper disable VirtualMemberNeverOverridden.Global
         /// <summary>
         /// Raises the TextAlignChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnTextAlignChanged(EventArgs e)
-        {
-            TextAlignChanged?.Invoke(this, e);
-        }
+        protected virtual void OnTextAlignChanged(EventArgs e) => TextAlignChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the HideSelectionChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnHideSelectionChanged(EventArgs e)
-        {
-            HideSelectionChanged?.Invoke(this, e);
-        }
+        protected virtual void OnHideSelectionChanged(EventArgs e) => HideSelectionChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ModifiedChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnModifiedChanged(EventArgs e)
-        {
-            ModifiedChanged?.Invoke(this, e);
-        }
+        protected virtual void OnModifiedChanged(EventArgs e) => ModifiedChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ReadOnlyChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnReadOnlyChanged(EventArgs e)
-        {
-            ReadOnlyChanged?.Invoke(this, e);
-        }
+        protected virtual void OnReadOnlyChanged(EventArgs e) => ReadOnlyChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the MaskChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnMaskChanged(EventArgs e)
-        {
-            MaskChanged?.Invoke(this, e);
-        }
+        protected virtual void OnMaskChanged(EventArgs e) => MaskChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the IsOverwriteModeChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnIsOverwriteModeChanged(EventArgs e)
-        {
-            IsOverwriteModeChanged?.Invoke(this, e);
-        }
+        protected virtual void OnIsOverwriteModeChanged(EventArgs e) => IsOverwriteModeChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the MaskInputRejected event.
         /// </summary>
         /// <param name="e">An MaskInputRejectedEventArgs that contains the event data.</param>
-        protected virtual void OnMaskInputRejected(MaskInputRejectedEventArgs e)
-        {
-            MaskInputRejected?.Invoke(this, e);
-        }
+        protected virtual void OnMaskInputRejected(MaskInputRejectedEventArgs e) => MaskInputRejected?.Invoke(this, e);
 
         /// <summary>
         /// Raises the TypeValidationCompleted event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnTypeValidationCompleted(TypeValidationEventArgs e)
-        {
-            TypeValidationCompleted?.Invoke(this, e);
-        }
+        protected virtual void OnTypeValidationCompleted(TypeValidationEventArgs e) => TypeValidationCompleted?.Invoke(this, e);
 
         /// <summary>
         /// Raises the TrackMouseEnter event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnTrackMouseEnter(EventArgs e)
-        {
-            TrackMouseEnter?.Invoke(this, e);
-        }
+        protected virtual void OnTrackMouseEnter(EventArgs e) => TrackMouseEnter?.Invoke(this, e);
 
         /// <summary>
         /// Raises the TrackMouseLeave event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnTrackMouseLeave(EventArgs e)
-        {
-            TrackMouseLeave?.Invoke(this, e);
-        }
+        protected virtual void OnTrackMouseLeave(EventArgs e) => TrackMouseLeave?.Invoke(this, e);
         // ReSharper restore VirtualMemberNeverOverridden.Global
-#endregion
+        #endregion
 
-#region Protected Overrides
+        #region Protected Overrides
         /// <summary>
         /// Creates a new instance of the control collection for the KryptonTextBox.
         /// </summary>
         /// <returns>A new instance of Control.ControlCollection assigned to the control.</returns>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        protected override ControlCollection CreateControlsInstance()
-        {
-            return new KryptonReadOnlyControls(this);
-        }
+        protected override ControlCollection CreateControlsInstance() => new KryptonReadOnlyControls(this);
 
         /// <summary>
         /// Raises the HandleCreated event.
@@ -1658,37 +1518,25 @@ namespace Krypton.Toolkit
         /// Raises the BackColorChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected override void OnBackColorChanged(EventArgs e)
-        {
-            BackColorChanged?.Invoke(this, e);
-        }
+        protected override void OnBackColorChanged(EventArgs e) => BackColorChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the BackgroundImageChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected override void OnBackgroundImageChanged(EventArgs e)
-        {
-            BackgroundImageChanged?.Invoke(this, e);
-        }
+        protected override void OnBackgroundImageChanged(EventArgs e) => BackgroundImageChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the BackgroundImageLayoutChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected override void OnBackgroundImageLayoutChanged(EventArgs e)
-        {
-            BackgroundImageLayoutChanged?.Invoke(this, e);
-        }
+        protected override void OnBackgroundImageLayoutChanged(EventArgs e) => BackgroundImageLayoutChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ForeColorChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected override void OnForeColorChanged(EventArgs e)
-        {
-            ForeColorChanged?.Invoke(this, e);
-        }
+        protected override void OnForeColorChanged(EventArgs e) => ForeColorChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the Resize event.
@@ -1807,7 +1655,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new Size(100, PreferredHeight);
+        protected override Size DefaultSize => new(100, PreferredHeight);
 
         /// <summary>
         /// Processes a notification from palette storage of a paint and optional layout required.
@@ -1901,14 +1749,14 @@ namespace Krypton.Toolkit
                     break;
             }
         }
-#endregion
+        #endregion
 
-#region Internal
+        #region Internal
         internal bool InTransparentDesignMode => InRibbonDesignMode;
 
-#endregion
+        #endregion
 
-#region Implementation
+        #region Implementation
         private void UpdateStateAndPalettes()
         {
             // Get the correct palette settings to use
@@ -1947,50 +1795,23 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnMaskedTextBoxTextChanged(object sender, EventArgs e)
-        {
-            OnTextChanged(e);
-        }
+        private void OnMaskedTextBoxTextChanged(object sender, EventArgs e) => OnTextChanged(e);
 
-        private void OnMaskedTextBoxTextAlignChanged(object sender, EventArgs e)
-        {
-            OnTextAlignChanged(e);
-        }
+        private void OnMaskedTextBoxTextAlignChanged(object sender, EventArgs e) => OnTextAlignChanged(e);
 
-        private void OnMaskedTextBoxHideSelectionChanged(object sender, EventArgs e)
-        {
-            OnHideSelectionChanged(e);
-        }
+        private void OnMaskedTextBoxHideSelectionChanged(object sender, EventArgs e) => OnHideSelectionChanged(e);
 
-        private void OnMaskedTextBoxModifiedChanged(object sender, EventArgs e)
-        {
-            OnModifiedChanged(e);
-        }
+        private void OnMaskedTextBoxModifiedChanged(object sender, EventArgs e) => OnModifiedChanged(e);
 
-        private void OnMaskedTextBoxReadOnlyChanged(object sender, EventArgs e)
-        {
-            OnReadOnlyChanged(e);
-        }
+        private void OnMaskedTextBoxReadOnlyChanged(object sender, EventArgs e) => OnReadOnlyChanged(e);
 
-        private void OnMaskedMaskChanged(object sender, EventArgs e)
-        {
-            OnMaskChanged(e);
-        }
+        private void OnMaskedMaskChanged(object sender, EventArgs e) => OnMaskChanged(e);
 
-        private void OnMaskedIsOverwriteModeChanged(object sender, EventArgs e)
-        {
-            OnIsOverwriteModeChanged(e);
-        }
+        private void OnMaskedIsOverwriteModeChanged(object sender, EventArgs e) => OnIsOverwriteModeChanged(e);
 
-        private void OnMaskedMaskInputRejected(object sender, MaskInputRejectedEventArgs e)
-        {
-            OnMaskInputRejected(e);
-        }
+        private void OnMaskedMaskInputRejected(object sender, MaskInputRejectedEventArgs e) => OnMaskInputRejected(e);
 
-        private void OnMaskedTypeValidationCompleted(object sender, TypeValidationEventArgs e)
-        {
-            OnTypeValidationCompleted(e);
-        }
+        private void OnMaskedTypeValidationCompleted(object sender, TypeValidationEventArgs e) => OnTypeValidationCompleted(e);
 
         private void OnMaskedTextBoxGotFocus(object sender, EventArgs e)
         {
@@ -2006,35 +1827,17 @@ namespace Krypton.Toolkit
             OnLostFocus(e);
         }
 
-        private void OnMaskedTextBoxKeyPress(object sender, KeyPressEventArgs e)
-        {
-            OnKeyPress(e);
-        }
+        private void OnMaskedTextBoxKeyPress(object sender, KeyPressEventArgs e) => OnKeyPress(e);
 
-        private void OnMaskedTextBoxKeyUp(object sender, KeyEventArgs e)
-        {
-            OnKeyUp(e);
-        }
+        private void OnMaskedTextBoxKeyUp(object sender, KeyEventArgs e) => OnKeyUp(e);
 
-        private void OnMaskedTextBoxKeyDown(object sender, KeyEventArgs e)
-        {
-            OnKeyDown(e);
-        }
+        private void OnMaskedTextBoxKeyDown(object sender, KeyEventArgs e) => OnKeyDown(e);
 
-        private void OnMaskedTextBoxPreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-        {
-            OnPreviewKeyDown(e);
-        }
+        private void OnMaskedTextBoxPreviewKeyDown(object sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-        private void OnMaskedTextBoxValidated(object sender, EventArgs e)
-        {
-            OnValidated(e);
-        }
+        private void OnMaskedTextBoxValidated(object sender, EventArgs e) => OnValidated(e);
 
-        private void OnMaskedTextBoxValidating(object sender, CancelEventArgs e)
-        {
-            OnValidating(e);
-        }
+        private void OnMaskedTextBoxValidating(object sender, CancelEventArgs e) => OnValidating(e);
 
         private void OnShowToolTip(object sender, ToolTipEventArgs e)
         {
@@ -2063,7 +1866,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            ButtonSpecToContent buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
+                            ButtonSpecToContent buttonSpecMapping = new(Redirector, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)
@@ -2078,10 +1881,10 @@ namespace Krypton.Toolkit
                     {
                         // Remove any currently showing tooltip
                         _visualPopupToolTip?.Dispose();
-						
-						if (AllowButtonSpecToolTipPriority)
+
+                        if (AllowButtonSpecToolTipPriority)
                         {
-                            _visualBasePopupToolTip?.Dispose();
+                            visualBasePopupToolTip?.Dispose();
                         }
 
                         // Create the actual tooltip popup object
@@ -2099,11 +1902,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnCancelToolTip(object sender, EventArgs e)
-        {
+        private void OnCancelToolTip(object sender, EventArgs e) =>
             // Remove any currently showing tooltip
             _visualPopupToolTip?.Dispose();
-        }
 
         private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
         {
@@ -2135,6 +1936,6 @@ namespace Krypton.Toolkit
                 }
             }
         }
-#endregion
+        #endregion
     }
 }

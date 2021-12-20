@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -36,7 +30,7 @@ namespace Krypton.Toolkit
         private bool _draggingAttempt;
         private bool _preDragOffset;
         private NeedPaintHandler _needPaint;
-        private Timer _repeatTimer;
+        private System.Windows.Forms.Timer _repeatTimer, _t;
         private Rectangle _dragRect;
 
         #endregion
@@ -262,7 +256,7 @@ namespace Krypton.Toolkit
                             {
                                 _draggingAttempt = true;
                                 Point targetOrigin = Target.ClientLocation;
-                                Point offset = new Point(MousePoint.X - targetOrigin.X, MousePoint.Y - targetOrigin.Y);
+                                Point offset = new(MousePoint.X - targetOrigin.X, MousePoint.Y - targetOrigin.Y);
                                 OnDragStart(MousePoint, offset, c);
                             }
                         }
@@ -270,7 +264,7 @@ namespace Krypton.Toolkit
 
                     if (!_dragging && !_dragRect.IsEmpty && _preDragOffset)
                     {
-                        ButtonDragOffsetEventArgs args = new ButtonDragOffsetEventArgs(pt);
+                        ButtonDragOffsetEventArgs args = new(pt);
                         OnButtonDragOffset(args);
                     }
                 }
@@ -300,7 +294,7 @@ namespace Krypton.Toolkit
                         _draggingAttempt = false;
 
                         // Use event to discover the rectangle that causes dragging to begin
-                        ButtonDragRectangleEventArgs args = new ButtonDragRectangleEventArgs(pt);
+                        ButtonDragRectangleEventArgs args = new(pt);
                         OnButtonDragRectangle(args);
                         _dragRect = args.DragRect;
                         _preDragOffset = args.PreDragOffset;
@@ -327,7 +321,7 @@ namespace Krypton.Toolkit
                                 // If we need to perform click repeats then use a timer...
                                 if (Repeat)
                                 {
-                                    _repeatTimer = new Timer
+                                    _repeatTimer = new System.Windows.Forms.Timer
                                     {
                                         Interval = SystemInformation.DoubleClickTime
                                     };
@@ -684,19 +678,14 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Fires the NeedPaint event.
         /// </summary>
-        public void PerformNeedPaint()
-        {
-            OnNeedPaint(false);
-        }
+        public void PerformNeedPaint() => OnNeedPaint(false);
 
         /// <summary>
         /// Fires the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        public void PerformNeedPaint(bool needLayout)
-        {
-            OnNeedPaint(needLayout);
-        }
+        public void PerformNeedPaint(bool needLayout) => OnNeedPaint(needLayout);
+
         #endregion
 
         #region Protected
@@ -705,7 +694,7 @@ namespace Krypton.Toolkit
         /// </summary>
         protected virtual bool IsOperating
         {
-            get { return true; }
+            get => true;
             set { }
         }
 
@@ -714,7 +703,7 @@ namespace Krypton.Toolkit
         /// </summary>
         protected virtual bool IsOnlyPressedWhenOver
         {
-            get { return true; }
+            get => true;
             set { }
         }
 
@@ -728,10 +717,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="next">View to investigate.</param>
         /// <returns>True is part of button; otherwise false.</returns>
-        protected virtual bool ViewIsPartOfButton(ViewBase next)
-        {
-            return Target.ContainsRecurse(next);
-        }
+        protected virtual bool ViewIsPartOfButton(ViewBase next) => Target.ContainsRecurse(next);
 
         /// <summary>
         /// Set the correct visual state of the target.
@@ -761,7 +747,7 @@ namespace Krypton.Toolkit
         protected virtual void UpdateTargetState(Point pt)
         {
             // By default the button is in the normal state
-            PaletteState newState = PaletteState.Normal;
+            PaletteState newState;
 
             // If the button is disabled then show as disabled
             if (!Target.Enabled)
@@ -824,19 +810,13 @@ namespace Krypton.Toolkit
         /// Raises the ButtonDragRectangle event.
         /// </summary>
         /// <param name="e">An ButtonDragRectangleEventArgs containing the event args.</param>
-        protected virtual void OnButtonDragRectangle(ButtonDragRectangleEventArgs e)
-        {
-            ButtonDragRectangle?.Invoke(this, e);
-        }
+        protected virtual void OnButtonDragRectangle(ButtonDragRectangleEventArgs e) => ButtonDragRectangle?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ButtonDragOffset event.
         /// </summary>
         /// <param name="e">An ButtonDragOffsetEventArgs containing the event args.</param>
-        protected virtual void OnButtonDragOffset(ButtonDragOffsetEventArgs e)
-        {
-            ButtonDragOffset?.Invoke(this, e);
-        }
+        protected virtual void OnButtonDragOffset(ButtonDragOffsetEventArgs e) => ButtonDragOffset?.Invoke(this, e);
 
         /// <summary>
         /// Raises the DragStart event.
@@ -848,7 +828,7 @@ namespace Krypton.Toolkit
         {
             // Convert point from client to screen coordinates
             mousePt = Target.OwningControl.PointToScreen(mousePt);
-            DragStartEventCancelArgs ce = new DragStartEventCancelArgs(mousePt, offset, c);
+            DragStartEventCancelArgs ce = new(mousePt, offset, c);
 
             DragStart?.Invoke(this, ce);
 
@@ -898,45 +878,34 @@ namespace Krypton.Toolkit
         /// Raises the Click event.
         /// </summary>
         /// <param name="e">A MouseEventArgs containing the event data.</param>
-        protected virtual void OnClick(MouseEventArgs e)
-        {
-            Click?.Invoke(Target, e);
-        }
+        protected virtual void OnClick(MouseEventArgs e) => Click?.Invoke(Target, e);
 
         /// <summary>
         /// Raises the RightClick event.
         /// </summary>
         /// <param name="e">A MouseEventArgs containing the event data.</param>
-        protected virtual void OnRightClick(MouseEventArgs e)
-        {
-            RightClick?.Invoke(Target, e);
-        }
-        
+        protected virtual void OnRightClick(MouseEventArgs e) => RightClick?.Invoke(Target, e);
+
         /// <summary>
         /// Raises the MouseSelect event.
         /// </summary>
         /// <param name="e">A MouseEventArgs containing the event data.</param>
-        protected virtual void OnMouseSelect(MouseEventArgs e)
-        {
-            MouseSelect?.Invoke(Target, e);
-        }
+        protected virtual void OnMouseSelect(MouseEventArgs e) => MouseSelect?.Invoke(Target, e);
 
         /// <summary>
         /// Raises the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected virtual void OnNeedPaint(bool needLayout)
-        {
-            _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout, Target.ClientRectangle));
-        }
+        protected virtual void OnNeedPaint(bool needLayout) => _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout, Target.ClientRectangle));
+
         #endregion
 
         #region Implementation
         private void OnRepeatTimer(object sender, EventArgs e)
         {
             // Modify subsequent repeat timing
-            Timer t = (Timer)sender;
-            t.Interval = Math.Max(SystemInformation.DoubleClickTime / 4, 100);
+            _t = (System.Windows.Forms.Timer)sender;
+            _t.Interval = Math.Max(SystemInformation.DoubleClickTime / 4, 100);
             OnClick(new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0));
         }
         #endregion

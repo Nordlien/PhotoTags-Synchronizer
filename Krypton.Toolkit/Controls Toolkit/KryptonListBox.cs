@@ -2,23 +2,16 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Drawing.Design;
-using System.Linq;
-using System.Windows.Forms;
 
+#pragma warning disable 67
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -29,7 +22,7 @@ namespace Krypton.Toolkit
     [DefaultEvent("SelectedIndexChanged")]
     [DefaultProperty("Items")]
     [DefaultBindingProperty("SelectedValue")]
-    [Designer(typeof(KryptonListBoxDesigner))]
+    [Designer("Krypton.Toolkit.KryptonListBoxDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Represents a list box control that allows single or multiple item selection.")]
     public class KryptonListBox : VisualControlBase,
@@ -150,7 +143,7 @@ namespace Krypton.Toolkit
             /// </summary>
             public override DrawMode DrawMode
             {
-                get { return DrawMode.OwnerDrawVariable; }
+                get => DrawMode.OwnerDrawVariable;
                 set { }
             }
 
@@ -174,10 +167,8 @@ namespace Krypton.Toolkit
                 base.OnLayout(levent);
 
                 // Ask the panel to layout given our available size
-                using (ViewLayoutContext context = new ViewLayoutContext(_viewManager, this, _kryptonListBox, _kryptonListBox.Renderer))
-                {
-                    ViewDrawPanel.Layout(context);
-                }
+                using ViewLayoutContext context = new(_viewManager, this, _kryptonListBox, _kryptonListBox.Renderer);
+                ViewDrawPanel.Layout(context);
             }
 
             /// <summary>
@@ -220,7 +211,7 @@ namespace Krypton.Toolkit
                         else
                         {
                             // Find the item under the mouse
-                            Point mousePoint = new Point((int)m.LParam.ToInt64());
+                            Point mousePoint = new((int)m.LParam.ToInt64());
                             int mouseIndex = IndexFromPoint(mousePoint);
 
                             // If we have an actual item from the point
@@ -265,7 +256,7 @@ namespace Krypton.Toolkit
             #region Private
             private void WmPaint(ref Message m)
             {
-                PI.PAINTSTRUCT ps = new PI.PAINTSTRUCT();
+                PI.PAINTSTRUCT ps = new();
 
                 // Do we need to BeginPaint or just take the given HDC?
                 IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
@@ -291,13 +282,13 @@ namespace Krypton.Toolkit
                             using (Graphics g = Graphics.FromHdc(_screenDC))
                             {
                                 // Ask the view element to layout in given space, needs this before a render call
-                                using (ViewLayoutContext context = new ViewLayoutContext(this, _kryptonListBox.Renderer))
+                                using (ViewLayoutContext context = new(this, _kryptonListBox.Renderer))
                                 {
                                     context.DisplayRectangle = realRect;
                                     ViewDrawPanel.Layout(context);
                                 }
 
-                                using (RenderContext context = new RenderContext(this, _kryptonListBox, g, realRect, _kryptonListBox.Renderer))
+                                using (RenderContext context = new(this, _kryptonListBox, g, realRect, _kryptonListBox.Renderer))
                                 {
                                     ViewDrawPanel.Render(context);
                                 }
@@ -310,10 +301,8 @@ namespace Krypton.Toolkit
 
                                 if (Items.Count == 0)
                                 {
-                                    using (RenderContext context = new RenderContext(this, _kryptonListBox, g, realRect, _kryptonListBox.Renderer))
-                                    {
-                                        ViewDrawPanel.Render(context);
-                                    }
+                                    using RenderContext context = new(this, _kryptonListBox, g, realRect, _kryptonListBox.Renderer);
+                                    ViewDrawPanel.Render(context);
                                 }
                             }
 
@@ -323,11 +312,9 @@ namespace Krypton.Toolkit
                             // When disabled with no items the above code does not draw the background!
                             if (Items.Count == 0)
                             {
-                                using (Graphics g = Graphics.FromHdc(hdc))
-                                using (RenderContext context = new RenderContext(this, _kryptonListBox, g, realRect, _kryptonListBox.Renderer))
-                                {
-                                    ViewDrawPanel.Render(context);
-                                }
+                                using Graphics g = Graphics.FromHdc(hdc);
+                                using RenderContext context = new(this, _kryptonListBox, g, realRect, _kryptonListBox.Renderer);
+                                ViewDrawPanel.Render(context);
                             }
                         }
                         finally
@@ -349,7 +336,6 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-
         private readonly PaletteTripleOverride _overrideNormal;
         private readonly PaletteTripleOverride _overrideTracking;
         private readonly PaletteTripleOverride _overridePressed;
@@ -362,7 +348,7 @@ namespace Krypton.Toolkit
         private readonly ViewDrawButton _drawButton;
         private readonly InternalListBox _listBox;
         private readonly FixedContentValue _contentValues;
-        private Nullable<bool> _fixedActive;
+        private bool? _fixedActive;
         private ButtonStyle _style;
         private readonly IntPtr _screenDC;
         private int[] _lastSelectedColl;
@@ -611,12 +597,10 @@ namespace Krypton.Toolkit
             ((KryptonReadOnlyControls)Controls).AddInternal(_listBox);
         }
 
-        private void OnListBoxClick(object sender, EventArgs e)
-        {
+        private void OnListBoxClick(object sender, EventArgs e) =>
             // ReSharper disable RedundantBaseQualifier
             base.OnClick(e);
-            // ReSharper restore RedundantBaseQualifier
-        }
+        // ReSharper restore RedundantBaseQualifier
 
         /// <summary>
         /// Releases all resources used by the Control. 
@@ -874,7 +858,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Data")]
         [Description("Indicates the property to use as the actual value of the items in the control.")]
-        [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DefaultValue("")]
         public virtual string ValueMember
         {
@@ -901,8 +885,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Data")]
         [Description("Indicates the property to display for the items in this control.")]
-        [TypeConverter("System.Windows.Forms.Design.DataMemberFieldConverter, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
-        [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [TypeConverter("System.Windows.Forms.Design.DataMemberFieldConverter, " + AssemblyRef.SystemWinformsDesign)]
+        [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DefaultValue("")]
         public virtual string DisplayMember
         {
@@ -915,7 +899,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Data")]
         [Description("The items in the KryptonListBox.")]
-        [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [MergableProperty(false)]
         [Localizable(true)]
@@ -925,7 +909,7 @@ namespace Krypton.Toolkit
         /// Gets or sets the format specifier characters that indicate how a value is to be displayed.
         /// </summary>
         [Description("The format specifier characters that indicate how a value is to be displayed.")]
-        [Editor("System.Windows.Forms.Design.FormatStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.FormatStringEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [MergableProperty(false)]
         [DefaultValue("")]
         public string FormatString
@@ -1219,20 +1203,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public bool IsActive
-        {
-            get
-            {
-                if (_fixedActive != null)
-                {
-                    return _fixedActive.Value;
-                }
-                else
-                {
-                    return (DesignMode || AlwaysActive || ContainsFocus || _mouseOver || _listBox.MouseOver);
-                }
-            }
-        }
+        public bool IsActive => _fixedActive != null ? _fixedActive.Value : DesignMode || AlwaysActive || ContainsFocus || _mouseOver || _listBox.MouseOver;
 
         /// <summary>
         /// Sets input focus to the control.
@@ -1522,7 +1493,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new Size(120, 96);
+        protected override Size DefaultSize => new(120, 96);
 
         #endregion
 
@@ -1628,27 +1599,24 @@ namespace Krypton.Toolkit
                         PI.SelectObject(_screenDC, hBitmap);
 
                         // Easier to draw using a graphics instance than a DC!
-                        using (Graphics g = Graphics.FromHdc(_screenDC))
+                        using Graphics g = Graphics.FromHdc(_screenDC);
+                        // Ask the view element to layout in given space, needs this before a render call
+                        using (ViewLayoutContext context = new(this, Renderer))
                         {
-
-                            // Ask the view element to layout in given space, needs this before a render call
-                            using (ViewLayoutContext context = new ViewLayoutContext(this, Renderer))
-                            {
-                                context.DisplayRectangle = e.Bounds;
-                                _listBox.ViewDrawPanel.Layout(context);
-                                _drawButton.Layout(context);
-                            }
-
-                            // Ask the view element to actually draw
-                            using (RenderContext context = new RenderContext(this, g, e.Bounds, Renderer))
-                            {
-                                _listBox.ViewDrawPanel.Render(context);
-                                _drawButton.Render(context);
-                            }
-
-                            // Now blit from the bitmap from the screen to the real dc
-                            PI.BitBlt(hdc, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height, _screenDC, e.Bounds.X, e.Bounds.Y, PI.SRCCOPY);
+                            context.DisplayRectangle = e.Bounds;
+                            _listBox.ViewDrawPanel.Layout(context);
+                            _drawButton.Layout(context);
                         }
+
+                        // Ask the view element to actually draw
+                        using (RenderContext context = new(this, g, e.Bounds, Renderer))
+                        {
+                            _listBox.ViewDrawPanel.Render(context);
+                            _drawButton.Render(context);
+                        }
+
+                        // Now blit from the bitmap from the screen to the real dc
+                        PI.BitBlt(hdc, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height, _screenDC, e.Bounds.X, e.Bounds.Y, PI.SRCCOPY);
                     }
                     finally
                     {
@@ -1669,12 +1637,10 @@ namespace Krypton.Toolkit
             UpdateContentFromItemIndex(e.Index);
 
             // Ask the view element to layout in given space, needs this before a render call
-            using (ViewLayoutContext context = new ViewLayoutContext(this, Renderer))
-            {
-                Size size = _drawButton.GetPreferredSize(context);
-                e.ItemWidth = size.Width;
-                e.ItemHeight = size.Height;
-            }
+            using ViewLayoutContext context = new(this, Renderer);
+            Size size = _drawButton.GetPreferredSize(context);
+            e.ItemWidth = size.Width;
+            e.ItemHeight = size.Height;
         }
 
         private void UpdateContentFromItemIndex(int index)

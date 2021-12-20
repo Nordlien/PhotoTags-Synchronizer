@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -27,7 +20,7 @@ namespace Krypton.Ribbon
                                           IContentValues
     {
         #region Static Fields
-        private static Padding _preferredBorder = new Padding(17, 4, 17, 3);
+        private static Padding _preferredBorder = new(17, 4, 17, 3);
         #endregion
 
         #region Instance Fields
@@ -61,11 +54,9 @@ namespace Krypton.Ribbon
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawRibbonAppTab:" + Id;
-        }
+            "ViewDrawRibbonAppTab:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -130,25 +121,13 @@ namespace Krypton.Ribbon
         /// <param name="context">Rendering context.</param>
         public override void RenderBefore(RenderContext context) 
         {
-            int memento;
-
-            // Find the correct palette to use that matches the button state
-            switch (State)
+            var memento = State switch
             {
-                default:
-                case PaletteState.Normal:
-                    memento = 0;
-                    break;
-                case PaletteState.Tracking:
-                    memento = 1;
-                    break;
-                case PaletteState.Tracking | PaletteState.FocusOverride:
-                    memento = 2;
-                    break;
-                case PaletteState.Pressed:
-                    memento = 3;
-                    break;
-            }
+                PaletteState.Tracking => 1,
+                PaletteState.Tracking | PaletteState.FocusOverride => 2,
+                PaletteState.Pressed => 3,
+                _ => 0
+            };
 
             // Draw the background
             _mementos[memento] = context.Renderer.RenderRibbon.DrawRibbonApplicationTab(_ribbon.RibbonShape, context, ClientRectangle, State, 
@@ -164,20 +143,14 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Tab state.</param>
         /// <returns>Image.</returns>
-        public Image GetImage(PaletteState state)
-        {
-            return null;
-        }
+        public Image GetImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the image color that should be interpreted as transparent.
         /// </summary>
         /// <param name="state">Tab state.</param>
         /// <returns>Transparent Color.</returns>
-        public Color GetImageTransparentColor(PaletteState state)
-        {
-            return Color.Empty;
-        }
+        public Color GetImageTransparentColor(PaletteState state) => Color.Empty;
 
         /// <summary>
         /// Gets the short text used as the main ribbon title.
@@ -191,10 +164,8 @@ namespace Krypton.Ribbon
         /// Gets the long text used as the secondary ribbon title.
         /// </summary>
         /// <returns>Title string.</returns>
-        public string GetLongText()
-        {
-            return string.Empty;
-        }
+        public string GetLongText() => string.Empty;
+
         #endregion
     }
 }

@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.ComponentModel;
 
 namespace Krypton.Toolkit
 {
@@ -42,28 +38,20 @@ namespace Krypton.Toolkit
         /// Gets the default image value.
         /// </summary>
         /// <returns>Image reference.</returns>
-        protected override Image GetImageDefault()
-        {
-            return null;
-        }
+        protected override Image GetImageDefault() => null;
 
         /// <summary>
         /// Gets the default heading value.
         /// </summary>
         /// <returns>String reference.</returns>
-        protected override string GetHeadingDefault()
-        {
-            return _defaultText;
-        }
+        protected override string GetHeadingDefault() => _defaultText;
 
         /// <summary>
         /// Gets the default description value.
         /// </summary>
         /// <returns>String reference.</returns>
-        protected override string GetDescriptionDefault()
-        {
-            return string.Empty;
-        }
+        protected override string GetDescriptionDefault() => string.Empty;
+
         #endregion
 
         #region Description

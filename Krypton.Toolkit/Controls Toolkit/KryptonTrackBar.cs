@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -26,7 +20,7 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonTrackBar), "ToolboxBitmaps.KryptonTrackBar.bmp")]
     [DefaultEvent("ValueChanged")]
     [DefaultProperty("Value")]
-    [Designer(typeof(KryptonTrackBarDesigner))]
+    [Designer("Krypton.Toolkit.KryptonTrackBarDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Allow user to scroll between a range of values.")]
     public class KryptonTrackBar : VisualSimpleBase
@@ -80,10 +74,13 @@ namespace Krypton.Toolkit
             _overridePressed = new PaletteTrackBarPositionStatesOverride(OverrideFocus, StatePressed, PaletteState.FocusOverride);
 
             // Create the view manager instance
-            _drawTrackBar = new ViewDrawTrackBar(_overrideNormal, StateDisabled, _overrideTracking, _overridePressed, NeedPaintDelegate);
+            _drawTrackBar = new ViewDrawTrackBar(_overrideNormal, StateDisabled, _overrideTracking, _overridePressed, NeedPaintDelegate)
+            {
+                IgnoreRender = false, // (DrawBackground is true)
+                RightToLeft = RightToLeft
+            };
             _drawTrackBar.ValueChanged += OnDrawValueChanged;
             _drawTrackBar.Scroll += OnDrawScroll;
-            _drawTrackBar.RightToLeft = RightToLeft;
             ViewManager = new ViewManager(this, _drawTrackBar);
         }
         #endregion
@@ -187,10 +184,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeBackStyle()
-        {
-            return (BackStyle != PaletteBackStyle.PanelClient);
-        }
+        private bool ShouldSerializeBackStyle() => (BackStyle != PaletteBackStyle.PanelClient);
 
         private void ResetBackStyle()
         {
@@ -205,10 +199,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTrackBarRedirect OverrideFocus { get; }
 
-        private bool ShouldSerializeOverrideFocus()
-        {
-            return !OverrideFocus.IsDefault;
-        }
+        private bool ShouldSerializeOverrideFocus() => !OverrideFocus.IsDefault;
 
         /// <summary>
         /// Gets access to the common TrackBar appearance that other states can override.
@@ -218,10 +209,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTrackBarRedirect StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled TrackBar appearance.
@@ -231,10 +219,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTrackBarStates StateDisabled { get; }
 
-        private bool ShouldSerializeStateDisabled()
-        {
-            return !StateDisabled.IsDefault;
-        }
+        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
         /// <summary>
         /// Gets access to the normal TrackBar appearance.
@@ -244,10 +229,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTrackBarStates StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
         /// <summary>
         /// Gets access to the tracking TrackBar appearance.
@@ -257,10 +239,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTrackBarPositionStates StateTracking { get; }
 
-        private bool ShouldSerializeStateTracking()
-        {
-            return !StateTracking.IsDefault;
-        }
+        private bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
 
         /// <summary>
         /// Gets access to the pressed TrackBar appearance.
@@ -270,10 +249,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTrackBarPositionStates StatePressed { get; }
 
-        private bool ShouldSerializeStatePressed()
-        {
-            return !StatePressed.IsDefault;
-        }
+        private bool ShouldSerializeStatePressed() => !StatePressed.IsDefault;
 
         /// <summary>
         /// Gets and sets if the control displays like a volume control.
@@ -500,21 +476,23 @@ namespace Krypton.Toolkit
         /// Fix the control to a particular palette state.
         /// </summary>
         /// <param name="state">Palette state to fix.</param>
-        public virtual void SetFixedState(PaletteState state)
-        {
-            _drawTrackBar.SetFixedState(state);
-        }
+        public virtual void SetFixedState(PaletteState state) => _drawTrackBar.SetFixedState(state);
 
         /// <summary>
         /// Gets and sets if the control should draw the background.
         /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [Browsable(false)]
+        [Category("Visuals")]
+        [Description("Draw Background (Default = true);\r\nNote: Does not draw correctly in designer if false.")]
+        [RefreshProperties(RefreshProperties.Repaint)]
         public bool DrawBackground
         {
             get => !_drawTrackBar.IgnoreRender;
             set => _drawTrackBar.IgnoreRender = !value;
         }
+
+        private bool ShouldSerializeDrawBackground() => !DrawBackground;
+
+        private void ResetDrawBackground() => DrawBackground = true;
 
         /// <summary>
         /// Gets and sets if the control is in the ribbon design mode.
@@ -530,7 +508,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new Size(150, 35);
+        protected override Size DefaultSize => new(150, 35);
 
         /// <summary>
         /// Raises the HandleCreated event.
@@ -581,20 +559,11 @@ namespace Krypton.Toolkit
         /// <returns>true if the specified key is a regular input key; otherwise, false.</returns>
         protected override bool IsInputKey(Keys keyData)
         {
-            switch (keyData & ~Keys.Shift)
+            return (keyData & ~Keys.Shift) switch
             {
-                case Keys.Left:
-                case Keys.Right:
-                case Keys.Up:
-                case Keys.Down:
-                case Keys.Home:
-                case Keys.End:
-                case Keys.PageDown:
-                case Keys.PageUp:
-                    return true;
-            }
-
-            return base.IsInputKey(keyData);
+                Keys.Left or Keys.Right or Keys.Up or Keys.Down or Keys.Home or Keys.End or Keys.PageDown or Keys.PageUp => true,
+                _ => base.IsInputKey(keyData)
+            };
         }
 
         /// <summary>
@@ -703,10 +672,7 @@ namespace Krypton.Toolkit
         /// Raises the Scroll event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnScroll(EventArgs e)
-        {
-            Scroll?.Invoke(this, e);
-        }
+        protected virtual void OnScroll(EventArgs e) => Scroll?.Invoke(this, e);
 
         /// <summary>
         /// Raises the RightToLeftChanged event.
@@ -748,11 +714,10 @@ namespace Krypton.Toolkit
         /// Work out if this control needs to paint transparent areas.
         /// </summary>
         /// <returns>True if paint required; otherwise false.</returns>
-        protected override bool EvalTransparentPaint()
-        {
+        protected override bool EvalTransparentPaint() =>
             // If we are not drawing the background then must be transparent
-            return !DrawBackground;
-        }
+            !DrawBackground;
+
         #endregion
 
         #region Internal
@@ -784,15 +749,10 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnDrawValueChanged(object sender, EventArgs e)
-        {
-            OnValueChanged(e);
-        }
+        private void OnDrawValueChanged(object sender, EventArgs e) => OnValueChanged(e);
 
-        private void OnDrawScroll(object sender, EventArgs e)
-        {
-            OnScroll(e);
-        }
+        private void OnDrawScroll(object sender, EventArgs e) => OnScroll(e);
+
         #endregion
     }
 }

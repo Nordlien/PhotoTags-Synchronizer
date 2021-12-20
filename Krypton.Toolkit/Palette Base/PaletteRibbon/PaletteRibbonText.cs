@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.ComponentModel;
 
 namespace Krypton.Toolkit
 {
@@ -68,7 +64,7 @@ namespace Krypton.Toolkit
 
         #region SetInherit
         /// <summary>
-        /// Sets the inheritence parent.
+        /// Sets the inheritance parent.
         /// </summary>
         public void SetInherit(IPaletteRibbonText inheritText)
         {
@@ -96,7 +92,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Color for the text.")]
         [DefaultValue(typeof(Color), "")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Color TextColor
         {
             get => _textColor;
@@ -111,10 +107,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>
-        /// Reset the TextColor to the default value.
-        /// </summary>
-        public void ResetTextColor() => TextColor = Color.Empty;
+        private bool ShouldSerializeTextColor() => TextColor != Color.Empty;
+        private void ResetTextColor() => TextColor = Color.Empty;
 
         /// <summary>
         /// Gets the tab color for the item text.

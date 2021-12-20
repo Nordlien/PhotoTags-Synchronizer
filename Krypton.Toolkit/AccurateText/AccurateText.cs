@@ -2,23 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Text;
-using System.Windows.Forms;
-using System.Diagnostics;
-using System.Windows.Forms.VisualStyles;
-using System.Runtime.InteropServices;
 
 namespace Krypton.Toolkit
 {
@@ -90,7 +81,7 @@ namespace Krypton.Toolkit
             }
 
             // Create the format object used when measuring and drawing
-            StringFormat format = new StringFormat { FormatFlags = StringFormatFlags.NoClip };
+            StringFormat format = new() { FormatFlags = StringFormatFlags.NoClip };
 
             // Ensure that text reflects reversed RTL setting
             if (rtl == RightToLeft.Yes)
@@ -165,27 +156,25 @@ namespace Krypton.Toolkit
             text = text.Replace("\t", "    ");
 
             // Perform actual measure of the text
-            using (GraphicsTextHint graphicsHint = new GraphicsTextHint(g, hint))
+            using GraphicsTextHint graphicsHint = new(g, hint);
+            SizeF textSize = Size.Empty;
+
+            try
             {
-                SizeF textSize = Size.Empty;
+                textSize = g.MeasureString(text, font, int.MaxValue, format);
 
-                try
+                if (composition && glowing) //Seb
                 {
-                    textSize = g.MeasureString(text, font, int.MaxValue, format);
-
-                    if (composition && glowing) //Seb
-                    {
-                        textSize.Width += GLOW_EXTRA_WIDTH;
-                    }
+                    textSize.Width += GLOW_EXTRA_WIDTH;
                 }
-                catch
-                {
-                    // ignored
-                }
-
-                // Return a memento with drawing details
-                return new AccurateTextMemento(text, font, textSize, format, hint, disposeFont);
             }
+            catch
+            {
+                // ignored
+            }
+
+            // Return a memento with drawing details
+            return new AccurateTextMemento(text, font, textSize, format, hint, disposeFont);
         }
 
         /// <summary>
@@ -381,7 +370,7 @@ namespace Krypton.Toolkit
             {
                 IntPtr mDC = PI.CreateCompatibleDC(gDC);
 
-                PI.BITMAPINFO bmi = new PI.BITMAPINFO
+                PI.BITMAPINFO bmi = new()
                 {
                     biWidth = bounds.Width,
                     biHeight = -(bounds.Height + (GLOW_EXTRA_HEIGHT * 2)),
@@ -408,18 +397,18 @@ namespace Krypton.Toolkit
                 PI.SelectObject(mDC, hFont);
 
                 // Get renderer for the correct state
-                VisualStyleRenderer renderer = new VisualStyleRenderer(state == PaletteState.Normal ? VisualStyleElement.Window.Caption.Active :
+                VisualStyleRenderer renderer = new(state == PaletteState.Normal ? VisualStyleElement.Window.Caption.Active :
                                                                                                       VisualStyleElement.Window.Caption.Inactive);
 
                 // Create structures needed for theme drawing call
-                PI.RECT textBounds = new PI.RECT
+                PI.RECT textBounds = new()
                 {
                     left = 0,
                     top = 0,
                     right = (bounds.Right - bounds.Left),
                     bottom = (bounds.Bottom - bounds.Top) + (GLOW_EXTRA_HEIGHT * 2)
                 };
-                PI.DTTOPTS dttOpts = new PI.DTTOPTS
+                PI.DTTOPTS dttOpts = new()
                 {
                     dwSize = Marshal.SizeOf(typeof(PI.DTTOPTS)),
                     dwFlags = PI.DTT_COMPOSITED | PI.DTT_GLOWSIZE | PI.DTT_TEXTCOLOR,
@@ -487,7 +476,7 @@ namespace Krypton.Toolkit
             {
                 IntPtr mDC = PI.CreateCompatibleDC(gDC);
 
-                PI.BITMAPINFO bmi = new PI.BITMAPINFO
+                PI.BITMAPINFO bmi = new()
                 {
                     biWidth = bounds.Width,
                     biHeight = -(bounds.Height),
@@ -513,18 +502,18 @@ namespace Krypton.Toolkit
                 PI.SelectObject(mDC, hFont);
 
                 // Get renderer for the correct state
-                VisualStyleRenderer renderer = new VisualStyleRenderer(state == PaletteState.Normal ? VisualStyleElement.Window.Caption.Active :
+                VisualStyleRenderer renderer = new(state == PaletteState.Normal ? VisualStyleElement.Window.Caption.Active :
                                                                                                       VisualStyleElement.Window.Caption.Inactive);
 
                 // Create structures needed for theme drawing call
-                PI.RECT textBounds = new PI.RECT
+                PI.RECT textBounds = new()
                 {
                     left = 0,
                     top = 0,
                     right = (bounds.Right - bounds.Left),
                     bottom = (bounds.Bottom - bounds.Top)
                 };
-                PI.DTTOPTS dttOpts = new PI.DTTOPTS
+                PI.DTTOPTS dttOpts = new()
                 {
                     dwSize = Marshal.SizeOf(typeof(PI.DTTOPTS)),
                     dwFlags = PI.DTT_COMPOSITED | PI.DTT_TEXTCOLOR,
@@ -575,7 +564,7 @@ namespace Krypton.Toolkit
 
         private static StringFormat FlagsToStringFormat(TextFormatFlags flags)
         {
-            StringFormat sf = new StringFormat();
+            StringFormat sf = new();
 
             // Translation table: http://msdn.microsoft.com/msdnmag/issues/06/03/TextRendering/default.aspx?fig=true#fig4
 
@@ -668,87 +657,73 @@ namespace Krypton.Toolkit
 
         private static TextFormatFlags StringFormatToFlags(StringFormat sf)
         {
-            TextFormatFlags flags = new TextFormatFlags();
+            TextFormatFlags flags = new();
 
             // Translation table: http://msdn.microsoft.com/msdnmag/issues/06/03/TextRendering/default.aspx?fig=true#fig4
 
-            switch (sf.Alignment)
+            flags = sf.Alignment switch
             {
                 // Horizontal Alignment
-                case StringAlignment.Center:
-                    flags = flags & TextFormatFlags.HorizontalCenter;
-                    break;
-                case StringAlignment.Far:
-                    flags = flags & TextFormatFlags.Right;
-                    break;
-                default:
-                    flags = flags & TextFormatFlags.Left;
-                    break;
-            }
-
-            switch (sf.LineAlignment)
+                StringAlignment.Center => flags & TextFormatFlags.HorizontalCenter,
+                StringAlignment.Far => flags & TextFormatFlags.Right,
+                _ => flags & TextFormatFlags.Left
+            };
+            flags = sf.LineAlignment switch
             {
                 // Vertical Alignment
-                case StringAlignment.Far:
-                    flags = flags & TextFormatFlags.Bottom;
-                    break;
-                case StringAlignment.Center:
-                    flags = flags & TextFormatFlags.VerticalCenter;
-                    break;
-                default:
-                    flags = flags & TextFormatFlags.Top;
-                    break;
-            }
-
+                StringAlignment.Far => flags & TextFormatFlags.Bottom,
+                StringAlignment.Center => flags & TextFormatFlags.VerticalCenter,
+                _ => flags & TextFormatFlags.Top
+            };
             switch (sf.Trimming)
             {
                 // Ellipsis
                 case StringTrimming.EllipsisCharacter:
-                    flags = flags & TextFormatFlags.EndEllipsis;
+                    flags &= TextFormatFlags.EndEllipsis;
                     break;
                 case StringTrimming.EllipsisPath:
-                    flags = flags & TextFormatFlags.PathEllipsis;
+                    flags &= TextFormatFlags.PathEllipsis;
                     break;
                 case StringTrimming.EllipsisWord:
-                    flags = flags & TextFormatFlags.WordEllipsis;
+                    flags &= TextFormatFlags.WordEllipsis;
                     break;
             }
 
             // Hotkey Prefix
             if (sf.HotkeyPrefix == HotkeyPrefix.None)
             {
-                flags = flags & TextFormatFlags.NoPrefix;
+                flags &= TextFormatFlags.NoPrefix;
             }
             else if (sf.HotkeyPrefix == HotkeyPrefix.Hide)
             {
-                flags = flags & TextFormatFlags.HidePrefix;
+                flags &= TextFormatFlags.HidePrefix;
             }
 
             // Text Padding
             if (sf.FormatFlags == StringFormatFlags.FitBlackBox)
             {
-                flags = flags & TextFormatFlags.NoPadding;
+                flags &= TextFormatFlags.NoPadding;
             }
 
             // Text Wrapping
             if (sf.FormatFlags == StringFormatFlags.NoWrap)
             {
-                flags = flags & TextFormatFlags.SingleLine;
+                flags &= TextFormatFlags.SingleLine;
             }
             else if (sf.FormatFlags == StringFormatFlags.LineLimit)
             {
-                flags = flags & TextFormatFlags.TextBoxControl;
+                flags &= TextFormatFlags.TextBoxControl;
             }
 
             // Other Flags
             if (sf.FormatFlags == StringFormatFlags.DirectionRightToLeft)
             {
-                flags = flags & TextFormatFlags.RightToLeft;
+                flags &= TextFormatFlags.RightToLeft;
             }
 
             if (sf.FormatFlags == StringFormatFlags.NoClip)
             {
-                flags = flags & TextFormatFlags.NoClipping;
+                flags &= TextFormatFlags.NoClipping;
             }
 
             return flags;

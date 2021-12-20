@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.Drawing.Design;
-using System.ComponentModel;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -127,7 +120,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Values")]
         [Description("Application button image.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image AppButtonImage
         {
             get => _appButtonImage;
@@ -144,10 +137,8 @@ namespace Krypton.Ribbon
             }
         }
 
-        private bool ShouldSerializeAppButtonImage()
-        {
-            return AppButtonImage != _defaultAppImage;
-        }
+        private bool ShouldSerializeAppButtonImage() => AppButtonImage != _defaultAppImage;
+
         #endregion
 
         #region AppButtonBaseColorDark
@@ -157,7 +148,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Darker base color used for drawing an Office 2010 style application button.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         [DefaultValue(typeof(Color), "31, 72, 161")]
         public Color AppButtonBaseColorDark
         {
@@ -165,7 +156,7 @@ namespace Krypton.Ribbon
 
             set 
             {
-                if (_appButtonBaseColorDark != null)
+                if (_appButtonBaseColorDark != Color.Empty)
                 {
                     _appButtonBaseColorDark = value;
                     _ribbon.PerformNeedPaint(true);
@@ -181,7 +172,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Lighter base color used for drawing an Office 2010 style application button.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         [DefaultValue(typeof(Color), "84, 158, 243")]
         public Color AppButtonBaseColorLight
         {
@@ -189,7 +180,7 @@ namespace Krypton.Ribbon
 
             set 
             {
-                if (_appButtonBaseColorLight != null)
+                if (_appButtonBaseColorLight != Color.Empty)
                 {
                     _appButtonBaseColorLight = value;
                     _ribbon.PerformNeedPaint(true);
@@ -205,7 +196,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Text color used for drawing an Office 2010 style application button.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         [DefaultValue(typeof(Color), "White")]
         public Color AppButtonTextColor
         {
@@ -213,7 +204,7 @@ namespace Krypton.Ribbon
 
             set 
             {
-                if (_appButtonTextColor != null)
+                if (_appButtonTextColor != Color.Empty)
                 {
                     _appButtonTextColor = value;
                     _ribbon.PerformNeedPaint(true);
@@ -229,7 +220,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Text used for drawing an Office 2010 style application button.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         [DefaultValue("File")]
         [Localizable(true)]
         public string AppButtonText
@@ -254,7 +245,7 @@ namespace Krypton.Ribbon
         [Category("Values")]
         [Description("Context menu items for the application button.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Editor(typeof(Krypton.Toolkit.KryptonContextMenuItemCollectionEditor), typeof(UITypeEditor))]
+        [Editor(@"Krypton.Ribbon.KryptonContextMenuItemCollectionEditor, Krypton.Ribbon", typeof(UITypeEditor))]
         public virtual KryptonContextMenuItemCollection AppButtonMenuItems => _appButtonMenuItems.Items;
 
         #endregion
@@ -266,7 +257,7 @@ namespace Krypton.Ribbon
         [Category("Values")]
         [Description("Recent document entries for the application buttton.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Editor(typeof(Krypton.Ribbon.KryptonRibbonRecentDocCollectionEditor), typeof(UITypeEditor))]
+        [Editor(@"Krypton.Ribbon.KryptonRibbonRecentDocCollectionEditor, Krypton.Ribbon", typeof(UITypeEditor))]
         public virtual KryptonRibbonRecentDocCollection AppButtonRecentDocs { get; }
 
         #endregion
@@ -347,7 +338,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Color to draw as transparent in the ToolTipImage.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         [Localizable(true)]
         public Color AppButtonToolTipImageTransparentColor { get; set; }
 
@@ -360,7 +351,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Title text for use in associated ToolTip.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         [Localizable(true)]
         public string AppButtonToolTipTitle { get; set; }
@@ -374,7 +365,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Body text for use in associated ToolTip.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         [Localizable(true)]
         public string AppButtonToolTipBody { get; set; }

@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.Windows.Forms;
-using System.ComponentModel;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -164,8 +157,8 @@ namespace Krypton.Toolkit
                     _viewSpacers[i] = new ListSpacers();
 
                     // Always create the outside edge spacers
-                    ViewLayoutMetricSpacer spacerL1 = new ViewLayoutMetricSpacer(viewMetric, viewMetricIntOutside);
-                    ViewLayoutMetricSpacer spacerR1 = new ViewLayoutMetricSpacer(viewMetric, viewMetricIntOutside);
+                    ViewLayoutMetricSpacer spacerL1 = new(viewMetric, viewMetricIntOutside);
+                    ViewLayoutMetricSpacer spacerR1 = new(viewMetric, viewMetricIntOutside);
                     spacerL1.Visible = spacerR1.Visible = false;
 
                     // Add the spacers to the docker instance
@@ -179,8 +172,8 @@ namespace Krypton.Toolkit
                         PaletteMetricInt viewMetricIntInside = _viewMetricIntInside[i];
 
                         // Create the inside edge spacers
-                        ViewLayoutMetricSpacer spacerL2 = new ViewLayoutMetricSpacer(viewMetric, viewMetricIntInside);
-                        ViewLayoutMetricSpacer spacerR2 = new ViewLayoutMetricSpacer(viewMetric, viewMetricIntInside);
+                        ViewLayoutMetricSpacer spacerL2 = new(viewMetric, viewMetricIntInside);
+                        ViewLayoutMetricSpacer spacerR2 = new(viewMetric, viewMetricIntInside);
                         spacerL2.Visible = spacerR2.Visible = false;
 
                         // Add them into the view docker instance
@@ -228,10 +221,7 @@ namespace Krypton.Toolkit
         /// Requests that all the buttons have state refreshed.
         /// </summary>
         /// <returns>True if a state change was made.</returns>
-        public bool RefreshButtons()
-        {
-            return RefreshButtons(false);
-        }
+        public bool RefreshButtons() => RefreshButtons(false);
 
         /// <summary>
         /// Requests that all the buttons have state refreshed.
@@ -429,30 +419,22 @@ namespace Krypton.Toolkit
         /// Get a tool strip renderer appropriate for the hosting control.
         /// </summary>
         /// <returns></returns>
-        public ToolStripRenderer RenderToolStrip()
-        {
-            return _getRenderer();
-        }
+        public ToolStripRenderer RenderToolStrip() => _getRenderer();
 
         /// <summary>
         /// Requests a repaint and optional layout be performed.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        public void PerformNeedPaint(bool needLayout)
-        {
-            PerformNeedPaint(this, needLayout);
-        }
+        public void PerformNeedPaint(bool needLayout) => PerformNeedPaint(this, needLayout);
 
         /// <summary>
         /// Requests a repaint and optional layout be performed.
         /// </summary>
         /// <param name="sender">Source of the paint event.</param>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        public void PerformNeedPaint(object sender, bool needLayout)
-        {
+        public void PerformNeedPaint(object sender, bool needLayout) =>
             // Fire the actual event
             OnNeedPaint(sender, needLayout);
-        }
 
         /// <summary>
         /// Find the ButtonSpec definition associated with the provided button view.
@@ -601,10 +583,9 @@ namespace Krypton.Toolkit
         /// <param name="buttonSpec">ButtonSpec instance.</param>
         /// <returns>Palette redirector for the button spec instance.</returns>
         public virtual PaletteRedirect CreateButtonSpecRemap(PaletteRedirect redirector,
-                                                             ButtonSpec buttonSpec)
-        {
-            return new ButtonSpecRemapByContentView(redirector, buttonSpec);
-        }
+                                                             ButtonSpec buttonSpec) =>
+            new ButtonSpecRemapByContentView(redirector, buttonSpec);
+
         #endregion
 
         #region Protected Virtual
@@ -693,24 +674,19 @@ namespace Krypton.Toolkit
         protected virtual ButtonSpecView CreateButtonSpecView(PaletteRedirect redirector,
                                                               IPaletteMetric viewPaletteMetric,
                                                               PaletteMetricPadding viewMetricPadding,
-                                                              ButtonSpec buttonSpec)
-        {
-            return new ButtonSpecView(redirector,
-                                      viewPaletteMetric,
-                                      viewMetricPadding,
-                                      this,
-                                      buttonSpec);
-        }
+                                                              ButtonSpec buttonSpec) =>
+            new ButtonSpecView(redirector,
+                viewPaletteMetric,
+                viewMetricPadding,
+                this,
+                buttonSpec);
 
         /// <summary>
         /// Raises the NeedPaint event.
         /// </summary>
         /// <param name="sender">Source of the paint event.</param>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected virtual void OnNeedPaint(object sender, bool needLayout)
-        {
-            NeedPaint?.Invoke(sender, new NeedLayoutEventArgs(needLayout));
-        }
+        protected virtual void OnNeedPaint(object sender, bool needLayout) => NeedPaint?.Invoke(sender, new NeedLayoutEventArgs(needLayout));
         // ReSharper restore VirtualMemberNeverOverridden.Global
         #endregion
 
@@ -909,28 +885,19 @@ namespace Krypton.Toolkit
             return -1;
         }
 
-        private ViewDockStyle GetDockStyle(ButtonSpec spec)
-        {
-            return (spec.GetEdge(_redirector) == RelativeEdgeAlign.Near ? ViewDockStyle.Left : ViewDockStyle.Right);
-        }
+        private ViewDockStyle GetDockStyle(ButtonSpec spec) => (spec.GetEdge(_redirector) == RelativeEdgeAlign.Near ? ViewDockStyle.Left : ViewDockStyle.Right);
 
         private VisualOrientation CalculateOrientation(VisualOrientation viewOrientation,
                                                        ButtonOrientation buttonOrientation)
         {
-            switch (buttonOrientation)
+            return buttonOrientation switch
             {
-                case ButtonOrientation.FixedBottom:
-                    return VisualOrientation.Bottom;
-                case ButtonOrientation.FixedLeft:
-                    return VisualOrientation.Left;
-                case ButtonOrientation.FixedRight:
-                    return VisualOrientation.Right;
-                case ButtonOrientation.FixedTop:
-                    return VisualOrientation.Top;
-                case ButtonOrientation.Auto:
-                default:
-                    return viewOrientation;
-            }
+                ButtonOrientation.FixedBottom => VisualOrientation.Bottom,
+                ButtonOrientation.FixedLeft => VisualOrientation.Left,
+                ButtonOrientation.FixedRight => VisualOrientation.Right,
+                ButtonOrientation.FixedTop => VisualOrientation.Top,
+                _ => viewOrientation
+            };
         }
         #endregion
     }

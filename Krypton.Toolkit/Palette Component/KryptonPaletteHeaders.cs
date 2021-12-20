@@ -2,18 +2,13 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
-
-using System.ComponentModel;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -49,7 +44,7 @@ namespace Krypton.Toolkit
             HeaderCustom3 = new KryptonPaletteHeader(redirector, PaletteBackStyle.HeaderCustom3, PaletteBorderStyle.HeaderCustom3, PaletteContentStyle.HeaderCustom3, needPaint);
 
             // Create redirectors for inheriting from style specific to style common
-            PaletteRedirectTripleMetric redirectCommon = new PaletteRedirectTripleMetric(redirector, 
+            PaletteRedirectTripleMetric redirectCommon = new(redirector, 
                                                                                          HeaderCommon.StateDisabled, HeaderCommon.StateDisabled,
                                                                                          HeaderCommon.StateNormal, HeaderCommon.StateNormal);
 
@@ -128,10 +123,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteHeader HeaderCommon { get; }
 
-        private bool ShouldSerializeHeaderCommon()
-        {
-            return !HeaderCommon.IsDefault;
-        }
+        private bool ShouldSerializeHeaderCommon() => !HeaderCommon.IsDefault;
+
         #endregion
 
         #region HeaderPrimary
@@ -144,10 +137,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteHeader HeaderPrimary { get; }
 
-        private bool ShouldSerializeHeaderPrimary()
-        {
-            return !HeaderPrimary.IsDefault;
-        }
+        private bool ShouldSerializeHeaderPrimary() => !HeaderPrimary.IsDefault;
+
         #endregion
 
         #region HeaderSecondary
@@ -160,10 +151,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteHeader HeaderSecondary { get; }
 
-        private bool ShouldSerializeHeaderSecondary()
-        {
-            return !HeaderSecondary.IsDefault;
-        }
+        private bool ShouldSerializeHeaderSecondary() => !HeaderSecondary.IsDefault;
+
         #endregion
 
         #region HeaderDockInactive
@@ -176,10 +165,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteHeader HeaderDockInactive { get; }
 
-        private bool ShouldSerializeHeaderDockInactive()
-        {
-            return !HeaderDockInactive.IsDefault;
-        }
+        private bool ShouldSerializeHeaderDockInactive() => !HeaderDockInactive.IsDefault;
+
         #endregion
 
         #region HeaderDockActive
@@ -192,10 +179,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteHeader HeaderDockActive { get; }
 
-        private bool ShouldSerializeHeaderDockActive()
-        {
-            return !HeaderDockActive.IsDefault;
-        }
+        private bool ShouldSerializeHeaderDockActive() => !HeaderDockActive.IsDefault;
+
         #endregion
 
         #region HeaderCalendar
@@ -208,10 +193,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteHeader HeaderCalendar { get; }
 
-        private bool ShouldSerializeHeaderCalendar()
-        {
-            return !HeaderCalendar.IsDefault;
-        }
+        private bool ShouldSerializeHeaderCalendar() => !HeaderCalendar.IsDefault;
+
         #endregion
 
         #region HeaderForm
@@ -224,10 +207,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteHeader HeaderForm { get; }
 
-        private bool ShouldSerializeHeaderForm()
-        {
-            return !HeaderForm.IsDefault;
-        }
+        private bool ShouldSerializeHeaderForm() => !HeaderForm.IsDefault;
+
         #endregion
 
         #region HeaderCustom1
@@ -240,10 +221,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteHeader HeaderCustom1 { get; }
 
-        private bool ShouldSerializeHeaderCustom1()
-        {
-            return !HeaderCustom1.IsDefault;
-        }
+        private bool ShouldSerializeHeaderCustom1() => !HeaderCustom1.IsDefault;
+
         #endregion
 
         #region HeaderCustom2
@@ -256,10 +235,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteHeader HeaderCustom2 { get; }
 
-        private bool ShouldSerializeHeaderCustom2()
-        {
-            return !HeaderCustom2.IsDefault;
-        }
+        private bool ShouldSerializeHeaderCustom2() => !HeaderCustom2.IsDefault;
+
         #endregion
 
         #region HeaderCustom3
@@ -272,10 +249,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteHeader HeaderCustom3 { get; }
 
-        private bool ShouldSerializeHeaderCustom3()
-        {
-            return !HeaderCustom3.IsDefault;
-        }
+        private bool ShouldSerializeHeaderCustom3() => !HeaderCustom3.IsDefault;
+
         #endregion
     }
 }

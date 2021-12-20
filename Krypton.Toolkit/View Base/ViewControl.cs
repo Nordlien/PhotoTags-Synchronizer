@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Reflection;
 
 namespace Krypton.Toolkit
 {
@@ -166,16 +158,14 @@ namespace Krypton.Toolkit
                 PaintBackground?.Invoke(this, e);
 
                 // Create a render context for drawing the view
-                using (RenderContext context = new RenderContext(GetViewManager(),
-                                                                 this,
-                                                                 RootInstance,
-                                                                 e.Graphics,
-                                                                 e.ClipRectangle,
-                                                                 Renderer))
-                {
-                    // Ask the view to paint itself
-                    ViewLayoutControl.ChildView.Render(context);
-                }
+                using RenderContext context = new(GetViewManager(),
+                    this,
+                    RootInstance,
+                    e.Graphics,
+                    e.ClipRectangle,
+                    Renderer);
+                // Ask the view to paint itself
+                ViewLayoutControl.ChildView.Render(context);
             }
         }
 
@@ -418,10 +408,10 @@ namespace Krypton.Toolkit
             if (m.Msg == PI.WM_.NCHITTEST)
             {
                 // Extract the screen point for the hit test
-                Point screenPoint = new Point((int)m.LParam.ToInt64());
+                Point screenPoint = new((int)m.LParam.ToInt64());
 
                 // Generate event so message can be processed
-                ViewControlHitTestArgs args = new ViewControlHitTestArgs(PointToClient(screenPoint));
+                ViewControlHitTestArgs args = new(PointToClient(screenPoint));
                 OnWndProcHitTest(args);
 
                 if (!args.Cancel)
@@ -438,10 +428,8 @@ namespace Krypton.Toolkit
         /// Raises the WndProcHitTest event.
         /// </summary>
         /// <param name="e">A ViewControlHitTestArgs containing the event data.</param>
-        protected virtual void OnWndProcHitTest(ViewControlHitTestArgs e)
-        {
-            WndProcHitTest?.Invoke(this, e);
-        }
+        protected virtual void OnWndProcHitTest(ViewControlHitTestArgs e) => WndProcHitTest?.Invoke(this, e);
+
         #endregion
 
         #region Implementation

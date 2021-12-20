@@ -505,7 +505,7 @@ namespace PhotoTagsSynchronizer
                 MetadataReadPrioity.WriteAlways();
             } catch (Exception ex)
             {
-                KryptonMessageBox.Show("Failed to save config.\r\n\r\n" + ex.Message, "Failed to save config", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                KryptonMessageBox.Show("Failed to save config.\r\n\r\n" + ex.Message, "Failed to save config", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
                 _ = this.BeginInvoke(new Action<Exception, string>(Logger.Error), ex, "buttonConfigSave_Click failed saving config.");
             }
 
@@ -995,7 +995,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message, "AutoKeywords failed to saved", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                KryptonMessageBox.Show(ex.Message, "AutoKeywords failed to saved", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
                 _ = this.BeginInvoke(new Action<Exception>(Logger.Error), ex); 
             }
         }
@@ -1010,7 +1010,7 @@ namespace PhotoTagsSynchronizer
                 AutoKeywordHandler.PopulateDataGridView(dataGridViewAutoKeywords, dataSet);
             } catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message, "AutoKeywords failed to saved", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                KryptonMessageBox.Show(ex.Message, "AutoKeywords failed to saved", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
                 _ = this.BeginInvoke(new Action<Exception, string>(Logger.Error), ex, "LoadAutoKeywords");
             }
         }
@@ -1286,11 +1286,11 @@ namespace PhotoTagsSynchronizer
                     string output = JsonConvert.SerializeObject(locationRecords);
                     System.IO.File.WriteAllText(saveFileDialog1.FileName, output, Encoding.UTF8);
 
-                    KryptonMessageBox.Show(locationRecords.Count.ToString() + " locations exported", "Location file exported", MessageBoxButtons.OK, MessageBoxIcon.Information, true);
+                    KryptonMessageBox.Show(locationRecords.Count.ToString() + " locations exported", "Location file exported", MessageBoxButtons.OK, MessageBoxIcon.Information, showCtrlCopy: true);
                 }
             } catch (Exception ex)
             {
-                KryptonMessageBox.Show("Error saving JSON file!\r\n\r\n" + ex.Message, "Was not able to save JSON file", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                KryptonMessageBox.Show("Error saving JSON file!\r\n\r\n" + ex.Message, "Was not able to save JSON file", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -1323,12 +1323,12 @@ namespace PhotoTagsSynchronizer
                     Dictionary<LocationCoordinate, LocationDescription> locationNames = new Dictionary<LocationCoordinate, LocationDescription>();
                     foreach (LocationRecord locationRecord in readResult) locationNames.Add(locationRecord.LocationCoordinate, locationRecord.LocationDescription);
                     PopulateMetadataLocationNames(dataGridView, locationNames);
-                    KryptonMessageBox.Show(locationNames.Count.ToString() + " locations imported", "Location file imported", MessageBoxButtons.OK, MessageBoxIcon.Information, true);
+                    KryptonMessageBox.Show(locationNames.Count.ToString() + " locations imported", "Location file imported", MessageBoxButtons.OK, MessageBoxIcon.Information, showCtrlCopy: true);
                 }
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show("Error loading JSON file!\r\n\r\n" + ex.Message, "Was not able to load JSON file", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                KryptonMessageBox.Show("Error loading JSON file!\r\n\r\n" + ex.Message, "Was not able to load JSON file", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -2619,7 +2619,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show("Was not able top open the log file.\r\n\r\n" + ex.Message, "Can't open file...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                KryptonMessageBox.Show("Was not able top open the log file.\r\n\r\n" + ex.Message, "Can't open file...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
 
             try
@@ -2637,7 +2637,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show("Was not able to open the log file.\r\n\r\n" + ex.Message, "Can open file...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                KryptonMessageBox.Show("Was not able to open the log file.\r\n\r\n" + ex.Message, "Can open file...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -2654,7 +2654,7 @@ namespace PhotoTagsSynchronizer
                 fastColoredTextBoxShowPipe32Log.Clear();
             } catch (Exception ex)
             {
-                KryptonMessageBox.Show("Was not able to delete the log files.\r\n\r\n" + ex.Message, "Can't delete the files...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                KryptonMessageBox.Show("Was not able to delete the log files.\r\n\r\n" + ex.Message, "Can't delete the files...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion 
@@ -3178,7 +3178,7 @@ namespace PhotoTagsSynchronizer
                     else
                     {
                         KryptonMessageBox.Show("Was not able to import Theme Palette\r\n" + dialog.FileName,
-                                    "Loading Palette for Theme failed", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                                    "Loading Palette for Theme failed", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
                     }
 
                 }
@@ -3188,7 +3188,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 KryptonMessageBox.Show("Was not able to import Theme Palette\n\n Error:" + ex.Message,
-                                    "Loading Palette for Theme failed", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                                    "Loading Palette for Theme failed", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -3223,7 +3223,7 @@ namespace PhotoTagsSynchronizer
             } catch (Exception ex)
             {                
                 KryptonMessageBox.Show($"Export to file '{paletteFilename}' failed.\n\n Error:{ex.Message}",
-                                @"Palette Export", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                                @"Palette Export", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
                 
             }
         }

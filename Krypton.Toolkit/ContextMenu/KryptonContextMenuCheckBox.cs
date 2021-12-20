@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.ComponentModel;
 
 namespace Krypton.Toolkit
 {
@@ -95,11 +89,11 @@ namespace Krypton.Toolkit
             _checked = false;
             _threeState = false;
             _autoCheck = true;
-            _style = LabelStyle.NormalControl;
+            _style = LabelStyle.NormalPanel;
             Images = new CheckBoxImages();
 
             // Create the redirectors
-            _stateCommonRedirect = new PaletteContentInheritRedirect(PaletteContentStyle.LabelNormalControl);
+            _stateCommonRedirect = new PaletteContentInheritRedirect(PaletteContentStyle.LabelNormalPanel);
             StateCheckBoxImages = new PaletteRedirectCheckBox(Images);
 
             // Create the states
@@ -117,10 +111,8 @@ namespace Krypton.Toolkit
         /// Returns a description of the instance.
         /// </summary>
         /// <returns>String representation.</returns>
-        public override string ToString()
-        {
-            return Text;
-        }
+        public override string ToString() => Text;
+
         #endregion
 
         #region Public
@@ -143,10 +135,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="keyData">Key data to check against shorcut definitions.</param>
         /// <returns>True if shortcut was handled, otherwise false.</returns>
-        public override bool ProcessShortcut(Keys keyData)
-        {
-            return false;
-        }
+        public override bool ProcessShortcut(Keys keyData) => false;
 
         /// <summary>
         /// Returns a view appropriate for this item based on the object it is inside.
@@ -161,10 +150,8 @@ namespace Krypton.Toolkit
                                               object parent,
                                               ViewLayoutStack columns,
                                               bool standardStyle,
-                                              bool imageColumn)
-        {
-            return new ViewDrawMenuCheckBox(provider, this);
-        }
+                                              bool imageColumn) =>
+            new ViewDrawMenuCheckBox(provider, this);
 
         /// <summary>
         /// Gets and sets if clicking the check box automatically closes the context menu.
@@ -182,7 +169,7 @@ namespace Krypton.Toolkit
                 if (_autoClose != value)
                 {
                     _autoClose = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("AutoClose"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(AutoClose)));
                 }
             }
         }
@@ -204,7 +191,7 @@ namespace Krypton.Toolkit
                 if (_text != value)
                 {
                     _text = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Text"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Text)));
                 }
             }
         }
@@ -226,7 +213,7 @@ namespace Krypton.Toolkit
                 if (_extraText != value)
                 {
                     _extraText = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("ExtraText"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ExtraText)));
                 }
             }
         }
@@ -248,7 +235,7 @@ namespace Krypton.Toolkit
                 if (_image != value)
                 {
                     _image = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Image"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Image)));
                 }
             }
         }
@@ -269,15 +256,12 @@ namespace Krypton.Toolkit
                 if (_imageTransparentColor != value)
                 {
                     _imageTransparentColor = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("ImageTransparentColor"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ImageTransparentColor)));
                 }
             }
         }
 
-        private bool ShouldSerializeImageTransparentColor()
-        {
-            return (_imageTransparentColor == null) || !_imageTransparentColor.Equals(Color.Empty);
-        }
+        private bool ShouldSerializeImageTransparentColor() => (_imageTransparentColor == null) || !_imageTransparentColor.Equals(Color.Empty);
 
         /// <summary>
         /// Gets and sets the check box label style.
@@ -285,7 +269,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category("Visuals")]
         [Description("Check box label style.")]
-        [DefaultValue(typeof(LabelStyle), "NormalControl")]
+        [DefaultValue(typeof(LabelStyle), "NormalPanel")]
         public LabelStyle LabelStyle
         {
             get => _style;
@@ -296,10 +280,13 @@ namespace Krypton.Toolkit
                 {
                     _style = value;
                     SetCheckBoxStyle(_style);
-                    OnPropertyChanged(new PropertyChangedEventArgs("LabelStyle"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(LabelStyle)));
                 }
             }
         }
+        private bool ShouldSerializeLabelStyle() => _style != LabelStyle.NormalPanel;
+
+        private void ResetLabelStyle() => _style = LabelStyle.NormalPanel;
 
         /// <summary>
         /// Gets access to the image value overrides.
@@ -310,10 +297,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public CheckBoxImages Images { get; }
 
-        private bool ShouldSerializeImages()
-        {
-            return !Images.IsDefault;
-        }
+        private bool ShouldSerializeImages() => !Images.IsDefault;
 
         /// <summary>
         /// Gets and sets if the check box is enabled.
@@ -332,7 +316,7 @@ namespace Krypton.Toolkit
                 if (_enabled != value)
                 {
                     _enabled = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Enabled"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Enabled)));
                 }
             }
         }
@@ -360,7 +344,7 @@ namespace Krypton.Toolkit
                     // Generate events
                     OnCheckedChanged(EventArgs.Empty);
                     OnCheckStateChanged(EventArgs.Empty);
-                    OnPropertyChanged(new PropertyChangedEventArgs("Checked"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Checked)));
                 }
             }
         }
@@ -394,7 +378,7 @@ namespace Krypton.Toolkit
                     }
 
                     OnCheckStateChanged(EventArgs.Empty);
-                    OnPropertyChanged(new PropertyChangedEventArgs("CheckState"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(CheckState)));
                 }
             }
         }
@@ -415,7 +399,7 @@ namespace Krypton.Toolkit
                 if (_autoCheck != value)
                 {
                     _autoCheck = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("AutoCheck"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(AutoCheck)));
                 }
             }
         }
@@ -436,7 +420,7 @@ namespace Krypton.Toolkit
                 if (_threeState != value)
                 {
                     _threeState = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("ThreeState"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ThreeState)));
                 }
             }
         }
@@ -450,10 +434,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled check box appearance entries.
@@ -464,10 +445,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateDisabled { get; }
 
-        private bool ShouldSerializeStateDisabled()
-        {
-            return !StateDisabled.IsDefault;
-        }
+        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
         /// <summary>
         /// Gets access to the normal check box appearance entries.
@@ -478,10 +456,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
         /// <summary>
         /// Gets access to the check box appearance when it has focus.
@@ -492,10 +467,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent OverrideFocus { get; }
 
-        private bool ShouldSerializeOverrideFocus()
-        {
-            return !OverrideFocus.IsDefault;
-        }
+        private bool ShouldSerializeOverrideFocus() => !OverrideFocus.IsDefault;
 
         /// <summary>
         /// Gets and sets the associated KryptonCommand.
@@ -513,7 +485,7 @@ namespace Krypton.Toolkit
                 if (_command != value)
                 {
                     _command = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("KryptonCommand"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(KryptonCommand)));
                 }
             }
         }
@@ -521,10 +493,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Generates a Click event for the component.
         /// </summary>
-        public void PerformClick()
-        {
-            OnClick(EventArgs.Empty);
-        }
+        public void PerformClick() => OnClick(EventArgs.Empty);
+
         #endregion
 
         #region Protected
@@ -544,19 +514,14 @@ namespace Krypton.Toolkit
         /// Raises the CheckedChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnCheckedChanged(EventArgs e)
-        {
-            CheckedChanged?.Invoke(this, e);
-        }
+        protected virtual void OnCheckedChanged(EventArgs e) => CheckedChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the CheckStateChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnCheckStateChanged(EventArgs e)
-        {
-            CheckStateChanged?.Invoke(this, e);
-        }
+        protected virtual void OnCheckStateChanged(EventArgs e) => CheckStateChanged?.Invoke(this, e);
+
         #endregion
 
         #region Internal

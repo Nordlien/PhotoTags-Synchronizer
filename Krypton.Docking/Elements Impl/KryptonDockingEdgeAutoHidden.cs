@@ -2,24 +2,13 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
-
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Xml;
-
-using Krypton.Navigator;
-using Krypton.Toolkit;
 
 namespace Krypton.Docking
 {
@@ -97,32 +86,25 @@ namespace Krypton.Docking
         /// Create and add a new auto hidden group instance to the correct edge of the owning control.
         /// </summary>
         /// <returns>Reference to docking element that handles the new auto hidden group.</returns>
-        public KryptonDockingAutoHiddenGroup AppendAutoHiddenGroup()
-        {
+        public KryptonDockingAutoHiddenGroup AppendAutoHiddenGroup() =>
             // Generate a unique string by creating a GUID
-            return AppendAutoHiddenGroup(CommonHelper.UniqueString);
-        }
+            AppendAutoHiddenGroup(CommonHelper.UniqueString);
 
         /// <summary>
         /// Create and add a new auto hidden group instance to the correct edge of the owning control.
         /// </summary>
         /// <param name="name">Initial name of the group element.</param>
         /// <returns>Reference to docking element that handles the new auto hidden group.</returns>
-        public KryptonDockingAutoHiddenGroup AppendAutoHiddenGroup(string name)
-        {
-            return CreateAndInsertAutoHiddenGroup(Count, name);
-        }
+        public KryptonDockingAutoHiddenGroup AppendAutoHiddenGroup(string name) => CreateAndInsertAutoHiddenGroup(Count, name);
 
         /// <summary>
         /// Create and insert a new auto hidden group instance to the correct edge of the owning control.
         /// </summary>
         /// <param name="index">Insertion index.</param>
         /// <returns>Reference to docking element that handles the new auto hidden group.</returns>
-        public KryptonDockingAutoHiddenGroup InsertAutoHiddenGroup(int index)
-        {
+        public KryptonDockingAutoHiddenGroup InsertAutoHiddenGroup(int index) =>
             // Generate a unique string by creating a GUID
-            return CreateAndInsertAutoHiddenGroup(index, CommonHelper.UniqueString);
-        }
+            CreateAndInsertAutoHiddenGroup(index, CommonHelper.UniqueString);
 
         /// <summary>
         /// Create and insert a new auto hidden group instance to the correct edge of the owning control.
@@ -130,10 +112,7 @@ namespace Krypton.Docking
         /// <param name="index">Insertion index.</param>
         /// <param name="name">Initial name of the group element.</param>
         /// <returns>Reference to docking element that handles the new auto hidden group.</returns>
-        public KryptonDockingAutoHiddenGroup InsertAutoHiddenGroup(int index, string name)
-        {
-            return CreateAndInsertAutoHiddenGroup(index, name);
-        }
+        public KryptonDockingAutoHiddenGroup InsertAutoHiddenGroup(int index, string name) => CreateAndInsertAutoHiddenGroup(index, name);
 
         /// <summary>
         /// Propagates an action request down the hierarchy of docking elements.
@@ -207,10 +186,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueName">Named page for which a suitable auto hidden edge element is required.</param>
         /// <returns>KryptonDockingEdgeAutoHidden reference if found; otherwise false.</returns>
-        public override KryptonDockingEdgeAutoHidden FindDockingEdgeAutoHidden(string uniqueName)
-        {
-            return this;
-        }
+        public override KryptonDockingEdgeAutoHidden FindDockingEdgeAutoHidden(string uniqueName) => this;
 
         /// <summary>
         /// Slide the specified page into view and optionally select.
@@ -281,7 +257,7 @@ namespace Krypton.Docking
         private KryptonDockingAutoHiddenGroup CreateAndInsertAutoHiddenGroup(int index, string name)
         {
             // Create the new auto hidden group instance and add into our collection
-            KryptonDockingAutoHiddenGroup groupElement = new KryptonDockingAutoHiddenGroup(name, Edge);
+            KryptonDockingAutoHiddenGroup groupElement = new(name, Edge);
             groupElement.PageClicked += OnDockingAutoHiddenGroupClicked;
             groupElement.PageHoverStart += OnDockingAutoHiddenGroupHoverStart;
             groupElement.PageHoverEnd += OnDockingAutoHiddenGroupHoverEnd;
@@ -296,9 +272,9 @@ namespace Krypton.Docking
                 // generate the events for allowing customization of the when there is a chance they will become displayed.
                 if (!_panelEventFired)
                 {
-                    AutoHiddenGroupPanelEventArgs panelArgs = new AutoHiddenGroupPanelEventArgs(_panel, this);
-                    DockspaceEventArgs dockspaceArgs = new DockspaceEventArgs(_slidePanel.DockspaceControl, null);
-                    DockspaceSeparatorEventArgs separatorArgs = new DockspaceSeparatorEventArgs(_slidePanel.SeparatorControl, null);
+                    AutoHiddenGroupPanelEventArgs panelArgs = new(_panel, this);
+                    DockspaceEventArgs dockspaceArgs = new(_slidePanel.DockspaceControl, null);
+                    DockspaceSeparatorEventArgs separatorArgs = new(_slidePanel.SeparatorControl, null);
                     dockingManager.RaiseAutoHiddenGroupPanelAdding(panelArgs);
                     dockingManager.RaiseDockspaceAdding(dockspaceArgs);
                     dockingManager.RaiseDockspaceSeparatorAdding(separatorArgs);
@@ -306,7 +282,7 @@ namespace Krypton.Docking
                 }
 
                 // Allow the auto hidden group to be customized by event handlers
-                AutoHiddenGroupEventArgs groupArgs = new AutoHiddenGroupEventArgs(groupElement.AutoHiddenGroupControl, groupElement);
+                AutoHiddenGroupEventArgs groupArgs = new(groupElement.AutoHiddenGroupControl, groupElement);
                 dockingManager.RaiseAutoHiddenGroupAdding(groupArgs);
             }
 
@@ -346,7 +322,7 @@ namespace Krypton.Docking
                 // Only generate the removed event if we have already fired the adding event.
                 if (_panelEventFired)
                 {
-                    AutoHiddenGroupPanelEventArgs panelArgs = new AutoHiddenGroupPanelEventArgs(_panel, this);
+                    AutoHiddenGroupPanelEventArgs panelArgs = new(_panel, this);
                     dockingManager.RaiseAutoHiddenGroupPanelRemoved(panelArgs);
                 }
             }
@@ -376,8 +352,8 @@ namespace Krypton.Docking
                 // Only generate the removed event if we have already fired the adding event.
                 if (_panelEventFired)
                 {
-                    DockspaceEventArgs dockspaceArgs = new DockspaceEventArgs(_slidePanel.DockspaceControl, null);
-                    DockspaceSeparatorEventArgs separatorArgs = new DockspaceSeparatorEventArgs(_slidePanel.SeparatorControl, null);
+                    DockspaceEventArgs dockspaceArgs = new(_slidePanel.DockspaceControl, null);
+                    DockspaceSeparatorEventArgs separatorArgs = new(_slidePanel.SeparatorControl, null);
                     dockingManager.RaiseDockspaceRemoved(dockspaceArgs);
                     dockingManager.RaiseDockspaceSeparatorRemoved(separatorArgs);
                 }
@@ -433,7 +409,7 @@ namespace Krypton.Docking
             if (dockingManager != null)
             {
                 // Allow the movement rectangle to be modified by event handlers
-                AutoHiddenSeparatorResizeEventArgs autoHiddenSeparatorResizeRectArgs = new AutoHiddenSeparatorResizeEventArgs(separatorControl, dockspaceControl, page, FindMovementRect(e.MoveRect));
+                AutoHiddenSeparatorResizeEventArgs autoHiddenSeparatorResizeRectArgs = new(separatorControl, dockspaceControl, page, FindMovementRect(e.MoveRect));
                 dockingManager.RaiseAutoHiddenSeparatorResize(autoHiddenSeparatorResizeRectArgs);
                 e.MoveRect = autoHiddenSeparatorResizeRectArgs.ResizeRect;
             }

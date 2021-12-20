@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.ComponentModel;
 
 namespace Krypton.Ribbon
 {
@@ -76,7 +72,7 @@ namespace Krypton.Ribbon
                 if (value != _contextName)
                 {
                     _contextName = value;
-                    OnPropertyChanged("ContextName");
+                    OnPropertyChanged(nameof(ContextName));
                 }
             }
         }
@@ -104,7 +100,7 @@ namespace Krypton.Ribbon
                 if (value != _contextTitle)
                 {
                     _contextTitle = value;
-                    OnPropertyChanged("ContextTitle");
+                    OnPropertyChanged(nameof(ContextTitle));
                 }
             }
         }
@@ -132,7 +128,7 @@ namespace Krypton.Ribbon
                 if (value != _contextColor)
                 {
                     _contextColor = value;
-                    OnPropertyChanged("ContextColor");
+                    OnPropertyChanged(nameof(ContextColor));
                 }
             }
         }
@@ -153,15 +149,12 @@ namespace Krypton.Ribbon
                 if (value != _tag)
                 {
                     _tag = value;
-                    OnPropertyChanged("Tag");
+                    OnPropertyChanged(nameof(Tag));
                 }
             }
         }
 
-        private bool ShouldSerializeTag()
-        {
-            return (Tag != null);
-        }
+        private bool ShouldSerializeTag() => (Tag != null);
 
         private void ResetTag()
         {

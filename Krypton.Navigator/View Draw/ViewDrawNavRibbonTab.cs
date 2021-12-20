@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Navigator
 {
@@ -25,12 +18,12 @@ namespace Krypton.Navigator
                                           INavCheckItem
     {
         #region Static Fields
-        private static readonly Padding _preferredBorder = new Padding(5, 5, 5, 2);
-        private static readonly Padding _layoutBorderTop = new Padding(4, 4, 4, 1);
-        private static readonly Padding _layoutBorderLeft = new Padding(5, 4, 3, 1);
-        private static readonly Padding _layoutBorderRight = new Padding(4, 5, 4, 0);
-        private static readonly Padding _layoutBorderBottom = new Padding(4, 2, 4, 3);
-        private static readonly Padding _drawBorder = new Padding(1, 0, 1, 0);
+        private static readonly Padding _preferredBorder = new(5, 5, 5, 2);
+        private static readonly Padding _layoutBorderTop = new(4, 4, 4, 1);
+        private static readonly Padding _layoutBorderLeft = new(5, 4, 3, 1);
+        private static readonly Padding _layoutBorderRight = new(4, 5, 4, 0);
+        private static readonly Padding _layoutBorderBottom = new(4, 2, 4, 3);
+        private static readonly Padding _drawBorder = new(1, 0, 1, 0);
         #endregion
 
         #region Events
@@ -111,8 +104,8 @@ namespace Krypton.Navigator
             KeyController = _buttonController;
 
             // Create a decorator to interface with the tooltip manager
-            ToolTipController toolTipController = new ToolTipController(Navigator.ToolTipManager, this, _buttonController);
-            ToolTipController hoverController = new ToolTipController(Navigator.HoverManager, this, toolTipController);
+            ToolTipController toolTipController = new(Navigator.ToolTipManager, this, _buttonController);
+            ToolTipController hoverController = new(Navigator.HoverManager, this, toolTipController);
 
             // Assign controller for handing mouse input
             MouseController = hoverController;
@@ -168,11 +161,9 @@ namespace Krypton.Navigator
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawNavRibbonTab:" + Id;
-        }
+            "ViewDrawNavRibbonTab:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -266,10 +257,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public ButtonSpec ButtonSpecFromView(ViewBase element)
-        {
-            return ButtonSpecManager?.ButtonSpecFromView(element);
-        }
+        public ButtonSpec ButtonSpecFromView(ViewBase element) => ButtonSpecManager?.ButtonSpecFromView(element);
 
         /// <summary>
         /// Gets access to the button spec manager used for this button.
@@ -386,39 +374,28 @@ namespace Krypton.Navigator
         /// Gets the content short text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetShortText()
-        {
-            return Page.GetTextMapping(Navigator.Bar.BarMapText);
-        }
+        public string GetShortText() => Page.GetTextMapping(Navigator.Bar.BarMapText);
 
         /// <summary>
         /// Gets the content image.
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state)
-        {
-            return Page.GetImageMapping(Navigator.Bar.BarMapImage);
-        }
+        public Image GetImage(PaletteState state) => Page.GetImageMapping(Navigator.Bar.BarMapImage);
 
         /// <summary>
         /// Gets the image color that should be transparent.
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Color value.</returns>
-        public Color GetImageTransparentColor(PaletteState state)
-        {
-            return Color.Empty;
-        }
+        public Color GetImageTransparentColor(PaletteState state) => Color.Empty;
 
         /// <summary>
         /// Gets the content long text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetLongText()
-        {
-            return Page.GetTextMapping(Navigator.Bar.BarMapExtraText);
-        }
+        public string GetLongText() => Page.GetTextMapping(Navigator.Bar.BarMapExtraText);
+
         #endregion
 
         #region Protected
@@ -436,7 +413,7 @@ namespace Krypton.Navigator
             }
 
             // Generate event so user can decide what, if any, context menu to show
-            ShowContextMenuArgs scma = new ShowContextMenuArgs(Page, Navigator.Pages.IndexOf(Page));
+            ShowContextMenuArgs scma = new(Page, Navigator.Pages.IndexOf(Page));
             Navigator.OnShowContextMenu(scma);
 
             // Do we need to show a context menu

@@ -2,23 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Design;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -27,7 +18,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupButton), "ToolboxBitmaps.KryptonRibbonGroupButton.bmp")]
-    [Designer(typeof(Krypton.Ribbon.KryptonRibbonGroupButtonDesigner))]
+    [Designer("Krypton.Ribbon.KryptonRibbonGroupButtonDesigner, Krypton.Ribbon")]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultEvent("Click")]
@@ -125,7 +116,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Small button image.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image ImageSmall
         {
             get => _imageSmall;
@@ -135,15 +126,12 @@ namespace Krypton.Ribbon
                 if (_imageSmall != value)
                 {
                     _imageSmall = value;
-                    OnPropertyChanged("ImageSmall");
+                    OnPropertyChanged(nameof(ImageSmall));
                 }
             }
         }
 
-        private bool ShouldSerializeImageSmall()
-        {
-            return ImageSmall != _defaultButtonImageSmall;
-        }
+        private bool ShouldSerializeImageSmall() => ImageSmall != _defaultButtonImageSmall;
 
         /// <summary>
         /// Gets and sets the large button image.
@@ -152,7 +140,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Large button image.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image ImageLarge
         {
             get => _imageLarge;
@@ -162,15 +150,12 @@ namespace Krypton.Ribbon
                 if (_imageLarge != value)
                 {
                     _imageLarge = value;
-                    OnPropertyChanged("ImageLarge");
+                    OnPropertyChanged(nameof(ImageLarge));
                 }
             }
         }
 
-        private bool ShouldSerializeImageLarge()
-        {
-            return ImageLarge != _defaultButtonImageLarge;
-        }
+        private bool ShouldSerializeImageLarge() => ImageLarge != _defaultButtonImageLarge;
 
         /// <summary>
         /// Gets and sets the display text line 1 for the button.
@@ -179,7 +164,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Button display text line 1.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Button")]
         public string TextLine1
         {
@@ -196,7 +181,7 @@ namespace Krypton.Ribbon
                 if (value != _textLine1)
                 {
                     _textLine1 = value;
-                    OnPropertyChanged("TextLine1");
+                    OnPropertyChanged(nameof(TextLine1));
                 }
             }
         }
@@ -208,7 +193,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Button display text line 2.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("")]
         public string TextLine2
         {
@@ -219,7 +204,7 @@ namespace Krypton.Ribbon
                 if (value != _textLine2)
                 {
                     _textLine2 = value;
-                    OnPropertyChanged("TextLine2");
+                    OnPropertyChanged(nameof(TextLine2));
                 }
             }
         }
@@ -266,7 +251,7 @@ namespace Krypton.Ribbon
                 if (value != _visible)
                 {
                     _visible = value;
-                    OnPropertyChanged("Visible");
+                    OnPropertyChanged(nameof(Visible));
                 }
             }
         }
@@ -303,7 +288,7 @@ namespace Krypton.Ribbon
                 if (value != _enabled)
                 {
                     _enabled = value;
-                    OnPropertyChanged("Enabled");
+                    OnPropertyChanged(nameof(Enabled));
                 }
             }
         }
@@ -324,7 +309,7 @@ namespace Krypton.Ribbon
                 if (value != _checked)
                 {
                     _checked = value;
-                    OnPropertyChanged("Checked");
+                    OnPropertyChanged(nameof(Checked));
                 }
             }
         }
@@ -345,7 +330,7 @@ namespace Krypton.Ribbon
                 if (value != _buttonType)
                 {
                     _buttonType = value;
-                    OnPropertyChanged("ButtonType");
+                    OnPropertyChanged(nameof(ButtonType));
                 }
             }
         }
@@ -358,10 +343,7 @@ namespace Krypton.Ribbon
         [Description("Shortcut key combination to fire click event of the button.")]
         public Keys ShortcutKeys { get; set; }
 
-        private bool ShouldSerializeShortcutKeys()
-        {
-            return (ShortcutKeys != Keys.None);
-        }
+        private bool ShouldSerializeShortcutKeys() => (ShortcutKeys != Keys.None);
 
         /// <summary>
         /// Resets the ShortcutKeys property to its default value.
@@ -395,7 +377,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Color to draw as transparent in the ToolTipImage.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         [Localizable(true)]
         public Color ToolTipImageTransparentColor { get; set; }
 
@@ -405,7 +387,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Title text for use in associated ToolTip.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         [Localizable(true)]
         public string ToolTipTitle { get; set; }
@@ -416,7 +398,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Body text for use in associated ToolTip.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         [Localizable(true)]
         public string ToolTipBody { get; set; }
@@ -431,12 +413,12 @@ namespace Krypton.Ribbon
         {
             get => _contextMenuStrip;
 
-            set 
+            set
             {
                 if (value != _contextMenuStrip)
                 {
                     _contextMenuStrip = value;
-                    OnPropertyChanged("ContextMenuStrip");
+                    OnPropertyChanged(nameof(ContextMenuStrip));
                 }
             }
         }
@@ -456,7 +438,7 @@ namespace Krypton.Ribbon
                 if (value != _kryptonContextMenu)
                 {
                     _kryptonContextMenu = value;
-                    OnPropertyChanged("KryptonContextMenu");
+                    OnPropertyChanged(nameof(KryptonContextMenu));
                 }
             }
         }
@@ -481,7 +463,7 @@ namespace Krypton.Ribbon
                     }
 
                     _command = value;
-                    OnPropertyChanged("KryptonCommand");
+                    OnPropertyChanged(nameof(KryptonCommand));
 
                     if (_command != null)
                     {
@@ -506,7 +488,7 @@ namespace Krypton.Ribbon
                 if (_itemSizeMax != value)
                 {
                     _itemSizeMax = value;
-                    OnPropertyChanged("ItemSizeMaximum");
+                    OnPropertyChanged(nameof(ItemSizeMaximum));
                 }
             }
         }
@@ -526,7 +508,7 @@ namespace Krypton.Ribbon
                 if (_itemSizeMin != value)
                 {
                     _itemSizeMin = value;
-                    OnPropertyChanged("ItemSizeMinimum");
+                    OnPropertyChanged(nameof(ItemSizeMinimum));
                 }
             }
         }
@@ -546,7 +528,7 @@ namespace Krypton.Ribbon
                 if (_itemSizeCurrent != value)
                 {
                     _itemSizeCurrent = value;
-                    OnPropertyChanged("ItemSizeCurrent");
+                    OnPropertyChanged(nameof(ItemSizeCurrent));
                 }
             }
         }
@@ -558,11 +540,9 @@ namespace Krypton.Ribbon
         /// <param name="needPaint">Delegate for notifying changes in display.</param>
         /// <returns>ViewBase derived instance.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override ViewBase CreateView(KryptonRibbon ribbon, 
-                                            NeedPaintHandler needPaint)
-        {
-            return new ViewDrawRibbonGroupButton(ribbon, this, needPaint);
-        }
+        public override ViewBase CreateView(KryptonRibbon ribbon,
+                                            NeedPaintHandler needPaint) =>
+            new ViewDrawRibbonGroupButton(ribbon, this, needPaint);
 
         /// <summary>
         /// Generates a Click event for a button.
@@ -619,22 +599,22 @@ namespace Krypton.Ribbon
             switch (e.PropertyName)
             {
                 case "TextLine1":
-                    OnPropertyChanged("TextLine1");
+                    OnPropertyChanged(nameof(TextLine1));
                     break;
                 case "TextLine2":
-                    OnPropertyChanged("TextLine2");
+                    OnPropertyChanged(nameof(TextLine2));
                     break;
                 case "ImageSmall":
-                    OnPropertyChanged("ImageSmall");
+                    OnPropertyChanged(nameof(ImageSmall));
                     break;
                 case "ImageLarge":
-                    OnPropertyChanged("ImageLarge");
+                    OnPropertyChanged(nameof(ImageLarge));
                     break;
                 case "Enabled":
-                    OnPropertyChanged("Enabled");
+                    OnPropertyChanged(nameof(Enabled));
                     break;
                 case "Checked":
-                    OnPropertyChanged("Checked");
+                    OnPropertyChanged(nameof(Checked));
                     break;
             }
         }
@@ -713,7 +693,7 @@ namespace Krypton.Ribbon
                     {
                         if (KryptonContextMenu != null)
                         {
-                            ContextMenuArgs contextArgs = new ContextMenuArgs(KryptonContextMenu);
+                            ContextMenuArgs contextArgs = new(KryptonContextMenu);
 
                             // Generate an event giving a chance for the krypton context menu strip to 
                             // be shown to be provided/modified or the action even to be cancelled
@@ -746,7 +726,7 @@ namespace Krypton.Ribbon
                         }
                         else if (ContextMenuStrip != null)
                         {
-                            ContextMenuArgs contextArgs = new ContextMenuArgs(ContextMenuStrip);
+                            ContextMenuArgs contextArgs = new(ContextMenuStrip);
 
                             // Generate an event giving a chance for the context menu strip to be
                             // shown to be provided/modified or the action even to be cancelled

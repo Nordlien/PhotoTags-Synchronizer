@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Windows.Forms;
 // ReSharper disable UnusedMember.Global
 // ReSharper disable UnusedMemberInSuper.Global
 #pragma warning disable 1591
@@ -231,8 +225,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Border style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
-        /// <returns>Integer rounding.</returns>
-        int GetBorderRounding(PaletteBorderStyle style, PaletteState state);
+        /// <returns>Float rounding.</returns>
+        float GetBorderRounding(PaletteBorderStyle style, PaletteState state);
 
         /// <summary>
         /// Gets a border image.
@@ -1226,7 +1220,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Integer rounding.</returns>
-        int GetBorderRounding(PaletteState state);
+        float GetBorderRounding(PaletteState state);
 
         /// <summary>
         /// Gets a border image.
@@ -2067,6 +2061,7 @@ namespace Krypton.Toolkit
     #endregion
 
     #region Enum PaletteMode
+    // TODO: Update documentation
     /// <summary>
     /// Specifies the palette applied when drawing.
     /// </summary>
@@ -2093,10 +2088,18 @@ namespace Krypton.Toolkit
         /// </summary>
         Office2007Blue,
 
+        Office2007BlueDarkMode,
+
+        Office2007BlueLightMode,
+
         /// <summary>
         /// Specifies the Silver color variant of the Office 2007 appearance.
         /// </summary>
         Office2007Silver,
+
+        Office2007SilverDarkMode,
+
+        Office2007SilverLightMode,
 
         /// <summary>
         /// Specifies the White color variant of the Office 2007 appearance.
@@ -2108,15 +2111,25 @@ namespace Krypton.Toolkit
         /// </summary>
         Office2007Black,
 
+        Office2007BlackDarkMode,
+
         /// <summary>
         /// Specifies the Blue color variant of the Office 2010 appearance.
         /// </summary>
         Office2010Blue,
 
+        Office2010BlueDarkMode,
+
+        Office2010BlueLightMode,
+
         /// <summary>
         /// Specifies the Silver color variant of the Office 2010 appearance.
         /// </summary>
         Office2010Silver,
+
+        Office2010SilverDarkMode,
+
+        Office2010SilverLightMode,
 
         /// <summary>
         /// Specifies the White color variant of the Office 2010 appearance.
@@ -2127,6 +2140,8 @@ namespace Krypton.Toolkit
         /// Specifies the Black color variant of the Office 2010 appearance.
         /// </summary>
         Office2010Black,
+
+        Office2010BlackDarkMode,
 
         /// <summary>
         /// Specifies the Office 2013 palette appearance.
@@ -2143,15 +2158,25 @@ namespace Krypton.Toolkit
         /// </summary>
         Office365Black,
 
+        Office365BlackDarkMode,
+
         /// <summary>
         /// Specifies the Blue color variant of the Office 365 appearance.
         /// </summary>
         Office365Blue,
 
+        Office365BlueDarkMode,
+
+        Office365BlueLightMode,
+
         /// <summary>
         /// Specifies the Silver color variant of the Office 365 appearance.
         /// </summary>
         Office365Silver,
+
+        Office365SilverDarkMode,
+
+        Office365SilverLightMode,
 
         /// <summary>
         /// Specifies the White color variant of the Office 365 appearance.
@@ -2163,15 +2188,37 @@ namespace Krypton.Toolkit
         /// </summary>
         SparkleBlue,
 
+        SparkleBlueDarkMode,
+
+        SparkleBlueLightMode,
+
         /// <summary>
         /// Specifies the Orange color variant on the Sparkle palette theme.
         /// </summary>
         SparkleOrange,
 
+        SparkleOrangeDarkMode,
+
+        SparkleOrangeLightMode,
+
         /// <summary>
         /// Specifies the Purple color variant on the Sparkle palette theme.
         /// </summary>
         SparklePurple,
+
+        SparklePurpleDarkMode,
+
+        SparklePurpleLightMode,
+
+        ///// <summary>
+        ///// Specifies the visual studio dark palette theme.
+        ///// </summary>
+        //VisualStudioDark,
+
+        ///// <summary>
+        ///// Specifies the visual studio light palette theme.
+        ///// </summary>
+        //VisualStudioLight,
 
         /// <summary>
         /// Specifies a custom palette be used.
@@ -2179,6 +2226,7 @@ namespace Krypton.Toolkit
         Custom
     }
 
+    // TODO: Update documentation
     /// <summary>
     /// Specifies the palette requested at the global level.
     /// </summary>
@@ -2200,10 +2248,18 @@ namespace Krypton.Toolkit
         /// </summary>
         Office2007Blue,
 
+        Office2007BlueDarkMode,
+
+        Office2007BlueLightMode,
+
         /// <summary>
         /// Specifies the Silver color variant of the Office 2007 appearance.
         /// </summary>
         Office2007Silver,
+
+        Office2007SilverDarkMode,
+
+        Office2007SilverLightMode,
 
         /// <summary>
         /// Specifies the White color variant of the Office 2007 appearance.
@@ -2215,15 +2271,25 @@ namespace Krypton.Toolkit
         /// </summary>
         Office2007Black,
 
+        Office2007BlackDarkMode,
+
         /// <summary>
         /// Specifies the Blue color variant of the Office 2010 appearance.
         /// </summary>
         Office2010Blue,
 
+        Office2010BlueDarkMode,
+
+        Office2010BlueLightMode,
+
         /// <summary>
         /// Specifies the Silver color variant of the Office 2010 appearance.
         /// </summary>
         Office2010Silver,
+
+        Office2010SilverDarkMode,
+
+        Office2010SilverLightMode,
 
         /// <summary>
         /// Specifies the White color variant of the Office 2010 appearance.
@@ -2234,6 +2300,8 @@ namespace Krypton.Toolkit
         /// Specifies the Black color variant of the Office 2010 appearance.
         /// </summary>
         Office2010Black,
+
+        Office2010BlackDarkMode,
 
         /// <summary>
         /// Specifies the Office 2013 appearance.
@@ -2250,15 +2318,25 @@ namespace Krypton.Toolkit
         /// </summary>
         Office365Black,
 
+        Office365BlackDarkMode,
+
         /// <summary>
         /// Specifies the Blue color variant of the Office 365 appearance.
         /// </summary>
         Office365Blue,
 
+        Office365BlueDarkMode,
+
+        Office365BlueLightMode,
+
         /// <summary>
         /// Specifies the Silver color variant of the Office 365 appearance.
         /// </summary>
         Office365Silver,
+
+        Office365SilverDarkMode,
+
+        Office365SilverLightMode,
 
         /// <summary>
         /// Specifies the White color variant of the Office 365 appearance.
@@ -2270,15 +2348,37 @@ namespace Krypton.Toolkit
         /// </summary>
         SparkleBlue,
 
+        SparkleBlueDarkMode,
+
+        SparkleBlueLightMode,
+
         /// <summary>
         /// Specifies the Orange color variant on the Sparkle palette theme.
         /// </summary>
         SparkleOrange,
 
+        SparkleOrangeDarkMode,
+
+        SparkleOrangeLightMode,
+
         /// <summary>
         /// Specifies the Purple color variant on the Sparkle palette theme.
         /// </summary>
         SparklePurple,
+
+        SparklePurpleDarkMode,
+
+        SparklePurpleLightMode,
+
+        // /// <summary>
+        // /// Specifies the visual studio dark palette theme.
+        // /// </summary>
+        //VisualStudioDark,
+
+        // /// <summary>
+        // /// Specifies the visual studio light palette theme.
+        // /// </summary>
+        //VisualStudioLight,
 
         /// <summary>
         /// Specifies a custom palette be used.
@@ -2482,7 +2582,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies the spacing gap been each ribbon tab.
         /// </summary>
-        RibbonTabGap,
+        RibbonTabGap
     }
     #endregion
 
@@ -4205,7 +4305,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies an expert style button that has a square inner area with highlighting variation 2.
         /// </summary>
-        ExpertSquareHighlight2,
+        ExpertSquareHighlight2
     }
     #endregion
 
@@ -4384,7 +4484,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies that all borders be drawn.
         /// </summary>
-        All = 0x0F,
+        All = 0x0F
     }
     #endregion
 
@@ -4448,7 +4548,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies image is drawn much darker.
         /// </summary>
-        DarkDark,
+        DarkDark
     }
     #endregion
 
@@ -4520,24 +4620,29 @@ namespace Krypton.Toolkit
         PinHorizontal,
 
         /// <summary>
-        /// Specifies a form close button specification.
+        /// Specifies a form "Close" button specification.
         /// </summary>
         FormClose,
 
         /// <summary>
-        /// Specifies a form minimize button specification.
+        /// Specifies a form "Minimize" button specification.
         /// </summary>
         FormMin,
 
         /// <summary>
-        /// Specifies a form maximize button specification.
+        /// Specifies a form "Maximize" button specification.
         /// </summary>
         FormMax,
 
         /// <summary>
-        /// Specifies a form restore button specification.
+        /// Specifies a form "Restore" button specification.
         /// </summary>
         FormRestore,
+
+        /// <summary>
+        /// Specifies a form "Help" button specification.
+        /// </summary>
+        FormHelp,
 
         /// <summary>
         /// Specifies a pendant close button specification.
@@ -4572,7 +4677,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies a ribbon expand button specification.
         /// </summary>
-        RibbonExpand,
+        RibbonExpand
     }
     #endregion
 
@@ -4600,7 +4705,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies button should be disabled.
         /// </summary>
-        False,
+        False
     }
     #endregion
 
@@ -4741,7 +4846,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies anti aliasing for graphics rendering.
         /// </summary>
-        AntiAlias,
+        AntiAlias
     }
     #endregion
 
@@ -5010,7 +5115,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies a border style appropriate for a gallery.
         /// </summary>
-        RibbonGalleryBorder,
+        RibbonGalleryBorder
     }
     #endregion
 
@@ -5169,17 +5274,17 @@ namespace Krypton.Toolkit
         RibbonGroupAreaBorder,
 
         /// <summary>
-        /// Specifies using colors to draw a groups area border, variantion 2.
+        /// Specifies using colors to draw a groups area border, variation 2.
         /// </summary>
         RibbonGroupAreaBorder2,
 
         /// <summary>
-        /// Specifies using colors to draw a groups area border, variantion 3.
+        /// Specifies using colors to draw a groups area border, variation 3.
         /// </summary>
         RibbonGroupAreaBorder3,
 
         /// <summary>
-        /// Specifies using colors to draw a groups area border, variantion 4.
+        /// Specifies using colors to draw a groups area border, variation 4.
         /// </summary>
         RibbonGroupAreaBorder4,
 
@@ -5194,27 +5299,52 @@ namespace Krypton.Toolkit
         RibbonGroupNormalBorder,
 
         /// <summary>
+        /// Specifies using colors to draw a group normal area.
+        /// </summary>
+        RibbonGroupNormal,
+
+        /// <summary>
+        /// Specifies using colors to draw a group pressed area, variation based on light background.
+        /// </summary>
+        RibbonGroupNormalPressedLight,
+
+        /// <summary>
+        /// Specifies using colors to draw a group pressed area, variation based on dark background.
+        /// </summary>
+        RibbonGroupNormalPressedDark,
+
+        /// <summary>
+        /// Specifies using colors to draw a group tracking area, variation based on light background.
+        /// </summary>
+        RibbonGroupNormalTrackingLight,
+
+        /// <summary>
+        /// Specifies using colors to draw a group tracking area, variation based on dark background.
+        /// </summary>
+        RibbonGroupNormalTrackingDark,
+
+        /// <summary>
         /// Specifies using colors to draw a group normal border as a vertical separator.
         /// </summary>
         RibbonGroupNormalBorderSep,
 
         /// <summary>
-        /// Specifies using colors to draw a group pressed border as a vertical separator, variantion based on light background.
+        /// Specifies using colors to draw a group pressed border as a vertical separator, variation based on light background.
         /// </summary>
         RibbonGroupNormalBorderSepPressedLight,
 
         /// <summary>
-        /// Specifies using colors to draw a group pressed border as a vertical separator, variantion based on dark background.
+        /// Specifies using colors to draw a group pressed border as a vertical separator, variation based on dark background.
         /// </summary>
         RibbonGroupNormalBorderSepPressedDark,
 
         /// <summary>
-        /// Specifies using colors to draw a group tracking border as a vertical separator, variantion based on light background.
+        /// Specifies using colors to draw a group tracking border as a vertical separator, variation based on light background.
         /// </summary>
         RibbonGroupNormalBorderSepTrackingLight,
 
         /// <summary>
-        /// Specifies using colors to draw a group tracking border as a vertical separator, variantion based on dark background.
+        /// Specifies using colors to draw a group tracking border as a vertical separator, variation based on dark background.
         /// </summary>
         RibbonGroupNormalBorderSepTrackingDark,
 
@@ -5304,7 +5434,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies the drop down gallery button.
         /// </summary>
-        DropDown,
+        DropDown
     }
     #endregion
 
@@ -5360,7 +5490,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies a large track bar.
         /// </summary>
-        Large,
+        Large
     }
     #endregion
 
@@ -5383,7 +5513,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies the position marker of a track bar.
         /// </summary>
-        TrackBarPosition,
+        TrackBarPosition
     }
     #endregion
 

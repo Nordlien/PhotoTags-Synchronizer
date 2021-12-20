@@ -2,19 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.ComponentModel;
-using Krypton.Toolkit;
 
 namespace Krypton.Navigator
 {
@@ -36,18 +31,13 @@ namespace Krypton.Navigator
         /// <returns>Calculated PopupPagePosition</returns>
         public override PopupPagePosition GetPopupPagePosition()
         {
-            switch (Navigator.Bar.BarOrientation)
+            return Navigator.Bar.BarOrientation switch
             {
-                default:
-                case VisualOrientation.Top:
-                    return PopupPagePosition.BelowNear;
-                case VisualOrientation.Bottom:
-                    return PopupPagePosition.AboveNear;
-                case VisualOrientation.Left:
-                    return PopupPagePosition.FarTop;
-                case VisualOrientation.Right:
-                    return PopupPagePosition.NearTop;
-            }
+                VisualOrientation.Bottom => PopupPagePosition.AboveNear,
+                VisualOrientation.Left => PopupPagePosition.FarTop,
+                VisualOrientation.Right => PopupPagePosition.NearTop,
+                _ => PopupPagePosition.BelowNear
+            };
         }
         #endregion
 

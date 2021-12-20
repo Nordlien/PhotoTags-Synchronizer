@@ -2,19 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -61,6 +56,7 @@ namespace Krypton.Toolkit
             FormMax = new KryptonPaletteButtonSpecTyped(redirector);
             FormMin = new KryptonPaletteButtonSpecTyped(redirector);
             FormRestore = new KryptonPaletteButtonSpecTyped(redirector);
+            FormHelp = new KryptonPaletteButtonSpecTyped(redirector);
             PendantClose = new KryptonPaletteButtonSpecTyped(redirector);
             PendantMin = new KryptonPaletteButtonSpecTyped(redirector);
             PendantRestore = new KryptonPaletteButtonSpecTyped(redirector);
@@ -70,7 +66,7 @@ namespace Krypton.Toolkit
             RibbonExpand = new KryptonPaletteButtonSpecTyped(redirector);
 
             // Create redirector for inheriting from style specific to style common
-            PaletteRedirectButtonSpec redirectCommon = new PaletteRedirectButtonSpec(redirector, Common);
+            PaletteRedirectButtonSpec redirectCommon = new(redirector, Common);
 
             // Inform the button spec to use the new redirector
             Generic.SetRedirector(redirectCommon);
@@ -89,6 +85,7 @@ namespace Krypton.Toolkit
             FormMax.SetRedirector(redirectCommon);
             FormMin.SetRedirector(redirectCommon);
             FormRestore.SetRedirector(redirectCommon);
+            FormHelp.SetRedirector(redirectCommon);
             PendantClose.SetRedirector(redirectCommon);
             PendantMin.SetRedirector(redirectCommon);
             PendantRestore.SetRedirector(redirectCommon);
@@ -115,6 +112,7 @@ namespace Krypton.Toolkit
             FormMax.ButtonSpecChanged += OnButtonSpecChanged;
             FormMin.ButtonSpecChanged += OnButtonSpecChanged;
             FormRestore.ButtonSpecChanged += OnButtonSpecChanged;
+            FormHelp.ButtonSpecChanged += OnButtonSpecChanged;
             PendantClose.ButtonSpecChanged += OnButtonSpecChanged;
             PendantMin.ButtonSpecChanged += OnButtonSpecChanged;
             PendantRestore.ButtonSpecChanged += OnButtonSpecChanged;
@@ -146,6 +144,7 @@ namespace Krypton.Toolkit
                                           FormMax.IsDefault &&
                                           FormMin.IsDefault &&
                                           FormRestore.IsDefault &&
+                                          FormHelp.IsDefault &&
                                           PendantClose.IsDefault &&
                                           PendantMin.IsDefault &&
                                           PendantRestore.IsDefault &&
@@ -179,6 +178,7 @@ namespace Krypton.Toolkit
             FormMax.PopulateFromBase(PaletteButtonSpecStyle.FormMax);
             FormMin.PopulateFromBase(PaletteButtonSpecStyle.FormMin);
             FormRestore.PopulateFromBase(PaletteButtonSpecStyle.FormRestore);
+            FormHelp.PopulateFromBase(PaletteButtonSpecStyle.FormRestore);
             PendantClose.PopulateFromBase(PaletteButtonSpecStyle.PendantClose);
             PendantRestore.PopulateFromBase(PaletteButtonSpecStyle.PendantRestore);
             PendantMin.PopulateFromBase(PaletteButtonSpecStyle.PendantMin);
@@ -200,10 +200,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped Common { get; }
 
-        private bool ShouldSerializeCommon()
-        {
-            return !Common.IsDefault;
-        }
+        private bool ShouldSerializeCommon() => !Common.IsDefault;
+
         #endregion
 
         #region Generic
@@ -216,10 +214,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped Generic { get; }
 
-        private bool ShouldSerializeGeneric()
-        {
-            return !Generic.IsDefault;
-        }
+        private bool ShouldSerializeGeneric() => !Generic.IsDefault;
+
         #endregion
 
         #region Close
@@ -232,10 +228,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped Close { get; }
 
-        private bool ShouldSerializeClose()
-        {
-            return !Close.IsDefault;
-        }
+        private bool ShouldSerializeClose() => !Close.IsDefault;
+
         #endregion
 
         #region Context
@@ -248,10 +242,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped Context { get; }
 
-        private bool ShouldSerializeContext()
-        {
-            return !Context.IsDefault;
-        }
+        private bool ShouldSerializeContext() => !Context.IsDefault;
+
         #endregion
 
         #region Next
@@ -264,10 +256,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped Next { get; }
 
-        private bool ShouldSerializeNext()
-        {
-            return !Next.IsDefault;
-        }
+        private bool ShouldSerializeNext() => !Next.IsDefault;
+
         #endregion
 
         #region Previous
@@ -280,10 +270,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped Previous { get; }
 
-        private bool ShouldSerializePrevious()
-        {
-            return !Previous.IsDefault;
-        }
+        private bool ShouldSerializePrevious() => !Previous.IsDefault;
+
         #endregion
 
         #region ArrowLeft
@@ -296,10 +284,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped ArrowLeft { get; }
 
-        private bool ShouldSerializeArrowLeft()
-        {
-            return !ArrowLeft.IsDefault;
-        }
+        private bool ShouldSerializeArrowLeft() => !ArrowLeft.IsDefault;
+
         #endregion
 
         #region ArrowRight
@@ -312,10 +298,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped ArrowRight { get; }
 
-        private bool ShouldSerializeArrowRight()
-        {
-            return !ArrowRight.IsDefault;
-        }
+        private bool ShouldSerializeArrowRight() => !ArrowRight.IsDefault;
+
         #endregion
 
         #region ArrowUp
@@ -328,10 +312,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped ArrowUp { get; }
 
-        private bool ShouldSerializeArrowUp()
-        {
-            return !ArrowUp.IsDefault;
-        }
+        private bool ShouldSerializeArrowUp() => !ArrowUp.IsDefault;
+
         #endregion
 
         #region ArrowDown
@@ -344,10 +326,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped ArrowDown { get; }
 
-        private bool ShouldSerializeArrowDown()
-        {
-            return !ArrowDown.IsDefault;
-        }
+        private bool ShouldSerializeArrowDown() => !ArrowDown.IsDefault;
+
         #endregion
 
         #region DropDown
@@ -360,10 +340,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped DropDown { get; }
 
-        private bool ShouldSerializeDropDown()
-        {
-            return !DropDown.IsDefault;
-        }
+        private bool ShouldSerializeDropDown() => !DropDown.IsDefault;
+
         #endregion
 
         #region PinVertical
@@ -376,10 +354,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped PinVertical { get; }
 
-        private bool ShouldSerializePinVertical()
-        {
-            return !PinVertical.IsDefault;
-        }
+        private bool ShouldSerializePinVertical() => !PinVertical.IsDefault;
+
         #endregion
 
         #region PinHorizontal
@@ -392,10 +368,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped PinHorizontal { get; }
 
-        private bool ShouldSerializePinHorizontal()
-        {
-            return !PinHorizontal.IsDefault;
-        }
+        private bool ShouldSerializePinHorizontal() => !PinHorizontal.IsDefault;
+
         #endregion
 
         #region FormClose
@@ -408,10 +382,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped FormClose { get; }
 
-        private bool ShouldSerializeFormClose()
-        {
-            return !FormClose.IsDefault;
-        }
+        private bool ShouldSerializeFormClose() => !FormClose.IsDefault;
+
         #endregion
 
         #region FormMin
@@ -424,10 +396,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped FormMin { get; }
 
-        private bool ShouldSerializeFormMin()
-        {
-            return !FormMin.IsDefault;
-        }
+        private bool ShouldSerializeFormMin() => !FormMin.IsDefault;
+
         #endregion
 
         #region FormMax
@@ -440,10 +410,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped FormMax { get; }
 
-        private bool ShouldSerializeFormMax()
-        {
-            return !FormMax.IsDefault;
-        }
+        private bool ShouldSerializeFormMax() => !FormMax.IsDefault;
+
         #endregion
 
         #region FormRestore
@@ -456,10 +424,22 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped FormRestore { get; }
 
-        private bool ShouldSerializeFormRestore()
-        {
-            return !FormRestore.IsDefault;
-        }
+        private bool ShouldSerializeFormRestore() => !FormRestore.IsDefault;
+
+        #endregion
+
+        #region FormHelp
+        /// <summary>
+        /// Gets access to the form "Help" button specification.
+        /// </summary>
+        [KryptonPersist]
+        [Category("Visuals")]
+        [Description("Overrides for defining form \"Help\" button specifications.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public KryptonPaletteButtonSpecTyped FormHelp { get; }
+
+        private bool ShouldSerializeFormHelp() => !FormHelp.IsDefault;
+
         #endregion
 
         #region PendantClose
@@ -472,10 +452,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped PendantClose { get; }
 
-        private bool ShouldSerializePendantClose()
-        {
-            return !PendantClose.IsDefault;
-        }
+        private bool ShouldSerializePendantClose() => !PendantClose.IsDefault;
+
         #endregion
 
         #region PendantMin
@@ -488,10 +466,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped PendantMin { get; }
 
-        private bool ShouldSerializePendantMin()
-        {
-            return !PendantMin.IsDefault;
-        }
+        private bool ShouldSerializePendantMin() => !PendantMin.IsDefault;
+
         #endregion
 
         #region PendantRestore
@@ -504,10 +480,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped PendantRestore { get; }
 
-        private bool ShouldSerializePendantRestore()
-        {
-            return !PendantRestore.IsDefault;
-        }
+        private bool ShouldSerializePendantRestore() => !PendantRestore.IsDefault;
+
         #endregion
 
         #region WorkspaceMaximize
@@ -520,10 +494,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped WorkspaceMaximize { get; }
 
-        private bool ShouldSerializeWorkspaceMaximize()
-        {
-            return !WorkspaceMaximize.IsDefault;
-        }
+        private bool ShouldSerializeWorkspaceMaximize() => !WorkspaceMaximize.IsDefault;
+
         #endregion
 
         #region WorkspaceRestore
@@ -536,10 +508,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped WorkspaceRestore { get; }
 
-        private bool ShouldSerializeWorkspaceRestore()
-        {
-            return !WorkspaceRestore.IsDefault;
-        }
+        private bool ShouldSerializeWorkspaceRestore() => !WorkspaceRestore.IsDefault;
+
         #endregion
 
         #region RibbonMinimize
@@ -552,10 +522,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped RibbonMinimize { get; }
 
-        private bool ShouldSerializeRibbonMinimize()
-        {
-            return !RibbonMinimize.IsDefault;
-        }
+        private bool ShouldSerializeRibbonMinimize() => !RibbonMinimize.IsDefault;
+
         #endregion
 
         #region RibbonExpand
@@ -568,10 +536,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped RibbonExpand { get; }
 
-        private bool ShouldSerializeRibbonExpand()
-        {
-            return !RibbonExpand.IsDefault;
-        }
+        private bool ShouldSerializeRibbonExpand() => !RibbonExpand.IsDefault;
+
         #endregion
 
         #region OnButtonSpecChanged
@@ -580,10 +546,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected virtual void OnButtonSpecChanged(object sender, EventArgs e)
-        {
-            ButtonSpecChanged?.Invoke(this, e);
-        }
+        protected virtual void OnButtonSpecChanged(object sender, EventArgs e) => ButtonSpecChanged?.Invoke(this, e);
+
         #endregion
     }
 }

@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -27,8 +20,8 @@ namespace Krypton.Ribbon
                                                   IRibbonViewGroupContainerView
     {
         #region Static Fields
-        private static readonly Size _preferredSize2007 = new Size(4, 4);
-        private static readonly Size _preferredSize2010 = new Size(7, 4);
+        private static readonly Size _preferredSize2007 = new(4, 4);
+        private static readonly Size _preferredSize2010 = new(7, 4);
         #endregion
 
         #region Instance Fields
@@ -64,7 +57,7 @@ namespace Krypton.Ribbon
             if (_ribbon.InDesignMode)
             {
                 // At design time we need to know when the user right clicks the label
-                ContextClickController controller = new ContextClickController();
+                ContextClickController controller = new();
                 controller.ContextClick += OnContextClick;
                 MouseController = controller;
             }
@@ -84,11 +77,9 @@ namespace Krypton.Ribbon
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawRibbonGroupSeparator:" + Id;
-        }
+            "ViewDrawRibbonGroupSeparator:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -115,11 +106,10 @@ namespace Krypton.Ribbon
         /// Gets the first focus item from the container.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetFirstFocusItem()
-        {
+        public ViewBase GetFirstFocusItem() =>
             // We never have any child items that can take focus
-            return null;
-        }
+            null;
+
         #endregion
 
         #region GetLastFocusItem
@@ -127,11 +117,10 @@ namespace Krypton.Ribbon
         /// Gets the last focus item from the item.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetLastFocusItem()
-        {
+        public ViewBase GetLastFocusItem() =>
             // We never have any child items that can take focus
-            return null;
-        }
+            null;
+
         #endregion
 
         #region GetNextFocusItem
@@ -141,11 +130,10 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetNextFocusItem(ViewBase current, ref bool matched)
-        {
+        public ViewBase GetNextFocusItem(ViewBase current, ref bool matched) =>
             // We never have any child items that can take focus
-            return null;
-        }
+            null;
+
         #endregion
 
         #region GetPreviousFocusItem
@@ -155,11 +143,10 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched)
-        {
+        public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched) =>
             // We never have any child items that can take focus
-            return null;
-        }
+            null;
+
         #endregion
 
         #region GetGroupKeyTips
@@ -198,7 +185,7 @@ namespace Krypton.Ribbon
             }
 
             // Return the one possible size allowed
-            return new ItemSizeWidth[] { new ItemSizeWidth(GroupItemSize.Large, _preferredSize.Width) };
+            return new ItemSizeWidth[] { new(GroupItemSize.Large, _preferredSize.Width) };
         }
 
         /// <summary>
@@ -222,10 +209,7 @@ namespace Krypton.Ribbon
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
-        {
-            return _preferredSize;
-        }
+        public override Size GetPreferredSize(ViewLayoutContext context) => _preferredSize;
 
         /// <summary>
         /// Perform a layout of the elements.

@@ -2,18 +2,13 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
-
-using System.Drawing;
-using System.ComponentModel;
 
 namespace Krypton.Docking
 {
@@ -30,20 +25,16 @@ namespace Krypton.Docking
         /// Initialize a new instance of the KryptonDockspace class.
         /// </summary>
         public KryptonDockspace()
-            : base("Docked")
-        {
+            : base("Docked") =>
             // Define a sensible default minimum size
             MinimumSize = new Size(22, 22);
-        }
 
         /// <summary>
         /// Gets a string representation of the class.
         /// </summary>
         /// <returns></returns>
-        public override string ToString()
-        {
-            return "KryptonDockspace " + Dock.ToString();
-        }
+        public override string ToString() => "KryptonDockspace " + Dock.ToString();
+
         #endregion
     }
 }

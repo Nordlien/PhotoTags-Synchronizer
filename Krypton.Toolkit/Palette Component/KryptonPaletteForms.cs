@@ -2,18 +2,13 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
-
-using System.ComponentModel;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -45,7 +40,7 @@ namespace Krypton.Toolkit
             FormCustom3 = new KryptonPaletteForm(redirector, PaletteBackStyle.FormCustom3, PaletteBorderStyle.FormCustom3, needPaint);
 
             // Create redirectors for inheriting from style specific to style common
-            PaletteRedirectDouble redirectCommon = new PaletteRedirectDouble(redirector, FormCommon.StateInactive, FormCommon.StateActive);
+            PaletteRedirectDouble redirectCommon = new(redirector, FormCommon.StateInactive, FormCommon.StateActive);
 
             // Inform the form style to use the new redirector
             FormMain.SetRedirector(redirectCommon);
@@ -89,10 +84,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteForm FormCommon { get; }
 
-        private bool ShouldSerializeFormCommon()
-        {
-            return !FormCommon.IsDefault;
-        }
+        private bool ShouldSerializeFormCommon() => !FormCommon.IsDefault;
+
         #endregion
 
         #region FormMain
@@ -105,10 +98,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteForm FormMain { get; }
 
-        private bool ShouldSerializeFormMain()
-        {
-            return !FormMain.IsDefault;
-        }
+        private bool ShouldSerializeFormMain() => !FormMain.IsDefault;
+
         #endregion
 
         #region FormCustom1
@@ -121,10 +112,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteForm FormCustom1 { get; }
 
-        private bool ShouldSerializeFormCustom1()
-        {
-            return !FormCustom1.IsDefault;
-        }
+        private bool ShouldSerializeFormCustom1() => !FormCustom1.IsDefault;
+
         #endregion
 
         #region FormCustom2
@@ -137,10 +126,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteForm FormCustom2 { get; }
 
-        private bool ShouldSerializeFormCustom2()
-        {
-            return !FormCustom2.IsDefault;
-        }
+        private bool ShouldSerializeFormCustom2() => !FormCustom2.IsDefault;
+
         #endregion
 
         #region FormCustom3
@@ -153,10 +140,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteForm FormCustom3 { get; }
 
-        private bool ShouldSerializeFormCustom3()
-        {
-            return !FormCustom3.IsDefault;
-        }
+        private bool ShouldSerializeFormCustom3() => !FormCustom3.IsDefault;
+
         #endregion
     }
 }

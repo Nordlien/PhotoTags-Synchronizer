@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.ComponentModel;
 
 namespace Krypton.Toolkit
 {
@@ -42,7 +36,7 @@ namespace Krypton.Toolkit
         private int _trackingIndex;
         private int _cacheTrackingIndex;
         private int _eventTrackingIndex;
-        private readonly Timer _trackingEventTimer;
+        private readonly System.Windows.Forms.Timer _trackingEventTimer;
         #endregion
 
         #region Events
@@ -86,7 +80,7 @@ namespace Krypton.Toolkit
             _style = ButtonStyle.LowProfile;
 
             // Timer used to generate tracking change event
-            _trackingEventTimer = new Timer
+            _trackingEventTimer = new System.Windows.Forms.Timer
             {
                 Interval = 120
             };
@@ -97,10 +91,8 @@ namespace Krypton.Toolkit
         /// Returns a description of the instance.
         /// </summary>
         /// <returns>String representation.</returns>
-        public override string ToString()
-        {
-            return "(ImageSelect)";
-        }
+        public override string ToString() => "(ImageSelect)";
+
         #endregion
 
         #region Public
@@ -123,10 +115,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="keyData">Key data to check against shorcut definitions.</param>
         /// <returns>True if shortcut was handled, otherwise false.</returns>
-        public override bool ProcessShortcut(Keys keyData)
-        {
-            return false;
-        }
+        public override bool ProcessShortcut(Keys keyData) => false;
 
         /// <summary>
         /// Returns a view appropriate for this item based on the object it is inside.
@@ -141,10 +130,8 @@ namespace Krypton.Toolkit
                                               object parent,
                                               ViewLayoutStack columns,
                                               bool standardStyle,
-                                              bool imageColumn)
-        {
-            return new ViewLayoutMenuItemSelect(this, provider);
-        }
+                                              bool imageColumn) =>
+            new ViewLayoutMenuItemSelect(this, provider);
 
         /// <summary>
         /// Gets and sets padding around the image selection area.
@@ -162,7 +149,7 @@ namespace Krypton.Toolkit
                 if (_padding != value)
                 {
                     _padding = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Padding"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Padding)));
                 }
             }
         }
@@ -183,7 +170,7 @@ namespace Krypton.Toolkit
                 if (_autoClose != value)
                 {
                     _autoClose = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("AutoClose"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(AutoClose)));
                 }
             }
         }
@@ -225,7 +212,7 @@ namespace Krypton.Toolkit
                 if (_style != value)
                 {
                     _style = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("ButtonStyle"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ButtonStyle)));
                 }
             }
         }
@@ -246,7 +233,7 @@ namespace Krypton.Toolkit
                 if (_imageList != value)
                 {
                     _imageList = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("ImageList"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ImageList)));
                 }
             }
         }
@@ -267,7 +254,7 @@ namespace Krypton.Toolkit
                 if (_imageIndexStart != value)
                 {
                     _imageIndexStart = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("ImageIndexStart"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ImageIndexStart)));
                 }
             }
         }
@@ -288,7 +275,7 @@ namespace Krypton.Toolkit
                 if (_imageIndexEnd != value)
                 {
                     _imageIndexEnd = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("ImageIndexEnd"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ImageIndexEnd)));
                 }
             }
         }
@@ -312,7 +299,7 @@ namespace Krypton.Toolkit
                     value = Math.Max(1, value);
 
                     _lineItems = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("LineItems"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(LineItems)));
                 }
             }
         }
@@ -323,10 +310,7 @@ namespace Krypton.Toolkit
         /// Raises the SelectedIndexChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnSelectedIndexChanged(EventArgs e)
-        {
-            SelectedIndexChanged?.Invoke(this, e);
-        }
+        protected virtual void OnSelectedIndexChanged(EventArgs e) => SelectedIndexChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the SelectedIndexChanged event.

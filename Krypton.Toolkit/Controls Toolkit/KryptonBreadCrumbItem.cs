@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Drawing.Design;
 
 namespace Krypton.Toolkit
 {
@@ -25,14 +19,14 @@ namespace Krypton.Toolkit
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonBreadCrumb), "ToolboxBitmaps.KryptonBreadCrumbItem.bmp")]
     [DesignTimeVisible(false)]
-    [Designer(typeof(KryptonBreadCrumbItemDesigner))]
+    [Designer("Krypton.Toolkit.KryptonBreadCrumbItemDesigner, Krypton.Toolkit")]
     public class KryptonBreadCrumbItem : KryptonListItem
     {
         #region Type Definitons
         /// <summary>
         /// Manages a collection of KryptonBreadCrumbItems
         /// </summary>
-        [Editor(typeof(KryptonBreadCrumbItemsEditor), typeof(UITypeEditor))]
+        [Editor(@"Krypton.Toolkit.KryptonBreadCrumbItemsEditor", typeof(UITypeEditor))]
         public class BreadCrumbItems : TypedCollection<KryptonBreadCrumbItem>
         {
             #region Instance Fields
@@ -44,10 +38,8 @@ namespace Krypton.Toolkit
             /// Initialize a new instance of the BreadCrumbItems class.
             /// </summary>
             /// <param name="owner">Reference to owning item.</param>
-            internal BreadCrumbItems(KryptonBreadCrumbItem owner)
-            {
-                _owner = owner;
-            }
+            internal BreadCrumbItems(KryptonBreadCrumbItem owner) => _owner = owner;
+
             #endregion
 
             #region Public
@@ -209,20 +201,16 @@ namespace Krypton.Toolkit
                                      string longText,
                                      Image image,
                                      Color imageTransparentColor)
-            : base(shortText, longText, image, imageTransparentColor)
-        {
+            : base(shortText, longText, image, imageTransparentColor) =>
             // Create child collection
             Items = new BreadCrumbItems(this);
-        }
 
         /// <summary>
         /// Gets the string representation of the object.
         /// </summary>
         /// <returns></returns>
-        public override string ToString()
-        {
-            return "(" + Items.Count.ToString() + ") " + ShortText;
-        }
+        public override string ToString() => "(" + Items.Count.ToString() + ") " + ShortText;
+
         #endregion
 
         #region Public

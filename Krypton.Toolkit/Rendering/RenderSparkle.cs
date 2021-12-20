@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Windows.Forms;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -75,24 +68,20 @@ namespace Krypton.Toolkit
                                                    bool composition,
                                                    IDisposable memento)
         {
-            // Note is the incoming state is detailed we are drawing inside a popip
+            // Note is the incoming state is detailed we are drawing inside a popup
             bool showingInPopup = ((state & PaletteState.FocusOverride) == PaletteState.FocusOverride);
             if (showingInPopup)
             {
-                state = state & ~PaletteState.FocusOverride;
+                state &= ~PaletteState.FocusOverride;
             }
 
-            switch (palette.GetRibbonBackColorStyle(state))
+            return palette.GetRibbonBackColorStyle(state) switch
             {
-                case PaletteRibbonColorStyle.RibbonGroupNormalBorderTracking:
-                    return DrawRibbonGroupNormalBorder(context, rect, state, palette, true, false, memento);
-                case PaletteRibbonColorStyle.RibbonGroupAreaBorder:
-                    return DrawRibbonGroupAreaBorder1And2(context, rect, state, palette, false, true, memento);
-                case PaletteRibbonColorStyle.RibbonGroupAreaBorder2:
-                    return DrawRibbonGroupAreaBorder1And2(context, rect, state, palette, true, true, memento);
-                default:
-                    return base.DrawRibbonBack(shape, context, rect, state, palette, orientation, composition, memento);
-            }
+                PaletteRibbonColorStyle.RibbonGroupNormalBorderTracking => DrawRibbonGroupNormalBorder(context, rect, state, palette, true, false, memento),
+                PaletteRibbonColorStyle.RibbonGroupAreaBorder => DrawRibbonGroupAreaBorder1And2(context, rect, state, palette, false, true, memento),
+                PaletteRibbonColorStyle.RibbonGroupAreaBorder2 => DrawRibbonGroupAreaBorder1And2(context, rect, state, palette, true, true, memento),
+                _ => base.DrawRibbonBack(shape, context, rect, state, palette, orientation, composition, memento)
+            };
         }
 
         /// <summary>
@@ -109,10 +98,8 @@ namespace Krypton.Toolkit
                                                               Rectangle rect,
                                                               IPaletteRibbonGeneral paletteGeneral,
                                                               IPaletteRibbonBack paletteBack,
-                                                              IDisposable memento)
-        {
-            return DrawRibbonTabContext(context, rect, paletteGeneral, paletteBack, memento);
-        }
+                                                              IDisposable memento) =>
+            DrawRibbonTabContext(context, rect, paletteGeneral, paletteBack, memento);
 
         /// <summary>
         /// Draw the application button.
@@ -128,10 +115,8 @@ namespace Krypton.Toolkit
                                                                 Rectangle rect,
                                                                 PaletteState state,
                                                                 IPaletteRibbonBack palette,
-                                                                IDisposable memento)
-        {
-            return DrawRibbonAppButton(shape, context, rect, state, palette, true, memento);
-        }
+                                                                IDisposable memento) =>
+            DrawRibbonAppButton(shape, context, rect, state, palette, true, memento);
 
         /// <summary>
         /// Perform drawing of a ribbon drop arrow glyph.
@@ -168,16 +153,14 @@ namespace Krypton.Toolkit
             Color lightColor = (state == PaletteState.Disabled ? paletteGeneral.GetRibbonDisabledLight(state) :
                                                                  paletteGeneral.GetRibbonGroupDialogLight(state));
 
-            using (Pen darkPen = new Pen(darkColor),
-                       lightPen = new Pen(lightColor))
-            {
-                context.Graphics.DrawLine(lightPen, displayRect.Left, displayRect.Top + 1, displayRect.Left + 2, displayRect.Top + 3);
-                context.Graphics.DrawLine(lightPen, displayRect.Left + 2, displayRect.Top + 3, displayRect.Left + 4, displayRect.Top + 1);
-                context.Graphics.DrawLine(lightPen, displayRect.Left + 4, displayRect.Top + 1, displayRect.Left + 1, displayRect.Top + 1);
-                context.Graphics.DrawLine(lightPen, displayRect.Left + 1, displayRect.Top + 1, displayRect.Left + 2, displayRect.Top + 2);
-                context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top + 2, displayRect.Left + 2, displayRect.Top + 4);
-                context.Graphics.DrawLine(darkPen, displayRect.Left + 2, displayRect.Top + 4, displayRect.Left + 4, displayRect.Top + 2);
-            }
+            using Pen darkPen = new(darkColor),
+                lightPen = new(lightColor);
+            context.Graphics.DrawLine(lightPen, displayRect.Left, displayRect.Top + 1, displayRect.Left + 2, displayRect.Top + 3);
+            context.Graphics.DrawLine(lightPen, displayRect.Left + 2, displayRect.Top + 3, displayRect.Left + 4, displayRect.Top + 1);
+            context.Graphics.DrawLine(lightPen, displayRect.Left + 4, displayRect.Top + 1, displayRect.Left + 1, displayRect.Top + 1);
+            context.Graphics.DrawLine(lightPen, displayRect.Left + 1, displayRect.Top + 1, displayRect.Left + 2, displayRect.Top + 2);
+            context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top + 2, displayRect.Left + 2, displayRect.Top + 4);
+            context.Graphics.DrawLine(darkPen, displayRect.Left + 2, displayRect.Top + 4, displayRect.Left + 4, displayRect.Top + 2);
         }
         #endregion
 
@@ -216,12 +199,10 @@ namespace Krypton.Toolkit
             int xStart = cellRect.Left + ((cellRect.Right - cellRect.Left - 4) / 2);
             int yStart = cellRect.Top + ((cellRect.Bottom - cellRect.Top - 3) / 2);
 
-            using (Pen darkPen = new Pen(c1))
-            {
-                context.Graphics.DrawLine(darkPen, xStart, yStart, xStart + 4, yStart);
-                context.Graphics.DrawLine(darkPen, xStart + 1, yStart + 1, xStart + 3, yStart + 1);
-                context.Graphics.DrawLine(darkPen, xStart + 2, yStart + 2, xStart + 2, yStart + 1);
-            }
+            using Pen darkPen = new(c1);
+            context.Graphics.DrawLine(darkPen, xStart, yStart, xStart + 4, yStart);
+            context.Graphics.DrawLine(darkPen, xStart + 1, yStart + 1, xStart + 3, yStart + 1);
+            context.Graphics.DrawLine(darkPen, xStart + 2, yStart + 2, xStart + 2, yStart + 1);
         }
 
         /// <summary>
@@ -257,12 +238,10 @@ namespace Krypton.Toolkit
             int xStart = cellRect.Left + ((cellRect.Right - cellRect.Left - 4) / 2);
             int yStart = cellRect.Top + ((cellRect.Bottom - cellRect.Top - 3) / 2);
 
-            using (Pen darkPen = new Pen(c1))
-            {
-                context.Graphics.DrawLine(darkPen, xStart, yStart + 3, xStart + 4, yStart + 3);
-                context.Graphics.DrawLine(darkPen, xStart + 1, yStart + 2, xStart + 3, yStart + 2);
-                context.Graphics.DrawLine(darkPen, xStart + 2, yStart + 2, xStart + 2, yStart + 1);
-            }
+            using Pen darkPen = new(c1);
+            context.Graphics.DrawLine(darkPen, xStart, yStart + 3, xStart + 4, yStart + 3);
+            context.Graphics.DrawLine(darkPen, xStart + 1, yStart + 2, xStart + 3, yStart + 2);
+            context.Graphics.DrawLine(darkPen, xStart + 2, yStart + 2, xStart + 2, yStart + 1);
         }
 
         /// <summary>
@@ -298,12 +277,10 @@ namespace Krypton.Toolkit
             int xStart = cellRect.Left + ((cellRect.Right - cellRect.Left - 4) / 2);
             int yStart = cellRect.Top + ((cellRect.Bottom - cellRect.Top - 3) / 2);
 
-            using (Pen darkPen = new Pen(c1))
-            {
-                context.Graphics.DrawLine(darkPen, xStart, yStart, xStart + 4, yStart);
-                context.Graphics.DrawLine(darkPen, xStart + 1, yStart + 1, xStart + 3, yStart + 1);
-                context.Graphics.DrawLine(darkPen, xStart + 2, yStart + 2, xStart + 2, yStart + 1);
-            }
+            using Pen darkPen = new(c1);
+            context.Graphics.DrawLine(darkPen, xStart, yStart, xStart + 4, yStart);
+            context.Graphics.DrawLine(darkPen, xStart + 1, yStart + 1, xStart + 3, yStart + 1);
+            context.Graphics.DrawLine(darkPen, xStart + 2, yStart + 2, xStart + 2, yStart + 1);
         }
         #endregion
 
@@ -325,10 +302,10 @@ namespace Krypton.Toolkit
             }
 
             // Use the professional renderer but pull colors from the palette
-            KryptonSparkleRenderer renderer = new KryptonSparkleRenderer(colorPalette.ColorTable)
+            KryptonSparkleRenderer renderer = new(colorPalette.ColorTable)
             {
 
-                // Seup the need to use rounded corners
+                // Setup the need to use rounded corners
                 RoundedEdges = (colorPalette.ColorTable.UseRoundedEdges != InheritBool.False)
             };
 
@@ -355,17 +332,17 @@ namespace Krypton.Toolkit
                 MementoRibbonTabContextOffice cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoRibbonTabContextOffice))
+                if (memento is MementoRibbonTabContextOffice office)
+                {
+                    cache = office;
+                    generate = !cache.UseCachedValues(rect, c1, c2);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonTabContextOffice(rect, c1, c2);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonTabContextOffice)memento;
-                    generate = !cache.UseCachedValues(rect, c1, c2);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -374,16 +351,16 @@ namespace Krypton.Toolkit
                     // Dispose of existing values
                     cache.Dispose();
 
-                    Rectangle borderRect = new Rectangle(rect.X - 1, rect.Y - 1, rect.Width + 2, rect.Height + 2);
+                    Rectangle borderRect = new(rect.X - 1, rect.Y - 1, rect.Width + 2, rect.Height + 2);
                     cache.fillRect = new Rectangle(rect.X + 1, rect.Y, rect.Width - 2, rect.Height - 1);
 
-                    LinearGradientBrush borderBrush = new LinearGradientBrush(borderRect, c1, Color.Transparent, 270f)
+                    LinearGradientBrush borderBrush = new(borderRect, c1, Color.Transparent, 270f)
                     {
                         Blend = _ribbonGroup5Blend
                     };
                     cache.borderPen = new Pen(borderBrush);
 
-                    LinearGradientBrush underlineBrush = new LinearGradientBrush(borderRect, Color.Transparent, Color.FromArgb(200, c2), 0f)
+                    LinearGradientBrush underlineBrush = new(borderRect, Color.Transparent, Color.FromArgb(200, c2), 0f)
                     {
                         Blend = _ribbonGroup7Blend
                     };

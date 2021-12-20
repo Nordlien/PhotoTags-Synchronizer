@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.ComponentModel;
-using System.Windows.Forms;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -106,14 +100,11 @@ namespace Krypton.Ribbon
         /// <param name="previousItem">Previous item.</param>
         /// <returns>Pixel gap between previous item and this item.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public virtual int ItemGap(IRibbonGroupItem previousItem)
-        {
+        public virtual int ItemGap(IRibbonGroupItem previousItem) =>
             // If the previous item is a group button cluster then we want 3 pixels
-            return previousItem is KryptonRibbonGroupCluster ? 3 : 1;
+            previousItem is KryptonRibbonGroupCluster ? 3 : 1;
 
-            // By default we just want a single pixel gap
-        }
-
+        // By default we just want a single pixel gap
         /// <summary>
         /// Creates an appropriate view element for this item.
         /// </summary>
@@ -143,10 +134,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private bool ShouldSerializeTag()
-        {
-            return (Tag != null);
-        }
+        private bool ShouldSerializeTag() => (Tag != null);
 
         private void ResetTag()
         {

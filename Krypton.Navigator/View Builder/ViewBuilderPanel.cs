@@ -2,19 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using Krypton.Toolkit;
 
 namespace Krypton.Navigator
 {
@@ -76,22 +71,18 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to KryptonPage; otherwise null.</returns>
-        public override KryptonPage PageFromView(ViewBase element)
-        {
+        public override KryptonPage PageFromView(ViewBase element) =>
             // There is no view for the page
-            return null;
-        }
+            null;
 
         /// <summary>
         /// Gets the ButtonSpec associated with the provided view element.
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public override ButtonSpec ButtonSpecFromView(ViewBase element)
-        {
+        public override ButtonSpec ButtonSpecFromView(ViewBase element) =>
             // There is no view for the page
-            return null;
-        }
+            null;
 
         /// <summary>
         /// Process a change in the enabled state for a page.
@@ -155,11 +146,9 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="charCode">The mnemonic character entered.</param>
         /// <returns>true if the mnemonic was processsed; otherwise, false.</returns>
-        public override bool ProcessMnemonic(char charCode)
-        {
+        public override bool ProcessMnemonic(char charCode) =>
             // No mnemonic processing for a panel view
-            return false;
-        }
+            false;
 
         /// <summary>
         /// Destruct the previously created view.

@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Design;
-using System.ComponentModel;
-using System.Windows.Forms;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -26,7 +18,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupCluster), "ToolboxBitmaps.KryptonRibbonGroupCluster.bmp")]
-    [Designer(typeof(Krypton.Ribbon.KryptonRibbonGroupClusterDesigner))]
+    [Designer("Krypton.Ribbon.KryptonRibbonGroupClusterDesigner, Krypton.Ribbon")]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultProperty("Visible")]
@@ -61,7 +53,7 @@ namespace Krypton.Ribbon
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
         public event EventHandler DesignTimeAddColorButton;
-        
+
         /// <summary>
         /// Occurs when the design time context menu is requested.
         /// </summary>
@@ -90,7 +82,7 @@ namespace Krypton.Ribbon
             Items.Removed += OnRibbonGroupClusterRemoved;
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets access to the owning ribbon control.
@@ -102,8 +94,8 @@ namespace Krypton.Ribbon
         {
             get => base.Ribbon;
 
-            set 
-            { 
+            set
+            {
                 base.Ribbon = value;
 
                 // Forward the reference to all children (just in case the children
@@ -125,8 +117,8 @@ namespace Krypton.Ribbon
         {
             get => base.RibbonTab;
 
-            set 
-            { 
+            set
+            {
                 base.RibbonTab = value;
 
                 // Forward the reference to all children (just in case the children
@@ -157,7 +149,7 @@ namespace Krypton.Ribbon
                 if (value != _visible)
                 {
                     _visible = value;
-                    OnPropertyChanged("Visible");
+                    OnPropertyChanged(nameof(Visible));
                 }
             }
         }
@@ -211,7 +203,7 @@ namespace Krypton.Ribbon
                         item.ItemSizeMaximum = _itemSizeMax;
                     }
 
-                    OnPropertyChanged("ItemSizeMaximum");
+                    OnPropertyChanged(nameof(ItemSizeMaximum));
                 }
             }
         }
@@ -249,7 +241,7 @@ namespace Krypton.Ribbon
                         item.ItemSizeMinimum = _itemSizeMin;
                     }
 
-                    OnPropertyChanged("ItemSizeMinimum");
+                    OnPropertyChanged(nameof(ItemSizeMinimum));
                 }
             }
         }
@@ -269,7 +261,7 @@ namespace Krypton.Ribbon
                 if (_itemSizeCurrent != value)
                 {
                     _itemSizeCurrent = value;
-                    OnPropertyChanged("ItemSizeCurrent");
+                    OnPropertyChanged(nameof(ItemSizeCurrent));
                 }
             }
         }
@@ -280,11 +272,9 @@ namespace Krypton.Ribbon
         /// <param name="previousItem">Previous item.</param>
         /// <returns>Pixel gap between previous item and this item.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override int ItemGap(IRibbonGroupItem previousItem)
-        {
+        public override int ItemGap(IRibbonGroupItem previousItem) =>
             // We always want 3 pixels space between previous item and us
-            return 3;
-        }
+            3;
 
         /// <summary>
         /// Creates an appropriate view element for this item.
@@ -294,10 +284,8 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase derived instance.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override ViewBase CreateView(KryptonRibbon ribbon,
-                                            NeedPaintHandler needPaint)
-        {
-            return new ViewLayoutRibbonGroupCluster(ribbon, this, needPaint);
-        }
+                                            NeedPaintHandler needPaint) =>
+            new ViewLayoutRibbonGroupCluster(ribbon, this, needPaint);
 
         /// <summary>
         /// Gets the collection of ribbon group button cluster items.
@@ -305,7 +293,7 @@ namespace Krypton.Ribbon
         [Category("Visuals")]
         [Description("Collection of ribbon group button cluster items.")]
         [MergableProperty(false)]
-        [Editor(typeof(Krypton.Ribbon.KryptonRibbonGroupClusterCollectionEditor), typeof(UITypeEditor))]
+        [Editor(@"Krypton.Ribbon.KryptonRibbonGroupClusterCollectionEditor, Krypton.Ribbon", typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonRibbonGroupClusterCollection Items { get; }
 

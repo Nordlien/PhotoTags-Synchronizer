@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -58,30 +54,21 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteTextTrim value.</returns>
-        public override PaletteTextTrim GetContentShortTextTrim(PaletteState state)
-        {
-            return PaletteTextTrim.Character;
-        }
+        public override PaletteTextTrim GetContentShortTextTrim(PaletteState state) => PaletteTextTrim.Character;
 
         /// <summary>
         /// Gets the horizontal relative alignment of the short text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public override PaletteRelativeAlign GetContentShortTextH(PaletteState state)
-        {
-            return RibbonGeneral.GetRibbonContextTextAlign(state);
-        }
+        public override PaletteRelativeAlign GetContentShortTextH(PaletteState state) => RibbonGeneral.GetRibbonContextTextAlign(state);
 
         /// <summary>
         /// Gets the font for the short text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentShortTextFont(PaletteState state)
-        {
-            return RibbonGeneral.GetRibbonContextTextFont(state);
-        }
+        public override Font GetContentShortTextFont(PaletteState state) => RibbonGeneral.GetRibbonContextTextFont(state);
 
         /// <summary>
         /// Gets the rendering hint for the short text.
@@ -114,20 +101,14 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteTextTrim value.</returns>
-        public override PaletteTextTrim GetContentLongTextTrim(PaletteState state)
-        {
-            return PaletteTextTrim.Character;
-        }
+        public override PaletteTextTrim GetContentLongTextTrim(PaletteState state) => PaletteTextTrim.Character;
 
         /// <summary>
         /// Gets the font for the long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentLongTextFont(PaletteState state)
-        {
-            return RibbonGeneral.GetRibbonContextTextFont(state);
-        }
+        public override Font GetContentLongTextFont(PaletteState state) => RibbonGeneral.GetRibbonContextTextFont(state);
 
         /// <summary>
         /// Gets the rendering hint for the long text.

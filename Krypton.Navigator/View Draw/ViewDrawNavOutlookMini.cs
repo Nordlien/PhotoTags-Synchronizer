@@ -2,19 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using Krypton.Toolkit;
 
 namespace Krypton.Navigator
 {
@@ -44,22 +39,18 @@ namespace Krypton.Navigator
                    navigator.StateTracking.MiniButton,
                    navigator.StatePressed.MiniButton,
                    navigator.StateSelected.MiniButton,
-                   navigator.OverrideFocus.MiniButton)
-
-        {
+                   navigator.OverrideFocus.MiniButton) =>
             // Create the finish handler for when popup is removed
             _finishDelegate = OnPopupFinished;
-        }
 
         /// <summary>
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawNavOutlookMini:" + Id + " Text:" + Page.Text;
-        }
+            "ViewDrawNavOutlookMini:" + Id + " Text:" + Page.Text;
+
         #endregion
 
         #region Page
@@ -106,28 +97,20 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public override Image GetImage(PaletteState state)
-        {
-            return Page?.GetImageMapping(Navigator.Outlook.Mini.MiniMapImage);
-        }
+        public override Image GetImage(PaletteState state) => Page?.GetImageMapping(Navigator.Outlook.Mini.MiniMapImage);
 
         /// <summary>
         /// Gets the content short text.
         /// </summary>
         /// <returns>String value.</returns>
-        public override string GetShortText()
-        {
-            return Page?.GetTextMapping(Navigator.Outlook.Mini.MiniMapText) ?? string.Empty;
-        }
+        public override string GetShortText() => Page?.GetTextMapping(Navigator.Outlook.Mini.MiniMapText) ?? string.Empty;
 
         /// <summary>
         /// Gets the content long text.
         /// </summary>
         /// <returns>String value.</returns>
-        public override string GetLongText()
-        {
-            return Page?.GetTextMapping(Navigator.Outlook.Mini.MiniMapExtraText) ?? string.Empty;
-        }
+        public override string GetLongText() => Page?.GetTextMapping(Navigator.Outlook.Mini.MiniMapExtraText) ?? string.Empty;
+
         #endregion
 
         #region CreateMouseController

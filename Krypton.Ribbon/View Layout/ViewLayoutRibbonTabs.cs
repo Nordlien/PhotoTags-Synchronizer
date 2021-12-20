@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -55,10 +47,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Identity
-        static ViewLayoutRibbonTabs()
-        {
-            ContextTabSets = new ContextTabSetCollection();
-        }
+        static ViewLayoutRibbonTabs() => ContextTabSets = new ContextTabSetCollection();
 
         /// <summary>
         /// Initialize a new instance of the ViewLayoutRibbonTabs class.
@@ -84,11 +73,9 @@ namespace Krypton.Ribbon
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewLayoutRibbonTabs:" + Id;
-        }
+            "ViewLayoutRibbonTabs:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -265,7 +252,7 @@ namespace Krypton.Ribbon
         /// <returns>Array of KeyTipInfo instances.</returns>
         public KeyTipInfo[] GetTabKeyTips()
         {
-            KeyTipInfoList keyTipList = new KeyTipInfoList();
+            KeyTipInfoList keyTipList = new();
 
             foreach (ViewBase child in this)
             {
@@ -278,7 +265,7 @@ namespace Krypton.Ribbon
                     Rectangle tabRect = viewTab.OwningControl.RectangleToScreen(viewTab.ClientRectangle);
 
                     // The keytip should be centered on the bottom center of the view
-                    Point screenPt = new Point(tabRect.Left + (tabRect.Width / 2), tabRect.Bottom + 2);
+                    Point screenPt = new(tabRect.Left + (tabRect.Width / 2), tabRect.Bottom + 2);
 
                     // Create new key tip that invokes the tab controller when selected
                     keyTipList.Add(new KeyTipInfo(true, viewTab.RibbonTab.KeyTip,
@@ -314,10 +301,9 @@ namespace Krypton.Ribbon
             foreach (ViewBase child in this)
             {
                 // Only interested in visible ribbon tabs
-                if (child.Visible && (child is ViewDrawRibbonTab))
+                if (child.Visible && (child is ViewDrawRibbonTab viewTab))
                 {
                     // Cast to correct type of view element
-                    ViewDrawRibbonTab viewTab = (ViewDrawRibbonTab)child;
 
                     // Is this element for the currently selected tab?
                     if (viewTab.RibbonTab == _ribbon.SelectedTab)

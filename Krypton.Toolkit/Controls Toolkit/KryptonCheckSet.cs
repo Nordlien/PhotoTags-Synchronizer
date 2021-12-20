@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Collections;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Design;
 
 namespace Krypton.Toolkit
 {
@@ -29,7 +21,7 @@ namespace Krypton.Toolkit
     [DefaultEvent("CheckedButtonChanged")]
     [DefaultProperty("CheckButtons")]
     [DesignerCategory("code")]
-    [Designer(typeof(KryptonCheckSetDesigner))]
+    [Designer("Krypton.Toolkit.KryptonCheckSetDesigner, Krypton.Toolkit")]
     [Description("Provide exclusive checked logic for a set of KryptonCheckButton controls.")]
     public class KryptonCheckSet : Component,
                                    ISupportInitialize
@@ -90,24 +82,20 @@ namespace Krypton.Toolkit
             /// </summary>
             /// <param name="checkButton">The KryptonCheckButton to locate in the collection.</param>
             /// <returns>True if found in collection; otherwise false.</returns>
-            public bool Contains(KryptonCheckButton checkButton)
-            {
+            public bool Contains(KryptonCheckButton checkButton) =>
                 // ReSharper disable RedundantBaseQualifier
-                return base.List.Contains(checkButton);
-                // ReSharper restore RedundantBaseQualifier
-            }
+                base.List.Contains(checkButton);
+            // ReSharper restore RedundantBaseQualifier
 
             /// <summary>
             /// Returns the index of the KryptonCheckButton reference.
             /// </summary>
             /// <param name="checkButton">The KryptonCheckButton to locate.</param>
             /// <returns>Index of reference; otherwise -1.</returns>
-            public int IndexOf(KryptonCheckButton checkButton)
-            {
+            public int IndexOf(KryptonCheckButton checkButton) =>
                 // ReSharper disable RedundantBaseQualifier
-                return base.List.IndexOf(checkButton);
-                // ReSharper restore RedundantBaseQualifier
-            }
+                base.List.IndexOf(checkButton);
+            // ReSharper restore RedundantBaseQualifier
 
             /// <summary>
             /// Inserts a KryptonCheckButton reference into the collection at the specified location.
@@ -261,10 +249,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the KryptonCheckSet class.
         /// </summary>
-        public KryptonCheckSet()
-        {
-            CheckButtons = new KryptonCheckButtonCollection(this);
-        }
+        public KryptonCheckSet() => CheckButtons = new KryptonCheckButtonCollection(this);
 
         /// <summary>
         /// Initialize a new instance of the KryptonCheckSet class.
@@ -388,17 +373,7 @@ namespace Krypton.Toolkit
         [DefaultValue(-1)]
         public int CheckedIndex
         {
-            get
-            {
-                if (CheckedButton == null)
-                {
-                    return -1;
-                }
-                else
-                {
-                    return CheckButtons.IndexOf(CheckedButton);
-                }
-            }
+            get => CheckedButton == null ? -1 : CheckButtons.IndexOf(CheckedButton);
 
             set
             {
@@ -419,7 +394,7 @@ namespace Krypton.Toolkit
         [Category("Behavior")]
         [Description("Determine which of the associated buttons is checked.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Editor(typeof(KryptonCheckButtonCollectionEditor), typeof(UITypeEditor))]
+        [Editor(@"Krypton.Toolkit.KryptonCheckButtonCollectionEditor, Krypton.Toolkit", typeof(UITypeEditor))]
         [RefreshProperties(RefreshProperties.All)]
         public KryptonCheckButtonCollection CheckButtons { get; }
 

@@ -2,21 +2,13 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
-
-using System;
-using System.Drawing;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using Krypton.Toolkit;
 
 namespace Krypton.Navigator
 {
@@ -125,48 +117,36 @@ namespace Krypton.Navigator
                     // Create the docking indicators the first time needed
                     if (_indicators == null)
                     {
-                        switch (dragFeedback)
+                        _indicators = dragFeedback switch
                         {
-                            case PaletteDragFeedback.Rounded:
-                                _indicators = new DropDockingIndicatorsRounded(_paletteDragDrop, _renderer,
-                                                                               _hintToTarget.ContainsKey(DragTargetHint.EdgeLeft),
-                                                                               _hintToTarget.ContainsKey(DragTargetHint.EdgeRight),
-                                                                               _hintToTarget.ContainsKey(DragTargetHint.EdgeTop),
-                                                                               _hintToTarget.ContainsKey(DragTargetHint.EdgeBottom),
-                                                                               _hintToTarget.ContainsKey(DragTargetHint.Transfer));
-                                break;
-                            case PaletteDragFeedback.Square:
-                            default:
-                                _indicators = new DropDockingIndicatorsSquare(_paletteDragDrop, _renderer,
-                                                                              _hintToTarget.ContainsKey(DragTargetHint.EdgeLeft),
-                                                                              _hintToTarget.ContainsKey(DragTargetHint.EdgeRight),
-                                                                              _hintToTarget.ContainsKey(DragTargetHint.EdgeTop),
-                                                                              _hintToTarget.ContainsKey(DragTargetHint.EdgeBottom),
-                                                                              _hintToTarget.ContainsKey(DragTargetHint.Transfer));
-                                break;
-                        }
+                            PaletteDragFeedback.Rounded => new DropDockingIndicatorsRounded(_paletteDragDrop, _renderer,
+                                                                                                          _hintToTarget.ContainsKey(DragTargetHint.EdgeLeft),
+                                                                                                          _hintToTarget.ContainsKey(DragTargetHint.EdgeRight),
+                                                                                                          _hintToTarget.ContainsKey(DragTargetHint.EdgeTop),
+                                                                                                          _hintToTarget.ContainsKey(DragTargetHint.EdgeBottom),
+                                                                                                          _hintToTarget.ContainsKey(DragTargetHint.Transfer)),
+                            _ => new DropDockingIndicatorsSquare(_paletteDragDrop, _renderer,
+_hintToTarget.ContainsKey(DragTargetHint.EdgeLeft),
+_hintToTarget.ContainsKey(DragTargetHint.EdgeRight),
+_hintToTarget.ContainsKey(DragTargetHint.EdgeTop),
+_hintToTarget.ContainsKey(DragTargetHint.EdgeBottom),
+_hintToTarget.ContainsKey(DragTargetHint.Transfer))
+                        };
                     }
 
                     // Ensure window is displayed in correct location
                     _indicators.ShowRelative(ScreenRect);
 
                     // Hit test against indicators and update display
-                    switch (_indicators.ScreenMouseMove(screenPt))
+                    return _indicators.ScreenMouseMove(screenPt) switch
                     {
-                        case 0x0040:
-                            return _hintToTarget[DragTargetHint.EdgeLeft];
-                        case 0x0080:
-                            return _hintToTarget[DragTargetHint.EdgeRight];
-                        case 0x0100:
-                            return _hintToTarget[DragTargetHint.EdgeTop];
-                        case 0x0200:
-                            return _hintToTarget[DragTargetHint.EdgeBottom];
-                        case 0x0400:
-                            return _hintToTarget[DragTargetHint.Transfer];
-                        default:
-                            // Mouse is not over any of the targets
-                            return null;
-                    }
+                        0x0040 => _hintToTarget[DragTargetHint.EdgeLeft],
+                        0x0080 => _hintToTarget[DragTargetHint.EdgeRight],
+                        0x0100 => _hintToTarget[DragTargetHint.EdgeTop],
+                        0x0200 => _hintToTarget[DragTargetHint.EdgeBottom],
+                        0x0400 => _hintToTarget[DragTargetHint.Transfer],
+                        _ => null // Mouse is not over any of the targets
+                    };
                 }
                 else
                 {
@@ -347,11 +327,10 @@ namespace Krypton.Navigator
             return null;
         }
 
-        private DragTarget FindTarget(Point screenPt, PageDragEndData dragEndData)
-        {
+        private DragTarget FindTarget(Point screenPt, PageDragEndData dragEndData) =>
             // Nothing matches
-            return null;
-        }
+            null;
+
         #endregion
     }
 }

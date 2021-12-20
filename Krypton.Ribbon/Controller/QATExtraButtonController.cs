@@ -2,19 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.Windows.Forms;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -128,10 +123,8 @@ namespace Krypton.Ribbon
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public bool KeyUp(Control c, KeyEventArgs e)
-        {
-            return false;
-        }
+        public bool KeyUp(Control c, KeyEventArgs e) => false;
+
         #endregion
 
         #region KeyTipSelect
@@ -157,7 +150,7 @@ namespace Krypton.Ribbon
 
                 // Grab the list of key tips from the popup group
                 Ribbon.KeyTipMode = KeyTipMode.PopupQATOverflow;
-                KeyTipInfoList keyTipList = new KeyTipInfoList();
+                KeyTipInfoList keyTipList = new();
                 keyTipList.AddRange(popupOverflow.ViewQATContents.GetQATKeyTips(null));
 
                 // Update key tips with those appropriate for this tab
@@ -219,8 +212,7 @@ namespace Krypton.Ribbon
 
                     // Get access to the popup for the group
                     if (!VisualPopupManager.Singleton.IsShowingCMS &&
-                        (VisualPopupManager.Singleton.CurrentPopup != null) &&
-                        (VisualPopupManager.Singleton.CurrentPopup is VisualPopupQATOverflow))
+                        VisualPopupManager.Singleton.CurrentPopup is VisualPopupQATOverflow)
                     {
                         // Cast to correct type
                         VisualPopupQATOverflow popupOverflow = (VisualPopupQATOverflow)VisualPopupManager.Singleton.CurrentPopup;
@@ -268,8 +260,7 @@ namespace Krypton.Ribbon
 
                     // Get access to the popup for the group
                     if (!VisualPopupManager.Singleton.IsShowingCMS &&
-                        (VisualPopupManager.Singleton.CurrentPopup != null) &&
-                        (VisualPopupManager.Singleton.CurrentPopup is VisualPopupQATOverflow))
+                        VisualPopupManager.Singleton.CurrentPopup is VisualPopupQATOverflow)
                     {
                         // Cast to correct type
                         VisualPopupQATOverflow popupOverflow = (VisualPopupQATOverflow)VisualPopupManager.Singleton.CurrentPopup;

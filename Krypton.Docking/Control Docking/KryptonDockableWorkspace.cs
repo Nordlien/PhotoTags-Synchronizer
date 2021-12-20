@@ -2,21 +2,13 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
-
-using System.Drawing;
-
-using Krypton.Navigator;
-using Krypton.Toolkit;
-using Krypton.Workspace;
 
 namespace Krypton.Docking
 {
@@ -31,20 +23,16 @@ namespace Krypton.Docking
         /// Initialize a new instance of the KryptonDockableWorkspace class.
         /// </summary>
         public KryptonDockableWorkspace()
-            : base("Workspace")
-        {
+            : base("Workspace") =>
             // Override the base class and allow the workspace context menu for the tab to be shown
             ContextMenus.ShowContextMenu = true;
-        }
 
         /// <summary>
         /// Gets a string representation of the instance.
         /// </summary>
         /// <returns>String.</returns>
-        public override string ToString()
-        {
-            return "KryptonDockableWorkspace " + Dock.ToString();
-        }
+        public override string ToString() => "KryptonDockableWorkspace " + Dock.ToString();
+
         #endregion
 
         #region Protected

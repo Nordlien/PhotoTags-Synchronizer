@@ -2,17 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.ComponentModel;
 
 namespace Krypton.Toolkit
 {
@@ -95,10 +92,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDoubleMetric ItemHighlight { get; }
 
-        private bool ShouldSerializeItemHighlight()
-        {
-            return !ItemHighlight.IsDefault;
-        }
+        private bool ShouldSerializeItemHighlight() => !ItemHighlight.IsDefault;
+
         #endregion
 
         #region ItemSplit
@@ -111,10 +106,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDouble ItemSplit { get; }
 
-        private bool ShouldSerializeItemSplit()
-        {
-            return !ItemSplit.IsDefault;
-        }
+        private bool ShouldSerializeItemSplit() => !ItemSplit.IsDefault;
+
         #endregion
     }
 }

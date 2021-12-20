@@ -2,17 +2,13 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
-
-using System.Collections.Generic;
 
 namespace Krypton.Docking
 {
@@ -31,10 +27,9 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="name">Initial name of the element.</param>
         public DockingElementClosedCollection(string name)
-            : base(name)
-        {
+            : base(name) =>
             _elements = new List<IDockingElement>();
-        }
+
         #endregion
 
         #region Public
@@ -79,20 +74,15 @@ namespace Krypton.Docking
         /// Shallow enumerate over child docking elements.
         /// </summary>
         /// <returns>Enumerator instance.</returns>
-        public override IEnumerator<IDockingElement> GetEnumerator()
-        {
-            return _elements.GetEnumerator();
-        }
+        public override IEnumerator<IDockingElement> GetEnumerator() => _elements.GetEnumerator();
 
         /// <summary>
         /// Determines whether the collection contains the docking element.
         /// </summary>
         /// <param name="item">IDockingElement reference.</param>
         /// <returns>True if view found; otherwise false.</returns>
-        public virtual bool Contains(IDockingElement item)
-        {
-            return _elements.Contains(item);
-        }
+        public virtual bool Contains(IDockingElement item) => _elements.Contains(item);
+
         #endregion
 
         #region Protected

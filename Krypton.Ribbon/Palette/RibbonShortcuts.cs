@@ -2,19 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.ComponentModel;
-using System.Windows.Forms;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -70,10 +65,7 @@ namespace Krypton.Ribbon
         [DefaultValue(typeof(Keys), "F1, Control")]
         public Keys ToggleMinimizeMode { get; set; }
 
-        private bool ShouldSerializeToggleMinimizeMode()
-        {
-            return (ToggleMinimizeMode != DEFAULT_TOGGLE_MINIMIZE_MODE);
-        }
+        private bool ShouldSerializeToggleMinimizeMode() => (ToggleMinimizeMode != DEFAULT_TOGGLE_MINIMIZE_MODE);
 
         /// <summary>
         /// Resets the ToggleMinimizeMode property to its default value.
@@ -95,10 +87,7 @@ namespace Krypton.Ribbon
         [DefaultValue(typeof(Keys), "Menu, Alt")]
         public Keys ToggleKeyboardAccess1 { get; set; }
 
-        private bool ShouldSerializeToggleKeyboardAccess1()
-        {
-            return (ToggleKeyboardAccess1 != DEFAULT_TOGGLE_KEYBOARD_ACCESS1);
-        }
+        private bool ShouldSerializeToggleKeyboardAccess1() => (ToggleKeyboardAccess1 != DEFAULT_TOGGLE_KEYBOARD_ACCESS1);
 
         /// <summary>
         /// Resets the ToggleKeyboardAccess1 property to its default value.
@@ -120,10 +109,7 @@ namespace Krypton.Ribbon
         [DefaultValue(typeof(Keys), "F10")]
         public Keys ToggleKeyboardAccess2 { get; set; }
 
-        private bool ShouldSerializeToggleKeyboardAccess2()
-        {
-            return (ToggleKeyboardAccess2 != DEFAULT_TOGGLE_KEYBOARD_ACCESS2);
-        }
+        private bool ShouldSerializeToggleKeyboardAccess2() => (ToggleKeyboardAccess2 != DEFAULT_TOGGLE_KEYBOARD_ACCESS2);
 
         /// <summary>
         /// Resets the ToggleKeyboardAccess2 property to its default value.

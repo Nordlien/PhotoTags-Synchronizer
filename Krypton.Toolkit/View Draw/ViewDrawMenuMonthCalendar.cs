@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -77,21 +71,18 @@ namespace Krypton.Toolkit
         /// Release unmanaged and optionally managed resources.
         /// </summary>
         /// <param name="disposing">Called from Dispose method.</param>
-        protected override void Dispose(bool disposing)
-        {
+        protected override void Dispose(bool disposing) =>
             // Prevent memory leak
             base.Dispose(disposing);
-        }
 
         /// <summary>
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawMenuMonthCalendar:" + Id;
-        }
+            "ViewDrawMenuMonthCalendar:" + Id;
+
         #endregion
 
         #region Layout
@@ -302,37 +293,26 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="start">New starting date.</param>
         /// <param name="end">New ending date.</param>
-        public void SetSelectionRange(DateTime start, DateTime end)
-        {
-            _monthCalendar.SetSelectionRange(start, end);
-        }
+        public void SetSelectionRange(DateTime start, DateTime end) => _monthCalendar.SetSelectionRange(start, end);
 
         /// <summary>
         /// Update usage of bolded overrides.
         /// </summary>
         /// <param name="bolded">New bolded state.</param>
-        public void SetBoldedOverride(bool bolded)
-        {
-            _monthCalendar.SetBoldedOverride(bolded);
-        }
+        public void SetBoldedOverride(bool bolded) => _monthCalendar.SetBoldedOverride(bolded);
 
         /// <summary>
         /// Update usage of today overrides.
         /// </summary>
         /// <param name="today">New today state.</param>
-        public void SetTodayOverride(bool today)
-        {
-            _monthCalendar.SetTodayOverride(today);
-        }
+        public void SetTodayOverride(bool today) => _monthCalendar.SetTodayOverride(today);
 
         /// <summary>
         /// Update usage of focus overrides.
         /// </summary>
         /// <param name="focus">Should show focus.</param>
-        public void SetFocusOverride(bool focus)
-        {
-            _monthCalendar.SetFocusOverride(focus);
-        }
+        public void SetFocusOverride(bool focus) => _monthCalendar.SetFocusOverride(focus);
+
         #endregion
     }
 }

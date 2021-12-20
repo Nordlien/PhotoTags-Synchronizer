@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -27,7 +21,7 @@ namespace Krypton.Toolkit
     [DefaultEvent("ValueChanged")]
     [DefaultProperty("Value")]
     [DefaultBindingProperty("Value")]
-    [Designer(typeof(KryptonDateTimePickerDesigner))]
+    [Designer("Krypton.Toolkit.KryptonDateTimePickerDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Enables the user to select a date and time, and to display that date and time in a specified format.")]
     public class KryptonDateTimePicker : VisualControlBase,
@@ -76,7 +70,7 @@ namespace Krypton.Toolkit
         private InputControlStyle _inputControlStyle;
         private ButtonStyle _upDownButtonStyle;
         private ButtonStyle _dropButtonStyle;
-        private Nullable<bool> _fixedActive;
+        private bool? _fixedActive;
         private DateTimePickerFormat _format;
         private DateTime _maxDateTime;
         private DateTime _minDateTime;
@@ -190,7 +184,7 @@ namespace Krypton.Toolkit
             IsDropped = false;
             IsMouseOver = false;
             AllowButtonSpecToolTips = false;
-			AllowButtonSpecToolTipPriority = false;
+            AllowButtonSpecToolTipPriority = false;
             CalendarShowToday = true;
             CalendarShowTodayCircle = true;
             CalendarCloseOnTodayClick = false;
@@ -229,7 +223,7 @@ namespace Krypton.Toolkit
 
             // Add a checkbox to the left of the text area
             Images = new CheckBoxImages(NeedPaintDelegate);
-            PaletteRedirectCheckBox paletteCheckBoxImages = new PaletteRedirectCheckBox(Redirector, Images);
+            PaletteRedirectCheckBox paletteCheckBoxImages = new(Redirector, Images);
             InternalViewDrawCheckBox = new ViewDrawCheckBox(paletteCheckBoxImages)
             {
                 CheckState = CheckState.Checked
@@ -241,7 +235,7 @@ namespace Krypton.Toolkit
             _layoutCheckBox.Visible = false;
 
             // Need a controller for handling check box mouse input
-            CheckBoxController controller = new CheckBoxController(InternalViewDrawCheckBox, InternalViewDrawCheckBox, NeedPaintDelegate);
+            CheckBoxController controller = new(InternalViewDrawCheckBox, InternalViewDrawCheckBox, NeedPaintDelegate);
             controller.Click += OnCheckBoxClick;
             controller.Enabled = true;
             InternalViewDrawCheckBox.MouseController = controller;
@@ -390,17 +384,7 @@ namespace Krypton.Toolkit
         [Bindable(false)]
         public override string Text
         {
-            get
-            {
-                if ((ValueNullable == null) || (ValueNullable == DBNull.Value))
-                {
-                    return string.Empty;
-                }
-                else
-                {
-                    return _drawText.ToString();
-                }
-            }
+            get => (ValueNullable == null) || (ValueNullable == DBNull.Value) ? string.Empty : _drawText.ToString();
 
             set { }
         }
@@ -510,10 +494,7 @@ namespace Krypton.Toolkit
             CalendarTodayDate = DateTime.Now.Date;
         }
 
-        private bool ShouldSerializeCalendarTodayDate()
-        {
-            return (CalendarTodayDate != DateTime.Now.Date);
-        }
+        private bool ShouldSerializeCalendarTodayDate() => (CalendarTodayDate != DateTime.Now.Date);
 
         /// <summary>
         /// Gets or sets the array of DateTime objects that determines which annual days are displayed in bold.
@@ -529,7 +510,7 @@ namespace Krypton.Toolkit
             {
                 if (value == null)
                 {
-                    value = new DateTime[0];
+                    value = Array.Empty<DateTime>();
                 }
 
                 _annualDates.Clear();
@@ -541,10 +522,7 @@ namespace Krypton.Toolkit
         /// Should the CalendarAnnuallyBoldedDates property be serialized.
         /// </summary>
         /// <returns>True if property needs to be serialized.</returns>
-        public bool ShouldSerializeCalendarAnnuallyBoldedDates()
-        {
-            return (_annualDates.Count > 0);
-        }
+        public bool ShouldSerializeCalendarAnnuallyBoldedDates() => (_annualDates.Count > 0);
 
         private void ResetCalendarAnnuallyBoldedDates()
         {
@@ -565,7 +543,7 @@ namespace Krypton.Toolkit
             {
                 if (value == null)
                 {
-                    value = new DateTime[0];
+                    value = Array.Empty<DateTime>();
                 }
 
                 _monthlyDates.Clear();
@@ -577,10 +555,7 @@ namespace Krypton.Toolkit
         /// Should the CalendarMonthlyBoldedDates property be serialized.
         /// </summary>
         /// <returns>True if property needs to be serialized.</returns>
-        public bool ShouldSerializeCalendarMonthlyBoldedDates()
-        {
-            return (_monthlyDates.Count > 0);
-        }
+        public bool ShouldSerializeCalendarMonthlyBoldedDates() => (_monthlyDates.Count > 0);
 
         private void ResetCalendarMonthlyBoldedDates()
         {
@@ -599,10 +574,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                if (value == null)
-                {
-                    value = new DateTime[0];
-                }
+                value ??= Array.Empty<DateTime>();
 
                 _dates.Clear();
                 _dates.AddRange(value);
@@ -613,10 +585,7 @@ namespace Krypton.Toolkit
         /// Should the CalendarBoldedDates property be serialized.
         /// </summary>
         /// <returns>True if property needs to be serialized.</returns>
-        public bool ShouldSerializeCalendarBoldedDates()
-        {
-            return (_dates.Count > 0);
-        }
+        public bool ShouldSerializeCalendarBoldedDates() => (_dates.Count > 0);
 
         private void ResetCalendarBoldedDates()
         {
@@ -688,10 +657,7 @@ namespace Krypton.Toolkit
         /// Should the ValueNullable property be serialized.
         /// </summary>
         /// <returns>True if property needs to be serialized.</returns>
-        public bool ShouldSerializeValueNullable()
-        {
-            return _userSetDateTime;
-        }
+        public bool ShouldSerializeValueNullable() => _userSetDateTime;
 
         /// <summary>
         /// Reset value of the ValueNullable property.
@@ -749,10 +715,7 @@ namespace Krypton.Toolkit
         /// Should the Value property be serialized.
         /// </summary>
         /// <returns>True if property needs to be serialized.</returns>
-        public bool ShouldSerializeValue()
-        {
-            return false;
-        }
+        public bool ShouldSerializeValue() => false;
 
         /// <summary>
         /// Reset value of the Value property.
@@ -935,10 +898,7 @@ namespace Krypton.Toolkit
         /// Should the MaxDate property be serialized.
         /// </summary>
         /// <returns>True if property needs to be serialized.</returns>
-        public bool ShouldSerializeMaxDate()
-        {
-            return (_maxDateTime != DateTimePicker.MaximumDateTime) && (_maxDateTime != DateTime.MaxValue);
-        }
+        public bool ShouldSerializeMaxDate() => (_maxDateTime != DateTimePicker.MaximumDateTime) && (_maxDateTime != DateTime.MaxValue);
 
         private void ResetMaxDate()
         {
@@ -991,10 +951,7 @@ namespace Krypton.Toolkit
         /// Should the MinDate property be serialized.
         /// </summary>
         /// <returns>True if property needs to be serialized.</returns>
-        public bool ShouldSerializeMinDate()
-        {
-            return (_minDateTime != DateTimePicker.MinimumDateTime) && (_minDateTime != DateTime.MinValue);
-        }
+        public bool ShouldSerializeMinDate() => (_minDateTime != DateTimePicker.MinimumDateTime) && (_minDateTime != DateTime.MinValue);
 
         private void ResetMinDate()
         {
@@ -1102,10 +1059,7 @@ namespace Krypton.Toolkit
             CalendarHeaderStyle = HeaderStyle.Calendar;
         }
 
-        private bool ShouldSerializeCalendarHeaderStyle()
-        {
-            return (CalendarHeaderStyle != HeaderStyle.Calendar);
-        }
+        private bool ShouldSerializeCalendarHeaderStyle() => (CalendarHeaderStyle != HeaderStyle.Calendar);
 
         /// <summary>
         /// Gets and sets the content style for the day entries.
@@ -1119,10 +1073,7 @@ namespace Krypton.Toolkit
             CalendarDayStyle = ButtonStyle.CalendarDay;
         }
 
-        private bool ShouldSerializeCalendarDayStyle()
-        {
-            return (CalendarDayStyle != ButtonStyle.CalendarDay);
-        }
+        private bool ShouldSerializeCalendarDayStyle() => (CalendarDayStyle != ButtonStyle.CalendarDay);
 
         /// <summary>
         /// Gets and sets the content style for the day of week labels.
@@ -1136,10 +1087,7 @@ namespace Krypton.Toolkit
             CalendarDayOfWeekStyle = ButtonStyle.CalendarDay;
         }
 
-        private bool ShouldSerializeCalendarDayOfWeekStyle()
-        {
-            return (CalendarDayOfWeekStyle != ButtonStyle.CalendarDay);
-        }
+        private bool ShouldSerializeCalendarDayOfWeekStyle() => (CalendarDayOfWeekStyle != ButtonStyle.CalendarDay);
 
         /// <summary>
         /// Gets or sets the palette to be applied.
@@ -1193,10 +1141,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public CheckBoxImages Images { get; }
 
-        private bool ShouldSerializeImages()
-        {
-            return !Images.IsDefault;
-        }
+        private bool ShouldSerializeImages() => !Images.IsDefault;
 
         /// <summary>
         /// Gets and sets the input control style.
@@ -1223,10 +1168,7 @@ namespace Krypton.Toolkit
             InputControlStyle = InputControlStyle.Standalone;
         }
 
-        private bool ShouldSerializeInputControlStyle()
-        {
-            return (InputControlStyle != InputControlStyle.Standalone);
-        }
+        private bool ShouldSerializeInputControlStyle() => (InputControlStyle != InputControlStyle.Standalone);
 
         /// <summary>
         /// Gets and sets the up and down buttons style.
@@ -1253,10 +1195,7 @@ namespace Krypton.Toolkit
             UpDownButtonStyle = ButtonStyle.InputControl;
         }
 
-        private bool ShouldSerializeUpDownButtonStyle()
-        {
-            return (UpDownButtonStyle != ButtonStyle.InputControl);
-        }
+        private bool ShouldSerializeUpDownButtonStyle() => (UpDownButtonStyle != ButtonStyle.InputControl);
 
         /// <summary>
         /// Gets and sets the drop button style.
@@ -1283,10 +1222,7 @@ namespace Krypton.Toolkit
             DropButtonStyle = ButtonStyle.InputControl;
         }
 
-        private bool ShouldSerializeDropButtonStyle()
-        {
-            return (DropButtonStyle != ButtonStyle.InputControl);
-        }
+        private bool ShouldSerializeDropButtonStyle() => (DropButtonStyle != ButtonStyle.InputControl);
 
         /// <summary>
         /// Gets the collection of button specifications.
@@ -1303,8 +1239,8 @@ namespace Krypton.Toolkit
         [Description("Should tooltips be displayed for button specs.")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips { get; set; }
-		
-		/// <summary>
+
+        /// <summary>
         /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
         /// </summary>
         [Category("Visuals")]
@@ -1320,10 +1256,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleRedirect StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled date time picker appearance entries.
@@ -1333,10 +1266,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleStates StateDisabled { get; }
 
-        private bool ShouldSerializeStateDisabled()
-        {
-            return !StateDisabled.IsDefault;
-        }
+        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
         /// <summary>
         /// Gets access to the normal date time picker appearance entries.
@@ -1346,10 +1276,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleStates StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
         /// <summary>
         /// Gets access to the active date time picker appearance entries.
@@ -1359,10 +1286,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleStates StateActive { get; }
 
-        private bool ShouldSerializeStateActive()
-        {
-            return !StateActive.IsDefault;
-        }
+        private bool ShouldSerializeStateActive() => !StateActive.IsDefault;
 
         /// <summary>
         /// Gets and sets the active fragment.
@@ -1448,20 +1372,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public bool IsActive
-        {
-            get
-            {
-                if (_fixedActive != null)
-                {
-                    return _fixedActive.Value;
-                }
-                else
-                {
-                    return (DesignMode || AlwaysActive || ContainsFocus || IsMouseOver);
-                }
-            }
-        }
+        public bool IsActive => _fixedActive != null ? _fixedActive.Value : DesignMode || AlwaysActive || ContainsFocus || IsMouseOver;
 
         /// <summary>
         /// Gets a value indicating if the mouse is over the control.
@@ -1482,38 +1393,26 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Tab state.</param>
         /// <returns>Image.</returns>
-        public Image GetImage(PaletteState state)
-        {
-            return null;
-        }
+        public Image GetImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the image color that should be interpreted as transparent.
         /// </summary>
         /// <param name="state">Tab state.</param>
         /// <returns>Transparent Color.</returns>
-        public Color GetImageTransparentColor(PaletteState state)
-        {
-            return Color.Empty;
-        }
+        public Color GetImageTransparentColor(PaletteState state) => Color.Empty;
 
         /// <summary>
         /// Gets the short text used as the main ribbon title.
         /// </summary>
         /// <returns>Title string.</returns>
-        public string GetShortText()
-        {
-            return string.Empty;
-        }
+        public string GetShortText() => string.Empty;
 
         /// <summary>
         /// Gets the long text used as the secondary ribbon title.
         /// </summary>
         /// <returns>Title string.</returns>
-        public string GetLongText()
-        {
-            return string.Empty;
-        }
+        public string GetLongText() => string.Empty;
 
         /// <summary>
         /// Gets and sets if the control is in the ribbon design mode.
@@ -1623,25 +1522,21 @@ namespace Krypton.Toolkit
         /// <param name="pt">Mouse location.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public Component DesignerComponentFromPoint(Point pt)
-        {
+        public Component DesignerComponentFromPoint(Point pt) =>
             // Ignore call as view builder is already destructed
-            return IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
+            IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
 
-            // Ask the current view for a decision
-        }
-
+        // Ask the current view for a decision
         /// <summary>
         /// Internal design time method.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public void DesignerMouseLeave()
-        {
+        public void DesignerMouseLeave() =>
             // Simulate the mouse leaving the control so that the tracking
             // element that thinks it has the focus is informed it does not
             OnMouseLeave(EventArgs.Empty);
-        }
+
         #endregion
 
         #region Protected Virtual
@@ -1650,91 +1545,61 @@ namespace Krypton.Toolkit
         /// Raises the RightToLeftLayoutChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnRightToLeftLayoutChanged(EventArgs e)
-        {
-            RightToLeftLayoutChanged?.Invoke(this, e);
-        }
+        protected virtual void OnRightToLeftLayoutChanged(EventArgs e) => RightToLeftLayoutChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the FormatChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnFormatChanged(EventArgs e)
-        {
-            FormatChanged?.Invoke(this, e);
-        }
+        protected virtual void OnFormatChanged(EventArgs e) => FormatChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the CheckedChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnCheckedChanged(EventArgs e)
-        {
-            CheckedChanged?.Invoke(this, e);
-        }
+        protected virtual void OnCheckedChanged(EventArgs e) => CheckedChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the DropDown event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnDropDown(DateTimePickerDropArgs e)
-        {
-            DropDown?.Invoke(this, e);
-        }
+        protected virtual void OnDropDown(DateTimePickerDropArgs e) => DropDown?.Invoke(this, e);
 
         /// <summary>
         /// Raises the CloseUp event.
         /// </summary>
         /// <param name="e">An DateTimePickerCloseArgs containing the event data.</param>
-        protected virtual void OnCloseUp(DateTimePickerCloseArgs e)
-        {
-            CloseUp?.Invoke(this, e);
-        }
+        protected virtual void OnCloseUp(DateTimePickerCloseArgs e) => CloseUp?.Invoke(this, e);
 
         /// <summary>
         /// Raises the CloseUpMonthCalendarChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnCloseUpMonthCalendarChanged(EventArgs e)
-        {
-            CloseUpMonthCalendarChanged?.Invoke(this, e);
-        }
+        protected virtual void OnCloseUpMonthCalendarChanged(EventArgs e) => CloseUpMonthCalendarChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the AutoShiftOverflow event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected internal virtual void OnAutoShiftOverflow(CancelEventArgs e)
-        {
-            AutoShiftOverflow?.Invoke(this, e);
-        }
+        protected internal virtual void OnAutoShiftOverflow(CancelEventArgs e) => AutoShiftOverflow?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ValueChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnValueChanged(EventArgs e)
-        {
-            ValueChanged?.Invoke(this, e);
-        }
+        protected virtual void OnValueChanged(EventArgs e) => ValueChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ValueNullableChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnValueNullableChanged(EventArgs e)
-        {
-            ValueNullableChanged?.Invoke(this, e);
-        }
+        protected virtual void OnValueNullableChanged(EventArgs e) => ValueNullableChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ActiveFragmentChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnActiveFragmentChanged(EventArgs e)
-        {
-            ActiveFragmentChanged?.Invoke(this, e);
-        }
+        protected virtual void OnActiveFragmentChanged(EventArgs e) => ActiveFragmentChanged?.Invoke(this, e);
         // ReSharper restore VirtualMemberNeverOverridden.Global
         #endregion
 
@@ -1762,11 +1627,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="charCode">The character to test.</param>
         /// <returns>true if the character should be sent directly to the control and not preprocessed; otherwise, false.</returns>
-        protected override bool IsInputChar(char charCode)
-        {
+        protected override bool IsInputChar(char charCode) =>
             // We take all regular input characters
-            return char.IsLetterOrDigit(charCode);
-        }
+            char.IsLetterOrDigit(charCode);
 
         /// <summary>
         /// Determines whether the specified key is a regular input key or a special key that requires preprocessing.
@@ -1775,16 +1638,11 @@ namespace Krypton.Toolkit
         /// <returns>true if the specified key is a regular input key; otherwise, false.</returns>
         protected override bool IsInputKey(Keys keyData)
         {
-            switch (keyData & ~Keys.Shift)
+            return (keyData & ~Keys.Shift) switch
             {
-                case Keys.Left:
-                case Keys.Right:
-                case Keys.Up:
-                case Keys.Down:
-                    return true;
-            }
-
-            return base.IsInputKey(keyData);
+                Keys.Left or Keys.Right or Keys.Up or Keys.Down => true,
+                _ => base.IsInputKey(keyData)
+            };
         }
 
         /// <summary>
@@ -1863,7 +1721,7 @@ namespace Krypton.Toolkit
             if (!IsDisposed && !Disposing && !InRibbonDesignMode)
             {
                 // We treat positive numbers as moving upwards
-                KeyEventArgs kpea = new KeyEventArgs((e.Delta < 0) ? Keys.Down : Keys.Up);
+                KeyEventArgs kpea = new((e.Delta < 0) ? Keys.Down : Keys.Up);
 
                 // Simulate the up/down key the correct number of times
                 int detents = Math.Abs(e.Delta) / SystemInformation.MouseWheelScrollDelta;
@@ -2100,7 +1958,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new Size(240, PreferredHeight);
+        protected override Size DefaultSize => new(240, PreferredHeight);
 
         /// <summary>
         /// Processes a notification from palette storage of a button spec change.
@@ -2118,15 +1976,9 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Internal
-        internal DateTime InternalDateTime()
-        {
-            return _dateTime;
-        }
+        internal DateTime InternalDateTime() => _dateTime;
 
-        internal bool InternalDateTimeNull()
-        {
-            return (_rawDateTime == DBNull.Value);
-        }
+        internal bool InternalDateTimeNull() => (_rawDateTime == DBNull.Value);
 
         internal ViewDrawCheckBox InternalViewDrawCheckBox { get; }
 
@@ -2227,7 +2079,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            ButtonSpecToContent buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
+                            ButtonSpecToContent buttonSpecMapping = new(Redirector, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)
@@ -2242,10 +2094,10 @@ namespace Krypton.Toolkit
                     {
                         // Remove any currently showing tooltip
                         _visualPopupToolTip?.Dispose();
-						
-						if (AllowButtonSpecToolTipPriority)
+
+                        if (AllowButtonSpecToolTipPriority)
                         {
-                            _visualBasePopupToolTip?.Dispose();
+                            visualBasePopupToolTip?.Dispose();
                         }
 
                         // Create the actual tooltip popup object
@@ -2281,7 +2133,7 @@ namespace Krypton.Toolkit
                 _dropDownMonthChanged = false;
 
                 // Create a new krypton context menu each time we drop the menu
-                DTPContextMenu kcm = new DTPContextMenu(RectangleToScreen(_buttonDropDown.ClientRectangle));
+                DTPContextMenu kcm = new(RectangleToScreen(_buttonDropDown.ClientRectangle));
 
                 // Add and setup a month calendar element
                 _kmc = new KryptonContextMenuMonthCalendar
@@ -2320,7 +2172,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Give user a change to modify the context menu or even cancel the menu entirely
-                DateTimePickerDropArgs dtpda = new DateTimePickerDropArgs(kcm,
+                DateTimePickerDropArgs dtpda = new(kcm,
                                                                           (DropDownAlign == LeftRightAlignment.Left ? KryptonContextMenuPositionH.Left : KryptonContextMenuPositionH.Right),
                                                                           KryptonContextMenuPositionV.Below);
                 // Let user examine and later values
@@ -2378,7 +2230,7 @@ namespace Krypton.Toolkit
         private void OnMonthCalendarDateChanged(object sender, DateRangeEventArgs e)
         {
             // Use the newly selected date but the exising time
-            DateTime newDt = new DateTime(e.Start.Year, e.Start.Month, e.Start.Day,
+            DateTime newDt = new(e.Start.Year, e.Start.Month, e.Start.Day,
                                           _dateTime.Hour, _dateTime.Minute, _dateTime.Second, _dateTime.Millisecond);
 
             // Range check in case the min/max have time portions and not just full days
@@ -2413,7 +2265,7 @@ namespace Krypton.Toolkit
             }
 
             // Generate the close up event and provide the menu so handlers can examine state that might have changed
-            DateTimePickerCloseArgs dtca = new DateTimePickerCloseArgs(kcm);
+            DateTimePickerCloseArgs dtca = new(kcm);
             OnCloseUp(dtca);
 
             // Notify that the month calendar changed value whilst the dropped down.
@@ -2451,11 +2303,9 @@ namespace Krypton.Toolkit
             _buttonDown.RemoveFixed();
         }
 
-        private void OnCancelToolTip(object sender, EventArgs e)
-        {
+        private void OnCancelToolTip(object sender, EventArgs e) =>
             // Remove any currently showing tooltip
             _visualPopupToolTip?.Dispose();
-        }
 
         private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
         {
@@ -2485,10 +2335,8 @@ namespace Krypton.Toolkit
         ///  Initialize a new instance of the DTPContextMenu class.
         /// </summary>
         /// <param name="dropScreenRect">Screen rectangle of the drop down button on the KryptonDateTimePicker.</param>
-        public DTPContextMenu(Rectangle dropScreenRect)
-        {
-            _dropScreenRect = dropScreenRect;
-        }
+        public DTPContextMenu(Rectangle dropScreenRect) => _dropScreenRect = dropScreenRect;
+
         #endregion
 
         #region Protected Virtual
@@ -2510,11 +2358,10 @@ namespace Krypton.Toolkit
                                                                PaletteRedirect redirector,
                                                                PaletteRedirectContextMenu redirectorImages,
                                                                KryptonContextMenuCollection items,
-                                                               Boolean enabled,
-                                                               bool keyboardActivated)
-        {
-            return new VisualContextMenuDTP(kcm, palette, paletteMode, redirector, redirectorImages, items, enabled, keyboardActivated, _dropScreenRect);
-        }
+                                                               bool enabled,
+                                                               bool keyboardActivated) =>
+            new VisualContextMenuDTP(kcm, palette, paletteMode, redirector, redirectorImages, items, enabled, keyboardActivated, _dropScreenRect);
+
         #endregion
     }
 }

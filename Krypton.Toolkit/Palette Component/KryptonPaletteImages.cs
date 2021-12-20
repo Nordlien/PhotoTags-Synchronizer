@@ -2,18 +2,13 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
-
-using System.ComponentModel;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -86,10 +81,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteImagesCheckBox CheckBox { get; }
 
-        private bool ShouldSerializeCheckBox()
-        {
-            return !CheckBox.IsDefault;
-        }
+        private bool ShouldSerializeCheckBox() => !CheckBox.IsDefault;
+
         #endregion
 
         #region ContextMenu
@@ -102,10 +95,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteImagesContextMenu ContextMenu { get; }
 
-        private bool ShouldSerializeContextMenu()
-        {
-            return !ContextMenu.IsDefault;
-        }
+        private bool ShouldSerializeContextMenu() => !ContextMenu.IsDefault;
+
         #endregion
 
         #region DropDownButton
@@ -118,10 +109,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteImagesDropDownButton DropDownButton { get; }
 
-        private bool ShouldSerializeDropDownButton()
-        {
-            return !DropDownButton.IsDefault;
-        }
+        private bool ShouldSerializeDropDownButton() => !DropDownButton.IsDefault;
+
         #endregion
 
         #region CheckBox
@@ -134,10 +123,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteImagesGalleryButtons GalleryButtons { get; }
 
-        private bool ShouldSerializeGalleryButtons()
-        {
-            return !GalleryButtons.IsDefault;
-        }
+        private bool ShouldSerializeGalleryButtons() => !GalleryButtons.IsDefault;
+
         #endregion
 
         #region RadioButton
@@ -150,10 +137,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteImagesRadioButton RadioButton { get; }
 
-        private bool ShouldSerializeRadioButton()
-        {
-            return !RadioButton.IsDefault;
-        }
+        private bool ShouldSerializeRadioButton() => !RadioButton.IsDefault;
+
         #endregion
 
         #region TreeView
@@ -166,10 +151,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteImagesTreeView TreeView { get; }
 
-        private bool ShouldSerializeTreeView()
-        {
-            return !TreeView.IsDefault;
-        }
+        private bool ShouldSerializeTreeView() => !TreeView.IsDefault;
+
         #endregion
     }
 }

@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -75,11 +68,9 @@ namespace Krypton.Ribbon
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewLayoutRibbonQATMini:" + Id;
-        }
+            "ViewLayoutRibbonQATMini:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -136,7 +127,7 @@ namespace Krypton.Ribbon
         /// <returns>Array of KeyTipInfo instances.</returns>
         public KeyTipInfo[] GetQATKeyTips()
         {
-            KeyTipInfoList keyTipList = new KeyTipInfoList();
+            KeyTipInfoList keyTipList = new();
 
             // Add all the entries for the contents
             keyTipList.AddRange(_borderContents.GetQATKeyTips(OwnerForm));
@@ -146,7 +137,7 @@ namespace Krypton.Ribbon
             {
                 // If integrated into the caption area then get the caption area height
                 Padding borders = Padding.Empty;
-                if ((OwnerForm != null) && !OwnerForm.ApplyComposition)
+                if (OwnerForm is { ApplyComposition: false })
                 {
                     borders = OwnerForm.RealWindowBorders;
                 }
@@ -155,7 +146,7 @@ namespace Krypton.Ribbon
                 Rectangle viewRect = _borderContents.ParentControl.RectangleToScreen(_extraButton.ClientRectangle);
 
                 // The keytip should be centered on the bottom center of the view
-                Point screenPt = new Point((viewRect.Left + (viewRect.Width / 2)) - borders.Left,
+                Point screenPt = new((viewRect.Left + (viewRect.Width / 2)) - borders.Left,
                                            viewRect.Bottom - 2 - borders.Top);
 
                 // Create fixed key tip of '00' that invokes the extra button contoller
@@ -189,13 +180,12 @@ namespace Krypton.Ribbon
         /// Gets the view element for the first visible and enabled quick access toolbar button.
         /// </summary>
         /// <returns></returns>
-        public ViewBase GetLastQATView()
-        {
+        public ViewBase GetLastQATView() =>
             // Last view is the extra button if defined
-            return _extraButton ?? _borderContents.GetLastQATView();
+            _extraButton ?? _borderContents.GetLastQATView();
 
-            // Find the last qat button
-        }
+        // Find the last qat button
+
         #endregion
 
         #region GetNextQATView
@@ -224,11 +214,10 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="qatButton">Search for entry after this view.</param>
         /// <returns>ViewBase if found; otherwise false.</returns>
-        public ViewBase GetPreviousQATView(ViewBase qatButton)
-        {
+        public ViewBase GetPreviousQATView(ViewBase qatButton) =>
             // If on the extra button then find the right most qat button instead
-            return qatButton == _extraButton ? _borderContents.GetLastQATView() : _borderContents.GetPreviousQATView(qatButton);
-        }
+            qatButton == _extraButton ? _borderContents.GetLastQATView() : _borderContents.GetPreviousQATView(qatButton);
+
         #endregion
 
         #region Layout
@@ -300,7 +289,7 @@ namespace Krypton.Ribbon
             Rectangle screenRect = _ribbon.RectangleToScreen(button.ClientRectangle);
 
             // If integrated into the caption area
-            if ((OwnerForm != null) && !OwnerForm.ApplyComposition)
+            if (OwnerForm is { ApplyComposition: false })
             {
                 // Adjust for the height/width of borders
                 Padding borders = OwnerForm.RealWindowBorders;

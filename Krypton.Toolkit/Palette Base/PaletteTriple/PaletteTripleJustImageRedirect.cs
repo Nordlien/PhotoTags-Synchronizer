@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.ComponentModel;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -47,7 +43,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteTripleJustImageRedirect class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="backStyle">Initial background style.</param>
         /// <param name="borderStyle">Initial border style.</param>
         /// <param name="contentStyle">Initial content style.</param>
@@ -62,7 +58,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteTripleJustImageRedirect class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="backStyle">Initial background style.</param>
         /// <param name="borderStyle">Initial border style.</param>
         /// <param name="contentStyle">Initial content style.</param>
@@ -104,10 +100,8 @@ namespace Krypton.Toolkit
         /// Gets the redirector instance.
         /// </summary>
         /// <returns>Return the currently used redirector.</returns>
-        public PaletteRedirect GetRedirector()
-        {
-            return _backInherit.GetRedirector();
-        }
+        public PaletteRedirect GetRedirector() => _backInherit.GetRedirector();
+
         #endregion
 
         #region SetRedirector
@@ -333,10 +327,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBack Back { get; }
 
-        private bool ShouldSerializeBack()
-        {
-            return !Back.IsDefault;
-        }
+        private bool ShouldSerializeBack() => !Back.IsDefault;
 
         /// <summary>
         /// Gets the background palette.
@@ -369,10 +360,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBorder Border { get; }
 
-        private bool ShouldSerializeBorder()
-        {
-            return !Border.IsDefault;
-        }
+        private bool ShouldSerializeBorder() => !Border.IsDefault;
 
         /// <summary>
         /// Gets the border palette.
@@ -405,10 +393,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContentJustImage Content { get; }
 
-        private bool ShouldSerializeContent()
-        {
-            return !Content.IsDefault;
-        }
+        private bool ShouldSerializeContent() => !Content.IsDefault;
 
         /// <summary>
         /// Gets the content palette.
@@ -437,11 +422,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="needLayout">True if a layout is also needed.</param>
-        protected void OnNeedPaint(object sender, bool needLayout)
-        {
+        protected void OnNeedPaint(object sender, bool needLayout) =>
             // Pass request from child to our own handler
             PerformNeedPaint(needLayout);
-        }
+
         #endregion
     }
 }

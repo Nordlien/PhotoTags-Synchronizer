@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -27,8 +19,8 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonQATExtraButton : ViewLeaf
     {
         #region Static Fields
-        private static readonly Size _viewSize = new Size(13, 22);
-        private static readonly Size _contentSize = new Size(-4, -7);
+        private static readonly Size _viewSize = new(13, 22);
+        private static readonly Size _contentSize = new(-4, -7);
         #endregion
 
         #region Instance Fields
@@ -63,7 +55,7 @@ namespace Krypton.Ribbon
             _finishDelegate = ClickFinished;
 
             // Attach a controller to this element for the pressing of the button
-            QATExtraButtonController controller = new QATExtraButtonController(ribbon, this, needPaint);
+            QATExtraButtonController controller = new(ribbon, this, needPaint);
             controller.Click += OnClick;
             MouseController = controller;
             SourceController = controller;
@@ -74,11 +66,9 @@ namespace Krypton.Ribbon
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawRibbonQATExtraButton:" + Id;
-        }
+            "ViewDrawRibbonQATExtraButton:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -131,10 +121,7 @@ namespace Krypton.Ribbon
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
-        {
-            return _viewSize;
-        }
+        public override Size GetPreferredSize(ViewLayoutContext context) => _viewSize;
 
         /// <summary>
         /// Perform a layout of the elements.
@@ -167,18 +154,16 @@ namespace Krypton.Ribbon
             if (paletteBack.GetBackDraw(State) == InheritBool.True)
             {
                 // Get the border path which the background is clipped to drawing within
-                using (GraphicsPath borderPath = context.Renderer.RenderStandardBorder.GetBackPath(context, ClientRectangle, paletteBorder, VisualOrientation.Top, State))
-                {
-                    Padding borderPadding = context.Renderer.RenderStandardBorder.GetBorderRawPadding(paletteBorder, State, VisualOrientation.Top);
+                using GraphicsPath borderPath = context.Renderer.RenderStandardBorder.GetBackPath(context, ClientRectangle, paletteBorder, VisualOrientation.Top, State);
+                Padding borderPadding = context.Renderer.RenderStandardBorder.GetBorderRawPadding(paletteBorder, State, VisualOrientation.Top);
 
-                    // Apply the padding depending on the orientation
-                    Rectangle enclosingRect = CommonHelper.ApplyPadding(VisualOrientation.Top, ClientRectangle, borderPadding);
+                // Apply the padding depending on the orientation
+                Rectangle enclosingRect = CommonHelper.ApplyPadding(VisualOrientation.Top, ClientRectangle, borderPadding);
 
-                    // Render the background inside the border path
-                    _mementoBack = context.Renderer.RenderStandardBack.DrawBack(context, enclosingRect, borderPath,
-                                                                                paletteBack, VisualOrientation.Top,
-                                                                                State, _mementoBack);
-                }
+                // Render the background inside the border path
+                _mementoBack = context.Renderer.RenderStandardBack.DrawBack(context, enclosingRect, borderPath,
+                    paletteBack, VisualOrientation.Top,
+                    State, _mementoBack);
             }
 
             // Do we need to draw the border?

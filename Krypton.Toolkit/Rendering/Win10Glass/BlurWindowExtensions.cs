@@ -2,19 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Runtime.InteropServices;
-using System.Windows.Forms;
 //Seb add
 namespace Krypton.Toolkit
 {
@@ -48,16 +43,13 @@ namespace Krypton.Toolkit
         /// 
         /// </summary>
         /// <param name="window"></param>
-        public static void DisableBlur(this Form window)
-        {
-            SetAccentPolicy(window, PI.AccentState.ACCENT_DISABLED);
-        }
+        public static void DisableBlur(this Form window) => SetAccentPolicy(window, PI.AccentState.ACCENT_DISABLED);
 
         private static void SetAccentPolicy(Form window, PI.AccentState accentState)
         {
             // var windowHelper = new WindowInteropHelper(window);
 
-            PI.AccentPolicy accent = new PI.AccentPolicy
+            PI.AccentPolicy accent = new()
             {
                 AccentState = accentState,
                 AccentFlags = GetAccentFlagsForTaskbarPosition()
@@ -68,7 +60,7 @@ namespace Krypton.Toolkit
             IntPtr accentPtr = Marshal.AllocHGlobal(accentStructSize);
             Marshal.StructureToPtr(accent, accentPtr, false);
 
-            PI.WindowCompositionAttribData data = new PI.WindowCompositionAttribData
+            PI.WindowCompositionAttribData data = new()
             {
                 Attribute = PI.WindowCompositionAttribute.WCA_ACCENT_POLICY,
                 SizeOfData = accentStructSize,
@@ -114,7 +106,7 @@ namespace Krypton.Toolkit
         /// </remarks>
         public static void ApplyGlass(this Form window, bool apply)
         {
-            PI.DWM_BLURBEHIND blurBehindParameters = new PI.DWM_BLURBEHIND(apply)
+            PI.DWM_BLURBEHIND blurBehindParameters = new(apply)
             {
                 dwFlags = PI.DWM_BB.Enable,
                 hRgnBlur = IntPtr.Zero

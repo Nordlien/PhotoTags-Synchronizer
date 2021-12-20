@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -74,20 +68,16 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the TypedCollection class.
         /// </summary>
-        public TypedCollection()
-        {
+        public TypedCollection() =>
             // Create internal storage
             _list = new List<T>(4);
-        }
 
         /// <summary>
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
-            return Count + " TypedCollection";
-        }
+        public override string ToString() => Count + " TypedCollection";
+
         #endregion
 
         #region AddRange
@@ -125,33 +115,27 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="value">Object reference.</param>
         /// <returns>True if item found; otherwise false.</returns>
-        public bool Contains(object value)
-        {
+        public bool Contains(object value) =>
             // Use strongly typed implementation
-            return Contains(value as T);
-        }
+            Contains(value as T);
 
         /// <summary>
         /// Determines the index of the specified item in the collection.
         /// </summary>
         /// <param name="value">Object reference.</param>
         /// <returns>-1 if not found; otherwise index position.</returns>
-        public int IndexOf(object value)
-        {
+        public int IndexOf(object value) =>
             // Use strongly typed implementation
-            return IndexOf(value as T);
-        }
+            IndexOf(value as T);
 
         /// <summary>
         /// Inserts an item to the collection at the specified index.
         /// </summary>
         /// <param name="index">Insert index.</param>
         /// <param name="value">Object reference.</param>
-        public virtual void Insert(int index, object value)
-        {
+        public virtual void Insert(int index, object value) =>
             // Use strongly typed implementation
             Insert(index, value as T);
-        }
 
         /// <summary>
         /// Gets a value indicating whether the collection has a fixed size. 
@@ -162,11 +146,9 @@ namespace Krypton.Toolkit
         /// Removes first occurence of specified item.
         /// </summary>
         /// <param name="value">Object reference.</param>
-        public void Remove(object value)
-        {
+        public void Remove(object value) =>
             // Use strongly typed implementation
             Remove(value as T);
-        }
 
         /// <summary>
         /// Gets or sets the item at the specified index.
@@ -347,10 +329,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">Item reference.</param>
         /// <returns>True if item found; otherwise false.</returns>
-        public bool Contains(T item)
-        {
-            return _list.Contains(item);
-        }
+        public bool Contains(T item) => _list.Contains(item);
 
         /// <summary>
         /// Copies items to specified array starting at particular index.
@@ -440,19 +419,14 @@ namespace Krypton.Toolkit
         /// Shallow enumerate over items in the collection.
         /// </summary>
         /// <returns>Enumerator instance.</returns>
-        public IEnumerator<T> GetEnumerator()
-        {
-            return _list.GetEnumerator();
-        }
+        public IEnumerator<T> GetEnumerator() => _list.GetEnumerator();
 
         /// <summary>
         /// Enumerate using non-generic interface.
         /// </summary>
         /// <returns>Enumerator instance.</returns>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return _list.GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => _list.GetEnumerator();
+
         #endregion
 
         #region Protected
@@ -460,64 +434,44 @@ namespace Krypton.Toolkit
         /// Raises the Inserting event.
         /// </summary>
         /// <param name="e">A KryptonRibbonTabEventArgs instance containing event data.</param>
-        protected virtual void OnInserting(TypedCollectionEventArgs<T> e)
-        {
-            Inserting?.Invoke(this, e);
-        }
+        protected virtual void OnInserting(TypedCollectionEventArgs<T> e) => Inserting?.Invoke(this, e);
 
         /// <summary>
         /// Raises the Inserted event.
         /// </summary>
         /// <param name="e">A TypedCollectionEventArgs instance containing event data.</param>
-        protected virtual void OnInserted(TypedCollectionEventArgs<T> e)
-        {
-            Inserted?.Invoke(this, e);
-        }
+        protected virtual void OnInserted(TypedCollectionEventArgs<T> e) => Inserted?.Invoke(this, e);
 
         /// <summary>
         /// Raises the Removing event.
         /// </summary>
         /// <param name="e">A TypedCollectionEventArgs instance containing event data.</param>
-        protected virtual void OnRemoving(TypedCollectionEventArgs<T> e)
-        {
-            Removing?.Invoke(this, e);
-        }
+        protected virtual void OnRemoving(TypedCollectionEventArgs<T> e) => Removing?.Invoke(this, e);
 
         /// <summary>
         /// Raises the Removed event.
         /// </summary>
         /// <param name="e">A TypedCollectionEventArgs instance containing event data.</param>
-        protected virtual void OnRemoved(TypedCollectionEventArgs<T> e)
-        {
-            Removed?.Invoke(this, e);
-        }
+        protected virtual void OnRemoved(TypedCollectionEventArgs<T> e) => Removed?.Invoke(this, e);
 
         /// <summary>
         /// Raises the Clearing event.
         /// </summary>
         /// <param name="e">An EventArgs instance containing event data.</param>
-        protected virtual void OnClearing(EventArgs e)
-        {
-            Clearing?.Invoke(this, e);
-        }
+        protected virtual void OnClearing(EventArgs e) => Clearing?.Invoke(this, e);
 
         /// <summary>
         /// Raises the Cleared event.
         /// </summary>
         /// <param name="e">An EventArgs instance containing event data.</param>
-        protected virtual void OnCleared(EventArgs e)
-        {
-            Cleared?.Invoke(this, e);
-        }
+        protected virtual void OnCleared(EventArgs e) => Cleared?.Invoke(this, e);
 
         /// <summary>
         /// Raises the Reordered event.
         /// </summary>
         /// <param name="e">An EventArgs instance containing event data.</param>
-        protected virtual void OnReordered(EventArgs e)
-        {
-            Reordered?.Invoke(this, e);
-        }
+        protected virtual void OnReordered(EventArgs e) => Reordered?.Invoke(this, e);
+
         #endregion
     }
 }

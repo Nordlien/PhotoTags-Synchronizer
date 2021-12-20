@@ -2,23 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Text;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -181,11 +172,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="popupLocation">Intended top left of parent area.</param>
         /// <param name="popupSize">Size of the popup to show.</param>
-        public void Show(Point popupLocation, Size popupSize)
-        {
+        public void Show(Point popupLocation, Size popupSize) =>
             // Show the requested popup below the parent screen rectangle
             Show(CalculateBelowPopupRect(popupLocation, popupSize));
-        }
 
         /// <summary>
         /// Define the drawing paths for the shadow.
@@ -224,7 +213,7 @@ namespace Krypton.Toolkit
             {
                 // Get the window handle of the window under this screen point
                 Point screenPt = PointToScreen(pt);
-                PI.POINT screenPIPt = new PI.POINT
+                PI.POINT screenPIPt = new()
                 {
                     X = screenPt.X,
                     Y = screenPt.Y
@@ -234,7 +223,7 @@ namespace Krypton.Toolkit
                 // Assuming we got back a valid window handle
                 if (hWnd != IntPtr.Zero)
                 {
-                    StringBuilder className = new StringBuilder(256);
+                    StringBuilder className = new(256);
                     int length = PI.GetClassName(hWnd, className, className.Capacity);
 
                     // If we got back a valid name
@@ -259,10 +248,7 @@ namespace Krypton.Toolkit
         /// <param name="m">Original message.</param>
         /// <param name="pt">Client coordinates point.</param>
         /// <returns>True to continue tracking; otherwise false.</returns>
-        public virtual bool DoesCurrentMouseDownContinueTracking(Message m, Point pt)
-        {
-            return !DoesCurrentMouseDownEndAllTracking(m, pt);
-        }
+        public virtual bool DoesCurrentMouseDownContinueTracking(Message m, Point pt) => !DoesCurrentMouseDownEndAllTracking(m, pt);
 
         /// <summary>
         /// Should a mouse down at the provided point cause it to become the current tracking popup.
@@ -270,10 +256,7 @@ namespace Krypton.Toolkit
         /// <param name="m">Original message.</param>
         /// <param name="pt">Client coordinates point.</param>
         /// <returns>True to become current; otherwise false.</returns>
-        public virtual bool DoesStackedClientMouseDownBecomeCurrent(Message m, Point pt)
-        {
-            return ClientRectangle.Contains(pt);
-        }
+        public virtual bool DoesStackedClientMouseDownBecomeCurrent(Message m, Point pt) => ClientRectangle.Contains(pt);
 
         /// <summary>
         /// Should the mouse down be eaten when the tracking has been ended.
@@ -281,10 +264,7 @@ namespace Krypton.Toolkit
         /// <param name="m">Original message.</param>
         /// <param name="pt">Screen coordinates point.</param>
         /// <returns>True to eat message; otherwise false.</returns>
-        public virtual bool DoesMouseDownGetEaten(Message m, Point pt)
-        {
-            return false;
-        }
+        public virtual bool DoesMouseDownGetEaten(Message m, Point pt) => false;
 
         /// <summary>
         /// Is a change in active window to this popup when it is current allowed.
@@ -297,31 +277,23 @@ namespace Krypton.Toolkit
         /// <param name="m">Original message.</param>
         /// <param name="pt">Client coordinates point.</param>
         /// <returns>True to allow; otherwise false.</returns>
-        public virtual bool AllowMouseMove(Message m, Point pt)
-        {
+        public virtual bool AllowMouseMove(Message m, Point pt) =>
             // If we have the focus then we always allow the mouse move
-            return ContainsFocus || RectangleToScreen(ClientRectangle).Contains(pt);
-        }
+            ContainsFocus || RectangleToScreen(ClientRectangle).Contains(pt);
 
         /// <summary>
         /// Create a tool strip renderer appropriate for the current renderer/palette pair.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public ToolStripRenderer CreateToolStripRenderer()
-        {
-            return Renderer.RenderToolStrip(GetResolvedPalette());
-        }
+        public ToolStripRenderer CreateToolStripRenderer() => Renderer.RenderToolStrip(GetResolvedPalette());
 
         /// <summary>
         /// Gets the resolved palette to actually use when drawing.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public virtual IPalette GetResolvedPalette()
-        {
-            return null;
-        }
+        public virtual IPalette GetResolvedPalette() => null;
 
         /// <summary>
         /// Gets access to the current renderer.
@@ -342,10 +314,7 @@ namespace Krypton.Toolkit
         /// <param name="needLayout">Does the palette change require a layout.</param>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public void PerformNeedPaint(bool needLayout)
-        {
-            OnNeedPaint(this, new NeedLayoutEventArgs(needLayout));
-        }
+        public void PerformNeedPaint(bool needLayout) => OnNeedPaint(this, new NeedLayoutEventArgs(needLayout));
 
         /// <summary>
         /// Gets and sets the delegate to fire when the popup is dismissed.
@@ -365,10 +334,8 @@ namespace Krypton.Toolkit
         /// Gets access to the view manager of the popup.
         /// </summary>
         /// <returns></returns>
-        public ViewManager GetViewManager()
-        {
-            return ViewManager;
-        }
+        public ViewManager GetViewManager() => ViewManager;
+
         #endregion
 
         #region Protected
@@ -459,7 +426,7 @@ namespace Krypton.Toolkit
                 CreateParams cp = base.CreateParams;
                 cp.Parent = IntPtr.Zero;
                 cp.Style = unchecked((int)PI.WS_.POPUP);
-                cp.ExStyle = PI.WS_EX_.TOPMOST + PI.WS_EX_.TOOLWINDOW;
+                cp.ExStyle = unchecked((int)(PI.WS_EX_.TOPMOST | PI.WS_EX_.TOOLWINDOW));
                 return cp;
             }
         }

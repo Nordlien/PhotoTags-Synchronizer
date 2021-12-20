@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using Krypton.Toolkit;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Windows.Forms;
 
 namespace Krypton.Ribbon
 {
@@ -75,7 +69,7 @@ namespace Krypton.Ribbon
                 int tabsHeight = _ribbon.TabsArea.ClientHeight;
 
                 // Clip to prevent drawing over the tabs area
-                using (Clipping clip = new Clipping(context.Graphics, new Rectangle(ClientLocation.X, ClientLocation.Y + tabsHeight, ClientWidth, ClientHeight - tabsHeight)))
+                using (Clipping clip = new(context.Graphics, new Rectangle(ClientLocation.X, ClientLocation.Y + tabsHeight, ClientWidth, ClientHeight - tabsHeight)))
                 {
                     base.RenderBefore(context);
                 }
@@ -110,14 +104,10 @@ namespace Krypton.Ribbon
                 }
                 else if ((sender != null) && !_ribbon.MinimizedMode)
                 {
-                    using (ViewDrawRibbonGroupsBorder border = new ViewDrawRibbonGroupsBorder(_ribbon, false, _paintDelegate))
-                    {
-                        border.ClientRectangle = new Rectangle(-sender.Location.X, rect.Bottom - 1, _ribbon.Width, 10);
-                        using (RenderContext context = new RenderContext(_ribbon, g, rect, _ribbon.Renderer))
-                        {
-                            border.Render(context);
-                        }
-                    }
+                    using ViewDrawRibbonGroupsBorder border = new(_ribbon, false, _paintDelegate);
+                    border.ClientRectangle = new Rectangle(-sender.Location.X, rect.Bottom - 1, _ribbon.Width, 10);
+                    using RenderContext context = new(_ribbon, g, rect, _ribbon.Renderer);
+                    border.Render(context);
                 }
 
                 if (_ribbon.RibbonShape == PaletteRibbonShape.Office2010)
@@ -127,25 +117,19 @@ namespace Krypton.Ribbon
                         ? Color.FromArgb(39, 39, 39)
                         : Color.White;
 
-                    using (LinearGradientBrush backBrush = new LinearGradientBrush(new Rectangle(rect.X, rect.Y - 1, rect.Width, rect.Height + 1), Color.Transparent, gradientColor, 90f))
-                    {
-                        backBrush.Blend = _compBlend;
-                        g.FillRectangle(backBrush, new Rectangle(rect.X, rect.Y, rect.Width, rect.Height - 1));
-                    }
+                    using LinearGradientBrush backBrush = new(new Rectangle(rect.X, rect.Y - 1, rect.Width, rect.Height + 1), Color.Transparent, gradientColor, 90f);
+                    backBrush.Blend = _compBlend;
+                    g.FillRectangle(backBrush, new Rectangle(rect.X, rect.Y, rect.Width, rect.Height - 1));
                 }
                 else if (_ribbon.RibbonShape == PaletteRibbonShape.Office2013)
                 {
-                    using (SolidBrush backBrush = new SolidBrush(Color.White))
-                    {
-                        g.FillRectangle(backBrush, new Rectangle(rect.X, rect.Y, rect.Width, rect.Height - 1));
-                    }
+                    using SolidBrush backBrush = new(Color.White);
+                    g.FillRectangle(backBrush, new Rectangle(rect.X, rect.Y, rect.Width, rect.Height - 1));
                 }
                 else if (_ribbon.RibbonShape == PaletteRibbonShape.Office365)
                 {
-                    using (SolidBrush backBrush = new SolidBrush(Color.White))
-                    {
-                        g.FillRectangle(backBrush, new Rectangle(rect.X, rect.Y, rect.Width, rect.Height - 1));
-                    }
+                    using SolidBrush backBrush = new(Color.White);
+                    g.FillRectangle(backBrush, new Rectangle(rect.X, rect.Y, rect.Width, rect.Height - 1));
                 }
             }
         }

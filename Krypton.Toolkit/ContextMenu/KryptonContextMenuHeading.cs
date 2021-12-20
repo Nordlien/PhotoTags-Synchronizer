@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.Drawing.Design;
-using System.Windows.Forms;
-using System.ComponentModel;
 
 namespace Krypton.Toolkit
 {
@@ -72,10 +66,8 @@ namespace Krypton.Toolkit
         /// Returns a description of the instance.
         /// </summary>
         /// <returns>String representation.</returns>
-        public override string ToString()
-        {
-            return Text;
-        }
+        public override string ToString() => Text;
+
         #endregion
 
         #region Public
@@ -98,10 +90,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="keyData">Key data to check against shorcut definitions.</param>
         /// <returns>True if shortcut was handled, otherwise false.</returns>
-        public override bool ProcessShortcut(Keys keyData)
-        {
-            return false;
-        }
+        public override bool ProcessShortcut(Keys keyData) => false;
 
         /// <summary>
         /// Returns a view appropriate for this item based on the object it is inside.
@@ -116,10 +105,8 @@ namespace Krypton.Toolkit
                                               object parent,
                                               ViewLayoutStack columns,
                                               bool standardStyle,
-                                              bool imageColumn)
-        {
-            return new ViewDrawMenuHeading(this, provider.ProviderStateCommon.Heading);
-        }
+                                              bool imageColumn) =>
+            new ViewDrawMenuHeading(this, provider.ProviderStateCommon.Heading);
 
         /// <summary>
         /// Gets and sets the heading menu item text.
@@ -127,7 +114,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category("Appearance")]
         [Description("Heading menu item text.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [Localizable(true)]
         [DefaultValue("Heading")]
         public string Text
@@ -139,7 +126,7 @@ namespace Krypton.Toolkit
                 if (_text != value)
                 {
                     _text = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Text"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Text)));
                 }
             }
         }
@@ -150,7 +137,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category("Appearance")]
         [Description("Heading menu item extra text.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [Localizable(true)]
         [DefaultValue(null)]
         public string ExtraText
@@ -162,7 +149,7 @@ namespace Krypton.Toolkit
                 if (_extraText != value)
                 {
                     _extraText = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("ExtraText"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ExtraText)));
                 }
             }
         }
@@ -184,7 +171,7 @@ namespace Krypton.Toolkit
                 if (_image != value)
                 {
                     _image = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Image"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Image)));
                 }
             }
         }
@@ -205,15 +192,12 @@ namespace Krypton.Toolkit
                 if (_imageTransparentColor != value)
                 {
                     _imageTransparentColor = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("ImageTransparentColor"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ImageTransparentColor)));
                 }
             }
         }
 
-        private bool ShouldSerializeImageTransparentColor()
-        {
-            return (_imageTransparentColor == null) || !_imageTransparentColor.Equals(Color.Empty);
-        }
+        private bool ShouldSerializeImageTransparentColor() => (_imageTransparentColor == null) || !_imageTransparentColor.Equals(Color.Empty);
 
         /// <summary>
         /// Gets access to the header instance specific appearance values.
@@ -224,17 +208,13 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
+
         #endregion
 
         #region Internal
-        internal void SetPaletteRedirect(PaletteTripleRedirect redirector)
-        {
-            _redirectHeading.SetRedirectStates(redirector, redirector);
-        }
+        internal void SetPaletteRedirect(PaletteTripleRedirect redirector) => _redirectHeading.SetRedirectStates(redirector, redirector);
+
         #endregion
     }
 }

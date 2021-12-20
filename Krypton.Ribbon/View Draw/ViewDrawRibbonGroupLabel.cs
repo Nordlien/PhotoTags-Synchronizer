@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -27,8 +20,8 @@ namespace Krypton.Ribbon
                                               IRibbonViewGroupItemView
     {
         #region Static Fields
-        private static readonly Padding _largeImagePadding = new Padding(3, 2, 3, 3);
-        private static readonly Padding _smallImagePadding = new Padding(3);
+        private static readonly Padding _largeImagePadding = new(3, 2, 3, 3);
+        private static readonly Padding _smallImagePadding = new(3);
         #endregion
 
         #region Instance Fields
@@ -91,11 +84,9 @@ namespace Krypton.Ribbon
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawRibbonGroupLabel:" + Id;
-        }
+            "ViewDrawRibbonGroupLabel:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -136,11 +127,10 @@ namespace Krypton.Ribbon
         /// Gets the first focus item from the container.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetFirstFocusItem()
-        {
+        public ViewBase GetFirstFocusItem() =>
             // A label can never have the focus
-            return null;
-        }
+            null;
+
         #endregion
 
         #region GetLastFocusItem
@@ -148,11 +138,10 @@ namespace Krypton.Ribbon
         /// Gets the last focus item from the item.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetLastFocusItem()
-        {
+        public ViewBase GetLastFocusItem() =>
             // A label can never have the focus
-            return null;
-        }
+            null;
+
         #endregion
 
         #region GetNextFocusItem
@@ -162,11 +151,10 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetNextFocusItem(ViewBase current, ref bool matched)
-        {
+        public ViewBase GetNextFocusItem(ViewBase current, ref bool matched) =>
             // We have nothing to provide even if we are the selected item
-            return null;
-        }
+            null;
+
         #endregion
 
         #region GetPreviousFocusItem
@@ -176,11 +164,10 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched)
-        {
+        public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched) =>
             // We have nothing to provide even if we are the selected item
-            return null;
-        }
+            null;
+
         #endregion
 
         #region GetGroupKeyTips
@@ -287,7 +274,7 @@ namespace Krypton.Ribbon
             if (_ribbon.InDesignMode)
             {
                 // At design time we need to know when the user right clicks the label
-                ContextClickController controller = new ContextClickController();
+                ContextClickController controller = new();
                 controller.ContextClick += OnContextClick;
                 _viewLarge.MouseController = controller;
             }
@@ -324,7 +311,7 @@ namespace Krypton.Ribbon
             if (_ribbon.InDesignMode)
             {
                 // At design time we need to know when the user right clicks the label
-                ContextClickController controller = new ContextClickController();
+                ContextClickController controller = new();
                 controller.ContextClick += OnContextClick;
                 _viewMediumSmall.MouseController = controller;
             }

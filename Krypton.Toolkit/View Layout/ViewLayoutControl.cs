@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -113,11 +107,10 @@ namespace Krypton.Toolkit
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewLayoutControl:" + Id + " ClientLocation:" + ClientLocation;
-        }
+            "ViewLayoutControl:" + Id + " ClientLocation:" + ClientLocation;
+
         #endregion
 
         #region Visible
@@ -236,13 +229,11 @@ namespace Krypton.Toolkit
                 UpdateParent(context.Control);
 
                 // Ensure context has the correct control
-                using (CorrectContextControl ccc = new CorrectContextControl(context, ChildControl))
+                using CorrectContextControl ccc = new(context, ChildControl);
+                // Ask the view for its preferred size
+                if (ChildView != null)
                 {
-                    // Ask the view for its preferred size
-                    if (ChildView != null)
-                    {
-                        return ChildView.GetPreferredSize(context);
-                    }
+                    return ChildView.GetPreferredSize(context);
                 }
             }
 
@@ -267,39 +258,37 @@ namespace Krypton.Toolkit
             if (ChildControl != null)
             {
                 // Ensure context has the correct control
-                using (CorrectContextControl ccc = new CorrectContextControl(context, ChildControl))
+                using CorrectContextControl ccc = new(context, ChildControl);
+                // We take on all the available display area
+                ClientRectangle = context.DisplayRectangle;
+
+                // Are we allowed to layout child controls?
+                if (!context.ViewManager.DoNotLayoutControls)
                 {
-                    // We take on all the available display area
-                    ClientRectangle = context.DisplayRectangle;
-
-                    // Are we allowed to layout child controls?
-                    if (!context.ViewManager.DoNotLayoutControls)
+                    // Do we have a control to position?
+                    if (ChildControl != null)
                     {
-                        // Do we have a control to position?
-                        if (ChildControl != null)
-                        {
-                            // Size and position the child control
-                            ChildControl.SetBounds(ClientLocation.X, ClientLocation.Y, ClientWidth, ClientHeight);
+                        // Size and position the child control
+                        ChildControl.SetBounds(ClientLocation.X, ClientLocation.Y, ClientWidth, ClientHeight);
 
-                            // Ensure the visible/enabled states are up to date
-                            ChildControl.Visible = Visible;
-                            ChildControl.Enabled = Enabled;
+                        // Ensure the visible/enabled states are up to date
+                        ChildControl.Visible = Visible;
+                        ChildControl.Enabled = Enabled;
 
-                            // A layout means something might have changed, so better redraw it
-                            ChildControl.Invalidate();
-                        }
+                        // A layout means something might have changed, so better redraw it
+                        ChildControl.Invalidate();
                     }
-
-                    // Adjust the view location to be at the top left of the child control
-                    context.DisplayRectangle = new Rectangle(LayoutOffset, ClientSize);
-
-                    // Do we have a child view to layout?
-                    // Layout the child view
-                    ChildView?.Layout(context);
-
-                    // Put back the original display value now we have finished
-                    context.DisplayRectangle = ClientRectangle;
                 }
+
+                // Adjust the view location to be at the top left of the child control
+                context.DisplayRectangle = new Rectangle(LayoutOffset, ClientSize);
+
+                // Do we have a child view to layout?
+                // Layout the child view
+                ChildView?.Layout(context);
+
+                // Put back the original display value now we have finished
+                context.DisplayRectangle = ClientRectangle;
             }
         }
         #endregion

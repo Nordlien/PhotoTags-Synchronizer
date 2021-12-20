@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.ComponentModel;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -47,7 +43,7 @@ namespace Krypton.Toolkit
             PanelCustom3 = new KryptonPalettePanel(redirector, PaletteBackStyle.PanelCustom3, needPaint);
 
             // Create redirectors for inheriting from style specific to style common
-            PaletteRedirectBack redirectCommon = new PaletteRedirectBack(redirector, PanelCommon.StateDisabled, PanelCommon.StateNormal);
+            PaletteRedirectBack redirectCommon = new(redirector, PanelCommon.StateDisabled, PanelCommon.StateNormal);
 
             // Inform the button style to use the new redirector
             PanelClient.SetRedirector(redirectCommon);
@@ -100,10 +96,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPalettePanel PanelCommon { get; }
 
-        private bool ShouldSerializePanelCommon()
-        {
-            return !PanelCommon.IsDefault;
-        }
+        private bool ShouldSerializePanelCommon() => !PanelCommon.IsDefault;
+
         #endregion
 
         #region PanelClient
@@ -116,10 +110,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPalettePanel PanelClient { get; }
 
-        private bool ShouldSerializePanelClient()
-        {
-            return !PanelClient.IsDefault;
-        }
+        private bool ShouldSerializePanelClient() => !PanelClient.IsDefault;
+
         #endregion
 
         #region PanelAlternate
@@ -132,10 +124,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPalettePanel PanelAlternate { get; }
 
-        private bool ShouldSerializePanelAlternate()
-        {
-            return !PanelAlternate.IsDefault;
-        }
+        private bool ShouldSerializePanelAlternate() => !PanelAlternate.IsDefault;
+
         #endregion
 
         #region PanelRibbonInactive
@@ -148,10 +138,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPalettePanel PanelRibbonInactive { get; }
 
-        private bool ShouldSerializePanelRibbonInactive()
-        {
-            return !PanelRibbonInactive.IsDefault;
-        }
+        private bool ShouldSerializePanelRibbonInactive() => !PanelRibbonInactive.IsDefault;
+
         #endregion
 
         #region PanelCustom1
@@ -164,10 +152,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPalettePanel PanelCustom1 { get; }
 
-        private bool ShouldSerializePanelCustom1()
-        {
-            return !PanelCustom1.IsDefault;
-        }
+        private bool ShouldSerializePanelCustom1() => !PanelCustom1.IsDefault;
+
         #endregion
 
         #region PanelCustom2
@@ -180,10 +166,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPalettePanel PanelCustom2 { get; }
 
-        private bool ShouldSerializePanelCustom2()
-        {
-            return !PanelCustom2.IsDefault;
-        }
+        private bool ShouldSerializePanelCustom2() => !PanelCustom2.IsDefault;
+
         #endregion
 
         #region PanelCustom3
@@ -196,10 +180,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPalettePanel PanelCustom3 { get; }
 
-        private bool ShouldSerializePanelCustom3()
-        {
-            return !PanelCustom3.IsDefault;
-        }
+        private bool ShouldSerializePanelCustom3() => !PanelCustom3.IsDefault;
+
         #endregion
 
     }

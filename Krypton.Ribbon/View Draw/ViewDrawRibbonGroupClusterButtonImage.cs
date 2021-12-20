@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.Diagnostics;
 
 namespace Krypton.Ribbon
 {
@@ -53,29 +49,23 @@ namespace Krypton.Ribbon
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawRibbonGroupClusterButtonImage:" + Id;
-        }
+            "ViewDrawRibbonGroupClusterButtonImage:" + Id;
+
         #endregion
 
         #region Protected
         /// <summary>
         /// Gets the size to draw the image.
         /// </summary>
-        protected override Size DrawSize
-        {
-            get { return _smallSize; }
-        }
+        protected override Size DrawSize => _smallSize;
 
         /// <summary>
         /// Gets the image to be drawn.
         /// </summary>
-        protected override Image DrawImage
-        {
-            get => _ribbonButton.KryptonCommand != null ? _ribbonButton.KryptonCommand.ImageSmall : _ribbonButton.ImageSmall;
-        }
+        protected override Image DrawImage => _ribbonButton.KryptonCommand != null ? _ribbonButton.KryptonCommand.ImageSmall : _ribbonButton.ImageSmall;
+
         #endregion
     }
 }

@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -36,11 +30,10 @@ namespace Krypton.Toolkit
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewLeaf:" + Id;
-        }
+            "ViewLeaf:" + Id;
+
         #endregion
 
         #region Eval
@@ -82,11 +75,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <exception cref="NotSupportedException"></exception>
-        public override void Add(ViewBase item)
-        {
+        public override void Add(ViewBase item) => throw
             // Can never add a view to a leaf view
-            throw new NotSupportedException("Cannot add to a leaf view.");
-        }
+            new NotSupportedException("Cannot add to a leaf view.");
 
         /// <summary>
         /// Remove all views from the collection.
@@ -101,22 +92,18 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <returns>True if view found; otherwise false.</returns>
-        public override bool Contains(ViewBase item)
-        {
+        public override bool Contains(ViewBase item) =>
             // Leaf never contains view
-            return false;
-        }
+            false;
 
         /// <summary>
         /// Determines whether any part of the view hierarchy is the specified view.
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <returns>True if view found; otherwise false.</returns>
-        public override bool ContainsRecurse(ViewBase item)
-        {
+        public override bool ContainsRecurse(ViewBase item) =>
             // Only need to check against ourself
-            return (this == item);
-        }
+            (this == item);
 
         /// <summary>
         /// Copies views to specified array starting at particular index.
@@ -133,11 +120,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <returns>True if removed; otherwise false.</returns>
-        public override bool Remove(ViewBase item)
-        {
+        public override bool Remove(ViewBase item) =>
             // Can never remove with success
-            return false;
-        }
+            false;
 
         /// <summary>
         /// Gets the number of views in collection.
@@ -149,11 +134,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <returns>-1 if not found; otherwise index position.</returns>
-        public override int IndexOf(ViewBase item)
-        {
+        public override int IndexOf(ViewBase item) =>
             // Can never find the item
-            return -1;
-        }
+            -1;
 
         /// <summary>
         /// Inserts a view to the collection at the specified index.
@@ -161,22 +144,18 @@ namespace Krypton.Toolkit
         /// <param name="index">Insert index.</param>
         /// <param name="item">ViewBase reference.</param>
         /// <exception cref="NotSupportedException"></exception>
-        public override void Insert(int index, ViewBase item)
-        {
+        public override void Insert(int index, ViewBase item) => throw
             // Can never insert a view to a leaf view
-            throw new NotSupportedException("Cannot insert to a leaf view.");
-        }
+            new NotSupportedException("Cannot insert to a leaf view.");
 
         /// <summary>
         /// Removes the view at the specified index.
         /// </summary>
         /// <param name="index">Remove index.</param>
         /// <exception cref="NotSupportedException"></exception>
-        public override void RemoveAt(int index)
-        {
+        public override void RemoveAt(int index) => throw
             // Can never remove a view from a leaf view
-            throw new NotSupportedException("Cannot remove a view from a leaf view.");
-        }
+            new NotSupportedException("Cannot remove a view from a leaf view.");
 
         /// <summary>
         /// Gets or sets the view at the specified index.
@@ -237,17 +216,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="pt">Point in view coordinates.</param>
         /// <returns>ViewBase if a match is found; otherwise false.</returns>
-        public override ViewBase ViewFromPoint(Point pt)
-        {
-            if (ClientRectangle.Contains(pt))
-            {
-                return this;
-            }
-            else
-            {
-                return null;
-            }
-        }
+        public override ViewBase ViewFromPoint(Point pt) => ClientRectangle.Contains(pt) ? this : null;
+
         #endregion
     }
 }

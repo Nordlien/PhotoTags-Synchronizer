@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.ComponentModel;
-using System.Drawing;
 
 namespace Krypton.Toolkit
 {
@@ -49,7 +45,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Visuals")]
         [Description("Button image for normal state.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(null)]
         public Image ImageNormal
         {
@@ -65,10 +61,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageNormal()
-        {
-            return ImageNormal != null;
-        }
+        private bool ShouldSerializeImageNormal() => ImageNormal != null;
 
         /// <summary>
         /// Resets the ImageNormal property to its default value.
@@ -87,7 +80,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Visuals")]
         [Description("Button image for disabled state.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(null)]
         public Image ImageDisabled
         {
@@ -103,10 +96,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageDisabled()
-        {
-            return ImageDisabled != null;
-        }
+        private bool ShouldSerializeImageDisabled() => ImageDisabled != null;
 
         /// <summary>
         /// Resets the ImageDisabled property to its default value.
@@ -125,7 +115,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Visuals")]
         [Description("Button image for pressed state.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(null)]
         public Image ImagePressed
         {
@@ -141,10 +131,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImagePressed()
-        {
-            return ImagePressed != null;
-        }
+        private bool ShouldSerializeImagePressed() => ImagePressed != null;
 
         /// <summary>
         /// Resets the ImagePressed property to its default value.
@@ -163,7 +150,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Visuals")]
         [Description("Button image for tracking state.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(null)]
         public Image ImageTracking
         {
@@ -179,10 +166,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageTracking()
-        {
-            return ImageTracking != null;
-        }
+        private bool ShouldSerializeImageTracking() => ImageTracking != null;
 
         /// <summary>
         /// Resets the ImageTracking property to its default value.
@@ -201,7 +185,7 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Never)]
         public virtual Image ImageCheckedNormal
         {
-            get { return null; }
+            get => null;
             set { }
         }
 
@@ -215,7 +199,7 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Never)]
         public virtual Image ImageCheckedPressed
         {
-            get { return null; }
+            get => null;
             set { }
         }
         #endregion
@@ -228,7 +212,7 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Never)]
         public virtual Image ImageCheckedTracking
         {
-            get { return null; }
+            get => null;
             set { }
         }
         #endregion

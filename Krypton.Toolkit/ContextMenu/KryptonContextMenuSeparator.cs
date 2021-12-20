@@ -2,19 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.Windows.Forms;
-using System.ComponentModel;
 
 namespace Krypton.Toolkit
 {
@@ -55,10 +50,8 @@ namespace Krypton.Toolkit
         /// Returns a description of the instance.
         /// </summary>
         /// <returns>String representation.</returns>
-        public override string ToString()
-        {
-            return "(Separator)";
-        }
+        public override string ToString() => "(Separator)";
+
         #endregion
 
         #region Public
@@ -81,10 +74,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="keyData">Key data to check against shorcut definitions.</param>
         /// <returns>True if shortcut was handled, otherwise false.</returns>
-        public override bool ProcessShortcut(Keys keyData)
-        {
-            return false;
-        }
+        public override bool ProcessShortcut(Keys keyData) => false;
 
         /// <summary>
         /// Returns a view appropriate for this item based on the object it is inside.
@@ -104,11 +94,11 @@ namespace Krypton.Toolkit
             if (Horizontal && (parent is KryptonContextMenuItemCollection))
             {
                 // Create a stack of horizontal items inside the item
-                ViewLayoutDocker docker = new ViewLayoutDocker();
+                ViewLayoutDocker docker = new();
 
                 // Take up same space as the image column, so separator starts close to actual text
-                ViewDrawContent imageContent = new ViewDrawContent(provider.ProviderStateCommon.ItemImage.Content, new FixedContentValue(null, null, null, Color.Empty), VisualOrientation.Top);
-                ViewDrawMenuImageCanvas imageCanvas = new ViewDrawMenuImageCanvas(provider.ProviderStateCommon.ItemImage.Back, provider.ProviderStateCommon.ItemImage.Border, 0, true)
+                ViewDrawContent imageContent = new(provider.ProviderStateCommon.ItemImage.Content, new FixedContentValue(null, null, null, Color.Empty), VisualOrientation.Top);
+                ViewDrawMenuImageCanvas imageCanvas = new(provider.ProviderStateCommon.ItemImage.Back, provider.ProviderStateCommon.ItemImage.Border, 0, true)
                 {
                     imageContent
                 };
@@ -119,7 +109,7 @@ namespace Krypton.Toolkit
                 docker.Add(new ViewLayoutMenuSepGap(provider.ProviderStateCommon, standardStyle), ViewDockStyle.Left);
 
                 // Separator Display
-                ViewLayoutStack separatorStack = new ViewLayoutStack(false)
+                ViewLayoutStack separatorStack = new(false)
                 {
                     new ViewLayoutSeparator(1, 1),
                     new ViewDrawMenuSeparator(this, provider.ProviderStateCommon.Separator),
@@ -151,7 +141,7 @@ namespace Krypton.Toolkit
                 if (_horizontal != value)
                 {
                     _horizontal = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Horizontal"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Horizontal)));
                 }
             }
         }
@@ -165,17 +155,13 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDoubleRedirect StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
+
         #endregion
 
         #region Internal
-        internal void SetPaletteRedirect(PaletteDoubleRedirect redirector)
-        {
-            _redirectSeparator.SetRedirectStates(redirector, redirector);
-        }
+        internal void SetPaletteRedirect(PaletteDoubleRedirect redirector) => _redirectSeparator.SetRedirectStates(redirector, redirector);
+
         #endregion
     }
 }

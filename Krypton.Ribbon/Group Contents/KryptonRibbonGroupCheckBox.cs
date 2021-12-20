@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Design;
-using System.ComponentModel;
-using System.Windows.Forms;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -26,7 +18,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupCheckBox), "ToolboxBitmaps.KryptonRibbonGroupCheckBox.bmp")]
-    [Designer(typeof(Krypton.Ribbon.KryptonRibbonGroupCheckBoxDesigner))]
+    [Designer("Krypton.Ribbon.KryptonRibbonGroupCheckBoxDesigner, Krypton.Ribbon")]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultEvent("CheckedChanged")]
@@ -122,7 +114,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Check box display text line 1.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("CheckBox")]
         public string TextLine1
         {
@@ -139,7 +131,7 @@ namespace Krypton.Ribbon
                 if (value != _textLine1)
                 {
                     _textLine1 = value;
-                    OnPropertyChanged("TextLine1");
+                    OnPropertyChanged(nameof(TextLine1));
                 }
             }
         }
@@ -151,7 +143,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Check box display text line 2.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("")]
         public string TextLine2
         {
@@ -162,7 +154,7 @@ namespace Krypton.Ribbon
                 if (value != _textLine2)
                 {
                     _textLine2 = value;
-                    OnPropertyChanged("TextLine2");
+                    OnPropertyChanged(nameof(TextLine2));
                 }
             }
         }
@@ -209,7 +201,7 @@ namespace Krypton.Ribbon
                 if (value != _visible)
                 {
                     _visible = value;
-                    OnPropertyChanged("Visible");
+                    OnPropertyChanged(nameof(Visible));
                 }
             }
         }
@@ -246,7 +238,7 @@ namespace Krypton.Ribbon
                 if (value != _enabled)
                 {
                     _enabled = value;
-                    OnPropertyChanged("Enabled");
+                    OnPropertyChanged(nameof(Enabled));
                 }
             }
         }
@@ -270,7 +262,7 @@ namespace Krypton.Ribbon
                     bool newChecked = (_checkState != CheckState.Unchecked);
                     bool checkedChanged = (_checked != newChecked);
                     _checked = newChecked;
-                    OnPropertyChanged("CheckState");
+                    OnPropertyChanged(nameof(CheckState));
 
                     // Generate events
                     if (checkedChanged)
@@ -301,7 +293,7 @@ namespace Krypton.Ribbon
                     // Store new values
                     _checked = value;
                     _checkState = (_checked ? CheckState.Checked : CheckState.Unchecked);
-                    OnPropertyChanged("Checked");
+                    OnPropertyChanged(nameof(Checked));
 
                     // Generate events
                     OnCheckedChanged(EventArgs.Empty);
@@ -320,12 +312,12 @@ namespace Krypton.Ribbon
         {
             get => _autoCheck;
 
-            set 
+            set
             {
                 if (_autoCheck != value)
                 {
                     _autoCheck = value;
-                    OnPropertyChanged("AutoCheck");
+                    OnPropertyChanged(nameof(AutoCheck));
                 }
             }
         }
@@ -345,7 +337,7 @@ namespace Krypton.Ribbon
                 if (_threeState != value)
                 {
                     _threeState = value;
-                    OnPropertyChanged("ThreeState");
+                    OnPropertyChanged(nameof(ThreeState));
                 }
             }
         }
@@ -358,10 +350,7 @@ namespace Krypton.Ribbon
         [Description("Shortcut key combination to fire click event of the check box.")]
         public Keys ShortcutKeys { get; set; }
 
-        private bool ShouldSerializeShortcutKeys()
-        {
-            return (ShortcutKeys != Keys.None);
-        }
+        private bool ShouldSerializeShortcutKeys() => (ShortcutKeys != Keys.None);
 
         /// <summary>
         /// Resets the ShortcutKeys property to its default value.
@@ -395,7 +384,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Color to draw as transparent in the ToolTipImage.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         [Localizable(true)]
         public Color ToolTipImageTransparentColor { get; set; }
 
@@ -405,7 +394,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Title text for use in associated ToolTip.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         [Localizable(true)]
         public string ToolTipTitle { get; set; }
@@ -416,7 +405,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Body text for use in associated ToolTip.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         [Localizable(true)]
         public string ToolTipBody { get; set; }
@@ -441,7 +430,7 @@ namespace Krypton.Ribbon
                     }
 
                     _command = value;
-                    OnPropertyChanged("KryptonCommand");
+                    OnPropertyChanged(nameof(KryptonCommand));
 
                     if (_command != null)
                     {
@@ -466,7 +455,7 @@ namespace Krypton.Ribbon
                 if (_itemSizeMax != value)
                 {
                     _itemSizeMax = value;
-                    OnPropertyChanged("ItemSizeMaximum");
+                    OnPropertyChanged(nameof(ItemSizeMaximum));
                 }
             }
         }
@@ -486,7 +475,7 @@ namespace Krypton.Ribbon
                 if (_itemSizeMin != value)
                 {
                     _itemSizeMin = value;
-                    OnPropertyChanged("ItemSizeMinimum");
+                    OnPropertyChanged(nameof(ItemSizeMinimum));
                 }
             }
         }
@@ -506,7 +495,7 @@ namespace Krypton.Ribbon
                 if (_itemSizeCurrent != value)
                 {
                     _itemSizeCurrent = value;
-                    OnPropertyChanged("ItemSizeCurrent");
+                    OnPropertyChanged(nameof(ItemSizeCurrent));
                 }
             }
         }
@@ -518,11 +507,9 @@ namespace Krypton.Ribbon
         /// <param name="needPaint">Delegate for notifying changes in display.</param>
         /// <returns>ViewBase derived instance.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override ViewBase CreateView(KryptonRibbon ribbon, 
-                                            NeedPaintHandler needPaint)
-        {
-            return new ViewDrawRibbonGroupCheckBox(ribbon, this, needPaint);
-        }
+        public override ViewBase CreateView(KryptonRibbon ribbon,
+                                            NeedPaintHandler needPaint) =>
+            new ViewDrawRibbonGroupCheckBox(ribbon, this, needPaint);
 
         /// <summary>
         /// Generates a Click event for a check box.
@@ -562,17 +549,17 @@ namespace Krypton.Ribbon
             switch (e.PropertyName)
             {
                 case "TextLine1":
-                    OnPropertyChanged("TextLine1");
+                    OnPropertyChanged(nameof(TextLine1));
                     break;
                 case "TextLine2":
-                    OnPropertyChanged("TextLine2");
+                    OnPropertyChanged(nameof(TextLine2));
                     break;
                 case "Enabled":
-                    OnPropertyChanged("Enabled");
+                    OnPropertyChanged(nameof(Enabled));
                     break;
                 case "Checked":
                 case "CheckState":
-                    OnPropertyChanged("CheckState");
+                    OnPropertyChanged(nameof(CheckState));
                     break;
             }
         }

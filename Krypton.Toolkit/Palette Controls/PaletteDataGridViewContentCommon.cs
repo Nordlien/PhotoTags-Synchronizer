@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.ComponentModel;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -84,7 +78,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Font for drawing the content text.")]
         [DefaultValue(null)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual Font Font
         {
             get => _font;
@@ -105,17 +99,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentShortTextFont(PaletteState state)
-        {
-            if (_font != null)
-            {
-                return _font;
-            }
-            else
-            {
-                return Inherit.GetContentShortTextFont(state);
-            }
-        }
+        public override Font GetContentShortTextFont(PaletteState state) => _font != null ? _font : Inherit.GetContentShortTextFont(state);
+
         #endregion
 
         #region TextH
@@ -126,7 +111,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Relative horizontal alignment of content text.")]
         [DefaultValue(typeof(PaletteRelativeAlign), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteRelativeAlign TextH
         {
             get => _textH;
@@ -147,17 +132,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public override PaletteRelativeAlign GetContentShortTextH(PaletteState state)
-        {
-            if (_textH != PaletteRelativeAlign.Inherit)
-            {
-                return _textH;
-            }
-            else
-            {
-                return Inherit.GetContentShortTextH(state);
-            }
-        }
+        public override PaletteRelativeAlign GetContentShortTextH(PaletteState state) => _textH != PaletteRelativeAlign.Inherit ? _textH : Inherit.GetContentShortTextH(state);
+
         #endregion
 
         #region TextV
@@ -168,7 +144,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Relative vertical alignment of content text.")]
         [DefaultValue(typeof(PaletteRelativeAlign), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteRelativeAlign TextV
         {
             get => _textV;
@@ -189,17 +165,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public override PaletteRelativeAlign GetContentShortTextV(PaletteState state)
-        {
-            if (_textV != PaletteRelativeAlign.Inherit)
-            {
-                return _textV;
-            }
-            else
-            {
-                return Inherit.GetContentShortTextV(state);
-            }
-        }
+        public override PaletteRelativeAlign GetContentShortTextV(PaletteState state) => _textV != PaletteRelativeAlign.Inherit ? _textV : Inherit.GetContentShortTextV(state);
+
         #endregion
 
         #region Padding
@@ -210,7 +177,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Padding between the border and content drawing.")]
         [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Padding Padding
         {
             get => _padding;

@@ -2,31 +2,21 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Drawing;
-using System.Drawing.Design;
-using System.Globalization;
-using System.Text;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
     /// <summary>
     /// Hosts a collection of KryptonDataGridViewDomainUpDownCell cells.
     /// </summary>
-    [Designer(typeof(KryptonDomainUpDownColumnDesigner))]
+    [Designer("Krypton.Toolkit.KryptonDomainUpDownColumnDesigner, Krypton.Toolkit")]
     [ToolboxBitmap(typeof(KryptonDataGridViewDomainUpDownColumn), "ToolboxBitmaps.KryptonDomainUpDown.bmp")]
     public class KryptonDataGridViewDomainUpDownColumn : KryptonDataGridViewIconColumn
     {
@@ -57,7 +47,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public override string ToString()
         {
-            StringBuilder builder = new StringBuilder(0x40);
+            StringBuilder builder = new(0x40);
             builder.Append("KryptonDataGridViewDomainUpDownColumn { Name=");
             // ReSharper disable RedundantBaseQualifier
             builder.Append(base.Name);
@@ -106,7 +96,7 @@ namespace Krypton.Toolkit
             get => base.CellTemplate;
             set
             {
-                if ((value != null) && (!(value is KryptonDataGridViewDomainUpDownCell cell)))
+                if ((value != null) && (value is not KryptonDataGridViewDomainUpDownCell cell))
                 {
                     throw new InvalidCastException("Value provided for CellTemplate must be of type KryptonDataGridViewDomainUpDownCell or derive from it.");
                 }
@@ -129,7 +119,7 @@ namespace Krypton.Toolkit
         [Category("Data")]
         [Description("The allowable items of the domain up down.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Editor("System.Windows.Forms.Design.StringCollectionEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.StringCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         public StringCollection Items { get; }
 
         #endregion

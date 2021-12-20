@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -33,7 +27,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private readonly Timer _animationTimer;
+        private readonly System.Windows.Forms.Timer _animationTimer;
         private IPaletteMetric _paletteMetrics;
         private PaletteMetricPadding _metricPadding;
         private PaletteMetricInt _metricOvers;
@@ -86,7 +80,7 @@ namespace Krypton.Toolkit
             CounterAlignment = RelativePositionAlign.Far;
 
             // Create a timer for animation effect
-            _animationTimer = new Timer
+            _animationTimer = new System.Windows.Forms.Timer
             {
                 Interval = _animationInterval
             };
@@ -113,11 +107,10 @@ namespace Krypton.Toolkit
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewLayoutViewport:" + Id;
-        }
+            "ViewLayoutViewport:" + Id;
+
         #endregion
 
         #region SetMetrics
@@ -218,8 +211,8 @@ namespace Krypton.Toolkit
         public Point Offset
         {
             [DebuggerStepThrough]
-            get { return _offset; }
-            set { _offset = value; }
+            get => _offset;
+            set => _offset = value;
         }
         #endregion
 
@@ -230,7 +223,7 @@ namespace Krypton.Toolkit
         public bool CanScrollV
         {
             [DebuggerStepThrough]
-            get { return (_limit.Y != 0); }
+            get => (_limit.Y != 0);
         }
         #endregion
 
@@ -241,7 +234,7 @@ namespace Krypton.Toolkit
         public bool CanScrollH
         {
             [DebuggerStepThrough]
-            get { return (_limit.X != 0); }
+            get => (_limit.X != 0);
         }
         #endregion
 
@@ -249,7 +242,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the total extent of the scrolling view.
         /// </summary>
-        public Size ScrollExtent => new Size(Math.Abs(_extent.Width),
+        public Size ScrollExtent => new(Math.Abs(_extent.Width),
             Math.Abs(_extent.Height));
 
         #endregion
@@ -258,7 +251,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a scrolling offset within the viewport.
         /// </summary>
-        public Point ScrollOffset => new Point(Math.Abs(_offset.X),
+        public Point ScrollOffset => new(Math.Abs(_offset.X),
             Math.Abs(_offset.Y));
 
         #endregion
@@ -391,20 +384,16 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Move the viewport to show the next part of area.
         /// </summary>
-        public void MoveNext()
-        {
-            MoveDirection(true);
-        }
+        public void MoveNext() => MoveDirection(true);
+
         #endregion
 
         #region MovePrevious
         /// <summary>
         /// Move the viewport to show the previous part of area.
         /// </summary>
-        public void MovePrevious()
-        {
-            MoveDirection(false);
-        }
+        public void MovePrevious() => MoveDirection(false);
+
         #endregion
 
         #region NeedScrolling
@@ -556,7 +545,7 @@ namespace Krypton.Toolkit
                 childOffsetY = CalculateAlignedOffset(AlignmentRTL, positionRectangle.Y, positionRectangle.Height, _offset.Y, _extent.Height, _limit.Y);
             }
 
-            Point childOffset = new Point(childOffsetX, childOffsetY);
+            Point childOffset = new(childOffsetX, childOffsetY);
 
             // Ask each child to layout in turn
             foreach (ViewBase child in this)
@@ -619,36 +608,34 @@ namespace Krypton.Toolkit
             }
 
             // New clipping region is at most our own client size
-            using (Region combineRegion = new Region(clipRectangle))
+            using Region combineRegion = new(clipRectangle);
+            // Remember the current clipping region
+            Region clipRegion = context.Graphics.Clip.Clone();
+
+            // Reduce clipping region down by the existing clipping region
+            combineRegion.Intersect(clipRegion);
+
+            // Use new region that restricts drawing to our client size only
+            context.Graphics.Clip = combineRegion;
+
+            // Perform rendering before any children
+            RenderBefore(context);
+
+            // Ask each child to render in turn
+            foreach (ViewBase child in this)
             {
-                // Remember the current clipping region
-                Region clipRegion = context.Graphics.Clip.Clone();
-
-                // Reduce clipping region down by the existing clipping region
-                combineRegion.Intersect(clipRegion);
-
-                // Use new region that restricts drawing to our client size only
-                context.Graphics.Clip = combineRegion;
-
-                // Perform rendering before any children
-                RenderBefore(context);
-
-                // Ask each child to render in turn
-                foreach (ViewBase child in this)
+                // Only render visible children that are inside the clipping rectangle
+                if (child.Visible)
                 {
-                    // Only render visible children that are inside the clipping rectangle
-                    if (child.Visible)
-                    {
-                        child.Render(context);
-                    }
+                    child.Render(context);
                 }
-
-                // Perform rendering after that of children
-                RenderAfter(context);
-
-                // Put clipping region back to original setting
-                context.Graphics.Clip = clipRegion;
             }
+
+            // Perform rendering after that of children
+            RenderAfter(context);
+
+            // Put clipping region back to original setting
+            context.Graphics.Clip = clipRegion;
         }
         #endregion
 
@@ -710,14 +697,7 @@ namespace Krypton.Toolkit
                     return posRect + offset;
                 case RelativePositionAlign.Center:
                     // If there is no need for any scrolling then center, otherwise place near
-                    if (limit == 0)
-                    {
-                        return posRect + ((posRectLength - extent) / 2);
-                    }
-                    else
-                    {
-                        return posRect + offset;
-                    }
+                    return limit == 0 ? posRect + ((posRectLength - extent) / 2) : posRect + offset;
 
                 case RelativePositionAlign.Far:
                     // Position against the far side
@@ -741,15 +721,12 @@ namespace Krypton.Toolkit
                 if (_rightToLeftLayout && (_rightToLeft == RightToLeft.Yes))
                 {
                     // Reverse the left and right only
-                    switch (orientation)
+                    orientation = orientation switch
                     {
-                        case VisualOrientation.Left:
-                            orientation = VisualOrientation.Right;
-                            break;
-                        case VisualOrientation.Right:
-                            orientation = VisualOrientation.Left;
-                            break;
-                    }
+                        VisualOrientation.Left => VisualOrientation.Right,
+                        VisualOrientation.Right => VisualOrientation.Left,
+                        _ => orientation
+                    };
                 }
 
                 // The orientation determines how the border padding is 

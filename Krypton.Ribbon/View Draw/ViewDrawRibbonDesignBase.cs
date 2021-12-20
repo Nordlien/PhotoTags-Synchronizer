@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -53,7 +46,7 @@ namespace Krypton.Ribbon
             Add(new ViewDrawContent(_contentProvider, this, VisualOrientation.Top));
 
             // Use a controller to change state because of mouse movement
-            ViewHightlightController controller = new ViewHightlightController(this, needPaint);
+            ViewHightlightController controller = new(this, needPaint);
             controller.Click += OnClick;
             MouseController = controller;
         }
@@ -62,11 +55,10 @@ namespace Krypton.Ribbon
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawRibbonDesignBase:" + Id;
-        }
+            "ViewDrawRibbonDesignBase:" + Id;
+
         #endregion
 
         #region Ribbon
@@ -146,38 +138,27 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Tab state.</param>
         /// <returns>Image.</returns>
-        public Image GetImage(PaletteState state)
-        {
-            return null;
-        }
+        public Image GetImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the image color that should be interpreted as transparent.
         /// </summary>
         /// <param name="state">Tab state.</param>
         /// <returns>Transparent Color.</returns>
-        public Color GetImageTransparentColor(PaletteState state)
-        {
-            return Color.Empty;
-        }
+        public Color GetImageTransparentColor(PaletteState state) => Color.Empty;
 
         /// <summary>
         /// Gets the short text used as the main ribbon title.
         /// </summary>
         /// <returns>Title string.</returns>
-        public virtual string GetShortText()
-        {
-            return "Unknown";
-        }
+        public virtual string GetShortText() => "Unknown";
 
         /// <summary>
         /// Gets the long text used as the secondary ribbon title.
         /// </summary>
         /// <returns>Title string.</returns>
-        public string GetLongText()
-        {
-            return string.Empty;
-        }
+        public string GetLongText() => string.Empty;
+
         #endregion
 
         #region Protected

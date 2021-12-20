@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Navigator
 {
@@ -146,10 +139,8 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public ButtonSpecNavPrevious PreviousButton { get; }
 
-        private bool ShouldSerializePreviousButton()
-        {
-            return !PreviousButton.IsDefault;
-        }
+        private bool ShouldSerializePreviousButton() => !PreviousButton.IsDefault;
+
         #endregion
 
         #region PreviousButtonAction
@@ -168,7 +159,7 @@ namespace Krypton.Navigator
                 if (_actionPrevious != value)
                 {
                     _actionPrevious = value;
-                    _navigator.OnViewBuilderPropertyChanged("PreviousButtonAction");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(PreviousButtonAction));
                 }
             }
         }
@@ -190,7 +181,7 @@ namespace Krypton.Navigator
                 if (_displayPrevious != value)
                 {
                     _displayPrevious = value;
-                    _navigator.OnViewBuilderPropertyChanged("PreviousButtonDisplay");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(PreviousButtonDisplay));
                 }
             }
         }
@@ -206,10 +197,7 @@ namespace Krypton.Navigator
         [DefaultValue(typeof(Keys), "F6, Shift, Control")]
         public Keys PreviousButtonShortcut { get; set; }
 
-        private bool ShouldSerializePreviousButtonShortcut()
-        {
-            return (PreviousButtonShortcut != DEFAULT_SHORTCUT_PREVIOUS);
-        }
+        private bool ShouldSerializePreviousButtonShortcut() => (PreviousButtonShortcut != DEFAULT_SHORTCUT_PREVIOUS);
 
         /// <summary>
         /// Resets the PreviousButtonShortcut property to its default value.
@@ -229,10 +217,8 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public ButtonSpecNavNext NextButton { get; }
 
-        private bool ShouldSerializeNextButton()
-        {
-            return !NextButton.IsDefault;
-        }
+        private bool ShouldSerializeNextButton() => !NextButton.IsDefault;
+
         #endregion
 
         #region NextButtonAction
@@ -251,7 +237,7 @@ namespace Krypton.Navigator
                 if (_actionNext != value)
                 {
                     _actionNext = value;
-                    _navigator.OnViewBuilderPropertyChanged("NextButtonAction");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(NextButtonAction));
                 }
             }
         }
@@ -273,7 +259,7 @@ namespace Krypton.Navigator
                 if (_displayNext != value)
                 {
                     _displayNext = value;
-                    _navigator.OnViewBuilderPropertyChanged("NextButtonDisplay");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(NextButtonDisplay));
                 }
             }
         }
@@ -289,10 +275,7 @@ namespace Krypton.Navigator
         [DefaultValue(typeof(Keys), "F6, Control")]
         public Keys NextButtonShortcut { get; set; }
 
-        private bool ShouldSerializeNextButtonShortcut()
-        {
-            return (NextButtonShortcut != DEFAULT_SHORTCUT_NEXT);
-        }
+        private bool ShouldSerializeNextButtonShortcut() => (NextButtonShortcut != DEFAULT_SHORTCUT_NEXT);
 
         /// <summary>
         /// Resets the NextButtonShortcut property to its default value.
@@ -312,10 +295,8 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public ButtonSpecNavContext ContextButton { get; }
 
-        private bool ShouldSerializeContextButton()
-        {
-            return !ContextButton.IsDefault;
-        }
+        private bool ShouldSerializeContextButton() => !ContextButton.IsDefault;
+
         #endregion
 
         #region ContextButtonAction
@@ -334,7 +315,7 @@ namespace Krypton.Navigator
                 if (_actionContext != value)
                 {
                     _actionContext = value;
-                    _navigator.OnViewBuilderPropertyChanged("ContextButtonAction");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(ContextButtonAction));
                 }
             }
         }
@@ -356,7 +337,7 @@ namespace Krypton.Navigator
                 if (_displayContext != value)
                 {
                     _displayContext = value;
-                    _navigator.OnViewBuilderPropertyChanged("ContextButtonDisplay");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(ContextButtonDisplay));
                 }
             }
         }
@@ -372,10 +353,7 @@ namespace Krypton.Navigator
         [DefaultValue(typeof(Keys), "Down, Alt, Control")]
         public Keys ContextButtonShortcut { get; set; }
 
-        private bool ShouldSerializeContextButtonShortcut()
-        {
-            return (ContextButtonShortcut != DEFAULT_SHORTCUT_CONTEXT);
-        }
+        private bool ShouldSerializeContextButtonShortcut() => (ContextButtonShortcut != DEFAULT_SHORTCUT_CONTEXT);
 
         /// <summary>
         /// Resets the ContextButtonShortcut property to its default value.
@@ -417,10 +395,8 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public ButtonSpecNavClose CloseButton { get; }
 
-        private bool ShouldSerializeCloseButton()
-        {
-            return !CloseButton.IsDefault;
-        }
+        private bool ShouldSerializeCloseButton() => !CloseButton.IsDefault;
+
         #endregion
 
         #region CloseButtonAction
@@ -439,7 +415,7 @@ namespace Krypton.Navigator
                 if (_actionClosed != value)
                 {
                     _actionClosed = value;
-                    _navigator.OnViewBuilderPropertyChanged("CloseButtonAction");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(CloseButtonAction));
                 }
             }
         }
@@ -461,7 +437,7 @@ namespace Krypton.Navigator
                 if (_displayClosed != value)
                 {
                     _displayClosed = value;
-                    _navigator.OnViewBuilderPropertyChanged("CloseButtonDisplay");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(CloseButtonDisplay));
                 }
             }
         }
@@ -477,10 +453,7 @@ namespace Krypton.Navigator
         [DefaultValue(typeof(Keys), "F4, Control")]
         public Keys CloseButtonShortcut { get; set; }
 
-        private bool ShouldSerializeCloseButtonShortcut()
-        {
-            return (CloseButtonShortcut != DEFAULT_SHORTCUT_CLOSE);
-        }
+        private bool ShouldSerializeCloseButtonShortcut() => (CloseButtonShortcut != DEFAULT_SHORTCUT_CLOSE);
 
         /// <summary>
         /// Resets the CloseButtonShortcut property to its default value.
@@ -507,7 +480,7 @@ namespace Krypton.Navigator
                 if (_displayLogic != value)
                 {
                     _displayLogic = value;
-                    _navigator.OnViewBuilderPropertyChanged("ButtonDisplayLogic");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(ButtonDisplayLogic));
                 }
             }
         }

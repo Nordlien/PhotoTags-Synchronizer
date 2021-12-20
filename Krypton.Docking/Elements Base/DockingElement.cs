@@ -2,25 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using Krypton.Navigator;
-using Krypton.Workspace;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Xml;
 // ReSharper disable MemberCanBeInternal
 
 namespace Krypton.Docking
@@ -41,11 +30,10 @@ namespace Krypton.Docking
         /// Initialize a new instance of the DockingElement class.
         /// </summary>
         /// <param name="name">Initial name of the element.</param>
-        public DockingElement(string name)
-        {
+        public DockingElement(string name) =>
             // Do not allow null, use empty string instead
             Name = name ?? string.Empty;
-        }
+
         #endregion
 
         #region Public
@@ -63,7 +51,7 @@ namespace Krypton.Docking
         {
             get
             {
-                StringBuilder path = new StringBuilder();
+                StringBuilder path = new();
 
                 IDockingElement element = this;
                 while (element != null)
@@ -576,7 +564,7 @@ namespace Krypton.Docking
             DemandDockingManager();
 
             // We always allow store pages but check that others are not already present in the docking hierarchy
-            if (pages.Any(page => !(page is KryptonStorePage) && DockingManager.ContainsPage(page)))
+            if (pages.Any(page => page is not KryptonStorePage && DockingManager.ContainsPage(page)))
             {
                 throw new ArgumentOutOfRangeException(nameof(pages), @"Cannot perform operation with a page that is already present inside docking hierarchy");
             }
@@ -685,10 +673,8 @@ namespace Krypton.Docking
         /// Enumerate using non-generic interface.
         /// </summary>
         /// <returns>Enumerator instance.</returns>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
         #endregion
 
         #region Protected

@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Design;
-using System.ComponentModel;
 
 namespace Krypton.Toolkit
 {
@@ -26,7 +20,7 @@ namespace Krypton.Toolkit
                                              IContentValues
     {
         #region Static Fields
-        private static readonly Image _defaultImage = Properties.Resources.ComponentYellow;
+        private static readonly Image _defaultImage = GenericImageResources.KryptonLogoGeneric;
         #endregion
 
         #region Instance Fields
@@ -78,10 +72,7 @@ namespace Krypton.Toolkit
         /// Gets the default image value.
         /// </summary>
         /// <returns>Image reference.</returns>
-        protected virtual Image GetImageDefault()
-        {
-            return _defaultImage;
-        }
+        protected virtual Image GetImageDefault() => _defaultImage;
 
         /// <summary>
         /// Gets the default heading value.
@@ -103,7 +94,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Visuals")]
         [Description("Heading image.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image Image
         {
             get => _image;
@@ -118,10 +109,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImage()
-        {
-            return Image != GetImageDefault();
-        }
+        private bool ShouldSerializeImage() => Image != GetImageDefault();
 
         /// <summary>
         /// Resets the Image property to its default value.
@@ -136,10 +124,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public virtual Image GetImage(PaletteState state)
-        {
-            return Image;
-        }
+        public virtual Image GetImage(PaletteState state) => Image;
+
         #endregion
 
         #region ImageTransparentColor
@@ -149,8 +135,8 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Visuals")]
         [Description("Heading image transparent color.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
-        [KryptonDefaultColorAttribute()]
+        [RefreshProperties(RefreshProperties.All)]
+        [KryptonDefaultColor()]
         public Color ImageTransparentColor
         {
             get => _transparent;
@@ -165,10 +151,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageTransparentColor()
-        {
-            return ImageTransparentColor != Color.Empty;
-        }
+        private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != Color.Empty;
 
         /// <summary>
         /// Resets the ImageTransparentColor property to its default value.
@@ -183,10 +166,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image color is needed.</param>
         /// <returns>Color value.</returns>
-        public virtual Color GetImageTransparentColor(PaletteState state)
-        {
-            return ImageTransparentColor;
-        }
+        public virtual Color GetImageTransparentColor(PaletteState state) => ImageTransparentColor;
+
         #endregion
         
         #region Heading
@@ -196,8 +177,8 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Visuals")]
         [Description("Heading text.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [RefreshProperties(RefreshProperties.All)]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public virtual string Heading
         {
             get => _heading;
@@ -213,10 +194,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeHeading()
-        {
-            return Heading != GetHeadingDefault();
-        }
+        private bool ShouldSerializeHeading() => Heading != GetHeadingDefault();
 
         /// <summary>
         /// Resets the Heading property to its default value.
@@ -229,10 +207,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the content short text.
         /// </summary>
-        public virtual string GetShortText()
-        {
-            return Heading;
-        }
+        public virtual string GetShortText() => Heading;
+
         #endregion
 
         #region Description
@@ -242,8 +218,8 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Visuals")]
         [Description("Header description text.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [RefreshProperties(RefreshProperties.All)]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public virtual string Description
         {
             get => _description;
@@ -258,10 +234,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeDescription()
-        {
-            return Description != GetDescriptionDefault();
-        }
+        private bool ShouldSerializeDescription() => Description != GetDescriptionDefault();
 
         /// <summary>
         /// Resets the Description property to its default value.
@@ -274,10 +247,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the content long text.
         /// </summary>
-        public virtual string GetLongText()
-        {
-            return Description;
-        }
+        public virtual string GetLongText() => Description;
+
         #endregion
     }
 }

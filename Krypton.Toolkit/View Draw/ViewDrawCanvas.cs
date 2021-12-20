@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Windows.Forms;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -84,11 +77,9 @@ namespace Krypton.Toolkit
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawCanvas:" + Id;
-        }
+            "ViewDrawCanvas:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -116,7 +107,7 @@ namespace Krypton.Toolkit
         public IPaletteBack PaletteBack
         {
             [DebuggerStepThrough]
-            get { return _paletteBack; }
+            get => _paletteBack;
         }
         #endregion
 
@@ -127,7 +118,7 @@ namespace Krypton.Toolkit
         public IPaletteBorder PaletteBorder
         {
             [DebuggerStepThrough]
-            get { return _paletteBorder; }
+            get => _paletteBorder;
         }
         #endregion
 
@@ -138,7 +129,7 @@ namespace Krypton.Toolkit
         public IPaletteMetric PaletteMetric
         {
             [DebuggerStepThrough]
-            get { return _paletteMetric; }
+            get => _paletteMetric;
         }
         #endregion
 
@@ -149,10 +140,8 @@ namespace Krypton.Toolkit
         /// <param name="paletteBack">Palette source for the background.</param>        
         /// <param name="paletteBorder">Palette source for the border.</param>
         public virtual void SetPalettes(IPaletteBack paletteBack,
-                                        IPaletteBorder paletteBorder)
-        {
+                                        IPaletteBorder paletteBorder) =>
             SetPalettes(paletteBack, paletteBorder, null);
-        }
 
         /// <summary>
         /// Update the source palettes for drawing.
@@ -236,24 +225,14 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteDrawBorders MaxBorderEdges
         {
-            get
-            {
-                if (_borderForced == null)
-                {
-                    return PaletteDrawBorders.All;
-                }
-                else
-                {
-                    return _borderForced.MaxBorderEdges;
-                }
-            }
+            get => _borderForced == null ? PaletteDrawBorders.All : _borderForced.MaxBorderEdges;
 
             set 
             {
                 // If the decorator object used to override the border palette is not created...
                 if (_borderForced == null)
                 {
-                    // Then create it and pass the existing border palette as the inheritence
+                    // Then create it and pass the existing border palette as the inheritance
                     _borderForced = new PaletteBorderInheritForced(_paletteBorder);
 
                     // Now we want to always use the forced version instead
@@ -290,24 +269,14 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteGraphicsHint ForceGraphicsHint
         {
-            get
-            {
-                if (_borderForced == null)
-                {
-                    return PaletteGraphicsHint.Inherit;
-                }
-                else
-                {
-                    return _borderForced.ForceGraphicsHint;
-                }
-            }
+            get => _borderForced == null ? PaletteGraphicsHint.Inherit : _borderForced.ForceGraphicsHint;
 
             set 
             {
                 // If the decorator object used to override the border palette is not created...
                 if (_borderForced == null)
                 {
-                    // Then create it and pass the existing border palette as the inheritence
+                    // Then create it and pass the existing border palette as the inheritance
                     _borderForced = new PaletteBorderInheritForced(_paletteBorder);
 
                     // Now we want to always use the forced version instead
@@ -554,7 +523,7 @@ namespace Krypton.Toolkit
                     }
 
                     // Create a new region the same as the existing clipping region
-                    Region combineRegion = new Region(borderPath);
+                    Region combineRegion = new(borderPath);
 
                     // Reduce clipping region down by our border path
                     combineRegion.Intersect(_clipRegion);

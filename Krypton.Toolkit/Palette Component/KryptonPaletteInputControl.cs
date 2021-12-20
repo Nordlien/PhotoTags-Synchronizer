@@ -2,17 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.ComponentModel;
 
 namespace Krypton.Toolkit
 {
@@ -56,10 +53,8 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect)
-        {
-            _stateCommon.SetRedirector(redirect);
-        }
+        public void SetRedirector(PaletteRedirect redirect) => _stateCommon.SetRedirector(redirect);
+
         #endregion
 
         #region IsDefault
@@ -97,10 +92,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect StateCommon => _stateCommon;
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !_stateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !_stateCommon.IsDefault;
+
         #endregion
     
         #region StateDisabled
@@ -113,10 +106,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateDisabled => _stateDisabled;
 
-        private bool ShouldSerializeStateDisabled()
-        {
-            return !_stateDisabled.IsDefault;
-        }
+        private bool ShouldSerializeStateDisabled() => !_stateDisabled.IsDefault;
+
         #endregion
 
         #region StateNormal
@@ -129,10 +120,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateNormal => _stateNormal;
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !_stateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !_stateNormal.IsDefault;
+
         #endregion
 
         #region StateActive
@@ -145,10 +134,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateActive => _stateActive;
 
-        private bool ShouldSerializeStateActive()
-        {
-            return !_stateActive.IsDefault;
-        }
+        private bool ShouldSerializeStateActive() => !_stateActive.IsDefault;
+
         #endregion
     }
 }

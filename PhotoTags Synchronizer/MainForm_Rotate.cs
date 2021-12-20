@@ -148,7 +148,7 @@ namespace PhotoTagsSynchronizer
             if (!string.IsNullOrWhiteSpace(filesMissingMetadata))
             {
                 KryptonMessageBox.Show("Need wait until metadata is read from media files befor rotating. Otherwise metadata from original media file will be lost.",
-                    "Can't start rotate of media files yet.", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, true);
+                    "Can't start rotate of media files yet.", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, showCtrlCopy: true);
 
             }
             else if (MessageBox.Show("Rotating will overwrite original images. Are you sure you want to continue?",
@@ -209,7 +209,7 @@ namespace PhotoTagsSynchronizer
                     }
                     catch (Exception ex)
                     {
-                        KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                        KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
                     }
                 }
             }

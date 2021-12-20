@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Design;
-using System.ComponentModel;
-using System.Windows.Forms;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -26,7 +18,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupDomainUpDown), "ToolboxBitmaps.KryptonRibbonGroupDomainUpDown.bmp")]
-    [Designer(typeof(Krypton.Ribbon.KryptonRibbonGroupDomainUpDownDesigner))]
+    [Designer("Krypton.Ribbon.KryptonRibbonGroupDomainUpDownDesigner, Krypton.Ribbon")]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultEvent("SelectedItemChanged")]
@@ -229,7 +221,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Appearance")]
         [Description("Text associated with the control.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public string Text
         {
             get => DomainUpDown.Text;
@@ -244,10 +236,7 @@ namespace Krypton.Ribbon
         [Description("Shortcut key combination to set focus to the domain up-down.")]
         public Keys ShortcutKeys { get; set; }
 
-        private bool ShouldSerializeShortcutKeys()
-        {
-            return (ShortcutKeys != Keys.None);
-        }
+        private bool ShouldSerializeShortcutKeys() => (ShortcutKeys != Keys.None);
 
         /// <summary>
         /// Resets the ShortcutKeys property to its default value.
@@ -263,7 +252,7 @@ namespace Krypton.Ribbon
         [Category("Data")]
         [Description("The allowable items of the domain up down.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Editor("System.Windows.Forms.Design.StringCollectionEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.StringCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [Localizable(true)]
         public DomainUpDown.DomainUpDownItemCollection Items => DomainUpDown.Items;
 
@@ -390,7 +379,7 @@ namespace Krypton.Ribbon
                 if (value != _visible)
                 {
                     _visible = value;
-                    OnPropertyChanged("Visible");
+                    OnPropertyChanged(nameof(Visible));
                 }
             }
         }
@@ -427,7 +416,7 @@ namespace Krypton.Ribbon
                 if (_enabled != value)
                 {
                     _enabled = value;
-                    OnPropertyChanged("Enabled");
+                    OnPropertyChanged(nameof(Enabled));
                 }
             }
         }
@@ -491,8 +480,8 @@ namespace Krypton.Ribbon
             get => DomainUpDown.AllowButtonSpecToolTips;
             set => DomainUpDown.AllowButtonSpecToolTips = value;
         }
-		
-		/// <summary>
+
+        /// <summary>
         /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
         /// </summary>
         [Category("Visuals")]
@@ -522,7 +511,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override GroupItemSize ItemSizeMaximum
         {
-            get { return GroupItemSize.Large; }
+            get => GroupItemSize.Large;
             set { }
         }
 
@@ -534,7 +523,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override GroupItemSize ItemSizeMinimum
         {
-            get { return GroupItemSize.Small; }
+            get => GroupItemSize.Small;
             set { }
         }
 
@@ -553,7 +542,7 @@ namespace Krypton.Ribbon
                 if (_itemSizeCurrent != value)
                 {
                     _itemSizeCurrent = value;
-                    OnPropertyChanged("ItemSizeCurrent");
+                    OnPropertyChanged(nameof(ItemSizeCurrent));
                 }
             }
         }
@@ -565,11 +554,9 @@ namespace Krypton.Ribbon
         /// <param name="needPaint">Delegate for notifying changes in display.</param>
         /// <returns>ViewBase derived instance.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override ViewBase CreateView(KryptonRibbon ribbon, 
-                                            NeedPaintHandler needPaint)
-        {
-            return new ViewDrawRibbonGroupDomainUpDown(ribbon, this, needPaint);
-        }
+        public override ViewBase CreateView(KryptonRibbon ribbon,
+                                            NeedPaintHandler needPaint) =>
+            new ViewDrawRibbonGroupDomainUpDown(ribbon, this, needPaint);
 
         /// <summary>
         /// Gets and sets the associated designer.
@@ -706,7 +693,7 @@ namespace Krypton.Ribbon
                     if (ShortcutKeys == keyData)
                     {
                         // Can the domain up-down take the focus
-                        if ((LastDomainUpDown != null) && (LastDomainUpDown.CanFocus))
+                        if (LastDomainUpDown is { CanFocus: true })
                         {
                             LastDomainUpDown.DomainUpDown.Focus();
                         }

@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.ComponentModel;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -56,7 +52,7 @@ namespace Krypton.Toolkit
             LabelCustom3 = new KryptonPaletteLabel(redirector, PaletteContentStyle.LabelCustom3, needPaint);
 
             // Create redirectors for inheriting from style specific to style common
-            PaletteRedirectContent redirectCommon = new PaletteRedirectContent(redirector, LabelCommon.StateDisabled, LabelCommon.StateNormal);
+            PaletteRedirectContent redirectCommon = new(redirector, LabelCommon.StateDisabled, LabelCommon.StateNormal);
 
             // Inform the button style to use the new redirector
             LabelNormalControl.SetRedirector(redirectCommon);
@@ -145,10 +141,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteLabel LabelCommon { get; }
 
-        private bool ShouldSerializeLabelCommon()
-        {
-            return !LabelCommon.IsDefault;
-        }
+        private bool ShouldSerializeLabelCommon() => !LabelCommon.IsDefault;
+
         #endregion
 
         #region LabelNormalControl
@@ -161,10 +155,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteLabel LabelNormalControl { get; }
 
-        private bool ShouldSerializeLabelNormalControl()
-        {
-            return !LabelNormalControl.IsDefault;
-        }
+        private bool ShouldSerializeLabelNormalControl() => !LabelNormalControl.IsDefault;
+
         #endregion
 
         #region LabelBoldControl
@@ -177,10 +169,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteLabel LabelBoldControl { get; }
 
-        private bool ShouldSerializeLabelBoldControl()
-        {
-            return !LabelBoldControl.IsDefault;
-        }
+        private bool ShouldSerializeLabelBoldControl() => !LabelBoldControl.IsDefault;
+
         #endregion
 
         #region LabelItalicControl
@@ -193,10 +183,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteLabel LabelItalicControl { get; }
 
-        private bool ShouldSerializeLabelItalicControl()
-        {
-            return !LabelItalicControl.IsDefault;
-        }
+        private bool ShouldSerializeLabelItalicControl() => !LabelItalicControl.IsDefault;
+
         #endregion
 
         #region LabelTitleControl
@@ -209,10 +197,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteLabel LabelTitleControl { get; }
 
-        private bool ShouldSerializeLabelTitleControl()
-        {
-            return !LabelTitleControl.IsDefault;
-        }
+        private bool ShouldSerializeLabelTitleControl() => !LabelTitleControl.IsDefault;
+
         #endregion
 
         #region LabelNormalPanel
@@ -225,10 +211,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteLabel LabelNormalPanel { get; }
 
-        private bool ShouldSerializeLabelNormalPanel()
-        {
-            return !LabelNormalPanel.IsDefault;
-        }
+        private bool ShouldSerializeLabelNormalPanel() => !LabelNormalPanel.IsDefault;
+
         #endregion
 
         #region LabelBoldPanel
@@ -241,10 +225,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteLabel LabelBoldPanel { get; }
 
-        private bool ShouldSerializeLabelBoldPanel()
-        {
-            return !LabelBoldPanel.IsDefault;
-        }
+        private bool ShouldSerializeLabelBoldPanel() => !LabelBoldPanel.IsDefault;
+
         #endregion
 
         #region LabelItalicPanel
@@ -257,10 +239,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteLabel LabelItalicPanel { get; }
 
-        private bool ShouldSerializeLabelItalicPanel()
-        {
-            return !LabelItalicPanel.IsDefault;
-        }
+        private bool ShouldSerializeLabelItalicPanel() => !LabelItalicPanel.IsDefault;
+
         #endregion
 
         #region LabelTitlePanel
@@ -273,10 +253,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteLabel LabelTitlePanel { get; }
 
-        private bool ShouldSerializeLabelTitlePanel()
-        {
-            return !LabelTitlePanel.IsDefault;
-        }
+        private bool ShouldSerializeLabelTitlePanel() => !LabelTitlePanel.IsDefault;
+
         #endregion
 
         #region LabelCaptionPanel
@@ -289,10 +267,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteLabel LabelCaptionPanel { get; }
 
-        private bool ShouldSerializeLabelCaptionPanel()
-        {
-            return !LabelCaptionPanel.IsDefault;
-        }
+        private bool ShouldSerializeLabelCaptionPanel() => !LabelCaptionPanel.IsDefault;
+
         #endregion
 
         #region LabelToolTip
@@ -305,10 +281,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteLabel LabelToolTip { get; }
 
-        private bool ShouldSerializeLabelToolTip()
-        {
-            return !LabelToolTip.IsDefault;
-        }
+        private bool ShouldSerializeLabelToolTip() => !LabelToolTip.IsDefault;
+
         #endregion
 
         #region LabelSuperTip
@@ -321,10 +295,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteLabel LabelSuperTip { get; }
 
-        private bool ShouldSerializeLabelSuperTip()
-        {
-            return !LabelSuperTip.IsDefault;
-        }
+        private bool ShouldSerializeLabelSuperTip() => !LabelSuperTip.IsDefault;
+
         #endregion
 
         #region LabelKeyTip
@@ -337,10 +309,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteLabel LabelKeyTip { get; }
 
-        private bool ShouldSerializeLabelKeyTip()
-        {
-            return !LabelKeyTip.IsDefault;
-        }
+        private bool ShouldSerializeLabelKeyTip() => !LabelKeyTip.IsDefault;
+
         #endregion
 
         #region LabelCustom1
@@ -353,10 +323,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteLabel LabelCustom1 { get; }
 
-        private bool ShouldSerializeLabelCustom1()
-        {
-            return !LabelCustom1.IsDefault;
-        }
+        private bool ShouldSerializeLabelCustom1() => !LabelCustom1.IsDefault;
+
         #endregion
 
         #region LabelCustom2
@@ -369,10 +337,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteLabel LabelCustom2 { get; }
 
-        private bool ShouldSerializeLabelCustom2()
-        {
-            return !LabelCustom2.IsDefault;
-        }
+        private bool ShouldSerializeLabelCustom2() => !LabelCustom2.IsDefault;
+
         #endregion
 
         #region LabelCustom3
@@ -385,10 +351,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteLabel LabelCustom3 { get; }
 
-        private bool ShouldSerializeLabelCustom3()
-        {
-            return !LabelCustom3.IsDefault;
-        }
+        private bool ShouldSerializeLabelCustom3() => !LabelCustom3.IsDefault;
+
         #endregion
     }
 }

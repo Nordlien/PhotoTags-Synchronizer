@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using Krypton.Toolkit;
-using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Krypton.Ribbon
 {
@@ -27,11 +20,11 @@ namespace Krypton.Ribbon
                                                  IPaletteRibbonBack
     {
         #region Static Fields
-        private static readonly Padding _borderPadding2007 = new Padding(3, 3, 3, 2);
-        private static readonly Padding _borderPadding2010 = new Padding(1, 1, 1, 3);
+        private static readonly Padding _borderPadding2007 = new(3, 3, 3, 2);
+        private static readonly Padding _borderPadding2010 = new(1, 1, 1, 3);
         //TODO checkseb
-        private static readonly Padding _borderPadding2013 = new Padding(1, 1, 1, 0);
-        private static readonly Padding _borderPadding365 = new Padding(1, 1, 1, 0);
+        private static readonly Padding _borderPadding2013 = new(1, 1, 1, 0);
+        private static readonly Padding _borderPadding365 = new(1, 1, 1, 0);
         #endregion
 
         #region Instance Fields
@@ -65,11 +58,9 @@ namespace Krypton.Ribbon
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawRibbonGroupsBorder:" + Id;
-        }
+            "ViewDrawRibbonGroupsBorder:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -104,18 +95,13 @@ namespace Krypton.Ribbon
                     return Padding.Empty;
                 }
 
-                switch (Ribbon.RibbonShape)
+                return Ribbon.RibbonShape switch
                 {
-                    default:
-                    case PaletteRibbonShape.Office2007:
-                        return _borderPadding2007;
-                    case PaletteRibbonShape.Office2010:
-                        return _borderPadding2010;
-                    case PaletteRibbonShape.Office2013:
-                        return _borderPadding2013;
-                    case PaletteRibbonShape.Office365:
-                        return _borderPadding365;
-                }
+                    PaletteRibbonShape.Office2010 => _borderPadding2010,
+                    PaletteRibbonShape.Office2013 => _borderPadding2013,
+                    PaletteRibbonShape.Office365 => _borderPadding365,
+                    _ => _borderPadding2007
+                };
             }
         }
         #endregion
@@ -219,10 +205,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public PaletteRibbonColorStyle GetRibbonBackColorStyle(PaletteState state)
-        {
-            return _inherit.GetRibbonBackColorStyle(state);
-        }
+        public PaletteRibbonColorStyle GetRibbonBackColorStyle(PaletteState state) => _inherit.GetRibbonBackColorStyle(state);
 
         /// <summary>
         /// Gets the first background color for the ribbon item.

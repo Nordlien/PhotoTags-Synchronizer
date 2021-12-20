@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -27,7 +19,7 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonGroupButtonBackBorder : ViewComposite
     {
         #region Static Fields
-        private static readonly Size _viewSize = new Size(22, 22);
+        private static readonly Size _viewSize = new(22, 22);
         #endregion
 
         #region Instance Fields
@@ -115,11 +107,9 @@ namespace Krypton.Ribbon
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawRibbonGroupButtonBackBorder:" + Id;
-        }
+            "ViewDrawRibbonGroupButtonBackBorder:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -302,11 +292,11 @@ namespace Krypton.Ribbon
         {
             // We need the rectangle that represents just the split area
             int partialHeight = ((ClientHeight / 3) * 2);
-            Rectangle partialRect = new Rectangle(ClientLocation, new Size(ClientWidth, partialHeight));
+            Rectangle partialRect = new(ClientLocation, new Size(ClientWidth, partialHeight));
             Rectangle splitRectangle = Controller.SplitRectangle;
-            Rectangle aboveSplitRect = new Rectangle(ClientLocation, new Size(ClientWidth, splitRectangle.Y - ClientLocation.Y));
-            Rectangle splitterRect = new Rectangle(splitRectangle.Location, new Size(ClientWidth, 1));
-            Rectangle belowSplitRect = new Rectangle(ClientLocation.X, splitRectangle.Y, ClientWidth, splitRectangle.Height);
+            Rectangle aboveSplitRect = new(ClientLocation, new Size(ClientWidth, splitRectangle.Y - ClientLocation.Y));
+            Rectangle splitterRect = new(splitRectangle.Location, new Size(ClientWidth, 1));
+            Rectangle belowSplitRect = new(ClientLocation.X, splitRectangle.Y, ClientWidth, splitRectangle.Height);
 
             bool splitWithFading = SplitWithFading(drawState);
             switch (drawState)
@@ -323,7 +313,7 @@ namespace Krypton.Ribbon
                     // Draw the background for the click and split areas
                     if (Controller.MouseInSplit)
                     {
-                        using (Clipping clipToSplitter = new Clipping(context.Graphics, belowSplitRect))
+                        using (Clipping clipToSplitter = new(context.Graphics, belowSplitRect))
                         {
                             if (splitWithFading)
                             {
@@ -338,13 +328,13 @@ namespace Krypton.Ribbon
                             }
                         }
 
-                        Rectangle belowSplitRect1 = new Rectangle(belowSplitRect.X, belowSplitRect.Y + 1, belowSplitRect.Width, belowSplitRect.Height - 1);
-                        using (Clipping clipToSplitter = new Clipping(context.Graphics, belowSplitRect1))
+                        Rectangle belowSplitRect1 = new(belowSplitRect.X, belowSplitRect.Y + 1, belowSplitRect.Width, belowSplitRect.Height - 1);
+                        using (Clipping clipToSplitter = new(context.Graphics, belowSplitRect1))
                         {
                             DrawBackground(_paletteBack, context, ClientRectangle, PaletteState.Tracking);
                         }
 
-                        using (Clipping clipToSplitter = new Clipping(context.Graphics, aboveSplitRect))
+                        using (Clipping clipToSplitter = new(context.Graphics, aboveSplitRect))
                         {
                             if (splitWithFading)
                             {
@@ -361,12 +351,12 @@ namespace Krypton.Ribbon
                     }
                     else
                     {
-                        using (Clipping clipToSplitter = new Clipping(context.Graphics, aboveSplitRect))
+                        using (Clipping clipToSplitter = new(context.Graphics, aboveSplitRect))
                         {
                             DrawBackground(_paletteBack, context, partialRect, PaletteState.Tracking);
                         }
 
-                        using (Clipping clipToSplitter = new Clipping(context.Graphics, belowSplitRect))
+                        using (Clipping clipToSplitter = new(context.Graphics, belowSplitRect))
                         {
                             if (splitWithFading)
                             {
@@ -383,7 +373,7 @@ namespace Krypton.Ribbon
                     }
 
                     // Draw the single pixel splitter line
-                    using (Clipping clipToSplitter = new Clipping(context.Graphics, splitterRect))
+                    using (Clipping clipToSplitter = new(context.Graphics, splitterRect))
                     {
                         DrawBorder(_paletteBorderAll, context, new Rectangle(splitRectangle.X, splitRectangle.Y, splitRectangle.Width, 2), PaletteState.Tracking);
                     }
@@ -395,7 +385,7 @@ namespace Krypton.Ribbon
                     // Draw the background for the click and split areas
                     if (Controller.MouseInSplit)
                     {
-                        using (Clipping clipToSplitter = new Clipping(context.Graphics, belowSplitRect))
+                        using (Clipping clipToSplitter = new(context.Graphics, belowSplitRect))
                         {
                             if (splitWithFading)
                             {
@@ -410,13 +400,13 @@ namespace Krypton.Ribbon
                             }
                         }
 
-                        Rectangle belowSplitRect1 = new Rectangle(belowSplitRect.X, belowSplitRect.Y + 1, belowSplitRect.Width, belowSplitRect.Height - 1);
-                        using (Clipping clipToSplitter = new Clipping(context.Graphics, belowSplitRect1))
+                        Rectangle belowSplitRect1 = new(belowSplitRect.X, belowSplitRect.Y + 1, belowSplitRect.Width, belowSplitRect.Height - 1);
+                        using (Clipping clipToSplitter = new(context.Graphics, belowSplitRect1))
                         {
                             DrawBackground(_paletteBack, context, ClientRectangle, PaletteState.Pressed);
                         }
 
-                        using (Clipping clipToSplitter = new Clipping(context.Graphics, aboveSplitRect))
+                        using (Clipping clipToSplitter = new(context.Graphics, aboveSplitRect))
                         {
                             if (splitWithFading)
                             {
@@ -433,12 +423,12 @@ namespace Krypton.Ribbon
                     }
                     else
                     {
-                        using (Clipping clipToSplitter = new Clipping(context.Graphics, aboveSplitRect))
+                        using (Clipping clipToSplitter = new(context.Graphics, aboveSplitRect))
                         {
                             DrawBackground(_paletteBack, context, partialRect, PaletteState.Pressed);
                         }
 
-                        using (Clipping clipToSplitter = new Clipping(context.Graphics, belowSplitRect))
+                        using (Clipping clipToSplitter = new(context.Graphics, belowSplitRect))
                         {
                             if (splitWithFading)
                             {
@@ -458,7 +448,7 @@ namespace Krypton.Ribbon
                     DrawBorder(_paletteBorder, context, ClientRectangle, PaletteState.Tracking);
 
                     // Draw the single pixel splitter line
-                    using (Clipping clipToSplitter = new Clipping(context.Graphics, splitterRect))
+                    using (Clipping clipToSplitter = new(context.Graphics, splitterRect))
                     {
                         DrawBorder(_paletteBorderAll, context, new Rectangle(splitRectangle.X, splitRectangle.Y, splitRectangle.Width, 2), PaletteState.Pressed);
                     }
@@ -466,17 +456,13 @@ namespace Krypton.Ribbon
                     // Draw the border for the click and split areas
                     if (Controller.MouseInSplit)
                     {
-                        using (Clipping clipToSplitter = new Clipping(context.Graphics, belowSplitRect))
-                        {
-                            DrawBorder(_paletteBorder, context, ClientRectangle, PaletteState.Pressed);
-                        }
+                        using Clipping clipToSplitter = new(context.Graphics, belowSplitRect);
+                        DrawBorder(_paletteBorder, context, ClientRectangle, PaletteState.Pressed);
                     }
                     else
                     {
-                        using (Clipping clipToSplitter = new Clipping(context.Graphics, aboveSplitRect))
-                        {
-                            DrawBorder(_paletteBorder, context, ClientRectangle, PaletteState.Pressed);
-                        }
+                        using Clipping clipToSplitter = new(context.Graphics, aboveSplitRect);
+                        DrawBorder(_paletteBorder, context, ClientRectangle, PaletteState.Pressed);
                     }
                     break;
                 default:
@@ -490,9 +476,9 @@ namespace Krypton.Ribbon
         {
             // We need the rectangle that represents just the split area
             Rectangle splitRectangle = Controller.SplitRectangle;
-            Rectangle beforeSplitRect = new Rectangle(ClientLocation, new Size(splitRectangle.X - ClientLocation.X, ClientHeight));
-            Rectangle splitterRect = new Rectangle(splitRectangle.Location, new Size(1, ClientHeight));
-            Rectangle afterSplitRect = new Rectangle(splitRectangle.X, ClientLocation.Y , splitRectangle.Width, ClientHeight);
+            Rectangle beforeSplitRect = new(ClientLocation, new Size(splitRectangle.X - ClientLocation.X, ClientHeight));
+            Rectangle splitterRect = new(splitRectangle.Location, new Size(1, ClientHeight));
+            Rectangle afterSplitRect = new(splitRectangle.X, ClientLocation.Y , splitRectangle.Width, ClientHeight);
 
             bool splitWithFading = SplitWithFading(drawState);
             switch (drawState)
@@ -509,7 +495,7 @@ namespace Krypton.Ribbon
                     // Draw the background for the click and split areas
                     if (Controller.MouseInSplit)
                     {
-                        using (Clipping clipToSplitter = new Clipping(context.Graphics, afterSplitRect))
+                        using (Clipping clipToSplitter = new(context.Graphics, afterSplitRect))
                         {
                             if (splitWithFading)
                             {
@@ -524,13 +510,13 @@ namespace Krypton.Ribbon
                             }
                         }
 
-                        Rectangle afterSplitRect1 = new Rectangle(afterSplitRect.X + 1, afterSplitRect.Y, afterSplitRect.Width - 1, afterSplitRect.Height); 
-                        using (Clipping clipToSplitter = new Clipping(context.Graphics, afterSplitRect1))
+                        Rectangle afterSplitRect1 = new(afterSplitRect.X + 1, afterSplitRect.Y, afterSplitRect.Width - 1, afterSplitRect.Height); 
+                        using (Clipping clipToSplitter = new(context.Graphics, afterSplitRect1))
                         {
                             DrawBackground(_paletteBack, context, ClientRectangle, PaletteState.Tracking);
                         }
 
-                        using (Clipping clipToSplitter = new Clipping(context.Graphics, beforeSplitRect))
+                        using (Clipping clipToSplitter = new(context.Graphics, beforeSplitRect))
                         {
                             if (splitWithFading)
                             {
@@ -547,12 +533,12 @@ namespace Krypton.Ribbon
                     }
                     else
                     {
-                        using (Clipping clipToSplitter = new Clipping(context.Graphics, beforeSplitRect))
+                        using (Clipping clipToSplitter = new(context.Graphics, beforeSplitRect))
                         {
                             DrawBackground(_paletteBack, context, ClientRectangle, PaletteState.Tracking);
                         }
 
-                        using (Clipping clipToSplitter = new Clipping(context.Graphics, afterSplitRect))
+                        using (Clipping clipToSplitter = new(context.Graphics, afterSplitRect))
                         {
                             if (splitWithFading)
                             {
@@ -569,7 +555,7 @@ namespace Krypton.Ribbon
                     }
 
                     // Draw the single pixel splitter line
-                    using (Clipping clipToSplitter = new Clipping(context.Graphics, splitterRect))
+                    using (Clipping clipToSplitter = new(context.Graphics, splitterRect))
                     {
                         DrawBorder(_paletteBorderAll, context, new Rectangle(splitRectangle.X, splitRectangle.Y, 2, splitRectangle.Height), PaletteState.Tracking);
                     }
@@ -591,7 +577,7 @@ namespace Krypton.Ribbon
                     // Draw the background for the click and split areas
                     if (Controller.MouseInSplit)
                     {
-                        using (Clipping clipToSplitter = new Clipping(context.Graphics, afterSplitRect))
+                        using (Clipping clipToSplitter = new(context.Graphics, afterSplitRect))
                         {
                             if (splitWithFading)
                             {
@@ -606,13 +592,13 @@ namespace Krypton.Ribbon
                             }
                         }
 
-                        Rectangle afterSplitRect1 = new Rectangle(afterSplitRect.X + 1, afterSplitRect.Y, afterSplitRect.Width - 1, afterSplitRect.Height);
-                        using (Clipping clipToSplitter = new Clipping(context.Graphics, afterSplitRect1))
+                        Rectangle afterSplitRect1 = new(afterSplitRect.X + 1, afterSplitRect.Y, afterSplitRect.Width - 1, afterSplitRect.Height);
+                        using (Clipping clipToSplitter = new(context.Graphics, afterSplitRect1))
                         {
                             DrawBackground(_paletteBack, context, ClientRectangle, PaletteState.Pressed);
                         }
 
-                        using (Clipping clipToSplitter = new Clipping(context.Graphics, beforeSplitRect))
+                        using (Clipping clipToSplitter = new(context.Graphics, beforeSplitRect))
                         {
                             if (splitWithFading)
                             {
@@ -629,12 +615,12 @@ namespace Krypton.Ribbon
                     }
                     else
                     {
-                        using (Clipping clipToSplitter = new Clipping(context.Graphics, beforeSplitRect))
+                        using (Clipping clipToSplitter = new(context.Graphics, beforeSplitRect))
                         {
                             DrawBackground(_paletteBack, context, ClientRectangle, PaletteState.Pressed);
                         }
 
-                        using (Clipping clipToSplitter = new Clipping(context.Graphics, afterSplitRect))
+                        using (Clipping clipToSplitter = new(context.Graphics, afterSplitRect))
                         {
                             if (splitWithFading)
                             {
@@ -651,7 +637,7 @@ namespace Krypton.Ribbon
                     }
 
                     // Draw the single pixel splitter line
-                    using (Clipping clipToSplitter = new Clipping(context.Graphics, splitterRect))
+                    using (Clipping clipToSplitter = new(context.Graphics, splitterRect))
                     {
                         DrawBorder(_paletteBorderAll, context, new Rectangle(splitRectangle.X, splitRectangle.Y, 2, splitRectangle.Height), PaletteState.Pressed);
                     }
@@ -671,17 +657,13 @@ namespace Krypton.Ribbon
                         // Draw the border for the click and split areas
                         if (Controller.MouseInSplit)
                         {
-                            using (Clipping clipToSplitter = new Clipping(context.Graphics, afterSplitRect))
-                            {
-                                DrawBorder(_paletteBorder, context, ClientRectangle, PaletteState.Pressed);
-                            }
+                            using Clipping clipToSplitter = new(context.Graphics, afterSplitRect);
+                            DrawBorder(_paletteBorder, context, ClientRectangle, PaletteState.Pressed);
                         }
                         else
                         {
-                            using (Clipping clipToSplitter = new Clipping(context.Graphics, beforeSplitRect))
-                            {
-                                DrawBorder(_paletteBorder, context, ClientRectangle, PaletteState.Pressed);
-                            }
+                            using Clipping clipToSplitter = new(context.Graphics, beforeSplitRect);
+                            DrawBorder(_paletteBorder, context, ClientRectangle, PaletteState.Pressed);
                         }
                     }
                     break;
@@ -701,18 +683,16 @@ namespace Krypton.Ribbon
             if (paletteBack.GetBackDraw(state) == InheritBool.True)
             {
                 // Get the border path which the background is clipped to drawing within
-                using (GraphicsPath borderPath = context.Renderer.RenderStandardBorder.GetBackPath(context, rect, _paletteBorder, VisualOrientation.Top, state))
-                {
-                    Padding borderPadding = context.Renderer.RenderStandardBorder.GetBorderRawPadding(_paletteBorder, state, VisualOrientation.Top);
+                using GraphicsPath borderPath = context.Renderer.RenderStandardBorder.GetBackPath(context, rect, _paletteBorder, VisualOrientation.Top, state);
+                Padding borderPadding = context.Renderer.RenderStandardBorder.GetBorderRawPadding(_paletteBorder, state, VisualOrientation.Top);
 
-                    // Apply the padding depending on the orientation
-                    Rectangle enclosingRect = CommonHelper.ApplyPadding(VisualOrientation.Top, rect, borderPadding);
+                // Apply the padding depending on the orientation
+                Rectangle enclosingRect = CommonHelper.ApplyPadding(VisualOrientation.Top, rect, borderPadding);
 
-                    // Render the background inside the border path
-                    _mementoBack = context.Renderer.RenderStandardBack.DrawBack(context, enclosingRect, borderPath,
-                                                                                paletteBack, VisualOrientation.Top,
-                                                                                state, _mementoBack);
-                }
+                // Render the background inside the border path
+                _mementoBack = context.Renderer.RenderStandardBack.DrawBack(context, enclosingRect, borderPath,
+                    paletteBack, VisualOrientation.Top,
+                    state, _mementoBack);
             }
         }
 

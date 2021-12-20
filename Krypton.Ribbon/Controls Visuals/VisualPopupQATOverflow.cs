@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -184,7 +176,7 @@ namespace Krypton.Ribbon
             Size popupSize;
 
             // Find the size the quick access toolbar requests to be
-            using (ViewLayoutContext context = new ViewLayoutContext(this, Renderer))
+            using (ViewLayoutContext context = new(this, Renderer))
             {
                 popupSize = _viewQAT.GetPreferredSize(context);
             }
@@ -217,25 +209,15 @@ namespace Krypton.Ribbon
         {
             // Let base class calulcate fill rectangle
             base.OnLayout(levent);
-
-            // Ribbon shape determines the border rounding required
-            int borderRounding;
-            switch (_ribbon.RibbonShape)
+            var borderRounding = _ribbon.RibbonShape switch
             {
-                default:
-                case PaletteRibbonShape.Office2007:
-                    borderRounding = 2;
-                    break;
-                case PaletteRibbonShape.Office2010:
-                    borderRounding = 1;
-                    break;
-            }
+                PaletteRibbonShape.Office2010 => 1,
+                _ => 2
+            };
 
             // Update the region of the popup to be the border path
-            using (GraphicsPath roundPath = CommonHelper.RoundedRectanglePath(ClientRectangle, borderRounding))
-            {
-                Region = new Region(roundPath);
-            }
+            using GraphicsPath roundPath = CommonHelper.RoundedRectanglePath(ClientRectangle, borderRounding);
+            Region = new Region(roundPath);
         }
 
         /// <summary>

@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.Drawing.Design;
-using System.Windows.Forms;
-using System.ComponentModel;
 
 namespace Krypton.Toolkit
 {
@@ -24,7 +18,7 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonContextMenuItems), "ToolboxBitmaps.KryptonContextMenuItems.bmp")]
-    [Designer(typeof(KryptonContextMenuItemsDesigner))]
+    [Designer("Krypton.Toolkit.KryptonContextMenuItemsDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultProperty("Items")]
@@ -75,10 +69,8 @@ namespace Krypton.Toolkit
         /// Returns a description of the instance.
         /// </summary>
         /// <returns>String representation.</returns>
-        public override string ToString()
-        {
-            return "(Items)";
-        }
+        public override string ToString() => "(Items)";
+
         #endregion
 
         #region Public
@@ -101,10 +93,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="keyData">Key data to check against shorcut definitions.</param>
         /// <returns>True if shortcut was handled, otherwise false.</returns>
-        public override bool ProcessShortcut(Keys keyData)
-        {
-            return Items.ProcessShortcut(keyData);
-        }
+        public override bool ProcessShortcut(Keys keyData) => Items.ProcessShortcut(keyData);
 
         /// <summary>
         /// Returns a view appropriate for this item based on the object it is inside.
@@ -122,7 +111,7 @@ namespace Krypton.Toolkit
                                               bool imageColumn)
         {
             // Add child items into columns of display views
-            ViewLayoutStack itemsColumns = new ViewLayoutStack(true);
+            ViewLayoutStack itemsColumns = new(true);
             Items.GenerateView(provider, this, this, itemsColumns, StandardStyle, ImageColumn);
             return itemsColumns;
         }
@@ -133,7 +122,7 @@ namespace Krypton.Toolkit
         [Category("Data")]
         [Description("Collection of standard menu items.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Editor(typeof(KryptonContextMenuItemCollectionEditor), typeof(UITypeEditor))]
+        [Editor(@"Krypton.Toolkit.KryptonContextMenuItemCollectionEditor, Krypton.Toolkit", typeof(UITypeEditor))]
         public KryptonContextMenuItemCollection Items { get; }
 
         /// <summary>
@@ -147,12 +136,12 @@ namespace Krypton.Toolkit
         {
             get => _standardStyle;
 
-            set 
+            set
             {
                 if (_standardStyle != value)
                 {
                     _standardStyle = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("StandardStyle"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(StandardStyle)));
                 }
             }
         }
@@ -168,12 +157,12 @@ namespace Krypton.Toolkit
         {
             get => _imageColumn;
 
-            set 
+            set
             {
                 if (_imageColumn != value)
                 {
                     _imageColumn = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("ImageColumn"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ImageColumn)));
                 }
             }
         }
@@ -187,17 +176,13 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDoubleRedirect StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
+
         #endregion
 
         #region Internal
-        internal void SetPaletteRedirect(PaletteDoubleRedirect redirector)
-        {
-            _redirectImageColumn.SetRedirectStates(redirector, redirector);
-        }
+        internal void SetPaletteRedirect(PaletteDoubleRedirect redirector) => _redirectImageColumn.SetRedirectStates(redirector, redirector);
+
         #endregion
     }
 }

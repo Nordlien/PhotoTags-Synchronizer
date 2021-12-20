@@ -2,18 +2,13 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
-
-using System.ComponentModel;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -50,7 +45,7 @@ namespace Krypton.Toolkit
             ControlCustom3 = new KryptonPaletteControl(redirector, PaletteBackStyle.ControlCustom3, PaletteBorderStyle.ControlCustom3, needPaint);
 
             // Create redirectors for inheriting from style specific to style common
-            PaletteRedirectDouble redirectCommon = new PaletteRedirectDouble(redirector, ControlCommon.StateDisabled, ControlCommon.StateNormal);
+            PaletteRedirectDouble redirectCommon = new(redirector, ControlCommon.StateDisabled, ControlCommon.StateNormal);
 
             // Inform the button style to use the new redirector
             ControlClient.SetRedirector(redirectCommon);
@@ -119,10 +114,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteControl ControlCommon { get; }
 
-        private bool ShouldSerializeControlCommon()
-        {
-            return !ControlCommon.IsDefault;
-        }
+        private bool ShouldSerializeControlCommon() => !ControlCommon.IsDefault;
+
         #endregion
 
         #region ControlClient
@@ -135,10 +128,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteControl ControlClient { get; }
 
-        private bool ShouldSerializeControlClient()
-        {
-            return !ControlClient.IsDefault;
-        }
+        private bool ShouldSerializeControlClient() => !ControlClient.IsDefault;
+
         #endregion
 
         #region ControlAlternate
@@ -151,10 +142,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteControl ControlAlternate { get; }
 
-        private bool ShouldSerializeControlAlternate()
-        {
-            return !ControlAlternate.IsDefault;
-        }
+        private bool ShouldSerializeControlAlternate() => !ControlAlternate.IsDefault;
+
         #endregion
 
         #region ControlGroupBox
@@ -167,10 +156,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteControl ControlGroupBox { get; }
 
-        private bool ShouldSerializeControlGroupBox()
-        {
-            return !ControlGroupBox.IsDefault;
-        }
+        private bool ShouldSerializeControlGroupBox() => !ControlGroupBox.IsDefault;
+
         #endregion
 
         #region ControlToolTip
@@ -183,10 +170,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteControl ControlToolTip { get; }
 
-        private bool ShouldSerializeControlToolTip()
-        {
-            return !ControlToolTip.IsDefault;
-        }
+        private bool ShouldSerializeControlToolTip() => !ControlToolTip.IsDefault;
+
         #endregion
 
         #region ControlRibbon
@@ -199,10 +184,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteControl ControlRibbon { get; }
 
-        private bool ShouldSerializeControlRibbon()
-        {
-            return !ControlRibbon.IsDefault;
-        }
+        private bool ShouldSerializeControlRibbon() => !ControlRibbon.IsDefault;
+
         #endregion
 
         #region ControlRibbonAppMenu
@@ -215,10 +198,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteControl ControlRibbonAppMenu { get; }
 
-        private bool ShouldSerializeControlRibbonAppMenu()
-        {
-            return !ControlRibbonAppMenu.IsDefault;
-        }
+        private bool ShouldSerializeControlRibbonAppMenu() => !ControlRibbonAppMenu.IsDefault;
+
         #endregion
 
         #region ControlCustom1
@@ -231,10 +212,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteControl ControlCustom1 { get; }
 
-        private bool ShouldSerializeControlCustom1()
-        {
-            return !ControlCustom1.IsDefault;
-        }
+        private bool ShouldSerializeControlCustom1() => !ControlCustom1.IsDefault;
+
         #endregion
 
         #region ControlCustom2
@@ -247,10 +226,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteControl ControlCustom2 { get; }
 
-        private bool ShouldSerializeControlCustom2()
-        {
-            return !ControlCustom2.IsDefault;
-        }
+        private bool ShouldSerializeControlCustom2() => !ControlCustom2.IsDefault;
+
         #endregion
 
         #region ControlCustom3
@@ -263,10 +240,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteControl ControlCustom3 { get; }
 
-        private bool ShouldSerializeControlCustom3()
-        {
-            return !ControlCustom3.IsDefault;
-        }
+        private bool ShouldSerializeControlCustom3() => !ControlCustom3.IsDefault;
+
         #endregion
     }
 }

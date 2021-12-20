@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -27,7 +20,7 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonPanel), "ToolboxBitmaps.KryptonPanel.bmp")]
     [DefaultEvent("Paint")]
     [DefaultProperty("PanelStyle")]
-    [Designer(typeof(KryptonPanelDesigner))]
+    [Designer("Krypton.Toolkit.KryptonPanelDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Enables you to group collections of controls.")]
     [Docking(DockingBehavior.Ask)]
@@ -46,6 +39,8 @@ namespace Krypton.Toolkit
         /// </summary>
         public KryptonPanel()
         {
+            SetStyle(ControlStyles.SupportsTransparentBackColor | ControlStyles.OptimizedDoubleBuffer, true);
+
             // Create the palette storage
             _stateCommon = new PaletteDoubleRedirect(Redirector, PaletteBackStyle.PanelClient, PaletteBorderStyle.ControlClient, NeedPaintDelegate);
             _stateDisabled = new PaletteDouble(_stateCommon, NeedPaintDelegate);
@@ -64,6 +59,8 @@ namespace Krypton.Toolkit
                             PaletteDouble stateDisabled,
                             PaletteDouble stateNormal)
         {
+            SetStyle(ControlStyles.SupportsTransparentBackColor | ControlStyles.OptimizedDoubleBuffer, true);
+
             Debug.Assert(stateCommon != null);
             Debug.Assert(stateDisabled != null);
             Debug.Assert(stateNormal != null);
@@ -97,10 +94,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializePanelBackStyle()
-        {
-            return (PanelBackStyle != PaletteBackStyle.PanelClient);
-        }
+        private bool ShouldSerializePanelBackStyle() => (PanelBackStyle != PaletteBackStyle.PanelClient);
 
         private void ResetPanelBackStyle()
         {
@@ -115,10 +109,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBack StateCommon => _stateCommon.Back;
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !_stateCommon.Back.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !_stateCommon.Back.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled panel appearance.
@@ -128,10 +119,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBack StateDisabled => _stateDisabled.Back;
 
-        private bool ShouldSerializeStateDisabled()
-        {
-            return !_stateDisabled.Back.IsDefault;
-        }
+        private bool ShouldSerializeStateDisabled() => !_stateDisabled.Back.IsDefault;
 
         /// <summary>
         /// Gets access to the normal panel appearance.
@@ -141,10 +129,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBack StateNormal => _stateNormal.Back;
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !_stateNormal.Back.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !_stateNormal.Back.IsDefault;
 
         /// <summary>
         /// Fix the control to a particular palette state.

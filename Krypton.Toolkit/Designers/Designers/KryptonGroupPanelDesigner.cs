@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Collections;
-using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Windows.Forms.Design;
 
 namespace Krypton.Toolkit
 {
@@ -35,8 +28,10 @@ namespace Krypton.Toolkit
         /// <param name="component">The IComponent to associate with the designer.</param>
         public override void Initialize(IComponent component)
         {
-            // Perform common base class initializating
+            // Perform common base class initializing
             base.Initialize(component);
+
+            Debug.Assert(component != null);
 
             // Remember references to components involved in design
             _panel = component as KryptonGroupPanel;
@@ -60,32 +55,20 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="parentDesigner">The IDesigner that manages the control to check.</param>
         /// <returns>true if the control managed by the specified designer can parent the control managed by this designer; otherwise, false.</returns>
-        public override bool CanBeParentedTo(IDesigner parentDesigner)
-        {
+        public override bool CanBeParentedTo(IDesigner parentDesigner) =>
             // We should only ever exist inside a Krypton group container
-            return ((parentDesigner is KryptonGroup) || (parentDesigner is KryptonHeaderGroup));
-        }
+            ((parentDesigner is KryptonGroup) || (parentDesigner is KryptonHeaderGroup));
 
         /// <summary>
         /// Gets the selection rules that indicate the movement capabilities of a component.
         /// </summary>
-        public override SelectionRules SelectionRules
-        {
-            get
-            {
-                // If the panel is inside our Krypton group container then prevent 
-                // user changing the size or location of the group panel instance
-                if ((Control.Parent is KryptonGroup) || 
-                    (Control.Parent is KryptonHeaderGroup))
-                {
-                    return (SelectionRules.None | SelectionRules.Locked);
-                }
-                else
-                {
-                    return SelectionRules.None;
-                }
-            }
-        }
+        public override SelectionRules SelectionRules =>
+            // If the panel is inside our Krypton group container then prevent 
+            // user changing the size or location of the group panel instance
+            (Control.Parent is KryptonGroup) ||
+            (Control.Parent is KryptonHeaderGroup)
+                ? SelectionRules.None | SelectionRules.Locked
+                : SelectionRules.None;
 
         /// <summary>
         /// Gets a list of SnapLine objects representing significant alignment points for this control.
@@ -108,7 +91,7 @@ namespace Krypton.Toolkit
         /// <summary>
         ///  Gets the design-time action lists supported by the component associated with the designer.
         /// </summary>
-        public override DesignerActionListCollection ActionLists => new DesignerActionListCollection();
+        public override DesignerActionListCollection ActionLists => new();
 
         /// <summary>
         /// Should painting be performed for the selection glyph.

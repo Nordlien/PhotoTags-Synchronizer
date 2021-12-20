@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Microsoft.Win32;
 
 namespace Krypton.Toolkit
 {
@@ -90,7 +82,7 @@ namespace Krypton.Toolkit
         /// <returns>Renderer to use for drawing palette settings.</returns>
         public abstract IRenderer GetRenderer();
         #endregion
-        
+
         #region Back
         /// <summary>
         /// Gets a value indicating if background should be drawn.
@@ -147,7 +139,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Angle used for color drawing.</returns>
         public abstract float GetBackColorAngle(PaletteBackStyle style, PaletteState state);
-            
+
         /// <summary>
         /// Gets a background image.
         /// </summary>
@@ -251,8 +243,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Border style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
-        /// <returns>Integer rounding.</returns>
-        public abstract int GetBorderRounding(PaletteBorderStyle style, PaletteState state);
+        /// <returns>Float rounding.</returns>
+        public abstract float GetBorderRounding(PaletteBorderStyle style, PaletteState state);
 
         /// <summary>
         /// Gets a border image.
@@ -511,7 +503,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteTextPrefix value.</returns>
         public abstract PaletteTextHotkeyPrefix GetContentLongTextPrefix(PaletteContentStyle style, PaletteState state);
-        
+
         /// <summary>
         /// Gets the flag indicating if multiline text is allowed for long text.
         /// </summary>
@@ -642,7 +634,7 @@ namespace Krypton.Toolkit
         /// <returns>Integer value.</returns>
         public abstract int GetMetricInt(PaletteState state, PaletteMetricInt metric);
 
-            /// <summary>
+        /// <summary>
         /// Gets a boolean metric value.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
@@ -666,7 +658,7 @@ namespace Krypton.Toolkit
         /// <param name="expanded">Is the node expanded</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
         public abstract Image GetTreeViewImage(bool expanded);
-        
+
         /// <summary>
         /// Gets a check box image appropriate for the provided state.
         /// </summary>
@@ -784,6 +776,8 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.PendantRestore:
                 case PaletteButtonSpecStyle.FormRestore:
                     return "Restore";
+                case PaletteButtonSpecStyle.FormHelp:
+                    return "Help";
                 case PaletteButtonSpecStyle.RibbonMinimize:
                     return "Minimize";
                 case PaletteButtonSpecStyle.RibbonExpand:
@@ -1122,64 +1116,44 @@ namespace Krypton.Toolkit
         /// Gets the background color for a solid drag drop area.
         /// </summary>
         /// <returns>Color value.</returns>
-        public virtual Color GetDragDropSolidBack()
-        {
-            return SystemColors.ActiveCaption;
-        }
+        public virtual Color GetDragDropSolidBack() => SystemColors.ActiveCaption;
 
         /// <summary>
         /// Gets the border color for a solid drag drop area.
         /// </summary>
         /// <returns>Color value.</returns>
-        public virtual Color GetDragDropSolidBorder()
-        {
-            return SystemColors.Control;
-        }
+        public virtual Color GetDragDropSolidBorder() => SystemColors.Control;
 
         /// <summary>
         /// Gets the opacity of the solid area.
         /// </summary>
         /// <returns>Opacity ranging from 0 to 1.</returns>
-        public virtual float GetDragDropSolidOpacity()
-        {
-            return 0.37f;
-        }
+        public virtual float GetDragDropSolidOpacity() => 0.37f;
 
         /// <summary>
         /// Gets the background color for the docking indicators area.
         /// </summary>
         /// <returns>Color value.</returns>
-        public virtual Color GetDragDropDockBack()
-        {
-            return Color.FromArgb(228, 228, 228);
-        }
+        public virtual Color GetDragDropDockBack() => Color.FromArgb(228, 228, 228);
 
         /// <summary>
         /// Gets the border color for the docking indicators area.
         /// </summary>
         /// <returns>Color value.</returns>
-        public virtual Color GetDragDropDockBorder()
-        {
-            return Color.FromArgb(181, 181, 181);
-        }
+        public virtual Color GetDragDropDockBorder() => Color.FromArgb(181, 181, 181);
 
         /// <summary>
         /// Gets the active color for docking indicators.
         /// </summary>
         /// <returns>Color value.</returns>
-        public virtual Color GetDragDropDockActive()
-        {
-            return SystemColors.ActiveCaption;
-        }
+        public virtual Color GetDragDropDockActive() => SystemColors.ActiveCaption;
 
         /// <summary>
         /// Gets the inactive color for docking indicators.
         /// </summary>
         /// <returns>Color value.</returns>
-        public virtual Color GetDragDropDockInactive()
-        {
-            return SystemColors.InactiveCaption;
-        }
+        public virtual Color GetDragDropDockInactive() => SystemColors.InactiveCaption;
+
         #endregion
 
         #region Public
@@ -1240,10 +1214,8 @@ namespace Krypton.Toolkit
         /// <param name="percent2">Percentage of second color to use.</param>
         /// <returns>Merged color.</returns>
         public static Color MergeColors(Color color1, float percent1,
-                                        Color color2, float percent2)
-        {
-            return CommonHelper.MergeColors(color1, percent1, color2, percent2);
-        }
+                                        Color color2, float percent2) =>
+            CommonHelper.MergeColors(color1, percent1, color2, percent2);
 
         /// <summary>
         /// Merge three colors together using relative percentages.
@@ -1257,12 +1229,10 @@ namespace Krypton.Toolkit
         /// <returns>Merged color.</returns>
         public static Color MergeColors(Color color1, float percent1,
                                         Color color2, float percent2,
-                                        Color color3, float percent3)
-        {
-            return CommonHelper.MergeColors(color1, percent1, 
-                                            color2, percent2,
-                                            color3, percent3);
-        }
+                                        Color color3, float percent3) =>
+            CommonHelper.MergeColors(color1, percent1,
+                color2, percent2,
+                color3, percent3);
 
         /// <summary>
         /// Create a faded version of provided color.
@@ -1272,7 +1242,7 @@ namespace Krypton.Toolkit
         public static Color FadedColor(Color baseColor)
         {
             // Conver to HSL space
-            ColorHSL hsl = new ColorHSL(baseColor)
+            ColorHSL hsl = new(baseColor)
             {
 
                 // Remove saturation and fix luminance
@@ -1295,7 +1265,7 @@ namespace Krypton.Toolkit
                 if (!_inputControlPadding.HasValue)
                 {
                     // Find size of a input control with and without a border
-                    TextBox tb = new TextBox
+                    TextBox tb = new()
                     {
                         BorderStyle = BorderStyle.None
                     };
@@ -1304,7 +1274,7 @@ namespace Krypton.Toolkit
                     Size ss = tb.GetPreferredSize(new Size(int.MaxValue, int.MaxValue));
 
                     // Always subtract one from top and bottom edges to account for border placed there later by Krypton
-                    Padding inputControlPadding = new Padding(0);
+                    Padding inputControlPadding = new(0);
                     int xDiff = Math.Max(0, ss.Width - sn.Width);
                     int yDiff = Math.Max(0, ss.Height - sn.Height - 2);
 
@@ -1344,11 +1314,8 @@ namespace Krypton.Toolkit
         #endregion
 
         #region OnUserPreferenceChanged
-        internal void UserPreferenceChanged()
-        {
-            OnUserPreferenceChanged(this, new UserPreferenceChangedEventArgs(UserPreferenceCategory.General));
-        }
-        
+        internal void UserPreferenceChanged() => OnUserPreferenceChanged(this, new UserPreferenceChangedEventArgs(UserPreferenceCategory.General));
+
         /// <summary>
         /// Handle a change in the user preferences.
         /// </summary>
@@ -1367,10 +1334,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An PaletteLayoutEventArgs containing event data.</param>
-        protected virtual void OnPalettePaint(object sender, PaletteLayoutEventArgs e)
-        {
-            PalettePaint?.Invoke(this, e);
-        }
+        protected virtual void OnPalettePaint(object sender, PaletteLayoutEventArgs e) => PalettePaint?.Invoke(this, e);
+
         #endregion
 
         #region OnAllowFormChromeChanged
@@ -1379,10 +1344,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected virtual void OnAllowFormChromeChanged(object sender, EventArgs e)
-        {
-            AllowFormChromeChanged?.Invoke(this, e);
-        }
+        protected virtual void OnAllowFormChromeChanged(object sender, EventArgs e) => AllowFormChromeChanged?.Invoke(this, e);
+
         #endregion
 
         #region OnBasePaletteChanged
@@ -1391,10 +1354,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected virtual void OnBasePaletteChanged(object sender, EventArgs e)
-        {
-            BasePaletteChanged?.Invoke(this, e);
-        }
+        protected virtual void OnBasePaletteChanged(object sender, EventArgs e) => BasePaletteChanged?.Invoke(this, e);
+
         #endregion
 
         #region OnBaseRendererChanged
@@ -1403,10 +1364,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected virtual void OnBaseRendererChanged(object sender, EventArgs e)
-        {
-            BaseRendererChanged?.Invoke(this, e);
-        }
+        protected virtual void OnBaseRendererChanged(object sender, EventArgs e) => BaseRendererChanged?.Invoke(this, e);
+
         #endregion
 
         #region OnButtonSpecChanged
@@ -1415,10 +1374,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected virtual void OnButtonSpecChanged(object sender, EventArgs e)
-        {
-            ButtonSpecChanged?.Invoke(this, e);
-        }
+        protected virtual void OnButtonSpecChanged(object sender, EventArgs e) => ButtonSpecChanged?.Invoke(this, e);
+
         #endregion
     }
 }

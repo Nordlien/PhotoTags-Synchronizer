@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Navigator
 {
@@ -41,7 +35,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Initialize a new instance of the PaletteBarRedirect class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteBarRedirect(PaletteRedirect redirect,
                                   NeedPaintHandler needPaint)
@@ -93,7 +87,7 @@ namespace Krypton.Navigator
         [Category("Visuals")]
         [Description("Padding used around the bar when displaying tabs.")]
         [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Padding BarPaddingTabs
         {
             get => _barPaddingTabs;
@@ -124,7 +118,7 @@ namespace Krypton.Navigator
         [Category("Visuals")]
         [Description("Padding used around the bar when placed inside the group.")]
         [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Padding BarPaddingInside
         {
             get => _barPaddingInside;
@@ -155,7 +149,7 @@ namespace Krypton.Navigator
         [Category("Visuals")]
         [Description("Padding used around the bar when placed outside the group.")]
         [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Padding BarPaddingOutside
         {
             get => _barPaddingOutside;
@@ -186,7 +180,7 @@ namespace Krypton.Navigator
         [Category("Visuals")]
         [Description("Padding used around the bar when placed on its own.")]
         [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Padding BarPaddingOnly
         {
             get => _barPaddingOnly;
@@ -217,7 +211,7 @@ namespace Krypton.Navigator
         [Category("Visuals")]
         [Description("Padding used around each button on the button bar.")]
         [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Padding ButtonPadding
         {
             get => _buttonPadding;
@@ -248,7 +242,7 @@ namespace Krypton.Navigator
         [Category("Visuals")]
         [Description("How far to inset buttons from the control edge.")]
         [DefaultValue(-1)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public int ButtonEdgeOutside
         {
             get => _buttonEdgeOutside;
@@ -279,7 +273,7 @@ namespace Krypton.Navigator
         [Category("Visuals")]
         [Description("How far to inset buttons from the button bar.")]
         [DefaultValue(-1)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public int ButtonEdgeInside
         {
             get => _buttonEdgeInside;
@@ -310,7 +304,7 @@ namespace Krypton.Navigator
         [Category("Visuals")]
         [Description("Spacing gap between each check button.")]
         [DefaultValue(-1)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public int CheckButtonGap
         {
             get => _checkButtonGap;
@@ -341,7 +335,7 @@ namespace Krypton.Navigator
         [Category("Visuals")]
         [Description("Spacing gap between each ribbon tab.")]
         [DefaultValue(-1)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public int RibbonTabGap
         {
             get => _ribbonTabGap;
@@ -413,11 +407,9 @@ namespace Krypton.Navigator
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>InheritBool value.</returns>
-        public override InheritBool GetMetricBool(PaletteState state, PaletteMetricBool metric)
-        {
+        public override InheritBool GetMetricBool(PaletteState state, PaletteMetricBool metric) =>
             // Always pass onto the inheritance
-            return _redirect.GetMetricBool(state, metric);
-        }
+            _redirect.GetMetricBool(state, metric);
 
         /// <summary>
         /// Gets a padding metric value.

@@ -2,23 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Collections.Generic;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Navigator
 {
@@ -350,7 +341,7 @@ namespace Krypton.Navigator
                 Rectangle rect = _buttonManager.GetButtonRectangle(Navigator.Button.ContextButton);
 
                 // We want the context menu to show just below the button
-                Point pt = new Point(rect.Left, rect.Bottom + 3);
+                Point pt = new(rect.Left, rect.Bottom + 3);
 
                 // Convert from control coordinates to screen coordinates
                 return Navigator.PointToScreen(pt);
@@ -395,11 +386,9 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="buttonSpec">ButtonSpec instance.</param>
         /// <returns>HeaderLocation value.</returns>
-        public override HeaderLocation GetFixedButtonLocation(ButtonSpecNavFixed buttonSpec)
-        {
+        public override HeaderLocation GetFixedButtonLocation(ButtonSpecNavFixed buttonSpec) =>
             // This mode only has a single location, the button bar
-            return HeaderLocation.PrimaryHeader;
-        }
+            HeaderLocation.PrimaryHeader;
 
         /// <summary>
         /// Calculate the enabled state of the next button based on the required action.
@@ -604,7 +593,7 @@ namespace Krypton.Navigator
                         if (control)
                         {
                             // Are we allowed to perform a Ctrl+Tab change in selection
-                            CtrlTabCancelEventArgs ce = new CtrlTabCancelEventArgs(!shift);
+                            CtrlTabCancelEventArgs ce = new(!shift);
                             Navigator.OnCtrlTabStart(ce);
 
                             if (!ce.Cancel)
@@ -779,7 +768,7 @@ namespace Krypton.Navigator
                                                         VisualOrientation orientation)
         {
             // Create a check button view element
-            ViewDrawNavCheckButtonBar checkButton = new ViewDrawNavCheckButtonBar(Navigator, page, orientation);
+            ViewDrawNavCheckButtonBar checkButton = new(Navigator, page, orientation);
 
             // Convert the button orientation to the appropriate visual orientations
             VisualOrientation orientBackBorder = ConvertButtonBorderBackOrientation();
@@ -825,19 +814,13 @@ namespace Krypton.Navigator
         /// Gets the visual orientation of the check butttons border and background.
         /// </summary>
         /// <returns>Visual orientation.</returns>
-        protected virtual VisualOrientation ConvertButtonBorderBackOrientation()
-        {
-            return ResolveButtonContentOrientation(Navigator.Bar.BarOrientation);
-        }
+        protected virtual VisualOrientation ConvertButtonBorderBackOrientation() => ResolveButtonContentOrientation(Navigator.Bar.BarOrientation);
 
         /// <summary>
         /// Gets the visual orientation of the check butttons content.
         /// </summary>
         /// <returns>Visual orientation.</returns>
-        protected virtual VisualOrientation ConvertButtonContentOrientation()
-        {
-            return ResolveButtonContentOrientation(Navigator.Bar.BarOrientation);
-        }
+        protected virtual VisualOrientation ConvertButtonContentOrientation() => ResolveButtonContentOrientation(Navigator.Bar.BarOrientation);
 
         /// <summary>
         /// Convert the item orientation using the requested parent orientation.
@@ -1268,7 +1251,7 @@ namespace Krypton.Navigator
                             {
                                 KryptonPage movePage = PageFromView(reorderView);
                                 KryptonPage targetPage = PageFromView(childView);
-                                PageReorderEventArgs reorder = new PageReorderEventArgs(movePage, targetPage, false);
+                                PageReorderEventArgs reorder = new(movePage, targetPage, false);
 
                                 // Give event handlers a chance to cancel this reorder
                                 Navigator.OnBeforePageReorder(reorder);
@@ -1299,7 +1282,7 @@ namespace Krypton.Navigator
                             {
                                 KryptonPage movePage = PageFromView(reorderView);
                                 KryptonPage targetPage = PageFromView(childView);
-                                PageReorderEventArgs reorder = new PageReorderEventArgs(movePage, targetPage, true);
+                                PageReorderEventArgs reorder = new(movePage, targetPage, true);
 
                                 // Give event handlers a chance to cancel this reorder
                                 Navigator.OnBeforePageReorder(reorder);

@@ -2,19 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.ComponentModel;
-using Krypton.Toolkit;
 
 namespace Krypton.Navigator
 {
@@ -277,25 +272,20 @@ namespace Krypton.Navigator
         /// Gets the screen coorindates for showing a context action menu.
         /// </summary>
         /// <returns>Point in screen coordinates.</returns>
-        public override Point GetContextShowPoint()
-        {
+        public override Point GetContextShowPoint() =>
             // Ask the header group for screen point of context button
-            return _headerGroup.GetContextShowPoint();
-        }
+            _headerGroup.GetContextShowPoint();
 
         /// <summary>
         /// Is the provided over a part of the view that wants the mouse.
         /// </summary>
         /// <param name="pt">Mouse point.</param>
         /// <returns>True if the view wants the mouse position; otherwise false.</returns>
-        public override bool DesignerGetHitTest(Point pt)
-        {
+        public override bool DesignerGetHitTest(Point pt) =>
             // Check if any of the button specs want the point
-            return _headerGroup.DesignerGetHitTest(pt) || base.DesignerGetHitTest(pt);
+            _headerGroup.DesignerGetHitTest(pt) || base.DesignerGetHitTest(pt);
 
-            // Let base class search individual stack items
-        }
-
+        // Let base class search individual stack items
         /// <summary>
         /// Calculate the enabled state of the next button based on the required action.
         /// </summary>

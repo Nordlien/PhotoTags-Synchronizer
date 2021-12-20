@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.ComponentModel;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -40,13 +36,12 @@ namespace Krypton.Toolkit
         /// <param name="control">Control to be added.</param>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void AddInternal(Control control)
-        {
+        public void AddInternal(Control control) =>
             // ReSharper disable RedundantBaseQualifier
             // Do not remove base, as the KryptonReadOnlyControls is a mess !
             base.Add(control);
-            // ReSharper restore RedundantBaseQualifier
-        }
+        // ReSharper restore RedundantBaseQualifier
+
         #endregion
 
         #region RemoveInternal
@@ -56,13 +51,12 @@ namespace Krypton.Toolkit
         /// <param name="control">Control to be added.</param>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void RemoveInternal(Control control)
-        {
+        public void RemoveInternal(Control control) =>
             // ReSharper disable RedundantBaseQualifier
             // Do not remove base, as the KryptonReadOnlyControls is a mess !
             base.Remove(control);
-            // ReSharper restore RedundantBaseQualifier
-        }
+        // ReSharper restore RedundantBaseQualifier
+
         #endregion
 
         #region ClearInternal

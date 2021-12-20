@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.Drawing.Design;
-using System.ComponentModel;
-using System.Windows.Forms;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -25,7 +18,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupLabel), "ToolboxBitmaps.KryptonRibbonGroupLabel.bmp")]
-    [Designer(typeof(Krypton.Ribbon.KryptonRibbonGroupLabelDesigner))]
+    [Designer("Krypton.Ribbon.KryptonRibbonGroupLabelDesigner, Krypton.Ribbon")]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultProperty("Text")]
@@ -100,7 +93,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Small label image.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image ImageSmall
         {
             get => _imageSmall;
@@ -110,15 +103,12 @@ namespace Krypton.Ribbon
                 if (_imageSmall != value)
                 {
                     _imageSmall = value;
-                    OnPropertyChanged("ImageSmall");
+                    OnPropertyChanged(nameof(ImageSmall));
                 }
             }
         }
 
-        private bool ShouldSerializeImageSmall()
-        {
-            return ImageSmall != null;
-        }
+        private bool ShouldSerializeImageSmall() => ImageSmall != null;
 
         /// <summary>
         /// Gets and sets the large label image.
@@ -127,7 +117,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Large label image.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image ImageLarge
         {
             get => _imageLarge;
@@ -137,15 +127,12 @@ namespace Krypton.Ribbon
                 if (_imageLarge != value)
                 {
                     _imageLarge = value;
-                    OnPropertyChanged("ImageLarge");
+                    OnPropertyChanged(nameof(ImageLarge));
                 }
             }
         }
 
-        private bool ShouldSerializeImageLarge()
-        {
-            return ImageLarge != null;
-        }
+        private bool ShouldSerializeImageLarge() => ImageLarge != null;
 
         /// <summary>
         /// Gets and sets the display text line 1 for the label.
@@ -154,7 +141,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Label display text line 1.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Label")]
         public string TextLine1
         {
@@ -171,7 +158,7 @@ namespace Krypton.Ribbon
                 if (value != _textLine1)
                 {
                     _textLine1 = value;
-                    OnPropertyChanged("TextLine1");
+                    OnPropertyChanged(nameof(TextLine1));
                 }
             }
         }
@@ -183,7 +170,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Label display text line 2.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("")]
         public string TextLine2
         {
@@ -194,7 +181,7 @@ namespace Krypton.Ribbon
                 if (value != _textLine2)
                 {
                     _textLine2 = value;
-                    OnPropertyChanged("TextLine2");
+                    OnPropertyChanged(nameof(TextLine2));
                 }
             }
         }
@@ -219,7 +206,7 @@ namespace Krypton.Ribbon
                 if (value != _visible)
                 {
                     _visible = value;
-                    OnPropertyChanged("Visible");
+                    OnPropertyChanged(nameof(Visible));
                 }
             }
         }
@@ -256,7 +243,7 @@ namespace Krypton.Ribbon
                 if (value != _enabled)
                 {
                     _enabled = value;
-                    OnPropertyChanged("Enabled");
+                    OnPropertyChanged(nameof(Enabled));
                 }
             }
         }
@@ -269,10 +256,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonText StateNormal => _stateNormal;
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !_stateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !_stateNormal.IsDefault;
 
         /// <summary>
         /// Gets access to the label text disabled appearance.
@@ -282,10 +266,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonText StateDisabled => _stateDisabled;
 
-        private bool ShouldSerializeStateDisabled()
-        {
-            return !_stateDisabled.IsDefault;
-        }
+        private bool ShouldSerializeStateDisabled() => !_stateDisabled.IsDefault;
 
         /// <summary>
         /// Gets and sets the tooltip label style for group label.
@@ -311,7 +292,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Color to draw as transparent in the ToolTipImage.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         [Localizable(true)]
         public Color ToolTipImageTransparentColor { get; set; }
 
@@ -321,7 +302,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Title text for use in associated ToolTip.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor,", typeof(UITypeEditor))]
         [DefaultValue("")]
         [Localizable(true)]
         public string ToolTipTitle { get; set; }
@@ -332,7 +313,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Body text for use in associated ToolTip.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         [Localizable(true)]
         public string ToolTipBody { get; set; }
@@ -357,7 +338,7 @@ namespace Krypton.Ribbon
                     }
 
                     _command = value;
-                    OnPropertyChanged("KryptonCommand");
+                    OnPropertyChanged(nameof(KryptonCommand));
 
                     if (_command != null)
                     {
@@ -375,7 +356,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override GroupItemSize ItemSizeMaximum
         {
-            get { return GroupItemSize.Large; }
+            get => GroupItemSize.Large;
             set { }
         }
 
@@ -387,7 +368,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override GroupItemSize ItemSizeMinimum
         {
-            get { return GroupItemSize.Small; }
+            get => GroupItemSize.Small;
             set { }
         }
 
@@ -406,7 +387,7 @@ namespace Krypton.Ribbon
                 if (_itemSizeCurrent != value)
                 {
                     _itemSizeCurrent = value;
-                    OnPropertyChanged("ItemSizeCurrent");
+                    OnPropertyChanged(nameof(ItemSizeCurrent));
                 }
             }
         }
@@ -418,11 +399,9 @@ namespace Krypton.Ribbon
         /// <param name="needPaint">Delegate for notifying changes in display.</param>
         /// <returns>ViewBase derived instance.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override ViewBase CreateView(KryptonRibbon ribbon, 
-                                            NeedPaintHandler needPaint)
-        {
-            return new ViewDrawRibbonGroupLabel(ribbon, this, needPaint);
-        }
+        public override ViewBase CreateView(KryptonRibbon ribbon,
+                                            NeedPaintHandler needPaint) =>
+            new ViewDrawRibbonGroupLabel(ribbon, this, needPaint);
 
         /// <summary>
         /// Internal design time property.
@@ -445,19 +424,19 @@ namespace Krypton.Ribbon
             switch (e.PropertyName)
             {
                 case "TextLine1":
-                    OnPropertyChanged("TextLine1");
+                    OnPropertyChanged(nameof(TextLine1));
                     break;
                 case "ExtraText":
-                    OnPropertyChanged("TextLine2");
+                    OnPropertyChanged(nameof(TextLine2));
                     break;
                 case "ImageSmall":
-                    OnPropertyChanged("ImageSmall");
+                    OnPropertyChanged(nameof(ImageSmall));
                     break;
                 case "ImageLarge":
-                    OnPropertyChanged("ImageLarge");
+                    OnPropertyChanged(nameof(ImageLarge));
                     break;
                 case "Enabled":
-                    OnPropertyChanged("Enabled");
+                    OnPropertyChanged(nameof(Enabled));
                     break;
             }
         }
@@ -480,11 +459,9 @@ namespace Krypton.Ribbon
             DesignTimeContextMenu?.Invoke(this, e);
         }
 
-        internal override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
+        internal override bool ProcessCmdKey(ref Message msg, Keys keyData) =>
             // A label never has any command keys to process
-            return false;
-        }
+            false;
 
         internal override LabelStyle InternalToolTipStyle => ToolTipStyle;
 

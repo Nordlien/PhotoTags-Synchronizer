@@ -2,19 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel.Design;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -49,7 +44,7 @@ namespace Krypton.Toolkit
         public override DesignerActionItemCollection GetSortedActionItems()
         {
             // Create a new collection for holding the single item we want to create
-            DesignerActionItemCollection actions = new DesignerActionItemCollection();
+            DesignerActionItemCollection actions = new();
 
             // This can be null when deleting a component instance at design time
             if (_palette != null)
@@ -70,7 +65,7 @@ namespace Krypton.Toolkit
         {
             if (_palette != null)
             {
-                if (KryptonMessageBox.Show("Are you sure you want to reset the palette?",
+                if (MessageBox.Show("Are you sure you want to reset the palette?",
                                     "Palette Reset",
                                     MessageBoxButtons.YesNo,
                                     MessageBoxIcon.Warning) == DialogResult.Yes)
@@ -85,7 +80,7 @@ namespace Krypton.Toolkit
         {
             if (_palette != null)
             {
-                if (KryptonMessageBox.Show("Are you sure you want to populate from the base?",
+                if (MessageBox.Show("Are you sure you want to populate from the base?",
                                     "Populate From Base",
                                     MessageBoxButtons.YesNo,
                                     MessageBoxIcon.Warning) == DialogResult.Yes)
@@ -105,10 +100,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnExportClick(object sender, EventArgs e)
-        {
-            _palette?.Export();
-        }
+        private void OnExportClick(object sender, EventArgs e) => _palette?.Export();
+
         #endregion
     }
 }

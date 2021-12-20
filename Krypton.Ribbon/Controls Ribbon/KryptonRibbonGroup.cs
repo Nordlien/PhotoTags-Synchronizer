@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Design;
-using System.ComponentModel;
-using System.Windows.Forms;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -26,7 +18,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroup), "ToolboxBitmaps.KryptonRibbonGroup.bmp")]
-    [Designer(typeof(Krypton.Ribbon.KryptonRibbonGroupDesigner))]
+    [Designer("Krypton.Ribbon.KryptonRibbonGroupDesigner, Krypton.Ribbon")]
     [DefaultEvent("DialogBoxLauncherClick")]
     [DefaultProperty("TextLine1")]
     [DesignerCategory("code")]
@@ -89,14 +81,14 @@ namespace Krypton.Ribbon
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
         public event EventHandler DesignTimeAddSeparator;
-        
+
         /// <summary>
         /// Occurs when the design time wants to add a gallery.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
         public event EventHandler DesignTimeAddGallery;
-        
+
         /// <summary>
         /// Occurs when the design time context menu is requested.
         /// </summary>
@@ -150,7 +142,7 @@ namespace Krypton.Ribbon
             base.Dispose(disposing);
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets access to the owning ribbon control.
@@ -205,7 +197,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Ribbon group display text line 1.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Group")]
         public string TextLine1
         {
@@ -222,7 +214,7 @@ namespace Krypton.Ribbon
                 if (value != _textLine1)
                 {
                     _textLine1 = value;
-                    OnPropertyChanged("TextLine1");
+                    OnPropertyChanged(nameof(TextLine1));
                 }
             }
         }
@@ -234,7 +226,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Ribbon group display text line 2.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("")]
         public string TextLine2
         {
@@ -245,7 +237,7 @@ namespace Krypton.Ribbon
                 if (value != _textLine2)
                 {
                     _textLine2 = value;
-                    OnPropertyChanged("TextLine2");
+                    OnPropertyChanged(nameof(TextLine2));
                 }
             }
         }
@@ -303,7 +295,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Group image when collapsed.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image Image
         {
             get => _image;
@@ -313,15 +305,12 @@ namespace Krypton.Ribbon
                 if (_image != value)
                 {
                     _image = value;
-                    OnPropertyChanged("Image");
+                    OnPropertyChanged(nameof(Image));
                 }
             }
         }
 
-        private bool ShouldSerializeImage()
-        {
-            return Image != _defaultGroupImage;
-        }
+        private bool ShouldSerializeImage() => Image != _defaultGroupImage;
 
         /// <summary>
         /// Gets and sets the visible state of the ribbon group.
@@ -339,7 +328,7 @@ namespace Krypton.Ribbon
                 if (value != _visible)
                 {
                     _visible = value;
-                    OnPropertyChanged("Visible");
+                    OnPropertyChanged(nameof(Visible));
                 }
             }
         }
@@ -376,7 +365,7 @@ namespace Krypton.Ribbon
                 if (value != _dialogBoxLauncher)
                 {
                     _dialogBoxLauncher = value;
-                    OnPropertyChanged("DialogBoxLauncher");
+                    OnPropertyChanged(nameof(DialogBoxLauncher));
                 }
             }
         }
@@ -397,7 +386,7 @@ namespace Krypton.Ribbon
                 if (value != _allowCollapsed)
                 {
                     _allowCollapsed = value;
-                    OnPropertyChanged("AllowCollapsed");
+                    OnPropertyChanged(nameof(AllowCollapsed));
                 }
             }
         }
@@ -418,7 +407,7 @@ namespace Krypton.Ribbon
                 if (value != _minimumWidth)
                 {
                     _minimumWidth = value;
-                    OnPropertyChanged("MinimumWidth");
+                    OnPropertyChanged(nameof(MinimumWidth));
                 }
             }
         }
@@ -439,7 +428,7 @@ namespace Krypton.Ribbon
                 if (value != _maximumWidth)
                 {
                     _maximumWidth = value;
-                    OnPropertyChanged("MaximumWidth");
+                    OnPropertyChanged(nameof(MaximumWidth));
                 }
             }
         }
@@ -450,7 +439,7 @@ namespace Krypton.Ribbon
         [Category("Visuals")]
         [Description("Collection of ribbon group items.")]
         [MergableProperty(false)]
-        [Editor(typeof(Krypton.Ribbon.KryptonRibbonGroupContainerCollectionEditor), typeof(UITypeEditor))]
+        [Editor(@"Krypton.Ribbon.KryptonRibbonGroupContainerCollectionEditor, Krypton.Ribbon", typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonRibbonGroupContainerCollection Items { get; }
 
@@ -470,15 +459,12 @@ namespace Krypton.Ribbon
                 if (value != _tag)
                 {
                     _tag = value;
-                    OnPropertyChanged("Tag");
+                    OnPropertyChanged(nameof(Tag));
                 }
             }
         }
 
-        private bool ShouldSerializeTag()
-        {
-            return (Tag != null);
-        }
+        private bool ShouldSerializeTag() => (Tag != null);
 
         private void ResetTag()
         {

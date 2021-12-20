@@ -2,19 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.Windows.Forms;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -33,29 +28,23 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the ViewLayoutNull class.
         /// </summary>
         public ViewLayoutFill()
-            : this(null)
-        {
+            : this(null) =>
             DisplayPadding = Padding.Empty;
-        }
 
         /// <summary>
         /// Initialize a new instance of the ViewLayoutNull class.
         /// </summary>
         /// <param name="control">Control to position in fill location.</param>
-        public ViewLayoutFill(Control control)
-        {
-            _control = control;
-        }
+        public ViewLayoutFill(Control control) => _control = control;
 
         /// <summary>
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewLayoutFill:" + Id;
-        }
+            "ViewLayoutFill:" + Id;
+
         #endregion
 
         #region DisplayPadding

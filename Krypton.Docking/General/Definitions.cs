@@ -2,21 +2,13 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
-
-using System.Xml;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using Krypton.Navigator;
-using Krypton.Workspace;
 
 namespace Krypton.Docking
 {
@@ -267,7 +259,7 @@ namespace Krypton.Docking
         RemovePageAndDispose,
 
         /// <summary>Specifies the named page be hidden.</summary>
-        HidePage,
+        HidePage
     }
     #endregion
 
@@ -296,7 +288,7 @@ namespace Krypton.Docking
         Custom,
 
         /// <summary>Specifies the page is not inside the docking hierarchy.</summary>
-        None,
+        None
     }
     #endregion
 
@@ -324,7 +316,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Specifies the auto hidden page is fully showing.
         /// </summary>
-        Showing,
+        Showing
     }
     #endregion
 
@@ -421,7 +413,7 @@ namespace Krypton.Docking
         ContainsStorePage,
 
         /// <summary>Specifies showing state for a named page.</summary>
-        IsPageShowing,
+        IsPageShowing
     }
     #endregion
 
@@ -432,7 +424,7 @@ namespace Krypton.Docking
     public enum DockingPropogateIntState
     {
         /// <summary>Specifies control ordering for dockspace controls.</summary>
-        DockspaceOrder,
+        DockspaceOrder
     }
     #endregion
 
@@ -443,7 +435,7 @@ namespace Krypton.Docking
     public enum DockingPropogatePageState
     {
         /// <summary>Specifies a page referenced is required for the named page.</summary>
-        PageForUniqueName,
+        PageForUniqueName
     }
     #endregion
 
@@ -466,7 +458,7 @@ namespace Krypton.Docking
         Floating,
 
         /// <summary>Specifies a list of all filler pages be created.</summary>
-        Filler,
+        Filler
     }
     #endregion
 
@@ -486,7 +478,7 @@ namespace Krypton.Docking
         Floating,
 
         /// <summary>Specifies a list of all workspace cells be created.</summary>
-        Workspace,
+        Workspace
     }
     #endregion
 }

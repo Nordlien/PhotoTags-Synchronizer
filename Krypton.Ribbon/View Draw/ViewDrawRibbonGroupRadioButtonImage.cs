@@ -2,19 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -56,7 +51,7 @@ namespace Krypton.Ribbon
             _large = large;
 
             // Use redirector to get the radio button images and redirect to parent palette
-            PaletteRedirectRadioButton redirectImages = new PaletteRedirectRadioButton(ribbon.GetRedirector(), ribbon.StateCommon.RibbonImages.RadioButton);
+            PaletteRedirectRadioButton redirectImages = new(ribbon.GetRedirector(), ribbon.StateCommon.RibbonImages.RadioButton);
 
             // Create drawing element
             _drawRadioButton = new ViewDrawRadioButton(redirectImages);
@@ -69,11 +64,10 @@ namespace Krypton.Ribbon
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawRibbonGroupRadioButtonImage:" + Id;
-        }
+            "ViewDrawRibbonGroupRadioButtonImage:" + Id;
+
         #endregion
 
         #region Enabled
@@ -82,8 +76,8 @@ namespace Krypton.Ribbon
         /// </summary>
         public override bool Enabled
         {
-            get { return _drawRadioButton.Enabled; }
-            set { _drawRadioButton.Enabled = value; }
+            get => _drawRadioButton.Enabled;
+            set => _drawRadioButton.Enabled = value;
         }
         #endregion
 
@@ -93,8 +87,8 @@ namespace Krypton.Ribbon
         /// </summary>
         public bool Checked
         {
-            get { return _drawRadioButton.CheckState; }
-            set { _drawRadioButton.CheckState = value; }
+            get => _drawRadioButton.CheckState;
+            set => _drawRadioButton.CheckState = value;
         }
         #endregion
 
@@ -104,8 +98,8 @@ namespace Krypton.Ribbon
         /// </summary>
         public bool Tracking
         {
-            get { return _drawRadioButton.Tracking; }
-            set { _drawRadioButton.Tracking = value; }
+            get => _drawRadioButton.Tracking;
+            set => _drawRadioButton.Tracking = value;
         }
         #endregion
 
@@ -115,8 +109,8 @@ namespace Krypton.Ribbon
         /// </summary>
         public bool Pressed
         {
-            get { return _drawRadioButton.Pressed; }
-            set { _drawRadioButton.Pressed = value; }
+            get => _drawRadioButton.Pressed;
+            set => _drawRadioButton.Pressed = value;
         }
         #endregion
 
@@ -137,7 +131,7 @@ namespace Krypton.Ribbon
             ClientRectangle = context.DisplayRectangle;
 
             // Get the size of the radio button when it is drawn
-            Rectangle radioButtonRect = new Rectangle(Point.Empty, _drawRadioButton.GetPreferredSize(context));
+            Rectangle radioButtonRect = new(Point.Empty, _drawRadioButton.GetPreferredSize(context));
 
             // Decide on correct position within our rectangle
             if (_large)

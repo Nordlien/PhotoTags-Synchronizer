@@ -2,23 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Design;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -27,7 +18,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupLines), "ToolboxBitmaps.KryptonRibbonGroupLines.bmp")]
-    [Designer(typeof(Krypton.Ribbon.KryptonRibbonGroupLinesDesigner))]
+    [Designer("Krypton.Ribbon.KryptonRibbonGroupLinesDesigner, Krypton.Ribbon")]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultProperty("Visible")]
@@ -202,7 +193,7 @@ namespace Krypton.Ribbon
             base.Dispose(disposing);
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets access to the owning ribbon control.
@@ -214,8 +205,8 @@ namespace Krypton.Ribbon
         {
             get => base.Ribbon;
 
-            set 
-            { 
+            set
+            {
                 base.Ribbon = value;
 
                 // Forward the reference to all children (just in case the children
@@ -237,8 +228,8 @@ namespace Krypton.Ribbon
         {
             get => base.RibbonTab;
 
-            set 
-            { 
+            set
+            {
                 base.RibbonTab = value;
 
                 // Forward the reference to all children (just in case the children
@@ -269,7 +260,7 @@ namespace Krypton.Ribbon
                 if (value != _visible)
                 {
                     _visible = value;
-                    OnPropertyChanged("Visible");
+                    OnPropertyChanged(nameof(Visible));
                 }
             }
         }
@@ -362,7 +353,7 @@ namespace Krypton.Ribbon
                         item.ItemSizeMaximum = itemSize;
                     }
 
-                    OnPropertyChanged("ItemSizeMaximum");
+                    OnPropertyChanged(nameof(ItemSizeMaximum));
                 }
             }
         }
@@ -407,7 +398,7 @@ namespace Krypton.Ribbon
                         item.ItemSizeMinimum = value;
                     }
 
-                    OnPropertyChanged("ItemSizeMinimum");
+                    OnPropertyChanged(nameof(ItemSizeMinimum));
                 }
             }
         }
@@ -427,7 +418,7 @@ namespace Krypton.Ribbon
                 if (_itemSizeCurrent != value)
                 {
                     _itemSizeCurrent = value;
-                    OnPropertyChanged("ItemSizeCurrent");
+                    OnPropertyChanged(nameof(ItemSizeCurrent));
                 }
             }
         }
@@ -440,10 +431,8 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase derived instance.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override ViewBase CreateView(KryptonRibbon ribbon,
-                                            NeedPaintHandler needPaint)
-        {
-            return new ViewLayoutRibbonGroupLines(ribbon, this, needPaint);
-        }
+                                            NeedPaintHandler needPaint) =>
+            new ViewLayoutRibbonGroupLines(ribbon, this, needPaint);
 
         /// <summary>
         /// Gets the collection of ribbon group line items.
@@ -451,7 +440,7 @@ namespace Krypton.Ribbon
         [Category("Visuals")]
         [Description("Collection of ribbon group line items.")]
         [MergableProperty(false)]
-        [Editor(typeof(Krypton.Ribbon.KryptonRibbonGroupLinesCollectionEditor), typeof(UITypeEditor))]
+        [Editor(@"Krypton.Ribbon.KryptonRibbonGroupLinesCollectionEditor, Krypton.Ribbon", typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonRibbonGroupLinesCollection Items { get; }
 

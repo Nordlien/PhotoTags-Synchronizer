@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Windows.Forms;
-using System.ComponentModel;
 
 namespace Krypton.Toolkit
 {
@@ -136,38 +129,32 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Sets the reason for the context menu being closed.
         /// </summary>
-        public Nullable<ToolStripDropDownCloseReason> CloseReason => _provider.ProviderCloseReason;
+        public ToolStripDropDownCloseReason? CloseReason => _provider.ProviderCloseReason;
 
         /// <summary>
         /// Show the context menu relative to the current mouse location.
         /// </summary>
-        public new void Show()
-        {
+        public new void Show() =>
             // Without a screen location we just place it at the same location as the mouse.
             Show(MousePosition);
-        }
 
         /// <summary>
         /// Show the context menu relative to the provided screen point.
         /// </summary>
         /// <param name="screenPt">Screen location.</param>
-        public void Show(Point screenPt)
-        {
+        public void Show(Point screenPt) =>
             // When providing just a point we turn this into a rectangle that happens to
             // have a zero size. We always position relative to a screen rectangle.
             Show(new Rectangle(screenPt, Size.Empty));
-        }
 
         /// <summary>
         /// Show the context menu relative to the provided screen rectangle.
         /// </summary>
         /// <param name="screenRect">Screen rectangle.</param>
-        public new void Show(Rectangle screenRect)
-        {
+        public new void Show(Rectangle screenRect) =>
             // When the relative position is not provided we assume a default 
             // of below and aligned to the left edge of the screen rectangle.
             Show(screenRect, KryptonContextMenuPositionH.Left, KryptonContextMenuPositionV.Below);
-        }
 
         /// <summary>
         /// Show the context menu relative to the provided screen rectangle.
@@ -177,12 +164,10 @@ namespace Krypton.Toolkit
         /// <param name="vert">Vertical location relative to screen rectangle.</param>
         public void Show(Rectangle screenRect,
                          KryptonContextMenuPositionH horz,
-                         KryptonContextMenuPositionV vert)
-        {
+                         KryptonContextMenuPositionV vert) =>
             // Do not bounce, so adjust position so it fits on screen but do not alter the
             // position so that you bounce the menu from the edges as you reach them.
             Show(screenRect, horz, vert, false, true);
-        }
 
         /// <summary>
         /// Show the context menu relative to the provided screen rectangle.
@@ -213,38 +198,24 @@ namespace Krypton.Toolkit
 
             // Find the horizontal position relative to screen rectangle
             Point screenPt = Point.Empty;
-            switch (horz)
+            screenPt.X = horz switch
             {
-                case KryptonContextMenuPositionH.After:
-                    screenPt.X = screenRect.Right;
-                    break;
-                case KryptonContextMenuPositionH.Before:
-                    screenPt.X = screenRect.Left - preferredSize.Width;
-                    break;
-                case KryptonContextMenuPositionH.Left:
-                    screenPt.X = screenRect.Left;
-                    break;
-                case KryptonContextMenuPositionH.Right:
-                    screenPt.X = screenRect.Right - preferredSize.Width;
-                    break;
-            }
+                KryptonContextMenuPositionH.After => screenRect.Right,
+                KryptonContextMenuPositionH.Before => screenRect.Left - preferredSize.Width,
+                KryptonContextMenuPositionH.Left => screenRect.Left,
+                KryptonContextMenuPositionH.Right => screenRect.Right - preferredSize.Width,
+                _ => screenPt.X
+            };
 
             // Find the vertical position relative to screen rectangle
-            switch (vert)
+            screenPt.Y = vert switch
             {
-                case KryptonContextMenuPositionV.Above:
-                    screenPt.Y = screenRect.Top - preferredSize.Height;
-                    break;
-                case KryptonContextMenuPositionV.Below:
-                    screenPt.Y = screenRect.Bottom;
-                    break;
-                case KryptonContextMenuPositionV.Top:
-                    screenPt.Y = screenRect.Top;
-                    break;
-                case KryptonContextMenuPositionV.Bottom:
-                    screenPt.Y = screenRect.Bottom - preferredSize.Height;
-                    break;
-            }
+                KryptonContextMenuPositionV.Above => screenRect.Top - preferredSize.Height,
+                KryptonContextMenuPositionV.Below => screenRect.Bottom,
+                KryptonContextMenuPositionV.Top => screenRect.Top,
+                KryptonContextMenuPositionV.Bottom => screenRect.Bottom - preferredSize.Height,
+                _ => screenPt.Y
+            };
 
             // Do we check for bouncing off working area edges?
             if (bounce)
@@ -374,11 +345,10 @@ namespace Krypton.Toolkit
         /// <param name="m">Original message.</param>
         /// <param name="pt">Client coordinates point.</param>
         /// <returns>True to become current; otherwise false.</returns>
-        public override bool DoesStackedClientMouseDownBecomeCurrent(Message m, Point pt)
-        {
+        public override bool DoesStackedClientMouseDownBecomeCurrent(Message m, Point pt) =>
             // Ask the manager if the mouse down should make the stacked menu the current one
-            return ViewContextMenuManager.DoesStackedClientMouseDownBecomeCurrent(m, pt);
-        }
+            ViewContextMenuManager.DoesStackedClientMouseDownBecomeCurrent(m, pt);
+
         #endregion
 
         #region Protected
@@ -387,7 +357,7 @@ namespace Krypton.Toolkit
         /// </summary>
         protected PaletteRedirect Redirector
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get;
         }
 
@@ -422,23 +392,20 @@ namespace Krypton.Toolkit
             base.OnLayout(levent);
 
             // Need a render context for accessing the renderer
-            using (RenderContext context = new RenderContext(this, null, ClientRectangle, Renderer))
-            {
+            using RenderContext context = new(this, null, ClientRectangle, Renderer);
+            // Grab a path that is the outside edge of the border
+            Rectangle borderRect = ClientRectangle;
+            GraphicsPath borderPath1 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _provider.ProviderStateCommon.ControlOuter.Border, VisualOrientation.Top, PaletteState.Normal);
+            borderRect.Inflate(-1, -1);
+            GraphicsPath borderPath2 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _provider.ProviderStateCommon.ControlOuter.Border, VisualOrientation.Top, PaletteState.Normal);
+            borderRect.Inflate(-1, -1);
+            GraphicsPath borderPath3 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _provider.ProviderStateCommon.ControlOuter.Border, VisualOrientation.Top, PaletteState.Normal);
 
-                // Grab a path that is the outside edge of the border
-                Rectangle borderRect = ClientRectangle;
-                GraphicsPath borderPath1 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _provider.ProviderStateCommon.ControlOuter.Border, VisualOrientation.Top, PaletteState.Normal);
-                borderRect.Inflate(-1, -1);
-                GraphicsPath borderPath2 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _provider.ProviderStateCommon.ControlOuter.Border, VisualOrientation.Top, PaletteState.Normal);
-                borderRect.Inflate(-1, -1);
-                GraphicsPath borderPath3 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _provider.ProviderStateCommon.ControlOuter.Border, VisualOrientation.Top, PaletteState.Normal);
+            // Update the region of the popup to be the border path
+            Region = new Region(borderPath1);
 
-                // Update the region of the popup to be the border path
-                Region = new Region(borderPath1);
-
-                // Inform the shadow to use the same paths for drawing the shadow
-                DefineShadowPaths(borderPath1, borderPath2, borderPath3);
-            }
+            // Inform the shadow to use the same paths for drawing the shadow
+            DefineShadowPaths(borderPath1, borderPath2, borderPath3);
         }
 
         /// <summary>
@@ -446,11 +413,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected virtual void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e)
-        {
+        protected virtual void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e) =>
             // Need to recalculate anything relying on the palette
             OnNeedPaint(sender, e);
-        }
+
         #endregion
 
         #region Implementation
@@ -461,12 +427,12 @@ namespace Krypton.Toolkit
             items.GenerateView(_provider, this, _viewColumns, true, true);
 
             // Create the control panel canvas
-            ViewDrawCanvas mainBackground = new ViewDrawCanvas(_provider.ProviderStateCommon.ControlInner.Back, _provider.ProviderStateCommon.ControlInner.Border, VisualOrientation.Top)
+            ViewDrawCanvas mainBackground = new(_provider.ProviderStateCommon.ControlInner.Back, _provider.ProviderStateCommon.ControlInner.Border, VisualOrientation.Top)
             {
                 _viewColumns
             };
 
-            ViewLayoutDocker layoutDocker = new ViewLayoutDocker();
+            ViewLayoutDocker layoutDocker = new();
             Padding outerPadding = _provider.ProviderRedirector.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.ContextMenuItemOuter);
             layoutDocker.Add(new ViewLayoutSeparator(outerPadding.Top), ViewDockStyle.Top);
             layoutDocker.Add(new ViewLayoutSeparator(outerPadding.Bottom), ViewDockStyle.Bottom);
@@ -497,10 +463,8 @@ namespace Krypton.Toolkit
             try
             {
                 // Find the preferred size which fits exactly the calculated contents size
-                using (ViewLayoutContext context = new ViewLayoutContext(this, Renderer))
-                {
-                    return ViewManager.Root.GetPreferredSize(context);
-                }
+                using ViewLayoutContext context = new(this, Renderer);
+                return ViewManager.Root.GetPreferredSize(context);
             }
             finally
             {
@@ -546,15 +510,9 @@ namespace Krypton.Toolkit
             Renderer = _palette.GetRenderer();
         }
 
-        private void OnProviderClosing(object sender, CancelEventArgs e)
-        {
-            _contextMenu?.OnClosing(e);
-        }
+        private void OnProviderClosing(object sender, CancelEventArgs e) => _contextMenu?.OnClosing(e);
 
-        private void OnProviderClose(object sender, CloseReasonEventArgs e)
-        {
-            _contextMenu?.Close(e.CloseReason);
-        }
+        private void OnProviderClose(object sender, CloseReasonEventArgs e) => _contextMenu?.Close(e.CloseReason);
 
         private void OnProviderClose(object sender, EventArgs e)
         {

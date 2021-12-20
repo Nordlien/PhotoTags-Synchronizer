@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -108,7 +101,7 @@ namespace Krypton.Toolkit
 
         #region SetInherit
         /// <summary>
-        /// Sets the inheritence parent.
+        /// Sets the inheritance parent.
         /// </summary>
         public void SetInherit(IPaletteContent inherit)
         {
@@ -146,7 +139,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Should content be drawn.")]
         [DefaultValue(typeof(InheritBool), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public InheritBool Draw
         {
             get => _draw;
@@ -166,17 +159,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>InheritBool value.</returns>
-        public InheritBool GetContentDraw(PaletteState state)
-        {
-            if (Draw != InheritBool.Inherit)
-            {
-                return Draw;
-            }
-            else
-            {
-                return Inherit.GetContentDraw(state);
-            }
-        }
+        public InheritBool GetContentDraw(PaletteState state) => Draw != InheritBool.Inherit ? Draw : Inherit.GetContentDraw(state);
+
         #endregion
 
         #region DrawFocus
@@ -185,10 +169,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>InheritBool value.</returns>
-        public InheritBool GetContentDrawFocus(PaletteState state)
-        {
-            return Inherit.GetContentDrawFocus(state);
-        }
+        public InheritBool GetContentDrawFocus(PaletteState state) => Inherit.GetContentDrawFocus(state);
+
         #endregion
 
         #region ContentImage
@@ -197,50 +179,36 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public PaletteRelativeAlign GetContentImageH(PaletteState state)
-        {
-            return Inherit.GetContentImageH(state);
-        }
+        public PaletteRelativeAlign GetContentImageH(PaletteState state) => Inherit.GetContentImageH(state);
 
         /// <summary>
         /// Gets the actual content image vertical alignment value.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public PaletteRelativeAlign GetContentImageV(PaletteState state)
-        {
-            return Inherit.GetContentImageV(state);
-        }
+        public PaletteRelativeAlign GetContentImageV(PaletteState state) => Inherit.GetContentImageV(state);
 
         /// <summary>
         /// Gets the actual image drawing effect value.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteImageEffect value.</returns>
-        public PaletteImageEffect GetContentImageEffect(PaletteState state)
-        {
-            return Inherit.GetContentImageEffect(state);
-        }
+        public PaletteImageEffect GetContentImageEffect(PaletteState state) => Inherit.GetContentImageEffect(state);
 
         /// <summary>
         /// Gets the image color to remap into another color.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetContentImageColorMap(PaletteState state)
-        {
-            return Inherit.GetContentImageColorMap(state);
-        }
+        public Color GetContentImageColorMap(PaletteState state) => Inherit.GetContentImageColorMap(state);
 
         /// <summary>
         /// Gets the color to use in place of the image map color.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetContentImageColorTo(PaletteState state)
-        {
-            return Inherit.GetContentImageColorTo(state);
-        }
+        public Color GetContentImageColorTo(PaletteState state) => Inherit.GetContentImageColorTo(state);
+
         #endregion
 
         #region Font
@@ -249,20 +217,15 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public virtual Font GetContentShortTextFont(PaletteState state)
-        {
-            return Inherit.GetContentShortTextFont(state);
-        }
+        public virtual Font GetContentShortTextFont(PaletteState state) => Inherit.GetContentShortTextFont(state);
 
         /// <summary>
         /// Gets the font for the short text by generating a new font instance.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public virtual Font GetContentShortTextNewFont(PaletteState state)
-        {
-            return Inherit.GetContentShortTextNewFont(state);
-        }
+        public virtual Font GetContentShortTextNewFont(PaletteState state) => Inherit.GetContentShortTextNewFont(state);
+
         #endregion
 
         #region Hint
@@ -273,7 +236,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Text rendering hint for the content text.")]
         [DefaultValue(typeof(PaletteTextHint), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteTextHint Hint
         {
             get => _hint;
@@ -293,17 +256,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteTextHint value.</returns>
-        public PaletteTextHint GetContentShortTextHint(PaletteState state)
-        {
-            if (_hint != PaletteTextHint.Inherit)
-            {
-                return _hint;
-            }
-            else
-            {
-                return Inherit.GetContentShortTextHint(state);
-            }
-        }
+        public PaletteTextHint GetContentShortTextHint(PaletteState state) => _hint != PaletteTextHint.Inherit ? _hint : Inherit.GetContentShortTextHint(state);
 
         #endregion
 
@@ -313,10 +266,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteTextPrefix value.</returns>
-        public PaletteTextHotkeyPrefix GetContentShortTextPrefix(PaletteState state)
-        {
-            return Inherit.GetContentShortTextPrefix(state);
-        }
+        public PaletteTextHotkeyPrefix GetContentShortTextPrefix(PaletteState state) => Inherit.GetContentShortTextPrefix(state);
+
         #endregion
 
         #region Trim
@@ -327,7 +278,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Text trimming style for the content text.")]
         [DefaultValue(typeof(PaletteTextTrim), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteTextTrim Trim
         {
             get => _trim;
@@ -347,17 +298,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteTextTrim value.</returns>
-        public PaletteTextTrim GetContentShortTextTrim(PaletteState state)
-        {
-            if (_trim != PaletteTextTrim.Inherit)
-            {
-                return _trim;
-            }
-            else
-            {
-                return Inherit.GetContentShortTextTrim(state);
-            }
-        }
+        public PaletteTextTrim GetContentShortTextTrim(PaletteState state) => _trim != PaletteTextTrim.Inherit ? _trim : Inherit.GetContentShortTextTrim(state);
+
         #endregion
 
         #region TextH
@@ -366,10 +308,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public virtual PaletteRelativeAlign GetContentShortTextH(PaletteState state)
-        {
-            return Inherit.GetContentShortTextH(state);
-        }
+        public virtual PaletteRelativeAlign GetContentShortTextH(PaletteState state) => Inherit.GetContentShortTextH(state);
+
         #endregion
 
         #region TextV
@@ -378,10 +318,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public virtual PaletteRelativeAlign GetContentShortTextV(PaletteState state)
-        {
-            return Inherit.GetContentShortTextV(state);
-        }
+        public virtual PaletteRelativeAlign GetContentShortTextV(PaletteState state) => Inherit.GetContentShortTextV(state);
+
         #endregion
 
         #region MultiLineH
@@ -392,7 +330,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Relative horizontal alignment of multiline content text.")]
         [DefaultValue(typeof(PaletteRelativeAlign), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteRelativeAlign MultiLineH
         {
             get => _multiLineH;
@@ -412,17 +350,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public PaletteRelativeAlign GetContentShortTextMultiLineH(PaletteState state)
-        {
-            if (_multiLineH != PaletteRelativeAlign.Inherit)
-            {
-                return _multiLineH;
-            }
-            else
-            {
-                return Inherit.GetContentShortTextMultiLineH(state);
-            }
-        }
+        public PaletteRelativeAlign GetContentShortTextMultiLineH(PaletteState state) => _multiLineH != PaletteRelativeAlign.Inherit ? _multiLineH : Inherit.GetContentShortTextMultiLineH(state);
+
         #endregion
 
         #region MultiLine
@@ -433,7 +362,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Flag indicating if multiline text is allowed..")]
         [DefaultValue(typeof(InheritBool), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual InheritBool MultiLine
         {
             get => _multiLine;
@@ -453,17 +382,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>InheritBool value.</returns>
-        public InheritBool GetContentShortTextMultiLine(PaletteState state)
-        {
-            if (_multiLine != InheritBool.Inherit)
-            {
-                return _multiLine;
-            }
-            else
-            {
-                return Inherit.GetContentShortTextMultiLine(state);
-            }
-        }
+        public InheritBool GetContentShortTextMultiLine(PaletteState state) => _multiLine != InheritBool.Inherit ? _multiLine : Inherit.GetContentShortTextMultiLine(state);
+
         #endregion
 
         #region Color1
@@ -473,8 +393,8 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Main color for the text.")]
-        [KryptonDefaultColorAttribute()]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [KryptonDefaultColor()]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual Color Color1
         {
             get => _color1;
@@ -495,17 +415,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetContentShortTextColor1(PaletteState state)
-        {
-            if (_color1 != Color.Empty)
-            {
-                return _color1;
-            }
-            else
-            {
-                return Inherit.GetContentShortTextColor1(state);
-            }
-        }
+        public Color GetContentShortTextColor1(PaletteState state) => _color1 != Color.Empty ? _color1 : Inherit.GetContentShortTextColor1(state);
+
         #endregion
 
         #region Color2
@@ -515,8 +426,8 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Secondary color for the text.")]
-        [KryptonDefaultColorAttribute()]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [KryptonDefaultColor()]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual Color Color2
         {
             get => _color2;
@@ -536,17 +447,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetContentShortTextColor2(PaletteState state)
-        {
-            if (_color2 != Color.Empty)
-            {
-                return _color2;
-            }
-            else
-            {
-                return Inherit.GetContentShortTextColor2(state);
-            }
-        }
+        public Color GetContentShortTextColor2(PaletteState state) => _color2 != Color.Empty ? _color2 : Inherit.GetContentShortTextColor2(state);
+
         #endregion
 
         #region ColorStyle
@@ -557,7 +459,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Color drawing style for the text.")]
         [DefaultValue(typeof(PaletteColorStyle), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteColorStyle ColorStyle
         {
             get => _colorStyle;
@@ -577,17 +479,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color drawing style.</returns>
-        public PaletteColorStyle GetContentShortTextColorStyle(PaletteState state)
-        {
-            if (_colorStyle != PaletteColorStyle.Inherit)
-            {
-                return _colorStyle;
-            }
-            else
-            {
-                return Inherit.GetContentShortTextColorStyle(state);
-            }
-        }
+        public PaletteColorStyle GetContentShortTextColorStyle(PaletteState state) => _colorStyle != PaletteColorStyle.Inherit ? _colorStyle : Inherit.GetContentShortTextColorStyle(state);
+
         #endregion
 
         #region ColorAlign
@@ -598,7 +491,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Color alignment style for the text.")]
         [DefaultValue(typeof(PaletteRectangleAlign), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteRectangleAlign ColorAlign
         {
             get => _colorAlign;
@@ -618,17 +511,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color alignment style.</returns>
-        public PaletteRectangleAlign GetContentShortTextColorAlign(PaletteState state)
-        {
-            if (_colorAlign != PaletteRectangleAlign.Inherit)
-            {
-                return _colorAlign;
-            }
-            else
-            {
-                return Inherit.GetContentShortTextColorAlign(state);
-            }
-        }
+        public PaletteRectangleAlign GetContentShortTextColorAlign(PaletteState state) => _colorAlign != PaletteRectangleAlign.Inherit ? _colorAlign : Inherit.GetContentShortTextColorAlign(state);
+
         #endregion
 
         #region ColorAngle
@@ -639,7 +523,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Color angle for the text.")]
         [DefaultValue(-1f)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual float ColorAngle
         {
             get => _colorAngle;
@@ -659,17 +543,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Angle used for color drawing.</returns>
-        public float GetContentShortTextColorAngle(PaletteState state)
-        {
-            if (_colorAngle != -1)
-            {
-                return _colorAngle;
-            }
-            else
-            {
-                return Inherit.GetContentShortTextColorAngle(state);
-            }
-        }
+        public float GetContentShortTextColorAngle(PaletteState state) => _colorAngle != -1 ? _colorAngle : Inherit.GetContentShortTextColorAngle(state);
+
         #endregion
 
         #region Image
@@ -680,7 +555,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Image for the text.")]
         [DefaultValue(null)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual Image Image
         {
             get => _image;
@@ -700,17 +575,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetContentShortTextImage(PaletteState state)
-        {
-            if (_image != null)
-            {
-                return _image;
-            }
-            else
-            {
-                return Inherit.GetContentShortTextImage(state);
-            }
-        }
+        public Image GetContentShortTextImage(PaletteState state) => _image != null ? _image : Inherit.GetContentShortTextImage(state);
+
         #endregion
 
         #region ImageStyle
@@ -721,7 +587,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Image style for the text.")]
         [DefaultValue(typeof(PaletteImageStyle), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteImageStyle ImageStyle
         {
             get => _imageStyle;
@@ -741,17 +607,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image style value.</returns>
-        public PaletteImageStyle GetContentShortTextImageStyle(PaletteState state)
-        {
-            if (_imageStyle != PaletteImageStyle.Inherit)
-            {
-                return _imageStyle;
-            }
-            else
-            {
-                return Inherit.GetContentShortTextImageStyle(state);
-            }
-        }
+        public PaletteImageStyle GetContentShortTextImageStyle(PaletteState state) => _imageStyle != PaletteImageStyle.Inherit ? _imageStyle : Inherit.GetContentShortTextImageStyle(state);
+
         #endregion
 
         #region ImageAlign
@@ -762,7 +619,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Image alignment style for the text.")]
         [DefaultValue(typeof(PaletteRectangleAlign), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteRectangleAlign ImageAlign
         {
             get => _imageAlign;
@@ -782,17 +639,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image alignment style.</returns>
-        public PaletteRectangleAlign GetContentShortTextImageAlign(PaletteState state)
-        {
-            if (_imageAlign != PaletteRectangleAlign.Inherit)
-            {
-                return _imageAlign;
-            }
-            else
-            {
-                return Inherit.GetContentShortTextImageAlign(state);
-            }
-        }
+        public PaletteRectangleAlign GetContentShortTextImageAlign(PaletteState state) => _imageAlign != PaletteRectangleAlign.Inherit ? _imageAlign : Inherit.GetContentShortTextImageAlign(state);
+
         #endregion
 
         #region ContentLongText
@@ -801,170 +649,120 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <returns>Font value.</returns>
         /// <param name="state">Palette value should be applicable to this state.</param>
-        public Font GetContentLongTextFont(PaletteState state)
-        {
-            return Inherit.GetContentLongTextFont(state);
-        }
+        public Font GetContentLongTextFont(PaletteState state) => Inherit.GetContentLongTextFont(state);
 
         /// <summary>
         /// Gets the font for the long text by generating a new font instance.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public Font GetContentLongTextNewFont(PaletteState state)
-        {
-            return Inherit.GetContentLongTextNewFont(state);
-        }
+        public Font GetContentLongTextNewFont(PaletteState state) => Inherit.GetContentLongTextNewFont(state);
 
         /// <summary>
         /// Gets the actual text rendering hint for long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteTextHint value.</returns>
-        public PaletteTextHint GetContentLongTextHint(PaletteState state)
-        {
-            return Inherit.GetContentLongTextHint(state);
-        }
+        public PaletteTextHint GetContentLongTextHint(PaletteState state) => Inherit.GetContentLongTextHint(state);
 
         /// <summary>
         /// Gets the prefix drawing setting for long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteTextPrefix value.</returns>
-        public PaletteTextHotkeyPrefix GetContentLongTextPrefix(PaletteState state)
-        {
-            return Inherit.GetContentLongTextPrefix(state);
-        }
-        
+        public PaletteTextHotkeyPrefix GetContentLongTextPrefix(PaletteState state) => Inherit.GetContentLongTextPrefix(state);
+
         /// <summary>
         /// Gets the actual text trimming for the long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteTextTrim value.</returns>
-        public PaletteTextTrim GetContentLongTextTrim(PaletteState state)
-        {
-            return Inherit.GetContentLongTextTrim(state);
-        }
+        public PaletteTextTrim GetContentLongTextTrim(PaletteState state) => Inherit.GetContentLongTextTrim(state);
 
         /// <summary>
         /// Gets the actual content long text horizontal alignment value.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public PaletteRelativeAlign GetContentLongTextH(PaletteState state)
-        {
-            return Inherit.GetContentLongTextH(state);
-        }
+        public PaletteRelativeAlign GetContentLongTextH(PaletteState state) => Inherit.GetContentLongTextH(state);
 
         /// <summary>
         /// Gets the actual content long text vertical alignment value.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public PaletteRelativeAlign GetContentLongTextV(PaletteState state)
-        {
-            return Inherit.GetContentLongTextV(state);
-        }
+        public PaletteRelativeAlign GetContentLongTextV(PaletteState state) => Inherit.GetContentLongTextV(state);
 
         /// <summary>
         /// Gets the actual content long text horizontal multiline alignment value.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public PaletteRelativeAlign GetContentLongTextMultiLineH(PaletteState state)
-        {
-            return Inherit.GetContentLongTextMultiLineH(state);
-        }
+        public PaletteRelativeAlign GetContentLongTextMultiLineH(PaletteState state) => Inherit.GetContentLongTextMultiLineH(state);
 
         /// <summary>
         /// Gets the flag indicating if multiline text is allowed for long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>InheritBool value.</returns>
-        public InheritBool GetContentLongTextMultiLine(PaletteState state)
-        {
-            return Inherit.GetContentLongTextMultiLine(state);
-        }
+        public InheritBool GetContentLongTextMultiLine(PaletteState state) => Inherit.GetContentLongTextMultiLine(state);
 
         /// <summary>
         /// Gets the first color for the long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetContentLongTextColor1(PaletteState state)
-        {
-            return Inherit.GetContentLongTextColor1(state);
-        }
+        public Color GetContentLongTextColor1(PaletteState state) => Inherit.GetContentLongTextColor1(state);
 
         /// <summary>
         /// Gets the second back color for the long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetContentLongTextColor2(PaletteState state)
-        {
-            return Inherit.GetContentLongTextColor2(state);
-        }
+        public Color GetContentLongTextColor2(PaletteState state) => Inherit.GetContentLongTextColor2(state);
 
         /// <summary>
         /// Gets the color drawing style for the long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color drawing style.</returns>
-        public PaletteColorStyle GetContentLongTextColorStyle(PaletteState state)
-        {
-            return Inherit.GetContentLongTextColorStyle(state);
-        }
+        public PaletteColorStyle GetContentLongTextColorStyle(PaletteState state) => Inherit.GetContentLongTextColorStyle(state);
 
         /// <summary>
         /// Gets the color alignment style for the long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color alignment style.</returns>
-        public PaletteRectangleAlign GetContentLongTextColorAlign(PaletteState state)
-        {
-            return Inherit.GetContentLongTextColorAlign(state);
-        }
+        public PaletteRectangleAlign GetContentLongTextColorAlign(PaletteState state) => Inherit.GetContentLongTextColorAlign(state);
 
         /// <summary>
         /// Gets the color angle for the long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Angle used for color drawing.</returns>
-        public float GetContentLongTextColorAngle(PaletteState state)
-        {
-            return Inherit.GetContentLongTextColorAngle(state);
-        }
+        public float GetContentLongTextColorAngle(PaletteState state) => Inherit.GetContentLongTextColorAngle(state);
 
         /// <summary>
         /// Gets an image for the long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetContentLongTextImage(PaletteState state)
-        {
-            return Inherit.GetContentLongTextImage(state);
-        }
+        public Image GetContentLongTextImage(PaletteState state) => Inherit.GetContentLongTextImage(state);
 
         /// <summary>
         /// Gets the image style for the long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image style value.</returns>
-        public PaletteImageStyle GetContentLongTextImageStyle(PaletteState state)
-        {
-            return Inherit.GetContentLongTextImageStyle(state);
-        }
+        public PaletteImageStyle GetContentLongTextImageStyle(PaletteState state) => Inherit.GetContentLongTextImageStyle(state);
 
         /// <summary>
         /// Gets the image alignment style for the long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image alignment style.</returns>
-        public PaletteRectangleAlign GetContentLongTextImageAlign(PaletteState state)
-        {
-            return Inherit.GetContentLongTextImageAlign(state);
-        }
+        public PaletteRectangleAlign GetContentLongTextImageAlign(PaletteState state) => Inherit.GetContentLongTextImageAlign(state);
+
         #endregion
 
         #region Padding
@@ -973,10 +771,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Padding value.</returns>
-        public virtual Padding GetContentPadding(PaletteState state)
-        {
-            return Inherit.GetContentPadding(state);
-        }
+        public virtual Padding GetContentPadding(PaletteState state) => Inherit.GetContentPadding(state);
+
         #endregion
 
         #region AdjacentGap
@@ -985,10 +781,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Integer value.</returns>
-        public int GetContentAdjacentGap(PaletteState state)
-        {
-            return Inherit.GetContentAdjacentGap(state);
-        }
+        public int GetContentAdjacentGap(PaletteState state) => Inherit.GetContentAdjacentGap(state);
+
         #endregion
 
         #region ContentStyle
@@ -996,15 +790,13 @@ namespace Krypton.Toolkit
         /// Gets the style appropriate for this content.
         /// </summary>
         /// <returns>Content style.</returns>
-        public PaletteContentStyle GetContentStyle()
-        {
-            return Inherit.GetContentStyle();
-        }
+        public PaletteContentStyle GetContentStyle() => Inherit.GetContentStyle();
+
         #endregion
 
         #region Protected
         /// <summary>
-        /// Gets the inheritence parent.
+        /// Gets the inheritance parent.
         /// </summary>
         protected IPaletteContent Inherit { get; private set; }
 
@@ -1012,10 +804,8 @@ namespace Krypton.Toolkit
         /// Raises the SyncPropertyChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnSyncPropertyChanged(EventArgs e)
-        {
-            SyncPropertyChanged?.Invoke(this, e);
-        }
+        protected virtual void OnSyncPropertyChanged(EventArgs e) => SyncPropertyChanged?.Invoke(this, e);
+
         #endregion
     }
 }

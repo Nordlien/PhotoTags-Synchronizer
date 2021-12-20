@@ -2,22 +2,13 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
-
-using System;
-using System.Xml;
-using System.Windows.Forms;
-using System.ComponentModel;
-using Krypton.Toolkit;
-using Krypton.Navigator;
 
 namespace Krypton.Docking
 {
@@ -40,10 +31,9 @@ namespace Krypton.Docking
         /// <param name="name">Initial name of the element.</param>
         /// <param name="ownerForm">Reference to form that will own all the floating windows.</param>
         public KryptonDockingFloating(string name, Form ownerForm)
-            : base(name)
-        {
+            : base(name) =>
             OwnerForm = ownerForm ?? throw new ArgumentNullException("owner");
-        }
+
         #endregion
 
         #region Public
@@ -56,31 +46,23 @@ namespace Krypton.Docking
         /// Create and add a new floating window.
         /// </summary>
         /// <returns>Reference to docking element that handles the new workspace.</returns>
-        public KryptonDockingFloatingWindow AddFloatingWindow()
-        {
+        public KryptonDockingFloatingWindow AddFloatingWindow() =>
             // Generate a unique string by creating a GUID
-            return AddFloatingWindow(CommonHelper.UniqueString);
-        }
+            AddFloatingWindow(CommonHelper.UniqueString);
 
         /// <summary>
         /// Create and add a new floating window.
         /// </summary>
         /// <param name="name">Initial name of the dockspace element.</param>
         /// <returns>Reference to docking element that handles the new workspace.</returns>
-        public KryptonDockingFloatingWindow AddFloatingWindow(string name)
-        {
-            return CreateFloatingWindow(name);
-        }
+        public KryptonDockingFloatingWindow AddFloatingWindow(string name) => CreateFloatingWindow(name);
 
         /// <summary>
         /// Find a floating docking element by searching the hierarchy.
         /// </summary>
         /// <param name="uniqueName">Named page for which a suitable floating element is required.</param>
         /// <returns>KryptonDockingFloating reference if found; otherwise false.</returns>
-        public override KryptonDockingFloating FindDockingFloating(string uniqueName)
-        {
-            return this;
-        }
+        public override KryptonDockingFloating FindDockingFloating(string uniqueName) => this;
 
         /// <summary>
         /// Return the floating window element that contains a placeholder for the named page.
@@ -142,8 +124,8 @@ namespace Krypton.Docking
         private KryptonDockingFloatingWindow CreateFloatingWindow(string name)
         {
             // Create a floatspace and floating window for hosting the floatspace
-            KryptonDockingFloatspace floatSpaceElement = new KryptonDockingFloatspace("Floatspace");
-            KryptonDockingFloatingWindow floatingWindowElement = new KryptonDockingFloatingWindow(name, OwnerForm, floatSpaceElement, UseMinimiseBox);
+            KryptonDockingFloatspace floatSpaceElement = new("Floatspace");
+            KryptonDockingFloatingWindow floatingWindowElement = new(name, OwnerForm, floatSpaceElement, UseMinimiseBox);
             floatingWindowElement.Disposed += OnDockingFloatingWindowDisposed;
             InternalAdd(floatingWindowElement);
 
@@ -152,8 +134,8 @@ namespace Krypton.Docking
             if (dockingManager != null)
             {
                 // Generate events so the floating window/dockspace appearance can be customized
-                FloatingWindowEventArgs floatingWindowArgs = new FloatingWindowEventArgs(floatingWindowElement.FloatingWindow, floatingWindowElement);
-                FloatspaceEventArgs floatSpaceArgs = new FloatspaceEventArgs(floatSpaceElement.FloatspaceControl, floatSpaceElement);
+                FloatingWindowEventArgs floatingWindowArgs = new(floatingWindowElement.FloatingWindow, floatingWindowElement);
+                FloatspaceEventArgs floatSpaceArgs = new(floatSpaceElement.FloatspaceControl, floatSpaceElement);
                 dockingManager.RaiseFloatingWindowAdding(floatingWindowArgs);
                 dockingManager.RaiseFloatspaceAdding(floatSpaceArgs);
             }

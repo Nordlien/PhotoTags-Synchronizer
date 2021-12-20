@@ -2,21 +2,13 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
-
-using System;
-using System.Drawing;
-using System.ComponentModel;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Navigator
 {
@@ -116,11 +108,9 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public ButtonSpec ButtonSpecFromView(ViewBase element)
-        {
+        public ButtonSpec ButtonSpecFromView(ViewBase element) =>
             // Ask the button manager for the button spec for this element
-            return _buttonManager.ButtonSpecFromView(element);
-        }
+            _buttonManager.ButtonSpecFromView(element);
 
         /// <summary>
         /// Recreate the buttons to reflect a change in selected page.
@@ -177,7 +167,7 @@ namespace Krypton.Navigator
             Rectangle rect = _buttonManager.GetButtonRectangle(Navigator.Button.ContextButton);
 
             // We want the context menu to show just below the button
-            Point pt = new Point(rect.Left, rect.Bottom + 3);
+            Point pt = new(rect.Left, rect.Bottom + 3);
 
             // Convert from control coordinates to screen coordinates
             return Navigator.PointToScreen(pt);
@@ -188,11 +178,9 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="pt">Mouse point.</param>
         /// <returns>True if the view wants the mouse position; otherwise false.</returns>
-        public bool DesignerGetHitTest(Point pt)
-        {
+        public bool DesignerGetHitTest(Point pt) =>
             // Check if any of the buttons want the point
-            return _buttonManager.DesignerGetHitTest(pt);
-        }
+            _buttonManager.DesignerGetHitTest(pt);
 
         /// <summary>
         /// Get the appropriate action for the header group next action.
@@ -280,28 +268,20 @@ namespace Krypton.Navigator
         /// Gets the visible state of the secondary header.
         /// </summary>
         /// <returns>Boolean value.</returns>
-        protected virtual bool GetHeaderSecondaryVisible()
-        {
-            return Navigator.Header.HeaderVisibleSecondary;
-        }
+        protected virtual bool GetHeaderSecondaryVisible() => Navigator.Header.HeaderVisibleSecondary;
 
         /// <summary>
         /// Gets the source of the primary header values.
         /// </summary>
         /// <returns></returns>
-        protected virtual IContentValues GetPrimaryValues()
-        {
-            return Navigator.Header.HeaderValuesPrimary;
-        }
+        protected virtual IContentValues GetPrimaryValues() => Navigator.Header.HeaderValuesPrimary;
 
         /// <summary>
         /// Gets the source of the secondary header values.
         /// </summary>
         /// <returns></returns>
-        protected virtual IContentValues GetSecondaryValues()
-        {
-            return Navigator.Header.HeaderValuesSecondary;
-        }
+        protected virtual IContentValues GetSecondaryValues() => Navigator.Header.HeaderValuesSecondary;
+
         #endregion
 
         #region Implementation
@@ -356,7 +336,7 @@ namespace Krypton.Navigator
         private void CreateDragDrop()
         {
             // Create and attach the drag controller to the header view
-            DragViewController controller = new DragViewController(_viewHeadingPrimary);
+            DragViewController controller = new(_viewHeadingPrimary);
             _viewHeadingPrimary.MouseController = controller;
             _viewHeadingPrimary.KeyController = controller;
             _viewHeadingPrimary.SourceController = controller;

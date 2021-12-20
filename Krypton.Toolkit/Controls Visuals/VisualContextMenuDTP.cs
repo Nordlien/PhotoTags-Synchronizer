@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -23,7 +19,7 @@ namespace Krypton.Toolkit
     public class VisualContextMenuDTP : VisualContextMenu
     {
         #region Instance Fields
-        private Rectangle _dropScreenRect;
+        private readonly Rectangle _dropScreenRect;
         #endregion
 
         #region Identity
@@ -49,10 +45,9 @@ namespace Krypton.Toolkit
                                     bool keyboardActivated,
                                     Rectangle dropScreenRect)
             : base(contextMenu, palette, paletteMode, redirector, redirectorImages, 
-                   items, enabled, keyboardActivated)
-        {
+                   items, enabled, keyboardActivated) =>
             _dropScreenRect = dropScreenRect;
-        }
+
         #endregion
 
         #region Public
@@ -62,13 +57,12 @@ namespace Krypton.Toolkit
         /// <param name="m">Original message.</param>
         /// <param name="pt">Screen coordinates point.</param>
         /// <returns>True to eat message; otherwise false.</returns>
-        public override bool DoesMouseDownGetEaten(Message m, Point pt)
-        {
+        public override bool DoesMouseDownGetEaten(Message m, Point pt) =>
             // If the user dismissed the context menu by clicking down on the drop down button of
             // the KryptonDateTimePicker then eat the down message to prevent the down press from
             // opening the menu again.
-            return _dropScreenRect.Contains(new Point(pt.X, pt.Y));
-        }
+            _dropScreenRect.Contains(new Point(pt.X, pt.Y));
+
         #endregion
     }
 }

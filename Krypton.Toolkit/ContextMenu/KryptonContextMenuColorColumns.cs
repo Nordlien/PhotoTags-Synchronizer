@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.ComponentModel;
 
 namespace Krypton.Toolkit
 {
@@ -31,7 +25,8 @@ namespace Krypton.Toolkit
     public class KryptonContextMenuColorColumns : KryptonContextMenuItemBase
     {
         #region Static Fields
-        private static readonly Color[][] _noneScheme = { };
+
+        private static readonly Color[][] _noneScheme = Array.Empty<Color[]>();
 
         private static readonly Color[][] _mono2Scheme = { new Color[] { Color.White }, 
                                                                          new Color[] { Color.Black } };
@@ -128,10 +123,8 @@ namespace Krypton.Toolkit
         /// Returns a description of the instance.
         /// </summary>
         /// <returns>String representation.</returns>
-        public override string ToString()
-        {
-            return "(Color Columns)";
-        }
+        public override string ToString() => "(Color Columns)";
+
         #endregion
 
         #region Public
@@ -154,10 +147,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="keyData">Key data to check against shorcut definitions.</param>
         /// <returns>True if shortcut was handled, otherwise false.</returns>
-        public override bool ProcessShortcut(Keys keyData)
-        {
-            return false;
-        }
+        public override bool ProcessShortcut(Keys keyData) => false;
 
         /// <summary>
         /// Returns a view appropriate for this item based on the object it is inside.
@@ -172,10 +162,8 @@ namespace Krypton.Toolkit
                                               object parent,
                                               ViewLayoutStack columns,
                                               bool standardStyle,
-                                              bool imageColumn)
-        {
-            return new ViewDrawMenuColorColumns(provider, this);
-        }
+                                              bool imageColumn) =>
+            new ViewDrawMenuColorColumns(provider, this);
 
         /// <summary>
         /// Gets and sets if clicking a color entry automatically closes the context menu.
@@ -193,7 +181,7 @@ namespace Krypton.Toolkit
                 if (_autoClose != value)
                 {
                     _autoClose = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("AutoClose"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(AutoClose)));
                 }
             }
         }
@@ -214,7 +202,7 @@ namespace Krypton.Toolkit
                 if (_colorScheme != value)
                 {
                     SetColorScheme(value);
-                    OnPropertyChanged(new PropertyChangedEventArgs("ColorScheme"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ColorScheme)));
                 }
             }
         }
@@ -236,7 +224,7 @@ namespace Krypton.Toolkit
                 {
                     _selectedColor = value;
                     OnSelectedColorChanged(new ColorEventArgs(_selectedColor));
-                    OnPropertyChanged(new PropertyChangedEventArgs("SelectedColor"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(SelectedColor)));
                 }
             }
         }
@@ -257,7 +245,7 @@ namespace Krypton.Toolkit
                 if (_blockSize != value)
                 {
                     _blockSize = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("BlockSize"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(BlockSize)));
                 }
             }
         }
@@ -278,7 +266,7 @@ namespace Krypton.Toolkit
                 if (_groupNonFirstRows != value)
                 {
                     _groupNonFirstRows = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("GroupNonFirstRows"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(GroupNonFirstRows)));
                 }
             }
         }
@@ -355,19 +343,14 @@ namespace Krypton.Toolkit
         /// Raises the SelectedColorChanged event.
         /// </summary>
         /// <param name="e">An ColorEventArgs that contains the event data.</param>
-        protected virtual void OnSelectedColorChanged(ColorEventArgs e)
-        {
-            SelectedColorChanged?.Invoke(this, e);
-        }
+        protected virtual void OnSelectedColorChanged(ColorEventArgs e) => SelectedColorChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the TrackingColor event.
         /// </summary>
         /// <param name="e">An ColorEventArgs that contains the event data.</param>
-        protected internal virtual void OnTrackingColor(ColorEventArgs e)
-        {
-            TrackingColor?.Invoke(this, e);
-        }
+        protected internal virtual void OnTrackingColor(ColorEventArgs e) => TrackingColor?.Invoke(this, e);
+
         #endregion
 
         #region Internal
@@ -380,27 +363,16 @@ namespace Krypton.Toolkit
         {
             _colorScheme = scheme;
 
-            switch (scheme)
+            Colors = scheme switch
             {
-                case ColorScheme.None:
-                    Colors = _noneScheme;
-                    break;
-                case ColorScheme.Mono2:
-                    Colors = _mono2Scheme;
-                    break;
-                case ColorScheme.Mono8:
-                    Colors = _mono8Scheme;
-                    break;
-                case ColorScheme.Basic16:
-                    Colors = _basic16Scheme;
-                    break;
-                case ColorScheme.OfficeStandard:
-                    Colors = _officeStandardScheme;
-                    break;
-                case ColorScheme.OfficeThemes:
-                    Colors = _officeThemeScheme;
-                    break;
-            }
+                ColorScheme.None => _noneScheme,
+                ColorScheme.Mono2 => _mono2Scheme,
+                ColorScheme.Mono8 => _mono8Scheme,
+                ColorScheme.Basic16 => _basic16Scheme,
+                ColorScheme.OfficeStandard => _officeStandardScheme,
+                ColorScheme.OfficeThemes => _officeThemeScheme,
+                _ => Colors
+            };
         }
         #endregion
     }

@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using Krypton.Toolkit;
-using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Krypton.Ribbon
 {
@@ -784,31 +777,26 @@ namespace Krypton.Ribbon
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawRibbonCaptionArea:" + Id;
-        }
+            "ViewDrawRibbonCaptionArea:" + Id;
+
         #endregion
 
         #region AppButtonController
         /// <summary>
         /// Gets the single reference to the application button controller.
         /// </summary>
-        public AppButtonController AppButtonController
-        {
-            get { return _appButtonController; }
-        }
+        public AppButtonController AppButtonController => _appButtonController;
+
         #endregion
 
         #region AppTabController
         /// <summary>
         /// Gets the single reference to the application tab controller.
         /// </summary>
-        public AppTabController AppTabController
-        {
-            get { return _appTabController; }
-        }
+        public AppTabController AppTabController => _appTabController;
+
         #endregion
 
         #region HookToolTipHandling
@@ -828,7 +816,7 @@ namespace Krypton.Ribbon
         /// </summary>
         public bool PreventIntegration
         {
-            get { return _preventIntegration; }
+            get => _preventIntegration;
 
             set
             {
@@ -848,15 +836,11 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the drawing of the border before or after children.
         /// </summary>
-        public override bool DrawBorderLast
-        {
-            get
-            {
-                // We need to draw the border before contents, so that the application button
-                // and any context information draw over the top of the border
-                return false;
-            }
-        }
+        public override bool DrawBorderLast =>
+            // We need to draw the border before contents, so that the application button
+            // and any context information draw over the top of the border
+            false;
+
         #endregion
 
         #region AppButtonChanged
@@ -955,10 +939,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets a value indicating if the ribbon is integrated into the custom chrome.
         /// </summary>
-        public bool UsingCustomChrome
-        {
-            get { return _integrated; }
-        }
+        public bool UsingCustomChrome => _integrated;
+
         #endregion
 
         #region RedrawCustomChrome
@@ -977,20 +959,16 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets a value indicating if drawing on the composition element.
         /// </summary>
-        public bool DrawCaptionOnComposition
-        {
-            get { return UsingCustomChrome && KryptonForm.ApplyComposition; }
-        }
+        public bool DrawCaptionOnComposition => UsingCustomChrome && KryptonForm.ApplyComposition;
+
         #endregion
 
         #region KryptonForm
         /// <summary>
         /// Gets access to the integration form.
         /// </summary>
-        public KryptonForm KryptonForm
-        {
-            get { return _kryptonForm; }
-        }
+        public KryptonForm KryptonForm => _kryptonForm;
+
         #endregion
 
         #region RealWindowBorders
@@ -1014,10 +992,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the layout view used for the context titles.
         /// </summary>
-        public ViewLayoutRibbonContextTitles ContextTitles
-        {
-            get { return _contextTiles; }
-        }
+        public ViewLayoutRibbonContextTitles ContextTitles => _contextTiles;
+
         #endregion
 
         #region PerformFormChromeCheck
@@ -1084,8 +1060,8 @@ namespace Krypton.Ribbon
         /// </summary>
         protected NeedPaintHandler NeedPaintDelegate
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return _needPaintDelegate; }
+            [DebuggerStepThrough]
+            get => _needPaintDelegate;
         }
 
         /// <summary>
@@ -1109,9 +1085,11 @@ namespace Krypton.Ribbon
             _otherAppButton = new ViewLayoutRibbonAppButton(_ribbon, false);
 
             // Connect up the application button controller to the two button elements
-            _appButtonController = new AppButtonController(_ribbon);
-            _appButtonController.Target1 = _captionAppButton.AppButton;
-            _appButtonController.Target2 = _otherAppButton.AppButton;
+            _appButtonController = new AppButtonController(_ribbon)
+            {
+                Target1 = _captionAppButton.AppButton,
+                Target2 = _otherAppButton.AppButton
+            };
             _appButtonController.NeedPaint += new NeedPaintHandler(OnAppButtonNeedPaint);
             _captionAppButton.MouseController = _appButtonController;
             _otherAppButton.MouseController = _appButtonController;
@@ -1119,16 +1097,20 @@ namespace Krypton.Ribbon
             _appTabController.NeedPaint += new NeedPaintHandler(OnAppButtonNeedPaint);
 
             // When not showing the app button we show this spacer instead
-            _spaceInsteadOfAppButton = new ViewLayoutSeparator(0);
-            _spaceInsteadOfAppButton.Visible = false;
+            _spaceInsteadOfAppButton = new ViewLayoutSeparator(0)
+            {
+                Visible = false
+            };
 
             // Quick access toolbar, minibar versions
             _captionQAT = new ViewLayoutRibbonQATMini(_ribbon, _needIntegratedDelegate);
             _nonCaptionQAT = new ViewLayoutRibbonQATMini(_ribbon, NeedPaintDelegate);
 
             // Layout needed to position and draw the context titles
-            _contextTiles = new ViewLayoutRibbonContextTitles(_ribbon, this);
-            _contextTiles.ReverseRenderOrder = true;
+            _contextTiles = new ViewLayoutRibbonContextTitles(_ribbon, this)
+            {
+                ReverseRenderOrder = true
+            };
 
             // Create composition right border and attach to composition area
             _compRightBorder = new ViewDrawRibbonCompoRightBorder();
@@ -1189,7 +1171,7 @@ namespace Krypton.Ribbon
             bool integrated = false;
 
             // Are we inside a KryptonForm instance that is using custom chrome?
-            if ((_kryptonForm != null) && _kryptonForm.ApplyCustomChrome)
+            if (_kryptonForm is { ApplyCustomChrome: true })
             {
                 // Ribbon must be placed at the top left of the forms client area
                 if (_ribbon.Location == Point.Empty)

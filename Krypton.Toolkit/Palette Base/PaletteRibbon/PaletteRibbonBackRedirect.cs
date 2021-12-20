@@ -2,19 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.ComponentModel;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -37,8 +32,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteRibbonBackRedirect class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
-        /// <param name="backStyle">Inheritence ribbon back style.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
+        /// <param name="backStyle">inheritance ribbon back style.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteRibbonBackRedirect(PaletteRedirect redirect,
                                          PaletteRibbonBackStyle backStyle,
@@ -66,10 +61,8 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect)
-        {
-            _inheritBack.SetRedirector(redirect);
-        }
+        public void SetRedirector(PaletteRedirect redirect) => _inheritBack.SetRedirector(redirect);
+
         #endregion
 
         #region IsDefault
@@ -91,10 +84,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public PaletteRibbonColorStyle GetRibbonBackColorStyle(PaletteState state)
-        {
-            return _inheritBack.GetRibbonBackColorStyle(state);
-        }
+        public PaletteRibbonColorStyle GetRibbonBackColorStyle(PaletteState state) => _inheritBack.GetRibbonBackColorStyle(state);
+
         #endregion
 
         #region BackColor1
@@ -105,7 +96,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("First background color for the ribbon item.")]
         [DefaultValue(typeof(Color), "")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Color BackColor1
         {
             get => _backColor1;
@@ -120,10 +111,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>
-        /// Reset the BackColor1 to the default value.
-        /// </summary>
-        public void ResetBackColor1() => BackColor1 = Color.Empty;
+        private bool ShouldSerializeBackColor1() => BackColor1 != Color.Empty;
+        private void ResetBackColor1() => BackColor1 = Color.Empty;
 
         /// <summary>
         /// Gets the first background color for the ribbon item.
@@ -143,7 +132,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Second background color for the ribbon item.")]
         [DefaultValue(typeof(Color), "")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Color BackColor2
         {
             get => _backColor2;
@@ -158,10 +147,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>
-        /// Reset the BackColor2 to the default value.
-        /// </summary>
-        public void ResetBackColor2() => BackColor2 = Color.Empty;
+        private bool ShouldSerializeBackColor2() => BackColor2 != Color.Empty;
+        private void ResetBackColor2() => BackColor2 = Color.Empty;
 
         /// <summary>
         /// Gets the second background color for the ribbon item.
@@ -181,7 +168,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Third background color for the ribbon item.")]
         [DefaultValue(typeof(Color), "")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Color BackColor3
         {
             get => _backColor3;
@@ -196,10 +183,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>
-        /// Reset the BackColor3 to the default value.
-        /// </summary>
-        public void ResetBackColor3() => BackColor3 = Color.Empty;
+        private bool ShouldSerializeBackColor3() => BackColor3 != Color.Empty;
+        private void ResetBackColor3() => BackColor3 = Color.Empty;
 
         /// <summary>
         /// Gets the third background color for the ribbon item.
@@ -219,7 +204,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Fourth background color for the ribbon item.")]
         [DefaultValue(typeof(Color), "")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Color BackColor4
         {
             get => _backColor4;
@@ -234,10 +219,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>
-        /// Reset the BackColor4 to the default value.
-        /// </summary>
-        public void ResetBackColor4() => BackColor4 = Color.Empty;
+        private bool ShouldSerializeBackColor4() => BackColor4 != Color.Empty;
+        private void ResetBackColor4() => BackColor4 = Color.Empty;
 
         /// <summary>
         /// Gets the fourth background color for the ribbon item.
@@ -257,7 +240,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Fifth background color for the ribbon item.")]
         [DefaultValue(typeof(Color), "")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Color BackColor5
         {
             get => _backColor5;
@@ -272,10 +255,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>
-        /// Reset the BackColor5 to the default value.
-        /// </summary>
-        public void ResetBackColor5() => BackColor5 = Color.Empty;
+        private bool ShouldSerializeBackColor5() => BackColor5 != Color.Empty;
+        private void ResetBackColor5() => BackColor5 = Color.Empty;
 
         /// <summary>
         /// Gets the fifth background color for the ribbon item.

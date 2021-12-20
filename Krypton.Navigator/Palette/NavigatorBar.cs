@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.ComponentModel;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Navigator
 {
@@ -29,8 +22,8 @@ namespace Krypton.Navigator
         private const int _defaultBarMinimumHeight = 21;
         private const int _defaultBarFirstItemInset = 0;
         private const int _defaultBarLastItemInset = 0;
-        private static readonly Size _defaultItemMinimumSize = new Size(20, 20);
-        private static readonly Size _defaultItemMaximumSize = new Size(200, 200);
+        private static readonly Size _defaultItemMinimumSize = new(20, 20);
+        private static readonly Size _defaultItemMaximumSize = new(200, 200);
         #endregion
 
         #region Instance Fields
@@ -123,7 +116,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Should animation effects be used on the bar.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(true)]
         public bool BarAnimation
         {
@@ -134,7 +127,7 @@ namespace Krypton.Navigator
                 if (_barAnimation != value)
                 {
                     _barAnimation = value;
-                    _navigator.OnViewBuilderPropertyChanged("BarAnimation");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(BarAnimation));
                 }
             }
         }
@@ -154,7 +147,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Orientation for positioning of the bar.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(VisualOrientation), "Top")]
         public VisualOrientation BarOrientation
         {
@@ -165,7 +158,7 @@ namespace Krypton.Navigator
                 if (_barOrientation != value)
                 {
                     _barOrientation = value;
-                    _navigator.OnViewBuilderPropertyChanged("BarOrientation");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(BarOrientation));
                 }
             }
         }
@@ -185,7 +178,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Distance to inset the first bar item.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(0)]
         public int BarFirstItemInset
         {
@@ -196,7 +189,7 @@ namespace Krypton.Navigator
                 if (_barFirstItemInset != value)
                 {
                     _barFirstItemInset = value;
-                    _navigator.OnViewBuilderPropertyChanged("BarFirstItemInset");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(BarFirstItemInset));
                 }
             }
         }
@@ -216,7 +209,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Distance to inset the last bar item.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(0)]
         public int BarLastItemInset
         {
@@ -227,7 +220,7 @@ namespace Krypton.Navigator
                 if (_barLastItemInset != value)
                 {
                     _barLastItemInset = value;
-                    _navigator.OnViewBuilderPropertyChanged("BarLastItemInset");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(BarLastItemInset));
                 }
             }
         }
@@ -247,7 +240,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Minimum height of the bar.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(21)]
         public int BarMinimumHeight
         {
@@ -258,7 +251,7 @@ namespace Krypton.Navigator
                 if (_barMinimumHeight != value)
                 {
                     _barMinimumHeight = value;
-                    _navigator.OnViewBuilderPropertyChanged("BarMinimumHeight");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(BarMinimumHeight));
                 }
             }
         }
@@ -278,7 +271,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Multiline items in the bar.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(BarMultiline), "Singleline")]
         public BarMultiline BarMultiline
         {
@@ -289,7 +282,7 @@ namespace Krypton.Navigator
                 if (_barMultiline != value)
                 {
                     _barMultiline = value;
-                    _navigator.OnViewBuilderPropertyChanged("BarMultiline");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(BarMultiline));
                 }
             }
         }
@@ -375,7 +368,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Alignment of items within the bar.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(RelativePositionAlign), "Near")]
         public RelativePositionAlign ItemAlignment
         {
@@ -386,7 +379,7 @@ namespace Krypton.Navigator
                 if (_itemAlignment != value)
                 {
                     _itemAlignment = value;
-                    _navigator.OnViewBuilderPropertyChanged("ItemAlignment");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(ItemAlignment));
                 }
             }
         }
@@ -406,7 +399,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Minimum size of each bar item.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(Size), "20,20")]
         public Size ItemMinimumSize
         {
@@ -437,7 +430,7 @@ namespace Krypton.Navigator
                     }
 
                     _itemMinimumSize = value;
-                    _navigator.OnViewBuilderPropertyChanged("ItemMinimumSize");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(ItemMinimumSize));
                 }
             }
         }
@@ -457,7 +450,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Minimum size of each bar item.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(Size), "200,200")]
         public Size ItemMaximumSize
         {
@@ -488,7 +481,7 @@ namespace Krypton.Navigator
                     }
 
                     _itemMaximumSize = value;
-                    _navigator.OnViewBuilderPropertyChanged("ItemMaximumSize");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(ItemMaximumSize));
                 }
             }
         }
@@ -508,7 +501,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Orientation for positioning items on the bar.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(ButtonOrientation), "Auto")]
         public ButtonOrientation ItemOrientation
         {
@@ -539,7 +532,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("How to calculate the size of each bar item.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(BarItemSizing), "All Same Height")]
         public BarItemSizing ItemSizing
         {
@@ -550,7 +543,7 @@ namespace Krypton.Navigator
                 if (_itemSizing != value)
                 {
                     _itemSizing = value;
-                    _navigator.OnViewBuilderPropertyChanged("ItemSizing");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(ItemSizing));
                 }
             }
         }
@@ -571,7 +564,7 @@ namespace Krypton.Navigator
         [Localizable(true)]
         [Category("Visuals")]
         [Description("Mapping used for the bar item image.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(MapKryptonPageImage), "Small")]
         public virtual MapKryptonPageImage BarMapImage
         {
@@ -602,7 +595,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Mapping used for the bar item text.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(MapKryptonPageText), "Text - Title")]
         public MapKryptonPageText BarMapText
         {
@@ -633,7 +626,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Mapping used for the bar item description.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(MapKryptonPageText), "None (Empty string)")]
         public MapKryptonPageText BarMapExtraText
         {

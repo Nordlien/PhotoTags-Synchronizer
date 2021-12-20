@@ -2,17 +2,13 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
-
-using System.ComponentModel;
 
 namespace Krypton.Toolkit
 {
@@ -48,10 +44,8 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect)
-        {
-            StateCommon.SetRedirector(redirect);
-        }
+        public void SetRedirector(PaletteRedirect redirect) => StateCommon.SetRedirector(redirect);
+
         #endregion
 
         #region IsDefault
@@ -92,10 +86,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContextMenuRedirect StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
+
         #endregion
 
         #region StateDisabled
@@ -108,10 +100,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContextMenuItemState StateDisabled { get; }
 
-        private bool ShouldSerializeStateDisabled()
-        {
-            return !StateDisabled.IsDefault;
-        }
+        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
+
         #endregion
 
         #region StateNormal
@@ -124,10 +114,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContextMenuItemState StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
+
         #endregion
 
         #region StateHighlight
@@ -140,10 +128,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContextMenuItemStateHighlight StateHighlight { get; }
 
-        private bool ShouldSerializeStateHighlight()
-        {
-            return !StateHighlight.IsDefault;
-        }
+        private bool ShouldSerializeStateHighlight() => !StateHighlight.IsDefault;
+
         #endregion
 
         #region StateChecked
@@ -156,10 +142,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContextMenuItemStateChecked StateChecked { get; }
 
-        private bool ShouldSerializeStateChecked()
-        {
-            return !StateChecked.IsDefault;
-        }
+        private bool ShouldSerializeStateChecked() => !StateChecked.IsDefault;
+
         #endregion
     }
 }

@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.ComponentModel;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -58,7 +52,7 @@ namespace Krypton.Toolkit
             _blockSize = colorColumns.BlockSize;
 
             // Use context menu specific version of the radio button controller
-            MenuColorBlockController mcbc = new MenuColorBlockController(provider.ProviderViewManager, this, this, provider.ProviderNeedPaintDelegate);
+            MenuColorBlockController mcbc = new(provider.ProviderViewManager, this, this, provider.ProviderNeedPaintDelegate);
             mcbc.Click += OnClick;
             MouseController = mcbc;
             KeyController = mcbc;
@@ -68,11 +62,10 @@ namespace Krypton.Toolkit
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawMenuColorBlock:" + Id;
-        }
+            "ViewDrawMenuColorBlock:" + Id;
+
         #endregion
         
         #region ItemEnabled
@@ -104,10 +97,8 @@ namespace Krypton.Toolkit
         /// Raises the Closing event on the provider.
         /// </summary>
         /// <param name="cea">A CancelEventArgs containing the event data.</param>
-        public void Closing(CancelEventArgs cea)
-        {
-            _provider.OnClosing(cea);
-        }
+        public void Closing(CancelEventArgs cea) => _provider.OnClosing(cea);
+
         #endregion
 
         #region Close
@@ -115,10 +106,8 @@ namespace Krypton.Toolkit
         /// Raises the Close event on the provider.
         /// </summary>
         /// <param name="e">A CancelEventArgs containing the event data.</param>
-        public void Close(CloseReasonEventArgs e)
-        {
-            _provider.OnClose(e);
-        }
+        public void Close(CloseReasonEventArgs e) => _provider.OnClose(e);
+
         #endregion
 
         #region Color
@@ -141,12 +130,7 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // Validate incoming reference
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
-
-            return _blockSize;
+            return context == null ? throw new ArgumentNullException(nameof(context)) : _blockSize;
         }
 
         /// <summary>
@@ -207,10 +191,8 @@ namespace Krypton.Toolkit
             }
 
             // Draw ourself in the designated color
-            using (SolidBrush brush = new SolidBrush(Color))
-            {
-                context.Graphics.FillRectangle(brush, drawRect);
-            }
+            using SolidBrush brush = new(Color);
+            context.Graphics.FillRectangle(brush, drawRect);
         }
 
         /// <summary>
@@ -262,12 +244,10 @@ namespace Krypton.Toolkit
             if (!outside.IsEmpty && !inside.IsEmpty)
             {
                 // Draw the outside and inside areas of the block
-                using (Pen outsidePen = new Pen(outside),
-                           insidePen = new Pen(inside))
-                {
-                    context.Graphics.DrawRectangle(outsidePen, ClientLocation.X, ClientLocation.Y, ClientWidth - 1, ClientHeight - 1);
-                    context.Graphics.DrawRectangle(insidePen, ClientLocation.X + 1, ClientLocation.Y + 1, ClientWidth - 3, ClientHeight - 3);
-                }
+                using Pen outsidePen = new(outside),
+                    insidePen = new(inside);
+                context.Graphics.DrawRectangle(outsidePen, ClientLocation.X, ClientLocation.Y, ClientWidth - 1, ClientHeight - 1);
+                context.Graphics.DrawRectangle(insidePen, ClientLocation.X + 1, ClientLocation.Y + 1, ClientWidth - 3, ClientHeight - 3);
             }
         }
         #endregion

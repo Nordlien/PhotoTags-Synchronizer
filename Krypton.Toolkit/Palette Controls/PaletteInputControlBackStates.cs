@@ -2,19 +2,13 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
-
-using System.Drawing;
-using System.ComponentModel;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -62,7 +56,7 @@ namespace Krypton.Toolkit
 
         #region SetInherit
         /// <summary>
-        /// Sets the inheritence parent.
+        /// Sets the inheritance parent.
         /// </summary>
         public void SetInherit(IPaletteBack inherit)
         {
@@ -88,10 +82,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>InheritBool value.</returns>
-        public InheritBool GetBackDraw(PaletteState state)
-        {
-            return Inherit.GetBackDraw(state);
-        }
+        public InheritBool GetBackDraw(PaletteState state) => Inherit.GetBackDraw(state);
+
         #endregion
 
         #region GraphicsHint
@@ -100,10 +92,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteGraphicsHint value.</returns>
-        public PaletteGraphicsHint GetBackGraphicsHint(PaletteState state)
-        {
-            return Inherit.GetBackGraphicsHint(state);
-        }
+        public PaletteGraphicsHint GetBackGraphicsHint(PaletteState state) => Inherit.GetBackGraphicsHint(state);
+
         #endregion
 
         #region Color1
@@ -113,8 +103,8 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Main background color.")]
-        [KryptonDefaultColorAttribute()]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [KryptonDefaultColor()]
+        [RefreshProperties(RefreshProperties.All)]
         public Color Color1
         {
             get => _color1;
@@ -134,17 +124,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetBackColor1(PaletteState state)
-        {
-            if (Color1 != Color.Empty)
-            {
-                return Color1;
-            }
-            else
-            {
-                return Inherit.GetBackColor1(state);
-            }
-        }
+        public Color GetBackColor1(PaletteState state) => Color1 != Color.Empty ? Color1 : Inherit.GetBackColor1(state);
+
         #endregion
 
         #region Color2
@@ -153,10 +134,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetBackColor2(PaletteState state)
-        {
-            return Inherit.GetBackColor2(state);
-        }
+        public Color GetBackColor2(PaletteState state) => Inherit.GetBackColor2(state);
+
         #endregion
 
         #region ColorStyle
@@ -165,10 +144,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color drawing style.</returns>
-        public PaletteColorStyle GetBackColorStyle(PaletteState state)
-        {
-            return Inherit.GetBackColorStyle(state);
-        }
+        public PaletteColorStyle GetBackColorStyle(PaletteState state) => Inherit.GetBackColorStyle(state);
+
         #endregion
 
         #region ColorAlign
@@ -177,10 +154,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color alignment style.</returns>
-        public PaletteRectangleAlign GetBackColorAlign(PaletteState state)
-        {
-            return Inherit.GetBackColorAlign(state);
-        }
+        public PaletteRectangleAlign GetBackColorAlign(PaletteState state) => Inherit.GetBackColorAlign(state);
+
         #endregion
 
         #region ColorAngle
@@ -189,10 +164,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Angle used for color drawing.</returns>
-        public float GetBackColorAngle(PaletteState state)
-        {
-            return Inherit.GetBackColorAngle(state);
-        }
+        public float GetBackColorAngle(PaletteState state) => Inherit.GetBackColorAngle(state);
+
         #endregion
 
         #region Image
@@ -201,10 +174,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetBackImage(PaletteState state)
-        {
-            return Inherit.GetBackImage(state);
-        }
+        public Image GetBackImage(PaletteState state) => Inherit.GetBackImage(state);
+
         #endregion
 
         #region ImageStyle
@@ -213,10 +184,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image style value.</returns>
-        public PaletteImageStyle GetBackImageStyle(PaletteState state)
-        {
-            return Inherit.GetBackImageStyle(state);
-        }
+        public PaletteImageStyle GetBackImageStyle(PaletteState state) => Inherit.GetBackImageStyle(state);
+
         #endregion
 
         #region ImageAlign
@@ -225,15 +194,13 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image alignment style.</returns>
-        public PaletteRectangleAlign GetBackImageAlign(PaletteState state)
-        {
-            return Inherit.GetBackImageAlign(state);
-        }
+        public PaletteRectangleAlign GetBackImageAlign(PaletteState state) => Inherit.GetBackImageAlign(state);
+
         #endregion
 
         #region Protected
         /// <summary>
-        /// Gets the inheritence parent.
+        /// Gets the inheritance parent.
         /// </summary>
         protected IPaletteBack Inherit { get; private set; }
 

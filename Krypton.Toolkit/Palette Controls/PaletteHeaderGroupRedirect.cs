@@ -2,19 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -34,7 +29,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteHeaderGroupRedirect class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteHeaderGroupRedirect(PaletteRedirect redirect,
                                           NeedPaintHandler needPaint)
@@ -45,9 +40,9 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteHeaderGroupRedirect class.
         /// </summary>
-        /// <param name="redirectHeaderGroup">Inheritence redirection for header group.</param>
-        /// <param name="redirectHeaderPrimary">Inheritence redirection for primary header.</param>
-        /// <param name="redirectHeaderSecondary">Inheritence redirection for secondary header.</param>
+        /// <param name="redirectHeaderGroup">inheritance redirection for header group.</param>
+        /// <param name="redirectHeaderPrimary">inheritance redirection for primary header.</param>
+        /// <param name="redirectHeaderSecondary">inheritance redirection for secondary header.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteHeaderGroupRedirect(PaletteRedirect redirectHeaderGroup,
                                           PaletteRedirect redirectHeaderPrimary,
@@ -93,10 +88,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteHeaderPaddingRedirect HeaderPrimary { get; }
 
-        private bool ShouldSerializeHeaderPrimary()
-        {
-            return !HeaderPrimary.IsDefault;
-        }
+        private bool ShouldSerializeHeaderPrimary() => !HeaderPrimary.IsDefault;
+
         #endregion
 
         #region HeaderSecondary
@@ -108,10 +101,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteHeaderPaddingRedirect HeaderSecondary { get; }
 
-        private bool ShouldSerializeHeaderSecondary()
-        {
-            return !HeaderSecondary.IsDefault;
-        }
+        private bool ShouldSerializeHeaderSecondary() => !HeaderSecondary.IsDefault;
+
         #endregion
 
         #region OverlayHeaders
@@ -121,7 +112,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Should headers overlay the border.")]
         [DefaultValue(typeof(InheritBool), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public InheritBool OverlayHeaders
         {
             get => _overlayHeaders;
@@ -144,11 +135,9 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Integer value.</returns>
-        public int GetMetricInt(PaletteState state, PaletteMetricInt metric)
-        {
+        public int GetMetricInt(PaletteState state, PaletteMetricInt metric) =>
             // Pass onto the inheritance
-            return _redirect.GetMetricInt(state, metric);
-        }
+            _redirect.GetMetricInt(state, metric);
 
         /// <summary>
         /// Gets a boolean metric value.
@@ -178,11 +167,10 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Padding value.</returns>
-        public Padding GetMetricPadding(PaletteState state, PaletteMetricPadding metric)
-        {
+        public Padding GetMetricPadding(PaletteState state, PaletteMetricPadding metric) =>
             // Always pass onto the inheritance
-            return _redirect.GetMetricPadding(state, metric);
-        }
+            _redirect.GetMetricPadding(state, metric);
+
         #endregion
     }
 }

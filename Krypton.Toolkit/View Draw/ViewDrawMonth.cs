@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Globalization;
 
 namespace Krypton.Toolkit
 {
@@ -111,9 +105,9 @@ namespace Krypton.Toolkit
                                                        _calendar.GetToolStripDelegate, needPaintDelegate);
 
             // Create stacks for holding display items
-            ViewLayoutStack namesStack = new ViewLayoutStack(true);
-            ViewLayoutStack weeksStack = new ViewLayoutStack(true);
-            ViewLayoutStack daysStack = new ViewLayoutStack(false);
+            ViewLayoutStack namesStack = new(true);
+            ViewLayoutStack weeksStack = new(true);
+            ViewLayoutStack daysStack = new(false);
             _numberStack = new ViewLayoutStack(false);
             weeksStack.Add(_numberStack);
             weeksStack.Add(daysStack);
@@ -131,7 +125,7 @@ namespace Krypton.Toolkit
             _borderEdge = new PaletteBorderEdge(_borderEdgeRedirect, null);
             _drawBorderEdge = new ViewDrawBorderEdge(_borderEdge, Orientation.Vertical);
             _drawWeekNumbers = new ViewDrawWeekNumbers(_calendar, _months);
-            ViewLayoutDocker borderLeftDock = new ViewLayoutDocker
+            ViewLayoutDocker borderLeftDock = new()
             {
                 { _drawWeekNumbers, ViewDockStyle.Left },
                 { new ViewLayoutSeparator(0, 4), ViewDockStyle.Top },
@@ -141,10 +135,10 @@ namespace Krypton.Toolkit
             _numberStack.Add(borderLeftDock);
 
             // Add border between day names and individual days
-            PaletteBorderEdgeRedirect borderEdgeRedirect = new PaletteBorderEdgeRedirect(_calendar.StateNormal.Header.Border, null);
-            PaletteBorderEdge borderEdge = new PaletteBorderEdge(borderEdgeRedirect, null);
-            ViewDrawBorderEdge drawBorderEdge = new ViewDrawBorderEdge(borderEdge, Orientation.Horizontal);
-            ViewLayoutDocker borderTopDock = new ViewLayoutDocker
+            PaletteBorderEdgeRedirect borderEdgeRedirect = new(_calendar.StateNormal.Header.Border, null);
+            PaletteBorderEdge borderEdge = new(borderEdgeRedirect, null);
+            ViewDrawBorderEdge drawBorderEdge = new(borderEdge, Orientation.Horizontal);
+            ViewLayoutDocker borderTopDock = new()
             {
                 { new ViewLayoutSeparator(4, 1), ViewDockStyle.Left },
                 { drawBorderEdge, ViewDockStyle.Fill },
@@ -165,11 +159,10 @@ namespace Krypton.Toolkit
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawMonth:" + Id;
-        }
+            "ViewDrawMonth:" + Id;
+
         #endregion
 
         #region Public
@@ -274,38 +267,27 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state)
-        {
-            return null;
-        }
+        public Image GetImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the image color that should be transparent.
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Color value.</returns>
-        public Color GetImageTransparentColor(PaletteState state)
-        {
-            return Color.Empty;
-        }
+        public Color GetImageTransparentColor(PaletteState state) => Color.Empty;
 
         /// <summary>
         /// Gets the content short text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetShortText()
-        {
-            return _header;
-        }
+        public string GetShortText() => _header;
 
         /// <summary>
         /// Gets the content long text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetLongText()
-        {
-            return string.Empty;
-        }
+        public string GetLongText() => string.Empty;
+
         #endregion
 
         #region Implementation
@@ -317,15 +299,10 @@ namespace Krypton.Toolkit
             _numberStack.Visible = showWeekNumbers;
         }
 
-        private void OnNextMonth(object sender, EventArgs e)
-        {
-            _months.NextMonth();
-        }
+        private void OnNextMonth(object sender, EventArgs e) => _months.NextMonth();
 
-        private void OnPrevMonth(object sender, EventArgs e)
-        {
-            _months.PrevMonth();
-        }
+        private void OnPrevMonth(object sender, EventArgs e) => _months.PrevMonth();
+
         #endregion
     }
 }

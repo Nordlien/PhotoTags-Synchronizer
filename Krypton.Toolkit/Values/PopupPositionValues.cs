@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.ComponentModel;
-using System.Drawing;
 
 namespace Krypton.Toolkit
 {
@@ -55,10 +51,7 @@ namespace Krypton.Toolkit
         [DefaultValue(typeof(PlacementMode), "Bottom")]
         public PlacementMode PlacementMode { get; set; }
 
-        private bool ShouldSerializePlacementMode()
-        {
-            return PlacementMode != PlacementMode.Bottom;
-        }
+        private bool ShouldSerializePlacementMode() => PlacementMode != PlacementMode.Bottom;
 
         /// <summary>
         /// Resets the PlacementMode property to its default value.
@@ -74,10 +67,7 @@ namespace Krypton.Toolkit
         [Description("The element relative to which the Popup is positioned when it opens.")]
         public ViewBase PlacementTarget { get; set; }
 
-        private bool ShouldSerializePlacementTarget()
-        {
-            return PlacementTarget != null;
-        }
+        private bool ShouldSerializePlacementTarget() => PlacementTarget != null;
 
         /// <summary>
         /// Resets the PlacementTarget property to its default value.
@@ -93,10 +83,7 @@ namespace Krypton.Toolkit
         [Description("The rectangle relative to which the Popup control is positioned when it opens.")]
         public Rectangle PlacementRectangle { get; set; }
 
-        private bool ShouldSerializePlacementRectangle()
-        {
-            return !PlacementRectangle.IsEmpty;
-        }
+        private bool ShouldSerializePlacementRectangle() => !PlacementRectangle.IsEmpty;
 
         /// <summary>
         /// Resets the ToolTipStyle property to its default value.

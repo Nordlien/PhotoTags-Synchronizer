@@ -2,24 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Drawing;
-using System.Reflection;
-using System.Windows.Forms;
-
-using Microsoft.Win32;
 
 namespace Krypton.Toolkit
 {
@@ -304,10 +294,7 @@ namespace Krypton.Toolkit
         /// Fires the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        public void PerformNeedPaint(bool needLayout)
-        {
-            OnNeedPaint(this, new NeedLayoutEventArgs(needLayout));
-        }
+        public void PerformNeedPaint(bool needLayout) => OnNeedPaint(this, new NeedLayoutEventArgs(needLayout));
 
         /// <summary>
         /// Gets or sets the palette to be applied.
@@ -349,10 +336,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializePaletteMode()
-        {
-            return (PaletteMode != PaletteMode.Global);
-        }
+        private bool ShouldSerializePaletteMode() => (PaletteMode != PaletteMode.Global);
 
         /// <summary>
         /// Resets the PaletteMode property to its default value.
@@ -440,10 +424,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public ToolStripRenderer CreateToolStripRenderer()
-        {
-            return Renderer.RenderToolStrip(GetResolvedPalette());
-        }
+        public ToolStripRenderer CreateToolStripRenderer() => Renderer.RenderToolStrip(GetResolvedPalette());
 
         /// <summary>
         /// Gets or sets the background image displayed in the control.
@@ -508,7 +489,7 @@ namespace Krypton.Toolkit
                 if (KryptonContextMenu != null)
                 {
                     // Extract the screen mouse position (if might not actually be provided)
-                    Point mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                    Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                     // If keyboard activated, the menu position is centered
                     if (((int)((long)m.LParam)) == -1)
@@ -537,13 +518,7 @@ namespace Krypton.Toolkit
                 }
             }
 
-            try
-            {
-                base.WndProc(ref m);
-            } catch
-            {
-                //JTN Added
-            }
+            base.WndProc(ref m);
         }
 
         /// <summary>
@@ -606,10 +581,7 @@ namespace Krypton.Toolkit
         /// Reset the internal counters.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void KryptonResetCounters()
-        {
-            ViewManager.ResetCounters();
-        }
+        public void KryptonResetCounters() => ViewManager.ResetCounters();
 
         /// <summary>
         /// Gets the number of layout cycles performed since last reset.
@@ -732,10 +704,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public IPalette GetResolvedPalette()
-        {
-            return _palette;
-        }
+        public IPalette GetResolvedPalette() => _palette;
+
         #endregion
 
         #region Protected Virtual
@@ -744,10 +714,7 @@ namespace Krypton.Toolkit
         /// Raises the Initialized event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnInitialized(EventArgs e)
-        {
-            Initialized?.Invoke(this, EventArgs.Empty);
-        }
+        protected virtual void OnInitialized(EventArgs e) => Initialized?.Invoke(this, EventArgs.Empty);
 
         /// <summary>
         /// Raises the PaletteChanged event.
@@ -768,11 +735,9 @@ namespace Krypton.Toolkit
         /// Work out if this control needs to paint transparent areas.
         /// </summary>
         /// <returns>True if paint required; otherwise false.</returns>
-        protected virtual bool EvalTransparentPaint()
-        {
+        protected virtual bool EvalTransparentPaint() =>
             // Do we have a manager to use for asking about painting?
-            return ViewManager != null && ViewManager.EvalTransparentPaint(Renderer);
-        }
+            ViewManager != null && ViewManager.EvalTransparentPaint(Renderer);
 
         /// <summary>
         /// Work out if this control needs to use Invoke to force a repaint.
@@ -825,7 +790,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new Size(100, 100);
+        protected override Size DefaultSize => new(100, 100);
 
         /// <summary>
         /// Raises the RightToLeftChanged event.
@@ -1191,10 +1156,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
-        {
-            PerformNeedPaint(true);
-        }
+        private void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e) => PerformNeedPaint(true);
 
         private void OnContextMenuStripOpening(object sender, CancelEventArgs e)
         {
@@ -1213,10 +1175,8 @@ namespace Krypton.Toolkit
             KryptonContextMenu = null;
         }
 
-        private void OnContextMenuClosed(object sender, ToolStripDropDownClosedEventArgs e)
-        {
-            ContextMenuClosed();
-        }
+        private void OnContextMenuClosed(object sender, ToolStripDropDownClosedEventArgs e) => ContextMenuClosed();
+
         #endregion
     }
 }

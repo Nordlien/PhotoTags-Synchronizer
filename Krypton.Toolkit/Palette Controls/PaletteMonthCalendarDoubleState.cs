@@ -2,17 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.ComponentModel;
 
 namespace Krypton.Toolkit
 {
@@ -29,7 +26,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteMonthCalendarDoubleState class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         public PaletteMonthCalendarDoubleState(PaletteMonthCalendarRedirect redirect)
             : this(redirect, null)
         {
@@ -38,7 +35,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteMonthCalendarDoubleState class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteMonthCalendarDoubleState(PaletteMonthCalendarRedirect redirect,
                                                NeedPaintHandler needPaint) 
@@ -71,10 +68,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple Header { get; }
 
-        private bool ShouldSerializeHeader()
-        {
-            return !Header.IsDefault;
-        }
+        private bool ShouldSerializeHeader() => !Header.IsDefault;
+
         #endregion
 
         #region Day
@@ -86,10 +81,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple Day { get; }
 
-        private bool ShouldSerializeDay()
-        {
-            return !Day.IsDefault;
-        }
+        private bool ShouldSerializeDay() => !Day.IsDefault;
+
         #endregion
 
         #region DayOfWeek
@@ -101,10 +94,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple DayOfWeek { get; }
 
-        private bool ShouldSerializeDayOfWeek()
-        {
-            return !DayOfWeek.IsDefault;
-        }
+        private bool ShouldSerializeDayOfWeek() => !DayOfWeek.IsDefault;
+
         #endregion
     }
 }

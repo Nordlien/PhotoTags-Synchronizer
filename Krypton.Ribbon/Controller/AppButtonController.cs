@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -34,7 +28,7 @@ namespace Krypton.Ribbon
         private bool _mouseDown;
         private bool _fixedPressed;
         private bool _hasFocus;
-        private readonly Timer _updateTimer;
+        private readonly System.Windows.Forms.Timer _updateTimer;
         #endregion
 
         #region Events
@@ -61,7 +55,7 @@ namespace Krypton.Ribbon
         public AppButtonController(KryptonRibbon ribbon)
         {
             _ribbon = ribbon;
-            _updateTimer = new Timer
+            _updateTimer = new System.Windows.Forms.Timer
             {
                 Interval = 1
             };
@@ -376,10 +370,8 @@ namespace Krypton.Ribbon
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public bool KeyUp(Control c, KeyEventArgs e)
-        {
-            return false;
-        }
+        public bool KeyUp(Control c, KeyEventArgs e) => false;
+
         #endregion
 
         #region KeyTipSelect
@@ -461,17 +453,17 @@ namespace Krypton.Ribbon
 
             if (needPaint)
             {
-                if ((Target1 != null) && !Target1.ClientRectangle.IsEmpty)
+                if (Target1 is { ClientRectangle: { IsEmpty: false } })
                 {
                     OnNeedPaint(false, Target1.ClientRectangle);
                 }
 
-                if ((Target2 != null) && !Target2.ClientRectangle.IsEmpty)
+                if (Target2 is { ClientRectangle: { IsEmpty: false } })
                 {
                     OnNeedPaint(false, Target2.ClientRectangle);
                 }
 
-                if ((Target3 != null) && !Target3.ClientRectangle.IsEmpty)
+                if (Target3 is { ClientRectangle: { IsEmpty: false } })
                 {
                     OnNeedPaint(false, Target3.ClientRectangle);
                 }

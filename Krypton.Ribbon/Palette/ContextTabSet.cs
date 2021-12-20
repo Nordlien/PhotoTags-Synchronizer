@@ -2,19 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -58,30 +53,21 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="tab">Tab to test.</param>
         /// <returns>True if first; otherwise false.</returns>
-        public bool IsFirstTab(ViewDrawRibbonTab tab)
-        {
-            return (tab == FirstTab);
-        }
+        public bool IsFirstTab(ViewDrawRibbonTab tab) => (tab == FirstTab);
 
         /// <summary>
         /// Gets a value indicating if the tab is the last in set.
         /// </summary>
         /// <param name="tab">Tab to test.</param>
         /// <returns>True if last; otherwise false.</returns>
-        public bool IsLastTab(ViewDrawRibbonTab tab)
-        {
-            return (tab == _lastTab);
-        }
+        public bool IsLastTab(ViewDrawRibbonTab tab) => (tab == _lastTab);
 
         /// <summary>
         /// Gets a value indicating if the tab is the first or last in set.
         /// </summary>
         /// <param name="tab">Tab to test.</param>
         /// <returns>True if first or last; otherwise false.</returns>
-        public bool IsFirstOrLastTab(ViewDrawRibbonTab tab)
-        {
-            return ((tab == FirstTab) || (tab == _lastTab));
-        }
+        public bool IsFirstOrLastTab(ViewDrawRibbonTab tab) => ((tab == FirstTab) || (tab == _lastTab));
 
         /// <summary>
         /// Update the last tab in the set with new refernece.
@@ -99,7 +85,7 @@ namespace Krypton.Ribbon
         /// <returns>Screen position.</returns>
         public Point GetLeftScreenPosition()
         {
-            Point ret = new Point(FirstTab.ClientLocation.X - 1, FirstTab.ClientLocation.Y);
+            Point ret = new(FirstTab.ClientLocation.X - 1, FirstTab.ClientLocation.Y);
 
             if (FirstTab.OwningControl != null)
             {
@@ -115,7 +101,7 @@ namespace Krypton.Ribbon
         /// <returns>Screen position.</returns>
         public Point GetRightScreenPosition()
         {
-            Point ret = new Point(_lastTab.ClientRectangle.Right + 1, _lastTab.ClientLocation.Y);
+            Point ret = new(_lastTab.ClientRectangle.Right + 1, _lastTab.ClientLocation.Y);
 
             if (_lastTab.OwningControl != null)
             {

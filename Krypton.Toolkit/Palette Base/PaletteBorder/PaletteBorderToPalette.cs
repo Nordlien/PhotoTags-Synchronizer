@@ -2,17 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
 
 namespace Krypton.Toolkit
 {
@@ -55,10 +52,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>InheritBool value.</returns>
-        public InheritBool GetBorderDraw(PaletteState state)
-        {
-            return _palette.GetBorderDraw(BorderStyle, state);
-        }
+        public InheritBool GetBorderDraw(PaletteState state) => _palette.GetBorderDraw(BorderStyle, state);
+
         #endregion
 
         #region DrawBorders
@@ -67,10 +62,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteDrawBorders value.</returns>
-        public PaletteDrawBorders GetBorderDrawBorders(PaletteState state)
-        {
-            return _palette.GetBorderDrawBorders(BorderStyle, state);
-        }
+        public PaletteDrawBorders GetBorderDrawBorders(PaletteState state) => _palette.GetBorderDrawBorders(BorderStyle, state);
+
         #endregion
 
         #region GraphicsHint
@@ -79,10 +72,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteGraphicsHint value.</returns>
-        public PaletteGraphicsHint GetBorderGraphicsHint(PaletteState state)
-        {
-            return _palette.GetBorderGraphicsHint(BorderStyle, state);
-        }
+        public PaletteGraphicsHint GetBorderGraphicsHint(PaletteState state) => _palette.GetBorderGraphicsHint(BorderStyle, state);
+
         #endregion
 
         #region Color1
@@ -91,10 +82,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetBorderColor1(PaletteState state)
-        {
-            return _palette.GetBorderColor1(BorderStyle, state);
-        }
+        public Color GetBorderColor1(PaletteState state) => _palette.GetBorderColor1(BorderStyle, state);
+
         #endregion
 
         #region Color2
@@ -103,10 +92,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetBorderColor2(PaletteState state)
-        {
-            return _palette.GetBorderColor2(BorderStyle, state);
-        }
+        public Color GetBorderColor2(PaletteState state) => _palette.GetBorderColor2(BorderStyle, state);
+
         #endregion
 
         #region ColorStyle
@@ -115,10 +102,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color drawing style.</returns>
-        public PaletteColorStyle GetBorderColorStyle(PaletteState state)
-        {
-            return _palette.GetBorderColorStyle(BorderStyle, state);
-        }
+        public PaletteColorStyle GetBorderColorStyle(PaletteState state) => _palette.GetBorderColorStyle(BorderStyle, state);
+
         #endregion
 
         #region ColorAlign
@@ -127,10 +112,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color alignment style.</returns>
-        public PaletteRectangleAlign GetBorderColorAlign(PaletteState state)
-        {
-            return _palette.GetBorderColorAlign(BorderStyle, state);
-        }
+        public PaletteRectangleAlign GetBorderColorAlign(PaletteState state) => _palette.GetBorderColorAlign(BorderStyle, state);
+
         #endregion
 
         #region ColorAngle
@@ -139,10 +122,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Angle used for color drawing.</returns>
-        public float GetBorderColorAngle(PaletteState state)
-        {
-            return _palette.GetBorderColorAngle(BorderStyle, state);
-        }
+        public float GetBorderColorAngle(PaletteState state) => _palette.GetBorderColorAngle(BorderStyle, state);
+
         #endregion
 
         #region Width
@@ -151,10 +132,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Border width.</returns>
-        public int GetBorderWidth(PaletteState state)
-        {
-            return _palette.GetBorderWidth(BorderStyle, state);
-        }
+        public int GetBorderWidth(PaletteState state) => _palette.GetBorderWidth(BorderStyle, state);
+
         #endregion
 
         #region Rounding
@@ -163,10 +142,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Border rounding.</returns>
-        public int GetBorderRounding(PaletteState state)
-        {
-            return _palette.GetBorderRounding(BorderStyle, state);
-        }
+        public float GetBorderRounding(PaletteState state) => _palette.GetBorderRounding(BorderStyle, state);
         #endregion
 
         #region Image
@@ -175,10 +151,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetBorderImage(PaletteState state)
-        {
-            return _palette.GetBorderImage(BorderStyle, state);
-        }
+        public Image GetBorderImage(PaletteState state) => _palette.GetBorderImage(BorderStyle, state);
+
         #endregion
 
         #region ImageStyle
@@ -187,10 +161,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image style value.</returns>
-        public PaletteImageStyle GetBorderImageStyle(PaletteState state)
-        {
-            return _palette.GetBorderImageStyle(BorderStyle, state);
-        }
+        public PaletteImageStyle GetBorderImageStyle(PaletteState state) => _palette.GetBorderImageStyle(BorderStyle, state);
+
         #endregion
 
         #region ImageAlign
@@ -199,10 +171,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image alignment style.</returns>
-        public PaletteRectangleAlign GetBorderImageAlign(PaletteState state)
-        {
-            return _palette.GetBorderImageAlign(BorderStyle, state);
-        }
+        public PaletteRectangleAlign GetBorderImageAlign(PaletteState state) => _palette.GetBorderImageAlign(BorderStyle, state);
+
         #endregion
     }
 }

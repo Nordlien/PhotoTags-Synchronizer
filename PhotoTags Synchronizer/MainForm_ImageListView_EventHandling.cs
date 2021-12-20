@@ -427,7 +427,7 @@ namespace PhotoTagsSynchronizer
                         "The files will be removed from the list of media files and from the database.\r\n\r\n" +
                         "Example:\r\n" +
                         listOfFiles, "File(s) does'n exist...",
-                        MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, true) == DialogResult.OK)
+                        MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, showCtrlCopy: true) == DialogResult.OK)
                     {
                         using (new WaitCursor())
                         {
@@ -442,7 +442,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Syntax error", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Syntax error", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -671,7 +671,7 @@ namespace PhotoTagsSynchronizer
                         "Will you replace older files with newest files\r\n" +
                         "Yes - keep the newest files\r\n" +
                         "No - delete OneDrive marked files regardless who is newest\r\n" +
-                        "Cancel - Cancel the operation, Leave the files intact", "OneDrive duplicated files found.", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, true))
+                        "Cancel - Cancel the operation, Leave the files intact", "OneDrive duplicated files found.", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, showCtrlCopy: true))
                     {
                         case DialogResult.Yes:
                             FileHandeling.FileHandler.FixOneDriveIssues(fileEntries, this, oneDriveNetworkNames, true, true);

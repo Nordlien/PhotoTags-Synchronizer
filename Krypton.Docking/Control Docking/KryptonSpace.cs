@@ -2,26 +2,13 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
-
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Xml;
-
-using Krypton.Navigator;
-using Krypton.Toolkit;
-using Krypton.Workspace;
 
 namespace Krypton.Docking
 {
@@ -271,7 +258,7 @@ namespace Krypton.Docking
                     BeginInvoke(_visibleUpdate);
                     _awaitingVisibleUpdate = true;
                 }
-            }           
+            }
         }
 
         /// <summary>
@@ -281,9 +268,9 @@ namespace Krypton.Docking
         /// <param name="page">Reference to page.</param>
         public override void WritePageElement(XmlWriter xmlWriter, KryptonPage page)
         {
-            CommonHelper.TextToXmlAttribute(xmlWriter, "UN", page.UniqueName);
-            CommonHelper.TextToXmlAttribute(xmlWriter, "S", CommonHelper.BoolToString(page is KryptonStorePage));
-            CommonHelper.TextToXmlAttribute(xmlWriter, "V", CommonHelper.BoolToString(page.LastVisibleSet), "True");
+            XmlHelper.TextToXmlAttribute(xmlWriter, "UN", page.UniqueName);
+            XmlHelper.TextToXmlAttribute(xmlWriter, "S", CommonHelper.BoolToString(page is KryptonStorePage));
+            XmlHelper.TextToXmlAttribute(xmlWriter, "V", CommonHelper.BoolToString(page.LastVisibleSet), "True");
         }
 
         /// <summary>
@@ -306,7 +293,7 @@ namespace Krypton.Docking
             else
             {
                 // Use event to try and get a newly created page for use
-                RecreateLoadingPageEventArgs args = new RecreateLoadingPageEventArgs(uniqueName);
+                RecreateLoadingPageEventArgs args = new(uniqueName);
                 OnRecreateLoadingPage(args);
                 if (!args.Cancel)
                 {
@@ -323,15 +310,15 @@ namespace Krypton.Docking
             if (page != null)
             {
                 // If this is a store page then recreate as a store page type
-                if (CommonHelper.StringToBool(CommonHelper.XmlAttributeToText(xmlReader, "S")))
+                if (CommonHelper.StringToBool(XmlHelper.XmlAttributeToText(xmlReader, "S")))
                 {
                     page = new KryptonStorePage(page.UniqueName, _storeName);
                 }
                 else
                 {
                     // Only some values if the actual page and not if it is a store page
-                    page.UniqueName = CommonHelper.XmlAttributeToText(xmlReader, "UN");
-                    page.Visible = CommonHelper.StringToBool(CommonHelper.XmlAttributeToText(xmlReader, "V", "True"));
+                    page.UniqueName = XmlHelper.XmlAttributeToText(xmlReader, "UN");
+                    page.Visible = CommonHelper.StringToBool(XmlHelper.XmlAttributeToText(xmlReader, "V", "True"));
                 }
             }
 
@@ -458,7 +445,7 @@ namespace Krypton.Docking
                 cell.Header.HeaderVisibleSecondary = false;
                 cell.Header.HeaderValuesPrimary.MapImage = MapKryptonPageImage.None;
                 cell.ToolTips.AllowButtonSpecToolTips = true;
-				cell.ToolTips.AllowButtonSpecToolTipPriority = false;
+                cell.ToolTips.AllowButtonSpecToolTipPriority = false;
             }
 
             // Hook into cell specific events
@@ -472,7 +459,7 @@ namespace Krypton.Docking
             cell.Pages.Inserting += OnCellPagesInserting;
 
             // Create and store per-cell cached state
-            CachedCellState cellState = new CachedCellState
+            CachedCellState cellState = new()
             {
                 Cell = cell
             };
@@ -751,7 +738,7 @@ namespace Krypton.Docking
             }
 
             // Use event to allow customization of the context menu
-            CancelDropDownEventArgs args = new CancelDropDownEventArgs(e.KryptonContextMenu, e.Item)
+            CancelDropDownEventArgs args = new(e.KryptonContextMenu, e.Item)
             {
                 Cancel = e.Cancel
             };
@@ -782,8 +769,8 @@ namespace Krypton.Docking
                     cell.SelectedPage.SelectNextControl(cell.SelectedPage, true, true, true, false);
 
                     // Create and populate a context menu with the drop down set of options
-                    KryptonContextMenu kcm = new KryptonContextMenu();
-                    CancelDropDownEventArgs args = new CancelDropDownEventArgs(kcm, cell.SelectedPage);
+                    KryptonContextMenu kcm = new();
+                    CancelDropDownEventArgs args = new(kcm, cell.SelectedPage);
                     OnPageDropDownClicked(args);
 
                     // Do we need to show a context menu
@@ -806,7 +793,7 @@ namespace Krypton.Docking
                 KryptonWorkspaceCell cell = (KryptonWorkspaceCell)sender;
                 foreach (KryptonPage page in cell.Pages)
                 {
-                    if (page.LastVisibleSet && !(page is KryptonStorePage))
+                    if (page.LastVisibleSet && page is not KryptonStorePage)
                     {
                         uniqueNames.Add(page.UniqueName);
                     }
@@ -900,7 +887,7 @@ namespace Krypton.Docking
             {
                 // Find the page associated with the cell that fired this button spec
                 ButtonSpec buttonSpec = (ButtonSpec)sender;
-                foreach(CachedCellState cellState in _lookupCellState.Values)
+                foreach (CachedCellState cellState in _lookupCellState.Values)
                 {
                     if (cellState.CloseButtonSpec == buttonSpec)
                     {
@@ -921,7 +908,7 @@ namespace Krypton.Docking
             {
                 // Find the page associated with the cell that fired this button spec
                 ButtonSpec buttonSpec = (ButtonSpec)sender;
-                foreach(CachedCellState cellState in _lookupCellState.Values)
+                foreach (CachedCellState cellState in _lookupCellState.Values)
                 {
                     if (cellState.PinButtonSpec == buttonSpec)
                     {

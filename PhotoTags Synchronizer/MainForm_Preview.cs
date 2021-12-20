@@ -124,7 +124,7 @@ namespace PhotoTagsSynchronizer
         {
             if (!vlcRendererItems.Any())
             {
-                KryptonMessageBox.Show("No chromecast items found. Abort casting...", "No chromecast found...", MessageBoxButtons.OK, MessageBoxIcon.Information, true);
+                KryptonMessageBox.Show("No chromecast items found. Abort casting...", "No chromecast found...", MessageBoxButtons.OK, MessageBoxIcon.Information, showCtrlCopy: true);
                 return;
             }
 
@@ -142,7 +142,7 @@ namespace PhotoTagsSynchronizer
                     }
                 }
             }
-            if (!renderFound) KryptonMessageBox.Show("Can connect LibVlc Chromecast render, render not found", "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+            if (!renderFound) KryptonMessageBox.Show("Can connect LibVlc Chromecast render, render not found", "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
         }
         #endregion 
 
@@ -268,7 +268,7 @@ namespace PhotoTagsSynchronizer
                 googleCast_receivers = await googleCast_DeviceLocator.FindReceiversAsync();
             } catch (Exception ex)
             {
-                KryptonMessageBox.Show("Was not able to start serivce FindReceiversAsync\r\n" + ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                KryptonMessageBox.Show("Was not able to start serivce FindReceiversAsync\r\n" + ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
 
             kryptonRibbonGroupButtonPreviewChromecast.Enabled = false;
@@ -487,7 +487,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show("Communication with Google Cast failed to play... \r\n" + ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                KryptonMessageBox.Show("Communication with Google Cast failed to play... \r\n" + ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion 
@@ -504,7 +504,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show("Communication with Google Cast failed to pause... \r\n" + ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                KryptonMessageBox.Show("Communication with Google Cast failed to pause... \r\n" + ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -675,7 +675,7 @@ namespace PhotoTagsSynchronizer
                             default:
                                 if (status.ExtendedStatus == null)
                                 {
-                                    KryptonMessageBox.Show("GoogleCast Status Player reason: " + MediaStatusToText(status), "Warning...", MessageBoxButtons.OK, MessageBoxIcon.Warning, true);
+                                    KryptonMessageBox.Show("GoogleCast Status Player reason: " + MediaStatusToText(status), "Warning...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
                                     Logger.Trace("GoogleCast_mediaChannel_StatusChanged: " + MediaStatusToText(status, ext));
                                 }
                                 break;
@@ -694,7 +694,7 @@ namespace PhotoTagsSynchronizer
                         MediaPlayerEventsHandler(ButtonStateVlcChromcastState.Paused, MediaPlaybackEventsSource.Googlecast);
                         break;
                     default:
-                        KryptonMessageBox.Show("GoogleCast Status Player: " + MediaStatusToText(status), "Warning...", MessageBoxButtons.OK, MessageBoxIcon.Warning, true);
+                        KryptonMessageBox.Show("GoogleCast Status Player: " + MediaStatusToText(status), "Warning...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
                         Logger.Trace("GoogleCast_mediaChannel_StatusChanged: " + MediaStatusToText(status, ext));
                         break;
                 }
@@ -901,7 +901,7 @@ namespace PhotoTagsSynchronizer
 
                 e.Response.ContentType = "image/png";
 
-                if (mediaByteArray == null || mediaByteArray.Length == 0) KryptonMessageBox.Show("Was not able to load the media file: " + mediaFullFilename, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                if (mediaByteArray == null || mediaByteArray.Length == 0) KryptonMessageBox.Show("Was not able to load the media file: " + mediaFullFilename, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -1488,7 +1488,7 @@ namespace PhotoTagsSynchronizer
             SlideShowInit(0); //Slideshow stop
 
             ChromecastingSwitchOff(); //No chromecast selected
-            if (!await GoogleCast_Disconnect(googleCast_ConnectedReceiver, true)) KryptonMessageBox.Show(googleCast_LastKnownErrorMessage, "Warning...", MessageBoxButtons.OK, MessageBoxIcon.Warning, true);
+            if (!await GoogleCast_Disconnect(googleCast_ConnectedReceiver, true)) KryptonMessageBox.Show(googleCast_LastKnownErrorMessage, "Warning...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
             if (videoView1.MediaPlayer.IsPlaying) videoView1.MediaPlayer.Stop(); //Stop Vlc mediaplayer
         }
         
@@ -1837,7 +1837,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    KryptonMessageBox.Show("Playing Video file failed: " + ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                    KryptonMessageBox.Show("Playing Video file failed: " + ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
                 }
                 videoView1.Visible = true;
                 imageBoxPreview.Visible = false;
@@ -1858,7 +1858,7 @@ namespace PhotoTagsSynchronizer
                 catch (Exception ex)
                 {
                     MediaPlayerEventsHandler(ButtonStateVlcChromcastState.Error, MediaPlaybackEventsSource.ScreenImageViewer);
-                    KryptonMessageBox.Show("Playing Image file failed: " + ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                    KryptonMessageBox.Show("Playing Image file failed: " + ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
                 }
                 imageBoxPreview.Visible = true;
                 imageBoxPreview.ZoomToFit();

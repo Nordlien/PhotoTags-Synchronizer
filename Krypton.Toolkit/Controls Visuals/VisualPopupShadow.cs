@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -130,7 +124,7 @@ namespace Krypton.Toolkit
                 CreateParams cp = base.CreateParams;
                 cp.Parent = IntPtr.Zero;
                 cp.Style |= unchecked((int)PI.WS_.POPUP);
-                cp.ExStyle |= PI.WS_EX_.TOPMOST + PI.WS_EX_.TOOLWINDOW;
+                cp.ExStyle |= unchecked((int)(PI.WS_EX_.TOPMOST + PI.WS_EX_.TOOLWINDOW));
                 return cp;
             }
         }
@@ -139,11 +133,9 @@ namespace Krypton.Toolkit
         /// Raises the PaintBackground event.
         /// </summary>
         /// <param name="pevent">A PaintEventArgs containing the event data.</param>
-        protected override void OnPaintBackground(PaintEventArgs pevent)
-        {
+        protected override void OnPaintBackground(PaintEventArgs pevent) =>
             // Magenta is the transparent color
             pevent.Graphics.FillRectangle(Brushes.Magenta, pevent.ClipRectangle);
-        }
 
         /// <summary>
         /// Raises the Paint event.
@@ -193,20 +185,14 @@ namespace Krypton.Toolkit
 
         private void DrawShadow(Graphics g, Rectangle area)
         {
-            using (GraphicsPath outside1 = CommonHelper.RoundedRectanglePath(area, 6))
-            {
-                area.Inflate(-1, -1);
-                g.FillPath(_brushes[2], outside1);
-                using (GraphicsPath outside2 = CommonHelper.RoundedRectanglePath(area, 6))
-                {
-                    g.FillPath(_brushes[1], outside2);
-                    area.Inflate(-1, -1);
-                    using (GraphicsPath outside3 = CommonHelper.RoundedRectanglePath(area, 6))
-                    {
-                        g.FillPath(_brushes[0], outside3);
-                    }
-                }
-            }
+            using GraphicsPath outside1 = CommonHelper.RoundedRectanglePath(area, 6);
+            area.Inflate(-1, -1);
+            g.FillPath(_brushes[2], outside1);
+            using GraphicsPath outside2 = CommonHelper.RoundedRectanglePath(area, 6);
+            g.FillPath(_brushes[1], outside2);
+            area.Inflate(-1, -1);
+            using GraphicsPath outside3 = CommonHelper.RoundedRectanglePath(area, 6);
+            g.FillPath(_brushes[0], outside3);
         }
         #endregion
     }

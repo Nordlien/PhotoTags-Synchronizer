@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -28,7 +20,7 @@ namespace Krypton.Ribbon
                                              IContentValues
     {
         #region Static Fields
-        private static readonly Size _viewSize = new Size(22, 22);
+        private static readonly Size _viewSize = new(22, 22);
         #endregion
 
         #region Instance Fields
@@ -58,10 +50,10 @@ namespace Krypton.Ribbon
 
             // If the source interface comes from a component then allow it to 
             // be selected at design time by clicking on the view instance
-            Component = qatButton as System.ComponentModel.Component;
+            Component = qatButton as Component;
 
             // Attach a controller to this element for the pressing of the button
-            QATButtonController controller = new QATButtonController(ribbon, this, needPaint);
+            QATButtonController controller = new(ribbon, this, needPaint);
             controller.Click += OnClick;
             SourceController = controller;
             KeyController = controller;
@@ -89,11 +81,9 @@ namespace Krypton.Ribbon
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawRibbonQATButton:" + Id;
-        }
+            "ViewDrawRibbonQATButton:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -151,10 +141,7 @@ namespace Krypton.Ribbon
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
-        {
-            return _viewSize;
-        }
+        public override Size GetPreferredSize(ViewLayoutContext context) => _viewSize;
 
         /// <summary>
         /// Perform a layout of the elements.
@@ -193,18 +180,16 @@ namespace Krypton.Ribbon
             if (paletteBack.GetBackDraw(State) == InheritBool.True)
             {
                 // Get the border path which the background is clipped to drawing within
-                using (GraphicsPath borderPath = context.Renderer.RenderStandardBorder.GetBackPath(context, ClientRectangle, paletteBorder, VisualOrientation.Top, State))
-                {
-                    Padding borderPadding = context.Renderer.RenderStandardBorder.GetBorderRawPadding(paletteBorder, State, VisualOrientation.Top);
+                using GraphicsPath borderPath = context.Renderer.RenderStandardBorder.GetBackPath(context, ClientRectangle, paletteBorder, VisualOrientation.Top, State);
+                Padding borderPadding = context.Renderer.RenderStandardBorder.GetBorderRawPadding(paletteBorder, State, VisualOrientation.Top);
 
-                    // Apply the padding depending on the orientation
-                    Rectangle enclosingRect = CommonHelper.ApplyPadding(VisualOrientation.Top, ClientRectangle, borderPadding);
+                // Apply the padding depending on the orientation
+                Rectangle enclosingRect = CommonHelper.ApplyPadding(VisualOrientation.Top, ClientRectangle, borderPadding);
 
-                    // Render the background inside the border path
-                    _mementoBack = context.Renderer.RenderStandardBack.DrawBack(context, enclosingRect, borderPath,
-                                                                                paletteBack, VisualOrientation.Top,
-                                                                                State, _mementoBack);
-                }
+                // Render the background inside the border path
+                _mementoBack = context.Renderer.RenderStandardBack.DrawBack(context, enclosingRect, borderPath,
+                    paletteBack, VisualOrientation.Top,
+                    State, _mementoBack);
             }
 
             // Do we need to draw the border?
@@ -253,38 +238,27 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Tab state.</param>
         /// <returns>Image.</returns>
-        public Image GetImage(PaletteState state)
-        {
-            return QATButton.GetImage();
-        }
+        public Image GetImage(PaletteState state) => QATButton.GetImage();
 
         /// <summary>
         /// Gets the image color that should be interpreted as transparent.
         /// </summary>
         /// <param name="state">Tab state.</param>
         /// <returns>Transparent Color.</returns>
-        public Color GetImageTransparentColor(PaletteState state)
-        {
-            return Color.Empty;
-        }
+        public Color GetImageTransparentColor(PaletteState state) => Color.Empty;
 
         /// <summary>
         /// Gets the short text used as the main ribbon title.
         /// </summary>
         /// <returns>Title string.</returns>
-        public string GetShortText()
-        {
-            return string.Empty;
-        }
+        public string GetShortText() => string.Empty;
 
         /// <summary>
         /// Gets the long text used as the secondary ribbon title.
         /// </summary>
         /// <returns>Title string.</returns>
-        public string GetLongText()
-        {
-            return string.Empty;
-        }
+        public string GetLongText() => string.Empty;
+
         #endregion
     }
 }

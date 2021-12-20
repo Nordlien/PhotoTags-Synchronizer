@@ -2,23 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Design;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Globalization;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -27,7 +18,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupMaskedTextBox), "ToolboxBitmaps.KryptonRibbonGroupMaskedTextBox.bmp")]
-    [Designer(typeof(Krypton.Ribbon.KryptonRibbonGroupMaskedTextBoxDesigner))]
+    [Designer("Krypton.Ribbon.KryptonRibbonGroupMaskedTextBoxDesigner, Krypton.Ribbon")]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultEvent("TextChanged")]
@@ -237,8 +228,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override KryptonRibbon Ribbon
         {
-            set 
-            { 
+            set
+            {
                 base.Ribbon = value;
 
                 if (value != null)
@@ -259,10 +250,7 @@ namespace Krypton.Ribbon
         [Description("Shortcut key combination to set focus to the masked text box.")]
         public Keys ShortcutKeys { get; set; }
 
-        private bool ShouldSerializeShortcutKeys()
-        {
-            return (ShortcutKeys != Keys.None);
-        }
+        private bool ShouldSerializeShortcutKeys() => (ShortcutKeys != Keys.None);
 
         /// <summary>
         /// Resets the ShortcutKeys property to its default value.
@@ -323,7 +311,7 @@ namespace Krypton.Ribbon
                 if (value != _visible)
                 {
                     _visible = value;
-                    OnPropertyChanged("Visible");
+                    OnPropertyChanged(nameof(Visible));
                 }
             }
         }
@@ -360,11 +348,11 @@ namespace Krypton.Ribbon
                 if (_enabled != value)
                 {
                     _enabled = value;
-                    OnPropertyChanged("Enabled");
+                    OnPropertyChanged(nameof(Enabled));
                 }
             }
         }
-        
+
         /// <summary>
         /// Gets or sets the minimum size of the control.
         /// </summary>
@@ -397,7 +385,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override GroupItemSize ItemSizeMaximum
         {
-            get { return GroupItemSize.Large; }
+            get => GroupItemSize.Large;
             set { }
         }
 
@@ -409,7 +397,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override GroupItemSize ItemSizeMinimum
         {
-            get { return GroupItemSize.Small; }
+            get => GroupItemSize.Small;
             set { }
         }
 
@@ -428,7 +416,7 @@ namespace Krypton.Ribbon
                 if (_itemSizeCurrent != value)
                 {
                     _itemSizeCurrent = value;
-                    OnPropertyChanged("ItemSizeCurrent");
+                    OnPropertyChanged(nameof(ItemSizeCurrent));
                 }
             }
         }
@@ -437,7 +425,7 @@ namespace Krypton.Ribbon
         /// Gets and sets the text associated with the control.
         /// </summary>
         [Category("Appearance")]
-        [Editor("System.Windows.Forms.Design.MaskedTextBoxTextEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.MaskedTextBoxTextEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         public string Text
         {
             get => MaskedTextBox.Text;
@@ -614,10 +602,7 @@ namespace Krypton.Ribbon
             set => MaskedTextBox.Culture = value;
         }
 
-        private bool ShouldSerializeCulture()
-        {
-            return !CultureInfo.CurrentCulture.Equals(Culture);
-        }
+        private bool ShouldSerializeCulture() => !CultureInfo.CurrentCulture.Equals(Culture);
 
         /// <summary>
         /// Gets or sets a value that determines whether literals and prompt characters are copied to the clipboard.
@@ -820,8 +805,8 @@ namespace Krypton.Ribbon
             get => MaskedTextBox.AllowButtonSpecToolTips;
             set => MaskedTextBox.AllowButtonSpecToolTips = value;
         }
-		
-		/// <summary>
+
+        /// <summary>
         /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
         /// </summary>
         [Category("Visuals")]
@@ -848,11 +833,9 @@ namespace Krypton.Ribbon
         /// <param name="needPaint">Delegate for notifying changes in display.</param>
         /// <returns>ViewBase derived instance.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override ViewBase CreateView(KryptonRibbon ribbon, 
-                                            NeedPaintHandler needPaint)
-        {
-            return new ViewDrawRibbonGroupMaskedTextBox(ribbon, this, needPaint);
-        }
+        public override ViewBase CreateView(KryptonRibbon ribbon,
+                                            NeedPaintHandler needPaint) =>
+            new ViewDrawRibbonGroupMaskedTextBox(ribbon, this, needPaint);
 
         /// <summary>
         /// Gets and sets the associated designer.
@@ -1043,7 +1026,7 @@ namespace Krypton.Ribbon
                     if (ShortcutKeys == keyData)
                     {
                         // Can the masked text box take the focus
-                        if ((LastMaskedTextBox != null) && (LastMaskedTextBox.CanFocus))
+                        if (LastMaskedTextBox is { CanFocus: true })
                         {
                             LastMaskedTextBox.MaskedTextBox.Focus();
                         }

@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.ComponentModel;
-using System.Windows.Forms;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -25,7 +18,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupDateTimePicker), "ToolboxBitmaps.KryptonRibbonGroupDateTimePicker.bmp")]
-    [Designer(typeof(Krypton.Ribbon.KryptonRibbonGroupDateTimePickerDesigner))]
+    [Designer("Krypton.Ribbon.KryptonRibbonGroupDateTimePickerDesigner, Krypton.Ribbon")]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultEvent("ValueChanged")]
@@ -232,10 +225,7 @@ namespace Krypton.Ribbon
         [Description("Shortcut key combination to set focus to the date time picker.")]
         public Keys ShortcutKeys { get; set; }
 
-        private bool ShouldSerializeShortcutKeys()
-        {
-            return (ShortcutKeys != Keys.None);
-        }
+        private bool ShouldSerializeShortcutKeys() => (ShortcutKeys != Keys.None);
 
         /// <summary>
         /// Resets the ShortcutKeys property to its default value.
@@ -296,7 +286,7 @@ namespace Krypton.Ribbon
                 if (value != _visible)
                 {
                     _visible = value;
-                    OnPropertyChanged("Visible");
+                    OnPropertyChanged(nameof(Visible));
                 }
             }
         }
@@ -389,8 +379,8 @@ namespace Krypton.Ribbon
             get => DateTimePicker.AllowButtonSpecToolTips;
             set => DateTimePicker.AllowButtonSpecToolTips = value;
         }
-		
-		/// <summary>
+
+        /// <summary>
         /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
         /// </summary>
         [Category("Visuals")]
@@ -518,10 +508,7 @@ namespace Krypton.Ribbon
             CalendarTodayDate = DateTime.Now.Date;
         }
 
-        private bool ShouldSerializeCalendarTodayDate()
-        {
-            return (CalendarTodayDate != DateTime.Now.Date);
-        }
+        private bool ShouldSerializeCalendarTodayDate() => (CalendarTodayDate != DateTime.Now.Date);
 
         /// <summary>
         /// Gets or sets the array of DateTime objects that determines which annual days are displayed in bold.
@@ -540,10 +527,7 @@ namespace Krypton.Ribbon
             CalendarAnnuallyBoldedDates = null;
         }
 
-        private bool ShouldSerializeCalendarAnnuallyBoldedDates()
-        {
-            return DateTimePicker.ShouldSerializeCalendarAnnuallyBoldedDates();
-        }
+        private bool ShouldSerializeCalendarAnnuallyBoldedDates() => DateTimePicker.ShouldSerializeCalendarAnnuallyBoldedDates();
 
         /// <summary>
         /// Gets or sets the array of DateTime objects that determine which monthly days to bold. 
@@ -562,10 +546,7 @@ namespace Krypton.Ribbon
             CalendarMonthlyBoldedDates = null;
         }
 
-        private bool ShouldSerializeCalendarMonthlyBoldedDates()
-        {
-            return DateTimePicker.ShouldSerializeCalendarMonthlyBoldedDates();
-        }
+        private bool ShouldSerializeCalendarMonthlyBoldedDates() => DateTimePicker.ShouldSerializeCalendarMonthlyBoldedDates();
 
         /// <summary>
         /// Gets or sets the array of DateTime objects that determines which nonrecurring dates are displayed in bold.
@@ -584,10 +565,7 @@ namespace Krypton.Ribbon
             CalendarBoldedDates = null;
         }
 
-        private bool ShouldSerializeCalendarBoldedDates()
-        {
-            return DateTimePicker.ShouldSerializeCalendarBoldedDates();
-        }
+        private bool ShouldSerializeCalendarBoldedDates() => DateTimePicker.ShouldSerializeCalendarBoldedDates();
 
         /// <summary>
         /// Gets or sets the alignment of the drop-down calendar on the DateTimePicker control.
@@ -621,10 +599,7 @@ namespace Krypton.Ribbon
             DateTimePicker.ResetValueNullable();
         }
 
-        private bool ShouldSerializeValueNullable()
-        {
-            return DateTimePicker.ShouldSerializeValueNullable();
-        }
+        private bool ShouldSerializeValueNullable() => DateTimePicker.ShouldSerializeValueNullable();
 
         /// <summary>
         /// Gets or sets the date/time value assigned to the control..
@@ -644,10 +619,7 @@ namespace Krypton.Ribbon
             DateTimePicker.ResetValue();
         }
 
-        private bool ShouldSerializeValue()
-        {
-            return DateTimePicker.ShouldSerializeValue();
-        }
+        private bool ShouldSerializeValue() => DateTimePicker.ShouldSerializeValue();
 
         /// <summary>
         /// Gets or sets the format of the date and time displayed in the control.
@@ -714,10 +686,7 @@ namespace Krypton.Ribbon
             MaxDate = DateTime.MaxValue;
         }
 
-        private bool ShouldSerializeMaxDate()
-        {
-            return DateTimePicker.ShouldSerializeMaxDate();
-        }
+        private bool ShouldSerializeMaxDate() => DateTimePicker.ShouldSerializeMaxDate();
 
         /// <summary>
         /// Gets or sets the minimum date and time that can be selected in the control.
@@ -735,10 +704,7 @@ namespace Krypton.Ribbon
             MinDate = DateTime.MinValue;
         }
 
-        private bool ShouldSerializeMinDate()
-        {
-            return DateTimePicker.ShouldSerializeMinDate();
-        }
+        private bool ShouldSerializeMinDate() => DateTimePicker.ShouldSerializeMinDate();
 
         /// <summary>
         /// Gets or sets a value indicating if the check box is checked and if the ValueNullable is DBNull or a DateTime value.
@@ -812,10 +778,7 @@ namespace Krypton.Ribbon
             CalendarHeaderStyle = HeaderStyle.Calendar;
         }
 
-        private bool ShouldSerializeCalendarHeaderStyle()
-        {
-            return (CalendarHeaderStyle != HeaderStyle.Calendar);
-        }
+        private bool ShouldSerializeCalendarHeaderStyle() => (CalendarHeaderStyle != HeaderStyle.Calendar);
 
         /// <summary>
         /// Gets and sets the content style for the day entries.
@@ -833,10 +796,7 @@ namespace Krypton.Ribbon
             CalendarDayStyle = ButtonStyle.CalendarDay;
         }
 
-        private bool ShouldSerializeCalendarDayStyle()
-        {
-            return (CalendarDayStyle != ButtonStyle.CalendarDay);
-        }
+        private bool ShouldSerializeCalendarDayStyle() => (CalendarDayStyle != ButtonStyle.CalendarDay);
 
         /// <summary>
         /// Gets and sets the content style for the day of week labels.
@@ -854,10 +814,7 @@ namespace Krypton.Ribbon
             CalendarDayOfWeekStyle = ButtonStyle.CalendarDay;
         }
 
-        private bool ShouldSerializeCalendarDayOfWeekStyle()
-        {
-            return (CalendarDayOfWeekStyle != ButtonStyle.CalendarDay);
-        }
+        private bool ShouldSerializeCalendarDayOfWeekStyle() => (CalendarDayOfWeekStyle != ButtonStyle.CalendarDay);
 
         /// <summary>
         /// Gets and sets the maximum allowed size of the item.
@@ -867,7 +824,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override GroupItemSize ItemSizeMaximum
         {
-            get { return GroupItemSize.Large; }
+            get => GroupItemSize.Large;
             set { }
         }
 
@@ -879,7 +836,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override GroupItemSize ItemSizeMinimum
         {
-            get { return GroupItemSize.Small; }
+            get => GroupItemSize.Small;
             set { }
         }
 
@@ -898,7 +855,7 @@ namespace Krypton.Ribbon
                 if (_itemSizeCurrent != value)
                 {
                     _itemSizeCurrent = value;
-                    OnPropertyChanged("ItemSizeCurrent");
+                    OnPropertyChanged(nameof(ItemSizeCurrent));
                 }
             }
         }
@@ -910,10 +867,7 @@ namespace Krypton.Ribbon
         /// <param name="needPaint">Delegate for notifying changes in display.</param>
         /// <returns>ViewBase derived instance.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override ViewBase CreateView(KryptonRibbon ribbon, NeedPaintHandler needPaint)
-        {
-            return new ViewDrawRibbonGroupDateTimePicker(ribbon, this, needPaint);
-        }
+        public override ViewBase CreateView(KryptonRibbon ribbon, NeedPaintHandler needPaint) => new ViewDrawRibbonGroupDateTimePicker(ribbon, this, needPaint);
 
         /// <summary>
         /// Gets and sets the associated designer.
@@ -1077,7 +1031,7 @@ namespace Krypton.Ribbon
                     if (ShortcutKeys == keyData)
                     {
                         // Can the date time picker take the focus
-                        if ((LastDateTimePicker != null) && (LastDateTimePicker.CanFocus))
+                        if (LastDateTimePicker is { CanFocus: true })
                         {
                             LastDateTimePicker.Focus();
                         }

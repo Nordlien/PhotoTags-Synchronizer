@@ -2,18 +2,13 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
-
-using System.ComponentModel;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -30,7 +25,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the KryptonPaletteHeaderGroup class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public KryptonPaletteHeaderGroup(PaletteRedirect redirect,
                                          NeedPaintHandler needPaint)
@@ -55,10 +50,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Populate values from the base palette.
         /// </summary>
-        public void PopulateFromBase()
-        {
-            StateCommon.PopulateFromBase();
-        }
+        public void PopulateFromBase() => StateCommon.PopulateFromBase();
+
         #endregion
 
         #region StateCommon
@@ -71,10 +64,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteHeaderGroupState StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
+
         #endregion
     }
 }

@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.ComponentModel;
-using Krypton.Toolkit;
 
 namespace Krypton.Navigator
 {
@@ -30,7 +26,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Initialize a new instance of the PaletteNavigatorOther class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteNavigatorOther(PaletteNavigatorRedirect redirect,
                                      NeedPaintHandler needPaint) 
@@ -59,7 +55,7 @@ namespace Krypton.Navigator
 
         #region SetInherit
         /// <summary>
-        /// Sets the inheritence parent.
+        /// Sets the inheritance parent.
         /// </summary>
         /// <param name="inheritNavigator">Source for inheriting.</param>
         public virtual void SetInherit(PaletteNavigator inheritNavigator)
@@ -81,10 +77,8 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple CheckButton { get; }
 
-        private bool ShouldSerializeCheckButton()
-        {
-            return !CheckButton.IsDefault;
-        }
+        private bool ShouldSerializeCheckButton() => !CheckButton.IsDefault;
+
         #endregion
 
         #region OverflowButton
@@ -96,10 +90,8 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple OverflowButton { get; }
 
-        private bool ShouldSerializeOverflowButton()
-        {
-            return !OverflowButton.IsDefault;
-        }
+        private bool ShouldSerializeOverflowButton() => !OverflowButton.IsDefault;
+
         #endregion
 
         #region MiniButton
@@ -111,10 +103,8 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple MiniButton { get; }
 
-        private bool ShouldSerializeMiniButton()
-        {
-            return !MiniButton.IsDefault;
-        }
+        private bool ShouldSerializeMiniButton() => !MiniButton.IsDefault;
+
         #endregion
 
         #region Tab
@@ -126,10 +116,8 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTabTriple Tab { get; }
 
-        private bool ShouldSerializeTab()
-        {
-            return !Tab.IsDefault;
-        }
+        private bool ShouldSerializeTab() => !Tab.IsDefault;
+
         #endregion
 
         #region RibbonTab
@@ -141,10 +129,8 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonTabContent RibbonTab { get; }
 
-        private bool ShouldSerializeRibbonTab()
-        {
-            return !RibbonTab.IsDefault;
-        }
+        private bool ShouldSerializeRibbonTab() => !RibbonTab.IsDefault;
+
         #endregion
     }
 }

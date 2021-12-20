@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Windows.Forms;
-using System.ComponentModel;
 
 namespace Krypton.Toolkit
 {
@@ -40,10 +36,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the KryptonContextMenuItem class.
         /// </summary>
-        public KryptonContextMenuItemBase()
-        {
-            _visible = true;
-        }
+        public KryptonContextMenuItemBase() => _visible = true;
+
         #endregion
 
         #region Public
@@ -111,7 +105,7 @@ namespace Krypton.Toolkit
                 if (_visible != value)
                 {
                     _visible = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Visible"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Visible)));
                 }
             }
         }
@@ -122,10 +116,8 @@ namespace Krypton.Toolkit
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="e">A PropertyChangedEventArgs containing the event data.</param>
-        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
-        {
-            PropertyChanged?.Invoke(this, e);
-        }
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e) => PropertyChanged?.Invoke(this, e);
+
         #endregion
     }
 }

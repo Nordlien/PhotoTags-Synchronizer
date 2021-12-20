@@ -2,19 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -26,7 +21,7 @@ namespace Krypton.Toolkit
         IDataGridViewEditingControl
     {
         #region Static Fields
-        private static readonly DateTimeConverter _dtc = new DateTimeConverter();
+        private static readonly DateTimeConverter _dtc = new();
         #endregion
 
         #region Instance Fields
@@ -132,34 +127,18 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual bool EditingControlWantsInputKey(Keys keyData, bool dataGridViewWantsInputKey)
         {
-            switch (keyData & Keys.KeyCode)
+            return (keyData & Keys.KeyCode) switch
             {
-                case Keys.Right:
-                case Keys.Left:
-                case Keys.Down:
-                case Keys.Up:
-                case Keys.Home:
-                case Keys.Delete:
-                    return true;
-            }
-
-            return !dataGridViewWantsInputKey;
+                Keys.Right or Keys.Left or Keys.Down or Keys.Up or Keys.Home or Keys.Delete => true,
+                _ => !dataGridViewWantsInputKey
+            };
         }
 
         /// <summary>
         /// Returns the current value of the editing control.
         /// </summary>
-        public virtual object GetEditingControlFormattedValue(DataGridViewDataErrorContexts context)
-        {
-            if ((ValueNullable == null) || (ValueNullable == DBNull.Value))
-            {
-                return String.Empty;
-            }
-            else
-            {
-                return _dtc.ConvertToInvariantString(Value);
-            }
-        }
+        public virtual object GetEditingControlFormattedValue(DataGridViewDataErrorContexts context) => (ValueNullable == null) || (ValueNullable == DBNull.Value) ? string.Empty : _dtc.ConvertToInvariantString(Value);
+
         #endregion
 
         #region Protected

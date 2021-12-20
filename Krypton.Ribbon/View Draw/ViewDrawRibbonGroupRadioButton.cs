@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -29,8 +21,8 @@ namespace Krypton.Ribbon
                                                     IContentValues
     {
         #region Static Fields
-        private static readonly Padding _largeImagePadding = new Padding(3, 2, 3, 3);
-        private static readonly Padding _smallImagePadding = new Padding(3);
+        private static readonly Padding _largeImagePadding = new(3, 2, 3, 3);
+        private static readonly Padding _smallImagePadding = new(3);
         #endregion
 
         #region Instance Fields
@@ -97,11 +89,9 @@ namespace Krypton.Ribbon
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawRibbonGroupRadioButton:" + Id;
-        }
+            "ViewDrawRibbonGroupRadioButton:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -331,7 +321,7 @@ namespace Krypton.Ribbon
 
             // Add the large button at the top
             _viewLargeImage = new ViewDrawRibbonGroupRadioButtonImage(_ribbon, GroupRadioButton, true);
-            ViewLayoutRibbonCenterPadding largeImagePadding = new ViewLayoutRibbonCenterPadding(_largeImagePadding)
+            ViewLayoutRibbonCenterPadding largeImagePadding = new(_largeImagePadding)
             {
                 _viewLargeImage
             };
@@ -370,7 +360,7 @@ namespace Krypton.Ribbon
             _viewMediumSmallImage = new ViewDrawRibbonGroupRadioButtonImage(_ribbon, GroupRadioButton, false);
             _viewMediumSmallText1 = new ViewDrawRibbonGroupRadioButtonText(_ribbon, GroupRadioButton, true);
             _viewMediumSmallText2 = new ViewDrawRibbonGroupRadioButtonText(_ribbon, GroupRadioButton, false);
-            ViewLayoutRibbonCenterPadding imagePadding = new ViewLayoutRibbonCenterPadding(_smallImagePadding)
+            ViewLayoutRibbonCenterPadding imagePadding = new(_smallImagePadding)
             {
                 _viewMediumSmallImage
             };
@@ -558,38 +548,27 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state"></param>
         /// <returns></returns>
-        public Image GetImage(PaletteState state)
-        {
-            return null;
-        }
+        public Image GetImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the image transparent color.
         /// </summary>
         /// <param name="state"></param>
         /// <returns></returns>
-        public Color GetImageTransparentColor(PaletteState state)
-        {
-            return Color.Empty;
-        }
+        public Color GetImageTransparentColor(PaletteState state) => Color.Empty;
 
         /// <summary>
         /// Gets the short text.
         /// </summary>
         /// <returns></returns>
-        public string GetShortText()
-        {
-            return GroupRadioButton.TextLine1;
-        }
+        public string GetShortText() => GroupRadioButton.TextLine1;
 
         /// <summary>
         /// Gets the long text.
         /// </summary>
         /// <returns></returns>
-        public string GetLongText()
-        {
-            return GroupRadioButton.TextLine2;
-        }
+        public string GetLongText() => GroupRadioButton.TextLine2;
+
         #endregion
     }
 }

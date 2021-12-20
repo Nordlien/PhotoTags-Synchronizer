@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using Krypton.Toolkit;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Krypton.Ribbon
 {
@@ -46,21 +40,18 @@ namespace Krypton.Ribbon
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
         public ViewDrawRibbonGroupsBorderSynch(KryptonRibbon ribbon,
                                                NeedPaintHandler needPaintDelegate)
-            : base(ribbon, false, needPaintDelegate)
-        {
+            : base(ribbon, false, needPaintDelegate) =>
             // Create initial lookup table
             _tabToView = new TabToView();
-        }
 
         /// <summary>
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawRibbonGroupsBorderSynch:" + Id;
-        }
+            "ViewDrawRibbonGroupsBorderSynch:" + Id;
+
         #endregion
 
         #region ViewGroupFromPoint
@@ -99,7 +90,7 @@ namespace Krypton.Ribbon
         /// <returns>Array of KeyTipInfo; otherwise null.</returns>
         public KeyTipInfo[] GetGroupKeyTips(KryptonRibbonTab tab) => _tabToView.ContainsKey(tab)
             ? _tabToView[tab].GetGroupKeyTips()
-            : new KeyTipInfo[] { };
+            : Array.Empty<KeyTipInfo>();
 
         #endregion
 
@@ -212,7 +203,7 @@ namespace Krypton.Ribbon
             Clear();
 
             // Create a new lookup that reflects any changes in tabs
-            TabToView regenerate = new TabToView();
+            TabToView regenerate = new();
 
             // Make sure we have a view element to match each tab
             foreach (KryptonRibbonTab tab in Ribbon.RibbonTabs)
@@ -228,7 +219,7 @@ namespace Krypton.Ribbon
                 // If a new tab, create a view for it now
                 if (view == null)
                 {
-                    ViewLayoutRibbonGroups groups = new ViewLayoutRibbonGroups(Ribbon, tab, NeedPaintDelegate);
+                    ViewLayoutRibbonGroups groups = new(Ribbon, tab, NeedPaintDelegate);
                     view = new ViewLayoutRibbonScrollPort(Ribbon, Orientation.Horizontal, groups, false, SCROLL_SPEED, NeedPaintDelegate)
                     {
                         TransparentBackground = true

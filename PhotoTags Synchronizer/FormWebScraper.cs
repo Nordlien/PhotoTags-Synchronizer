@@ -435,7 +435,7 @@ namespace PhotoTagsSynchronizer
                     "Do you want to load last dataset with metadatas? \r\n\r\n" +
                     "Click yes, if you want continue expant last dataset of metadatas and merge with new scraping data.\r\n"+
                     "Click no, if you want to start with emoty dataset of scraping metadata.", 
-                    "Load last metadata dataset?", MessageBoxButtons.YesNo, MessageBoxIcon.Question, true) == DialogResult.Yes)
+                    "Load last metadata dataset?", MessageBoxButtons.YesNo, MessageBoxIcon.Question, showCtrlCopy: true) == DialogResult.Yes)
                 {
 
                     IsProcessRunning = true;
@@ -464,12 +464,12 @@ namespace PhotoTagsSynchronizer
             Properties.Settings.Default.WebScraperScript = fastColoredTextBoxJavaScript.Text;
             if (IsProcessRunning)
             {
-                KryptonMessageBox.Show("Need wait process that are running has stopped, before closing window", "Process still working...", MessageBoxButtons.OK, MessageBoxIcon.Information, true);
+                KryptonMessageBox.Show("Need wait process that are running has stopped, before closing window", "Process still working...", MessageBoxButtons.OK, MessageBoxIcon.Information, showCtrlCopy: true);
                 e.Cancel = true;
             }
             if (isDataUnsaved)
             {
-                if (KryptonMessageBox.Show("DataSet is unsaved! Will you close widthout saving data?", "Warning, unsaved DataSet", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, true) == DialogResult.Cancel) e.Cancel = true;
+                if (KryptonMessageBox.Show("DataSet is unsaved! Will you close widthout saving data?", "Warning, unsaved DataSet", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, showCtrlCopy: true) == DialogResult.Cancel) e.Cancel = true;
             }
         }
         #endregion
@@ -601,7 +601,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message, "Running JavaScript failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                KryptonMessageBox.Show(ex.Message, "Running JavaScript failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
 
             }
             fastColoredTextBoxJavaScriptResult.ResumeLayout();
@@ -618,7 +618,7 @@ namespace PhotoTagsSynchronizer
                 Properties.Settings.Default.WebScraperScript = fastColoredTextBoxJavaScript.Text;
             } catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message, "Can't save settings...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                KryptonMessageBox.Show(ex.Message, "Can't save settings...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
             IsProcessRunning = false;
         }
@@ -995,7 +995,7 @@ namespace PhotoTagsSynchronizer
                 WebScrapingLinksStatusWrites(_linkCatergories);
             } catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message, "WebScraping failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                KryptonMessageBox.Show(ex.Message, "WebScraping failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
             IsProcessRunning = false;
         }
@@ -1010,7 +1010,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message, "Get LocalApplicationDataPath failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                KryptonMessageBox.Show(ex.Message, "Get LocalApplicationDataPath failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
             return null;
         }
@@ -1029,7 +1029,7 @@ namespace PhotoTagsSynchronizer
                 }
             } catch (Exception ex) 
             {
-                KryptonMessageBox.Show(ex.Message, "DeserializeObject failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                KryptonMessageBox.Show(ex.Message, "DeserializeObject failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
             return result;
         }
@@ -1045,7 +1045,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message, "SerializeObject failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                KryptonMessageBox.Show(ex.Message, "SerializeObject failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -1070,7 +1070,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message, "DeserializeObject failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                KryptonMessageBox.Show(ex.Message, "DeserializeObject failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
             return result;
         }
@@ -1086,7 +1086,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message, "SerializeObject and save failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                KryptonMessageBox.Show(ex.Message, "SerializeObject and save failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -1138,7 +1138,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message, "Start WebScraping failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                KryptonMessageBox.Show(ex.Message, "Start WebScraping failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
 
             IsProcessRunning = false;
@@ -1221,7 +1221,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message, "Start WebScaring categories failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                KryptonMessageBox.Show(ex.Message, "Start WebScaring categories failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
 
             IsProcessRunning = false;
@@ -1361,7 +1361,7 @@ namespace PhotoTagsSynchronizer
                 buttonWebScrapingSave.Enabled = false;
             } catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message, "Saveing WebScraping failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                KryptonMessageBox.Show(ex.Message, "Saveing WebScraping failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
 

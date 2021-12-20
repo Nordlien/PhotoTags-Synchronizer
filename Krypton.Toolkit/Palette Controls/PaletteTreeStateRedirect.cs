@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.ComponentModel;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -32,11 +28,11 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteTreeStateRedirect class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="back">Storage for back values.</param>
-        /// <param name="backInherit">Inheritence for back values.</param>
+        /// <param name="backInherit">inheritance for back values.</param>
         /// <param name="border">Storage for border values.</param>
-        /// <param name="borderInherit">Inheritence for border values.</param>
+        /// <param name="borderInherit">inheritance for border values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteTreeStateRedirect(PaletteRedirect redirect,
                                         PaletteBack back,
@@ -79,10 +75,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect Node { get; }
 
-        private bool ShouldSerializeItem()
-        {
-            return !Node.IsDefault;
-        }
+        private bool ShouldSerializeItem() => !Node.IsDefault;
+
         #endregion
     }
 }

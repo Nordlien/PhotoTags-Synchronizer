@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.ComponentModel;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -63,45 +56,31 @@ namespace Krypton.Toolkit
         /// <summary>
         /// This target should display as the active target.
         /// </summary>
-        public virtual void ShowTarget()
-        {
-            HighlightState();
-        }
+        public virtual void ShowTarget() => HighlightState();
 
         /// <summary>
         /// This target should clear any active display.
         /// </summary>
-        public virtual void ClearTarget()
-        {
-            NormalState();
-        }
+        public virtual void ClearTarget() => NormalState();
 
         /// <summary>
         /// This target should show any appropriate sub menu.
         /// </summary>
-        public void ShowSubMenu()
-        {
-            _menuItem.ShowSubMenu(false);
-        }
+        public void ShowSubMenu() => _menuItem.ShowSubMenu(false);
 
         /// <summary>
         /// This target should remove any showing sub menu.
         /// </summary>
-        public void ClearSubMenu()
-        {
-            _menuItem.ClearSubMenu();
-        }
+        public void ClearSubMenu() => _menuItem.ClearSubMenu();
 
         /// <summary>
         /// Determine if the keys value matches the mnemonic setting for this target.
         /// </summary>
         /// <param name="charCode">Key code to test against.</param>
         /// <returns>True if a match is found; otherwise false.</returns>
-        public bool MatchMnemonic(char charCode)
-        {
+        public bool MatchMnemonic(char charCode) =>
             // Can only select if the item is actually enabled
-            return _menuItem.ItemEnabled && Control.IsMnemonic(charCode, _menuItem.ItemText);
-        }
+            _menuItem.ItemEnabled && Control.IsMnemonic(charCode, _menuItem.ItemText);
 
         /// <summary>
         /// Activate the item because of a mnemonic key press.
@@ -127,10 +106,7 @@ namespace Krypton.Toolkit
         /// Gets the view element that should be used when this target is active.
         /// </summary>
         /// <returns>View element to become active.</returns>
-        public ViewBase GetActiveView()
-        {
-            return _menuItem;
-        }
+        public ViewBase GetActiveView() => _menuItem;
 
         /// <summary>
         /// Get the client rectangle for the display of this target.
@@ -142,18 +118,12 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="pt">Client coordinates point.</param>
         /// <returns>True to become current; otherwise false.</returns>
-        public bool DoesStackedClientMouseDownBecomeCurrent(Point pt)
-        {
+        public bool DoesStackedClientMouseDownBecomeCurrent(Point pt) =>
             // If the item is enabled and the mouse is over the sub menu area, then return false
             // because we do not want pressed it to cause the context menu to become current. This
             // cause the showing sub menu to be dismissed.
-            if (_menuItem.ItemEnabled)
-            {
-                return !_menuItem.PointInSubMenu(pt);
-            }
+            _menuItem.ItemEnabled ? !_menuItem.PointInSubMenu(pt) : true;
 
-            return true;
-        }
         #endregion
 
         #region Mouse Notifications
@@ -376,12 +346,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(c));
             }
 
-            if (e == null)
-            {
-                throw new ArgumentNullException(nameof(e));
-            }
-
-            return false;
+            return e == null ? throw new ArgumentNullException(nameof(e)) : false;
         }
         #endregion
 
@@ -425,10 +390,8 @@ namespace Krypton.Toolkit
         /// Fires the NeedPaint event.
         /// </summary>
         /// <param name="layout">Does a layout need to occur.</param>
-        public void PerformNeedPaint(bool layout)
-        {
-            OnNeedPaint(layout);
-        }
+        public void PerformNeedPaint(bool layout) => OnNeedPaint(layout);
+
         #endregion
 
         #region Implementation
@@ -443,7 +406,7 @@ namespace Krypton.Toolkit
                 if (_menuItem.CanCloseMenu)
                 {
                     // Ask the original context menu definition, if we can close
-                    CancelEventArgs cea = new CancelEventArgs();
+                    CancelEventArgs cea = new();
                     _menuItem.Closing(cea);
 
                     if (!cea.Cancel)
@@ -499,10 +462,8 @@ namespace Krypton.Toolkit
         /// Raises the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected virtual void OnNeedPaint(bool needLayout)
-        {
-            _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout, _menuItem.ClientRectangle));
-        }
+        protected virtual void OnNeedPaint(bool needLayout) => _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout, _menuItem.ClientRectangle));
+
         #endregion
     }
 }

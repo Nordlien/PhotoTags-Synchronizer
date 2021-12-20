@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Windows.Forms;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -55,7 +51,7 @@ namespace Krypton.Toolkit
 
         #region SetInherit
         /// <summary>
-        /// Sets the inheritence parent.
+        /// Sets the inheritance parent.
         /// </summary>
         public void SetInherit(PaletteDoubleMetricRedirect inherit)
         {
@@ -71,11 +67,9 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Integer value.</returns>
-        public virtual int GetMetricInt(PaletteState state, PaletteMetricInt metric)
-        {
+        public virtual int GetMetricInt(PaletteState state, PaletteMetricInt metric) =>
             // Always pass onto the inheritance
-            return _inherit.GetMetricInt(state, metric);
-        }
+            _inherit.GetMetricInt(state, metric);
 
         /// <summary>
         /// Gets a boolean metric value.
@@ -83,11 +77,9 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>InheritBool value.</returns>
-        public virtual InheritBool GetMetricBool(PaletteState state, PaletteMetricBool metric)
-        {
+        public virtual InheritBool GetMetricBool(PaletteState state, PaletteMetricBool metric) =>
             // Always pass onto the inheritance
-            return _inherit.GetMetricBool(state, metric);
-        }
+            _inherit.GetMetricBool(state, metric);
 
         /// <summary>
         /// Gets a padding metric value.
@@ -95,11 +87,10 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Padding value.</returns>
-        public virtual Padding GetMetricPadding(PaletteState state, PaletteMetricPadding metric)
-        {
+        public virtual Padding GetMetricPadding(PaletteState state, PaletteMetricPadding metric) =>
             // Always pass onto the inheritance
-            return _inherit.GetMetricPadding(state, metric);
-        }
+            _inherit.GetMetricPadding(state, metric);
+
         #endregion
     }
 }

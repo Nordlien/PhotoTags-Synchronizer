@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.ComponentModel;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -31,7 +27,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteTrackBarRedirect class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteTrackBarRedirect(PaletteRedirect redirect,
                                        NeedPaintHandler needPaint)
@@ -99,10 +95,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteElementColorRedirect Tick { get; }
 
-        private bool ShouldSerializeTick()
-        {
-            return !Tick.IsDefault;
-        }
+        private bool ShouldSerializeTick() => !Tick.IsDefault;
+
         #endregion
 
         #region Track
@@ -115,10 +109,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteElementColorRedirect Track { get; }
 
-        private bool ShouldSerializeTrack()
-        {
-            return !Track.IsDefault;
-        }
+        private bool ShouldSerializeTrack() => !Track.IsDefault;
+
         #endregion
 
         #region Position
@@ -131,10 +123,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteElementColorRedirect Position { get; }
 
-        private bool ShouldSerializePosition()
-        {
-            return !Position.IsDefault;
-        }
+        private bool ShouldSerializePosition() => !Position.IsDefault;
+
         #endregion
 
         #region Internal
@@ -156,11 +146,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="needLayout">True if a layout is also needed.</param>
-        protected void OnNeedPaint(object sender, bool needLayout)
-        {
+        protected void OnNeedPaint(object sender, bool needLayout) =>
             // Pass request from child to our own handler
             PerformNeedPaint(needLayout);
-        }
+
         #endregion
     }
 }

@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -115,7 +109,7 @@ namespace Krypton.Toolkit
                 if (_windowTitle != value)
                 {
                     _windowTitle = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("WindowTitle"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(WindowTitle)));
                 }
             }
         }
@@ -137,7 +131,7 @@ namespace Krypton.Toolkit
                 if (_mainInstruction != value)
                 {
                     _mainInstruction = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("MainInstruction"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(MainInstruction)));
                 }
             }
         }
@@ -159,7 +153,7 @@ namespace Krypton.Toolkit
                 if (_content != value)
                 {
                     _content = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Content"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Content)));
                 }
             }
         }
@@ -179,7 +173,7 @@ namespace Krypton.Toolkit
                 if (_icon != value)
                 {
                     _icon = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Icon"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Icon)));
                 }
             }
         }
@@ -199,7 +193,7 @@ namespace Krypton.Toolkit
                 if (_customIcon != value)
                 {
                     _customIcon = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("CustomIcon"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(CustomIcon)));
                 }
             }
         }
@@ -241,7 +235,7 @@ namespace Krypton.Toolkit
                 if (_commonButtons != value)
                 {
                     _commonButtons = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("CommonButtons"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(CommonButtons)));
                 }
             }
         }
@@ -261,7 +255,7 @@ namespace Krypton.Toolkit
                 if (_defaultRadioButton != value)
                 {
                     _defaultRadioButton = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("DefaultRadioButton"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(DefaultRadioButton)));
                 }
             }
         }
@@ -281,7 +275,7 @@ namespace Krypton.Toolkit
                 if (_defaultButton != value)
                 {
                     _defaultButton = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("DefaultButton"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(DefaultButton)));
                 }
             }
         }
@@ -301,7 +295,7 @@ namespace Krypton.Toolkit
                 if (_footerIcon != value)
                 {
                     _footerIcon = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("FooterIcon"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(FooterIcon)));
                 }
             }
         }
@@ -321,7 +315,7 @@ namespace Krypton.Toolkit
                 if (_customFooterIcon != value)
                 {
                     _customFooterIcon = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("CustomFooterIcon"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(CustomFooterIcon)));
                 }
             }
         }
@@ -343,7 +337,7 @@ namespace Krypton.Toolkit
                 if (_footerText != value)
                 {
                     _footerText = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("FooterText"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(FooterText)));
                 }
             }
         }
@@ -365,7 +359,7 @@ namespace Krypton.Toolkit
                 if (_footerHyperlink != value)
                 {
                     _footerHyperlink = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("FooterHyperlink"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(FooterHyperlink)));
                 }
             }
         }
@@ -387,7 +381,7 @@ namespace Krypton.Toolkit
                 if (_checkboxText != value)
                 {
                     _checkboxText = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("CheckboxText"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(CheckboxText)));
                 }
             }
         }
@@ -409,7 +403,7 @@ namespace Krypton.Toolkit
                 if (_checkboxState != value)
                 {
                     _checkboxState = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("CheckboxState"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(CheckboxState)));
                 }
             }
         }
@@ -429,7 +423,7 @@ namespace Krypton.Toolkit
                 if (_allowDialogClose != value)
                 {
                     _allowDialogClose = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("AllowDialogClose"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(AllowDialogClose)));
                 }
             }
         }
@@ -459,7 +453,7 @@ namespace Krypton.Toolkit
                 if (_textExtra != value)
                 {
                     _textExtra = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs(@"TextExtra"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(TextExtra)));
                 }
             }
         }
@@ -469,19 +463,13 @@ namespace Krypton.Toolkit
             Tag = null;
         }
 
-        private bool ShouldSerializeTag()
-        {
-            return (Tag != null);
-        }
+        private bool ShouldSerializeTag() => (Tag != null);
 
         /// <summary>
         /// Shows the task dialog as a modal dialog box with the currently active window set as its owner.
         /// </summary>
         /// <returns>One of the DialogResult values.</returns>
-        public DialogResult ShowDialog()
-        {
-            return ShowDialog(Control.FromHandle(PI.GetActiveWindow()));
-        }
+        public DialogResult ShowDialog() => ShowDialog(Control.FromHandle(PI.GetActiveWindow()));
 
         /// <summary>
         /// Shows the form as a modal dialog box with the specified owner.
@@ -520,18 +508,16 @@ namespace Krypton.Toolkit
                                         TaskDialogButtons commonButtons)
         {
             // Create a temporary task dialog for storing definition whilst showing
-            using (KryptonTaskDialog taskDialog = new KryptonTaskDialog())
-            {
-                // Store incoming values
-                taskDialog.WindowTitle = windowTitle;
-                taskDialog.MainInstruction = mainInstruction;
-                taskDialog.Content = content;
-                taskDialog.Icon = icon;
-                taskDialog.CommonButtons = commonButtons;
+            using KryptonTaskDialog taskDialog = new();
+            // Store incoming values
+            taskDialog.WindowTitle = windowTitle;
+            taskDialog.MainInstruction = mainInstruction;
+            taskDialog.Content = content;
+            taskDialog.Icon = icon;
+            taskDialog.CommonButtons = commonButtons;
 
-                // Show as a modal dialog
-                return taskDialog.ShowDialog();
-            }
+            // Show as a modal dialog
+            return taskDialog.ShowDialog();
         }
         #endregion
 
@@ -540,26 +526,19 @@ namespace Krypton.Toolkit
         /// Raises the PropertyFooterHyperlinkClickedChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnFooterHyperlinkClicked(EventArgs e)
-        {
-            FooterHyperlinkClicked?.Invoke(this, e);
-        }
+        protected virtual void OnFooterHyperlinkClicked(EventArgs e) => FooterHyperlinkClicked?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="e">A PropertyChangedEventArgs containing the event data.</param>
-        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
-        {
-            PropertyChanged?.Invoke(this, e);
-        }
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e) => PropertyChanged?.Invoke(this, e);
+
         #endregion
 
         #region Internal
-        internal void RaiseFooterHyperlinkClicked()
-        {
-            OnFooterHyperlinkClicked(EventArgs.Empty);
-        }
+        internal void RaiseFooterHyperlinkClicked() => OnFooterHyperlinkClicked(EventArgs.Empty);
+
         #endregion
     }
 }

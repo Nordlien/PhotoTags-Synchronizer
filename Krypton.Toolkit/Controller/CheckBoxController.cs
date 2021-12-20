@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -342,19 +336,14 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Fires the NeedPaint event.
         /// </summary>
-        public void PerformNeedPaint()
-        {
-            OnNeedPaint(false);
-        }
+        public void PerformNeedPaint() => OnNeedPaint(false);
 
         /// <summary>
         /// Fires the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        public void PerformNeedPaint(bool needLayout)
-        {
-            OnNeedPaint(needLayout);
-        }
+        public void PerformNeedPaint(bool needLayout) => OnNeedPaint(needLayout);
+
         #endregion
 
         #region Protected
@@ -362,19 +351,14 @@ namespace Krypton.Toolkit
         /// Raises the Click event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnClick(EventArgs e)
-        {
-            Click?.Invoke(_target, e);
-        }
+        protected virtual void OnClick(EventArgs e) => Click?.Invoke(_target, e);
 
         /// <summary>
         /// Raises the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected virtual void OnNeedPaint(bool needLayout)
-        {
-            _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout));
-        }
+        protected virtual void OnNeedPaint(bool needLayout) => _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout));
+
         #endregion
     }
 }

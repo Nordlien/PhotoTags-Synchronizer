@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.ComponentModel;
 
 namespace Krypton.Ribbon
 {
@@ -73,7 +69,7 @@ namespace Krypton.Ribbon
                 if (value != _heading)
                 {
                     _heading = value;
-                    OnPropertyChanged("Heading");
+                    OnPropertyChanged(nameof(Heading));
                 }
             }
         }
@@ -93,7 +89,7 @@ namespace Krypton.Ribbon
                 if (_imageIndexStart != value)
                 {
                     _imageIndexStart = value;
-                    OnPropertyChanged("ImageIndexStart");
+                    OnPropertyChanged(nameof(ImageIndexStart));
                 }
             }
         }
@@ -113,7 +109,7 @@ namespace Krypton.Ribbon
                 if (_imageIndexEnd != value)
                 {
                     _imageIndexEnd = value;
-                    OnPropertyChanged("ImageIndexEnd");
+                    OnPropertyChanged(nameof(ImageIndexEnd));
                 }
             }
         }

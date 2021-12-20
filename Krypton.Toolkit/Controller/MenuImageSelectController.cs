@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -121,10 +115,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="charCode">Key code to test against.</param>
         /// <returns>True if a match is found; otherwise false.</returns>
-        public bool MatchMnemonic(char charCode)
-        {
-            return false;
-        }
+        public bool MatchMnemonic(char charCode) => false;
 
         /// <summary>
         /// Activate the item because of a mnemonic key press.
@@ -137,10 +128,7 @@ namespace Krypton.Toolkit
         /// Gets the view element that should be used when this target is active.
         /// </summary>
         /// <returns>View element to become active.</returns>
-        public ViewBase GetActiveView()
-        {
-            return _target;
-        }
+        public ViewBase GetActiveView() => _target;
 
         /// <summary>
         /// Get the client rectangle for the display of this target.
@@ -152,10 +140,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="pt">Client coordinates point.</param>
         /// <returns>True to become current; otherwise false.</returns>
-        public bool DoesStackedClientMouseDownBecomeCurrent(Point pt)
-        {
-            return true;
-        }
+        public bool DoesStackedClientMouseDownBecomeCurrent(Point pt) => true;
+
         #endregion
 
         #region Mouse Notifications
@@ -348,7 +334,7 @@ namespace Krypton.Toolkit
                 case Keys.Space:
                     if (_layout.ItemEnabled)
                     {
-                        Point pt = new Point(int.MaxValue, int.MaxValue);
+                        Point pt = new(int.MaxValue, int.MaxValue);
                         OnClick(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
                         UpdateTargetState(pt);
                     }
@@ -420,12 +406,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(c));
             }
 
-            if (e == null)
-            {
-                throw new ArgumentNullException(nameof(e));
-            }
-
-            return false;
+            return e == null ? throw new ArgumentNullException(nameof(e)) : false;
         }
         #endregion
 
@@ -455,19 +436,14 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Fires the NeedPaint event.
         /// </summary>
-        public void PerformNeedPaint()
-        {
-            OnNeedPaint(false);
-        }
+        public void PerformNeedPaint() => OnNeedPaint(false);
 
         /// <summary>
         /// Fires the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        public void PerformNeedPaint(bool needLayout)
-        {
-            OnNeedPaint(needLayout);
-        }
+        public void PerformNeedPaint(bool needLayout) => OnNeedPaint(needLayout);
+
         #endregion
 
         #region Protected
@@ -504,7 +480,7 @@ namespace Krypton.Toolkit
         protected virtual void UpdateTargetState(Point pt)
         {
             // By default the button is in the normal state
-            PaletteState newState = PaletteState.Normal;
+            PaletteState newState;
 
             // If the button is disabled then show as disabled
             if (!_target.Enabled)
@@ -549,19 +525,14 @@ namespace Krypton.Toolkit
         /// Raises the Click event.
         /// </summary>
         /// <param name="e">A MouseEventArgs containing the event data.</param>
-        protected virtual void OnClick(MouseEventArgs e)
-        {
-            Click?.Invoke(_target, e);
-        }
+        protected virtual void OnClick(MouseEventArgs e) => Click?.Invoke(_target, e);
 
         /// <summary>
         /// Raises the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected virtual void OnNeedPaint(bool needLayout)
-        {
-            _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout, _target.ClientRectangle));
-        }
+        protected virtual void OnNeedPaint(bool needLayout) => _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout, _target.ClientRectangle));
+
         #endregion
     }
 }

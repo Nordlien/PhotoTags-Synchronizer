@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.ComponentModel;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -34,11 +30,10 @@ namespace Krypton.Ribbon
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteRibbonGroupAreaTab(PaletteRibbonRedirect inherit,
                                          NeedPaintHandler needPaint)
-            : base(inherit, needPaint)
-        {
+            : base(inherit, needPaint) =>
             // Create storage that maps onto the inherit instances
-            _ribbonGroupArea = new PaletteRibbonBack(inherit.RibbonGroupArea, needPaint);
-        }
+            _ribbonGroupArea = new PaletteRibbonBack(inherit.RibbonGroupBackArea, needPaint);
+
         #endregion
 
         #region IsDefault
@@ -65,12 +60,12 @@ namespace Krypton.Ribbon
 
         #region SetInherit
         /// <summary>
-        /// Sets the inheritence parent.
+        /// Sets the inheritance parent.
         /// </summary>
         public override void SetInherit(PaletteRibbonRedirect inherit)
         {
             base.SetInherit(inherit);
-            _ribbonGroupArea.SetInherit(inherit.RibbonGroupArea);
+            _ribbonGroupArea.SetInherit(inherit.RibbonGroupBackArea);
         }
         #endregion
 
@@ -83,10 +78,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonGroupArea => _ribbonGroupArea;
 
-        private bool ShouldSerializeRibbonGroupArea()
-        {
-            return !_ribbonGroupArea.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGroupArea() => !_ribbonGroupArea.IsDefault;
+
         #endregion
     }
 }

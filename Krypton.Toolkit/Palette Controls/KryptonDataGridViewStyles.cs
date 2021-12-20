@@ -2,18 +2,13 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
-
-using System.ComponentModel;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -113,10 +108,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeStyle()
-        {
-            return (Style != DataGridViewStyle.List);
-        }
+        private bool ShouldSerializeStyle() => (Style != DataGridViewStyle.List);
 
         private void ResetStyle()
         {
@@ -197,10 +189,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeStyleColumn()
-        {
-            return (StyleColumn != GridStyle.List);
-        }
+        private bool ShouldSerializeStyleColumn() => (StyleColumn != GridStyle.List);
 
         private void ResetStyleColumn()
         {
@@ -281,10 +270,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeStyleRow()
-        {
-            return (StyleRow != GridStyle.List);
-        }
+        private bool ShouldSerializeStyleRow() => (StyleRow != GridStyle.List);
 
         private void ResetStyleRow()
         {
@@ -365,10 +351,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeStyleDataCells()
-        {
-            return (StyleDataCells != GridStyle.List);
-        }
+        private bool ShouldSerializeStyleDataCells() => (StyleDataCells != GridStyle.List);
 
         private void ResetStyleDataCells()
         {
@@ -392,26 +375,31 @@ namespace Krypton.Toolkit
                 if (_backgroundStyle != value)
                 {
                     _backgroundStyle = value;
-                    _gridStyle = DataGridViewStyle.Mixed;
 
-                    switch (_backgroundStyle)
+                    _gridStyle = _backgroundStyle switch
                     {
-                        case PaletteBackStyle.GridBackgroundList when (_columnStyle == GridStyle.List) && (_rowStyle == GridStyle.List) && (_dataCellStyle == GridStyle.List):
-                            _gridStyle = DataGridViewStyle.List;
-                            break;
-                        case PaletteBackStyle.GridBackgroundSheet when (_columnStyle == GridStyle.Sheet) && (_rowStyle == GridStyle.Sheet) && (_dataCellStyle == GridStyle.Sheet):
-                            _gridStyle = DataGridViewStyle.Sheet;
-                            break;
-                        case PaletteBackStyle.GridBackgroundCustom1 when (_columnStyle == GridStyle.Custom1) && (_rowStyle == GridStyle.Custom1) && (_dataCellStyle == GridStyle.Custom1):
-                            _gridStyle = DataGridViewStyle.Custom1;
-                            break;
-                        case PaletteBackStyle.GridBackgroundCustom2 when (_columnStyle == GridStyle.Custom2) && (_rowStyle == GridStyle.Custom2) && (_dataCellStyle == GridStyle.Custom2):
-                            _gridStyle = DataGridViewStyle.Custom2;
-                            break;
-                        case PaletteBackStyle.GridBackgroundCustom3 when (_columnStyle == GridStyle.Custom3) && (_rowStyle == GridStyle.Custom3) && (_dataCellStyle == GridStyle.Custom3):
-                            _gridStyle = DataGridViewStyle.Custom3;
-                            break;
-                    }
+                        PaletteBackStyle.GridBackgroundList when (_columnStyle == GridStyle.List) &&
+                                                                 (_rowStyle == GridStyle.List) &&
+                                                                 (_dataCellStyle == GridStyle.List) => DataGridViewStyle
+                            .List,
+                        PaletteBackStyle.GridBackgroundSheet when (_columnStyle == GridStyle.Sheet) &&
+                                                                  (_rowStyle == GridStyle.Sheet) &&
+                                                                  (_dataCellStyle == GridStyle.Sheet) =>
+                            DataGridViewStyle.Sheet,
+                        PaletteBackStyle.GridBackgroundCustom1 when (_columnStyle == GridStyle.Custom1) &&
+                                                                    (_rowStyle == GridStyle.Custom1) &&
+                                                                    (_dataCellStyle == GridStyle.Custom1) =>
+                            DataGridViewStyle.Custom1,
+                        PaletteBackStyle.GridBackgroundCustom2 when (_columnStyle == GridStyle.Custom2) &&
+                                                                    (_rowStyle == GridStyle.Custom2) &&
+                                                                    (_dataCellStyle == GridStyle.Custom2) =>
+                            DataGridViewStyle.Custom2,
+                        PaletteBackStyle.GridBackgroundCustom3 when (_columnStyle == GridStyle.Custom3) &&
+                                                                    (_rowStyle == GridStyle.Custom3) &&
+                                                                    (_dataCellStyle == GridStyle.Custom3) =>
+                            DataGridViewStyle.Custom3,
+                        _ => DataGridViewStyle.Mixed
+                    };
 
                     _dataGridView.SyncStyles();
                     _dataGridView.PerformNeedPaint(false);
@@ -419,10 +407,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeStyleBackground()
-        {
-            return (StyleBackground != PaletteBackStyle.GridBackgroundList);
-        }
+        private bool ShouldSerializeStyleBackground() => (StyleBackground != PaletteBackStyle.GridBackgroundList);
 
         private void ResetStyleBackground()
         {

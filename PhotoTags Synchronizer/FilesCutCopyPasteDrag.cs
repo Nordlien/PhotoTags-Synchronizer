@@ -163,7 +163,7 @@ namespace PhotoTagsSynchronizer
                 catch (Exception ex)
                 {
                     KryptonMessageBox.Show("Was not able to delete the file: " + fileEntry.FileFullPath + "\r\n\r\n" + ex.Message, 
-                        "Deleting file failed", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                        "Deleting file failed", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
                 }
             }
 

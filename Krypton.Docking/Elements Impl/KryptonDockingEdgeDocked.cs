@@ -2,24 +2,13 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
-
-using System;
-using System.Xml;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Collections.Generic;
-using System.ComponentModel;
-using Krypton.Toolkit;
-using Krypton.Navigator;
 
 namespace Krypton.Docking
 {
@@ -37,7 +26,7 @@ namespace Krypton.Docking
         #endregion
         
         #region Static Fields
-        private static readonly Size _defaultDockspaceSize = new Size(200, 200);
+        private static readonly Size _defaultDockspaceSize = new(200, 200);
         #endregion
 
         #region Instance Fields
@@ -79,21 +68,16 @@ namespace Krypton.Docking
         /// Create and add a new dockspace instance to the correct edge of the owning control.
         /// </summary>
         /// <returns>Reference to docking element that handles the new dockspace.</returns>
-        public KryptonDockingDockspace AppendDockspace()
-        {
+        public KryptonDockingDockspace AppendDockspace() =>
             // Generate a unique string by creating a GUID
-            return AppendDockspace(CommonHelper.UniqueString);
-        }
+            AppendDockspace(CommonHelper.UniqueString);
 
         /// <summary>
         /// Create and add a new dockspace instance to the correct edge of the owning control.
         /// </summary>
         /// <param name="name">Initial name of the dockspace element.</param>
         /// <returns>Reference to docking element that handles the new dockspace.</returns>
-        public KryptonDockingDockspace AppendDockspace(string name)
-        {
-            return AppendDockspace(name, new Size(200, 200));
-        }
+        public KryptonDockingDockspace AppendDockspace(string name) => AppendDockspace(name, new Size(200, 200));
 
         /// <summary>
         /// Create and add a new dockspace instance to the correct edge of the owning control.
@@ -101,21 +85,16 @@ namespace Krypton.Docking
         /// <param name="name">Initial name of the dockspace element.</param>
         /// <param name="size">Initial size of the dockspace control.</param>
         /// <returns>Reference to docking element that handles the new dockspace.</returns>
-        public KryptonDockingDockspace AppendDockspace(string name, Size size)
-        {
-            return CreateAndInsertDockspace(Count, name, size);
-        }
+        public KryptonDockingDockspace AppendDockspace(string name, Size size) => CreateAndInsertDockspace(Count, name, size);
 
         /// <summary>
         /// Create and insert a new dockspace instance to the correct edge of the owning control.
         /// </summary>
         /// <param name="index">Insertion index.</param>
         /// <returns>Reference to docking element that handles the new dockspace.</returns>
-        public KryptonDockingDockspace InsertDockspace(int index)
-        {
+        public KryptonDockingDockspace InsertDockspace(int index) =>
             // Generate a unique string by creating a GUID
-            return InsertDockspace(index, CommonHelper.UniqueString);
-        }
+            InsertDockspace(index, CommonHelper.UniqueString);
 
         /// <summary>
         /// Create and insert a new dockspace instance to the correct edge of the owning control.
@@ -123,10 +102,7 @@ namespace Krypton.Docking
         /// <param name="index">Insertion index.</param>
         /// <param name="name">Initial name of the dockspace element.</param>
         /// <returns>Reference to docking element that handles the new dockspace.</returns>
-        public KryptonDockingDockspace InsertDockspace(int index, string name)
-        {
-            return InsertDockspace(index, name, new Size(200, 200));
-        }
+        public KryptonDockingDockspace InsertDockspace(int index, string name) => InsertDockspace(index, name, new Size(200, 200));
 
         /// <summary>
         /// Create and insert a new dockspace instance to the correct edge of the owning control.
@@ -135,20 +111,15 @@ namespace Krypton.Docking
         /// <param name="name">Initial name of the dockspace element.</param>
         /// <param name="size">Initial size of the dockspace control.</param>
         /// <returns>Reference to docking element that handles the new dockspace.</returns>
-        public KryptonDockingDockspace InsertDockspace(int index, string name, Size size)
-        {
-            return CreateAndInsertDockspace(index, name, size);
-        }
+        public KryptonDockingDockspace InsertDockspace(int index, string name, Size size) => CreateAndInsertDockspace(index, name, size);
 
         /// <summary>
         /// Find a edge docked element by searching the hierarchy.
         /// </summary>
        /// <param name="uniqueName">Named page for which a suitable docking edge element is required.</param>
         /// <returns>KryptonDockingEdgeDocked reference if found; otherwise false.</returns>
-        public override KryptonDockingEdgeDocked FindDockingEdgeDocked(string uniqueName)
-        {
-            return this;
-        }        
+        public override KryptonDockingEdgeDocked FindDockingEdgeDocked(string uniqueName) => this;
+
         #endregion
 
         #region Protected
@@ -193,14 +164,14 @@ namespace Krypton.Docking
         private KryptonDockingDockspace CreateAndInsertDockspace(int index, string name, Size size)
         {
             // Create a dockspace separator do the dockspace can be resized
-            KryptonDockspaceSeparator separatorControl = new KryptonDockspaceSeparator(Edge, false);
+            KryptonDockspaceSeparator separatorControl = new(Edge, false);
             separatorControl.SplitterMoveRect += OnDockspaceSeparatorMoveRect;
             separatorControl.SplitterMoved += OnDockspaceSeparatorMoved;
             separatorControl.SplitterNotMoved += OnDockspaceSeparatorNotMoved;
             separatorControl.Disposed += OnDockspaceSeparatorDisposed;
 
             // Create and add the dockspace to the collection
-            KryptonDockingDockspace dockspaceElement = new KryptonDockingDockspace(name, Edge, size);
+            KryptonDockingDockspace dockspaceElement = new(name, Edge, size);
             dockspaceElement.HasVisibleCells += OnDockingDockspaceHasVisibleCells;
             dockspaceElement.HasNoVisibleCells += OnDockingDockspaceHasNoVisibleCells;
             dockspaceElement.Disposed += OnDockingDockspaceDisposed;
@@ -215,8 +186,8 @@ namespace Krypton.Docking
             if (dockingManager != null)
             {
                 // Allow the dockspace and dockspace separator to be customized by event handlers
-                DockspaceEventArgs spaceArgs = new DockspaceEventArgs(dockspaceElement.DockspaceControl, dockspaceElement);
-                DockspaceSeparatorEventArgs separatorArgs = new DockspaceSeparatorEventArgs(separatorControl, dockspaceElement);
+                DockspaceEventArgs spaceArgs = new(dockspaceElement.DockspaceControl, dockspaceElement);
+                DockspaceSeparatorEventArgs separatorArgs = new(separatorControl, dockspaceElement);
                 dockingManager.RaiseDockspaceAdding(spaceArgs);
                 dockingManager.RaiseDockspaceSeparatorAdding(separatorArgs);
             }
@@ -263,7 +234,7 @@ namespace Krypton.Docking
             if (dockingManager != null)
             {
                 // Allow the movement rectangle to be modified by event handlers
-                DockspaceSeparatorResizeEventArgs dockspaceResizeRectArgs = new DockspaceSeparatorResizeEventArgs(separatorControl, dockspaceElement, FindMovementRect(dockspaceElement, e.MoveRect));
+                DockspaceSeparatorResizeEventArgs dockspaceResizeRectArgs = new(separatorControl, dockspaceElement, FindMovementRect(dockspaceElement, e.MoveRect));
                 dockingManager.RaiseDockspaceSeparatorResize(dockspaceResizeRectArgs);
                 e.MoveRect = dockspaceResizeRectArgs.ResizeRect;
             }
@@ -366,7 +337,7 @@ namespace Krypton.Docking
             if (dockingManager != null)
             {
                 // Allow the dockspace and dockspace separator to be customized by event handlers
-                DockspaceSeparatorEventArgs separatorArgs = new DockspaceSeparatorEventArgs(separatorControl, _lookupSeparator[separatorControl]);
+                DockspaceSeparatorEventArgs separatorArgs = new(separatorControl, _lookupSeparator[separatorControl]);
                 dockingManager.RaiseDockspaceSeparatorRemoved(separatorArgs);
             }
 

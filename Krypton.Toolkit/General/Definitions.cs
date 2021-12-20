@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Windows.Forms;
 // ReSharper disable EventNeverSubscribedTo.Global
 // ReSharper disable UnusedMemberInSuper.Global
 #pragma warning disable 1591
@@ -244,7 +237,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Sets the reason for the context menu being closed.
         /// </summary>
-        Nullable<ToolStripDropDownCloseReason> ProviderCloseReason { get; set; }
+        ToolStripDropDownCloseReason? ProviderCloseReason { get; set; }
 
         /// <summary>
         /// Gets and sets the horizontal setting used to position the menu.
@@ -930,7 +923,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies docking tabs with larger selected entry.
         /// </summary>
-        DockOutsize,
+        DockOutsize
     }
     #endregion
 
@@ -953,7 +946,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies button should be disabled.
         /// </summary>
-        False,
+        False
     }
     #endregion
 
@@ -1183,7 +1176,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies a mixed set of styles.
         /// </summary>
-        Mixed,
+        Mixed
     }
     #endregion
 
@@ -1527,7 +1520,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies the child element should dock against the right edge.
         /// </summary>
-        Right,
+        Right
     }
     #endregion
 
@@ -1560,7 +1553,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies a pencil for the line being edited.
         /// </summary>
-        Pencil,
+        Pencil
     }
     #endregion
 
@@ -1588,7 +1581,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies bottom of context menu is adjacent to bottom of rectangle.
         /// </summary>
-        Bottom,
+        Bottom
     }
     #endregion
 
@@ -1616,7 +1609,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies right of context menu is adjacent to right of rectangle.
         /// </summary>
-        Right,
+        Right
     }
     #endregion
 
@@ -1698,7 +1691,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies the Close button.
         /// </summary>
-        Close = 0x20,
+        Close = 0x20
     }
     #endregion
 
@@ -1837,7 +1830,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// A position of the Popup control that aligns its lower edge with the upper edge of the PlacementTarget and aligns its left edge with the left edge of the PlacementTarget. If the upper screen-edge obscures the Popup, the control repositions itself so that its upper edge aligns with the lower edge of the PlacementTarget.If the lower screen-edge obscures the Popup, the lower edge of the control aligns with the lower screen-edge.If the left or right screen-edge obscures the Popup, it then repositions itself to align with the obscuring screen.
         /// </summary>
-        Top = 10,
+        Top = 10
     }
     #endregion Enum PlacementMode
 }

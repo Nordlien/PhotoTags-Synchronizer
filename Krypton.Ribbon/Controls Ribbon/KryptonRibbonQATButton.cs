@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Design;
-using System.ComponentModel;
-using System.Windows.Forms;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -94,7 +86,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Values")]
         [Description("Application button image.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image Image
         {
             get => _image;
@@ -114,7 +106,7 @@ namespace Krypton.Ribbon
                     }
 
                     _image = value;
-                    OnPropertyChanged("Image");
+                    OnPropertyChanged(nameof(Image));
 
                     // Only need to update display if we are visible
                     if (Visible)
@@ -125,10 +117,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private bool ShouldSerializeImage()
-        {
-            return Image != _defaultImage;
-        }
+        private bool ShouldSerializeImage() => Image != _defaultImage;
 
         /// <summary>
         /// Gets and sets the visible state of the ribbon quick access toolbar entry.
@@ -146,7 +135,7 @@ namespace Krypton.Ribbon
                 if (value != _visible)
                 {
                     _visible = value;
-                    OnPropertyChanged("Visible");
+                    OnPropertyChanged(nameof(Visible));
 
                     // Must try and layout to show change
                     if (Ribbon != null)
@@ -190,7 +179,7 @@ namespace Krypton.Ribbon
                 if (value != _enabled)
                 {
                     _enabled = value;
-                    OnPropertyChanged("Enabled");
+                    OnPropertyChanged(nameof(Enabled));
 
                     // Must try and paint to show change
                     if (Visible)
@@ -208,7 +197,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("QAT button text.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("QAT Button")]
         public string Text
         {
@@ -225,7 +214,7 @@ namespace Krypton.Ribbon
                 if (value != _text)
                 {
                     _text = value;
-                    OnPropertyChanged("Text");
+                    OnPropertyChanged(nameof(Text));
                 }
             }
         }
@@ -238,10 +227,7 @@ namespace Krypton.Ribbon
         [Description("Shortcut key combination to fire click event of the quick access toolbar button.")]
         public Keys ShortcutKeys { get; set; }
 
-        private bool ShouldSerializeShortcutKeys()
-        {
-            return (ShortcutKeys != Keys.None);
-        }
+        private bool ShouldSerializeShortcutKeys() => (ShortcutKeys != Keys.None);
 
         /// <summary>
         /// Resets the ShortcutKeys property to its default value.
@@ -275,7 +261,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Color to draw as transparent in the ToolTipImage.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         [Localizable(true)]
         public Color ToolTipImageTransparentColor { get; set; }
 
@@ -285,7 +271,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Title text for use in associated ToolTip.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         [Localizable(true)]
         public string ToolTipTitle { get; set; }
@@ -296,7 +282,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Body text for use in associated ToolTip.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         [Localizable(true)]
         public string ToolTipBody { get; set; }
@@ -321,7 +307,7 @@ namespace Krypton.Ribbon
                     }
 
                     _command = value;
-                    OnPropertyChanged("KryptonCommand");
+                    OnPropertyChanged(nameof(KryptonCommand));
 
                     if (_command != null)
                     {
@@ -353,15 +339,12 @@ namespace Krypton.Ribbon
                 if (value != _tag)
                 {
                     _tag = value;
-                    OnPropertyChanged("Tag");
+                    OnPropertyChanged(nameof(Tag));
                 }
             }
         }
 
-        private bool ShouldSerializeTag()
-        {
-            return (Tag != null);
-        }
+        private bool ShouldSerializeTag() => (Tag != null);
 
         private void ResetTag()
         {
@@ -406,20 +389,14 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <returns>ShortcutKeys value.</returns>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public Keys GetShortcutKeys()
-        {
-            return ShortcutKeys;
-        }
+        public Keys GetShortcutKeys() => ShortcutKeys;
 
         /// <summary>
         /// Gets the entry visible state.
         /// </summary>
         /// <returns>Visible value.</returns>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public bool GetVisible()
-        {
-            return Visible;
-        }
+        public bool GetVisible() => Visible;
 
         /// <summary>
         /// Sets a new value for the visible state.
@@ -435,46 +412,31 @@ namespace Krypton.Ribbon
         /// Gets the tooltip label style.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public LabelStyle GetToolTipStyle()
-        {
-            return ToolTipStyle;
-        }
+        public LabelStyle GetToolTipStyle() => ToolTipStyle;
 
         /// <summary>
         /// Gets and sets the image for the item ToolTip.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public Image GetToolTipImage()
-        {
-            return ToolTipImage;
-        }
+        public Image GetToolTipImage() => ToolTipImage;
 
         /// <summary>
         /// Gets and sets the color to draw as transparent in the ToolTipImage.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public Color GetToolTipImageTransparentColor()
-        {
-            return ToolTipImageTransparentColor;
-        }
+        public Color GetToolTipImageTransparentColor() => ToolTipImageTransparentColor;
 
         /// <summary>
         /// Gets and sets the title text for the item ToolTip.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public string GetToolTipTitle()
-        {
-            return ToolTipTitle;
-        }
+        public string GetToolTipTitle() => ToolTipTitle;
 
         /// <summary>
         /// Gets and sets the body text for the item ToolTip.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public string GetToolTipBody()
-        {
-            return ToolTipBody;
-        }
+        public string GetToolTipBody() => ToolTipBody;
 
         /// <summary>
         /// Generates a Click event for a button.
@@ -499,15 +461,15 @@ namespace Krypton.Ribbon
             {
                 case "Text":
                     refresh = true;
-                    OnPropertyChanged("Text");
+                    OnPropertyChanged(nameof(Text));
                     break;
                 case "ImageSmall":
                     refresh = true;
-                    OnPropertyChanged("Image");
+                    OnPropertyChanged(nameof(Image));
                     break;
                 case "Enabled":
                     refresh = true;
-                    OnPropertyChanged("Enabled");
+                    OnPropertyChanged(nameof(Enabled));
                     break;
             }
 

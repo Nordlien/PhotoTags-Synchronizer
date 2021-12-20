@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -79,11 +71,9 @@ namespace Krypton.Ribbon
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawRibbonGalleryButton:" + Id;
-        }
+            "ViewDrawRibbonGalleryButton:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -115,13 +105,11 @@ namespace Krypton.Ribbon
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
-        {
+        public override Size GetPreferredSize(ViewLayoutContext context) =>
             // Grab the required size for the content images
-            return context.Renderer.RenderStandardContent.GetContentPreferredSize(context, _paletteContent, 
-                                                                                  this, VisualOrientation.Top,
-                                                                                  State, false, false);
-        }
+            context.Renderer.RenderStandardContent.GetContentPreferredSize(context, _paletteContent, 
+                this, VisualOrientation.Top,
+                State, false, false);
 
         /// <summary>
         /// Perform a layout of the elements.
@@ -171,36 +159,32 @@ namespace Krypton.Ribbon
             }
 
             // Create border paths
-            using (GraphicsPath borderPath = CreateBorderPath(ClientRectangle))
+            using GraphicsPath borderPath = CreateBorderPath(ClientRectangle);
+            // Are we allowed to draw a background?
+            if (_paletteBack.GetBackDraw(State) == InheritBool.True)
             {
-                // Are we allowed to draw a background?
-                if (_paletteBack.GetBackDraw(State) == InheritBool.True)
-                {
-                    _mementoBack = context.Renderer.RenderStandardBack.DrawBack(context, backRect, borderPath, _paletteBack,
-                                                                                VisualOrientation.Top, State, _mementoBack);
-                }
+                _mementoBack = context.Renderer.RenderStandardBack.DrawBack(context, backRect, borderPath, _paletteBack,
+                    VisualOrientation.Top, State, _mementoBack);
+            }
 
-                // Are we allowed to draw the content?
-                if (_paletteContent.GetContentDraw(State) == InheritBool.True)
-                {
-                    context.Renderer.RenderStandardContent.DrawContent(context, ClientRectangle, _paletteContent, 
-                                                                       _mementoContent, VisualOrientation.Top, 
-                                                                       State, false, false,  false);
-                }
+            // Are we allowed to draw the content?
+            if (_paletteContent.GetContentDraw(State) == InheritBool.True)
+            {
+                context.Renderer.RenderStandardContent.DrawContent(context, ClientRectangle, _paletteContent, 
+                    _mementoContent, VisualOrientation.Top, 
+                    State, false, false,  false);
+            }
 
-                // Are we allowed to draw border?
-                if (_paletteBorder.GetBorderDraw(State) == InheritBool.True)
-                {
-                    // Get the border color from palette
-                    Color borderColor = _paletteBorder.GetBorderColor1(State);
+            // Are we allowed to draw border?
+            if (_paletteBorder.GetBorderDraw(State) == InheritBool.True)
+            {
+                // Get the border color from palette
+                Color borderColor = _paletteBorder.GetBorderColor1(State);
 
-                    // Draw the border last to overlap the background
-                    using (AntiAlias aa = new AntiAlias(context.Graphics))
-                        using (Pen borderPen = new Pen(borderColor))
-                        {
-                            context.Graphics.DrawPath(borderPen, borderPath);
-                        }
-                }
+                // Draw the border last to overlap the background
+                using AntiAlias aa = new(context.Graphics);
+                using Pen borderPen = new(borderColor);
+                context.Graphics.DrawPath(borderPen, borderPath);
             }
         }
         #endregion
@@ -218,7 +202,7 @@ namespace Krypton.Ribbon
         #region Implementation
         private GraphicsPath CreateBorderPath(Rectangle rect)
         {
-            GraphicsPath path = new GraphicsPath();
+            GraphicsPath path = new();
 
             switch (_alignment)
             {
@@ -306,26 +290,18 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Color value.</returns>
-        public Color GetImageTransparentColor(PaletteState state)
-        {
-            return Color.Empty;
-        }
+        public Color GetImageTransparentColor(PaletteState state) => Color.Empty;
 
         /// <summary>
         /// Gets the content short text.
         /// </summary>
-        public string GetShortText()
-        {
-            return string.Empty;
-        }
+        public string GetShortText() => string.Empty;
 
         /// <summary>
         /// Gets the content long text.
         /// </summary>
-        public string GetLongText()
-        {
-            return string.Empty;
-        }
+        public string GetLongText() => string.Empty;
+
         #endregion
 
         #region Private

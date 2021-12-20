@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.ComponentModel.Design;
-using System.Windows.Forms;
-using System.Windows.Forms.Design;
 
 namespace Krypton.Toolkit
 {
@@ -26,13 +19,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the KryptonPanelDesigner class.
         /// </summary>
-        public KryptonPanelDesigner()
-        {
+        public KryptonPanelDesigner() =>
             // The resizing handles around the control need to change depending on the
             // value of the AutoSize and AutoSizeMode properties. When in AutoSize you
             // do not get the resizing handles, otherwise you do.
             AutoResizeHandles = true;
-        }            
+
         #endregion
 
         #region Public Overrides
@@ -44,7 +36,7 @@ namespace Krypton.Toolkit
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new DesignerActionListCollection
+                DesignerActionListCollection actionLists = new()
                 {
 
                     // Add the panel specific list
@@ -75,21 +67,19 @@ namespace Krypton.Toolkit
         private void DrawBorder(Graphics graphics)
         {
             // Create a pen for drawing
-            using (Pen borderPen = new Pen(SystemColors.ControlDarkDark))
-            {
-                // Always draw the border dashed
-                borderPen.DashStyle = DashStyle.Dash;
+            using Pen borderPen = new(SystemColors.ControlDarkDark);
+            // Always draw the border dashed
+            borderPen.DashStyle = DashStyle.Dash;
 
-                // Get the client rectangle
-                Rectangle clientRect = Control.ClientRectangle;
+            // Get the client rectangle
+            Rectangle clientRect = Control.ClientRectangle;
 
-                // Reduce by 1 in width and height
-                clientRect.Width--;
-                clientRect.Height--;
+            // Reduce by 1 in width and height
+            clientRect.Width--;
+            clientRect.Height--;
 
-                // Perform actual draw
-                graphics.DrawRectangle(borderPen, clientRect);
-            }
+            // Perform actual draw
+            graphics.DrawRectangle(borderPen, clientRect);
         }
         #endregion
     }

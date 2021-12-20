@@ -2,26 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Design;
-using System.Windows.Forms;
-using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Collections.Generic;
-
-using Krypton.Navigator;
-using Krypton.Toolkit;
 
 namespace Krypton.Workspace
 {
@@ -53,10 +41,8 @@ namespace Krypton.Workspace
                 /// Initialize a new instance of the PageProxy class.
                 /// </summary>
                 /// <param name="item">Item to act as proxy for.</param>
-                public PageProxy(KryptonPage item)
-                {
-                    _item = item;
-                }
+                public PageProxy(KryptonPage item) => _item = item;
+
                 #endregion
 
                 #region Public
@@ -140,7 +126,7 @@ namespace Krypton.Workspace
                 /// </summary>
                 [Category("Appearance")]
                 [DefaultValue(null)]
-                public Image ImageSmall
+                public Bitmap ImageSmall
                 {
                     get => _item.ImageSmall;
                     set => _item.ImageSmall = value;
@@ -151,7 +137,7 @@ namespace Krypton.Workspace
                 /// </summary>
                 [Category("Appearance")]
                 [DefaultValue(null)]
-                public Image ImageMedium
+                public Bitmap ImageMedium
                 {
                     get => _item.ImageMedium;
                     set => _item.ImageMedium = value;
@@ -162,7 +148,7 @@ namespace Krypton.Workspace
                 /// </summary>
                 [Category("Appearance")]
                 [DefaultValue(null)]
-                public Image ImageLarge
+                public Bitmap ImageLarge
                 {
                     get => _item.ImageLarge;
                     set => _item.ImageLarge = value;
@@ -173,7 +159,7 @@ namespace Krypton.Workspace
                 /// </summary>
                 [Category("Appearance")]
                 [DefaultValue(null)]
-                public Image ToolTipImage
+                public Bitmap ToolTipImage
                 {
                     get => _item.ToolTipImage;
                     set => _item.ToolTipImage = value;
@@ -194,7 +180,7 @@ namespace Krypton.Workspace
                 /// Gets and sets the page tooltip title text.
                 /// </summary>
                 [Category("Appearance")]
-                [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+                [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
                 [DefaultValue("")]
                 public string ToolTipTitle
                 {
@@ -206,7 +192,7 @@ namespace Krypton.Workspace
                 /// Gets and sets the page tooltip body text.
                 /// </summary>
                 [Category("Appearance")]
-                [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+                [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
                 [DefaultValue("")]
                 public string ToolTipBody
                 {
@@ -329,10 +315,8 @@ namespace Krypton.Workspace
                 /// Initialize a new instance of the CellProxy class.
                 /// </summary>
                 /// <param name="item">Item to act as proxy for.</param>
-                public CellProxy(KryptonWorkspaceCell item)
-                {
-                    _item = item;
-                }
+                public CellProxy(KryptonWorkspaceCell item) => _item = item;
+
                 #endregion
 
                 #region Public
@@ -622,10 +606,8 @@ namespace Krypton.Workspace
                 /// Initialize a new instance of the SequenceProxy class.
                 /// </summary>
                 /// <param name="item">Item to act as proxy for.</param>
-                public SequenceProxy(KryptonWorkspaceSequence item)
-                {
-                    _item = item;
-                }
+                public SequenceProxy(KryptonWorkspaceSequence item) => _item = item;
+
                 #endregion
 
                 #region Public
@@ -713,7 +695,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets access to the associated workspace cell item.
                 /// </summary>
-                public Component Item => (PageItem != null ? PageItem : (CellItem != null ? CellItem : (Component)SequenceItem));
+                public Component Item => PageItem ?? (CellItem ?? (Component)SequenceItem);
 
                 /// <summary>
                 /// Gets access to the associated workspace cell item.
@@ -824,7 +806,7 @@ namespace Krypton.Workspace
                 /// </summary>
                 public string Name
                 {
-                    get { return null; }
+                    get => null;
                     set { }
                 }
                 #endregion
@@ -1759,7 +1741,7 @@ namespace Krypton.Workspace
 
             private DictItemBase CreateItemsDictionary(object[] items)
             {
-                DictItemBase dictItems = new DictItemBase();
+                DictItemBase dictItems = new();
 
                 foreach (Component item in items)
                 {
@@ -1796,7 +1778,7 @@ namespace Krypton.Workspace
             private void AddMenuTreeNode(Component item, MenuTreeNode parent)
             {
                 // Create a node to match the item
-                MenuTreeNode node = new MenuTreeNode(item);
+                MenuTreeNode node = new(item);
 
                 // Add to either root or parent node
                 if (parent != null)
@@ -1898,10 +1880,8 @@ namespace Krypton.Workspace
         /// Creates a new form to display and edit the current collection.
         /// </summary>
         /// <returns>A CollectionForm to provide as the user interface for editing the collection.</returns>
-        protected override CollectionForm CreateCollectionForm()
-        {
-            return new KryptonWorkspaceCollectionForm(this);
-        }
+        protected override CollectionForm CreateCollectionForm() => new KryptonWorkspaceCollectionForm(this);
+
         #endregion
     }
 }

@@ -2,19 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.ComponentModel;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Navigator
 {
@@ -31,7 +26,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Initialize a new instance of the PaletteNavigatorHeaderGroupRedirect class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteNavigatorHeaderGroupRedirect(PaletteRedirect redirect,
                                                    NeedPaintHandler needPaint)
@@ -42,11 +37,11 @@ namespace Krypton.Navigator
         /// <summary>
         /// Initialize a new instance of the PaletteNavigatorHeaderGroupRedirect class.
         /// </summary>
-        /// <param name="redirectHeaderGroup">Inheritence redirection for header group.</param>
-        /// <param name="redirectHeaderPrimary">Inheritence redirection for primary header.</param>
-        /// <param name="redirectHeaderSecondary">Inheritence redirection for secondary header.</param>
-        /// <param name="redirectHeaderBar">Inheritence redirection for bar header.</param>
-        /// <param name="redirectHeaderOverflow">Inheritence redirection for overflow header.</param>
+        /// <param name="redirectHeaderGroup">inheritance redirection for header group.</param>
+        /// <param name="redirectHeaderPrimary">inheritance redirection for primary header.</param>
+        /// <param name="redirectHeaderSecondary">inheritance redirection for secondary header.</param>
+        /// <param name="redirectHeaderBar">inheritance redirection for bar header.</param>
+        /// <param name="redirectHeaderOverflow">inheritance redirection for overflow header.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteNavigatorHeaderGroupRedirect(PaletteRedirect redirectHeaderGroup,
                                                    PaletteRedirect redirectHeaderPrimary,
@@ -86,10 +81,8 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteHeaderPaddingRedirect HeaderBar { get; }
 
-        private bool ShouldSerializeHeaderBar()
-        {
-            return !HeaderBar.IsDefault;
-        }
+        private bool ShouldSerializeHeaderBar() => !HeaderBar.IsDefault;
+
         #endregion
 
         #region HeaderOverflow
@@ -101,10 +94,8 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteHeaderPaddingRedirect HeaderOverflow { get; }
 
-        private bool ShouldSerializeHeaderOverflow()
-        {
-            return !HeaderOverflow.IsDefault;
-        }
+        private bool ShouldSerializeHeaderOverflow() => !HeaderOverflow.IsDefault;
+
         #endregion
     }
 }

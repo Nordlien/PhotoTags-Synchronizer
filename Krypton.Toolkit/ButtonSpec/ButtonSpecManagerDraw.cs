@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Windows.Forms;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -126,20 +122,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="i">Index.</param>
         /// <returns>View docker reference; otherwise null.</returns>
-        protected override ViewBase IndexDocker(int i)
-        {
-            return _viewDockers[i];
-        }
+        protected override ViewBase IndexDocker(int i) => _viewDockers[i];
 
         /// <summary>
         /// Gets the orientation of the docker at the specified index.
         /// </summary>
         /// <param name="i">Index.</param>
         /// <returns>VisualOrientation value.</returns>
-        protected override VisualOrientation DockerOrientation(int i)
-        {
-            return _viewDockers[i].Orientation;
-        }
+        protected override VisualOrientation DockerOrientation(int i) => _viewDockers[i].Orientation;
 
         /// <summary>
         /// Gets the element that represents the foreground color.

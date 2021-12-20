@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.ComponentModel;
-using Krypton.Toolkit;
 
 namespace Krypton.Navigator
 {
@@ -30,11 +26,11 @@ namespace Krypton.Navigator
         /// <summary>
         /// Initialize a new instance of the PaletteNavigatorOtherRedirect class.
         /// </summary>
-        /// <param name="redirectCheckButton">Inheritence redirection instance for the check button.</param>
-        /// <param name="redirectOverflowButton">Inheritence redirection instance for the outlook overflow button.</param>
-        /// <param name="redirectMiniButton">Inheritence redirection instance for the outlook mini button.</param>
-        /// <param name="redirectTab">Inheritence redirection instance for the tab.</param>
-        /// <param name="redirectRibbonTab">Inheritence redirection instance for the ribbon tab.</param>
+        /// <param name="redirectCheckButton">inheritance redirection instance for the check button.</param>
+        /// <param name="redirectOverflowButton">inheritance redirection instance for the outlook overflow button.</param>
+        /// <param name="redirectMiniButton">inheritance redirection instance for the outlook mini button.</param>
+        /// <param name="redirectTab">inheritance redirection instance for the tab.</param>
+        /// <param name="redirectRibbonTab">inheritance redirection instance for the ribbon tab.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteNavigatorOtherRedirect(PaletteRedirect redirectCheckButton,
                                              PaletteRedirect redirectOverflowButton,
@@ -94,10 +90,8 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect CheckButton { get; }
 
-        private bool ShouldSerializeCheckButton()
-        {
-            return !CheckButton.IsDefault;
-        }
+        private bool ShouldSerializeCheckButton() => !CheckButton.IsDefault;
+
         #endregion
 
         #region OverflowButton
@@ -109,10 +103,8 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect OverflowButton { get; }
 
-        private bool ShouldSerializeOverflowButton()
-        {
-            return !OverflowButton.IsDefault;
-        }
+        private bool ShouldSerializeOverflowButton() => !OverflowButton.IsDefault;
+
         #endregion
 
         #region MiniButton
@@ -124,10 +116,8 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect MiniButton { get; }
 
-        private bool ShouldSerializeMiniButton()
-        {
-            return !MiniButton.IsDefault;
-        }
+        private bool ShouldSerializeMiniButton() => !MiniButton.IsDefault;
+
         #endregion
 
         #region Tab
@@ -139,10 +129,8 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTabTripleRedirect Tab { get; }
 
-        private bool ShouldSerializeTab()
-        {
-            return !Tab.IsDefault;
-        }
+        private bool ShouldSerializeTab() => !Tab.IsDefault;
+
         #endregion
 
         #region RibbonTab
@@ -154,10 +142,8 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonTabContentRedirect RibbonTab { get; }
 
-        private bool ShouldSerializeRibbonTab()
-        {
-            return !RibbonTab.IsDefault;
-        }
+        private bool ShouldSerializeRibbonTab() => !RibbonTab.IsDefault;
+
         #endregion
     }
 }

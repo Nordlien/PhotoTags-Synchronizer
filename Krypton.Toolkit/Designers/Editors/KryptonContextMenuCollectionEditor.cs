@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel.Design;
 
 namespace Krypton.Toolkit
 {
@@ -22,8 +18,7 @@ namespace Krypton.Toolkit
     /// </summary>
     public partial class KryptonContextMenuCollectionEditor : CollectionEditor
     {
-
-#region Classes
+        #region Classes
         #endregion
 
         #region Identity
@@ -41,10 +36,7 @@ namespace Krypton.Toolkit
         /// Creates a new form to display and edit the current collection.
         /// </summary>
         /// <returns>A CollectionForm to provide as the user interface for editing the collection.</returns>
-        protected override CollectionForm CreateCollectionForm()
-        {
-            return new KryptonContextMenuCollectionForm(this);
-        }
+        protected override CollectionForm CreateCollectionForm() => new KryptonContextMenuCollectionForm(this);
 
         /// <summary>
         /// Gets the data types that this collection editor can contain. 
@@ -61,7 +53,7 @@ namespace Krypton.Toolkit
                                 typeof(KryptonContextMenuRadioButton),
                                 typeof(KryptonContextMenuColorColumns),
                                 typeof(KryptonContextMenuMonthCalendar),
-                                typeof(KryptonContextMenuImageSelect),
+                                typeof(KryptonContextMenuImageSelect)
             };
         }
         #endregion

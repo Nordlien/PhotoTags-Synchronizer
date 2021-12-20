@@ -2,23 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.IO;
-using System.Drawing;
-using System.Drawing.Design;
-using System.ComponentModel;
-using System.Windows.Forms;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -27,7 +18,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupRichTextBox), "ToolboxBitmaps.KryptonRibbonGroupRichTextBox.bmp")]
-    [Designer(typeof(Krypton.Ribbon.KryptonRibbonGroupRichTextBoxDesigner))]
+    [Designer("Krypton.Ribbon.KryptonRibbonGroupRichTextBoxDesigner, Krypton.Ribbon")]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultEvent("TextChanged")]
@@ -255,8 +246,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override KryptonRibbon Ribbon
         {
-            set 
-            { 
+            set
+            {
                 base.Ribbon = value;
 
                 if (value != null)
@@ -277,10 +268,7 @@ namespace Krypton.Ribbon
         [Description("Shortcut key combination to set focus to the rich text box.")]
         public Keys ShortcutKeys { get; set; }
 
-        private bool ShouldSerializeShortcutKeys()
-        {
-            return (ShortcutKeys != Keys.None);
-        }
+        private bool ShouldSerializeShortcutKeys() => (ShortcutKeys != Keys.None);
 
         /// <summary>
         /// Resets the ShortcutKeys property to its default value.
@@ -341,7 +329,7 @@ namespace Krypton.Ribbon
                 if (value != _visible)
                 {
                     _visible = value;
-                    OnPropertyChanged("Visible");
+                    OnPropertyChanged(nameof(Visible));
                 }
             }
         }
@@ -378,11 +366,11 @@ namespace Krypton.Ribbon
                 if (_enabled != value)
                 {
                     _enabled = value;
-                    OnPropertyChanged("Enabled");
+                    OnPropertyChanged(nameof(Enabled));
                 }
             }
         }
-        
+
         /// <summary>
         /// Gets or sets the minimum size of the control.
         /// </summary>
@@ -412,7 +400,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Appearance")]
         [Description("Text associated with the control.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public string Text
         {
             get => RichTextBox.Text;
@@ -455,7 +443,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Appearance")]
         [Description("The lines of text in a multiline edit, as an array of String values.")]
-        [Editor("System.Windows.Forms.Design.StringArrayEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.StringArrayEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [MergableProperty(false)]
         [Localizable(true)]
@@ -665,8 +653,8 @@ namespace Krypton.Ribbon
             get => RichTextBox.AllowButtonSpecToolTips;
             set => RichTextBox.AllowButtonSpecToolTips = value;
         }
-		
-		/// <summary>
+
+        /// <summary>
         /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
         /// </summary>
         [Category("Visuals")]
@@ -984,30 +972,21 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="clipFormat">One of the System.Windows.Forms.DataFormats.Format values.</param>
         /// <returns>true if you can paste data from the Clipboard in the specified data format; otherwise, false.</returns>
-        public bool CanPaste(DataFormats.Format clipFormat)
-        {
-            return RichTextBox.CanPaste(clipFormat);
-        }
+        public bool CanPaste(DataFormats.Format clipFormat) => RichTextBox.CanPaste(clipFormat);
 
         /// <summary>
         /// Searches the text in a RichTextBox control for a string.
         /// </summary>
         /// <param name="str">The text to locate in the control.</param>
         /// <returns>The location within the control where the search text was found or -1 if the search string is not found or an empty search string is specified in the str parameter.</returns>
-        public int Find(string str)
-        {
-            return RichTextBox.Find(str);
-        }
+        public int Find(string str) => RichTextBox.Find(str);
 
         /// <summary>
         /// Searches the text of a RichTextBox control for the first instance of a character from a list of characters.
         /// </summary>
         /// <param name="characterSet">The array of characters to search for.</param>
         /// <returns>The location within the control where the search characters were found or -1 if the search characters are not found or an empty search character set is specified in the char parameter.</returns>
-        public int Find(char[] characterSet)
-        {
-            return RichTextBox.Find(characterSet);
-        }
+        public int Find(char[] characterSet) => RichTextBox.Find(characterSet);
 
         /// <summary>
         /// Searches the text of a RichTextBox control, at a specific starting point, for the first instance of a character from a list of characters.
@@ -1015,10 +994,7 @@ namespace Krypton.Ribbon
         /// <param name="characterSet">The array of characters to search for.</param>
         /// <param name="start">The location within the control's text at which to begin searching.</param>
         /// <returns>The location within the control where the search characters are found.</returns>
-        public int Find(char[] characterSet, int start)
-        {
-            return RichTextBox.Find(characterSet, start);
-        }
+        public int Find(char[] characterSet, int start) => RichTextBox.Find(characterSet, start);
 
         /// <summary>
         /// Searches the text in a RichTextBox control for a string with specific options applied to the search.
@@ -1026,10 +1002,7 @@ namespace Krypton.Ribbon
         /// <param name="str">The text to locate in the control.</param>
         /// <param name="options">A bitwise combination of the RichTextBoxFinds values.</param>
         /// <returns>The location within the control where the search text was found.</returns>
-        public int Find(string str, RichTextBoxFinds options)
-        {
-            return RichTextBox.Find(str, options);
-        }
+        public int Find(string str, RichTextBoxFinds options) => RichTextBox.Find(str, options);
 
         /// <summary>
         /// Searches a range of text in a RichTextBox control for the first instance of a character from a list of characters.
@@ -1038,10 +1011,7 @@ namespace Krypton.Ribbon
         /// <param name="start">The location within the control's text at which to begin searching.</param>
         /// <param name="end">The location within the control's text at which to end searching.</param>
         /// <returns>The location within the control where the search characters are found.</returns>
-        public int Find(char[] characterSet, int start, int end)
-        {
-            return RichTextBox.Find(characterSet, start, end);
-        }
+        public int Find(char[] characterSet, int start, int end) => RichTextBox.Find(characterSet, start, end);
 
         /// <summary>
         /// Searches the text in a RichTextBox control for a string at a specific location within the control and with specific options applied to the search.
@@ -1050,10 +1020,7 @@ namespace Krypton.Ribbon
         /// <param name="start">The location within the control's text at which to begin searching.</param>
         /// <param name="options">A bitwise combination of the RichTextBoxFinds values.</param>
         /// <returns>The location within the control where the search text was found.</returns>
-        public int Find(string str, int start, RichTextBoxFinds options)
-        {
-            return RichTextBox.Find(str, start, options);
-        }
+        public int Find(string str, int start, RichTextBoxFinds options) => RichTextBox.Find(str, start, options);
 
         /// <summary>
         /// Searches the text in a RichTextBox control for a string within a range of text within the control and with specific options applied to the search.
@@ -1063,69 +1030,48 @@ namespace Krypton.Ribbon
         /// <param name="end">The location within the control's text at which to end searching. This value must be equal to negative one (-1) or greater than or equal to the start parameter.</param>
         /// <param name="options">A bitwise combination of the RichTextBoxFinds values.</param>
         /// <returns></returns>
-        public int Find(string str, int start, int end, RichTextBoxFinds options)
-        {
-            return RichTextBox.Find(str, start, end, options);
-        }
+        public int Find(string str, int start, int end, RichTextBoxFinds options) => RichTextBox.Find(str, start, end, options);
 
         /// <summary>
         /// Retrieves the character that is closest to the specified location within the control.
         /// </summary>
         /// <param name="pt">The location from which to seek the nearest character.</param>
         /// <returns>The character at the specified location.</returns>
-        public int GetCharFromPosition(Point pt)
-        {
-            return RichTextBox.GetCharFromPosition(pt);
-        }
+        public int GetCharFromPosition(Point pt) => RichTextBox.GetCharFromPosition(pt);
 
         /// <summary>
         /// Retrieves the index of the character nearest to the specified location.
         /// </summary>
         /// <param name="pt">The location to search.</param>
         /// <returns>The zero-based character index at the specified location.</returns>
-        public int GetCharIndexFromPosition(Point pt)
-        {
-            return RichTextBox.GetCharIndexFromPosition(pt);
-        }
+        public int GetCharIndexFromPosition(Point pt) => RichTextBox.GetCharIndexFromPosition(pt);
 
         /// <summary>
         /// Retrieves the index of the first character of a given line.
         /// </summary>
         /// <param name="lineNumber">The line for which to get the index of its first character.</param>
         /// <returns>The zero-based character index in the specified line.</returns>
-        public int GetFirstCharIndexFromLine(int lineNumber)
-        {
-            return RichTextBox.GetFirstCharIndexFromLine(lineNumber);
-        }
+        public int GetFirstCharIndexFromLine(int lineNumber) => RichTextBox.GetFirstCharIndexFromLine(lineNumber);
 
         /// <summary>
         /// Retrieves the index of the first character of the current line.
         /// </summary>
         /// <returns>The zero-based character index in the current line.</returns>
-        public int GetFirstCharIndexOfCurrentLine()
-        {
-            return RichTextBox.GetFirstCharIndexOfCurrentLine();
-        }
+        public int GetFirstCharIndexOfCurrentLine() => RichTextBox.GetFirstCharIndexOfCurrentLine();
 
         /// <summary>
         /// Retrieves the line number from the specified character position within the text of the RichTextBox control.
         /// </summary>
         /// <param name="index">The character index position to search.</param>
         /// <returns>The zero-based line number in which the character index is located.</returns>
-        public int GetLineFromCharIndex(int index)
-        {
-            return RichTextBox.GetLineFromCharIndex(index);
-        }
+        public int GetLineFromCharIndex(int index) => RichTextBox.GetLineFromCharIndex(index);
 
         /// <summary>
         /// Retrieves the location within the control at the specified character index.
         /// </summary>
         /// <param name="index">The index of the character for which to retrieve the location.</param>
         /// <returns>The location of the specified character.</returns>
-        public Point GetPositionFromCharIndex(int index)
-        {
-            return RichTextBox.GetPositionFromCharIndex(index);
-        }
+        public Point GetPositionFromCharIndex(int index) => RichTextBox.GetPositionFromCharIndex(index);
 
         /// <summary>
         /// Loads a rich text format (RTF) or standard ASCII text file into the RichTextBox control.
@@ -1252,7 +1198,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override GroupItemSize ItemSizeMaximum
         {
-            get { return GroupItemSize.Large; }
+            get => GroupItemSize.Large;
             set { }
         }
 
@@ -1264,7 +1210,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override GroupItemSize ItemSizeMinimum
         {
-            get { return GroupItemSize.Small; }
+            get => GroupItemSize.Small;
             set { }
         }
 
@@ -1283,7 +1229,7 @@ namespace Krypton.Ribbon
                 if (_itemSizeCurrent != value)
                 {
                     _itemSizeCurrent = value;
-                    OnPropertyChanged("ItemSizeCurrent");
+                    OnPropertyChanged(nameof(ItemSizeCurrent));
                 }
             }
         }
@@ -1295,11 +1241,9 @@ namespace Krypton.Ribbon
         /// <param name="needPaint">Delegate for notifying changes in display.</param>
         /// <returns>ViewBase derived instance.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override ViewBase CreateView(KryptonRibbon ribbon, 
-                                            NeedPaintHandler needPaint)
-        {
-            return new ViewDrawRibbonGroupRichTextBox(ribbon, this, needPaint);
-        }
+        public override ViewBase CreateView(KryptonRibbon ribbon,
+                                            NeedPaintHandler needPaint) =>
+            new ViewDrawRibbonGroupRichTextBox(ribbon, this, needPaint);
 
         /// <summary>
         /// Gets and sets the associated designer.
@@ -1508,7 +1452,7 @@ namespace Krypton.Ribbon
                     if (ShortcutKeys == keyData)
                     {
                         // Can the rich text box take the focus
-                        if ((LastRichTextBox != null) && (LastRichTextBox.CanFocus))
+                        if (LastRichTextBox is { CanFocus: true })
                         {
                             LastRichTextBox.RichTextBox.Focus();
                         }

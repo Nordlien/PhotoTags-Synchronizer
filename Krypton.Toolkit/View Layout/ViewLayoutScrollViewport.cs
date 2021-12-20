@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -144,11 +138,10 @@ namespace Krypton.Toolkit
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewLayoutScrollViewport:" + Id;
-        }
+            "ViewLayoutScrollViewport:" + Id;
+
         #endregion
 
         #region MakeParent
@@ -156,11 +149,10 @@ namespace Krypton.Toolkit
         /// Make the provided control parented to ourself.
         /// </summary>
         /// <param name="c">Control to reparent.</param>
-        public void MakeParent(Control c)
-        {
+        public void MakeParent(Control c) =>
             // Ask the view control to perform reparenting
             ViewControl.MakeParent(c);
-        }
+
         #endregion
 
         #region RevertParent
@@ -414,35 +406,22 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Ask the base docker element to perform a layout.
         /// </summary>
-        protected void DockerLayout(ViewLayoutContext context)
-        {
+        protected void DockerLayout(ViewLayoutContext context) =>
             // Get base class to perform actual layout
             base.Layout(context);
-        }
 
         /// <summary>
         /// Requests a paint and optional layout of the control.
         /// </summary>
         /// <param name="needLayout">Is a layout required.</param>
-        protected void NeedPaint(bool needLayout)
-        {
+        protected void NeedPaint(bool needLayout) =>
             // Request a layout be performed immediately
             _needPaintDelegate?.Invoke(this, new NeedLayoutEventArgs(needLayout));
-        }
+
         #endregion
 
         #region Implementation
-        private VisualOrientation ViewportOrientation(bool vertical)
-        {
-            if (vertical)
-            {
-                return VisualOrientation.Left;
-            }
-            else
-            {
-                return VisualOrientation.Top;
-            }
-        }
+        private VisualOrientation ViewportOrientation(bool vertical) => vertical ? VisualOrientation.Left : VisualOrientation.Top;
 
         private void OnScrollVChanged(object sender, EventArgs e)
         {
@@ -476,10 +455,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnAnimateStep(object sender, EventArgs e)
-        {
-            AnimateStep?.Invoke(sender, e);
-        }
+        private void OnAnimateStep(object sender, EventArgs e) => AnimateStep?.Invoke(sender, e);
+
         #endregion
     }
 }

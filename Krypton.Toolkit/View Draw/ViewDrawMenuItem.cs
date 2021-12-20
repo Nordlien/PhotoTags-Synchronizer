@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Diagnostics;
-using System.ComponentModel;
 
 namespace Krypton.Toolkit
 {
@@ -43,10 +36,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Identity
-        static ViewDrawMenuItem()
-        {
-            _empty16x16 = Properties.Resources.Empty16x16;
-        }
+        static ViewDrawMenuItem() => _empty16x16 = GenericImageResources.Empty16x16;
 
         /// <summary>
         /// Initialize a new instance of the ViewDrawMenuItem class.
@@ -77,7 +67,7 @@ namespace Krypton.Toolkit
             KryptonContextMenuItem.SetPaletteRedirect(provider);
 
             // Create a stack of horizontal items inside the item
-            ViewLayoutDocker docker = new ViewLayoutDocker();
+            ViewLayoutDocker docker = new();
 
             // Decide on the enabled state of the display
             ItemEnabled = provider.ProviderEnabled && ResolveEnabled;
@@ -160,7 +150,7 @@ namespace Krypton.Toolkit
             Add(docker);
 
             // Add a controller for handing mouse and keyboard events
-            MenuItemController mic = new MenuItemController(provider.ProviderViewManager, this, provider.ProviderNeedPaintDelegate);
+            MenuItemController mic = new(provider.ProviderViewManager, this, provider.ProviderNeedPaintDelegate);
             MouseController = mic;
             KeyController = mic;
 
@@ -179,11 +169,9 @@ namespace Krypton.Toolkit
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawMenuItem:" + Id;
-        }
+            "ViewDrawMenuItem:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -251,20 +239,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resolves the correct enabled state to use from the menu item.
         /// </summary>
-        public bool ResolveEnabled
-        {
-            get
-            {
-                if (_cachedCommand != null)
-                {
-                    return _cachedCommand.Enabled;
-                }
-                else
-                {
-                    return KryptonContextMenuItem.Enabled;
-                }
-            }
-        }
+        public bool ResolveEnabled => _cachedCommand != null ? _cachedCommand.Enabled : KryptonContextMenuItem.Enabled;
+
         #endregion
 
         #region ResolveImage
@@ -277,14 +253,7 @@ namespace Krypton.Toolkit
             {
                 if (_cachedCommand != null)
                 {
-                    if (KryptonContextMenuItem.LargeKryptonCommandImage)
-                    {
-                        return _cachedCommand.ImageLarge;
-                    }
-                    else
-                    {
-                        return _cachedCommand.ImageSmall;
-                    }
+                    return KryptonContextMenuItem.LargeKryptonCommandImage ? _cachedCommand.ImageLarge : _cachedCommand.ImageSmall;
                 }
                 else
                 {
@@ -298,100 +267,40 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resolves the correct image transparent color to use from the menu item.
         /// </summary>
-        public Color ResolveImageTransparentColor
-        {
-            get
-            {
-                if (_cachedCommand != null)
-                {
-                    return _cachedCommand.ImageTransparentColor;
-                }
-                else
-                {
-                    return KryptonContextMenuItem.ImageTransparentColor;
-                }
-            }
-        }
+        public Color ResolveImageTransparentColor => _cachedCommand != null ? _cachedCommand.ImageTransparentColor : KryptonContextMenuItem.ImageTransparentColor;
+
         #endregion
 
         #region ResolveText
         /// <summary>
         /// Resolves the correct text string to use from the menu item.
         /// </summary>
-        public string ResolveText
-        {
-            get
-            {
-                if (_cachedCommand != null)
-                {
-                    return _cachedCommand.Text;
-                }
-                else
-                {
-                    return KryptonContextMenuItem.Text;
-                }
-            }
-        }
+        public string ResolveText => _cachedCommand != null ? _cachedCommand.Text : KryptonContextMenuItem.Text;
+
         #endregion
 
         #region ResolveExtraText
         /// <summary>
         /// Resolves the correct extra text string to use from the menu item.
         /// </summary>
-        public string ResolveExtraText
-        {
-            get
-            {
-                if (_cachedCommand != null)
-                {
-                    return _cachedCommand.ExtraText;
-                }
-                else
-                {
-                    return KryptonContextMenuItem.ExtraText;
-                }
-            }
-        }
+        public string ResolveExtraText => _cachedCommand != null ? _cachedCommand.ExtraText : KryptonContextMenuItem.ExtraText;
+
         #endregion
 
         #region ResolveChecked
         /// <summary>
         /// Resolves the correct checked to use from the menu item.
         /// </summary>
-        public bool ResolveChecked
-        {
-            get
-            {
-                if (_cachedCommand != null)
-                {
-                    return _cachedCommand.Checked;
-                }
-                else
-                {
-                    return KryptonContextMenuItem.Checked;
-                }
-            }
-        }
+        public bool ResolveChecked => _cachedCommand != null ? _cachedCommand.Checked : KryptonContextMenuItem.Checked;
+
         #endregion
 
         #region ResolveCheckState
         /// <summary>
         /// Resolves the correct check state to use from the menu item.
         /// </summary>
-        public CheckState ResolveCheckState
-        {
-            get
-            {
-                if (_cachedCommand != null)
-                {
-                    return _cachedCommand.CheckState;
-                }
-                else
-                {
-                    return KryptonContextMenuItem.CheckState;
-                }
-            }
-        }
+        public CheckState ResolveCheckState => _cachedCommand != null ? _cachedCommand.CheckState : KryptonContextMenuItem.CheckState;
+
         #endregion
 
         #region PointInSubMenu
@@ -442,10 +351,8 @@ namespace Krypton.Toolkit
         /// Raises the Closing event on the provider.
         /// </summary>
         /// <param name="cea">A CancelEventArgs containing the event data.</param>
-        public void Closing(CancelEventArgs cea)
-        {
-            _provider.OnClosing(cea);
-        }
+        public void Closing(CancelEventArgs cea) => _provider.OnClosing(cea);
+
         #endregion
 
         #region Close
@@ -453,20 +360,16 @@ namespace Krypton.Toolkit
         /// Raises the Close event on the provider.
         /// </summary>
         /// <param name="e">A CancelEventArgs containing the event data.</param>
-        public void Close(CloseReasonEventArgs e)
-        {
-            _provider.OnClose(e);
-        }
+        public void Close(CloseReasonEventArgs e) => _provider.OnClose(e);
+
         #endregion
 
         #region DisposeContextMenu
         /// <summary>
         /// Request the showing context menu be disposed.
         /// </summary>
-        public void DisposeContextMenu()
-        {
-            _provider.OnDispose(EventArgs.Empty);
-        }
+        public void DisposeContextMenu() => _provider.OnDispose(EventArgs.Empty);
+
         #endregion
 
         #region HasParentMenu

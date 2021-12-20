@@ -2,19 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.ComponentModel;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -120,15 +115,13 @@ namespace Krypton.Toolkit
                 if (_longText != value)
                 {
                     _longText = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs(@"LongText"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(LongText)));
                 }
             }
         }
 
-        private bool ShouldSerializeLongText()
-        {
-            return !string.IsNullOrEmpty(_longText);
-        }
+        private bool ShouldSerializeLongText() => !string.IsNullOrEmpty(_longText);
+
         #endregion    
 
         #region LongForeColor
@@ -146,15 +139,13 @@ namespace Krypton.Toolkit
                 if (_longForeColor != value)
                 {
                     _longForeColor = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs(@"LongForeColor"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(LongForeColor)));
                 }
             }
         }
 
-        private bool ShouldSerializeLongForeColor()
-        {
-            return _longForeColor != Color.Empty;
-        }
+        private bool ShouldSerializeLongForeColor() => _longForeColor != Color.Empty;
+
         #endregion    
 
         #region LongNodeFont
@@ -172,15 +163,13 @@ namespace Krypton.Toolkit
                 if (_longNodeFont != value)
                 {
                     _longNodeFont = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs(@"LongNodeFont"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(LongNodeFont)));
                 }
             }
         }
 
-        private bool ShouldSerializeLongNodeFont()
-        {
-            return _longNodeFont != null;
-        }
+        private bool ShouldSerializeLongNodeFont() => _longNodeFont != null;
+
         #endregion
 
         #region LongText
@@ -199,7 +188,7 @@ namespace Krypton.Toolkit
                 if (_isCheckBoxVisible != value)
                 {
                     _isCheckBoxVisible = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs(@"IsCheckBoxVisible"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsCheckBoxVisible)));
                     Rectangle callOnce = Bounds;
                     if (callOnce != Rectangle.Empty)
                     {
@@ -213,10 +202,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeIsCheckBoxVisible()
-        {
-            return !_isCheckBoxVisible;
-        }
+        private bool ShouldSerializeIsCheckBoxVisible() => !_isCheckBoxVisible;
+
         #endregion    
 
         #region Protected
@@ -224,10 +211,8 @@ namespace Krypton.Toolkit
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="e">A PropertyChangedEventArgs containing the event data.</param>
-        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
-        {
-            PropertyChanged?.Invoke(this, e);
-        }
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e) => PropertyChanged?.Invoke(this, e);
+
         #endregion 
     }
 }

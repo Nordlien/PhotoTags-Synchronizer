@@ -2,19 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -55,38 +50,27 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state)
-        {
-            return _ribbon.RibbonAppButton.AppButtonToolTipImage;
-        }
+        public Image GetImage(PaletteState state) => _ribbon.RibbonAppButton.AppButtonToolTipImage;
 
         /// <summary>
         /// Gets the image color that should be transparent.
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Color value.</returns>
-        public Color GetImageTransparentColor(PaletteState state)
-        {
-            return _ribbon.RibbonAppButton.AppButtonToolTipImageTransparentColor;
-        }
+        public Color GetImageTransparentColor(PaletteState state) => _ribbon.RibbonAppButton.AppButtonToolTipImageTransparentColor;
 
         /// <summary>
         /// Gets the content short text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetShortText()
-        {
-            return _ribbon.RibbonAppButton.AppButtonToolTipTitle;
-        }
+        public string GetShortText() => _ribbon.RibbonAppButton.AppButtonToolTipTitle;
 
         /// <summary>
         /// Gets the content long text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetLongText()
-        {
-            return _ribbon.RibbonAppButton.AppButtonToolTipBody;
-        }
+        public string GetLongText() => _ribbon.RibbonAppButton.AppButtonToolTipBody;
+
         #endregion
     }
 }

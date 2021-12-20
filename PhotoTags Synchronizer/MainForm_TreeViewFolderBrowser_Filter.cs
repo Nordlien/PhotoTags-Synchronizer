@@ -597,7 +597,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
             return files;
         }
@@ -614,7 +614,7 @@ namespace PhotoTagsSynchronizer
                 string folder = GetSelectedNodeFullRealPath();
                 if (folder == null || !Directory.Exists(folder))
                 {
-                    KryptonMessageBox.Show("Can't reach the folder. Not a valid folder selected.", "Invalid folder...", MessageBoxButtons.OK, MessageBoxIcon.Warning, true);
+                    KryptonMessageBox.Show("Can't reach the folder. Not a valid folder selected.", "Invalid folder...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
                     cachedFolder = "";
                     fileEntriesFolderCached = new HashSet<FileEntry>();
                     return fileEntriesFolderCached;
@@ -649,7 +649,7 @@ namespace PhotoTagsSynchronizer
             {
                 if (folder == null || !Directory.Exists(folder))
                 {
-                    KryptonMessageBox.Show("Can't reach the folder. Not a valid folder selected.", "Invalid folder...", MessageBoxButtons.OK, MessageBoxIcon.Warning, true);
+                    KryptonMessageBox.Show("Can't reach the folder. Not a valid folder selected.", "Invalid folder...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
                     return fileDatas;
                 }
                 fileDatas = ImageAndMovieFileExtentionsUtility.GetFilesByEnumerableFast(folder, recursive);

@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Navigator
 {
@@ -107,10 +101,8 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public NavigatorOutlookFull Full { get; }
 
-        private bool ShouldSerializeFull()
-        {
-            return !Full.IsDefault;
-        }
+        private bool ShouldSerializeFull() => !Full.IsDefault;
+
         #endregion
 
         #region Mini
@@ -122,10 +114,8 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public NavigatorOutlookMini Mini { get; }
 
-        private bool ShouldSerializeMini()
-        {
-            return !Mini.IsDefault;
-        }
+        private bool ShouldSerializeMini() => !Mini.IsDefault;
+
         #endregion
 
         #region CheckButtonStyle
@@ -200,7 +190,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Orientation for positioning stack and overflow items.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(Orientation), "Vertical")]
         public Orientation Orientation
         {
@@ -231,7 +221,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Orientation for positioning items in the stack.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(ButtonOrientation), "Auto")]
         public ButtonOrientation ItemOrientation
         {
@@ -262,7 +252,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Secondary header visiblity when in Outlook mode.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(InheritBool), "False")]
         public InheritBool HeaderSecondaryVisible
         {
@@ -293,7 +283,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Text to use when asking if more buttons should be shown in Outlook mode.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Show &More Buttons")]
         [Localizable(true)]
         public string TextMoreButtons { get; set; }
@@ -313,7 +303,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Text to use when asking if fewer buttons should be shown in Outlook mode.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Show Fe&wer Buttons")]
         [Localizable(true)]
         public string TextFewerButtons { get; set; }
@@ -333,7 +323,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Text to use when asking if buttons should be shown/hidden in Outlook mode.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("&Add or Remove Buttons")]
         [Localizable(true)]
         public string TextAddRemoveButtons { get; set; }
@@ -353,7 +343,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Visibility of the drop down button on the Outlook overflow bar.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(true)]
         public bool ShowDropDownButton
         {

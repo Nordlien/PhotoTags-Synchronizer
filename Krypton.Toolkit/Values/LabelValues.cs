@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Design;
-using System.ComponentModel;
 
 namespace Krypton.Toolkit
 {
@@ -81,7 +75,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Visuals")]
         [Description("Label image.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image Image
         {
             get => _image;
@@ -96,10 +90,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImage()
-        {
-            return Image != null;
-        }
+        private bool ShouldSerializeImage() => Image != null;
 
         /// <summary>
         /// Resets the Image property to its default value.
@@ -114,10 +105,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state)
-        {
-            return Image;
-        }
+        public Image GetImage(PaletteState state) => Image;
+
         #endregion
 
         #region ImageTransparentColor
@@ -127,8 +116,8 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Visuals")]
         [Description("Label image transparent color.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
-        [KryptonDefaultColorAttribute()]
+        [RefreshProperties(RefreshProperties.All)]
+        [KryptonDefaultColor()]
         public Color ImageTransparentColor
         {
             get => _transparent;
@@ -143,10 +132,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageTransparentColor()
-        {
-            return ImageTransparentColor != Color.Empty;
-        }
+        private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != Color.Empty;
 
         /// <summary>
         /// Resets the ImageTransparentColor property to its default value.
@@ -161,10 +147,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image color is needed.</param>
         /// <returns>Color value.</returns>
-        public Color GetImageTransparentColor(PaletteState state)
-        {
-            return ImageTransparentColor;
-        }
+        public Color GetImageTransparentColor(PaletteState state) => ImageTransparentColor;
+
         #endregion
 
         #region Text
@@ -174,8 +158,8 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Visuals")]
         [Description("Label text.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [RefreshProperties(RefreshProperties.All)]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public string Text
         {
             get => _text;
@@ -191,10 +175,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeText()
-        {
-            return Text != _defaultText;
-        }
+        private bool ShouldSerializeText() => Text != _defaultText;
 
         /// <summary>
         /// Resets the Text property to its default value.
@@ -207,10 +188,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the content short text.
         /// </summary>
-        public string GetShortText()
-        {
-            return Text;
-        }
+        public string GetShortText() => Text;
+
         #endregion
 
         #region ExtraText
@@ -220,8 +199,8 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Visuals")]
         [Description("Label extra text.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [RefreshProperties(RefreshProperties.All)]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         public string ExtraText
         {
@@ -237,26 +216,22 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeExtraText()
-        {
-            return ExtraText != _defaultExtraText;
-        }
+        private bool ShouldSerializeExtraText() => ExtraText != _defaultExtraText;
 
         /// <summary>
         /// Resets the Description property to its default value.
         /// </summary>
         public void ResetExtraText()
         {
+            // TODO: What is the intention of this
             ExtraText = ExtraText;
         }
 
         /// <summary>
         /// Gets the content long text.
         /// </summary>
-        public string GetLongText()
-        {
-            return ExtraText;
-        }
+        public string GetLongText() => ExtraText;
+
         #endregion
     }
 }

@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.ComponentModel;
-using Krypton.Toolkit;
 
 namespace Krypton.Navigator
 {
@@ -44,46 +40,32 @@ namespace Krypton.Navigator
         /// Gets the default heading value.
         /// </summary>
         /// <returns>String reference.</returns>
-        protected override string GetHeadingDefault()
-        {
-            return _defaultHeading;
-        }
+        protected override string GetHeadingDefault() => _defaultHeading;
 
         /// <summary>
         /// Gets the default description value.
         /// </summary>
         /// <returns>String reference.</returns>
-        protected override string GetDescriptionDefault()
-        {
-            return string.Empty;
-        }
+        protected override string GetDescriptionDefault() => string.Empty;
 
         /// <summary>
         /// Gets the default image mapping value.
         /// </summary>
         /// <returns>Image mapping enumeration.</returns>
-        protected override MapKryptonPageImage GetMapImageDefault()
-        {
-            return MapKryptonPageImage.SmallMedium;
-        }
+        protected override MapKryptonPageImage GetMapImageDefault() => MapKryptonPageImage.SmallMedium;
 
         /// <summary>
         /// Gets the default heading mapping value.
         /// </summary>
         /// <returns>Text mapping enumeration.</returns>
-        protected override MapKryptonPageText GetMapHeadingDefault()
-        {
-            return MapKryptonPageText.TitleText;
-        }
+        protected override MapKryptonPageText GetMapHeadingDefault() => MapKryptonPageText.TitleText;
 
         /// <summary>
         /// Gets the default description mapping value.
         /// </summary>
         /// <returns>Text mapping enumeration.</returns>
-        protected override MapKryptonPageText GetMapDescriptionDefault()
-        {
-            return MapKryptonPageText.None;
-        }
+        protected override MapKryptonPageText GetMapDescriptionDefault() => MapKryptonPageText.None;
+
         #endregion
 
         #region MapImage

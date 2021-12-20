@@ -2,29 +2,13 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
-
-using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
-
-using Krypton.Toolkit.General;
-
-using Microsoft.Win32;
 
 namespace Krypton.Toolkit
 {
@@ -311,10 +295,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void RecalculateComposition()
-        {
-            UpdateComposition();
-        }
+        public void RecalculateComposition() => UpdateComposition();
 
         /// <summary>
         /// Gets and sets the interface to the composition interface cooperating with the form.
@@ -364,10 +345,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializePaletteMode()
-        {
-            return (PaletteMode != PaletteMode.Global);
-        }
+        private bool ShouldSerializePaletteMode() => (PaletteMode != PaletteMode.Global);
 
         /// <summary>
         /// Resets the PaletteMode property to its default value.
@@ -504,40 +482,28 @@ namespace Krypton.Toolkit
         /// <param name="needLayout">Does the palette change require a layout.</param>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public void PerformNeedPaint(bool needLayout)
-        {
-            OnNeedPaint(this, new NeedLayoutEventArgs(needLayout));
-        }
+        public void PerformNeedPaint(bool needLayout) => OnNeedPaint(this, new NeedLayoutEventArgs(needLayout));
 
         /// <summary>
         /// Gets the resolved palette to actually use when drawing.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public IPalette GetResolvedPalette()
-        {
-            return _palette;
-        }
+        public IPalette GetResolvedPalette() => _palette;
 
         /// <summary>
         /// Create a tool strip renderer appropriate for the current renderer/palette pair.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public ToolStripRenderer CreateToolStripRenderer()
-        {
-            return Renderer.RenderToolStrip(GetResolvedPalette());
-        }
+        public ToolStripRenderer CreateToolStripRenderer() => Renderer.RenderToolStrip(GetResolvedPalette());
 
         /// <summary>
         /// Send the provided system command to the window for processing.
         /// </summary>
         /// <param name="sysCommand">System command.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        internal void SendSysCommand(PI.SC_ sysCommand)
-        {
-            SendSysCommand(sysCommand, IntPtr.Zero);
-        }
+        internal void SendSysCommand(PI.SC_ sysCommand) => SendSysCommand(sysCommand, IntPtr.Zero);
 
         /// <summary>
         /// Send the provided system command to the window for processing.
@@ -545,11 +511,9 @@ namespace Krypton.Toolkit
         /// <param name="sysCommand">System command.</param>
         /// <param name="lParam">LPARAM value.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        internal void SendSysCommand(PI.SC_ sysCommand, IntPtr lParam)
-        {
+        internal void SendSysCommand(PI.SC_ sysCommand, IntPtr lParam) =>
             // Send window message to ourself
             PI.SendMessage(Handle, PI.WM_.SYSCOMMAND, (IntPtr)sysCommand, lParam);
-        }
 
         /// <summary>
         /// Gets the size of the borders requested by the real window.
@@ -589,12 +553,28 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
+        /// Please use a ButtonSpec, as this gives greater flexibility!
+        /// </summary>
+        [Browsable(false)]
+        [Category("Window Style")]
+        [DefaultValue(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new bool HelpButton
+        {
+            get => base.HelpButton;
+            // ReSharper disable once ValueParameterNotUsed
+            set
+            {
+                base.HelpButton = false;
+                throw new NotSupportedException(@"Please use a ButtonSpec, as this gives greater flexibility!");
+            }
+        }
+
+
+        /// <summary>
         /// Request the non-client area be repainted.
         /// </summary>
-        public void RedrawNonClient()
-        {
-            InvalidateNonClient(Rectangle.Empty, true);
-        }
+        public void RedrawNonClient() => InvalidateNonClient(Rectangle.Empty, true);
 
         /// <summary>
         /// Request the non-client area be recalculated.
@@ -636,10 +616,7 @@ namespace Krypton.Toolkit
         /// Reset the internal counters.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void KryptonResetCounters()
-        {
-            ViewManager.ResetCounters();
-        }
+        public void KryptonResetCounters() => ViewManager.ResetCounters();
 
         /// <summary>
         /// Gets the number of layout cycles performed since last reset.
@@ -708,19 +685,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Request the non-client area be repainted.
         /// </summary>
-        public void InvalidateNonClient()
-        {
-            InvalidateNonClient(Rectangle.Empty, true);
-        }
+        public void InvalidateNonClient() => InvalidateNonClient(Rectangle.Empty, true);
 
         /// <summary>
         /// Request the non-client area be repainted.
         /// </summary>
         /// <param name="invalidRect">Area to invalidate.</param>
-        protected void InvalidateNonClient(Rectangle invalidRect)
-        {
-            InvalidateNonClient(invalidRect, true);
-        }
+        protected void InvalidateNonClient(Rectangle invalidRect) => InvalidateNonClient(invalidRect, true);
 
         /// <summary>
         /// Request the non-client area be repainted.
@@ -743,23 +714,19 @@ namespace Krypton.Toolkit
                                                 realWindowRectangle.Height);
                 }
 
-                using (Region invalidRegion = new Region(invalidRect))
+                using Region invalidRegion = new(invalidRect);
+                if (excludeClientArea)
                 {
-                    if (excludeClientArea)
-                    {
-                        invalidRegion.Exclude(ClientRectangle);
-                    }
-
-                    using (Graphics g = Graphics.FromHwnd(Handle))
-                    {
-                        IntPtr hRgn = invalidRegion.GetHrgn(g);
-
-                        PI.RedrawWindow(Handle, IntPtr.Zero, hRgn,
-                                        PI.RDW_FRAME | PI.RDW_UPDATENOW | PI.RDW_INVALIDATE);
-
-                        PI.DeleteObject(hRgn);
-                    }
+                    invalidRegion.Exclude(ClientRectangle);
                 }
+
+                using Graphics g = Graphics.FromHwnd(Handle);
+                IntPtr hRgn = invalidRegion.GetHrgn(g);
+
+                PI.RedrawWindow(Handle, IntPtr.Zero, hRgn,
+                    PI.RDW_FRAME | PI.RDW_UPDATENOW | PI.RDW_INVALIDATE);
+
+                PI.DeleteObject(hRgn);
             }
         }
 
@@ -772,7 +739,7 @@ namespace Krypton.Toolkit
             {
                 // Grab the actual current size of the window, this is more accurate than using
                 // the 'this.Size' which is out of date when performing a resize of the window.
-                PI.RECT windowRect = new PI.RECT();
+                PI.RECT windowRect = new();
                 PI.GetWindowRect(Handle, ref windowRect);
 
                 // Create rectangle that encloses the entire window
@@ -890,7 +857,7 @@ namespace Krypton.Toolkit
             // If drawing with custom chrome and composition
             if (ApplyCustomChrome && ApplyComposition)
             {
-                Rectangle compositionRect = new Rectangle(0, 0, Width, _compositionHeight);
+                Rectangle compositionRect = new(0, 0, Width, _compositionHeight);
 
                 // Draw the extended area inside the client in black, this ensures
                 // it is treated as transparent by the desktop window manager
@@ -942,10 +909,7 @@ namespace Krypton.Toolkit
         /// Create the redirector instance.
         /// </summary>
         /// <returns>PaletteRedirect derived class.</returns>
-        protected virtual PaletteRedirect CreateRedirector()
-        {
-            return new PaletteRedirect(_palette);
-        }
+        protected virtual PaletteRedirect CreateRedirector() => new PaletteRedirect(_palette);
 
         /// <summary>
         /// Processes a notification from palette storage of a button spec change.
@@ -975,10 +939,7 @@ namespace Krypton.Toolkit
         /// Raises the ApplyCustomChrome event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnApplyCustomChromeChanged(EventArgs e)
-        {
-            ApplyCustomChromeChanged?.Invoke(this, e);
-        }
+        protected virtual void OnApplyCustomChromeChanged(EventArgs e) => ApplyCustomChromeChanged?.Invoke(this, e);
 
         /// <summary>
         /// Occurs when the AllowFormChromeChanged event is fired for the current palette.
@@ -1031,7 +992,6 @@ namespace Krypton.Toolkit
         /// Process Windows-based messages.
         /// </summary>
         /// <param name="m">A Windows-based message.</param>
-        [System.Security.Permissions.PermissionSet(System.Security.Permissions.SecurityAction.Demand, Name = "FullTrust")]
         protected override void WndProc(ref Message m)
         {
             bool processed = false;
@@ -1260,7 +1220,7 @@ namespace Krypton.Toolkit
         protected virtual bool OnWM_NCHITTEST(ref Message m)
         {
             // Extract the point in screen coordinates
-            Point screenPoint = new Point((int)m.LParam.ToInt64());
+            Point screenPoint = new((int)m.LParam.ToInt64());
 
             // Convert to window coordinates
             Point windowPoint = ScreenToWindow(screenPoint);
@@ -1296,7 +1256,7 @@ namespace Krypton.Toolkit
                 (m.Result == (IntPtr)PI.HT.CLIENT))
             {
                 // Extract the point in screen coordinates
-                Point screenPoint = new Point((int)m.LParam.ToInt64());
+                Point screenPoint = new((int)m.LParam.ToInt64());
 
                 // Convert to window coordinates
                 Point windowPoint = ScreenToWindow(screenPoint);
@@ -1364,7 +1324,7 @@ namespace Krypton.Toolkit
         protected virtual bool OnWM_NCMOUSEMOVE(ref Message m)
         {
             // Extract the point in screen coordinates
-            Point screenPoint = new Point((int)m.LParam.ToInt64());
+            Point screenPoint = new((int)m.LParam.ToInt64());
 
             // Convert to window coordinates
             Point windowPoint = ScreenToWindow(screenPoint);
@@ -1381,7 +1341,7 @@ namespace Krypton.Toolkit
             // If we are not tracking when the mouse leaves the non-client window
             if (!_trackingMouse)
             {
-                PI.TRACKMOUSEEVENTS tme = new PI.TRACKMOUSEEVENTS
+                PI.TRACKMOUSEEVENTS tme = new()
                 {
 
                     // This structure needs to know its own size in bytes
@@ -1417,7 +1377,7 @@ namespace Krypton.Toolkit
         protected virtual bool OnWM_NCLBUTTONDOWN(ref Message m)
         {
             // Extract the point in screen coordinates
-            Point screenPoint = new Point((int)m.LParam.ToInt64());
+            Point screenPoint = new((int)m.LParam.ToInt64());
 
             // Convert to window coordinates
             Point windowPoint = ScreenToWindow(screenPoint);
@@ -1440,7 +1400,7 @@ namespace Krypton.Toolkit
         protected virtual bool OnWM_NCLBUTTONUP(ref Message m)
         {
             // Extract the point in screen coordinates
-            Point screenPoint = new Point((int)m.LParam.ToInt64());
+            Point screenPoint = new((int)m.LParam.ToInt64());
 
             // Convert to window coordinates
             Point windowPoint = ScreenToWindow(screenPoint);
@@ -1486,7 +1446,7 @@ namespace Krypton.Toolkit
         protected virtual bool OnWM_MOUSEMOVE(ref Message m)
         {
             // Extract the point in client coordinates
-            Point clientPoint = new Point((int)m.LParam);
+            Point clientPoint = new((int)m.LParam);
 
             // Convert to screen coordinates
             Point screenPoint = PointToScreen(clientPoint);
@@ -1518,7 +1478,7 @@ namespace Krypton.Toolkit
             _trackingMouse = false;
 
             // Extract the point in client coordinates
-            Point clientPoint = new Point((int)m.LParam);
+            Point clientPoint = new((int)m.LParam);
 
             // Convert to screen coordinates
             Point screenPoint = PointToScreen(clientPoint);
@@ -1546,7 +1506,7 @@ namespace Krypton.Toolkit
         protected virtual bool OnWM_NCLBUTTONDBLCLK(ref Message m)
         {
             // Extract the point in screen coordinates
-            Point screenPoint = new Point((int)m.LParam.ToInt64());
+            Point screenPoint = new((int)m.LParam.ToInt64());
 
             // Convert to window coordinates
             Point windowPoint = ScreenToWindow(screenPoint);
@@ -1583,7 +1543,7 @@ namespace Krypton.Toolkit
                     {
                         // Find the rectangle that covers the client area of the form
                         Padding borders = RealWindowBorders;
-                        Rectangle clipClientRect = new Rectangle(borders.Left, borders.Top,
+                        Rectangle clipClientRect = new(borders.Left, borders.Top,
                                                                  windowBounds.Width - borders.Horizontal,
                                                                  windowBounds.Height - borders.Vertical);
 
@@ -1630,10 +1590,8 @@ namespace Krypton.Toolkit
                             else
                             {
                                 // Drawing is easier when using a Graphics instance
-                                using (Graphics g = Graphics.FromHdc(hDC))
-                                {
-                                    WindowChromePaint(g, windowBounds);
-                                }
+                                using Graphics g = Graphics.FromHdc(hDC);
+                                WindowChromePaint(g, windowBounds);
                             }
                         }
                     }
@@ -1652,10 +1610,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Called when the active state of the window changes.
         /// </summary>
-        protected virtual void OnWindowActiveChanged()
-        {
-            WindowActiveChanged?.Invoke(this, EventArgs.Empty);
-        }
+        protected virtual void OnWindowActiveChanged() => WindowActiveChanged?.Invoke(this, EventArgs.Empty);
 
         /// <summary>
         /// Gets and sets the need to layout the view.
@@ -1685,10 +1640,7 @@ namespace Krypton.Toolkit
         /// <param name="pt">Point in window coordinates.</param>
         /// <param name="composition">Are we performing composition.</param>
         /// <returns></returns>
-        protected virtual IntPtr WindowChromeHitTest(Point pt, bool composition)
-        {
-            return (IntPtr)PI.HT.CLIENT;
-        }
+        protected virtual IntPtr WindowChromeHitTest(Point pt, bool composition) => (IntPtr)PI.HT.CLIENT;
 
         /// <summary>
         /// Perform painting of the window chrome.
@@ -1703,10 +1655,7 @@ namespace Krypton.Toolkit
         /// Perform non-client mouse movement processing.
         /// </summary>
         /// <param name="pt">Point in window coordinates.</param>
-        protected virtual void WindowChromeNonClientMouseMove(Point pt)
-        {
-            ViewManager.MouseMove(new MouseEventArgs(MouseButtons.None, 0, pt.X, pt.Y, 0), pt);
-        }
+        protected virtual void WindowChromeNonClientMouseMove(Point pt) => ViewManager.MouseMove(new MouseEventArgs(MouseButtons.None, 0, pt.X, pt.Y, 0), pt);
 
         /// <summary>
         /// Process the left mouse down event.
@@ -1739,11 +1688,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Perform mouse leave processing.
         /// </summary>
-        protected virtual void WindowChromeMouseLeave()
-        {
+        protected virtual void WindowChromeMouseLeave() =>
             // Pass message onto the view elements
             ViewManager.MouseLeave(EventArgs.Empty);
-        }
+
         #endregion
 
         #region Implementation

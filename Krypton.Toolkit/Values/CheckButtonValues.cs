@@ -2,17 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
 
 namespace Krypton.Toolkit
 {
@@ -56,21 +53,14 @@ namespace Krypton.Toolkit
         /// <returns>Image value.</returns>
         public override Image GetImage(PaletteState state)
         {
-            Image image = null;
-
             // Try and get a state specific image
-            switch (state)
+            Image image = state switch
             {
-                case PaletteState.CheckedNormal:
-                    image = _imageStates.ImageCheckedNormal;
-                    break;
-                case PaletteState.CheckedPressed:
-                    image = _imageStates.ImageCheckedPressed;
-                    break;
-                case PaletteState.CheckedTracking:
-                    image = _imageStates.ImageCheckedTracking;
-                    break;
-            }
+                PaletteState.CheckedNormal => _imageStates.ImageCheckedNormal,
+                PaletteState.CheckedPressed => _imageStates.ImageCheckedPressed,
+                PaletteState.CheckedTracking => _imageStates.ImageCheckedTracking,
+                _ => null
+            };
 
             return image ?? base.GetImage(state);
         }

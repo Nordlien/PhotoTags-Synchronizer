@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -207,11 +200,10 @@ namespace Krypton.Ribbon
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewLayoutRibbonScrollPort:" + Id;
-        }
+            "ViewLayoutRibbonScrollPort:" + Id;
+
         #endregion
 
         #region NeedPaintHandler
@@ -311,7 +303,7 @@ namespace Krypton.Ribbon
             // If we contain a groups layout
             if (_viewFiller is ViewLayoutRibbonGroups groups)
             {
-                KeyTipInfoList keyTips = new KeyTipInfoList();
+                KeyTipInfoList keyTips = new();
 
                 // Grab the list of key tips for all groups
                 keyTips.AddRange(groups.GetGroupKeyTips());
@@ -329,7 +321,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                return new KeyTipInfo[] { };
+                return Array.Empty<KeyTipInfo>();
             }
         }
         #endregion
@@ -445,11 +437,9 @@ namespace Krypton.Ribbon
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
-        {
+        public override Size GetPreferredSize(ViewLayoutContext context) =>
             // We always want to be the size needed to show the filler completely
-            return ViewLayoutControl.GetPreferredSize(context);
-        }
+            ViewLayoutControl.GetPreferredSize(context);
 
         /// <summary>
         /// Perform a layout of the elements.
@@ -466,7 +456,7 @@ namespace Krypton.Ribbon
             ClientRectangle = context.DisplayRectangle;
 
             Rectangle layoutRect = ClientRectangle;
-            Rectangle controlRect = new Rectangle(Point.Empty, ClientSize);
+            Rectangle controlRect = new(Point.Empty, ClientSize);
 
             // Reset the the view control layout offset to be zero again
             ViewLayoutControl.LayoutOffset = Point.Empty;
@@ -478,12 +468,10 @@ namespace Krypton.Ribbon
             ViewLayoutControl.GetPreferredSize(context);
 
             // Ensure context has the correct control
-            if ((ViewLayoutControl.ChildControl != null) && !ViewLayoutControl.ChildControl.IsDisposed)
+            if (ViewLayoutControl.ChildControl is { IsDisposed: false })
             {
-                using (CorrectContextControl ccc = new CorrectContextControl(context, ViewLayoutControl.ChildControl))
-                {
-                    _viewFiller.Layout(context);
-                }
+                using CorrectContextControl ccc = new(context, ViewLayoutControl.ChildControl);
+                _viewFiller.Layout(context);
             }
 
             _ribbon.GetViewManager().DoNotLayoutControls = false;
@@ -650,22 +638,20 @@ namespace Krypton.Ribbon
                     if (child == _viewFiller)
                     {
                         // New clipping region is at most our own client size
-                        using (Region combineRegion = new Region(_viewClipRect))
-                        {
-                            // Remember the current clipping region
-                            Region clipRegion = context.Graphics.Clip.Clone();
+                        using Region combineRegion = new(_viewClipRect);
+                        // Remember the current clipping region
+                        Region clipRegion = context.Graphics.Clip.Clone();
 
-                            // Reduce clipping region down by the existing clipping region
-                            combineRegion.Intersect(clipRegion);
+                        // Reduce clipping region down by the existing clipping region
+                        combineRegion.Intersect(clipRegion);
 
-                            // Use new region that restricts drawing to our client size only
-                            context.Graphics.Clip = combineRegion;
+                        // Use new region that restricts drawing to our client size only
+                        context.Graphics.Clip = combineRegion;
 
-                            child.Render(context);
+                        child.Render(context);
 
-                            // Put clipping region back to original setting
-                            context.Graphics.Clip = clipRegion;
-                        }
+                        // Put clipping region back to original setting
+                        context.Graphics.Clip = clipRegion;
                     }
                     else
                     {

@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -27,7 +21,7 @@ namespace Krypton.Toolkit
     [DefaultEvent("DateChanged")]
     [DefaultProperty("SelectionRange")]
     [DefaultBindingProperty("SelectionRange")]
-    [Designer(typeof(KryptonMonthCalendarDesigner))]
+    [Designer("Krypton.Toolkit.KryptonMonthCalendarDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Select a date using a visual monthly calendar display.")]
     public class KryptonMonthCalendar : VisualSimpleBase,
@@ -414,7 +408,7 @@ namespace Krypton.Toolkit
             {
                 if (value == null)
                 {
-                    value = new DateTime[0];
+                    value = Array.Empty<DateTime>();
                 }
 
                 _annualDates.Clear();
@@ -452,7 +446,7 @@ namespace Krypton.Toolkit
             {
                 if (value == null)
                 {
-                    value = new DateTime[0];
+                    value = Array.Empty<DateTime>();
                 }
 
                 _monthlyDates.Clear();
@@ -484,10 +478,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                if (value == null)
-                {
-                    value = new DateTime[0];
-                }
+                value ??= Array.Empty<DateTime>();
 
                 BoldedDatesList.Clear();
                 BoldedDatesList.AddRange(value);
@@ -672,7 +663,7 @@ namespace Krypton.Toolkit
         [Bindable(true)]
         public SelectionRange SelectionRange
         {
-            get => new SelectionRange(SelectionStart, SelectionEnd);
+            get => new(SelectionStart, SelectionEnd);
             set => SetSelectionRange(value.Start, value.End);
         }
 
@@ -1356,25 +1347,21 @@ namespace Krypton.Toolkit
         /// <param name="pt">Mouse location.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public Component DesignerComponentFromPoint(Point pt)
-        {
+        public Component DesignerComponentFromPoint(Point pt) =>
             // Ignore call as view builder is already destructed
-            return IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
+            IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
 
-            // Ask the current view for a decision
-        }
-
+        // Ask the current view for a decision
         /// <summary>
         /// Internal design time method.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public void DesignerMouseLeave()
-        {
+        public void DesignerMouseLeave() =>
             // Simulate the mouse leaving the control so that the tracking
             // element that thinks it has the focus is informed it does not
             OnMouseLeave(EventArgs.Empty);
-        }
+
         #endregion
 
         #region Protected
@@ -1397,11 +1384,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="charCode">The character to test.</param>
         /// <returns>true if the character should be sent directly to the control and not preprocessed; otherwise, false.</returns>
-        protected override bool IsInputChar(char charCode)
-        {
+        protected override bool IsInputChar(char charCode) =>
             // We take all regular input characters
-            return char.IsLetterOrDigit(charCode);
-        }
+            char.IsLetterOrDigit(charCode);
 
         /// <summary>
         /// Determines whether the specified key is a regular input key or a special key that requires preprocessing.
@@ -1410,16 +1395,11 @@ namespace Krypton.Toolkit
         /// <returns>true if the specified key is a regular input key; otherwise, false.</returns>
         protected override bool IsInputKey(Keys keyData)
         {
-            switch (keyData & ~Keys.Shift)
+            return (keyData & ~Keys.Shift) switch
             {
-                case Keys.Left:
-                case Keys.Right:
-                case Keys.Up:
-                case Keys.Down:
-                    return true;
-            }
-
-            return base.IsInputKey(keyData);
+                Keys.Left or Keys.Right or Keys.Up or Keys.Down => true,
+                _ => base.IsInputKey(keyData)
+            };
         }
 
         /// <summary>
@@ -1674,31 +1654,29 @@ namespace Krypton.Toolkit
 
         private void AdjustSize(ref int width, ref int height)
         {
-            using (ViewLayoutContext context = new ViewLayoutContext(this, Renderer))
-            {
-                // Ask back/border the size it requires
-                Size backBorderSize = _drawDocker.GetNonChildSize(context);
+            using ViewLayoutContext context = new(this, Renderer);
+            // Ask back/border the size it requires
+            Size backBorderSize = _drawDocker.GetNonChildSize(context);
 
-                // Ask for the size needed to draw a single month
-                Size singleMonthSize = _drawMonths.GetSingleMonthSize(context);
+            // Ask for the size needed to draw a single month
+            Size singleMonthSize = _drawMonths.GetSingleMonthSize(context);
 
-                // How many full months can be fit in each dimension (with a minimum of 1 month showing)
-                int gap = ViewLayoutMonths.GAP;
-                int widthMonths = Math.Max(1, (width - backBorderSize.Width - gap) / (singleMonthSize.Width + gap));
-                int heightMonths = Math.Max(1, (height - backBorderSize.Height - gap) / (singleMonthSize.Height + gap));
+            // How many full months can be fit in each dimension (with a minimum of 1 month showing)
+            int gap = ViewLayoutMonths.GAP;
+            int widthMonths = Math.Max(1, (width - backBorderSize.Width - gap) / (singleMonthSize.Width + gap));
+            int heightMonths = Math.Max(1, (height - backBorderSize.Height - gap) / (singleMonthSize.Height + gap));
 
-                // Calculate new sizes based on showing only full months
-                width = backBorderSize.Width + (widthMonths * singleMonthSize.Width) + (gap * (widthMonths + 1));
-                height = backBorderSize.Height + (heightMonths * singleMonthSize.Height) + (gap * (heightMonths + 1));
+            // Calculate new sizes based on showing only full months
+            width = backBorderSize.Width + (widthMonths * singleMonthSize.Width) + (gap * (widthMonths + 1));
+            height = backBorderSize.Height + (heightMonths * singleMonthSize.Height) + (gap * (heightMonths + 1));
 
-                // Ask the month layout for size of extra areas such as headers etc
-                Size extraSize = _drawMonths.GetExtraSize(context);
-                width += extraSize.Width;
-                height += extraSize.Height;
+            // Ask the month layout for size of extra areas such as headers etc
+            Size extraSize = _drawMonths.GetExtraSize(context);
+            width += extraSize.Width;
+            height += extraSize.Height;
 
-                // Update the calendar dimensions to match the actual size
-                CalendarDimensions = new Size(widthMonths, heightMonths);
-            }
+            // Update the calendar dimensions to match the actual size
+            CalendarDimensions = new Size(widthMonths, heightMonths);
         }
 
         private void SetRange()

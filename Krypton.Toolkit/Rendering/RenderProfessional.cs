@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -113,35 +107,33 @@ namespace Krypton.Toolkit
                             : new Point(displayRect.X + ((displayRect.Width - GRAB_SQUARE_TOTAL) / 2),
                                 displayRect.Y + offset);
 
-                        using (Brush lightBrush = new SolidBrush(_grabHandleLight),
-                                     darkBrush = new SolidBrush(_grabHandleDark))
+                        using Brush lightBrush = new SolidBrush(_grabHandleLight),
+                            darkBrush = new SolidBrush(_grabHandleDark);
+                        // Draw each grab handle in turn
+                        for (int j = 0; j < i; j++)
                         {
-                            // Draw each grab handle in turn
-                            for (int j = 0; j < i; j++)
+                            // Draw the light colored square 
+                            context.Graphics.FillRectangle(lightBrush,
+                                draw.X + GRAB_SQUARE_OFFSET,
+                                draw.Y + GRAB_SQUARE_OFFSET,
+                                GRAB_SQUARE_LENGTH,
+                                GRAB_SQUARE_LENGTH);
+
+                            // Draw the dark colored square overlapping the dark
+                            context.Graphics.FillRectangle(darkBrush,
+                                draw.X,
+                                draw.Y,
+                                GRAB_SQUARE_LENGTH,
+                                GRAB_SQUARE_LENGTH);
+
+                            // Move to the next handle position
+                            if (orientation == Orientation.Horizontal)
                             {
-                                // Draw the light colored square 
-                                context.Graphics.FillRectangle(lightBrush,
-                                                               draw.X + GRAB_SQUARE_OFFSET,
-                                                               draw.Y + GRAB_SQUARE_OFFSET,
-                                                               GRAB_SQUARE_LENGTH,
-                                                               GRAB_SQUARE_LENGTH);
-
-                                // Draw the dark colored square overlapping the dark
-                                context.Graphics.FillRectangle(darkBrush,
-                                                               draw.X,
-                                                               draw.Y,
-                                                               GRAB_SQUARE_LENGTH,
-                                                               GRAB_SQUARE_LENGTH);
-
-                                // Move to the next handle position
-                                if (orientation == Orientation.Horizontal)
-                                {
-                                    draw.X += GRAB_SQUARE_TOTAL + GRAB_SQUARE_GAP;
-                                }
-                                else
-                                {
-                                    draw.Y += GRAB_SQUARE_TOTAL + GRAB_SQUARE_GAP;
-                                }
+                                draw.X += GRAB_SQUARE_TOTAL + GRAB_SQUARE_GAP;
+                            }
+                            else
+                            {
+                                draw.Y += GRAB_SQUARE_TOTAL + GRAB_SQUARE_GAP;
                             }
                         }
 
@@ -170,17 +162,17 @@ namespace Krypton.Toolkit
                 MementoRibbonTabContextOffice2010 cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoRibbonTabContextOffice2010))
+                if (memento is MementoRibbonTabContextOffice2010 office2010)
+                {
+                    cache = office2010;
+                    generate = !cache.UseCachedValues(rect, c1, c2);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonTabContextOffice2010(rect, c1, c2);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonTabContextOffice2010)memento;
-                    generate = !cache.UseCachedValues(rect, c1, c2);
                 }
 
                 // Do we need to generate the contents of the cache?

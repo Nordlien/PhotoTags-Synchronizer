@@ -2,19 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -24,21 +19,21 @@ namespace Krypton.Toolkit
     public class ViewDrawTrackBar : ViewDrawPanel
     {
         #region Static Fields
-        private static readonly Size _positionSizeSmallH = new Size(11, 15);
-        private static readonly Size _positionSizeSmallV = new Size(15, 11);
-        private static readonly Size _positionSizeMediumH = new Size(13, 21);
-        private static readonly Size _positionSizeMediumV = new Size(21, 13);
-        private static readonly Size _positionSizeLargeH = new Size(17, 27);
-        private static readonly Size _positionSizeLargeV = new Size(27, 17);
-        private static readonly Size _trackSizeSmall = new Size(2, 2);
-        private static readonly Size _trackSizeSmallV = new Size(6, 6);
-        private static readonly Size _trackSizeMedium = new Size(4, 4);
-        private static readonly Size _trackSizeMediumV = new Size(11, 11);
-        private static readonly Size _trackSizeLarge = new Size(5, 5);
-        private static readonly Size _trackSizeLargeV = new Size(16, 16);
-        private static readonly Size _tickSizeSmall = new Size(5, 5);
-        private static readonly Size _tickSizeMedium = new Size(6, 6);
-        private static readonly Size _tickSizeLarge = new Size(7, 7);
+        private static readonly Size _positionSizeSmallH = new(11, 15);
+        private static readonly Size _positionSizeSmallV = new(15, 11);
+        private static readonly Size _positionSizeMediumH = new(13, 21);
+        private static readonly Size _positionSizeMediumV = new(21, 13);
+        private static readonly Size _positionSizeLargeH = new(17, 27);
+        private static readonly Size _positionSizeLargeV = new(27, 17);
+        private static readonly Size _trackSizeSmall = new(2, 2);
+        private static readonly Size _trackSizeSmallV = new(6, 6);
+        private static readonly Size _trackSizeMedium = new(4, 4);
+        private static readonly Size _trackSizeMediumV = new(11, 11);
+        private static readonly Size _trackSizeLarge = new(5, 5);
+        private static readonly Size _trackSizeLargeV = new(16, 16);
+        private static readonly Size _tickSizeSmall = new(5, 5);
+        private static readonly Size _tickSizeMedium = new(6, 6);
+        private static readonly Size _tickSizeLarge = new(7, 7);
         #endregion
 
         #region Instance Fields
@@ -125,11 +120,10 @@ namespace Krypton.Toolkit
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawTrackBar:" + Id;
-        }
+            "ViewDrawTrackBar:" + Id;
+
         #endregion
 
         #region Public
@@ -440,16 +434,12 @@ namespace Krypton.Toolkit
         {
             get
             {
-                switch (TrackBarSize)
+                return TrackBarSize switch
                 {
-                    case PaletteTrackBarSize.Small:
-                        return (_orientation == Orientation.Horizontal ? _positionSizeSmallH : _positionSizeSmallV);
-                    default:
-                    case PaletteTrackBarSize.Medium:
-                        return (_orientation == Orientation.Horizontal ? _positionSizeMediumH : _positionSizeMediumV);
-                    case PaletteTrackBarSize.Large:
-                        return (_orientation == Orientation.Horizontal ? _positionSizeLargeH : _positionSizeLargeV);
-                }
+                    PaletteTrackBarSize.Small => (_orientation == Orientation.Horizontal ? _positionSizeSmallH : _positionSizeSmallV),
+                    PaletteTrackBarSize.Large => (_orientation == Orientation.Horizontal ? _positionSizeLargeH : _positionSizeLargeV),
+                    _ => (_orientation == Orientation.Horizontal ? _positionSizeMediumH : _positionSizeMediumV)
+                };
             }
         }
 
@@ -460,16 +450,12 @@ namespace Krypton.Toolkit
         {
             get
             {
-                switch (TrackBarSize)
+                return TrackBarSize switch
                 {
-                    case PaletteTrackBarSize.Small:
-                        return VolumeControl ? _trackSizeSmallV : _trackSizeSmall;
-                    default:
-                    case PaletteTrackBarSize.Medium:
-                        return VolumeControl ? _trackSizeMediumV : _trackSizeMedium;
-                    case PaletteTrackBarSize.Large:
-                        return VolumeControl ? _trackSizeLargeV : _trackSizeLarge;
-                }
+                    PaletteTrackBarSize.Small => VolumeControl ? _trackSizeSmallV : _trackSizeSmall,
+                    PaletteTrackBarSize.Large => VolumeControl ? _trackSizeLargeV : _trackSizeLarge,
+                    _ => VolumeControl ? _trackSizeMediumV : _trackSizeMedium
+                };
             }
         }
 
@@ -480,16 +466,13 @@ namespace Krypton.Toolkit
         {
             get
             {
-                switch (TrackBarSize)
+                return TrackBarSize switch
                 {
-                    case PaletteTrackBarSize.Small:
-                        return _tickSizeSmall;
-                    default:
-                    case PaletteTrackBarSize.Medium:
-                        return _tickSizeMedium;
-                    case PaletteTrackBarSize.Large:
-                        return _tickSizeLarge;
-                }
+                    PaletteTrackBarSize.Small => _tickSizeSmall,
+                    PaletteTrackBarSize.Medium => _tickSizeMedium,
+                    PaletteTrackBarSize.Large => _tickSizeLarge,
+                    _ => _tickSizeMedium
+                };
             }
         }
 
@@ -517,10 +500,8 @@ namespace Krypton.Toolkit
         /// Raises a need paint event.
         /// </summary>
         /// <param name="needLayout">Does the layout need recalculating.</param>
-        public void PerformNeedPaint(bool needLayout)
-        {
-            _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout));
-        }
+        public void PerformNeedPaint(bool needLayout) => _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout));
+
         #endregion
 
         #region Protected
@@ -528,19 +509,14 @@ namespace Krypton.Toolkit
         /// Raises the ValueChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnValueChanged(EventArgs e)
-        {
-            ValueChanged?.Invoke(this, e);
-        }
+        protected virtual void OnValueChanged(EventArgs e) => ValueChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the Scroll event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnScroll(EventArgs e)
-        {
-            Scroll?.Invoke(this, e);
-        }
+        protected virtual void OnScroll(EventArgs e) => Scroll?.Invoke(this, e);
+
         #endregion
     }
 }

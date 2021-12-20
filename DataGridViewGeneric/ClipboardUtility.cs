@@ -205,7 +205,7 @@ namespace DataGridViewGeneric
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show("Can't copy cells to clipboard. Reason:\r\n\r\n" + ex.Message, "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Error, true);
+                KryptonMessageBox.Show("Can't copy cells to clipboard. Reason:\r\n\r\n" + ex.Message, "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -487,7 +487,7 @@ namespace DataGridViewGeneric
                     KryptonMessageBox.Show("Can't paste selection. Can only paste selection when have selected equal numbers of columns.\r\n" +
                         "Columns selected for copy: " + columnConentsCount + "\r\n" +
                         "Columns selected for paste: " + columnsSelected.Count,
-                        "Can't paste selected text", MessageBoxButtons.OK, MessageBoxIcon.Warning, true);
+                        "Can't paste selected text", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
                     return;
                 }
 
@@ -541,7 +541,7 @@ namespace DataGridViewGeneric
                     KryptonMessageBox.Show("Can't paste selection. Can only paste selection when have selected equal numbers of rows.\r\n" +
                         "Rows selected for copy: " + rowContents.Count + "\r\n" +
                         "Rows selected for paste: " + rowsSelected.Count,
-                        "Can't paste selected text", MessageBoxButtons.OK, MessageBoxIcon.Warning, true);
+                        "Can't paste selected text", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
                     return;
                 }
 

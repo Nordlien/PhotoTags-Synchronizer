@@ -2,17 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.ComponentModel;
 
 namespace Krypton.Toolkit
 {
@@ -33,10 +30,9 @@ namespace Krypton.Toolkit
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteListState(PaletteListStateRedirect inherit,
                                 NeedPaintHandler needPaint)
-            : base(inherit, needPaint)
-        {
+            : base(inherit, needPaint) =>
             Item = new PaletteTriple(inherit.Item, needPaint);
-        }
+
         #endregion
 
         #region IsDefault
@@ -70,10 +66,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple Item { get; }
 
-        private bool ShouldSerializeItem()
-        {
-            return !Item.IsDefault;
-        }
+        private bool ShouldSerializeItem() => !Item.IsDefault;
+
         #endregion
     }
 }

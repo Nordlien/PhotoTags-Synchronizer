@@ -2,19 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Drawing;
 
 namespace Krypton.Toolkit
 {
@@ -248,8 +243,8 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the corner radius.</summary>
         /// <value>The corner radius.</value>
-        [DefaultValue(-1)]
-        public int CornerRadius
+        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
+        public float CornerRadius
         {
             get => _colorButton.StateCommon.Border.Rounding;
 
@@ -263,6 +258,36 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        public bool AllowFullOpen
+        {
+            get => _colorButton.AllowFullOpen;
+
+            set
+            {
+                if (_colorButton.AllowFullOpen != value)
+                {
+                    _service.OnComponentChanged(_colorButton, null, _colorButton.AllowFullOpen, value);
+
+                    _colorButton.AllowFullOpen = value;
+                }
+            }
+        }
+
+        public Rectangle SelectedRect
+        {
+            get => _colorButton.SelectedRect;
+
+            set
+            {
+                if (_colorButton.SelectedRect != value)
+                {
+                    _service.OnComponentChanged(_colorButton, null, _colorButton.SelectedRect, value);
+
+                    _colorButton.SelectedRect = value;
+                }
+            }
+        }
         #endregion
 
         #region Public Override
@@ -273,7 +298,7 @@ namespace Krypton.Toolkit
         public override DesignerActionItemCollection GetSortedActionItems()
         {
             // Create a new collection for holding the single item we want to create
-            DesignerActionItemCollection actions = new DesignerActionItemCollection();
+            DesignerActionItemCollection actions = new();
 
             // This can be null when deleting a control instance at design time
             if (_colorButton != null)
@@ -293,6 +318,8 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionPropertyItem("ExtraText", "ExtraText", "Values", "Button extra text"));
                 actions.Add(new DesignerActionPropertyItem("Image", "Image", "Values", "Button image"));
                 actions.Add(new DesignerActionPropertyItem("SelectedColour", "Selected Colour", "Values", "The selected colour."));
+                actions.Add(new DesignerActionPropertyItem("AllowFullOpen", "Allow Full Open", "Values", "Allows the color dialog to fully open."));
+                actions.Add(new DesignerActionPropertyItem("SelectedRect", "SelectedRect", "Visuals", "Selected color drawing rectangle."));
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
                 actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
             }

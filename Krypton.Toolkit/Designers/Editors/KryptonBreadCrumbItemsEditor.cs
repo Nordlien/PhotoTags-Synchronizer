@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Collections.Generic;
 
 namespace Krypton.Toolkit
 {
@@ -49,10 +41,8 @@ namespace Krypton.Toolkit
                 /// Initialize a new instance of the KryptonBreadCrumbItem class.
                 /// </summary>
                 /// <param name="item">Item to act as proxy for.</param>
-                public CrumbProxy(KryptonBreadCrumbItem item)
-                {
-                    _item = item;
-                }
+                public CrumbProxy(KryptonBreadCrumbItem item) => _item = item;
+
                 #endregion
 
                 #region ShortText
@@ -237,7 +227,7 @@ namespace Krypton.Toolkit
                 /// </summary>
                 public string Name
                 {
-                    get { return null; }
+                    get => null;
                     set { }
                 }
                 #endregion
@@ -253,7 +243,7 @@ namespace Krypton.Toolkit
             private readonly Button buttonMoveDown;
             private readonly Button buttonAddItem;
             private readonly Button buttonDelete;
-            private readonly PropertyGrid propertyGrid1;
+            private readonly /*PropertyGrid*/ KryptonPropertyGrid propertyGrid1;
             private readonly Label label1;
             private readonly Label label2;
             private readonly Button buttonAddChild;
@@ -274,7 +264,7 @@ namespace Krypton.Toolkit
                 buttonMoveDown = new Button();
                 buttonAddItem = new Button();
                 buttonDelete = new Button();
-                propertyGrid1 = new PropertyGrid();
+                propertyGrid1 = new /*PropertyGrid()*/ KryptonPropertyGrid();
                 label1 = new Label();
                 label2 = new Label();
                 buttonAddChild = new Button();
@@ -307,14 +297,14 @@ namespace Krypton.Toolkit
                 // buttonMoveUp
                 // 
                 buttonMoveUp.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonMoveUp.Image = Properties.Resources.arrow_up_blue;
-                buttonMoveUp.ImageAlign = ContentAlignment.MiddleLeft;
+                buttonMoveUp.Image = Resources.BlueArrowResources.arrow_up_blue;
+                buttonMoveUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonMoveUp.Location = new Point(272, 32);
                 buttonMoveUp.Name = "buttonMoveUp";
                 buttonMoveUp.Size = new Size(95, 28);
                 buttonMoveUp.TabIndex = 2;
                 buttonMoveUp.Text = "Move Up";
-                buttonMoveUp.TextAlign = ContentAlignment.MiddleLeft;
+                buttonMoveUp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonMoveUp.TextImageRelation = TextImageRelation.ImageBeforeText;
                 buttonMoveUp.UseVisualStyleBackColor = true;
                 buttonMoveUp.Click += buttonMoveUp_Click;
@@ -322,14 +312,14 @@ namespace Krypton.Toolkit
                 // buttonMoveDown
                 // 
                 buttonMoveDown.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonMoveDown.Image = Properties.Resources.arrow_down_blue;
-                buttonMoveDown.ImageAlign = ContentAlignment.MiddleLeft;
+                buttonMoveDown.Image = Resources.BlueArrowResources.arrow_down_blue;
+                buttonMoveDown.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonMoveDown.Location = new Point(272, 66);
                 buttonMoveDown.Name = "buttonMoveDown";
                 buttonMoveDown.Size = new Size(95, 28);
                 buttonMoveDown.TabIndex = 3;
                 buttonMoveDown.Text = "Move Down";
-                buttonMoveDown.TextAlign = ContentAlignment.MiddleLeft;
+                buttonMoveDown.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonMoveDown.TextImageRelation = TextImageRelation.ImageBeforeText;
                 buttonMoveDown.UseVisualStyleBackColor = true;
                 buttonMoveDown.Click += buttonMoveDown_Click;
@@ -337,14 +327,14 @@ namespace Krypton.Toolkit
                 // buttonAddItem
                 // 
                 buttonAddItem.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonAddItem.Image = Properties.Resources.add;
-                buttonAddItem.ImageAlign = ContentAlignment.MiddleLeft;
+                buttonAddItem.Image = GenericImageResources.add;
+                buttonAddItem.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonAddItem.Location = new Point(272, 112);
                 buttonAddItem.Name = "buttonAddItem";
                 buttonAddItem.Size = new Size(95, 28);
                 buttonAddItem.TabIndex = 4;
                 buttonAddItem.Text = "Add Sibling";
-                buttonAddItem.TextAlign = ContentAlignment.MiddleLeft;
+                buttonAddItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonAddItem.TextImageRelation = TextImageRelation.ImageBeforeText;
                 buttonAddItem.UseVisualStyleBackColor = true;
                 buttonAddItem.Click += buttonAddSibling_Click;
@@ -352,14 +342,14 @@ namespace Krypton.Toolkit
                 // buttonDelete
                 // 
                 buttonDelete.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonDelete.Image = Properties.Resources.delete2;
-                buttonDelete.ImageAlign = ContentAlignment.MiddleLeft;
+                buttonDelete.Image = GenericImageResources.delete2;
+                buttonDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonDelete.Location = new Point(272, 190);
                 buttonDelete.Name = "buttonDelete";
                 buttonDelete.Size = new Size(95, 28);
                 buttonDelete.TabIndex = 5;
                 buttonDelete.Text = "Delete Item";
-                buttonDelete.TextAlign = ContentAlignment.MiddleLeft;
+                buttonDelete.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonDelete.TextImageRelation = TextImageRelation.ImageBeforeText;
                 buttonDelete.UseVisualStyleBackColor = true;
                 buttonDelete.Click += buttonDelete_Click;
@@ -397,14 +387,14 @@ namespace Krypton.Toolkit
                 // buttonAddChild
                 // 
                 buttonAddChild.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonAddChild.Image = Properties.Resources.add;
-                buttonAddChild.ImageAlign = ContentAlignment.MiddleLeft;
+                buttonAddChild.Image = GenericImageResources.add;
+                buttonAddChild.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonAddChild.Location = new Point(272, 146);
                 buttonAddChild.Name = "buttonAddChild";
                 buttonAddChild.Size = new Size(95, 28);
                 buttonAddChild.TabIndex = 9;
                 buttonAddChild.Text = "Add Child";
-                buttonAddChild.TextAlign = ContentAlignment.MiddleLeft;
+                buttonAddChild.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonAddChild.TextImageRelation = TextImageRelation.ImageBeforeText;
                 buttonAddChild.UseVisualStyleBackColor = true;
                 buttonAddChild.Click += buttonAddChild_Click;
@@ -814,7 +804,7 @@ namespace Krypton.Toolkit
 
             private DictItemBase CreateItemsDictionary(object[] items)
             {
-                DictItemBase dictItems = new DictItemBase();
+                DictItemBase dictItems = new();
 
                 foreach (KryptonBreadCrumbItem item in items)
                 {
@@ -839,7 +829,7 @@ namespace Krypton.Toolkit
             private void AddMenuTreeNode(KryptonBreadCrumbItem item, MenuTreeNode parent)
             {
                 // Create a node to match the item
-                MenuTreeNode node = new MenuTreeNode(item);
+                MenuTreeNode node = new(item);
 
                 // Add to either root or parent node
                 if (parent != null)
@@ -915,10 +905,8 @@ namespace Krypton.Toolkit
         /// Creates a new form to display and edit the current collection.
         /// </summary>
         /// <returns>A CollectionForm to provide as the user interface for editing the collection.</returns>
-        protected override CollectionForm CreateCollectionForm()
-        {
-            return new KryptonBreadCrumbItemsForm(this);
-        }
+        protected override CollectionForm CreateCollectionForm() => new KryptonBreadCrumbItemsForm(this);
+
         #endregion
     }
 }

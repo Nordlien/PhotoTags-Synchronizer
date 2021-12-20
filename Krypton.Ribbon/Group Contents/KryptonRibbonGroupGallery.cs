@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Design;
-using System.ComponentModel;
-using System.Windows.Forms;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -26,7 +18,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupGallery), "ToolboxBitmaps.KryptonGallery.bmp")]
-    [Designer(typeof(Krypton.Ribbon.KryptonRibbonGroupGalleryDesigner))]
+    [Designer("Krypton.Ribbon.KryptonRibbonGroupGalleryDesigner, Krypton.Ribbon")]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultProperty("Visible")]
@@ -80,7 +72,7 @@ namespace Krypton.Ribbon
         [Category("Action")]
         [Description("Occurs when user invokes the drop down menu.")]
         public event EventHandler<GalleryDropMenuEventArgs> GalleryDropMenu;
-        
+
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
@@ -157,7 +149,7 @@ namespace Krypton.Ribbon
             MonitorControl(Gallery);
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Access to the actual embedded KryptonGallery instance.
@@ -187,10 +179,10 @@ namespace Krypton.Ribbon
         {
             get => Gallery.SmoothScrolling;
 
-            set 
-            { 
+            set
+            {
                 Gallery.SmoothScrolling = value;
-                OnPropertyChanged("SmoothScrolling");
+                OnPropertyChanged(nameof(SmoothScrolling));
             }
         }
 
@@ -208,7 +200,7 @@ namespace Krypton.Ribbon
                 if (Gallery.ImageList != value)
                 {
                     Gallery.ImageList = value;
-                    OnPropertyChanged("ImageList");
+                    OnPropertyChanged(nameof(ImageList));
                 }
             }
         }
@@ -223,12 +215,12 @@ namespace Krypton.Ribbon
         {
             get => Gallery.SelectedIndex;
 
-            set 
+            set
             {
                 if (Gallery.SelectedIndex != value)
                 {
                     Gallery.SelectedIndex = value;
-                    OnPropertyChanged("SelectedIndex");
+                    OnPropertyChanged(nameof(SelectedIndex));
                 }
             }
         }
@@ -255,7 +247,7 @@ namespace Krypton.Ribbon
                         _mediumItemCount = _largeItemCount;
                     }
 
-                    OnPropertyChanged("LargeItemCount");
+                    OnPropertyChanged(nameof(LargeItemCount));
                 }
             }
         }
@@ -282,7 +274,7 @@ namespace Krypton.Ribbon
                         _largeItemCount = _mediumItemCount;
                     }
 
-                    OnPropertyChanged("MediumItemCount");
+                    OnPropertyChanged(nameof(MediumItemCount));
                 }
             }
         }
@@ -303,7 +295,7 @@ namespace Krypton.Ribbon
                 {
                     value = Math.Max(1, value);
                     _dropButtonItemWidth = value;
-                    OnPropertyChanged("DropButtonItemWidth");
+                    OnPropertyChanged(nameof(DropButtonItemWidth));
                 }
             }
         }
@@ -318,12 +310,12 @@ namespace Krypton.Ribbon
         {
             get => Gallery.DropMaxItemWidth;
 
-            set 
+            set
             {
                 if (Gallery.DropMaxItemWidth != value)
                 {
                     Gallery.DropMaxItemWidth = value;
-                    OnPropertyChanged("DropMaxItemWidth");
+                    OnPropertyChanged(nameof(DropMaxItemWidth));
                 }
             }
         }
@@ -338,12 +330,12 @@ namespace Krypton.Ribbon
         {
             get => Gallery.DropMinItemWidth;
 
-            set 
+            set
             {
                 if (Gallery.DropMinItemWidth != value)
                 {
                     Gallery.DropMinItemWidth = value;
-                    OnPropertyChanged("DropMinItemWidth");
+                    OnPropertyChanged(nameof(DropMinItemWidth));
                 }
             }
         }
@@ -402,7 +394,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Large gallery button image.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image ImageLarge
         {
             get => _imageLarge;
@@ -412,15 +404,12 @@ namespace Krypton.Ribbon
                 if (_imageLarge != value)
                 {
                     _imageLarge = value;
-                    OnPropertyChanged("ImageLarge");
+                    OnPropertyChanged(nameof(ImageLarge));
                 }
             }
         }
 
-        private bool ShouldSerializeImageLarge()
-        {
-            return ImageLarge != _defaultButtonImageLarge;
-        }
+        private bool ShouldSerializeImageLarge() => ImageLarge != _defaultButtonImageLarge;
 
         /// <summary>
         /// Gets and sets the display gallery text line 1 for the button.
@@ -429,7 +418,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Gallery button display text line 1.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Gallery")]
         public string TextLine1
         {
@@ -446,7 +435,7 @@ namespace Krypton.Ribbon
                 if (value != _textLine1)
                 {
                     _textLine1 = value;
-                    OnPropertyChanged("TextLine1");
+                    OnPropertyChanged(nameof(TextLine1));
                 }
             }
         }
@@ -458,7 +447,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Gallery button display text line 2.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("")]
         public string TextLine2
         {
@@ -469,7 +458,7 @@ namespace Krypton.Ribbon
                 if (value != _textLine2)
                 {
                     _textLine2 = value;
-                    OnPropertyChanged("TextLine2");
+                    OnPropertyChanged(nameof(TextLine2));
                 }
             }
         }
@@ -498,7 +487,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Color to draw as transparent in the ToolTipImage.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         [Localizable(true)]
         public Color ToolTipImageTransparentColor { get; set; }
 
@@ -508,7 +497,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Title text for use in associated ToolTip.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         [Localizable(true)]
         public string ToolTipTitle { get; set; }
@@ -519,7 +508,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Body text for use in associated ToolTip.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         [Localizable(true)]
         public string ToolTipBody { get; set; }
@@ -543,7 +532,7 @@ namespace Krypton.Ribbon
                 if (value != _visible)
                 {
                     _visible = value;
-                    OnPropertyChanged("Visible");
+                    OnPropertyChanged(nameof(Visible));
                 }
             }
         }
@@ -575,12 +564,12 @@ namespace Krypton.Ribbon
         {
             get => _enabled;
 
-            set 
+            set
             {
                 if (_enabled != value)
                 {
                     _enabled = value;
-                    OnPropertyChanged("Enabled");
+                    OnPropertyChanged(nameof(Enabled));
                 }
             }
         }
@@ -623,7 +612,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override GroupItemSize ItemSizeMaximum 
+        public override GroupItemSize ItemSizeMaximum
         {
             get => _itemSizeMax;
 
@@ -632,7 +621,7 @@ namespace Krypton.Ribbon
                 if (_itemSizeMax != value)
                 {
                     _itemSizeMax = value;
-                    OnPropertyChanged("ItemSizeMaximum");
+                    OnPropertyChanged(nameof(ItemSizeMaximum));
                 }
             }
         }
@@ -652,7 +641,7 @@ namespace Krypton.Ribbon
                 if (_itemSizeMin != value)
                 {
                     _itemSizeMin = value;
-                    OnPropertyChanged("ItemSizeMinimum");
+                    OnPropertyChanged(nameof(ItemSizeMinimum));
                 }
             }
         }
@@ -667,7 +656,7 @@ namespace Krypton.Ribbon
         {
             get => _itemSizeCurrent;
 
-            set 
+            set
             {
                 _itemSizeCurrent = value;
 
@@ -681,7 +670,7 @@ namespace Krypton.Ribbon
                         break;
                 }
 
-                OnPropertyChanged("ItemSizeCurrent");
+                OnPropertyChanged(nameof(ItemSizeCurrent));
             }
         }
 
@@ -693,10 +682,8 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase derived instance.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override ViewBase CreateView(KryptonRibbon ribbon,
-                                            NeedPaintHandler needPaint)
-        {
-            return new ViewDrawRibbonGroupGallery(ribbon, this, needPaint);
-        }
+                                            NeedPaintHandler needPaint) =>
+            new ViewDrawRibbonGroupGallery(ribbon, this, needPaint);
 
         /// <summary>
         /// Gets and sets the associated designer.
@@ -740,10 +727,8 @@ namespace Krypton.Ribbon
 
         internal override string InternalToolTipBody => ToolTipBody;
 
-        internal override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
-            return false;
-        }
+        internal override bool ProcessCmdKey(ref Message msg, Keys keyData) => false;
+
         #endregion
 
         #region Protected

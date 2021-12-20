@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
 
 namespace Krypton.Toolkit
 {
@@ -82,10 +78,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeEnableBlur()
-        {
-            return EnableBlur;
-        }
+        private bool ShouldSerializeEnableBlur() => EnableBlur;
 
         /// <summary>
         /// </summary>
@@ -99,7 +92,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Description("Gausian pixel radius used to blur each pixel")]
         [DefaultValue(_radiusDefault)]
-        public Byte Radius
+        public byte Radius
         {
             get => _radius;
             set
@@ -112,10 +105,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeRadius()
-        {
-            return _radius != _radiusDefault;
-        }
+        private bool ShouldSerializeRadius() => _radius != _radiusDefault;
 
         /// <summary>
         /// </summary>
@@ -144,10 +134,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeOpacity()
-        {
-            return Math.Abs(_opacity - _opacityDefault) > 0.001;
-        }
+        private bool ShouldSerializeOpacity() => Math.Abs(_opacity - _opacityDefault) > 0.001;
 
         /// <summary>
         /// </summary>
@@ -172,10 +159,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeBlurWhenFocusLost()
-        {
-            return BlurWhenFocusLost;
-        }
+        private bool ShouldSerializeBlurWhenFocusLost() => BlurWhenFocusLost;
 
         /// <summary>
         /// </summary>
