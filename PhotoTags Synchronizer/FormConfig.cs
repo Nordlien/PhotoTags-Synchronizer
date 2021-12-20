@@ -1881,7 +1881,7 @@ namespace PhotoTagsSynchronizer
         private void PopulateMetadataRead(DataGridView dataGridView)
         {
             isCellValueUpdating = true;
-            DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridView, (KryptonPalette)kryptonManager1.GlobalPalette, "Name", "Tags", DataGridViewSize.ConfigSize);
+            DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridView, (KryptonPalette)kryptonManager1.GlobalPalette, "MetadataRead", "Tags", DataGridViewSize.ConfigSize);
             DataGridViewHandler.Clear(dataGridView, DataGridViewSize.ConfigSize);
             //contextMenuStripMetadataRead contextMenuStripMetadataRead
 

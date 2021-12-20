@@ -273,7 +273,6 @@ namespace DataGridViewGeneric
             // If we have a defined context menu then need to check for matching shortcut
             if (kryptonDataGridView.KryptonContextMenu != null)
             {
-                //  kryptonDataGridView.KryptonContextMenu.ProcessShortcut(e.KeyData);
                 if (kryptonDataGridView.KryptonContextMenu.ProcessShortcut(e.KeyData))
                     e.Handled = true;
             }

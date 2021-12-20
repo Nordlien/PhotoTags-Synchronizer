@@ -306,7 +306,6 @@ namespace DataGridViewGeneric
             }
             #endregion
 
-            bool isTextFormat = false;
             #region Text format
             if (rowContents.Count == 0)
             {
@@ -321,42 +320,30 @@ namespace DataGridViewGeneric
                         rowContents.Add(rowContent);
                     }
                 }
-                isTextFormat = true;
             }
             #endregion
 
+            #region Paste into Edit cell 
             if (IsCurrentCellTextBoxAndInEditMode(dataGridView))
             {
                 if (rowContents.Count >= 1)
                 {
-                    bool removedRowAndColumnHeader = false; // !isTextFormat && rowContents.Count > 1 && rowContents[0].Count > 1;
                     string clipboardText = "";
-                    for (int lineIndex = 0; lineIndex < rowContents.Count; lineIndex++)
+                    foreach (List<string> textsInLine in rowContents)
                     {
-                        List<string> textsInLine = rowContents[lineIndex];
-
-                        if (!removedRowAndColumnHeader || (removedRowAndColumnHeader && lineIndex >= 1)) //Don't add header if exist header
-                        {
-                            string clipboardLine = "";
-                            for (int columnIndex = 0; columnIndex < textsInLine.Count; columnIndex++)
-                            {
-                                if (!removedRowAndColumnHeader || (removedRowAndColumnHeader && columnIndex >= 1)) //Don't add column title if exist
-                                {
-                                    string text = textsInLine[columnIndex];
-                                    clipboardLine = clipboardLine + (string.IsNullOrWhiteSpace(clipboardLine) ? "" : " ") + text;
-                                }
-                            }
-
-                            clipboardText = clipboardText + (string.IsNullOrWhiteSpace(clipboardText) ? "" : "\r\n") + clipboardLine;
-                        }
+                        string clipboardLine = "";
+                        foreach (string text in textsInLine) clipboardLine = clipboardLine + (string.IsNullOrWhiteSpace(clipboardLine) ? "" : " ") + text;                        
+                        clipboardText = clipboardText + (string.IsNullOrWhiteSpace(clipboardText) ? "" : "\r\n") + clipboardLine;
                     }
 
                     Clipboard.SetText(clipboardText);
                 }
                 TextBox textBox = dataGridView.EditingControl as TextBox;
                 if (textBox != null) textBox.Paste();
-                return;
+                return; //Can return - don't need push to stach, Edit cell did push to stacj
             }
+            #endregion 
+
             // -----------------------------------------------------------------------------
             // Put the feach data to cells
             // -----------------------------------------------------------------------------
@@ -453,11 +440,14 @@ namespace DataGridViewGeneric
             int columnConentsCount = 0;
             if (rowContents.Count > 0) columnConentsCount = rowContents[0].Count;
 
-            //Paste one clipboard "cell/text" to all selected (Only one text to more than one selected cell)
+            #region Paste one clipboard "cell/text" to all selected (Only one text to more than one selected cell)
+            #region Paste - Nothing selected - nothing to do
             if (rowContents.Count == 0 && columnConentsCount == 0)
             { 
                 //Nothing found
             }
+            #endregion
+            #region Paste - rowContents.Count == 1 && columnConentsCount == 
             else if (rowContents.Count == 1 && columnConentsCount == 1) 
             {
                 NuberOfItemsToEdit = dataGridView.SelectedCells.Count;
@@ -485,7 +475,8 @@ namespace DataGridViewGeneric
                 NuberOfItemsToEdit = 0;
                 IsClipboardActive = false;
             }
-            //Paste one row from clipboard to multiple rows
+            #endregion
+            #region Paste - One row, and multimple columns, Only cell selected / one row from clipboard to multiple rows
             else if (
                 rowContents.Count == 1 && columnConentsCount > 1 && //One row, and multimple columns
                 columnsSelected.Count > 1 && rowsSelected.Count >= 1)  //Only cell selected 
@@ -539,7 +530,8 @@ namespace DataGridViewGeneric
                 NuberOfItemsToEdit = 0;
                 IsClipboardActive = false;
             }
-            //Paste one column from clipboard to multiple columns
+            #endregion
+            #region Paste - one column from clipboard to multiple columns / Only cell selected
             else if (rowContents.Count > 1 && columnConentsCount == 1 && //One column, and multimple rows
                 !(columnsSelected.Count == 1 && rowsSelected.Count == 1)) //Only cell selected
             {
@@ -591,6 +583,8 @@ namespace DataGridViewGeneric
                 NuberOfItemsToEdit = 0;
                 IsClipboardActive = false;
             }
+            #endregion
+            #region Paste - rest
             else
             {
                 NuberOfItemsToEdit = columnsSelected.Count * rowsSelected.Count;
@@ -655,7 +649,8 @@ namespace DataGridViewGeneric
                 IsClipboardActive = false;
                 dataGridView.ResumeLayout();
             }
-
+            #endregion
+            #endregion
             foreach (CellLocation cellLocation in undoCells.Keys) dataGridView[cellLocation.ColumnIndex, cellLocation.RowIndex].Selected = true;
             PushToUndoStack (dataGridView, undoCells);
         }
