@@ -737,7 +737,7 @@ namespace PhotoTagsSynchronizer
 
             if (fileEntriesFromDatabase != null)
             {
-                foreach (FileEntry fileEntry in fileEntriesFound)
+                foreach (FileEntry fileEntry in fileEntriesFromDatabase)
                 {
                     #region Add to ImageListView and check filter
                     if (File.Exists(fileEntry.FileFullPath))

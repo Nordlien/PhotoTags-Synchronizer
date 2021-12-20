@@ -254,13 +254,6 @@ namespace DataGridViewGeneric
         #region PasteDataGridViewSelectedCellsFromClipboard
         public static void PasteDataGridViewSelectedCellsFromClipboard(DataGridView dataGridView, int leftColumnOverwrite, int rightColumnOverwrite, int topRowOverwrite, int buttomRowOverwrite, bool removeTag)
         {
-            if (IsCurrentCellTextBoxAndInEditMode(dataGridView))
-            {
-                TextBox textBox = dataGridView.EditingControl as TextBox;
-                if (textBox != null) textBox.Paste();
-                return;
-            }
-
             #region Html Format
             // Try to process as html format (data from excel) since it keeps the row information intact, instead of assuming
             // a new row for every new line if we just process it as text
@@ -275,17 +268,17 @@ namespace DataGridViewGeneric
                     System.Text.RegularExpressions.Regex TDregex = new System.Text.RegularExpressions.Regex(@"<( )*td([^>])*>", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
                     System.Text.RegularExpressions.Match trMatch = TRregex.Match(HtmlFormat);
 
-                    while (!String.IsNullOrWhiteSpace(trMatch.Value))
+                    while (!string.IsNullOrWhiteSpace(trMatch.Value))
                     {
                         int rowStart = trMatch.Index + trMatch.Length;
                         int rowEnd = HtmlFormat.IndexOf("</tr>", rowStart, StringComparison.InvariantCultureIgnoreCase);
                         System.Text.RegularExpressions.Match tdMatch = TDregex.Match(HtmlFormat, rowStart, rowEnd - rowStart);
                         List<string> rowContent = new List<string>();
-                        while (!String.IsNullOrWhiteSpace(tdMatch.Value))
+                        while (!string.IsNullOrWhiteSpace(tdMatch.Value))
                         {
                             int cellStart = tdMatch.Index + tdMatch.Length;
                             int cellEnd = HtmlFormat.IndexOf("</td>", cellStart, StringComparison.InvariantCultureIgnoreCase);
-                            String cellContent = HtmlFormat.Substring(cellStart, cellEnd - cellStart);
+                            string cellContent = HtmlFormat.Substring(cellStart, cellEnd - cellStart);
                             cellContent = System.Text.RegularExpressions.Regex.Replace(cellContent, @"<( )*br( )*>", "\r\n", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
                             cellContent = System.Text.RegularExpressions.Regex.Replace(cellContent, @"<( )*li( )*>", "\r\n - ", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
                             cellContent = System.Text.RegularExpressions.Regex.Replace(cellContent, @"<( )*div([^>])*>", "", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
@@ -313,6 +306,7 @@ namespace DataGridViewGeneric
             }
             #endregion
 
+            bool isTextFormat = false;
             #region Text format
             if (rowContents.Count == 0)
             {
@@ -327,9 +321,42 @@ namespace DataGridViewGeneric
                         rowContents.Add(rowContent);
                     }
                 }
+                isTextFormat = true;
             }
             #endregion
 
+            if (IsCurrentCellTextBoxAndInEditMode(dataGridView))
+            {
+                if (rowContents.Count >= 1)
+                {
+                    bool removedRowAndColumnHeader = false; // !isTextFormat && rowContents.Count > 1 && rowContents[0].Count > 1;
+                    string clipboardText = "";
+                    for (int lineIndex = 0; lineIndex < rowContents.Count; lineIndex++)
+                    {
+                        List<string> textsInLine = rowContents[lineIndex];
+
+                        if (!removedRowAndColumnHeader || (removedRowAndColumnHeader && lineIndex >= 1)) //Don't add header if exist header
+                        {
+                            string clipboardLine = "";
+                            for (int columnIndex = 0; columnIndex < textsInLine.Count; columnIndex++)
+                            {
+                                if (!removedRowAndColumnHeader || (removedRowAndColumnHeader && columnIndex >= 1)) //Don't add column title if exist
+                                {
+                                    string text = textsInLine[columnIndex];
+                                    clipboardLine = clipboardLine + (string.IsNullOrWhiteSpace(clipboardLine) ? "" : " ") + text;
+                                }
+                            }
+
+                            clipboardText = clipboardText + (string.IsNullOrWhiteSpace(clipboardText) ? "" : "\r\n") + clipboardLine;
+                        }
+                    }
+
+                    Clipboard.SetText(clipboardText);
+                }
+                TextBox textBox = dataGridView.EditingControl as TextBox;
+                if (textBox != null) textBox.Paste();
+                return;
+            }
             // -----------------------------------------------------------------------------
             // Put the feach data to cells
             // -----------------------------------------------------------------------------
