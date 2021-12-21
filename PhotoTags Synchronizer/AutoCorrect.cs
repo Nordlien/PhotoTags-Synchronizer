@@ -478,7 +478,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region
+        #region FixMetadata - Xtra atom 
         public static Metadata FixMetadata(Metadata metadata, bool isXtraAtomUsed)
         {
             if (metadata == null) return null;
