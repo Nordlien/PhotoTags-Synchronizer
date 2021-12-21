@@ -25,7 +25,7 @@ namespace PhotoTagsSynchronizer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Desktop")]
         public string LastFolder {
             get {
                 return ((string)(this["LastFolder"]));

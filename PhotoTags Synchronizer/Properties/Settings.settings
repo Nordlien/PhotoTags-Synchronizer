@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="LastFolder" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">Desktop</Value>
     </Setting>
     <Setting Name="MainFormSize" Type="System.Drawing.Size" Scope="User">
       <Value Profile="(Default)">1173, 778</Value>
