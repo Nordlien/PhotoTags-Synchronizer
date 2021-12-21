@@ -5451,6 +5451,7 @@ namespace PhotoTagsSynchronizer
                                 Properties.Settings.Default.RenameDateFormats);
                             if (metadataToSave != null)
                             {
+                                metadataToSave = AutoCorrect.FixMetadata(metadataToSave, Properties.Settings.Default.XtraAtomWriteOnFile);
                                 AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, metadataListOriginalExiftool[updatedRecord]);
                             }
 
@@ -5458,7 +5459,8 @@ namespace PhotoTagsSynchronizer
                         else
                         {
                             //Add only metadata to save queue that that has changed by users
-                            AddQueueSaveMetadataUpdatedByUserLock(metadataListFromDataGridView[updatedRecord], metadataListOriginalExiftool[updatedRecord]);
+                            Metadata metadataToSave = AutoCorrect.FixMetadata(metadataListFromDataGridView[updatedRecord], Properties.Settings.Default.XtraAtomWriteOnFile);
+                            AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, metadataListOriginalExiftool[updatedRecord]);
                         }
                     }
                 }
@@ -7858,6 +7860,7 @@ namespace PhotoTagsSynchronizer
                             Properties.Settings.Default.RenameDateFormats);
                         if (metadataToSave != null)
                         {
+                            metadataToSave = AutoCorrect.FixMetadata(metadataToSave, Properties.Settings.Default.XtraAtomWriteOnFile);
                             AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
                             AddQueueRenameLock(item.FileFullPath, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
                         }
@@ -7908,6 +7911,7 @@ namespace PhotoTagsSynchronizer
                             Properties.Settings.Default.RenameDateFormats);
                         if (metadataToSave != null)
                         {
+                            metadataToSave = AutoCorrect.FixMetadata(metadataToSave, Properties.Settings.Default.XtraAtomWriteOnFile);
                             AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
                             AddQueueRenameLock(file, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
                         }
@@ -8078,6 +8082,8 @@ namespace PhotoTagsSynchronizer
                             if (metadataToSave != null)
                             {
                                 AutoCorrectFormVaraibles.UpdateMetaData(ref metadataToSave, autoCorrectFormVaraibles);
+
+                                metadataToSave = AutoCorrect.FixMetadata(metadataToSave, Properties.Settings.Default.XtraAtomWriteOnFile);
                                 AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
                                 AddQueueRenameLock(item.FileFullPath, autoCorrect.RenameVariable);
                             }
@@ -8138,6 +8144,8 @@ namespace PhotoTagsSynchronizer
                             if (metadataToSave != null)
                             {
                                 AutoCorrectFormVaraibles.UpdateMetaData(ref metadataToSave, autoCorrectFormVaraibles);
+
+                                metadataToSave = AutoCorrect.FixMetadata(metadataToSave, Properties.Settings.Default.XtraAtomWriteOnFile);
                                 AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
                                 AddQueueRenameLock(file, autoCorrect.RenameVariable);
                             }

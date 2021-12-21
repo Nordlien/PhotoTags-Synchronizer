@@ -104,13 +104,13 @@ namespace PhotoTagsSynchronizer
             {
                 Metadata metadataOriginal = new Metadata(MetadataBrokerType.Empty);
 
-
                 if (metadata != null)
-                {                   
-                    metadata.PersonalRegionRotate(rotateDegrees);
-                    AddQueueSaveMetadataUpdatedByUserLock(metadata, metadataOriginal);
+                {
+                    Metadata metadataCopy = new Metadata(metadata);
+                    metadataCopy.PersonalRegionRotate(rotateDegrees);
+                    metadataCopy = AutoCorrect.FixMetadata(metadataCopy, Properties.Settings.Default.XtraAtomWriteOnFile);
+                    AddQueueSaveMetadataUpdatedByUserLock(metadataCopy, metadataOriginal);
                 }
-                //ImageListViewReloadThumbnailInvoke(imageListView1, fileEntry.FileFullPath);
             }
 
             return coverted;

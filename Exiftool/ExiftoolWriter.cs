@@ -42,12 +42,13 @@ namespace Exiftool
             string writeXtraAtomAlbumVariable, bool writeXtraAtomAlbumVideo,
             string writeXtraAtomCategoriesVariable, bool writeXtraAtomCategoriesVideo,
             string writeXtraAtomCommentVariable, bool writeXtraAtomCommentPicture, bool writeXtraAtomCommentVideo,
-            string writeXtraAtomKeywordsVariable, bool writeXtraAtomKeywordsVideo,
+            string writeXtraAtomKeywordsVariable, bool writeXtraAtomKeywordsPicture, bool writeXtraAtomKeywordsVideo,
             bool writeXtraAtomRatingPicture, bool writeXtraAtomRatingVideo,
-            string writeXtraAtomSubjectVariable, bool writeXtraAtomSubjectPicture, bool wtraAtomSubjectVideo,
+            string writeXtraAtomSubjectVariable, bool writeXtraAtomSubjectPicture, bool writeXtraAtomSubjectVideo,
             string writeXtraAtomSubtitleVariable, bool writeXtraAtomSubtitleVideo,
             string writeXtraAtomArtistVariable, bool writeXtraAtomArtistVideo,
             out Dictionary<string, string> writeXtraAtomErrorMessageForFile, Form form)
+
         {
             Logger.Debug("WriteXtraAtom - started");
             writeXtraAtomErrorMessageForFile = new Dictionary<string, string>(); //Clear out values
@@ -92,8 +93,8 @@ namespace Exiftool
                 #endregion
 
                 #region Write Xtra Atrom using Property Writer
-                if (writeXtraAtomKeywordsVideo || writeXtraAtomCategoriesVideo || writeXtraAtomAlbumVideo || writeXtraAtomSubtitleVideo ||
-                    writeXtraAtomArtistVideo || wtraAtomSubjectVideo || writeXtraAtomCommentVideo || writeXtraAtomRatingVideo ||
+                if (writeXtraAtomKeywordsPicture || writeXtraAtomKeywordsVideo || writeXtraAtomCategoriesVideo || writeXtraAtomAlbumVideo || writeXtraAtomSubtitleVideo ||
+                    writeXtraAtomArtistVideo || writeXtraAtomSubjectVideo || writeXtraAtomCommentVideo || writeXtraAtomRatingVideo ||
                     writeXtraAtomSubjectPicture || writeXtraAtomCommentPicture || writeXtraAtomRatingPicture)
                 {
                     bool isFileUnLockedAndExist = FileHandler.WaitLockedFileToBecomeUnlocked(metadataToWrite.FileFullPath, true, form);
@@ -107,23 +108,21 @@ namespace Exiftool
                             {
                                 if (isVideoFormat)
                                 {
-
-                                    if (writeXtraAtomKeywordsVideo) windowsPropertyWriter.WriteKeywords(string.IsNullOrEmpty(writeXtraAtomKeywordsResult) ? null : writeXtraAtomKeywordsResult);
                                     if (writeXtraAtomCategoriesVideo) windowsPropertyWriter.WriteCategories(string.IsNullOrEmpty(writeXtraAtomCategoriesResult) ? null : writeXtraAtomCategoriesResult);
                                     if (writeXtraAtomAlbumVideo) windowsPropertyWriter.WriteAlbum(string.IsNullOrEmpty(writeXtraAtomAlbumReult) ? null : writeXtraAtomAlbumReult);
-
                                     if (writeXtraAtomSubtitleVideo) windowsPropertyWriter.WriteSubtitle_Description(string.IsNullOrEmpty(writeXtraAtomSubtitleResult) ? null : writeXtraAtomSubtitleResult);
                                     if (writeXtraAtomArtistVideo) windowsPropertyWriter.WriteArtist_Author(string.IsNullOrEmpty(writeXtraAtomArtistResult) ? null : writeXtraAtomArtistResult);
-
-                                    if (wtraAtomSubjectVideo) windowsPropertyWriter.WriteSubject_Description(string.IsNullOrEmpty(writeXtraAtomSubjectResult) ? null : writeXtraAtomSubjectResult);
+                                    if (writeXtraAtomSubjectVideo) windowsPropertyWriter.WriteSubject_Description(string.IsNullOrEmpty(writeXtraAtomSubjectResult) ? null : writeXtraAtomSubjectResult);
                                     if (writeXtraAtomCommentVideo) windowsPropertyWriter.WriteComment(string.IsNullOrEmpty(writeXtraAtomCommentResult) ? null : writeXtraAtomCommentResult);
                                     if (writeXtraAtomRatingVideo) windowsPropertyWriter.WriteRating((metadataToWrite.PersonalRatingPercent == null ? (int)0 : (int)metadataToWrite.PersonalRatingPercent));
+                                    if (writeXtraAtomKeywordsVideo) windowsPropertyWriter.WriteKeywords(string.IsNullOrEmpty(writeXtraAtomKeywordsResult) ? null : writeXtraAtomKeywordsResult);
                                 }
                                 else if (isImageFormat)
                                 {
                                     if (writeXtraAtomSubjectPicture) windowsPropertyWriter.WriteSubject_Description(string.IsNullOrEmpty(writeXtraAtomSubjectResult) ? null : writeXtraAtomSubjectResult);
                                     if (writeXtraAtomCommentPicture) windowsPropertyWriter.WriteComment(string.IsNullOrEmpty(writeXtraAtomCommentResult) ? null : writeXtraAtomCommentResult);
                                     if (writeXtraAtomRatingPicture) windowsPropertyWriter.WriteRating((metadataToWrite.PersonalRatingPercent == null ? (int)0 : (int)metadataToWrite.PersonalRatingPercent));
+                                    if (writeXtraAtomKeywordsPicture) windowsPropertyWriter.WriteKeywords(string.IsNullOrEmpty(writeXtraAtomKeywordsResult) ? null : writeXtraAtomKeywordsResult);
                                 }
 
                                 windowsPropertyWriter.Close();

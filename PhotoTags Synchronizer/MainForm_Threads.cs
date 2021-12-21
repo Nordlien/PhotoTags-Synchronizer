@@ -1287,6 +1287,8 @@ namespace PhotoTagsSynchronizer
                                 Logger.Trace("ThreadSaveMetadata - started");
 
                                 #region Init Write Variables and Parameters
+                                bool writeXtraAtomOnMediaFile = Properties.Settings.Default.XtraAtomWriteOnFile;
+
                                 string writeMetadataTagsVariable = Properties.Settings.Default.WriteMetadataTags;
                                 string writeMetadataKeywordAddVariable = Properties.Settings.Default.WriteMetadataKeywordAdd;
 
@@ -1301,6 +1303,7 @@ namespace PhotoTagsSynchronizer
                                 bool writeXtraAtomCommentVideo = Properties.Settings.Default.XtraAtomCommentVideo;
 
                                 string writeXtraAtomKeywordsVariable = Properties.Settings.Default.XtraAtomKeywordsVariable;
+                                bool writeXtraAtomKeywordsPicture = Properties.Settings.Default.XtraAtomKeywordsPicture;
                                 bool writeXtraAtomKeywordsVideo = Properties.Settings.Default.XtraAtomKeywordsVideo;
 
                                 bool writeXtraAtomRatingPicture = Properties.Settings.Default.XtraAtomRatingPicture;
@@ -1443,18 +1446,20 @@ namespace PhotoTagsSynchronizer
                                     if (!GlobalData.IsApplicationClosing)
                                     {
                                         UpdateStatusAction("Write Xtra Atom to " + commonQueueSubsetMetadataToSave.Count + " media files...");
-
-                                        filesUpdatedByWriteXtraAtom = ExiftoolWriter.WriteXtraAtom(
-                                            commonQueueSubsetMetadataToSave, queueSubsetMetadataOrginalBeforeUserEdit, allowedFileNameDateTimeFormats,
-                                            writeXtraAtomAlbumVariable, writeXtraAtomAlbumVideo,
-                                            writeXtraAtomCategoriesVariable, writeXtraAtomCategoriesVideo,
-                                            writeXtraAtomCommentVariable, writeXtraAtomCommentPicture, writeXtraAtomCommentVideo,
-                                            writeXtraAtomKeywordsVariable, writeXtraAtomKeywordsVideo,
-                                            writeXtraAtomRatingPicture, writeXtraAtomRatingVideo,
-                                            writeXtraAtomSubjectVariable, writeXtraAtomSubjectPicture, wtraAtomSubjectVideo,
-                                            writeXtraAtomSubtitleVariable, writeXtraAtomSubtitleVideo,
-                                            writeXtraAtomArtistVariable, writeXtraAtomArtistVideo,
-                                            out writeXtraAtomErrorMessageForFile, this);
+                                        if (writeXtraAtomOnMediaFile)
+                                        {
+                                            filesUpdatedByWriteXtraAtom = ExiftoolWriter.WriteXtraAtom(
+                                                commonQueueSubsetMetadataToSave, queueSubsetMetadataOrginalBeforeUserEdit, allowedFileNameDateTimeFormats,
+                                                writeXtraAtomAlbumVariable, writeXtraAtomAlbumVideo,
+                                                writeXtraAtomCategoriesVariable, writeXtraAtomCategoriesVideo,
+                                                writeXtraAtomCommentVariable, writeXtraAtomCommentPicture, writeXtraAtomCommentVideo,
+                                                writeXtraAtomKeywordsVariable, writeXtraAtomKeywordsPicture, writeXtraAtomKeywordsVideo,
+                                                writeXtraAtomRatingPicture, writeXtraAtomRatingVideo,
+                                                writeXtraAtomSubjectVariable, writeXtraAtomSubjectPicture, wtraAtomSubjectVideo,
+                                                writeXtraAtomSubtitleVariable, writeXtraAtomSubtitleVideo,
+                                                writeXtraAtomArtistVariable, writeXtraAtomArtistVideo,
+                                                out writeXtraAtomErrorMessageForFile, this);
+                                        }
                                     }
                                 }
                                 catch (Exception ex)

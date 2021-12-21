@@ -2666,5 +2666,29 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["SuggestRegionNameMostUsedContextMenuCount"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool XtraAtomWriteOnFile {
+            get {
+                return ((bool)(this["XtraAtomWriteOnFile"]));
+            }
+            set {
+                this["XtraAtomWriteOnFile"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool XtraAtomKeywordsPicture {
+            get {
+                return ((bool)(this["XtraAtomKeywordsPicture"]));
+            }
+            set {
+                this["XtraAtomKeywordsPicture"] = value;
+            }
+        }
     }
 }

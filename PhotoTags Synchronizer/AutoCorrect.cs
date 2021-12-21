@@ -478,6 +478,31 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region
+        public static Metadata FixMetadata(Metadata metadata, bool isXtraAtomUsed)
+        {
+            if (metadata == null) return null;
+            
+            Metadata metadataCopy = new Metadata(metadata);
+            if (isXtraAtomUsed)
+            {
+                foreach (KeywordTag keywordTag in metadata.PersonalKeywordTags) //Read orginal and change the copy
+                {
+                    if (!string.IsNullOrWhiteSpace(keywordTag.Keyword) && keywordTag.Keyword.Contains(",")) 
+                    {
+                        string[] keywords = keywordTag.Keyword.Split(',');
+                        foreach (string keyword in keywords)
+                        {
+                            KeywordTag newKeywordTag = new KeywordTag(keyword.Trim(), keywordTag.Confidence);
+                            metadataCopy.PersonalKeywordTagsAddIfNotExists(newKeywordTag);
+                        }
+                    }
+                }
+            }
+            return metadataCopy;
+        }
+        #endregion
+
         #region FixAndSave
         public Metadata FixAndSave(FileEntry fileEntry, Metadata metadata,
             MetadataDatabaseCache metadataAndCacheMetadataExiftool,
