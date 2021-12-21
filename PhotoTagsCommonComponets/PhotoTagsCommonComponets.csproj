@@ -64,7 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FCTB" Version="2.16.24" />
-    <PackageReference Include="NLog" Version="4.7.12" />
+    <PackageReference Include="NLog" Version="4.7.13" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Properties\Resources.resx">
