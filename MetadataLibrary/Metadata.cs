@@ -1358,8 +1358,9 @@ namespace MetadataLibrary
                 case "{PersonalRegionInfo}":
                     result = personalRegionInfo;
                     break;
+                #endregion
 
-                //Keyword
+                #region Keyword
                 case "{PersonalKeywordsList}":
                     result = personalKeywordList;
                     break;
@@ -1667,8 +1668,12 @@ namespace MetadataLibrary
             string personalKeywordsList = "";
             foreach (KeywordTag keywordTag in this.PersonalKeywordTags)
             {
-                if (personalKeywordsList.Length > 0) personalKeywordsList += ";";
-                personalKeywordsList += keywordTag;
+                if (keywordTag.Keyword.Contains(";")) 
+                {
+                    string[] keywords = keywordTag.Keyword.Split(';');
+                    foreach (string keyword in keywords) if (keyword != null) personalKeywordsList += (personalKeywordsList.Length > 0 ? ";" : "") + keyword.Trim();
+                }
+                else personalKeywordsList += (personalKeywordsList.Length > 0 ? ";" : "") + keywordTag; //personalKeywordsList
             }
             return personalKeywordsList;
         }
