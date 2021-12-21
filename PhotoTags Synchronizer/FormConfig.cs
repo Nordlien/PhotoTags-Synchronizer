@@ -319,7 +319,6 @@ namespace PhotoTagsSynchronizer
 
             //AutoCorrect
             DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridViewAutoKeywords, (KryptonPalette)kryptonManager1.GlobalPalette, "AutoKeywords", "AutoKeywords", DataGridViewSize.ConfigSize);
-            //DataGridViewHandler.Clear(dataGridViewAutoKeywords, DataGridViewSize.ConfigSize);
             autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
             PopulateAutoCorrectPoperties();
 
