@@ -65,7 +65,9 @@ namespace PhotoTagsSynchronizer
                     "Failed moving file.\r\n\r\n" +
                     "From:" + sourceFullFilename + "\r\n\r\n" +
                     "To: " + targetFullFilename + "\r\n\r\n" +
-                    "Error message: " + ex.Message + "\r\n");
+                    "Error message: " + ex.Message + "\r\n" +
+                    "File staus:" + sourceFullFilename + "\r\n" + FileHandler.FileStatusText(sourceFullFilename) +
+                    "File staus:" + targetFullFilename + "\r\n" + FileHandler.FileStatusText(targetFullFilename));
                 Logger.Error(ex, "Error when move file.");
             }
             ImageListViewResumeLayoutInvoke(imageListView1);
@@ -138,7 +140,9 @@ namespace PhotoTagsSynchronizer
                             "Failed moving file.\r\n\r\n" +
                             "From:" + sourceFullFilename + "\r\n\r\n" +
                             "To: " + targetFullFilename + "\r\n\r\n" +
-                            "Error message: " + ex.Message + "\r\n");
+                            "Error message: " + ex.Message + "\r\n" +
+                            "File staus:" + sourceFullFilename + "\r\n" + FileHandler.FileStatusText(sourceFullFilename) +
+                            "File staus:" + targetFullFilename + "\r\n" + FileHandler.FileStatusText(targetFullFilename));
                         Logger.Error(ex, "Error when move file.");
                     }
                 }
@@ -240,7 +244,8 @@ namespace PhotoTagsSynchronizer
                             "Failed copying file.\r\n\r\n" +
                             "Error copy file from: " + sourceFullFilename + "\r\n\r\n" +
                             "To file: " + targetFullFilename + "\r\n\r\n" +
-                            "Error message: " + ex.Message + "\r\n");
+                            "Error message: " + ex.Message + "\r\n" +
+                            "File staus:" + sourceFullFilename + "\r\n" + FileHandler.FileStatusText(sourceFullFilename));
                         Logger.Error(ex, "Error when copy file.");
                     }
                 }
@@ -308,7 +313,9 @@ namespace PhotoTagsSynchronizer
                             "Failed copying file.\r\n\r\n" +
                             "Error copy file from: " + sourceFullFilename + "\r\n\r\n" +
                             "To file: " + targetFullFilename + "\r\n\r\n" +
-                            "Error message: " + ex.Message + "\r\n");
+                            "Error message: " + ex.Message + "\r\n" +
+                            "File staus:" + sourceFullFilename + "\r\n" + FileHandler.FileStatusText(sourceFullFilename) +
+                            "File staus:" + targetFullFilename + "\r\n" + FileHandler.FileStatusText(targetFullFilename));
                     }
                 }
             }

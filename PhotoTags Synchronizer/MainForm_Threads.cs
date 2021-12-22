@@ -834,7 +834,7 @@ namespace PhotoTagsSynchronizer
                                         fileEntryImage = new FileEntryImage(commonQueueSaveThumbnailToDatabase[0]);
                                     }
 
-                                    //if (!databaseAndCacheThumbnail.DoesThumbnailExistInCache(fileEntryImage))
+                                    //if (!databaseAndCacheThumbnail.DoesThumbnailExistInCache(fileEntryImage)) //It's already in cache when saved
                                     {
                                         try
                                         {
@@ -1531,7 +1531,8 @@ namespace PhotoTagsSynchronizer
                                                 AddError(fileSuposeToBeUpdated.Directory, fileSuposeToBeUpdated.FileName, fileSuposeToBeUpdated.LastWriteDateTime,
                                                     AddErrorExiftooRegion, AddErrorExiftooCommandWrite, AddErrorExiftooParameterWrite, AddErrorExiftooParameterWrite,
                                                     "Failed write Xtra Atom property to file: " + fileSuposeToBeUpdated.FileFullPath + "\r\n" +
-                                                    "Error message:" + writeXtraAtomErrorMessageForFile[fileSuposeToBeUpdated.FileFullPath]);
+                                                    "Error message:" + writeXtraAtomErrorMessageForFile[fileSuposeToBeUpdated.FileFullPath]
+                                                    "File staus:" + fileSuposeToBeUpdated.FileFullPath + "\r\n" + FileHandler.FileStatusText(fileSuposeToBeUpdated.FileFullPath));
                                             }
                                             #endregion
 
@@ -1548,7 +1549,8 @@ namespace PhotoTagsSynchronizer
                                                 AddError(fileSuposeToBeUpdated.Directory, fileSuposeToBeUpdated.FileName, fileSuposeToBeUpdated.LastWriteDateTime,
                                                         AddErrorExiftooRegion, AddErrorExiftooCommandWrite, AddErrorExiftooParameterWrite, AddErrorExiftooParameterWrite,
                                                         "EXIFTOOL.EXE failed write to file:" + fileSuposeToBeUpdated.FileFullPath + "\r\n" +
-                                                        "Message return from Exiftool: " + exiftoolErrorMessage);
+                                                        "Message return from Exiftool: " + exiftoolErrorMessage + "\r\n" +
+                                                        "File staus:" + fileSuposeToBeUpdated.FileFullPath + "\r\n" + FileHandler.FileStatusText(fileSuposeToBeUpdated.FileFullPath));
                                             }
                                             #endregion 
 
@@ -2006,7 +2008,9 @@ namespace PhotoTagsSynchronizer
                                                             {
                                                                 if (!(FileHandler.IsFileInCloud(fileEntryBrokerRegion.FileFullPath) && dontReadFilesInCloud))
                                                                 {
-                                                                    string writeErrorDesciption = "Failed loading mediafile. Was not able to update thumbnail for region for the file:" + fileEntryBrokerRegion.FileFullPath;
+                                                                    string writeErrorDesciption = 
+                                                                        "Failed loading mediafile. Was not able to update thumbnail for region for the file:" + fileEntryBrokerRegion.FileFullPath + "\r\n" +
+                                                                        "File staus:" + fileEntryBrokerRegion.FileFullPath + "\r\n" + FileHandler.FileStatusText(fileEntryBrokerRegion.FileFullPath));
                                                                     Logger.Error(writeErrorDesciption);
 
                                                                     AddError(
@@ -2592,7 +2596,8 @@ namespace PhotoTagsSynchronizer
                                                 Path.GetFileName(fullFilename),
                                                 File.GetLastWriteTime(fullFilename),
                                                 AddErrorFileSystemRegion, AddErrorFileSystemMove, fullFilename, "New name is unknown (missing metadata)",
-                                                "Failed rename " + fullFilename + " to : New name is unknown(missing metadata)");
+                                                "Failed rename " + fullFilename + " to : New name is unknown(missing metadata)" + "\r\n" +
+                                                "File staus:" + fullFilename + "\r\n" + FileHandler.FileStatusText(fullFilename));
                                         }
 
                                     }

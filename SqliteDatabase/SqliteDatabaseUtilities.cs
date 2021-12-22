@@ -96,7 +96,7 @@ namespace SqliteDatabase
                     if (forced || transactionCount++ > numberOfTransactionbeforeCommit || transactionStopwatch.ElapsedMilliseconds > elapsedMillisecondsBeforeCommit)
                     {
                         transactionStarted = false;
-                        transactionHandler.Commit();
+                        transactionHandler.Commit();   
                         
                     }
                 }
