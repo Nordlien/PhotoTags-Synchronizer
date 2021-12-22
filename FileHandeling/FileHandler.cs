@@ -88,6 +88,34 @@ namespace FileHandeling
         }
         #endregion
 
+        public static string FileStatusText(string fullFileName)
+        {
+            string status = "";
+            if (File.Exists(fullFileName))
+                status = "File not exists";
+            else
+            { 
+                status =  
+                    (IsFileInCloud(fullFileName) ? "File is in cloud" : "File is not in clud") + "\r\n" +
+                    (IsFileLockedByProcess(fullFileName) ? "File is locked by process" : "File is not locked by process") + "\r\n" +
+                    (IsFileLockedForRead(fullFileName) ? "File is locked for reading" : "File is not locked for reading") + "\r\n" +
+                    (IsFileVirtual(fullFileName) ? "File is virtual" : "File is not virtual");
+                try
+                {
+                    status = status + "\r\nAttribute: " + File.GetAttributes(fullFileName).ToString();
+                } catch { }
+                try
+                {
+                    status = status + "\r\nCreation Time: " + File.GetCreationTime(fullFileName).ToString();
+                } catch { }
+                try
+                {
+                    status = status + "\r\nLast Write Time: " + File.GetLastWriteTime(fullFileName).ToString();
+                } catch { }
+            }
+            return status;
+        }
+
         public static string FileLockedByProcess { get; set; }
 
         #region IsFileLockedForRead
