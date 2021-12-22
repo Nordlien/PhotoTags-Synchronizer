@@ -684,11 +684,11 @@ namespace PhotoTagsSynchronizer
 
                 comboBoxMediaAiConfidence.SelectedIndex = Properties.Settings.Default.MediaAiConfidence;
 
-                comboBoxTitle.SuspendLayout();
-                comboBoxDescription.SuspendLayout();
-                comboBoxComments.SuspendLayout();
-                comboBoxAlbum.SuspendLayout();
-                comboBoxAuthor.SuspendLayout();
+                //comboBoxTitle.SuspendLayout();
+                //comboBoxDescription.SuspendLayout();
+                //comboBoxComments.SuspendLayout();
+                //comboBoxAlbum.SuspendLayout();
+                //comboBoxAuthor.SuspendLayout();
 
                 comboBoxAlbum.AutoCompleteMode = AutoCompleteMode.None;
                 comboBoxAlbum.AutoCompleteSource = AutoCompleteSource.None;
@@ -701,13 +701,12 @@ namespace PhotoTagsSynchronizer
                 comboBoxAuthor.AutoCompleteMode = AutoCompleteMode.None;
                 comboBoxAuthor.AutoCompleteSource = AutoCompleteSource.None;
 
-
-                comboBoxAlbum.Items.Clear();                
-                comboBoxTitle.Items.Clear();              
-                comboBoxDescription.Items.Clear();                
-                comboBoxComments.Items.Clear();                
+                comboBoxAlbum.Items.Clear();
+                comboBoxTitle.Items.Clear();
+                comboBoxDescription.Items.Clear();
+                comboBoxComments.Items.Clear();
                 comboBoxAuthor.Items.Clear();
-                
+
                 lock (autoCompleteStringCollectionAlbumLock) autoCompleteStringCollectionAlbum = new AutoCompleteStringCollection();
                 lock (autoCompleteStringCollectionTitleLock) autoCompleteStringCollectionTitle = new AutoCompleteStringCollection();
                 lock (autoCompleteStringCollectionDescriptionLock) autoCompleteStringCollectionDescription = new AutoCompleteStringCollection();
@@ -751,11 +750,11 @@ namespace PhotoTagsSynchronizer
                     ComboBoxHandler.AutoCompleteStringCollectionAppend(autoCompleteStringCollectionTitle, arrayTitle);
                 }
 
-                comboBoxTitle.ResumeLayout();
-                comboBoxDescription.ResumeLayout();
-                comboBoxComments.ResumeLayout();
-                comboBoxAlbum.ResumeLayout();
-                comboBoxAuthor.ResumeLayout();
+                //comboBoxTitle.ResumeLayout();
+                //comboBoxDescription.ResumeLayout();
+                //comboBoxComments.ResumeLayout();
+                //comboBoxAlbum.ResumeLayout();
+                //comboBoxAuthor.ResumeLayout();
 
                 //groupBoxRating
                 radioButtonRating1.Checked = false;
@@ -823,20 +822,20 @@ namespace PhotoTagsSynchronizer
                 //radioButtonRating4.Enabled = enable;
                 //radioButtonRating5.Enabled = enable;
 
-                if (enable)
-                {
-                    comboBoxMediaAiConfidence.ResumeLayout();
-                    comboBoxTitle.ResumeLayout();
-                    comboBoxDescription.ResumeLayout();
-                    comboBoxComments.ResumeLayout();
-                    comboBoxAlbum.ResumeLayout();
-                    comboBoxAuthor.ResumeLayout();
-                    radioButtonRating1.ResumeLayout();
-                    radioButtonRating2.ResumeLayout();
-                    radioButtonRating3.ResumeLayout();
-                    radioButtonRating4.ResumeLayout();
-                    radioButtonRating5.ResumeLayout();
-                }
+                //if (enable)
+                //{
+                //    comboBoxMediaAiConfidence.ResumeLayout();
+                //    comboBoxTitle.ResumeLayout();
+                //    comboBoxDescription.ResumeLayout();
+                //    comboBoxComments.ResumeLayout();
+                //    comboBoxAlbum.ResumeLayout();
+                //    comboBoxAuthor.ResumeLayout();
+                //    radioButtonRating1.ResumeLayout();
+                //    radioButtonRating2.ResumeLayout();
+                //    radioButtonRating3.ResumeLayout();
+                //    radioButtonRating4.ResumeLayout();
+                //    radioButtonRating5.ResumeLayout();
+                //}
             }
             catch (Exception ex)
             {
