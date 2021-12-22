@@ -1564,7 +1564,6 @@ namespace PhotoTagsSynchronizer
                                                 if (File.Exists(currentMetadata.FileFullPath) && currentLastWrittenDateTime != previousLastWrittenDateTime) AddQueueVerifyMetadataLock(currentMetadata);
                                                 AddQueueLazyLoading_ReadMetaDataAllSources_FromCacheOrUpdateFromSoruce(currentMetadata.FileEntryBroker);
                                                 ImageListViewReloadThumbnailAndMetadataInvoke(imageListView1, fileSuposeToBeUpdated.FileFullPath);
-
                                             }
                                             else
                                             {

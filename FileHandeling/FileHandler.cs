@@ -292,7 +292,8 @@ namespace FileHandeling
             {
                 areAnyFileLocked = IsFileThatNeedUpdatedLockedByProcess(fileEntriesToCheck, needWriteAccess);
                 
-                if (areAnyFileLocked) Task.Delay(WaitTimeBetweenCheckFileIsUnlocked).Wait();
+                if (areAnyFileLocked) 
+                    Task.Delay(WaitTimeBetweenCheckFileIsUnlocked).Wait();
 
                 if (formWaitLockedFile != null && !formWaitLockedFile.IsFormVisible)
                 {

@@ -8299,10 +8299,10 @@ namespace PhotoTagsSynchronizer
                     GlobalData.IsPopulatingImageListView = true; //Avoid one and one select item getting refreshed
                     GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
                     TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, false);
-                    ImageListViewSuspendLayoutInvoke(imageListView);
+                    //ImageListViewSuspendLayoutInvoke(imageListView);
 
                     //Clean up ImageListView and other queues
-                    ImageListViewHandler.ClearThumbnailCache(imageListView1);
+                    //ImageListViewHandler.ClearThumbnailCache(imageListView1);
                     //imageListView1.Refresh();
                     ClearAllQueues();
 
@@ -8314,7 +8314,7 @@ namespace PhotoTagsSynchronizer
                     filesCutCopyPasteDrag.ImageListViewReload(imageListView.Items, updatedOnlySelected);
 
                     TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, true);
-                    ImageListViewResumeLayoutInvoke(imageListView);
+                    //ImageListViewResumeLayoutInvoke(imageListView);
                     GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
                     GlobalData.IsPopulatingButtonAction = false;
                     GlobalData.IsPopulatingImageListView = false;
