@@ -295,6 +295,13 @@ namespace PhotoTagsSynchronizer
                 }
                 if (!IsFilenameEqual(sourceFullFilename, targetFullFilename))
                 {
+                    try
+                    {
+
+                    } catch (Exception ex)
+                    {
+
+                    }
                     File.Move(sourceFullFilename, targetFullFilename);
                     if (!databaseAndCacheMetadataExiftool.Move(oldDirectory, oldFilename, newDirectory, newFilename))
                     {

@@ -114,8 +114,7 @@ namespace PhotoTagsSynchronizer
         public static void ComboBoxPopulateAppend(KryptonComboBox comboBox, string valueItem)
         {
             if (comboBox.Items.Count >= maxCount) return;
-            if (!string.IsNullOrEmpty(valueItem) && !comboBox.Items.Contains(valueItem)) 
-                comboBox.Items.Add(valueItem);
+            if (!string.IsNullOrEmpty(valueItem) && !comboBox.Items.Contains(valueItem)) comboBox.Items.Add(valueItem);
         }
 
         public static void ComboBoxPopulateAppend(KryptonComboBox comboBox, string[] valueList, string defaultValue)
@@ -139,10 +138,8 @@ namespace PhotoTagsSynchronizer
         #region Populate ComboBox - Populate - string
         public static void ComboBoxPopulateClear(KryptonComboBox comboBox, string valueListString, string defaultValue)
         {
-            comboBox.BeginInit();
             comboBox.Items.Clear();
             ComboBoxPopulateAppend(comboBox, ConvertStringToArray(valueListString), defaultValue);
-            comboBox.EndInit();
         }
         #endregion
 

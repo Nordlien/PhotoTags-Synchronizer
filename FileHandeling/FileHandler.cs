@@ -98,7 +98,7 @@ namespace FileHandeling
             { 
                 status =  
                     (IsFileInCloud(fullFileName) ? "File is in cloud" : "File is not in clud") + "\r\n" +
-                    (IsFileLockedByProcess(fullFileName) ? "File is locked by process" : "File is not locked by process") + "\r\n" +
+                    (IsFileLockedByProcess(fullFileName, FileHandler.GetFileLockedStatusTimeout) ? "File is locked by process" : "File is not locked by process") + "\r\n" +
                     (IsFileLockedForRead(fullFileName) ? "File is locked for reading" : "File is not locked for reading") + "\r\n" +
                     (IsFileVirtual(fullFileName) ? "File is virtual" : "File is not virtual");
                 try
@@ -201,7 +201,8 @@ namespace FileHandeling
             {
                 result = IsFileLockedByProcess(fullFilePath);
             });
-            if (!task.Wait(millisecondsTimeout)) result = false;
+            if (!task.Wait(millisecondsTimeout)) result = true; 
+            // task.Wait(millisecondsTimeout);
             try
             {
                 inProcessIsFileLockedByProcess.Remove(fullFilePath);
@@ -216,8 +217,10 @@ namespace FileHandeling
             }
             return result;
         }
+        #endregion
 
-        public static bool IsFileLockedByProcess(string fullFilePath)
+        #region IsFileLockedByProcess
+        private static bool IsFileLockedByProcess(string fullFilePath)
         {
             if (!File.Exists(fullFilePath)) return false;
 
@@ -254,8 +257,6 @@ namespace FileHandeling
             }
             FileLockedByProcess = "";
 
-            if (stopwatch.ElapsedMilliseconds > 1000)
-                Logger.Debug("IsFileLockedByProcess: " + stopwatch.ElapsedMilliseconds);
             return false;
         }
         #endregion
@@ -264,17 +265,23 @@ namespace FileHandeling
         public static bool IsFileThatNeedUpdatedLockedByProcess(List<Metadata> fileEntriesToCheck, bool needWriteAccess)
         {
             if (fileEntriesToCheck.Count == 0) return false;
-
             foreach (Metadata fileEntryToCheck in fileEntriesToCheck)
             {
-                if (!File.Exists(fileEntryToCheck.FileFullPath)) return false; //In process rename
-                if (needWriteAccess)
+                //if (!File.Exists(fileEntryToCheck.FileFullPath)) return false; //In process rename
+                //if (File.Exists(fileEntryToCheck.FileFullPath) && IsFileLockedForRead(fileEntryToCheck.FileFullPath, WaitFileGetUnlockedTimeout)) return true;
+
+                if (File.Exists(fileEntryToCheck.FileFullPath))
                 {
-                    if (IsFileReadOnly(fileEntryToCheck.FileFullPath)) return false; //No need to wait, Attribute is set to read only
-                    if (IsFileLockedByProcess(fileEntryToCheck.FileFullPath, WaitFileGetUnlockedTimeout)) return true; //In process OneDrive backup / update
-                } else
-                {
-                    if (IsFileLockedForRead(fileEntryToCheck.FileFullPath, WaitFileGetUnlockedTimeout)) return true;
+                    if (needWriteAccess)
+                    {
+                        //if (IsFileReadOnly(fileEntryToCheck.FileFullPath)) return true; //No need to wait, Attribute is set to read only
+                        //if (IsFileReadOnly(fileEntryToCheck.FileFullPath)) return false; //No need to wait, Attribute is set to read only
+                        if (IsFileLockedByProcess(fileEntryToCheck.FileFullPath, WaitFileGetUnlockedTimeout)) return true; //In process OneDrive backup / update
+                    }
+                    else
+                    {
+                        if (IsFileLockedForRead(fileEntryToCheck.FileFullPath, WaitFileGetUnlockedTimeout)) return true;
+                    }
                 }
             }
             return false;

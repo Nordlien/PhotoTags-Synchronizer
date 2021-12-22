@@ -2441,18 +2441,29 @@ namespace MetadataLibrary
             Dictionary<StringNullable, int> listing = new Dictionary<StringNullable, int>();
 
             string sqlCommand = "";
-            if (metadataBrokerType != MetadataBrokerType.Empty) sqlCommand += (string.IsNullOrEmpty(sqlCommand) ? "" : "AND ") + "Broker = @Broker ";
-            if (dateTimeFrom != null) sqlCommand += (string.IsNullOrEmpty(sqlCommand) ? "" : "AND ") + "FileDateModified >= @FileDateModifiedFrom ";
-            if (dateTimeTo != null) sqlCommand += (string.IsNullOrEmpty(sqlCommand) ? "" : "AND ") + "FileDateModified <= @FileDateModifiedTo ";
+            
+            if (metadataBrokerType != MetadataBrokerType.Empty && dateTimeFrom != null && dateTimeTo != null)
+                sqlCommand = "SELECT Name, Count(1) AS CountNames FROM MediaPersonalRegions " + (string.IsNullOrEmpty(sqlCommand) ? "" : "WHERE ") + sqlCommand + " GROUP BY Name";
+            else
+            {
+                string where = "";
+                if (metadataBrokerType != MetadataBrokerType.Empty) where += (string.IsNullOrEmpty(where) ? "" : "AND ") + "Broker = @Broker ";
+                if (dateTimeFrom != null) where += (string.IsNullOrEmpty(where) ? "" : "AND ") + "FileDateCreated >= @FileDateCreatedFrom ";
+                if (dateTimeTo != null) where += (string.IsNullOrEmpty(where) ? "" : "AND ") + "FileDateCreated <= @FileDateCreatedTo ";
 
-            sqlCommand = "SELECT Name, Count(1) AS CountNames FROM MediaPersonalRegions " + (string.IsNullOrEmpty(sqlCommand) ? "" : "WHERE ") + sqlCommand + " GROUP BY Name";
+                sqlCommand = "SELECT Name, Count(1) AS CountNames FROM MediaPersonalRegions " +
+                    "WHERE FileName IN ( " +
+                    "SELECT FileName FROM MediaMetadata WHERE " +
+                    where +
+                    ") GROUP BY Name";
+            }
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
                 //commandDatabase.Prepare();
                 if (metadataBrokerType != MetadataBrokerType.Empty) commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
-                if (dateTimeFrom != null) commandDatabase.Parameters.AddWithValue("@FileDateModifiedFrom", dbTools.ConvertFromDateTimeToDBVal(dateTimeFrom));
-                if (dateTimeTo != null) commandDatabase.Parameters.AddWithValue("@FileDateModifiedTo", dbTools.ConvertFromDateTimeToDBVal(dateTimeTo));
+                if (dateTimeFrom != null) commandDatabase.Parameters.AddWithValue("@FileDateCreatedFrom", dbTools.ConvertFromDateTimeToDBVal(dateTimeFrom));
+                if (dateTimeTo != null) commandDatabase.Parameters.AddWithValue("@FileDateCreatedTo", dbTools.ConvertFromDateTimeToDBVal(dateTimeTo));
 
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {

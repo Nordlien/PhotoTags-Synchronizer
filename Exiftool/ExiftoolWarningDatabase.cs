@@ -69,6 +69,57 @@ namespace Exiftool
         {
             dbTools.TransactionBeginBatch();
 
+            warning = "(Logged: " + DateTime.Now.ToString() + ")\r\n" + warning;
+            string sqlRead =
+                "SELECT Warning FROM MediaExiftoolTagsWarning WHERE " +
+                "FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified AND " +
+                "OldRegion = @OldRegion AND OldCommand = @OldCommand AND " +
+                "NewRegion = @NewRegion AND NewCommand = @NewCommand";
+
+            bool oldRecordFound = false;
+            using (var commandDatabase = new CommonSqliteCommand(sqlRead, dbTools.ConnectionDatabase))
+            {
+                //commandDatabase.Prepare();
+                commandDatabase.Parameters.AddWithValue("@FileDirectory", exifToolNewValue.FileDirectory);
+                commandDatabase.Parameters.AddWithValue("@FileName", exifToolNewValue.FileName);
+                commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(exifToolNewValue.FileDateModified));
+                commandDatabase.Parameters.AddWithValue("@OldRegion", exifToolOldValue.Region);
+                commandDatabase.Parameters.AddWithValue("@OldCommand", exifToolOldValue.Command);
+                commandDatabase.Parameters.AddWithValue("@NewRegion", exifToolNewValue.Region);
+                commandDatabase.Parameters.AddWithValue("@NewCommand", exifToolNewValue.Command);
+
+                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        warning = warning + "\r\n" + dbTools.ConvertFromDBValString(reader["Warning"]);
+                    }
+                }
+                oldRecordFound = true;
+            }
+
+            if (oldRecordFound)
+            {
+                string sqlDelete =
+                "DELETE FROM MediaExiftoolTagsWarning WHERE " +
+                "FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified AND " +
+                "OldRegion = @OldRegion AND OldCommand = @OldCommand AND " +
+                "NewRegion = @NewRegion AND NewCommand = @NewCommand";
+
+                using (var commandDatabase = new CommonSqliteCommand(sqlDelete, dbTools.ConnectionDatabase))
+                {
+                    //commandDatabase.Prepare();
+                    commandDatabase.Parameters.AddWithValue("@FileDirectory", exifToolNewValue.FileDirectory);
+                    commandDatabase.Parameters.AddWithValue("@FileName", exifToolNewValue.FileName);
+                    commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(exifToolNewValue.FileDateModified));
+                    commandDatabase.Parameters.AddWithValue("@OldRegion", exifToolOldValue.Region);
+                    commandDatabase.Parameters.AddWithValue("@OldCommand", exifToolOldValue.Command);
+                    commandDatabase.Parameters.AddWithValue("@NewRegion", exifToolNewValue.Region);
+                    commandDatabase.Parameters.AddWithValue("@NewCommand", exifToolNewValue.Command);
+                    commandDatabase.ExecuteNonQuery();                    
+                }
+            }
+
             string sqlCommand =
                 "INSERT INTO MediaExiftoolTagsWarning (FileDirectory, FileName, FileDateModified, OldRegion, OldCommand, OldParameter, NewRegion, NewCommand, NewParameter, Warning) " +
                 "Values (@FileDirectory, @FileName, @FileDateModified, @OldRegion, @OldCommand, @OldParameter, @NewRegion, @NewCommand, @NewParameter, @Warning)";

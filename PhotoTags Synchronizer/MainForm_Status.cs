@@ -95,7 +95,7 @@ namespace PhotoTagsSynchronizer
                 else
                 {
                     if (FileHandler.IsFileReadOnly(fullFileName)) fileTasks[fullFileName].Add("ReadOnly");
-                    if (FileHandler.IsFileLockedByProcess(fullFileName, 500)) fileTasks[fullFileName].Add("**Locked** or timeout when open file");                                            
+                    if (FileHandler.IsFileLockedByProcess(fullFileName, FileHandler.GetFileLockedStatusTimeout)) fileTasks[fullFileName].Add("**Locked** or timeout when open file");                                            
                     if (FileHandler.IsFileInCloud(fullFileName)) fileTasks[fullFileName].Add("In cloud");
                     if (FileHandler.IsFileVirtual(fullFileName)) fileTasks[fullFileName].Add("Virtual file");
                 }
