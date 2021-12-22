@@ -188,7 +188,7 @@ namespace PhotoTagsSynchronizer
 
                 if (File.Exists(e.FileName))
                 {
-                    FileEntry fileEntry = new FileEntry(e.FileName, File.GetLastWriteTime(e.FileName));
+                    FileEntry fileEntry = new FileEntry(e.FileName, File.GetLastWriteTime(e.FileName)); //Get last Write Time of Media file
                     bool isFileInCloud = FileHandler.IsFileInCloud(fileEntry.FileFullPath);
                     bool dontReadFileFromCloud = Properties.Settings.Default.AvoidOfflineMediaFiles;
 

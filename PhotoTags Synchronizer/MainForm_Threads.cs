@@ -834,7 +834,7 @@ namespace PhotoTagsSynchronizer
                                         fileEntryImage = new FileEntryImage(commonQueueSaveThumbnailToDatabase[0]);
                                     }
 
-                                    if (!databaseAndCacheThumbnail.DoesThumbnailExistInCache(fileEntryImage))
+                                    //if (!databaseAndCacheThumbnail.DoesThumbnailExistInCache(fileEntryImage))
                                     {
                                         try
                                         {

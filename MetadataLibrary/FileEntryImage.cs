@@ -49,7 +49,7 @@ namespace MetadataLibrary
         {
             var hashCode = 982998765;
             hashCode = hashCode * -1254903653 + base.GetHashCode();
-            hashCode = hashCode * -1254903653 + EqualityComparer<Image>.Default.GetHashCode(image);
+            //hashCode = hashCode * -1254903653 + EqualityComparer<Image>.Default.GetHashCode(image);
             return hashCode;
         }
 
