@@ -64,6 +64,7 @@ namespace SqliteDatabase
         {
             try
             {
+                
                 return databaseCommand.ExecuteNonQuery();
             }            
             catch (Exception ex)

@@ -806,7 +806,7 @@ namespace PhotoTagsSynchronizer
                         AddErrorFileSystemRegion, AddErrorFileSystemMove, filename, renameFailed[filename],
                         "Failed rename " + filename + " to : " + renameFailed[filename] + "\r\n" +
                         "File staus:" + filename + "\r\n" + FileHandler.FileStatusText(filename) +
-                        "File staus:" + renameFailed[filename] + "\r\n" + FileHandler.FileStatusTextrenameFailed[filename]));
+                        "File staus:" + renameFailed[filename] + "\r\n" + FileHandler.FileStatusText(renameFailed[filename]));
 
                 ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView.Items, filename);
                 if (foundItem != null) foundItem.Selected = true; 

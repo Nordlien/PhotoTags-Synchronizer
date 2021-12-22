@@ -88,6 +88,7 @@ namespace FileHandeling
         }
         #endregion
 
+        #region FileStatusText
         public static string FileStatusText(string fullFileName)
         {
             string status = "";
@@ -115,6 +116,7 @@ namespace FileHandeling
             }
             return status;
         }
+        #endregion
 
         public static string FileLockedByProcess { get; set; }
 

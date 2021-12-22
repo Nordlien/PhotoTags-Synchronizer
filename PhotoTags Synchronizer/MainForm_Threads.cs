@@ -1531,7 +1531,8 @@ namespace PhotoTagsSynchronizer
                                                 AddError(fileSuposeToBeUpdated.Directory, fileSuposeToBeUpdated.FileName, fileSuposeToBeUpdated.LastWriteDateTime,
                                                     AddErrorExiftooRegion, AddErrorExiftooCommandWrite, AddErrorExiftooParameterWrite, AddErrorExiftooParameterWrite,
                                                     "Failed write Xtra Atom property to file: " + fileSuposeToBeUpdated.FileFullPath + "\r\n" +
-                                                    "Error message:" + writeXtraAtomErrorMessageForFile[fileSuposeToBeUpdated.FileFullPath]
+                                                    "Failed write Xtra Atom property to file: " + fileSuposeToBeUpdated.FileFullPath + "\r\n" +
+                                                    "Error message:" + writeXtraAtomErrorMessageForFile[fileSuposeToBeUpdated.FileFullPath] +
                                                     "File staus:" + fileSuposeToBeUpdated.FileFullPath + "\r\n" + FileHandler.FileStatusText(fileSuposeToBeUpdated.FileFullPath));
                                             }
                                             #endregion
@@ -2010,7 +2011,7 @@ namespace PhotoTagsSynchronizer
                                                                 {
                                                                     string writeErrorDesciption = 
                                                                         "Failed loading mediafile. Was not able to update thumbnail for region for the file:" + fileEntryBrokerRegion.FileFullPath + "\r\n" +
-                                                                        "File staus:" + fileEntryBrokerRegion.FileFullPath + "\r\n" + FileHandler.FileStatusText(fileEntryBrokerRegion.FileFullPath));
+                                                                        "File staus:" + fileEntryBrokerRegion.FileFullPath + "\r\n" + FileHandler.FileStatusText(fileEntryBrokerRegion.FileFullPath);
                                                                     Logger.Error(writeErrorDesciption);
 
                                                                     AddError(
