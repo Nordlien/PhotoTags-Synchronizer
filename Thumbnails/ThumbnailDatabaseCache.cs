@@ -247,8 +247,6 @@ namespace Thumbnails
         }
         #endregion
 
-        
-
         #endregion 
 
         #region Thumbnail - Cache

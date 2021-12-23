@@ -36,7 +36,7 @@ namespace PhotoTagsSynchronizer
             {
                 if (metadata == null || metadata.FileName == null)
                 {
-                    AddQueueLazyLoading_ReadMetaDataAllSources_FromCacheOrUpdateFromSoruce(fileEntryBroker);
+                    AddQueueLazyLoading_AllSoruces(fileEntryBroker);
 
                     e.FileMetadata = new Utility.ShellImageFileInfo(); //Tell that data is create, all is good for internal void UpdateDetailsInternal(Utility.ShellImageFileInfo info)
                     e.FileMetadata.SetPropertyStatusOnAll(PropertyStatus.Requested); //All data will be read, it's in Lazy loading queue

@@ -535,12 +535,12 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region LazyLoadingDataGridView - Metadata - AddQueue - Read from Cache, then Database, then Source and Save
-        public void AddQueueLazyLoading_ReadMetaDataAllSources_FromCacheOrUpdateFromSoruce(FileEntry fileEntry)
+        public void AddQueueLazyLoading_AllSoruces(FileEntry fileEntry)
         {
             //When file is DELETE, LastWriteDateTime become null
             if (fileEntry.LastWriteDateTime != null)
             {
-                Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
+                Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
                 if (metadata == null) AddQueueExiftoolLock(fileEntry); //If Metadata don't exist in database, put it in read queue
                 else ImageListViewHandler.SetItemDirty(imageListView1, fileEntry.FileFullPath); //Refresh ImageListView with metadata
 
@@ -689,7 +689,7 @@ namespace PhotoTagsSynchronizer
 
         #region LazyLoadingDataGridView - Thumbnail
 
-        #region LazyLoadingDataGridView - Add Queue
+        #region LazyLoadingDataGridView - Add Queue (List)
         public void AddQueueLazyLoadningDataGridViewThumbnailLock(List<FileEntryAttribute> fileEntryAttributes)
         {
             if (fileEntryAttributes == null) return;
@@ -701,7 +701,9 @@ namespace PhotoTagsSynchronizer
                 }
             }
         }
+        #endregion 
 
+        #region LazyLoadingDataGridView - Add Queue
         public void AddQueueLazyLoadningDataGridViewThumbnailLock(FileEntryAttribute fileEntryAttribute)
         {
             if (fileEntryAttribute == null) return;
@@ -834,38 +836,41 @@ namespace PhotoTagsSynchronizer
                                         fileEntryImage = new FileEntryImage(commonQueueSaveThumbnailToDatabase[0]);
                                     }
 
-                                    //if (!databaseAndCacheThumbnail.DoesThumbnailExistInCache(fileEntryImage)) //It's already in cache when saved
+                                    bool wasThumnbailEmptyAndReloaded = false;
+                                    try
                                     {
-                                        try
+                                        if (fileEntryImage.Image == null)
                                         {
-                                            if (fileEntryImage.Image == null)
-                                            {
-                                                fileEntryImage.Image = LoadMediaCoverArtThumbnail(fileEntryImage.FileFullPath, ThumbnailSaveSize, false);
-                                                if (fileEntryImage.Image != null) ImageListViewReloadThumbnailAndMetadataInvoke(imageListView1, fileEntryImage.FileFullPath);
-                                            }
+                                            fileEntryImage.Image = LoadMediaCoverArtThumbnail(fileEntryImage.FileFullPath, ThumbnailSaveSize, false);
+                                            if (fileEntryImage.Image != null) wasThumnbailEmptyAndReloaded = true;                                            
                                         }
-                                        catch (Exception ex)
-                                        {
-                                            Logger.Error(ex, "ThreadSaveThumbnail - LoadMediaCoverArtThumbnail failed");
-                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Logger.Error(ex, "ThreadSaveThumbnail - LoadMediaCoverArtThumbnail failed");
+                                    }
 
-                                        try
+                                    try
+                                    {
+                                        if (fileEntryImage.Image != null)
                                         {
-                                            if (fileEntryImage.Image != null)
+                                            databaseAndCacheThumbnail.TransactionBeginBatch();
+                                            databaseAndCacheThumbnail.WriteThumbnail(fileEntryImage, fileEntryImage.Image);
+                                            databaseAndCacheThumbnail.TransactionCommitBatch();
+
+                                            if (wasThumnbailEmptyAndReloaded)
                                             {
-                                                databaseAndCacheThumbnail.TransactionBeginBatch();
-                                                databaseAndCacheThumbnail.WriteThumbnail(fileEntryImage, fileEntryImage.Image);
-                                                databaseAndCacheThumbnail.TransactionCommitBatch();
-
                                                 DataGridView_UpdateColumnThumbnail_OnFileEntryAttribute(new FileEntryAttribute(fileEntryImage, FileEntryVersion.ExtractedNowFromMediaFile), fileEntryImage.Image);
                                                 DataGridView_UpdateColumnThumbnail_OnFileEntryAttribute(new FileEntryAttribute(fileEntryImage, FileEntryVersion.Error), fileEntryImage.Image);
+                                                ImageListViewReloadThumbnailAndMetadataInvoke(imageListView1, fileEntryImage.FileFullPath);
                                             }
                                         }
-                                        catch (Exception ex)
-                                        {
-                                            Logger.Error(ex, "ThreadSaveThumbnail - WriteThumbnail failed");
-                                        }
-                                    } 
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Logger.Error(ex, "ThreadSaveThumbnail - WriteThumbnail failed");
+                                    }
+                                    
 
                                     lock (commonQueueSaveThumbnailToDatabaseLock)
                                     {
@@ -1562,7 +1567,7 @@ namespace PhotoTagsSynchronizer
                                                 lock (commonQueueSubsetMetadataToSaveLock) currentMetadata = new Metadata(commonQueueSubsetMetadataToSave[indexInVerifyQueue]);
                                                 currentMetadata.FileDateModified = currentLastWrittenDateTime;
                                                 if (File.Exists(currentMetadata.FileFullPath) && currentLastWrittenDateTime != previousLastWrittenDateTime) AddQueueVerifyMetadataLock(currentMetadata);
-                                                AddQueueLazyLoading_ReadMetaDataAllSources_FromCacheOrUpdateFromSoruce(currentMetadata.FileEntryBroker);
+                                                AddQueueLazyLoading_AllSoruces(currentMetadata.FileEntryBroker);
                                                 ImageListViewReloadThumbnailAndMetadataInvoke(imageListView1, fileSuposeToBeUpdated.FileFullPath);
                                             }
                                             else
