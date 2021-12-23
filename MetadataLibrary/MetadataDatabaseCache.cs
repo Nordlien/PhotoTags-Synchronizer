@@ -2557,7 +2557,6 @@ namespace MetadataLibrary
         #region Cache Metadata - Read 
         public Metadata ReadMetadataFromCacheOrDatabase(FileEntryBroker fileEntryBroker)
         {
-            //if (fileEntryBroker.GetType() != typeof(FileEntryBroker)) //Sometimes getting 'MetadataLibrary.FileEntryBroker' to type 'MetadataLibrary.FileEntryImage'
             fileEntryBroker = new FileEntryBroker(fileEntryBroker); //When NOT FileEntryBroker it Will give wrong hash value, and not find the correct result
             lock (metadataCacheLock) if (metadataCache.ContainsKey(fileEntryBroker)) return metadataCache[fileEntryBroker]; //Also return null
             
