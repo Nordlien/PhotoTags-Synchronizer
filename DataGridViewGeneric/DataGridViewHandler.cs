@@ -1864,7 +1864,7 @@ namespace DataGridViewGeneric
         #region Row handling - Favorite handling - CreateFavoriteFilename
         private static string CreateFavoriteFilename(string dataGridViewName)
         {
-            return FileHandler.GetLocalApplicationDataPath("Favourite." + dataGridViewName + ".json", false);
+            return FileHandler.GetLocalApplicationDataPath("Favourite." + dataGridViewName + ".json", false, null);
         }
         #endregion
 

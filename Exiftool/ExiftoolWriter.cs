@@ -204,7 +204,7 @@ namespace Exiftool
             {
                 Logger.Debug("WriteMetadata: started");
                 //Create directory, filename and remove old arg file
-                string exiftoolArgFileFullpath = FileHandler.GetLocalApplicationDataPath("exiftool_arg.txt", true);
+                string exiftoolArgFileFullpath = FileHandler.GetLocalApplicationDataPath("exiftool_arg.txt", true, null);
 
                 using (StreamWriter sw = new StreamWriter(exiftoolArgFileFullpath, false, Encoding.UTF8))
                 {

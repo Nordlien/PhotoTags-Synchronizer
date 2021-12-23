@@ -705,7 +705,7 @@ namespace PhotoTagsSynchronizer
             {
                 ComboBoxHandler.ComboBoxAddLastTextFirstInList(comboBoxArgumentFileCommand);
 
-                string tempArguFileFullPath = FileHandler.GetLocalApplicationDataPath("exiftool_arg_run.txt", true);
+                string tempArguFileFullPath = FileHandler.GetLocalApplicationDataPath("exiftool_arg_run.txt", true, this);
                 string commandWithArguments = comboBoxArgumentFileCommand.Text.Replace("{TempFileArgumentFullPath}", tempArguFileFullPath);
 
                 switch (kryptonWorkspaceCellRunArgumentFileAutoCorrect.SelectedPage.Tag.ToString())
@@ -1037,7 +1037,7 @@ namespace PhotoTagsSynchronizer
             {
                 ComboBoxHandler.ComboBoxAddLastTextFirstInList(comboBoxArgumentFileBuilderCommand);
 
-                string tempArguFileFullPath = FileHandler.GetLocalApplicationDataPath("exiftool_arg_run.txt", true);
+                string tempArguFileFullPath = FileHandler.GetLocalApplicationDataPath("exiftool_arg_run.txt", true, this);
                 string commandWithArguments = comboBoxArgumentFileBuilderCommand.Text.Replace("{TempFileArgumentFullPath}", tempArguFileFullPath);
 
                 System.IO.File.WriteAllText(tempArguFileFullPath, fastColoredTextBoxBuildResult.Text);

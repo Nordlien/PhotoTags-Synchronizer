@@ -315,8 +315,10 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+
+
         #region FilesCutCopyPasteDrag - RenameFile
-        public void RenameFile(string oldFullFilename, string newFullFilename, ref Dictionary<string, string> renameSuccess, ref Dictionary<string, string> renameFailed)
+        public void RenameFile(string oldFullFilename, string newFullFilename, ref Dictionary<string, string> renameSuccess, ref Dictionary<string, RenameToNameAndResult> renameFailed)
         {
             try
             {
@@ -325,8 +327,9 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                if (renameFailed != null) renameFailed.Add(oldFullFilename, newFullFilename);
-                Logger.Error("Rename file failed: " + oldFullFilename + " to :" + newFullFilename + " " + ex.Message);
+                string errorMessage = "Rename file failed: " + oldFullFilename + " to :" + newFullFilename + " " + ex.Message;
+                if (renameFailed != null) renameFailed.Add(oldFullFilename, new RenameToNameAndResult(newFullFilename, errorMessage));
+                Logger.Error(errorMessage);
             }
         }
         #endregion
@@ -356,5 +359,17 @@ namespace PhotoTagsSynchronizer
             return directoryCreated;
         }
         #endregion
+    }
+
+    public class RenameToNameAndResult
+    {
+        public RenameToNameAndResult(string newFilename, string errorMessage)
+        {
+            NewFilename = newFilename;
+            ErrorMessage = errorMessage;
+        }
+
+        public string NewFilename { get; set; } = "";
+        public string ErrorMessage { get; set; } = "";
     }
 }

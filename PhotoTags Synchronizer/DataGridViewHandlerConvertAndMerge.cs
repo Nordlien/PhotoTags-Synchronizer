@@ -1844,7 +1844,7 @@ namespace PhotoTagsSynchronizer
             string videoCovertArgument, string outputFile)
         {
 
-            string arguFilename = FileHandler.GetLocalApplicationDataPath("ffmpeg_arg.txt", true);
+            string arguFilename = FileHandler.GetLocalApplicationDataPath("ffmpeg_arg.txt", true, null);
             string musicFileFullPath = NativeMethods.GetFullPathOfFile(musicFile);
             string outputFolder = Path.GetDirectoryName(outputFile);
 

@@ -991,7 +991,7 @@ namespace PhotoTagsSynchronizer
                 if (dataGridViewAutoKeywords.Rows.Count > 1)
                 {
                     DataSet dataSet = AutoKeywordHandler.ReadDataGridView(dataGridViewAutoKeywords);
-                    if (dataSet != null) dataSet.WriteXml(FileHandler.GetLocalApplicationDataPath("AutoKeywords.xml", false));
+                    if (dataSet != null) dataSet.WriteXml(FileHandler.GetLocalApplicationDataPath("AutoKeywords.xml", false, this));
                 }
             }
             catch (Exception ex)
@@ -3022,7 +3022,7 @@ namespace PhotoTagsSynchronizer
         {
             if (isPaletteProperyChanged)
             {
-                string paletteProperyFile = FileHandeling.FileHandler.GetLocalApplicationDataPath("Palette.xml", true);
+                string paletteProperyFile = FileHandeling.FileHandler.GetLocalApplicationDataPath("Palette.xml", true, this);
                 ((KryptonPalette)kryptonManager1.GlobalPalette).Export(paletteProperyFile, false);
                 KryptonPaletteHandler.PaletteFilename = paletteProperyFile;
             }

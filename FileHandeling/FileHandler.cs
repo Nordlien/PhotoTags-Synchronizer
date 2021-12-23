@@ -17,7 +17,9 @@ namespace FileHandeling
         public static int GetFileLockedStatusTimeout { get; set; } = 500;
         public static int WaitFileGetUnlockedTimeout { get; set; } = 1000;
         public static int WaitTimeBetweenCheckFileIsUnlocked { get; set; } = 500;
-        public static int RetryCheckFileIsUnlocked { get; set; } = 30;
+        public static int WaitNumberOfRetryBeforeShowMessage { get; set; } = 3;
+
+        public static Form MainForm { get; set; } = null;
 
         #region IsFileInCloud
         public static bool IsFileInCloud(string fullFileName)
@@ -92,8 +94,7 @@ namespace FileHandeling
         public static string FileStatusText(string fullFileName)
         {
             string status = "";
-            if (File.Exists(fullFileName))
-                status = "File not exists";
+            if (!File.Exists(fullFileName)) status = "File not exists";
             else
             { 
                 status =  
@@ -290,10 +291,10 @@ namespace FileHandeling
 
         #region WaitLockedFilesToBecomeUnlocked
         static FormWaitLockedFile formWaitLockedFile = new FormWaitLockedFile();
-
-        public static bool WaitLockedFilesToBecomeUnlocked(List<Metadata> fileEntriesToCheck, bool needWriteAccess, Form form)
+        public static bool WaitLockedFilesToBecomeUnlocked(List<Metadata> fileEntriesToCheck, bool needWriteAccess, Form formOwner)
         {
-            int waitBeforeShowRefreshMessage = RetryCheckFileIsUnlocked;
+            int waitBeforeShowRefreshMessage = WaitNumberOfRetryBeforeShowMessage;
+            
             bool areAnyFileLocked;
             do
             {
@@ -311,12 +312,12 @@ namespace FileHandeling
                     }
                 }
 
-                if (areAnyFileLocked && waitBeforeShowRefreshMessage-- < 0)
+                if (areAnyFileLocked && --waitBeforeShowRefreshMessage < 0)
                 {
                     try
                     {
                         if (formWaitLockedFile == null || formWaitLockedFile.IsDisposed) formWaitLockedFile = new FormWaitLockedFile();
-                        if (form != null) formWaitLockedFile.Owner = form;
+                        if (formOwner != null) formWaitLockedFile.Owner = formOwner;
 
                         List<string> listOfFiles = new List<string>();
                         string statusOnFiles = "";
@@ -336,21 +337,36 @@ namespace FileHandeling
                         }
                         formWaitLockedFile.AddFiles(listOfFiles);
 
-                        _ = form.BeginInvoke(new Action<string>(formWaitLockedFile.SetTextboxFiles), statusOnFiles);
-                        if (!formWaitLockedFile.IsFormVisible) _ = form.BeginInvoke(new Action(formWaitLockedFile.Show)); 
+                        if (formOwner != null)
+                        {
+                            _ = formOwner.BeginInvoke(new Action<string>(formWaitLockedFile.SetTextboxFiles), statusOnFiles);
+                            if (!formWaitLockedFile.IsFormVisible) _ = formOwner.BeginInvoke(new Action(formWaitLockedFile.Show));
+                        }
+                        else
+                        {
+                            if (formWaitLockedFile != null && !formWaitLockedFile.IsHandleCreated) formWaitLockedFile.Show();
+                            
+                            if (formWaitLockedFile != null && formWaitLockedFile.IsHandleCreated)
+                            {
+                                _ = formWaitLockedFile.BeginInvoke(new Action<string>(formWaitLockedFile.SetTextboxFiles), statusOnFiles);
+                                if (!formWaitLockedFile.IsFormVisible) _ = formWaitLockedFile.BeginInvoke(new Action(formWaitLockedFile.Show));
+                            }
+                        }
 
                         if (formWaitLockedFile.IgnoredClicked) return false; //False, file still locked 
-                        waitBeforeShowRefreshMessage = RetryCheckFileIsUnlocked;
+                        waitBeforeShowRefreshMessage = WaitNumberOfRetryBeforeShowMessage;
                     }
                     catch { 
                     }
                 }
             } while (areAnyFileLocked);
+
             try
             {
                 if (formWaitLockedFile != null && formWaitLockedFile.IsHandleCreated)
                 {
-                    _ = form.BeginInvoke(new Action(formWaitLockedFile.Close));
+                    if (formOwner != null) _ = formOwner.BeginInvoke(new Action(formWaitLockedFile.Close));
+                    else _ = formWaitLockedFile.BeginInvoke(new Action(formWaitLockedFile.Close));
                     //formWaitLockedFile.Close();
                 }
             }
@@ -365,7 +381,7 @@ namespace FileHandeling
         /// </summary>
         /// <param name="fileFullPath"></param>
         /// <returns>true - if unlocked and exist</returns>
-        public static bool WaitLockedFileToBecomeUnlocked(string fileFullPath, bool needWriteAccess, Form form)
+        public static bool WaitLockedFileToBecomeUnlocked(string fileFullPath, bool needWriteAccess, Form formOwner)
         {
             if (!File.Exists(fileFullPath)) return false; //Not locked, file doesn't exist
 
@@ -375,7 +391,7 @@ namespace FileHandeling
             metadata.FileName = Path.GetFileName(fileFullPath);
             fileEntriesToCheck.Add(metadata);
 
-            return WaitLockedFilesToBecomeUnlocked(fileEntriesToCheck, needWriteAccess, form);
+            return WaitLockedFilesToBecomeUnlocked(fileEntriesToCheck, needWriteAccess, formOwner);
 
         }
         #endregion
@@ -389,13 +405,22 @@ namespace FileHandeling
         #endregion
 
         #region GetLocalApplicationDataPath
-        public static string GetLocalApplicationDataPath(string tempfilename, bool deleteOldTempFile)
+        public static string GetLocalApplicationDataPath(string tempfilename, bool deleteOldTempFile, Form formOwner = null)
         {
             //Create directory, filename and remove old arg file
+
             string exiftoolArgFileDirecory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PhotoTagsSynchronizer");
             if (!Directory.Exists(exiftoolArgFileDirecory)) Directory.CreateDirectory(exiftoolArgFileDirecory);
             string exiftoolArgFileFullPath = Path.Combine(exiftoolArgFileDirecory, tempfilename);
-            if (deleteOldTempFile && File.Exists(exiftoolArgFileFullPath)) File.Delete(exiftoolArgFileFullPath);
+            try
+            {
+                WaitLockedFileToBecomeUnlocked(exiftoolArgFileFullPath, true, formOwner);
+                if (deleteOldTempFile && File.Exists(exiftoolArgFileFullPath)) File.Delete(exiftoolArgFileFullPath);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message);
+            }
             return exiftoolArgFileFullPath;
         }
         #endregion

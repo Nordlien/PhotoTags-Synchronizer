@@ -72,7 +72,7 @@ namespace PhotoTagsSynchronizer
                 else
                 {                    
                     Dictionary<string, string> renameSuccess;
-                    Dictionary<string, string> renameFailed;
+                    Dictionary<string, RenameToNameAndResult> renameFailed;
 
                     DataGridViewHandlerRename.Write(dataGridViewRename, out renameSuccess, out renameFailed, checkBoxRenameShowFullPath.Checked);
 

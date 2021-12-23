@@ -208,10 +208,10 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region Write
-        public static void Write(DataGridView dataGridView, out Dictionary<string, string> renameSuccess, out Dictionary<string, string> renameFailed, bool showFullPathIsUsed)
+        public static void Write(DataGridView dataGridView, out Dictionary<string, string> renameSuccess, out Dictionary<string, RenameToNameAndResult> renameFailed, bool showFullPathIsUsed)
         {
             renameSuccess = new Dictionary<string, string>();
-            renameFailed = new Dictionary<string, string>();
+            renameFailed = new Dictionary<string, RenameToNameAndResult>();
 
             int columnIndex = DataGridViewHandler.GetColumnIndexFirst(dataGridView, headerNewFilename);
             if (columnIndex == -1) return;

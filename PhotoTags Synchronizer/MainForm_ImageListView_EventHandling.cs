@@ -768,7 +768,7 @@ namespace PhotoTagsSynchronizer
         #endregion
         
         #region ImageListView - Aggregate - Rename Items
-        private void UpdateImageViewListeAfterRename(ImageListView imageListView, Dictionary<string, string> renameSuccess, Dictionary<string, string> renameFailed, bool onlyRenameAddbackToListView)
+        private void UpdateImageViewListeAfterRename(ImageListView imageListView, Dictionary<string, string> renameSuccess, Dictionary<string, RenameToNameAndResult> renameFailed, bool onlyRenameAddbackToListView)
         {
             //GlobalData.DoNotRefreshImageListView = true;
             GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
@@ -803,10 +803,10 @@ namespace PhotoTagsSynchronizer
                         Path.GetDirectoryName(filename),
                         Path.GetFileName(filename),
                         dateTimeLastWriteTime,
-                        AddErrorFileSystemRegion, AddErrorFileSystemMove, filename, renameFailed[filename],
-                        "Failed rename " + filename + " to : " + renameFailed[filename] + "\r\n" +
-                        "File staus:" + filename + "\r\n" + FileHandler.FileStatusText(filename) +
-                        "File staus:" + renameFailed[filename] + "\r\n" + FileHandler.FileStatusText(renameFailed[filename]));
+                        AddErrorFileSystemRegion, AddErrorFileSystemMove, filename, renameFailed[filename].NewFilename,
+                        "Error message: " + renameFailed[filename].ErrorMessage + "\r\n" +
+                        "File staus:" + filename + "\r\n" + FileHandler.FileStatusText(filename) + "\r\n" +
+                        "File staus:" + renameFailed[filename].NewFilename + "\r\n" + FileHandler.FileStatusText(renameFailed[filename].NewFilename));
 
                 ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView.Items, filename);
                 if (foundItem != null) foundItem.Selected = true; 

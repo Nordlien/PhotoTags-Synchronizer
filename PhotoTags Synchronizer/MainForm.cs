@@ -541,6 +541,8 @@ namespace PhotoTagsSynchronizer
             #endregion
             #endregion
 
+            FileHandler.MainForm = this;
+
             autoKeywordConvertions = AutoKeywordHandler.PopulateList(AutoKeywordHandler.ReadDataSetFromXML());
 
             #region Initialize layout setup

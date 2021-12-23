@@ -1006,7 +1006,7 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                return FileHandler.GetLocalApplicationDataPath(filename, false);
+                return FileHandler.GetLocalApplicationDataPath(filename, false, this);
             }
             catch (Exception ex)
             {
