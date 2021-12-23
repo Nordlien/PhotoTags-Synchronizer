@@ -1122,7 +1122,9 @@ namespace PhotoTagsSynchronizer
                                                     databaseAndCacheMetadataExiftool.Write(metadataError);
                                                     databaseAndCacheMetadataExiftool.TransactionCommitBatch();
 
-                                                    AddQueueSaveThumbnailMediaLock(new FileEntryImage(metadataError.FileEntryBroker, null));
+                                                    bool isFileInCloud = FileHandler.IsFileInCloud(metadataError.FileFullPath);
+                                                    bool dontReadFileFromCloud = Properties.Settings.Default.AvoidOfflineMediaFiles;
+                                                    GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(metadataError.FileEntryBroker, true, false);
                                                     DataGridView_ImageListView_Populate_FileEntryAttributeInvoke(new FileEntryAttribute(metadataError.FileFullPath, (DateTime)metadataError.FileDateModified, FileEntryVersion.Error));
                                                 }
 
