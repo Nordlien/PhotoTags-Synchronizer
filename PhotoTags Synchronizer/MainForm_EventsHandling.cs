@@ -5412,8 +5412,7 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-                
-                GetDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView, true);
+                CollectMetadataFromAllDataGridViewData(out List <Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView, true);
 
                 //Find what columns are updated / changed by user
                 List<int> listOfUpdates = ExiftoolWriter.GetListOfMetadataChangedByUser(metadataListOriginalExiftool, metadataListFromDataGridView);
@@ -5437,7 +5436,7 @@ namespace PhotoTagsSynchronizer
                             float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
                             int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
 
-                            Metadata metadataToSave = autoCorrect.FixAndSave(
+                            Metadata metadataToSave = autoCorrect.RunAlgorithm(
                                 metadataListFromDataGridView[updatedRecord].FileEntry,
                                 metadataListFromDataGridView[updatedRecord],
                                 databaseAndCacheMetadataExiftool,
@@ -5451,7 +5450,9 @@ namespace PhotoTagsSynchronizer
                                 Properties.Settings.Default.RenameDateFormats);
                             if (metadataToSave != null)
                             {
-                                metadataToSave = AutoCorrect.FixMetadata(metadataToSave, Properties.Settings.Default.XtraAtomWriteOnFile);
+                                //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue
+                                metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, Properties.Settings.Default.XtraAtomWriteOnFile);
+                                UpdatedMetadataForAllDataGridView(metadataToSave);
                                 AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, metadataListOriginalExiftool[updatedRecord]);
                             }
 
@@ -5459,7 +5460,9 @@ namespace PhotoTagsSynchronizer
                         else
                         {
                             //Add only metadata to save queue that that has changed by users
-                            Metadata metadataToSave = AutoCorrect.FixMetadata(metadataListFromDataGridView[updatedRecord], Properties.Settings.Default.XtraAtomWriteOnFile);
+                            //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue
+                            Metadata metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataListFromDataGridView[updatedRecord], Properties.Settings.Default.XtraAtomWriteOnFile);
+                            UpdatedMetadataForAllDataGridView(metadataToSave);
                             AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, metadataListOriginalExiftool[updatedRecord]);
                         }
                     }
@@ -7683,7 +7686,7 @@ namespace PhotoTagsSynchronizer
 
                     FormSplash.UpdateStatus("Create argument file...");
                     #region Create ArgumentFile file
-                    GetDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView, false);
+                    CollectMetadataFromAllDataGridViewData(out List <Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView, false);
 
                     ExiftoolWriter.CreateExiftoolArguFileText(
                         metadataListFromDataGridView, metadataListOriginalExiftool, allowedFileNameDateTimeFormats, writeMetadataTagsVariable, writeMetadataKeywordAddVariable,
@@ -7704,7 +7707,7 @@ namespace PhotoTagsSynchronizer
                     foreach (FileEntry fileEntry in files)  
                     {
                         FormSplash.UpdateStatus("Create AutoCorrect file..." + fileEntry.FileName);
-                        Metadata metadataToSave = autoCorrect.FixAndSave(
+                        Metadata metadataToSave = autoCorrect.RunAlgorithm(
                             fileEntry,
                             null,
                             databaseAndCacheMetadataExiftool,
@@ -7847,7 +7850,7 @@ namespace PhotoTagsSynchronizer
 
                     foreach (ImageListViewItem item in imageListView1.SelectedItems)
                     {
-                        Metadata metadataToSave = autoCorrect.FixAndSave(
+                        Metadata metadataToSave = autoCorrect.RunAlgorithm(
                             new FileEntry(item.FileFullPath, item.DateModified),
                             null,
                             databaseAndCacheMetadataExiftool,
@@ -7861,7 +7864,9 @@ namespace PhotoTagsSynchronizer
                             Properties.Settings.Default.RenameDateFormats);
                         if (metadataToSave != null)
                         {
-                            metadataToSave = AutoCorrect.FixMetadata(metadataToSave, Properties.Settings.Default.XtraAtomWriteOnFile);
+                            //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue
+                            metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, Properties.Settings.Default.XtraAtomWriteOnFile);
+                            UpdatedMetadataForAllDataGridView(metadataToSave);
                             AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
                             AddQueueRenameLock(item.FileFullPath, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
                         }
@@ -7899,7 +7904,7 @@ namespace PhotoTagsSynchronizer
                     string[] files = Directory.GetFiles(selectedFolder, "*.*");
                     foreach (string file in files)
                     {
-                        Metadata metadataToSave = autoCorrect.FixAndSave(
+                        Metadata metadataToSave = autoCorrect.RunAlgorithm(
                             new FileEntry(file, File.GetLastWriteTime(file)),
                             null,
                             databaseAndCacheMetadataExiftool,
@@ -7912,7 +7917,9 @@ namespace PhotoTagsSynchronizer
                             Properties.Settings.Default.RenameDateFormats);
                         if (metadataToSave != null)
                         {
-                            metadataToSave = AutoCorrect.FixMetadata(metadataToSave, Properties.Settings.Default.XtraAtomWriteOnFile);
+                            //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue
+                            metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, Properties.Settings.Default.XtraAtomWriteOnFile);
+                            UpdatedMetadataForAllDataGridView( metadataToSave);
                             AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
                             AddQueueRenameLock(file, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
                         }
@@ -8067,7 +8074,7 @@ namespace PhotoTagsSynchronizer
 
                         foreach (ImageListViewItem item in imageListView1.SelectedItems)
                         {
-                            Metadata metadataToSave = autoCorrect.FixAndSave(
+                            Metadata metadataToSave = autoCorrect.RunAlgorithm(
                                 new FileEntry(item.FileFullPath, item.DateModified),
                                 null,
                                 databaseAndCacheMetadataExiftool,
@@ -8082,9 +8089,11 @@ namespace PhotoTagsSynchronizer
 
                             if (metadataToSave != null)
                             {
-                                AutoCorrectFormVaraibles.UpdateMetaData(ref metadataToSave, autoCorrectFormVaraibles);
+                                AutoCorrectFormVaraibles.UseAutoCorrectFormData(ref metadataToSave, autoCorrectFormVaraibles);
 
-                                metadataToSave = AutoCorrect.FixMetadata(metadataToSave, Properties.Settings.Default.XtraAtomWriteOnFile);
+                                //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue
+                                metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, Properties.Settings.Default.XtraAtomWriteOnFile);
+                                UpdatedMetadataForAllDataGridView(metadataToSave);
                                 AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
                                 AddQueueRenameLock(item.FileFullPath, autoCorrect.RenameVariable);
                             }
@@ -8129,7 +8138,7 @@ namespace PhotoTagsSynchronizer
                         string[] files = Directory.GetFiles(selectedFolder, "*.*");
                         foreach (string file in files)
                         {
-                            Metadata metadataToSave = autoCorrect.FixAndSave(
+                            Metadata metadataToSave = autoCorrect.RunAlgorithm(
                                 new FileEntry(file, File.GetLastWriteTime(file)),
                                 null,
                                 databaseAndCacheMetadataExiftool,
@@ -8144,9 +8153,11 @@ namespace PhotoTagsSynchronizer
 
                             if (metadataToSave != null)
                             {
-                                AutoCorrectFormVaraibles.UpdateMetaData(ref metadataToSave, autoCorrectFormVaraibles);
+                                AutoCorrectFormVaraibles.UseAutoCorrectFormData(ref metadataToSave, autoCorrectFormVaraibles);
 
-                                metadataToSave = AutoCorrect.FixMetadata(metadataToSave, Properties.Settings.Default.XtraAtomWriteOnFile);
+                                //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue
+                                metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, Properties.Settings.Default.XtraAtomWriteOnFile);
+                                UpdatedMetadataForAllDataGridView(metadataToSave);
                                 AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
                                 AddQueueRenameLock(file, autoCorrect.RenameVariable);
                             }

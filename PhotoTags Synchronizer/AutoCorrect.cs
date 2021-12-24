@@ -256,7 +256,7 @@ namespace PhotoTagsSynchronizer
         public bool WriteAlbumOnDescription { get; set; }
         public bool UseTitle { get; set; }
 
-        public static void UpdateMetaData(ref Metadata metadataToSave, AutoCorrectFormVaraibles autoCorrectFormVaraibles)
+        public static void UseAutoCorrectFormData(ref Metadata metadataToSave, AutoCorrectFormVaraibles autoCorrectFormVaraibles)
         {
             if (autoCorrectFormVaraibles != null)
             {
@@ -479,7 +479,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region FixMetadata - Xtra atom 
-        public static Metadata FixMetadata(Metadata metadata, bool isXtraAtomUsed)
+        public static Metadata CompatibilityCheckMetadata(Metadata metadata, bool isXtraAtomUsed)
         {
             if (metadata == null) return null;
             
@@ -488,15 +488,44 @@ namespace PhotoTagsSynchronizer
             {
                 foreach (KeywordTag keywordTag in metadata.PersonalKeywordTags) //Read orginal and change the copy
                 {
-                    if (!string.IsNullOrWhiteSpace(keywordTag.Keyword) && keywordTag.Keyword.Contains(";")) 
+                    #region Check Metadata.VariablePersonalKeywordsList() - special escape char used as splitter
+                    char splitChar = ';';
+                    if (!string.IsNullOrWhiteSpace(keywordTag.Keyword) && keywordTag.Keyword.Contains(splitChar.ToString())) 
                     {
-                        string[] keywords = keywordTag.Keyword.Split(';');
+                        string[] keywords = keywordTag.Keyword.Split(splitChar);
                         foreach (string keyword in keywords)
                         {
                             KeywordTag newKeywordTag = new KeywordTag(keyword.Trim(), keywordTag.Confidence);
                             metadataCopy.PersonalKeywordTagsAddIfNotExists(newKeywordTag);
                         }
                     }
+                    #endregion 
+
+                    #region Check
+                    splitChar = ',';
+                    if (!string.IsNullOrWhiteSpace(keywordTag.Keyword) && keywordTag.Keyword.Contains(splitChar.ToString()))
+                    {
+                        string[] keywords = keywordTag.Keyword.Split(splitChar);
+                        foreach (string keyword in keywords)
+                        {
+                            KeywordTag newKeywordTag = new KeywordTag(keyword.Trim(), keywordTag.Confidence);
+                            metadataCopy.PersonalKeywordTagsAddIfNotExists(newKeywordTag);
+                        }
+                    }
+                    #endregion
+
+                    #region Check Metadata.VariableKeywordCategories() - special escape char used as splitter
+                    splitChar = '/';
+                    if (!string.IsNullOrWhiteSpace(keywordTag.Keyword) && keywordTag.Keyword.Contains(splitChar.ToString()))
+                    {
+                        string[] keywords = keywordTag.Keyword.Split(splitChar);
+                        foreach (string keyword in keywords)
+                        {
+                            KeywordTag newKeywordTag = new KeywordTag(keyword.Trim(), keywordTag.Confidence);
+                            metadataCopy.PersonalKeywordTagsAddIfNotExists(newKeywordTag);
+                        }
+                    }
+                    #endregion
                 }
             }
             return metadataCopy;
@@ -504,7 +533,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region FixAndSave
-        public Metadata FixAndSave(FileEntry fileEntry, Metadata metadata,
+        public Metadata RunAlgorithm(FileEntry fileEntry, Metadata metadata,
             MetadataDatabaseCache metadataAndCacheMetadataExiftool,
             MetadataDatabaseCache databaseAndCacheMetadataMicrosoftPhotos,
             MetadataDatabaseCache databaseAndCacheMetadataWindowsLivePhotoGallery,

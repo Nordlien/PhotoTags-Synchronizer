@@ -106,10 +106,12 @@ namespace PhotoTagsSynchronizer
 
                 if (metadata != null)
                 {
-                    Metadata metadataCopy = new Metadata(metadata);
-                    metadataCopy.PersonalRegionRotate(rotateDegrees);
-                    metadataCopy = AutoCorrect.FixMetadata(metadataCopy, Properties.Settings.Default.XtraAtomWriteOnFile);
-                    AddQueueSaveMetadataUpdatedByUserLock(metadataCopy, metadataOriginal);
+                    Metadata metadataToSave = new Metadata(metadata);
+                    metadataToSave.PersonalRegionRotate(rotateDegrees);
+                    //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue
+                    metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, Properties.Settings.Default.XtraAtomWriteOnFile);
+                    UpdatedMetadataForAllDataGridView(metadataToSave);
+                    AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, metadataOriginal);
                 }
             }
 

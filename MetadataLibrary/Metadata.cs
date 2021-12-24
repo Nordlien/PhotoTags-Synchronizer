@@ -1695,7 +1695,7 @@ namespace MetadataLibrary
                             if (tagNumber == tagHierarchyList.Length - 1) keywordCategories += "<Category Assigned=\"1\">";
                             else keywordCategories += "<Category Assigned=\"0\">";
 
-                            keywordCategories += tagHierarchyList[tagNumber];
+                            keywordCategories += tagHierarchyList[tagNumber].Trim();
                         }
                         for (int tagNumber = 0; tagNumber < tagHierarchyList.Length; tagNumber++) keywordCategories += "</Category>";
                     }

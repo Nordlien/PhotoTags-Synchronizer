@@ -239,9 +239,9 @@ namespace PhotoTagsSynchronizer
                             float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
                             int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
 
-                            FetchMetadataFromDataGridView(fileEntryAttribute, ref metadataUpdatedFromGrid);
+                            CollectedMetadataFromAllDataGridView(fileEntryAttribute, ref metadataUpdatedFromGrid);
 
-                            metadataAutoCorrect = autoCorrect.FixAndSave(
+                            metadataAutoCorrect = autoCorrect.RunAlgorithm(
                                 fileEntryAttribute.FileEntry,
                                 metadataUpdatedFromGrid,
                                 databaseAndCacheMetadataExiftool,
@@ -254,12 +254,10 @@ namespace PhotoTagsSynchronizer
                                 autoKeywordConvertions,
                                 Properties.Settings.Default.RenameDateFormats);
                             AutoCorrectFormVaraibles autoCorrectFormVaraibles = GlobalData.GetAutoCorrectVariablesForFile(fileEntryAttribute.FileFullPath);
-                            AutoCorrectFormVaraibles.UpdateMetaData(ref metadataAutoCorrect, autoCorrectFormVaraibles);
-                            
-                            DataGridViewUpdatedMetadataOnColumn(dataGridViewTagsAndKeywords, metadataAutoCorrect);
-                            DataGridViewUpdatedMetadataOnColumn(dataGridViewPeople, metadataAutoCorrect);
-                            DataGridViewUpdatedMetadataOnColumn(dataGridViewMap, metadataAutoCorrect);
-                            DataGridViewUpdatedMetadataOnColumn(dataGridViewDate, metadataAutoCorrect);
+                            AutoCorrectFormVaraibles.UseAutoCorrectFormData(ref metadataAutoCorrect, autoCorrectFormVaraibles);
+
+                            metadataAutoCorrect = AutoCorrect.CompatibilityCheckMetadata(metadataAutoCorrect, Properties.Settings.Default.XtraAtomWriteOnFile);
+                            UpdatedMetadataForAllDataGridView(metadataAutoCorrect);
                         }
                     }
                     #endregion
@@ -677,7 +675,7 @@ namespace PhotoTagsSynchronizer
             {
                 int listOfUpdatesCount = 0;
 
-                GetDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView, false);
+                CollectMetadataFromAllDataGridViewData(out List <Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView, false);
                 //Find what columns are updated / changed by user
                 List<int> listOfUpdates = ExiftoolWriter.GetListOfMetadataChangedByUser(metadataListOriginalExiftool, metadataListFromDataGridView);
                 listOfUpdatesCount = listOfUpdates.Count;
@@ -712,23 +710,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region DataGridView - FetchMetadataFromDataGridView
-        private void FetchMetadataFromDataGridView(FileEntryAttribute fileEntryAttribute, ref Metadata metadataFromDataGridView)
-        {
-            try
-            {
-                if (GlobalData.IsAgregatedTags) DataGridViewHandlerTagsAndKeywords.GetUserInputChanges(ref dataGridViewTagsAndKeywords, metadataFromDataGridView, fileEntryAttribute);
-                if (GlobalData.IsAgregatedMap) DataGridViewHandlerMap.GetUserInputChanges(ref dataGridViewMap, metadataFromDataGridView, fileEntryAttribute);
-                if (GlobalData.IsAgregatedPeople) DataGridViewHandlerPeople.GetUserInputChanges(ref dataGridViewPeople, metadataFromDataGridView, fileEntryAttribute);
-                if (GlobalData.IsAgregatedDate) DataGridViewHandlerDate.GetUserInputChanges(ref dataGridViewDate, metadataFromDataGridView, fileEntryAttribute);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-            }
-        }
-        #endregion
+        
 
         #region DataGridView - IsDataGridViewColumnDirty
         private bool IsDataGridViewColumnDirty(DataGridView dataGridView, int columnIndex)
@@ -747,7 +729,7 @@ namespace PhotoTagsSynchronizer
                     if (dataGridViewGenericColumn.Metadata != null) //throw new Exception("Missing needed metadata"); //This should not happen. Means it's not aggregated 
                     {
                         Metadata metadataFromDataGridView = new Metadata(dataGridViewGenericColumn.Metadata);
-                        FetchMetadataFromDataGridView(dataGridViewGenericColumn.FileEntryAttribute, ref metadataFromDataGridView);
+                        CollectedMetadataFromAllDataGridView(dataGridViewGenericColumn.FileEntryAttribute, ref metadataFromDataGridView);
                         metadataListOriginalExiftool.Add(new Metadata(dataGridViewGenericColumn.Metadata));
                         metadataListFromDataGridView.Add(new Metadata(metadataFromDataGridView));
                     }
@@ -795,6 +777,65 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region DataGridView - CollectMetadataFromAllDataGridViewData - FileEntry
+        private void CollectedMetadataFromAllDataGridView(FileEntryAttribute fileEntryAttribute, ref Metadata metadataFromDataGridView)
+        {
+            try
+            {
+                if (GlobalData.IsAgregatedTags) DataGridViewHandlerTagsAndKeywords.GetUserInputChanges(ref dataGridViewTagsAndKeywords, metadataFromDataGridView, fileEntryAttribute);
+                if (GlobalData.IsAgregatedMap) DataGridViewHandlerMap.GetUserInputChanges(ref dataGridViewMap, metadataFromDataGridView, fileEntryAttribute);
+                if (GlobalData.IsAgregatedPeople) DataGridViewHandlerPeople.GetUserInputChanges(ref dataGridViewPeople, metadataFromDataGridView, fileEntryAttribute);
+                if (GlobalData.IsAgregatedDate) DataGridViewHandlerDate.GetUserInputChanges(ref dataGridViewDate, metadataFromDataGridView, fileEntryAttribute);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion
+
+        #region DataGridView - CollectMetadataFromAllDataGridViewData - All
+        private void CollectMetadataFromAllDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView, bool clearDirtyFlagAndUpdatedMetadata)
+        {
+            metadataListOriginalExiftool = new List<Metadata>();
+            metadataListFromDataGridView = new List<Metadata>();
+            try
+            {
+                DataGridView dataGridView = GetActiveTabDataGridView();
+                List<DataGridViewGenericColumn> dataGridViewGenericColumnList = DataGridViewHandler.GetColumnsDataGridViewGenericColumnCurrentOrAutoCorrect(dataGridView, true);
+                foreach (DataGridViewGenericColumn dataGridViewGenericColumn in dataGridViewGenericColumnList)
+                {
+                    if (dataGridViewGenericColumn.IsPopulated)
+                    {
+                        if (dataGridViewGenericColumn.Metadata == null)
+                        {
+                            throw new Exception("Missing needed metadata"); //This should not happen. Means it's nt aggregated 
+                        }
+
+                        Metadata metadataFromDataGridView = new Metadata(dataGridViewGenericColumn.Metadata);
+
+                        CollectedMetadataFromAllDataGridView(dataGridViewGenericColumn.FileEntryAttribute, ref metadataFromDataGridView);
+
+                        metadataListOriginalExiftool.Add(new Metadata(dataGridViewGenericColumn.Metadata));
+                        metadataListFromDataGridView.Add(new Metadata(metadataFromDataGridView));
+
+                        if (clearDirtyFlagAndUpdatedMetadata)
+                            dataGridViewGenericColumn.Metadata = new Metadata(metadataFromDataGridView);
+
+
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion
+
         #region DataGridView - UpdatedMetadataOnColumn
         private void DataGridViewUpdatedMetadataOnColumn(DataGridView dataGridView, Metadata newMetadata)
         {
@@ -817,39 +858,15 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region DataGridView - GetDataGridViewData - All
-        private void GetDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView, bool clearDirtyFlagAndUpdatedMetadata)
+        #region DataGridView - CollectMetadataFromAllDataGridViewData - FileEntry
+        private void UpdatedMetadataForAllDataGridView(Metadata metadataFixedAndCorrected)
         {
-
-            metadataListOriginalExiftool = new List<Metadata>();
-            metadataListFromDataGridView = new List<Metadata>();
             try
             {
-                DataGridView dataGridView = GetActiveTabDataGridView();
-                List<DataGridViewGenericColumn> dataGridViewGenericColumnList = DataGridViewHandler.GetColumnsDataGridViewGenericColumnCurrentOrAutoCorrect(dataGridView, true);
-                foreach (DataGridViewGenericColumn dataGridViewGenericColumn in dataGridViewGenericColumnList)
-                {
-                    if (dataGridViewGenericColumn.IsPopulated)
-                    {
-                        if (dataGridViewGenericColumn.Metadata == null)
-                        {
-                            throw new Exception("Missing needed metadata"); //This should not happen. Means it's nt aggregated 
-                        }
-
-                        Metadata metadataFromDataGridView = new Metadata(dataGridViewGenericColumn.Metadata);
-
-                        FetchMetadataFromDataGridView(dataGridViewGenericColumn.FileEntryAttribute, ref metadataFromDataGridView);
-
-                        metadataListOriginalExiftool.Add(new Metadata(dataGridViewGenericColumn.Metadata));
-                        metadataListFromDataGridView.Add(new Metadata(metadataFromDataGridView));
-
-                        if (clearDirtyFlagAndUpdatedMetadata)
-                            dataGridViewGenericColumn.Metadata = new Metadata(metadataFromDataGridView);
-
-
-
-                    }
-                }
+                DataGridViewUpdatedMetadataOnColumn(dataGridViewTagsAndKeywords, metadataFixedAndCorrected);
+                DataGridViewUpdatedMetadataOnColumn(dataGridViewPeople, metadataFixedAndCorrected);
+                DataGridViewUpdatedMetadataOnColumn(dataGridViewMap, metadataFixedAndCorrected);
+                DataGridViewUpdatedMetadataOnColumn(dataGridViewDate, metadataFixedAndCorrected);
             }
             catch (Exception ex)
             {
@@ -858,5 +875,7 @@ namespace PhotoTagsSynchronizer
             }
         }
         #endregion
+
+
     }
 }
