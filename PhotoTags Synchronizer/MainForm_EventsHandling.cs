@@ -3249,8 +3249,46 @@ namespace PhotoTagsSynchronizer
             try
             {
                 kryptonWorkspaceCellFolderSearchFilter.SelectedPage = kryptonPageFolderSearchFilterSearch;
-                kryptonTextBoxSearchDirectory.Text = GetSelectedNodeFullRealPath() == null ? "" : GetSelectedNodeFullRealPath();
-                if (imageListView1.SelectedItems.Count == 1) kryptonTextBoxSearchFilename.Text = imageListView1.SelectedItems[0].Text;
+                
+                if (imageListView1.SelectedItems.Count == 1)
+                {
+                    kryptonTextBoxSearchDirectory.Text = imageListView1.SelectedItems[0].FileDirectory;
+                    kryptonTextBoxSearchFilename.Text = imageListView1.SelectedItems[0].Text;
+
+                    dateTimePickerSearchDateFrom.Value = DateTime.Now;
+                    dateTimePickerSearchDateTo.Value = DateTime.Now;
+
+                    Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(
+                        new FileEntryBroker(imageListView1.SelectedItems[0].FileFullPath, imageListView1.SelectedItems[0].DateModified, MetadataBrokerType.ExifTool));
+                    if (metadata != null && metadata.MediaDateTaken != null)
+                    {
+                        dateTimePickerSearchDateFrom.Value = (DateTime)metadata.MediaDateTaken;
+                        dateTimePickerSearchDateTo.Value = (DateTime)metadata.MediaDateTaken;
+                    }
+
+                }
+                else if (imageListView1.SelectedItems.Count >= 1)
+                {
+                    kryptonTextBoxSearchDirectory.Text = "";
+                    kryptonTextBoxSearchFilename.Text = "";
+                    DateTime? dateTimeFrom = null;
+                    DateTime? dateTimeTo = null;
+                    HashSet<FileEntry> fileEntries = ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true);
+                    foreach (FileEntry fileEntry in fileEntries)
+                    {
+                        Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
+                        if (metadata != null && metadata.MediaDateTaken != null)
+                        {
+                            if (dateTimeFrom == null) dateTimeFrom = metadata.MediaDateTaken;
+                            else if (metadata.MediaDateTaken < dateTimeFrom) dateTimeFrom = metadata.MediaDateTaken;
+                            if (dateTimeTo == null) dateTimeTo = metadata.MediaDateTaken;
+                            else if (metadata.MediaDateTaken > dateTimeTo) dateTimeTo = metadata.MediaDateTaken;
+                        }
+                    }
+                    if (dateTimeFrom != null) dateTimePickerSearchDateFrom.Value = (DateTime)dateTimeFrom;
+                    if (dateTimeTo != null) dateTimePickerSearchDateTo.Value = (DateTime)dateTimeTo;
+
+                }
             }
             catch (Exception ex)
             {

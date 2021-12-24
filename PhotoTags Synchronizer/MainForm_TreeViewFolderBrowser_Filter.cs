@@ -441,9 +441,9 @@ namespace PhotoTagsSynchronizer
 
             #region DateTaken
             bool useMediaTakenFrom = dateTimePickerSearchDateFrom.Checked;
-            DateTime mediaTakenFrom = dateTimePickerSearchDateFrom.Value;
+            DateTime mediaTakenFrom = new DateTime(dateTimePickerSearchDateFrom.Value.Year, dateTimePickerSearchDateFrom.Value.Month, dateTimePickerSearchDateFrom.Value.Day);
             bool useMediaTakenTo = dateTimePickerSearchDateTo.Checked;
-            DateTime mediaTakenTo = dateTimePickerSearchDateTo.Value;
+            DateTime mediaTakenTo = new DateTime(dateTimePickerSearchDateTo.Value.Year, dateTimePickerSearchDateTo.Value.Month, dateTimePickerSearchDateTo.Value.Day).AddDays(1);
             bool isMediaTakenNull = checkBoxSearchMediaTakenIsNull.Checked;
             #endregion 
 

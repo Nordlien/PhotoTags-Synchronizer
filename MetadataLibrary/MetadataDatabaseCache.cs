@@ -1864,9 +1864,9 @@ namespace MetadataLibrary
 
             #region DateTaken
             if (useMediaTakenFrom && useMediaTakenTo)
-                sqlCommandBasicSelect += (useAndBetweenGrups ? "AND " : "OR ") + "((MediaDateTaken >= @MediaDateTakenFrom AND MediaDateTaken <= @MediaDateTakenTo) " + (isMediaTakenNull ? "OR MediaDateTaken IS NULL " : "") + ") ";
+                sqlCommandBasicSelect += (useAndBetweenGrups ? "AND " : "OR ") + "((MediaDateTaken >= @MediaDateTakenFrom AND MediaDateTaken < @MediaDateTakenTo) " + (isMediaTakenNull ? "OR MediaDateTaken IS NULL " : "") + ") ";
             else if (useMediaTakenFrom) sqlCommandBasicSelect += (useAndBetweenGrups ? "AND " : "OR ") + "(MediaDateTaken >= @MediaDateTakenFrom " + (isMediaTakenNull ? "OR MediaDateTaken IS NULL " : "") + ") ";
-            else if (useMediaTakenTo) sqlCommandBasicSelect += (useAndBetweenGrups ? "AND " : "OR ") + "(MediaDateTaken <= @MediaDateTakenTo " + (isMediaTakenNull ? "OR MediaDateTaken IS NULL " : "") + ") ";
+            else if (useMediaTakenTo) sqlCommandBasicSelect += (useAndBetweenGrups ? "AND " : "OR ") + "(MediaDateTaken < @MediaDateTakenTo " + (isMediaTakenNull ? "OR MediaDateTaken IS NULL " : "") + ") ";
             else if (isMediaTakenNull) sqlCommandBasicSelect += (useAndBetweenGrups ? "AND " : "OR ") + "MediaDateTaken IS NULL ";
             #endregion
 
