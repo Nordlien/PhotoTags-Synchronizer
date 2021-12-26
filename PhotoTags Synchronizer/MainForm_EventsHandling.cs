@@ -119,13 +119,8 @@ Ctrl+Q				L	Location Analytics				Tools / Import
 
 namespace PhotoTagsSynchronizer
 {
-    
-
     public partial class MainForm : KryptonForm
     {
-  
-       
-
         // -----------------------------------------------------------------------
         #region Cut
 
