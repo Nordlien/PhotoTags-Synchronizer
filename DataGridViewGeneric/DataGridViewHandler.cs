@@ -948,7 +948,6 @@ namespace DataGridViewGeneric
             if (dataGridViewGenericColumn != null)
             {
                 dataGridViewGenericColumn.IsDirty = isDirty;
-                dataGridViewGenericColumn.DirtyReason = diffrences;
                 dataGridView.Columns[columnIndex].ToolTipText = diffrences;
             }
             InvalidateCellColumnHeader(dataGridView, columnIndex);

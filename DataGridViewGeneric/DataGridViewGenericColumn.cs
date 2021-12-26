@@ -44,7 +44,6 @@ namespace DataGridViewGeneric
         public Metadata Metadata { get; set; } = null;
         public ReadWriteAccess ReadWriteAccess { get; set; } = ReadWriteAccess.DefaultReadOnly;
         public bool IsDirty { get; set; } 
-        public string DirtyReason { get; set; } = "";
         public bool HasFileBeenUpdatedGiveUserAwarning {get; set; } = false;
 
         public bool IsPopulated { get; set; } = false;
