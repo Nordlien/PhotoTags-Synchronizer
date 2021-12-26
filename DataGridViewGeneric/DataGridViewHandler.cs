@@ -949,15 +949,9 @@ namespace DataGridViewGeneric
             {
                 dataGridViewGenericColumn.IsDirty = isDirty;
                 dataGridView.Columns[columnIndex].ToolTipText = diffrences;
+                if (!isDirty) dataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false;
             }
             InvalidateCellColumnHeader(dataGridView, columnIndex);
-        }
-        #endregion
-
-        #region Column handling - SetColumnDirtyFlag
-        public static void SetColumnDirtyFlag(DataGridView dataGridView, bool isDirty = false)
-        {
-            for (int columnIndex = 0; columnIndex < GetColumnCount(dataGridView); columnIndex++) SetColumnDirtyFlag(dataGridView, columnIndex, isDirty);
         }
         #endregion
 
@@ -969,8 +963,6 @@ namespace DataGridViewGeneric
             return dataGridViewGenericColumn.IsDirty;
         }
         #endregion
-
-        
 
         #region Column handling - IsColumnPopulated
         public static bool IsColumnPopulated(DataGridView dataGridView, int columnIndex)
