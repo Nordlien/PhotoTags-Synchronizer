@@ -137,7 +137,7 @@ namespace PhotoTagsSynchronizer
                     List<KeywordTag> keywordTags = new List<KeywordTag>();
                     keywordTags.Add(new KeywordTag(tag.Keyword));
                     List<string> newKeywords = AutoKeywordHandler.NewKeywords(AutoKeywordConvertions, null, null, null, null, null, keywordTags);
-                    DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndex, "Running AutoCorrect will add these keywords", newKeywords); ;
+                    DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndex, "Running AutoCorrect will add these keywords", newKeywords);
 
                     //Updated default cell status with new staus
                     DataGridViewGenericCellStatus dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(DataGridViewHandler.GetCellStatus(dataGridView, columnIndex, rowIndex));
@@ -151,6 +151,15 @@ namespace PhotoTagsSynchronizer
                     else
                     {
                         dataGridViewGenericCellStatus.SwitchState = (dataGridViewGenericCellStatus.MetadataBrokerType & MetadataBrokerType.ExifTool) == MetadataBrokerType.ExifTool ? SwitchStates.On : SwitchStates.Off;
+                        DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
+
+                        if (dataGridViewGenericRow != null && dataGridViewGenericRow.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite)
+                        {
+                            dataGridViewGenericRow.ReadWriteAccess = ReadWriteAccess.ForceCellToReadOnly;
+                            for (int columnIndexUpdate = 0; columnIndexUpdate < DataGridViewHandler.GetColumnCount(dataGridView); columnIndexUpdate++)
+                                DataGridViewHandler.SetCellReadOnlyDependingOfStatus(dataGridView, columnIndexUpdate, rowIndex, dataGridViewGenericCellStatus);
+
+                        }
                     }
                     DataGridViewHandler.SetCellStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatus, false);
                 }
