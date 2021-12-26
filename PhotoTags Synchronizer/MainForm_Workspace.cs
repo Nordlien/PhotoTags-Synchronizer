@@ -19,6 +19,7 @@ namespace PhotoTagsSynchronizer
 
     public partial class MainForm : KryptonForm
     {
+
         #region Workspace - FindWorkspaceCell
         private Krypton.Workspace.KryptonWorkspaceCell FindWorkspaceCell(Krypton.Workspace.KryptonWorkspace kryptonWorkspace, string name)
         {
