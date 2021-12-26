@@ -245,26 +245,6 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-        #region DataGridView events handling - IsDataGridViewDirty
-        public static bool IsDataGridViewDirty(DataGridView dataGridView, int columnIndex)
-        {
-            DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-            if (dataGridViewGenericColumn == null) return false;
-            return dataGridViewGenericColumn.IsDirty;
-        }
-        #endregion
-
-        #region DataGridView events handling - ClearDataGridViewDirty
-        public static void ClearDataGridViewDirty(DataGridView dataGridView)
-        {
-            for (int columnIndex = 0; columnIndex < GetColumnCount(dataGridView); columnIndex++)
-            {
-                DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-                if (dataGridViewGenericColumn != null) dataGridViewGenericColumn.IsDirty = false;
-            }
-        }
-        #endregion
-
         #region DataGridView events handling - KeyDown 
         private void DataGridView_KeyDown(object sender, KeyEventArgs e)
         {
@@ -961,14 +941,37 @@ namespace DataGridViewGeneric
         #region Column handling 
 
         #region Column handling - SetColumnDirtyFlag
-        public static void SetColumnDirtyFlag(DataGridView dataGridView, int columnIndex, bool isDirty)
+        public static void SetColumnDirtyFlag(DataGridView dataGridView, int columnIndex, bool isDirty, string diffrences = null)
         {
             if (columnIndex == -1) return;
             DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-            if (dataGridViewGenericColumn != null) dataGridViewGenericColumn.IsDirty = isDirty;
+            if (dataGridViewGenericColumn != null)
+            {
+                dataGridViewGenericColumn.IsDirty = isDirty;
+                dataGridViewGenericColumn.DirtyReason = diffrences;
+                dataGridView.Columns[columnIndex].ToolTipText = diffrences;
+            }
             InvalidateCellColumnHeader(dataGridView, columnIndex);
         }
         #endregion
+
+        #region Column handling - SetColumnDirtyFlag
+        public static void SetColumnDirtyFlag(DataGridView dataGridView, bool isDirty = false)
+        {
+            for (int columnIndex = 0; columnIndex < GetColumnCount(dataGridView); columnIndex++) SetColumnDirtyFlag(dataGridView, columnIndex, isDirty);
+        }
+        #endregion
+
+        #region Column handling - IsColumnDirty
+        public static bool IsColumnDirty(DataGridView dataGridView, int columnIndex)
+        {
+            DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+            if (dataGridViewGenericColumn == null) return false;
+            return dataGridViewGenericColumn.IsDirty;
+        }
+        #endregion
+
+        
 
         #region Column handling - IsColumnPopulated
         public static bool IsColumnPopulated(DataGridView dataGridView, int columnIndex)
@@ -1315,7 +1318,7 @@ namespace DataGridViewGeneric
                 
 
                 #region Updated - When new, No updated when Equal or older
-                if (IsDataGridViewDirty(dataGridView, columnIndex)) //That means, data was changed by user and trying to make changes to "past"
+                if (IsColumnDirty(dataGridView, columnIndex)) //That means, data was changed by user and trying to make changes to "past"
                 {
                     #region Check if data will overwrite user changes
                     //Check if old file, due to User click "reload metadata", then newest version has become older that current
@@ -3404,6 +3407,7 @@ namespace DataGridViewGeneric
                 string cellText = "";
                 bool hasFileKnownErrors = errorFileEntries.ContainsKey(fileEntryAttributeColumn.FileEntry.FileFullPath);
 
+                
 
                 if (hasFileKnownErrors)
                 {
@@ -3419,7 +3423,8 @@ namespace DataGridViewGeneric
                     dataGridView.Columns[e.ColumnIndex].HeaderCell.Style.BackColor = ColorBackHeaderImage(dataGridView);
                 }
 
-                if (dataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning) cellText += "File updated!!\r\n";
+                if (dataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning)
+                    cellText += "File updated!!\r\n";
 
                 if (dataGridViewGenericColumn.Metadata != null)
                 {

@@ -5461,8 +5461,6 @@ namespace PhotoTagsSynchronizer
                 }
                 using (new WaitCursor())
                 {
-                    ClearDataGridDirtyFlag(); //Clear before save; To track if become dirty during save process
-
                     GlobalData.ListOfAutoCorrectFilesClear();
 
                     foreach (int updatedRecord in listOfUpdates)
@@ -5488,9 +5486,10 @@ namespace PhotoTagsSynchronizer
                                 Properties.Settings.Default.RenameDateFormats);
                             if (metadataToSave != null)
                             {
-                                //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue
+                                //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue, 4. Clear dirty flags
                                 metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, Properties.Settings.Default.XtraAtomWriteOnFile);
                                 UpdatedMetadataForAllDataGridView(metadataToSave);
+                                ClearDataGridDirtyFlag();
                                 AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, metadataListOriginalExiftool[updatedRecord]);
                             }
 
@@ -5498,9 +5497,10 @@ namespace PhotoTagsSynchronizer
                         else
                         {
                             //Add only metadata to save queue that that has changed by users
-                            //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue
+                            //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue, 4. Clear dirty flags
                             Metadata metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataListFromDataGridView[updatedRecord], Properties.Settings.Default.XtraAtomWriteOnFile);
                             UpdatedMetadataForAllDataGridView(metadataToSave);
+                            ClearDataGridDirtyFlag();
                             AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, metadataListOriginalExiftool[updatedRecord]);
                         }
                     }
@@ -7902,9 +7902,10 @@ namespace PhotoTagsSynchronizer
                             Properties.Settings.Default.RenameDateFormats);
                         if (metadataToSave != null)
                         {
-                            //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue
+                            //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue, 4. Clear dirty flags
                             metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, Properties.Settings.Default.XtraAtomWriteOnFile);
                             UpdatedMetadataForAllDataGridView(metadataToSave);
+                            ClearDataGridDirtyFlag();
                             AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
                             AddQueueRenameLock(item.FileFullPath, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
                         }
@@ -7955,9 +7956,10 @@ namespace PhotoTagsSynchronizer
                             Properties.Settings.Default.RenameDateFormats);
                         if (metadataToSave != null)
                         {
-                            //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue
+                            //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue, 4. Clear dirty flags
                             metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, Properties.Settings.Default.XtraAtomWriteOnFile);
-                            UpdatedMetadataForAllDataGridView( metadataToSave);
+                            UpdatedMetadataForAllDataGridView(metadataToSave);
+                            ClearDataGridDirtyFlag();
                             AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
                             AddQueueRenameLock(file, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
                         }
@@ -8129,9 +8131,10 @@ namespace PhotoTagsSynchronizer
                             {
                                 AutoCorrectFormVaraibles.UseAutoCorrectFormData(ref metadataToSave, autoCorrectFormVaraibles);
 
-                                //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue
+                                //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue, 4. Clear dirty flags
                                 metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, Properties.Settings.Default.XtraAtomWriteOnFile);
                                 UpdatedMetadataForAllDataGridView(metadataToSave);
+                                ClearDataGridDirtyFlag();
                                 AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
                                 AddQueueRenameLock(item.FileFullPath, autoCorrect.RenameVariable);
                             }
@@ -8193,9 +8196,10 @@ namespace PhotoTagsSynchronizer
                             {
                                 AutoCorrectFormVaraibles.UseAutoCorrectFormData(ref metadataToSave, autoCorrectFormVaraibles);
 
-                                //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue
+                                //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue, 4. Clear dirty flags
                                 metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, Properties.Settings.Default.XtraAtomWriteOnFile);
                                 UpdatedMetadataForAllDataGridView(metadataToSave);
+                                ClearDataGridDirtyFlag();
                                 AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
                                 AddQueueRenameLock(file, autoCorrect.RenameVariable);
                             }
@@ -10048,37 +10052,37 @@ namespace PhotoTagsSynchronizer
         private void dataGridViewTagsAndKeywords_CellLeave(object sender, DataGridViewCellEventArgs e)
         {
             DataGridView dataGridView = (DataGridView)sender;
-            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex));
+            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex, out string diffrences), diffrences);
         }
 
         private void dataGridViewConvertAndMerge_CellLeave(object sender, DataGridViewCellEventArgs e)
         {
             DataGridView dataGridView = (DataGridView)sender;
-            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex));
+            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex, out string diffrences), diffrences);
         }
 
         private void dataGridViewProperties_CellLeave(object sender, DataGridViewCellEventArgs e)
         {
             DataGridView dataGridView = (DataGridView)sender;
-            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex));
+            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex, out string diffrences), diffrences);
         }
 
         private void dataGridViewDate_CellLeave(object sender, DataGridViewCellEventArgs e)
         {
             DataGridView dataGridView = (DataGridView)sender;
-            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex));
+            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex, out string diffrences), diffrences);
         }
 
         private void dataGridViewMap_CellLeave(object sender, DataGridViewCellEventArgs e)
         {
             DataGridView dataGridView = (DataGridView)sender;
-            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex));
+            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex, out string diffrences), diffrences);
         }
 
         private void dataGridViewPeople_CellLeave(object sender, DataGridViewCellEventArgs e)
         {
             DataGridView dataGridView = (DataGridView)sender;
-            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex));
+            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex, out string diffrences), diffrences);
         }
         #endregion
 

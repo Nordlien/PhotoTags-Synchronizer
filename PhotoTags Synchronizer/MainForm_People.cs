@@ -41,7 +41,7 @@ namespace PhotoTagsSynchronizer
                     ClipboardUtility.PushToUndoStack(dataGridView, updatedCells);
                     foreach (CellLocation cellLocation in updatedCells.Keys)
                     {
-                        DataGridViewHandler.SetColumnDirtyFlag(dataGridView, cellLocation.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, cellLocation.ColumnIndex));
+                        DataGridViewHandler.SetColumnDirtyFlag(dataGridView, cellLocation.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, cellLocation.ColumnIndex, out string diffrences), diffrences);
                         DataGridViewHandler.InvalidateCell(dataGridView, cellLocation.ColumnIndex, cellLocation.RowIndex);
 
                     }
@@ -272,7 +272,7 @@ namespace PhotoTagsSynchronizer
                     {
                         if (DataGridViewHandler.UpdateSelectedCellsWithNewMouseRegion(dataGridView, e.ColumnIndex, peopleMouseDownX, peopleMouseDownY, peopleMouseMoveX, peopleMouseMoveY))
                         {
-                            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex));
+                            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex, out string diffrences), diffrences);
                             UpdateRegionThumbnail(dataGridView);
                         }
                     }
@@ -814,7 +814,7 @@ namespace PhotoTagsSynchronizer
                 if (((KryptonDataGridView)sender)[e.ColumnIndex, e.RowIndex].Value is RegionStructure regionStructure) regionStructure.ShowNameInToString = false; //Just a hack so KryptonDataGridView don't print name also
                 DataGridView dataGridView = dataGridViewPeople;
                 CheckRowAndSetDefaults(dataGridView, e.ColumnIndex, e.RowIndex);
-                DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex));
+                DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex, out string diffrences), diffrences);
             }
             catch (Exception ex)
             {

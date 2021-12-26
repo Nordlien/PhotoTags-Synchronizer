@@ -257,13 +257,19 @@ namespace PhotoTagsSynchronizer
                             AutoCorrectFormVaraibles.UseAutoCorrectFormData(ref metadataAutoCorrect, autoCorrectFormVaraibles);
 
                             metadataAutoCorrect = AutoCorrect.CompatibilityCheckMetadata(metadataAutoCorrect, Properties.Settings.Default.XtraAtomWriteOnFile);
-                            UpdatedMetadataForAllDataGridView(metadataAutoCorrect);
+                            //if (DataGridViewHandlerTagsAndKeywords.HasBeenInitialized) DataGridViewHandlerTagsAndKeywords.PopulateFile(dataGridViewTagsAndKeywords, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
+                            //if (DataGridViewHandlerPeople.HasBeenInitialized) DataGridViewHandlerPeople.PopulateFile(dataGridViewPeople, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
+                            //if (DataGridViewHandlerMap.HasBeenInitialized) DataGridViewHandlerMap.PopulateFile(dataGridViewMap, dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
+                            //if (DataGridViewHandlerDate.HasBeenInitialized) DataGridViewHandlerDate.PopulateFile(dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
+                            //if (DataGridViewHandlerRename.HasBeenInitialized) DataGridViewHandler.SetColumnDirtyFlag(dataGridView, columnIndex, IsDataGridViewColumnDirty(dataGridView, columnIndex));
+
                         }
                     }
                     #endregion
 
                     #region Popuate File
                     int columnIndex;
+                    string differences;
                     switch (tabTag)
                     {
                         case LinkTabAndDataGridViewNameTags:
@@ -273,7 +279,7 @@ namespace PhotoTagsSynchronizer
                             if (DataGridViewHandlerMap.HasBeenInitialized) DataGridViewHandlerMap.PopulateFile(dataGridViewMap, dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             if (DataGridViewHandlerDate.HasBeenInitialized) DataGridViewHandlerDate.PopulateFile(dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             if (DataGridViewHandlerRename.HasBeenInitialized) DataGridViewHandlerRename.PopulateFile(dataGridViewRename, fileEntryAttribute, DataGridViewHandlerRename.ShowFullPath);
-                            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, columnIndex, IsDataGridViewColumnDirty(dataGridView, columnIndex));
+                            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, columnIndex, IsDataGridViewColumnDirty(dataGridView, columnIndex, out differences), differences);
                             break;
                         case LinkTabAndDataGridViewNamePeople:
                             columnIndex = DataGridViewHandlerPeople.PopulateFile(dataGridViewPeople, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, false);
@@ -283,7 +289,7 @@ namespace PhotoTagsSynchronizer
                             if (DataGridViewHandlerMap.HasBeenInitialized) DataGridViewHandlerMap.PopulateFile(dataGridViewMap, dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             if (DataGridViewHandlerDate.HasBeenInitialized) DataGridViewHandlerDate.PopulateFile(dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             if (DataGridViewHandlerRename.HasBeenInitialized) DataGridViewHandlerRename.PopulateFile(dataGridViewRename, fileEntryAttribute, DataGridViewHandlerRename.ShowFullPath);
-                            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, columnIndex, IsDataGridViewColumnDirty(dataGridView, columnIndex));
+                            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, columnIndex, IsDataGridViewColumnDirty(dataGridView, columnIndex, out differences), differences);
                             break;
                         case LinkTabAndDataGridViewNameMap:
                             columnIndex = DataGridViewHandlerMap.PopulateFile(dataGridViewMap, dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, false);
@@ -293,7 +299,7 @@ namespace PhotoTagsSynchronizer
                             //if (DataGridViewHandlerMap.HasBeenInitialized) DataGridViewHandlerMap.PopulateFile(dataGridViewMap, dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             if (DataGridViewHandlerDate.HasBeenInitialized) DataGridViewHandlerDate.PopulateFile(dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             if (DataGridViewHandlerRename.HasBeenInitialized) DataGridViewHandlerRename.PopulateFile(dataGridViewRename, fileEntryAttribute, DataGridViewHandlerRename.ShowFullPath);
-                            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, columnIndex, IsDataGridViewColumnDirty(dataGridView, columnIndex));
+                            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, columnIndex, IsDataGridViewColumnDirty(dataGridView, columnIndex, out differences), differences);
                             break;
                         case LinkTabAndDataGridViewNameDates:
                             columnIndex = DataGridViewHandlerDate.PopulateFile(dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, false);
@@ -303,7 +309,7 @@ namespace PhotoTagsSynchronizer
                             if (DataGridViewHandlerMap.HasBeenInitialized) DataGridViewHandlerMap.PopulateFile(dataGridViewMap, dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             //if (DataGridViewHandlerDate.HasBeenInitialized) DataGridViewHandlerDate.PopulateFile(dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             if (DataGridViewHandlerRename.HasBeenInitialized) DataGridViewHandlerRename.PopulateFile(dataGridViewRename, fileEntryAttribute, DataGridViewHandlerRename.ShowFullPath);
-                            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, columnIndex, IsDataGridViewColumnDirty(dataGridView, columnIndex)); 
+                            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, columnIndex, IsDataGridViewColumnDirty(dataGridView, columnIndex, out differences), differences); 
                             break;
 
                         case LinkTabAndDataGridViewNameExiftool:
@@ -697,10 +703,10 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                if (GlobalData.IsAgregatedTags) DataGridViewHandler.ClearDataGridViewDirty(dataGridViewTagsAndKeywords);
-                if (GlobalData.IsAgregatedMap) DataGridViewHandler.ClearDataGridViewDirty(dataGridViewMap);
-                if (GlobalData.IsAgregatedPeople) DataGridViewHandler.ClearDataGridViewDirty(dataGridViewPeople);
-                if (GlobalData.IsAgregatedDate) DataGridViewHandler.ClearDataGridViewDirty(dataGridViewDate);
+                if (GlobalData.IsAgregatedTags) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewTagsAndKeywords);
+                if (GlobalData.IsAgregatedMap) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewMap);
+                if (GlobalData.IsAgregatedPeople) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewPeople);
+                if (GlobalData.IsAgregatedDate) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewDate);
             }
             catch (Exception ex)
             {
@@ -710,11 +716,11 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        
-
         #region DataGridView - IsDataGridViewColumnDirty
-        private bool IsDataGridViewColumnDirty(DataGridView dataGridView, int columnIndex)
+        private bool IsDataGridViewColumnDirty(DataGridView dataGridView, int columnIndex, out string differences)
         {
+            differences = "";
+
             if (columnIndex == -1) return true;
             int listOfUpdatesCount = 0;
             try
@@ -745,6 +751,7 @@ namespace PhotoTagsSynchronizer
 
                 //Find what columns are updated / changed by user
                 List<int> listOfUpdates = ExiftoolWriter.GetListOfMetadataChangedByUser(metadataListOriginalExiftool, metadataListFromDataGridView);
+                differences = Metadata.GetErrors(metadataListFromDataGridView[0], metadataListOriginalExiftool[0], true);
                 listOfUpdatesCount = listOfUpdates.Count;
             }
             catch (Exception ex)
@@ -765,7 +772,7 @@ namespace PhotoTagsSynchronizer
                 {
                     for (int columnIndex = 0; columnIndex < DataGridViewHandler.GetColumnCount(dataGridView); columnIndex++)
                     {
-                        DataGridViewHandler.SetColumnDirtyFlag(dataGridView, columnIndex, IsDataGridViewColumnDirty(dataGridView, columnIndex));
+                        DataGridViewHandler.SetColumnDirtyFlag(dataGridView, columnIndex, IsDataGridViewColumnDirty(dataGridView, columnIndex, out string differences), differences);
                     }
                 }
             }
@@ -786,6 +793,7 @@ namespace PhotoTagsSynchronizer
                 if (GlobalData.IsAgregatedMap) DataGridViewHandlerMap.GetUserInputChanges(ref dataGridViewMap, metadataFromDataGridView, fileEntryAttribute);
                 if (GlobalData.IsAgregatedPeople) DataGridViewHandlerPeople.GetUserInputChanges(ref dataGridViewPeople, metadataFromDataGridView, fileEntryAttribute);
                 if (GlobalData.IsAgregatedDate) DataGridViewHandlerDate.GetUserInputChanges(ref dataGridViewDate, metadataFromDataGridView, fileEntryAttribute);
+                
             }
             catch (Exception ex)
             {
@@ -875,6 +883,7 @@ namespace PhotoTagsSynchronizer
             }
         }
         #endregion
+
 
 
     }

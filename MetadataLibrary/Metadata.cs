@@ -753,6 +753,10 @@ namespace MetadataLibrary
                     if (string.Equals(keywordTagToCkeck.Keyword, keywordTag.Keyword, StringComparison.OrdinalIgnoreCase)) return;
                 }
                 personalTagList.Add(keywordTag);
+                if (keywordTag.Keyword != keywordTag.Keyword.Trim())
+                {
+                    //DEBUG
+                }
             }
             else
             {
@@ -913,82 +917,91 @@ namespace MetadataLibrary
             return text + ": '" + (o1 == null ? "" : o1.ToString()) + "' vs. '" + (o2 == null ? "" : o2.ToString()) + "'\r\n";
         }
 
-        public static string GetErrors(Metadata m1, Metadata m2)
+        public static string GetErrors(Metadata metadataOriginal, Metadata metadataChangeInto, bool whatsAddedChanged = false)
         {
             string errors = "";
-            if (m1 is null && m2 is null) return "";
-            if (m1 is null) return "Can't compare missing metadata for file 1.\r\n";
-            if (m2 is null) return "Can't compare missing metadata for file 2.\r\n";
-            if (ReferenceEquals(m1, m2)) return "";
-            if (m1 == m2) return "";
-            //if (m1.GetHashCode() == m2.GetHashCode()) return "";
+            if (metadataOriginal is null && metadataChangeInto is null) return "";
+            if (metadataOriginal is null) return "Can't compare missing metadata for file 1.\r\n";
+            if (metadataChangeInto is null) return "Can't compare missing metadata for file 2.\r\n";
+            if (ReferenceEquals(metadataOriginal, metadataChangeInto)) return "";
+            if (metadataOriginal == metadataChangeInto) return "";
+
+            string fileInformation =
+                (whatsAddedChanged ?
+                "Edited by user vs Media file\r\n" + "File: " + metadataChangeInto.FileFullPath + "\r\n" :
+                "Original (saved) vs. Read back after saved\r\n" + "File: " + metadataChangeInto.FileFullPath + "\r\n");
 
             //File
-            if (m1.Broker != m2.Broker) errors += "Broker\r\n";
-            if (String.Compare(m1.FileName, m2.FileName, comparisonType: StringComparison.OrdinalIgnoreCase) != 0) errors += AddError("File name", m1.FileName, m2.FileName);
-            if (String.Compare(m1.fileDirectory, m2.fileDirectory, comparisonType: StringComparison.OrdinalIgnoreCase) != 0) errors += AddError("File direcotry", m1.fileDirectory, m2.fileDirectory);
-            if (m1.FileSize != m2.FileSize) errors += AddError("File size", m1.FileSize, m2.FileSize);
-            if (m1.FileDateCreated != m2.FileDateCreated) errors += AddError("File Date Created", m1.FileDateCreated, m2.FileDateCreated);
-            if (m1.FileDateModified != m2.FileDateModified) errors += AddError("File Date Modified", m1.FileDateModified, m2.FileDateModified);
-            if (m1.FileDateAccessed != m2.FileDateAccessed) errors += AddError("File Last Accessed", m1.FileDateAccessed, m2.FileDateAccessed);
-            if (m1.FileMimeType != m2.FileMimeType) errors += AddError("FileMimeType", m1.FileMimeType, m2.FileMimeType);
+            if (metadataOriginal.Broker != metadataChangeInto.Broker) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Broker", metadataOriginal.Broker, metadataChangeInto.Broker);
+            if (String.Compare(metadataOriginal.FileName, metadataChangeInto.FileName, comparisonType: StringComparison.OrdinalIgnoreCase) != 0) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("File name", metadataOriginal.FileName, metadataChangeInto.FileName);
+            if (String.Compare(metadataOriginal.fileDirectory, metadataChangeInto.fileDirectory, comparisonType: StringComparison.OrdinalIgnoreCase) != 0) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("File direcotry", metadataOriginal.fileDirectory, metadataChangeInto.fileDirectory);
+            if (metadataOriginal.FileSize != metadataChangeInto.FileSize) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("File size", metadataOriginal.FileSize, metadataChangeInto.FileSize);
+            if (metadataOriginal.FileDateCreated != metadataChangeInto.FileDateCreated) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("File Date Created", metadataOriginal.FileDateCreated, metadataChangeInto.FileDateCreated);
+            if (metadataOriginal.FileDateModified != metadataChangeInto.FileDateModified) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("File Date Modified", metadataOriginal.FileDateModified, metadataChangeInto.FileDateModified);
+            if (metadataOriginal.FileDateAccessed != metadataChangeInto.FileDateAccessed) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("File Last Accessed", metadataOriginal.FileDateAccessed, metadataChangeInto.FileDateAccessed);
+            if (metadataOriginal.FileMimeType != metadataChangeInto.FileMimeType) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("FileMimeType", metadataOriginal.FileMimeType, metadataChangeInto.FileMimeType);
 
             //Personal
-            if (m1.PersonalTitle != m2.PersonalTitle) errors += AddError("Title", m1.PersonalTitle, m2.PersonalTitle);
-            if (m1.PersonalDescription != m2.PersonalDescription) errors += AddError("Description", m1.PersonalDescription, m2.PersonalDescription);
-            if (m1.PersonalComments != m2.PersonalComments) errors += AddError("Comments", m1.PersonalComments, m2.PersonalComments);
-            if (m1.personalRating != m2.personalRating) errors += AddError("Rating", m1.personalRating, m2.personalRating);
-            if (m1.personalRatingPercent != m2.personalRatingPercent) errors += AddError("Rating Percent", m1.personalRatingPercent, m2.personalRatingPercent);
-            if (m1.PersonalAuthor != m2.PersonalAuthor) errors += AddError("Author", m1.PersonalAuthor, m2.PersonalAuthor);
-            if (m1.PersonalAlbum != m2.PersonalAlbum) errors += AddError("Album", m1.PersonalAlbum, m2.PersonalAlbum);
+            if (metadataOriginal.PersonalTitle != metadataChangeInto.PersonalTitle) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Title", metadataOriginal.PersonalTitle, metadataChangeInto.PersonalTitle);
+            if (metadataOriginal.PersonalDescription != metadataChangeInto.PersonalDescription) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Description", metadataOriginal.PersonalDescription, metadataChangeInto.PersonalDescription);
+            if (metadataOriginal.PersonalComments != metadataChangeInto.PersonalComments) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Comments", metadataOriginal.PersonalComments, metadataChangeInto.PersonalComments);
+            if (metadataOriginal.personalRating != metadataChangeInto.personalRating) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Rating", metadataOriginal.personalRating, metadataChangeInto.personalRating);
+            if (metadataOriginal.personalRatingPercent != metadataChangeInto.personalRatingPercent) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Rating Percent", metadataOriginal.personalRatingPercent, metadataChangeInto.personalRatingPercent);
+            if (metadataOriginal.PersonalAuthor != metadataChangeInto.PersonalAuthor) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Author", metadataOriginal.PersonalAuthor, metadataChangeInto.PersonalAuthor);
+            if (metadataOriginal.PersonalAlbum != metadataChangeInto.PersonalAlbum) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Album", metadataOriginal.PersonalAlbum, metadataChangeInto.PersonalAlbum);
 
             //Camera
-            if (m1.CameraMake != m2.CameraMake) return errors += AddError("Camera Make", m1.CameraMake, m2.CameraMake);
-            if (m1.CameraModel != m2.CameraModel) return errors += AddError("Camra Model", m1.CameraModel, m2.CameraModel);
+            if (metadataOriginal.CameraMake != metadataChangeInto.CameraMake) return errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Camera Make", metadataOriginal.CameraMake, metadataChangeInto.CameraMake);
+            if (metadataOriginal.CameraModel != metadataChangeInto.CameraModel) return errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Camra Model", metadataOriginal.CameraModel, metadataChangeInto.CameraModel);
 
             //Media
-            if (m1.mediaDateTaken != m2.mediaDateTaken) errors += AddError("Media DateTaken", m1.mediaDateTaken, m2.mediaDateTaken);
-            if (m1.mediaWidth != m2.mediaWidth) errors += AddError("Media Width", m1.mediaWidth, m2.mediaWidth);
-            if (m1.mediaHeight != m2.mediaHeight) errors += AddError("Media Hieght", m1.mediaHeight, m2.mediaHeight);
-            if (m1.mediaOrientation != m2.mediaOrientation) errors += AddError("Media Orientation", m1.mediaOrientation, m2.mediaOrientation);
-            if (m1.mediaVideoLength != m2.mediaVideoLength) errors += AddError("Media Video lenth", m1.mediaVideoLength, m2.mediaVideoLength);
+            if (metadataOriginal.mediaDateTaken != metadataChangeInto.mediaDateTaken) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Media DateTaken", metadataOriginal.mediaDateTaken, metadataChangeInto.mediaDateTaken);
+            if (metadataOriginal.mediaWidth != metadataChangeInto.mediaWidth) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Media Width", metadataOriginal.mediaWidth, metadataChangeInto.mediaWidth);
+            if (metadataOriginal.mediaHeight != metadataChangeInto.mediaHeight) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Media Hieght", metadataOriginal.mediaHeight, metadataChangeInto.mediaHeight);
+            if (metadataOriginal.mediaOrientation != metadataChangeInto.mediaOrientation) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Media Orientation", metadataOriginal.mediaOrientation, metadataChangeInto.mediaOrientation);
+            if (metadataOriginal.mediaVideoLength != metadataChangeInto.mediaVideoLength) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Media Video lenth", metadataOriginal.mediaVideoLength, metadataChangeInto.mediaVideoLength);
 
             //Location
-            if (m1.locationAltitude != m2.locationAltitude) errors += AddError("Location Altitude", m1.locationAltitude, m2.locationAltitude);
-            if (m1.locationLatitude != m2.locationLatitude) errors += AddError("Location Latitude", m1.locationLatitude, m2.locationLatitude);
-            if (m1.locationLongitude != m2.locationLongitude) errors += AddError("Location Longitude", m1.locationLongitude, m2.locationLongitude);
-            if (m1.locationDateTime != m2.locationDateTime) errors += AddError("Location DateTime", m1.locationDateTime, m2.locationDateTime);
-            if (m1.locationName != m2.locationName) errors += AddError("Location Name", m1.locationName, m2.locationName);
-            if (m1.locationCountry != m2.locationCountry) errors += AddError("Location Country", m1.locationCountry, m2.locationCountry);
-            if (m1.locationCity != m2.locationCity) errors += AddError("Location District", m1.locationCity, m2.locationCity);
-            if (m1.locationState != m2.locationState) errors += AddError("Location Region", m1.locationState, m2.locationState);
+            if (metadataOriginal.locationAltitude != metadataChangeInto.locationAltitude) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Location Altitude", metadataOriginal.locationAltitude, metadataChangeInto.locationAltitude);
+            if (metadataOriginal.locationLatitude != metadataChangeInto.locationLatitude) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Location Latitude", metadataOriginal.locationLatitude, metadataChangeInto.locationLatitude);
+            if (metadataOriginal.locationLongitude != metadataChangeInto.locationLongitude) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Location Longitude", metadataOriginal.locationLongitude, metadataChangeInto.locationLongitude);
+            if (metadataOriginal.locationDateTime != metadataChangeInto.locationDateTime) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Location DateTime", metadataOriginal.locationDateTime, metadataChangeInto.locationDateTime);
+            if (metadataOriginal.locationName != metadataChangeInto.locationName) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Location Name", metadataOriginal.locationName, metadataChangeInto.locationName);
+            if (metadataOriginal.locationCountry != metadataChangeInto.locationCountry) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Location Country", metadataOriginal.locationCountry, metadataChangeInto.locationCountry);
+            if (metadataOriginal.locationCity != metadataChangeInto.locationCity) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Location District", metadataOriginal.locationCity, metadataChangeInto.locationCity);
+            if (metadataOriginal.locationState != metadataChangeInto.locationState) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Location Region", metadataOriginal.locationState, metadataChangeInto.locationState);
 
-            if (VerifyRegionStructureList(m1.personalRegionList, m2.personalRegionList) == false)
+            string notAdded = (whatsAddedChanged ? " - Was added by user" : " - Was not added the files' metadata");
+            string notRemoved = (whatsAddedChanged ? " - Was removed by user" : " - Not not removed from files' metadata");
+            string vierfied = " Verified OK";
+            if (VerifyRegionStructureList(metadataOriginal.personalRegionList, metadataChangeInto.personalRegionList) == false)
             {
                 List<RegionStructure> allRegions = new List<RegionStructure>();
-                foreach (RegionStructure region in m1.personalRegionList) if (!region.DoesThisRectangleAndNameExistInList(allRegions)) allRegions.Add(region);
-                foreach (RegionStructure region in m2.personalRegionList) if (!region.DoesThisRectangleAndNameExistInList(allRegions)) allRegions.Add(region);
+                foreach (RegionStructure region in metadataOriginal.personalRegionList) if (!region.DoesThisRectangleAndNameExistInList(allRegions)) allRegions.Add(region);
+                foreach (RegionStructure region in metadataChangeInto.personalRegionList) if (!region.DoesThisRectangleAndNameExistInList(allRegions)) allRegions.Add(region);
 
-                errors += "\r\nRegion list\r\n";
+                errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + "\r\nRegion list\r\n";
                 foreach (RegionStructure region in allRegions)
-                    errors += "" + (region == null ? "" : region.ToErrorText()) +
-                        (region.DoesThisRectangleAndNameExistInList(m1.personalRegionList) == (region.DoesThisRectangleAndNameExistInList(m2.personalRegionList)) ? " Verified" :
-                        (region.DoesThisRectangleAndNameExistInList(m1.personalRegionList) ? " Not added" : " Not removed")) +
+                    if (!whatsAddedChanged || (whatsAddedChanged && (!region.DoesThisRectangleAndNameExistInList(metadataOriginal.personalRegionList) || !region.DoesThisRectangleAndNameExistInList(metadataChangeInto.personalRegionList))))
+                    errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + (region == null ? "" : region.ToErrorText()) +
+                        (region.DoesThisRectangleAndNameExistInList(metadataOriginal.personalRegionList) && region.DoesThisRectangleAndNameExistInList(metadataChangeInto.personalRegionList) ? vierfied :
+                        (region.DoesThisRectangleAndNameExistInList(metadataOriginal.personalRegionList) ? notAdded : notRemoved)) +
                         "\r\n";
             }
 
-            if (VerifyKeywordList(m1.personalTagList, m2.personalTagList) == false)
+            if (VerifyKeywordList(metadataOriginal.personalTagList, metadataChangeInto.personalTagList) == false)
             {
 
                 List<KeywordTag> allTags = new List<KeywordTag>();
-                foreach (KeywordTag tag in m1.PersonalKeywordTags) if (!allTags.Contains(tag)) allTags.Add(tag);
-                foreach (KeywordTag tag in m2.PersonalKeywordTags) if (!allTags.Contains(tag)) allTags.Add(tag);
+                foreach (KeywordTag tag in metadataOriginal.PersonalKeywordTags) if (!allTags.Contains(tag)) allTags.Add(tag);
+                foreach (KeywordTag tag in metadataChangeInto.PersonalKeywordTags) if (!allTags.Contains(tag)) allTags.Add(tag);
 
-                errors += "\r\nKeyword list\r\n";
+                errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + "\r\nKeyword list\r\n";
                 foreach (KeywordTag tag in allTags)
-                    errors += "" + (tag == null ? "" : tag.ToString()) +
-                        (m1.PersonalKeywordTags.Contains(tag) == m2.PersonalKeywordTags.Contains(tag) ? " Verified OK" :
-                        (m1.PersonalKeywordTags.Contains(tag) ? " Not add" : " Not removed")) +
+                    if (!whatsAddedChanged || (whatsAddedChanged && (!metadataOriginal.PersonalKeywordTags.Contains(tag) || !metadataChangeInto.PersonalKeywordTags.Contains(tag))))
+                    errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + (tag == null ? "" : tag.ToString()) +
+                        (metadataOriginal.PersonalKeywordTags.Contains(tag) && metadataChangeInto.PersonalKeywordTags.Contains(tag) ? vierfied :
+                        (metadataOriginal.PersonalKeywordTags.Contains(tag) ? notAdded : notRemoved)) +
                         "\r\n";
             }
 

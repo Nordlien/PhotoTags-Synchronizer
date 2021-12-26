@@ -30,7 +30,8 @@ namespace Exiftool
 
             for (int i = 0; i < metadataListOriginal.Count; i++)
             {
-                if (metadataListOriginal[i] != metadataListToWrite[i]) listOfUpdates.Add(i);
+                if (metadataListOriginal[i] != metadataListToWrite[i]) 
+                    listOfUpdates.Add(i);
             }
             return listOfUpdates;
         }

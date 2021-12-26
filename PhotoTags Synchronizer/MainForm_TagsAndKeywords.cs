@@ -170,7 +170,7 @@ namespace PhotoTagsSynchronizer
                 {
                     ClipboardUtility.PushToUndoStack(dataGridView, updatedCells);
                     foreach (CellLocation cellLocation in updatedCells.Keys)
-                        DataGridViewHandler.SetColumnDirtyFlag(dataGridView, cellLocation.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, cellLocation.ColumnIndex));
+                        DataGridViewHandler.SetColumnDirtyFlag(dataGridView, cellLocation.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, cellLocation.ColumnIndex, out string diffrences), diffrences);
                 }
             }
             catch (Exception ex)
@@ -253,7 +253,7 @@ namespace PhotoTagsSynchronizer
                 if (gridViewGenericDataRow == null || //new row 
                     gridViewGenericDataRow.HeaderName.Equals(DataGridViewHandlerTagsAndKeywords.headerKeywords)) //Check if one of Keywords row(s)
                 {
-                    DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex));
+                    DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex, out string diffrences), diffrences);
 
                     if (DataGridViewHandler.IsCellNullOrWhiteSpace(dataGridView, e.ColumnIndex, e.RowIndex))
                     {
