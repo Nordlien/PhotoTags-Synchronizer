@@ -262,7 +262,6 @@ namespace PhotoTagsSynchronizer
                             //if (DataGridViewHandlerMap.HasBeenInitialized) DataGridViewHandlerMap.PopulateFile(dataGridViewMap, dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             //if (DataGridViewHandlerDate.HasBeenInitialized) DataGridViewHandlerDate.PopulateFile(dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             //if (DataGridViewHandlerRename.HasBeenInitialized) DataGridViewHandler.SetColumnDirtyFlag(dataGridView, columnIndex, IsDataGridViewColumnDirty(dataGridView, columnIndex));
-
                         }
                     }
                     #endregion
@@ -703,10 +702,29 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                if (GlobalData.IsAgregatedTags) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewTagsAndKeywords);
-                if (GlobalData.IsAgregatedMap) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewMap);
-                if (GlobalData.IsAgregatedPeople) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewPeople);
-                if (GlobalData.IsAgregatedDate) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewDate);
+                DataGridView dataGridView = GetActiveTabDataGridView();
+                for (int columnIndex = 0; columnIndex < DataGridViewHandler.GetColumnCount(dataGridView); columnIndex++) 
+                {
+                    DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+                    if (dataGridViewGenericColumn != null && FileEntryVersionHandler.IsCurrenOrUpdatedVersion(dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion))
+                    {
+                        FileEntryAttribute fileEntryAttribute = dataGridViewGenericColumn.FileEntryAttribute;
+                        dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion = FileEntryVersion.AutoCorrect;
+                        Metadata metadata = dataGridViewGenericColumn.Metadata;
+
+                        if (DataGridViewHandlerTagsAndKeywords.HasBeenInitialized) DataGridViewHandlerTagsAndKeywords.PopulateFile(dataGridViewTagsAndKeywords, fileEntryAttribute, showWhatColumns, metadata, true);
+                        if (DataGridViewHandlerPeople.HasBeenInitialized) DataGridViewHandlerPeople.PopulateFile(dataGridViewPeople, fileEntryAttribute, showWhatColumns, metadata, true);
+                        if (DataGridViewHandlerMap.HasBeenInitialized) DataGridViewHandlerMap.PopulateFile(dataGridViewMap, dataGridViewDate, fileEntryAttribute, showWhatColumns, metadata, true);
+                        if (DataGridViewHandlerDate.HasBeenInitialized) DataGridViewHandlerDate.PopulateFile(dataGridViewDate, fileEntryAttribute, showWhatColumns, metadata, true);
+                        if (DataGridViewHandlerRename.HasBeenInitialized) DataGridViewHandlerRename.PopulateFile(dataGridViewRename, fileEntryAttribute, DataGridViewHandlerRename.ShowFullPath);
+
+                        if (GlobalData.IsAgregatedTags) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewTagsAndKeywords, columnIndex, false);
+                        if (GlobalData.IsAgregatedMap) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewMap, columnIndex, false);
+                        if (GlobalData.IsAgregatedPeople) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewPeople, columnIndex, false);
+                        if (GlobalData.IsAgregatedDate) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewDate, columnIndex, false);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
