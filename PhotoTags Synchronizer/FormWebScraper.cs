@@ -43,8 +43,8 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         Dictionary<DateTime, WebScrapingDataSet> _webScrapingDataSet = new Dictionary<DateTime, WebScrapingDataSet>();       
-        Dictionary<string,   WebScrapingLinks> _linkCatergories = new Dictionary<string, WebScrapingLinks>();
-        Dictionary<string, Metadata> _metadataDataTotalMerged = new Dictionary<string, Metadata>();
+        Dictionary<string, WebScrapingLinks> _linkCatergories = new Dictionary<string, WebScrapingLinks>(StringComparer.OrdinalIgnoreCase);
+        Dictionary<string, Metadata> _metadataDataTotalMerged = new Dictionary<string, Metadata>(StringComparer.OrdinalIgnoreCase);
         List<string> _urlLoadingFailed = new List<string>();
 
         #region Variables - Const - Column ids
@@ -1373,7 +1373,7 @@ namespace PhotoTagsSynchronizer
             listViewDataSetDates.Items.Clear();
             foreach (KeyValuePair<DateTime, WebScrapingDataSet> keyValuePairs in webScrapingDataSets)
             {
-                ListViewItem listViewItem = new ListViewItem(keyValuePairs.Value.WrittenDate.ToString());
+                ListViewItem listViewItem = new ListViewItem(TimeZone.TimeZoneLibrary.ToStringSortable(keyValuePairs.Value.WrittenDate));
                 listViewItem.Tag = keyValuePairs.Value.WrittenDate;
                 listViewDataSetDates.Items.Add(listViewItem);
                 listViewItem.SubItems.Add(keyValuePairs.Value.Description);
