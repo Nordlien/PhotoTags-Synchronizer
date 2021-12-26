@@ -133,7 +133,7 @@ namespace PhotoTagsSynchronizer
                 try
                 {
                     messageBoxQueuesInfo += "Read to cache:";
-                    lock (_readToCacheQueuesLock)
+                    //lock (_readToCacheQueuesLock)
                         foreach (KeyValuePair<int, int> keyValuePair in readToCacheQueues) ProgressBackgroundStatusText += " " + keyValuePair.Value;
                     messageBoxQueuesInfo += "\r\n";
                 }
@@ -147,7 +147,7 @@ namespace PhotoTagsSynchronizer
                 try
                 {
                     messageBoxQueuesInfo += "Delete records:";
-                    lock (_deleteRecordQueuesLock)
+                    //lock (_deleteRecordQueuesLock)
                     {
                         foreach (KeyValuePair<int, int> keyValuePair in deleteRecordQueues) messageBoxQueuesInfo += " " + keyValuePair.Value;
                         messageBoxQueuesInfo += "\r\n";
@@ -168,7 +168,7 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-                lock (_fileSaveSizeLock)
+                //lock (_fileSaveSizeLock)
                 {
                     foreach (KeyValuePair<string, long> keyValuePair in fileSaveSizeWatcher)
                         AddTaskToFileTasks(fileTasks, keyValuePair.Key, null, "Written: " + keyValuePair.Value);                    
@@ -178,7 +178,7 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-                lock (commonQueueReadMetadataFromExiftoolLock)
+                //lock (commonQueueReadMetadataFromExiftoolLock)
                     foreach (FileEntry fileEntry in commonQueueReadMetadataFromExiftool)
                         AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.LastWriteDateTime, "Exiftool read: in queue, wait on turn");
             }
@@ -186,7 +186,7 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-                lock (mediaFilesNotInDatabaseLock)
+                //lock (mediaFilesNotInDatabaseLock)
                     foreach (FileEntry fileEntry in mediaFilesNotInDatabase)
                         AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, null, "Exiftool read, in process");
             }
@@ -194,7 +194,7 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-                lock (commonQueueMetadataWrittenByExiftoolReadyToVerifyLock)
+                //lock (commonQueueMetadataWrittenByExiftoolReadyToVerifyLock)
                     foreach (Metadata fileEntry in commonQueueMetadataWrittenByExiftoolReadyToVerify)
                         AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.FileDateModified, "Will be verified after Exiftool readback");
             }
@@ -202,7 +202,7 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-                lock (commonQueueReadMetadataFromWindowsLivePhotoGalleryLock) 
+                //lock (commonQueueReadMetadataFromWindowsLivePhotoGalleryLock) 
                 foreach (FileEntry fileEntry in commonQueueReadMetadataFromWindowsLivePhotoGallery)
                         AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.LastWriteDateTime, "Read meta information from Windows Live Photo Gallery");
             }
@@ -210,7 +210,7 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-                lock (commonQueueReadMetadataFromMicrosoftPhotosLock)
+                //lock (commonQueueReadMetadataFromMicrosoftPhotosLock)
                     foreach (FileEntry fileEntry in commonQueueReadMetadataFromMicrosoftPhotos)
                         AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.LastWriteDateTime, "Read meta information from Microsoft Photos");
             }
@@ -218,8 +218,7 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-
-                lock (commonQueueReadPosterAndSaveFaceThumbnailsLock)
+                //lock (commonQueueReadPosterAndSaveFaceThumbnailsLock)
                     foreach (Metadata fileEntry in commonQueueReadPosterAndSaveFaceThumbnails)
                         if (fileEntry.PersonalRegionList.Count > 0)
                         AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.FileDateModified, "Create thumbnail for region: " + fileEntry.PersonalRegionList.Count.ToString());
@@ -228,7 +227,7 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-                lock (commonQueueSaveMetadataUpdatedByUserLock)
+                //lock (commonQueueSaveMetadataUpdatedByUserLock)
                     foreach (Metadata fileEntry in commonQueueSaveMetadataUpdatedByUser)
                         AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.FileDateModified, "Wait to be saved with " + fileEntry.PersonalRegionList.Count.ToString() + " regions");
             }
@@ -236,7 +235,7 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-                lock (commonQueueSubsetMetadataToSaveLock)
+                //lock (commonQueueSubsetMetadataToSaveLock)
                     foreach (Metadata fileEntry in commonQueueSubsetMetadataToSave)
                         AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.FileDateModified, "Saving bulk using exiftool with " + fileEntry.PersonalRegionList.Count.ToString() + " regions");                
             }
@@ -244,7 +243,7 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-                lock (commonQueueRenameLock)
+                //lock (commonQueueRenameLock)
                     foreach (KeyValuePair<string, string> keyValuePair in commonQueueRename)
                         AddTaskToFileTasks(fileTasks, keyValuePair.Key, null, "Wait rename to " + keyValuePair.Value);
             }
