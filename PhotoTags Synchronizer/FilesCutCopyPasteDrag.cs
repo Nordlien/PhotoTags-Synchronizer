@@ -312,8 +312,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-
-
         #region FilesCutCopyPasteDrag - RenameFile
         public void RenameFile(string oldFullFilename, string newFullFilename, ref Dictionary<string, string> renameSuccess, ref Dictionary<string, RenameToNameAndResult> renameFailed)
         {
