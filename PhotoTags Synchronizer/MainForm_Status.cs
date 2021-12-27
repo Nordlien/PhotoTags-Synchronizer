@@ -787,19 +787,21 @@ namespace PhotoTagsSynchronizer
             if (maximum == 0) procentage = -1;
             else procentage = (int)(((double)value / (double)maximum) * 100);
 
-            
-            
             buttonSpecNavigator.Image = GetProgressCircle(procentage, out int imageIndex);
 
             if (buttonSpecNavigator.Tag == null && !(buttonSpecNavigator.Tag is int)) buttonSpecNavigator.Tag = -1;
 
             if ((int)buttonSpecNavigator.Tag != imageIndex)
             {
-                if (!stopwatchCircleProgressbar.IsRunning || stopwatchCircleProgressbar.ElapsedMilliseconds > 200)
+                if (!stopwatchCircleProgressbar.IsRunning || stopwatchCircleProgressbar.ElapsedMilliseconds > 700)
                 {
                     buttonSpecNavigator.Tag = imageIndex;
                     stopwatchCircleProgressbar.Restart();
+                    kryptonPageToolboxTagsDetails.SuspendLayout();
+                    //DataGridViewHandler.SuspendLayoutSetDelay(dataGridViewTagsAndKeywords, true);
                     kryptonWorkspaceCellToolbox.Refresh(); //Hack to get the circle to refresh
+                    //DataGridViewHandler.SuspendLayoutSetDelay(dataGridViewTagsAndKeywords, true);
+                    kryptonPageToolboxTagsDetails.ResumeLayout();
                 }
             }
         }

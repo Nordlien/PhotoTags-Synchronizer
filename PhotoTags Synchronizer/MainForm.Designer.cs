@@ -156,6 +156,11 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuItemGenericRegionRename1 = new Krypton.Toolkit.KryptonContextMenuItem();
             this.kryptonContextMenuItemGenericRegionRename2 = new Krypton.Toolkit.KryptonContextMenuItem();
             this.kryptonContextMenuItemGenericRegionRename3 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemGenericRegionRename4 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemGenericRegionRename5 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemGenericRegionRenameMostUsed = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemGenericRegionRenameMostUsedList = new Krypton.Toolkit.KryptonContextMenuItems();
+            this.kryptonContextMenuItemGenericRegionRenameMostUsedExample = new Krypton.Toolkit.KryptonContextMenuItem();
             this.kryptonContextMenuItemGenericRegionRenameFromNearBy = new Krypton.Toolkit.KryptonContextMenuItem();
             this.kryptonContextMenuItemsGenericRegionRenameFromNearByList = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonContextMenuItemGenericRegionRenameFormNearByExample = new Krypton.Toolkit.KryptonContextMenuItem();
@@ -556,11 +561,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuSeparator1 = new Krypton.Toolkit.KryptonContextMenuSeparator();
             this.kryptonContextMenuItems7 = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonContextMenuSeparator2 = new Krypton.Toolkit.KryptonContextMenuSeparator();
-            this.kryptonContextMenuItemGenericRegionRename4 = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemGenericRegionRename5 = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemGenericRegionRenameMostUsed = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItemGenericRegionRenameMostUsedList = new Krypton.Toolkit.KryptonContextMenuItems();
-            this.kryptonContextMenuItemGenericRegionRenameMostUsedExample = new Krypton.Toolkit.KryptonContextMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.panelMain)).BeginInit();
             this.panelMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceMain)).BeginInit();
@@ -758,6 +758,10 @@ namespace PhotoTagsSynchronizer
             // 
             this.kryptonWorkspaceMain.ActivePage = this.kryptonPageFolderSearchFilterFolder;
             this.kryptonWorkspaceMain.AllowPageDrag = false;
+            this.kryptonWorkspaceMain.CompactFlags = ((Krypton.Workspace.CompactFlags)((((Krypton.Workspace.CompactFlags.RemoveEmptyCells | Krypton.Workspace.CompactFlags.RemoveEmptySequences) 
+            | Krypton.Workspace.CompactFlags.PromoteLeafs) 
+            | Krypton.Workspace.CompactFlags.AtLeastOneVisibleCell)));
+            this.kryptonWorkspaceMain.ContainerBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelClient;
             this.kryptonWorkspaceMain.ContextMenus.ShowContextMenu = false;
             this.kryptonWorkspaceMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonWorkspaceMain.Location = new System.Drawing.Point(0, 0);
@@ -773,6 +777,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceMain.Root.WorkspaceControl = this.kryptonWorkspaceMain;
             this.kryptonWorkspaceMain.SeparatorStyle = Krypton.Toolkit.SeparatorStyle.HighProfile;
             this.kryptonWorkspaceMain.Size = new System.Drawing.Size(1214, 779);
+            this.kryptonWorkspaceMain.SplitterWidth = 5;
             this.kryptonWorkspaceMain.TabIndex = 0;
             this.kryptonWorkspaceMain.TabStop = true;
             // 
@@ -874,6 +879,10 @@ namespace PhotoTagsSynchronizer
             // kryptonWorkspaceSearchFilter
             // 
             this.kryptonWorkspaceSearchFilter.ActivePage = this.kryptonPageSearchFiler;
+            this.kryptonWorkspaceSearchFilter.CompactFlags = ((Krypton.Workspace.CompactFlags)((((Krypton.Workspace.CompactFlags.RemoveEmptyCells | Krypton.Workspace.CompactFlags.RemoveEmptySequences) 
+            | Krypton.Workspace.CompactFlags.PromoteLeafs) 
+            | Krypton.Workspace.CompactFlags.AtLeastOneVisibleCell)));
+            this.kryptonWorkspaceSearchFilter.ContainerBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelClient;
             this.kryptonWorkspaceSearchFilter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonWorkspaceSearchFilter.Location = new System.Drawing.Point(0, 0);
             this.kryptonWorkspaceSearchFilter.Name = "kryptonWorkspaceSearchFilter";
@@ -886,7 +895,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceSearchFilter.Root.Orientation = System.Windows.Forms.Orientation.Vertical;
             this.kryptonWorkspaceSearchFilter.Root.UniqueName = "5007ad6954eb4341a5453ee45ac4505a";
             this.kryptonWorkspaceSearchFilter.Root.WorkspaceControl = this.kryptonWorkspaceSearchFilter;
+            this.kryptonWorkspaceSearchFilter.SeparatorStyle = Krypton.Toolkit.SeparatorStyle.LowProfile;
             this.kryptonWorkspaceSearchFilter.Size = new System.Drawing.Size(399, 632);
+            this.kryptonWorkspaceSearchFilter.SplitterWidth = 5;
             this.kryptonWorkspaceSearchFilter.TabIndex = 43;
             this.kryptonWorkspaceSearchFilter.TabStop = true;
             // 
@@ -1959,6 +1970,10 @@ namespace PhotoTagsSynchronizer
             // kryptonWorkspaceToolboxTags
             // 
             this.kryptonWorkspaceToolboxTags.ActivePage = this.kryptonPageToolboxTagsDetails;
+            this.kryptonWorkspaceToolboxTags.CompactFlags = ((Krypton.Workspace.CompactFlags)((((Krypton.Workspace.CompactFlags.RemoveEmptyCells | Krypton.Workspace.CompactFlags.RemoveEmptySequences) 
+            | Krypton.Workspace.CompactFlags.PromoteLeafs) 
+            | Krypton.Workspace.CompactFlags.AtLeastOneVisibleCell)));
+            this.kryptonWorkspaceToolboxTags.ContainerBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelClient;
             this.kryptonWorkspaceToolboxTags.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonWorkspaceToolboxTags.Location = new System.Drawing.Point(0, 0);
             this.kryptonWorkspaceToolboxTags.Name = "kryptonWorkspaceToolboxTags";
@@ -1974,6 +1989,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceToolboxTags.Root.WorkspaceControl = this.kryptonWorkspaceToolboxTags;
             this.kryptonWorkspaceToolboxTags.SeparatorStyle = Krypton.Toolkit.SeparatorStyle.HighProfile;
             this.kryptonWorkspaceToolboxTags.Size = new System.Drawing.Size(400, 751);
+            this.kryptonWorkspaceToolboxTags.SplitterWidth = 5;
             this.kryptonWorkspaceToolboxTags.TabIndex = 0;
             this.kryptonWorkspaceToolboxTags.TabStop = true;
             // 
@@ -2615,18 +2631,41 @@ namespace PhotoTagsSynchronizer
             // 
             this.kryptonContextMenuItemGenericRegionRename3.Text = "Rename #3";
             // 
-            // kryptonContextMenuItemGenericRegionRenameFromLastUsed
+            // kryptonContextMenuItemGenericRegionRename4
+            // 
+            this.kryptonContextMenuItemGenericRegionRename4.Text = "Rename #4";
+            // 
+            // kryptonContextMenuItemGenericRegionRename5
+            // 
+            this.kryptonContextMenuItemGenericRegionRename5.Text = "Rename #5";
+            // 
+            // kryptonContextMenuItemGenericRegionRenameMostUsed
+            // 
+            this.kryptonContextMenuItemGenericRegionRenameMostUsed.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonContextMenuItemGenericRegionRenameMostUsedList});
+            this.kryptonContextMenuItemGenericRegionRenameMostUsed.Text = "Rename most used";
+            // 
+            // kryptonContextMenuItemGenericRegionRenameMostUsedList
+            // 
+            this.kryptonContextMenuItemGenericRegionRenameMostUsedList.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonContextMenuItemGenericRegionRenameMostUsedExample});
+            // 
+            // kryptonContextMenuItemGenericRegionRenameMostUsedExample
+            // 
+            this.kryptonContextMenuItemGenericRegionRenameMostUsedExample.Text = "Most used example";
+            // 
+            // kryptonContextMenuItemGenericRegionRenameFromNearBy
             // 
             this.kryptonContextMenuItemGenericRegionRenameFromNearBy.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
             this.kryptonContextMenuItemsGenericRegionRenameFromNearByList});
             this.kryptonContextMenuItemGenericRegionRenameFromNearBy.Text = "Rename from near by";
             // 
-            // kryptonContextMenuItemsGenericRegionRenameFromLastUsedList
+            // kryptonContextMenuItemsGenericRegionRenameFromNearByList
             // 
             this.kryptonContextMenuItemsGenericRegionRenameFromNearByList.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
             this.kryptonContextMenuItemGenericRegionRenameFormNearByExample});
             // 
-            // kryptonContextMenuItemGenericRegionRenameFormLastUsedExample
+            // kryptonContextMenuItemGenericRegionRenameFormNearByExample
             // 
             this.kryptonContextMenuItemGenericRegionRenameFormNearByExample.Text = "Last use example";
             // 
@@ -2935,6 +2974,10 @@ namespace PhotoTagsSynchronizer
             // kryptonWorkspaceToolboxMap
             // 
             this.kryptonWorkspaceToolboxMap.ActivePage = this.kryptonPageToolboxMapProperties;
+            this.kryptonWorkspaceToolboxMap.CompactFlags = ((Krypton.Workspace.CompactFlags)((((Krypton.Workspace.CompactFlags.RemoveEmptyCells | Krypton.Workspace.CompactFlags.RemoveEmptySequences) 
+            | Krypton.Workspace.CompactFlags.PromoteLeafs) 
+            | Krypton.Workspace.CompactFlags.AtLeastOneVisibleCell)));
+            this.kryptonWorkspaceToolboxMap.ContainerBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelClient;
             this.kryptonWorkspaceToolboxMap.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonWorkspaceToolboxMap.Location = new System.Drawing.Point(0, 0);
             this.kryptonWorkspaceToolboxMap.Name = "kryptonWorkspaceToolboxMap";
@@ -2951,6 +2994,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceToolboxMap.Root.WorkspaceControl = this.kryptonWorkspaceToolboxMap;
             this.kryptonWorkspaceToolboxMap.SeparatorStyle = Krypton.Toolkit.SeparatorStyle.HighProfile;
             this.kryptonWorkspaceToolboxMap.Size = new System.Drawing.Size(400, 723);
+            this.kryptonWorkspaceToolboxMap.SplitterWidth = 5;
             this.kryptonWorkspaceToolboxMap.TabIndex = 0;
             this.kryptonWorkspaceToolboxMap.TabStop = true;
             // 
@@ -3415,6 +3459,10 @@ namespace PhotoTagsSynchronizer
             // kryptonWorkspaceToolboxRename
             // 
             this.kryptonWorkspaceToolboxRename.ActivePage = this.kryptonPageToolboxRenameVariables;
+            this.kryptonWorkspaceToolboxRename.CompactFlags = ((Krypton.Workspace.CompactFlags)((((Krypton.Workspace.CompactFlags.RemoveEmptyCells | Krypton.Workspace.CompactFlags.RemoveEmptySequences) 
+            | Krypton.Workspace.CompactFlags.PromoteLeafs) 
+            | Krypton.Workspace.CompactFlags.AtLeastOneVisibleCell)));
+            this.kryptonWorkspaceToolboxRename.ContainerBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelClient;
             this.kryptonWorkspaceToolboxRename.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonWorkspaceToolboxRename.Location = new System.Drawing.Point(0, 0);
             this.kryptonWorkspaceToolboxRename.Name = "kryptonWorkspaceToolboxRename";
@@ -3429,6 +3477,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceToolboxRename.Root.WorkspaceControl = this.kryptonWorkspaceToolboxRename;
             this.kryptonWorkspaceToolboxRename.SeparatorStyle = Krypton.Toolkit.SeparatorStyle.HighProfile;
             this.kryptonWorkspaceToolboxRename.Size = new System.Drawing.Size(400, 723);
+            this.kryptonWorkspaceToolboxRename.SplitterWidth = 5;
             this.kryptonWorkspaceToolboxRename.TabIndex = 0;
             this.kryptonWorkspaceToolboxRename.TabStop = true;
             // 
@@ -3921,7 +3970,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonTabSelect,
             this.kryptonRibbonTabTools,
             this.kryptonRibbonTabPreview});
-            this.kryptonRibbonMain.SelectedContext = null;
             this.kryptonRibbonMain.SelectedTab = this.kryptonRibbonTabHome;
             this.kryptonRibbonMain.Size = new System.Drawing.Size(1214, 115);
             this.kryptonRibbonMain.TabIndex = 12;
@@ -6023,29 +6071,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuMonthCalendar5.SelectionEnd = new System.DateTime(2021, 10, 8, 0, 0, 0, 0);
             this.kryptonContextMenuMonthCalendar5.SelectionStart = new System.DateTime(2021, 10, 8, 0, 0, 0, 0);
             this.kryptonContextMenuMonthCalendar5.TodayDate = new System.DateTime(2021, 10, 8, 0, 0, 0, 0);
-            // 
-            // kryptonContextMenuItem10
-            // 
-            this.kryptonContextMenuItemGenericRegionRename4.Text = "Rename #4";
-            // 
-            // kryptonContextMenuItem11
-            // 
-            this.kryptonContextMenuItemGenericRegionRename5.Text = "Rename #5";
-            // 
-            // kryptonContextMenuItem12
-            // 
-            this.kryptonContextMenuItemGenericRegionRenameMostUsed.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
-            this.kryptonContextMenuItemGenericRegionRenameMostUsedList});
-            this.kryptonContextMenuItemGenericRegionRenameMostUsed.Text = "Rename most used";
-            // 
-            // kryptonContextMenuItems8
-            // 
-            this.kryptonContextMenuItemGenericRegionRenameMostUsedList.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
-            this.kryptonContextMenuItemGenericRegionRenameMostUsedExample});
-            // 
-            // kryptonContextMenuItem13
-            // 
-            this.kryptonContextMenuItemGenericRegionRenameMostUsedExample.Text = "Most used example";
             // 
             // MainForm
             // 
