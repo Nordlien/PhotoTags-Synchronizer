@@ -2690,5 +2690,17 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["XtraAtomKeywordsPicture"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("30")]
+        public int ExiftoolMaximumWriteBach {
+            get {
+                return ((int)(this["ExiftoolMaximumWriteBach"]));
+            }
+            set {
+                this["ExiftoolMaximumWriteBach"] = value;
+            }
+        }
     }
 }

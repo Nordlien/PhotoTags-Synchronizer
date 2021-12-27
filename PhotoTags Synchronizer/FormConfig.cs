@@ -61,6 +61,7 @@ namespace PhotoTagsSynchronizer
 
         public bool IsKryptonManagerChanged {get; set;} = false;
 
+        
         #region FormConfig(KryptonManager kryptonManager, Manina.Windows.Forms.ImageListView imageListView)
         public FormConfig(KryptonManager kryptonManager, Manina.Windows.Forms.ImageListView imageListView)
         {
@@ -372,7 +373,6 @@ namespace PhotoTagsSynchronizer
                 Properties.Settings.Default.ApplicationThumbnail = ThumbnailSizes[comboBoxApplicationThumbnailSizes.SelectedIndex];
                 Properties.Settings.Default.ApplicationRegionThumbnail = ThumbnailSizes[comboBoxApplicationRegionThumbnailSizes.SelectedIndex];
                 
-
                 Properties.Settings.Default.ApplicationPreferredLanguages = textBoxApplicationPreferredLanguages.Text;
                 Properties.Settings.Default.MaxRowsInSearchResult = (int)numericUpDownApplicationMaxRowsInSearchResult.Value;
                 Properties.Settings.Default.SuggestRegionNameNearbyDays = (int)numericUpDownPeopleSuggestNearByDaysInterval.Value;
@@ -396,6 +396,7 @@ namespace PhotoTagsSynchronizer
                 Properties.Settings.Default.CacheFolderThumbnails = checkBoxCacheFolderThumbnails.Checked;
                 Properties.Settings.Default.CacheFolderWebScraperDataSets = checkBoxCacheFolderWebScraperDataSets.Checked;
 
+                Properties.Settings.Default.ExiftoolMaximumWriteBach = (int)kryptonNumericUpDownMaximumWriteBachExiftool.Value;
                 //Debug
                 Properties.Settings.Default.ApplicationDebugExiftoolReadShowCliWindow = checkBoxApplicationExiftoolReadShowCliWindow.Checked;
                 Properties.Settings.Default.ApplicationDebugExiftoolWriteShowCliWindow = checkBoxApplicationExiftoolWriteShowCliWindow.Checked;
@@ -588,7 +589,8 @@ namespace PhotoTagsSynchronizer
             checkBoxApplicationAvoidReadMediaFromCloud.Checked = Properties.Settings.Default.AvoidOfflineMediaFiles;
             checkBoxApplicationAvoidReadExifFromCloud.Checked = Properties.Settings.Default.AvoidReadExifFromCloud;
             checkBoxApplicationImageListViewCacheModeOnDemand.Checked = Properties.Settings.Default.ImageViewLoadThumbnailOnDemandMode;
-
+            
+            //Cache
             numericUpDownCacheNumberOfPosters.Value = (int)Properties.Settings.Default.CacheNumberOfPosters;
             checkBoxCacheAllMetadatas.Checked = Properties.Settings.Default.CacheAllMetadatas;
             checkBoxCacheAllThumbnails.Checked = Properties.Settings.Default.CacheAllThumbnails;
@@ -597,6 +599,7 @@ namespace PhotoTagsSynchronizer
             checkBoxCacheFolderThumbnails.Checked = Properties.Settings.Default.CacheFolderThumbnails;
             checkBoxCacheFolderWebScraperDataSets.Checked = Properties.Settings.Default.CacheFolderWebScraperDataSets;
 
+            kryptonNumericUpDownMaximumWriteBachExiftool.Value = Properties.Settings.Default.ExiftoolMaximumWriteBach;
             //Debug
             checkBoxApplicationExiftoolReadShowCliWindow.Checked = Properties.Settings.Default.ApplicationDebugExiftoolReadShowCliWindow;
             checkBoxApplicationExiftoolWriteShowCliWindow.Checked = Properties.Settings.Default.ApplicationDebugExiftoolWriteShowCliWindow;

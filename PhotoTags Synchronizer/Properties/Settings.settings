@@ -1279,5 +1279,8 @@ Dimensions</Value>
     <Setting Name="XtraAtomKeywordsPicture" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="ExiftoolMaximumWriteBach" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">30</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -303,22 +303,6 @@
         CgAAAAAAAAAAjQABAAH4/////P///woAAAAAAAAAAKQAAQAB9/////z///8KAAAAAAAAAACWAAEACw==
 </value>
   </data>
-  <data name="kryptonTextBox1.Text" xml:space="preserve">
-    <value>How to write metadata
-Using exiftool standard commands with inline varaibles, you can configurate how data should be stored in the mediafile.
-
-For every keyword
-For every keyword tags that exist these line(s) will be added.
-
-Categories use semicomma '/' as sepearator. 
-When keywords contains semicommas '/' the keywords will become split and added as seperated keywords
-
-Sames as:
-Windows Xtra Atoms use semicomma ';' as sepearator. 
-When keywords contains semicommas ';' the keywords will become split and added as seperated keywords
-
-</value>
-  </data>
   <metadata name="Column1.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -351,6 +335,22 @@ When keywords contains semicommas ';' the keywords will become split and added a
   </metadata>
   <data name="kryptonTextBoxMetadataReadHelpText.Text" xml:space="preserve">
     <value>When reading metadata tags from media files, the media file can contain multiple tags with same purpose. Sometimes they may have diffrent value. The priority are used to select what tag to use. High number the higher priority.</value>
+  </data>
+  <data name="kryptonTextBox1.Text" xml:space="preserve">
+    <value>How to write metadata
+Using exiftool standard commands with inline varaibles, you can configurate how data should be stored in the mediafile.
+
+For every keyword
+For every keyword tags that exist these line(s) will be added.
+
+Categories use semicomma '/' as sepearator. 
+When keywords contains semicommas '/' the keywords will become split and added as seperated keywords
+
+Sames as:
+Windows Xtra Atoms use semicomma ';' as sepearator. 
+When keywords contains semicommas ';' the keywords will become split and added as seperated keywords
+
+</value>
   </data>
   <data name="fastColoredTextBoxShowLog.ServiceColors" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -395,7 +395,7 @@ When keywords contains semicommas ';' the keywords will become split and added a
     <value>33, 51</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>83</value>
+    <value>53</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
