@@ -1336,7 +1336,7 @@ namespace PhotoTagsSynchronizer
                                 List<string> allowedFileNameDateTimeFormats = FileDateTime.FileDateTimeReader.ConvertStringOfDatesToList(Properties.Settings.Default.RenameDateFormats);
                                 #endregion
 
-                                int writeCount = CommonQueueSaveMetadataUpdatedByUserCountLock();
+                                int writeCount = Math.Min(30, CommonQueueSaveMetadataUpdatedByUserCountLock());
                                 lock (commonQueueSubsetMetadataToSaveLock) commonQueueSubsetMetadataToSave = new List<Metadata>();    //This new values for saving (changes done by user)
                                 List<Metadata> queueSubsetMetadataOrginalBeforeUserEdit = new List<Metadata>(); //Before updated by user, need this to check if any updates
 

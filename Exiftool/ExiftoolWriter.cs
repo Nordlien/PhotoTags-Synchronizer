@@ -220,8 +220,11 @@ namespace Exiftool
                 bool hasExiftoolErrorMessage = false;
                 string exiftoolOutput = "";
 
-                using (var process = new Process
+                using (var process = new Process())
                 {
+                    string line;
+
+                    /*
                     StartInfo = new ProcessStartInfo
                     {
                         FileName = path,
@@ -232,34 +235,56 @@ namespace Exiftool
                         CreateNoWindow = !showCliWindow,
                         WindowStyle = ProcessWindowStyle.Minimized,
                         RedirectStandardInput = true,
-                        StandardOutputEncoding = Encoding.UTF8
-                    }
-                })
-                {
+                        StandardOutputEncoding = Encoding.UTF8,
+
+                    }*/
+                    process.StartInfo.FileName = path;
+                    process.StartInfo.Arguments = arguments;
+                    process.StartInfo.UseShellExecute = false;
+                    process.StartInfo.RedirectStandardOutput = true;
+                    process.StartInfo.RedirectStandardError = true;
+                    process.StartInfo.CreateNoWindow = !showCliWindow;
+                    process.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
+                    process.StartInfo.RedirectStandardInput = true;
+                    process.StartInfo.StandardOutputEncoding = Encoding.UTF8;
+
+                    process.OutputDataReceived += new DataReceivedEventHandler((sender, e) =>
+                    {
+                        // Prepend line numbers to each line of the output.
+                        if (!String.IsNullOrEmpty(e.Data))
+                        {
+                            line = e.Data;
+                            exiftoolOutput += line + "\r\n";
+                            if (line.StartsWith("Error")) hasExiftoolErrorMessage = true;
+                            Logger.Info("EXIFTOOL WRITE OUTPUT: " + line);
+                        }
+                    });
+
+                    process.ErrorDataReceived += new DataReceivedEventHandler((sender, e) =>
+                    {
+                        // Prepend line numbers to each line of the output.
+                        if (!String.IsNullOrEmpty(e.Data))
+                        {                          
+                            line = e.Data;
+                            exiftoolOutput += line + "\r\n";
+                            if (!line.StartsWith("Warning")) hasExiftoolErrorMessage = true;
+                            Logger.Error("EXIFTOOL WRITE ERROR: " + line);
+                        }
+                    });
+
+
                     Logger.Debug("WriteMetadata: process.Start arguments: " + arguments);
                     Logger.Debug("WriteMetadata: process.Start file content:\r\n" + resultReplaceVariables);
                     bool result = process.Start();
-                    process.PriorityClass = processPriorityClass;
-                    
-                    string line;
-
-                    while (!process.StandardError.EndOfStream)
+                    try
                     {
-                        line = process.StandardError.ReadLine();
-                        exiftoolOutput += line + "\r\n";
-                        if (!line.StartsWith("Warning")) hasExiftoolErrorMessage = true;
-                        Logger.Error("EXIFTOOL WRITE ERROR: " + line);
-                    }
+                        process.PriorityClass = processPriorityClass;
+                    } catch { }
+                    // Asynchronously read the standard output of the spawned process.
+                    // This raises OutputDataReceived events for each line of output.
+                    process.BeginOutputReadLine();
 
-                    while (!process.StandardOutput.EndOfStream)
-                    {
-                        line = process.StandardOutput.ReadLine();
-                        exiftoolOutput += line + "\r\n";
-                        if (line.StartsWith("Error")) hasExiftoolErrorMessage = true;
-                        Logger.Info("EXIFTOOL WRITE OUTPUT: " + line);
-                    }
-
-                    process.WaitForExit();
+                    process.WaitForExit(1000 * 60 * 5); //5 minutes
                     if (process.ExitCode != 0)
                     {
                         hasExiftoolErrorMessage = true;
