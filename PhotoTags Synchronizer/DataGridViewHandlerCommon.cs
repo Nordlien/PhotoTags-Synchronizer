@@ -15,14 +15,12 @@ namespace PhotoTagsSynchronizer
     {
         #region Column handling - AddColumnSelectedFiles
         public static void AddColumnSelectedFiles(
-            DataGridView dataGridView, MetadataDatabaseCache databaseAndCacheMetadataExiftool, ThumbnailDatabaseCache databaseAndCacheThumbnail, 
-            HashSet<FileEntry> imageListViewItems, bool useCurrentFileLastWrittenDate,
+            DataGridView dataGridView, ThumbnailDatabaseCache databaseAndCacheThumbnail, HashSet<FileEntry> imageListViewItems, 
             ReadWriteAccess readWriteAccessForColumn, ShowWhatColumns showWhatColumns, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefault)
         {
             foreach (FileEntry imageListViewItem in imageListViewItems)
             {
-                FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(imageListViewItem.FileFullPath, imageListViewItem.LastWriteDateTime,
-                    GlobalData.ListOfAutoCorrectFilesContains(imageListViewItem.FileFullPath) ? FileEntryVersion.AutoCorrect : FileEntryVersion.CurrentVersionInDatabase);                
+                FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(imageListViewItem.FileFullPath, imageListViewItem.LastWriteDateTime, FileEntryVersion.CurrentVersionInDatabase);                
                 Image thumbnail = null;
                 if (databaseAndCacheThumbnail != null) thumbnail = databaseAndCacheThumbnail.ReadThumbnailFromCacheOnly(fileEntryAttribute.FileEntry);                
                 DataGridViewHandler.AddColumnOrUpdateNew(dataGridView, fileEntryAttribute, thumbnail, null, readWriteAccessForColumn, showWhatColumns, dataGridViewGenericCellStatusDefault, out _);

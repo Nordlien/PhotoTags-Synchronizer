@@ -479,61 +479,64 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region FixMetadata - Xtra atom 
-        public static Metadata CompatibilityCheckMetadata(Metadata metadata, bool isXtraAtomUsed)
+        public static Metadata CompatibilityCheckMetadata(Metadata metadata, out bool isUpdated)
         {
+            isUpdated = false;
             if (metadata == null) return null;
             
             Metadata metadataCopy = new Metadata(metadata);
-            if (isXtraAtomUsed)
+            
+            foreach (KeywordTag keywordTag in metadata.PersonalKeywordTags) //Read orginal and change the copy
             {
-                foreach (KeywordTag keywordTag in metadata.PersonalKeywordTags) //Read orginal and change the copy
+                #region Check Metadata.VariablePersonalKeywordsList() - special escape char used as splitter
+                char splitChar = ';';
+                if (!string.IsNullOrWhiteSpace(keywordTag.Keyword) && keywordTag.Keyword.Contains(splitChar.ToString())) 
                 {
-                    #region Check Metadata.VariablePersonalKeywordsList() - special escape char used as splitter
-                    char splitChar = ';';
-                    if (!string.IsNullOrWhiteSpace(keywordTag.Keyword) && keywordTag.Keyword.Contains(splitChar.ToString())) 
+                    isUpdated = true;
+                    string[] keywords = keywordTag.Keyword.Split(splitChar);
+                    foreach (string keyword in keywords)
                     {
-                        string[] keywords = keywordTag.Keyword.Split(splitChar);
-                        foreach (string keyword in keywords)
-                        {
-                            KeywordTag newKeywordTag = new KeywordTag(keyword.Trim(), keywordTag.Confidence);
-                            metadataCopy.PersonalKeywordTagsAddIfNotExists(newKeywordTag);
-                        }
+                        KeywordTag newKeywordTag = new KeywordTag(keyword.Trim(), keywordTag.Confidence);
+                        metadataCopy.PersonalKeywordTagsAddIfNotExists(newKeywordTag);
                     }
-                    #endregion 
-
-                    #region Check
-                    splitChar = ',';
-                    if (!string.IsNullOrWhiteSpace(keywordTag.Keyword) && keywordTag.Keyword.Contains(splitChar.ToString()))
-                    {
-                        string[] keywords = keywordTag.Keyword.Split(splitChar);
-                        foreach (string keyword in keywords)
-                        {
-                            KeywordTag newKeywordTag = new KeywordTag(keyword.Trim(), keywordTag.Confidence);
-                            metadataCopy.PersonalKeywordTagsAddIfNotExists(newKeywordTag);
-                        }
-                    }
-                    #endregion
-
-                    #region Check Metadata.VariableKeywordCategories() - special escape char used as splitter
-                    splitChar = '/';
-                    if (!string.IsNullOrWhiteSpace(keywordTag.Keyword) && keywordTag.Keyword.Contains(splitChar.ToString()))
-                    {
-                        string[] keywords = keywordTag.Keyword.Split(splitChar);
-                        foreach (string keyword in keywords)
-                        {
-                            KeywordTag newKeywordTag = new KeywordTag(keyword.Trim(), keywordTag.Confidence);
-                            metadataCopy.PersonalKeywordTagsAddIfNotExists(newKeywordTag);
-                        }
-                    }
-                    #endregion
                 }
+                #endregion 
+
+                #region Check
+                splitChar = ',';
+                if (!string.IsNullOrWhiteSpace(keywordTag.Keyword) && keywordTag.Keyword.Contains(splitChar.ToString()))
+                {
+                    isUpdated = true;
+                    string[] keywords = keywordTag.Keyword.Split(splitChar);
+                    foreach (string keyword in keywords)
+                    {
+                        KeywordTag newKeywordTag = new KeywordTag(keyword.Trim(), keywordTag.Confidence);
+                        metadataCopy.PersonalKeywordTagsAddIfNotExists(newKeywordTag);
+                    }
+                }
+                #endregion
+
+                #region Check Metadata.VariableKeywordCategories() - special escape char used as splitter
+                splitChar = '/';
+                if (!string.IsNullOrWhiteSpace(keywordTag.Keyword) && keywordTag.Keyword.Contains(splitChar.ToString()))
+                {
+                    isUpdated = true;
+                    string[] keywords = keywordTag.Keyword.Split(splitChar);
+                    foreach (string keyword in keywords)
+                    {
+                        KeywordTag newKeywordTag = new KeywordTag(keyword.Trim(), keywordTag.Confidence);
+                        metadataCopy.PersonalKeywordTagsAddIfNotExists(newKeywordTag);
+                    }
+                }
+                #endregion
             }
+            
             return metadataCopy;
         }
         #endregion
 
         #region FixAndSave
-        public Metadata RunAlgorithm(FileEntry fileEntry, Metadata metadata,
+        public Metadata RunAlgorithm(Metadata metadata,
             MetadataDatabaseCache metadataAndCacheMetadataExiftool,
             MetadataDatabaseCache databaseAndCacheMetadataMicrosoftPhotos,
             MetadataDatabaseCache databaseAndCacheMetadataWindowsLivePhotoGallery,
@@ -547,10 +550,6 @@ namespace PhotoTagsSynchronizer
             string allowedDateFormats
             )
         {
-            Logger.Debug("FixAndSave started:" + fileEntry.FileFullPath);
-
-            FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool);
-            if (metadata == null) metadata = metadataAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftool);
             if (metadata == null)
             {
                 Logger.Warn("FixAndSave ended: metadata is null");
@@ -560,19 +559,19 @@ namespace PhotoTagsSynchronizer
             Metadata metadataCopy = new Metadata(metadata); //Make a copy
 
             #region MicrosoftPhotos
-            FileEntryBroker fileEntryBrokerMicrosoftPhotos = new FileEntryBroker(fileEntry, MetadataBrokerType.MicrosoftPhotos);
+            FileEntryBroker fileEntryBrokerMicrosoftPhotos = new FileEntryBroker(metadataCopy.FileEntry, MetadataBrokerType.MicrosoftPhotos);
             Metadata metadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOrDatabase(fileEntryBrokerMicrosoftPhotos);
             Metadata metadataMicrosoftPhotosCopy = metadataMicrosoftPhotos == null ? null : new Metadata(metadataMicrosoftPhotos);
             #endregion
 
             #region WindowsLivePhotoGallery
-            FileEntryBroker fileEntryBrokerWindowsLivePhotoGallery = new FileEntryBroker(fileEntry, MetadataBrokerType.WindowsLivePhotoGallery);
+            FileEntryBroker fileEntryBrokerWindowsLivePhotoGallery = new FileEntryBroker(metadataCopy.FileEntry, MetadataBrokerType.WindowsLivePhotoGallery);
             Metadata metadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOrDatabase(fileEntryBrokerWindowsLivePhotoGallery);
             Metadata metadataWindowsLivePhotoGalleryCopy = metadataWindowsLivePhotoGallery == null ? null : new Metadata(metadataWindowsLivePhotoGallery);
             #endregion
 
             #region WebScraping
-            FileEntryBroker fileEntryBrokerWebScraping = new FileEntryBroker(fileEntry, MetadataBrokerType.WebScraping);
+            FileEntryBroker fileEntryBrokerWebScraping = new FileEntryBroker(metadataCopy.FileEntry, MetadataBrokerType.WebScraping);
             Metadata metadataWebScraping = metadataAndCacheMetadataExiftool.ReadWebScraperMetadataFromCacheOrDatabase(fileEntryBrokerWebScraping);
             Metadata metadataWebScrapingCopy = metadataWebScraping == null ? null : new Metadata(metadataWebScraping);
             #endregion

@@ -108,33 +108,6 @@ namespace PhotoTagsSynchronizer
         public static bool IsDragAndDropActive { get; set; } = false;
         public static bool IsPopulatingFilter { get; set; } = false;
 
-        private static Dictionary<string, AutoCorrectFormVaraibles> listOfAutoCorrectFiles { get; set; } = new Dictionary<string, AutoCorrectFormVaraibles>();
-        public static readonly object listOfAutoCorrectFilesLock = new object();
-        public static void ListOfAutoCorrectFilesAdd(string fileFullPath, AutoCorrectFormVaraibles autoCorrectFormVaraibles)
-        {
-            lock (listOfAutoCorrectFilesLock)
-                if (!GlobalData.listOfAutoCorrectFiles.ContainsKey(fileFullPath)) GlobalData.listOfAutoCorrectFiles.Add(fileFullPath, autoCorrectFormVaraibles);
-                else GlobalData.listOfAutoCorrectFiles[fileFullPath] = autoCorrectFormVaraibles;
-        }
-
-        public static bool ListOfAutoCorrectFilesContains(string fileFullPath)
-        {
-            lock(listOfAutoCorrectFilesLock)
-                return GlobalData.listOfAutoCorrectFiles.ContainsKey(fileFullPath);
-        }
-
-        public static AutoCorrectFormVaraibles GetAutoCorrectVariablesForFile(string fileFullPath)
-        {
-            lock (listOfAutoCorrectFilesLock)
-                return (GlobalData.listOfAutoCorrectFiles.ContainsKey(fileFullPath) ? GlobalData.listOfAutoCorrectFiles[fileFullPath] : null);
-        }
-
-        public static void ListOfAutoCorrectFilesClear()
-        {
-            lock (listOfAutoCorrectFilesLock)
-                GlobalData.listOfAutoCorrectFiles.Clear();
-        }
-
         public static void SetDataNotAgreegatedOnGridViewForAnyTabs()
         {
             IsAgregatedTags = false;            
@@ -146,7 +119,6 @@ namespace PhotoTagsSynchronizer
             IsAgregatedProperties = false;
             IsAgregatedRename = false;
             IsAgregatedConvertAndMerge = false;
-            ListOfAutoCorrectFilesClear();
         }        
 
         //Data stored in DataGridView

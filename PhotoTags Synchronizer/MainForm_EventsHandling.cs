@@ -4268,20 +4268,16 @@ namespace PhotoTagsSynchronizer
                 }
                 using (new WaitCursor())
                 {
-                    GlobalData.ListOfAutoCorrectFilesClear();
+                    AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
+                    float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
+                    float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
+                    int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
 
                     foreach (int updatedRecord in listOfUpdates)
                     {
                         if (useAutoCorrect)
                         {
-                            AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
-                            float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
-                            float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
-                            int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
-
-                            Metadata metadataToSave = autoCorrect.RunAlgorithm(
-                                metadataListFromDataGridView[updatedRecord].FileEntry,
-                                metadataListFromDataGridView[updatedRecord],
+                            Metadata metadataToSave = autoCorrect.RunAlgorithm(metadataListFromDataGridView[updatedRecord],
                                 databaseAndCacheMetadataExiftool,
                                 databaseAndCacheMetadataMicrosoftPhotos,
                                 databaseAndCacheMetadataWindowsLivePhotoGallery,
@@ -4294,20 +4290,17 @@ namespace PhotoTagsSynchronizer
                             if (metadataToSave != null)
                             {
                                 //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue, 4. Clear dirty flags
-                                metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, Properties.Settings.Default.XtraAtomWriteOnFile);
+                                metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, out bool isUpdated);
                                 UpdatedMetadataForAllDataGridView(metadataToSave);
-                                ClearDataGridDirtyFlag();
                                 AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, metadataListOriginalExiftool[updatedRecord]);
                             }
-
                         }
                         else
                         {
                             //Add only metadata to save queue that that has changed by users
                             //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue, 4. Clear dirty flags
-                            Metadata metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataListFromDataGridView[updatedRecord], Properties.Settings.Default.XtraAtomWriteOnFile);
-                            UpdatedMetadataForAllDataGridView(metadataToSave);
-                            ClearDataGridDirtyFlag();
+                            Metadata metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataListFromDataGridView[updatedRecord], out bool isUpdated);
+                            if (isUpdated) UpdatedMetadataForAllDataGridView(metadataToSave);
                             AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, metadataListOriginalExiftool[updatedRecord]);
                         }
                     }
@@ -6552,25 +6545,31 @@ namespace PhotoTagsSynchronizer
                     foreach (FileEntry fileEntry in files)  
                     {
                         FormSplash.UpdateStatus("Create AutoCorrect file..." + fileEntry.FileName);
-                        Metadata metadataToSave = autoCorrect.RunAlgorithm(
-                            fileEntry,
-                            null,
-                            databaseAndCacheMetadataExiftool,
-                            databaseAndCacheMetadataMicrosoftPhotos,
-                            databaseAndCacheMetadataWindowsLivePhotoGallery,
-                            databaseAndCahceCameraOwner,
-                            databaseLocationAddress,
-                            databaseGoogleLocationHistory,
-                            locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
-                            autoKeywordConvertions,
-                            Properties.Settings.Default.RenameDateFormats);
 
-                        if (metadataToSave != null) metadataListFromDataGridViewAutoCorrect.Add(new Metadata(metadataToSave));
-                        else
+                        FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool);
+                        Metadata metadataInCache = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftool);
+                        if (metadataInCache != null)
                         {
-                            Logger.Warn("Metadata was not loaded for file, check if file is only in cloud:" + fileEntry.FileFullPath);
+                            Metadata metadata = new Metadata(metadataInCache);
+
+                            Metadata metadataToSave = autoCorrect.RunAlgorithm(metadata,
+                                databaseAndCacheMetadataExiftool,
+                                databaseAndCacheMetadataMicrosoftPhotos,
+                                databaseAndCacheMetadataWindowsLivePhotoGallery,
+                                databaseAndCahceCameraOwner,
+                                databaseLocationAddress,
+                                databaseGoogleLocationHistory,
+                                locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
+                                autoKeywordConvertions,
+                                Properties.Settings.Default.RenameDateFormats);
+
+                            if (metadataToSave != null) metadataListFromDataGridViewAutoCorrect.Add(new Metadata(metadataToSave));
+                            else
+                            {
+                                Logger.Warn("Metadata was not loaded for file, check if file is only in cloud:" + fileEntry.FileFullPath);
+                            }
+                            metadataListEmpty.Add(new Metadata(MetadataBrokerType.Empty));
                         }
-                        metadataListEmpty.Add(new Metadata(MetadataBrokerType.Empty));
                     }
 
 
@@ -6695,9 +6694,13 @@ namespace PhotoTagsSynchronizer
 
                     foreach (ImageListViewItem item in imageListView1.SelectedItems)
                     {
-                        Metadata metadataToSave = autoCorrect.RunAlgorithm(
-                            new FileEntry(item.FileFullPath, item.DateModified),
-                            null,
+                        FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(item.FileFullPath, item.DateModified, MetadataBrokerType.ExifTool);
+                        Metadata metadataInCache = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftool);
+                        if (metadataInCache != null)
+                        {
+                            Metadata metadata = new Metadata(metadataInCache);
+
+                            Metadata metadataToSave = autoCorrect.RunAlgorithm(metadata,
                             databaseAndCacheMetadataExiftool,
                             databaseAndCacheMetadataMicrosoftPhotos,
                             databaseAndCacheMetadataWindowsLivePhotoGallery,
@@ -6707,14 +6710,14 @@ namespace PhotoTagsSynchronizer
                             locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
                             autoKeywordConvertions,
                             Properties.Settings.Default.RenameDateFormats);
-                        if (metadataToSave != null)
-                        {
-                            //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue, 4. Clear dirty flags
-                            metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, Properties.Settings.Default.XtraAtomWriteOnFile);
-                            UpdatedMetadataForAllDataGridView(metadataToSave);
-                            ClearDataGridDirtyFlag();
-                            AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
-                            AddQueueRenameLock(item.FileFullPath, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
+                            if (metadataToSave != null)
+                            {
+                                //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue, 4. Clear dirty flags
+                                metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, out bool isUpdated);
+                                UpdatedMetadataForAllDataGridView(metadataToSave);
+                                AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
+                                AddQueueRenameLock(item.FileFullPath, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
+                            }
                         }
                     }
                 }
@@ -6750,9 +6753,13 @@ namespace PhotoTagsSynchronizer
                     string[] files = Directory.GetFiles(selectedFolder, "*.*");
                     foreach (string file in files)
                     {
-                        Metadata metadataToSave = autoCorrect.RunAlgorithm(
-                            new FileEntry(file, File.GetLastWriteTime(file)),
-                            null,
+                        FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(file, File.GetLastWriteTime(file), MetadataBrokerType.ExifTool);
+                        Metadata metadataInCache = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftool);
+                        if (metadataInCache != null)
+                        {
+                            Metadata metadata = new Metadata(metadataInCache);
+
+                            Metadata metadataToSave = autoCorrect.RunAlgorithm(metadata,
                             databaseAndCacheMetadataExiftool,
                             databaseAndCacheMetadataMicrosoftPhotos,
                             databaseAndCacheMetadataWindowsLivePhotoGallery,
@@ -6761,14 +6768,14 @@ namespace PhotoTagsSynchronizer
                             databaseGoogleLocationHistory, locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
                             autoKeywordConvertions,
                             Properties.Settings.Default.RenameDateFormats);
-                        if (metadataToSave != null)
-                        {
-                            //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue, 4. Clear dirty flags
-                            metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, Properties.Settings.Default.XtraAtomWriteOnFile);
-                            UpdatedMetadataForAllDataGridView(metadataToSave);
-                            ClearDataGridDirtyFlag();
-                            AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
-                            AddQueueRenameLock(file, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
+                            if (metadataToSave != null)
+                            {
+                                //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue, 4. Clear dirty flags
+                                metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, out bool isUpdated);
+                                UpdatedMetadataForAllDataGridView(metadataToSave);
+                                AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
+                                AddQueueRenameLock(file, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
+                            }
                         }
                     }
                 }
@@ -6801,18 +6808,39 @@ namespace PhotoTagsSynchronizer
             {
                 using (new WaitCursor())
                 {
+                    AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
+                    float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
+                    float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
+                    int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
+
                     List<FileEntryAttribute> fileEntryAttributes = new List<FileEntryAttribute>();
 
                     foreach (int columIndex in DataGridViewHandler.GetColumnSelected(dataGridView))
                     {
                         DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columIndex);
+                        
                         if (dataGridViewGenericColumn != null && dataGridViewGenericColumn.Metadata != null)
                         {
-                            GlobalData.ListOfAutoCorrectFilesAdd(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath, null);
-                            fileEntryAttributes.Add(new FileEntryAttribute(
-                                dataGridViewGenericColumn.Metadata.FileEntry.FileFullPath,
-                                dataGridViewGenericColumn.Metadata.FileEntry.LastWriteDateTime,
-                                FileEntryVersion.AutoCorrect));
+                            FileEntryAttribute fileEntryAttribute = dataGridViewGenericColumn.FileEntryAttribute;
+                            Metadata metadataFromDataGridView = dataGridViewGenericColumn.Metadata;
+                            CollectedMetadataFromAllDataGridView(fileEntryAttribute, ref metadataFromDataGridView);
+
+                            Metadata metadataToSave = autoCorrect.RunAlgorithm(metadataFromDataGridView,
+                                databaseAndCacheMetadataExiftool,
+                                databaseAndCacheMetadataMicrosoftPhotos,
+                                databaseAndCacheMetadataWindowsLivePhotoGallery,
+                                databaseAndCahceCameraOwner,
+                                databaseLocationAddress,
+                                databaseGoogleLocationHistory,
+                                locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
+                                autoKeywordConvertions,
+                                Properties.Settings.Default.RenameDateFormats);
+                            if (metadataToSave != null)
+                            {
+                                //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata,  4. Clear dirty flags
+                                metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, out bool isUpdated);
+                                UpdatedMetadataForAllDataGridView(metadataToSave);
+                            }
                         }
                     }
                     AddQueueLazyLoadningDataGridViewMetadataLock(fileEntryAttributes);
@@ -6921,29 +6949,35 @@ namespace PhotoTagsSynchronizer
 
                         foreach (ImageListViewItem item in imageListView1.SelectedItems)
                         {
-                            Metadata metadataToSave = autoCorrect.RunAlgorithm(
-                                new FileEntry(item.FileFullPath, item.DateModified),
-                                null,
-                                databaseAndCacheMetadataExiftool,
-                                databaseAndCacheMetadataMicrosoftPhotos,
-                                databaseAndCacheMetadataWindowsLivePhotoGallery,
-                                databaseAndCahceCameraOwner,
-                                databaseLocationAddress,
-                                databaseGoogleLocationHistory,
-                                locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
-                                autoKeywordConvertions,
-                                Properties.Settings.Default.RenameDateFormats);
-
-                            if (metadataToSave != null)
+                            FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(item.FileFullPath, item.DateModified, MetadataBrokerType.ExifTool);
+                            Metadata metadataInCache = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftool);
+                            if (metadataInCache != null)
                             {
-                                AutoCorrectFormVaraibles.UseAutoCorrectFormData(ref metadataToSave, autoCorrectFormVaraibles);
+                                Metadata metadata = new Metadata(metadataInCache);
+                                
+                                AutoCorrectFormVaraibles.UseAutoCorrectFormData(ref metadata, autoCorrectFormVaraibles);
 
-                                //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue, 4. Clear dirty flags
-                                metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, Properties.Settings.Default.XtraAtomWriteOnFile);
-                                UpdatedMetadataForAllDataGridView(metadataToSave);
-                                ClearDataGridDirtyFlag();
-                                AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
-                                AddQueueRenameLock(item.FileFullPath, autoCorrect.RenameVariable);
+                                Metadata metadataToSave = autoCorrect.RunAlgorithm(metadata,
+                                    databaseAndCacheMetadataExiftool,
+                                    databaseAndCacheMetadataMicrosoftPhotos,
+                                    databaseAndCacheMetadataWindowsLivePhotoGallery,
+                                    databaseAndCahceCameraOwner,
+                                    databaseLocationAddress,
+                                    databaseGoogleLocationHistory,
+                                    locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
+                                    autoKeywordConvertions,
+                                    Properties.Settings.Default.RenameDateFormats);
+
+                                if (metadataToSave != null)
+                                {
+
+
+                                    //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue, 4. Clear dirty flags
+                                    metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, out bool isUpdated);
+                                    UpdatedMetadataForAllDataGridView(metadataToSave);
+                                    AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
+                                    AddQueueRenameLock(item.FileFullPath, autoCorrect.RenameVariable);
+                                }
                             }
                         }
                     }
@@ -6986,9 +7020,13 @@ namespace PhotoTagsSynchronizer
                         string[] files = Directory.GetFiles(selectedFolder, "*.*");
                         foreach (string file in files)
                         {
-                            Metadata metadataToSave = autoCorrect.RunAlgorithm(
-                                new FileEntry(file, File.GetLastWriteTime(file)),
-                                null,
+                            FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(file, File.GetLastWriteTime(file), MetadataBrokerType.ExifTool);
+                            Metadata metadataInCache = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftool);
+                            if (metadataInCache != null)
+                            {
+                                Metadata metadata = new Metadata(metadataInCache);
+
+                                Metadata metadataToSave = autoCorrect.RunAlgorithm(metadata,
                                 databaseAndCacheMetadataExiftool,
                                 databaseAndCacheMetadataMicrosoftPhotos,
                                 databaseAndCacheMetadataWindowsLivePhotoGallery,
@@ -6999,16 +7037,16 @@ namespace PhotoTagsSynchronizer
                                 autoKeywordConvertions,
                                 Properties.Settings.Default.RenameDateFormats);
 
-                            if (metadataToSave != null)
-                            {
-                                AutoCorrectFormVaraibles.UseAutoCorrectFormData(ref metadataToSave, autoCorrectFormVaraibles);
+                                if (metadataToSave != null)
+                                {
+                                    AutoCorrectFormVaraibles.UseAutoCorrectFormData(ref metadataToSave, autoCorrectFormVaraibles);
 
-                                //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue, 4. Clear dirty flags
-                                metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, Properties.Settings.Default.XtraAtomWriteOnFile);
-                                UpdatedMetadataForAllDataGridView(metadataToSave);
-                                ClearDataGridDirtyFlag();
-                                AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
-                                AddQueueRenameLock(file, autoCorrect.RenameVariable);
+                                    //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue, 4. Clear dirty flags
+                                    metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, out bool isUpdated);
+                                    UpdatedMetadataForAllDataGridView(metadataToSave);
+                                    AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
+                                    AddQueueRenameLock(file, autoCorrect.RenameVariable);
+                                }
                             }
                         }
                     }
@@ -7045,7 +7083,7 @@ namespace PhotoTagsSynchronizer
                 if (formAutoCorrect.ShowDialog() == DialogResult.OK)
                 {
                     using (new WaitCursor())
-                    {
+                    {   
                         AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
                         float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
                         float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
@@ -7055,17 +7093,37 @@ namespace PhotoTagsSynchronizer
                         autoCorrectFormVaraibles.WriteAlbumOnDescription = autoCorrect.UpdateDescription;
 
                         List<FileEntryAttribute> fileEntryAttributes = new List<FileEntryAttribute>();
+
                         foreach (int columIndex in DataGridViewHandler.GetColumnSelected(dataGridView))
                         {
-
+                            
                             DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columIndex);
+
                             if (dataGridViewGenericColumn != null && dataGridViewGenericColumn.Metadata != null)
                             {
-                                GlobalData.ListOfAutoCorrectFilesAdd(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath, autoCorrectFormVaraibles);
-                                fileEntryAttributes.Add(new FileEntryAttribute(
-                                    dataGridViewGenericColumn.Metadata.FileEntry.FileFullPath,
-                                    dataGridViewGenericColumn.Metadata.FileEntry.LastWriteDateTime,
-                                    FileEntryVersion.AutoCorrect));
+                                FileEntryAttribute fileEntryAttribute = dataGridViewGenericColumn.FileEntryAttribute;
+                                Metadata metadataFromDataGridView = new Metadata(dataGridViewGenericColumn.Metadata);
+                                
+                                CollectedMetadataFromAllDataGridView(fileEntryAttribute, ref metadataFromDataGridView);
+                                AutoCorrectFormVaraibles.UseAutoCorrectFormData(ref metadataFromDataGridView, autoCorrectFormVaraibles);
+                                
+                                Metadata metadataToSave = autoCorrect.RunAlgorithm(metadataFromDataGridView,
+                                    databaseAndCacheMetadataExiftool,
+                                    databaseAndCacheMetadataMicrosoftPhotos,
+                                    databaseAndCacheMetadataWindowsLivePhotoGallery,
+                                    databaseAndCahceCameraOwner,
+                                    databaseLocationAddress,
+                                    databaseGoogleLocationHistory,
+                                    locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
+                                    autoKeywordConvertions,
+                                    Properties.Settings.Default.RenameDateFormats);
+
+                                if (metadataToSave != null)
+                                {
+                                    //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata,  4. Clear dirty flags
+                                    metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, out bool isUpdated);
+                                    UpdatedMetadataForAllDataGridView(metadataToSave);
+                                }
                             }
                         }
                         AddQueueLazyLoadningDataGridViewMetadataLock(fileEntryAttributes);

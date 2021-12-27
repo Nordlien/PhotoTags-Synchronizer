@@ -280,6 +280,19 @@ namespace PhotoTagsSynchronizer
 
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerKeywords), false);
 
+                //if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect)
+                //{
+                //    //DataGridViewGenericCellStatus dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Undefine, true);
+                    
+                //    //int keywordsStarts = DataGridViewHandler.GetRowHeaderItemStarts(dataGridView, headerKeywords);
+                //    //int keywordsEnds = DataGridViewHandler.GetRowHeaderItemsEnds(dataGridView, headerKeywords);
+                //    //for (int rowIndexToClean = keywordsStarts; rowIndexToClean <= keywordsEnds; rowIndexToClean++)
+                //    //{
+                //    //    DataGridViewHandler.SetCellReadOnlyDependingOfStatus(dataGridView, columnIndex, rowIndexToClean, dataGridViewGenericCellStatus);
+                //    //    DataGridViewHandler.SetCellStatus(dataGridView, columnIndex, rowIndexToClean, dataGridViewGenericCellStatus, false);
+                //    //}
+                //}
+
                 if (metadataExiftool != null) PopulateKeywords(dataGridView, metadataExiftool, columnIndex, metadataExiftool.Broker, fileEntryAttribute);
                 if (metadataMicrosoftPhotos != null) PopulateKeywords(dataGridView, metadataMicrosoftPhotos, columnIndex, metadataMicrosoftPhotos.Broker, fileEntryAttribute);
                 if (metadataWindowsLivePhotoGallery != null) PopulateKeywords(dataGridView, metadataWindowsLivePhotoGallery, columnIndex, metadataWindowsLivePhotoGallery.Broker, fileEntryAttribute);
@@ -308,7 +321,7 @@ namespace PhotoTagsSynchronizer
             //Clear current DataGridView
             DataGridViewHandler.Clear(dataGridView, dataGridViewSize);
             //Add Columns for all selected files, one column per select file
-            DataGridViewHandlerCommon.AddColumnSelectedFiles(dataGridView, DatabaseAndCacheMetadataExiftool, DatabaseAndCacheThumbnail, imageListViewSelectItems, false, ReadWriteAccess.ForceCellToReadOnly, showWhatColumns, 
+            DataGridViewHandlerCommon.AddColumnSelectedFiles(dataGridView, DatabaseAndCacheThumbnail, imageListViewSelectItems, ReadWriteAccess.ForceCellToReadOnly, showWhatColumns, 
                 new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true)); //ReadOnly until data is read         
             //Add all default rows
             //AddRowsDefault(dataGridView);

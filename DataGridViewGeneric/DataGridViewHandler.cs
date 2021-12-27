@@ -1034,6 +1034,17 @@ namespace DataGridViewGeneric
         }
         #endregion
 
+        #region Column handling - SetColumnHeaderMetadata
+        public static void SetColumnHeaderMetadata(DataGridView dataGridView, Metadata newMetadata, int columnIndex)
+        {
+            DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+            if (dataGridViewGenericColumn != null && dataGridViewGenericColumn.IsPopulated && dataGridViewGenericColumn.FileEntryAttribute.FileEntry == newMetadata.FileEntry)
+            {
+                dataGridViewGenericColumn.Metadata = new Metadata(newMetadata);
+            }
+        }
+        #endregion 
+
         #region Column handling - GetColumnCount
         public static int GetColumnCount(DataGridView dataGridView)
         {

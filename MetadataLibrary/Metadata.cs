@@ -761,6 +761,10 @@ namespace MetadataLibrary
             else
             {
                 if (!personalTagList.Contains(keywordTag)) personalTagList.Add(keywordTag);
+                if (keywordTag.Keyword != keywordTag.Keyword.Trim())
+                {
+                    //DEBUG
+                }
             }
         }
 

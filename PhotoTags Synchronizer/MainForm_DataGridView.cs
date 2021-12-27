@@ -227,42 +227,12 @@ namespace PhotoTagsSynchronizer
 
                     #region AutoCorrect
                     Metadata metadataAutoCorrect = null;
-                    if (isFilSelectedInImageListView && (fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect || GlobalData.ListOfAutoCorrectFilesContains(fileEntryAttribute.FileFullPath)))
+                    if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect)
                     {
-                        Metadata metadataInCache = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryAttribute.GetFileEntryBroker(MetadataBrokerType.ExifTool));
-                        Metadata metadataUpdatedFromGrid = (metadataInCache == null ? null : new Metadata(metadataInCache));
-
-                        if (metadataUpdatedFromGrid != null)
-                        {
-                            AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
-                            float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
-                            float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
-                            int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
-
-                            CollectedMetadataFromAllDataGridView(fileEntryAttribute, ref metadataUpdatedFromGrid);
-
-                            metadataAutoCorrect = autoCorrect.RunAlgorithm(
-                                fileEntryAttribute.FileEntry,
-                                metadataUpdatedFromGrid,
-                                databaseAndCacheMetadataExiftool,
-                                databaseAndCacheMetadataMicrosoftPhotos,
-                                databaseAndCacheMetadataWindowsLivePhotoGallery,
-                                databaseAndCahceCameraOwner,
-                                databaseLocationAddress,
-                                databaseGoogleLocationHistory,
-                                locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
-                                autoKeywordConvertions,
-                                Properties.Settings.Default.RenameDateFormats);
-                            AutoCorrectFormVaraibles autoCorrectFormVaraibles = GlobalData.GetAutoCorrectVariablesForFile(fileEntryAttribute.FileFullPath);
-                            AutoCorrectFormVaraibles.UseAutoCorrectFormData(ref metadataAutoCorrect, autoCorrectFormVaraibles);
-
-                            metadataAutoCorrect = AutoCorrect.CompatibilityCheckMetadata(metadataAutoCorrect, Properties.Settings.Default.XtraAtomWriteOnFile);
-                            //if (DataGridViewHandlerTagsAndKeywords.HasBeenInitialized) DataGridViewHandlerTagsAndKeywords.PopulateFile(dataGridViewTagsAndKeywords, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
-                            //if (DataGridViewHandlerPeople.HasBeenInitialized) DataGridViewHandlerPeople.PopulateFile(dataGridViewPeople, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
-                            //if (DataGridViewHandlerMap.HasBeenInitialized) DataGridViewHandlerMap.PopulateFile(dataGridViewMap, dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
-                            //if (DataGridViewHandlerDate.HasBeenInitialized) DataGridViewHandlerDate.PopulateFile(dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
-                            //if (DataGridViewHandlerRename.HasBeenInitialized) DataGridViewHandler.SetColumnDirtyFlag(dataGridView, columnIndex, IsDataGridViewColumnDirty(dataGridView, columnIndex));
-                        }
+                        int columnIndexAutoCorrect = DataGridViewHandler.GetColumnIndexWhenAddColumn(dataGridView, fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionCompare);
+                        DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndexAutoCorrect);
+                        if (dataGridViewGenericColumn != null && dataGridViewGenericColumn.Metadata != null)
+                            metadataAutoCorrect = dataGridViewGenericColumn.Metadata;
                     }
                     #endregion
 
@@ -697,43 +667,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region DataGridView - ClearDataGridDirtyFlag
-        private void ClearDataGridDirtyFlag()
-        {
-            try
-            {
-                DataGridView dataGridView = GetActiveTabDataGridView();
-                for (int columnIndex = 0; columnIndex < DataGridViewHandler.GetColumnCount(dataGridView); columnIndex++) 
-                {
-                    DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-                    if (dataGridViewGenericColumn != null && FileEntryVersionHandler.IsCurrenOrUpdatedVersion(dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion))
-                    {
-                        FileEntryAttribute fileEntryAttribute = dataGridViewGenericColumn.FileEntryAttribute;
-                        dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion = FileEntryVersion.AutoCorrect;
-                        Metadata metadata = dataGridViewGenericColumn.Metadata;
-
-                        if (DataGridViewHandlerTagsAndKeywords.HasBeenInitialized) DataGridViewHandlerTagsAndKeywords.PopulateFile(dataGridViewTagsAndKeywords, fileEntryAttribute, showWhatColumns, metadata, true);
-                        if (DataGridViewHandlerPeople.HasBeenInitialized) DataGridViewHandlerPeople.PopulateFile(dataGridViewPeople, fileEntryAttribute, showWhatColumns, metadata, true);
-                        if (DataGridViewHandlerMap.HasBeenInitialized) DataGridViewHandlerMap.PopulateFile(dataGridViewMap, dataGridViewDate, fileEntryAttribute, showWhatColumns, metadata, true);
-                        if (DataGridViewHandlerDate.HasBeenInitialized) DataGridViewHandlerDate.PopulateFile(dataGridViewDate, fileEntryAttribute, showWhatColumns, metadata, true);
-                        if (DataGridViewHandlerRename.HasBeenInitialized) DataGridViewHandlerRename.PopulateFile(dataGridViewRename, fileEntryAttribute, DataGridViewHandlerRename.ShowFullPath);
-
-                        if (GlobalData.IsAgregatedTags) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewTagsAndKeywords, columnIndex, false);
-                        if (GlobalData.IsAgregatedMap) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewMap, columnIndex, false);
-                        if (GlobalData.IsAgregatedPeople) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewPeople, columnIndex, false);
-                        if (GlobalData.IsAgregatedDate) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewDate, columnIndex, false);
-                    }
-                }
-
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-            }
-        }
-        #endregion
-
         #region DataGridView - IsDataGridViewColumnDirty
         private bool IsDataGridViewColumnDirty(DataGridView dataGridView, int columnIndex, out string differences)
         {
@@ -766,6 +699,7 @@ namespace PhotoTagsSynchronizer
                 {
                     return false;
                 }
+            
 
                 //Find what columns are updated / changed by user
                 List<int> listOfUpdates = ExiftoolWriter.GetListOfMetadataChangedByUser(metadataListOriginalExiftool, metadataListFromDataGridView);
@@ -862,37 +796,25 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region DataGridView - UpdatedMetadataOnColumn
-        private void DataGridViewUpdatedMetadataOnColumn(DataGridView dataGridView, Metadata newMetadata)
-        {
-            try
-            {
-                List<DataGridViewGenericColumn> dataGridViewGenericColumnList = DataGridViewHandler.GetColumnsDataGridViewGenericColumnCurrentOrAutoCorrect(dataGridView, true);
-                foreach (DataGridViewGenericColumn dataGridViewGenericColumn in dataGridViewGenericColumnList)
-                {
-                    if (dataGridViewGenericColumn.IsPopulated && dataGridViewGenericColumn.FileEntryAttribute.FileEntry == newMetadata.FileEntry)
-                    {
-                        dataGridViewGenericColumn.Metadata = new Metadata(newMetadata);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-            }
-        }
-        #endregion 
-
         #region DataGridView - CollectMetadataFromAllDataGridViewData - FileEntry
         private void UpdatedMetadataForAllDataGridView(Metadata metadataFixedAndCorrected)
         {
             try
             {
-                DataGridViewUpdatedMetadataOnColumn(dataGridViewTagsAndKeywords, metadataFixedAndCorrected);
-                DataGridViewUpdatedMetadataOnColumn(dataGridViewPeople, metadataFixedAndCorrected);
-                DataGridViewUpdatedMetadataOnColumn(dataGridViewMap, metadataFixedAndCorrected);
-                DataGridViewUpdatedMetadataOnColumn(dataGridViewDate, metadataFixedAndCorrected);
+                FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(metadataFixedAndCorrected.FileEntry, FileEntryVersion.AutoCorrect);
+                
+                int columnIndex = DataGridViewHandler.GetColumnIndexUserInput(dataGridViewTagsAndKeywords, fileEntryAttribute);
+
+                if (DataGridViewHandler.IsColumnPopulated(dataGridViewTagsAndKeywords, columnIndex))
+                    DataGridViewHandler.SetColumnHeaderMetadata(dataGridViewTagsAndKeywords, metadataFixedAndCorrected, columnIndex);
+                if (DataGridViewHandler.IsColumnPopulated(dataGridViewPeople, columnIndex))
+                    DataGridViewHandler.SetColumnHeaderMetadata(dataGridViewPeople, metadataFixedAndCorrected, columnIndex);
+                if (DataGridViewHandler.IsColumnPopulated(dataGridViewMap, columnIndex))
+                    DataGridViewHandler.SetColumnHeaderMetadata(dataGridViewMap, metadataFixedAndCorrected, columnIndex);
+                if (DataGridViewHandler.IsColumnPopulated(dataGridViewDate, columnIndex))
+                    DataGridViewHandler.SetColumnHeaderMetadata(dataGridViewDate, metadataFixedAndCorrected, columnIndex);
+
+                DataGridView_ImageListView_Populate_FileEntryAttributeInvoke(fileEntryAttribute);
             }
             catch (Exception ex)
             {
