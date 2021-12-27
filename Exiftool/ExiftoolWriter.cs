@@ -223,21 +223,6 @@ namespace Exiftool
                 using (var process = new Process())
                 {
                     string line;
-
-                    /*
-                    StartInfo = new ProcessStartInfo
-                    {
-                        FileName = path,
-                        Arguments = arguments,
-                        UseShellExecute = false,
-                        RedirectStandardOutput = true,
-                        RedirectStandardError = true,
-                        CreateNoWindow = !showCliWindow,
-                        WindowStyle = ProcessWindowStyle.Minimized,
-                        RedirectStandardInput = true,
-                        StandardOutputEncoding = Encoding.UTF8,
-
-                    }*/
                     process.StartInfo.FileName = path;
                     process.StartInfo.Arguments = arguments;
                     process.StartInfo.UseShellExecute = false;
