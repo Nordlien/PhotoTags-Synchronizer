@@ -845,44 +845,16 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region AddCellValueToKryptonComboBox
-        private void AppendCellValueToKryptonComboBox(DataGridView dataGridView, KryptonComboBox kryptonComboBox, int columnIndex, string sourceHeader, string rowTag)
+        private void AppendCellValueToKryptonComboBox(KryptonComboBox kryptonComboBox, object value)
         {
-            try
-            {
-                int rowIndex;
-                object value;
-                rowIndex = DataGridViewHandler.GetRowIndex(dataGridView, sourceHeader, rowTag);
-                if (rowIndex > -1)
-                {
-                    value = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, rowIndex);
-                    ComboBoxHandler.ComboBoxPopulateAppend(kryptonComboBox, (string)value);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-            }
+            if (value is string) ComboBoxHandler.ComboBoxPopulateAppend(kryptonComboBox, (string)value);            
         }
         #endregion
 
         #region AddCellValueToAutoCompleteStringCollection
-        private void AppendCellValueToAutoCompleteStringCollection(DataGridView dataGridView, AutoCompleteStringCollection autoCompleteStringCollection, int columnIndex, string sourceHeader, string rowTag)
+        private void AppendCellValueToAutoCompleteStringCollection(AutoCompleteStringCollection autoCompleteStringCollection, object value)
         {
-            try
-            {
-                int rowIndex;
-                object value;
-                rowIndex = DataGridViewHandler.GetRowIndex(dataGridView, sourceHeader, rowTag);
-                if (rowIndex > -1)
-                {
-                    value = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, rowIndex);
-                    ComboBoxHandler.AutoCompleteStringCollectionAppend(autoCompleteStringCollection, (string)value);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-            }
+            if (value is string) ComboBoxHandler.AutoCompleteStringCollectionAppend(autoCompleteStringCollection, (string)value);
         }
         #endregion
 
@@ -904,48 +876,67 @@ namespace PhotoTagsSynchronizer
             isSettingDefaultComboxValues = true;
             try
             {
-                comboBoxTitle.Text = "";
-                comboBoxDescription.Text = "";
-                comboBoxComments.Text = "";
-                comboBoxAlbum.Text = "";
-                comboBoxAuthor.Text = "";
+                if (!string.IsNullOrWhiteSpace(comboBoxTitle.Text)) comboBoxTitle.Text = "";
+                if (!string.IsNullOrWhiteSpace(comboBoxDescription.Text)) comboBoxDescription.Text = "";
+                if (!string.IsNullOrWhiteSpace(comboBoxComments.Text)) comboBoxComments.Text = "";
+                if (!string.IsNullOrWhiteSpace(comboBoxAlbum.Text)) comboBoxAlbum.Text = "";
+                if (!string.IsNullOrWhiteSpace(comboBoxAuthor.Text)) comboBoxAuthor.Text = "";
 
-                for (int columnIndex = 0; columnIndex < DataGridViewHandler.GetColumnCount(dataGridView); columnIndex++)
+                foreach (string sourceHeader in DataGridViewHandlerTagsAndKeywords.sourceHeaders)
                 {
-                    foreach (string sourceHeader in DataGridViewHandlerTagsAndKeywords.sourceHeaders)
+                    int rowIndexTitle = DataGridViewHandler.GetRowIndex(dataGridView, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagTitle);
+                    int rowIndexDescription = DataGridViewHandler.GetRowIndex(dataGridView, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagDescription);
+                    int rowIndexAlbum = DataGridViewHandler.GetRowIndex(dataGridView, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAlbum);
+                    int rowIndexComments = DataGridViewHandler.GetRowIndex(dataGridView, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagComments);
+                    int rowIndexAuthor = DataGridViewHandler.GetRowIndex(dataGridView, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAuthor);
+                    
+                    for (int columnIndex = 0; columnIndex < DataGridViewHandler.GetColumnCount(dataGridView); columnIndex++)
                     {
-                        lock (autoCompleteStringCollectionTitleLock)
-                        {
-                            AppendCellValueToKryptonComboBox(dataGridView, comboBoxTitle, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagTitle);
-                            AppendCellValueToAutoCompleteStringCollection(dataGridView, autoCompleteStringCollectionTitle, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagTitle);
-                        }
+                        object valueTitle = (rowIndexTitle == -1 ? null : DataGridViewHandler.GetCellValue(dataGridView, columnIndex, rowIndexTitle));
+                        object valueDescription = (rowIndexDescription == -1 ? null : DataGridViewHandler.GetCellValue(dataGridView, columnIndex, rowIndexDescription));
+                        object valueAlbum = (rowIndexAlbum == -1 ? null : DataGridViewHandler.GetCellValue(dataGridView, columnIndex, rowIndexAlbum));
+                        object valueComments = (rowIndexComments == -1 ? null : DataGridViewHandler.GetCellValue(dataGridView, columnIndex, rowIndexComments));
+                        object valueAuthor = (rowIndexAuthor == -1 ? null : DataGridViewHandler.GetCellValue(dataGridView, columnIndex, rowIndexAuthor));
 
-                        lock (autoCompleteStringCollectionDescriptionLock)
+                        try
                         {
-                            AppendCellValueToKryptonComboBox(dataGridView, comboBoxDescription, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagDescription);
-                            AppendCellValueToKryptonComboBox(dataGridView, comboBoxDescription, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAlbum);
-                            AppendCellValueToAutoCompleteStringCollection(dataGridView, autoCompleteStringCollectionDescription, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagDescription);
-                            AppendCellValueToAutoCompleteStringCollection(dataGridView, autoCompleteStringCollectionDescription, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAlbum);
-                        }
+                            lock (autoCompleteStringCollectionTitleLock)
+                            {
+                                AppendCellValueToKryptonComboBox(comboBoxTitle, valueTitle);
+                                AppendCellValueToAutoCompleteStringCollection(autoCompleteStringCollectionTitle, valueTitle);
+                            }
 
-                        lock (autoCompleteStringCollectionCommentsLock)
-                        {
-                            AppendCellValueToKryptonComboBox(dataGridView, comboBoxComments, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagComments);
-                            AppendCellValueToAutoCompleteStringCollection(dataGridView, autoCompleteStringCollectionComments, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagComments);
-                        }
+                            lock (autoCompleteStringCollectionDescriptionLock)
+                            {
+                                
+                                AppendCellValueToKryptonComboBox(comboBoxDescription, valueDescription);
+                                AppendCellValueToAutoCompleteStringCollection(autoCompleteStringCollectionDescription, valueDescription);
 
-                        lock (autoCompleteStringCollectionAlbumLock)
-                        {
-                            AppendCellValueToKryptonComboBox(dataGridView, comboBoxAlbum, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAlbum);
-                            AppendCellValueToKryptonComboBox(dataGridView, comboBoxAlbum, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagDescription);
-                            AppendCellValueToAutoCompleteStringCollection(dataGridView, autoCompleteStringCollectionAlbum, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAlbum);
-                            AppendCellValueToAutoCompleteStringCollection(dataGridView, autoCompleteStringCollectionAlbum, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagDescription);
-                        }
+                                
+                                AppendCellValueToKryptonComboBox(comboBoxDescription, valueAlbum);
+                                AppendCellValueToAutoCompleteStringCollection(autoCompleteStringCollectionDescription, valueAlbum);
+                            }
 
-                        lock (autoCompleteStringCollectionAuthorLock)
+                            lock (autoCompleteStringCollectionCommentsLock)
+                            {
+                                AppendCellValueToKryptonComboBox(comboBoxComments, valueComments);
+                                AppendCellValueToAutoCompleteStringCollection(autoCompleteStringCollectionComments, valueComments);
+                            }
+
+                            lock (autoCompleteStringCollectionAlbumLock)
+                            {
+                                AppendCellValueToAutoCompleteStringCollection(autoCompleteStringCollectionAlbum, valueAlbum);
+                                AppendCellValueToAutoCompleteStringCollection(autoCompleteStringCollectionAlbum, valueDescription);
+                            }
+
+                            lock (autoCompleteStringCollectionAuthorLock)
+                            {
+                                AppendCellValueToKryptonComboBox(comboBoxAuthor, valueAuthor);
+                                AppendCellValueToAutoCompleteStringCollection(autoCompleteStringCollectionAuthor, valueAuthor);
+                            }
+                        } catch (Exception ex)
                         {
-                            AppendCellValueToKryptonComboBox(dataGridView, comboBoxAuthor, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAuthor);
-                            AppendCellValueToAutoCompleteStringCollection(dataGridView, autoCompleteStringCollectionAuthor, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagTitle);
+                            Logger.Error(ex);
                         }
                     }
                 }

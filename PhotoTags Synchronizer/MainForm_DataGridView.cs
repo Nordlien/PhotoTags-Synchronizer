@@ -232,7 +232,7 @@ namespace PhotoTagsSynchronizer
                         int columnIndexAutoCorrect = DataGridViewHandler.GetColumnIndexWhenAddColumn(dataGridView, fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionCompare);
                         DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndexAutoCorrect);
                         if (dataGridViewGenericColumn != null && dataGridViewGenericColumn.Metadata != null)
-                            metadataAutoCorrect = dataGridViewGenericColumn.Metadata;
+                            metadataAutoCorrect = new Metadata(dataGridViewGenericColumn.Metadata);
                     }
                     #endregion
 

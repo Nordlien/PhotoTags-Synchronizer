@@ -6970,8 +6970,6 @@ namespace PhotoTagsSynchronizer
 
                                 if (metadataToSave != null)
                                 {
-
-
                                     //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue, 4. Clear dirty flags
                                     metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, out bool isUpdated);
                                     UpdatedMetadataForAllDataGridView(metadataToSave);
