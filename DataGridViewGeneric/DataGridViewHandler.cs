@@ -29,6 +29,7 @@ namespace DataGridViewGeneric
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
+        #region IsFilenameEqual
         public static bool IsFilenameEqual(string fullFileName1, string fullFileName2)
         {
             if (fullFileName1 == null && fullFileName2 != null) return false;
@@ -36,6 +37,7 @@ namespace DataGridViewGeneric
             if (fullFileName1 == null && fullFileName2 == null) return true;
             return String.Compare(fullFileName1, fullFileName2, comparisonType: StringComparison.OrdinalIgnoreCase) == 0;
         }
+        #endregion
 
         #region Palette Colors
 
@@ -1694,28 +1696,6 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-        #region SetCellDefaultAfterUpdated
-        public static void SetCellDefaultAfterUpdated(DataGridView dataGridView, DataGridViewGenericCellStatus dataGridViewGenericCellStatus, int columnIndex, int rowIndex)
-        {
-            DataGridViewHandler.SetCellStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatus, false);
-            DataGridViewHandler.SetCellReadOnlyDependingOfStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatus);
-            DataGridViewHandler.SetCellBackGroundColor(dataGridView, columnIndex, rowIndex);
-        }
-        #endregion
-
-        #region SetCellDefaultAfterUpdated, No DirtyFlag need to be Set
-        public static void SetCellDefaultAfterUpdated(DataGridView dataGridView, MetadataBrokerType metadataBrokerType, int columnIndex, int rowIndex)
-        {
-            DataGridViewGenericCellStatus dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(DataGridViewHandler.GetCellStatus(dataGridView, columnIndex, rowIndex)); //Remember current status, in case of updates
-            dataGridViewGenericCellStatus.MetadataBrokerType |= metadataBrokerType;
-            if (dataGridViewGenericCellStatus.SwitchState == SwitchStates.Disabled) dataGridViewGenericCellStatus.SwitchState = SwitchStates.Undefine;
-            if (dataGridViewGenericCellStatus.SwitchState == SwitchStates.Undefine)
-                dataGridViewGenericCellStatus.SwitchState = (dataGridViewGenericCellStatus.MetadataBrokerType & MetadataBrokerType.ExifTool) == MetadataBrokerType.ExifTool ? SwitchStates.On : SwitchStates.Off;
-            dataGridViewGenericCellStatus.CellReadOnly = false;
-            SetCellDefaultAfterUpdated(dataGridView, dataGridViewGenericCellStatus, columnIndex, rowIndex);
-        }
-        #endregion
-
         #region Rows handling - AddRow
         /// <summary>
         /// 
@@ -1774,10 +1754,21 @@ namespace DataGridViewGeneric
             {
                 if (writeValue)
                 {
+                    if (dataGridViewGenericRow.FileEntryAttribute != null &&
+                        dataGridView.Rows[rowIndex].HeaderCell.Tag is DataGridViewGenericRow dataGridViewGenericRowDataGridView)
+                    {
+                        FileEntryVersionCompare fileEntryVersionCompareReason =
+                            FileEntryVersionHandler.CompareFileEntryAttribute(dataGridViewGenericRowDataGridView.FileEntryAttribute, dataGridViewGenericRow.FileEntryAttribute);
+
+                        if (FileEntryVersionHandler.NeedUpdate(fileEntryVersionCompareReason))
+                            dataGridView.Rows[rowIndex].HeaderCell.Tag = dataGridViewGenericRow;
+                    }
+
                     if (dataGridView[columnIndex, rowIndex].Value != value)
                     {
                         isValueUpdated = true;
                         dataGridView[columnIndex, rowIndex].Value = value;
+                        
                     }
                 }
                 if (isValueUpdated && dataGridViewGenericRow.IsMultiLine) dataGridView.Columns[columnIndex].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
@@ -2071,15 +2062,32 @@ namespace DataGridViewGeneric
 
         #region Cell Handling
 
+        #region Cell Handling - SetCellDefaultAfterUpdated
+        public static void SetCellDefaultAfterUpdated(DataGridView dataGridView, DataGridViewGenericCellStatus dataGridViewGenericCellStatus, int columnIndex, int rowIndex)
+        {
+            DataGridViewHandler.SetCellStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatus, false);
+            DataGridViewHandler.SetCellReadOnlyDependingOfStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatus);
+            DataGridViewHandler.SetCellBackGroundColor(dataGridView, columnIndex, rowIndex);
+        }
+        #endregion
+
+        #region Cell Handling - SetCellDefaultAfterUpdated, No DirtyFlag need to be Set
+        public static void SetCellDefaultAfterUpdated(DataGridView dataGridView, MetadataBrokerType metadataBrokerType, int columnIndex, int rowIndex)
+        {
+            DataGridViewGenericCellStatus dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(DataGridViewHandler.GetCellStatus(dataGridView, columnIndex, rowIndex)); //Remember current status, in case of updates
+            dataGridViewGenericCellStatus.MetadataBrokerType |= metadataBrokerType;
+            if (dataGridViewGenericCellStatus.SwitchState == SwitchStates.Disabled) dataGridViewGenericCellStatus.SwitchState = SwitchStates.Undefine;
+            if (dataGridViewGenericCellStatus.SwitchState == SwitchStates.Undefine)
+                dataGridViewGenericCellStatus.SwitchState = (dataGridViewGenericCellStatus.MetadataBrokerType & MetadataBrokerType.ExifTool) == MetadataBrokerType.ExifTool ? SwitchStates.On : SwitchStates.Off;
+            dataGridViewGenericCellStatus.CellReadOnly = false;
+            SetCellDefaultAfterUpdated(dataGridView, dataGridViewGenericCellStatus, columnIndex, rowIndex);
+        }
+        #endregion
+
         #region Cell handling - InvalidateCellColumnHeader
         public static void InvalidateCellColumnHeader(DataGridView dataGridView, int columnIndex)
         {
-            if (columnIndex < dataGridView.Columns.Count)
-                dataGridView.InvalidateCell(dataGridView.Columns[columnIndex].HeaderCell);
-            else
-            {
-                //DEBUG
-            }
+            dataGridView.InvalidateCell(dataGridView.Columns[columnIndex].HeaderCell);
         }
         #endregion
 

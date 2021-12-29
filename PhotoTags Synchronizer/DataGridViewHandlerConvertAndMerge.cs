@@ -2004,17 +2004,16 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.SetIsPopulatingFile(dataGridView, true);
             //-----------------------------------------------------------------
 
-            Metadata metadata = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryAttribute.GetFileEntryBroker(MetadataBrokerType.ExifTool));
-
+            
             int columnIndex = DataGridViewHandler.GetColumnIndexFirst(dataGridView, headerConvertAndMergeFilename);
 
             AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerConvertAndMergeInfo), true);
 
             if (columnIndex != -1)
             {
-                string directory = fileEntryAttribute.Directory;
+                Metadata metadata = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryAttribute.GetFileEntryBroker(MetadataBrokerType.ExifTool));
+                //string directory = fileEntryAttribute.Directory;
                 string filename = fileEntryAttribute.FileName;
-
                 //Media
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerConvertAndMergeInfo, fileEntryAttribute.FileFullPath, metadata, fileEntryAttribute), filename, true);
             }

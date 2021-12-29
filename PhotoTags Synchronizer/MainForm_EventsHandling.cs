@@ -6032,7 +6032,7 @@ namespace PhotoTagsSynchronizer
                             DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(GetActiveTabDataGridView(), (int)rowIndex);
                             if (dataGridViewGenericRow != null && !dataGridViewGenericRow.IsHeader)
                             {
-                                files.Add(dataGridViewGenericRow.FileEntry);
+                                files.Add(dataGridViewGenericRow.FileEntryAttribute.FileEntry);
                                 MediaFilesVerbOpen_Click(files);
                             }
                         }

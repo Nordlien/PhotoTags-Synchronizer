@@ -265,8 +265,6 @@ namespace PhotoTagsSynchronizer
                 
                 if (!cellGridViewGenericCell.CellStatus.CellReadOnly)
                 {
-                    Metadata metadata = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(dataGridViewGenericRow.FileEntry, MetadataBrokerType.ExifTool));
-                    dataGridViewGenericRow.Metadata = metadata;
                     string newShortOrFullFilename = GetShortOrFullFilename(newFilenameVariable, dataGridViewGenericRow.Metadata, showFullPath, dataGridViewGenericRow.HeaderName, dataGridViewGenericRow.RowName);
                     DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, newShortOrFullFilename, false);
                 }
@@ -275,7 +273,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region PopulateFile
-        public static void PopulateFile(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, bool showFullPath)
+        public static void PopulateFile(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, bool showFullPath, Metadata metadataAutoCorrected, bool onlyRefresh)
         {
             //-----------------------------------------------------------------
             //Chech if need to stop
@@ -290,11 +288,14 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.SetIsPopulatingFile(dataGridView, true);
             //-----------------------------------------------------------------
 
-            Metadata metadata = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryAttribute.GetFileEntryBroker(MetadataBrokerType.ExifTool));
-
+            
             int columnIndex = DataGridViewHandler.GetColumnIndexFirst(dataGridView, headerNewFilename);
             if (columnIndex != -1)
             {
+                Metadata metadata;
+                if (metadataAutoCorrected != null) metadata = metadataAutoCorrected;
+                else metadata = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryAttribute.GetFileEntryBroker(MetadataBrokerType.ExifTool));
+
                 string directory = fileEntryAttribute.Directory;
                 string filename = fileEntryAttribute.FileName;
 
@@ -334,7 +335,8 @@ namespace PhotoTagsSynchronizer
 
             foreach (FileEntry imageListViewItem in imageListViewSelectItems)
             {
-                PopulateFile(dataGridView, new FileEntryAttribute(imageListViewItem.FileFullPath, imageListViewItem.LastWriteDateTime, FileEntryVersion.CurrentVersionInDatabase), showFullPath);
+                PopulateFile(dataGridView, 
+                    new FileEntryAttribute(imageListViewItem.FileFullPath, imageListViewItem.LastWriteDateTime, FileEntryVersion.CurrentVersionInDatabase), showFullPath, null, false);
             }
 
 

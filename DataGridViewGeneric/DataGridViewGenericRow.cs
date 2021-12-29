@@ -77,8 +77,7 @@ namespace DataGridViewGeneric
         public bool IsEqual { get; set; }
         public PropertyKey PropertyKey { get; set; }
         public Metadata Metadata { get; set; }
-        public FileEntry FileEntry { get; set; }
-
+        public FileEntryAttribute FileEntryAttribute { get; set; }
         public LocationCoordinate LocationCoordinate { get; set; }
         public MetadataPriorityKey MetadataPriorityKey { get; set; }
 
@@ -101,8 +100,8 @@ namespace DataGridViewGeneric
         public DataGridViewGenericRow(string headerName, string rowName, ReadWriteAccess readWriteAccess, bool isMultiLine, PropertyKey propertyKey)
             : this(headerName, rowName, readWriteAccess, false, isMultiLine, propertyKey, null, null, null, null) { }
 
-        public DataGridViewGenericRow(string headerName, string rowName, Metadata metadata, FileEntry fileEntry)
-            : this(headerName, rowName, ReadWriteAccess.AllowCellReadAndWrite, false, false, null, metadata, fileEntry, null, null) { }
+        public DataGridViewGenericRow(string headerName, string rowName, Metadata metadata, FileEntryAttribute fileEntryAttribute)
+            : this(headerName, rowName, ReadWriteAccess.AllowCellReadAndWrite, false, false, null, metadata, fileEntryAttribute, null, null) { }
 
         public DataGridViewGenericRow(string headerName, string rowName, LocationCoordinate locationCoordinate)
             : this(headerName, rowName, ReadWriteAccess.AllowCellReadAndWrite, false, false, null, null, null, null, locationCoordinate) { }
@@ -112,7 +111,7 @@ namespace DataGridViewGeneric
         
 
         private DataGridViewGenericRow(string headerName, string rowName, ReadWriteAccess readWriteAcess, bool isHeader, bool isMultiLine, PropertyKey propertyKey, 
-            Metadata metadata, FileEntry fileEntry,
+            Metadata metadata, FileEntryAttribute fileEntryAttribute,
             MetadataPriorityKey metadataPriorityKey, LocationCoordinate locationCoordinate)
         {
             this.HeaderName = headerName ?? throw new ArgumentNullException(nameof(rowName));
@@ -124,7 +123,7 @@ namespace DataGridViewGeneric
             this.IsMultiLine = isMultiLine;
             this.PropertyKey = propertyKey;
             this.Metadata = metadata;
-            this.FileEntry = fileEntry;
+            this.FileEntryAttribute = fileEntryAttribute;
             this.MetadataPriorityKey = metadataPriorityKey;
             this.LocationCoordinate = locationCoordinate;
         }

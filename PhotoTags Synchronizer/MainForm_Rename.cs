@@ -73,12 +73,12 @@ namespace PhotoTagsSynchronizer
                 {                    
                     Dictionary<string, string> renameSuccess;
                     Dictionary<string, RenameToNameAndResult> renameFailed;
-
-                    DataGridViewHandlerRename.Write(dataGridViewRename, out renameSuccess, out renameFailed, checkBoxRenameShowFullPath.Checked);
-
-                    UpdateImageViewListeAfterRename(imageListView1, renameSuccess, renameFailed, true);
-
-                    OnImageListViewSelect_FilesSelectedOrNoneSelected(false);
+                    using (new WaitCursor())
+                    {
+                        DataGridViewHandlerRename.Write(dataGridViewRename, out renameSuccess, out renameFailed, checkBoxRenameShowFullPath.Checked);
+                        UpdateImageViewListeAfterRename(imageListView1, renameSuccess, renameFailed, true);
+                        OnImageListViewSelect_FilesSelectedOrNoneSelected(false);
+                    }
                 }
             }
             catch (Exception ex)
