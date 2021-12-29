@@ -1324,9 +1324,16 @@ namespace Exiftool
                                 case "Keyword":     //Home made for store in QuickTime
                                 case "Keywords":
                                 case "CatalogSets":
-
                                     MetadataReadPrioity.Add(exifToolData.Region, exifToolData.Command, CompositeTags.KeywordsStruct);
-                                    List<string> keywordListStruct = StructDeSerialization.GetListOfValues(parameter);
+
+                                    List<string> keywordListStruct;
+
+                                    if (!parameter.StartsWith("[")) //It's not a structed list, it's just one item
+                                    {
+                                        keywordListStruct = new List<string>();
+                                        keywordListStruct.Add(parameter);
+                                    }
+                                    else keywordListStruct = StructDeSerialization.GetListOfValues(parameter);
 
                                     foreach (String tag in keywordListStruct)
                                     {
