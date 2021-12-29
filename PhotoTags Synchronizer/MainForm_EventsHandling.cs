@@ -4291,7 +4291,8 @@ namespace PhotoTagsSynchronizer
                             {
                                 //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue, 4. Clear dirty flags
                                 metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, out bool isUpdated);
-                                UpdatedMetadataForAllDataGridView(metadataToSave);
+                                bool isDirty = isUpdated = metadataToSave != metadataListFromDataGridView[updatedRecord];
+                                MakeEqualBetweenMetadataAndDataGridViewContent(metadataToSave, isUpdated, isDirty);
                                 AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, metadataListOriginalExiftool[updatedRecord]);
                             }
                         }
@@ -4300,7 +4301,9 @@ namespace PhotoTagsSynchronizer
                             //Add only metadata to save queue that that has changed by users
                             //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue, 4. Clear dirty flags
                             Metadata metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataListFromDataGridView[updatedRecord], out bool isUpdated);
-                            if (isUpdated) UpdatedMetadataForAllDataGridView(metadataToSave);
+                            bool isDirty = isUpdated = metadataToSave!= metadataListFromDataGridView[updatedRecord];
+                            string diff = Metadata.GetErrors(metadataToSave, metadataListFromDataGridView[updatedRecord]);
+                            MakeEqualBetweenMetadataAndDataGridViewContent(metadataToSave, isUpdated, isDirty);
                             AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, metadataListOriginalExiftool[updatedRecord]);
                         }
                     }
@@ -6714,7 +6717,8 @@ namespace PhotoTagsSynchronizer
                             {
                                 //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue, 4. Clear dirty flags
                                 metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, out bool isUpdated);
-                                UpdatedMetadataForAllDataGridView(metadataToSave);
+                                bool isDirty = isUpdated = metadata != metadataToSave;
+                                MakeEqualBetweenMetadataAndDataGridViewContent(metadataToSave, true, isDirty);
                                 AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
                                 AddQueueRenameLock(item.FileFullPath, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
                             }
@@ -6772,7 +6776,8 @@ namespace PhotoTagsSynchronizer
                             {
                                 //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue, 4. Clear dirty flags
                                 metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, out bool isUpdated);
-                                UpdatedMetadataForAllDataGridView(metadataToSave);
+                                bool isDirty = isUpdated = metadataToSave != metadata;
+                                MakeEqualBetweenMetadataAndDataGridViewContent(metadataToSave, true, isDirty);
                                 AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
                                 AddQueueRenameLock(file, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
                             }
@@ -6839,7 +6844,8 @@ namespace PhotoTagsSynchronizer
                             {
                                 //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata,  4. Clear dirty flags
                                 metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, out bool isUpdated);
-                                UpdatedMetadataForAllDataGridView(metadataToSave);
+                                bool isDirty = isUpdated = metadataToSave != metadataFromDataGridView;
+                                MakeEqualBetweenMetadataAndDataGridViewContent(metadataToSave, isUpdated, isDirty);
                             }
                         }
                     }
@@ -6972,7 +6978,8 @@ namespace PhotoTagsSynchronizer
                                 {
                                     //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue, 4. Clear dirty flags
                                     metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, out bool isUpdated);
-                                    UpdatedMetadataForAllDataGridView(metadataToSave);
+                                    bool isDirty = isUpdated = metadataToSave != metadata;
+                                    MakeEqualBetweenMetadataAndDataGridViewContent(metadataToSave, isUpdated, isDirty);
                                     AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
                                     AddQueueRenameLock(item.FileFullPath, autoCorrect.RenameVariable);
                                 }
@@ -7041,7 +7048,8 @@ namespace PhotoTagsSynchronizer
 
                                     //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue, 4. Clear dirty flags
                                     metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, out bool isUpdated);
-                                    UpdatedMetadataForAllDataGridView(metadataToSave);
+                                    bool isDirty = isUpdated = metadataToSave != metadata;
+                                    MakeEqualBetweenMetadataAndDataGridViewContent(metadataToSave, isUpdated, isDirty);
                                     AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
                                     AddQueueRenameLock(file, autoCorrect.RenameVariable);
                                 }
@@ -7120,7 +7128,8 @@ namespace PhotoTagsSynchronizer
                                 {
                                     //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata,  4. Clear dirty flags
                                     metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, out bool isUpdated);
-                                    UpdatedMetadataForAllDataGridView(metadataToSave);
+                                    bool isDirty = isUpdated = metadataToSave != metadataFromDataGridView;
+                                    MakeEqualBetweenMetadataAndDataGridViewContent(metadataToSave, isUpdated, isDirty);
                                 }
                             }
                         }

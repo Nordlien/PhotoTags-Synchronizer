@@ -1342,6 +1342,8 @@ namespace DataGridViewGeneric
                                     //|| fileEntryAttribute.FileEntryVersion == FileEntryVersion.ExtractedNowFromExternalSource ||
                                     // fileEntryAttribute.FileEntryVersion == FileEntryVersion.ExtractedNowFromMediaFile)
                                 {
+                                    //Example when this will occure. When change tabs and DataGridView was not created, other tabs/DataGridView
+                                    //will also get refreshed
                                     currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No need to Warn, same version as in past
                                     currentDataGridViewGenericColumn.Metadata = metadata; //Keep newest version, PS All columns get added with empty Metadata
                                 }
@@ -1428,8 +1430,7 @@ namespace DataGridViewGeneric
         #region Column handling - GetColumnDataGridViewGenericColumn
         public static DataGridViewGenericColumn GetColumnDataGridViewGenericColumn(DataGridView dataGridView, int columnIndex)
         {
-            if (columnIndex < 0) 
-                return null; //DEBUG - ths should not happen
+            if (columnIndex < 0) return null; 
             if (columnIndex >= dataGridView.ColumnCount) return null; //This can happen when using cache and switch between tabs
             return dataGridView.Columns[columnIndex].Tag as DataGridViewGenericColumn;
         }
@@ -2073,7 +2074,12 @@ namespace DataGridViewGeneric
         #region Cell handling - InvalidateCellColumnHeader
         public static void InvalidateCellColumnHeader(DataGridView dataGridView, int columnIndex)
         {
-            dataGridView.InvalidateCell(dataGridView.Columns[columnIndex].HeaderCell);
+            if (columnIndex < dataGridView.Columns.Count)
+                dataGridView.InvalidateCell(dataGridView.Columns[columnIndex].HeaderCell);
+            else
+            {
+                //DEBUG
+            }
         }
         #endregion
 
@@ -2200,22 +2206,15 @@ namespace DataGridViewGeneric
         public static string GetCellValueNullOrStringTrim(DataGridView dataGridView, int columnIndex, int rowIndex)
         {
             string value = null;
-            //if (columnIndex > -1 && rowIndex > -1 && columnIndex < dataGridView.ColumnCount && rowIndex < dataGridView.RowCount)
+            try
             {
-                try
-                {
-                    value = (dataGridView[columnIndex, rowIndex].Value == null ? null : dataGridView[columnIndex, rowIndex].Value.ToString().Trim());
-                    if (string.IsNullOrEmpty(value)) value = null;
-                }
-                catch (Exception ex) 
-                { 
-                    Logger.Error(ex); 
-                }
+                value = (dataGridView[columnIndex, rowIndex].Value == null ? null : dataGridView[columnIndex, rowIndex].Value.ToString().Trim());
+                if (string.IsNullOrEmpty(value)) value = null;
             }
-            //else
-            //{
-            //    //DEBUG: For adding breakpoint, For debug reason
-            //}
+            catch (Exception ex) 
+            { 
+                Logger.Error(ex); 
+            }
             return value;
             
         }

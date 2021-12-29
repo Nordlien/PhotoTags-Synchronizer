@@ -217,10 +217,7 @@ namespace PhotoTagsSynchronizer
                     Logger.Error(ex);
                     KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
                 }
-            } else
-            {
-                //DEBUG
-            }
+            } 
         }
         #endregion
     }

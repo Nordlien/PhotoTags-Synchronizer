@@ -213,14 +213,15 @@ namespace PhotoTagsSynchronizer
             if (metadataExiftool != null) metadataExiftool = new Metadata(metadataExiftool);
             ReadWriteAccess readWriteAccessColumn = 
                 (FileEntryVersionHandler.IsReadOnlyType(fileEntryAttribute.FileEntryVersion) ||
-                metadataExiftool == null) ? ReadWriteAccess.ForceCellToReadOnly : ReadWriteAccess.AllowCellReadAndWrite; 
+                metadataExiftool == null) ? ReadWriteAccess.ForceCellToReadOnly : ReadWriteAccess.AllowCellReadAndWrite;
+
+            if (metadataAutoCorrected != null) metadataExiftool = metadataAutoCorrected; //If AutoCorrect is run, use AutoCorrect values. Needs to be after DataGridViewHandler.AddColumnOrUpdateNew, so orignal metadata stored will not be overwritten
 
             int columnIndex = DataGridViewHandler.AddColumnOrUpdateNew(
                 dataGridView, fileEntryAttribute, thumbnail, metadataExiftool, readWriteAccessColumn, showWhatColumns, 
                 DataGridViewGenericCellStatus.DefaultEmpty(), out FileEntryVersionCompare fileEntryVersionCompareReason);
 
-            if (metadataAutoCorrected != null) metadataExiftool = metadataAutoCorrected; //If AutoCorrect is run, use AutoCorrect values. Needs to be after DataGridViewHandler.AddColumnOrUpdateNew, so orignal metadata stored will not be overwritten
-
+            
             //Chech if populated and new refresh data
             if (onlyRefresh && FileEntryVersionHandler.NeedUpdate(fileEntryVersionCompareReason) && !DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex))
                 fileEntryVersionCompareReason = FileEntryVersionCompare.LostNoneEqualFound; //No need to populate
@@ -280,18 +281,18 @@ namespace PhotoTagsSynchronizer
 
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerKeywords), false);
 
-                //if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect)
-                //{
-                //    //DataGridViewGenericCellStatus dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Undefine, true);
-                    
-                //    //int keywordsStarts = DataGridViewHandler.GetRowHeaderItemStarts(dataGridView, headerKeywords);
-                //    //int keywordsEnds = DataGridViewHandler.GetRowHeaderItemsEnds(dataGridView, headerKeywords);
-                //    //for (int rowIndexToClean = keywordsStarts; rowIndexToClean <= keywordsEnds; rowIndexToClean++)
-                //    //{
-                //    //    DataGridViewHandler.SetCellReadOnlyDependingOfStatus(dataGridView, columnIndex, rowIndexToClean, dataGridViewGenericCellStatus);
-                //    //    DataGridViewHandler.SetCellStatus(dataGridView, columnIndex, rowIndexToClean, dataGridViewGenericCellStatus, false);
-                //    //}
-                //}
+                if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect)
+                {
+                    DataGridViewGenericCellStatus dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Undefine, true);
+
+                    int keywordsStarts = DataGridViewHandler.GetRowHeaderItemStarts(dataGridView, headerKeywords);
+                    int keywordsEnds = DataGridViewHandler.GetRowHeaderItemsEnds(dataGridView, headerKeywords);
+                    for (int rowIndexToClean = keywordsStarts; rowIndexToClean <= keywordsEnds; rowIndexToClean++)
+                    {
+                        DataGridViewHandler.SetCellReadOnlyDependingOfStatus(dataGridView, columnIndex, rowIndexToClean, dataGridViewGenericCellStatus);
+                        DataGridViewHandler.SetCellStatus(dataGridView, columnIndex, rowIndexToClean, dataGridViewGenericCellStatus, false);
+                    }
+                }
 
                 if (metadataExiftool != null) PopulateKeywords(dataGridView, metadataExiftool, columnIndex, metadataExiftool.Broker, fileEntryAttribute);
                 if (metadataMicrosoftPhotos != null) PopulateKeywords(dataGridView, metadataMicrosoftPhotos, columnIndex, metadataMicrosoftPhotos.Broker, fileEntryAttribute);

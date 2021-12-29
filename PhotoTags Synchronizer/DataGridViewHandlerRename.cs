@@ -262,8 +262,11 @@ namespace PhotoTagsSynchronizer
                 DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
                 DataGridViewGenericCell cellGridViewGenericCell = DataGridViewHandler.GetCellDataGridViewGenericCellCopy(dataGridView, columnIndex, rowIndex);
 
+                
                 if (!cellGridViewGenericCell.CellStatus.CellReadOnly)
                 {
+                    Metadata metadata = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(dataGridViewGenericRow.FileEntry, MetadataBrokerType.ExifTool));
+                    dataGridViewGenericRow.Metadata = metadata;
                     string newShortOrFullFilename = GetShortOrFullFilename(newFilenameVariable, dataGridViewGenericRow.Metadata, showFullPath, dataGridViewGenericRow.HeaderName, dataGridViewGenericRow.RowName);
                     DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, newShortOrFullFilename, false);
                 }
