@@ -233,6 +233,12 @@ namespace PhotoTagsSynchronizer
                     if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect)
                     {
                         int columnIndexAutoCorrect = DataGridViewHandler.GetColumnIndexWhenAddColumn(dataGridView, fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionCompare);
+                        int debugIndex = DataGridViewHandler.GetColumnIndexUserInput(dataGridView, fileEntryAttribute);
+                        if (debugIndex != columnIndexAutoCorrect)
+                        {
+                            //DEBUG
+                        }
+
                         DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndexAutoCorrect);
                         if (dataGridViewGenericColumn != null && dataGridViewGenericColumn.Metadata != null)
                             metadataAutoCorrect = new Metadata(dataGridViewGenericColumn.Metadata);
@@ -869,7 +875,8 @@ namespace PhotoTagsSynchronizer
             {
 
                 FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(metadataFixedAndCorrected.FileEntry, FileEntryVersion.AutoCorrect);
-                int columnIndex = DataGridViewHandler.GetColumnIndexUserInput(dataGridViewTagsAndKeywords, fileEntryAttribute);
+                int columnIndex = DataGridViewHandler.GetColumnIndexUserInput(GetActiveTabDataGridView(), fileEntryAttribute);
+                //columnIndex = DataGridViewHandler.GetColumnIndexWhenAddColumn(dataGridViewTagsAndKeywords, fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionCompare);
 
                 if (isDataGridViewUpdatedWithNewData)
                 {

@@ -6827,7 +6827,7 @@ namespace PhotoTagsSynchronizer
                         if (dataGridViewGenericColumn != null && dataGridViewGenericColumn.Metadata != null)
                         {
                             FileEntryAttribute fileEntryAttribute = dataGridViewGenericColumn.FileEntryAttribute;
-                            Metadata metadataFromDataGridView = dataGridViewGenericColumn.Metadata;
+                            Metadata metadataFromDataGridView = new Metadata(dataGridViewGenericColumn.Metadata);
                             CollectedMetadataFromAllDataGridView(fileEntryAttribute, ref metadataFromDataGridView);
 
                             Metadata metadataToSave = autoCorrect.RunAlgorithm(metadataFromDataGridView,

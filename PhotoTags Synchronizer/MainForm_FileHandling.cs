@@ -46,7 +46,19 @@ namespace PhotoTagsSynchronizer
                 }
 
                 ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView.Items, sourceFullFilename);
-                if (foundItem != null) ImageListViewHandler.ImageListViewRemoveItem(imageListView, foundItem); 
+                if (foundItem != null)
+                {
+                    ImageListViewHandler.ImageListViewRemoveItem(imageListView, foundItem);
+
+                    #region Add new renames back to list
+                    ImageListViewHandler.ImageListViewAddItem(imageListView, targetFullFilename);
+                    #endregion
+
+                    #region Select back all Items renamed
+                    foundItem = ImageListViewHandler.FindItem(imageListView.Items, targetFullFilename);
+                    if (foundItem != null) foundItem.Selected = true;
+                    #endregion
+                }
             }
             catch (Exception ex)
             {
