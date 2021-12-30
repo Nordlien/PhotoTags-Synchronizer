@@ -716,7 +716,16 @@ namespace Krypton.Toolkit
         public override string Text
         {
             get => _textBox.Text;
-            set => _textBox.Text = value;
+            set 
+            {
+                try
+                {
+                    _textBox.Text = value;
+                } catch
+                {
+                    //DEBUG
+                }
+            }
         }
 
         /// <summary>

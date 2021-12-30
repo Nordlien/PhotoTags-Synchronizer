@@ -1114,7 +1114,13 @@ namespace Krypton.Toolkit
             // If the message has not been handled, let base class process it
             if (!processed && m.Msg != PI.WM_.GETMINMAXINFO)
             {
-                base.WndProc(ref m);
+                try
+                {
+                    base.WndProc(ref m);
+                } catch
+                {
+                    //DEBUG
+                }
                 _shadowManager.WndProc(ref m);
                 _blurManager.WndProc(ref m);
             }
