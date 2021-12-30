@@ -753,18 +753,10 @@ namespace MetadataLibrary
                     if (string.Equals(keywordTagToCkeck.Keyword, keywordTag.Keyword, StringComparison.OrdinalIgnoreCase)) return;
                 }
                 personalTagList.Add(keywordTag);
-                if (keywordTag.Keyword != keywordTag.Keyword.Trim())
-                {
-                    //DEBUG
-                }
             }
             else
             {
                 if (!personalTagList.Contains(keywordTag)) personalTagList.Add(keywordTag);
-                if (keywordTag.Keyword != keywordTag.Keyword.Trim())
-                {
-                    //DEBUG
-                }
             }
         }
 
