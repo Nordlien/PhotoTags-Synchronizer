@@ -1148,91 +1148,118 @@ namespace MetadataLibrary
 
             dbTools.TransactionBeginBatch();
 
-            string sqlCommand =
-                "UPDATE MediaMetadata SET " +
-                "FileDirectory = @NewFileDirectory, FileName = @NewFileName " +
-                "WHERE FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
+            List<MetadataBrokerType> listOfBrokers = new List<MetadataBrokerType>();
+            listOfBrokers.Add(MetadataBrokerType.ExifTool);
+            listOfBrokers.Add(MetadataBrokerType.ExifToolWriteError);
+            listOfBrokers.Add(MetadataBrokerType.MicrosoftPhotos);
+            listOfBrokers.Add(MetadataBrokerType.WindowsLivePhotoGallery);
+            listOfBrokers.Add(MetadataBrokerType.WebScraping);
 
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            foreach (MetadataBrokerType broker in listOfBrokers)
             {
-                //commandDatabase.Prepare();
-                commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
-                commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
-                commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
-                commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
-                if (commandDatabase.ExecuteNonQuery() == -1) movedOk = false;                
-            }
+                
+                if (broker == MetadataBrokerType.WebScraping)
+                {
+                    oldDirectory = WebScapingFolderName;
+                    newDirectory = WebScapingFolderName;
+                }
+                string oldPath = Path.Combine(oldDirectory, oldFilename).ToLower();
+                string newPath = Path.Combine(newDirectory, newFilename).ToLower();
+                if (string.Compare(newDirectory, oldDirectory) == 0)
+                {
+                    string sqlCommand =
+                        "UPDATE MediaMetadata SET " +
+                        "FileDirectory = @NewFileDirectory, FileName = @NewFileName " +
+                        "WHERE Broker = @Broker AND FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
 
-            sqlCommand =
-                "UPDATE MediaPersonalKeywords SET " +
-                "FileDirectory = @NewFileDirectory, FileName = @NewFileName " +
-                "WHERE FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
+                    using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+                    {
+                        //commandDatabase.Prepare();
+                        commandDatabase.Parameters.AddWithValue("@Broker", (int)broker);
+                        commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
+                        commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
+                        commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
+                        commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
+                        if (commandDatabase.ExecuteNonQuery() == -1) movedOk = false;
+                    }
 
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
-            {
-                //commandDatabase.Prepare();
-                commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
-                commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
-                commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
-                commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
-                if (commandDatabase.ExecuteNonQuery() == -1) movedOk = false;
-            }
+                    sqlCommand =
+                        "UPDATE MediaPersonalKeywords SET " +
+                        "FileDirectory = @NewFileDirectory, FileName = @NewFileName " +
+                        "WHERE Broker = @Broker AND FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
 
-            sqlCommand =
-                "UPDATE MediaPersonalRegions SET " +
-                "FileDirectory = @NewFileDirectory, FileName = @NewFileName " +
-                "WHERE FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
-            {
-                //commandDatabase.Prepare();
-                commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
-                commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
-                commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
-                commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
-                if (commandDatabase.ExecuteNonQuery() == -1) movedOk = false;
-            }
+                    using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+                    {
+                        //commandDatabase.Prepare();
+                        commandDatabase.Parameters.AddWithValue("@Broker", (int)broker);
+                        commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
+                        commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
+                        commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
+                        commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
+                        if (commandDatabase.ExecuteNonQuery() == -1) movedOk = false;
+                    }
 
-            sqlCommand =
-                "UPDATE MediaExiftoolTags SET " +
-                "FileDirectory = @NewFileDirectory, FileName = @NewFileName " +
-                "WHERE FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
-            {
-                //commandDatabase.Prepare();
-                commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
-                commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
-                commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
-                commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
-                if (commandDatabase.ExecuteNonQuery() == -1) movedOk = false;
-            }
+                    sqlCommand =
+                        "UPDATE MediaPersonalRegions SET " +
+                        "FileDirectory = @NewFileDirectory, FileName = @NewFileName " +
+                        "WHERE Broker = @Broker AND FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
+                    using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+                    {
+                        //commandDatabase.Prepare();
+                        commandDatabase.Parameters.AddWithValue("@Broker", (int)broker);
+                        commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
+                        commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
+                        commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
+                        commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
+                        if (commandDatabase.ExecuteNonQuery() == -1) movedOk = false;
+                    }
 
-            sqlCommand =
-                "UPDATE MediaExiftoolTagsWarning SET " +
-                "FileDirectory = @NewFileDirectory, FileName = @NewFileName " +
-                "WHERE FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
-            {
-                //commandDatabase.Prepare();
-                commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
-                commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
-                commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
-                commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
-                if (commandDatabase.ExecuteNonQuery() == -1) movedOk = false;
-            }
-            dbTools.TransactionCommitBatch(false);
+                    sqlCommand =
+                        "UPDATE MediaExiftoolTags SET " +
+                        "FileDirectory = @NewFileDirectory, FileName = @NewFileName " +
+                        "WHERE Broker = @Broker AND FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
+                    using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+                    {
+                        //commandDatabase.Prepare();
+                        commandDatabase.Parameters.AddWithValue("@Broker", (int)broker);
+                        commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
+                        commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
+                        commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
+                        commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
+                        if (commandDatabase.ExecuteNonQuery() == -1) movedOk = false;
+                    }
 
-            sqlCommand =
-                "UPDATE MediaThumbnail SET " +
-                "FileDirectory = @NewFileDirectory, FileName = @NewFileName " +
-                "WHERE FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
-            {
-                //commandDatabase.Prepare();
-                commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
-                commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
-                commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
-                commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
-                if (commandDatabase.ExecuteNonQuery() == -1) movedOk = false;
+                    sqlCommand =
+                        "UPDATE MediaExiftoolTagsWarning SET " +
+                        "FileDirectory = @NewFileDirectory, FileName = @NewFileName " +
+                        "WHERE Broker = @Broker AND FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
+                    using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+                    {
+                        //commandDatabase.Prepare();
+                        commandDatabase.Parameters.AddWithValue("@Broker", (int)broker);
+                        commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
+                        commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
+                        commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
+                        commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
+                        if (commandDatabase.ExecuteNonQuery() == -1) movedOk = false;
+                    }
+                    dbTools.TransactionCommitBatch(false);
+
+                    sqlCommand =
+                        "UPDATE MediaThumbnail SET " +
+                        "FileDirectory = @NewFileDirectory, FileName = @NewFileName " +
+                        "WHERE Broker = @Broker AND FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
+                    using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+                    {
+                        //commandDatabase.Prepare();
+                        commandDatabase.Parameters.AddWithValue("@Broker", (int)broker);
+                        commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
+                        commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
+                        commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
+                        commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
+                        if (commandDatabase.ExecuteNonQuery() == -1) movedOk = false;
+                    }
+                }
             }
             dbTools.TransactionCommitBatch(false);
 
