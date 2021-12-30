@@ -699,7 +699,7 @@ namespace Exiftool
                                     }
                                     else
                                     {
-                                        //DEBUG - Often occure when OneDrive download files
+                                        Logger.Warn("Was not able to read exifdata from file. This often occure when OneDrive download files " + metadata.FileFullPath);
                                     }
                                 }
                                 #endregion
