@@ -10,6 +10,7 @@ using System.Globalization;
 using Manina.Windows.Forms;
 using LibVLCSharp.Shared;
 using FileHandeling;
+using System.Threading;
 
 namespace ImageAndMovieFileExtentions
 {
@@ -147,39 +148,58 @@ namespace ImageAndMovieFileExtentions
         public static Image ThumbnailFromFile(string fullFilename)
         {
             Image thumbnailReturn = null;
-            try
+            bool retry = false;
+            int retryCount = 1;
+            do
             {
-                if (File.Exists(fullFilename))
+                retry = false;
+                try
                 {
-                    using (MagickImage image = new MagickImage(fullFilename))
+                    if (File.Exists(fullFilename))
                     {
-                        var profile = image.GetExifProfile();
-                        // Create thumbnail from exif information
-                        if (profile != null)
+                        using (MagickImage image = new MagickImage(fullFilename))
                         {
-                            if (profile.ThumbnailLength > 0)
+                            var profile = image.GetExifProfile();
+                            // Create thumbnail from exif information
+                            if (profile != null)
                             {
-                                var thumbnailLength = profile.ThumbnailLength;
-                                var thumbnailOffset = profile.ThumbnailOffset;
-
-                                if (thumbnailLength != 0 || thumbnailOffset != 0)
+                                if (profile.ThumbnailLength > 0)
                                 {
-                                    var data = profile.GetData();
+                                    var thumbnailLength = profile.ThumbnailLength;
+                                    var thumbnailOffset = profile.ThumbnailOffset;
 
-                                    if (data == null || data.Length < (thumbnailOffset + thumbnailLength)) return null;
+                                    if (thumbnailLength != 0 || thumbnailOffset != 0)
+                                    {
+                                        var data = profile.GetData();
 
-                                    var result = new byte[thumbnailLength];
-                                    Array.Copy(data, thumbnailOffset, result, 0, thumbnailLength);
-                                    thumbnailReturn = new MagickImage(result).ToBitmap();
+                                        if (data == null || data.Length < (thumbnailOffset + thumbnailLength)) return null;
+
+                                        var result = new byte[thumbnailLength];
+                                        Array.Copy(data, thumbnailOffset, result, 0, thumbnailLength);
+                                        thumbnailReturn = new MagickImage(result).ToBitmap();
+                                    }
                                 }
                             }
                         }
                     }
                 }
-            } catch (Exception ex)
-            {
-                Logger.Error(ex, "MagickImage ThumbnailFromFile failed load " + fullFilename );
-            }
+                catch (Exception ex)
+                {
+                    if (ex.Message.Contains("unable to open image") &&
+                        ex.Message.Contains("Permission denied @ error/blob.c/OpenBlob/3527"))
+                    {
+                        if (retryCount > 0)
+                        {
+                            Thread.Sleep(1000);
+                            retryCount--;
+                            retry = true;
+                            
+                        }
+                        
+                    }
+                    Logger.Error(ex, "MagickImage ThumbnailFromFile failed load " + fullFilename);
+                }
+            } while (retry);
             return thumbnailReturn;
         }
         #endregion
