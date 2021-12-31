@@ -1057,12 +1057,12 @@ namespace DataGridViewGeneric
         #region Column handling - DoesColumnFilenameExist
         public static bool DoesColumnFilenameExist(DataGridView dataGridView, string fullFilePath)
         {
-            return GetColumnIndexFirst(dataGridView, fullFilePath) != -1;
+            return GetColumnIndexFirstFullFilePath(dataGridView, fullFilePath) != -1;
         }
         #endregion
 
         #region Column handling - GetColumnIndexFirst - fullFilePath        
-        public static int GetColumnIndexFirst(DataGridView dataGridView, string fullFilePath)
+        public static int GetColumnIndexFirstFullFilePath(DataGridView dataGridView, string fullFilePath)
         {
             for (int columnIndex = 0; columnIndex < dataGridView.ColumnCount; columnIndex++)
             {
@@ -1132,6 +1132,7 @@ namespace DataGridViewGeneric
         public static int GetColumnIndexPriorities(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionPriorityReason)
         {
             int startColumn = 0;
+            #region Cache logic
             if (columnIndexCachePriorities.ContainsKey(fileEntryAttribute))
             {
                 int columnIndex = columnIndexCachePriorities[fileEntryAttribute];
@@ -1143,6 +1144,8 @@ namespace DataGridViewGeneric
                 else 
                     columnIndexCachePriorities.Clear();
             }
+            #endregion
+
 
             for (int columnIndex = startColumn; columnIndex < dataGridView.ColumnCount; columnIndex++)
             {
@@ -1243,7 +1246,7 @@ namespace DataGridViewGeneric
                 #endregion
 
                 #region Find where to add *NEW* column
-                int columnIndexFilename = GetColumnIndexFirst(dataGridView, fileEntryAttribute.FileFullPath); //Find first Column with equal name
+                int columnIndexFilename = GetColumnIndexFirstFullFilePath(dataGridView, fileEntryAttribute.FileFullPath); //Find first Column with equal name
                 if (columnIndexFilename == -1) //Filename doesn't exist
                 {
                     #region Filename doesn't exist, add last

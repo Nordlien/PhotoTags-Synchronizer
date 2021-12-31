@@ -122,15 +122,18 @@ namespace PhotoTagsSynchronizer
 
             if (newFilename.Contains("%Trim%"))
             {
-                newFilename = newFilename.Replace("%Trim%", "").Trim();
-                newFilename = FileHandler.TrimFolderName(newFilename, "  ", " ");
-                newFilename = FileHandler.TrimFolderName(newFilename, "_ ", "_");
-                newFilename = FileHandler.TrimFolderName(newFilename, " -", "-");
-                newFilename = FileHandler.TrimFolderName(newFilename, "- ", "-");
-                newFilename = FileHandler.TrimFolderName(newFilename, " .", ".");
-                newFilename = FileHandler.TrimFolderName(newFilename, ". ", ".");
-                newFilename = FileHandler.TrimFolderName(newFilename, "\\ ", "\\");
-                newFilename = FileHandler.TrimFolderName(newFilename, " \\", "\\");
+                int indexOfSplit = newFilename.IndexOf("%Trim%");
+                string beforeSplit = newFilename.Substring(0, indexOfSplit);
+                string afterSplit = newFilename.Substring(indexOfSplit + ("%Trim%").Length);
+                afterSplit = FileHandler.TrimFolderName(newFilename, "  ", " ");
+                afterSplit = FileHandler.TrimFolderName(newFilename, "_ ", "_");
+                afterSplit = FileHandler.TrimFolderName(newFilename, " -", "-");
+                afterSplit = FileHandler.TrimFolderName(newFilename, "- ", "-");
+                afterSplit = FileHandler.TrimFolderName(newFilename, " .", ".");
+                afterSplit = FileHandler.TrimFolderName(newFilename, ". ", ".");
+                afterSplit = FileHandler.TrimFolderName(newFilename, "\\ ", "\\");
+                afterSplit = FileHandler.TrimFolderName(newFilename, " \\", "\\");
+                newFilename = (beforeSplit + afterSplit).Replace("%Trim%", "").Trim(); //If contains more %Trim%, just remove them
             }
             newFilename = FileHandler.TrimFolderName(newFilename); //https://docs.microsoft.com/en-us/dotnet/api/system.io.directory.createdirectory?view=net-5.0
 
@@ -213,7 +216,7 @@ namespace PhotoTagsSynchronizer
             renameSuccess = new Dictionary<string, string>();
             renameFailed = new Dictionary<string, RenameToNameAndResult>();
 
-            int columnIndex = DataGridViewHandler.GetColumnIndexFirst(dataGridView, headerNewFilename);
+            int columnIndex = DataGridViewHandler.GetColumnIndexFirstFullFilePath(dataGridView, headerNewFilename);
             if (columnIndex == -1) return;
 
             for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
@@ -254,7 +257,7 @@ namespace PhotoTagsSynchronizer
         #region UpdateFilenames(DataGridView dataGridView, string newFilenameVariable)
         public static void UpdateFilenames(DataGridView dataGridView, string newFilenameVariable, bool showFullPath)
         {
-            int columnIndex = DataGridViewHandler.GetColumnIndexFirst(dataGridView, headerNewFilename);
+            int columnIndex = DataGridViewHandler.GetColumnIndexFirstFullFilePath(dataGridView, headerNewFilename);
             if (columnIndex == -1) return;
 
             for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
@@ -289,7 +292,7 @@ namespace PhotoTagsSynchronizer
             //-----------------------------------------------------------------
 
             
-            int columnIndex = DataGridViewHandler.GetColumnIndexFirst(dataGridView, headerNewFilename);
+            int columnIndex = DataGridViewHandler.GetColumnIndexFirstFullFilePath(dataGridView, headerNewFilename);
             if (columnIndex != -1)
             {
                 Metadata metadata;
