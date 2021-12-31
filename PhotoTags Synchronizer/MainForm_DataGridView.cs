@@ -259,10 +259,6 @@ namespace PhotoTagsSynchronizer
                             if (DataGridViewHandlerRename.HasBeenInitialized) DataGridViewHandlerRename.PopulateFile(dataGridViewRename, fileEntryAttribute, DataGridViewHandlerRename.ShowFullPath, metadataAutoCorrect, true);
 
                             isDirty = IsDataGridViewColumnDirty(dataGridView, columnIndex, out differences);
-                            if (isDirty)
-                            {
-                                //DEBUG
-                            }
                             if (DataGridViewHandler.IsColumnPopulated(dataGridViewTagsAndKeywords, columnIndex)) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewTagsAndKeywords, columnIndex, isDirty, differences);
                             if (DataGridViewHandler.IsColumnPopulated(dataGridViewPeople, columnIndex)) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewPeople, columnIndex, isDirty, differences);
                             if (DataGridViewHandler.IsColumnPopulated(dataGridViewMap, columnIndex)) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewMap, columnIndex, isDirty, differences);
