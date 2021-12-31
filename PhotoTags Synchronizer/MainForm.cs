@@ -707,9 +707,11 @@ namespace PhotoTagsSynchronizer
             if (commonQueueSaveMetadataUpdatedByUser.Count > 0 || IsAnyDataUnsaved())
             {
                 if (KryptonMessageBox.Show(
-                    "There are " + commonQueueSaveMetadataUpdatedByUser.Count + " unsaved media files in queue.\r\n" +
-                    (IsAnyDataUnsaved() ? "You have unsaved changes in DataGridView\r\n" : "") +
-                    "Are you sure you will close application?",
+                    (commonQueueSaveMetadataUpdatedByUser.Count > 0 ? 
+                        "There are " + commonQueueSaveMetadataUpdatedByUser.Count + " unsaved media files in queue.\r\n" : "") +
+                    (IsAnyDataUnsaved() ? 
+                        "You have unsaved changes in DataGridView\r\n" : "") +
+                    "\r\nAre you sure you will close application?",
                     "Press Ok will quit application and changed will get lost.\r\n" +
                     "Press Cancel and return back to application.", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, showCtrlCopy: true) == DialogResult.Cancel)
                 {

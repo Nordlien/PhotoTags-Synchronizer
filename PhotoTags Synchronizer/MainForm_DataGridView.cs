@@ -91,6 +91,17 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
+        #region DataGridView - GetAnyTabDataGridView()
+        private DataGridView GetAnyAgregatedDataGridView()
+        {
+            if (DataGridViewHandler.GetIsAgregated(dataGridViewTagsAndKeywords)) return dataGridViewTagsAndKeywords;
+            if (DataGridViewHandler.GetIsAgregated(dataGridViewPeople)) return dataGridViewPeople;
+            if (DataGridViewHandler.GetIsAgregated(dataGridViewMap)) return dataGridViewMap;
+            if (DataGridViewHandler.GetIsAgregated(dataGridViewDate)) return dataGridViewDate;
+            return dataGridViewTagsAndKeywords; //Also if empty
+        }
+        #endregion 
+
         #region DataGridView - IsActiveDataGridViewAgregated
         private bool IsActiveDataGridViewAgregated(string tag)
         {
@@ -682,16 +693,17 @@ namespace PhotoTagsSynchronizer
                 {
 
                     dialogResult = KryptonMessageBox.Show(
-                        "Do you want to save and continue.\r\n" +
+                        "Do you want to save before continue?\r\n" +
                         "Yes - Save without AutoCorrect and continue\r\n" +
                         "No - Don't save and continue without save." +
                         (canCancel ? "\r\nCancel - Cancel the opeation and continue where you left." : ""),
-                        "Warning, unsaved data",
+                        "Warning, unsaved data! Save before continue?",
                         (canCancel ? MessageBoxButtons.YesNoCancel : MessageBoxButtons.YesNo), MessageBoxIcon.Warning, showCtrlCopy: true);
 
                     if (dialogResult == DialogResult.Yes)
                     {
-                        ActionSave(false);
+                        //ActionSave(false);
+                        SaveDataGridViewMetadata(false);
                     }
                 }
             }
@@ -830,7 +842,7 @@ namespace PhotoTagsSynchronizer
             metadataListFromDataGridView = new List<Metadata>();
             try
             {
-                DataGridView dataGridView = GetActiveTabDataGridView();
+                DataGridView dataGridView = GetAnyAgregatedDataGridView();
                 List<DataGridViewGenericColumn> dataGridViewGenericColumnList = DataGridViewHandler.GetColumnsDataGridViewGenericColumnCurrentOrAutoCorrect(dataGridView, true);
                 foreach (DataGridViewGenericColumn dataGridViewGenericColumn in dataGridViewGenericColumnList)
                 {
@@ -871,9 +883,8 @@ namespace PhotoTagsSynchronizer
             {
 
                 FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(metadataFixedAndCorrected.FileEntry, FileEntryVersion.AutoCorrect);
-                int columnIndex = DataGridViewHandler.GetColumnIndexUserInput(GetActiveTabDataGridView(), fileEntryAttribute);
-                //columnIndex = DataGridViewHandler.GetColumnIndexWhenAddColumn(dataGridViewTagsAndKeywords, fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionCompare);
-
+                int columnIndex = DataGridViewHandler.GetColumnIndexUserInput(GetAnyAgregatedDataGridView(), fileEntryAttribute);
+                
                 if (isDataGridViewUpdatedWithNewData)
                 {
                     if (DataGridViewHandler.IsColumnPopulated(dataGridViewTagsAndKeywords, columnIndex))

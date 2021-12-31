@@ -3247,7 +3247,6 @@ namespace PhotoTagsSynchronizer
             {
                 kryptonRibbonGroupButtonDataGridViewRowsHideEqual.Checked = hideEqualColumns;
                 kryptonRibbonGroupButtonDataGridViewRowsFavorite.Checked = showFavouriteColumns;
-                DataGridView dataGridView = GetActiveTabDataGridView();
             }
             catch (Exception ex)
             {

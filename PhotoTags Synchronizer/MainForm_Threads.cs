@@ -495,7 +495,7 @@ namespace PhotoTagsSynchronizer
         #region LazyLoadingDataGridView - DataGridView - GetDataGridViewWatingToBePopulatedCount
         public int GetDataGridViewWatingToBePopulatedCount()
         {
-            DataGridView dataGridView = GetActiveTabDataGridView();
+            DataGridView dataGridView = GetAnyAgregatedDataGridView();
             int queueCount = 0;
             if (dataGridView != null)
             {
