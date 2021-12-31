@@ -125,14 +125,14 @@ namespace PhotoTagsSynchronizer
                 int indexOfSplit = newFilename.IndexOf("%Trim%");
                 string beforeSplit = newFilename.Substring(0, indexOfSplit);
                 string afterSplit = newFilename.Substring(indexOfSplit + ("%Trim%").Length);
-                afterSplit = FileHandler.TrimFolderName(newFilename, "  ", " ");
-                afterSplit = FileHandler.TrimFolderName(newFilename, "_ ", "_");
-                afterSplit = FileHandler.TrimFolderName(newFilename, " -", "-");
-                afterSplit = FileHandler.TrimFolderName(newFilename, "- ", "-");
-                afterSplit = FileHandler.TrimFolderName(newFilename, " .", ".");
-                afterSplit = FileHandler.TrimFolderName(newFilename, ". ", ".");
-                afterSplit = FileHandler.TrimFolderName(newFilename, "\\ ", "\\");
-                afterSplit = FileHandler.TrimFolderName(newFilename, " \\", "\\");
+                afterSplit = FileHandler.TrimFolderName(afterSplit, "  ", " ");
+                afterSplit = FileHandler.TrimFolderName(afterSplit, "_ ", "_");
+                afterSplit = FileHandler.TrimFolderName(afterSplit, " -", "-");
+                afterSplit = FileHandler.TrimFolderName(afterSplit, "- ", "-");
+                afterSplit = FileHandler.TrimFolderName(afterSplit, " .", ".");
+                afterSplit = FileHandler.TrimFolderName(afterSplit, ". ", ".");
+                afterSplit = FileHandler.TrimFolderName(afterSplit, "\\ ", "\\");
+                afterSplit = FileHandler.TrimFolderName(afterSplit, " \\", "\\");
                 newFilename = (beforeSplit + afterSplit).Replace("%Trim%", "").Trim(); //If contains more %Trim%, just remove them
             }
             newFilename = FileHandler.TrimFolderName(newFilename); //https://docs.microsoft.com/en-us/dotnet/api/system.io.directory.createdirectory?view=net-5.0

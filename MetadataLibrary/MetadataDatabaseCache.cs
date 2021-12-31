@@ -2473,7 +2473,7 @@ namespace MetadataLibrary
 
             string sqlCommand = "";
             
-            if (metadataBrokerType != MetadataBrokerType.Empty && dateTimeFrom != null && dateTimeTo != null)
+            if (metadataBrokerType == MetadataBrokerType.Empty || dateTimeFrom == null || dateTimeTo == null)
                 sqlCommand = "SELECT Name, Count(1) AS CountNames FROM MediaPersonalRegions " + (string.IsNullOrEmpty(sqlCommand) ? "" : "WHERE ") + sqlCommand + " GROUP BY Name";
             else
             {
