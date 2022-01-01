@@ -217,7 +217,7 @@ namespace PhotoTagsSynchronizer
         {            
             foreach (ImageListViewItem item in itemCollection)
             {
-                if (!updatedOnlySelected || (updatedOnlySelected && item.Selected)) item.Update();                
+                if (!updatedOnlySelected || (updatedOnlySelected && item.Selected)) item.Update();
             }
         }
         #endregion 

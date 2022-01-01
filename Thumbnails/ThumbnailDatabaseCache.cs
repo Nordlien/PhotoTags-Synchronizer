@@ -280,8 +280,6 @@ namespace Thumbnails
         }
         #endregion
 
-
-
         #endregion 
 
         #region Thumbnail - Cache
@@ -316,21 +314,21 @@ namespace Thumbnails
                 {
                     found = false;
 
-                    FileEntryBroker fileEntryBrokerFound = null;
+                    FileEntry fileEntryFound = null;
                     lock (thumbnailCacheLock)
                     {
-                        foreach (FileEntryBroker fileEntryBroker in thumbnailCache.Keys)
+                        foreach (FileEntry fileEntry in thumbnailCache.Keys)
                         {
-                            if (String.Compare(fileEntryBroker.Directory, directory, comparisonType: StringComparison.OrdinalIgnoreCase) == 0 &&
-                                String.Compare(fileEntryBroker.FileName, fileName, comparisonType: StringComparison.OrdinalIgnoreCase) == 0)
+                            if (String.Compare(fileEntry.Directory, directory, comparisonType: StringComparison.OrdinalIgnoreCase) == 0 &&
+                                String.Compare(fileEntry.FileName, fileName, comparisonType: StringComparison.OrdinalIgnoreCase) == 0)
                             {
-                                fileEntryBrokerFound = fileEntryBroker;
+                                fileEntryFound = fileEntry;
                                 found = true;
                                 break;
                             }
                         }
                     }
-                    if (found) ThumnbailCacheRemove(fileEntryBrokerFound);
+                    if (found) ThumnbailCacheRemove(fileEntryFound);
 
                 } while (found);
             }

@@ -7229,11 +7229,7 @@ namespace PhotoTagsSynchronizer
                     GlobalData.IsPopulatingImageListView = true; //Avoid one and one select item getting refreshed
                     GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
                     TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, false);
-                    //ImageListViewSuspendLayoutInvoke(imageListView);
 
-                    //Clean up ImageListView and other queues
-                    //ImageListViewHandler.ClearThumbnailCache(imageListView1);
-                    //imageListView1.Refresh();
                     ClearAllQueues();
 
                     UpdateStatusAction("Delete all data and files...");

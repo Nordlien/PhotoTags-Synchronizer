@@ -1028,6 +1028,17 @@ namespace PhotoTagsSynchronizer
                                 }
                                 else
                                 {
+                                    //DataGridView_ImageListView_Populate_FileEntryAttributeInvoke
+                                    //DataGridView_UpdateColumnThumbnail_OnFileEntryAttribute(file);
+
+                                    //foreach (FileEntry fileEntry in mediaFilesNotInDatabaseCheckInCloud)
+                                    //{
+                                    //    if (!File.Exists(fileEntry.FileFullPath))
+                                    //    { DataGridView_UpdateColumnThumbnail_OnFileEntryAttribute(file);
+                                    //    } else if (!FileHandler.IsFileInCloud(fileEntry.FileFullPath))
+                                    //    { } else
+                                    //    { }
+                                    //}
                                     mediaFilesNotInDatabase.AddRange(mediaFilesNotInDatabaseCheckInCloud);
                                 }
                                 #endregion
@@ -1057,6 +1068,8 @@ namespace PhotoTagsSynchronizer
 
                                         if (argumnetLength > maxParameterCommandLength) range--;
                                         useExiftoolOnThisSubsetOfFiles = new List<string>();
+                                        if (range > 100) 
+                                            range = 100;
                                         for (int index = 0; index < range; index++) useExiftoolOnThisSubsetOfFiles.Add(mediaFilesNotInDatabase[index].FileFullPath);
                                     }
                                     #endregion
