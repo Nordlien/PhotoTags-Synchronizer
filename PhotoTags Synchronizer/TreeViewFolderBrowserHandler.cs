@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
 using Raccoom.Windows.Forms;
 
@@ -39,12 +40,31 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region TreeViewFOlderBrowserRefreshFolderWithName
-        public static void RefreshFolderWithName(TreeViewFolderBrowser folderTreeViewFolder, string folder)
+        #region TreeViewFolderBrowser - RefreshFolderWithName
+        public static void RefreshFolderWithName(TreeViewFolderBrowser folderTreeViewFolder, string folder, bool refreshParentFolder)
         {
+            string refreshThisFolder;
+            if (refreshParentFolder)
+            {
+                DirectoryInfo directoryInfo = new DirectoryInfo(folder);
+                refreshThisFolder = directoryInfo.Parent.FullName; //Parent folder
+            }
+            else refreshThisFolder = folder;
+
             List<TreeNode> treeNodes = new List<TreeNode>();
-            FindAllNodesRecursive(folderTreeViewFolder.Nodes, folder, ref treeNodes);
+            FindAllNodesRecursive(folderTreeViewFolder.Nodes, refreshThisFolder, ref treeNodes);
             foreach (TreeNode treeNode in treeNodes) RefreshTreeNode(folderTreeViewFolder, treeNode);
+        }
+        #endregion
+
+        #region TreeViewFolderBrowser - RemoveFolderWithName
+        public static void RemoveFolderWithName(TreeViewFolderBrowser folderTreeViewFolder, string folder)
+        {
+            List<TreeNode> targetNodes = TreeViewFolderBrowserHandler.FindAllNodes(folderTreeViewFolder.Nodes, folder);
+            foreach (TreeNode targetNode in targetNodes)
+            {
+                TreeViewFolderBrowserHandler.RemoveTreeNode(folderTreeViewFolder, targetNode);
+            }
         }
         #endregion
 
@@ -61,7 +81,7 @@ namespace PhotoTagsSynchronizer
             foreach (TreeNode treeNodeSearch in treeNodeCollection)
             {
                 TreeNodePath treeNodePath = (TreeNodePath)treeNodeSearch;
-                if (treeNodePath.Path == directory)
+                if (string.Compare(treeNodePath.Path, directory, true) == 0)
                 {
                     treeNodeFound.Add(treeNodeSearch);
                 }

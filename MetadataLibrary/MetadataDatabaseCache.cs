@@ -1165,7 +1165,7 @@ namespace MetadataLibrary
                 }
                 string oldPath = Path.Combine(oldDirectory, oldFilename).ToLower();
                 string newPath = Path.Combine(newDirectory, newFilename).ToLower();
-                if (string.Compare(newDirectory, oldDirectory) == 0)
+                if (string.Compare(oldPath, newPath) != 0)
                 {
                     string sqlCommand =
                         "UPDATE MediaMetadata SET " +

@@ -35,13 +35,7 @@ namespace PhotoTagsSynchronizer
                 if (directoryCreated)
                 {
                     GlobalData.DoNotRefreshImageListView = true;
-
-                    string newDirectory = Path.GetDirectoryName(targetFullFilename);
-                    DirectoryInfo directoryInfo = new DirectoryInfo(newDirectory);
-
-                    string parentDirector = directoryInfo.Parent.FullName;
-                    TreeViewFolderBrowserHandler.RefreshFolderWithName(folderTreeView, parentDirector);
-
+                    TreeViewFolderBrowserHandler.RefreshFolderWithName(folderTreeView, targetFullFilename, true);
                     GlobalData.DoNotRefreshImageListView = false;
                 }
 
@@ -122,11 +116,7 @@ namespace PhotoTagsSynchronizer
                         if (treeNodeTarget == null)
                         {
                             string targetFolder = Path.GetDirectoryName(targetFullFilename);
-                            List<TreeNode> targetNodes = TreeViewFolderBrowserHandler.FindAllNodes(treeViewFolderBrowser1.Nodes, targetFolder);
-                            foreach (TreeNode targetNode in targetNodes)
-                            {
-                                TreeViewFolderBrowserHandler.RemoveTreeNode(folderTreeView, targetNode);
-                            }
+                            TreeViewFolderBrowserHandler.RemoveFolderWithName(folderTreeView, targetFolder);
                         }
                         else TreeViewFolderBrowserHandler.RefreshTreeNode(folderTreeView, treeNodeTarget);
 
@@ -173,22 +163,30 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-                string[] allSourceFullFilenames = Directory.GetFiles(sourceDirectory, "*.*", SearchOption.AllDirectories);
                 using (new WaitCursor())
                 {
-                    //----- Move all folder and files -----
+                    string[] allSourceFullFilenames = Directory.GetFiles(sourceDirectory, "*.*", SearchOption.AllDirectories);
+
+                    #region Move all folder and files
                     Logger.Trace("Move folder from:" + sourceDirectory + " to: " + targetDirectory);
                     System.IO.Directory.Move(sourceDirectory, targetDirectory);
+                    #endregion
 
-                    //------ Clear ImageListView -----
+                    #region Clear ImageListView
                     ImageListViewHandler.ClearAllAndCaches(imageListView1);
+                    #endregion
 
-                    //------ Update node tree -----
+                    #region Update node tree
                     GlobalData.DoNotRefreshImageListView = true;
-                    TreeViewFolderBrowserHandler.RefreshFolderWithName(folderTreeView, sourceDirectory);
+                    TreeViewFolderBrowserHandler.RefreshFolderWithName(folderTreeView, sourceDirectory, true);                    
+                    TreeViewFolderBrowserHandler.RemoveFolderWithName(folderTreeView, sourceDirectory);
+                    TreeViewFolderBrowserHandler.RefreshFolderWithName(folderTreeView, targetDirectory, true);
                     GlobalData.DoNotRefreshImageListView = false;
+                    #endregion
 
-                    //------ Update database -----
+                    #region Update database
+                    
+                    
                     foreach (string oldFullFilename in allSourceFullFilenames)
                     {
                         string oldFilename = Path.GetFileName(oldFullFilename);
@@ -196,6 +194,12 @@ namespace PhotoTagsSynchronizer
                         Logger.Trace("Rename from:" + oldFullFilename + " to: " + newFullFilename);
                         databaseAndCacheMetadataExiftool.Move(Path.GetDirectoryName(oldFullFilename), Path.GetFileName(oldFullFilename), Path.GetDirectoryName(newFullFilename), Path.GetFileName(newFullFilename));
                     }
+                    #endregion
+
+                    DirectoryInfo directoryInfo = new DirectoryInfo(sourceDirectory);                    
+                    string targetFullFolderName = targetDirectory + directoryInfo.Parent.Name;
+                    treeViewFolderBrowser1.Populate(targetDirectory);
+
                 }
                 //----- Updated ImageListView with files ------
                 ImageListView_Aggregate_FromFolder(false, true);

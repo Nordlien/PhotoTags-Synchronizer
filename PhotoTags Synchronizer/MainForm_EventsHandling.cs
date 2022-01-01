@@ -1094,14 +1094,14 @@ namespace PhotoTagsSynchronizer
                     case KryptonPages.None:
                         break;
                     case KryptonPages.kryptonPageFolderSearchFilterFolder:
-                        FilSystemFolderDelete_Click();
+                        FileSystemFolderDelete_Click();
                         break;
                     case KryptonPages.kryptonPageFolderSearchFilterSearch:
                         break;
                     case KryptonPages.kryptonPageFolderSearchFilterFilter:
                         break;
                     case KryptonPages.kryptonPageMediaFiles:
-                        FilSystemSelectedFilesDelete_Click();
+                        FileSystemSelectedFilesDelete_Click();
                         break;
                     case KryptonPages.kryptonPageToolboxTags:
                         TagsAndKeywordsDelete_Click();
@@ -1142,8 +1142,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region FilSystemSelectedFilesDelete_Click
-        private void FilSystemSelectedFilesDelete_Click()
+        #region FileSystemSelectedFilesDelete_Click
+        private void FileSystemSelectedFilesDelete_Click()
         {            
             try
             {
@@ -1192,8 +1192,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region FilSystemFolderDelete_Click
-        private void FilSystemFolderDelete_Click()
+        #region FileSystemFolderDelete_Click
+        private void FileSystemFolderDelete_Click()
         {
             if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
 
@@ -1214,10 +1214,14 @@ namespace PhotoTagsSynchronizer
                 try
                 {
                     string[] fileAndFolderEntriesCount = Directory.EnumerateFiles(folder, "*", SearchOption.AllDirectories).Take(51).ToArray();
-                    if (KryptonMessageBox.Show("You are about to delete the folder:\r\n\r\n" +
+
+                    if (
+                        (fileAndFolderEntriesCount.Length == 0) || //No need to ask, when zero files
+                        (KryptonMessageBox.Show("You are about to delete the folder:\r\n\r\n" +
                         folder + "\r\n\r\n" +
                         "There are " + (fileAndFolderEntriesCount.Length == 51 ? " over 50+" : fileAndFolderEntriesCount.Length.ToString()) + " files found.\r\n\r\n" +
                         "Procced?", "Are you sure?", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, showCtrlCopy: true) == DialogResult.OK)
+                        )
                     {
                         using (new WaitCursor())
                         {
