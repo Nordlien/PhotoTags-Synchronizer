@@ -64,7 +64,7 @@ namespace SqliteDatabase
         {
             try
             {
-                
+                if (databaseCommand.Connection.State != System.Data.ConnectionState.Open) return 0;
                 return databaseCommand.ExecuteNonQuery();
             }            
             catch (Exception ex)
@@ -100,7 +100,10 @@ namespace SqliteDatabase
 #endif
         public CommonSqliteDataReader ExecuteReader()
         {
-            return new CommonSqliteDataReader(databaseCommand.ExecuteReader());
+            if (databaseCommand.Connection.State == System.Data.ConnectionState.Open)
+                return new CommonSqliteDataReader(databaseCommand.ExecuteReader());
+            else 
+                return null;
         }
 
         public object ExecuteScalar()

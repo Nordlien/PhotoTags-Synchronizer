@@ -753,6 +753,15 @@ namespace MetadataLibrary
 
             MetadataCacheUpdate(metadata.FileEntryBroker, metadata);
 
+            AddPersonalAlbumCache(metadata.PersonalAlbum);
+            AddPersonalCommentCache(metadata.PersonalComments);
+            AddPersonalDescriptionsCache(metadata.PersonalDescription);
+            AddPersonalTitleCache(metadata.PersonalTitle);
+            AddLocationCitiesCache(metadata.LocationCity);
+            AddLocationCountriesCache(metadata.LocationCountry);
+            AddLocationNamesCache(metadata.LocationName);
+            AddLocationStatesCache(metadata.LocationState);
+
             string sqlCommand =
                 "INSERT INTO MediaMetadata (" +
                     "Broker, FileDirectory, FileName, FileSize, " +
@@ -807,11 +816,12 @@ namespace MetadataLibrary
                 else
                     commandDatabase.Parameters.AddWithValue("@LocationDateTime", DBNull.Value);
                 commandDatabase.Parameters.AddWithValue("@LocationName", metadata.LocationName);
+                
                 commandDatabase.Parameters.AddWithValue("@LocationCountry", metadata.LocationCountry);
                 commandDatabase.Parameters.AddWithValue("@LocationCity", metadata.LocationCity);
                 commandDatabase.Parameters.AddWithValue("@LocationState", metadata.LocationState);
                 commandDatabase.Parameters.AddWithValue("@RowChangedDated", dbTools.ConvertFromDateTimeToDBVal(DateTime.Now));
-                ;
+                
                 //commandDatabase.ExecuteNonQuery();
                 if (commandDatabase.ExecuteNonQuery() == -1)
                 {
@@ -854,10 +864,10 @@ namespace MetadataLibrary
 
             sqlCommand =
                 "INSERT INTO MediaPersonalRegions (" +
-                    "Broker, FileDirectory, FileName, FileDateModified, Type, Name, " +
+                    "Broker, FileDirectory, FileName, FileDateModified, FileDateCreated, Type, Name, " +
                     "AreaX, AreaY, AreaWidth, AreaHeight, RegionStructureType, Thumbnail " +
                 ") Values (" +
-                    "@Broker, @FileDirectory, @FileName, @FileDateModified, @Type, @Name, " +
+                    "@Broker, @FileDirectory, @FileName, @FileDateModified, @FileDateCreated, @Type, @Name, " +
                     "@AreaX, @AreaY, @AreaWidth, @AreaHeight, @RegionStructureType, @Thumbnail " +
                     ")";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
@@ -870,6 +880,7 @@ namespace MetadataLibrary
                     commandDatabase.Parameters.AddWithValue("@FileDirectory", metadata.FileDirectory);
                     commandDatabase.Parameters.AddWithValue("@FileName", metadata.FileName);
                     commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(metadata.FileDateModified));
+                    commandDatabase.Parameters.AddWithValue("@FileDateCreated", dbTools.ConvertFromDateTimeToDBVal(metadata.FileDate));
                     commandDatabase.Parameters.AddWithValue("@Type", region.Type);
                     commandDatabase.Parameters.AddWithValue("@Name", region.Name);
                     commandDatabase.Parameters.AddWithValue("@AreaX", region.AreaX);
@@ -887,6 +898,9 @@ namespace MetadataLibrary
                         //DeleteFileEntryFromMediaPersonalRegions(metadata.FileEntryBroker);
                         commandDatabase.ExecuteNonQuery();
                     }
+                    
+                    AddPersonalRegionNameCache(metadata.Broker, region.Name);
+                    RandomThumbnailCacheUpdate(region.Name, region.Thumbnail);
                 }
             }
 
@@ -900,7 +914,8 @@ namespace MetadataLibrary
         #region RandomThumbnail - Cache - ThumbnailCacheUpdate
         public void RandomThumbnailCacheUpdate(string name, Image image)
         {
-            if (randomThumbnailCache.ContainsKey(name)) randomThumbnailCache[name] = image;
+            if (name == null) return;
+            if (randomThumbnailCache.ContainsKey(name)) { if (image != null) randomThumbnailCache[name] = image; }
             else randomThumbnailCache.Add(name, image);
         }
         #endregion  
@@ -948,8 +963,6 @@ namespace MetadataLibrary
 
         public Image ReadRandomThumbnailFromDatabase(string name)
         {
-
-
             Image image = null;
             string sqlCommand = "SELECT Thumbnail FROM MediaPersonalRegions WHERE Name = @Name AND Thumbnail IS NOT NULL ORDER BY FileDateModified LIMIT 1";
 
@@ -963,9 +976,10 @@ namespace MetadataLibrary
                     if (reader.Read())
                     {
                         image = dbTools.ByteArrayToImage(dbTools.ConvertFromDBValByteArray(reader["Thumbnail"]));
-                        RandomThumbnailCacheUpdate(name, image);
+                        //RandomThumbnailCacheUpdate(name, image);
                     }
                 }
+                RandomThumbnailCacheUpdate(name, image);
             }
             return image;
         }
@@ -1015,6 +1029,9 @@ namespace MetadataLibrary
                 if (regionStructure.Thumbnail == null)
                     commandDatabase.Parameters.AddWithValue("@Thumbnail", DBNull.Value);
                 else commandDatabase.Parameters.AddWithValue("@Thumbnail", dbTools.ImageToByteArray(regionStructure.Thumbnail));
+
+                AddPersonalRegionNameCache(metadata.Broker, regionStructure.Name);
+                RandomThumbnailCacheUpdate(regionStructure.Name, regionStructure.Thumbnail);
 
                 commandDatabase.ExecuteNonQuery();
             }
@@ -1075,10 +1092,10 @@ namespace MetadataLibrary
 
             sqlCommand =
                 "INSERT INTO MediaPersonalRegions (" +
-                    "Broker, FileDirectory, FileName, FileDateModified, Type, Name, " +
+                    "Broker, FileDirectory, FileName, FileDateModified, FileDateCreated, Type, Name, " +
                     "AreaX, AreaY, AreaWidth, AreaHeight, RegionStructureType, Thumbnail) " +
                 "SELECT " +
-                    "Broker, @NewFileDirectory, @NewFileName, FileDateModified, Type, " +
+                    "Broker, @NewFileDirectory, @NewFileName, FileDateModified, FileDateCreated, Type, " +
                     "Name, AreaX, AreaY, AreaWidth, AreaHeight, RegionStructureType, Thumbnail " +
                     "FROM MediaPersonalRegions WHERE FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
 
@@ -2062,8 +2079,22 @@ namespace MetadataLibrary
         #endregion
 
         #region ListAllPersonalAlbums()
-        public List<string> ListAllPersonalAlbums(MetadataBrokerType metadataBrokerType)
+        List<string> personalAlbumCache = null;
+        private void AddPersonalAlbumCache(string value)
         {
+            try
+            {
+                if (personalAlbumCache == null) personalAlbumCache = new List<string>();
+                if (!personalAlbumCache.Contains(value)) personalAlbumCache.Add(value);
+            }
+            catch { 
+            }
+        }
+
+        public List<string> ListAllPersonalAlbumsCache(MetadataBrokerType metadataBrokerType)
+        {
+            if (personalAlbumCache != null) return personalAlbumCache;
+
             List<string> listing = new List<string>();
 
             string sqlCommand =
@@ -2084,8 +2115,23 @@ namespace MetadataLibrary
         #endregion
 
         #region ListAllPersonalDescriptions()
-        public List<string> ListAllPersonalDescriptions(MetadataBrokerType metadataBrokerType)
+        private List<string> personalDescriptionsCache = null;
+        private void AddPersonalDescriptionsCache(string value)
         {
+            try
+            {
+                if (personalDescriptionsCache == null) personalDescriptionsCache = new List<string>();
+                if (!personalDescriptionsCache.Contains(value)) personalDescriptionsCache.Add(value);
+            }
+            catch
+            {
+            }
+        }
+
+        public List<string> ListAllPersonalDescriptionsCache(MetadataBrokerType metadataBrokerType)
+        {
+            if (personalDescriptionsCache != null) return personalDescriptionsCache;
+
             List<string> listing = new List<string>();
 
             string sqlCommand =
@@ -2106,8 +2152,22 @@ namespace MetadataLibrary
         #endregion
 
         #region ListAllPersonalTitles()
-        public List<string> ListAllPersonalTitles(MetadataBrokerType metadataBrokerType)
+        private List<string> personalTitleCache = null;
+        private void AddPersonalTitleCache(string value)
         {
+            try
+            {
+                if (personalTitleCache == null) personalTitleCache = new List<string>();
+                if (!personalTitleCache.Contains(value)) personalTitleCache.Add(value);
+            }
+            catch
+            {
+            }
+        }
+        public List<string> ListAllPersonalTitlesCache(MetadataBrokerType metadataBrokerType)
+        {
+            if (personalTitleCache != null) return personalTitleCache;
+
             List<string> listing = new List<string>();
 
             string sqlCommand =
@@ -2128,8 +2188,22 @@ namespace MetadataLibrary
         #endregion
 
         #region ListAllPersonalComments()
-        public List<string> ListAllPersonalComments(MetadataBrokerType metadataBrokerType)
+        private List<string> personalCommentCache = null;
+        private void AddPersonalCommentCache(string value)
         {
+            try
+            {
+                if (personalCommentCache == null) personalCommentCache = new List<string>();
+                if (!personalCommentCache.Contains(value)) personalCommentCache.Add(value);
+            }
+            catch
+            {
+            }
+        }
+        public List<string> ListAllPersonalCommentsCache(MetadataBrokerType metadataBrokerType)
+        {
+            if (personalCommentCache != null) return personalCommentCache;
+
             List<string> listing = new List<string>();
 
             string sqlCommand =
@@ -2149,37 +2223,52 @@ namespace MetadataLibrary
         }
         #endregion
 
-        #region ListAllPersonalAuthors()
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="metadataBrokerType"></param>
-        /// <returns></returns>
-        public List<string> ListAllPersonalAuthors(MetadataBrokerType metadataBrokerType)
-        {
+        //#region ListAllPersonalAuthors()
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="metadataBrokerType"></param>
+        ///// <returns></returns>
+        //public List<string> ListAllPersonalAuthors(MetadataBrokerType metadataBrokerType)
+        //{
 
-            List<string> listing = new List<string>();
+        //    List<string> listing = new List<string>();
 
-            string sqlCommand =
-                "SELECT DISTINCT PersonalAuthor FROM MediaMetadata WHERE Broker = @Broker";
+        //    string sqlCommand =
+        //        "SELECT DISTINCT PersonalAuthor FROM MediaMetadata WHERE Broker = @Broker";
 
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
-            {
-                //commandDatabase.Prepare();
-                commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
+        //    using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+        //    {
+        //        //commandDatabase.Prepare();
+        //        commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
                 
-                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
-                {
-                    while (reader.Read()) listing.Add(dbTools.ConvertFromDBValString(reader["PersonalAuthor"]));
-                }
-            }
-            return listing;
-        }
-        #endregion
+        //        using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+        //        {
+        //            while (reader.Read()) listing.Add(dbTools.ConvertFromDBValString(reader["PersonalAuthor"]));
+        //        }
+        //    }
+        //    return listing;
+        //}
+        //#endregion
 
         #region ListAllLocationNames()
-        public List<string> ListAllLocationNames(MetadataBrokerType metadataBrokerType)
+        private List<string> locationNamesCache = null;
+        private void AddLocationNamesCache(string value)
         {
+            try
+            {
+                if (locationNamesCache == null) locationNamesCache = new List<string>();
+                if (!locationNamesCache.Contains(value)) locationNamesCache.Add(value);
+            }
+            catch
+            {
+            }
+        }
+
+        public List<string> ListAllLocationNamesCache(MetadataBrokerType metadataBrokerType)
+        {
+            if (locationNamesCache != null) return locationNamesCache;
+
             List<string> listing = new List<string>();
 
             string sqlCommand =
@@ -2200,8 +2289,23 @@ namespace MetadataLibrary
         #endregion
 
         #region ListAllLocationCities()
-        public List<string> ListAllLocationCities(MetadataBrokerType metadataBrokerType)
+        private List<string> locationCitiesCache = null;
+        private void AddLocationCitiesCache(string value)
         {
+            try
+            {
+                if (locationCitiesCache == null) locationCitiesCache = new List<string>();
+                if (!locationCitiesCache.Contains(value)) locationCitiesCache.Add(value);
+            }
+            catch
+            {
+            }
+        }
+
+        public List<string> ListAllLocationCitiesCache(MetadataBrokerType metadataBrokerType)
+        {
+            if (locationCitiesCache != null) return locationCitiesCache;
+
             List<string> listing = new List<string>();
 
             string sqlCommand =
@@ -2222,8 +2326,22 @@ namespace MetadataLibrary
         #endregion
 
         #region ListAllLocationStates()
-        public List<string> ListAllLocationStates(MetadataBrokerType metadataBrokerType)
+        private List<string> locationStatesCache = null;
+        private void AddLocationStatesCache(string value)
         {
+            try
+            {
+                if (locationStatesCache == null) locationStatesCache = new List<string>();
+                if (!locationStatesCache.Contains(value)) locationStatesCache.Add(value);
+            }
+            catch
+            {
+            }
+        }
+        public List<string> ListAllLocationStatesCache(MetadataBrokerType metadataBrokerType)
+        {
+            if (locationStatesCache != null) return locationStatesCache;
+
             List<string> listing = new List<string>();
 
             string sqlCommand =
@@ -2244,8 +2362,21 @@ namespace MetadataLibrary
         #endregion
 
         #region ListAllLocationCountries()
-        public List<string> ListAllLocationCountries(MetadataBrokerType metadataBrokerType)
+        private List<string> locationCountriesCache = null;
+        private void AddLocationCountriesCache(string value)
         {
+            try
+            {
+                if (locationCountriesCache == null) locationCountriesCache = new List<string>();
+                if (!locationCountriesCache.Contains(value)) locationCountriesCache.Add(value);
+            }
+            catch
+            {
+            }
+        }
+        public List<string> ListAllLocationCountriesCache(MetadataBrokerType metadataBrokerType)
+        {
+            if (locationCountriesCache != null) return locationCountriesCache;
 
             List<string> listing = new List<string>();
 
@@ -2275,8 +2406,13 @@ namespace MetadataLibrary
         {
             lock (metadataRegionNameCountCacheLock)
             {
-                metadataRegionNameCountCache = null;
-                metadataRegionNameCountCache = new Dictionary<MetadataBrokerType, Dictionary<StringNullable, int>>();
+                try
+                {
+                    metadataRegionNameCountCache = null;
+                    metadataRegionNameCountCache = new Dictionary<MetadataBrokerType, Dictionary<StringNullable, int>>();
+                }
+                catch { 
+                }
             }
         }
         #endregion
@@ -2311,19 +2447,26 @@ namespace MetadataLibrary
         #region PersonalRegionNameCount - Cache - RegionNamesUpdated
         public void PersonalRegionNameCountCacheUpdated(MetadataBrokerType metadataBrokerType, string name)
         {
-            if (metadataRegionNameCountCache == null) 
-                metadataRegionNameCountCache = new Dictionary<MetadataBrokerType, Dictionary<StringNullable, int>>(); //It should already been created, why isn'y
-            if (!metadataRegionNameCountCache.ContainsKey(metadataBrokerType)) 
-                metadataRegionNameCountCache.Add(metadataBrokerType, new Dictionary<StringNullable, int>()); //It should already been created, why isn'y
-            
-            StringNullable stringNullableName = new StringNullable(name);
-            if (!metadataRegionNameCountCache[metadataBrokerType].ContainsKey(stringNullableName)) 
+            try
             {
-                metadataRegionNameCountCache[metadataBrokerType].Add(stringNullableName, 1);
-            } else
-            {
-                metadataRegionNameCountCache[metadataBrokerType][stringNullableName]++;
+                if (metadataRegionNameCountCache == null)
+                    metadataRegionNameCountCache = new Dictionary<MetadataBrokerType, Dictionary<StringNullable, int>>(); //It should already been created, why isn'y
+                if (!metadataRegionNameCountCache.ContainsKey(metadataBrokerType))
+                    metadataRegionNameCountCache.Add(metadataBrokerType, new Dictionary<StringNullable, int>()); //It should already been created, why isn'y
+
+                StringNullable stringNullableName = new StringNullable(name);
+                if (!metadataRegionNameCountCache[metadataBrokerType].ContainsKey(stringNullableName))
+                {
+                    metadataRegionNameCountCache[metadataBrokerType].Add(stringNullableName, 1);
+                }
+                else
+                {
+                    metadataRegionNameCountCache[metadataBrokerType][stringNullableName]++;
+                }
             }
+            catch { 
+            }
+
         }
         #endregion
 
@@ -2332,11 +2475,16 @@ namespace MetadataLibrary
         {
             lock (metadataRegionNameCountCacheLock)
             {
-                if (metadataRegionNameCountCache == null) metadataRegionNameCountCache = new Dictionary<MetadataBrokerType, Dictionary<StringNullable, int>>();
-                if (!metadataRegionNameCountCache.ContainsKey(metadataBrokerType))
+                try
                 {
-                    metadataRegionNameCountCache.Add(metadataBrokerType, new Dictionary<StringNullable, int>());
-                    metadataRegionNameCountCache[metadataBrokerType] = ListAllPersonalRegionNameCount(metadataBrokerType);
+                    if (metadataRegionNameCountCache == null) metadataRegionNameCountCache = new Dictionary<MetadataBrokerType, Dictionary<StringNullable, int>>();
+                    if (!metadataRegionNameCountCache.ContainsKey(metadataBrokerType))
+                    {
+                        metadataRegionNameCountCache.Add(metadataBrokerType, new Dictionary<StringNullable, int>());
+                        metadataRegionNameCountCache[metadataBrokerType] = ListAllPersonalRegionNameCount(metadataBrokerType);
+                    }
+                }
+                catch { 
                 }
                 return metadataRegionNameCountCache[metadataBrokerType];
             }
@@ -2398,10 +2546,30 @@ namespace MetadataLibrary
             return ConvertRegionNameCount(allRegionCounts, topCount, includeEmpty, namesdontIncludeList1, namesdontIncludeList2);
         }
 
-        public List<string> ListAllPersonalRegionName(MetadataBrokerType metadataBrokerType, int topCount = int.MaxValue, bool includeEmpty = false)
+        public List<string> ListAllPersonalRegionNameCache(MetadataBrokerType metadataBrokerType, int topCount = int.MaxValue, bool includeEmpty = false)
         {
             Dictionary<StringNullable, int> allRegionCounts = ListAllPersonalRegionNameCountCache(metadataBrokerType);
             return ConvertRegionNameCount(allRegionCounts, topCount, includeEmpty);
+        }
+
+        private void AddPersonalRegionNameCache(MetadataBrokerType metadataBrokerType, string name)
+        {
+            try
+            {
+                if (!metadataRegionNameCountCache.ContainsKey(metadataBrokerType))
+                    metadataRegionNameCountCache.Add(metadataBrokerType, new Dictionary<StringNullable, int>());
+
+                StringNullable nameNullable = new StringNullable(name);
+                if (!metadataRegionNameCountCache[metadataBrokerType].ContainsKey(nameNullable))
+                    metadataRegionNameCountCache[metadataBrokerType].Add(nameNullable, 0);
+
+                metadataRegionNameCountCache[metadataBrokerType][nameNullable]++;
+            }
+            catch 
+            { 
+            }
+            //Dictionary<MetadataBrokerType, Dictionary<StringNullable, int>> metadataRegionNameCountCache = null;
+            //Dictionary<StringNullable, int>
         }
         #endregion
 
@@ -2457,7 +2625,6 @@ namespace MetadataLibrary
             Dictionary<StringNullable, int> listing = new Dictionary<StringNullable, int>();
             //return listing;
             string sqlCommand = "";
-            
             if (metadataBrokerType == MetadataBrokerType.Empty || dateTimeFrom == null || dateTimeTo == null)
                 sqlCommand = "SELECT Name, Count(1) AS CountNames FROM MediaPersonalRegions " + (string.IsNullOrEmpty(sqlCommand) ? "" : "WHERE ") + sqlCommand + " GROUP BY Name";
             else
@@ -2473,16 +2640,19 @@ namespace MetadataLibrary
                     where +
                     ") GROUP BY Name";
 
+                sqlCommand = "SELECT Name, Count(1) AS CountNames FROM MediaPersonalRegions " +
+                    "WHERE " + where +
+                    " GROUP BY Name";
 
-                sqlCommand = "SELECT Name, FileDateCreated, Count(*) AS CountNames FROM MediaMetadata " +
-                "INNER JOIN MediaPersonalRegions ON " +
-                "MediaPersonalRegions.Broker = MediaMetadata.Broker " +
-                "AND MediaPersonalRegions.FileDirectory = MediaMetadata.FileDirectory " +
-                "AND MediaPersonalRegions.FileName = MediaMetadata.FileName " +
-                "AND MediaPersonalRegions.FileDateModified = MediaMetadata.FileDateModified " +
-                "WHERE " +
-                "MediaMetadata.FileDateCreated >= @FileDateCreatedFrom AND MediaMetadata.FileDateCreated <= @FileDateCreatedTo " +
-                "GROUP BY Name ";
+                //sqlCommand = "SELECT Name, FileDateCreated, Count(*) AS CountNames FROM MediaMetadata " +
+                //"INNER JOIN MediaPersonalRegions ON " +
+                //"MediaPersonalRegions.Broker = MediaMetadata.Broker " +
+                //"AND MediaPersonalRegions.FileDirectory = MediaMetadata.FileDirectory " +
+                //"AND MediaPersonalRegions.FileName = MediaMetadata.FileName " +
+                //"AND MediaPersonalRegions.FileDateModified = MediaMetadata.FileDateModified " +
+                //"WHERE " +
+                //"MediaMetadata.FileDateCreated >= @FileDateCreatedFrom AND MediaMetadata.FileDateCreated <= @FileDateCreatedTo " +
+                //"GROUP BY Name ";
             }
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
@@ -2647,6 +2817,7 @@ namespace MetadataLibrary
             Metadata metadataCopy = new Metadata(metadata);
             MetadataCacheRemoveMetadataCacheRemove(metadata.FileEntryBroker);
 
+
             try
             {
                 if (metadataCopy != null)
@@ -2669,6 +2840,7 @@ namespace MetadataLibrary
                         }
                     }
                     MetadataCacheUpdate(metadata.FileEntryBroker, metadataCopy);
+
                 }
             }
             catch (Exception ex)

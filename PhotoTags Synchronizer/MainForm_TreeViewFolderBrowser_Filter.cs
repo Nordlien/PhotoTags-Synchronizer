@@ -100,17 +100,27 @@ namespace PhotoTagsSynchronizer
         private void FilterReplaceNullWithIsNotDefineText(List<string> list)
         {
             if (list.Contains(null)) list.Remove(null);
-            list.Insert(0, "(Is not defined)");
+            if (!list.Contains("(Is not defined)")) list.Insert(0, "(Is not defined)");
         }
         #endregion
 
         #region Filter Helper - PopulateDatabaseFilter
         public void PopulateDatabaseFilter()
         {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action(PopulateDatabaseFilter));
+                return;
+            }
 
-            List<string> albums = databaseAndCacheMetadataExiftool.ListAllPersonalAlbums(MetadataBrokerType.ExifTool);
+            comboBoxSearchKeyword.Text = "";
+            comboBoxSearchKeyword.Items.Clear();
+            comboBoxSearchKeyword.Items.Add("Example1;Example2");
+
+            List<string> albums = databaseAndCacheMetadataExiftool.ListAllPersonalAlbumsCache(MetadataBrokerType.ExifTool);
             albums.Sort();
             FilterReplaceNullWithIsNotDefineText(albums);
+            comboBoxSearchAlbum.Text = "";
             comboBoxSearchAlbum.Items.Clear();
             comboBoxSearchAlbum.Items.AddRange(albums.ToArray());
 
@@ -119,50 +129,57 @@ namespace PhotoTagsSynchronizer
             //ListViewRemoveNull(authors);
             //comboBoxSearchAuthor.Items.Clear();
             //comboBoxSearchAuthor.Items.AddRange(authors.ToArray());
-
-            List<string> comments = databaseAndCacheMetadataExiftool.ListAllPersonalComments(MetadataBrokerType.ExifTool);
+            
+            List<string> comments = databaseAndCacheMetadataExiftool.ListAllPersonalCommentsCache(MetadataBrokerType.ExifTool);
             comments.Sort();
             FilterReplaceNullWithIsNotDefineText(comments);
+            comboBoxSearchComments.Text = "";
             comboBoxSearchComments.Items.Clear();
             comboBoxSearchComments.Items.AddRange(comments.ToArray());
 
-            List<string> descriptions = databaseAndCacheMetadataExiftool.ListAllPersonalDescriptions(MetadataBrokerType.ExifTool);
+            List<string> descriptions = databaseAndCacheMetadataExiftool.ListAllPersonalDescriptionsCache(MetadataBrokerType.ExifTool);
             descriptions.Sort();
             FilterReplaceNullWithIsNotDefineText(descriptions);
+            comboBoxSearchDescription.Text = "";
             comboBoxSearchDescription.Items.Clear();
             comboBoxSearchDescription.Items.AddRange(descriptions.ToArray());
 
-            List<string> titles = databaseAndCacheMetadataExiftool.ListAllPersonalTitles(MetadataBrokerType.ExifTool);
+            List<string> titles = databaseAndCacheMetadataExiftool.ListAllPersonalTitlesCache(MetadataBrokerType.ExifTool);
             titles.Sort();
             FilterReplaceNullWithIsNotDefineText(titles);
+            comboBoxSearchTitle.Text = "";
             comboBoxSearchTitle.Items.Clear();
             comboBoxSearchTitle.Items.AddRange(titles.ToArray());
 
-            List<string> locations = databaseAndCacheMetadataExiftool.ListAllLocationNames(MetadataBrokerType.ExifTool);
+            List<string> locations = databaseAndCacheMetadataExiftool.ListAllLocationNamesCache(MetadataBrokerType.ExifTool);
             locations.Sort();
             FilterReplaceNullWithIsNotDefineText(locations);
+            comboBoxSearchLocationName.Text = "";
             comboBoxSearchLocationName.Items.Clear();
             comboBoxSearchLocationName.Items.AddRange(locations.ToArray());
 
-            List<string> cities = databaseAndCacheMetadataExiftool.ListAllLocationCities(MetadataBrokerType.ExifTool);
+            List<string> cities = databaseAndCacheMetadataExiftool.ListAllLocationCitiesCache(MetadataBrokerType.ExifTool);
             cities.Sort();
             FilterReplaceNullWithIsNotDefineText(cities);
+            comboBoxSearchLocationCity.Text = "";
             comboBoxSearchLocationCity.Items.Clear();
             comboBoxSearchLocationCity.Items.AddRange(cities.ToArray());
 
-            List<string> states = databaseAndCacheMetadataExiftool.ListAllLocationStates(MetadataBrokerType.ExifTool);
+            List<string> states = databaseAndCacheMetadataExiftool.ListAllLocationStatesCache(MetadataBrokerType.ExifTool);
             states.Sort();
             FilterReplaceNullWithIsNotDefineText(states);
+            comboBoxSearchLocationState.Text = "";
             comboBoxSearchLocationState.Items.Clear();
             comboBoxSearchLocationState.Items.AddRange(states.ToArray());
 
-            List<string> countries = databaseAndCacheMetadataExiftool.ListAllLocationCountries(MetadataBrokerType.ExifTool);
+            List<string> countries = databaseAndCacheMetadataExiftool.ListAllLocationCountriesCache(MetadataBrokerType.ExifTool);
             countries.Sort();
             FilterReplaceNullWithIsNotDefineText(countries);
+            comboBoxSearchLocationCountry.Text = "";
             comboBoxSearchLocationCountry.Items.Clear();
             comboBoxSearchLocationCountry.Items.AddRange(countries.ToArray());
 
-            List<string> peoples = databaseAndCacheMetadataExiftool.ListAllPersonalRegionName(MetadataBrokerType.ExifTool);
+            List<string> peoples = databaseAndCacheMetadataExiftool.ListAllPersonalRegionNameCache(MetadataBrokerType.ExifTool);
             peoples.Sort();
             FilterReplaceNullWithIsNotDefineText(peoples);
             checkedListBoxSearchPeople.Items.Clear();

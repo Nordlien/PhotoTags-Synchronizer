@@ -128,8 +128,12 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
+        private void kryptonWorkspaceMain_ActivePageChanged(object sender, Krypton.Workspace.ActivePageChangedEventArgs e)
+        {
+            if (e.NewPage == kryptonPageFolderSearchFilterSearch) PopulateDatabaseFilter();
+        }
 
-        #region Workspace -- SelectedPageChanged --
+        #region Workspace -- Selected DataGrivView tab - Changed --
         private void kryptonWorkspaceCellToolbox_SelectedPageChanged(object sender, EventArgs e)
         {
             if (isFormLoading) return;
@@ -1126,7 +1130,7 @@ namespace PhotoTagsSynchronizer
 
         private void kryptonPageFolderSearchFilterSearch_Enter(object sender, EventArgs e)
         {
-            ActiveKryptonPage = KryptonPages.kryptonPageFolderSearchFilterSearch;
+            ActiveKryptonPage = KryptonPages.kryptonPageFolderSearchFilterSearch;            
         }
 
         private void kryptonPageFolderSearchFilterFilter_Enter(object sender, EventArgs e)

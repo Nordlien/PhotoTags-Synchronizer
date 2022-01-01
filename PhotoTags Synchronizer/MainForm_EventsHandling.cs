@@ -2063,6 +2063,8 @@ namespace PhotoTagsSynchronizer
                 
                 if (imageListView1.SelectedItems.Count == 1)
                 {
+                    PopulateDatabaseFilter();
+
                     kryptonTextBoxSearchDirectory.Text = imageListView1.SelectedItems[0].FileDirectory;
                     kryptonTextBoxSearchFilename.Text = imageListView1.SelectedItems[0].Text;
 

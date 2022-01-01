@@ -71,7 +71,7 @@ namespace SqliteDatabase
                 transactionCount = 0;
                 transactionStarted = true;
                 transactionStopwatch.Restart();
-                transactionHandler = connectionDatabase.BeginTransaction();
+                if (connectionDatabase.State == System.Data.ConnectionState.Open) transactionHandler = connectionDatabase.BeginTransaction();
                 transactionTimer.Interval = elapsedMillisecondsBeforeCommit / 2;
                 transactionTimer.Elapsed += TimerStatus_Elapsed;
             }
@@ -96,7 +96,7 @@ namespace SqliteDatabase
                     if (forced || transactionCount++ > numberOfTransactionbeforeCommit || transactionStopwatch.ElapsedMilliseconds > elapsedMillisecondsBeforeCommit)
                     {
                         transactionStarted = false;
-                        transactionHandler.Commit();   
+                        if (transactionHandler.Connection.State == System.Data.ConnectionState.Open) transactionHandler.Commit();   
                         
                     }
                 }
@@ -110,7 +110,7 @@ namespace SqliteDatabase
 
         public void TransactionCommit(CommonDatabaseTransaction commonDatabaseTransaction)
         {
-            commonDatabaseTransaction.DatabaseTransaction.Commit();    
+            if (transactionHandler.Connection.State == System.Data.ConnectionState.Open) commonDatabaseTransaction.DatabaseTransaction.Commit();    
         }
 
 
@@ -482,6 +482,7 @@ namespace SqliteDatabase
                         "FileDirectory          TEXT NOT NULL COLLATE NOCASE, " +
                         "FileName               TEXT NOT NULL COLLATE NOCASE, " +
                         "FileDateModified       " + SqliteDateTimeFormat + " NOT NULL, " +
+                        "FileDateCreated       " + SqliteDateTimeFormat + ", " +
                         "Type                   TEXT, " +
                         "Name                   TEXT, " +
                         "AreaX                  " + SqliteNumberFormat + ", " +
@@ -491,6 +492,22 @@ namespace SqliteDatabase
                         "RegionStructureType    INTEGER, " +
                         "Thumbnail              BLOB, " +
                         "UNIQUE (Broker, FileDirectory COLLATE NOCASE, FileName COLLATE NOCASE, FileDateModified, Type, Name, AreaX, AreaY, AreaWidth, AreaHeight, RegionStructureType) )"; 
+
+                using (var commandDatabase = new CommonSqliteCommand(sqlCommand, this.connectionDatabase))
+                {
+                    commandDatabase.ExecuteNonQuery();                  // Execute the query
+                }
+
+                sqlCommand =
+                        "CREATE INDEX MediaPersonalRegions_FileDateCreated ON MediaPersonalRegions (FileDateCreated);";
+
+                using (var commandDatabase = new CommonSqliteCommand(sqlCommand, this.connectionDatabase))
+                {
+                    commandDatabase.ExecuteNonQuery();                  // Execute the query
+                }
+
+                sqlCommand =
+                        "CREATE INDEX MediaPersonalRegions_Name_FileDateModified ON MediaPersonalRegions (Name, FileDateModified  ASC);";
 
                 using (var commandDatabase = new CommonSqliteCommand(sqlCommand, this.connectionDatabase))
                 {

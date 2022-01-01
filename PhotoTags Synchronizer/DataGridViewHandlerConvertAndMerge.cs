@@ -1901,37 +1901,21 @@ namespace PhotoTagsSynchronizer
 
             if (!formTerminalWindow.GetWasProcessKilled())
             {
-                /*if (tempFiles.Count == -1)
+                string videoArgumentReplace = ReplaceVariablesInString(videoMergeArgument, arguFilename, "WRONG VARIABLE - NO ARGU FILE",  musicFileFullPath, resolutionWidth, resolutionHeight, outputFile);
+                MergeVideos(formTerminalWindow, videoFiles, executeFile, videoArgumentReplace, arguFilename, videoMergeArguFile);
+
+                foreach (string tempfile in tempFiles)
                 {
                     try
                     {
-                        File.Delete(outputFile);
-                        File.Move(tempFiles[0], outputFile);
-                        formTerminalWindow.LogInfo("Rename file from: " + tempFiles[0] + " to: " + outputFile + "\r\n");
+                        File.Delete(tempfile);
+                        formTerminalWindow.LogInfo("Temp file deleted: " + tempfile + "\r\n");
                     }
                     catch (Exception ex)
                     {
                         formTerminalWindow.LogInfo(ex.Message + "\r\n");
                     }
                 }
-                else 
-                { */
-                    string videoArgumentReplace = ReplaceVariablesInString(videoMergeArgument, arguFilename, "WRONG VARIABLE - NO ARGU FILE",  musicFileFullPath, resolutionWidth, resolutionHeight, outputFile);
-                    MergeVideos(formTerminalWindow, videoFiles, executeFile, videoArgumentReplace, arguFilename, videoMergeArguFile);
-
-                    foreach (string tempfile in tempFiles)
-                    {
-                        try
-                        {
-                            File.Delete(tempfile);
-                            formTerminalWindow.LogInfo("Temp file deleted: " + tempfile + "\r\n");
-                        }
-                        catch (Exception ex)
-                        {
-                            formTerminalWindow.LogInfo(ex.Message + "\r\n");
-                        }
-                    }
-                //}
             }
 
             formTerminalWindow.LogInfo("\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nThe process is complete, you can close the window.\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n");
@@ -1940,9 +1924,6 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Write
-        /*(int)Properties.Settings.Default.ConvertAndMergeOutputWidth,
-                    (int)Properties.Settings.Default.ConvertAndMergeOutputHeight,
-                    Properties.Settings.Default.ConvertAndMergeOutputTempfileExtension,*/
         public static void Write(DataGridView dataGridView,
             string executeFile, string musicFile, int duration,
             int resolutionWidth, int resolutionHeight, string tempfileExtension,

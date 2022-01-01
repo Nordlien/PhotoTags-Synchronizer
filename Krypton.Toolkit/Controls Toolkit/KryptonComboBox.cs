@@ -469,7 +469,13 @@ namespace Krypton.Toolkit
                         base.WndProc(ref m);
                         break;
                     default:
-                        base.WndProc(ref m);
+                        try
+                        {
+                            base.WndProc(ref m);
+                        }
+                        catch { 
+                            //DEBUG
+                        }
                         break;
                 }
             }
