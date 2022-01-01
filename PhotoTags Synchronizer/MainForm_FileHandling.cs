@@ -185,13 +185,13 @@ namespace PhotoTagsSynchronizer
                     #endregion
 
                     #region Update database
-                    
-                    
                     foreach (string oldFullFilename in allSourceFullFilenames)
                     {
                         string oldFilename = Path.GetFileName(oldFullFilename);
                         string newFullFilename = Path.Combine(targetDirectory, oldFilename);
                         Logger.Trace("Rename from:" + oldFullFilename + " to: " + newFullFilename);
+
+                        databaseAndCacheThumbnail.Move(Path.GetDirectoryName(oldFullFilename), Path.GetFileName(oldFullFilename), Path.GetDirectoryName(newFullFilename), Path.GetFileName(newFullFilename));
                         databaseAndCacheMetadataExiftool.Move(Path.GetDirectoryName(oldFullFilename), Path.GetFileName(oldFullFilename), Path.GetDirectoryName(newFullFilename), Path.GetFileName(newFullFilename));
                     }
                     #endregion

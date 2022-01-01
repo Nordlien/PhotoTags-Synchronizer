@@ -1246,21 +1246,6 @@ namespace MetadataLibrary
                             commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
                             if (commandDatabase.ExecuteNonQuery() == -1) movedOk = false;
                         }
-                        
-                        sqlCommand =
-                            "UPDATE MediaThumbnail SET " +
-                            "FileDirectory = @NewFileDirectory, FileName = @NewFileName " +
-                            "WHERE FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
-                        using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
-                        {
-                            //commandDatabase.Prepare();
-                            //commandDatabase.Parameters.AddWithValue("@Broker", (int)broker);
-                            commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
-                            commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
-                            commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
-                            commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
-                            if (commandDatabase.ExecuteNonQuery() == -1) movedOk = false;
-                        }
                     }
                     #endregion
                 }
@@ -2470,7 +2455,7 @@ namespace MetadataLibrary
         private Dictionary<StringNullable, int> ListAllRegionNamesNearBy(MetadataBrokerType metadataBrokerType, DateTime? dateTimeFrom, DateTime? dateTimeTo, bool leaveOutNullOrWhiteSpace = true)
         {
             Dictionary<StringNullable, int> listing = new Dictionary<StringNullable, int>();
-
+            //return listing;
             string sqlCommand = "";
             
             if (metadataBrokerType == MetadataBrokerType.Empty || dateTimeFrom == null || dateTimeTo == null)
@@ -2487,6 +2472,17 @@ namespace MetadataLibrary
                     "SELECT FileName FROM MediaMetadata WHERE " +
                     where +
                     ") GROUP BY Name";
+
+
+                sqlCommand = "SELECT Name, FileDateCreated, Count(*) AS CountNames FROM MediaMetadata " +
+                "INNER JOIN MediaPersonalRegions ON " +
+                "MediaPersonalRegions.Broker = MediaMetadata.Broker " +
+                "AND MediaPersonalRegions.FileDirectory = MediaMetadata.FileDirectory " +
+                "AND MediaPersonalRegions.FileName = MediaMetadata.FileName " +
+                "AND MediaPersonalRegions.FileDateModified = MediaMetadata.FileDateModified " +
+                "WHERE " +
+                "MediaMetadata.FileDateCreated >= @FileDateCreatedFrom AND MediaMetadata.FileDateCreated <= @FileDateCreatedTo " +
+                "GROUP BY Name ";
             }
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))

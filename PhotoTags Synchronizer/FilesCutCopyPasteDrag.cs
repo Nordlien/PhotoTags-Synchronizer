@@ -276,6 +276,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region FilesCutCopyPasteDrag - MoveFile
+        
         public bool MoveFile(string sourceFullFilename, string targetFullFilename)
         {
             bool directoryCreated = false;
@@ -296,9 +297,13 @@ namespace PhotoTagsSynchronizer
                 if (!IsFilenameEqual(sourceFullFilename, targetFullFilename))
                 {
                     File.Move(sourceFullFilename, targetFullFilename);
+                    
+                    databaseAndCacheThumbnail.Move(oldDirectory, oldFilename, newDirectory, newFilename);
                     if (!databaseAndCacheMetadataExiftool.Move(oldDirectory, oldFilename, newDirectory, newFilename))
                     {
                         DeleteFileAndHistory(Path.Combine(newDirectory, newFilename));
+                        
+                        databaseAndCacheThumbnail.Move(oldDirectory, oldFilename, newDirectory, newFilename);
                         databaseAndCacheMetadataExiftool.Move(oldDirectory, oldFilename, newDirectory, newFilename);
                     }
                 }

@@ -74,6 +74,39 @@ namespace Thumbnails
         }
         #endregion
 
+        #region Move Metadata
+        public bool Move(string oldDirectory, string oldFilename, string newDirectory, string newFilename)
+        {
+            bool movedOk = true;
+            ThumnbailCacheRemove(oldDirectory, oldFilename);
+
+            dbTools.TransactionBeginBatch();
+
+            string oldPath = Path.Combine(oldDirectory, oldFilename).ToLower();
+            string newPath = Path.Combine(newDirectory, newFilename).ToLower();
+            if (string.Compare(oldPath, newPath, true) != 0)
+            {
+                string sqlCommand =
+                           "UPDATE MediaThumbnail SET " +
+                           "FileDirectory = @NewFileDirectory, FileName = @NewFileName " +
+                           "WHERE FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
+                using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+                {
+                    //commandDatabase.Prepare();
+                    //commandDatabase.Parameters.AddWithValue("@Broker", (int)broker);
+                    commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
+                    commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
+                    commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
+                    commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
+                    if (commandDatabase.ExecuteNonQuery() == -1) movedOk = false;
+                }
+            }
+            
+            dbTools.TransactionCommitBatch(false);
+            return movedOk;
+        }
+        #endregion
+
         #region ReadToCache(List<FileEntry> fileEntries)
         public void ReadToCache(HashSet<FileEntry> fileEntries)
         {        
@@ -247,6 +280,8 @@ namespace Thumbnails
         }
         #endregion
 
+
+
         #endregion 
 
         #region Thumbnail - Cache
@@ -268,6 +303,41 @@ namespace Thumbnails
             if (fileEntry == null) return;
             if (fileEntry.GetType() != typeof(FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
             lock (thumbnailCacheLock) if (thumbnailCache.ContainsKey(fileEntry)) thumbnailCache.Remove(fileEntry);
+        }
+        #endregion 
+
+        #region Thumbnail - Cache - Remove Folder + Filename (Copy and Move use this)
+        public void ThumnbailCacheRemove(string directory, string fileName)
+        {
+            bool found;
+            try
+            {
+                do
+                {
+                    found = false;
+
+                    FileEntryBroker fileEntryBrokerFound = null;
+                    lock (thumbnailCacheLock)
+                    {
+                        foreach (FileEntryBroker fileEntryBroker in thumbnailCache.Keys)
+                        {
+                            if (String.Compare(fileEntryBroker.Directory, directory, comparisonType: StringComparison.OrdinalIgnoreCase) == 0 &&
+                                String.Compare(fileEntryBroker.FileName, fileName, comparisonType: StringComparison.OrdinalIgnoreCase) == 0)
+                            {
+                                fileEntryBrokerFound = fileEntryBroker;
+                                found = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (found) ThumnbailCacheRemove(fileEntryBrokerFound);
+
+                } while (found);
+            }
+            catch //(Exception ex)
+            {
+                //Logger.Error(ex, "ThumnbailCacheRemove");
+            }
         }
         #endregion 
 
@@ -308,6 +378,8 @@ namespace Thumbnails
             return image;
         }
         #endregion
+
+
 
         #endregion
 
