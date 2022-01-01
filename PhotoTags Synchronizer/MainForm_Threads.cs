@@ -985,16 +985,23 @@ namespace PhotoTagsSynchronizer
                                 {
                                     mediaFilesNotInDatabaseCheckInCloudCopy = new List<FileEntry>(commonQueueReadMetadataFromExiftool);
                                     rangeToRemove = mediaFilesNotInDatabaseCheckInCloudCopy.Count;
-                                }
-
-                                //Avoid look for long time
-                                mediaFilesNotInDatabaseCheckInCloud.AddRange(
+                                
+                                    //Avoid look for long time
+                                    mediaFilesNotInDatabaseCheckInCloud.AddRange(
                                     databaseAndCacheMetadataExiftool.ListAllMissingFileEntries(MetadataBrokerType.ExifTool, mediaFilesNotInDatabaseCheckInCloudCopy.GetRange(0, rangeToRemove)));
 
-                                lock (commonQueueReadMetadataFromExiftoolLock)
-                                {
                                     mediaFilesNotInDatabaseCheckInCloudCopy.Clear();
-                                    commonQueueReadMetadataFromExiftool.RemoveRange(0, rangeToRemove);
+                                    try
+                                    {
+                                        commonQueueReadMetadataFromExiftool.RemoveRange(0, rangeToRemove);
+                                    } catch (Exception ex)
+                                    {
+                                        commonQueueReadMetadataFromExiftool.Clear();
+                                        Logger.Error(ex);
+                                        //DEBUG - Tryed to removed bigger than range.... This while downloading from OneDrive
+                                        //Maybe reason : ExiftoolReader_afterNewMediaFoundEvent(FileEntry fileEntry)
+                                        //Fixed having "bigger" lock 
+                                    }
                                 }
                                 #endregion
 
