@@ -16,6 +16,7 @@
 // Ozgur Ozcitak (ozcitak@yahoo.com)
 
 using System;
+using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
@@ -133,6 +134,16 @@ namespace Manina.Windows.Forms
             set { FileSizePropertyStatus = PropertyStatus.IsSet; mmFileSize = value; }
         }
         private PropertyStatus FileSizePropertyStatus = PropertyStatus.IsDirty;
+        #endregion
+
+        #region FileStatus
+        private ItemFileStatus mmFileStatus;
+        public ItemFileStatus mFileStatus
+        {
+            get { return mmFileStatus; }
+            set { FileStatusPropertyStatus = PropertyStatus.IsSet; mmFileStatus = value; }
+        }
+        private PropertyStatus FileStatusPropertyStatus = PropertyStatus.IsDirty;
         #endregion
 
         #region MediaDimensions
@@ -342,15 +353,17 @@ namespace Manina.Windows.Forms
 
         private void SetPropertyStatusForAll (PropertyStatus propertyStatus)
         {
+            //JTN: Added more column types
             //JTN: MediaFileAttributes
             //isDirtyFileDate = value; //ReadOnly
             FileSmartDatePropertyStatus = propertyStatus;
             FileDateCreatedPropertyStatus = propertyStatus;
             FileDateModifiedPropertyStatus = propertyStatus;
             FileTypePropertyStatus = propertyStatus;
-            FileNamePropertyStatus = PropertyStatus.IsSet; //This can't become dirty
+            FileNamePropertyStatus = propertyStatus; //This can't become dirty
             FileDirectoryPropertyStatus = propertyStatus;
             FileSizePropertyStatus = propertyStatus;
+            FileStatusPropertyStatus = propertyStatus;
             MediaPropertyStatusDimensions = propertyStatus;
             CameraMakePropertyStatus = propertyStatus;
             CameraModelPropertyStatus = propertyStatus;
@@ -569,8 +582,9 @@ namespace Manina.Windows.Forms
         public int ZOrder { get { return mZOrder; } set { mZOrder = value; } }
         #endregion
 
-        #region DateTime Date
+        //JTN: Added more column types
         //JTN: MediaFileAttributes
+        #region DateTime Date
         /// <summary>
         /// Gets the creation date of the image file represented by this item.
         /// </summary>
@@ -656,6 +670,25 @@ namespace Manina.Windows.Forms
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets file size in bytes.")]
         public long FileSize { get { UpdateFileInfo(FileSizePropertyStatus); return mFileSize; } }
+        #endregion
+
+        #region FileStatus
+        /// <summary> FileStatus
+        /// Gets or sets the text file status associated with this item. 
+        /// </summary>
+        [Category("Appearance"), Browsable(true), Description("Gets or sets the file status associated with this item.")]
+        public ItemFileStatus FileStatus 
+        {  
+            get { 
+                UpdateFileInfo(FileSizePropertyStatus); 
+                return mFileStatus; 
+            } 
+            set
+            {
+                mFileStatus = value;
+                FileSizePropertyStatus = PropertyStatus.IsSet;
+            } 
+        }
         #endregion
 
         #region Size Dimensions
@@ -785,7 +818,7 @@ namespace Manina.Windows.Forms
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the name of the media location country.")]
         public string LocationCountry { get { UpdateFileInfo(LocationCountryPropertyStatus); return mLocationCountry; } }
-        #endregion 
+        #endregion
 
         #endregion
 
@@ -974,6 +1007,7 @@ namespace Manina.Windows.Forms
         {
             //JTN: MediaFileAttributes
             //JTN: Added more column types
+            #region Return text depend of type
             switch (type)
             {
                 case ColumnType.FileDate:
@@ -1009,6 +1043,13 @@ namespace Manina.Windows.Forms
                 case ColumnType.MediaDimensions:
                     if (Dimensions == Size.Empty) return "";
                     else return string.Format("{0} x {1}", Dimensions.Width, Dimensions.Height);
+                case ColumnType.FileStatus:
+                    string fileStatusText = "";
+                    if (FileStatus.IsInCloud) fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Cloud";
+                    if (FileStatus.IsExiftoolRunning) fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Exiftool";
+                    if (FileStatus.IsDownloadingFromCloud) fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Downloading";
+                    if (FileStatus.IsReadOnly) fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Read Only";
+                    return fileStatusText;
                 case ColumnType.LocationTimeZone:
                     return LocationTimeZone;
                 case ColumnType.CameraMake:
@@ -1042,6 +1083,7 @@ namespace Manina.Windows.Forms
                 default:
                     throw new ArgumentException("Unknown column type", "type");
             }
+            #endregion
         }
         #endregion
 

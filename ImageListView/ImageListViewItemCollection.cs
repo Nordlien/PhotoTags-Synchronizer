@@ -486,9 +486,11 @@ namespace Manina.Windows.Forms
                 {
                     int sign = (mOrder == SortOrder.Ascending ? 1 : -1);
                     int result = 0;
+
+                    //JTN: MediaFileAttributes
+                    #region result Comapre based on ColumnType
                     switch (mSortColumn)
                     {
-                        //JTN: MediaFileAttributes
                         case ColumnType.FileName:
                             result = string.Compare(x.Text, y.Text, StringComparison.InvariantCultureIgnoreCase);
                             break;
@@ -515,6 +517,9 @@ namespace Manina.Windows.Forms
                             break;
                         case ColumnType.FileSize:
                             result = (x.FileSize < y.FileSize ? -1 : (x.FileSize > y.FileSize ? 1 : 0));
+                            break;
+                        case ColumnType.FileStatus:
+                            result = ItemFileStatus.Compare(x.FileStatus, y.FileStatus); 
                             break;
                         case ColumnType.MediaDimensions:
                             long ax = x.Dimensions.Width * x.Dimensions.Height;
@@ -573,6 +578,8 @@ namespace Manina.Windows.Forms
                             result = 0;
                             break;
                     }
+                    #endregion
+
                     return sign * result;
                 }
             }

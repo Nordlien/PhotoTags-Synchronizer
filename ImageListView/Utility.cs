@@ -317,6 +317,19 @@ namespace Manina.Windows.Forms
             public PropertyStatus FileSizePropertyStatus { get; set; } = PropertyStatus.IsDirty;
             #endregion
 
+            #region string FileStatus
+            /// <summary>
+            /// FileStatys by FileSystem 
+            /// </summary>
+            public ItemFileStatus FileStatus
+            {
+                get { return fileStatus; }
+                set { fileStatus = value; FileStatusPropertyStatus = PropertyStatus.IsSet; }
+            }
+            private ItemFileStatus fileStatus;
+            public PropertyStatus FileStatusPropertyStatus { get; set; } = PropertyStatus.IsDirty;
+            #endregion
+
             #region string FileMimeType
             /// <summary>
             /// TypeName supported by FileInfo 

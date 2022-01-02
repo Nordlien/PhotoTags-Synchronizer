@@ -89,6 +89,7 @@ namespace Manina.Windows.Forms
                 mItems = new ImageListViewColumnHeader[] {
                     //JTN: Added more columns
                     //JTN: MediaFileAttributes
+                    #region Add column types to List
                     new ImageListViewColumnHeader(ColumnType.FileName),
                     new ImageListViewColumnHeader(ColumnType.FileDate),
                     new ImageListViewColumnHeader(ColumnType.FileSmartDate),
@@ -102,7 +103,8 @@ namespace Manina.Windows.Forms
                     new ImageListViewColumnHeader(ColumnType.FileFullPath),
                     new ImageListViewColumnHeader(ColumnType.FileDirectory),
                     new ImageListViewColumnHeader(ColumnType.FileSize),
-                    
+                    new ImageListViewColumnHeader(ColumnType.FileStatus),
+
                     new ImageListViewColumnHeader(ColumnType.MediaAlbum),
                     new ImageListViewColumnHeader(ColumnType.MediaTitle),
                     new ImageListViewColumnHeader(ColumnType.MediaDescription),
@@ -119,6 +121,7 @@ namespace Manina.Windows.Forms
                     new ImageListViewColumnHeader(ColumnType.CameraModel),
                     
                     new ImageListViewColumnHeader(ColumnType.MediaDimensions)
+                    #endregion
                 };
 
                 for (int i = 0; i < mItems.Length; i++)

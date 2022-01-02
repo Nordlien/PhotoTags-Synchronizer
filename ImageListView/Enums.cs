@@ -122,6 +122,10 @@ namespace Manina.Windows.Forms
         /// </summary>
         FileSize,
         /// <summary>
+        /// The status of the file.
+        /// </summary>
+        FileStatus,
+        /// <summary>
         /// Image dimensions in pixels.
         /// </summary>
         MediaDimensions,
