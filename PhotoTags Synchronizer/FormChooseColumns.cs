@@ -88,6 +88,7 @@ namespace PhotoTagsSynchronizer
             comboBox.Items.Add("FileSmartDate");
             comboBox.Items.Add("FileDateCreated");
             comboBox.Items.Add("FileDateModified");
+            comboBox.Items.Add("FileStatus");
 
             comboBox.Items.Add("MediaDateTaken");
             comboBox.Items.Add("LocationDateTime");
@@ -130,6 +131,7 @@ namespace PhotoTagsSynchronizer
                 case "FileFullPath": return ColumnType.FileFullPath;
                 case "FileDirectory": return ColumnType.FileDirectory;
                 case "FileSize": return ColumnType.FileSize;
+                case "FileStatus": return ColumnType.FileStatus;
                 case "MediaAlbum": return ColumnType.MediaAlbum;
                 case "MediaTitle": return ColumnType.MediaTitle;
                 case "MediaDescription": return ColumnType.MediaDescription;
@@ -163,6 +165,7 @@ namespace PhotoTagsSynchronizer
                 case ColumnType.FileFullPath: return "FileFullPath";
                 case ColumnType.FileDirectory: return "FileDirectory";
                 case ColumnType.FileSize: return "FileSize";
+                case ColumnType.FileStatus: return "FileStatus";
                 case ColumnType.MediaAlbum: return "MediaAlbum";
                 case ColumnType.MediaTitle: return "MediaTitle";
                 case ColumnType.MediaDescription: return "MediaDescription";

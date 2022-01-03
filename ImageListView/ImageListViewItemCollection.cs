@@ -54,8 +54,6 @@ namespace Manina.Windows.Forms
             }
             #endregion
 
-
-            
             #region Properties
             /// <summary>
             /// Gets the number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1"/>.

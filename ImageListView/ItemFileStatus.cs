@@ -20,27 +20,77 @@ namespace Manina.Windows.Forms
     //JTN Added - Item File status
     public class ItemFileStatus //: IComparer
     {
-        public bool IsInCloud { get; set; } = false;
-        public bool IsDownloadingFromCloud { get; set; } = false;
-        public bool IsReadOnly { get; set; } = false;
-        public bool IsExiftoolRunning { get; set; } = false;
+        #region Exists
+        public bool FileExists { get; set; } = true;
+        public bool FailedToAccessInfo { get; set; } = false;
+        public bool IsDirty { get; set; } = true;
+        #endregion
 
+        #region Access        
+        public bool IsFileLockedReadAndWrite { get; set; } = false;
+        public bool IsFileLockedForRead { get; set; } = false;
+        public bool IsReadOnly { get; set; } = false;
+        #endregion
+
+        #region Located
+        public bool IsInCloud { get; set; } = false;
+        public bool IsVirtual { get; set; } = false;
+        public bool IsOffline { get; set; } = false;
+
+        public bool IsInCloudOrVirtualOrOffline
+        {
+            get
+            {
+                if (IsInCloud != IsVirtual != IsOffline)
+                {
+                    //DEBUG
+                }
+                return IsInCloud || IsVirtual || IsOffline;
+            }
+        }
+        #endregion
+
+        #region Processes
+        public bool IsDownloadingFromCloud { get; set; } = false;        
+        public bool IsExiftoolRunning { get; set; } = false;
+        #endregion
+
+        #region SortValue
         private int SortValue
         {
             get 
             {
                 return
-                    (IsInCloud ? 1 : 0) +
+                    #region Exists
+                    (FileExists ? 128 : 0) +
+                    (FailedToAccessInfo ? 64 : 0) +
+                    #endregion
+
+                    #region Access
+                    (IsFileLockedReadAndWrite ? 32 : 0) +
+                    (IsFileLockedForRead ? 16 : 0) +
+                    (IsReadOnly ? 8 : 0) +
+                    #endregion
+
+                    #region Located
+                    (IsInCloud ? 4 : 0) +
+                    (IsVirtual ? 4 : 0) +
+                    (IsOffline ? 4 : 0) +
+                    #endregion
+
+                    #region Processes
                     (IsDownloadingFromCloud ? 2 : 0) +
-                    (IsExiftoolRunning ? 4 : 0) +
-                    (IsReadOnly ? 8 : 0);
+                    (IsExiftoolRunning ? 1 : 0);
+                    #endregion
             }
         }
+        #endregion
 
+        #region Compare
         public static int Compare(ItemFileStatus x, ItemFileStatus y)
         {
             return x.SortValue.CompareTo(y.SortValue);
         }
-
+        #endregion
     }
 }

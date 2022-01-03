@@ -1,4 +1,5 @@
-﻿using Manina.Windows.Forms;
+﻿using FileHandeling;
+using Manina.Windows.Forms;
 using MetadataLibrary;
 using System.Collections.Generic;
 using static Manina.Windows.Forms.ImageListView;
@@ -114,9 +115,9 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region ImageListView - AddItem
-        public static void ImageListViewAddItem(ImageListView imageListView, string fullFilename)
+        public static void ImageListViewAddItem(ImageListView imageListView, string fullFileName)
         {
-            imageListView.Items.Add(fullFilename);
+            imageListView.Items.Add(fullFileName);
             ClearCacheFileEntries(imageListView);
         }
         #endregion

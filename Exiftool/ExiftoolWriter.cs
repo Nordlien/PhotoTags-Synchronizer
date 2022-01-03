@@ -142,7 +142,7 @@ namespace Exiftool
                         string error = "Failed write Xtra Atom Propery on file: " + metadataToWrite.FileFullPath + "\r\n";
                         if (!File.Exists(metadataToWrite.FileFullPath)) error += "File not found.\r\n";
                         else if (FileHandler.IsFileReadOnly(metadataToWrite.FileFullPath)) error += "File is Read Only.\r\n";
-                        else if (FileHandler.IsFileLockedByProcess(metadataToWrite.FileFullPath, FileHandler.GetFileLockedStatusTimeout)) error += "File is locked by another process.\r\n";
+                        else if (FileHandler.IsFileLockedForReadAndWrite(metadataToWrite.FileFullPath, FileHandler.GetFileLockedStatusTimeout)) error += "File is locked by another process.\r\n";
                         Logger.Error(error);
                         writeXtraAtomErrorMessageForFile.Add(metadataToWrite.FileFullPath, error);
                     }

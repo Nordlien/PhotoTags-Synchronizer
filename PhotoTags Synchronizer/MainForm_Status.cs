@@ -95,7 +95,7 @@ namespace PhotoTagsSynchronizer
                 else
                 {
                     if (FileHandler.IsFileReadOnly(fullFileName)) fileTasks[fullFileName].Add("ReadOnly");
-                    if (FileHandler.IsFileLockedByProcess(fullFileName, FileHandler.GetFileLockedStatusTimeout)) fileTasks[fullFileName].Add("**Locked** or timeout when open file");                                            
+                    if (FileHandler.IsFileLockedForReadAndWrite(fullFileName, FileHandler.GetFileLockedStatusTimeout)) fileTasks[fullFileName].Add("**Locked** or timeout when open file");                                            
                     if (FileHandler.IsFileInCloud(fullFileName)) fileTasks[fullFileName].Add("In cloud");
                     if (FileHandler.IsFileVirtual(fullFileName)) fileTasks[fullFileName].Add("Virtual file");
                 }
@@ -357,15 +357,13 @@ namespace PhotoTagsSynchronizer
                     try
                     {
                         int countWaitFileInCloud = 0;
-                        int countWaitFileIsVirtual = 0;
                         foreach (FileEntry fileEntry in mediaFilesNotInDatabase)
                         {
-                            if (FileHandler.IsFileInCloud(fileEntry.FileFullPath)) countWaitFileInCloud++;
-                            if (FileHandler.IsFileVirtual(fileEntry.FileFullPath)) countWaitFileIsVirtual++;
+                            ItemFileStatus fileStatus = FileHandler.GetItemFileStatus(fileEntry.FileFullPath);
+                            if (fileStatus.IsInCloudOrVirtualOrOffline) countWaitFileInCloud++;
                         }
-                        if (countWaitFileInCloud + countWaitFileIsVirtual > 0) 
-                            progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
-                                string.Format("wait cloud:{0} virtual: {1}", countWaitFileInCloud, countWaitFileIsVirtual);
+                        if (countWaitFileInCloud > 0) 
+                            progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") + string.Format("wait cloud:{0} ", countWaitFileInCloud);
                     }
                     catch
                     {

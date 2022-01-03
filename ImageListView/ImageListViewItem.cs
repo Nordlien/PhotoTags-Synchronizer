@@ -137,8 +137,8 @@ namespace Manina.Windows.Forms
         #endregion
 
         #region FileStatus
-        private ItemFileStatus mmFileStatus;
-        public ItemFileStatus mFileStatus
+        private ItemFileStatus mmFileStatus = new ItemFileStatus();
+        private ItemFileStatus mFileStatus
         {
             get { return mmFileStatus; }
             set { FileStatusPropertyStatus = PropertyStatus.IsSet; mmFileStatus = value; }
@@ -313,8 +313,10 @@ namespace Manina.Windows.Forms
         internal object mVirtualItemKey;
 
         internal ImageListView.ImageListViewItemCollection owner;
-        
-        #region 
+
+        //JTN: Added more column types
+        //JTN: MediaFileAttributes
+        #region HasAnyPropertyThisStatus
         private bool HasAnyPropertyThisStatus(PropertyStatus propertyStatus)
         {
             if (FileSmartDatePropertyStatus == propertyStatus) return true;
@@ -324,6 +326,7 @@ namespace Manina.Windows.Forms
             if (FileNamePropertyStatus == propertyStatus) return true;
             if (FileDirectoryPropertyStatus == propertyStatus) return true;
             if (FileSizePropertyStatus == propertyStatus) return true;
+            if (FileStatusPropertyStatus == propertyStatus) return true;
             if (MediaPropertyStatusDimensions == propertyStatus) return true;
             if (CameraMakePropertyStatus == propertyStatus) return true;
             if (CameraModelPropertyStatus == propertyStatus) return true;
@@ -351,10 +354,11 @@ namespace Manina.Windows.Forms
         }
         #endregion
 
+        //JTN: Added more column types
+        //JTN: MediaFileAttributes
+        #region SetPropertyStatusForAll
         private void SetPropertyStatusForAll (PropertyStatus propertyStatus)
         {
-            //JTN: Added more column types
-            //JTN: MediaFileAttributes
             //isDirtyFileDate = value; //ReadOnly
             FileSmartDatePropertyStatus = propertyStatus;
             FileDateCreatedPropertyStatus = propertyStatus;
@@ -381,6 +385,7 @@ namespace Manina.Windows.Forms
             LocationCityPropertyStatus = propertyStatus;
             LocationCountryPropertyStatus = propertyStatus;
         }
+        #endregion
 
         private bool editing;
         #endregion
@@ -1045,10 +1050,33 @@ namespace Manina.Windows.Forms
                     else return string.Format("{0} x {1}", Dimensions.Width, Dimensions.Height);
                 case ColumnType.FileStatus:
                     string fileStatusText = "";
-                    if (FileStatus.IsInCloud) fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Cloud";
-                    if (FileStatus.IsExiftoolRunning) fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Exiftool";
+                    
+                    #region Exists
+                    if (!FileStatus.FileExists) fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Not exist";
+                    if (FileStatus.FailedToAccessInfo) fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Access failed";
+                    if (FileStatus.IsDirty) fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Checking...";
+                    #endregion
+
+                    #region Access        
+                    if (FileStatus.IsFileLockedReadAndWrite) fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Locked RW";
+                    if (FileStatus.IsFileLockedForRead) fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Locked R";
+                    if (FileStatus.IsReadOnly) fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "ReadOnly";
+                    #endregion
+
+                    #region Located
+                    if (FileStatus.IsInCloudOrVirtualOrOffline)
+                        fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Offline (" +
+                        (FileStatus.IsInCloud ? "C" : "") +
+                        (FileStatus.IsVirtual ? "V" : "") +
+                        (FileStatus.IsOffline ? "O" : "") + ")";
+                    #endregion
+
+                    #region Processes
                     if (FileStatus.IsDownloadingFromCloud) fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Downloading";
-                    if (FileStatus.IsReadOnly) fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Read Only";
+                    if (FileStatus.IsExiftoolRunning) fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Exiftool";
+                    #endregion 
+                    
+                    if (string.IsNullOrWhiteSpace(fileStatusText)) fileStatusText = "Normal";
                     return fileStatusText;
                 case ColumnType.LocationTimeZone:
                     return LocationTimeZone;
@@ -1129,6 +1157,7 @@ namespace Manina.Windows.Forms
             if (info != null)
             {
                 #region Provided by FileInfo  
+                if (info.FileStatusPropertyStatus == PropertyStatus.IsSet) mFileStatus = info.FileStatus;
                 if (info.FileSmartDatePropertyStatus == PropertyStatus.IsSet) mFileSmartDate = info.FileSmartDate;
                 if (info.FileDateCreatedPropertyStatus == PropertyStatus.IsSet) mFileDateCreated = info.FileDateCreated;
                 if (info.FileDateModifiedPropertyStatus == PropertyStatus.IsSet) mFileDateModified = info.FileDateModified;

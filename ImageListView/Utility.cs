@@ -317,7 +317,7 @@ namespace Manina.Windows.Forms
             public PropertyStatus FileSizePropertyStatus { get; set; } = PropertyStatus.IsDirty;
             #endregion
 
-            #region string FileStatus
+            #region ItemFileStatus FileStatus
             /// <summary>
             /// FileStatys by FileSystem 
             /// </summary>
@@ -326,7 +326,7 @@ namespace Manina.Windows.Forms
                 get { return fileStatus; }
                 set { fileStatus = value; FileStatusPropertyStatus = PropertyStatus.IsSet; }
             }
-            private ItemFileStatus fileStatus;
+            private ItemFileStatus fileStatus = new ItemFileStatus();
             public PropertyStatus FileStatusPropertyStatus { get; set; } = PropertyStatus.IsDirty;
             #endregion
 

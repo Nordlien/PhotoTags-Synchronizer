@@ -1101,7 +1101,7 @@ namespace PhotoTagsSynchronizer
                                                 if (!File.Exists(fullFilePath)) errorMesssage += (errorMesssage == "" ? "" : "\r\n") + "File doesn't exist. ";
                                                 else
                                                 {
-                                                    if (FileHandler.IsFileLockedByProcess(fullFilePath, FileHandler.GetFileLockedStatusTimeout)) errorMesssage += (errorMesssage == "" ? "" : "\r\n") + "File is Locked. ";
+                                                    if (FileHandler.IsFileLockedForReadAndWrite(fullFilePath, FileHandler.GetFileLockedStatusTimeout)) errorMesssage += (errorMesssage == "" ? "" : "\r\n") + "File is Locked. ";
                                                     if (FileHandler.IsFileInCloud(fullFilePath)) errorMesssage += (errorMesssage == "" ? "" : "\r\n") + "File is in clound only. ";
                                                     if (FileHandler.IsFileVirtual(fullFilePath)) errorMesssage += (errorMesssage == "" ? "" : "\r\n") + "File is in virtual only. ";
                                                 }

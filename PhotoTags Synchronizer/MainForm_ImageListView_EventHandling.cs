@@ -41,17 +41,23 @@ namespace PhotoTagsSynchronizer
                     e.FileMetadata = new Utility.ShellImageFileInfo(); //Tell that data is create, all is good for internal void UpdateDetailsInternal(Utility.ShellImageFileInfo info)
                     e.FileMetadata.SetPropertyStatusOnAll(PropertyStatus.Requested); //All data will be read, it's in Lazy loading queue
 
+                    e.FileMetadata.FileStatus = FileHandler.GetItemFileStatus(e.FileName, true, false, false);
+
                     //JTN: MediaFileAttributes
-                    if (!File.Exists(e.FileName) || FileHandler.IsFileInCloud(e.FileName))
+                    if (!e.FileMetadata.FileStatus.FileExists || e.FileMetadata.FileStatus.IsInCloudOrVirtualOrOffline)
                     {
-                        string inCloud = inCloud = "Failed read, file maybe in cloud";
+                        string inCloudOrNotExistError = "";
+                        if (e.FileMetadata.FileStatus.IsInCloudOrVirtualOrOffline) inCloudOrNotExistError = "Failed read, file maybe in cloud";
+                        if (!e.FileMetadata.FileStatus.FileExists) inCloudOrNotExistError = "Not read, file not exists";
 
                         #region Provided by FileInfo
                         e.FileMetadata.FileDateCreated = DateTime.MinValue;
                         e.FileMetadata.FileDateModified = DateTime.MinValue;
                         e.FileMetadata.FileSmartDate = DateTime.MinValue;
                         e.FileMetadata.FileSize = long.MinValue;
-                        if (File.Exists(e.FileName))
+//e.FileMetadata.FileStatus = FileHandler.GetItemFileStatus(e.FileName, false, false, false);
+
+                        if (e.FileMetadata.FileStatus.FileExists)
                         {
                             try { e.FileMetadata.FileDateCreated = File.GetCreationTime(e.FileName); } catch { }
                             try { e.FileMetadata.FileDateModified = File.GetLastWriteTime(e.FileName); } catch { }
@@ -63,38 +69,34 @@ namespace PhotoTagsSynchronizer
                             catch { }
                             try { e.FileMetadata.FileSize = new FileInfo(e.FileName).Length; } catch { }
                         }
-                        else
-                        {
-                            inCloud = "Not read, file not exists";
-                        }
-
+                        
                         e.FileMetadata.FileMimeType = Path.GetExtension(e.FileName);
                         e.FileMetadata.FileDirectory = Path.GetDirectoryName(e.FileName);
                         #endregion
 
                         #region Provided by ShellImageFileInfo, MagickImage                                
-                        e.FileMetadata.CameraMake = inCloud;
-                        e.FileMetadata.CameraModel = inCloud;
+                        e.FileMetadata.CameraMake = inCloudOrNotExistError;
+                        e.FileMetadata.CameraModel = inCloudOrNotExistError;
                         e.FileMetadata.MediaDimensions = new Size(0, 0);
                         #endregion
 
                         #region Provided by MagickImage, Exiftool
                         e.FileMetadata.MediaDateTaken = DateTime.MinValue;
-                        e.FileMetadata.MediaTitle = inCloud;
-                        e.FileMetadata.MediaDescription = inCloud;
-                        e.FileMetadata.MediaComment = inCloud;
-                        e.FileMetadata.MediaAuthor = inCloud;
+                        e.FileMetadata.MediaTitle = inCloudOrNotExistError;
+                        e.FileMetadata.MediaDescription = inCloudOrNotExistError;
+                        e.FileMetadata.MediaComment = inCloudOrNotExistError;
+                        e.FileMetadata.MediaAuthor = inCloudOrNotExistError;
                         e.FileMetadata.MediaRating = 0;
                         #endregion
 
                         #region Provided by Exiftool
-                        e.FileMetadata.MediaAlbum = inCloud;
+                        e.FileMetadata.MediaAlbum = inCloudOrNotExistError;
                         e.FileMetadata.LocationDateTime = DateTime.MinValue;
-                        e.FileMetadata.LocationTimeZone = inCloud;
-                        e.FileMetadata.LocationName = inCloud;
-                        e.FileMetadata.LocationRegionState = inCloud;
-                        e.FileMetadata.LocationCity = inCloud;
-                        e.FileMetadata.LocationCountry = inCloud;
+                        e.FileMetadata.LocationTimeZone = inCloudOrNotExistError;
+                        e.FileMetadata.LocationName = inCloudOrNotExistError;
+                        e.FileMetadata.LocationRegionState = inCloudOrNotExistError;
+                        e.FileMetadata.LocationCity = inCloudOrNotExistError;
+                        e.FileMetadata.LocationCountry = inCloudOrNotExistError;
                         #endregion
                     }
 
@@ -129,6 +131,7 @@ namespace PhotoTagsSynchronizer
                     }
                     e.FileMetadata.FileMimeType = metadata.FileMimeType;
                     e.FileMetadata.FileDirectory = metadata.FileDirectory;
+                    e.FileMetadata.FileStatus = FileHandler.GetItemFileStatus(e.FileName, false, false, false);
                     #endregion
 
                     #region Provided by ShellImageFileInfo, MagickImage                                

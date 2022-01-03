@@ -1,4 +1,5 @@
 ﻿using Krypton.Toolkit;
+using Manina.Windows.Forms;
 using MetadataLibrary;
 using System;
 using System.Collections.Generic;
@@ -21,25 +22,6 @@ namespace FileHandeling
 
         public static Form MainForm { get; set; } = null;
 
-        #region IsFileInCloud
-        public static bool IsFileInCloud(string fullFileName)
-        {
-            //FILE_ATTRIBUTE_RECALL_ON_DATA_ACCESS - 0x400000 - When this attribute is set, it means that the file or directory is not fully present locally. For a file that means that not all of its data is on local storage (e.g. it may be sparse with some data still in remote storage). For a directory it means that some of the directory contents are being virtualized from another location. Reading the file / enumerating the directory will be more expensive than normal, e.g. it will cause at least some of the file/directory content to be fetched from a remote store. Only kernel-mode callers can set this bit.
-
-            try
-            {
-                FileAttributes fileAttributes = (FileAttributes)0;
-                if (File.Exists(fullFileName)) fileAttributes = File.GetAttributes(fullFileName);
-                if ((((int)fileAttributes) & 0x000400000) == 0x000400000) return true;
-            }
-            catch 
-            { 
-                return false; 
-            }
-            return false;
-        }
-        #endregion 
-
         #region IsStillInCloudAfterTouchFileActivateReadFromCloud
         public static bool IsStillInCloudAfterTouchFileActivateReadFromCloud(string fileFullPath)
         {
@@ -57,6 +39,91 @@ namespace FileHandeling
             return true;
         }
         #endregion
+
+        #region GetItemFileStatus
+        public static ItemFileStatus GetItemFileStatus(string fullFileName, bool checkLockedStatus = false, bool isDownloadingFromCloud = false, bool isExiftoolRunning = false)
+        {
+            ItemFileStatus itemFileStatus = new ItemFileStatus();
+            try
+            {
+                #region Exists
+                itemFileStatus.IsDirty = false;
+                itemFileStatus.FileExists = File.Exists(fullFileName);
+                FileInfo fileInfo = null;
+                if (itemFileStatus.FileExists) fileInfo = new FileInfo(fullFileName);
+                itemFileStatus.FailedToAccessInfo = false;
+                #endregion
+
+                #region Located
+                itemFileStatus.IsInCloud = itemFileStatus.FileExists && IsFileInCloud(fullFileName);
+                itemFileStatus.IsVirtual = itemFileStatus.FileExists && IsFileVirtual(fullFileName);
+                itemFileStatus.IsOffline = fileInfo.Attributes == System.IO.FileAttributes.Offline;
+                #endregion
+
+                #region Access
+                itemFileStatus.IsReadOnly = itemFileStatus.FileExists && fileInfo.Attributes == System.IO.FileAttributes.ReadOnly; // IsFileReadOnly(fullFileName);
+                itemFileStatus.IsFileLockedReadAndWrite = itemFileStatus.IsInCloudOrVirtualOrOffline ||
+                    (!itemFileStatus.IsInCloudOrVirtualOrOffline && itemFileStatus.FileExists && checkLockedStatus && IsFileLockedForReadAndWrite(fullFileName, 100));
+                itemFileStatus.IsFileLockedForRead = itemFileStatus.IsInCloudOrVirtualOrOffline ||
+                    (!itemFileStatus.IsInCloudOrVirtualOrOffline && itemFileStatus.FileExists && checkLockedStatus && IsFileLockedForRead(fullFileName, 100));
+                #endregion
+
+                #region Processes
+                itemFileStatus.IsDownloadingFromCloud = isDownloadingFromCloud;
+                itemFileStatus.IsExiftoolRunning = isExiftoolRunning;
+                #endregion
+
+            } catch
+            {
+                #region Exists
+                itemFileStatus.IsDirty = false;
+                itemFileStatus.FileExists = false;
+                itemFileStatus.FailedToAccessInfo = true;
+                #endregion
+
+                #region Access
+                itemFileStatus.IsReadOnly = true;
+                itemFileStatus.IsFileLockedReadAndWrite = false;
+                itemFileStatus.IsFileLockedForRead = false;
+                #endregion
+
+                #region Located
+                itemFileStatus.IsInCloud = false;
+                itemFileStatus.IsVirtual = false;
+                itemFileStatus.IsOffline = false;
+                #endregion
+
+                #region Processes
+                itemFileStatus.IsDownloadingFromCloud = isDownloadingFromCloud;
+                itemFileStatus.IsExiftoolRunning = isExiftoolRunning;
+                #endregion
+            }
+            return itemFileStatus;
+        }
+        #endregion 
+
+        #region IsFileInCloud
+        public static bool IsFileInCloud(string fullFileName)
+        {
+            //FILE_ATTRIBUTE_RECALL_ON_DATA_ACCESS - 0x400000 - When this attribute is set, it means that the file or directory is not fully present locally. 
+            //For a file that means that not all of its data is on local storage (e.g. it may be sparse with some data still in remote storage). 
+            //For a directory it means that some of the directory contents are being virtualized from another location. 
+            //Reading the file / enumerating the directory will be more expensive than normal, e.g. it will cause at least some of the file/directory
+            //content to be fetched from a remote store. Only kernel-mode callers can set this bit.
+
+            try
+            {
+                FileAttributes fileAttributes = (FileAttributes)0;
+                if (File.Exists(fullFileName)) fileAttributes = File.GetAttributes(fullFileName);
+                if ((((int)fileAttributes) & 0x000400000) == 0x000400000) return true;
+            }
+            catch 
+            { 
+                return false; 
+            }
+            return false;
+        }
+        #endregion 
 
         #region IsFileVirual
         public static bool IsFileVirtual(string fullFileName)
@@ -98,8 +165,8 @@ namespace FileHandeling
             else
             { 
                 status =  
-                    (IsFileInCloud(fullFileName) ? "File is in cloud" : "File is not in clud") + "\r\n" +
-                    (IsFileLockedByProcess(fullFileName, FileHandler.GetFileLockedStatusTimeout) ? "File is locked by process" : "File is not locked by process") + "\r\n" +
+                    (IsFileInCloud(fullFileName) ? "File is in cloud" : "File is not in cloud") + "\r\n" +
+                    (IsFileLockedForReadAndWrite(fullFileName, FileHandler.GetFileLockedStatusTimeout) ? "File is locked by process" : "File is not locked by process") + "\r\n" +
                     (IsFileLockedForRead(fullFileName) ? "File is locked for reading" : "File is not locked for reading") + "\r\n" +
                     (IsFileVirtual(fullFileName) ? "File is virtual" : "File is not virtual");
                 try
@@ -158,7 +225,7 @@ namespace FileHandeling
             return result;
         }
 
-        public static bool IsFileLockedForRead(string fullFilePath)
+        private static bool IsFileLockedForRead(string fullFilePath)
         {
             if (!File.Exists(fullFilePath)) return false;
 
@@ -181,7 +248,7 @@ namespace FileHandeling
 
         #region IsFileLockedByProcess
         private static List<string> inProcessIsFileLockedByProcess = new List<string>();
-        public static bool IsFileLockedByProcess(string fullFilePath, int millisecondsTimeout)
+        public static bool IsFileLockedForReadAndWrite(string fullFilePath, int millisecondsTimeout)
         {   
             bool result = false;
             try
@@ -218,9 +285,7 @@ namespace FileHandeling
             }
             return result;
         }
-        #endregion
 
-        #region IsFileLockedByProcess
         private static bool IsFileLockedByProcess(string fullFilePath)
         {
             if (!File.Exists(fullFilePath)) return false;
@@ -262,6 +327,10 @@ namespace FileHandeling
         }
         #endregion
 
+        #region 
+
+        #endregion
+
         #region IsFileThatNeedUpdatedLockedByProcess
         public static bool IsFileThatNeedUpdatedLockedByProcess(List<Metadata> fileEntriesToCheck, bool needWriteAccess)
         {
@@ -277,7 +346,7 @@ namespace FileHandeling
                     {
                         //if (IsFileReadOnly(fileEntryToCheck.FileFullPath)) return true; //No need to wait, Attribute is set to read only
                         //if (IsFileReadOnly(fileEntryToCheck.FileFullPath)) return false; //No need to wait, Attribute is set to read only
-                        if (IsFileLockedByProcess(fileEntryToCheck.FileFullPath, WaitFileGetUnlockedTimeout)) return true; //In process OneDrive backup / update
+                        if (IsFileLockedForReadAndWrite(fileEntryToCheck.FileFullPath, WaitFileGetUnlockedTimeout)) return true; //In process OneDrive backup / update
                     }
                     else
                     {
@@ -330,7 +399,7 @@ namespace FileHandeling
                                 if (!File.Exists(metadata.FileFullPath)) statusOnFiles += "- File doesn't exist\r\n";
                             }
                             catch { }
-                            if (IsFileLockedByProcess(metadata.FileFullPath, FileHandler.GetFileLockedStatusTimeout)) statusOnFiles += "- File is Locked by an other application\r\n";
+                            if (IsFileLockedForReadAndWrite(metadata.FileFullPath, FileHandler.GetFileLockedStatusTimeout)) statusOnFiles += "- File is Locked by an other application\r\n";
                             if (IsFileReadOnly(metadata.FileFullPath)) statusOnFiles += "- File is read only\r\n";
                             if (IsFileVirtual(metadata.FileFullPath)) statusOnFiles += "- File is virtual\r\n";
                             if (IsFileInCloud(metadata.FileFullPath)) statusOnFiles += "- File is in cloud\r\n";
