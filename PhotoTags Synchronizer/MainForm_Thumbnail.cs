@@ -51,7 +51,7 @@ namespace PhotoTagsSynchronizer
                     DataGridView_UpdateColumnThumbnail_OnFileEntryAttribute(new FileEntryAttribute(fileEntry, fileEntryVersion), new Bitmap(thumbnailImage));
                     DataGridView_UpdateColumnThumbnail_OnFileEntryAttribute(new FileEntryAttribute(fileEntry, FileEntryVersion.Error), new Bitmap(thumbnailImage));
                 }
-                AddQueueSaveThumbnailMediaLock(new FileEntryImage(fileEntry, thumbnailImage == null ? null : new Bitmap(thumbnailImage)));
+                AddQueueSaveToDatabaseMediaThumbnailLock(new FileEntryImage(fileEntry, thumbnailImage == null ? null : new Bitmap(thumbnailImage)));
             }
 
             return thumbnailImage;
@@ -172,19 +172,14 @@ namespace PhotoTagsSynchronizer
             Image image = null;
             try
             {
-                bool doNotReadFullFileItsInCloud = false;
-                
-                if (isFileInCloud && dontReadFilesInCloud)
-                {
-                    doNotReadFullFileItsInCloud = true; 
-                }
+                bool doNotReadFullFileItsInCloud = isFileInCloud && dontReadFilesInCloud; //Do not read When File in Clound and not allowd
 
                 if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(fullFilePath))
                 {
                     WindowsProperty.WindowsPropertyReader windowsPropertyReader = new WindowsProperty.WindowsPropertyReader();                    
                     image = windowsPropertyReader.GetThumbnail(fullFilePath);
                     
-                    //DO NOT READ FROM FILE - IF NOT ALLOWED READ CLOUD FILES
+                    //DO NOT READ FROM FILE - WHEN NOT ALLOWED TO READ CLOUD FILES
                     if (image == null && !doNotReadFullFileItsInCloud)
                     {                        
                         FileHandler.WaitLockedFileToBecomeUnlocked(fullFilePath, false, this);

@@ -72,7 +72,7 @@ namespace PhotoTagsSynchronizer
                     return;
                 }
 
-                if (IsFileInThreadQueueLock(sourceFilesAndFolders))
+                if (IsFileInAnyQueueLock(sourceFilesAndFolders))
                 {
                     KryptonMessageBox.Show("Can't " + dragDropEffects.ToString() + " files. Files are being used, you need wait until process is finished.", "Warning...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
                     return;

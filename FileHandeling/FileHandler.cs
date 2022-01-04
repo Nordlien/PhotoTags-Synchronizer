@@ -23,27 +23,42 @@ namespace FileHandeling
         public static Form MainForm { get; set; } = null;
 
         #region IsStillInCloudAfterTouchFileActivateReadFromCloud
-        public static bool IsStillInCloudAfterTouchFileActivateReadFromCloud(string fileFullPath)
+        private static void TouchOfflineFileProcess(string fullFileName)
         {
             try
             {
-                byte[] buffer = new byte[512];
-                using (FileStream fs = new FileStream(fileFullPath, FileMode.Open, FileAccess.Read))
+                FileStatus fileStatus = GetFileStatus(fullFileName, checkLockedStatus:false);
+
+                if (fileStatus.IsInCloudOrVirtualOrOffline)
                 {
-                    var bytes_read = fs.Read(buffer, 0, buffer.Length); //Get OneDrive to start download the file
-                    fs.Close();
+                    byte[] buffer = new byte[512];
+                    using (FileStream fs = new FileStream(fullFileName, FileMode.Open, FileAccess.Read))
+                    {
+                        var bytes_read = fs.Read(buffer, 0, buffer.Length); //Get OneDrive to start download the file
+                        fs.Close();
+                    }
                 }
-                return false;
             }
             catch { }
-            return true;
+        }
+
+        public static void TouchOfflineFileToGetFileOnline(string fullFileName)
+        {
+            
+            Task task = Task.Run(() =>
+            {
+                TouchOfflineFileProcess(fullFileName);
+            });
+            task.Wait(200);
         }
         #endregion
 
         #region GetItemFileStatus
-        public static ItemFileStatus GetItemFileStatus(string fullFileName, bool checkLockedStatus = false, bool isDownloadingFromCloud = false, bool isExiftoolRunning = false)
+        public static FileStatus GetFileStatus(string fullFileName, 
+            FileProcessStatus fileProcessStatus = FileProcessStatus.DoNotUpdate, 
+            bool checkLockedStatus = false, int checkLockStatusTimeout = 100)
         {
-            ItemFileStatus itemFileStatus = new ItemFileStatus();
+            FileStatus itemFileStatus = new FileStatus();
             try
             {
                 #region Exists
@@ -51,7 +66,7 @@ namespace FileHandeling
                 itemFileStatus.FileExists = File.Exists(fullFileName);
                 FileInfo fileInfo = null;
                 if (itemFileStatus.FileExists) fileInfo = new FileInfo(fullFileName);
-                itemFileStatus.FailedToAccessInfo = false;
+                itemFileStatus.FileInaccessible = false;
                 #endregion
 
                 #region Located
@@ -63,14 +78,13 @@ namespace FileHandeling
                 #region Access
                 itemFileStatus.IsReadOnly = itemFileStatus.FileExists && fileInfo.Attributes == System.IO.FileAttributes.ReadOnly; // IsFileReadOnly(fullFileName);
                 itemFileStatus.IsFileLockedReadAndWrite = itemFileStatus.IsInCloudOrVirtualOrOffline ||
-                    (!itemFileStatus.IsInCloudOrVirtualOrOffline && itemFileStatus.FileExists && checkLockedStatus && IsFileLockedForReadAndWrite(fullFileName, 100));
+                    (!itemFileStatus.IsInCloudOrVirtualOrOffline && itemFileStatus.FileExists && checkLockedStatus && IsFileLockedForReadAndWrite(fullFileName, checkLockStatusTimeout));
                 itemFileStatus.IsFileLockedForRead = itemFileStatus.IsInCloudOrVirtualOrOffline ||
-                    (!itemFileStatus.IsInCloudOrVirtualOrOffline && itemFileStatus.FileExists && checkLockedStatus && IsFileLockedForRead(fullFileName, 100));
+                    (!itemFileStatus.IsInCloudOrVirtualOrOffline && itemFileStatus.FileExists && checkLockedStatus && IsFileLockedForRead(fullFileName, checkLockStatusTimeout));
                 #endregion
 
                 #region Processes
-                itemFileStatus.IsDownloadingFromCloud = isDownloadingFromCloud;
-                itemFileStatus.IsExiftoolRunning = isExiftoolRunning;
+                if (fileProcessStatus != FileProcessStatus.DoNotUpdate) itemFileStatus.FileProcessStatus = fileProcessStatus;
                 #endregion
 
             } catch
@@ -78,7 +92,7 @@ namespace FileHandeling
                 #region Exists
                 itemFileStatus.IsDirty = false;
                 itemFileStatus.FileExists = false;
-                itemFileStatus.FailedToAccessInfo = true;
+                itemFileStatus.FileInaccessible = true;
                 #endregion
 
                 #region Access
@@ -94,8 +108,7 @@ namespace FileHandeling
                 #endregion
 
                 #region Processes
-                itemFileStatus.IsDownloadingFromCloud = isDownloadingFromCloud;
-                itemFileStatus.IsExiftoolRunning = isExiftoolRunning;
+                itemFileStatus.FileProcessStatus = FileProcessStatus.FileInaccessible;
                 #endregion
             }
             return itemFileStatus;
@@ -337,15 +350,10 @@ namespace FileHandeling
             if (fileEntriesToCheck.Count == 0) return false;
             foreach (Metadata fileEntryToCheck in fileEntriesToCheck)
             {
-                //if (!File.Exists(fileEntryToCheck.FileFullPath)) return false; //In process rename
-                //if (File.Exists(fileEntryToCheck.FileFullPath) && IsFileLockedForRead(fileEntryToCheck.FileFullPath, WaitFileGetUnlockedTimeout)) return true;
-
                 if (File.Exists(fileEntryToCheck.FileFullPath))
                 {
                     if (needWriteAccess)
                     {
-                        //if (IsFileReadOnly(fileEntryToCheck.FileFullPath)) return true; //No need to wait, Attribute is set to read only
-                        //if (IsFileReadOnly(fileEntryToCheck.FileFullPath)) return false; //No need to wait, Attribute is set to read only
                         if (IsFileLockedForReadAndWrite(fileEntryToCheck.FileFullPath, WaitFileGetUnlockedTimeout)) return true; //In process OneDrive backup / update
                     }
                     else

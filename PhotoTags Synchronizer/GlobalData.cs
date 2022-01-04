@@ -10,8 +10,6 @@ namespace PhotoTagsSynchronizer
         public static readonly object metadataUpdateLock = new object();
 
         public static HashSet<FileEntry> SerachFilterResult { get; set; }
-        public static List<FileEntry> ReloadAllowedFromCloud { get; set; } = new List<FileEntry>();
-        public static readonly object ReloadAllowedFromCloudLock = new object();
 
         public static bool SearchFolder { get; set; } = true;
 

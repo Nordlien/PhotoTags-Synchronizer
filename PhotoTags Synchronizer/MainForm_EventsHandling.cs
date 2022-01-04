@@ -1155,7 +1155,8 @@ namespace PhotoTagsSynchronizer
 
                 try
                 {
-                    if (IsFileInThreadQueueLock(imageListView1))
+                    HashSet<string> selectedFiles = ImageListViewHandler.GetFilesSelectedItemsCache(imageListView1);
+                    if (IsFileInAnyQueueLock(selectedFiles))
                     {
                         KryptonMessageBox.Show("Can't delete files. Files are being used, you need wait until process is finished.", "File in queue...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
                         return;
@@ -1206,7 +1207,7 @@ namespace PhotoTagsSynchronizer
                     return;
                 }
 
-                if (IsFolderInThreadQueueLock(folder))
+                if (IsFolderInAnyQueueLock(folder))
                 {
                     KryptonMessageBox.Show("Can't delete folder. Files in folder is been used, you need wait until process is finished.", "File are in queue....", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
                     return;
@@ -4298,7 +4299,7 @@ namespace PhotoTagsSynchronizer
                                 metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, out bool isUpdated);
                                 bool isDirty = isUpdated = metadataToSave != metadataListFromDataGridView[updatedRecord];
                                 MakeEqualBetweenMetadataAndDataGridViewContent(metadataToSave, isUpdated, isDirty);
-                                AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, metadataListOriginalExiftool[updatedRecord]);
+                                AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, metadataListOriginalExiftool[updatedRecord]);
                             }
                         }
                         else
@@ -4309,11 +4310,11 @@ namespace PhotoTagsSynchronizer
                             bool isDirty = isUpdated = metadataToSave!= metadataListFromDataGridView[updatedRecord];
                             string diff = Metadata.GetErrors(metadataToSave, metadataListFromDataGridView[updatedRecord]);
                             MakeEqualBetweenMetadataAndDataGridViewContent(metadataToSave, isUpdated, isDirty);
-                            AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, metadataListOriginalExiftool[updatedRecord]);
+                            AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, metadataListOriginalExiftool[updatedRecord]);
                         }
                     }
                 }
-                ThreadSaveMetadata();
+                ThreadSaveUsingExiftoolToMedia();
             }
             catch (Exception ex)
             {
@@ -4362,7 +4363,7 @@ namespace PhotoTagsSynchronizer
 
                     GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
                     //ImageListViewReloadThumbnailInvoke(imageListView1, null); //Why null
-                    DataGridView_AfterPopulateSelectedFiles_LazyLoadOtherFileVersions(ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));
+                    DataGridView_AfterPopulateSelectedFiles_LazyLoadFromDatabaseThenSourceAllVersions(ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));
                     OnImageListViewSelect_FilesSelectedOrNoneSelected(false);
                 }
             }
@@ -6724,8 +6725,8 @@ namespace PhotoTagsSynchronizer
                                 metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, out bool isUpdated);
                                 bool isDirty = isUpdated = metadata != metadataToSave;
                                 MakeEqualBetweenMetadataAndDataGridViewContent(metadataToSave, true, isDirty);
-                                AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
-                                AddQueueRenameLock(item.FileFullPath, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
+                                AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
+                                AddQueueRenameMediaFilesLock(item.FileFullPath, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
                             }
                         }
                     }
@@ -6783,8 +6784,8 @@ namespace PhotoTagsSynchronizer
                                 metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, out bool isUpdated);
                                 bool isDirty = isUpdated = metadataToSave != metadata;
                                 MakeEqualBetweenMetadataAndDataGridViewContent(metadataToSave, true, isDirty);
-                                AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
-                                AddQueueRenameLock(file, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
+                                AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
+                                AddQueueRenameMediaFilesLock(file, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
                             }
                         }
                     }
@@ -6854,7 +6855,7 @@ namespace PhotoTagsSynchronizer
                             }
                         }
                     }
-                    AddQueueLazyLoadningDataGridViewMetadataLock(fileEntryAttributes);
+                    AddQueueLazyLoadningAllSourcesMetadataAndRegionThumbnailsLock(fileEntryAttributes);
                 }
             }
             catch (Exception ex)
@@ -6862,7 +6863,7 @@ namespace PhotoTagsSynchronizer
                 Logger.Error(ex);
             }
 
-            ThreadSaveMetadata();
+            ThreadSaveUsingExiftoolToMedia();
         }
         #endregion
 
@@ -6985,8 +6986,8 @@ namespace PhotoTagsSynchronizer
                                     metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, out bool isUpdated);
                                     bool isDirty = isUpdated = metadataToSave != metadata;
                                     MakeEqualBetweenMetadataAndDataGridViewContent(metadataToSave, isUpdated, isDirty);
-                                    AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
-                                    AddQueueRenameLock(item.FileFullPath, autoCorrect.RenameVariable);
+                                    AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
+                                    AddQueueRenameMediaFilesLock(item.FileFullPath, autoCorrect.RenameVariable);
                                 }
                             }
                         }
@@ -7055,8 +7056,8 @@ namespace PhotoTagsSynchronizer
                                     metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, out bool isUpdated);
                                     bool isDirty = isUpdated = metadataToSave != metadata;
                                     MakeEqualBetweenMetadataAndDataGridViewContent(metadataToSave, isUpdated, isDirty);
-                                    AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
-                                    AddQueueRenameLock(file, autoCorrect.RenameVariable);
+                                    AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
+                                    AddQueueRenameMediaFilesLock(file, autoCorrect.RenameVariable);
                                 }
                             }
                         }
@@ -7138,7 +7139,7 @@ namespace PhotoTagsSynchronizer
                                 }
                             }
                         }
-                        AddQueueLazyLoadningDataGridViewMetadataLock(fileEntryAttributes);
+                        AddQueueLazyLoadningAllSourcesMetadataAndRegionThumbnailsLock(fileEntryAttributes);
                     }
                     StartThreads();
                 }
@@ -7233,10 +7234,13 @@ namespace PhotoTagsSynchronizer
                     ClearAllQueues();
 
                     UpdateStatusAction("Delete all data and files...");
-                    lock (GlobalData.ReloadAllowedFromCloudLock)
-                    {
-                        GlobalData.ReloadAllowedFromCloud = filesCutCopyPasteDrag.DeleteFileEntriesBeforeReload(imageListView.Items, updatedOnlySelected);
-                    }
+
+                    List<FileEntry> listOfFilesForReload = filesCutCopyPasteDrag.DeleteFileEntriesBeforeReload(imageListView.Items, updatedOnlySelected);
+                    
+                    #region Touch Offline files so they get downloaded
+                    foreach (FileEntry fileEntry in listOfFilesForReload) FileHandler.TouchOfflineFileToGetFileOnline(fileEntry.FileFullPath);
+                    #endregion
+
                     filesCutCopyPasteDrag.ImageListViewReload(imageListView.Items, updatedOnlySelected);
 
                     TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, true);
@@ -7391,33 +7395,52 @@ namespace PhotoTagsSynchronizer
                     return;
                 }
 
-                string[] fileAndFolderEntriesCount = Directory.EnumerateFiles(folder, "*", SearchOption.TopDirectoryOnly).Take(51).ToArray();
-                if (KryptonMessageBox.Show("Are you sure you will delete **ALL** metadata history in database store for " +
-                    (fileAndFolderEntriesCount.Length == 51 ? " over 50 + " : fileAndFolderEntriesCount.Length.ToString()) +
-                    "  number of files.\r\n\r\n" +
-                    "In the folder: " + folder,
-                    "You are going to delete all metadata in folder",
-                    MessageBoxButtons.YesNo, MessageBoxIcon.Warning, showCtrlCopy: true) == DialogResult.Yes)
+                string[] files = Directory.GetFiles(folder, "*", SearchOption.TopDirectoryOnly);
+                int filesCount = files.Length;
+
+                int foldersCount = 0;
+                if (filesCount == 0)
                 {
-                    using (new WaitCursor())
+                    string[] folders = Directory.GetDirectories(folder);
+                    foldersCount = folders.Length;
+                }
+
+                if (filesCount + foldersCount > 0)
+                {
+                    if (KryptonMessageBox.Show(
+                        "Are you sure you will delete **ALL** metadata history in database\r\n" +
+                        "For files in folder: " + folder + "\r\n\r\n" +
+                        (filesCount == 0 ? "" : "Files count: " + filesCount + "\r\n") +
+                        (foldersCount == 0 ? "" : "Folders count: " + foldersCount + "\r\n"),
+                        "You are going to delete all metadata in folder",
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Warning, showCtrlCopy: true) == DialogResult.Yes)
                     {
-                        //Clean up ImageListView and other queues
-                        ImageListViewHandler.ClearThumbnailCache(imageListView1);
-                        imageListView1.Refresh();
-                        ClearAllQueues();
+                        using (new WaitCursor())
+                        {
+                            //Clean up ImageListView and other queues
+                            ImageListViewHandler.ClearThumbnailCache(imageListView1);
+                            imageListView1.Refresh();
+                            ClearAllQueues();
 
-                        UpdateStatusAction("Delete all record about files in database....");
-                        GlobalData.ProcessCounterDelete = FilesCutCopyPasteDrag.DeleteDirectoryAndHistorySize;
-                        int recordAffected = filesCutCopyPasteDrag.DeleteDirectoryAndHistory(ref FilesCutCopyPasteDrag.DeleteDirectoryAndHistorySize, folder);
-                        GlobalData.ProcessCounterDelete = 0;
-                        UpdateStatusAction(recordAffected + " records was delete from database....");
+                            UpdateStatusAction("Delete all record about files in database....");
+                            GlobalData.ProcessCounterDelete = FilesCutCopyPasteDrag.DeleteDirectoryAndHistorySize;
+                            int recordAffected = filesCutCopyPasteDrag.DeleteDirectoryAndHistory(ref FilesCutCopyPasteDrag.DeleteDirectoryAndHistorySize, folder);
 
-                        //string selectedFolder = GetSelectedNodePath();
-                        //IEnumerable<FileData> fileDatas = GetFilesInSelectedFolder(selectedFolder, false);
-                        //ImageListView_Aggregate_FromReadFolderOrFilterOrDatabase(fileDatas, null, selectedFolder, false);
-                        ImageListView_Aggregate_FromFolder(false, true);
+                            #region Touch Offline files so they get downloaded
+                            foreach (string fullFileName in files) FileHandler.TouchOfflineFileToGetFileOnline(folder);
+                            #endregion
+
+                            GlobalData.ProcessCounterDelete = 0;
+                            UpdateStatusAction(recordAffected + " records was delete from database....");
+
+                            //string selectedFolder = GetSelectedNodePath();
+                            //IEnumerable<FileData> fileDatas = GetFilesInSelectedFolder(selectedFolder, false);
+                            //ImageListView_Aggregate_FromReadFolderOrFilterOrDatabase(fileDatas, null, selectedFolder, false);
+                            ImageListView_Aggregate_FromFolder(false, true);
+                        }
                     }
                 }
+
                 DisplayAllQueueStatus();
                 treeViewFolderBrowser1.Focus();
             }
@@ -8127,7 +8150,7 @@ namespace PhotoTagsSynchronizer
             {
                 Properties.Settings.Default.ShowHistortyColumns = kryptonRibbonGroupButtonDataGridViewColumnsHistory.Checked;
                 showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(kryptonRibbonGroupButtonDataGridViewColumnsHistory.Checked, kryptonRibbonGroupButtonDataGridViewColumnsErrors.Checked);
-                DataGridView_AfterPopulateSelectedFiles_LazyLoadOtherFileVersions(ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));
+                DataGridView_AfterPopulateSelectedFiles_LazyLoadFromDatabaseThenSourceAllVersions(ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));
             }
             catch (Exception ex)
             {
@@ -8142,7 +8165,7 @@ namespace PhotoTagsSynchronizer
             {
                 Properties.Settings.Default.ShowErrorColumns = kryptonRibbonGroupButtonDataGridViewColumnsErrors.Checked;
                 showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(kryptonRibbonGroupButtonDataGridViewColumnsHistory.Checked, kryptonRibbonGroupButtonDataGridViewColumnsErrors.Checked);
-                DataGridView_AfterPopulateSelectedFiles_LazyLoadOtherFileVersions(ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));
+                DataGridView_AfterPopulateSelectedFiles_LazyLoadFromDatabaseThenSourceAllVersions(ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));
             }
             catch (Exception ex)
             {

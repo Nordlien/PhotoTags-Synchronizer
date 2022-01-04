@@ -60,31 +60,26 @@ namespace PhotoTagsSynchronizer
                 int queueCount = imageListView.SelectedItems.Count;
                 int queueSize = queueCount;
 
-
-                //LoadingItemsImageListView(0, queueCount);
-
-                //Stopwatch stopwatch = new Stopwatch();
-                //stopwatch.Start();
                 foreach (ImageListViewItem imageListViewItem in imageListView.SelectedItems)
                 {
-                    //LoadingItemsImageListView(--queueSize, queueCount);
                     FileEntry fileEntry = new FileEntry(imageListViewItem.FileFullPath, imageListViewItem.DateModified);
                     if (!fileEntries.Contains(fileEntry)) fileEntries.Add(fileEntry);
                     if (!fullFilePaths.Contains(fileEntry.FileFullPath)) fullFilePaths.Add(fileEntry.FileFullPath);
-
-                    //if (stopwatch.ElapsedMilliseconds > 200)
-                    //{
-                    //    kryptonWorkspaceCellMediaFiles.Refresh();
-                    //    stopwatch.Restart();
-                    //}
                 }
-                //LoadingItemsImageListView(0, 0);
 
                 imageListViewSelectedFileEntriesCache = new HashSet<FileEntry>(fileEntries);
                 imageListViewSelectedFilesCache = new HashSet<string>(fullFilePaths);
             }
             catch { }
             return fileEntries;
+        }
+        #endregion
+
+        #region ImageListView - Cache - HashSet<string> - GetFilesSelectedItemsCache
+        public static HashSet<string> GetFilesSelectedItemsCache(ImageListView imageListView)
+        {
+            if (imageListViewSelectedFilesCache == null) GetFileEntriesSelectedItemsCache(imageListView, false);
+            return imageListViewSelectedFilesCache;
         }
         #endregion
 

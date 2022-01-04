@@ -1576,6 +1576,10 @@ namespace MetadataLibrary
                 
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
+                    //if (StopApplication)
+                    //{
+                    //    return webScrapingPackages;
+                    //}
                     while (reader.Read())
                     {
                         webScrapingPackages.Add((DateTime)dbTools.ConvertFromDBValDateTimeLocal(reader["FileDateModified"]));
@@ -1784,29 +1788,39 @@ namespace MetadataLibrary
 
         #endregion
 
-        #region List Files - Missing Entries
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="broker"></param>
-        /// <param name="files"></param>
-        /// <returns>List all files not in Database, When StopCaching is set, process stops, due to user cancelled.</returns>
-        public List<FileEntry> ListAllMissingFileEntries(MetadataBrokerType broker, List<FileEntry> files)
+        #region CheckListOfFileEntriesWhatInCachedAndInDatabase
+        public void CheckListOfFileEntriesWhatInCachedAndInDatabase(MetadataBrokerType broker, 
+            List<FileEntry> mediaFilesToCheck, 
+            out List<FileEntry> mediaFilesWasNotInCache,
+            out List<FileEntry> mediaFilesNotInDatabase,
+            out List<FileEntry> mediaFilesReadFromDatabase)
         {
-            if (files == null) return null;
+            mediaFilesNotInDatabase = new List<FileEntry>();
+            mediaFilesWasNotInCache = new List<FileEntry>();
+            mediaFilesReadFromDatabase = new List<FileEntry>();
 
-            List<FileEntry> mediaFilesNoInDatabase = new List<FileEntry>();
+            if (mediaFilesToCheck == null) return;
 
-            ReadToCache(files, broker); // Faster read
-
-            foreach (FileEntry file in files)
+            foreach (FileEntry file in mediaFilesToCheck)
             {
                 FileEntryBroker fileEntryBroker = new FileEntryBroker(file.FileFullPath, file.LastWriteDateTime, broker);
                 Metadata metadata = ReadMetadataFromCacheOnly(fileEntryBroker);
-                if (metadata == null) mediaFilesNoInDatabase.Add(new FileEntry(fileEntryBroker));
+                if (metadata == null) mediaFilesWasNotInCache.Add(new FileEntry(fileEntryBroker));
             }
-            
-            return mediaFilesNoInDatabase;
+
+            ReadToCache(mediaFilesWasNotInCache, broker); // Faster read
+
+            foreach (FileEntry file in mediaFilesWasNotInCache)
+            {
+                FileEntryBroker fileEntryBroker = new FileEntryBroker(file.FileFullPath, file.LastWriteDateTime, broker);
+                Metadata metadata = ReadMetadataFromCacheOrDatabase(fileEntryBroker);
+                if (metadata == null) 
+                    mediaFilesNotInDatabase.Add(new FileEntry(fileEntryBroker));
+                else
+                    mediaFilesReadFromDatabase.Add(new FileEntry(fileEntryBroker));
+            }
+
+            //return mediaFilesNoInDatabase;
         }
         #endregion
 

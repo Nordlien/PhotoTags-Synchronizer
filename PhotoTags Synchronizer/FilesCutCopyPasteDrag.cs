@@ -9,6 +9,7 @@ using Thumbnails;
 using static Manina.Windows.Forms.ImageListView;
 using Raccoom.Windows.Forms;
 using Krypton.Toolkit;
+using FileHandeling;
 
 namespace PhotoTagsSynchronizer
 {
@@ -56,6 +57,7 @@ namespace PhotoTagsSynchronizer
         public int DeleteDirectoryAndHistory(ref int queueSize, string folder)
         {
             int rowsAffected = 0;
+
             
             rowsAffected += databaseAndCacheMetadataExiftool.DeleteDirectoryAndHistory(MetadataBrokerType.ExifTool, folder); //Also delete When (Broker & @Broker) = @Broker
             queueSize--; //1
@@ -81,6 +83,7 @@ namespace PhotoTagsSynchronizer
         #region FilesCutCopyPasteDrag - DeleteFileEntry
         public void DeleteFileEntries(List<FileEntry> fileEntries)
         {
+            
             List<FileEntryBroker> fileEntryBrokersExifTool = new List<FileEntryBroker>();
             List<FileEntryBroker> fileEntryBrokersMicrosoftPhotos = new List<FileEntryBroker>();
             List<FileEntryBroker> fileEntryBrokersWindowsPhotoGallary = new List<FileEntryBroker>();
@@ -356,6 +359,7 @@ namespace PhotoTagsSynchronizer
         #endregion
     }
 
+    #region RenameToNameAndResult
     public class RenameToNameAndResult
     {
         public RenameToNameAndResult(string newFilename, string errorMessage)
@@ -367,4 +371,5 @@ namespace PhotoTagsSynchronizer
         public string NewFilename { get; set; } = "";
         public string ErrorMessage { get; set; } = "";
     }
+    #endregion 
 }

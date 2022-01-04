@@ -63,17 +63,21 @@ namespace Manina.Windows.Forms
         #endregion
 
         //JTN added; this can be removed, only need cleat Qeueue instead!!!!
+        #region StoppBackgroundThreads
         private bool stoppingBackgroundThreads = false;
         public void StoppBackgroundThreads()
         {
             stoppingBackgroundThreads = true;
         }
+        #endregion
 
-        //JTN
+        //JTN added
+        #region IsBackgroundThreadsStopped
         public bool IsBackgroundThreadsStopped()
         {
             return stopped;
         }
+        #endregion
 
         #region Private Classes
         /// <summary>
@@ -349,7 +353,7 @@ namespace Manina.Windows.Forms
         }
 #endregion
 
-#region Constructor
+        #region Constructor
         /// <summary>
         /// Initializes a new instance of the ImageListViewCacheManager class.
         /// </summary>
@@ -389,7 +393,7 @@ namespace Manina.Windows.Forms
         }
 #endregion
 
-#region Instance Methods
+        #region Instance Methods
         /// <summary>
         /// Starts editing an item. While items are edited,
         /// their original images will be seperately cached
@@ -399,9 +403,6 @@ namespace Manina.Windows.Forms
         /// <param name="filename">The image filename.</param>
         public void BeginItemEdit(Guid guid, string filename)
         {
-#if TraceLock
-            Logger.Trace("(lockObject Start) - BeginItemEdit()");
-#endif
             lock (lockObject)
             {
                 if (!editCache.ContainsKey(guid))
@@ -412,9 +413,6 @@ namespace Manina.Windows.Forms
                     }
                 }
             }
-#if TraceLock
-            Logger.Trace("(lockObject Stop) - BeginItemEdit()");
-#endif
         }
 
 
@@ -903,9 +901,11 @@ namespace Manina.Windows.Forms
 
         }
 
-#endregion
+        #endregion
+
 
         //JTN added / To get control
+        #region RetrieveImageFromExternaThenFromFile
         private Image RetrieveImageFromExternaThenFromFile(string fileName)
         {
             Image image;
@@ -922,7 +922,9 @@ namespace Manina.Windows.Forms
             }
             return image;
         }
+        #endregion
 
+        #region ThumbnailFromFile
         private Image ThumbnailFromFile(string fileName, Size size, UseEmbeddedThumbnails useEmbeddedThumbnails, out bool wasThumbnailReadFromFile, out bool didErrorOccur)
         {
             if (useEmbeddedThumbnails == UseEmbeddedThumbnails.Never)
@@ -963,10 +965,9 @@ namespace Manina.Windows.Forms
                 }
             }
         }
+        #endregion
 
-
-
-#region Worker Method
+        #region Worker Method
         /// <summary>
         /// Used by the worker thread to generate image thumbnails.
         /// Once a thumbnail image is generated, the item will be redrawn
@@ -981,20 +982,11 @@ namespace Manina.Windows.Forms
                 Guid guid = new Guid();
                 CacheItem request = null;
                 bool rendererRequest = false;
-#if TraceLock
-                Logger.Trace("(lockObject Start) - DoWork() - Monitor.Wait");
-#endif
                 lock (lockObject)
                 {
-#if TraceLock
-                    Logger.Trace("(lockObject Monitor) - DoWork() - Monitor.Wait");
-#endif
                     // Wait until we have items waiting to be cached
                     if (toCache.Count == 0 && rendererToCache.Count == 0) Monitor.Wait(lockObject);
                 }
-#if TraceLock
-                Logger.Trace("(lockObject Stop) - DoWork() - Monitor.Wait");
-#endif
 
                 // Set to true when we exceed the cache memory limit
                 bool cleanupRequired = false;
@@ -1005,9 +997,6 @@ namespace Manina.Windows.Forms
                 bool queueFull = true;
                 while (queueFull && !Stopping && !stoppingBackgroundThreads)
                 {
-#if TraceLock
-                    Logger.Trace("(lockObject Start) - DoWork() - Loop until we exhaust the queue");
-#endif
                     lock (lockObject)
                     {
                         sw.Start();
@@ -1033,9 +1022,6 @@ namespace Manina.Windows.Forms
                             rendererRequest = true;
                         }
                     }
-#if TraceLock
-                    Logger.Trace("(lockObject Stop) - DoWork() - Loop until we exhaust the queue");
-#endif
 
                     if (Stopping) break;
                     if (stoppingBackgroundThreads) break;
@@ -1091,9 +1077,6 @@ namespace Manina.Windows.Forms
                         {
                             if (rendererRequest)
                             {
-#if TraceLock
-                                Logger.Trace("(lockObject Start) - DoWork() - rendererRequest");
-#endif
                                 lock (lockObject)
                                 {
                                     if (rendererItem != null) rendererItem.Dispose();
@@ -1101,15 +1084,9 @@ namespace Manina.Windows.Forms
                                     rendererItem = result;
                                     rendererRequest = false;
                                 }
-#if TraceLock
-                                Logger.Trace("(lockObject Stop) - DoWork() - rendererRequest");
-#endif
                             }
                             else
                             {
-#if TraceLock
-                                Logger.Trace("(lockObject Start) - DoWork() - Did we exceed the cache limit?");
-#endif
                                 lock (lockObject)
                                 {
                                     thumbCache.Remove(guid);
@@ -1124,24 +1101,15 @@ namespace Manina.Windows.Forms
                                             cleanupRequired = true;
                                     }
                                 }
-#if TraceLock
-                                Logger.Trace("(lockObject Stop) - DoWork() - Did we exceed the cache limit?");
-#endif
                             }
                         }
                     }
 
                     // Check if the cache is exhausted
-#if TraceLock
-                    Logger.Trace("(lockObject Start) - DoWork() - toCache.Count == 0 && rendererToCache.Count == 0");
-#endif
                     lock (lockObject)
                     {
                         if (toCache.Count == 0 && rendererToCache.Count == 0) queueFull = false;
                     }
-#if TraceLock
-                    Logger.Trace("(lockObject Stop) - DoWork() - toCache.Count == 0 && rendererToCache.Count == 0");
-#endif
 
                     // Do we need a refresh?
                     sw.Stop();
@@ -1202,9 +1170,6 @@ namespace Manina.Windows.Forms
 
                     if (visible.Count != 0)
                     {
-#if TraceLock
-                        Logger.Trace("(lockObject Start) - DoWork() - visible.Count != 0");
-#endif
                         lock (lockObject)
                         {
                             foreach (KeyValuePair<Guid, CacheItem> item in thumbCache)
@@ -1227,9 +1192,6 @@ namespace Manina.Windows.Forms
                             memoryUsed -= memoryUsedByRemoved;
                             memoryUsedByRemoved = 0;
                         }
-#if TraceLock
-                        Logger.Trace("(lockObject Stop) - DoWork() - visible.Count != 0");
-#endif
                     }
                 }
 
@@ -1254,15 +1216,8 @@ namespace Manina.Windows.Forms
                     }
                 }
             }
-
-#if TraceLock
-            Logger.Trace("(lockObject Start) - DoWork() - stopped = true;");
-#endif
             lock (lockObject) stopped = true;
-#if TraceLock
-            Logger.Trace("(lockObject Stop) - DoWork() - stopped = true;");
-#endif
         }
-#endregion
+        #endregion
     }
 }

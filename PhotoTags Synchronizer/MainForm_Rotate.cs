@@ -112,7 +112,7 @@ namespace PhotoTagsSynchronizer
                     metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, out bool isUpdated);
                     bool isDirty = isUpdated = false; // metadata != metadataToSave; //No need updated dataGridView
                     MakeEqualBetweenMetadataAndDataGridViewContent(metadataToSave, isUpdated, isDirty);
-                    AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, metadataOriginal);
+                    AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, metadataOriginal);
                 }
             }
 

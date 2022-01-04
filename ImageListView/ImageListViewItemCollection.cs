@@ -517,7 +517,7 @@ namespace Manina.Windows.Forms
                             result = (x.FileSize < y.FileSize ? -1 : (x.FileSize > y.FileSize ? 1 : 0));
                             break;
                         case ColumnType.FileStatus:
-                            result = ItemFileStatus.Compare(x.FileStatus, y.FileStatus); 
+                            result = FileStatus.Compare(x.FileStatus, y.FileStatus); 
                             break;
                         case ColumnType.MediaDimensions:
                             long ax = x.Dimensions.Width * x.Dimensions.Height;

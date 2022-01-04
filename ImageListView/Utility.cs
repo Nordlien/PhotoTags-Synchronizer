@@ -321,12 +321,12 @@ namespace Manina.Windows.Forms
             /// <summary>
             /// FileStatys by FileSystem 
             /// </summary>
-            public ItemFileStatus FileStatus
+            public FileStatus FileStatus
             {
                 get { return fileStatus; }
                 set { fileStatus = value; FileStatusPropertyStatus = PropertyStatus.IsSet; }
             }
-            private ItemFileStatus fileStatus = new ItemFileStatus();
+            private FileStatus fileStatus = new FileStatus();
             public PropertyStatus FileStatusPropertyStatus { get; set; } = PropertyStatus.IsDirty;
             #endregion
 

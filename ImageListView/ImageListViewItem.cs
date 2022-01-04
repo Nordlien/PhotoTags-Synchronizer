@@ -137,8 +137,8 @@ namespace Manina.Windows.Forms
         #endregion
 
         #region FileStatus
-        private ItemFileStatus mmFileStatus = new ItemFileStatus();
-        private ItemFileStatus mFileStatus
+        private FileStatus mmFileStatus = new FileStatus();
+        private FileStatus mFileStatus
         {
             get { return mmFileStatus; }
             set { FileStatusPropertyStatus = PropertyStatus.IsSet; mmFileStatus = value; }
@@ -346,9 +346,8 @@ namespace Manina.Windows.Forms
             return false;
         }
 
-        public bool IsPropertyRequested()
+        public bool IsItemDirty()
         {
-            if (HasAnyPropertyThisStatus(PropertyStatus.Requested)) return true;
             if (HasAnyPropertyThisStatus(PropertyStatus.IsDirty)) return true;
             return false;
         }
@@ -682,7 +681,7 @@ namespace Manina.Windows.Forms
         /// Gets or sets the text file status associated with this item. 
         /// </summary>
         [Category("Appearance"), Browsable(true), Description("Gets or sets the file status associated with this item.")]
-        public ItemFileStatus FileStatus 
+        public FileStatus FileStatus 
         {  
             get { 
                 UpdateFileInfo(FileSizePropertyStatus); 
@@ -987,7 +986,8 @@ namespace Manina.Windows.Forms
             {
                 mImageListView.cacheManager.Remove(mGuid, true);
                 mImageListView.itemCacheManager.Add(this);
-                mImageListView.Refresh(); 
+                //mImageListView.Refresh();
+                mImageListView.Invalidate();
             }
         }
         #endregion
@@ -1053,14 +1053,8 @@ namespace Manina.Windows.Forms
                     
                     #region Exists
                     if (!FileStatus.FileExists) fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Not exist";
-                    if (FileStatus.FailedToAccessInfo) fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Access failed";
+                    if (FileStatus.FileInaccessible) fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Inaccessible";
                     if (FileStatus.IsDirty) fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Checking...";
-                    #endregion
-
-                    #region Access        
-                    if (FileStatus.IsFileLockedReadAndWrite) fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Locked RW";
-                    if (FileStatus.IsFileLockedForRead) fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Locked R";
-                    if (FileStatus.IsReadOnly) fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "ReadOnly";
                     #endregion
 
                     #region Located
@@ -1071,9 +1065,37 @@ namespace Manina.Windows.Forms
                         (FileStatus.IsOffline ? "O" : "") + ")";
                     #endregion
 
+                    #region Access
+                    if (!FileStatus.IsInCloudOrVirtualOrOffline)
+                    {
+                        if (FileStatus.IsFileLockedReadAndWrite) fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Locked RW";
+                        if (FileStatus.IsFileLockedForRead) fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Locked R";
+                    }
+                    if (FileStatus.IsReadOnly) fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "ReadOnly";                    
+                    #endregion
+
+                    
+
                     #region Processes
-                    if (FileStatus.IsDownloadingFromCloud) fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Downloading";
-                    if (FileStatus.IsExiftoolRunning) fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Exiftool";
+                    switch (FileStatus.FileProcessStatus)
+                    {
+                        case FileProcessStatus.WaitAction:
+                            //fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Waiting action";
+                            break;
+                        case FileProcessStatus.InExiftoolReadQueue:
+                            break;
+                        case FileProcessStatus.WaitOfflineBecomeLocal:
+                            fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Downloading";
+                            break;
+                        case FileProcessStatus.ExiftoolProcessing:
+                            fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Exiftool";
+                            break;
+                        case FileProcessStatus.FileInaccessible:
+                            fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Inaccessible";
+                            break;
+                        default:
+                            throw new NotImplementedException();
+                    }
                     #endregion 
                     
                     if (string.IsNullOrWhiteSpace(fileStatusText)) fileStatusText = "Normal";
@@ -1147,6 +1169,10 @@ namespace Manina.Windows.Forms
         }
         #endregion
 
+        public void UpdateDetails(Utility.ShellImageFileInfo info)
+        {
+            UpdateDetailsInternal(info);
+        }
 
         #region UpdateDetailsInternal(Utility.ShellImageFileInfo info)
         /// <summary>

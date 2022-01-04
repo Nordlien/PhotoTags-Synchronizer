@@ -23,6 +23,126 @@ namespace PhotoTagsSynchronizer
         private AutoResetEvent ReadImageOutOfMemoryWillWaitCacheEmpty = null; //When out of memory, then wait for all data ready = new AutoResetEvent(false);
         private AutoResetEvent WaitThread_PopulateTreeViewFolderFilter_Stopped = null;
 
+
+        #region ImageListView - Update FileStatus - Invoke
+        private void ImageListView_UpdateItemFileStatusInvoke(string fullFileName, FileStatus fileStatus)
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<string, FileStatus>(ImageListView_UpdateItemFileStatusInvoke), fullFileName, fileStatus);
+                return;
+            }
+            if (GlobalData.IsApplicationClosing) return;
+            try
+            {
+                ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fullFileName);
+                if (foundItem != null)
+                {
+                    foundItem.BeginEdit();
+                    foundItem.FileStatus = fileStatus;
+                    foundItem.EndEdit();
+                }
+                //if (!foundItem.IsPropertyRequested()) foundItem.Update();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
+        }
+        #endregion
+
+        #region ImageListView - Update FileStatus - Invoke
+        private void ImageListView_UpdateItemMetadataInvoke(string fullFileName, Metadata metadata)
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<string, Metadata>(ImageListView_UpdateItemMetadataInvoke), fullFileName, metadata);
+                return;
+            }
+            if (GlobalData.IsApplicationClosing) return;
+            try
+            {
+                ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fullFileName);
+                if (foundItem != null)
+                {
+                    Utility.ShellImageFileInfo fileMetadata = new Utility.ShellImageFileInfo();
+                    ConvertMetadataToShellImageFileInfo(ref fileMetadata, metadata);
+
+                    foundItem.BeginEdit();                    
+                    foundItem.UpdateDetails(fileMetadata);
+                    foundItem.EndEdit();
+                }
+                //if (!foundItem.IsPropertyRequested()) foundItem.Update();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
+        }
+        #endregion
+
+        #region
+        private void ConvertMetadataToShellImageFileInfo(ref Utility.ShellImageFileInfo fileMetadata, Metadata metadata)
+        {
+            #region Provided by FileInfo
+            fileMetadata.FileDateCreated = (DateTime)metadata.FileDateCreated;
+            fileMetadata.FileDateModified = (DateTime)metadata.FileDateModified;
+
+            #region SmartDate
+            DateTime? fileSmartDate = fileDateTimeReader.SmartDateTime(metadata.FileFullPath, fileMetadata.FileDateCreated, fileMetadata.FileDateModified);
+            fileMetadata.FileSmartDate = (fileSmartDate == null ? DateTime.MinValue : (DateTime)fileSmartDate);
+            #endregion
+
+            #region FileSize
+            if (metadata.FileSize != null) fileMetadata.FileSize = (long)metadata.FileSize;
+            else
+            {
+                try
+                {
+                    if (File.Exists(metadata.FileFullPath)) fileMetadata.FileSize = new FileInfo(metadata.FileFullPath).Length;
+                }
+                catch
+                {
+                    fileMetadata.FileSize = long.MinValue;
+                }
+            }
+            #endregion
+
+            fileMetadata.FileMimeType = metadata.FileMimeType;
+            fileMetadata.FileDirectory = metadata.FileDirectory;
+            #endregion
+
+            #region Provided by ShellImageFileInfo, MagickImage                                
+            fileMetadata.CameraMake = metadata.CameraMake;
+            fileMetadata.CameraModel = metadata.CameraModel;
+            if (metadata.MediaWidth != null && metadata.MediaHeight != null) fileMetadata.MediaDimensions = new Size((int)metadata.MediaWidth, (int)metadata.MediaHeight);
+            else fileMetadata.MediaDimensions = new Size(0, 0);
+            #endregion
+
+            #region Provided by MagickImage, Exiftool
+            if (metadata.MediaDateTaken != null) fileMetadata.MediaDateTaken = (DateTime)metadata.MediaDateTaken;
+            else fileMetadata.MediaDateTaken = DateTime.MinValue;
+            fileMetadata.MediaTitle = metadata.PersonalTitle;
+            fileMetadata.MediaDescription = metadata.PersonalDescription;
+            fileMetadata.MediaComment = metadata.PersonalComments;
+            fileMetadata.MediaAuthor = metadata.PersonalAuthor;
+            fileMetadata.MediaRating = (byte)(metadata.PersonalRating == null ? 0 : metadata.PersonalRating);
+            #endregion
+
+            #region Provided by Exiftool
+            fileMetadata.MediaAlbum = metadata.PersonalAlbum;
+            if (metadata.LocationDateTime != null) fileMetadata.LocationDateTime = (DateTime)metadata.LocationDateTime;
+            else fileMetadata.LocationDateTime = DateTime.MinValue;
+            fileMetadata.LocationTimeZone = metadata.LocationTimeZoneDescription;
+            fileMetadata.LocationName = metadata.LocationName;
+            fileMetadata.LocationRegionState = metadata.LocationState;
+            fileMetadata.LocationCity = metadata.LocationCity;
+            fileMetadata.LocationCountry = metadata.LocationCountry;
+            #endregion
+        }
+
+        #endregion 
+
         #region Events 
 
         #region ImageListView - Event - Retrieve Metadata
@@ -31,33 +151,49 @@ namespace PhotoTagsSynchronizer
             FileEntryBroker fileEntryBroker = new FileEntryBroker(e.FileName, File.GetLastWriteTime(e.FileName), MetadataBrokerType.ExifTool);
             Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBroker);
 
-            //PS. Note: Make sure that the RetrieveItemMetadataDetails don't go in inless loop. Read data, flags as still dirty, read again, etc..
+            //PS. Note: Make sure that the RetrieveItemMetadataDetails don't go in endless loop. Read data, flags as still dirty, read again, etc..
             try
             {
+                #region Update FileStatus
+                FileStatus fileStatus = FileHandler.GetFileStatus(e.FileName, 
+                    fileProcessStatus: (
+                        (e.FileMetadata == null || e.FileMetadata.FileStatus == null) ? 
+                        FileProcessStatus.WaitAction : 
+                        e.FileMetadata.FileStatus.FileProcessStatus));
+                #endregion
+
                 if (metadata == null || metadata.FileName == null)
                 {
-                    AddQueueLazyLoading_AllSoruces(fileEntryBroker);
+                    AddQueueReadFromSourceIfMissing_AllSoruces(fileEntryBroker);
 
                     e.FileMetadata = new Utility.ShellImageFileInfo(); //Tell that data is create, all is good for internal void UpdateDetailsInternal(Utility.ShellImageFileInfo info)
                     e.FileMetadata.SetPropertyStatusOnAll(PropertyStatus.Requested); //All data will be read, it's in Lazy loading queue
 
-                    e.FileMetadata.FileStatus = FileHandler.GetItemFileStatus(e.FileName, true, false, false);
-
                     //JTN: MediaFileAttributes
-                    if (!e.FileMetadata.FileStatus.FileExists || e.FileMetadata.FileStatus.IsInCloudOrVirtualOrOffline)
+                    if (!fileStatus.FileExists || fileStatus.IsInCloudOrVirtualOrOffline)
                     {
                         string inCloudOrNotExistError = "";
-                        if (e.FileMetadata.FileStatus.IsInCloudOrVirtualOrOffline) inCloudOrNotExistError = "Failed read, file maybe in cloud";
-                        if (!e.FileMetadata.FileStatus.FileExists) inCloudOrNotExistError = "Not read, file not exists";
+                        if (!fileStatus.FileExists) inCloudOrNotExistError = "File not exists, failed to read";
+                        else if (fileStatus.IsDirty) inCloudOrNotExistError = "Waiting data";
+                        else if (fileStatus.FileInaccessible) inCloudOrNotExistError = "File is inaccessible";
+                        else if (fileStatus.FileProcessStatus == FileProcessStatus.WaitAction) inCloudOrNotExistError = "Wait data";
+                        else if (fileStatus.FileProcessStatus == FileProcessStatus.ExiftoolProcessing) inCloudOrNotExistError = "Exiftool processing";
+                        else if (fileStatus.FileProcessStatus == FileProcessStatus.ExiftoolWillNotProcessingFileInCloud) inCloudOrNotExistError = "File is offline file, failed to read";
+                        else if (fileStatus.FileProcessStatus == FileProcessStatus.FileInaccessible) inCloudOrNotExistError = "File is inaccessible";
+                        else if (fileStatus.FileProcessStatus == FileProcessStatus.InExiftoolReadQueue) inCloudOrNotExistError = "Wait Exiftool";
+                        else if (fileStatus.FileProcessStatus == FileProcessStatus.WaitOfflineBecomeLocal) inCloudOrNotExistError = "Downloading";
+                        else if (fileStatus.HasAnyLocks) inCloudOrNotExistError = "File is locked";
+                        else if (fileStatus.IsInCloudOrVirtualOrOffline) inCloudOrNotExistError = "File is offline file, failed to read";
+                        
+
 
                         #region Provided by FileInfo
                         e.FileMetadata.FileDateCreated = DateTime.MinValue;
                         e.FileMetadata.FileDateModified = DateTime.MinValue;
                         e.FileMetadata.FileSmartDate = DateTime.MinValue;
                         e.FileMetadata.FileSize = long.MinValue;
-//e.FileMetadata.FileStatus = FileHandler.GetItemFileStatus(e.FileName, false, false, false);
 
-                        if (e.FileMetadata.FileStatus.FileExists)
+                        if (fileStatus.FileExists)
                         {
                             try { e.FileMetadata.FileDateCreated = File.GetCreationTime(e.FileName); } catch { }
                             try { e.FileMetadata.FileDateModified = File.GetLastWriteTime(e.FileName); } catch { }
@@ -109,59 +245,11 @@ namespace PhotoTagsSynchronizer
                 }
                 else
                 {
-                    e.FileMetadata = new Utility.ShellImageFileInfo();
-
-                    #region Provided by FileInfo
-                    e.FileMetadata.FileDateCreated = (DateTime)metadata.FileDateCreated;
-                    e.FileMetadata.FileDateModified = (DateTime)metadata.FileDateModified;
-
-                    DateTime? fileSmartDate = fileDateTimeReader.SmartDateTime(e.FileName, e.FileMetadata.FileDateCreated, e.FileMetadata.FileDateModified);
-                    e.FileMetadata.FileSmartDate = (fileSmartDate == null ? DateTime.MinValue : (DateTime)fileSmartDate);
-                    if (metadata.FileSize != null) e.FileMetadata.FileSize = (long)metadata.FileSize;
-                    else
-                    {
-                        try
-                        {
-                            if (File.Exists(e.FileName)) e.FileMetadata.FileSize = new System.IO.FileInfo(e.FileName).Length;
-                        }
-                        catch
-                        {
-                            e.FileMetadata.FileSize = long.MinValue;
-                        }
-                    }
-                    e.FileMetadata.FileMimeType = metadata.FileMimeType;
-                    e.FileMetadata.FileDirectory = metadata.FileDirectory;
-                    e.FileMetadata.FileStatus = FileHandler.GetItemFileStatus(e.FileName, false, false, false);
-                    #endregion
-
-                    #region Provided by ShellImageFileInfo, MagickImage                                
-                    e.FileMetadata.CameraMake = metadata.CameraMake;
-                    e.FileMetadata.CameraModel = metadata.CameraModel;
-                    if (metadata.MediaWidth != null && metadata.MediaHeight != null) e.FileMetadata.MediaDimensions = new Size((int)metadata.MediaWidth, (int)metadata.MediaHeight);
-                    else e.FileMetadata.MediaDimensions = new Size(0, 0);
-                    #endregion
-
-                    #region Provided by MagickImage, Exiftool
-                    if (metadata.MediaDateTaken != null) e.FileMetadata.MediaDateTaken = (DateTime)metadata.MediaDateTaken;
-                    else e.FileMetadata.MediaDateTaken = DateTime.MinValue;
-                    e.FileMetadata.MediaTitle = metadata.PersonalTitle;
-                    e.FileMetadata.MediaDescription = metadata.PersonalDescription;
-                    e.FileMetadata.MediaComment = metadata.PersonalComments;
-                    e.FileMetadata.MediaAuthor = metadata.PersonalAuthor;
-                    e.FileMetadata.MediaRating = (byte)(metadata.PersonalRating == null ? 0 : metadata.PersonalRating);
-                    #endregion
-
-                    #region Provided by Exiftool
-                    e.FileMetadata.MediaAlbum = metadata.PersonalAlbum;
-                    if (metadata.LocationDateTime != null) e.FileMetadata.LocationDateTime = (DateTime)metadata.LocationDateTime;
-                    else e.FileMetadata.LocationDateTime = DateTime.MinValue;
-                    e.FileMetadata.LocationTimeZone = metadata.LocationTimeZoneDescription;
-                    e.FileMetadata.LocationName = metadata.LocationName;
-                    e.FileMetadata.LocationRegionState = metadata.LocationState;
-                    e.FileMetadata.LocationCity = metadata.LocationCity;
-                    e.FileMetadata.LocationCountry = metadata.LocationCountry;
-                    #endregion
-                }  
+                    Utility.ShellImageFileInfo fileMetadata = new Utility.ShellImageFileInfo();
+                    ConvertMetadataToShellImageFileInfo(ref fileMetadata, metadata);
+                    e.FileMetadata = fileMetadata;
+                }
+                e.FileMetadata.FileStatus = fileStatus;
             } catch (Exception ex)
             {
                 Logger.Error(ex, "imageListView1_RetrieveItemMetadataDetails");
@@ -188,31 +276,33 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-
-                if (File.Exists(e.FileName))
+                FileStatus fileStatus = FileHandler.GetFileStatus(e.FileName);
+                if (fileStatus.FileExists)
                 {
                     FileEntry fileEntry = new FileEntry(e.FileName, File.GetLastWriteTime(e.FileName)); //Get last Write Time of Media file
-                    bool isFileInCloud = FileHandler.IsFileInCloud(fileEntry.FileFullPath);
+
                     bool dontReadFileFromCloud = Properties.Settings.Default.AvoidOfflineMediaFiles;
 
-                    lock (GlobalData.ReloadAllowedFromCloudLock)
-                    {
-                        if (GlobalData.ReloadAllowedFromCloud != null && GlobalData.ReloadAllowedFromCloud.Contains(fileEntry))
-                        {
-                            GlobalData.ReloadAllowedFromCloud.Remove(fileEntry);
-                            if (isFileInCloud) isFileInCloud = FileHandler.IsStillInCloudAfterTouchFileActivateReadFromCloud(fileEntry.FileFullPath);
-                            dontReadFileFromCloud = false;
-                        }
-                    }
+                    //#region Touch file to download
+                    //lock (GlobalData.ReloadAllowedFromCloudLock)
+                    //{
+                    //    if (GlobalData.ReloadAllowedFromCloud != null && GlobalData.ReloadAllowedFromCloud.Contains(fileEntry))
+                    //    {
+                    //        GlobalData.ReloadAllowedFromCloud.Remove(fileEntry);
+                    //        //if (isFileInCloud) isFileInCloud = FileHandler.IsStillInCloudAfterTouchFileActivateReadFromCloud(fileEntry.FileFullPath);
+                    //        dontReadFileFromCloud = false;
+                    //    }
+                    //}
+                    //#endregion 
 
                     try
                     {
-                        Image thumbnail = GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(fileEntry, dontReadFileFromCloud, isFileInCloud);
+                        Image thumbnail = GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(fileEntry, dontReadFileFromCloud, fileStatus.IsInCloudOrVirtualOrOffline);
 
                         if (thumbnail != null) //Add cloud icon if needed
                         {
                             Image thumbnailWithCloudIfFromCloud = Utility.ThumbnailFromImage(thumbnail, ThumbnailMaxUpsize, Color.White, true);
-                            if (isFileInCloud) //If Media is in cloud, show Icon
+                            if (fileStatus.IsInCloudOrVirtualOrOffline) //If Media is in cloud, show Icon
                             {
                                 using (Graphics g = Graphics.FromImage(thumbnailWithCloudIfFromCloud)) { g.DrawImage(Properties.Resources.ImageListViewStatusFileInCloud, 0, 0); }
                             }
@@ -220,9 +310,9 @@ namespace PhotoTagsSynchronizer
                         }
                         else
                         {
-                            if (!File.Exists(fileEntry.FileFullPath)) e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorFileNotExist; //A check was done ealier, but still can become removed, e.g. rename process
-                            else if (FileHandler.IsFileVirtual(fileEntry.FileFullPath)) e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorOneDriveNotRunning;
-                            else if (isFileInCloud) e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorFileInCloud;
+                            if (!fileStatus.FileExists) e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorFileNotExist; //File has become deleted
+                            else if (fileStatus.IsVirtual) e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorOneDriveNotRunning;
+                            else if (fileStatus.IsInCloudOrVirtualOrOffline) e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorFileInCloud;
                             else e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorNoThumbnail;
                         }
                     }
@@ -615,7 +705,7 @@ namespace PhotoTagsSynchronizer
                 {
                     LoadingItemsImageListView(4, 6);
                     UpdateStatusImageListView("Started the cache process...");
-                    CacheFileEntries(fileEntries, selectedFolder);
+                    PreloadCacheFileEntries(fileEntries, selectedFolder);
                 }
                 #endregion
 

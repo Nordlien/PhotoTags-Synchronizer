@@ -1366,21 +1366,6 @@ namespace Manina.Windows.Forms
                 OnThumbnailCached(new ThumbnailCachedEventArgs(Items[itemIndex], thumbnail, requestedSize, error, wasThumbnailReadFromFile, didErrorOccureReadFromFile));
         }
 
-        /*
-        //JTN Delete - never uses
-        /// <summary>
-        /// Raises the ThumbnailCached event.
-        /// This method is invoked from the thumbnail thread.
-        /// </summary>
-        /// <param name="guid">The guid of the item whose thumbnail is cached.</param>
-        /// <param name="error">Determines whether an error occurred during thumbnail extraction.</param>
-        internal void LoadThumbnailInternal(Guid guid, bool error)
-        {
-            int itemIndex = Items.IndexOf(guid);
-            if (itemIndex != -1)
-                OnThumbnailCached(new ThumbnailCachedEventArgs(Items[itemIndex], error));
-        }
-        */
 
         /////////////////////////////////////////////////////////////////////////////////////
 

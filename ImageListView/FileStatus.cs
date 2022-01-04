@@ -17,18 +17,33 @@
 
 namespace Manina.Windows.Forms
 {
+    public enum FileProcessStatus
+    {
+        WaitAction, 
+        InExiftoolReadQueue,
+        WaitOfflineBecomeLocal,
+        ExiftoolProcessing,
+        ExiftoolWillNotProcessingFileInCloud,
+        FileInaccessible,
+        DoNotUpdate
+    }
     //JTN Added - Item File status
-    public class ItemFileStatus //: IComparer
+    public class FileStatus //: IComparer
     {
         #region Exists
         public bool FileExists { get; set; } = true;
-        public bool FailedToAccessInfo { get; set; } = false;
+        public bool FileInaccessible { get; set; } = false;
         public bool IsDirty { get; set; } = true;
         #endregion
 
         #region Access        
         public bool IsFileLockedReadAndWrite { get; set; } = false;
         public bool IsFileLockedForRead { get; set; } = false;
+        public bool HasAnyLocks
+        {
+            get { return IsFileLockedForRead || IsFileLockedReadAndWrite; }
+        }
+
         public bool IsReadOnly { get; set; } = false;
         #endregion
 
@@ -51,8 +66,7 @@ namespace Manina.Windows.Forms
         #endregion
 
         #region Processes
-        public bool IsDownloadingFromCloud { get; set; } = false;        
-        public bool IsExiftoolRunning { get; set; } = false;
+        public FileProcessStatus FileProcessStatus { get; set; } = FileProcessStatus.WaitAction;
         #endregion
 
         #region SortValue
@@ -63,7 +77,7 @@ namespace Manina.Windows.Forms
                 return
                     #region Exists
                     (FileExists ? 128 : 0) +
-                    (FailedToAccessInfo ? 64 : 0) +
+                    (FileInaccessible ? 64 : 0) +
                     #endregion
 
                     #region Access
@@ -79,15 +93,15 @@ namespace Manina.Windows.Forms
                     #endregion
 
                     #region Processes
-                    (IsDownloadingFromCloud ? 2 : 0) +
-                    (IsExiftoolRunning ? 1 : 0);
+                    (FileProcessStatus == FileProcessStatus.ExiftoolProcessing ? 2 : 0) +
+                    (FileProcessStatus == FileProcessStatus.InExiftoolReadQueue ? 1 : 0);
                     #endregion
             }
         }
         #endregion
 
         #region Compare
-        public static int Compare(ItemFileStatus x, ItemFileStatus y)
+        public static int Compare(FileStatus x, FileStatus y)
         {
             return x.SortValue.CompareTo(y.SortValue);
         }
