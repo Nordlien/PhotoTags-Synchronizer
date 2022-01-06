@@ -992,6 +992,11 @@ namespace Manina.Windows.Forms
         }
         #endregion
 
+        public void Invalidate()
+        {
+            mImageListView.Invalidate();
+        }
+
         #region Dirty()
         /// <summary>
         /// Updates item thumbnail and item details.
@@ -1053,7 +1058,7 @@ namespace Manina.Windows.Forms
                     
                     #region Exists
                     if (!FileStatus.FileExists) fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Not exist";
-                    if (FileStatus.FileInaccessible) fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Inaccessible";
+                    if (FileStatus.FileErrorOrInaccessible) fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Inaccessible";
                     if (FileStatus.IsDirty) fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Checking...";
                     #endregion
 
@@ -1174,6 +1179,7 @@ namespace Manina.Windows.Forms
             UpdateDetailsInternal(info);
         }
 
+        //JTN: MediaFileAttribute
         #region UpdateDetailsInternal(Utility.ShellImageFileInfo info)
         /// <summary>
         /// Invoked by the worker thread to update item details.
@@ -1189,6 +1195,7 @@ namespace Manina.Windows.Forms
                 if (info.FileDateModifiedPropertyStatus == PropertyStatus.IsSet) mFileDateModified = info.FileDateModified;
 
                 if (info.FileSizePropertyStatus == PropertyStatus.IsSet) mFileSize = info.FileSize;
+                if (info.FileStatusPropertyStatus == PropertyStatus.IsSet) mFileStatus = info.FileStatus;
                 if (info.FileMimeTypePropertyStatus == PropertyStatus.IsSet) mFileType = info.FileMimeType;
                 if (info.FileDirectoryPropertyStatus == PropertyStatus.IsSet) mFileDirectory = info.FileDirectory;
                 #endregion

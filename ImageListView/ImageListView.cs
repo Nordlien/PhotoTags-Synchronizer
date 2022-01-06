@@ -95,6 +95,18 @@ namespace Manina.Windows.Forms
         private ColumnType mColumnTypeTitleLine3;
         private ColumnType mColumnTypeTitleLine4;
         private ColumnType mColumnTypeTitleLine5;
+        public Image StatusIconWaitAction { get; set; } = null;
+        public Image StatusIconProcessInExiftoolReadQueue { get; set; } = null;
+        public Image StatusIconProcessWaitOfflineBecomeLocal { get; set; } = null;
+        public Image StatusIconProcessExiftoolProcessing { get; set; } = null;
+        public Image StatusIconProcessExiftoolWillNotProcessingFileInCloud { get; set; } = null;
+        public Image StatusIconProcessFileInaccessible { get; set; } = null;
+
+        public Image StatusIconFileError { get; set; } = null;
+        public Image StatusIconFileLocked { get; set; } = null;
+        public Image StatusIconFileNotExists { get; set; } = null;
+        public Image StatusIconFileOffline { get; set; } = null;
+
 
         private SortOrder mSortOrder;
         private Size mThumbnailSize;

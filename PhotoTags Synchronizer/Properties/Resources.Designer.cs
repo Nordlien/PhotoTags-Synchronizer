@@ -513,6 +513,86 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ImageListViewItemStatusDownload {
+            get {
+                object obj = ResourceManager.GetObject("ImageListViewItemStatusDownload", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ImageListViewItemStatusExiftoolInQueue {
+            get {
+                object obj = ResourceManager.GetObject("ImageListViewItemStatusExiftoolInQueue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ImageListViewItemStatusExiftoolProcessing {
+            get {
+                object obj = ResourceManager.GetObject("ImageListViewItemStatusExiftoolProcessing", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ImageListViewItemStatusExiftoolStoppedOffline {
+            get {
+                object obj = ResourceManager.GetObject("ImageListViewItemStatusExiftoolStoppedOffline", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ImageListViewItemStatusFileLocked {
+            get {
+                object obj = ResourceManager.GetObject("ImageListViewItemStatusFileLocked", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ImageListViewItemStatusFileNotExists {
+            get {
+                object obj = ResourceManager.GetObject("ImageListViewItemStatusFileNotExists", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ImageListViewItemStatusInaccessible {
+            get {
+                object obj = ResourceManager.GetObject("ImageListViewItemStatusInaccessible", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ImageListViewItemStatusOffline {
+            get {
+                object obj = ResourceManager.GetObject("ImageListViewItemStatusOffline", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ImageListViewLoadErrorFileInCloud {
             get {
                 object obj = ResourceManager.GetObject("ImageListViewLoadErrorFileInCloud", resourceCulture);

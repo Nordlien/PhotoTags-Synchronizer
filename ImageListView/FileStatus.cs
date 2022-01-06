@@ -32,7 +32,7 @@ namespace Manina.Windows.Forms
     {
         #region Exists
         public bool FileExists { get; set; } = true;
-        public bool FileInaccessible { get; set; } = false;
+        public bool FileErrorOrInaccessible { get; set; } = false;
         public bool IsDirty { get; set; } = true;
         #endregion
 
@@ -77,7 +77,7 @@ namespace Manina.Windows.Forms
                 return
                     #region Exists
                     (FileExists ? 128 : 0) +
-                    (FileInaccessible ? 64 : 0) +
+                    (FileErrorOrInaccessible ? 64 : 0) +
                     #endregion
 
                     #region Access

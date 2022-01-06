@@ -25,6 +25,7 @@ namespace MetadataLibrary
         public FileEntryBroker(string fileDirectory, string fileName, DateTime lastAccessDateTime, MetadataBrokerType broker) 
             : base(Path.Combine (fileDirectory, fileName), lastAccessDateTime)
         {
+            if (broker == MetadataBrokerType.WebScraping) fileDirectory = MetadataDatabaseCache.WebScapingFolderName;
             this.broker = broker;
         }
 

@@ -141,27 +141,33 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region DataGridView - ImageListView - Populate File - For FileEntryAttribute missing Tag - Invoke
-        private void DataGridView_ImageListView_Populate_FileEntryAttributeInvoke(FileEntryAttribute fileEntryAttribute)
+        private void DataGridView_ImageListView_Populate_FileEntryAttributeInvoke(FileEntryAttribute fileEntryAttribute, 
+            bool populateDataGrid, bool populateImageListViewItemThumbnail, bool populateImageListViewItemMetadata)
         {
             if (InvokeRequired)
             {
-                this.BeginInvoke(new Action<FileEntryAttribute>(DataGridView_ImageListView_Populate_FileEntryAttributeInvoke), fileEntryAttribute);
+                this.BeginInvoke(new Action<FileEntryAttribute, bool, bool, bool>(DataGridView_ImageListView_Populate_FileEntryAttributeInvoke), fileEntryAttribute, populateDataGrid, populateImageListViewItemThumbnail, populateImageListViewItemMetadata);
                 return;
             }
             if (GlobalData.IsApplicationClosing) return;
             try
             {
-                string tag = GetActiveTabTag();
-                if (!string.IsNullOrWhiteSpace(tag) && IsActiveDataGridViewAgregated(tag))
+                if (populateDataGrid)
                 {
-                    DataGridView dataGridView = GetDataGridViewForTag(tag);
-                    if (dataGridView != null) DataGridView_Populate_FileEntryAttribute(dataGridView, fileEntryAttribute, tag);
+                    string tag = GetActiveTabTag();
+                    if (!string.IsNullOrWhiteSpace(tag) && IsActiveDataGridViewAgregated(tag))
+                    {
+                        DataGridView dataGridView = GetDataGridViewForTag(tag);
+                        if (dataGridView != null) DataGridView_Populate_FileEntryAttribute(dataGridView, fileEntryAttribute, tag);
+                    }
                 }
 
-                //Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.ExifTool));
-                //if (metadata != null) 
-                //    ImageListView_UpdateItemMetadataInvoke(fileEntryAttribute.FileFullPath, metadata);
-                //else
+                //if (populateImageListViewItemMetadata && !populateImageListViewItemThumbnail)
+                {
+                    ImageListView_UpdateItemMetadataInvoke(fileEntryAttribute);
+                }
+
+                if (populateImageListViewItemThumbnail)
                 {
                     ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fileEntryAttribute.FileFullPath);
                     if (foundItem != null)
@@ -169,6 +175,7 @@ namespace PhotoTagsSynchronizer
                         if (!foundItem.IsItemDirty()) foundItem.Update();
                     }
                 }
+
             } catch (Exception ex)
             {
                 Logger.Error(ex);
@@ -442,24 +449,10 @@ namespace PhotoTagsSynchronizer
 
             foreach (FileEntry fileEntry in imageListViewSelectItems)
             {
-                List<FileEntryAttribute> fileEntryAttributeDateVersions = databaseAndCacheMetadataExiftool.ListFileEntryAttributesCache(MetadataBrokerType.ExifTool, fileEntry.FileFullPath);
-                
-                //When list is 0, then Metadata was not readed from mediafile and needs put back in read queue
-                if (fileEntryAttributeDateVersions.Count == 0)
-                {
-                    //AddQueueReadFromSourceIfMissing_AllSoruces(new FileEntry(fileEntry.FileFullPath, fileEntry.LastWriteDateTime));
-                    //JTN Comeback here
-                    //Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
-                    
-                    //if (metadata == null) AddQueueReadFromSourceExiftoolLock(fileEntry); //If Metadata don't exist in database, put it in read queue
-                    ////else ImageListViewHandler.SetItemDirty(imageListView1, fileEntry.FileFullPath); //Refresh ImageListView with metadata
-                    //if (!databaseAndCacheMetadataMicrosoftPhotos.IsMetadataInCache(new FileEntryBroker(fileEntry, MetadataBrokerType.MicrosoftPhotos)))
-                    //    AddQueueReadFromSourceMetadataMicrosoftPhotosLock(fileEntry);
-                    //if (!databaseAndCacheMetadataWindowsLivePhotoGallery.IsMetadataInCache(new FileEntryBroker(fileEntry, MetadataBrokerType.WindowsLivePhotoGallery))) 
-                    //    AddQueueReadFromSourceWindowsLivePhotoGalleryLock(fileEntry);
-                     
-                }
+                List<FileEntryAttribute> fileEntryAttributeDateVersions = 
+                    databaseAndCacheMetadataExiftool.ListFileEntryAttributesCache(MetadataBrokerType.ExifTool, fileEntry.FileFullPath);
                 lazyLoadingAllExiftoolVersionOfMediaFile.AddRange(fileEntryAttributeDateVersions);
+                //AddQueueReadFromSourceIfMissing_AllSoruces(FileEntry fileEntry)
             }
 
             AddQueueLazyLoadningAllSourcesMetadataAndRegionThumbnailsLock(lazyLoadingAllExiftoolVersionOfMediaFile);
@@ -923,7 +916,7 @@ namespace PhotoTagsSynchronizer
                 if (DataGridViewHandler.IsColumnPopulated(dataGridViewDate, columnIndex))
                     DataGridViewHandler.SetColumnDirtyFlag(dataGridViewDate, columnIndex, isDirty);
 
-                if (isDataGridViewUpdatedWithNewData) DataGridView_ImageListView_Populate_FileEntryAttributeInvoke(fileEntryAttribute);
+                if (isDataGridViewUpdatedWithNewData) DataGridView_ImageListView_Populate_FileEntryAttributeInvoke(fileEntryAttribute, populateDataGrid: true, populateImageListViewItemThumbnail: false, populateImageListViewItemMetadata: true);
 
             }
             catch (Exception ex)

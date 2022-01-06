@@ -66,7 +66,7 @@ namespace FileHandeling
                 itemFileStatus.FileExists = File.Exists(fullFileName);
                 FileInfo fileInfo = null;
                 if (itemFileStatus.FileExists) fileInfo = new FileInfo(fullFileName);
-                itemFileStatus.FileInaccessible = false;
+                itemFileStatus.FileErrorOrInaccessible = false;
                 #endregion
 
                 #region Located
@@ -92,7 +92,7 @@ namespace FileHandeling
                 #region Exists
                 itemFileStatus.IsDirty = false;
                 itemFileStatus.FileExists = false;
-                itemFileStatus.FileInaccessible = true;
+                itemFileStatus.FileErrorOrInaccessible = true;
                 #endregion
 
                 #region Access

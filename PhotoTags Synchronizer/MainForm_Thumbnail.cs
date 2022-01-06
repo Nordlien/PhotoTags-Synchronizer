@@ -154,7 +154,7 @@ namespace PhotoTagsSynchronizer
                             FileHandler.WaitLockedFileToBecomeUnlocked(fullFilePath, false, this);
                             image = ImageAndMovieFileExtentionsUtility.LoadImage(fullFilePath, out wasFileLocked);
                         }
-                        if (image == null) image = Utility.LoadImageWithoutLock(fullFilePath);
+                        //if (image == null) image = Utility.LoadImageWithoutLock(fullFilePath);
                     }
                 }
             } catch (Exception ex)

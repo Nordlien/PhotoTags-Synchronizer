@@ -837,6 +837,47 @@ namespace Manina.Windows.Forms
                     {
                         Rectangle pos = Utility.GetSizedImageBounds(img, new Rectangle(bounds.Location + itemPadding, mImageListView.ThumbnailSize));
                         g.DrawImage(img, pos);
+                        
+                        switch (item.FileStatus.FileProcessStatus)
+                        {
+                            case FileProcessStatus.ExiftoolProcessing:
+                                if (mImageListView.StatusIconProcessExiftoolProcessing != null) g.DrawImage(mImageListView.StatusIconProcessExiftoolProcessing, pos.Left, pos.Top);
+                                break;
+                            case FileProcessStatus.ExiftoolWillNotProcessingFileInCloud:
+                                if (mImageListView.StatusIconProcessExiftoolWillNotProcessingFileInCloud != null) g.DrawImage(mImageListView.StatusIconProcessExiftoolWillNotProcessingFileInCloud, pos.Left, pos.Top);
+                                break;
+                            case FileProcessStatus.FileInaccessible:
+                                if (mImageListView.StatusIconProcessFileInaccessible != null) g.DrawImage(mImageListView.StatusIconProcessFileInaccessible, pos.Left, pos.Top);
+                                break;
+                            case FileProcessStatus.InExiftoolReadQueue:
+                                if (mImageListView.StatusIconProcessInExiftoolReadQueue != null) g.DrawImage(mImageListView.StatusIconProcessInExiftoolReadQueue, pos.Left, pos.Top);
+                                break;
+                            case FileProcessStatus.WaitOfflineBecomeLocal:
+                                if (mImageListView.StatusIconProcessWaitOfflineBecomeLocal != null) g.DrawImage(mImageListView.StatusIconProcessWaitOfflineBecomeLocal, pos.Left, pos.Top);
+                                break;
+                            case FileProcessStatus.WaitAction:
+                                if (mImageListView.StatusIconWaitAction != null) g.DrawImage(mImageListView.StatusIconWaitAction, pos.Left, pos.Top);
+                                    break;
+                        }
+
+                        if (!item.FileStatus.FileExists)
+                        { 
+                            if (mImageListView.StatusIconFileNotExists != null) g.DrawImage(mImageListView.StatusIconFileNotExists, pos.Left, pos.Top); 
+                        }
+                        else if (item.FileStatus.FileErrorOrInaccessible)
+                        {
+                            if (mImageListView.StatusIconFileError != null) g.DrawImage(mImageListView.StatusIconFileError, pos.Left, pos.Top);
+                        }
+                        else if (item.FileStatus.IsInCloudOrVirtualOrOffline)
+                        {
+                            if (mImageListView.StatusIconFileOffline != null) g.DrawImage(mImageListView.StatusIconFileOffline, pos.Left, pos.Top);
+                        }
+                        else if (item.FileStatus.HasAnyLocks)
+                        {
+                            if (mImageListView.StatusIconFileLocked != null) g.DrawImage(mImageListView.StatusIconFileLocked, pos.Left, pos.Top);
+                        }
+                        
+
                         // Draw image border
                         if (Math.Min(pos.Width, pos.Height) > 32)
                         {

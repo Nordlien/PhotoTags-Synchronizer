@@ -229,9 +229,6 @@ namespace Manina.Windows.Forms
             get {
                 #if LockHard
                 lock (lockObject)
-                    #if TraceLock
-                    Logger.Trace("(lockObject Start/Stop) - Stopping");
-                    #endif
                 #endif
                 { return stopping; } 
             } 
@@ -243,9 +240,6 @@ namespace Manina.Windows.Forms
             get {
                 #if LockHard
                 lock (lockObject)
-                    #if TraceLock
-                    Logger.Trace("(lockObject Start/Stop) - Stopped");
-                    #endif
                 #endif
                 { return stopped; } 
             } 
@@ -261,9 +255,6 @@ namespace Manina.Windows.Forms
             {
                 #if LockHard
                 lock (lockObject)
-                #if TraceLock
-                    Logger.Trace("(lockObject Start/Stop) - CacheMode");
-                #endif
                 #endif
                 {
                     mCacheMode = value;
@@ -284,9 +275,6 @@ namespace Manina.Windows.Forms
             set {
 #if LockHard
                 lock (lockObject)
-#if TraceLock
-                    Logger.Trace("(lockObject Start) - CacheLimitAsItemCount");
-#endif
 #endif
                 {
                     mCacheLimitAsItemCount = value; 
@@ -295,9 +283,6 @@ namespace Manina.Windows.Forms
                 }
 #if LockHard
                 lock (lockObject)
-#if TraceLock
-                    Logger.Trace("(lockObject Stop) - CacheLimitAsItemCount");
-#endif
 #endif
             }
         }
@@ -310,9 +295,6 @@ namespace Manina.Windows.Forms
             set {
 #if LockHard
                 lock (lockObject)
-#if TraceLock
-                    Logger.Trace("(lockObject Start) - CacheLimitAsMemory");
-#endif
 #endif
                 {
                     mCacheLimitAsMemory = value; 
@@ -321,9 +303,6 @@ namespace Manina.Windows.Forms
                 }
 #if LockHard
                 lock (lockObject)
-#if TraceLock
-                    Logger.Trace("(lockObject Stop) - CacheLimitAsMemory");
-#endif
 #endif
             }
         }
@@ -345,9 +324,6 @@ namespace Manina.Windows.Forms
         /// </summary>
         public long CacheSize { 
             get {            
-#if TraceLock
-                Logger.Trace("(lockObject Start/Stop) - CacheSize");
-#endif
                 { return thumbCache.Count; } 
             } 
         }
@@ -407,15 +383,19 @@ namespace Manina.Windows.Forms
             {
                 if (!editCache.ContainsKey(guid))
                 {
-                    using (Image img = RetrieveImageFromExternaThenFromFile(filename))
-                    {
-                        editCache.Add(guid, new Bitmap(img));
-                    }
+                    Image image = ThumbnailFromEvent(
+                        filename,
+                        this.mImageListView.ThumbnailSize, 
+                        UseEmbeddedThumbnails.Auto, out bool wasThumbnailReadFromFile, out bool didThumbnailReadErrorOccur);
+                    editCache.Add(guid, new Bitmap(image));
+
+                    //using (Image img = RetrieveImageFromExternaThenFromFile(filename))
+                    //{
+                    //    editCache.Add(guid, new Bitmap(img));
+                    //}
                 }
             }
         }
-
-
 
         /// <summary>
         /// Starts editing a virtual item. While items are edited,
@@ -423,24 +403,20 @@ namespace Manina.Windows.Forms
         /// instead of fetching them from the file.
         /// </summary>
         /// <param name="guid">The guid representing the item</param>
-        public void BeginItemEdit(Guid guid)
-        {
-#if TraceLock
-            Logger.Trace("(lockObject Start) - BeginItemEdit(Guid guid)");
-#endif
-            lock (lockObject)
-            {
-                if (!editCache.ContainsKey(guid))
-                {
-                    VirtualItemImageEventArgs e = new VirtualItemImageEventArgs(mImageListView.Items[guid].mVirtualItemKey);
-                    mImageListView.RetrieveVirtualItemImageInternal(e);
-                    if (!string.IsNullOrWhiteSpace(e.FileName)) editCache.Add(guid, RetrieveImageFromExternaThenFromFile(e.FileName));
-                }
-            }
-#if TraceLock
-            Logger.Trace("(lockObject Stop) - BeginItemEdit(Guid guid)");
-#endif
-        }
+        //public void BeginItemEdit(Guid guid)
+        //{
+            
+        //    lock (lockObject)
+        //    {
+        //        if (!editCache.ContainsKey(guid))
+        //        {
+        //            VirtualItemImageEventArgs e = new VirtualItemImageEventArgs(mImageListView.Items[guid].mVirtualItemKey);
+        //            mImageListView.RetrieveVirtualItemImageInternal(e);
+        //            if (!string.IsNullOrWhiteSpace(e.FileName)) editCache.Add(guid, RetrieveImageFromExternaThenFromFile(e.FileName));
+        //        }
+        //    }
+        //}
+
         /// <summary>
         /// Ends editing an item. After this call, item
         /// image will be continued to be fetched from the
@@ -449,9 +425,6 @@ namespace Manina.Windows.Forms
         /// <param name="guid">The guid representing the item.</param>
         public void EndItemEdit(Guid guid)
         {
-#if TraceLock
-            Logger.Trace("(lockObject Start) - EndItemEdit()");
-#endif
             lock (lockObject)
             {
                 if (editCache.ContainsKey(guid))
@@ -465,9 +438,6 @@ namespace Manina.Windows.Forms
                     if (rendererItem != null) rendererItem.Dispose();
                 }
             }
-#if TraceLock
-            Logger.Trace("(lockObject Stop) - EndItemEdit()");
-#endif
         }
         /// <summary>
         /// Gets the cache state of the specified item.
@@ -476,20 +446,12 @@ namespace Manina.Windows.Forms
         public CacheState GetCacheState(Guid guid)
         {
 #if LockHard
-#if TraceLock
-            Logger.Trace("(lockObject Start) - GetCacheState(Guid guid)");
-#endif
             lock (lockObject) //JTN: Debug - A deadlock oocured on this
 #endif
             {
                 CacheItem item = null;
                 if (thumbCache.TryGetValue(guid, out item)) return item.State;
             }
-#if LockHard
-#if TraceLock
-            Logger.Trace("(lockObject Stop) - GetCacheState(Guid guid)");
-#endif
-#endif
 
             return CacheState.Unknown;
         }
@@ -498,22 +460,8 @@ namespace Manina.Windows.Forms
         /// </summary>
         public void Clear()
         {
-#if TraceLock
-            Logger.Trace("(lockObject Start) - Clear()");
-#endif
             lock (lockObject)
             {
-                /*
-                foreach (CacheItem item in thumbCache.Values) item.Dispose();
-                thumbCache.Clear();
-    
-                foreach (Image img in editCache.Values) img.Dispose();
-                editCache.Clear();
-
-                foreach (CacheItem item in rendererToCache) item.Dispose();
-                rendererToCache.Clear();
-                if (rendererItem != null) rendererItem.Dispose();
-                */
                 foreach (CacheItem item in thumbCache.Values) item.Dispose();
                 thumbCache.Clear();
 
@@ -526,9 +474,6 @@ namespace Manina.Windows.Forms
                 memoryUsed = 0;
                 memoryUsedByRemoved = 0;
             }
-#if TraceLock
-            Logger.Trace("(lockObject Stop) - Clear()");
-#endif
         }
         /// <summary>
         /// Removes the given item from the cache.
@@ -546,10 +491,6 @@ namespace Manina.Windows.Forms
         /// item later when the cache is purged.</param>
         public void Remove(Guid guid, bool removeNow)
         {
-#if TraceLock
-            Logger.Trace("(lockObject Start) - Remove()");
-#endif
-
             lock (lockObject)
             {
                 CacheItem item = null;
@@ -586,9 +527,6 @@ namespace Manina.Windows.Forms
                     }
                 }
             }
-#if TraceLock
-            Logger.Trace("(lockObject Stop) - Remove()");
-#endif
         }
         /// <summary>
         /// Adds the image to the cache queue.
@@ -599,9 +537,6 @@ namespace Manina.Windows.Forms
         /// <param name="useEmbeddedThumbnails">UseEmbeddedThumbnails property of the owner control.</param>
         public void Add(Guid guid, string filename, Size thumbSize, UseEmbeddedThumbnails useEmbeddedThumbnails)
         {
-#if TraceLock
-            Logger.Trace("(lockObject Start) - Add(Guid guid, string filename, Size thumbSize, UseEmbeddedThumbnails useEmbeddedThumbnails)");
-#endif
             lock (lockObject)
             {
                 // Already cached?
@@ -618,14 +553,8 @@ namespace Manina.Windows.Forms
                 }
                 // Add to cache
                 toCache.Enqueue(new CacheItem(guid, filename, thumbSize, null, CacheState.Unknown, useEmbeddedThumbnails));
-#if TraceLock
-                Logger.Trace("(lockObject Pulse) - Add(Guid guid, string filename, Size thumbSize, UseEmbeddedThumbnails useEmbeddedThumbnails)");
-#endif
                 Monitor.Pulse(lockObject);
             }
-#if TraceLock
-            Logger.Trace("(lockObject Stop) - Add(Guid guid, string filename, Size thumbSize, UseEmbeddedThumbnails useEmbeddedThumbnails)");
-#endif
         }
         /// <summary>
         /// Adds a virtual item to the cache queue.
@@ -636,9 +565,6 @@ namespace Manina.Windows.Forms
         /// <param name="useEmbeddedThumbnails">UseEmbeddedThumbnails property of the owner control.</param>
         public void Add(Guid guid, object key, Size thumbSize, UseEmbeddedThumbnails useEmbeddedThumbnails)
         {
-#if TraceLock
-            Logger.Trace("(lockObject Start) - Add(Guid guid, object key, Size thumbSize, UseEmbeddedThumbnails useEmbeddedThumbnails)");
-#endif
             lock (lockObject)
             {
                 // Already cached?
@@ -655,14 +581,8 @@ namespace Manina.Windows.Forms
                 }
                 // Add to cache
                 toCache.Enqueue(new CacheItem(guid, key, thumbSize, null, CacheState.Unknown, useEmbeddedThumbnails));
-#if TraceLock
-                Logger.Trace("(lockObject Pulse) - Add(Guid guid, object key, Size thumbSize, UseEmbeddedThumbnails useEmbeddedThumbnails)");
-#endif
                 Monitor.Pulse(lockObject);
             }
-#if TraceLock
-            Logger.Trace("(lockObject Start/Stop) - Add(Guid guid, object key, Size thumbSize, UseEmbeddedThumbnails useEmbeddedThumbnails)");
-#endif
         }
         /// <summary>
         /// Adds a virtual item to the cache.
@@ -674,9 +594,6 @@ namespace Manina.Windows.Forms
         /// <param name="useEmbeddedThumbnails">UseEmbeddedThumbnails property of the owner control.</param>
         public void Add(Guid guid, object key, Size thumbSize, Image thumb, UseEmbeddedThumbnails useEmbeddedThumbnails)
         {
-#if TraceLock
-            Logger.Trace("(lockObject Start) - Add(Guid guid, object key, Size thumbSize, Image thumb, UseEmbeddedThumbnails useEmbeddedThumbnails)");
-#endif
             lock (lockObject)
             {
                 // Already cached?
@@ -695,9 +612,6 @@ namespace Manina.Windows.Forms
                 thumbCache.Add(guid, new CacheItem(guid, key, thumbSize, thumb,
                     CacheState.Cached, useEmbeddedThumbnails));
             }
-#if TraceLock
-            Logger.Trace("(lockObject Stop) - Add(Guid guid, object key, Size thumbSize, Image thumb, UseEmbeddedThumbnails useEmbeddedThumbnails)");
-#endif
 
             try
             {
@@ -727,9 +641,6 @@ namespace Manina.Windows.Forms
         public void AddToRendererCache(Guid guid, string filename,
             Size thumbSize, UseEmbeddedThumbnails useEmbeddedThumbnails)
         {
-#if TraceLock
-            Logger.Trace("(lockObject Start) - AddToRendererCache()");
-#endif
             lock (lockObject)
             {
                 // Already cached?
@@ -743,14 +654,9 @@ namespace Manina.Windows.Forms
 
                 rendererToCache.Push(new CacheItem(guid, filename,
                     thumbSize, null, CacheState.Unknown, useEmbeddedThumbnails));
-#if TraceLock
-                Logger.Trace("(lockObject Pulse) - AddToRendererCache()");
-#endif
+
                 Monitor.Pulse(lockObject);
             }
-#if TraceLock
-            Logger.Trace("(lockObject Stop) - AddToRendererCache()");
-#endif
         }
         /// <summary>
         /// Adds the virtual item image to the renderer cache queue.
@@ -762,10 +668,6 @@ namespace Manina.Windows.Forms
         public void AddToRendererCache(Guid guid, object key, Size thumbSize,
             UseEmbeddedThumbnails useEmbeddedThumbnails)
         {
-#if TraceLock
-            Logger.Trace("(lockObject Start) - AddToRendererCache2()");
-#endif
-
             lock (lockObject)
             {
                 // Already cached?
@@ -779,14 +681,8 @@ namespace Manina.Windows.Forms
 
                 rendererToCache.Push(new CacheItem(guid, key, thumbSize,
                     null, CacheState.Unknown, useEmbeddedThumbnails));
-#if TraceLock
-                Logger.Trace("(lockObject Pulse) - AddToRendererCache2()");
-#endif
                 Monitor.Pulse(lockObject);
             }
-#if TraceLock
-            Logger.Trace("(lockObject Stop) - AddToRendererCache2()");
-#endif
         }
         /// <summary>
         /// Gets the image from the renderer cache. If the image is not cached,
@@ -798,9 +694,6 @@ namespace Manina.Windows.Forms
         public Image GetRendererImage(Guid guid, Size thumbSize,
             UseEmbeddedThumbnails useEmbeddedThumbnails)
         {
-#if TraceLock
-            Logger.Trace("(lockObject Start) - GetRendererImage()");
-#endif
             lock (lockObject)
             {
                 if (rendererGuid == guid && rendererItem != null &&
@@ -808,9 +701,6 @@ namespace Manina.Windows.Forms
                     rendererItem.UseEmbeddedThumbnails == useEmbeddedThumbnails)
                     return rendererItem.Image;
             }
-#if TraceLock
-            Logger.Trace("(lockObject Stop) - GetRendererImage()");
-#endif
             return null;
         }
         /// <summary>
@@ -820,9 +710,6 @@ namespace Manina.Windows.Forms
         /// <param name="guid">The guid representing this item.</param>
         public Image GetImage(Guid guid)
         {
-#if TraceLock
-            Logger.Trace("(lockObject Start) - GetImage()");
-#endif
             lock (lockObject)
             {
                 CacheItem item = null;
@@ -831,9 +718,6 @@ namespace Manina.Windows.Forms
                     return item.Image;
                 }
             }
-#if TraceLock
-            Logger.Trace("(lockObject Stop) - GetImage()");
-#endif
             return null;
         }
         /// <summary>
@@ -841,23 +725,14 @@ namespace Manina.Windows.Forms
         /// </summary>
         public void Stop()
         {
-#if TraceLock
-            Logger.Trace("(lockObject Start) - Stop()");
-#endif
             lock (lockObject)
             {
                 if (!stopping)
                 {
                     stopping = true;
-#if TraceLock
-                    Logger.Trace("(lockObject Pulse) - Stop()");
-#endif
                     Monitor.Pulse(lockObject);
                 }
             }
-#if TraceLock
-            Logger.Trace("(lockObject Stop) - Stop()");
-#endif
         }
 
         /// <summary>
@@ -868,9 +743,6 @@ namespace Manina.Windows.Forms
         {
             if (!disposed)
             {
-#if TraceLock
-                Logger.Trace("(lockObject Start) - Dispose()");
-#endif
                 lock (lockObject)
                 {
                     foreach (CacheItem item in thumbCache.Values) item.Dispose();
@@ -895,59 +767,54 @@ namespace Manina.Windows.Forms
 
                 disposed = true;
             }
-#if TraceLock
-            Logger.Trace("(lockObject Stop) - Dispose()");
-#endif
-
         }
 
         #endregion
 
 
-        //JTN added / To get control
-        #region RetrieveImageFromExternaThenFromFile
-        private Image RetrieveImageFromExternaThenFromFile(string fileName)
-        {
-            Image image;
-            RetrieveItemImageEventArgs e = new RetrieveItemImageEventArgs(fileName);
-            mImageListView.RetrieveItemImageInternal(e);
+        ////JTN added / To get control
+        //#region RetrieveImageFromExternaThenFromFile
+        //private Image RetrieveImageFromExternaThenFromFile(string fileName)
+        //{
+        //    //Image image;
+        //    RetrieveItemImageEventArgs e = new RetrieveItemImageEventArgs(fileName);
+        //    mImageListView.RetrieveItemImageInternal(e);
 
-            if (e.LoadedImage == null)
-            {
-                image = Manina.Windows.Forms.Utility.LoadImageWithoutLock(fileName);
-            }
-            else
-            {
-                image = e.LoadedImage;
-            }
-            return image;
-        }
-        #endregion
+        //    //if (e.LoadedImage == null)
+        //    //{
+        //    //    image = Manina.Windows.Forms.Utility.LoadImageWithoutLock(fileName);
+        //    //}
+        //    //else
+        //    //{
+        //    //    image = e.LoadedImage;
+        //    //}
+        //    return e.LoadedImage;
+        //}
+        //#endregion
 
         #region ThumbnailFromFile
-        private Image ThumbnailFromFile(string fileName, Size size, UseEmbeddedThumbnails useEmbeddedThumbnails, out bool wasThumbnailReadFromFile, out bool didErrorOccur)
+        private Image ThumbnailFromEvent(string fileName, Size size, UseEmbeddedThumbnails useEmbeddedThumbnails, out bool wasThumbnailReadFromFile, out bool didErrorOccur)
         {
-            if (useEmbeddedThumbnails == UseEmbeddedThumbnails.Never)
-            {
-                try
-                {
-                    Image image = RetrieveImageFromExternaThenFromFile(fileName);
-                    if (image != null)
-                    image = Utility.ThumbnailFromImage(image, size, Color.White, false);
-                    wasThumbnailReadFromFile = false;   //Not from file, but from database cache
-                    didErrorOccur = false;              //Read from database no error 
-                    return image;
-                }
-                catch 
-                {
-                    wasThumbnailReadFromFile = false;   //Not from file, but from database cache
-                    didErrorOccur = true;              //Read from database no error
-                    return null;
-                }
-                
-            }
-            else
-            {
+            //if (useEmbeddedThumbnails == UseEmbeddedThumbnails.Never)
+            //{
+            //    try
+            //    {
+            //        Image image = RetrieveImageFromExternaThenFromFile(fileName);
+            //        if (image != null)
+            //        image = Utility.ThumbnailFromImage(image, size, Color.White, false);
+            //        wasThumbnailReadFromFile = false;   //Not from file, but from database cache
+            //        didErrorOccur = false;              //Read from database no error 
+            //        return image;
+            //    }
+            //    catch 
+            //    {
+            //        wasThumbnailReadFromFile = false;   //Not from file, but from database cache
+            //        didErrorOccur = true;              //Read from database no error
+            //        return null;
+            //    }
+            //}
+            //else
+            //{
                 try
                 {
                     RetrieveItemThumbnailEventArgs eRetrieveItemThumbnailEventArgs = new RetrieveItemThumbnailEventArgs(fileName, size);
@@ -963,7 +830,7 @@ namespace Manina.Windows.Forms
                     didErrorOccur = true;              //Read from database no error
                     return null;
                 }
-            }
+            //}
         }
         #endregion
 
@@ -1049,7 +916,7 @@ namespace Manina.Windows.Forms
                                     if (mImageListView != null && mImageListView.IsHandleCreated && !mImageListView.IsDisposed)
                                     {
                                         Image image;
-                                        image = ThumbnailFromFile(request.FileName, request.Size, request.UseEmbeddedThumbnails, out wasThumbnailReadFromFile, out didThumbnailReadErrorOccur);
+                                        image = ThumbnailFromEvent(request.FileName, request.Size, request.UseEmbeddedThumbnails, out wasThumbnailReadFromFile, out didThumbnailReadErrorOccur);
                                         if (image != null) thumb = image;
                                     }
                                     //}

@@ -600,38 +600,77 @@ namespace PhotoTagsSynchronizer
                                         throw new Exception("Not implemeneted");
                                 }
 
+                                bool isMetadataFound_ThenPopulateTheFoundData = false;
+                                bool populateDataGrid = true;
+                                bool populateImageListViewItemThumbnail = false;
+                                bool populateImageListViewItemMetadata = false;
+
                                 if (readColumn)
                                 {
                                     MetadataBrokerType metadataBrokerType = MetadataBrokerType.ExifTool;
+                                    
+
                                     //If error Broker type attribute, set correct Broker type
-                                    if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.Error) metadataBrokerType |= MetadataBrokerType.ExifToolWriteError;
-                                    if (databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(new FileEntryBroker(fileEntryAttribute, metadataBrokerType)) == null)
+                                    if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.Error) 
+                                        metadataBrokerType |= MetadataBrokerType.ExifToolWriteError;
+
+                                    FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(fileEntryAttribute, metadataBrokerType);
+                                    if (!databaseAndCacheMetadataExiftool.IsMetadataInCache(fileEntryBrokerExiftool))
                                     {
-                                        Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryAttribute, metadataBrokerType));
-                                        //If metadata found, check if Thumnbail for regions are created, if the application stopped during this process, thumbnail missing
-                                        if (metadata != null && metadata.PersonalRegionIsThumbnailMissing()) AddQueueSaveToDatabaseRegionAndThumbnailLock(metadata);
-                                    
+                                        Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftool);
+                                        if (metadata != null)
+                                        {
+                                            //Check if Region Thumnbail missing, if yes, then create
+                                            if (metadata.PersonalRegionIsThumbnailMissing()) AddQueueSaveToDatabaseRegionAndThumbnailLock(metadata);
+
+                                            isMetadataFound_ThenPopulateTheFoundData = true;
+                                            populateDataGrid = true;
+                                            //populateImageListViewItemThumbnail = true;
+                                            populateImageListViewItemMetadata = true;
+                                        } else AddQueueReadFromSourceExiftoolLock(fileEntryAttribute); //Didn't exists in Database, need read from source
                                     }
 
-                                    if (databaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOnly(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.MicrosoftPhotos)) == null)
-                                    {
-                                        Metadata metadata = databaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.MicrosoftPhotos));
-                                        if (metadata != null && metadata.PersonalRegionIsThumbnailMissing()) AddQueueSaveToDatabaseRegionAndThumbnailLock(metadata);
-                                    
+                                    FileEntryBroker fileEntryBrokerMicrosoftPhotos = new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.MicrosoftPhotos);
+                                    if (!databaseAndCacheMetadataMicrosoftPhotos.IsMetadataInCache(fileEntryBrokerMicrosoftPhotos))
+                                    {   
+                                        Metadata metadata = databaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOrDatabase(fileEntryBrokerMicrosoftPhotos);
+                                        if (metadata != null)
+                                        {
+                                            //Check if Region Thumnbail missing, if yes, then create
+                                            if (metadata.PersonalRegionIsThumbnailMissing()) AddQueueSaveToDatabaseRegionAndThumbnailLock(metadata);
+
+                                            isMetadataFound_ThenPopulateTheFoundData = true;
+                                            populateDataGrid = true;
+                                            //populateImageListViewItemThumbnail = true;
+                                            //populateImageListViewItemMetadata = true;
+                                        } else AddQueueReadFromSourceMetadataMicrosoftPhotosLock(fileEntryAttribute); //Didn't exists in Database, need read from source
                                     }
 
-                                    if (databaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOnly(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.WindowsLivePhotoGallery)) == null)
+                                    FileEntryBroker fileEntryBrokerWindowsLivePhotoGallery = new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.WindowsLivePhotoGallery);
+                                    if (!databaseAndCacheMetadataWindowsLivePhotoGallery.IsMetadataInCache(fileEntryBrokerWindowsLivePhotoGallery))
                                     {
-                                        Metadata metadata = databaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.WindowsLivePhotoGallery));
-                                        if (metadata != null && metadata.PersonalRegionIsThumbnailMissing()) AddQueueSaveToDatabaseRegionAndThumbnailLock(metadata);
-                                    
+                                        Metadata metadata = databaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOrDatabase(fileEntryBrokerWindowsLivePhotoGallery);                                        
+                                        if (metadata != null)
+                                        {
+                                            //Check if Region Thumnbail missing, if yes, then create
+                                            if (metadata.PersonalRegionIsThumbnailMissing()) AddQueueSaveToDatabaseRegionAndThumbnailLock(metadata);
+
+                                            isMetadataFound_ThenPopulateTheFoundData = true;
+                                            populateDataGrid = true;
+                                            //populateImageListViewItemThumbnail = true;
+                                            //populateImageListViewItemMetadata = true;
+                                        } 
+                                        else AddQueueReadFromSourceWindowsLivePhotoGalleryLock(fileEntryAttribute); //Didn't exists in Database, need read from source
                                     }
 
-                                    if (databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.WebScraping)) == null)
-                                    {
-                                        Metadata metadata = databaseAndCacheMetadataExiftool.ReadWebScraperMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.WebScraping));
-                                        //Metadata folder will change to common folder name "WebScraper"
+                                    //Metadata folder will change to common folder name "WebScraper"
+                                    FileEntryBroker fileEntryBrokerWebScraper = new FileEntryBroker(MetadataDatabaseCache.WebScapingFolderName,
+                                            fileEntryAttribute.FileName, (DateTime)fileEntryAttribute.LastWriteDateTime, MetadataBrokerType.WebScraping);
 
+                                    if (!databaseAndCacheMetadataExiftool.IsMetadataInCache(fileEntryBrokerWebScraper))
+                                    {
+                                        Metadata metadata = databaseAndCacheMetadataExiftool.ReadWebScraperMetadataFromCacheOrDatabase(fileEntryBrokerWebScraper);
+                                        
                                         if (metadata != null && metadata.PersonalRegionIsThumbnailMissing())
                                         {
                                             Metadata metadataWithFullPath = new Metadata(metadata);
@@ -640,22 +679,27 @@ namespace PhotoTagsSynchronizer
                                             metadataWithFullPath.FileDateModified = fileEntryAttribute.LastWriteDateTime;
                                             AddQueueSaveToDatabaseRegionAndThumbnailLock(metadataWithFullPath);
                                         }
+
+                                        if (metadata != null)
+                                        {
+                                            isMetadataFound_ThenPopulateTheFoundData = true;
+                                            populateDataGrid = true;
+                                            //populateImageListViewItemThumbnail = true;
+                                            //populateImageListViewItemMetadata = true;
+                                        }
+                                        //else - no need read from source, this is not sutible for WebScraping
                                     }
 
-                                    Metadata metadataExiftool = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.ExifTool));
-                                    if (metadataExiftool == null)
-                                        AddQueueReadFromSourceExiftoolLock(fileEntryAttribute); //If Metadata don't exist in database, put it in read queue
-                                    if (!databaseAndCacheMetadataMicrosoftPhotos.IsMetadataInCache(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.MicrosoftPhotos)))
-                                        AddQueueReadFromSourceMetadataMicrosoftPhotosLock(fileEntryAttribute);
-                                    if (!databaseAndCacheMetadataWindowsLivePhotoGallery.IsMetadataInCache(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.WindowsLivePhotoGallery)))
-                                        AddQueueReadFromSourceWindowsLivePhotoGalleryLock(fileEntryAttribute);
-
-                                    DataGridView_ImageListView_Populate_FileEntryAttributeInvoke(fileEntryAttribute);
+                                    //if (isMetadataFound_ThenPopulateTheFoundData) 
+                                    DataGridView_ImageListView_Populate_FileEntryAttributeInvoke(fileEntryAttribute,
+                                        populateDataGrid: populateDataGrid,
+                                        populateImageListViewItemThumbnail: populateImageListViewItemThumbnail,
+                                        populateImageListViewItemMetadata: populateImageListViewItemMetadata);
                                 }
 
-                                lock (commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnailsLock) commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.RemoveAt(0);
                                 
-//DataGridView_ImageListView_Populate_FileEntryAttributeInvoke(fileEntryAttribute);
+
+                                lock (commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnailsLock) commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.RemoveAt(0);
 
                                 if (GlobalData.IsApplicationClosing) lock (commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnailsLock) commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.Clear();
                                 TriggerAutoResetEventQueueEmpty();
@@ -1009,7 +1053,9 @@ namespace PhotoTagsSynchronizer
 
                                 foreach (FileEntry fileEntryReadFromDatabase in mediaFilesReadFromDatabase_NeedUpdated_DataGridView_ImageList)
                                 {
-                                    DataGridView_ImageListView_Populate_FileEntryAttributeInvoke(new FileEntryAttribute(fileEntryReadFromDatabase, FileEntryVersion.ExtractedNowFromMediaFile));
+                                    DataGridView_ImageListView_Populate_FileEntryAttributeInvoke(
+                                        new FileEntryAttribute(fileEntryReadFromDatabase, FileEntryVersion.ExtractedNowFromMediaFile),
+                                        populateDataGrid: true, populateImageListViewItemThumbnail: false, populateImageListViewItemMetadata: true);
                                 }
 
                                 #region Check if need avoid files in cloud, if yes, don't read files in cloud
@@ -1037,7 +1083,9 @@ namespace PhotoTagsSynchronizer
                                             fileStatus.FileProcessStatus = FileProcessStatus.ExiftoolWillNotProcessingFileInCloud;
                                             ImageListView_UpdateItemFileStatusInvoke(fileEntry.FileFullPath, fileStatus);
                                             //When in cloud, and can't read, also need to populate dataGridView but will become with empty rows in column
-                                            DataGridView_ImageListView_Populate_FileEntryAttributeInvoke(new FileEntryAttribute(fileEntry, FileEntryVersion.ExtractedNowFromMediaFile));
+                                            DataGridView_ImageListView_Populate_FileEntryAttributeInvoke(
+                                                new FileEntryAttribute(fileEntry, FileEntryVersion.ExtractedNowFromMediaFile),
+                                                populateDataGrid: true, populateImageListViewItemThumbnail: false, populateImageListViewItemMetadata: true);
                                         }
                                         ImageListView_UpdateItemFileStatusInvoke(fileEntry.FileFullPath, fileStatus);
                                     }
@@ -1188,14 +1236,20 @@ namespace PhotoTagsSynchronizer
                                                     bool isFileInCloud = FileHandler.IsFileInCloud(metadataError.FileFullPath);
                                                     bool dontReadFileFromCloud = Properties.Settings.Default.AvoidOfflineMediaFiles;
                                                     GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(metadataError.FileEntryBroker, true, false);
-                                                    DataGridView_ImageListView_Populate_FileEntryAttributeInvoke(new FileEntryAttribute(metadataError.FileFullPath, (DateTime)metadataError.FileDateModified, FileEntryVersion.Error));
+                                                    DataGridView_ImageListView_Populate_FileEntryAttributeInvoke(
+                                                        new FileEntryAttribute(metadataError.FileFullPath, (DateTime)metadataError.FileDateModified, FileEntryVersion.Error), 
+                                                        populateDataGrid: true, populateImageListViewItemThumbnail: false, populateImageListViewItemMetadata: true);
                                                 }
 
                                                 //Data was read, (even with errors), need to updated datagrid
                                                 AddQueueSaveToDatabaseRegionAndThumbnailLock(metadataRead);
                                                 ImageListViewHandler.SetItemDirty(imageListView1, metadataRead.FileFullPath);
-                                                DataGridView_ImageListView_Populate_FileEntryAttributeInvoke(new FileEntryAttribute(metadataRead.FileFullPath, (DateTime)metadataRead.FileDateModified, FileEntryVersion.ExtractedNowFromMediaFile));
-                                                DataGridView_ImageListView_Populate_FileEntryAttributeInvoke(new FileEntryAttribute(metadataRead.FileFullPath, (DateTime)metadataRead.FileDateModified, FileEntryVersion.Historical));
+                                                DataGridView_ImageListView_Populate_FileEntryAttributeInvoke(
+                                                    new FileEntryAttribute(metadataRead.FileFullPath, (DateTime)metadataRead.FileDateModified, FileEntryVersion.ExtractedNowFromMediaFile), 
+                                                    populateDataGrid: true, populateImageListViewItemThumbnail: false, populateImageListViewItemMetadata: true);
+                                                DataGridView_ImageListView_Populate_FileEntryAttributeInvoke(
+                                                    new FileEntryAttribute(metadataRead.FileFullPath, (DateTime)metadataRead.FileDateModified, FileEntryVersion.Historical), 
+                                                    populateDataGrid: true, populateImageListViewItemThumbnail: false, populateImageListViewItemMetadata: true);
                                             }
                                         }
 
@@ -1252,7 +1306,9 @@ namespace PhotoTagsSynchronizer
                                                             databaseAndCacheMetadataExiftool.Write(metadataError);
                                                             databaseAndCacheMetadataExiftool.TransactionCommitBatch();
 
-                                                            DataGridView_ImageListView_Populate_FileEntryAttributeInvoke(new FileEntryAttribute(metadataError.FileFullPath, (DateTime)metadataError.FileDateModified, FileEntryVersion.Error));
+                                                            DataGridView_ImageListView_Populate_FileEntryAttributeInvoke(
+                                                                new FileEntryAttribute(metadataError.FileFullPath, (DateTime)metadataError.FileDateModified, FileEntryVersion.Error),
+                                                                populateDataGrid: true, populateImageListViewItemThumbnail: false, populateImageListViewItemMetadata: true);
                                                         }
                                                         catch (Exception ex)
                                                         {
@@ -1765,7 +1821,9 @@ namespace PhotoTagsSynchronizer
                                                     database.TransactionCommitBatch();
                                                     AddQueueSaveToDatabaseRegionAndThumbnailLock(metadataMicrosoftPhotos);
 
-                                                    DataGridView_ImageListView_Populate_FileEntryAttributeInvoke(new FileEntryAttribute(metadataMicrosoftPhotos.FileFullPath, (DateTime)metadataMicrosoftPhotos.FileDateModified, FileEntryVersion.ExtractedNowFromMediaFile));
+                                                    DataGridView_ImageListView_Populate_FileEntryAttributeInvoke(
+                                                        new FileEntryAttribute(metadataMicrosoftPhotos.FileFullPath, (DateTime)metadataMicrosoftPhotos.FileDateModified, FileEntryVersion.ExtractedNowFromMediaFile),
+                                                        populateDataGrid: true, populateImageListViewItemThumbnail: false, populateImageListViewItemMetadata: false);
                                                 }
                                             }
                                         }
@@ -1884,7 +1942,9 @@ namespace PhotoTagsSynchronizer
                                                     database.TransactionCommitBatch();
                                                     AddQueueSaveToDatabaseRegionAndThumbnailLock(metadataWindowsLivePhotoGallery);
 
-                                                    DataGridView_ImageListView_Populate_FileEntryAttributeInvoke(new FileEntryAttribute(metadataWindowsLivePhotoGallery.FileFullPath, (DateTime)metadataWindowsLivePhotoGallery.FileDateModified, FileEntryVersion.ExtractedNowFromMediaFile));
+                                                    DataGridView_ImageListView_Populate_FileEntryAttributeInvoke(
+                                                        new FileEntryAttribute(metadataWindowsLivePhotoGallery.FileFullPath, (DateTime)metadataWindowsLivePhotoGallery.FileDateModified, FileEntryVersion.ExtractedNowFromMediaFile),
+                                                        populateDataGrid: true, populateImageListViewItemThumbnail: false, populateImageListViewItemMetadata: false);
                                                 }
                                             }
                                         }
@@ -2011,13 +2071,14 @@ namespace PhotoTagsSynchronizer
                                                 fileFoundInList = true;
                                                 fileFoundNeedCheckForMoreWithSameFilename = true;
 
-                                                //When found entry, check if has Face Regions to save
+                                                
                                                 if (metadataActiveAlreadyCopy.PersonalRegionList.Count == 0)
                                                 {
                                                     fileFoundRemoveFromList = true; //No regions to create, remove from queue
                                                 }
                                                 else
                                                 {
+                                                    #region When Face Regions - Load poster
                                                     if (onlyDoWhatIsInCacheToAvoidHarddriveOverload)
                                                     {
                                                         if (image != null)
@@ -2087,7 +2148,9 @@ namespace PhotoTagsSynchronizer
                                                             }
                                                         }
                                                     }
+                                                    #endregion 
 
+                                                    #region Image found - Save it - and update data grid
                                                     if (image != null) //Save regions when have image poster 
                                                     {
                                                         try
@@ -2100,8 +2163,11 @@ namespace PhotoTagsSynchronizer
                                                         {
                                                             Logger.Error(ex, "ThreadReadMediaPosterSaveRegions - SaveThumbnailsForRegioList");
                                                         }
-                                                        DataGridView_ImageListView_Populate_FileEntryAttributeInvoke(new FileEntryAttribute(fileEntryBrokerRegion, FileEntryVersion.ExtractedNowFromMediaFile)); //Updated Gridview
+                                                        DataGridView_ImageListView_Populate_FileEntryAttributeInvoke(
+                                                            new FileEntryAttribute(fileEntryBrokerRegion, FileEntryVersion.ExtractedNowFromMediaFile),
+                                                            populateDataGrid: true, populateImageListViewItemThumbnail: true, populateImageListViewItemMetadata: true); //Updated Gridview
                                                     }
+                                                    #endregion
                                                 }
 
                                                 if (fileFoundNeedCheckForMoreWithSameFilename) break; //No need to search more.

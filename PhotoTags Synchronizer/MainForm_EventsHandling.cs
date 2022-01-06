@@ -13,16 +13,12 @@ using Thumbnails;
 using Manina.Windows.Forms;
 using ApplicationAssociations;
 using System.Collections.Specialized;
-using ImageAndMovieFileExtentions;
 using System.Reflection;
 using MetadataPriorityLibrary;
 using Raccoom.Windows.Forms;
 using FileDateTime;
-using System.Threading;
-using System.Diagnostics;
 using ColumnNamesAndWidth;
 using FileHandeling;
-using PhotoTagsSynchronizer.Properties;
 
 /*
 Ctrl+X				T	Cut								Home / Organise

@@ -628,4 +628,28 @@
   <data name="pencil-edit" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\pencil-edit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="ImageListViewItemStatusDownload" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ImageListViewItemStatusDownload.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ImageListViewItemStatusExiftoolInQueue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ImageListViewItemStatusExiftoolInQueue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ImageListViewItemStatusExiftoolProcessing" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ImageListViewItemStatusExiftoolProcessing.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ImageListViewItemStatusExiftoolStoppedOffline" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ImageListViewItemStatusExiftoolStoppedOffline.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ImageListViewItemStatusFileLocked" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ImageListViewItemStatusFileLocked.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ImageListViewItemStatusFileNotExists" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ImageListViewItemStatusFileNotExists.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ImageListViewItemStatusInaccessible" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ImageListViewItemStatusInaccessible.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ImageListViewItemStatusOffline" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ImageListViewItemStatusOffline.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>
