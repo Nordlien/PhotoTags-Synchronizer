@@ -30,7 +30,7 @@ namespace PhotoTagsSynchronizer
         /// </summary>
         /// <param name="fileEntry"></param>
         /// <returns></returns>
-        private Image GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(FileEntry fileEntry, bool dontReadFilesInCloud, bool isFileInCloud)
+        private Image GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(FileEntry fileEntry, bool dontReadFilesInCloud, FileStatus fileStatus)
         {
             FileEntryVersion fileEntryVersion = FileEntryVersion.ExtractedNowFromMediaFile;
 
@@ -40,10 +40,10 @@ namespace PhotoTagsSynchronizer
 
             if (thumbnailImage == null) //Was not read from database or cache
             {
-                if (isFileInCloud) UpdateStatusAction("File is in Cloud, check if windows has thumbnail: " + fileEntry.FileFullPath);
+                if (fileStatus.IsInCloudOrVirtualOrOffline) UpdateStatusAction("File is in Cloud, check if windows has thumbnail: " + fileEntry.FileFullPath);
                 else UpdateStatusAction("Read thumbnail from file: " + fileEntry.FileFullPath);
 
-                thumbnailImage = LoadMediaCoverArtThumbnail(fileEntry.FileFullPath, ThumbnailSaveSize, dontReadFilesInCloud, isFileInCloud);
+                thumbnailImage = LoadMediaCoverArtThumbnail(fileEntry.FileFullPath, ThumbnailSaveSize, fileStatus);
 
                 if (thumbnailImage != null)
                 {
@@ -51,7 +51,16 @@ namespace PhotoTagsSynchronizer
                     DataGridView_UpdateColumnThumbnail_OnFileEntryAttribute(new FileEntryAttribute(fileEntry, fileEntryVersion), new Bitmap(thumbnailImage));
                     DataGridView_UpdateColumnThumbnail_OnFileEntryAttribute(new FileEntryAttribute(fileEntry, FileEntryVersion.Error), new Bitmap(thumbnailImage));
                 }
-                AddQueueSaveToDatabaseMediaThumbnailLock(new FileEntryImage(fileEntry, thumbnailImage == null ? null : new Bitmap(thumbnailImage)));
+                else 
+                {
+                    //Start downloading in background from OneDrive
+                    if (!dontReadFilesInCloud && fileStatus.IsInCloudOrVirtualOrOffline) FileHandler.TouchOfflineFileToGetFileOnline(fileEntry.FileFullPath);
+                } 
+                AddQueueSaveToDatabaseMediaThumbnailLock(
+                    new FileEntryImage(
+                        fileEntry, 
+                        thumbnailImage == null ? null : new Bitmap(thumbnailImage), !dontReadFilesInCloud
+                        ));
             }
 
             return thumbnailImage;
@@ -85,7 +94,7 @@ namespace PhotoTagsSynchronizer
                     if (indexFound > -1)
                     {
                         //new new Bitmap to make it thraadsafe https://stackoverflow.com/questions/49679693/c-sharp-crashes-with-parameter-is-not-valid-when-setting-picturebox-image-to
-                        FileEntryImage fileEntryImage = new FileEntryImage(posterCache[indexFound].FileEntry, posterCache[indexFound].Image /*new Bitmap(posterCache[indexFound].Image)*/);
+                        FileEntryImage fileEntryImage = new FileEntryImage(posterCache[indexFound].FileEntry, posterCache[indexFound].Image);
                         posterCache.Add(fileEntryImage); //Add last
                         posterCache.RemoveAt(indexFound);
                         image = new Bitmap(posterCache[posterCache.Count - 1].Image);
@@ -167,22 +176,19 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region Thumbnail - LoadMediaCoverArtThumbnail
-        private Image LoadMediaCoverArtThumbnail(string fullFilePath, Size maxSize, bool dontReadFilesInCloud, bool isFileInCloud = false)
+        private Image LoadMediaCoverArtThumbnail(string fullFilePath, Size maxSize, FileStatus fileStatus)
         {
             Image image = null;
             try
             {
-                bool doNotReadFullFileItsInCloud = isFileInCloud && dontReadFilesInCloud; //Do not read When File in Clound and not allowd
-
                 if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(fullFilePath))
                 {
                     WindowsProperty.WindowsPropertyReader windowsPropertyReader = new WindowsProperty.WindowsPropertyReader();                    
                     image = windowsPropertyReader.GetThumbnail(fullFilePath);
                     
                     //DO NOT READ FROM FILE - WHEN NOT ALLOWED TO READ CLOUD FILES
-                    if (image == null && !doNotReadFullFileItsInCloud)
+                    if (image == null && !fileStatus.IsInCloudOrVirtualOrOffline)
                     {                        
-                        FileHandler.WaitLockedFileToBecomeUnlocked(fullFilePath, false, this);
                         image = LoadMediaCoverArtPoster(fullFilePath);
                     }
                 }
@@ -191,17 +197,14 @@ namespace PhotoTagsSynchronizer
                     WindowsProperty.WindowsPropertyReader windowsPropertyReader = new WindowsProperty.WindowsPropertyReader();
                     image = windowsPropertyReader.GetThumbnail(fullFilePath);
 
-                    if (image == null && !doNotReadFullFileItsInCloud)
+                    if (image == null && !fileStatus.IsInCloudOrVirtualOrOffline)
                     {
-                        FileHandler.WaitLockedFileToBecomeUnlocked(fullFilePath, false, this);
-                        image = ImageAndMovieFileExtentionsUtility.ThumbnailFromFile(fullFilePath);
-                    }
+                        image = ImageAndMovieFileExtentionsUtility.ThumbnailFromFile(fullFilePath); //Fast version - onlt load thumbnail from file
 
-                    //DO NOT READ FROM FILE - IF NOT ALLOWED READ CLOUD FILES
-                    if (image == null && !doNotReadFullFileItsInCloud)
-                    {
-                        FileHandler.WaitLockedFileToBecomeUnlocked(fullFilePath, false, this);
-                        image = LoadMediaCoverArtPoster(fullFilePath); 
+                        if (image == null )
+                        {
+                            image = LoadMediaCoverArtPoster(fullFilePath); //Slow loading, load full image
+                        }
                     }
                 }
             }

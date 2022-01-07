@@ -9,9 +9,9 @@ namespace MetadataLibrary
     [Serializable]
     public class FileEntryImage : FileEntry, IEquatable<FileEntryImage>
     {
-        private Image image;
-        //private string size;
+        private Image image;        
         public Image Image { get => image; set => image = value; }
+        public bool AllowLoadFromCloud { get; set; } = false;
 
         public FileEntry FileEntry { get => new FileEntry(fullFilePath, lastWriteDateTime); }
 
@@ -28,6 +28,11 @@ namespace MetadataLibrary
         public FileEntryImage(FileEntry fileEntry, Image image) : this(fileEntry.FileFullPath, fileEntry.LastWriteDateTime, image)
         {
 
+        }
+
+        public FileEntryImage(FileEntry fileEntry, Image image, bool allowLoadFromCloud) : this(fileEntry.FileFullPath, fileEntry.LastWriteDateTime, image)
+        {
+            AllowLoadFromCloud = allowLoadFromCloud;
         }
 
         public FileEntryImage(string fullFilePath, DateTime lastWriteDateTime) : base(fullFilePath, lastWriteDateTime)

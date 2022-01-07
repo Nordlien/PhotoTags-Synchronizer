@@ -198,7 +198,6 @@ namespace PhotoTagsSynchronizer
                     DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, dataGridViewCell.ColumnIndex);
                     if (dataGridViewGenericColumn != null)
                     {
-
                         Image imageCoverArt = LoadMediaCoverArtPoster(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath);
                         if (imageCoverArt != null)
                         {
@@ -931,10 +930,8 @@ namespace PhotoTagsSynchronizer
 
 
                         if (selectedRows.Count != 1) { formRegionSelect.SetImageNone(errorMessag); return; }
-                        //MessageBox.Show("You can only create a region for one name cell at once.", "Wrong number of selection", MessageBoxButtons.OK);
                         if (dataGridViewGenericRow == null) { formRegionSelect.SetImageNone(errorMessag); return; }
                         if (dataGridViewGenericRow.IsHeader) { formRegionSelect.SetImageNone(errorMessag); return; }
-                        //MessageBox.Show("The selected cell can't be changed, need select another cell.", "Wrong cell selected", MessageBoxButtons.OK);
                         if (dataGridViewGenericColumn.Metadata == null) { formRegionSelect.SetImageNone(errorMessag); return; }
                          
 

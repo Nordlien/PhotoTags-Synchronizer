@@ -377,8 +377,6 @@ namespace Thumbnails
         }
         #endregion
 
-
-
         #endregion
 
         

@@ -795,9 +795,9 @@ namespace PhotoTagsSynchronizer
 
                                     if (!databaseAndCacheThumbnail.DoesThumbnailExistInCache(fileEntryAttribute))
                                     {
-                                        bool isFileInCloud = FileHandler.IsFileInCloud(fileEntryAttribute.FileFullPath);
+                                        FileStatus fileStatus = FileHandler.GetFileStatus(fileEntryAttribute.FileFullPath);
                                         bool dontReadFileFromCloud = Properties.Settings.Default.AvoidOfflineMediaFiles;
-                                        Image thumbnail = GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(fileEntryAttribute, dontReadFileFromCloud, isFileInCloud);                                       
+                                        Image thumbnail = GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(fileEntryAttribute, dontReadFileFromCloud, fileStatus);                                       
                                     }
                                 }
                                 lock (commonQueueLazyLoadingThumbnailLock) commonQueueLazyLoadingMediaThumbnail.RemoveAt(0);
@@ -888,13 +888,26 @@ namespace PhotoTagsSynchronizer
                                         fileEntryImage = new FileEntryImage(commonQueueSaveToDatabaseMediaThumbnail[0]);
                                     }
 
+
+                                    
+
                                     bool wasThumnbailEmptyAndReloaded = false;
                                     try
                                     {
+
                                         if (fileEntryImage.Image == null)
                                         {
-                                            fileEntryImage.Image = LoadMediaCoverArtThumbnail(fileEntryImage.FileFullPath, ThumbnailSaveSize, false);
-                                            if (fileEntryImage.Image != null) wasThumnbailEmptyAndReloaded = true;                                            
+                                            FileStatus fileStatus = FileHandler.GetFileStatus(fileEntryImage.FileFullPath);
+                                            
+                                            if (fileEntryImage.AllowLoadFromCloud && fileStatus.IsInCloudOrVirtualOrOffline)
+                                                FileHandler.TouchOfflineFileToGetFileOnline(fileEntryImage.FileFullPath);
+
+                                            if (!fileStatus.IsInCloudOrVirtualOrOffline)
+                                            {
+                                                fileEntryImage.Image = LoadMediaCoverArtThumbnail(fileEntryImage.FileFullPath, ThumbnailSaveSize, fileStatus);
+                                                if (fileEntryImage.Image != null) wasThumnbailEmptyAndReloaded = true;
+                                            }
+
                                         }
                                     }
                                     catch (Exception ex)
@@ -1247,9 +1260,9 @@ namespace PhotoTagsSynchronizer
                                                     databaseAndCacheMetadataExiftool.Write(metadataError);
                                                     databaseAndCacheMetadataExiftool.TransactionCommitBatch();
 
-                                                    bool isFileInCloud = FileHandler.IsFileInCloud(metadataError.FileFullPath);
+                                                    FileStatus fileStatusVerify = FileHandler.GetFileStatus(metadataError.FileFullPath);
                                                     bool dontReadFileFromCloud = Properties.Settings.Default.AvoidOfflineMediaFiles;
-                                                    GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(metadataError.FileEntryBroker, true, false);
+                                                    GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(metadataError.FileEntryBroker, dontReadFileFromCloud, fileStatusVerify);
                                                     DataGridView_ImageListView_Populate_FileEntryAttributeInvoke(
                                                         new FileEntryAttribute(metadataError.FileFullPath, (DateTime)metadataError.FileDateModified, FileEntryVersion.Error), 
                                                         populateDataGrid: true, populateImageListViewItemThumbnail: false, populateImageListViewItemMetadata: true);
@@ -2102,13 +2115,9 @@ namespace PhotoTagsSynchronizer
                                                 }
                                                 else
                                                 {
-                                                    #region When Face Regions - Load poster
+                                                    #region When Face Regions exists - Load poster
                                                     if (onlyDoWhatIsInCacheToAvoidHarddriveOverload)
                                                     {
-                                                        if (image != null)
-                                                        {
-                                                            //DEBUG Does the images come
-                                                        }
                                                         image = PosterCacheRead(fileEntryBrokerRegion.FileFullPath);
                                                         if (image != null) fileFoundRemoveFromList = true;
                                                         else fileFoundRemoveFromList = false; //Not in cache, need wait for loading starts (that's after all other queue empty)
@@ -2116,14 +2125,11 @@ namespace PhotoTagsSynchronizer
                                                     else
                                                     {
                                                         fileFoundRemoveFromList = true;
-                                                        bool isFileUnLockedAndExist = FileHandler.WaitLockedFileToBecomeUnlocked(fileEntryBrokerRegion.FileFullPath, false, this);
-
-                                                        
-                                                        if (
-                                                            isFileUnLockedAndExist && (
+                                                        if (File.Exists(fileEntryBrokerRegion.FileFullPath) &&
+                                                            (
                                                             fileEntryBrokerRegion.Broker == MetadataBrokerType.WebScraping || //If source WebScraper, date and time will not match                                                        
-                                                            File.GetLastWriteTime(fileEntryBrokerRegion.FileFullPath) == fileEntryBrokerRegion.LastWriteDateTime) //Check if the current Metadata are same as newest file... If not file exist anymore, date will become {01.01.1601 01:00:00}
-                                                        )
+                                                            File.GetLastWriteTime(fileEntryBrokerRegion.FileFullPath) == fileEntryBrokerRegion.LastWriteDateTime) //Check if the current Metadata are same as newest file 
+                                                            )
                                                         {
                                                             bool isFullSizeThumbnail = true;
                                                             foreach (RegionStructure regionStructure in metadataActiveAlreadyCopy.PersonalRegionList)
@@ -2137,14 +2143,18 @@ namespace PhotoTagsSynchronizer
                                                                     break;
                                                                 }
                                                             }
+                                                            //If Thumbail Rectable(0,0, 1,1) no need to load picture, just use Thumbnail
                                                             if (isFullSizeThumbnail) image = databaseAndCacheThumbnail.ReadThumbnailFromCacheOrDatabase(fileEntryBrokerRegion);
 
                                                             try
                                                             {
                                                                 if (image == null)
                                                                 {
-                                                                    bool isFileInCloud = FileHandler.IsFileInCloud(fileEntryBrokerRegion.FileFullPath);
-                                                                    if (!isFileInCloud || (isFileInCloud && !dontReadFilesInCloud)) image = LoadMediaCoverArtPoster(fileEntryBrokerRegion.FileFullPath);
+                                                                    FileStatus fileStatus = FileHandler.GetFileStatus(fileEntryBrokerRegion.FileFullPath);
+                                                                    if (!fileStatus.IsInCloudOrVirtualOrOffline)
+                                                                        image = LoadMediaCoverArtPoster(fileEntryBrokerRegion.FileFullPath);
+                                                                    else if (fileStatus.IsInCloudOrVirtualOrOffline && !dontReadFilesInCloud)
+                                                                        FileHandler.TouchOfflineFileToGetFileOnline(fileEntryBrokerRegion.FileFullPath);
                                                                 }
                                                             }
                                                             catch (Exception ex)
@@ -2154,11 +2164,12 @@ namespace PhotoTagsSynchronizer
 
                                                             if (image == null) //If failed load cover art, often occur after filed is moved or deleted
                                                             {
-                                                                if (!(FileHandler.IsFileInCloud(fileEntryBrokerRegion.FileFullPath) && dontReadFilesInCloud))
+                                                                FileStatus fileStatus = FileHandler.GetFileStatus(fileEntryBrokerRegion.FileFullPath);
+                                                                if (!fileStatus.IsInCloudOrVirtualOrOffline && dontReadFilesInCloud)
                                                                 {
                                                                     string writeErrorDesciption = 
                                                                         "Failed loading mediafile. Was not able to update thumbnail for region for the file:" + fileEntryBrokerRegion.FileFullPath + "\r\n" +
-                                                                        "File staus:" + fileEntryBrokerRegion.FileFullPath + "\r\n" + FileHandler.FileStatusText(fileEntryBrokerRegion.FileFullPath);
+                                                                        "File staus:" + fileEntryBrokerRegion.FileFullPath + "\r\n" + FileHandler.ConvertFileStatusToText(fileStatus);
                                                                     Logger.Error(writeErrorDesciption);
 
                                                                     AddError(

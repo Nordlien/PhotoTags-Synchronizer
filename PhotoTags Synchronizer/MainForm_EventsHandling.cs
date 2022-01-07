@@ -7232,9 +7232,17 @@ namespace PhotoTagsSynchronizer
                     UpdateStatusAction("Delete all data and files...");
 
                     List<FileEntry> listOfFilesForReload = filesCutCopyPasteDrag.DeleteFileEntriesBeforeReload(imageListView.Items, updatedOnlySelected);
-                    
+
                     #region Touch Offline files so they get downloaded
-                    foreach (FileEntry fileEntry in listOfFilesForReload) FileHandler.TouchOfflineFileToGetFileOnline(fileEntry.FileFullPath);
+                    bool dontReadFileFromCloud = Properties.Settings.Default.AvoidOfflineMediaFiles;
+                    if (!dontReadFileFromCloud)
+                    {
+                        foreach (FileEntry fileEntry in listOfFilesForReload)
+                        {
+                            FileStatus fileStatus = FileHandler.GetFileStatus(fileEntry.FileFullPath);
+                            if (fileStatus.IsInCloudOrVirtualOrOffline) FileHandler.TouchOfflineFileToGetFileOnline(fileEntry.FileFullPath);
+                        }
+                    }
                     #endregion
 
                     filesCutCopyPasteDrag.ImageListViewReload(imageListView.Items, updatedOnlySelected);
@@ -7429,9 +7437,6 @@ namespace PhotoTagsSynchronizer
                             GlobalData.ProcessCounterDelete = 0;
                             UpdateStatusAction(recordAffected + " records was delete from database....");
 
-                            //string selectedFolder = GetSelectedNodePath();
-                            //IEnumerable<FileData> fileDatas = GetFilesInSelectedFolder(selectedFolder, false);
-                            //ImageListView_Aggregate_FromReadFolderOrFilterOrDatabase(fileDatas, null, selectedFolder, false);
                             ImageListView_Aggregate_FromFolder(false, true);
                         }
                     }

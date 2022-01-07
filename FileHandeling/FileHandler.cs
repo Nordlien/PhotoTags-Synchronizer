@@ -170,32 +170,44 @@ namespace FileHandeling
         }
         #endregion
 
-        #region FileStatusText
-        public static string FileStatusText(string fullFileName)
+        #region ConvertFileStatusToText
+        public static string ConvertFileStatusToText(FileStatus fileStatus, string fullFileName = null)
         {
             string status = "";
-            if (!File.Exists(fullFileName)) status = "File not exists";
-            else
-            { 
-                status =  
-                    (IsFileInCloud(fullFileName) ? "File is in cloud" : "File is not in cloud") + "\r\n" +
-                    (IsFileLockedForReadAndWrite(fullFileName, FileHandler.GetFileLockedStatusTimeout) ? "File is locked by process" : "File is not locked by process") + "\r\n" +
-                    (IsFileLockedForRead(fullFileName) ? "File is locked for reading" : "File is not locked for reading") + "\r\n" +
-                    (IsFileVirtual(fullFileName) ? "File is virtual" : "File is not virtual");
+            
+            if (!fileStatus.FileExists) status = "File not exists";
+            else if (fileStatus.IsDirty) status = "Status unknown";
+            else if (fileStatus.IsInCloudOrVirtualOrOffline) status = "File is offline";
+            else if (fileStatus.HasAnyLocks) status = "File is locked";
+
+            if (fileStatus.FileExists && fullFileName != null)
+            {
                 try
                 {
-                    status = status + "\r\nAttribute: " + File.GetAttributes(fullFileName).ToString();
-                } catch { }
+                    status = status + "\r\nFile Attributes: " + File.GetAttributes(fullFileName).ToString();
+                }
+                catch { }
                 try
                 {
                     status = status + "\r\nCreation Time: " + File.GetCreationTime(fullFileName).ToString();
-                } catch { }
+                }
+                catch { }
                 try
                 {
                     status = status + "\r\nLast Write Time: " + File.GetLastWriteTime(fullFileName).ToString();
-                } catch { }
+                }
+                catch { }
             }
             return status;
+        }
+
+        #endregion
+
+        #region FileStatusText
+        public static string FileStatusText(string fullFileName)
+        {
+            FileStatus fileStatus = FileHandler.GetFileStatus(fullFileName);            
+            return ConvertFileStatusToText(fileStatus, fullFileName);
         }
         #endregion
 
@@ -401,16 +413,7 @@ namespace FileHandeling
                         foreach (Metadata metadata in fileEntriesToCheck)
                         {
                             listOfFiles.Add(metadata.FileFullPath);
-                            statusOnFiles += metadata.FileFullPath + "\r\n";
-                            try
-                            {
-                                if (!File.Exists(metadata.FileFullPath)) statusOnFiles += "- File doesn't exist\r\n";
-                            }
-                            catch { }
-                            if (IsFileLockedForReadAndWrite(metadata.FileFullPath, FileHandler.GetFileLockedStatusTimeout)) statusOnFiles += "- File is Locked by an other application\r\n";
-                            if (IsFileReadOnly(metadata.FileFullPath)) statusOnFiles += "- File is read only\r\n";
-                            if (IsFileVirtual(metadata.FileFullPath)) statusOnFiles += "- File is virtual\r\n";
-                            if (IsFileInCloud(metadata.FileFullPath)) statusOnFiles += "- File is in cloud\r\n";
+                            statusOnFiles += metadata.FileFullPath + "\r\n" + FileHandler.FileStatusText(metadata.FileFullPath);
                         }
                         formWaitLockedFile.AddFiles(listOfFiles);
 

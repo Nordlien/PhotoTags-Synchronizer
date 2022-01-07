@@ -294,7 +294,7 @@ namespace PhotoTagsSynchronizer
                     bool dontReadFileFromCloud = Properties.Settings.Default.AvoidOfflineMediaFiles;
                     try
                     {
-                        Image thumbnail = GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(fileEntry, dontReadFileFromCloud, fileStatus.IsInCloudOrVirtualOrOffline);
+                        Image thumbnail = GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(fileEntry, dontReadFileFromCloud, fileStatus);
 
                         if (thumbnail != null) 
                         {
@@ -307,6 +307,7 @@ namespace PhotoTagsSynchronizer
                             if (!fileStatus.FileExists) e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorFileNotExist; //File has become deleted
                             else if (fileStatus.IsVirtual) e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorOneDriveNotRunning;
                             else if (fileStatus.IsInCloudOrVirtualOrOffline) e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorFileInCloud;
+                            else if (fileStatus.FileErrorOrInaccessible) e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorGeneral;
                             else e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorNoThumbnail;
                         }
                     }
@@ -391,11 +392,28 @@ namespace PhotoTagsSynchronizer
                 catch (Exception)
                 {
                     e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorGeneral;
+                    
+                    FileStatus fileStatus = FileHandler.GetFileStatus(e.FullFilePath);
+
+                    if (!fileStatus.FileExists) e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorFileNotExist; //File has become deleted
+                    else if (fileStatus.IsVirtual) e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorOneDriveNotRunning;
+                    else if (fileStatus.IsInCloudOrVirtualOrOffline) e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorFileInCloud;
+                    else if (fileStatus.FileErrorOrInaccessible) e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorGeneral;
+
                     e.WasImageReadFromFile = false;
                     e.DidErrorOccourLoadMedia = true;
                 }
-                if (e.LoadedImage == null && FileHandler.IsFileInCloud(e.FullFilePath))
+
+                
+                if (e.LoadedImage == null)
                 {
+                    FileStatus fileStatus = FileHandler.GetFileStatus(e.FullFilePath);
+
+                    if (!fileStatus.FileExists) e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorFileNotExist; //File has become deleted
+                    else if (fileStatus.IsVirtual) e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorOneDriveNotRunning;
+                    else if (fileStatus.IsInCloudOrVirtualOrOffline) e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorFileInCloud;
+                    else if (fileStatus.FileErrorOrInaccessible) e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorGeneral;
+
                     e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorOneDriveNotRunning;
                     e.WasImageReadFromFile = false;
                     e.DidErrorOccourLoadMedia = true;
@@ -404,15 +422,15 @@ namespace PhotoTagsSynchronizer
             } while (retry);
             #endregion 
 
-            try
-            {
-                FileEntry fileEntryFound = ImageListViewHandler.GetFileEntryFromSelectedFilesCached(imageListView1, e.FullFilePath);
-                if (fileEntryFound != null) 
-                    DataGridView_UpdateColumnThumbnail_OnFileEntryAttribute(new FileEntryAttribute(fileEntryFound, FileEntryVersion.CurrentVersionInDatabase), e.LoadedImage); //Also show error thumbnail
-            } catch (Exception ex)
-            {
-                Logger.Error(ex, "imageListView1_RetrieveImage failed on: " + e.FullFilePath);
-            }
+            //try
+            //{
+            //    FileEntry fileEntryFound = ImageListViewHandler.GetFileEntryFromSelectedFilesCached(imageListView1, e.FullFilePath);
+            //    if (fileEntryFound != null) 
+            //        DataGridView_UpdateColumnThumbnail_OnFileEntryAttribute(new FileEntryAttribute(fileEntryFound, FileEntryVersion.CurrentVersionInDatabase), e.LoadedImage); //Also show error thumbnail
+            //} catch (Exception ex)
+            //{
+            //    Logger.Error(ex, "imageListView1_RetrieveImage failed on: " + e.FullFilePath);
+            //}
 
         }
         #endregion
