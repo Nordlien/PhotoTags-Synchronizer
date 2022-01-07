@@ -1098,6 +1098,12 @@ namespace Manina.Windows.Forms
                         case FileProcessStatus.FileInaccessible:
                             fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Inaccessible";
                             break;
+                        case FileProcessStatus.DoNotUpdate:
+                            //fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "DoNotUpdate";
+                            break;
+                        case FileProcessStatus.ExiftoolWillNotProcessingFileInCloud:
+                            fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Skipped offline file";
+                            break;
                         default:
                             throw new NotImplementedException();
                     }

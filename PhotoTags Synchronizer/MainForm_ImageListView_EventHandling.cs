@@ -296,7 +296,7 @@ namespace PhotoTagsSynchronizer
                     {
                         Image thumbnail = GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(fileEntry, dontReadFileFromCloud, fileStatus.IsInCloudOrVirtualOrOffline);
 
-                        if (thumbnail != null) //Add cloud icon if needed
+                        if (thumbnail != null) 
                         {
                             Image thumbnailWithCloudIfFromCloud = Utility.ThumbnailFromImage(thumbnail, ThumbnailMaxUpsize, Color.White, true);
                             e.Thumbnail = thumbnailWithCloudIfFromCloud;

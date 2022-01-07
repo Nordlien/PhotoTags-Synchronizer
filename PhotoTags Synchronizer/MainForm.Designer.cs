@@ -1902,6 +1902,7 @@ namespace PhotoTagsSynchronizer
             this.imageListView1.RetryOnError = false;
             this.imageListView1.Size = new System.Drawing.Size(399, 733);
             this.imageListView1.SortColumn = Manina.Windows.Forms.ColumnType.FileName;
+            this.imageListView1.StatusIconFileError = global::PhotoTagsSynchronizer.Properties.Resources.ImageListViewStatusError;
             this.imageListView1.StatusIconFileLocked = global::PhotoTagsSynchronizer.Properties.Resources.ImageListViewItemStatusFileLocked;
             this.imageListView1.StatusIconFileNotExists = global::PhotoTagsSynchronizer.Properties.Resources.ImageListViewItemStatusFileNotExists;
             this.imageListView1.StatusIconFileOffline = global::PhotoTagsSynchronizer.Properties.Resources.ImageListViewItemStatusOffline;
@@ -3980,7 +3981,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonTabSelect,
             this.kryptonRibbonTabTools,
             this.kryptonRibbonTabPreview});
-            this.kryptonRibbonMain.SelectedContext = null;
             this.kryptonRibbonMain.SelectedTab = this.kryptonRibbonTabHome;
             this.kryptonRibbonMain.Size = new System.Drawing.Size(1214, 115);
             this.kryptonRibbonMain.TabIndex = 12;
