@@ -523,7 +523,7 @@ namespace Manina.Windows.Forms
                     if (item != null && bounds.Width > 4 && bounds.Height > 4)
                     {
                         image = GetImageAsync(item, bounds.Size);
-                        if (image == null) image = Utility.ThumbnailFromImage(item.ThumbnailImage, bounds.Size, Color.White, true); //JTN avoid flash small so big, better with unshar picture item.ThumbnailImage;
+                        if (image == null) image = Utility.ConvertImageToThumbnail(item.ThumbnailImage, bounds.Size, Color.White, true); //JTN avoid flash small so big, better with unshar picture item.ThumbnailImage;
                     }
 
                     if (mClip)
@@ -837,46 +837,20 @@ namespace Manina.Windows.Forms
                     {
                         Rectangle pos = Utility.GetSizedImageBounds(img, new Rectangle(bounds.Location + itemPadding, mImageListView.ThumbnailSize));
                         g.DrawImage(img, pos);
-                        
-                        switch (item.FileStatus.FileProcessStatus)
-                        {
-                            case FileProcessStatus.ExiftoolProcessing:
-                                if (mImageListView.StatusIconProcessExiftoolProcessing != null) g.DrawImage(mImageListView.StatusIconProcessExiftoolProcessing, pos.Left, pos.Top);
-                                break;
-                            case FileProcessStatus.ExiftoolWillNotProcessingFileInCloud:
-                                if (mImageListView.StatusIconProcessExiftoolWillNotProcessingFileInCloud != null) g.DrawImage(mImageListView.StatusIconProcessExiftoolWillNotProcessingFileInCloud, pos.Left, pos.Top);
-                                break;
-                            case FileProcessStatus.FileInaccessible:
-                                if (mImageListView.StatusIconProcessFileInaccessible != null) g.DrawImage(mImageListView.StatusIconProcessFileInaccessible, pos.Left, pos.Top);
-                                break;
-                            case FileProcessStatus.InExiftoolReadQueue:
-                                if (mImageListView.StatusIconProcessInExiftoolReadQueue != null) g.DrawImage(mImageListView.StatusIconProcessInExiftoolReadQueue, pos.Left, pos.Top);
-                                break;
-                            case FileProcessStatus.WaitOfflineBecomeLocal:
-                                if (mImageListView.StatusIconProcessWaitOfflineBecomeLocal != null) g.DrawImage(mImageListView.StatusIconProcessWaitOfflineBecomeLocal, pos.Left, pos.Top);
-                                break;
-                            case FileProcessStatus.WaitAction:
-                                if (mImageListView.StatusIconWaitAction != null) g.DrawImage(mImageListView.StatusIconWaitAction, pos.Left, pos.Top);
-                                    break;
-                        }
 
-                        if (!item.FileStatus.FileExists)
-                        { 
-                            if (mImageListView.StatusIconFileNotExists != null) g.DrawImage(mImageListView.StatusIconFileNotExists, pos.Left, pos.Top); 
-                        }
-                        else if (item.FileStatus.FileErrorOrInaccessible)
-                        {
-                            if (mImageListView.StatusIconFileError != null) g.DrawImage(mImageListView.StatusIconFileError, pos.Left, pos.Top);
-                        }
-                        else if (item.FileStatus.IsInCloudOrVirtualOrOffline)
-                        {
-                            if (mImageListView.StatusIconFileOffline != null) g.DrawImage(mImageListView.StatusIconFileOffline, pos.Left, pos.Top);
-                        }
-                        else if (item.FileStatus.HasAnyLocks)
-                        {
-                            if (mImageListView.StatusIconFileLocked != null) g.DrawImage(mImageListView.StatusIconFileLocked, pos.Left, pos.Top);
-                        }
-                        
+
+                        if (!item.FileStatus.FileExists) g.DrawImage(mImageListView.StatusIconFileNotExists, pos.Left, pos.Top);
+                        else if (item.FileStatus.FileErrorOrInaccessible) g.DrawImage(mImageListView.StatusIconProcessFileInaccessible, pos.Left, pos.Top);
+                        else if (item.FileStatus.IsDirty) g.DrawImage(mImageListView.StatusIconProcessExiftoolStatusUnknown, pos.Left, pos.Top);
+                        else if (item.FileStatus.FileProcessStatus == FileProcessStatus.ExiftoolProcessing) g.DrawImage(mImageListView.StatusIconProcessExiftoolProcessing, pos.Left, pos.Top);
+                        else if (item.FileStatus.FileProcessStatus == FileProcessStatus.ExiftoolWillNotProcessingFileInCloud) g.DrawImage(mImageListView.StatusIconProcessExiftoolWillNotProcessingFileInCloud, pos.Left, pos.Top);
+                        else if (item.FileStatus.FileProcessStatus == FileProcessStatus.FileInaccessible) g.DrawImage(mImageListView.StatusIconProcessFileInaccessible, pos.Left, pos.Top);
+                        else if (item.FileStatus.FileProcessStatus == FileProcessStatus.InExiftoolReadQueue) g.DrawImage(mImageListView.StatusIconProcessInExiftoolReadQueue, pos.Left, pos.Top);
+                        else if (item.FileStatus.FileProcessStatus == FileProcessStatus.WaitOfflineBecomeLocal) g.DrawImage(mImageListView.StatusIconProcessWaitOfflineBecomeLocal, pos.Left, pos.Top);
+                        else if (item.FileStatus.FileProcessStatus == FileProcessStatus.DoNotUpdate) g.DrawImage(mImageListView.StatusIconProcessExiftoolStatusUnknown, pos.Left, pos.Top);
+                        else if (item.FileStatus.IsInCloudOrVirtualOrOffline) g.DrawImage(mImageListView.StatusIconFileOffline, pos.Left, pos.Top);
+                        else if (item.FileStatus.HasAnyLocks) if (mImageListView.StatusIconFileLocked != null) g.DrawImage(mImageListView.StatusIconFileLocked, pos.Left, pos.Top);
+                        if (item.FileStatus.IsReadOnly) if (mImageListView.StatusIconFileLocked != null) g.DrawImage(mImageListView.StatusIconFileReadOnly, pos.Left, pos.Top);
 
                         // Draw image border
                         if (Math.Min(pos.Width, pos.Height) > 32)

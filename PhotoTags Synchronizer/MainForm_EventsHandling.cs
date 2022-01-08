@@ -4340,11 +4340,14 @@ namespace PhotoTagsSynchronizer
                             }
                             catch (Exception ex)
                             {
+                                FileStatus fileStatus = FileHandler.GetFileStatus(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath, checkLockedStatus: true);
+                                ImageListView_UpdateItemFileStatusInvoke(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath, fileStatus);
+
                                 string writeErrorDesciption =
                                     "Error writing properties to file.\r\n\r\n" +
                                     "File: " + dataGridViewGenericColumn.FileEntryAttribute.FileFullPath + "\r\n\r\n" +
                                     "Error message: " + ex.Message + "\r\n" +
-                                    "File staus:" + dataGridViewGenericColumn.FileEntryAttribute.FileFullPath + "\r\n" + FileHandler.FileStatusText(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath);
+                                    "File staus:" + dataGridViewGenericColumn.FileEntryAttribute.FileFullPath + "\r\n" + fileStatus.ToString();
 
                                 AddError(
                                     dataGridViewGenericColumn.FileEntryAttribute.Directory,

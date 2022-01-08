@@ -1054,61 +1054,7 @@ namespace Manina.Windows.Forms
                     if (Dimensions == Size.Empty) return "";
                     else return string.Format("{0} x {1}", Dimensions.Width, Dimensions.Height);
                 case ColumnType.FileStatus:
-                    string fileStatusText = "";
-                    
-                    #region Exists
-                    if (!FileStatus.FileExists) fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Not exist";
-                    if (FileStatus.FileErrorOrInaccessible) fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Inaccessible";
-                    if (FileStatus.IsDirty) fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Checking...";
-                    #endregion
-
-                    #region Located
-                    if (FileStatus.IsInCloudOrVirtualOrOffline)
-                        fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Offline (" +
-                        (FileStatus.IsInCloud ? "C" : "") +
-                        (FileStatus.IsVirtual ? "V" : "") +
-                        (FileStatus.IsOffline ? "O" : "") + ")";
-                    #endregion
-
-                    #region Access
-                    if (!FileStatus.IsInCloudOrVirtualOrOffline)
-                    {
-                        if (FileStatus.IsFileLockedReadAndWrite) fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Locked RW";
-                        if (FileStatus.IsFileLockedForRead) fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Locked R";
-                    }
-                    if (FileStatus.IsReadOnly) fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "ReadOnly";                    
-                    #endregion
-
-                    
-
-                    #region Processes
-                    switch (FileStatus.FileProcessStatus)
-                    {
-                        case FileProcessStatus.WaitAction:
-                            //fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Waiting action";
-                            break;
-                        case FileProcessStatus.InExiftoolReadQueue:
-                            break;
-                        case FileProcessStatus.WaitOfflineBecomeLocal:
-                            fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Downloading";
-                            break;
-                        case FileProcessStatus.ExiftoolProcessing:
-                            fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Exiftool";
-                            break;
-                        case FileProcessStatus.FileInaccessible:
-                            fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Inaccessible";
-                            break;
-                        case FileProcessStatus.DoNotUpdate:
-                            //fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "DoNotUpdate";
-                            break;
-                        case FileProcessStatus.ExiftoolWillNotProcessingFileInCloud:
-                            fileStatusText = fileStatusText + (string.IsNullOrWhiteSpace(fileStatusText) ? "" : ",") + "Skipped offline file";
-                            break;
-                        default:
-                            throw new NotImplementedException();
-                    }
-                    #endregion 
-                    
+                    string fileStatusText = FileStatus.ToString();                    
                     if (string.IsNullOrWhiteSpace(fileStatusText)) fileStatusText = "Normal";
                     return fileStatusText;
                 case ColumnType.LocationTimeZone:
@@ -1165,25 +1111,17 @@ namespace Manina.Windows.Forms
             {
                 RetrieveItemMetadataDetailsEventArgs e = new RetrieveItemMetadataDetailsEventArgs(mFileName);
                 mImageListView.RetrieveItemMetadataDetailsInternal(e);
-
-                
-                if (e.FileMetadata != null)
-                {
-                    UpdateDetailsInternal(e.FileMetadata);
-                }
-                else    //If not handled using event, try do it internal
-                {
-                    Utility.ShellImageFileInfo info = new Utility.ShellImageFileInfo(mFileName);
-                    UpdateDetailsInternal(info);
-                }
+                if (e.FileMetadata != null) UpdateDetailsInternal(e.FileMetadata);
             }
         }
         #endregion
 
+        #region UpdateDetails
         public void UpdateDetails(Utility.ShellImageFileInfo info)
         {
             UpdateDetailsInternal(info);
         }
+        #endregion 
 
         //JTN: MediaFileAttribute
         #region UpdateDetailsInternal(Utility.ShellImageFileInfo info)

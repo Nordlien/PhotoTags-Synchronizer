@@ -63,6 +63,13 @@ namespace PhotoTagsSynchronizer
                     dateTimeLastWriteTime = File.GetLastWriteTime(sourceFullFilename);
                 }
                 catch { }
+
+                FileStatus fileStatus = FileHandler.GetFileStatus(sourceFullFilename, checkLockedStatus: true);
+                ImageListView_UpdateItemFileStatusInvoke(sourceFullFilename, fileStatus);
+
+                FileStatus fileStatusTarget = FileHandler.GetFileStatus(targetFullFilename, checkLockedStatus: true);
+                ImageListView_UpdateItemFileStatusInvoke(targetFullFilename, fileStatus);
+
                 AddError(
                     Path.GetDirectoryName(sourceFullFilename),
                     Path.GetFileName(sourceFullFilename),
@@ -72,8 +79,8 @@ namespace PhotoTagsSynchronizer
                     "From:" + sourceFullFilename + "\r\n\r\n" +
                     "To: " + targetFullFilename + "\r\n\r\n" +
                     "Error message: " + ex.Message + "\r\n" +
-                    "File staus:" + sourceFullFilename + "\r\n" + FileHandler.FileStatusText(sourceFullFilename) +
-                    "File staus:" + targetFullFilename + "\r\n" + FileHandler.FileStatusText(targetFullFilename));
+                    "File staus:" + sourceFullFilename + "\r\n" + fileStatus.ToString() +
+                    "File staus:" + targetFullFilename + "\r\n" + fileStatusTarget.ToString());
                 Logger.Error(ex, "Error when move file.");
             }
             ImageListViewResumeLayoutInvoke(imageListView1);
@@ -134,6 +141,13 @@ namespace PhotoTagsSynchronizer
                             dateTimeLastWriteTime = File.GetLastWriteTime(sourceFullFilename);
                         }
                         catch { }
+
+                        FileStatus fileStatus = FileHandler.GetFileStatus(sourceFullFilename, checkLockedStatus: true);
+                        ImageListView_UpdateItemFileStatusInvoke(sourceFullFilename, fileStatus);
+
+                        FileStatus fileStatusTarget = FileHandler.GetFileStatus(targetFullFilename, checkLockedStatus: true);
+                        ImageListView_UpdateItemFileStatusInvoke(targetFullFilename, fileStatus);
+
                         AddError(
                             Path.GetDirectoryName(sourceFullFilename),
                             Path.GetFileName(sourceFullFilename),
@@ -143,8 +157,8 @@ namespace PhotoTagsSynchronizer
                             "From:" + sourceFullFilename + "\r\n\r\n" +
                             "To: " + targetFullFilename + "\r\n\r\n" +
                             "Error message: " + ex.Message + "\r\n" +
-                            "File staus:" + sourceFullFilename + "\r\n" + FileHandler.FileStatusText(sourceFullFilename) +
-                            "File staus:" + targetFullFilename + "\r\n" + FileHandler.FileStatusText(targetFullFilename));
+                            "File staus:" + sourceFullFilename + "\r\n" + fileStatus.ToString() +
+                            "File staus:" + targetFullFilename + "\r\n" + fileStatusTarget.ToString());
                         Logger.Error(ex, "Error when move file.");
                     }
                 }
@@ -252,6 +266,9 @@ namespace PhotoTagsSynchronizer
                         }
                         catch { }
 
+                        FileStatus fileStatus = FileHandler.GetFileStatus(sourceFullFilename, checkLockedStatus: true);
+                        ImageListView_UpdateItemFileStatusInvoke(sourceFullFilename, fileStatus);
+
                         AddError(
                             Path.GetDirectoryName(sourceFullFilename),
                             Path.GetFileName(sourceFullFilename),
@@ -261,7 +278,7 @@ namespace PhotoTagsSynchronizer
                             "Error copy file from: " + sourceFullFilename + "\r\n\r\n" +
                             "To file: " + targetFullFilename + "\r\n\r\n" +
                             "Error message: " + ex.Message + "\r\n" +
-                            "File staus:" + sourceFullFilename + "\r\n" + FileHandler.FileStatusText(sourceFullFilename));
+                            "File staus:" + sourceFullFilename + "\r\n" + fileStatus.ToString());
                         Logger.Error(ex, "Error when copy file.");
                     }
                 }
@@ -321,6 +338,13 @@ namespace PhotoTagsSynchronizer
                             dateTimeLastWriteTime = File.GetLastWriteTime(sourceFullFilename);
                         }
                         catch { }
+
+                        FileStatus fileStatus = FileHandler.GetFileStatus(sourceFullFilename, checkLockedStatus: true);
+                        ImageListView_UpdateItemFileStatusInvoke(sourceFullFilename, fileStatus);
+
+                        FileStatus fileStatusTarger = FileHandler.GetFileStatus(targetFullFilename, checkLockedStatus: true);
+                        ImageListView_UpdateItemFileStatusInvoke(targetFullFilename, fileStatus);
+
                         AddError(
                             Path.GetDirectoryName(sourceFullFilename),
                             Path.GetFileName(sourceFullFilename),
@@ -330,8 +354,8 @@ namespace PhotoTagsSynchronizer
                             "Error copy file from: " + sourceFullFilename + "\r\n\r\n" +
                             "To file: " + targetFullFilename + "\r\n\r\n" +
                             "Error message: " + ex.Message + "\r\n" +
-                            "File staus:" + sourceFullFilename + "\r\n" + FileHandler.FileStatusText(sourceFullFilename) +
-                            "File staus:" + targetFullFilename + "\r\n" + FileHandler.FileStatusText(targetFullFilename));
+                            "File staus:" + sourceFullFilename + "\r\n" + fileStatus.ToString() +
+                            "File staus:" + targetFullFilename + "\r\n" + fileStatusTarger.ToString());
                     }
                 }
             }

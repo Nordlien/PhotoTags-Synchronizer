@@ -593,6 +593,26 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ImageListViewItemStatusReadOnly {
+            get {
+                object obj = ResourceManager.GetObject("ImageListViewItemStatusReadOnly", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ImageListViewItemStatusUnknown {
+            get {
+                object obj = ResourceManager.GetObject("ImageListViewItemStatusUnknown", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ImageListViewLoadErrorFileInCloud {
             get {
                 object obj = ResourceManager.GetObject("ImageListViewLoadErrorFileInCloud", resourceCulture);

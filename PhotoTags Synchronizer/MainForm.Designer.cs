@@ -1906,12 +1906,13 @@ namespace PhotoTagsSynchronizer
             this.imageListView1.StatusIconFileLocked = global::PhotoTagsSynchronizer.Properties.Resources.ImageListViewItemStatusFileLocked;
             this.imageListView1.StatusIconFileNotExists = global::PhotoTagsSynchronizer.Properties.Resources.ImageListViewItemStatusFileNotExists;
             this.imageListView1.StatusIconFileOffline = global::PhotoTagsSynchronizer.Properties.Resources.ImageListViewItemStatusOffline;
+            this.imageListView1.StatusIconFileReadOnly = global::PhotoTagsSynchronizer.Properties.Resources.ImageListViewItemStatusReadOnly;
             this.imageListView1.StatusIconProcessExiftoolProcessing = global::PhotoTagsSynchronizer.Properties.Resources.ImageListViewItemStatusExiftoolProcessing;
+            this.imageListView1.StatusIconProcessExiftoolStatusUnknown = global::PhotoTagsSynchronizer.Properties.Resources.ImageListViewItemStatusUnknown;
             this.imageListView1.StatusIconProcessExiftoolWillNotProcessingFileInCloud = global::PhotoTagsSynchronizer.Properties.Resources.ImageListViewItemStatusExiftoolStoppedOffline;
             this.imageListView1.StatusIconProcessFileInaccessible = global::PhotoTagsSynchronizer.Properties.Resources.ImageListViewItemStatusInaccessible;
             this.imageListView1.StatusIconProcessInExiftoolReadQueue = global::PhotoTagsSynchronizer.Properties.Resources.ImageListViewItemStatusExiftoolInQueue;
             this.imageListView1.StatusIconProcessWaitOfflineBecomeLocal = global::PhotoTagsSynchronizer.Properties.Resources.ImageListViewItemStatusDownload;
-            this.imageListView1.StatusIconWaitAction = null;
             this.imageListView1.TabIndex = 1;
             this.imageListView1.Text = "";
             this.imageListView1.TitleLine2 = Manina.Windows.Forms.ColumnType.FileName;

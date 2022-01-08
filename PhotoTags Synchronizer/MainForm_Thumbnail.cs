@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Windows.Forms;
-using Exiftool;
 using ImageAndMovieFileExtentions;
 using Manina.Windows.Forms;
 using MetadataLibrary;
 using FileHandeling;
-
 using Krypton.Toolkit;
+using System.Threading.Tasks;
 
 namespace PhotoTagsSynchronizer
 {
@@ -56,6 +54,7 @@ namespace PhotoTagsSynchronizer
                     //Start downloading in background from OneDrive
                     if (!dontReadFilesInCloud && fileStatus.IsInCloudOrVirtualOrOffline) FileHandler.TouchOfflineFileToGetFileOnline(fileEntry.FileFullPath);
                 } 
+
                 AddQueueSaveToDatabaseMediaThumbnailLock(
                     new FileEntryImage(
                         fileEntry, 
@@ -183,29 +182,27 @@ namespace PhotoTagsSynchronizer
             {
                 if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(fullFilePath))
                 {
+                    #region Load Video Thumbnail Poster
                     WindowsProperty.WindowsPropertyReader windowsPropertyReader = new WindowsProperty.WindowsPropertyReader();                    
+                    image = windowsPropertyReader.GetThumbnail(fullFilePath);
+
+                    //DO NOT READ FROM FILE - WHEN NOT ALLOWED TO READ CLOUD FILES
+                    if (image == null && !fileStatus.IsInCloudOrVirtualOrOffline) image = LoadMediaCoverArtPoster(fullFilePath);
+                    #endregion
+                }
+                else if (ImageAndMovieFileExtentionsUtility.IsImageFormat(fullFilePath))
+                {
+                    #region Load Picture Thumbnail Poster
+                    WindowsProperty.WindowsPropertyReader windowsPropertyReader = new WindowsProperty.WindowsPropertyReader();
                     image = windowsPropertyReader.GetThumbnail(fullFilePath);
                     
                     //DO NOT READ FROM FILE - WHEN NOT ALLOWED TO READ CLOUD FILES
                     if (image == null && !fileStatus.IsInCloudOrVirtualOrOffline)
-                    {                        
-                        image = LoadMediaCoverArtPoster(fullFilePath);
-                    }
-                }
-                else if (ImageAndMovieFileExtentionsUtility.IsImageFormat(fullFilePath))
-                {
-                    WindowsProperty.WindowsPropertyReader windowsPropertyReader = new WindowsProperty.WindowsPropertyReader();
-                    image = windowsPropertyReader.GetThumbnail(fullFilePath);
-
-                    if (image == null && !fileStatus.IsInCloudOrVirtualOrOffline)
                     {
                         image = ImageAndMovieFileExtentionsUtility.ThumbnailFromFile(fullFilePath); //Fast version - onlt load thumbnail from file
-
-                        if (image == null )
-                        {
-                            image = LoadMediaCoverArtPoster(fullFilePath); //Slow loading, load full image
-                        }
+                        if (image == null ) image = LoadMediaCoverArtPoster(fullFilePath); //Slow loading, load full image
                     }
+                    #endregion
                 }
             }
             catch (Exception ex) 
@@ -213,7 +210,7 @@ namespace PhotoTagsSynchronizer
                 Logger.Error(ex, "LoadMediaCoverArtThumbnail");
             }
 
-            if (image != null) image = Utility.ThumbnailFromImage(image, maxSize, Color.White, false);
+            if (image != null) image = Utility.ConvertImageToThumbnail(image, maxSize, Color.White, false);
             return image;
         }
         #endregion

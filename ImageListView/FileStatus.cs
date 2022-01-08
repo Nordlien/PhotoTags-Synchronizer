@@ -65,7 +65,7 @@ namespace Manina.Windows.Forms
         }
         #endregion
 
-        #region Processes
+        #region FileProcessStatus
         public FileProcessStatus FileProcessStatus { get; set; } = FileProcessStatus.WaitAction;
         #endregion
 
@@ -106,5 +106,29 @@ namespace Manina.Windows.Forms
             return x.SortValue.CompareTo(y.SortValue);
         }
         #endregion
+
+        #region ToString
+        public override string ToString()
+        {
+            
+            string status = "";
+            if (!FileExists) status = "File not exists";
+            else if (FileErrorOrInaccessible) status = "File is inaccessible";
+            else if (IsDirty) status = "Status sill unknown";
+            else if (FileProcessStatus == FileProcessStatus.WaitAction) status = "";
+            else if (FileProcessStatus == FileProcessStatus.ExiftoolProcessing) status = "Exiftool processing";
+            else if (FileProcessStatus == FileProcessStatus.ExiftoolWillNotProcessingFileInCloud) status = "Files is keeped offline";
+            else if (FileProcessStatus == FileProcessStatus.FileInaccessible) status = "File is inaccessible";
+            else if (FileProcessStatus == FileProcessStatus.InExiftoolReadQueue) status = "Wait Exiftool";
+            else if (FileProcessStatus == FileProcessStatus.WaitOfflineBecomeLocal) status = "Downloading";
+            else if (FileProcessStatus == FileProcessStatus.DoNotUpdate) status = "Status requested";
+            else if (IsInCloudOrVirtualOrOffline) status = "File is offline (" + (IsInCloud ? "C":"") + (IsVirtual ? "V" : "") + (IsOffline ? "O" :"") + ")";
+            else if (HasAnyLocks) status = "File is locked (" + (IsFileLockedForRead ? "R":"") + (IsFileLockedReadAndWrite ? "W" : "")  + ")";
+            if (IsReadOnly) status += (string.IsNullOrWhiteSpace(status) ? "" : ", ") + "ReadOnly";
+            return status;
+        }
+        #endregion
+
+
     }
 }

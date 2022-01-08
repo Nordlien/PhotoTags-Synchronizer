@@ -314,7 +314,7 @@ namespace Exiftool
                             "File name:"+ metadataRead.FileEntryBroker.FileFullPath + "\r\n" +
                             "File modified before Exiftool: " + metadataRead.FileEntryBroker.LastWriteDateTime.ToString() + "\r\n" +
                             "File modified after  Exiftool: " + metadataWrittenByExiftoolWaitVerify[verifyPosition].FileDateModified.ToString() + "\r\n" +
-                            FileHandler.FileStatusText(metadataRead.FileFullPath);
+                            FileHandler.GetFileStatusText(metadataRead.FileFullPath, true);
                         message += fileErrorMessage;
                         Logger.Warn(fileErrorMessage);
                         

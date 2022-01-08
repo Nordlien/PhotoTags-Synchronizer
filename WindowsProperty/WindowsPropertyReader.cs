@@ -35,12 +35,9 @@ namespace WindowsProperty
                 for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
                 {
                     bool isReadOnly = DataGridViewHandler.GetCellReadOnly(dataGridView, columnIndex, rowIndex);
-                    //object tag = DataGridViewHandler.GetCellStatus(dataGridView, columnIndex, rowIndex);
-                    //DataGridViewGenericCellStatus dataGridViewGenericCellStatus = DataGridViewHandler.GetCellStatus(dataGridView, columnIndex, rowIndex);
                     DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
                     object value = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, rowIndex);
 
-                    //if (dataGridViewGenericCellStatus.tag is PropertyKey && value is string)
                     if (value is string)
                     {
                         PropertyKey propertyKey = dataGridViewGenericRow.PropertyKey;
@@ -50,58 +47,56 @@ namespace WindowsProperty
                         {
                             try
                             {
-                                //if (!(bool)_displayProps[key].Tag) //Check if read only
+
+                                using (PropertyDescription propertyDescription = new PropertyDescription(propertyKey))
                                 {
-                                    using (PropertyDescription propertyDescription = new PropertyDescription(propertyKey))
+                                    if (!string.IsNullOrEmpty(valueString))
                                     {
-                                        if (!string.IsNullOrEmpty(valueString))
+                                        if (propertyDescription.TypeFlags.IsMultiValued)
                                         {
-                                            if (propertyDescription.TypeFlags.IsMultiValued)
-                                            {
-                                                valueString = valueString.Replace("\r\n", ";");
-                                                PropVariant val = PropVariant.FromStringAsVector(valueString);
-                                                propertyStore.SetValue(propertyKey, val);
-                                            }
-                                            else
-                                            {
-                                                switch (propertyDescription.PropertyType)
-                                                {
-                                                    case VarEnum.VT_UI4:
-                                                        string cleanedString = new string(valueString.Where(char.IsDigit).ToArray());
-                                                        UInt32 valueUint32;
-                                                        if (UInt32.TryParse(cleanedString, out valueUint32))
-                                                        {
-                                                            if (propertyKey.CanonicalName == "System.Rating")
-                                                                valueUint32 = (UInt32)Metadata.ConvertRatingStarsToRatingPercent((byte)valueUint32);
-
-                                                            propertyStore.SetValue(propertyKey, new PropVariant(valueUint32, propertyDescription.PropertyType));
-                                                        }
-                                                        else propertyStore.SetValue(propertyKey, new PropVariant());
-                                                        break;
-                                                    case VarEnum.VT_DATE:
-                                                    case VarEnum.VT_FILETIME:
-                                                        string cleanedString2 = new string(valueString.Where(c => !char.IsControl(c)).ToArray());
-                                                        // https://social.msdn.microsoft.com/Forums/windows/en-US/61687b42-9882-4025-8b3a-b3251f121f94/how-to-prevent-a-textbox-to-accept-unicode-control-characters?forum=winforms
-                                                        cleanedString2 = Regex.Replace(cleanedString2, @"[\u200e-\u200f]", string.Empty);
-                                                        cleanedString2 = Regex.Replace(cleanedString2, @"[\u202a-\u202e]", string.Empty);
-                                                        cleanedString2 = Regex.Replace(cleanedString2, @"[\u206a-\u206f]", string.Empty);
-                                                        cleanedString2 = Regex.Replace(cleanedString2, @"[\u001e-\u001f]", string.Empty);
-
-                                                        DateTime valueDateTime;
-                                                        if (DateTime.TryParse(cleanedString2, out valueDateTime))
-                                                        {
-                                                            propertyStore.SetValue(propertyKey, new PropVariant(valueDateTime.ToUniversalTime(), propertyDescription.PropertyType));
-                                                        }
-                                                        break;
-                                                    default:
-                                                        propertyStore.SetValue(propertyKey, new PropVariant(valueString, propertyDescription.PropertyType));
-                                                        break;
-                                                }
-                                            }
-                                            //store.SetValue(key, new PropVariant(_displayProps[key], desc.PropertyType));
+                                            valueString = valueString.Replace("\r\n", ";");
+                                            PropVariant val = PropVariant.FromStringAsVector(valueString);
+                                            propertyStore.SetValue(propertyKey, val);
                                         }
-                                        else propertyStore.SetValue(propertyKey, new PropVariant());
+                                        else
+                                        {
+                                            switch (propertyDescription.PropertyType)
+                                            {
+                                                case VarEnum.VT_UI4:
+                                                    string cleanedString = new string(valueString.Where(char.IsDigit).ToArray());
+                                                    UInt32 valueUint32;
+                                                    if (UInt32.TryParse(cleanedString, out valueUint32))
+                                                    {
+                                                        if (propertyKey.CanonicalName == "System.Rating")
+                                                            valueUint32 = (UInt32)Metadata.ConvertRatingStarsToRatingPercent((byte)valueUint32);
+
+                                                        propertyStore.SetValue(propertyKey, new PropVariant(valueUint32, propertyDescription.PropertyType));
+                                                    }
+                                                    else propertyStore.SetValue(propertyKey, new PropVariant());
+                                                    break;
+                                                case VarEnum.VT_DATE:
+                                                case VarEnum.VT_FILETIME:
+                                                    string cleanedString2 = new string(valueString.Where(c => !char.IsControl(c)).ToArray());
+                                                    // https://social.msdn.microsoft.com/Forums/windows/en-US/61687b42-9882-4025-8b3a-b3251f121f94/how-to-prevent-a-textbox-to-accept-unicode-control-characters?forum=winforms
+                                                    cleanedString2 = Regex.Replace(cleanedString2, @"[\u200e-\u200f]", string.Empty);
+                                                    cleanedString2 = Regex.Replace(cleanedString2, @"[\u202a-\u202e]", string.Empty);
+                                                    cleanedString2 = Regex.Replace(cleanedString2, @"[\u206a-\u206f]", string.Empty);
+                                                    cleanedString2 = Regex.Replace(cleanedString2, @"[\u001e-\u001f]", string.Empty);
+
+                                                    DateTime valueDateTime;
+                                                    if (DateTime.TryParse(cleanedString2, out valueDateTime))
+                                                    {
+                                                        propertyStore.SetValue(propertyKey, new PropVariant(valueDateTime.ToUniversalTime(), propertyDescription.PropertyType));
+                                                    }
+                                                    break;
+                                                default:
+                                                    propertyStore.SetValue(propertyKey, new PropVariant(valueString, propertyDescription.PropertyType));
+                                                    break;
+                                            }
+                                        }
+                                        //store.SetValue(key, new PropVariant(_displayProps[key], desc.PropertyType));
                                     }
+                                    else propertyStore.SetValue(propertyKey, new PropVariant());
                                 }
                                 continue;
                             }
@@ -144,9 +139,8 @@ namespace WindowsProperty
                             using (PropertyDescription propertyDescription = new PropertyDescription(propertyKey))
                             {
 
-                                PropVariant propVariant = propertyStoreExtension.GetValue(propertyKey);                                
+                                PropVariant propVariant = propertyStoreExtension.GetValue(propertyKey);
                                 filePropertiesAndVariant[propertyKey] = propVariant;
-                                //filePropertiesReadOnly[propertyKey] = propertyStoreExtension.IsEditable(propertyKey);
                             }
                         }
                         catch { }
@@ -176,8 +170,6 @@ namespace WindowsProperty
             }
             catch
             {
-                //MessageBox.Show(this, "Unable to load properties for " + Path.GetFileName(openFileDialog1.FileName) + "\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //return;
             }
 
             PropertyDescriptionList propertyDescriptionList = null;

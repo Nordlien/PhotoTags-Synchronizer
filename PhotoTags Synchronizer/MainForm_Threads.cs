@@ -884,17 +884,11 @@ namespace PhotoTagsSynchronizer
                                 {
                                     FileEntryImage fileEntryImage;
                                     lock (commonQueueSaveToDatabaseMediaThumbnailLock)
-                                    {
                                         fileEntryImage = new FileEntryImage(commonQueueSaveToDatabaseMediaThumbnail[0]);
-                                    }
-
-
-                                    
 
                                     bool wasThumnbailEmptyAndReloaded = false;
                                     try
                                     {
-
                                         if (fileEntryImage.Image == null)
                                         {
                                             FileStatus fileStatus = FileHandler.GetFileStatus(fileEntryImage.FileFullPath);
@@ -902,12 +896,10 @@ namespace PhotoTagsSynchronizer
                                             if (fileEntryImage.AllowLoadFromCloud && fileStatus.IsInCloudOrVirtualOrOffline)
                                                 FileHandler.TouchOfflineFileToGetFileOnline(fileEntryImage.FileFullPath);
 
-                                            if (!fileStatus.IsInCloudOrVirtualOrOffline)
-                                            {
-                                                fileEntryImage.Image = LoadMediaCoverArtThumbnail(fileEntryImage.FileFullPath, ThumbnailSaveSize, fileStatus);
-                                                if (fileEntryImage.Image != null) wasThumnbailEmptyAndReloaded = true;
-                                            }
-
+                                            //No need to check, if (!fileStatus.IsInCloudOrVirtualOrOffline)
+                                            fileEntryImage.Image = LoadMediaCoverArtThumbnail(fileEntryImage.FileFullPath, ThumbnailSaveSize, fileStatus);
+                                            if (fileEntryImage.Image != null) wasThumnbailEmptyAndReloaded = true;
+                                            
                                         }
                                     }
                                     catch (Exception ex)
@@ -1339,7 +1331,7 @@ namespace PhotoTagsSynchronizer
                                                             databaseAndCacheMetadataExiftool.Write(metadataError);
                                                             databaseAndCacheMetadataExiftool.TransactionCommitBatch();
 
-                                                            FileStatus fileStatus = FileHandler.GetFileStatus(metadataError.FileFullPath);
+                                                            FileStatus fileStatus = FileHandler.GetFileStatus(metadataError.FileFullPath, checkLockedStatus: true);
                                                             fileStatus.FileProcessStatus = FileProcessStatus.FileInaccessible;
                                                             ImageListView_UpdateItemFileStatusInvoke(metadataError.FileFullPath, fileStatus);
 
@@ -1684,12 +1676,14 @@ namespace PhotoTagsSynchronizer
                                             //Check if writing Xtra Atom properties failed
                                             if (writeXtraAtomErrorMessageForFile.ContainsKey(fileSuposeToBeUpdated.FileFullPath))
                                             {
+                                                FileStatus fileStatus = FileHandler.GetFileStatus(fileSuposeToBeUpdated.FileFullPath, checkLockedStatus: true);
+                                                ImageListView_UpdateItemFileStatusInvoke(fileSuposeToBeUpdated.FileFullPath, fileStatus);
+
                                                 AddError(fileSuposeToBeUpdated.Directory, fileSuposeToBeUpdated.FileName, fileSuposeToBeUpdated.LastWriteDateTime,
                                                     AddErrorExiftooRegion, AddErrorExiftooCommandWrite, AddErrorExiftooParameterWrite, AddErrorExiftooParameterWrite,
                                                     "Failed write Xtra Atom property to file: " + fileSuposeToBeUpdated.FileFullPath + "\r\n" +
-                                                    "Failed write Xtra Atom property to file: " + fileSuposeToBeUpdated.FileFullPath + "\r\n" +
                                                     "Error message:" + writeXtraAtomErrorMessageForFile[fileSuposeToBeUpdated.FileFullPath] +
-                                                    "File staus:" + fileSuposeToBeUpdated.FileFullPath + "\r\n" + FileHandler.FileStatusText(fileSuposeToBeUpdated.FileFullPath));
+                                                    "File staus:" + fileSuposeToBeUpdated.FileFullPath + "\r\n" + fileStatus.ToString());
                                             }
                                             #endregion
 
@@ -1703,11 +1697,14 @@ namespace PhotoTagsSynchronizer
                                             //Check if file is updated, if file LastWrittenDateTime has changed, file is updated
                                             if (currentLastWrittenDateTime <= previousLastWrittenDateTime)
                                             {
+                                                FileStatus fileStatus = FileHandler.GetFileStatus(fileSuposeToBeUpdated.FileFullPath, checkLockedStatus: true);
+                                                ImageListView_UpdateItemFileStatusInvoke(fileSuposeToBeUpdated.FileFullPath, fileStatus);
+
                                                 AddError(fileSuposeToBeUpdated.Directory, fileSuposeToBeUpdated.FileName, fileSuposeToBeUpdated.LastWriteDateTime,
                                                         AddErrorExiftooRegion, AddErrorExiftooCommandWrite, AddErrorExiftooParameterWrite, AddErrorExiftooParameterWrite,
                                                         "EXIFTOOL.EXE failed write to file:" + fileSuposeToBeUpdated.FileFullPath + "\r\n" +
                                                         "Message return from Exiftool: " + exiftoolErrorMessage + "\r\n" +
-                                                        "File staus:" + fileSuposeToBeUpdated.FileFullPath + "\r\n" + FileHandler.FileStatusText(fileSuposeToBeUpdated.FileFullPath));
+                                                        "File staus:" + fileSuposeToBeUpdated.FileFullPath + "\r\n" + fileStatus.ToString());
                                             }
                                             #endregion 
 
@@ -2151,7 +2148,7 @@ namespace PhotoTagsSynchronizer
                                                                 if (image == null)
                                                                 {
                                                                     FileStatus fileStatus = FileHandler.GetFileStatus(fileEntryBrokerRegion.FileFullPath);
-                                                                    if (!fileStatus.IsInCloudOrVirtualOrOffline)
+                                                                    if (!fileStatus.IsInCloudOrVirtualOrOffline) 
                                                                         image = LoadMediaCoverArtPoster(fileEntryBrokerRegion.FileFullPath);
                                                                     else if (fileStatus.IsInCloudOrVirtualOrOffline && !dontReadFilesInCloud)
                                                                         FileHandler.TouchOfflineFileToGetFileOnline(fileEntryBrokerRegion.FileFullPath);
@@ -2164,7 +2161,8 @@ namespace PhotoTagsSynchronizer
 
                                                             if (image == null) //If failed load cover art, often occur after filed is moved or deleted
                                                             {
-                                                                FileStatus fileStatus = FileHandler.GetFileStatus(fileEntryBrokerRegion.FileFullPath);
+                                                                FileStatus fileStatus = FileHandler.GetFileStatus(fileEntryBrokerRegion.FileFullPath, checkLockedStatus: true);
+                                                                ImageListView_UpdateItemFileStatusInvoke(fileEntryBrokerRegion.FileFullPath, fileStatus);
                                                                 if (!fileStatus.IsInCloudOrVirtualOrOffline && dontReadFilesInCloud)
                                                                 {
                                                                     string writeErrorDesciption = 
@@ -2791,13 +2789,15 @@ namespace PhotoTagsSynchronizer
                                         else
                                         {
                                             Logger.Error("Was not able to read metadata after rename ");
+                                            FileStatus fileStatus = FileHandler.GetFileStatus(fullFilename, checkLockedStatus: true);
+                                            ImageListView_UpdateItemFileStatusInvoke(fullFilename, fileStatus);
                                             AddError(
                                                 Path.GetDirectoryName(fullFilename),
                                                 Path.GetFileName(fullFilename),
                                                 File.GetLastWriteTime(fullFilename),
                                                 AddErrorFileSystemRegion, AddErrorFileSystemMove, fullFilename, "New name is unknown (missing metadata)",
                                                 "Failed rename " + fullFilename + " to : New name is unknown(missing metadata)" + "\r\n" +
-                                                "File staus:" + fullFilename + "\r\n" + FileHandler.FileStatusText(fullFilename));
+                                                "File staus:" + fullFilename + "\r\n" + fileStatus.ToString());
                                         }
 
                                     }

@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -72,11 +71,12 @@ namespace FileHandeling
                 #region Located
                 itemFileStatus.IsInCloud = itemFileStatus.FileExists && IsFileInCloud(fullFileName);
                 itemFileStatus.IsVirtual = itemFileStatus.FileExists && IsFileVirtual(fullFileName);
-                itemFileStatus.IsOffline = fileInfo.Attributes == System.IO.FileAttributes.Offline;
+                itemFileStatus.IsOffline = itemFileStatus.FileExists && (fileInfo == null ? false : fileInfo.Attributes == System.IO.FileAttributes.Offline);
                 #endregion
 
                 #region Access
-                itemFileStatus.IsReadOnly = itemFileStatus.FileExists && fileInfo.Attributes == System.IO.FileAttributes.ReadOnly; // IsFileReadOnly(fullFileName);
+                itemFileStatus.IsReadOnly = 
+                    itemFileStatus.FileExists && (fileInfo == null ? false : (fileInfo.Attributes & System.IO.FileAttributes.ReadOnly) == System.IO.FileAttributes.ReadOnly); // IsFileReadOnly(fullFileName);
                 itemFileStatus.IsFileLockedReadAndWrite = itemFileStatus.IsInCloudOrVirtualOrOffline ||
                     (!itemFileStatus.IsInCloudOrVirtualOrOffline && itemFileStatus.FileExists && checkLockedStatus && IsFileLockedForReadAndWrite(fullFileName, checkLockStatusTimeout));
                 itemFileStatus.IsFileLockedForRead = itemFileStatus.IsInCloudOrVirtualOrOffline ||
@@ -173,13 +173,8 @@ namespace FileHandeling
         #region ConvertFileStatusToText
         public static string ConvertFileStatusToText(FileStatus fileStatus, string fullFileName = null)
         {
-            string status = "";
+            string status = fileStatus.ToString();
             
-            if (!fileStatus.FileExists) status = "File not exists";
-            else if (fileStatus.IsDirty) status = "Status unknown";
-            else if (fileStatus.IsInCloudOrVirtualOrOffline) status = "File is offline";
-            else if (fileStatus.HasAnyLocks) status = "File is locked";
-
             if (fileStatus.FileExists && fullFileName != null)
             {
                 try
@@ -203,10 +198,10 @@ namespace FileHandeling
 
         #endregion
 
-        #region FileStatusText
-        public static string FileStatusText(string fullFileName)
+        #region GetFileStatusText
+        public static string GetFileStatusText(string fullFileName, bool checkLockedStatus)
         {
-            FileStatus fileStatus = FileHandler.GetFileStatus(fullFileName);            
+            FileStatus fileStatus = FileHandler.GetFileStatus(fullFileName, checkLockedStatus:checkLockedStatus);            
             return ConvertFileStatusToText(fileStatus, fullFileName);
         }
         #endregion
@@ -405,15 +400,17 @@ namespace FileHandeling
                 {
                     try
                     {
-                        if (formWaitLockedFile == null || formWaitLockedFile.IsDisposed) formWaitLockedFile = new FormWaitLockedFile();
-                        if (formOwner != null) formWaitLockedFile.Owner = formOwner;
+                        if (formWaitLockedFile == null || formWaitLockedFile.IsDisposed) 
+                            formWaitLockedFile = new FormWaitLockedFile();
+                        if (formOwner != null) 
+                            formWaitLockedFile.Owner = formOwner;
 
                         List<string> listOfFiles = new List<string>();
                         string statusOnFiles = "";
                         foreach (Metadata metadata in fileEntriesToCheck)
                         {
                             listOfFiles.Add(metadata.FileFullPath);
-                            statusOnFiles += metadata.FileFullPath + "\r\n" + FileHandler.FileStatusText(metadata.FileFullPath);
+                            statusOnFiles += metadata.FileFullPath + "\r\n" + FileHandler.GetFileStatusText(metadata.FileFullPath, false);
                         }
                         formWaitLockedFile.AddFiles(listOfFiles);
 

@@ -161,15 +161,7 @@ namespace PhotoTagsSynchronizer
             try
             {
                 #region Update FileStatus
-                FileStatus fileStatus = FileHandler.GetFileStatus(e.FileName, 
-                    fileProcessStatus: (
-                        (e.FileMetadata == null || e.FileMetadata.FileStatus == null) ? 
-                        FileProcessStatus.WaitAction : 
-                        e.FileMetadata.FileStatus.FileProcessStatus));
-                if (e.FileMetadata != null)
-                {
-                    //DEBUG
-                }
+                FileStatus fileStatus = FileHandler.GetFileStatus(e.FileName);
                 #endregion
 
                 if (metadata == null || metadata.FileName == null)
@@ -182,20 +174,9 @@ namespace PhotoTagsSynchronizer
                     //JTN: MediaFileAttributes
                     if (!fileStatus.FileExists || fileStatus.IsInCloudOrVirtualOrOffline)
                     {
-                        string inCloudOrNotExistError = "";
-                        if (!fileStatus.FileExists) inCloudOrNotExistError = "File not exists, failed to read";
-                        else if (fileStatus.IsDirty) inCloudOrNotExistError = "Waiting data";
-                        else if (fileStatus.FileErrorOrInaccessible) inCloudOrNotExistError = "File is inaccessible";
-                        else if (fileStatus.FileProcessStatus == FileProcessStatus.WaitAction) inCloudOrNotExistError = "Wait data";
-                        else if (fileStatus.FileProcessStatus == FileProcessStatus.ExiftoolProcessing) inCloudOrNotExistError = "Exiftool processing";
-                        else if (fileStatus.FileProcessStatus == FileProcessStatus.ExiftoolWillNotProcessingFileInCloud) inCloudOrNotExistError = "File is offline file, failed to read";
-                        else if (fileStatus.FileProcessStatus == FileProcessStatus.FileInaccessible) inCloudOrNotExistError = "File is inaccessible";
-                        else if (fileStatus.FileProcessStatus == FileProcessStatus.InExiftoolReadQueue) inCloudOrNotExistError = "Wait Exiftool";
-                        else if (fileStatus.FileProcessStatus == FileProcessStatus.WaitOfflineBecomeLocal) inCloudOrNotExistError = "Downloading";
-                        else if (fileStatus.HasAnyLocks) inCloudOrNotExistError = "File is locked";
-                        else if (fileStatus.IsInCloudOrVirtualOrOffline) inCloudOrNotExistError = "File is offline file, failed to read";
+                        string inCloudOrNotExistError = FileHandler.ConvertFileStatusToText(fileStatus);
 
-                        #region 
+                        #region Assign metadata
                         
                         #region Provided by FileInfo
                         e.FileMetadata.FileDateCreated = DateTime.MinValue;
@@ -298,14 +279,14 @@ namespace PhotoTagsSynchronizer
 
                         if (thumbnail != null) 
                         {
-                            Image thumbnailWithCloudIfFromCloud = Utility.ThumbnailFromImage(thumbnail, ThumbnailMaxUpsize, Color.White, true);
+                            Image thumbnailWithCloudIfFromCloud = Utility.ConvertImageToThumbnail(thumbnail, ThumbnailMaxUpsize, Color.White, true);
                             e.Thumbnail = thumbnailWithCloudIfFromCloud;
                         }
 
                         if (thumbnail == null)
                         {
-                            if (!fileStatus.FileExists) e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorFileNotExist; //File has become deleted
-                            else if (fileStatus.IsVirtual) e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorOneDriveNotRunning;
+                            //if (!fileStatus.FileExists) //It's already checked
+                            if (fileStatus.IsVirtual) e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorOneDriveNotRunning;
                             else if (fileStatus.IsInCloudOrVirtualOrOffline) e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorFileInCloud;
                             else if (fileStatus.FileErrorOrInaccessible) e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorGeneral;
                             else e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorNoThumbnail;
@@ -331,6 +312,10 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Warn(ex, "imageListView1_RetrieveItemThumbnail failed on: " + e.FileName);
                 e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorGeneral;
+            }
+            if (e.Thumbnail == null)
+            {
+                //DEBUG
             }
         }
         #endregion
@@ -904,14 +889,20 @@ namespace PhotoTagsSynchronizer
                 }
                 catch { }
 
+                FileStatus fileStatus = FileHandler.GetFileStatus(filename, checkLockedStatus: true);
+                ImageListView_UpdateItemFileStatusInvoke(filename, fileStatus);
+
+                FileStatus fileStatusRenameFailed = FileHandler.GetFileStatus(renameFailed[filename].NewFilename, checkLockedStatus: true);
+                ImageListView_UpdateItemFileStatusInvoke(renameFailed[filename].NewFilename, fileStatus);
+
                 AddError(
                         Path.GetDirectoryName(filename),
                         Path.GetFileName(filename),
                         dateTimeLastWriteTime,
                         AddErrorFileSystemRegion, AddErrorFileSystemMove, filename, renameFailed[filename].NewFilename,
                         "Error message: " + renameFailed[filename].ErrorMessage + "\r\n" +
-                        "File staus:" + filename + "\r\n" + FileHandler.FileStatusText(filename) + "\r\n" +
-                        "File staus:" + renameFailed[filename].NewFilename + "\r\n" + FileHandler.FileStatusText(renameFailed[filename].NewFilename));
+                        "File staus:" + filename + "\r\n" + fileStatus.ToString() + "\r\n" +
+                        "File staus:" + renameFailed[filename].NewFilename + "\r\n" + fileStatusRenameFailed.ToString());
 
                 ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView.Items, filename);
                 if (foundItem != null) foundItem.Selected = true; 
