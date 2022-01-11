@@ -91,13 +91,15 @@ namespace PhotoTagsSynchronizer
             if (!fileTasks.ContainsKey(fullFileName))
             {
                 fileTasks.Add(fullFileName, new List<string>());
-                FileStatus fileStatus = FileHandler.GetFileStatus(fullFileName, checkLockedStatus: true, checkLockStatusTimeout: FileHandler.GetFileLockedStatusTimeout);
+                FileStatus fileStatus = FileHandler.GetFileStatus(
+                    fullFileName, checkLockedStatus: true, checkLockStatusTimeout: FileHandler.GetFileLockedStatusTimeout);
+                
                 if (!fileStatus.FileExists) fileTasks[fullFileName].Add("File not exists");
                 else
                 {
                     if (fileStatus.IsReadOnly) fileTasks[fullFileName].Add("ReadOnly");
-                    if (fileStatus.IsFileLockedReadAndWrite) fileTasks[fullFileName].Add("**Locked** for read and write (or timed out)");
-                    else if (fileStatus.IsFileLockedForRead) fileTasks[fullFileName].Add("**Locked** for read (or timed out)");
+                    if (fileStatus.IsFileLockedReadAndWrite) fileTasks[fullFileName].Add("**Locked** for read and write");
+                    else if (fileStatus.IsFileLockedForRead) fileTasks[fullFileName].Add("**Locked** for read");
                     if (fileStatus.IsInCloudOrVirtualOrOffline) fileTasks[fullFileName].Add("Is offline");
                 }
             }
@@ -124,8 +126,8 @@ namespace PhotoTagsSynchronizer
                 messageBoxQueuesInfo += string.Format("Files: {0} Selected {1}\r\n", imageListView1.Items.Count, imageListView1.SelectedItems.Count);
                 if (CommonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnailsCountDirty() > 0)
                     messageBoxQueuesInfo += string.Format("Lazy loading queue: {0}\r\n", CommonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnailsCountDirty());
-                if (!string.IsNullOrWhiteSpace(FileHandler.FileLockedByProcess))                
-                    messageBoxQueuesInfo += "**Locked file: " + FileHandler.FileLockedByProcess;                
+                if (!string.IsNullOrWhiteSpace(FileHandler.FileLockedByProcess))
+                    messageBoxQueuesInfo += "**Locked file: " + FileHandler.FileLockedByProcess;
             }
             catch { }
 
@@ -160,7 +162,7 @@ namespace PhotoTagsSynchronizer
                 }
             }
             
-            messageBoxQueuesInfo = "\r\n";
+            messageBoxQueuesInfo += "\r\n";
 
             try
             {

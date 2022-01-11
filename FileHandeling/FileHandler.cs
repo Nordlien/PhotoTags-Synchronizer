@@ -19,99 +19,136 @@ namespace FileHandeling
         public static int WaitTimeBetweenCheckFileIsUnlocked { get; set; } = 500;
         public static int WaitNumberOfRetryBeforeShowMessage { get; set; } = 3;
 
-        public static Form MainForm { get; set; } = null;
-
-        #region IsStillInCloudAfterTouchFileActivateReadFromCloud
-        private static void TouchOfflineFileProcess(string fullFileName)
+        #region GetFileStatusText
+        public static string GetFileStatusText(string fullFileName,
+            bool fileInaccessibleOrError = false,
+            string fileErrorMessage = null,
+            ExiftoolProcessStatus exiftoolProcessStatus = ExiftoolProcessStatus.DoNotUpdate,
+            bool checkLockedStatus = false,
+            int checkLockStatusTimeout = 100,
+            bool showLockedByProcess = false)
         {
-            try
-            {
-                FileStatus fileStatus = GetFileStatus(fullFileName, checkLockedStatus:false);
+            FileStatus fileStatus = FileHandler.GetFileStatus(fullFileName,
+                fileInaccessibleOrError: fileInaccessibleOrError,
+                fileErrorMessage: fileErrorMessage,
+                exiftoolProcessStatus: exiftoolProcessStatus,
+                checkLockedStatus: checkLockedStatus,
+                checkLockStatusTimeout: checkLockStatusTimeout);
 
-                if (fileStatus.IsInCloudOrVirtualOrOffline)
-                {
-                    byte[] buffer = new byte[512];
-                    using (FileStream fs = new FileStream(fullFileName, FileMode.Open, FileAccess.Read))
-                    {
-                        var bytes_read = fs.Read(buffer, 0, buffer.Length); //Get OneDrive to start download the file
-                        fs.Close();
-                    }
-                }
-            }
-            catch { }
-        }
-
-        public static void TouchOfflineFileToGetFileOnline(string fullFileName)
-        {
+            string fileStatusText = ConvertFileStatusToText(fileStatus, fullFileName);
+            if (showLockedByProcess && fileStatus.HasAnyLocks) fileStatusText += "\r\n" + GetLockedByText(fullFileName);
             
-            Task task = Task.Run(() =>
-            {
-                TouchOfflineFileProcess(fullFileName);
-            });
-            task.Wait(200);
+            return fileStatusText;
         }
         #endregion
 
         #region GetItemFileStatus
         public static FileStatus GetFileStatus(string fullFileName, 
-            FileProcessStatus fileProcessStatus = FileProcessStatus.DoNotUpdate, 
-            bool checkLockedStatus = false, int checkLockStatusTimeout = 100)
+            bool fileInaccessibleOrError = false,
+            string fileErrorMessage = null,
+            ExiftoolProcessStatus exiftoolProcessStatus = ExiftoolProcessStatus.DoNotUpdate, 
+            bool checkLockedStatus = false, 
+            int checkLockStatusTimeout = 100)
         {
-            FileStatus itemFileStatus = new FileStatus();
+            FileStatus fileStatus = new FileStatus();
             try
             {
-                #region Exists
-                itemFileStatus.IsDirty = false;
-                itemFileStatus.FileExists = File.Exists(fullFileName);
+                #region File - Exists, Dirty or has Error
+                fileStatus.IsDirty = false;
+                fileStatus.FileExists = File.Exists(fullFileName);
                 FileInfo fileInfo = null;
-                if (itemFileStatus.FileExists) fileInfo = new FileInfo(fullFileName);
-                itemFileStatus.FileErrorOrInaccessible = false;
+                if (fileStatus.FileExists) fileInfo = new FileInfo(fullFileName);
+                fileStatus.FileInaccessibleOrError = fileInaccessibleOrError;
+                fileStatus.FileErrorMessage = fileErrorMessage;
                 #endregion
 
-                #region Located
-                itemFileStatus.IsInCloud = itemFileStatus.FileExists && IsFileInCloud(fullFileName);
-                itemFileStatus.IsVirtual = itemFileStatus.FileExists && IsFileVirtual(fullFileName);
-                itemFileStatus.IsOffline = itemFileStatus.FileExists && (fileInfo == null ? false : fileInfo.Attributes == System.IO.FileAttributes.Offline);
+                #region File - Location on Device or in Cloud
+                fileStatus.IsInCloud = fileStatus.FileExists && IsFileInCloud(fullFileName);
+                fileStatus.IsVirtual = fileStatus.FileExists && IsFileVirtual(fullFileName);
+                fileStatus.IsOffline = fileStatus.FileExists && (fileInfo == null ? false : (fileInfo.Attributes & FileAttributes.Offline) == FileAttributes.Offline);
                 #endregion
 
-                #region Access
-                itemFileStatus.IsReadOnly = 
-                    itemFileStatus.FileExists && (fileInfo == null ? false : (fileInfo.Attributes & System.IO.FileAttributes.ReadOnly) == System.IO.FileAttributes.ReadOnly); // IsFileReadOnly(fullFileName);
-                itemFileStatus.IsFileLockedReadAndWrite = itemFileStatus.IsInCloudOrVirtualOrOffline ||
-                    (!itemFileStatus.IsInCloudOrVirtualOrOffline && itemFileStatus.FileExists && checkLockedStatus && IsFileLockedForReadAndWrite(fullFileName, checkLockStatusTimeout));
-                itemFileStatus.IsFileLockedForRead = itemFileStatus.IsInCloudOrVirtualOrOffline ||
-                    (!itemFileStatus.IsInCloudOrVirtualOrOffline && itemFileStatus.FileExists && checkLockedStatus && IsFileLockedForRead(fullFileName, checkLockStatusTimeout));
+                #region File - Locks and Access rights
+                fileStatus.IsReadOnly = 
+                    fileStatus.FileExists && (fileInfo == null ? false : (fileInfo.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly); 
+                fileStatus.IsFileLockedReadAndWrite = fileStatus.IsInCloudOrVirtualOrOffline ||
+                    (!fileStatus.IsInCloudOrVirtualOrOffline && fileStatus.FileExists && checkLockedStatus && IsFileLockedForReadAndWriteCached(fullFileName, checkLockStatusTimeout));
+                fileStatus.IsFileLockedForRead = fileStatus.IsFileLockedReadAndWrite || fileStatus.IsInCloudOrVirtualOrOffline ||
+                    (!fileStatus.IsInCloudOrVirtualOrOffline && fileStatus.FileExists && checkLockedStatus && IsFileLockedForRead(fullFileName, checkLockStatusTimeout));
                 #endregion
 
-                #region Processes
-                if (fileProcessStatus != FileProcessStatus.DoNotUpdate) itemFileStatus.FileProcessStatus = fileProcessStatus;
+                #region Exiftool - Where in Processes
+                if (exiftoolProcessStatus != ExiftoolProcessStatus.DoNotUpdate) fileStatus.ExiftoolProcessStatus = exiftoolProcessStatus;
                 #endregion
 
-            } catch
+            } catch (Exception ex)
             {
-                #region Exists
-                itemFileStatus.IsDirty = false;
-                itemFileStatus.FileExists = false;
-                itemFileStatus.FileErrorOrInaccessible = true;
+                #region File - Exists, Dirty or has Error
+                fileStatus.IsDirty = false;
+                fileStatus.FileExists = false;
+                fileStatus.FileInaccessibleOrError = true;
+                fileStatus.FileErrorMessage = ex.Message;
                 #endregion
 
-                #region Access
-                itemFileStatus.IsReadOnly = true;
-                itemFileStatus.IsFileLockedReadAndWrite = false;
-                itemFileStatus.IsFileLockedForRead = false;
+                #region File - Location on Device or in Cloud
+                fileStatus.IsInCloud = false;
+                fileStatus.IsVirtual = false;
+                fileStatus.IsOffline = false;
                 #endregion
 
-                #region Located
-                itemFileStatus.IsInCloud = false;
-                itemFileStatus.IsVirtual = false;
-                itemFileStatus.IsOffline = false;
+                #region File - Locks and Access rights
+                fileStatus.IsReadOnly = true;
+                fileStatus.IsFileLockedReadAndWrite = false;
+                fileStatus.IsFileLockedForRead = false;
                 #endregion
 
-                #region Processes
-                itemFileStatus.FileProcessStatus = FileProcessStatus.FileInaccessible;
+                #region Exiftool - Where in Processes
+                fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.FileInaccessibleOrError;
                 #endregion
             }
-            return itemFileStatus;
+            return fileStatus;
+        }
+        #endregion
+
+        #region ConvertFileStatusToText
+        public static string ConvertFileStatusToText(FileStatus fileStatus, string fullFileName = null)
+        {
+            string status = fileStatus.ToString();
+
+            if (fileStatus.FileExists && fullFileName != null)
+            {
+                try
+                {
+                    status = status + "\r\nFile Attributes: " + File.GetAttributes(fullFileName).ToString();
+                }
+                catch { }
+                try
+                {
+                    status = status + "\r\nCreation Time: " + File.GetCreationTime(fullFileName).ToString();
+                }
+                catch { }
+                try
+                {
+                    status = status + "\r\nLast Write Time: " + File.GetLastWriteTime(fullFileName).ToString();
+                }
+                catch { }
+            }
+            return status;
+        }
+
+        #endregion
+
+        #region GetLockedByText
+        public static string GetLockedByText(string fullFileName)
+        {
+            string lockedByProcessesText = "";
+            List<Process> processes = FileHandler.FindLockProcesses(fullFileName);
+            if (processes.Count == 0) lockedByProcessesText += "  Locked by process: Nothing found\r\n";
+            else
+            {
+                foreach (Process process in processes) lockedByProcessesText += "  Locked by process: " + process + "\r\n";
+            }
+            return lockedByProcessesText;
         }
         #endregion 
 
@@ -170,39 +207,72 @@ namespace FileHandeling
         }
         #endregion
 
-        #region ConvertFileStatusToText
-        public static string ConvertFileStatusToText(FileStatus fileStatus, string fullFileName = null)
+        #region IsStillInCloudAfterTouchFileActivateReadFromCloud
+        private static Dictionary<string, DateTime> cloundFileTouchedAndWhen = new Dictionary<string, DateTime>();
+        private static object cloundFileTouchedAndWhenLock = new object();
+
+        public static void RemoveOfflineFileTouched(string fullFileName)
         {
-            string status = fileStatus.ToString();
-            
-            if (fileStatus.FileExists && fullFileName != null)
+            lock (cloundFileTouchedAndWhenLock)
             {
-                try
-                {
-                    status = status + "\r\nFile Attributes: " + File.GetAttributes(fullFileName).ToString();
-                }
-                catch { }
-                try
-                {
-                    status = status + "\r\nCreation Time: " + File.GetCreationTime(fullFileName).ToString();
-                }
-                catch { }
-                try
-                {
-                    status = status + "\r\nLast Write Time: " + File.GetLastWriteTime(fullFileName).ToString();
-                }
-                catch { }
+                if (cloundFileTouchedAndWhen.ContainsKey(fullFileName)) cloundFileTouchedAndWhen.Remove(fullFileName);
             }
-            return status;
         }
 
-        #endregion
-
-        #region GetFileStatusText
-        public static string GetFileStatusText(string fullFileName, bool checkLockedStatus)
+        public static bool IsOfflineFileTouched(string fullFileName)
         {
-            FileStatus fileStatus = FileHandler.GetFileStatus(fullFileName, checkLockedStatus:checkLockedStatus);            
-            return ConvertFileStatusToText(fileStatus, fullFileName);
+            bool isTounch = false;
+            lock (cloundFileTouchedAndWhenLock)
+            {
+                isTounch = cloundFileTouchedAndWhen.ContainsKey(fullFileName);
+            }
+            return isTounch;
+        }
+
+        public static bool IsOfflineFileTouchedTimedOut(string fullFileName)
+        {
+            bool isTimeout = false;
+            lock (cloundFileTouchedAndWhenLock)
+            {
+                if (cloundFileTouchedAndWhen.ContainsKey(fullFileName))
+                {
+                    if ((DateTime.Now - cloundFileTouchedAndWhen[fullFileName]).Milliseconds > 1000 * 30) isTimeout = true;
+                }
+            }
+            return isTimeout;
+        }
+
+        private static void TouchOfflineFileProcess(string fullFileName)
+        {
+            try
+            {
+                FileStatus fileStatus = GetFileStatus(fullFileName, checkLockedStatus: false);
+                if (fileStatus.IsInCloudOrVirtualOrOffline)
+                {
+                    lock (cloundFileTouchedAndWhenLock)
+                    {
+                        if (!cloundFileTouchedAndWhen.ContainsKey(fullFileName)) cloundFileTouchedAndWhen.Add(fullFileName, DateTime.Now);
+                        else cloundFileTouchedAndWhen[fullFileName] = DateTime.Now;
+                    }
+
+                    byte[] buffer = new byte[512];
+                    using (FileStream fs = new FileStream(fullFileName, FileMode.Open, FileAccess.Read))
+                    {
+                        var bytes_read = fs.Read(buffer, 0, buffer.Length); //Get OneDrive to start download the file
+                        fs.Close();
+                    }
+                }
+            }
+            catch { }
+        }
+
+        public static void TouchOfflineFileToGetFileOnline(string fullFileName)
+        {
+            Task task = Task.Run(() =>
+            {
+                TouchOfflineFileProcess(fullFileName);
+            });
+            task.Wait(200);
         }
         #endregion
 
@@ -266,9 +336,9 @@ namespace FileHandeling
         }
         #endregion  
 
-        #region IsFileLockedByProcess
+        #region IsFileLockedByProcess - Cache
         private static List<string> inProcessIsFileLockedByProcess = new List<string>();
-        public static bool IsFileLockedForReadAndWrite(string fullFilePath, int millisecondsTimeout)
+        public static bool IsFileLockedForReadAndWriteCached(string fullFilePath, int millisecondsTimeout)
         {   
             bool result = false;
             try
@@ -287,7 +357,7 @@ namespace FileHandeling
 
             Task task = Task.Run(() =>
             {
-                result = IsFileLockedByProcess(fullFilePath);
+                result = IsFileLockedForReadOrWrite(fullFilePath);
             });
             if (!task.Wait(millisecondsTimeout)) result = true; 
             // task.Wait(millisecondsTimeout);
@@ -306,7 +376,7 @@ namespace FileHandeling
             return result;
         }
 
-        private static bool IsFileLockedByProcess(string fullFilePath)
+        private static bool IsFileLockedForReadOrWrite(string fullFilePath)
         {
             if (!File.Exists(fullFilePath)) return false;
 
@@ -347,10 +417,6 @@ namespace FileHandeling
         }
         #endregion
 
-        #region 
-
-        #endregion
-
         #region IsFileThatNeedUpdatedLockedByProcess
         public static bool IsFileThatNeedUpdatedLockedByProcess(List<Metadata> fileEntriesToCheck, bool needWriteAccess)
         {
@@ -361,7 +427,7 @@ namespace FileHandeling
                 {
                     if (needWriteAccess)
                     {
-                        if (IsFileLockedForReadAndWrite(fileEntryToCheck.FileFullPath, WaitFileGetUnlockedTimeout)) return true; //In process OneDrive backup / update
+                        if (IsFileLockedForReadAndWriteCached(fileEntryToCheck.FileFullPath, WaitFileGetUnlockedTimeout)) return true; //In process OneDrive backup / update
                     }
                     else
                     {
@@ -372,106 +438,6 @@ namespace FileHandeling
             return false;
         }
         #endregion 
-
-        #region WaitLockedFilesToBecomeUnlocked
-        static FormWaitLockedFile formWaitLockedFile = new FormWaitLockedFile();
-        public static bool WaitLockedFilesToBecomeUnlocked(List<Metadata> fileEntriesToCheck, bool needWriteAccess, Form formOwner)
-        {
-            int waitBeforeShowRefreshMessage = WaitNumberOfRetryBeforeShowMessage;
-            
-            bool areAnyFileLocked;
-            do
-            {
-                areAnyFileLocked = IsFileThatNeedUpdatedLockedByProcess(fileEntriesToCheck, needWriteAccess);
-                
-                if (areAnyFileLocked) 
-                    Task.Delay(WaitTimeBetweenCheckFileIsUnlocked).Wait();
-
-                if (formWaitLockedFile != null && !formWaitLockedFile.IsFormVisible)
-                {
-                    if (formWaitLockedFile.IgnoredClicked)
-                    {
-                        FileLockedByProcess = "";
-                        return false; //False, file still locked
-                    }
-                }
-
-                if (areAnyFileLocked && --waitBeforeShowRefreshMessage < 0)
-                {
-                    try
-                    {
-                        if (formWaitLockedFile == null || formWaitLockedFile.IsDisposed) 
-                            formWaitLockedFile = new FormWaitLockedFile();
-                        if (formOwner != null) 
-                            formWaitLockedFile.Owner = formOwner;
-
-                        List<string> listOfFiles = new List<string>();
-                        string statusOnFiles = "";
-                        foreach (Metadata metadata in fileEntriesToCheck)
-                        {
-                            listOfFiles.Add(metadata.FileFullPath);
-                            statusOnFiles += metadata.FileFullPath + "\r\n" + FileHandler.GetFileStatusText(metadata.FileFullPath, false);
-                        }
-                        formWaitLockedFile.AddFiles(listOfFiles);
-
-                        if (formOwner != null)
-                        {
-                            _ = formOwner.BeginInvoke(new Action<string>(formWaitLockedFile.SetTextboxFiles), statusOnFiles);
-                            if (!formWaitLockedFile.IsFormVisible) _ = formOwner.BeginInvoke(new Action(formWaitLockedFile.Show));
-                        }
-                        else
-                        {
-                            if (formWaitLockedFile != null && !formWaitLockedFile.IsHandleCreated) formWaitLockedFile.Show();
-                            
-                            if (formWaitLockedFile != null && formWaitLockedFile.IsHandleCreated)
-                            {
-                                _ = formWaitLockedFile.BeginInvoke(new Action<string>(formWaitLockedFile.SetTextboxFiles), statusOnFiles);
-                                if (!formWaitLockedFile.IsFormVisible) _ = formWaitLockedFile.BeginInvoke(new Action(formWaitLockedFile.Show));
-                            }
-                        }
-
-                        if (formWaitLockedFile.IgnoredClicked) return false; //False, file still locked 
-                        waitBeforeShowRefreshMessage = WaitNumberOfRetryBeforeShowMessage;
-                    }
-                    catch { 
-                    }
-                }
-            } while (areAnyFileLocked);
-
-            try
-            {
-                if (formWaitLockedFile != null && formWaitLockedFile.IsHandleCreated)
-                {
-                    if (formOwner != null) _ = formOwner.BeginInvoke(new Action(formWaitLockedFile.Close));
-                    else _ = formWaitLockedFile.BeginInvoke(new Action(formWaitLockedFile.Close));
-                    //formWaitLockedFile.Close();
-                }
-            }
-            catch { }
-            return true; //True, file exist and unlocked, or ignored 
-        }
-        #endregion
-
-        #region WaitLockedFilesToBecomeUnlocked
-        /// <summary>
-        /// Check if file is unlocked, if not wait. On timeout ask if wait more
-        /// </summary>
-        /// <param name="fileFullPath"></param>
-        /// <returns>true - if unlocked and exist</returns>
-        public static bool WaitLockedFileToBecomeUnlocked(string fileFullPath, bool needWriteAccess, Form formOwner)
-        {
-            if (!File.Exists(fileFullPath)) return false; //Not locked, file doesn't exist
-
-            List<Metadata> fileEntriesToCheck = new List<Metadata>();
-            Metadata metadata = new Metadata(MetadataBrokerType.Empty);
-            metadata.FileDirectory = Path.GetDirectoryName(fileFullPath);
-            metadata.FileName = Path.GetFileName(fileFullPath);
-            fileEntriesToCheck.Add(metadata);
-
-            return WaitLockedFilesToBecomeUnlocked(fileEntriesToCheck, needWriteAccess, formOwner);
-
-        }
-        #endregion
 
         #region FindLockProcesses
         public static List<Process> FindLockProcesses(string path)
@@ -491,7 +457,6 @@ namespace FileHandeling
             string exiftoolArgFileFullPath = Path.Combine(exiftoolArgFileDirecory, tempfilename);
             try
             {
-                WaitLockedFileToBecomeUnlocked(exiftoolArgFileFullPath, true, formOwner);
                 if (deleteOldTempFile && File.Exists(exiftoolArgFileFullPath)) File.Delete(exiftoolArgFileFullPath);
             }
             catch (Exception ex)
@@ -562,13 +527,10 @@ namespace FileHandeling
                                     DateTime dateTimeWithoutMachineName = fileEntryWithoutMachineName.LastWriteDateTime;
                                     DateTime dateTimeHasMachineName = fileEntryMaybeHasMachineName.LastWriteDateTime;
 
-
-                                    WaitLockedFileToBecomeUnlocked(fileEntryMaybeHasMachineName.FileFullPath, true, form);
                                     if (dateTimeHasMachineName > dateTimeWithoutMachineName)
                                     {
                                         try
                                         {
-                                            WaitLockedFileToBecomeUnlocked(fileEntryWithoutMachineName.FileFullPath, true, form);
                                             File.Delete(fileEntryWithoutMachineName.FileFullPath);
                                             File.Move(fileEntryMaybeHasMachineName.FileFullPath, fileEntryWithoutMachineName.FileFullPath);
                                         }
@@ -604,7 +566,6 @@ namespace FileHandeling
                             {
                                 try
                                 {
-                                    WaitLockedFileToBecomeUnlocked(fileEntryMaybeHasMachineName.FileFullPath, true, form);
                                     File.Delete(fileEntryMaybeHasMachineName.FileFullPath);
                                 }
                                 catch (Exception ex)

@@ -9,8 +9,11 @@ namespace MetadataLibrary
         Historical,
         Error,
         AutoCorrect,
-        ExtractedNowFromMediaFile,
         ExtractedNowFromExternalSource,
+        ExtractedNowUsingExiftool,
+        ExtractedNowUsingExiftoolWithError,
+        ExtractedNowUsingExiftoolTimeout,
+        ExtractedNowUsingExiftoolFileNotExist
     }
 
     public enum FileEntryVersionCompare
@@ -31,7 +34,7 @@ namespace MetadataLibrary
         {
             return 
                 fileEntryVersion == FileEntryVersion.CurrentVersionInDatabase || fileEntryVersion == FileEntryVersion.AutoCorrect || 
-                fileEntryVersion == FileEntryVersion.ExtractedNowFromMediaFile || fileEntryVersion == FileEntryVersion.ExtractedNowFromExternalSource;
+                fileEntryVersion == FileEntryVersion.ExtractedNowUsingExiftool || fileEntryVersion == FileEntryVersion.ExtractedNowFromExternalSource;
         }
         #endregion
 
@@ -51,7 +54,7 @@ namespace MetadataLibrary
                 case FileEntryVersion.AutoCorrect:
                 case FileEntryVersion.CurrentVersionInDatabase:
                 case FileEntryVersion.ExtractedNowFromExternalSource:
-                case FileEntryVersion.ExtractedNowFromMediaFile:
+                case FileEntryVersion.ExtractedNowUsingExiftool:
                     return false;
                 case FileEntryVersion.Error:
                 case FileEntryVersion.Historical:
@@ -92,11 +95,11 @@ namespace MetadataLibrary
             switch (fileEntryAttributeFromQueue.FileEntryVersion)
             {
                 case FileEntryVersion.ExtractedNowFromExternalSource:
-                case FileEntryVersion.ExtractedNowFromMediaFile:
+                case FileEntryVersion.ExtractedNowUsingExiftool:
                     switch (fileEntryAttributeDataGridViewColumn.FileEntryVersion)
                     {
                         case FileEntryVersion.ExtractedNowFromExternalSource: //is store in DataGridView Column
-                        case FileEntryVersion.ExtractedNowFromMediaFile: //is store in DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingExiftool: //is store in DataGridView Column
                             //Both Extracted from source, newst version win
                             if (fileEntryAttributeFromQueue.LastWriteDateTime > fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
                                 return FileEntryVersionCompare.WonFoundNewer;
@@ -130,7 +133,7 @@ namespace MetadataLibrary
                     {
 
                         case FileEntryVersion.ExtractedNowFromExternalSource: //is store in DataGridView Column
-                        case FileEntryVersion.ExtractedNowFromMediaFile: //is store in DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingExiftool: //is store in DataGridView Column
                             //AutoCorrect, wins if newer
                             if (fileEntryAttributeFromQueue.LastWriteDateTime > fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
                                 return FileEntryVersionCompare.WonFoundNewer;
@@ -172,7 +175,7 @@ namespace MetadataLibrary
                     {
 
                         case FileEntryVersion.ExtractedNowFromExternalSource: //is store in DataGridView Column
-                        case FileEntryVersion.ExtractedNowFromMediaFile: //is store in DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingExiftool: //is store in DataGridView Column
                             return FileEntryVersionCompare.LostFoundOlder; 
 
                         case FileEntryVersion.AutoCorrect: //is store in DataGridView Column
@@ -203,7 +206,7 @@ namespace MetadataLibrary
                     switch (fileEntryAttributeDataGridViewColumn.FileEntryVersion)
                     {
                         case FileEntryVersion.ExtractedNowFromExternalSource: //is store in DataGridView Column
-                        case FileEntryVersion.ExtractedNowFromMediaFile: //is store in DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingExiftool: //is store in DataGridView Column
                         case FileEntryVersion.AutoCorrect: //is store in DataGridView Column
                         case FileEntryVersion.CurrentVersionInDatabase: //is store in DataGridView Column
                             return FileEntryVersionCompare.LostNoneEqualFound;

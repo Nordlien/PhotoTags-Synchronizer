@@ -1,7 +1,4 @@
-﻿using ApplicationAssociations;
-using DataGridViewGeneric;
-using Exiftool;
-using Manina.Windows.Forms;
+﻿using Manina.Windows.Forms;
 using MetadataLibrary;
 using System;
 using System.Collections.Generic;
@@ -11,8 +8,6 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using static Manina.Windows.Forms.ImageListView;
-using FileHandeling;
 using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
@@ -35,7 +30,6 @@ namespace PhotoTagsSynchronizer
             {
                 try
                 {
-                    bool isFileUnLockedAndExist = FileHandler.WaitLockedFileToBecomeUnlocked(fileEntry.FileFullPath, true, this);
                     ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.RoateImage(fileEntry.FileFullPath, rotateDegrees);
                     coverted = true;
                 }
@@ -53,7 +47,6 @@ namespace PhotoTagsSynchronizer
 
                 try
                 {
-                    bool isFileUnLockedAndExist = FileHandler.WaitLockedFileToBecomeUnlocked(fileEntry.FileFullPath, true, this);
                     timerSaveProgessRemoveProgress.Start();
 
                     var ffMpeg = new NReco.VideoConverter.FFMpegConverter();

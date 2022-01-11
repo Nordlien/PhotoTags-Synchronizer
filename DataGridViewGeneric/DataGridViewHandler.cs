@@ -1103,7 +1103,7 @@ namespace DataGridViewGeneric
                         switch (fileEntryAttribute.FileEntryVersion)
                         {
                             case FileEntryVersion.ExtractedNowFromExternalSource:
-                            case FileEntryVersion.ExtractedNowFromMediaFile:
+                            case FileEntryVersion.ExtractedNowUsingExiftool:
                             case FileEntryVersion.AutoCorrect:
                             case FileEntryVersion.CurrentVersionInDatabase:
 

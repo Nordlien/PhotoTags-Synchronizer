@@ -438,7 +438,6 @@ namespace Manina.Windows.Forms
         private string fullFilePath;
         private Image image;
         private bool didErrorOccureOnReadMedia;
-        private bool wasImageReadFromFile;
 
         /// <summary>
         /// Use this Image instead
@@ -451,9 +450,6 @@ namespace Manina.Windows.Forms
         /// <summary>
         /// Get and set if picture information was loaded correctly 
         /// </summary>
-        public bool DidErrorOccourLoadMedia { get => didErrorOccureOnReadMedia; set => didErrorOccureOnReadMedia = value; }
-        public bool WasImageReadFromFile { get => wasImageReadFromFile; set => wasImageReadFromFile = value; }
-
 
         /// <summary>
         /// Initializes a new instance of the RetrieveImageEventArgs class.

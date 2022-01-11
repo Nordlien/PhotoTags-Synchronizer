@@ -39,13 +39,6 @@ namespace Manina.Windows.Forms
     [Docking(DockingBehavior.Ask)]
     public partial class ImageListView : Control
     {
-        
-        public void StoppBackgroundThreads()
-        {
-            cacheManager.StoppBackgroundThreads();
-            itemCacheManager.StoppBackgroundThreads();
-        }
-
         public bool IsBackgroundThreadsStopped()
         {
             return cacheManager.IsBackgroundThreadsStopped() || itemCacheManager.IsBackgroundThreadsStopped();

@@ -60,7 +60,7 @@ namespace Thumbnails
         /// <param name="metadata">The media file matadata class with RegionList</param>
         /// <param name="image">The image to create region thumbnails from</param>
         /// <returns>Return true if data updated</returns>
-        public static bool SaveThumbnailsForRegioList_AlsoWebScarper(MetadataDatabaseCache metadataDatabase, Metadata metadata, Image image)
+        public static bool SaveThumbnailsForRegionList_AlsoWebScarper(MetadataDatabaseCache metadataDatabase, Metadata metadata, Image image)
         {
             if (metadata == null) return false; //When new directory selected, array are become empty and list of null will be created
 

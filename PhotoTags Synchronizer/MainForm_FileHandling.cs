@@ -29,7 +29,6 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-                bool isFileUnLockedAndExist = FileHandler.WaitLockedFileToBecomeUnlocked(sourceFullFilename, true, this);
                 bool directoryCreated = filesCutCopyPasteDrag.MoveFile(sourceFullFilename, targetFullFilename);
 
                 if (directoryCreated)
@@ -64,10 +63,16 @@ namespace PhotoTagsSynchronizer
                 }
                 catch { }
 
-                FileStatus fileStatus = FileHandler.GetFileStatus(sourceFullFilename, checkLockedStatus: true);
+                FileStatus fileStatus = FileHandler.GetFileStatus(
+                    sourceFullFilename, checkLockedStatus: true,
+                    fileInaccessibleOrError: true, fileErrorMessage: ex.Message,
+                    exiftoolProcessStatus: ExiftoolProcessStatus.DoNotUpdate);
                 ImageListView_UpdateItemFileStatusInvoke(sourceFullFilename, fileStatus);
 
-                FileStatus fileStatusTarget = FileHandler.GetFileStatus(targetFullFilename, checkLockedStatus: true);
+                FileStatus fileStatusTarget = FileHandler.GetFileStatus(
+                    targetFullFilename, checkLockedStatus: true,
+                    fileInaccessibleOrError: true, fileErrorMessage: ex.Message,
+                    exiftoolProcessStatus: ExiftoolProcessStatus.DoNotUpdate);
                 ImageListView_UpdateItemFileStatusInvoke(targetFullFilename, fileStatus);
 
                 AddError(
@@ -142,10 +147,16 @@ namespace PhotoTagsSynchronizer
                         }
                         catch { }
 
-                        FileStatus fileStatus = FileHandler.GetFileStatus(sourceFullFilename, checkLockedStatus: true);
+                        FileStatus fileStatus = FileHandler.GetFileStatus(
+                            sourceFullFilename,  checkLockedStatus: true,
+                            fileInaccessibleOrError: true, fileErrorMessage: ex.Message,
+                            exiftoolProcessStatus: ExiftoolProcessStatus.DoNotUpdate);
                         ImageListView_UpdateItemFileStatusInvoke(sourceFullFilename, fileStatus);
 
-                        FileStatus fileStatusTarget = FileHandler.GetFileStatus(targetFullFilename, checkLockedStatus: true);
+                        FileStatus fileStatusTarget = FileHandler.GetFileStatus(
+                            targetFullFilename, checkLockedStatus: true,
+                            fileInaccessibleOrError: true, fileErrorMessage: ex.Message,
+                            exiftoolProcessStatus: ExiftoolProcessStatus.DoNotUpdate);
                         ImageListView_UpdateItemFileStatusInvoke(targetFullFilename, fileStatus);
 
                         AddError(
@@ -266,7 +277,10 @@ namespace PhotoTagsSynchronizer
                         }
                         catch { }
 
-                        FileStatus fileStatus = FileHandler.GetFileStatus(sourceFullFilename, checkLockedStatus: true);
+                        FileStatus fileStatus = FileHandler.GetFileStatus(
+                            sourceFullFilename, checkLockedStatus: true,
+                            fileInaccessibleOrError: true, fileErrorMessage: ex.Message,
+                            exiftoolProcessStatus: ExiftoolProcessStatus.DoNotUpdate);
                         ImageListView_UpdateItemFileStatusInvoke(sourceFullFilename, fileStatus);
 
                         AddError(
@@ -339,10 +353,16 @@ namespace PhotoTagsSynchronizer
                         }
                         catch { }
 
-                        FileStatus fileStatus = FileHandler.GetFileStatus(sourceFullFilename, checkLockedStatus: true);
+                        FileStatus fileStatus = FileHandler.GetFileStatus(
+                            sourceFullFilename, checkLockedStatus: true,
+                            fileInaccessibleOrError: true, fileErrorMessage: ex.Message,
+                            exiftoolProcessStatus: ExiftoolProcessStatus.DoNotUpdate);
                         ImageListView_UpdateItemFileStatusInvoke(sourceFullFilename, fileStatus);
 
-                        FileStatus fileStatusTarger = FileHandler.GetFileStatus(targetFullFilename, checkLockedStatus: true);
+                        FileStatus fileStatusTarger = FileHandler.GetFileStatus(
+                            targetFullFilename, checkLockedStatus: true,
+                            fileInaccessibleOrError: true, fileErrorMessage: ex.Message,
+                            exiftoolProcessStatus: ExiftoolProcessStatus.DoNotUpdate);
                         ImageListView_UpdateItemFileStatusInvoke(targetFullFilename, fileStatus);
 
                         AddError(

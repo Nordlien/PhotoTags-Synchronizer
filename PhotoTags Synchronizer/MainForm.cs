@@ -558,8 +558,6 @@ namespace PhotoTagsSynchronizer
             #endregion
             #endregion
 
-            FileHandler.MainForm = this;
-
             autoKeywordConvertions = AutoKeywordHandler.PopulateList(AutoKeywordHandler.ReadDataSetFromXML());
 
             #region Initialize layout setup
@@ -834,9 +832,7 @@ namespace PhotoTagsSynchronizer
                     try
                     {
                         ImageListViewHandler.ClearAllAndCaches(imageListView1);
-
                         imageListView1.Dispose();
-                        imageListView1.StoppBackgroundThreads();
                     }
                     catch { }
 

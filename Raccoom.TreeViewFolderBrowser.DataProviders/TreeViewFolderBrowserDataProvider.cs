@@ -14,6 +14,8 @@
 // 
 // website http://www.raccoom.net, email support@raccoom.net, msn chrisdarebell@msn.com
 
+using System.IO;
+
 namespace Raccoom.Windows.Forms
 {
 	/// <summary>
@@ -79,11 +81,11 @@ namespace Raccoom.Windows.Forms
 			//					
 			foreach (System.IO.DirectoryInfo dir in directory.GetDirectories())
 			{
-				if ((dir.Attributes & System.IO.FileAttributes.System) == System.IO.FileAttributes.System)
+				if ((dir.Attributes & FileAttributes.System) == FileAttributes.System)
 				{
 					continue;
 				}
-				if ((dir.Attributes & System.IO.FileAttributes.Hidden) == System.IO.FileAttributes.Hidden)
+				if ((dir.Attributes & FileAttributes.Hidden) == FileAttributes.Hidden)
 				{
 					continue;
 				}

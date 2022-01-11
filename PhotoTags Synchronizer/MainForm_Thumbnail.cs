@@ -30,7 +30,7 @@ namespace PhotoTagsSynchronizer
         /// <returns></returns>
         private Image GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(FileEntry fileEntry, bool dontReadFilesInCloud, FileStatus fileStatus)
         {
-            FileEntryVersion fileEntryVersion = FileEntryVersion.ExtractedNowFromMediaFile;
+            FileEntryVersion fileEntryVersion = FileEntryVersion.ExtractedNowUsingExiftool;
 
             Image thumbnailImage;
             thumbnailImage = databaseAndCacheThumbnail.ReadThumbnailFromCacheOrDatabase(fileEntry);
@@ -53,12 +53,13 @@ namespace PhotoTagsSynchronizer
                 {
                     //Start downloading in background from OneDrive
                     if (!dontReadFilesInCloud && fileStatus.IsInCloudOrVirtualOrOffline) FileHandler.TouchOfflineFileToGetFileOnline(fileEntry.FileFullPath);
+                    else FileHandler.RemoveOfflineFileTouched(fileEntry.FileFullPath);
                 } 
 
                 AddQueueSaveToDatabaseMediaThumbnailLock(
                     new FileEntryImage(
-                        fileEntry, 
-                        thumbnailImage == null ? null : new Bitmap(thumbnailImage), !dontReadFilesInCloud
+                        fileEntry, thumbnailImage == null ? null : new Bitmap(thumbnailImage), 
+                        !dontReadFilesInCloud
                         ));
             }
 
@@ -140,7 +141,6 @@ namespace PhotoTagsSynchronizer
             {
                 if (File.Exists(fullFilePath)) //Files can always be moved, deleted or become change outside application (Also may occure when this Rename files)
                 {
-                    FileHandler.WaitLockedFileToBecomeUnlocked(fullFilePath, false, this);
                     if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(fullFilePath))
                     {
                         var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
@@ -159,7 +159,6 @@ namespace PhotoTagsSynchronizer
                         image = ImageAndMovieFileExtentionsUtility.LoadImage(fullFilePath, out wasFileLocked);
                         if (image == null && wasFileLocked && File.Exists(fullFilePath))
                         {
-                            FileHandler.WaitLockedFileToBecomeUnlocked(fullFilePath, false, this);
                             image = ImageAndMovieFileExtentionsUtility.LoadImage(fullFilePath, out wasFileLocked);
                         }
                         //if (image == null) image = Utility.LoadImageWithoutLock(fullFilePath);

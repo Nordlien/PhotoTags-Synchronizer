@@ -4340,7 +4340,10 @@ namespace PhotoTagsSynchronizer
                             }
                             catch (Exception ex)
                             {
-                                FileStatus fileStatus = FileHandler.GetFileStatus(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath, checkLockedStatus: true);
+                                FileStatus fileStatus = FileHandler.GetFileStatus(
+                                    dataGridViewGenericColumn.FileEntryAttribute.FileFullPath, checkLockedStatus: true,
+                                    fileInaccessibleOrError: true, fileErrorMessage: ex.Message,
+                                    exiftoolProcessStatus: ExiftoolProcessStatus.DoNotUpdate);
                                 ImageListView_UpdateItemFileStatusInvoke(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath, fileStatus);
 
                                 string writeErrorDesciption =
@@ -7242,8 +7245,14 @@ namespace PhotoTagsSynchronizer
                     {
                         foreach (FileEntry fileEntry in listOfFilesForReload)
                         {
-                            FileStatus fileStatus = FileHandler.GetFileStatus(fileEntry.FileFullPath);
+                            FileStatus fileStatus = FileHandler.GetFileStatus(
+                                fileEntry.FileFullPath,
+                                checkLockedStatus: true,
+                                exiftoolProcessStatus: ExiftoolProcessStatus.InExiftoolReadQueue);
+                            ImageListView_UpdateItemFileStatusInvoke(fileEntry.FileFullPath, fileStatus);
+
                             if (fileStatus.IsInCloudOrVirtualOrOffline) FileHandler.TouchOfflineFileToGetFileOnline(fileEntry.FileFullPath);
+                            else FileHandler.RemoveOfflineFileTouched(fileEntry.FileFullPath);
                         }
                     }
                     #endregion
@@ -7434,7 +7443,16 @@ namespace PhotoTagsSynchronizer
                             int recordAffected = filesCutCopyPasteDrag.DeleteDirectoryAndHistory(ref FilesCutCopyPasteDrag.DeleteDirectoryAndHistorySize, folder);
 
                             #region Touch Offline files so they get downloaded
-                            foreach (string fullFileName in files) FileHandler.TouchOfflineFileToGetFileOnline(folder);
+                            foreach (string fullFileName in files) 
+                            {
+                                FileStatus fileStatus = FileHandler.GetFileStatus(
+                                fullFileName, checkLockedStatus: true,
+                                exiftoolProcessStatus: ExiftoolProcessStatus.InExiftoolReadQueue);
+                                ImageListView_UpdateItemFileStatusInvoke(fullFileName, fileStatus);
+
+                                if (fileStatus.IsInCloudOrVirtualOrOffline) FileHandler.TouchOfflineFileToGetFileOnline(fullFileName);
+                                else FileHandler.RemoveOfflineFileTouched(fullFileName);
+                            }
                             #endregion
 
                             GlobalData.ProcessCounterDelete = 0;

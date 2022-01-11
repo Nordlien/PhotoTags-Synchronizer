@@ -840,15 +840,16 @@ namespace Manina.Windows.Forms
 
 
                         if (!item.FileStatus.FileExists) g.DrawImage(mImageListView.StatusIconFileNotExists, pos.Left, pos.Top);
-                        else if (item.FileStatus.FileErrorOrInaccessible) g.DrawImage(mImageListView.StatusIconProcessFileInaccessible, pos.Left, pos.Top);
+                        else if (item.FileStatus.FileInaccessibleOrError) g.DrawImage(mImageListView.StatusIconProcessFileInaccessible, pos.Left, pos.Top);
                         else if (item.FileStatus.IsDirty) g.DrawImage(mImageListView.StatusIconProcessExiftoolStatusUnknown, pos.Left, pos.Top);
-                        else if (item.FileStatus.FileProcessStatus == FileProcessStatus.ExiftoolProcessing) g.DrawImage(mImageListView.StatusIconProcessExiftoolProcessing, pos.Left, pos.Top);
-                        else if (item.FileStatus.FileProcessStatus == FileProcessStatus.ExiftoolWillNotProcessingFileInCloud) g.DrawImage(mImageListView.StatusIconProcessExiftoolWillNotProcessingFileInCloud, pos.Left, pos.Top);
-                        else if (item.FileStatus.FileProcessStatus == FileProcessStatus.FileInaccessible) g.DrawImage(mImageListView.StatusIconProcessFileInaccessible, pos.Left, pos.Top);
-                        else if (item.FileStatus.FileProcessStatus == FileProcessStatus.InExiftoolReadQueue) g.DrawImage(mImageListView.StatusIconProcessInExiftoolReadQueue, pos.Left, pos.Top);
-                        else if (item.FileStatus.FileProcessStatus == FileProcessStatus.WaitOfflineBecomeLocal) g.DrawImage(mImageListView.StatusIconProcessWaitOfflineBecomeLocal, pos.Left, pos.Top);
-                        else if (item.FileStatus.FileProcessStatus == FileProcessStatus.DoNotUpdate) g.DrawImage(mImageListView.StatusIconProcessExiftoolStatusUnknown, pos.Left, pos.Top);
-                        else if (item.FileStatus.IsInCloudOrVirtualOrOffline) g.DrawImage(mImageListView.StatusIconFileOffline, pos.Left, pos.Top);
+                        else if (item.FileStatus.ExiftoolProcessStatus == ExiftoolProcessStatus.ExiftoolProcessing) g.DrawImage(mImageListView.StatusIconProcessExiftoolProcessing, pos.Left, pos.Top);
+                        else if (item.FileStatus.ExiftoolProcessStatus == ExiftoolProcessStatus.ExiftoolWillNotProcessingFileInCloud) g.DrawImage(mImageListView.StatusIconProcessExiftoolWillNotProcessingFileInCloud, pos.Left, pos.Top);
+                        else if (item.FileStatus.ExiftoolProcessStatus == ExiftoolProcessStatus.FileInaccessibleOrError) g.DrawImage(mImageListView.StatusIconProcessFileInaccessible, pos.Left, pos.Top);
+                        else if (item.FileStatus.ExiftoolProcessStatus == ExiftoolProcessStatus.InExiftoolReadQueue) g.DrawImage(mImageListView.StatusIconProcessInExiftoolReadQueue, pos.Left, pos.Top);
+                        else if (item.FileStatus.ExiftoolProcessStatus == ExiftoolProcessStatus.WaitOfflineBecomeLocal) g.DrawImage(mImageListView.StatusIconProcessWaitOfflineBecomeLocal, pos.Left, pos.Top);
+                        else if (item.FileStatus.ExiftoolProcessStatus == ExiftoolProcessStatus.DoNotUpdate) g.DrawImage(mImageListView.StatusIconProcessExiftoolStatusUnknown, pos.Left, pos.Top);
+                        
+                        if (item.FileStatus.IsInCloudOrVirtualOrOffline) g.DrawImage(mImageListView.StatusIconFileOffline, pos.Left, pos.Top);
                         else if (item.FileStatus.HasAnyLocks) if (mImageListView.StatusIconFileLocked != null) g.DrawImage(mImageListView.StatusIconFileLocked, pos.Left, pos.Top);
                         if (item.FileStatus.IsReadOnly) if (mImageListView.StatusIconFileLocked != null) g.DrawImage(mImageListView.StatusIconFileReadOnly, pos.Left, pos.Top);
 

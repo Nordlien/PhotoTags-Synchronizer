@@ -140,48 +140,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region DataGridView - ImageListView - Populate File - For FileEntryAttribute missing Tag - Invoke
-        private void DataGridView_ImageListView_Populate_FileEntryAttributeInvoke(FileEntryAttribute fileEntryAttribute, 
-            bool populateDataGrid, bool populateImageListViewItemThumbnail, bool populateImageListViewItemMetadata)
-        {
-            if (InvokeRequired)
-            {
-                this.BeginInvoke(new Action<FileEntryAttribute, bool, bool, bool>(DataGridView_ImageListView_Populate_FileEntryAttributeInvoke), fileEntryAttribute, populateDataGrid, populateImageListViewItemThumbnail, populateImageListViewItemMetadata);
-                return;
-            }
-            if (GlobalData.IsApplicationClosing) return;
-            try
-            {
-                if (populateDataGrid)
-                {
-                    string tag = GetActiveTabTag();
-                    if (!string.IsNullOrWhiteSpace(tag) && IsActiveDataGridViewAgregated(tag))
-                    {
-                        DataGridView dataGridView = GetDataGridViewForTag(tag);
-                        if (dataGridView != null) DataGridView_Populate_FileEntryAttribute(dataGridView, fileEntryAttribute, tag);
-                    }
-                }
-
-                //if (populateImageListViewItemMetadata && !populateImageListViewItemThumbnail)
-                {
-                    ImageListView_UpdateItemMetadataInvoke(fileEntryAttribute);
-                }
-
-                if (populateImageListViewItemThumbnail)
-                {
-                    ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fileEntryAttribute.FileFullPath);
-                    if (foundItem != null)
-                    {
-                        if (!foundItem.IsItemDirty()) foundItem.Update();
-                    }
-                }
-
-            } catch (Exception ex)
-            {
-                Logger.Error(ex);
-            }
-        }
-        #endregion
+        
 
         #region DataGridView - Populate - SelectedExtrasDropdownAndColumnSizesInvoke (Populate DataGridView Extras)
         private void DataGridView_Populate_ExtrasAsDropdownAndColumnSizesInvoke()
@@ -891,7 +850,6 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-
                 FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(metadataFixedAndCorrected.FileEntry, FileEntryVersion.AutoCorrect);
                 int columnIndex = DataGridViewHandler.GetColumnIndexUserInput(GetAnyAgregatedDataGridView(), fileEntryAttribute);
                 
@@ -916,7 +874,7 @@ namespace PhotoTagsSynchronizer
                 if (DataGridViewHandler.IsColumnPopulated(dataGridViewDate, columnIndex))
                     DataGridViewHandler.SetColumnDirtyFlag(dataGridViewDate, columnIndex, isDirty);
 
-                if (isDataGridViewUpdatedWithNewData) DataGridView_ImageListView_Populate_FileEntryAttributeInvoke(fileEntryAttribute, populateDataGrid: true, populateImageListViewItemThumbnail: false, populateImageListViewItemMetadata: true);
+                if (isDataGridViewUpdatedWithNewData) DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute);
 
             }
             catch (Exception ex)

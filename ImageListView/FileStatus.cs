@@ -17,14 +17,14 @@
 
 namespace Manina.Windows.Forms
 {
-    public enum FileProcessStatus
+    public enum ExiftoolProcessStatus
     {
         WaitAction, 
         InExiftoolReadQueue,
         WaitOfflineBecomeLocal,
         ExiftoolProcessing,
         ExiftoolWillNotProcessingFileInCloud,
-        FileInaccessible,
+        FileInaccessibleOrError,
         DoNotUpdate
     }
     //JTN Added - Item File status
@@ -32,7 +32,8 @@ namespace Manina.Windows.Forms
     {
         #region Exists
         public bool FileExists { get; set; } = true;
-        public bool FileErrorOrInaccessible { get; set; } = false;
+        public bool FileInaccessibleOrError { get; set; } = false;
+        public string FileErrorMessage { get; set; } = null;
         public bool IsDirty { get; set; } = true;
         #endregion
 
@@ -66,7 +67,7 @@ namespace Manina.Windows.Forms
         #endregion
 
         #region FileProcessStatus
-        public FileProcessStatus FileProcessStatus { get; set; } = FileProcessStatus.WaitAction;
+        public ExiftoolProcessStatus ExiftoolProcessStatus { get; set; } = ExiftoolProcessStatus.WaitAction;
         #endregion
 
         #region SortValue
@@ -77,7 +78,7 @@ namespace Manina.Windows.Forms
                 return
                     #region Exists
                     (FileExists ? 128 : 0) +
-                    (FileErrorOrInaccessible ? 64 : 0) +
+                    (FileInaccessibleOrError ? 64 : 0) +
                     #endregion
 
                     #region Access
@@ -93,8 +94,8 @@ namespace Manina.Windows.Forms
                     #endregion
 
                     #region Processes
-                    (FileProcessStatus == FileProcessStatus.ExiftoolProcessing ? 2 : 0) +
-                    (FileProcessStatus == FileProcessStatus.InExiftoolReadQueue ? 1 : 0);
+                    (ExiftoolProcessStatus == ExiftoolProcessStatus.ExiftoolProcessing ? 2 : 0) +
+                    (ExiftoolProcessStatus == ExiftoolProcessStatus.InExiftoolReadQueue ? 1 : 0);
                     #endregion
             }
         }
@@ -113,17 +114,18 @@ namespace Manina.Windows.Forms
             
             string status = "";
             if (!FileExists) status = "File not exists";
-            else if (FileErrorOrInaccessible) status = "File is inaccessible";
+            else if (FileInaccessibleOrError) status = "File is inaccessible";
             else if (IsDirty) status = "Status sill unknown";
-            else if (FileProcessStatus == FileProcessStatus.WaitAction) status = "";
-            else if (FileProcessStatus == FileProcessStatus.ExiftoolProcessing) status = "Exiftool processing";
-            else if (FileProcessStatus == FileProcessStatus.ExiftoolWillNotProcessingFileInCloud) status = "Files is keeped offline";
-            else if (FileProcessStatus == FileProcessStatus.FileInaccessible) status = "File is inaccessible";
-            else if (FileProcessStatus == FileProcessStatus.InExiftoolReadQueue) status = "Wait Exiftool";
-            else if (FileProcessStatus == FileProcessStatus.WaitOfflineBecomeLocal) status = "Downloading";
-            else if (FileProcessStatus == FileProcessStatus.DoNotUpdate) status = "Status requested";
-            else if (IsInCloudOrVirtualOrOffline) status = "File is offline (" + (IsInCloud ? "C":"") + (IsVirtual ? "V" : "") + (IsOffline ? "O" :"") + ")";
-            else if (HasAnyLocks) status = "File is locked (" + (IsFileLockedForRead ? "R":"") + (IsFileLockedReadAndWrite ? "W" : "")  + ")";
+            else if (ExiftoolProcessStatus == ExiftoolProcessStatus.WaitAction) status = "";
+            else if (ExiftoolProcessStatus == ExiftoolProcessStatus.ExiftoolProcessing) status = "Exiftool processing";
+            else if (ExiftoolProcessStatus == ExiftoolProcessStatus.ExiftoolWillNotProcessingFileInCloud) status = "Files is keeped offline";
+            else if (ExiftoolProcessStatus == ExiftoolProcessStatus.FileInaccessibleOrError) status = "File is inaccessible";
+            else if (ExiftoolProcessStatus == ExiftoolProcessStatus.InExiftoolReadQueue) status = "Wait Exiftool";
+            else if (ExiftoolProcessStatus == ExiftoolProcessStatus.WaitOfflineBecomeLocal) status = "Downloading";
+            else if (ExiftoolProcessStatus == ExiftoolProcessStatus.DoNotUpdate) status = "Status requested";
+            
+            if (IsInCloudOrVirtualOrOffline) status += (string.IsNullOrWhiteSpace(status) ? "" : ", ") + "File is offline (" + (IsInCloud ? "C":"") + (IsVirtual ? "V" : "") + (IsOffline ? "O" :"") + ")";
+            else if (HasAnyLocks) status += (string.IsNullOrWhiteSpace(status) ? "" : ", ") + "File is locked (" + (IsFileLockedForRead ? "R":"") + (IsFileLockedReadAndWrite ? "W" : "")  + ")";
             if (IsReadOnly) status += (string.IsNullOrWhiteSpace(status) ? "" : ", ") + "ReadOnly";
             return status;
         }

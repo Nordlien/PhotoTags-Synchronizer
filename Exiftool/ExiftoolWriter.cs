@@ -98,54 +98,45 @@ namespace Exiftool
                     writeXtraAtomArtistVideo || writeXtraAtomSubjectVideo || writeXtraAtomCommentVideo || writeXtraAtomRatingVideo ||
                     writeXtraAtomSubjectPicture || writeXtraAtomCommentPicture || writeXtraAtomRatingPicture)
                 {
-                    bool isFileUnLockedAndExist = FileHandler.WaitLockedFileToBecomeUnlocked(metadataToWrite.FileFullPath, true, form);
 
-                    if (isFileUnLockedAndExist)
+                    try
                     {
-                        try
+                        Logger.Debug("WriteXtraAtom - Start write XtraAtom: " + metadataToWrite.FileFullPath);
+                        using (WindowsPropertyWriter windowsPropertyWriter = new WindowsPropertyWriter(metadataToWrite.FileFullPath))
                         {
-                            Logger.Debug("WriteXtraAtom - Start write XtraAtom: " + metadataToWrite.FileFullPath);
-                            using (WindowsPropertyWriter windowsPropertyWriter = new WindowsPropertyWriter(metadataToWrite.FileFullPath))
+                            if (isVideoFormat)
                             {
-                                if (isVideoFormat)
-                                {
-                                    if (writeXtraAtomCategoriesVideo) windowsPropertyWriter.WriteCategories(string.IsNullOrEmpty(writeXtraAtomCategoriesResult) ? null : writeXtraAtomCategoriesResult);
-                                    if (writeXtraAtomAlbumVideo) windowsPropertyWriter.WriteAlbum(string.IsNullOrEmpty(writeXtraAtomAlbumReult) ? null : writeXtraAtomAlbumReult);
-                                    if (writeXtraAtomSubtitleVideo) windowsPropertyWriter.WriteSubtitle_Description(string.IsNullOrEmpty(writeXtraAtomSubtitleResult) ? null : writeXtraAtomSubtitleResult);
-                                    if (writeXtraAtomArtistVideo) windowsPropertyWriter.WriteArtist_Author(string.IsNullOrEmpty(writeXtraAtomArtistResult) ? null : writeXtraAtomArtistResult);
-                                    if (writeXtraAtomSubjectVideo) windowsPropertyWriter.WriteSubject_Description(string.IsNullOrEmpty(writeXtraAtomSubjectResult) ? null : writeXtraAtomSubjectResult);
-                                    if (writeXtraAtomCommentVideo) windowsPropertyWriter.WriteComment(string.IsNullOrEmpty(writeXtraAtomCommentResult) ? null : writeXtraAtomCommentResult);
-                                    if (writeXtraAtomRatingVideo) windowsPropertyWriter.WriteRating((metadataToWrite.PersonalRatingPercent == null ? (int)0 : (int)metadataToWrite.PersonalRatingPercent));
-                                    if (writeXtraAtomKeywordsVideo) windowsPropertyWriter.WriteKeywords(string.IsNullOrEmpty(writeXtraAtomKeywordsResult) ? null : writeXtraAtomKeywordsResult);
-                                }
-                                else if (isImageFormat)
-                                {
-                                    if (writeXtraAtomSubjectPicture) windowsPropertyWriter.WriteSubject_Description(string.IsNullOrEmpty(writeXtraAtomSubjectResult) ? null : writeXtraAtomSubjectResult);
-                                    if (writeXtraAtomCommentPicture) windowsPropertyWriter.WriteComment(string.IsNullOrEmpty(writeXtraAtomCommentResult) ? null : writeXtraAtomCommentResult);
-                                    if (writeXtraAtomRatingPicture) windowsPropertyWriter.WriteRating((metadataToWrite.PersonalRatingPercent == null ? (int)0 : (int)metadataToWrite.PersonalRatingPercent));
-                                    if (writeXtraAtomKeywordsPicture) windowsPropertyWriter.WriteKeywords(string.IsNullOrEmpty(writeXtraAtomKeywordsResult) ? null : writeXtraAtomKeywordsResult);
-                                }
-
-                                windowsPropertyWriter.Close();
-
-                                filesUpdatedByXtraAtom.Add(new FileEntry(metadataToWrite.FileFullPath, File.GetLastWriteTime(metadataToWrite.FileFullPath)));
+                                if (writeXtraAtomCategoriesVideo) windowsPropertyWriter.WriteCategories(string.IsNullOrEmpty(writeXtraAtomCategoriesResult) ? null : writeXtraAtomCategoriesResult);
+                                if (writeXtraAtomAlbumVideo) windowsPropertyWriter.WriteAlbum(string.IsNullOrEmpty(writeXtraAtomAlbumReult) ? null : writeXtraAtomAlbumReult);
+                                if (writeXtraAtomSubtitleVideo) windowsPropertyWriter.WriteSubtitle_Description(string.IsNullOrEmpty(writeXtraAtomSubtitleResult) ? null : writeXtraAtomSubtitleResult);
+                                if (writeXtraAtomArtistVideo) windowsPropertyWriter.WriteArtist_Author(string.IsNullOrEmpty(writeXtraAtomArtistResult) ? null : writeXtraAtomArtistResult);
+                                if (writeXtraAtomSubjectVideo) windowsPropertyWriter.WriteSubject_Description(string.IsNullOrEmpty(writeXtraAtomSubjectResult) ? null : writeXtraAtomSubjectResult);
+                                if (writeXtraAtomCommentVideo) windowsPropertyWriter.WriteComment(string.IsNullOrEmpty(writeXtraAtomCommentResult) ? null : writeXtraAtomCommentResult);
+                                if (writeXtraAtomRatingVideo) windowsPropertyWriter.WriteRating((metadataToWrite.PersonalRatingPercent == null ? (int)0 : (int)metadataToWrite.PersonalRatingPercent));
+                                if (writeXtraAtomKeywordsVideo) windowsPropertyWriter.WriteKeywords(string.IsNullOrEmpty(writeXtraAtomKeywordsResult) ? null : writeXtraAtomKeywordsResult);
                             }
-                        }
-                        catch (Exception ex)
-                        {
-                            Logger.Error(ex, "Failed write Xtra Atom Propery on file: " + metadataToWrite.FileFullPath);
-                            writeXtraAtomErrorMessageForFile.Add(metadataToWrite.FileFullPath, ex.Message);
-                        }
-                    } else
-                    { //File readonly or locked
+                            else if (isImageFormat)
+                            {
+                                if (writeXtraAtomSubjectPicture) windowsPropertyWriter.WriteSubject_Description(string.IsNullOrEmpty(writeXtraAtomSubjectResult) ? null : writeXtraAtomSubjectResult);
+                                if (writeXtraAtomCommentPicture) windowsPropertyWriter.WriteComment(string.IsNullOrEmpty(writeXtraAtomCommentResult) ? null : writeXtraAtomCommentResult);
+                                if (writeXtraAtomRatingPicture) windowsPropertyWriter.WriteRating((metadataToWrite.PersonalRatingPercent == null ? (int)0 : (int)metadataToWrite.PersonalRatingPercent));
+                                if (writeXtraAtomKeywordsPicture) windowsPropertyWriter.WriteKeywords(string.IsNullOrEmpty(writeXtraAtomKeywordsResult) ? null : writeXtraAtomKeywordsResult);
+                            }
 
-                        string error = "Failed write Xtra Atom Propery on file: " + metadataToWrite.FileFullPath + "\r\n";
-                        if (!File.Exists(metadataToWrite.FileFullPath)) error += "File not found.\r\n";
-                        else if (FileHandler.IsFileReadOnly(metadataToWrite.FileFullPath)) error += "File is Read Only.\r\n";
-                        else if (FileHandler.IsFileLockedForReadAndWrite(metadataToWrite.FileFullPath, FileHandler.GetFileLockedStatusTimeout)) error += "File is locked by another process.\r\n";
+                            windowsPropertyWriter.Close();
+
+                            filesUpdatedByXtraAtom.Add(new FileEntry(metadataToWrite.FileFullPath, File.GetLastWriteTime(metadataToWrite.FileFullPath)));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        string error = "Failed write Xtra Atom Propery on file: " + metadataToWrite.FileFullPath + "\r\n" +
+                            ex.Message + "\r\n + " + 
+                            FileHandler.GetFileStatusText(metadataToWrite.FileFullPath, checkLockedStatus: true, showLockedByProcess: true);
                         Logger.Error(error);
                         writeXtraAtomErrorMessageForFile.Add(metadataToWrite.FileFullPath, error);
                     }
+
                 } else
                 {
                     Logger.Debug("WriteXtraAtom - nothing to updated: " + metadataToWrite.FileFullPath);
@@ -314,7 +305,7 @@ namespace Exiftool
                             "File name:"+ metadataRead.FileEntryBroker.FileFullPath + "\r\n" +
                             "File modified before Exiftool: " + metadataRead.FileEntryBroker.LastWriteDateTime.ToString() + "\r\n" +
                             "File modified after  Exiftool: " + metadataWrittenByExiftoolWaitVerify[verifyPosition].FileDateModified.ToString() + "\r\n" +
-                            FileHandler.GetFileStatusText(metadataRead.FileFullPath, true);
+                            FileHandler.GetFileStatusText(metadataRead.FileFullPath, checkLockedStatus: true, showLockedByProcess: true);
                         message += fileErrorMessage;
                         Logger.Warn(fileErrorMessage);
                         

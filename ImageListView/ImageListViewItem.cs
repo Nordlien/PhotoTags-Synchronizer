@@ -980,7 +980,6 @@ namespace Manina.Windows.Forms
         /// </summary>
         public void Update()
         {
-
             Dirty();
             if (mImageListView != null)
             {

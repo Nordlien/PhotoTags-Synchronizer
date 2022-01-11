@@ -38,7 +38,7 @@ namespace Manina.Windows.Forms
         private readonly object lockObject;
 
         private ImageListView mImageListView;
-        private Thread mThread;
+        private Thread mThreadCacheManager;
         private CacheMode mCacheMode;
         private int mCacheLimitAsItemCount;
         private long mCacheLimitAsMemory;
@@ -46,7 +46,7 @@ namespace Manina.Windows.Forms
 
         private Queue<CacheItem> toCache; //JTN Change from Stack to Queue, gets a feeling of loader faster, due nautal way of scrolling
         private Dictionary<Guid, CacheItem> thumbCache;
-        private Dictionary<Guid, Image> editCache;
+        private Dictionary<Guid, Image> editThumbnailCache;
 
         private Stack<CacheItem> rendererToCache;
         private Guid rendererGuid;
@@ -60,15 +60,6 @@ namespace Manina.Windows.Forms
         private bool stopping;
         private bool stopped;
         private bool disposed;
-        #endregion
-
-        //JTN added; this can be removed, only need cleat Qeueue instead!!!!
-        #region StoppBackgroundThreads
-        private bool stoppingBackgroundThreads = false;
-        public void StoppBackgroundThreads()
-        {
-            stoppingBackgroundThreads = true;
-        }
         #endregion
 
         //JTN added
@@ -346,7 +337,7 @@ namespace Manina.Windows.Forms
 
             toCache = new Queue<CacheItem>();
             thumbCache = new Dictionary<Guid, CacheItem>();
-            editCache = new Dictionary<Guid, Image>();
+            editThumbnailCache = new Dictionary<Guid, Image>();
 
             rendererToCache = new Stack<CacheItem>();
             rendererGuid = new Guid();
@@ -356,18 +347,18 @@ namespace Manina.Windows.Forms
             memoryUsedByRemoved = 0;
             removedItems = new List<Guid>();
 
-            mThread = new Thread(new ThreadStart(DoWork));
-            mThread.Priority = ThreadPriority.Lowest; //JTN Added
-            mThread.IsBackground = true;
+            mThreadCacheManager = new Thread(new ThreadStart(DoWork));
+            mThreadCacheManager.Priority = ThreadPriority.Lowest; //JTN Added
+            mThreadCacheManager.IsBackground = true;
 
             stopping = false;
             stopped = false;
             disposed = false;
 
-            mThread.Start();
-            while (!mThread.IsAlive) ;
+            mThreadCacheManager.Start();
+            while (!mThreadCacheManager.IsAlive) ;
         }
-#endregion
+        #endregion
 
         #region Instance Methods
         /// <summary>
@@ -381,41 +372,14 @@ namespace Manina.Windows.Forms
         {
             lock (lockObject)
             {
-                if (!editCache.ContainsKey(guid))
+                if (!editThumbnailCache.ContainsKey(guid))
                 {
-                    Image image = ThumbnailFromEvent(
-                        filename,
-                        this.mImageListView.ThumbnailSize, 
-                        UseEmbeddedThumbnails.Auto, out bool wasThumbnailReadFromFile, out bool didThumbnailReadErrorOccur);
-                    editCache.Add(guid, new Bitmap(image));
-
-                    //using (Image img = RetrieveImageFromExternaThenFromFile(filename))
-                    //{
-                    //    editCache.Add(guid, new Bitmap(img));
-                    //}
+                    Image image = ThumbnailFromEvent(filename, this.mImageListView.ThumbnailSize, UseEmbeddedThumbnails.Auto);
+                    editThumbnailCache.Add(guid, new Bitmap(image));
                 }
             }
         }
 
-        /// <summary>
-        /// Starts editing a virtual item. While items are edited,
-        /// their original images will be seperately cached
-        /// instead of fetching them from the file.
-        /// </summary>
-        /// <param name="guid">The guid representing the item</param>
-        //public void BeginItemEdit(Guid guid)
-        //{
-            
-        //    lock (lockObject)
-        //    {
-        //        if (!editCache.ContainsKey(guid))
-        //        {
-        //            VirtualItemImageEventArgs e = new VirtualItemImageEventArgs(mImageListView.Items[guid].mVirtualItemKey);
-        //            mImageListView.RetrieveVirtualItemImageInternal(e);
-        //            if (!string.IsNullOrWhiteSpace(e.FileName)) editCache.Add(guid, RetrieveImageFromExternaThenFromFile(e.FileName));
-        //        }
-        //    }
-        //}
 
         /// <summary>
         /// Ends editing an item. After this call, item
@@ -427,10 +391,10 @@ namespace Manina.Windows.Forms
         {
             lock (lockObject)
             {
-                if (editCache.ContainsKey(guid))
+                if (editThumbnailCache.ContainsKey(guid))
                 {
-                    editCache[guid].Dispose();
-                    editCache.Remove(guid);
+                    editThumbnailCache[guid].Dispose();
+                    editThumbnailCache.Remove(guid);
                 }
                 if (rendererGuid == guid)
                 {
@@ -751,8 +715,8 @@ namespace Manina.Windows.Forms
                     foreach (CacheItem item in toCache) item.Dispose();
                     toCache.Clear();
 
-                    foreach (Image img in editCache.Values) img.Dispose();
-                    editCache.Clear();
+                    foreach (Image img in editThumbnailCache.Values) img.Dispose();
+                    editThumbnailCache.Clear();
 
                     foreach (CacheItem item in rendererToCache)
                         item.Dispose();
@@ -772,65 +736,19 @@ namespace Manina.Windows.Forms
         #endregion
 
 
-        ////JTN added / To get control
-        //#region RetrieveImageFromExternaThenFromFile
-        //private Image RetrieveImageFromExternaThenFromFile(string fileName)
-        //{
-        //    //Image image;
-        //    RetrieveItemImageEventArgs e = new RetrieveItemImageEventArgs(fileName);
-        //    mImageListView.RetrieveItemImageInternal(e);
-
-        //    //if (e.LoadedImage == null)
-        //    //{
-        //    //    image = Manina.Windows.Forms.Utility.LoadImageWithoutLock(fileName);
-        //    //}
-        //    //else
-        //    //{
-        //    //    image = e.LoadedImage;
-        //    //}
-        //    return e.LoadedImage;
-        //}
-        //#endregion
-
         #region ThumbnailFromFile
-        private Image ThumbnailFromEvent(string fileName, Size size, UseEmbeddedThumbnails useEmbeddedThumbnails, out bool wasThumbnailReadFromFile, out bool didErrorOccur)
+        private Image ThumbnailFromEvent(string fileName, Size size, UseEmbeddedThumbnails useEmbeddedThumbnails)
         {
-            //if (useEmbeddedThumbnails == UseEmbeddedThumbnails.Never)
-            //{
-            //    try
-            //    {
-            //        Image image = RetrieveImageFromExternaThenFromFile(fileName);
-            //        if (image != null)
-            //        image = Utility.ThumbnailFromImage(image, size, Color.White, false);
-            //        wasThumbnailReadFromFile = false;   //Not from file, but from database cache
-            //        didErrorOccur = false;              //Read from database no error 
-            //        return image;
-            //    }
-            //    catch 
-            //    {
-            //        wasThumbnailReadFromFile = false;   //Not from file, but from database cache
-            //        didErrorOccur = true;              //Read from database no error
-            //        return null;
-            //    }
-            //}
-            //else
-            //{
-                try
-                {
-                    RetrieveItemThumbnailEventArgs eRetrieveItemThumbnailEventArgs = new RetrieveItemThumbnailEventArgs(fileName, size);
-                    mImageListView.RetrieveItemThumbnailInternal(eRetrieveItemThumbnailEventArgs); //Read from f.ex. Database cache 
-
-                    wasThumbnailReadFromFile = false;   //Not from file, but from database cache
-                    didErrorOccur = false;              //Read from database no error 
-                    return eRetrieveItemThumbnailEventArgs.Thumbnail;
-                }
-                catch
-                {
-                    wasThumbnailReadFromFile = false;   //Not from file, but from database cache
-                    didErrorOccur = true;              //Read from database no error
-                    return null;
-                }
-            //}
+            try
+            {
+                RetrieveItemThumbnailEventArgs eRetrieveItemThumbnailEventArgs = new RetrieveItemThumbnailEventArgs(fileName, size);
+                mImageListView.RetrieveItemThumbnailInternal(eRetrieveItemThumbnailEventArgs); //Read from f.ex. Database cache 
+                return eRetrieveItemThumbnailEventArgs.Thumbnail;
+            }
+            catch
+            {
+                return null;
+            }
         }
         #endregion
 
@@ -844,7 +762,7 @@ namespace Manina.Windows.Forms
         {
             System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
             
-            while (!Stopping && !stoppingBackgroundThreads)
+            while (!Stopping)
             {
                 Guid guid = new Guid();
                 CacheItem request = null;
@@ -862,7 +780,7 @@ namespace Manina.Windows.Forms
 
                 // Loop until we exhaust the queue
                 bool queueFull = true;
-                while (queueFull && !Stopping && !stoppingBackgroundThreads)
+                while (queueFull && !Stopping)
                 {
                     lock (lockObject)
                     {
@@ -891,38 +809,30 @@ namespace Manina.Windows.Forms
                     }
 
                     if (Stopping) break;
-                    if (stoppingBackgroundThreads) break;
 
                     // Proceed if we have a valid request
                     CacheItem result = null;
-                    if (request != null && !stoppingBackgroundThreads)
+                    if (request != null)
                     {
                         Image thumb = null;
-                        //JTN added
-                        bool wasThumbnailReadFromFile = false;
-                        bool didThumbnailReadErrorOccur = false;
-
+                        
                         // Read thumbnail image
                         if (thumb == null)
                         {
-                            ///JTN Added
-                            if (!stoppingBackgroundThreads)
+                            //Create an event and get Thumb from database, then image thumbnail, then read full image 
+                            try
                             {
-                                //Create an event and get Thumb from database, then image thumbnail, then read full image 
-                                try
+                                //lock (lockObject) 
+                                //{
+                                if (mImageListView != null && mImageListView.IsHandleCreated && !mImageListView.IsDisposed)
                                 {
-                                    //lock (lockObject) 
-                                    //{
-                                    if (mImageListView != null && mImageListView.IsHandleCreated && !mImageListView.IsDisposed)
-                                    {
-                                        Image image;
-                                        image = ThumbnailFromEvent(request.FileName, request.Size, request.UseEmbeddedThumbnails, out wasThumbnailReadFromFile, out didThumbnailReadErrorOccur);
-                                        if (image != null) thumb = image;
-                                    }
-                                    //}
+                                    Image image;
+                                    image = ThumbnailFromEvent(request.FileName, request.Size, request.UseEmbeddedThumbnails);
+                                    if (image != null) thumb = image;
                                 }
-                                catch { }
+                                //}
                             }
+                            catch { }
                         }
 
                         //If not found
@@ -986,7 +896,7 @@ namespace Manina.Windows.Forms
                         {
                             try
                             {
-                                if (mImageListView != null && mImageListView.IsHandleCreated && !mImageListView.IsDisposed && !stoppingBackgroundThreads)
+                                if (mImageListView != null && mImageListView.IsHandleCreated && !mImageListView.IsDisposed)
                                 {
                                     mImageListView.Invoke(new RefreshDelegateInternal(
                                     mImageListView.OnRefreshInternal));
@@ -1018,7 +928,7 @@ namespace Manina.Windows.Forms
                     Dictionary<Guid, bool> visible = new Dictionary<Guid, bool>();
                     try
                     {
-                        if (mImageListView != null && mImageListView.IsHandleCreated && !mImageListView.IsDisposed && !stoppingBackgroundThreads)
+                        if (mImageListView != null && mImageListView.IsHandleCreated && !mImageListView.IsDisposed)
                         {
                             visible = (Dictionary<Guid, bool>)mImageListView.Invoke(
                                 new GetVisibleItemsDelegateInternal(mImageListView.GetVisibleItems));
@@ -1066,7 +976,7 @@ namespace Manina.Windows.Forms
                 {
                     try
                     {
-                        if (mImageListView != null && mImageListView.IsHandleCreated && !mImageListView.IsDisposed && !stoppingBackgroundThreads)
+                        if (mImageListView != null && mImageListView.IsHandleCreated && !mImageListView.IsDisposed)
                         {
                             mImageListView.Invoke(new RefreshDelegateInternal(mImageListView.OnRefreshInternal));
                         }
