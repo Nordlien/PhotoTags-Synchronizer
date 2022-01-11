@@ -50,6 +50,39 @@ namespace PhotoTagsSynchronizer
         //ImageListView_UpdateItemFileStatusInvoke(fullFileName, fileStatus);
         //ImageListView_UpdateItemFileStatusInvoke(fullFileName);
 
+        private Dictionary<string, FileStatus> cacheFileStatus = new Dictionary<string, FileStatus>();
+        private object cacheFileStatusLock = new object();
+        private void ImageListViewItemPushFileStatus(string fullFileName, FileStatus fileStatus)
+        {
+            lock (cacheFileStatusLock)
+            {
+                if (!cacheFileStatus.ContainsKey(fullFileName)) cacheFileStatus.Add(fullFileName, fileStatus);
+                else cacheFileStatus[fullFileName] = fileStatus;
+            }
+        }
+
+        private void ImageListViewItemUpdateFileStatus(string fullFileName, FileStatus fileStatus)
+        {
+            lock (cacheFileStatusLock)
+            {
+                if (cacheFileStatus.ContainsKey(fullFileName)) cacheFileStatus[fullFileName] = fileStatus;
+            }
+        }
+
+        private FileStatus ImageListViewItemPullFileStatus(string fullFileName)
+        {
+            FileStatus fileStatus = null;
+            lock (cacheFileStatusLock)
+            {
+                if (cacheFileStatus.ContainsKey(fullFileName))
+                {
+                    fileStatus = cacheFileStatus[fullFileName];
+                    cacheFileStatus.Remove(fullFileName);
+                }
+            }
+            return fileStatus;
+        }
+
         #region ImageListView_UpdatedThumbnail_RefreshAll
         private void ImageListView_UpdatedThumbnail_RefreshAll(FileEntry fileEntry)
         {
@@ -62,14 +95,12 @@ namespace PhotoTagsSynchronizer
             ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fileEntry.FileFullPath);
             if (foundItem != null)
             {
-                if (!foundItem.IsItemDirty())
+                //if (!foundItem.IsItemDirty())
                 {
-                    foundItem.Update();
+                    ImageListViewItemPushFileStatus(fileEntry.FileFullPath, foundItem.FileStatus);
+                    foundItem.Update();   
                 }
-                else
-                {
-                    //DEBUG
-                }
+                
             }
         }
         #endregion
@@ -101,6 +132,7 @@ namespace PhotoTagsSynchronizer
                 if (foundItem != null)
                 {
                     //foundItem.BeginEdit();
+                    ImageListViewItemUpdateFileStatus(fullFileName, fileStatus);
                     foundItem.FileStatus = fileStatus;
                     foundItem.Invalidate();
                     //foundItem.EndEdit();
@@ -112,7 +144,7 @@ namespace PhotoTagsSynchronizer
                 Logger.Error(ex);
             }
         }
-        #endregion
+        #endregion      
 
         #region ImageListView - Update Exiftool Metadata - Invoke
         private void ImageListView_UpdateItemExiftoolMetadataInvoke(FileEntryAttribute fileEntryAttribute)
@@ -220,6 +252,10 @@ namespace PhotoTagsSynchronizer
         #region ImageListView - Event - Retrieve Metadata
         private void imageListView1_RetrieveItemMetadataDetails(object sender, RetrieveItemMetadataDetailsEventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (GlobalData.DoNotRefreshImageListView) return;
+            if (imageListView1.IsDisposed) return;
+
             FileEntryBroker fileEntryBroker = new FileEntryBroker(e.FileName, File.GetLastWriteTime(e.FileName), MetadataBrokerType.ExifTool);
             Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBroker);
 
@@ -227,7 +263,8 @@ namespace PhotoTagsSynchronizer
             try
             {
                 #region Update FileStatus
-                FileStatus fileStatus = FileHandler.GetFileStatus(e.FileName);
+                FileStatus fileStatus = ImageListViewItemPullFileStatus(e.FileName);
+                if (fileStatus == null) fileStatus = FileHandler.GetFileStatus(e.FileName);
                 #endregion
 
                 if (metadata == null || metadata.FileName == null)

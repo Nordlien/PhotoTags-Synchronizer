@@ -105,8 +105,10 @@ namespace Manina.Windows.Forms
 
                     // Get item image
                     Image img = null;
+                    
                     if ((state & ItemState.Hovered) != ItemState.None)
                         img = GetImageAsync(item, new Size(bounds.Width - 8, bounds.Height - 8));
+
                     if (img == null) img = item.ThumbnailImage;
 
                     // Calculate image bounds
@@ -158,7 +160,8 @@ namespace Manina.Windows.Forms
                     }
 
                     // Draw the image
-                    g.DrawImage(img, imageX, imageY, imageWidth, imageHeight);
+                    //g.DrawImage(img, pos);
+                    DrawThumbnai(g, item, img, pos);
 
                     // Draw image border
                     if (Math.Min(imageWidth, imageHeight) > 32)

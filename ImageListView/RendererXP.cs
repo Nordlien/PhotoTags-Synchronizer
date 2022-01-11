@@ -64,7 +64,9 @@ namespace Manina.Windows.Forms
                     {
                         Rectangle border = new Rectangle(bounds.Location + itemPadding, ImageListView.ThumbnailSize);
                         Rectangle pos = Utility.GetSizedImageBounds(img, border);
-                        g.DrawImage(img, pos);
+
+                        //g.DrawImage(img, pos);
+                        DrawThumbnai(g, item, img, pos);
 
                         // Draw image border
                         if (ImageListView.Focused && ((state & ItemState.Selected) != ItemState.None))

@@ -1587,7 +1587,7 @@ namespace Exiftool
             {
                 try
                 {
-                    if (process != null) process.Kill();
+                    if (process != null && !process.HasExited) process.Kill();
                 }
                 catch { }
 

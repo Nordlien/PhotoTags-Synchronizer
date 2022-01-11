@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
@@ -84,6 +81,8 @@ namespace Manina.Windows.Forms
                 else
                     return base.MeasureItem(view);
             }
+
+
             /// <summary>
             /// Draws the specified item on the given graphics.
             /// </summary>
@@ -131,6 +130,9 @@ namespace Manina.Windows.Forms
                     {
                         Rectangle pos = Utility.GetSizedImageBounds(img, new Rectangle(bounds.Location + itemPadding, ImageListView.ThumbnailSize), 0.0f, 50.0f);
                         g.DrawImage(img, pos);
+
+                        DrawThumbnai(g, item, img, pos);
+                        
                         // Draw image border
                         if (Math.Min(pos.Width, pos.Height) > 32)
                         {

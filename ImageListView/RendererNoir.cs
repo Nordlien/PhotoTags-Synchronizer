@@ -245,6 +245,8 @@ namespace Manina.Windows.Forms
 
                     // Draw item image
                     DrawImageWithReflection(g, img, pos, mReflectionSize);
+                    DrawThumbnai(g, item, img, pos, drawThumbnail: false);
+
 
                     // Highlight
                     using (Pen pen = new Pen(Color.FromArgb(160, Color.White)))
@@ -533,7 +535,7 @@ namespace Manina.Windows.Forms
             {
                 // Draw the image
                 g.DrawImage(img, x, y + 1, width, height);
-
+                
                 // Draw the reflection
                 if (img.Width > 32 && img.Height > 32)
                 {

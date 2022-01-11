@@ -467,7 +467,7 @@ namespace Manina.Windows.Forms
         /// Gets the unique identifier for this item.
         /// </summary>
         [Category("Behavior"), Browsable(false), Description("Gets the unique identifier for this item.")]
-        internal Guid Guid { get { return mGuid; } private set { mGuid = value; } }
+        public Guid Guid { get { return mGuid; } private set { mGuid = value; } }
         #endregion
 
         #region object VirtualItemKey
