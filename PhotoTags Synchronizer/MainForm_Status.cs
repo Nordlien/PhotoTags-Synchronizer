@@ -811,6 +811,11 @@ namespace PhotoTagsSynchronizer
         {
             if (queueRemainding > progressBarLazyLoading.Maximum) progressBarLazyLoading.Maximum = queueRemainding;
             if (queueRemainding == 0) progressBarLazyLoading.Maximum = 0;
+            if (queueRemainding == -1)
+            {
+                progressBarLazyLoading.Maximum = 0;
+                queueRemainding = 0;
+            }
             progressBarLazyLoading.Value = progressBarLazyLoading.Maximum - queueRemainding;
             SetButtonSpecNavigator(buttonSpecNavigatorDataGridViewProgressCircle, progressBarLazyLoading.Value, progressBarLazyLoading.Maximum);
         }

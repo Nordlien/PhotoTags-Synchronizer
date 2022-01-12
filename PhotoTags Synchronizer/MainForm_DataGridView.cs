@@ -60,7 +60,7 @@ namespace PhotoTagsSynchronizer
                     case LinkTabAndDataGridViewNameRename:
                         return dataGridViewRename;
                     case LinkTabAndDataGridViewNameConvertAndMerge:
-                        return dataGridViewConvertAndMerge; 
+                        return dataGridViewConvertAndMerge;
                     default:
                         return null;
                 }
@@ -79,7 +79,7 @@ namespace PhotoTagsSynchronizer
         {
             if (kryptonWorkspaceCellToolbox.SelectedPage == null)
                 return null;
-                
+
             return kryptonWorkspaceCellToolbox.SelectedPage.Tag.ToString();
         }
         #endregion
@@ -140,7 +140,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        
+
 
         #region DataGridView - Populate - SelectedExtrasDropdownAndColumnSizesInvoke (Populate DataGridView Extras)
         private void DataGridView_Populate_ExtrasAsDropdownAndColumnSizesInvoke()
@@ -205,8 +205,8 @@ namespace PhotoTagsSynchronizer
                 #endregion
 
                 FileEntryVersionCompare fileEntryVersionCompareDebug;
-                
-                bool isDirty; 
+
+                bool isDirty;
                 if (isFilSelectedInImageListView)
                 {
                     DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, isFilSelectedInImageListView); //Will not suspend when Column Don't exist, but counter will increase
@@ -255,8 +255,8 @@ namespace PhotoTagsSynchronizer
                             if (DataGridViewHandlerMap.HasBeenInitialized) DataGridViewHandlerMap.PopulateFile(dataGridViewMap, dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             if (DataGridViewHandlerDate.HasBeenInitialized) DataGridViewHandlerDate.PopulateFile(dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             if (DataGridViewHandlerRename.HasBeenInitialized) DataGridViewHandlerRename.PopulateFile(dataGridViewRename, fileEntryAttribute, DataGridViewHandlerRename.ShowFullPath, metadataAutoCorrect, true);
-                            
-                            isDirty = IsDataGridViewColumnDirty(dataGridView, columnIndex, out differences);                            
+
+                            isDirty = IsDataGridViewColumnDirty(dataGridView, columnIndex, out differences);
                             if (DataGridViewHandler.IsColumnPopulated(dataGridViewTagsAndKeywords, columnIndex)) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewTagsAndKeywords, columnIndex, isDirty, differences);
                             if (DataGridViewHandler.IsColumnPopulated(dataGridViewPeople, columnIndex)) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewPeople, columnIndex, isDirty, differences);
                             if (DataGridViewHandler.IsColumnPopulated(dataGridViewMap, columnIndex)) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewMap, columnIndex, isDirty, differences);
@@ -290,7 +290,7 @@ namespace PhotoTagsSynchronizer
                             if (DataGridViewHandler.IsColumnPopulated(dataGridViewTagsAndKeywords, columnIndex)) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewTagsAndKeywords, columnIndex, isDirty, differences);
                             if (DataGridViewHandler.IsColumnPopulated(dataGridViewPeople, columnIndex)) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewPeople, columnIndex, isDirty, differences);
                             if (DataGridViewHandler.IsColumnPopulated(dataGridViewMap, columnIndex)) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewMap, columnIndex, isDirty, differences);
-                            if (DataGridViewHandler.IsColumnPopulated(dataGridViewDate, columnIndex)) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewDate, columnIndex, isDirty, differences); 
+                            if (DataGridViewHandler.IsColumnPopulated(dataGridViewDate, columnIndex)) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewDate, columnIndex, isDirty, differences);
                             break;
 
                         case LinkTabAndDataGridViewNameExiftool:
@@ -307,7 +307,7 @@ namespace PhotoTagsSynchronizer
                             if (DataGridViewHandler.IsColumnPopulated(dataGridViewTagsAndKeywords, columnIndex)) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewTagsAndKeywords, columnIndex, isDirty, differences);
                             if (DataGridViewHandler.IsColumnPopulated(dataGridViewPeople, columnIndex)) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewPeople, columnIndex, isDirty, differences);
                             if (DataGridViewHandler.IsColumnPopulated(dataGridViewMap, columnIndex)) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewMap, columnIndex, isDirty, differences);
-                            if (DataGridViewHandler.IsColumnPopulated(dataGridViewDate, columnIndex)) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewDate, columnIndex, isDirty, differences); 
+                            if (DataGridViewHandler.IsColumnPopulated(dataGridViewDate, columnIndex)) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewDate, columnIndex, isDirty, differences);
                             break;
                         case LinkTabAndDataGridViewNameWarnings:
                             DataGridViewHandlerExiftoolWarnings.PopulateFile(dataGridViewExiftoolWarning, fileEntryAttribute, showWhatColumns);
@@ -323,7 +323,7 @@ namespace PhotoTagsSynchronizer
                             if (DataGridViewHandler.IsColumnPopulated(dataGridViewTagsAndKeywords, columnIndex)) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewTagsAndKeywords, columnIndex, isDirty, differences);
                             if (DataGridViewHandler.IsColumnPopulated(dataGridViewPeople, columnIndex)) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewPeople, columnIndex, isDirty, differences);
                             if (DataGridViewHandler.IsColumnPopulated(dataGridViewMap, columnIndex)) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewMap, columnIndex, isDirty, differences);
-                            if (DataGridViewHandler.IsColumnPopulated(dataGridViewDate, columnIndex)) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewDate, columnIndex, isDirty, differences); 
+                            if (DataGridViewHandler.IsColumnPopulated(dataGridViewDate, columnIndex)) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewDate, columnIndex, isDirty, differences);
                             break;
                         case LinkTabAndDataGridViewNameProperties:
                             DataGridViewHandlerProperties.PopulateFile(dataGridViewProperties, fileEntryAttribute, showWhatColumns);
@@ -339,7 +339,7 @@ namespace PhotoTagsSynchronizer
                             if (DataGridViewHandler.IsColumnPopulated(dataGridViewTagsAndKeywords, columnIndex)) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewTagsAndKeywords, columnIndex, isDirty, differences);
                             if (DataGridViewHandler.IsColumnPopulated(dataGridViewPeople, columnIndex)) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewPeople, columnIndex, isDirty, differences);
                             if (DataGridViewHandler.IsColumnPopulated(dataGridViewMap, columnIndex)) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewMap, columnIndex, isDirty, differences);
-                            if (DataGridViewHandler.IsColumnPopulated(dataGridViewDate, columnIndex)) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewDate, columnIndex, isDirty, differences); 
+                            if (DataGridViewHandler.IsColumnPopulated(dataGridViewDate, columnIndex)) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewDate, columnIndex, isDirty, differences);
                             break;
                         case LinkTabAndDataGridViewNameRename:
                             DataGridViewHandlerRename.PopulateFile(dataGridViewRename, fileEntryAttribute, DataGridViewHandlerRename.ShowFullPath, metadataAutoCorrect, true);
@@ -355,7 +355,7 @@ namespace PhotoTagsSynchronizer
                             if (DataGridViewHandler.IsColumnPopulated(dataGridViewTagsAndKeywords, columnIndex)) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewTagsAndKeywords, columnIndex, isDirty, differences);
                             if (DataGridViewHandler.IsColumnPopulated(dataGridViewPeople, columnIndex)) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewPeople, columnIndex, isDirty, differences);
                             if (DataGridViewHandler.IsColumnPopulated(dataGridViewMap, columnIndex)) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewMap, columnIndex, isDirty, differences);
-                            if (DataGridViewHandler.IsColumnPopulated(dataGridViewDate, columnIndex)) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewDate, columnIndex, isDirty, differences); 
+                            if (DataGridViewHandler.IsColumnPopulated(dataGridViewDate, columnIndex)) DataGridViewHandler.SetColumnDirtyFlag(dataGridViewDate, columnIndex, isDirty, differences);
                             break;
                         case LinkTabAndDataGridViewNameConvertAndMerge:
                             DataGridViewHandlerConvertAndMerge.PopulateFile(dataGridViewConvertAndMerge, fileEntryAttribute);
@@ -392,7 +392,9 @@ namespace PhotoTagsSynchronizer
                     #endregion
 
                     int queueCount = GetDataGridView_ColumnsEntriesInReadQueues_Count();
-                    LazyLoadingDataGridViewProgressUpdateStatus(queueCount); //Update progressbar when File In DataGridView
+                    //LazyLoadingDataGridViewProgressUpdateStatus(queueCount); //Update progressbar when File In DataGridView
+                    LazyLoadingDataGridViewProgressUpdateStatus(GetCircleProgressCount(true, 0));
+
                     if (queueCount == 0) DataGridView_Populate_ExtrasAsDropdownAndColumnSizesInvoke();
 
                     DataGridViewHandler.ResumeLayoutDelayed(dataGridView); //Will resume when counter reach 0
@@ -408,7 +410,7 @@ namespace PhotoTagsSynchronizer
 
             foreach (FileEntry fileEntry in imageListViewSelectItems)
             {
-                List<FileEntryAttribute> fileEntryAttributeDateVersions = 
+                List<FileEntryAttribute> fileEntryAttributeDateVersions =
                     databaseAndCacheMetadataExiftool.ListFileEntryAttributesCache(MetadataBrokerType.ExifTool, fileEntry.FileFullPath);
                 lazyLoadingAllExiftoolVersionOfMediaFile.AddRange(fileEntryAttributeDateVersions);
                 //AddQueueReadFromSourceIfMissing_AllSoruces(FileEntry fileEntry)
@@ -424,7 +426,8 @@ namespace PhotoTagsSynchronizer
         #region DataGridView - Populate Selected Files - OnActiveDataGridView - Thread
         private void DataGridView_Populate_SelectedItemsThread(HashSet<FileEntry> imageListViewSelectItems)
         {
-            LazyLoadingDataGridViewProgressUpdateStatus(imageListViewSelectItems.Count + 5);
+            LazyLoadingDataGridViewProgressUpdateStatus(GetCircleProgressCount(true, 5));
+
             Thread threadPopulateDataGridView = new Thread(() => {
                 DataGridView_Populate_SelectedItemsInvoke(imageListViewSelectItems);
             });
@@ -432,6 +435,17 @@ namespace PhotoTagsSynchronizer
             threadPopulateDataGridView.Start();
         }
         #endregion
+
+        private int GetCircleProgressCount(bool showProgressCircle, int populateProgress)
+        {
+            if (!showProgressCircle) return 0; //imageListViewSelectItems.Count
+            //If Lazy Loading queue is 0, means that Data is mising. This occure when was not able to read Exiftool data due e.g. locked file.
+            int queueCount;
+            if (CommonQueueLazyLoadingAllSourcesAllMetadataAndThumbnailCountLock() == 0) queueCount = 0;
+            else queueCount = GetDataGridView_ColumnsEntriesInReadQueues_Count() + populateProgress;
+
+            return queueCount + populateProgress;
+        }
 
         #region DataGridView - Populate Selected Files - OnActiveDataGridView - Invoke 
         /// <summary>
@@ -444,13 +458,13 @@ namespace PhotoTagsSynchronizer
             
             if (this.InvokeRequired)
             {
-                LazyLoadingDataGridViewProgressUpdateStatus(imageListViewSelectItems.Count + 4);
+                LazyLoadingDataGridViewProgressUpdateStatus(GetCircleProgressCount(true, 4));
                 BeginInvoke(new Action<HashSet<FileEntry>>(DataGridView_Populate_SelectedItemsInvoke), imageListViewSelectItems);
                 return;
             }
-
-            LazyLoadingDataGridViewProgressUpdateStatus(imageListViewSelectItems.Count + 3);
             if (GlobalData.IsApplicationClosing) return;
+
+            LazyLoadingDataGridViewProgressUpdateStatus(GetCircleProgressCount(true, 3));
 
             lock (GlobalData.populateSelectedLock)
             {
@@ -521,11 +535,11 @@ namespace PhotoTagsSynchronizer
 
                     if (dataGridView == null || DataGridViewHandler.GetIsAgregated(dataGridView))
                     {
-                        LazyLoadingDataGridViewProgressUpdateStatus(0);
+                        LazyLoadingDataGridViewProgressUpdateStatus(GetCircleProgressCount(true, 0));
                         return;
                     }
 
-                    LazyLoadingDataGridViewProgressUpdateStatus(imageListViewSelectItems.Count + 2);
+                    LazyLoadingDataGridViewProgressUpdateStatus(GetCircleProgressCount(true, 2));
                     List<FileEntryAttribute> lazyLoading;
                     DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, true);
 
@@ -642,11 +656,11 @@ namespace PhotoTagsSynchronizer
                     #endregion
 
                     DataGridViewHandler.ResumeLayoutDelayed(dataGridView);
-                    LazyLoadingDataGridViewProgressUpdateStatus(imageListViewSelectItems.Count + 1);
-                    if (!showProgressCircle) LazyLoadingDataGridViewProgressUpdateStatus(0);
+                    
+                    LazyLoadingDataGridViewProgressUpdateStatus(GetCircleProgressCount(showProgressCircle, 0));
                 } //Cursor
                 
-                if (imageListViewSelectItems.Count == 0) LazyLoadingDataGridViewProgressUpdateStatus(0);
+                if (imageListViewSelectItems.Count == 0) LazyLoadingDataGridViewProgressUpdateStatus(-1);
             }
             StartThreads();
         }

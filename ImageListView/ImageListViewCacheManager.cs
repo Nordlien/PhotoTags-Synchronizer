@@ -746,48 +746,7 @@ namespace Manina.Windows.Forms
             return e.LoadedImage;
         }
         #endregion
-        /*
-        #region ThumbnailFromFile
-        private Image ThumbnailFromEvent(string fileName, Size size, UseEmbeddedThumbnails useEmbeddedThumbnails, out bool wasThumbnailReadFromFile, out bool didErrorOccur)
-        {
-            //if (useEmbeddedThumbnails == UseEmbeddedThumbnails.Never)
-            //{
-            //    try
-            //    {
-            //        Image image = RetrieveImageFromExternaThenFromFile(fileName);
-            //        if (image != null)
-            //        image = Utility.ThumbnailFromImage(image, size, Color.White, false);
-            //        wasThumbnailReadFromFile = false;   //Not from file, but from database cache
-            //        didErrorOccur = false;              //Read from database no error 
-            //        return image;
-            //    }
-            //    catch 
-            //    {
-            //        wasThumbnailReadFromFile = false;   //Not from file, but from database cache
-            //        didErrorOccur = true;              //Read from database no error
-            //        return null;
-            //    }
-            //}
-            //else
-            //{
-                try
-                {
-                    RetrieveItemThumbnailEventArgs eRetrieveItemThumbnailEventArgs = new RetrieveItemThumbnailEventArgs(fileName, size);
-                    mImageListView.RetrieveItemThumbnailInternal(eRetrieveItemThumbnailEventArgs); //Read from f.ex. Database cache 
-
-                    wasThumbnailReadFromFile = false;   //Not from file, but from database cache
-                    didErrorOccur = false;              //Read from database no error 
-                    return eRetrieveItemThumbnailEventArgs.Thumbnail;
-                }
-                catch
-                {
-                    wasThumbnailReadFromFile = false;   //Not from file, but from database cache
-                    didErrorOccur = true;              //Read from database no error
-                    return null;
-                }
-            //}
-        }
-        */
+        
         #region ThumbnailFromFile
         private Image ThumbnailFromEvent(string fileName, Size size, UseEmbeddedThumbnails useEmbeddedThumbnails)
         {
