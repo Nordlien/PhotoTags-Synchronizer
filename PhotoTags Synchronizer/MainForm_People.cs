@@ -198,7 +198,7 @@ namespace PhotoTagsSynchronizer
                     DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, dataGridViewCell.ColumnIndex);
                     if (dataGridViewGenericColumn != null)
                     {
-                        Image imageCoverArt = LoadMediaCoverArtPoster(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath);
+                        Image imageCoverArt = LoadMediaCoverArtPosterWithCache(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath);
                         if (imageCoverArt != null)
                         {
                             DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, dataGridViewCell.RowIndex);
@@ -879,7 +879,7 @@ namespace PhotoTagsSynchronizer
                     if (dataGridViewGenericRow.IsHeader) { formRegionSelect.SetImageNone(errorMessag); return; }
 
                     formRegionSelect.SetImageText(Path.Combine(dataGridViewGenericRow.HeaderName, dataGridViewGenericRow.RowName));
-                    Image image = LoadMediaCoverArtPoster(Path.Combine(dataGridViewGenericRow.HeaderName, dataGridViewGenericRow.RowName));
+                    Image image = LoadMediaCoverArtPosterWithCache(Path.Combine(dataGridViewGenericRow.HeaderName, dataGridViewGenericRow.RowName));
                     formRegionSelect.SetImage(image, "Showing: " + dataGridViewGenericRow.RowName, imageBoxSelectionMode);
                 }
                 else
@@ -908,7 +908,7 @@ namespace PhotoTagsSynchronizer
                     {
                         DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnSelected);
                         formRegionSelect.SetImageText(dataGridViewGenericColumn.FileEntryAttribute.FileName);
-                        Image image = LoadMediaCoverArtPoster(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath);
+                        Image image = LoadMediaCoverArtPosterWithCache(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath);
                         formRegionSelect.SetImage(image, "Showing: " + dataGridViewGenericColumn.FileEntryAttribute.FileName, imageBoxSelectionMode);
                     }
                     else
@@ -936,7 +936,7 @@ namespace PhotoTagsSynchronizer
                          
 
                         formRegionSelect.SetImageText(dataGridViewGenericColumn.Metadata.FileFullPath);
-                        Image image = LoadMediaCoverArtPoster(dataGridViewGenericColumn.Metadata.FileFullPath);
+                        Image image = LoadMediaCoverArtPosterWithCache(dataGridViewGenericColumn.Metadata.FileFullPath);
                         if (image != null)
                         {
                             RegionStructure region = DataGridViewHandler.GetCellRegionStructure(dataGridView, columnIndex, rowIndex);

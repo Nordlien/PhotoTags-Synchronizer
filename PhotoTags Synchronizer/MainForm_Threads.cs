@@ -2198,7 +2198,7 @@ namespace PhotoTagsSynchronizer
                                                                 {
                                                                     FileStatus fileStatus = FileHandler.GetFileStatus(current_FileEntryBrokerRegion.FileFullPath);
                                                                     if (!fileStatus.IsInCloudOrVirtualOrOffline)
-                                                                        image = LoadMediaCoverArtPoster(current_FileEntryBrokerRegion.FileFullPath);
+                                                                        image = LoadMediaCoverArtPosterWithCache(current_FileEntryBrokerRegion.FileFullPath);
                                                                     else if (fileStatus.IsInCloudOrVirtualOrOffline && !dontReadFilesInCloud)
                                                                     {
                                                                         if (!FileHandler.IsOfflineFileTouched(current_FileEntryBrokerRegion.FileFullPath))

@@ -132,7 +132,7 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region Thumbnail - LoadMediaCoverArtPoster
-        private Image LoadMediaCoverArtPoster(string fullFilePath) //, bool dontReadFilesInCloud, bool isFileInCloud)
+        private Image LoadMediaCoverArtPosterWithCache(string fullFilePath) //, bool dontReadFilesInCloud, bool isFileInCloud)
         {
             Image image = PosterCacheRead(fullFilePath);
             if (image != null) return image; //Found in cache
@@ -186,7 +186,7 @@ namespace PhotoTagsSynchronizer
                     image = windowsPropertyReader.GetThumbnail(fullFilePath);
 
                     //DO NOT READ FROM FILE - WHEN NOT ALLOWED TO READ CLOUD FILES
-                    if (image == null && !fileStatus.IsInCloudOrVirtualOrOffline) image = LoadMediaCoverArtPoster(fullFilePath);
+                    if (image == null && !fileStatus.IsInCloudOrVirtualOrOffline) image = LoadMediaCoverArtPosterWithCache(fullFilePath);
                     #endregion
                 }
                 else if (ImageAndMovieFileExtentionsUtility.IsImageFormat(fullFilePath))
@@ -199,7 +199,7 @@ namespace PhotoTagsSynchronizer
                     if (image == null && !fileStatus.IsInCloudOrVirtualOrOffline)
                     {
                         image = ImageAndMovieFileExtentionsUtility.ThumbnailFromFile(fullFilePath); //Fast version - onlt load thumbnail from file
-                        if (image == null ) image = LoadMediaCoverArtPoster(fullFilePath); //Slow loading, load full image
+                        if (image == null ) image = LoadMediaCoverArtPosterWithCache(fullFilePath); //Slow loading, load full image
                     }
                     #endregion
                 }

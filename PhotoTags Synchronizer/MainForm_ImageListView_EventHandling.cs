@@ -486,7 +486,7 @@ namespace PhotoTagsSynchronizer
             {
                 try
                 {
-                    Image fullSizeImage = LoadMediaCoverArtPoster(e.FullFilePath);
+                    Image fullSizeImage = LoadMediaCoverArtPosterWithCache(e.FullFilePath);
                     e.LoadedImage = fullSizeImage;
                 }
                 #region OutOfMemory, IOException (OneDrive issues) - Error handling
