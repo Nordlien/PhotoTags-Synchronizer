@@ -7,7 +7,6 @@ using Manina.Windows.Forms;
 using MetadataLibrary;
 using FileHandeling;
 using Krypton.Toolkit;
-using System.Threading.Tasks;
 
 namespace PhotoTagsSynchronizer
 {

@@ -405,6 +405,12 @@ namespace DataGridViewGeneric
         }
         #endregion
 
+        #region DataGridViewAllowUserToAddRows
+        public static void SetDataGridViewAllowUserToAddRows(DataGridView dataGridView, bool allowUserToAddRows)
+        {
+            dataGridView.AllowUserToAddRows = allowUserToAddRows;
+        }
+        #endregion
 
         #region DataGridView Handling - GetTopColumnHeaderHeigth
         //DataGridView Size for Column and Row Header, Row / Column size and resize 

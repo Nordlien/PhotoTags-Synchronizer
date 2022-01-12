@@ -2018,8 +2018,9 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.SetIsPopulating(dataGridView, true);
             //Clear current DataGridView
             DataGridViewHandler.Clear(dataGridView, dataGridViewSize);
+            DataGridViewHandler.SetDataGridViewAllowUserToAddRows(dataGridView, false);
             //Add Columns for all selected files, one column per select file
-            
+
             DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
                 new FileEntryAttribute(headerConvertAndMergeFilename, DateTime.Now, FileEntryVersion.CurrentVersionInDatabase), null, null,
                 ReadWriteAccess.AllowCellReadAndWrite, showWhatColumns, new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true), out _);

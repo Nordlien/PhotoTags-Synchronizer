@@ -558,17 +558,6 @@ namespace PhotoTagsSynchronizer
                 #endregion
             } while (retry);
             #endregion 
-
-            //try
-            //{
-            //    FileEntry fileEntryFound = ImageListViewHandler.GetFileEntryFromSelectedFilesCached(imageListView1, e.FullFilePath);
-            //    if (fileEntryFound != null) 
-            //        DataGridView_UpdateColumnThumbnail_OnFileEntryAttribute(new FileEntryAttribute(fileEntryFound, FileEntryVersion.CurrentVersionInDatabase), e.LoadedImage); //Also show error thumbnail
-            //} catch (Exception ex)
-            //{
-            //    Logger.Error(ex, "imageListView1_RetrieveImage failed on: " + e.FullFilePath);
-            //}
-
         }
         #endregion
 

@@ -245,6 +245,8 @@ namespace PhotoTagsSynchronizer
 
             if (FileEntryVersionHandler.NeedUpdate(fileEntryVersionCompareReason))
             {
+                DataGridViewHandler.SetDataGridViewAllowUserToAddRows(dataGridView, true);
+
                 AddRowHeader(dataGridView, columnIndex, new DataGridViewGenericRow(headerPeople), false);
 
                 //Remove column data, due to Populate People append data - 
@@ -382,6 +384,7 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.SetIsPopulating(dataGridView, true);
             //Clear current DataGridView
             DataGridViewHandler.Clear(dataGridView, dataGridViewSize);
+            DataGridViewHandler.SetDataGridViewAllowUserToAddRows(dataGridView, false);
             //Add Columns for all selected files, one column per select file
             DataGridViewHandlerCommon.AddColumnSelectedFiles(dataGridView, DatabaseAndCacheThumbnail, imageListViewSelectItems, ReadWriteAccess.ForceCellToReadOnly, showWhatColumns,
                 new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true)); //ReadOnly until data is read 
