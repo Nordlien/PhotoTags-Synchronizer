@@ -196,6 +196,8 @@ namespace MetadataLibrary
                         case FileEntryVersion.Error: //is store in DataGridView Column
                             //Need continue the search
                             return FileEntryVersionCompare.LostNoneEqualFound;
+                        case FileEntryVersion.NotAvailable:
+                            return FileEntryVersionCompare.LostNoneEqualFound;
                         default:
                             throw new NotImplementedException();
                     }
@@ -219,6 +221,8 @@ namespace MetadataLibrary
                         default:
                             throw new NotImplementedException();
                     }
+                case FileEntryVersion.NotAvailable:
+                    return FileEntryVersionCompare.LostNoneEqualFound;
                 default:
                     throw new NotImplementedException();
             }

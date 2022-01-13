@@ -44,14 +44,12 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        //DataGridView_ImageListView_Populate_FileEntryAttributeInvoke(fileEntryAttribute);
-        //ImageListView_UpdateItemExiftoolMetadataInvoke(fileEntryAttribute);
-        //ImageListView_UpdatedThumbnail_RefreshAll(fileEntryAttribute);
-        //ImageListView_UpdateItemFileStatusInvoke(fullFileName, fileStatus);
-        //ImageListView_UpdateItemFileStatusInvoke(fullFileName);
-
+        
         private Dictionary<string, FileStatus> cacheFileStatus = new Dictionary<string, FileStatus>();
         private object cacheFileStatusLock = new object();
+
+        #region ImageListViewItemPushFileStatus
+
         private void ImageListViewItemPushFileStatus(string fullFileName, FileStatus fileStatus)
         {
             lock (cacheFileStatusLock)
@@ -60,7 +58,9 @@ namespace PhotoTagsSynchronizer
                 else cacheFileStatus[fullFileName] = fileStatus;
             }
         }
+        #endregion
 
+        #region ImageListViewItemUpdateFileStatus
         private void ImageListViewItemUpdateFileStatus(string fullFileName, FileStatus fileStatus)
         {
             lock (cacheFileStatusLock)
@@ -68,7 +68,9 @@ namespace PhotoTagsSynchronizer
                 if (cacheFileStatus.ContainsKey(fullFileName)) cacheFileStatus[fullFileName] = fileStatus;
             }
         }
+        #endregion
 
+        #region ImageListViewItemPullFileStatus
         private FileStatus ImageListViewItemPullFileStatus(string fullFileName)
         {
             FileStatus fileStatus = null;
@@ -82,6 +84,7 @@ namespace PhotoTagsSynchronizer
             }
             return fileStatus;
         }
+        #endregion
 
         #region ImageListView_UpdatedThumbnail_RefreshAll
         private void ImageListView_UpdatedThumbnail_RefreshAll(FileEntry fileEntry)
@@ -170,7 +173,9 @@ namespace PhotoTagsSynchronizer
                         ConvertMetadataToShellImageFileInfo(ref fileMetadata, metadata);
                         if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.Error)
                         {
-                            fileMetadata.FileStatus.FileInaccessibleOrError = true;
+                            FileStatus fileStatus = FileHandler.GetFileStatus(fileEntryAttribute.FileFullPath, exiftoolProcessStatus: ExiftoolProcessStatus.FileInaccessibleOrError,
+                                checkLockedStatus: true);
+                            fileMetadata.FileStatus = fileStatus;
                         }
 
                         foundItem.UpdateDetails(fileMetadata);

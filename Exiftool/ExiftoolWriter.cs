@@ -288,31 +288,31 @@ namespace Exiftool
             message = "";
             metadataUpdatedByUserCopy = null;
 
+            if (metadataWrittenByExiftoolWaitVerify.Count == 0) 
+                return false;
+
             bool foundErrors = false;
 
-            int verifyPosition = Metadata.FindFileEntryInList(metadataWrittenByExiftoolWaitVerify, metadataRead.FileEntryBroker);
-            if (verifyPosition == -1)
+            int verifyPosition = Metadata.FindFullFilenameInList(metadataWrittenByExiftoolWaitVerify, metadataRead.FileEntryBroker.FileFullPath);
+            if (verifyPosition != -1)
             {
-                verifyPosition = Metadata.FindFullFilenameInList(metadataWrittenByExiftoolWaitVerify, metadataRead.FileEntryBroker.FileFullPath);
-                if (verifyPosition != -1)
+                //Debug way was not date updated, metadate read FileDateCreate date is Older Than Metadata acctual file.
+                //Remove from list and add back to Read Exif once more
+                if (metadataRead.FileEntryBroker.LastWriteDateTime > metadataWrittenByExiftoolWaitVerify[verifyPosition].FileDateModified)
                 {
-                    //Debug way was not date updated, metadate read FileDateCreate date is Older Than Metadata acctual file.
-                    //Remove from list and add back to Read Exif once more
-                    if (metadataRead.FileEntryBroker.LastWriteDateTime > metadataWrittenByExiftoolWaitVerify[verifyPosition].FileDateModified)
-                    {
-                        string fileErrorMessage = "File been updated between read exiftool was run and verify\r\n" +
-                            "This can occure when OneDrive, GoogleDrive, Dropbox, iDrive, Box etc... change dates during syncing files.\r\n" +
-                            "File name:"+ metadataRead.FileEntryBroker.FileFullPath + "\r\n" +
-                            "File modified before Exiftool: " + metadataRead.FileEntryBroker.LastWriteDateTime.ToString() + "\r\n" +
-                            "File modified after  Exiftool: " + metadataWrittenByExiftoolWaitVerify[verifyPosition].FileDateModified.ToString() + "\r\n" +
-                            FileHandler.GetFileStatusText(metadataRead.FileFullPath, checkLockedStatus: true, showLockedByProcess: true);
-                        message += fileErrorMessage;
-                        Logger.Warn(fileErrorMessage);
-                        
-                        foundErrors = true;
-                    }
+                    string fileErrorMessage = "File been updated between read exiftool was run and verify\r\n" +
+                        "This can occure when OneDrive, GoogleDrive, Dropbox, iDrive, Box etc... change dates during syncing files.\r\n" +
+                        "File name:" + metadataRead.FileEntryBroker.FileFullPath + "\r\n" +
+                        "File modified before Exiftool: " + metadataRead.FileEntryBroker.LastWriteDateTime.ToString() + "\r\n" +
+                        "File modified after  Exiftool: " + metadataWrittenByExiftoolWaitVerify[verifyPosition].FileDateModified.ToString() + "\r\n" +
+                        FileHandler.GetFileStatusText(metadataRead.FileFullPath, checkLockedStatus: true, showLockedByProcess: true);
+                    message += fileErrorMessage;
+                    Logger.Warn(fileErrorMessage);
+
+                    foundErrors = true;
                 }
             }
+            
             if (verifyPosition == -1) return false; //No need for verify, the metadata was only read, most likly first time read (without save, read and verify)
 
             metadataUpdatedByUserCopy = new Metadata(metadataWrittenByExiftoolWaitVerify[verifyPosition]); //Copy data to verify

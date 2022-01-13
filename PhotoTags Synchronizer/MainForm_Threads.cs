@@ -517,10 +517,14 @@ namespace PhotoTagsSynchronizer
         //Caller: ThreadSaveUsingExiftoolToMedia
         public void AddQueueReadFromSourceIfMissing_AllSoruces(FileEntryAttribute fileEntryAttribute)
         {
-            List<FileEntryAttribute> fileEntryAttributes = new List<FileEntryAttribute>();
-            fileEntryAttributes.Add(fileEntryAttribute);
-            AddQueueLazyLoadningAllSourcesMetadataAndRegionThumbnailsLock(fileEntryAttributes);
-
+            FileEntryBroker fileEntryBrokerError = new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.ExifTool | MetadataBrokerType.ExifToolWriteError);
+            Metadata metadataError = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBrokerError);
+            if (metadataError == null)
+            {
+                List<FileEntryAttribute> fileEntryAttributes = new List<FileEntryAttribute>();
+                fileEntryAttributes.Add(fileEntryAttribute);
+                AddQueueLazyLoadningAllSourcesMetadataAndRegionThumbnailsLock(fileEntryAttributes);
+            }
             TriggerAutoResetEventQueueEmpty();
         }
 
@@ -603,6 +607,7 @@ namespace PhotoTagsSynchronizer
                                     if (metadataExiftool == null) //If Null, need retry, until Exiftool save metadata in Database,
                                                                   //if exiftool failes a dummy error record will be create
                                     {
+                                        
                                         if (metadataExiftool != null)
                                         {
                                             //Check if Region Thumnbail missing, if yes, then create
@@ -611,7 +616,20 @@ namespace PhotoTagsSynchronizer
                                             isMetadataExiftoolFound = true;
                                             //isMetadataOtherSourceFound = true;
                                         }
-                                        else AddQueueReadFromSourceExiftoolLock(fileEntryAttribute); //Didn't exists in Database, need read from source
+                                        else
+                                        {
+                                            FileEntryBroker fileEntryBrokerExiftoolError = new FileEntryBroker(fileEntryAttribute,
+                                            MetadataBrokerType.ExifTool | MetadataBrokerType.ExifToolWriteError);
+                                            Metadata metadataExiftoolError = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftoolError);
+                                            if (metadataExiftoolError == null)
+                                                AddQueueReadFromSourceExiftoolLock(fileEntryAttribute); //Didn't exists in Database, need read from source
+                                            else
+                                            {
+                                                FileStatus fileStaus = FileHandler.GetFileStatus(fileEntryAttribute.FileFullPath,
+                                                    exiftoolProcessStatus: ExiftoolProcessStatus.FileInaccessibleOrError, checkLockedStatus: true);
+                                                ImageListView_UpdateItemFileStatusInvoke(fileEntryAttribute.FileFullPath, fileStaus);
+                                            }
+                                        }
                                     }
                                     #endregion
 
@@ -1083,7 +1101,7 @@ namespace PhotoTagsSynchronizer
                                             fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.ExiftoolWillNotProcessingFileInCloud;
 
                                             //When in cloud, and can't read, also need to populate dataGridView but will become with empty rows in column
-                                            FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fileEntry, FileEntryVersion.ExtractedNowUsingExiftoolWithError);
+                                            FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fileEntry, FileEntryVersion.NotAvailable);
                                             DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute);
                                         }
                                         #endregion
@@ -1173,14 +1191,17 @@ namespace PhotoTagsSynchronizer
 
                                         if (argumnetLength > maxParameterCommandLength) range--;
                                         useExiftoolOnThisSubsetOfFiles = new List<string>();
-                                        if (range > 100) 
+                                        if (range > 100)
                                             range = 100;
-                                        for (int index = 0; index < range; index++) useExiftoolOnThisSubsetOfFiles.Add(exiftoolSave_MediaFilesNotInDatabase[index].FileFullPath);
+                                        for (int index = 0; index < range; index++)
+                                            useExiftoolOnThisSubsetOfFiles.Add(exiftoolSave_MediaFilesNotInDatabase[index].FileFullPath);
                                     }
                                     #endregion
 
                                     #region useExiftoolOnThisSubsetOfFiles - To - Read using Exiftool - Update ImageListView - Item Status
-                                    string lastKnownExiftoolError = "";
+                                    string lastKownExiftoolGenericErrorMessage = "";
+                                    Dictionary<string, string> exiftoolErrorMessageOnFiles = new Dictionary<string, string>();
+
                                     List<Metadata> metadataReadFromExiftool = new List<Metadata>();
                                     try
                                     {
@@ -1192,11 +1213,15 @@ namespace PhotoTagsSynchronizer
                                             ImageListView_UpdateItemFileStatusInvoke(fullFilename, fileStatus);
                                         }
                                         #endregion
-                                        exiftoolReader.Read(MetadataBrokerType.ExifTool, useExiftoolOnThisSubsetOfFiles, out metadataReadFromExiftool, useArgFile, showCliWindow, processPriorityClass);
+                                        exiftoolReader.Read(MetadataBrokerType.ExifTool, useExiftoolOnThisSubsetOfFiles, 
+                                            out metadataReadFromExiftool,
+                                            out exiftoolErrorMessageOnFiles, out lastKownExiftoolGenericErrorMessage,
+                                            useArgFile, showCliWindow, processPriorityClass);
                                     }
                                     catch (Exception ex)
                                     {
-                                        lastKnownExiftoolError = ex.Message;
+                                        lastKownExiftoolGenericErrorMessage = 
+                                            (string.IsNullOrWhiteSpace(lastKownExiftoolGenericErrorMessage) ? "" : "\r\n") + ex.Message;
                                         Logger.Error(ex, "ThreadCollectMetadataExiftool - Running Exiftool failed.");
                                     }
                                     #endregion
@@ -1213,7 +1238,7 @@ namespace PhotoTagsSynchronizer
                                                 FileHandler.RemoveOfflineFileTouched(fullFilePath);
 
                                                 #region Media file was not read - Save Error, Update ImageListView Exiftool status
-                                                string errorMesssage = lastKnownExiftoolError;
+                                                string errorMesssage = lastKownExiftoolGenericErrorMessage;
 
                                                 FileStatus fileStatus = FileHandler.GetFileStatus(
                                                     fullFilePath, checkLockedStatus: true, checkLockStatusTimeout: FileHandler.GetFileLockedStatusTimeout,
@@ -1226,19 +1251,27 @@ namespace PhotoTagsSynchronizer
                                                 
                                                 ImageListView_UpdateItemFileStatusInvoke(fullFilePath, fileStatus);
 
-                                                //FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fileEntry, FileEntryVersion.ExtractedNowUsingExiftoolTimeout);
-                                                //DataGridView_ImageListView_Populate_FileEntryAttributeInvoke(fileEntryAttribute);
-                                                
+                                                try
+                                                {
+                                                    DateTime? dateTimeErrorFile = File.GetLastAccessTime(fullFilePath);
+                                                    if (dateTimeErrorFile != null && dateTimeErrorFile > DateTime.MinValue)
+                                                    {
+                                                        FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fullFilePath,
+                                                            (DateTime)dateTimeErrorFile, FileEntryVersion.Error);
+                                                        DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute);
+                                                    }
+                                                } catch { }
+
                                                 AddError(Path.GetDirectoryName(fullFilePath), Path.GetFileName(fullFilePath), DateTime.Now,
                                                     AddErrorExiftooRegion, AddErrorExiftooCommandRead, AddErrorExiftooParameterRead,
                                                     AddErrorExiftooRegion, AddErrorExiftooCommandRead, AddErrorExiftooParameterRead,
                                                     "Exiftool failed reading data from file, got an error: " + errorMesssage + ": " + fullFilePath, false);
-                                                filesNotRead += (filesNotRead == "" ? "" : ";") + filesNotRead;
+                                                filesNotRead += (filesNotRead == "" ? "" : ";") + fullFilePath;
                                                 #endregion
                                             }
                                             #endregion 
                                         }
-                                        if (!string.IsNullOrEmpty(filesNotRead)) Logger.Error("Exiftool failed read all files. Files not read: " + filesNotRead);
+                                        if (!string.IsNullOrEmpty(filesNotRead)) Logger.Debug("Exiftool failed read all files. Files not read: " + filesNotRead);
                                     }
                                     catch (Exception ex)
                                     {
@@ -1325,74 +1358,88 @@ namespace PhotoTagsSynchronizer
                                     #region Write dummy record for when Exiftool failed due to corrupt files, avoid endless loop
                                     try
                                     {
-                                        if (!string.IsNullOrWhiteSpace(lastKnownExiftoolError)) //Exiftool crached, don't read again
+                                        //if (!string.IsNullOrWhiteSpace(lastKownExiftoolGenericErrorMessage)) //Exiftool crached, don't read again
+                                        //{
+                                        lock (exiftoolSave_MediaFilesNotInDatabaseLock)
                                         {
-                                            lock (exiftoolSave_MediaFilesNotInDatabaseLock)
+                                            for (int index = 0; index < range; index++)
                                             {
-                                                for (int index = 0; index < range; index++)
+                                                if (!Metadata.IsFullFilenameInList(metadataReadFromExiftool, exiftoolSave_MediaFilesNotInDatabase[index].FileFullPath))
                                                 {
-                                                    if (!Metadata.IsFullFilenameInList(metadataReadFromExiftool, exiftoolSave_MediaFilesNotInDatabase[index].FileFullPath))
-                                                    {
-                                                        FileHandler.RemoveOfflineFileTouched(exiftoolSave_MediaFilesNotInDatabase[index].FileFullPath);
+                                                    FileHandler.RemoveOfflineFileTouched(exiftoolSave_MediaFilesNotInDatabase[index].FileFullPath);
 
-                                                        #region Write Dummy Error Record
+                                                    #region Write Dummy Error Record
+                                                    try
+                                                    {
+                                                        FileStatus fileStatus = FileHandler.GetFileStatus(
+                                                            exiftoolSave_MediaFilesNotInDatabase[index].FileFullPath, checkLockedStatus: true,
+                                                            fileInaccessibleOrError: true, fileErrorMessage: lastKownExiftoolGenericErrorMessage,
+                                                            exiftoolProcessStatus: ExiftoolProcessStatus.FileInaccessibleOrError);
+
+                                                        string exiftoolErrorMessageForFile;
+                                                        if (exiftoolErrorMessageOnFiles.ContainsKey(exiftoolSave_MediaFilesNotInDatabase[index].FileFullPath))
+                                                            exiftoolErrorMessageForFile = exiftoolErrorMessageOnFiles[exiftoolSave_MediaFilesNotInDatabase[index].FileFullPath];
+                                                        else
+                                                            exiftoolErrorMessageForFile = lastKownExiftoolGenericErrorMessage;
+
+                                                        #region Create dummy Metadata - MetadataBrokerType.ExifTool
+                                                        Metadata metadataDummy = new Metadata(MetadataBrokerType.ExifTool | MetadataBrokerType.ExifToolWriteError);
+                                                        metadataDummy.FileDateModified = exiftoolSave_MediaFilesNotInDatabase[index].LastWriteDateTime;
+                                                        metadataDummy.FileName = exiftoolSave_MediaFilesNotInDatabase[index].FileName;
+                                                        metadataDummy.FileDirectory = exiftoolSave_MediaFilesNotInDatabase[index].Directory;
+                                                        metadataDummy.FileMimeType = FormDatabaseCleaner.CorruptFile; //Also used
+                                                        metadataDummy.PersonalTitle = "Exiftool failed";
+                                                        metadataDummy.PersonalComments = FileHandler.ConvertFileStatusToText(fileStatus) + " " + lastKownExiftoolGenericErrorMessage;
+                                                        metadataDummy.FileDateCreated = exiftoolSave_MediaFilesNotInDatabase[index].LastWriteDateTime;
+                                                        metadataDummy.FileDateAccessed = DateTime.Now;
+                                                        metadataDummy.FileSize = 0;
                                                         try
                                                         {
-                                                            #region Create dummy Metadata - MetadataBrokerType.ExifTool
-                                                            Metadata metadataDummy = new Metadata(MetadataBrokerType.ExifTool);
-                                                            metadataDummy.FileDateModified = exiftoolSave_MediaFilesNotInDatabase[index].LastWriteDateTime;
-                                                            metadataDummy.FileName = exiftoolSave_MediaFilesNotInDatabase[index].FileName;
-                                                            metadataDummy.FileDirectory = exiftoolSave_MediaFilesNotInDatabase[index].Directory;
-                                                            metadataDummy.FileMimeType = FormDatabaseCleaner.CorruptFile; //Also used
-                                                            metadataDummy.PersonalComments = "Exiftool failed";
-                                                            metadataDummy.FileDateCreated = exiftoolSave_MediaFilesNotInDatabase[index].LastWriteDateTime;
-                                                            metadataDummy.FileDateAccessed = DateTime.Now;
-                                                            metadataDummy.FileSize = 0;
-                                                            try
+                                                            if (File.Exists(exiftoolSave_MediaFilesNotInDatabase[index].FileFullPath))
                                                             {
-                                                                if (File.Exists(exiftoolSave_MediaFilesNotInDatabase[index].FileFullPath))
-                                                                {
-                                                                    FileInfo fileInfo = new FileInfo(exiftoolSave_MediaFilesNotInDatabase[index].FileFullPath);
-                                                                    metadataDummy.FileDateCreated = fileInfo.CreationTime;
-                                                                    metadataDummy.FileDateAccessed = fileInfo.LastAccessTime;
-                                                                    metadataDummy.FileSize = fileInfo.Length;
-                                                                } else
-                                                                {
-                                                                    metadataDummy.PersonalComments = "File doesn't exist - Exiftool failed";
-                                                                }
-                                                            } catch { }
-                                                            databaseAndCacheMetadataExiftool.TransactionBeginBatch();
-                                                            databaseAndCacheMetadataExiftool.Write(metadataDummy);
-                                                            databaseAndCacheMetadataExiftool.TransactionCommitBatch();
-                                                            #endregion
-
-                                                            #region Create dummy Metadata - MetadataBrokerType.ExifTool | ExifToolWriteError
-                                                            Metadata metadataError = new Metadata(metadataDummy);
-                                                            metadataError.FileDateModified = DateTime.Now;
-                                                            metadataError.Broker |= MetadataBrokerType.ExifToolWriteError;
-                                                            databaseAndCacheMetadataExiftool.TransactionBeginBatch();
-                                                            databaseAndCacheMetadataExiftool.Write(metadataError);
-                                                            databaseAndCacheMetadataExiftool.TransactionCommitBatch();
-                                                            #endregion
-
-                                                            FileStatus fileStatus = FileHandler.GetFileStatus(
-                                                                metadataError.FileFullPath, checkLockedStatus: true,
-                                                                fileInaccessibleOrError: true, fileErrorMessage: lastKnownExiftoolError,
-                                                                exiftoolProcessStatus: ExiftoolProcessStatus.FileInaccessibleOrError);
-                                                            ImageListView_UpdateItemFileStatusInvoke(metadataError.FileFullPath, fileStatus);
-
-                                                            FileEntryAttribute fileEntryAttributeError = new FileEntryAttribute(metadataError.FileFullPath, (DateTime)metadataError.FileDateModified, FileEntryVersion.Error);
-                                                            DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttributeError);
+                                                                FileInfo fileInfo = new FileInfo(exiftoolSave_MediaFilesNotInDatabase[index].FileFullPath);
+                                                                metadataDummy.FileDateCreated = fileInfo.CreationTime;
+                                                                metadataDummy.FileDateAccessed = fileInfo.LastAccessTime;
+                                                                metadataDummy.FileSize = fileInfo.Length;
+                                                            }
+                                                            else
+                                                            {
+                                                                metadataDummy.PersonalComments = "File doesn't exist - Exiftool failed";
+                                                            }
                                                         }
-                                                        catch (Exception ex)
-                                                        {
-                                                            Logger.Error(ex, "ThreadCollectMetadataExiftool - Write dummy record for when Exiftool failed due to corrupt files.");
-                                                        }
+                                                        catch { }
+                                                        databaseAndCacheMetadataExiftool.TransactionBeginBatch();
+                                                        databaseAndCacheMetadataExiftool.Write(metadataDummy);
+                                                        databaseAndCacheMetadataExiftool.TransactionCommitBatch();
                                                         #endregion
+
+                                                        //#region Create dummy Metadata - MetadataBrokerType.ExifTool | ExifToolWriteError
+                                                        //Metadata metadataError = new Metadata(metadataDummy);
+                                                        //metadataError.FileDateModified = DateTime.Now;
+                                                        //metadataError.Broker |= MetadataBrokerType.ExifToolWriteError;
+                                                        //databaseAndCacheMetadataExiftool.TransactionBeginBatch();
+                                                        //databaseAndCacheMetadataExiftool.Write(metadataError);
+                                                        //databaseAndCacheMetadataExiftool.TransactionCommitBatch();
+                                                        //#endregion
+
+
+                                                        ImageListView_UpdateItemFileStatusInvoke(metadataDummy.FileFullPath, fileStatus);
+
+                                                        FileEntryAttribute fileEntryAttributeError = new FileEntryAttribute(
+                                                            metadataDummy.FileFullPath,
+                                                            (DateTime)metadataDummy.FileDateModified,
+                                                            FileEntryVersion.Error);
+                                                        DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttributeError);
                                                     }
+                                                    catch (Exception ex)
+                                                    {
+                                                        Logger.Error(ex, "ThreadCollectMetadataExiftool - Write dummy record for when Exiftool failed due to corrupt files.");
+                                                    }
+                                                    #endregion
                                                 }
                                             }
                                         }
+                                        //}
                                     } catch (Exception ex)
                                     {
                                         Logger.Error(ex, "ThreadCollectMetadataExiftool - Write dummy record for when Exiftool failed due to corrupt files.");
@@ -1600,9 +1647,9 @@ namespace PhotoTagsSynchronizer
                                             
                                             UpdateStatusAction("Batch update a subset of " + exiftoolSave_QueueSubsetMetadataToSave.Count + " media files...");
                                             ExiftoolWriter.WriteMetadata(
-                                            exiftoolSave_QueueSubsetMetadataToSave, queueSubsetMetadataOrginalBeforeUserEdit, allowedFileNameDateTimeFormats,
-                                            writeMetadataTagsVariable, writeMetadataKeywordAddVariable, out mediaFilesUpdatedByExiftool,
-                                            showCliWindow, processPriorityClass);
+                                                exiftoolSave_QueueSubsetMetadataToSave, queueSubsetMetadataOrginalBeforeUserEdit, allowedFileNameDateTimeFormats,
+                                                writeMetadataTagsVariable, writeMetadataKeywordAddVariable, out mediaFilesUpdatedByExiftool,
+                                                showCliWindow, processPriorityClass);
                                         }
                                     }
                                     catch (Exception ex)

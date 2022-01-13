@@ -357,6 +357,7 @@ namespace MetadataLibrary
             {
                 if (fileEntryBroker == null)
                     fileEntryBroker = new FileEntryBroker(Path.Combine(fileDirectory, FileName), (DateTime)FileDateModified, Broker);
+            
                 return fileEntryBroker;
             }
         }
@@ -410,11 +411,6 @@ namespace MetadataLibrary
             }
             catch { }
             return -1;
-        }
-
-        public static int FindFullFilenameInList(List<Metadata> metadataListToCheck, Metadata findThis)
-        {
-            return FindFullFilenameInList(metadataListToCheck, findThis.FileFullPath);
         }
         #endregion
 
