@@ -121,6 +121,8 @@ namespace MetadataLibrary
                         case FileEntryVersion.Historical: //is store in DataGridView Column
                         case FileEntryVersion.Error: //is store in DataGridView Column
                             return FileEntryVersionCompare.LostNoneEqualFound;
+                        case FileEntryVersion.NotAvailable:
+                            return FileEntryVersionCompare.LostNoneEqualFound;
                         default:
                             throw new NotImplementedException();
                     }
@@ -143,6 +145,7 @@ namespace MetadataLibrary
 
                             if (fileEntryAttributeFromQueue.LastWriteDateTime < fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
                                 return FileEntryVersionCompare.LostFoundOlder; //DEBUG, in case of queue get not in sequence
+
                             break;
 
                         case FileEntryVersion.AutoCorrect: //is store in DataGridView Column
@@ -164,6 +167,8 @@ namespace MetadataLibrary
                         case FileEntryVersion.Historical: //is store in DataGridView Column
                         case FileEntryVersion.Error: //is store in DataGridView Column
                                                      //Need continue the search
+                            return FileEntryVersionCompare.LostNoneEqualFound;
+                        case FileEntryVersion.NotAvailable:
                             return FileEntryVersionCompare.LostNoneEqualFound;
                         default:
                             throw new NotImplementedException();
@@ -217,6 +222,8 @@ namespace MetadataLibrary
                         case FileEntryVersion.Error: //is store in DataGridView Column
                             if (fileEntryAttributeFromQueue.LastWriteDateTime == fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
                                 return FileEntryVersionCompare.WonFoundEqual;
+                            return FileEntryVersionCompare.LostNoneEqualFound;
+                        case FileEntryVersion.NotAvailable:
                             return FileEntryVersionCompare.LostNoneEqualFound;
                         default:
                             throw new NotImplementedException();
