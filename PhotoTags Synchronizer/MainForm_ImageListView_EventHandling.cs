@@ -275,13 +275,22 @@ namespace PhotoTagsSynchronizer
                 if (metadata == null || metadata.FileName == null)
                 {
                     FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fileEntryBroker, FileEntryVersion.CurrentVersionInDatabase);
+                    
+                    FileEntryBroker fileEntryBrokerError = new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.ExifTool | MetadataBrokerType.ExifToolWriteError);
+                    Metadata metadataError = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBrokerError);
+                    if (metadataError != null)
+                    {
+                        fileStatus.FileInaccessibleOrError = true;
+                    }
+
+                    
                     AddQueueReadFromSourceIfMissing_AllSoruces(fileEntryAttribute);
 
                     e.FileMetadata = new Utility.ShellImageFileInfo(); //Tell that data is create, all is good for internal void UpdateDetailsInternal(Utility.ShellImageFileInfo info)
                     e.FileMetadata.SetPropertyStatusOnAll(PropertyStatus.Requested); //All data will be read, it's in Lazy loading queue
 
                     //JTN: MediaFileAttributes
-                    if (!fileStatus.FileExists || fileStatus.IsInCloudOrVirtualOrOffline)
+//if (!fileStatus.FileExists || fileStatus.IsInCloudOrVirtualOrOffline || fileStatus.FileInaccessibleOrError || fileStatus.HasAnyLocks)
                     {
                         string inCloudOrNotExistError = FileHandler.ConvertFileStatusToText(fileStatus);
 

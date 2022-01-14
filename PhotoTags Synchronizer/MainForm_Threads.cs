@@ -1226,7 +1226,7 @@ namespace PhotoTagsSynchronizer
                                     }
                                     #endregion
 
-                                    #region Check if all files are read by Exiftool - Check against - metadataReadFromExiftool
+                                    #region Check if all files are read by Exiftool - Check against - metadataReadFromExiftool - if not read, no need to verify
                                     try
                                     {
                                         string filesNotRead = "";
@@ -1768,8 +1768,6 @@ namespace PhotoTagsSynchronizer
                                             DateTime previousLastWrittenDateTime = (DateTime)fileSuposeToBeUpdated.LastWriteDateTime;
 
                                             //Find last known writtenDate for file
-                                            //int index = FileEntry.FindIndex(filesUpdatedByWriteXtraAtom, fileSuposeToBeUpdated);
-                                            //if (index > -1) previousLastWrittenDateTime = filesUpdatedByWriteXtraAtom[index].LastWriteDateTime;
                                             //Check if file is updated, if file LastWrittenDateTime has changed, file is updated
                                             if (currentLastWrittenDateTime <= previousLastWrittenDateTime)
                                             {
@@ -1778,6 +1776,14 @@ namespace PhotoTagsSynchronizer
                                                     fileInaccessibleOrError: true, fileErrorMessage: exiftoolErrorMessage,
                                                     exiftoolProcessStatus: ExiftoolProcessStatus.FileInaccessibleOrError);
                                                 ImageListView_UpdateItemFileStatusInvoke(fileSuposeToBeUpdated.FileFullPath, fileStatus);
+
+                                                #region Exiftool failed to read, no need to verify data that hasn't been read
+                                                int indexExiftoolFailedOn = Metadata.FindFileEntryInList(exiftoolSave_QueueSubsetMetadataToSave, fileSuposeToBeUpdated);
+                                                if (indexExiftoolFailedOn > -1 && indexExiftoolFailedOn < exiftoolSave_QueueSubsetMetadataToSave.Count)
+                                                {
+                                                    exiftoolSave_QueueSubsetMetadataToSave.RemoveAt(indexExiftoolFailedOn);
+                                                }
+                                                #endregion
 
                                                 string lockedByProcessesText = "";
                                                 if (fileStatus.HasAnyLocks) lockedByProcessesText = FileHandler.GetLockedByText(fileSuposeToBeUpdated.FileFullPath);
