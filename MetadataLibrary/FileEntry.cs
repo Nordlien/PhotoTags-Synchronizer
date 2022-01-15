@@ -97,6 +97,16 @@ namespace MetadataLibrary
             return -1;
         }
 
+        public static int FindIndex(List<FileEntry> fileEntries, string fullFilePath, int range)
+        {
+            if (fileEntries == null) return -1;
+            for (int index = 0; index < Math.Min(fileEntries.Count, range); index++)
+            {
+                if (fileEntries[index].FileFullPath == fullFilePath) return index;
+            }
+            return -1;
+        }
+
         public static bool Contains(List<FileEntry> fileEntries, FileEntry fileEntryToFind)
         {
             return FindIndex(fileEntries, fileEntryToFind) > -1;
