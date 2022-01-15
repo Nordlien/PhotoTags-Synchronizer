@@ -1938,8 +1938,8 @@ namespace PhotoTagsSynchronizer
 
                                     lock (commonQueueReadMetadataFromSourceMicrosoftPhotosLock) if (commonQueueReadMetadataFromSourceMicrosoftPhotos.Count > 0) commonQueueReadMetadataFromSourceMicrosoftPhotos.RemoveAt(0); //Remove from queue after read. Otherwise wrong text in status bar
                                 }
-                                #endregion
                             }
+                            #endregion
 
                             if (GlobalData.IsApplicationClosing) lock (commonQueueReadMetadataFromSourceMicrosoftPhotosLock) commonQueueReadMetadataFromSourceMicrosoftPhotos.Clear();
 
@@ -2130,7 +2130,7 @@ namespace PhotoTagsSynchronizer
                 {
                     _ThreadSaveToDatabaseRegionAndThumbnail = new Thread(() =>
                     {
-                        #region
+                        #region Do the Work
                         Logger.Trace("ThreadReadMediaPosterSaveRegions - started");
                         try
                         {
@@ -2145,6 +2145,7 @@ namespace PhotoTagsSynchronizer
                                 try
                                 {
                                     FileEntryBroker current_FileEntryBrokerRegion;
+
                                     lock (commonQueueSaveToDatabaseRegionAndThumbnailLock) { current_FileEntryBrokerRegion = new FileEntryBroker(commonQueueSaveToDatabaseRegionAndThumbnail[indexSource].FileEntryBroker); }
 
                                     int fileIndexFound; //Loop all files and check more version of the file
@@ -2294,22 +2295,26 @@ namespace PhotoTagsSynchronizer
                                                         }
                                                         else
                                                         {
-                                                            #region File not exist - Error handling (Remove from queue)
+                                                            #region File not exist or not correct WrittenDate - Error handling (Remove from queue)
                                                             fileNeedRemoveFromList = true; //File not exist, remove frome list
-
-                                                            string errorDesciption = "File not found, can't create thumbnail.";
-
                                                             FileStatus fileStatus = FileHandler.GetFileStatus(
                                                                     current_FileEntryBrokerRegion.FileFullPath, checkLockedStatus: true,
-                                                                    fileInaccessibleOrError: true, fileErrorMessage: "File not found",
+                                                                    fileInaccessibleOrError: true, 
                                                                     exiftoolProcessStatus: ExiftoolProcessStatus.DoNotUpdate);
+                                                            if (!fileStatus.FileExists) fileStatus.FileErrorMessage = "File not found.";
+                                                            else if (fileStatus.FileInaccessibleOrError) fileStatus.FileErrorMessage = "Loading Media Poster failed.";
                                                             ImageListView_UpdateItemFileStatusInvoke(current_FileEntryBrokerRegion.FileFullPath, fileStatus);
 
-                                                            errorDesciption += 
+                                                            if (image == null)
+                                                                image = databaseAndCacheThumbnail.ReadThumbnailFromCacheOrDatabase(current_FileEntryBrokerRegion);
+                                                            if (image != null)
+                                                                fileStatus.FileErrorMessage += " Creating Poster Thumbnail from Media thumbnail, with low resolution.";
+
+                                                            string errorDesciption = 
                                                                 "Issue: Can't create thumbnails for regions.\r\n" +
                                                                 "File Name: " +current_FileEntryBrokerRegion.FileFullPath + "\r\n" +
                                                                 "File Status: " + FileHandler.ConvertFileStatusToText(fileStatus) + "\r\n" +
-                                                                "Error Message: " + errorDesciption; 
+                                                                "Error Message: " + fileStatus.FileErrorMessage; 
 
                                                             Logger.Error(errorDesciption);
 
@@ -2344,6 +2349,9 @@ namespace PhotoTagsSynchronizer
 
                                                         FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(current_FileEntryBrokerRegion, FileEntryVersion.ExtractedNowUsingExiftool);
                                                         DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute); //Updated Gridview
+
+                                                        FileEntryAttribute fileEntryAttributeHistorical = new FileEntryAttribute(current_FileEntryBrokerRegion, FileEntryVersion.Historical);
+                                                        DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttributeHistorical);
                                                     }
                                                     #endregion
                                                 }
@@ -2378,6 +2386,7 @@ namespace PhotoTagsSynchronizer
                                     KryptonMessageBox.Show("Saving Region Thumbnail crashed. The 'save region queue' was cleared. Nothing was saved.", "Saving Region Thumbnail failed", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
                                     lock (commonQueueSaveToDatabaseRegionAndThumbnailLock) { commonQueueSaveToDatabaseRegionAndThumbnail.Clear(); } //Avoid loop, due to unknown error
                                     Logger.Error(ex, "ThreadReadMediaPosterSaveRegions crashed");
+                                    break; //Need jump out of while or endless loop
                                 }
 
                                 Thread.Sleep(10);
