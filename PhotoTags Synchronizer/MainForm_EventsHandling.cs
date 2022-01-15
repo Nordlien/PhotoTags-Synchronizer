@@ -1236,9 +1236,9 @@ namespace PhotoTagsSynchronizer
                     AddError(
                         folder,
                         AddErrorFileSystemRegion, AddErrorFileSystemDeleteFolder, folder, folder,
-                        "Was not able to delete folder with files and subfolder!\r\n\r\n" +
-                        "From: " + folder + "\r\n\r\n" +
-                        "Error message:\r\n" + ex.Message + "\r\n");
+                        "Issue: Was not able to delete folder with files and subfolder!\r\n" +
+                        "From Folder: " + folder + "\r\n" +
+                        "Error message: " + ex.Message);
                 }
                 finally
                 {
@@ -4291,21 +4291,13 @@ namespace PhotoTagsSynchronizer
                                 Properties.Settings.Default.RenameDateFormats);
                             if (metadataToSave != null)
                             {
-                                //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue, 4. Clear dirty flags
                                 metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, out bool isUpdated);
-                                bool isDirty = isUpdated = metadataToSave != metadataListFromDataGridView[updatedRecord];
-                                MakeEqualBetweenMetadataAndDataGridViewContent(metadataToSave, isUpdated, isDirty);
                                 AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, metadataListOriginalExiftool[updatedRecord]);
                             }
                         }
                         else
                         {
-                            //Add only metadata to save queue that that has changed by users
-                            //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue, 4. Clear dirty flags
                             Metadata metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataListFromDataGridView[updatedRecord], out bool isUpdated);
-                            bool isDirty = isUpdated = metadataToSave!= metadataListFromDataGridView[updatedRecord];
-                            string diff = Metadata.GetErrors(metadataToSave, metadataListFromDataGridView[updatedRecord]);
-                            MakeEqualBetweenMetadataAndDataGridViewContent(metadataToSave, isUpdated, isDirty);
                             AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, metadataListOriginalExiftool[updatedRecord]);
                         }
                     }
@@ -4347,10 +4339,10 @@ namespace PhotoTagsSynchronizer
                                 ImageListView_UpdateItemFileStatusInvoke(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath, fileStatus);
 
                                 string writeErrorDesciption =
-                                    "Error writing properties to file.\r\n\r\n" +
-                                    "File: " + dataGridViewGenericColumn.FileEntryAttribute.FileFullPath + "\r\n\r\n" +
-                                    "Error message: " + ex.Message + "\r\n" +
-                                    "File staus:" + dataGridViewGenericColumn.FileEntryAttribute.FileFullPath + "\r\n" + fileStatus.ToString();
+                                    "Issue: Error writing properties to file.\r\n" +
+                                    "File name:  " + dataGridViewGenericColumn.FileEntryAttribute.FileFullPath + "\r\n" +
+                                    "File staus: " + fileStatus.ToString() + "\r\n" +
+                                    "Error message: " + ex.Message;
 
                                 AddError(
                                     dataGridViewGenericColumn.FileEntryAttribute.Directory,
@@ -6723,10 +6715,7 @@ namespace PhotoTagsSynchronizer
                             Properties.Settings.Default.RenameDateFormats);
                             if (metadataToSave != null)
                             {
-                                //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue, 4. Clear dirty flags
                                 metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, out bool isUpdated);
-                                bool isDirty = isUpdated = metadata != metadataToSave;
-                                MakeEqualBetweenMetadataAndDataGridViewContent(metadataToSave, true, isDirty);
                                 AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
                                 AddQueueRenameMediaFilesLock(item.FileFullPath, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
                             }
@@ -6782,10 +6771,7 @@ namespace PhotoTagsSynchronizer
                             Properties.Settings.Default.RenameDateFormats);
                             if (metadataToSave != null)
                             {
-                                //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue, 4. Clear dirty flags
                                 metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, out bool isUpdated);
-                                bool isDirty = isUpdated = metadataToSave != metadata;
-                                MakeEqualBetweenMetadataAndDataGridViewContent(metadataToSave, true, isDirty);
                                 AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
                                 AddQueueRenameMediaFilesLock(file, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
                             }
@@ -6984,10 +6970,7 @@ namespace PhotoTagsSynchronizer
 
                                 if (metadataToSave != null)
                                 {
-                                    //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue, 4. Clear dirty flags
                                     metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, out bool isUpdated);
-                                    bool isDirty = isUpdated = metadataToSave != metadata;
-                                    MakeEqualBetweenMetadataAndDataGridViewContent(metadataToSave, isUpdated, isDirty);
                                     AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
                                     AddQueueRenameMediaFilesLock(item.FileFullPath, autoCorrect.RenameVariable);
                                 }
@@ -7053,11 +7036,7 @@ namespace PhotoTagsSynchronizer
                                 if (metadataToSave != null)
                                 {
                                     AutoCorrectFormVaraibles.UseAutoCorrectFormData(ref metadataToSave, autoCorrectFormVaraibles);
-
-                                    //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata, 3. Add to Save queue, 4. Clear dirty flags
                                     metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, out bool isUpdated);
-                                    bool isDirty = isUpdated = metadataToSave != metadata;
-                                    MakeEqualBetweenMetadataAndDataGridViewContent(metadataToSave, isUpdated, isDirty);
                                     AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
                                     AddQueueRenameMediaFilesLock(file, autoCorrect.RenameVariable);
                                 }

@@ -130,10 +130,8 @@ namespace Exiftool
                     }
                     catch (Exception ex)
                     {
-                        string error = "Failed write Xtra Atom Propery on file: " + metadataToWrite.FileFullPath + "\r\n" +
-                            ex.Message + "\r\n + " + 
-                            FileHandler.GetFileStatusText(metadataToWrite.FileFullPath, checkLockedStatus: true, showLockedByProcess: true);
-                        Logger.Error(error);
+                        string error = "Failed to write Microsoft's own Xtra Atom Propery on file. Exception message: " + ex.Message;
+                        Logger.Error("File name: " + metadataToWrite.FileFullPath + " Error Message: " + error);
                         writeXtraAtomErrorMessageForFile.Add(metadataToWrite.FileFullPath, error);
                     }
 
@@ -226,8 +224,7 @@ namespace Exiftool
 
                     process.OutputDataReceived += new DataReceivedEventHandler((sender, e) =>
                     {
-                        // Prepend line numbers to each line of the output.
-                        if (!String.IsNullOrEmpty(e.Data))
+                        if (!string.IsNullOrEmpty(e.Data))
                         {
                             line = e.Data;
                             exiftoolOutput += line + "\r\n";
@@ -238,8 +235,7 @@ namespace Exiftool
 
                     process.ErrorDataReceived += new DataReceivedEventHandler((sender, e) =>
                     {
-                        // Prepend line numbers to each line of the output.
-                        if (!String.IsNullOrEmpty(e.Data))
+                        if (!string.IsNullOrEmpty(e.Data))
                         {                          
                             line = e.Data;
                             exiftoolOutput += line + "\r\n";
@@ -282,10 +278,10 @@ namespace Exiftool
         #region Verify HasWriteMetadataErrors
         public static bool HasWriteMetadataErrors(Metadata metadataRead,    /* Data read back after saved and need to be verifyed */
             List<Metadata> metadataWrittenByExiftoolWaitVerify,             /* This what should have been saved, check if same info read back */ 
-            out Metadata metadataUpdatedByUserCopy, out string message)
+            out Metadata metadataUpdatedByUserCopy, out string errorMessage)
         {
             //Out parameter default
-            message = "";
+            errorMessage = "";
             metadataUpdatedByUserCopy = null;
 
             if (metadataWrittenByExiftoolWaitVerify.Count == 0) 
@@ -296,19 +292,15 @@ namespace Exiftool
             int verifyPosition = Metadata.FindFullFilenameInList(metadataWrittenByExiftoolWaitVerify, metadataRead.FileEntryBroker.FileFullPath);
             if (verifyPosition != -1)
             {
-                //Debug way was not date updated, metadate read FileDateCreate date is Older Than Metadata acctual file.
-                //Remove from list and add back to Read Exif once more
+                ///Remove from list and add back to Read Exif once more
                 if (metadataRead.FileEntryBroker.LastWriteDateTime > metadataWrittenByExiftoolWaitVerify[verifyPosition].FileDateModified)
                 {
-                    string fileErrorMessage = "File been updated between read exiftool was run and verify\r\n" +
+                    string fileErrorMessage = "File has been updated between writing and read back using exiftool.\r\n" +
                         "This can occure when OneDrive, GoogleDrive, Dropbox, iDrive, Box etc... change dates during syncing files.\r\n" +
-                        "File name:" + metadataRead.FileEntryBroker.FileFullPath + "\r\n" +
                         "File modified before Exiftool: " + metadataRead.FileEntryBroker.LastWriteDateTime.ToString() + "\r\n" +
-                        "File modified after  Exiftool: " + metadataWrittenByExiftoolWaitVerify[verifyPosition].FileDateModified.ToString() + "\r\n" +
-                        FileHandler.GetFileStatusText(metadataRead.FileFullPath, checkLockedStatus: true, showLockedByProcess: true);
-                    message += fileErrorMessage;
-                    Logger.Warn(fileErrorMessage);
-
+                        "File modified after  Exiftool: " + metadataWrittenByExiftoolWaitVerify[verifyPosition].FileDateModified.ToString();
+                    errorMessage += (string.IsNullOrWhiteSpace(errorMessage) ? "" : "\r\n") + fileErrorMessage;
+                    Logger.Warn("File with error: " + metadataRead.FileFullPath + "\r\n" + errorMessage);
                     foundErrors = true;
                 }
             }
@@ -352,9 +344,9 @@ namespace Exiftool
             
             if (metadataRead != metadataUpdatedByUserCopy)
             {
-                message += "Filename: '" + metadataUpdatedByUserCopy.FileFullPath + "'\r\n" +
-                    "Errors:\r\n" + Metadata.GetErrors(metadataUpdatedByUserCopy, metadataRead) + "\r\n-----------\r\n\r\n";
-                Logger.Error("Verify metatdata failed! Data read back not equal to was supposted to be written on file, often occures e.g. when OneDrive creates a duplicate file: " + metadataUpdatedByUserCopy.FileFullPath);
+                errorMessage += (string.IsNullOrWhiteSpace(errorMessage) ? "" : "\r\n") + 
+                    "Metadata errors:\r\n" + Metadata.GetErrors(metadataUpdatedByUserCopy, metadataRead);
+                Logger.Warn("File with error: " + metadataUpdatedByUserCopy.FileFullPath + "\r\n" + errorMessage);
 
                 foundErrors = true;
             }                

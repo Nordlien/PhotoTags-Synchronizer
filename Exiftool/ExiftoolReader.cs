@@ -6,7 +6,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Xml;
 using ApplicationAssociations;
 using MetadataLibrary;
@@ -702,11 +701,9 @@ namespace Exiftool
                                     }
                                     else
                                     {
-                                        string error = "Error when use Exiftool read: " + metadata.FileFullPath + ".\r\n" +
-                                            "Was not able to read exifdata from file. This often occure when File is corrupt, deleted, renamed or OneDrive download files ";
-                                        genericExiftoolError += (string.IsNullOrWhiteSpace(genericExiftoolError) ? "" : "\r\n") + error;
+                                        string error = "Was not able to read exifdata from file. This often occure when File is corrupt, deleted, locked, renamed or OneDrive download files";
                                         if (!errorMessageOnFiles.ContainsKey(metadata.FileFullPath)) errorMessageOnFiles.Add(metadata.FileFullPath, error);
-                                        Logger.Warn(error);
+                                        Logger.Warn("Error on file: " + metadata.FileFullPath + " Error:" + error);
                                     }
                                 }
                                 #endregion
@@ -1599,12 +1596,10 @@ namespace Exiftool
                     {
                         if (metadata != null)
                         {
-                            string error = "Error when use Exiftool read: " + metadata.FileFullPath + ".\r\n" +
-                                "Was not able to read exifdata from file. This often occure when File is corrupt, deleted, renamed or OneDrive download files ";
-                            genericExiftoolError += (string.IsNullOrWhiteSpace(genericExiftoolError) ? "" : "\r\n") + error;
+                            string error = "Was not able to read exifdata from file. This often occure when File is corrupt, deleted, locked, renamed or OneDrive download files";
                             if (!errorMessageOnFiles.ContainsKey(metadata.FileFullPath)) errorMessageOnFiles.Add(metadata.FileFullPath, error);
-                            Logger.Warn(error);
-                            //throw new Exception(error);
+                            Logger.Warn("Error on file: " + metadata.FileFullPath + " Error:" + error);
+
                         }
                     }
                     #endregion

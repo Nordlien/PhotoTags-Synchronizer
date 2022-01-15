@@ -80,12 +80,12 @@ namespace PhotoTagsSynchronizer
                     Path.GetFileName(sourceFullFilename),
                     dateTimeLastWriteTime,
                     AddErrorFileSystemRegion, AddErrorFileSystemMove, sourceFullFilename, targetFullFilename,
-                    "Failed moving file.\r\n\r\n" +
-                    "From:" + sourceFullFilename + "\r\n\r\n" +
-                    "To: " + targetFullFilename + "\r\n\r\n" +
-                    "Error message: " + ex.Message + "\r\n" +
-                    "File staus:" + sourceFullFilename + "\r\n" + fileStatus.ToString() +
-                    "File staus:" + targetFullFilename + "\r\n" + fileStatusTarget.ToString());
+                    "Issue: Failed moving file.\r\n" +
+                    "From File name : " + sourceFullFilename + "\r\n" +
+                    "From File staus: " + fileStatus.ToString() + "\r\n" +
+                    "To   File name : " + targetFullFilename + "\r\n" +
+                    "To   File staus: " + fileStatusTarget.ToString() + "\r\n" +
+                    "Error message: " + ex.Message);
                 Logger.Error(ex, "Error when move file.");
             }
             ImageListViewResumeLayoutInvoke(imageListView1);
@@ -164,12 +164,13 @@ namespace PhotoTagsSynchronizer
                             Path.GetFileName(sourceFullFilename),
                             dateTimeLastWriteTime,
                             AddErrorFileSystemRegion, AddErrorFileSystemMove, sourceFullFilename, targetFullFilename,
-                            "Failed moving file.\r\n\r\n" +
-                            "From:" + sourceFullFilename + "\r\n\r\n" +
-                            "To: " + targetFullFilename + "\r\n\r\n" +
-                            "Error message: " + ex.Message + "\r\n" +
-                            "File staus:" + sourceFullFilename + "\r\n" + fileStatus.ToString() +
-                            "File staus:" + targetFullFilename + "\r\n" + fileStatusTarget.ToString());
+                            "Issue: Failed moving file.\r\n" +
+                            "From File name : " + sourceFullFilename + "\r\n" +
+                            "From File staus: " + fileStatus.ToString() + "\r\n" +
+                            "To   File name : " + targetFullFilename + "\r\n" +
+                            "To   File staus: " + fileStatusTarget.ToString() + "\r\n" +
+                            "Error message: " + ex.Message);
+
                         Logger.Error(ex, "Error when move file.");
                     }
                 }
@@ -237,10 +238,10 @@ namespace PhotoTagsSynchronizer
                 AddError(
                     sourceDirectory,
                     AddErrorFileSystemRegion, AddErrorFileSystemMoveFolder, sourceDirectory, targetDirectory,
-                    "Failed moving directory.\r\n\r\n" +
-                    "From: " + sourceDirectory + "\r\n\r\n" +
-                    "To: " + targetDirectory + "\r\n\r\n" +
-                    "Error message:\r\n" + ex.Message);
+                    "Issue: Failed moving directory.\r\n" +
+                    "From Directory: " + sourceDirectory + "\r\n" +
+                    "To Directory: " + targetDirectory + "\r\n" +
+                    "Error message: " + ex.Message);
 
             }
         }
@@ -277,22 +278,25 @@ namespace PhotoTagsSynchronizer
                         }
                         catch { }
 
-                        FileStatus fileStatus = FileHandler.GetFileStatus(
+                        FileStatus fileStatusSource = FileHandler.GetFileStatus(
                             sourceFullFilename, checkLockedStatus: true,
                             fileInaccessibleOrError: true, fileErrorMessage: ex.Message,
                             exiftoolProcessStatus: ExiftoolProcessStatus.DoNotUpdate);
-                        ImageListView_UpdateItemFileStatusInvoke(sourceFullFilename, fileStatus);
+
+                        ImageListView_UpdateItemFileStatusInvoke(sourceFullFilename, fileStatusSource);
+
+                        FileStatus fileStatusTarget = FileHandler.GetFileStatus(
+                            targetFullFilename, checkLockedStatus: true);
 
                         AddError(
-                            Path.GetDirectoryName(sourceFullFilename),
-                            Path.GetFileName(sourceFullFilename),
-                            dateTimeLastWriteTime, sourceFullFilename, targetFullFilename,
-                            AddErrorFileSystemRegion, AddErrorFileSystemCopy,
-                            "Failed copying file.\r\n\r\n" +
-                            "Error copy file from: " + sourceFullFilename + "\r\n\r\n" +
-                            "To file: " + targetFullFilename + "\r\n\r\n" +
-                            "Error message: " + ex.Message + "\r\n" +
-                            "File staus:" + sourceFullFilename + "\r\n" + fileStatus.ToString());
+                            Path.GetDirectoryName(sourceFullFilename), Path.GetFileName(sourceFullFilename), dateTimeLastWriteTime, 
+                            sourceFullFilename, targetFullFilename, AddErrorFileSystemRegion, AddErrorFileSystemCopy,
+                            "Issue: Failed copying the file.\r\n" +
+                            "From File Name:  " + sourceFullFilename + "\r\n" +
+                            "From File Staus: " + fileStatusSource.ToString() + "\r\n" +
+                            "To   File Name:  " + targetFullFilename + "\r\n" +
+                            "To   File Staus: " + fileStatusTarget.ToString() + "\r\n" +
+                            "Error message: " + ex.Message);
                         Logger.Error(ex, "Error when copy file.");
                     }
                 }
@@ -318,11 +322,11 @@ namespace PhotoTagsSynchronizer
                 catch (SystemException ex)
                 {
                     Logger.Error(ex, "Error when create directory when copy all files from folder");
-                    AddError(dirPath,
-                        AddErrorFileSystemRegion, AddErrorFileSystemCreateFolder, dirPath.Replace(sourceDirectory, tagretDirectory), dirPath.Replace(sourceDirectory, tagretDirectory),
-                        "Failed create directory\r\n\r\n" +
-                        "Directory: " + dirPath + "\r\n\r\n" +
-                        "Error message: " + ex.Message + "\r\n");
+                    AddError(
+                        dirPath, AddErrorFileSystemRegion, AddErrorFileSystemCreateFolder, dirPath.Replace(sourceDirectory, tagretDirectory), dirPath.Replace(sourceDirectory, tagretDirectory),
+                        "Issue: Failed create directory\r\n" +
+                        "Directory: " + dirPath + "\r\n" +
+                        "Error message: " + ex.Message);
                 }
             }
             using (new WaitCursor())
@@ -353,29 +357,25 @@ namespace PhotoTagsSynchronizer
                         }
                         catch { }
 
-                        FileStatus fileStatus = FileHandler.GetFileStatus(
+                        FileStatus fileStatusSource = FileHandler.GetFileStatus(
                             sourceFullFilename, checkLockedStatus: true,
                             fileInaccessibleOrError: true, fileErrorMessage: ex.Message,
                             exiftoolProcessStatus: ExiftoolProcessStatus.DoNotUpdate);
-                        ImageListView_UpdateItemFileStatusInvoke(sourceFullFilename, fileStatus);
+                        ImageListView_UpdateItemFileStatusInvoke(sourceFullFilename, fileStatusSource);
 
-                        FileStatus fileStatusTarger = FileHandler.GetFileStatus(
-                            targetFullFilename, checkLockedStatus: true,
-                            fileInaccessibleOrError: true, fileErrorMessage: ex.Message,
-                            exiftoolProcessStatus: ExiftoolProcessStatus.DoNotUpdate);
-                        ImageListView_UpdateItemFileStatusInvoke(targetFullFilename, fileStatus);
+                        FileStatus fileStatusTarget = FileHandler.GetFileStatus(
+                            targetFullFilename, checkLockedStatus: true);
+                        //ImageListView_UpdateItemFileStatusInvoke(targetFullFilename, fileStatusTarget);
 
                         AddError(
-                            Path.GetDirectoryName(sourceFullFilename),
-                            Path.GetFileName(sourceFullFilename),
-                            dateTimeLastWriteTime,
+                            Path.GetDirectoryName(sourceFullFilename), Path.GetFileName(sourceFullFilename), dateTimeLastWriteTime,
                             AddErrorFileSystemRegion, AddErrorFileSystemCopy, sourceFullFilename, targetFullFilename,
-                            "Failed copying file.\r\n\r\n" +
-                            "Error copy file from: " + sourceFullFilename + "\r\n\r\n" +
-                            "To file: " + targetFullFilename + "\r\n\r\n" +
-                            "Error message: " + ex.Message + "\r\n" +
-                            "File staus:" + sourceFullFilename + "\r\n" + fileStatus.ToString() +
-                            "File staus:" + targetFullFilename + "\r\n" + fileStatusTarger.ToString());
+                            "Issue: Failed copying file.\r\n" +
+                            "From File Name:  " + sourceFullFilename + "\r\n" +
+                            "From File Staus: " + fileStatusSource.ToString() + "\r\n" +
+                            "To   File Name:  " + targetFullFilename + "\r\n" +
+                            "To   File Staus: " + fileStatusTarget.ToString() + "\r\n" +
+                            "Error message: " + ex.Message);
                     }
                 }
             }

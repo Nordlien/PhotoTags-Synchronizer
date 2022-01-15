@@ -140,8 +140,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-
-
         #region DataGridView - Populate - SelectedExtrasDropdownAndColumnSizesInvoke (Populate DataGridView Extras)
         private void DataGridView_Populate_ExtrasAsDropdownAndColumnSizesInvoke()
         {
@@ -217,10 +215,6 @@ namespace PhotoTagsSynchronizer
                     {
                         int columnIndexAutoCorrect = DataGridViewHandler.GetColumnIndexWhenAddColumn(dataGridView, fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionCompare);
                         int debugIndex = DataGridViewHandler.GetColumnIndexUserInput(dataGridView, fileEntryAttribute);
-                        if (debugIndex != columnIndexAutoCorrect)
-                        {
-                            //DEBUG
-                        }
 
                         DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndexAutoCorrect);
                         if (dataGridViewGenericColumn != null && dataGridViewGenericColumn.Metadata != null)
@@ -392,9 +386,7 @@ namespace PhotoTagsSynchronizer
                     #endregion
 
                     int queueCount = GetDataGridView_ColumnsEntriesInReadQueues_Count();
-                    //LazyLoadingDataGridViewProgressUpdateStatus(queueCount); //Update progressbar when File In DataGridView
                     LazyLoadingDataGridViewProgressUpdateStatus(GetCircleProgressCount(true, 0));
-
                     if (queueCount == 0) DataGridView_Populate_ExtrasAsDropdownAndColumnSizesInvoke();
 
                     DataGridViewHandler.ResumeLayoutDelayed(dataGridView); //Will resume when counter reach 0
@@ -436,6 +428,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region DataGridView - GetCircleProgressCount
         private int GetCircleProgressCount(bool showProgressCircle, int populateProgress)
         {
             if (!showProgressCircle) return 0; //imageListViewSelectItems.Count
@@ -446,6 +439,7 @@ namespace PhotoTagsSynchronizer
 
             return queueCount + populateProgress;
         }
+        #endregion
 
         #region DataGridView - Populate Selected Files - OnActiveDataGridView - Invoke 
         /// <summary>
@@ -842,12 +836,6 @@ namespace PhotoTagsSynchronizer
 
                         metadataListOriginalExiftool.Add(new Metadata(dataGridViewGenericColumn.Metadata));
                         metadataListFromDataGridView.Add(new Metadata(metadataFromDataGridView));
-
-                        if (clearDirtyFlagAndUpdatedMetadata)
-                            dataGridViewGenericColumn.Metadata = new Metadata(metadataFromDataGridView);
-
-
-
                     }
                 }
             }

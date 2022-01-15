@@ -275,78 +275,74 @@ namespace PhotoTagsSynchronizer
                 if (metadata == null || metadata.FileName == null)
                 {
                     FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fileEntryBroker, FileEntryVersion.CurrentVersionInDatabase);
-                    
+
+                    #region Check if has Record with Error - flag it with FileInaccessibleOrError
                     FileEntryBroker fileEntryBrokerError = new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.ExifTool | MetadataBrokerType.ExifToolWriteError);
                     Metadata metadataError = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBrokerError);
-                    if (metadataError != null)
-                    {
-                        fileStatus.FileInaccessibleOrError = true;
-                    }
+                    if (metadataError != null) fileStatus.FileInaccessibleOrError = true;
+                    #endregion
 
-                    
-                    AddQueueReadFromSourceIfMissing_AllSoruces(fileEntryAttribute);
+                    #region Add to read queue, when data missing and not marked as Error record
+                    if (metadataError == null) AddQueueReadFromSourceIfMissing_AllSoruces(fileEntryAttribute);
+                    #endregion
 
                     e.FileMetadata = new Utility.ShellImageFileInfo(); //Tell that data is create, all is good for internal void UpdateDetailsInternal(Utility.ShellImageFileInfo info)
                     e.FileMetadata.SetPropertyStatusOnAll(PropertyStatus.Requested); //All data will be read, it's in Lazy loading queue
 
-                    //JTN: MediaFileAttributes
-//if (!fileStatus.FileExists || fileStatus.IsInCloudOrVirtualOrOffline || fileStatus.FileInaccessibleOrError || fileStatus.HasAnyLocks)
+                    string inCloudOrNotExistError = FileHandler.ConvertFileStatusToText(fileStatus);
+
+                    #region Assign metadata
+
+                    #region Provided by FileInfo
+                    e.FileMetadata.FileDateCreated = DateTime.MinValue;
+                    e.FileMetadata.FileDateModified = DateTime.MinValue;
+                    e.FileMetadata.FileSmartDate = DateTime.MinValue;
+                    e.FileMetadata.FileSize = long.MinValue;
+
+                    if (fileStatus.FileExists)
                     {
-                        string inCloudOrNotExistError = FileHandler.ConvertFileStatusToText(fileStatus);
-
-                        #region Assign metadata
-
-                        #region Provided by FileInfo
-                        e.FileMetadata.FileDateCreated = DateTime.MinValue;
-                        e.FileMetadata.FileDateModified = DateTime.MinValue;
-                        e.FileMetadata.FileSmartDate = DateTime.MinValue;
-                        e.FileMetadata.FileSize = long.MinValue;
-
-                        if (fileStatus.FileExists)
+                        try { e.FileMetadata.FileDateCreated = File.GetCreationTime(e.FileName); } catch { }
+                        try { e.FileMetadata.FileDateModified = File.GetLastWriteTime(e.FileName); } catch { }
+                        try
                         {
-                            try { e.FileMetadata.FileDateCreated = File.GetCreationTime(e.FileName); } catch { }
-                            try { e.FileMetadata.FileDateModified = File.GetLastWriteTime(e.FileName); } catch { }
-                            try
-                            {
-                                DateTime? fileSmartDate = fileDateTimeReader.SmartDateTime(e.FileName, e.FileMetadata.FileDateCreated, e.FileMetadata.FileDateModified);
-                                e.FileMetadata.FileSmartDate = (fileSmartDate == null ? DateTime.MinValue : (DateTime)fileSmartDate);
-                            }
-                            catch { }
-                            try { e.FileMetadata.FileSize = new FileInfo(e.FileName).Length; } catch { }
+                            DateTime? fileSmartDate = fileDateTimeReader.SmartDateTime(e.FileName, e.FileMetadata.FileDateCreated, e.FileMetadata.FileDateModified);
+                            e.FileMetadata.FileSmartDate = (fileSmartDate == null ? DateTime.MinValue : (DateTime)fileSmartDate);
                         }
-
-                        e.FileMetadata.FileMimeType = Path.GetExtension(e.FileName);
-                        e.FileMetadata.FileDirectory = Path.GetDirectoryName(e.FileName);
-                        #endregion
-
-                        #region Provided by ShellImageFileInfo, MagickImage                                
-                        e.FileMetadata.CameraMake = inCloudOrNotExistError;
-                        e.FileMetadata.CameraModel = inCloudOrNotExistError;
-                        e.FileMetadata.MediaDimensions = new Size(0, 0);
-                        #endregion
-
-                        #region Provided by MagickImage, Exiftool
-                        e.FileMetadata.MediaDateTaken = DateTime.MinValue;
-                        e.FileMetadata.MediaTitle = inCloudOrNotExistError;
-                        e.FileMetadata.MediaDescription = inCloudOrNotExistError;
-                        e.FileMetadata.MediaComment = inCloudOrNotExistError;
-                        e.FileMetadata.MediaAuthor = inCloudOrNotExistError;
-                        e.FileMetadata.MediaRating = 0;
-                        #endregion
-
-                        #region Provided by Exiftool
-                        e.FileMetadata.MediaAlbum = inCloudOrNotExistError;
-                        e.FileMetadata.LocationDateTime = DateTime.MinValue;
-                        e.FileMetadata.LocationTimeZone = inCloudOrNotExistError;
-                        e.FileMetadata.LocationName = inCloudOrNotExistError;
-                        e.FileMetadata.LocationRegionState = inCloudOrNotExistError;
-                        e.FileMetadata.LocationCity = inCloudOrNotExistError;
-                        e.FileMetadata.LocationCountry = inCloudOrNotExistError;
-                        #endregion
-
-                        #endregion
+                        catch { }
+                        try { e.FileMetadata.FileSize = new FileInfo(e.FileName).Length; } catch { }
                     }
 
+                    e.FileMetadata.FileMimeType = Path.GetExtension(e.FileName);
+                    e.FileMetadata.FileDirectory = Path.GetDirectoryName(e.FileName);
+                    #endregion
+
+                    #region Provided by ShellImageFileInfo, MagickImage                                
+                    e.FileMetadata.CameraMake = inCloudOrNotExistError;
+                    e.FileMetadata.CameraModel = inCloudOrNotExistError;
+                    e.FileMetadata.MediaDimensions = new Size(0, 0);
+                    #endregion
+
+                    #region Provided by MagickImage, Exiftool
+                    e.FileMetadata.MediaDateTaken = DateTime.MinValue;
+                    e.FileMetadata.MediaTitle = inCloudOrNotExistError;
+                    e.FileMetadata.MediaDescription = inCloudOrNotExistError;
+                    e.FileMetadata.MediaComment = inCloudOrNotExistError;
+                    e.FileMetadata.MediaAuthor = inCloudOrNotExistError;
+                    e.FileMetadata.MediaRating = 0;
+                    #endregion
+
+                    #region Provided by Exiftool
+                    e.FileMetadata.MediaAlbum = inCloudOrNotExistError;
+                    e.FileMetadata.LocationDateTime = DateTime.MinValue;
+                    e.FileMetadata.LocationTimeZone = inCloudOrNotExistError;
+                    e.FileMetadata.LocationName = inCloudOrNotExistError;
+                    e.FileMetadata.LocationRegionState = inCloudOrNotExistError;
+                    e.FileMetadata.LocationCity = inCloudOrNotExistError;
+                    e.FileMetadata.LocationCountry = inCloudOrNotExistError;
+                    #endregion
+
+                    #endregion
+                
                     #region Provided by FileInfo
                     e.FileMetadata.DisplayName = Path.GetFileName(e.FileName);
                     //e.FileMetadata.Name= e.FileName;
@@ -1026,19 +1022,18 @@ namespace PhotoTagsSynchronizer
                 ImageListView_UpdateItemFileStatusInvoke(filename, fileStatus);
 
                 FileStatus fileStatusRenameFailed = FileHandler.GetFileStatus(
-                    renameFailed[filename].NewFilename, checkLockedStatus: true,
-                    fileInaccessibleOrError: true, fileErrorMessage: renameFailed[filename].ErrorMessage,
-                    exiftoolProcessStatus: ExiftoolProcessStatus.DoNotUpdate);
-                ImageListView_UpdateItemFileStatusInvoke(renameFailed[filename].NewFilename, fileStatus);
+                    renameFailed[filename].NewFilename, checkLockedStatus: true);
+                //ImageListView_UpdateItemFileStatusInvoke(renameFailed[filename].NewFilename, fileStatusRenameFailed);
 
                 AddError(
-                        Path.GetDirectoryName(filename),
-                        Path.GetFileName(filename),
-                        dateTimeLastWriteTime,
+                        Path.GetDirectoryName(filename), Path.GetFileName(filename), dateTimeLastWriteTime,
                         AddErrorFileSystemRegion, AddErrorFileSystemMove, filename, renameFailed[filename].NewFilename,
-                        "Error message: " + renameFailed[filename].ErrorMessage + "\r\n" +
-                        "File staus:" + filename + "\r\n" + fileStatus.ToString() + "\r\n" +
-                        "File staus:" + renameFailed[filename].NewFilename + "\r\n" + fileStatusRenameFailed.ToString());
+                        "Issue: Failed to rename file.\r\n" +
+                        "From File Name:  " + filename + "\r\n" +
+                        "From File Staus: " + fileStatus.ToString() + "\r\n" +
+                        "To   File Name:  " + renameFailed[filename].NewFilename + "\r\n" +
+                        "To   File Staus: " + fileStatusRenameFailed.ToString() + "\r\n" +
+                        "Error message: " + renameFailed[filename].ErrorMessage);
 
                 ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView.Items, filename);
                 if (foundItem != null) foundItem.Selected = true; 
