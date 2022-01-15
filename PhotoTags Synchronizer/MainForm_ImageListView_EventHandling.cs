@@ -134,13 +134,10 @@ namespace PhotoTagsSynchronizer
                 ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fullFileName);
                 if (foundItem != null)
                 {
-                    //foundItem.BeginEdit();
                     ImageListViewItemUpdateFileStatus(fullFileName, fileStatus);
                     foundItem.FileStatus = fileStatus;
                     foundItem.Invalidate();
-                    //foundItem.EndEdit();
                 }
-                //if (!foundItem.IsPropertyRequested()) foundItem.Update();
             }
             catch (Exception ex)
             {
@@ -289,6 +286,7 @@ namespace PhotoTagsSynchronizer
                     e.FileMetadata = new Utility.ShellImageFileInfo(); //Tell that data is create, all is good for internal void UpdateDetailsInternal(Utility.ShellImageFileInfo info)
                     e.FileMetadata.SetPropertyStatusOnAll(PropertyStatus.Requested); //All data will be read, it's in Lazy loading queue
 
+                    fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.InExiftoolReadQueue;
                     string inCloudOrNotExistError = FileHandler.ConvertFileStatusToText(fileStatus);
 
                     #region Assign metadata
@@ -355,7 +353,9 @@ namespace PhotoTagsSynchronizer
                     Utility.ShellImageFileInfo fileMetadata = new Utility.ShellImageFileInfo();
                     ConvertMetadataToShellImageFileInfo(ref fileMetadata, metadata);
                     e.FileMetadata = fileMetadata;
+                    e.FileMetadata.FileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.WaitAction;
                 }
+
                 e.FileMetadata.FileStatus = fileStatus;
             }
             catch (Exception ex)

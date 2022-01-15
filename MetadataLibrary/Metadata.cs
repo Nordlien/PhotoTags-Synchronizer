@@ -123,7 +123,10 @@ namespace MetadataLibrary
             PersonalAlbum = metadata.PersonalAlbum;
             try
             {
-                foreach (RegionStructure region in metadata.personalRegionList) personalRegionList.Add(new RegionStructure(region));
+                foreach (RegionStructure region in metadata.personalRegionList)
+                {
+                    if (region != null) personalRegionList.Add(new RegionStructure(region));
+                }
             } catch (Exception ex)
             {
                 Logger.Error(ex.Message); //If not thread safe, but don't crash and save error
@@ -603,6 +606,11 @@ namespace MetadataLibrary
 
         public void PersonalRegionListAddIfNotExists(RegionStructure regionStructure)
         {
+            if (regionStructure == null)
+            {
+                //DEBUG - should not happen
+                //throw new NotImplementedException();
+            }
             if (!personalRegionList.Contains(regionStructure)) personalRegionList.Add(regionStructure);
         }
 
@@ -610,7 +618,7 @@ namespace MetadataLibrary
         {
             foreach (RegionStructure regionStructureCheckMissingThumbnail in PersonalRegionList)
             {
-                if (regionStructureCheckMissingThumbnail.Thumbnail == null) return true;
+                if (regionStructureCheckMissingThumbnail?.Thumbnail == null) return true;
             }
             return false;
         }

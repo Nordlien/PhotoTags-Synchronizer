@@ -625,20 +625,15 @@ namespace PhotoTagsSynchronizer
                                     else
                                     {
                                         isMetadataExiftoolFound = true;
-                                        if (metadataExiftool != null) //CAN NENER HAPPER
-                                        {
-                                            //Check if Region Thumnbail missing, if yes, then create
-                                            if (metadataExiftool.PersonalRegionIsThumbnailMissing()) 
-                                                AddQueueSaveToDatabaseRegionAndThumbnailLock(metadataExiftool);
-                                            isMetadataExiftoolFound = true;
-                                            /*
-                                            FileEntryBroker fileEntryBrokerExiftoolError = new FileEntryBroker(fileEntryAttribute,
-                                                MetadataBrokerType.ExifTool | MetadataBrokerType.ExifToolWriteError);
-                                            DataGridView_Populate_FileEntryAttributeInvoke(
-                                               new FileEntryAttribute(fileEntryBrokerExiftoolError, FileEntryVersion.CurrentVersionInDatabase);
-                                            
-                                            */
-                                        }
+                                        //Check if Region Thumnbail missing, if yes, then create
+                                        if (metadataExiftool.PersonalRegionIsThumbnailMissing()) 
+                                            AddQueueSaveToDatabaseRegionAndThumbnailLock(metadataExiftool);
+
+                                        FileStatus fileStaus = FileHandler.GetFileStatus(metadataExiftool.FileFullPath,
+                                            exiftoolProcessStatus: ExiftoolProcessStatus.WaitAction);
+                                        ImageListView_UpdateItemFileStatusInvoke(metadataExiftool.FileFullPath, fileStaus);
+
+                                        isMetadataExiftoolFound = true;
                                     }
                                     #endregion
 
@@ -700,7 +695,9 @@ namespace PhotoTagsSynchronizer
                                     #endregion
 
                                     if (isMetadataExiftoolFound || isMetadataExiftoolErrorFound)
+                                    {
                                         ImageListView_UpdateItemExiftoolMetadataInvoke(fileEntryAttribute);
+                                    }
                                     if (isMetadataExiftoolFound || isMetadataExiftoolErrorFound || isMetadataOtherSourceFound) 
                                         DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute);
                                 }
