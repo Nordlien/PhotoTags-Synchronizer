@@ -1031,7 +1031,7 @@ namespace DataGridViewGeneric
 
             DataGridViewHandler.SetIsPopulatingImage(dataGridView, true);
 
-            int columnIndex = GetColumnIndexUserInput(dataGridView, fileEntryAttribute);
+            int columnIndex = GetColumnIndexPriorities(dataGridView, fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionCompare);
             if (columnIndex >= 0)
             {
                 DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);

@@ -615,10 +615,11 @@ namespace PhotoTagsSynchronizer
                                             AddQueueReadFromSourceExiftoolLock(fileEntryAttribute); //Didn't exists in Database, need read from source
                                         else
                                         {
-                                            FileStatus fileStaus = FileHandler.GetFileStatus(fileEntryAttribute.FileFullPath,
+                                            FileStatus fileStaus = FileHandler.GetFileStatus(fileEntryBrokerExiftoolError.FileFullPath,
                                                 exiftoolProcessStatus: ExiftoolProcessStatus.FileInaccessibleOrError, checkLockedStatus: true);
-                                            ImageListView_UpdateItemFileStatusInvoke(fileEntryAttribute.FileFullPath, fileStaus);
+                                            ImageListView_UpdateItemFileStatusInvoke(fileEntryBrokerExiftoolError.FileFullPath, fileStaus);
                                             isMetadataExiftoolErrorFound = true;
+
                                         }
                                     }
                                     else
@@ -630,6 +631,13 @@ namespace PhotoTagsSynchronizer
                                             if (metadataExiftool.PersonalRegionIsThumbnailMissing()) 
                                                 AddQueueSaveToDatabaseRegionAndThumbnailLock(metadataExiftool);
                                             isMetadataExiftoolFound = true;
+                                            /*
+                                            FileEntryBroker fileEntryBrokerExiftoolError = new FileEntryBroker(fileEntryAttribute,
+                                                MetadataBrokerType.ExifTool | MetadataBrokerType.ExifToolWriteError);
+                                            DataGridView_Populate_FileEntryAttributeInvoke(
+                                               new FileEntryAttribute(fileEntryBrokerExiftoolError, FileEntryVersion.CurrentVersionInDatabase);
+                                            
+                                            */
                                         }
                                     }
                                     #endregion
@@ -1311,8 +1319,7 @@ namespace PhotoTagsSynchronizer
                                                     (DateTime)metadataDummy.FileDateModified,
                                                     FileEntryVersion.Error);
                                                 DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttributeError);
-
-
+                                                
                                                 AddError(
                                                     Path.GetDirectoryName(fullFilePath), Path.GetFileName(fullFilePath), DateTime.Now,
                                                     AddErrorExiftooRegion, AddErrorExiftooCommandRead, AddErrorExiftooParameterRead,
@@ -1366,12 +1373,6 @@ namespace PhotoTagsSynchronizer
                                                     databaseAndCacheMetadataExiftool.Write(metadataError);
                                                     databaseAndCacheMetadataExiftool.TransactionCommitBatch();
                                                     #endregion
-
-//#region Add to Load Thumbnails queue
-//FileStatus fileStatusVerify = FileHandler.GetFileStatus(metadataError.FileFullPath);
-//bool dontReadFileFromCloud = Properties.Settings.Default.AvoidOfflineMediaFiles;
-//GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(metadataError.FileEntry, dontReadFileFromCloud, fileStatusVerify);
-//#endregion
 
                                                     FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(metadataError.FileFullPath, (DateTime)metadataError.FileDateModified, FileEntryVersion.Error);
                                                     DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute);
@@ -1725,7 +1726,7 @@ namespace PhotoTagsSynchronizer
                                                     fileInaccessibleOrError: true, fileErrorMessage: writeXtraAtomErrorMessageForFile[fileSuposeToBeUpdated.FileFullPath],
                                                     exiftoolProcessStatus: ExiftoolProcessStatus.FileInaccessibleOrError);
                                                 ImageListView_UpdateItemFileStatusInvoke(fileSuposeToBeUpdated.FileFullPath, fileStatus);
-
+                                                
                                                 AddError(
                                                     fileSuposeToBeUpdated.Directory, fileSuposeToBeUpdated.FileName, fileSuposeToBeUpdated.LastWriteDateTime,
                                                     AddErrorExiftooRegion, AddErrorExiftooCommandWrite, AddErrorExiftooParameterWrite, AddErrorExiftooParameterWrite,
@@ -1749,7 +1750,7 @@ namespace PhotoTagsSynchronizer
                                                     fileInaccessibleOrError: true, fileErrorMessage: exiftoolErrorMessage,
                                                     exiftoolProcessStatus: ExiftoolProcessStatus.FileInaccessibleOrError);
                                                 ImageListView_UpdateItemFileStatusInvoke(fileSuposeToBeUpdated.FileFullPath, fileStatus);
-
+                                                
                                                 #region Exiftool failed to read, no need to verify data that hasn't been read
                                                 int indexExiftoolFailedOn = Metadata.FindFileEntryInList(exiftoolSave_QueueSubsetMetadataToSave, fileSuposeToBeUpdated);
                                                 if (indexExiftoolFailedOn > -1 && indexExiftoolFailedOn < exiftoolSave_QueueSubsetMetadataToSave.Count)

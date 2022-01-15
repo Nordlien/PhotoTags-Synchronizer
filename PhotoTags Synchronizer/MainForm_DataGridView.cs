@@ -405,7 +405,6 @@ namespace PhotoTagsSynchronizer
                 List<FileEntryAttribute> fileEntryAttributeDateVersions =
                     databaseAndCacheMetadataExiftool.ListFileEntryAttributesCache(MetadataBrokerType.ExifTool, fileEntry.FileFullPath);
                 lazyLoadingAllExiftoolVersionOfMediaFile.AddRange(fileEntryAttributeDateVersions);
-                //AddQueueReadFromSourceIfMissing_AllSoruces(FileEntry fileEntry)
             }
 
             AddQueueLazyLoadningAllSourcesMetadataAndRegionThumbnailsLock(lazyLoadingAllExiftoolVersionOfMediaFile);
