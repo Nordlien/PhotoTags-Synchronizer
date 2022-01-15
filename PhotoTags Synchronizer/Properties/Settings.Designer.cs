@@ -421,9 +421,9 @@ namespace PhotoTagsSynchronizer.Properties {
             "ownCountryName={LocationCountry}\r\n-XMP:Country={LocationCountry}\r\n-Country={Loca" +
             "tionCountry}\r\n-ImageRegion=\r\n-RegionInfoMP={PersonalRegionInfoMP}\r\n-RegionInfo={" +
             "PersonalRegionInfo}\r\n-Keyword=\r\n-Category=\r\n-HierarchicalKeywords=\r\n-Hierarchica" +
-            "lSubject=\r\n-LastKeywordXMP=\r\n-LastKeywordIPTC=\r\n-XMP:XMP-digiKam:TagsList=\r\n{Per" +
-            "sonalKeywordItemsAdd}\r\n-Categories={PersonalKeywordsXML}\r\n-XPKeywords={PersonalK" +
-            "eywordsList}\r\n{FileFullPath}\r\n-execute")]
+            "lSubject=\r\n-LastKeywordXMP=\r\n-LastKeywordIPTC=\r\n-XMP:XMP-digiKam:TagsList=\r\n-IPT" +
+            "C:CatalogSets=\r\n{PersonalKeywordItemsAdd}\r\n-Categories={PersonalKeywordsXML}\r\n-X" +
+            "PKeywords={PersonalKeywordsList}\r\n{FileFullPath}\r\n-execute")]
         public string WriteMetadataTags {
             get {
                 return ((string)(this["WriteMetadataTags"]));
@@ -1108,9 +1108,9 @@ explorer ms-photos?filename=""{FileFullPath}""")]
             "ownCountryName={LocationCountry}\r\n-XMP:Country={LocationCountry}\r\n-Country={Loca" +
             "tionCountry}\r\n-ImageRegion=\r\n-RegionInfoMP={PersonalRegionInfoMP}\r\n-RegionInfo={" +
             "PersonalRegionInfo}\r\n-Keyword=\r\n-Category=\r\n-HierarchicalKeywords=\r\n-Hierarchica" +
-            "lSubject=\r\n-LastKeywordXMP=\r\n-LastKeywordIPTC=\r\n-XMP:XMP-digiKam:TagsList=\r\n{Per" +
-            "sonalKeywordItemsAdd}\r\n-Categories={PersonalKeywordsXML}\r\n-XPKeywords={PersonalK" +
-            "eywordsList}\r\n{FileFullPath}\r\n-execute")]
+            "lSubject=\r\n-LastKeywordXMP=\r\n-LastKeywordIPTC=\r\n-XMP:XMP-digiKam:TagsList=\r\n-IPT" +
+            "C:CatalogSets=\r\n{PersonalKeywordItemsAdd}\r\n-Categories={PersonalKeywordsXML}\r\n-X" +
+            "PKeywords={PersonalKeywordsList}\r\n{FileFullPath}\r\n-execute")]
         public string RunArgumentBuildKeywordTags {
             get {
                 return ((string)(this["RunArgumentBuildKeywordTags"]));
