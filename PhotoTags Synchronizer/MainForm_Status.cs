@@ -107,12 +107,12 @@ namespace PhotoTagsSynchronizer
             fileTasks[fullFileName].Add(task);
             if (modifiedDate != null) 
             {
-                DateTime? lastAccessTime = null;
+                DateTime? lastWriteTime = null;
                 try
                 {
-                    if (File.Exists(fullFileName)) lastAccessTime = File.GetLastAccessTime(fullFileName);
+                    if (File.Exists(fullFileName)) lastWriteTime = File.GetLastWriteTime(fullFileName);
                 } catch { }                
-                fileTasks[fullFileName].Add("  " + modifiedDate.ToString() + " vs. " + (lastAccessTime == modifiedDate ? "" : (lastAccessTime == null ? "File not exists or can't read last access time" : lastAccessTime.ToString())));                
+                fileTasks[fullFileName].Add("  " + modifiedDate.ToString() + " vs. " + (lastWriteTime == modifiedDate ? "" : (lastWriteTime == null ? "File not exists or can't read last access time" : lastWriteTime.ToString())));                
             } 
         }
 
@@ -191,7 +191,7 @@ namespace PhotoTagsSynchronizer
             try
             {
                 //lock (mediaFilesNotInDatabaseLock)
-                    foreach (FileEntry fileEntry in exiftoolSave_MediaFilesNotInDatabase)
+                    foreach (FileEntry fileEntry in exiftool_MediaFilesNotInDatabase)
                         AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, null, "Exiftool read, in process");
             }
             catch { }
@@ -361,7 +361,7 @@ namespace PhotoTagsSynchronizer
                     try
                     {
                         int countWaitFileInCloud = 0;
-                        foreach (FileEntry fileEntry in exiftoolSave_MediaFilesNotInDatabase)
+                        foreach (FileEntry fileEntry in exiftool_MediaFilesNotInDatabase)
                         {
                             FileStatus fileStatus = FileHandler.GetFileStatus(fileEntry.FileFullPath);
                             if (fileStatus.IsInCloudOrVirtualOrOffline) countWaitFileInCloud++;

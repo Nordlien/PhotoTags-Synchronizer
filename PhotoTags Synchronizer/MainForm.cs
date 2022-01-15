@@ -126,22 +126,22 @@ namespace PhotoTagsSynchronizer
         FileStream fileStream1 = new FileStream("C:\\Users\\nordl\\OneDrive\\Pictures JTNs OneDrive\\a-- PhotoTags Synchronizer --a\\2019-07-17 15-56-57 IMG_.jpg",
             FileMode.Open,
             FileAccess.Read,
-            FileShare.ReadWrite);
+            FileShare.Write);
 
         FileStream fileStream2 = new FileStream("C:\\Users\\nordl\\OneDrive\\Pictures JTNs OneDrive\\a-- PhotoTags Synchronizer --a\\2019-08-28 06-17-45 VID--WA0000.mp4",
             FileMode.Open,
             FileAccess.Read,
-            FileShare.Read);
+            FileShare.Write);
 
         FileStream fileStream3 = new FileStream("C:\\Users\\nordl\\OneDrive\\Pictures JTNs OneDrive\\a-- PhotoTags Synchronizer --a\\2020-07-31 19-02-54 VID_.mp4",
             FileMode.Open,
             FileAccess.Read,
-            FileShare.Write);
+            FileShare.Read);
 
         FileStream fileStream4 = new FileStream("C:\\Users\\nordl\\OneDrive\\Pictures JTNs OneDrive\\a-- PhotoTags Synchronizer --a\\2021-04-03 12-43-33 IMG_.jpg",
             FileMode.Open,
             FileAccess.Read,
-            FileShare.Write);
+            FileShare.Read);
 
         #region Constructor - MainForm()
         public MainForm()
