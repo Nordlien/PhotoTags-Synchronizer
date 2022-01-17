@@ -19,32 +19,6 @@ namespace PhotoTagsSynchronizer
         private AutoResetEvent ReadImageOutOfMemoryWillWaitCacheEmpty = null; //When out of memory, then wait for all data ready = new AutoResetEvent(false);
         private AutoResetEvent WaitThread_PopulateTreeViewFolderFilter_Stopped = null;
 
-        #region DataGridView - Populate File - For FileEntryAttribute missing Tag - Invoke
-        private void DataGridView_Populate_FileEntryAttributeInvoke(FileEntryAttribute fileEntryAttribute)
-        {
-            if (InvokeRequired)
-            {
-                this.BeginInvoke(new Action<FileEntryAttribute>(DataGridView_Populate_FileEntryAttributeInvoke), fileEntryAttribute);
-                return;
-            }
-            if (GlobalData.IsApplicationClosing) return;
-            try
-            {
-                string tag = GetActiveTabTag();
-                if (!string.IsNullOrWhiteSpace(tag) && IsActiveDataGridViewAgregated(tag))
-                {
-                    DataGridView dataGridView = GetDataGridViewForTag(tag);
-                    if (dataGridView != null) DataGridView_Populate_FileEntryAttribute(dataGridView, fileEntryAttribute, tag);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-            }
-        }
-        #endregion
-
-        
         private Dictionary<string, FileStatus> cacheFileStatus = new Dictionary<string, FileStatus>();
         private object cacheFileStatusLock = new object();
 

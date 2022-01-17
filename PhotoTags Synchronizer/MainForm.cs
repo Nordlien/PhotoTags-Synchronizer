@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using System.IO;
 using Manina.Windows.Forms;
 using System.Reflection;
 using MetadataLibrary;
@@ -23,7 +22,6 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Krypton.Toolkit;
-using FileHandeling;
 using Krypton.Navigator;
 using FileDateTime;
 using ColumnNamesAndWidth;

@@ -191,6 +191,9 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="MainForm_ErrorHandling.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="MainForm_Workspace.cs" />
     <Compile Update="MainForm_LocationHistoryAnalytics.cs" />
     <Compile Update="Properties\Resources.Designer.cs">

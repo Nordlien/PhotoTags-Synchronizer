@@ -479,64 +479,61 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region FixMetadata - Xtra atom 
-        public static Metadata CompatibilityCheckMetadata(Metadata metadata, out bool isUpdated)
+        public static void CompatibilityCheckMetadata(ref Metadata metadata)
         {
-            isUpdated = false;
-            if (metadata == null) return null;
+            if (metadata == null) return;
             
-            Metadata metadataCopy = new Metadata(metadata);
-            
-            foreach (KeywordTag keywordTag in metadata.PersonalKeywordTags) //Read orginal and change the copy
+            try
             {
-                #region Check Metadata.VariablePersonalKeywordsList() - special escape char used as splitter
-                char splitChar = ';';
-                if (!string.IsNullOrWhiteSpace(keywordTag.Keyword) && keywordTag.Keyword.Contains(splitChar.ToString())) 
+                Metadata metadataCopy = new Metadata(metadata);
+                foreach (KeywordTag keywordTag in metadataCopy.PersonalKeywordTags) //Read orginal and change the copy
                 {
-                    isUpdated = true;
-                    string[] keywords = keywordTag.Keyword.Split(splitChar);
-                    foreach (string keyword in keywords)
+                    #region Check Metadata.VariablePersonalKeywordsList() - special escape char used as splitter
+                    char splitChar = ';';
+                    if (!string.IsNullOrWhiteSpace(keywordTag.Keyword) && keywordTag.Keyword.Contains(splitChar.ToString()))
                     {
-                        KeywordTag newKeywordTag = new KeywordTag(keyword.Trim(), keywordTag.Confidence);
-                        metadataCopy.PersonalKeywordTagsAddIfNotExists(newKeywordTag);
+                        string[] keywords = keywordTag.Keyword.Split(splitChar);
+                        foreach (string keyword in keywords)
+                        {
+                            KeywordTag newKeywordTag = new KeywordTag(keyword.Trim(), keywordTag.Confidence);
+                            metadata.PersonalKeywordTagsAddIfNotExists(newKeywordTag);
+                        }
                     }
-                }
-                #endregion 
+                    #endregion
 
-                #region Check
-                splitChar = ',';
-                if (!string.IsNullOrWhiteSpace(keywordTag.Keyword) && keywordTag.Keyword.Contains(splitChar.ToString()))
-                {
-                    isUpdated = true;
-                    string[] keywords = keywordTag.Keyword.Split(splitChar);
-                    foreach (string keyword in keywords)
+                    #region Check
+                    splitChar = ',';
+                    if (!string.IsNullOrWhiteSpace(keywordTag.Keyword) && keywordTag.Keyword.Contains(splitChar.ToString()))
                     {
-                        KeywordTag newKeywordTag = new KeywordTag(keyword.Trim(), keywordTag.Confidence);
-                        metadataCopy.PersonalKeywordTagsAddIfNotExists(newKeywordTag);
+                        string[] keywords = keywordTag.Keyword.Split(splitChar);
+                        foreach (string keyword in keywords)
+                        {
+                            KeywordTag newKeywordTag = new KeywordTag(keyword.Trim(), keywordTag.Confidence);
+                            metadata.PersonalKeywordTagsAddIfNotExists(newKeywordTag);
+                        }
                     }
-                }
-                #endregion
+                    #endregion
 
-                #region Check Metadata.VariableKeywordCategories() - special escape char used as splitter
-                splitChar = '/';
-                if (!string.IsNullOrWhiteSpace(keywordTag.Keyword) && keywordTag.Keyword.Contains(splitChar.ToString()))
-                {
-                    isUpdated = true;
-                    string[] keywords = keywordTag.Keyword.Split(splitChar);
-                    foreach (string keyword in keywords)
+                    #region Check Metadata.VariableKeywordCategories() - special escape char used as splitter
+                    splitChar = '/';
+                    if (!string.IsNullOrWhiteSpace(keywordTag.Keyword) && keywordTag.Keyword.Contains(splitChar.ToString()))
                     {
-                        KeywordTag newKeywordTag = new KeywordTag(keyword.Trim(), keywordTag.Confidence);
-                        metadataCopy.PersonalKeywordTagsAddIfNotExists(newKeywordTag);
+                        string[] keywords = keywordTag.Keyword.Split(splitChar);
+                        foreach (string keyword in keywords)
+                        {
+                            KeywordTag newKeywordTag = new KeywordTag(keyword.Trim(), keywordTag.Confidence);
+                            metadata.PersonalKeywordTagsAddIfNotExists(newKeywordTag);
+                        }
                     }
+                    #endregion
                 }
-                #endregion
             }
-            
-            return metadataCopy;
+            catch { }
         }
         #endregion
 
         #region FixAndSave
-        public Metadata RunAlgorithm(Metadata metadata,
+        public Metadata RunAlgorithmReturnCopy(Metadata metadata,
             MetadataDatabaseCache metadataAndCacheMetadataExiftool,
             MetadataDatabaseCache databaseAndCacheMetadataMicrosoftPhotos,
             MetadataDatabaseCache databaseAndCacheMetadataWindowsLivePhotoGallery,

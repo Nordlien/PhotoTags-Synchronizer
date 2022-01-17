@@ -1344,7 +1344,7 @@ namespace DataGridViewGeneric
                             if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect)
                             {
                                 currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed, expected behaviour
-                                currentDataGridViewGenericColumn.Metadata = metadata; //Keep newest version, PS All columns get added with empty Metadata
+                                //currentDataGridViewGenericColumn.Metadata = metadata; //Don't updated Metadata with AutoCorrect, needs to know orginal to check for changes
                             } 
                             else 
                             { 

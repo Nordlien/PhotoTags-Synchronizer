@@ -4199,14 +4199,20 @@ namespace PhotoTagsSynchronizer
                     switch (ActiveKryptonPage)
                     {
                         case KryptonPages.None:
+                            KryptonMessageBox.Show("No active View is selected. You need to select a view so application knows what View to save.", "Nothing to save...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
                             break;
                         case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                            KryptonMessageBox.Show("'Folders view' is avtive. You need to select diffrent view so application knows what View to save.", "Nothing to save...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
                             break;
                         case KryptonPages.kryptonPageFolderSearchFilterSearch:
+                            KryptonMessageBox.Show("'Search view' is avtive. You need to select diffrent view so application knows what View to save.", "Nothing to save...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
+
                             break;
                         case KryptonPages.kryptonPageFolderSearchFilterFilter:
+                            KryptonMessageBox.Show("'Filter view' is avtive. You need to select diffrent view so application knows what View to save.", "Nothing to save...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
                             break;
                         case KryptonPages.kryptonPageMediaFiles:
+                            KryptonMessageBox.Show("'Show Media Files view' is avtive. You need to select diffrent view so application knows what View to save.", "Nothing to save...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
                             break;
                         case KryptonPages.kryptonPageToolboxTags:
                         case KryptonPages.kryptonPageToolboxPeople:
@@ -4216,8 +4222,10 @@ namespace PhotoTagsSynchronizer
                             GlobalData.IsAgregatedProperties = false;
                             break;
                         case KryptonPages.kryptonPageToolboxExiftool:
+                            KryptonMessageBox.Show("'Exiftool view' is avtive. You need to select diffrent view so application knows what View to save.", "Nothing to save...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
                             break;
                         case KryptonPages.kryptonPageToolboxWarnings:
+                            KryptonMessageBox.Show("'Exiftool Warnings' view is avtive. You need to select diffrent view so application knows what View to save.", "Nothing to save...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
                             break;
                         case KryptonPages.kryptonPageToolboxProperties:
                             SaveProperties();
@@ -4243,6 +4251,22 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region AutoKeywords
+        private void AutoKeywords(ref Metadata metadataCopy)
+        {
+            bool writeAddAutokeywords = Properties.Settings.Default.WriteMetadataAddAutoKeywords;
+            if (writeAddAutokeywords && metadataCopy != null)
+            {
+                List<string> newKeywords = AutoKeywordHandler.NewKeywords(autoKeywordConvertions, metadataCopy.LocationName, metadataCopy.PersonalTitle,
+                    metadataCopy.PersonalAlbum, metadataCopy.PersonalDescription, metadataCopy.PersonalComments, metadataCopy.PersonalKeywordTags);
+                foreach (string keyword in newKeywords)
+                {
+                    metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag(keyword), false);
+                }
+            }
+        }
+        #endregion
+
         #region Save - SaveDataGridViewMetadata
         private void SaveDataGridViewMetadata(bool useAutoCorrect)
         {
@@ -4261,13 +4285,13 @@ namespace PhotoTagsSynchronizer
             {
                 CollectMetadataFromAllDataGridViewData(out List <Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView, true);
 
-                //Find what columns are updated / changed by user
-                List<int> listOfUpdates = ExiftoolWriter.GetListOfMetadataChangedByUser(metadataListOriginalExiftool, metadataListFromDataGridView);
-                if (listOfUpdates.Count == 0)
+                if (metadataListOriginalExiftool.Count != metadataListFromDataGridView.Count)
                 {
-                    KryptonMessageBox.Show("Can't find any value that was changed.", "Nothing to save...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
+                    KryptonMessageBox.Show("Error occure", "Can't read and macth the data...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
                     return;
                 }
+                
+                bool changesFound = false;
                 using (new WaitCursor())
                 {
                     AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
@@ -4275,11 +4299,15 @@ namespace PhotoTagsSynchronizer
                     float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
                     int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
 
-                    foreach (int updatedRecord in listOfUpdates)
+
+                    for (int index = 0; index < metadataListOriginalExiftool.Count; index++)
                     {
+                        Metadata metadataFromDataGridView = metadataListFromDataGridView[index];
+
+                        Metadata metadataToSave;
                         if (useAutoCorrect)
                         {
-                            Metadata metadataToSave = autoCorrect.RunAlgorithm(metadataListFromDataGridView[updatedRecord],
+                            metadataToSave = autoCorrect.RunAlgorithmReturnCopy(metadataFromDataGridView,
                                 databaseAndCacheMetadataExiftool,
                                 databaseAndCacheMetadataMicrosoftPhotos,
                                 databaseAndCacheMetadataWindowsLivePhotoGallery,
@@ -4289,18 +4317,30 @@ namespace PhotoTagsSynchronizer
                                 locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
                                 autoKeywordConvertions,
                                 Properties.Settings.Default.RenameDateFormats);
-                            if (metadataToSave != null)
-                            {
-                                metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, out bool isUpdated);
-                                AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, metadataListOriginalExiftool[updatedRecord]);
-                            }
+
+                            AutoKeywords(ref metadataToSave);
+                            AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave);
                         }
                         else
                         {
-                            Metadata metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataListFromDataGridView[updatedRecord], out bool isUpdated);
-                            AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, metadataListOriginalExiftool[updatedRecord]);
+                            metadataToSave = new Metadata(metadataFromDataGridView);
+                            AutoKeywords(ref metadataToSave);
+                            AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave); 
+                        }
+
+                        if (metadataToSave != metadataListOriginalExiftool[index])
+                        {
+                            changesFound = true;
+                            DataGridView_Populate_Metadata(metadataToSave);
+                            AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, metadataListOriginalExiftool[index]);
                         }
                     }
+                }
+
+                if (!changesFound)
+                {
+                    KryptonMessageBox.Show("Can't find any value that was changed.", "Nothing to save...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
+                    return;
                 }
                 ThreadSaveUsingExiftoolToMedia();
             }
@@ -6555,7 +6595,7 @@ namespace PhotoTagsSynchronizer
                         {
                             Metadata metadata = new Metadata(metadataInCache);
 
-                            Metadata metadataToSave = autoCorrect.RunAlgorithm(metadata,
+                            Metadata metadataToSave = autoCorrect.RunAlgorithmReturnCopy(metadata,
                                 databaseAndCacheMetadataExiftool,
                                 databaseAndCacheMetadataMicrosoftPhotos,
                                 databaseAndCacheMetadataWindowsLivePhotoGallery,
@@ -6701,21 +6741,22 @@ namespace PhotoTagsSynchronizer
                         Metadata metadataInCache = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftool);
                         if (metadataInCache != null)
                         {
-                            Metadata metadata = new Metadata(metadataInCache);
-
-                            Metadata metadataToSave = autoCorrect.RunAlgorithm(metadata,
-                            databaseAndCacheMetadataExiftool,
-                            databaseAndCacheMetadataMicrosoftPhotos,
-                            databaseAndCacheMetadataWindowsLivePhotoGallery,
-                            databaseAndCahceCameraOwner,
-                            databaseLocationAddress,
-                            databaseGoogleLocationHistory,
-                            locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
-                            autoKeywordConvertions,
-                            Properties.Settings.Default.RenameDateFormats);
+                            Metadata metadataToSave = autoCorrect.RunAlgorithmReturnCopy(metadataInCache,
+                                databaseAndCacheMetadataExiftool,
+                                databaseAndCacheMetadataMicrosoftPhotos,
+                                databaseAndCacheMetadataWindowsLivePhotoGallery,
+                                databaseAndCahceCameraOwner,
+                                databaseLocationAddress,
+                                databaseGoogleLocationHistory,
+                                locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
+                                autoKeywordConvertions,
+                                Properties.Settings.Default.RenameDateFormats);
+                            
                             if (metadataToSave != null)
                             {
-                                metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, out bool isUpdated);
+                                AutoKeywords(ref metadataToSave);
+                                AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave);
+                                DataGridView_Populate_Metadata(metadataToSave);
                                 AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
                                 AddQueueRenameMediaFilesLock(item.FileFullPath, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
                             }
@@ -6760,7 +6801,7 @@ namespace PhotoTagsSynchronizer
                         {
                             Metadata metadata = new Metadata(metadataInCache);
 
-                            Metadata metadataToSave = autoCorrect.RunAlgorithm(metadata,
+                            Metadata metadataToSave = autoCorrect.RunAlgorithmReturnCopy(metadata,
                             databaseAndCacheMetadataExiftool,
                             databaseAndCacheMetadataMicrosoftPhotos,
                             databaseAndCacheMetadataWindowsLivePhotoGallery,
@@ -6771,7 +6812,9 @@ namespace PhotoTagsSynchronizer
                             Properties.Settings.Default.RenameDateFormats);
                             if (metadataToSave != null)
                             {
-                                metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, out bool isUpdated);
+                                AutoKeywords(ref metadataToSave);
+                                AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave);
+                                DataGridView_Populate_Metadata(metadataToSave);
                                 AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
                                 AddQueueRenameMediaFilesLock(file, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
                             }
@@ -6824,7 +6867,7 @@ namespace PhotoTagsSynchronizer
                             Metadata metadataFromDataGridView = new Metadata(dataGridViewGenericColumn.Metadata);
                             CollectedMetadataFromAllDataGridView(fileEntryAttribute, ref metadataFromDataGridView);
 
-                            Metadata metadataToSave = autoCorrect.RunAlgorithm(metadataFromDataGridView,
+                            Metadata metadataToSave = autoCorrect.RunAlgorithmReturnCopy(metadataFromDataGridView,
                                 databaseAndCacheMetadataExiftool,
                                 databaseAndCacheMetadataMicrosoftPhotos,
                                 databaseAndCacheMetadataWindowsLivePhotoGallery,
@@ -6834,16 +6877,17 @@ namespace PhotoTagsSynchronizer
                                 locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
                                 autoKeywordConvertions,
                                 Properties.Settings.Default.RenameDateFormats);
+                            
                             if (metadataToSave != null)
                             {
-                                //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata,  4. Clear dirty flags
-                                metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, out bool isUpdated);
-                                bool isDirty = isUpdated = metadataToSave != metadataFromDataGridView;
-                                MakeEqualBetweenMetadataAndDataGridViewContent(metadataToSave, isUpdated, isDirty);
+                                AutoKeywords(ref metadataToSave);
+                                AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave);
+                                DataGridView_Populate_Metadata(metadataToSave);
+                                //MakeEqualBetweenMetadataAndDataGridViewContent(metadataToSave, isDirty);
                             }
                         }
                     }
-                    AddQueueLazyLoadningAllSourcesMetadataAndRegionThumbnailsLock(fileEntryAttributes);
+                    //AddQueueLazyLoadningAllSourcesMetadataAndRegionThumbnailsLock(fileEntryAttributes);
                 }
             }
             catch (Exception ex)
@@ -6957,7 +7001,7 @@ namespace PhotoTagsSynchronizer
                                 
                                 AutoCorrectFormVaraibles.UseAutoCorrectFormData(ref metadata, autoCorrectFormVaraibles);
 
-                                Metadata metadataToSave = autoCorrect.RunAlgorithm(metadata,
+                                Metadata metadataToSave = autoCorrect.RunAlgorithmReturnCopy(metadata,
                                     databaseAndCacheMetadataExiftool,
                                     databaseAndCacheMetadataMicrosoftPhotos,
                                     databaseAndCacheMetadataWindowsLivePhotoGallery,
@@ -6970,7 +7014,10 @@ namespace PhotoTagsSynchronizer
 
                                 if (metadataToSave != null)
                                 {
-                                    metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, out bool isUpdated);
+                                    AutoKeywords(ref metadataToSave);
+                                    AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave);
+                                    DataGridView_Populate_Metadata(metadataToSave);
+                                    
                                     AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
                                     AddQueueRenameMediaFilesLock(item.FileFullPath, autoCorrect.RenameVariable);
                                 }
@@ -7022,7 +7069,7 @@ namespace PhotoTagsSynchronizer
                             {
                                 Metadata metadata = new Metadata(metadataInCache);
 
-                                Metadata metadataToSave = autoCorrect.RunAlgorithm(metadata,
+                                Metadata metadataToSave = autoCorrect.RunAlgorithmReturnCopy(metadata,
                                 databaseAndCacheMetadataExiftool,
                                 databaseAndCacheMetadataMicrosoftPhotos,
                                 databaseAndCacheMetadataWindowsLivePhotoGallery,
@@ -7035,8 +7082,10 @@ namespace PhotoTagsSynchronizer
 
                                 if (metadataToSave != null)
                                 {
+                                    AutoKeywords(ref metadataToSave);
                                     AutoCorrectFormVaraibles.UseAutoCorrectFormData(ref metadataToSave, autoCorrectFormVaraibles);
-                                    metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, out bool isUpdated);
+                                    AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave);
+                                    DataGridView_Populate_Metadata(metadataToSave);
                                     AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
                                     AddQueueRenameMediaFilesLock(file, autoCorrect.RenameVariable);
                                 }
@@ -7100,7 +7149,7 @@ namespace PhotoTagsSynchronizer
                                 CollectedMetadataFromAllDataGridView(fileEntryAttribute, ref metadataFromDataGridView);
                                 AutoCorrectFormVaraibles.UseAutoCorrectFormData(ref metadataFromDataGridView, autoCorrectFormVaraibles);
                                 
-                                Metadata metadataToSave = autoCorrect.RunAlgorithm(metadataFromDataGridView,
+                                Metadata metadataToSave = autoCorrect.RunAlgorithmReturnCopy(metadataFromDataGridView,
                                     databaseAndCacheMetadataExiftool,
                                     databaseAndCacheMetadataMicrosoftPhotos,
                                     databaseAndCacheMetadataWindowsLivePhotoGallery,
@@ -7113,14 +7162,14 @@ namespace PhotoTagsSynchronizer
 
                                 if (metadataToSave != null)
                                 {
-                                    //1. Run CompatibilityCheckMetadata, 2. Update DataGridView(s) with fixed metadata,  4. Clear dirty flags
-                                    metadataToSave = AutoCorrect.CompatibilityCheckMetadata(metadataToSave, out bool isUpdated);
-                                    bool isDirty = isUpdated = metadataToSave != metadataFromDataGridView;
-                                    MakeEqualBetweenMetadataAndDataGridViewContent(metadataToSave, isUpdated, isDirty);
+                                    AutoKeywords(ref metadataToSave); 
+                                    AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave);
+                                    DataGridView_Populate_Metadata(metadataToSave);
+                                    //MakeEqualBetweenMetadataAndDataGridViewContent(metadataToSave, isDirty);
                                 }
                             }
                         }
-                        AddQueueLazyLoadningAllSourcesMetadataAndRegionThumbnailsLock(fileEntryAttributes);
+                        //AddQueueLazyLoadningAllSourcesMetadataAndRegionThumbnailsLock(fileEntryAttributes);
                     }
                     StartThreads();
                 }
