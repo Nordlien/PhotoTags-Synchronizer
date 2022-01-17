@@ -723,7 +723,9 @@ namespace PhotoTagsSynchronizer
             if (!isClosingProcesAlreadyStarted)
             {
                 isClosingProcesAlreadyStarted = true;
-            
+
+                MetadataDatabaseCache.StopApplication = true;
+
                 try
                 {
                     exiftoolReader.MetadataGroupPrioritiesWrite(); //Updated json config file if new tags found

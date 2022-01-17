@@ -92,6 +92,7 @@ namespace MetadataLibrary
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         public static bool StopCaching { get; set; } = false;
+        public static bool StopApplication { get; set; } = false;
 
         public delegate void ReadToCacheParameterRecordEvent(object sender, ReadToCacheParameterRecordEventArgs e);
         public event ReadToCacheParameterRecordEvent OnRecordReadToCacheParameter;
@@ -155,7 +156,7 @@ namespace MetadataLibrary
             List<FileEntryBroker> fileEntryBrokers = new List<FileEntryBroker>();
             foreach (FileEntry fileEntry in filesFoundInDirectory)
             {
-                if (StopCaching) { StopCaching = false; return; }
+                if (StopCaching || StopApplication) { StopCaching = false; return; }
                 fileEntryBrokers.Add(new FileEntryBroker(fileEntry, metadataBrokerType));
             }
             ReadToCache(fileEntryBrokers);
@@ -168,7 +169,7 @@ namespace MetadataLibrary
             List<FileEntryBroker> fileEntryBrokers = new List<FileEntryBroker>();
             foreach (FileEntry fileEntry in filesFoundInDirectory)
             {
-                if (StopCaching) { StopCaching = false; return; }
+                if (StopCaching || StopApplication) { StopCaching = false; return; }
                 fileEntryBrokers.Add(new FileEntryBroker(fileEntry, metadataBrokerType));
             }
             ReadToCache(fileEntryBrokers);
@@ -182,11 +183,8 @@ namespace MetadataLibrary
             List<FileEntryBroker> fileEntryBrokersToPutInCache = new List<FileEntryBroker>();
             foreach (FileEntryBroker fileEntryBrokerToCheckInCache in fileEntriesBroker)
             {
-                if (StopCaching)
-                {
-                    StopCaching = false;
-                    return;
-                }
+                if (StopCaching) { StopCaching = false; return; }
+                if (StopApplication) return;
                 if (!IsMetadataInCache(fileEntryBrokerToCheckInCache)) fileEntryBrokersToPutInCache.Add(fileEntryBrokerToCheckInCache);
             }
 
@@ -217,7 +215,7 @@ namespace MetadataLibrary
             {
                 foreach (FileEntryBroker fileEntryBroker in fileEntryBrokersToPutInCache)
                 {
-                    if (StopCaching)
+                    if (StopCaching || StopApplication)
                     {
                         ReadToCacheFileEntriesRecordEventArgs readToCacheFileEntriesRecordEventArgsAbort = new ReadToCacheFileEntriesRecordEventArgs(readToCacheFileEntriesRecordEventArgsInit);
                         readToCacheFileEntriesRecordEventArgsAbort.Aborted = true;
@@ -225,6 +223,7 @@ namespace MetadataLibrary
                         StopCaching = false;
                         return;
                     }
+                    
 
                     readToCacheFileEntriesRecordEventArgsInit.MetadataCount++;
                     ReadToCacheFileEntriesRecordEventArgs readToCacheFileEntriesRecordEventArgs = new ReadToCacheFileEntriesRecordEventArgs(readToCacheFileEntriesRecordEventArgsInit);
@@ -292,7 +291,7 @@ namespace MetadataLibrary
                 //commandDatabase.Prepare();
                 foreach (FileEntryBroker fileEntryBroker in fileEntryBrokersToPutInCache)
                 {
-                    if (StopCaching)
+                    if (StopCaching || StopApplication)
                     {
                         ReadToCacheFileEntriesRecordEventArgs readToCacheFileEntriesRecordEventArgsAbort = new ReadToCacheFileEntriesRecordEventArgs(readToCacheFileEntriesRecordEventArgsInit);
                         readToCacheFileEntriesRecordEventArgsAbort.Aborted = true;
@@ -343,7 +342,7 @@ namespace MetadataLibrary
 
                 foreach (FileEntryBroker fileEntryBroker in fileEntryBrokersToPutInCache)
                 {
-                    if (StopCaching)
+                    if (StopCaching || StopApplication)
                     {
                         ReadToCacheFileEntriesRecordEventArgs readToCacheFileEntriesRecordEventArgsAbort = new ReadToCacheFileEntriesRecordEventArgs(readToCacheFileEntriesRecordEventArgsInit);
                         readToCacheFileEntriesRecordEventArgsAbort.Aborted = true;
@@ -394,7 +393,7 @@ namespace MetadataLibrary
         #region ReadToCache - Folder
         public void ReadToCacheAllMetadatas(string folder, MetadataBrokerType metadataBrokerType) //Hack to read data to cache and the database worked much faster after this
         {
-            if (StopCaching) { StopCaching = false; return; }
+            if (StopCaching || StopApplication) { StopCaching = false; return; }
             ReadToCacheWhereParameters(metadataBrokerType, folder, null, null, true);
         }
         #endregion
@@ -402,7 +401,7 @@ namespace MetadataLibrary
         #region ReadToCache - All Metadatas
         public void ReadToCacheAllMetadatas() //Hack to read data to cache and the database worked much faster after this
         {
-            if (StopCaching) { StopCaching = false; return; }
+            if (StopCaching || StopApplication) { StopCaching = false; return; }
             ReadToCacheWhereParameters(MetadataBrokerType.Empty, null, null, null, true);
         }
         #endregion
@@ -410,7 +409,7 @@ namespace MetadataLibrary
         #region ReadToCache - All WebScarping DataSets
         public void ReadToCacheWebScarpingAllDataSets()
         {
-            if (StopCaching) { StopCaching = false; return; }
+            if (StopCaching || StopApplication) { StopCaching = false; return; }
             DateTime? dataSetDateTime = GetWebScraperLastPackageDate();
             if (dataSetDateTime != null) ReadToCacheWhereParameters(MetadataBrokerType.WebScraping, MetadataLibrary.MetadataDatabaseCache.WebScapingFolderName, null, dataSetDateTime, true);
         }
@@ -507,7 +506,7 @@ namespace MetadataLibrary
         #region ReadToCache - ReadToCacheWhereParameters
         public void ReadToCacheWhereParameters(MetadataBrokerType metadataBrokerType, string folder, string filename, DateTime? fileDateModified, bool readDataIntoCache = true) //Hack to read data to cache and the database worked much faster after this
         {
-            if (StopCaching) { StopCaching = false; return; }
+            if (StopCaching || StopApplication) { StopCaching = false; return; }
             ReadToCacheParameters readToCacheParamters = new ReadToCacheParameters(metadataBrokerType, folder, filename, fileDateModified);
             if (readToCacheParamtersCached.Contains(readToCacheParamters)) return;
             if (readDataIntoCache) readToCacheParamtersCached.Add(readToCacheParamters);
@@ -545,7 +544,7 @@ namespace MetadataLibrary
                 {
                     while (reader.Read())
                     {
-                        if (StopCaching) {
+                        if (StopCaching || StopApplication) {
                             try
                             {
                                 if (readDataIntoCache && readToCacheParamtersCached.Contains(readToCacheParamters)) readToCacheParamtersCached.Remove(readToCacheParamters);
@@ -618,7 +617,7 @@ namespace MetadataLibrary
                 {
                     while (reader.Read())
                     {
-                        if (StopCaching)
+                        if (StopCaching || StopApplication)
                         {
                             try
                             {
@@ -676,7 +675,7 @@ namespace MetadataLibrary
                 {
                     while (reader.Read())
                     {
-                        if (StopCaching)
+                        if (StopCaching || StopApplication)
                         {
                             try
                             {
@@ -1576,10 +1575,7 @@ namespace MetadataLibrary
                 
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
-                    //if (StopApplication)
-                    //{
-                    //    return webScrapingPackages;
-                    //}
+                    if (StopApplication) return webScrapingPackages;
                     while (reader.Read())
                     {
                         webScrapingPackages.Add((DateTime)dbTools.ConvertFromDBValDateTimeLocal(reader["FileDateModified"]));
