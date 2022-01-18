@@ -221,7 +221,6 @@ namespace PhotoTagsSynchronizer
                 dataGridView, fileEntryAttribute, thumbnail, metadataExiftool, readWriteAccessColumn, showWhatColumns, 
                 DataGridViewGenericCellStatus.DefaultEmpty(), out FileEntryVersionCompare fileEntryVersionCompareReason);
 
-            
             //Chech if populated and new refresh data
             if (onlyRefresh && FileEntryVersionHandler.NeedUpdate(fileEntryVersionCompareReason) && !DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex))
                 fileEntryVersionCompareReason = FileEntryVersionCompare.LostNoneEqualFound; //No need to populate
@@ -284,12 +283,13 @@ namespace PhotoTagsSynchronizer
 
                 if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect)
                 {
-                    DataGridViewGenericCellStatus dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Undefine, true);
+                    
 
                     int keywordsStarts = DataGridViewHandler.GetRowHeaderItemStarts(dataGridView, headerKeywords);
                     int keywordsEnds = DataGridViewHandler.GetRowHeaderItemsEnds(dataGridView, headerKeywords);
                     for (int rowIndexToClean = keywordsStarts; rowIndexToClean <= keywordsEnds; rowIndexToClean++)
                     {
+                        DataGridViewGenericCellStatus dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Undefine, true);
                         DataGridViewHandler.SetCellReadOnlyDependingOfStatus(dataGridView, columnIndex, rowIndexToClean, dataGridViewGenericCellStatus);
                         DataGridViewHandler.SetCellStatus(dataGridView, columnIndex, rowIndexToClean, dataGridViewGenericCellStatus, false);
                     }

@@ -46,6 +46,25 @@ namespace MetadataLibrary
         }
         #endregion
 
+        public static FileEntryVersion ConvertCurrentErrorHistorical(FileEntryVersion fileEntryVersion)
+        {
+            switch (fileEntryVersion)
+            {
+                case FileEntryVersion.AutoCorrect:
+                case FileEntryVersion.CurrentVersionInDatabase:
+                case FileEntryVersion.ExtractedNowFromExternalSource:
+                case FileEntryVersion.ExtractedNowUsingExiftool:
+                    return FileEntryVersion.CurrentVersionInDatabase;
+                case FileEntryVersion.Error:
+                    return FileEntryVersion.Error;
+                case FileEntryVersion.Historical:
+                    return FileEntryVersion.Historical;
+                case FileEntryVersion.NotAvailable:
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
         #region IsReadOnlyType
         public static bool IsReadOnlyType(FileEntryVersion fileEntryVersion)
         {

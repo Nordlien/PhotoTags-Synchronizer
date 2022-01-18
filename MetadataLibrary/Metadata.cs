@@ -971,8 +971,8 @@ namespace MetadataLibrary
             if (metadataOriginal.locationCity != metadataChangeInto.locationCity) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Location District", metadataOriginal.locationCity, metadataChangeInto.locationCity);
             if (metadataOriginal.locationState != metadataChangeInto.locationState) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Location Region", metadataOriginal.locationState, metadataChangeInto.locationState);
 
-            string notAdded = (whatsAddedChanged ? " - Was added by user" : " - Was not added the files' metadata");
-            string notRemoved = (whatsAddedChanged ? " - Was removed by user" : " - Not not removed from files' metadata");
+            string notAdded = (whatsAddedChanged ? " - Was added by user" : " - Was not added the metadata in file");
+            string notRemoved = (whatsAddedChanged ? " - Was removed by user" : " - Not not removed metadata in file");
             string vierfied = " Verified OK";
             if (VerifyRegionStructureList(metadataOriginal.personalRegionList, metadataChangeInto.personalRegionList) == false)
             {

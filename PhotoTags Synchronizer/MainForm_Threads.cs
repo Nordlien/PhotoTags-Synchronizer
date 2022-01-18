@@ -572,7 +572,11 @@ namespace PhotoTagsSynchronizer
                                 switch (fileEntryAttribute.FileEntryVersion)
                                 {
                                     case FileEntryVersion.AutoCorrect:
+                                        readColumn = true;
+                                        break;
                                     case FileEntryVersion.CurrentVersionInDatabase:
+                                        readColumn = true;
+                                        break;
                                     case FileEntryVersion.ExtractedNowFromExternalSource:
                                     case FileEntryVersion.ExtractedNowUsingExiftool:
                                     case FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist:
@@ -698,7 +702,7 @@ namespace PhotoTagsSynchronizer
                                     {
                                         ImageListView_UpdateItemExiftoolMetadataInvoke(fileEntryAttribute);
                                     }
-                                    if (isMetadataExiftoolFound || isMetadataExiftoolErrorFound || isMetadataOtherSourceFound) 
+                                    if (isMetadataExiftoolFound) // No need update others before Exiftool has data || isMetadataExiftoolErrorFound || isMetadataOtherSourceFound) 
                                         DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute);
                                 }
 
@@ -997,12 +1001,7 @@ namespace PhotoTagsSynchronizer
         {
             lock (commonQueueReadMetadataFromSourceExiftoolLock)
             {
-                //Need to add to the end, due due read queue read potion [0] end delete after, not thread safe
-                //bool existInQueue = ExistInExiftoolReadQueue(fileEntry);
-                //if (!existInQueue)
-                bool existInQueue = IsFolderInQueueReadAndSaveMetadataFromSourceExiftoolLock(fileEntry.FileFullPath);
-                //if (ExistInExiftoolWriteQueue(fileEntry)) existInQueue = true;
-
+                bool existInQueue = IsFolderInQueueReadAndSaveMetadataFromSourceExiftoolLock(fileEntry.FileFullPath); 
                 if (!existInQueue) commonQueueReadMetadataFromSourceExiftool.Add(fileEntry);
             }
             RemoveError(fileEntry.FileFullPath);
@@ -1063,8 +1062,18 @@ namespace PhotoTagsSynchronizer
                                 }
                                 #endregion
 
+                                foreach (FileEntry fileEntryReadFromDatabase in mediaFilesNotInDatabase_NeedCheckInCloud)
+                                {
+                                    int indexFoundInSaveQueue= Metadata.FindFileEntryInList(exiftoolSave_QueueSubsetMetadataToSave, fileEntryReadFromDatabase);
+                                    if (indexFoundInSaveQueue != -1)
+                                    {
+                                        //DEBUG
+                                    }
+                                }
+
                                 foreach (FileEntry fileEntryReadFromDatabase in mediaFilesReadFromDatabase_NeedUpdated_DataGridView_ImageList)
                                 {
+                                    //DEBUG - So far never happen
                                     FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fileEntryReadFromDatabase, FileEntryVersion.CurrentVersionInDatabase);
                                     DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute);
                                     ImageListView_UpdateItemFileStatusInvoke(fileEntryReadFromDatabase.FileFullPath);
@@ -1372,7 +1381,10 @@ namespace PhotoTagsSynchronizer
                                                     #endregion
 
                                                     FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(metadataError.FileFullPath, (DateTime)metadataError.FileDateModified, FileEntryVersion.Error);
+                                                    
                                                     DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute);
+                                                    //DataGridView_Populate_Metadata(metadataError);
+
                                                 }
                                                 #endregion
 
@@ -1762,10 +1774,11 @@ namespace PhotoTagsSynchronizer
                                                 currentMetadata.FileDateModified = currentLastWrittenDateTime;
 
                                                 #region Save the metatdata into DataGridView(s) - saved metadata should also be readed back, if not, verify will tell save failed
-                                                MakeEqualBetweenMetadataAndDataGridViewContent(currentMetadata, false);
+                                                DataGridViewSetMetadataOnAllDataGridView(currentMetadata);
+                                                DataGridViewSetDirtyFlagAfterSave(currentMetadata, false);
                                                 #endregion
 
-                                                #region Add to Verify queue
+                                                #region If file wa updated - Add to Verify queue
                                                 if (File.Exists(currentMetadata.FileFullPath) && currentLastWrittenDateTime != previousLastWrittenDateTime) 
                                                     AddQueueVerifyMetadataLock(currentMetadata);
                                                 #endregion

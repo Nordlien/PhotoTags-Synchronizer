@@ -478,6 +478,7 @@ riff=UTF8
 -LastKeywordIPTC=
 -XMP:XMP-digiKam:TagsList=
 -IPTC:CatalogSets=
+-IPTC:Keywords=
 {PersonalKeywordItemsAdd}
 -Categories={PersonalKeywordsXML}
 -XPKeywords={PersonalKeywordsList}
@@ -776,6 +777,7 @@ riff=UTF8
 -LastKeywordIPTC=
 -XMP:XMP-digiKam:TagsList=
 -IPTC:CatalogSets=
+-IPTC:Keywords=
 {PersonalKeywordItemsAdd}
 -Categories={PersonalKeywordsXML}
 -XPKeywords={PersonalKeywordsList}

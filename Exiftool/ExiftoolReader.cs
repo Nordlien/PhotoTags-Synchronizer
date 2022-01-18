@@ -384,7 +384,7 @@ namespace Exiftool
         private Byte? ConvertAndCheckByteFromString(Byte? oldValue, ExiftoolData exifToolDataConvertThis, ExiftoolData exifToolDataPrevious, String compositeTag, ref String error)
         {
             MetadataReadPrioity.Add(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag);
-            Byte? newValue = Byte.Parse(exifToolDataConvertThis.Parameter, CultureInfo.InvariantCulture);
+            Byte? newValue = exifToolDataConvertThis.Parameter == null ? (byte?)null : byte.Parse(exifToolDataConvertThis.Parameter, CultureInfo.InvariantCulture);
 
             if (oldValue.HasValue && newValue != oldValue)
             {
@@ -412,7 +412,7 @@ namespace Exiftool
         private int? ConvertAndCheckIntFromString(int? oldValue, ExiftoolData exifToolDataConvertThis, ExiftoolData exifToolDataPrevious, String compositeTag, ref String error)
         {
             MetadataReadPrioity.Add(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag);
-            int? newValue = int.Parse(exifToolDataConvertThis.Parameter, CultureInfo.InvariantCulture);
+            int? newValue = exifToolDataConvertThis.Parameter == null ? (int?)null : int.Parse(exifToolDataConvertThis.Parameter, CultureInfo.InvariantCulture);
 
             if (oldValue.HasValue && newValue != oldValue)
             {
@@ -440,7 +440,7 @@ namespace Exiftool
         private long? ConvertAndCheckLongFromString(long? oldValue, ExiftoolData exifToolDataConvertThis, ExiftoolData exifToolDataPrevious, String compositeTag, ref String error)
         {
             MetadataReadPrioity.Add(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag);
-            long? newValue = long.Parse(exifToolDataConvertThis.Parameter, CultureInfo.InvariantCulture);
+            long? newValue = exifToolDataConvertThis.Parameter == null ? (long?)null : long.Parse(exifToolDataConvertThis.Parameter, CultureInfo.InvariantCulture);
 
             if (oldValue.HasValue && newValue != oldValue)
             {
@@ -468,7 +468,7 @@ namespace Exiftool
         private float? ConvertAndCheckNumberFromString(float? oldValue, ExiftoolData exifToolDataConvertThis, ExiftoolData exifToolDataPrevious, String compositeTag, ref String error)
         {
             MetadataReadPrioity.Add(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag);
-            float? newValue = float.Parse(exifToolDataConvertThis.Parameter, CultureInfo.InvariantCulture);
+            float? newValue = exifToolDataConvertThis.Parameter == null ? (float?)null : float.Parse(exifToolDataConvertThis.Parameter, CultureInfo.InvariantCulture);
             if (newValue.HasValue) newValue = (float)Math.Round((float)newValue, SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals);
 
             if (oldValue.HasValue && Math.Abs((float)newValue - (float)oldValue) >= 0.000000000001) //Due not not excant numbers in float
@@ -1047,7 +1047,7 @@ namespace Exiftool
                                         oldExifToolRating = new ExiftoolData(exifToolData);
 
                                         oldExifToolRatingPercent = new ExiftoolData(exifToolData); //Use this Rating as old. To keep sync
-                                        exifToolData.Parameter = ((float)metadata.PersonalRatingPercent).ToString(CultureInfo.InvariantCulture);
+                                        exifToolData.Parameter = (metadata.PersonalRatingPercent == null ? null : ((float)metadata.PersonalRatingPercent).ToString(CultureInfo.InvariantCulture));
                                         metadata.PersonalRatingPercent = ConvertAndCheckByteFromString(metadata.PersonalRatingPercent, exifToolData, oldExifToolRatingPercent,
                                             CompositeTags.RatingPercent, ref metadata.errors);
                                         oldExifToolRatingPercent = new ExiftoolData(exifToolData);

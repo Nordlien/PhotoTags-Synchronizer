@@ -422,8 +422,8 @@ namespace PhotoTagsSynchronizer.Properties {
             "tionCountry}\r\n-ImageRegion=\r\n-RegionInfoMP={PersonalRegionInfoMP}\r\n-RegionInfo={" +
             "PersonalRegionInfo}\r\n-Keyword=\r\n-Category=\r\n-HierarchicalKeywords=\r\n-Hierarchica" +
             "lSubject=\r\n-LastKeywordXMP=\r\n-LastKeywordIPTC=\r\n-XMP:XMP-digiKam:TagsList=\r\n-IPT" +
-            "C:CatalogSets=\r\n{PersonalKeywordItemsAdd}\r\n-Categories={PersonalKeywordsXML}\r\n-X" +
-            "PKeywords={PersonalKeywordsList}\r\n{FileFullPath}\r\n-execute")]
+            "C:CatalogSets=\r\n-IPTC:Keywords=\r\n{PersonalKeywordItemsAdd}\r\n-Categories={Persona" +
+            "lKeywordsXML}\r\n-XPKeywords={PersonalKeywordsList}\r\n{FileFullPath}\r\n-execute")]
         public string WriteMetadataTags {
             get {
                 return ((string)(this["WriteMetadataTags"]));
@@ -1109,8 +1109,8 @@ explorer ms-photos?filename=""{FileFullPath}""")]
             "tionCountry}\r\n-ImageRegion=\r\n-RegionInfoMP={PersonalRegionInfoMP}\r\n-RegionInfo={" +
             "PersonalRegionInfo}\r\n-Keyword=\r\n-Category=\r\n-HierarchicalKeywords=\r\n-Hierarchica" +
             "lSubject=\r\n-LastKeywordXMP=\r\n-LastKeywordIPTC=\r\n-XMP:XMP-digiKam:TagsList=\r\n-IPT" +
-            "C:CatalogSets=\r\n{PersonalKeywordItemsAdd}\r\n-Categories={PersonalKeywordsXML}\r\n-X" +
-            "PKeywords={PersonalKeywordsList}\r\n{FileFullPath}\r\n-execute")]
+            "C:CatalogSets=\r\n-IPTC:Keywords=\r\n{PersonalKeywordItemsAdd}\r\n-Categories={Persona" +
+            "lKeywordsXML}\r\n-XPKeywords={PersonalKeywordsList}\r\n{FileFullPath}\r\n-execute")]
         public string RunArgumentBuildKeywordTags {
             get {
                 return ((string)(this["RunArgumentBuildKeywordTags"]));

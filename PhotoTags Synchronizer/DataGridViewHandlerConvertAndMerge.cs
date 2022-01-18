@@ -1931,7 +1931,7 @@ namespace PhotoTagsSynchronizer
             string imageConcatArgument, string imageConcatArguFile,
             string videoConvertArgument, string outputFile)
         {
-            int columnIndex = DataGridViewHandler.GetColumnIndexFirstFullFilePath(dataGridView, headerConvertAndMergeFilename);
+            int columnIndex = DataGridViewHandler.GetColumnIndexFirstFullFilePath(dataGridView, headerConvertAndMergeFilename, false);
             if (columnIndex == -1) return;
 
             List<string> files = new List<string>();
@@ -1986,7 +1986,7 @@ namespace PhotoTagsSynchronizer
             //-----------------------------------------------------------------
 
             
-            int columnIndex = DataGridViewHandler.GetColumnIndexFirstFullFilePath(dataGridView, headerConvertAndMergeFilename);
+            int columnIndex = DataGridViewHandler.GetColumnIndexFirstFullFilePath(dataGridView, headerConvertAndMergeFilename, false);
 
             AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerConvertAndMergeInfo), true);
 

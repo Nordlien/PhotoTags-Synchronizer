@@ -4330,7 +4330,7 @@ namespace PhotoTagsSynchronizer
 
                         if (metadataToSave != metadataListOriginalExiftool[index])
                         {
-                            changesFound = true;
+                            changesFound = true;                            
                             DataGridView_Populate_Metadata(metadataToSave);
                             AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, metadataListOriginalExiftool[index]);
                         }
@@ -7017,7 +7017,6 @@ namespace PhotoTagsSynchronizer
                                     AutoKeywords(ref metadataToSave);
                                     AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave);
                                     DataGridView_Populate_Metadata(metadataToSave);
-                                    
                                     AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
                                     AddQueueRenameMediaFilesLock(item.FileFullPath, autoCorrect.RenameVariable);
                                 }

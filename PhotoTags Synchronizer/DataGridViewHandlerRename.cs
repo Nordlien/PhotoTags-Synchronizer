@@ -216,7 +216,7 @@ namespace PhotoTagsSynchronizer
             renameSuccess = new Dictionary<string, string>();
             renameFailed = new Dictionary<string, RenameToNameAndResult>();
 
-            int columnIndex = DataGridViewHandler.GetColumnIndexFirstFullFilePath(dataGridView, headerNewFilename);
+            int columnIndex = DataGridViewHandler.GetColumnIndexFirstFullFilePath(dataGridView, headerNewFilename, false);
             if (columnIndex == -1) return;
 
             for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
@@ -257,7 +257,7 @@ namespace PhotoTagsSynchronizer
         #region UpdateFilenames(DataGridView dataGridView, string newFilenameVariable)
         public static void UpdateFilenames(DataGridView dataGridView, string newFilenameVariable, bool showFullPath)
         {
-            int columnIndex = DataGridViewHandler.GetColumnIndexFirstFullFilePath(dataGridView, headerNewFilename);
+            int columnIndex = DataGridViewHandler.GetColumnIndexFirstFullFilePath(dataGridView, headerNewFilename, false);
             if (columnIndex == -1) return;
 
             for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
@@ -292,7 +292,7 @@ namespace PhotoTagsSynchronizer
             //-----------------------------------------------------------------
 
             
-            int columnIndex = DataGridViewHandler.GetColumnIndexFirstFullFilePath(dataGridView, headerNewFilename);
+            int columnIndex = DataGridViewHandler.GetColumnIndexFirstFullFilePath(dataGridView, headerNewFilename, false);
             if (columnIndex != -1)
             {
                 Metadata metadata;

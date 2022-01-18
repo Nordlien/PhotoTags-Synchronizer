@@ -11,7 +11,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FileHandeling;
-using System.Diagnostics;
 using ColumnNamesAndWidth;
 
 namespace DataGridViewGeneric
@@ -882,7 +881,7 @@ namespace DataGridViewGeneric
 
         #endregion
        
-        #region Action Handling
+        #region Action Handling - Find And Replace 
         
         #region Action Handling - ActionFindAndReplace
         static FindAndReplaceForm m_FindAndReplaceForm;
@@ -966,6 +965,8 @@ namespace DataGridViewGeneric
         #region Column handling - IsColumnDirty
         public static bool IsColumnDirty(DataGridView dataGridView, int columnIndex)
         {
+            if (!GetIsAgregated(dataGridView))
+                return false; //Should not occure
             DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
             if (dataGridViewGenericColumn == null) return false;
             return dataGridViewGenericColumn.IsDirty;
@@ -975,6 +976,7 @@ namespace DataGridViewGeneric
         #region Column handling - IsColumnPopulated
         public static bool IsColumnPopulated(DataGridView dataGridView, int columnIndex)
         {
+            if (!GetIsAgregated(dataGridView)) return false; 
             DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
             if (dataGridViewGenericColumn == null) return false;
             return dataGridViewGenericColumn.IsPopulated;
@@ -995,14 +997,17 @@ namespace DataGridViewGeneric
         {
             List<int> selectedColumns = new List<int>();
 
-            foreach (DataGridViewColumn dataGridViewColumn in dataGridView.SelectedColumns)
+            if (GetIsAgregated(dataGridView))
             {
-                if (!selectedColumns.Contains(dataGridViewColumn.Index)) selectedColumns.Add(dataGridViewColumn.Index);
-            }
+                foreach (DataGridViewColumn dataGridViewColumn in dataGridView.SelectedColumns)
+                {
+                    if (!selectedColumns.Contains(dataGridViewColumn.Index)) selectedColumns.Add(dataGridViewColumn.Index);
+                }
 
-            foreach (DataGridViewCell dataGridViewCell in dataGridView.SelectedCells)
-            {
-                if (!selectedColumns.Contains(dataGridViewCell.ColumnIndex)) selectedColumns.Add(dataGridViewCell.ColumnIndex);
+                foreach (DataGridViewCell dataGridViewCell in dataGridView.SelectedCells)
+                {
+                    if (!selectedColumns.Contains(dataGridViewCell.ColumnIndex)) selectedColumns.Add(dataGridViewCell.ColumnIndex);
+                }
             }
             return selectedColumns;
         }
@@ -1011,6 +1016,8 @@ namespace DataGridViewGeneric
         #region Column handling - IsColumnSelected
         public static bool IsColumnSelected(DataGridView dataGridView, int columnIndex)
         {
+            if (!GetIsAgregated(dataGridView))
+                return false; //Should not occure
             foreach (DataGridViewColumn dataGridViewColumn in dataGridView.SelectedColumns)
             {
                 if (dataGridViewColumn.Index == columnIndex) return true;
@@ -1027,7 +1034,7 @@ namespace DataGridViewGeneric
         #region Column handling - SetColumnHeaderThumbnail
         public static void SetColumnHeaderThumbnail(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, Image image)
         {
-            if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return;      //Not default columns or rows added
+            if (!GetIsAgregated(dataGridView)) return; 
 
             DataGridViewHandler.SetIsPopulatingImage(dataGridView, true);
 
@@ -1045,10 +1052,16 @@ namespace DataGridViewGeneric
         #region Column handling - SetColumnHeaderMetadata
         public static void SetColumnHeaderMetadata(DataGridView dataGridView, Metadata newMetadata, int columnIndex)
         {
+            if (!GetIsAgregated(dataGridView))
+                return; //Should not occure
+
             DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-            if (dataGridViewGenericColumn != null && dataGridViewGenericColumn.IsPopulated && dataGridViewGenericColumn.FileEntryAttribute.FileEntry == newMetadata.FileEntry)
+            if (dataGridViewGenericColumn != null && dataGridViewGenericColumn.IsPopulated && dataGridViewGenericColumn.FileEntryAttribute.FileFullPath == newMetadata.FileEntry.FileFullPath)
             {
                 dataGridViewGenericColumn.Metadata = new Metadata(newMetadata);
+            } else
+            {
+                //DEBUG - Why has columns changed? If this happen debug
             }
         }
         #endregion 
@@ -1056,6 +1069,7 @@ namespace DataGridViewGeneric
         #region Column handling - GetColumnCount
         public static int GetColumnCount(DataGridView dataGridView)
         {
+            if (!GetIsAgregated(dataGridView)) return 0; 
             return dataGridView.ColumnCount;
         }
         #endregion
@@ -1063,16 +1077,21 @@ namespace DataGridViewGeneric
         #region Column handling - DoesColumnFilenameExist
         public static bool DoesColumnFilenameExist(DataGridView dataGridView, string fullFilePath)
         {
-            return GetColumnIndexFirstFullFilePath(dataGridView, fullFilePath) != -1;
+            if (!GetIsAgregated(dataGridView))
+                return false; //Should not occure
+            return GetColumnIndexFirstFullFilePath(dataGridView, fullFilePath, false) != -1;
         }
         #endregion
 
         #region Column handling - GetColumnIndexFirst - fullFilePath        
-        public static int GetColumnIndexFirstFullFilePath(DataGridView dataGridView, string fullFilePath)
+        public static int GetColumnIndexFirstFullFilePath(DataGridView dataGridView, string fullFilePath, bool checkIsAgregated)
         {
+            if (checkIsAgregated && !GetIsAgregated(dataGridView))
+                return -1; 
             for (int columnIndex = 0; columnIndex < dataGridView.ColumnCount; columnIndex++)
             {
-                if (dataGridView.Columns[columnIndex].Tag is DataGridViewGenericColumn column && IsFilenameEqual(column.FileEntryAttribute.FileFullPath, fullFilePath))
+                DataGridViewGenericColumn column = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+                if (column != null && IsFilenameEqual(column.FileEntryAttribute.FileFullPath, fullFilePath))
                 {
                     return columnIndex;
                 }
@@ -1084,44 +1103,60 @@ namespace DataGridViewGeneric
         #region Column handling - GetColumnIndex - FileEntryAttribute    
         private static Dictionary<FileEntryAttribute, int> columnIndexCache = new Dictionary<FileEntryAttribute, int>();
 
-        public static int GetColumnIndexUserInput(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute)
+        public static int GetColumnIndexUserInput(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute2)
         {
+            if (!GetIsAgregated(dataGridView)) 
+                return -1;
+            FileEntryAttribute fileEntryAttributeSearch = new FileEntryAttribute(fileEntryAttribute2.FileEntry, 
+                FileEntryVersionHandler.ConvertCurrentErrorHistorical(fileEntryAttribute2.FileEntryVersion));
+
             #region Cache logic
-            if (columnIndexCache.ContainsKey(fileEntryAttribute))
+            if (columnIndexCache.ContainsKey(fileEntryAttributeSearch))
             {
-                int columnIndex = columnIndexCache[fileEntryAttribute];
-                if (columnIndex < dataGridView.ColumnCount &&
-                    dataGridView.Columns[columnIndex].HeaderCell.Tag is DataGridViewGenericColumn dataGridViewGenericColumn &&
-                    dataGridViewGenericColumn != null && dataGridViewGenericColumn.FileEntryAttribute == fileEntryAttribute) return columnIndex;
-                columnIndexCache.Clear();
+                int columnIndex = columnIndexCache[fileEntryAttributeSearch];
+                DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+                if (columnIndex < dataGridView.ColumnCount && dataGridViewGenericColumn != null)
+                {
+                    FileEntryAttribute fileEntryAttributeCompare = new FileEntryAttribute(dataGridViewGenericColumn.FileEntryAttribute.FileEntry,
+                        FileEntryVersionHandler.ConvertCurrentErrorHistorical(dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion));
+                    if (fileEntryAttributeCompare == fileEntryAttributeSearch) 
+                        return columnIndex; //It's still same file in column, (means not column has been added in front)
+                    else
+                        columnIndexCache.Clear(); //It's a diffrent file, means a column has been added in front, need rebuid cache
+                }
+                 
             }
             #endregion
 
             #region Find column index
-            if (FileEntryVersionHandler.IsCurrenOrUpdatedVersion(fileEntryAttribute.FileEntryVersion))
+            if (FileEntryVersionHandler.IsCurrenOrUpdatedVersion(fileEntryAttributeSearch.FileEntryVersion))
             {
                 for (int columnIndex = 0; columnIndex < dataGridView.ColumnCount; columnIndex++)
                 {
-                    if (!columnIndexCache.ContainsKey(fileEntryAttribute)) columnIndexCache.Add(fileEntryAttribute, columnIndex);
                     DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+                    
+                    FileEntryAttribute fileEntryAttributeCache = new FileEntryAttribute(dataGridViewGenericColumn.FileEntryAttribute.FileEntry,
+                            FileEntryVersionHandler.ConvertCurrentErrorHistorical(dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion));
+                    if (!columnIndexCache.ContainsKey(fileEntryAttributeCache)) columnIndexCache.Add(fileEntryAttributeCache, columnIndex);
+
                     if (dataGridViewGenericColumn != null)
                     {
-                        switch (fileEntryAttribute.FileEntryVersion)
+                        switch (fileEntryAttribute2.FileEntryVersion)
                         {
                             case FileEntryVersion.ExtractedNowFromExternalSource:
                             case FileEntryVersion.ExtractedNowUsingExiftool:
                             case FileEntryVersion.AutoCorrect:
                             case FileEntryVersion.CurrentVersionInDatabase:
-
                                 if (FileEntryVersionHandler.IsCurrenOrUpdatedVersion(dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion) &&
-                                    IsFilenameEqual(fileEntryAttribute.FileFullPath, dataGridViewGenericColumn.FileEntryAttribute.FileFullPath) &&
-                                    fileEntryAttribute.LastWriteDateTime == dataGridViewGenericColumn.FileEntryAttribute.LastWriteDateTime
+                                    IsFilenameEqual(fileEntryAttribute2.FileFullPath, dataGridViewGenericColumn.FileEntryAttribute.FileFullPath) &&
+                                    dataGridViewGenericColumn.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite //Is Edit Column (User Input Column)
                                     )
+                                    //fileEntryAttribute.LastWriteDateTime == dataGridViewGenericColumn.FileEntryAttribute.LastWriteDateTime)
                                     return columnIndex;                                
                                 break;
                             case FileEntryVersion.Error:
                             case FileEntryVersion.Historical:
-                                if (dataGridViewGenericColumn.FileEntryAttribute == fileEntryAttribute) return columnIndex;                                
+                                if (dataGridViewGenericColumn.FileEntryAttribute == fileEntryAttributeSearch) return columnIndex;                                
                                 break;
                             default:
                                 throw new NotImplementedException();
@@ -1135,54 +1170,72 @@ namespace DataGridViewGeneric
         }
 
         private static Dictionary<FileEntryAttribute, int> columnIndexCachePriorities = new Dictionary<FileEntryAttribute, int>();
-        public static int GetColumnIndexPriorities(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionPriorityReason)
+        public static int GetColumnIndexPriorities(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute2, out FileEntryVersionCompare fileEntryVersionPriorityReason, bool checkIsAgregated = true)
         {
-            int startColumn = 0;
-            #region Cache logic
-            if (columnIndexCachePriorities.ContainsKey(fileEntryAttribute))
+            if (!checkIsAgregated || GetIsAgregated(dataGridView)) //Don't check checkIsAgregated when create new columns
             {
-                int columnIndex = columnIndexCachePriorities[fileEntryAttribute];
-
-                DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-                if (dataGridViewGenericColumn != null && 
-                    dataGridViewGenericColumn.FileEntryAttribute == fileEntryAttribute)
-                    startColumn = columnIndex;
-                else 
-                    columnIndexCachePriorities.Clear();
-            }
-            #endregion
+                FileEntryAttribute fileEntryAttributeSearch = new FileEntryAttribute(fileEntryAttribute2.FileEntry,
+                    FileEntryVersionHandler.ConvertCurrentErrorHistorical(fileEntryAttribute2.FileEntryVersion));
 
 
-            for (int columnIndex = startColumn; columnIndex < dataGridView.ColumnCount; columnIndex++)
-            {
-                DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-                if (dataGridViewGenericColumn != null)
+                int startColumn = 0;
+                #region Cache logic
+                if (columnIndexCachePriorities.ContainsKey(fileEntryAttributeSearch))
                 {
-                    if (!columnIndexCachePriorities.ContainsKey(dataGridViewGenericColumn.FileEntryAttribute)) columnIndexCachePriorities.Add(dataGridViewGenericColumn.FileEntryAttribute, columnIndex);
+                    int columnIndex = columnIndexCachePriorities[fileEntryAttributeSearch];
 
-                    fileEntryVersionPriorityReason = FileEntryVersionHandler.CompareFileEntryAttribute(dataGridViewGenericColumn.FileEntryAttribute, fileEntryAttribute);
-                    switch (fileEntryVersionPriorityReason)
+                    DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+                    if (dataGridViewGenericColumn != null)
                     {
-                        case FileEntryVersionCompare.LostNoneEqualFound:
-                            break; //Continue search
-                        case FileEntryVersionCompare.LostFoundOlder:
-                            return columnIndex;
-                        case FileEntryVersionCompare.WonFoundEqual:
-                        case FileEntryVersionCompare.WonFoundNewer:
-                            return columnIndex;
-                        default:
-                            throw new NotImplementedException();
+                        FileEntryAttribute fileEntryAttributeCompare = new FileEntryAttribute(dataGridViewGenericColumn.FileEntryAttribute.FileEntry,
+                        FileEntryVersionHandler.ConvertCurrentErrorHistorical(dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion));
+                        if (fileEntryAttributeCompare == fileEntryAttributeSearch) 
+                            startColumn = columnIndex; //It's still same file in column, (means not column has been added in front)
+                        else
+                            columnIndexCachePriorities.Clear(); //It's a diffrent file, means a column has been added in front, need rebuid cache
+                    }
+                    
+                }
+                #endregion
+
+
+                for (int columnIndex = startColumn; columnIndex < dataGridView.ColumnCount; columnIndex++)
+                {
+                    DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+                    if (dataGridViewGenericColumn != null)
+                    {
+                        FileEntryAttribute fileEntryAttributeCache = new FileEntryAttribute(dataGridViewGenericColumn.FileEntryAttribute.FileEntry,
+                            FileEntryVersionHandler.ConvertCurrentErrorHistorical(dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion));
+
+                        if (!columnIndexCachePriorities.ContainsKey(fileEntryAttributeCache)) columnIndexCachePriorities.Add(fileEntryAttributeCache, columnIndex);
+
+                        fileEntryVersionPriorityReason = FileEntryVersionHandler.CompareFileEntryAttribute(dataGridViewGenericColumn.FileEntryAttribute, fileEntryAttribute2);
+                        switch (fileEntryVersionPriorityReason)
+                        {
+                            case FileEntryVersionCompare.LostNoneEqualFound:
+                                break; //Continue search
+                            case FileEntryVersionCompare.LostFoundOlder:
+                                return columnIndex;
+                            case FileEntryVersionCompare.WonFoundEqual:
+                            case FileEntryVersionCompare.WonFoundNewer:
+                                return columnIndex;
+                            default:
+                                throw new NotImplementedException();
+                        }
                     }
                 }
             }
-
+            else
+            {
+                //DEBUG
+            }
             fileEntryVersionPriorityReason = FileEntryVersionCompare.LostNoneEqualFound;
             return -1; //Not found
         }
 
         public static int GetColumnIndexWhenAddColumn(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionCompareReason)
         {
-            return GetColumnIndexPriorities(dataGridView, fileEntryAttribute, out fileEntryVersionCompareReason); 
+            return GetColumnIndexPriorities(dataGridView, fileEntryAttribute, out fileEntryVersionCompareReason, false); 
         }
         #endregion
 
@@ -1191,19 +1244,22 @@ namespace DataGridViewGeneric
         {
             List<DataGridViewGenericColumn> dataGridViewGenericColumnList = new List<DataGridViewGenericColumn>();
 
-            for (int columnIndex = 0; columnIndex < dataGridView.ColumnCount; columnIndex++)
+            if (GetIsAgregated(dataGridView))
             {
-                DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-
-                if (dataGridViewGenericColumn != null)
+                for (int columnIndex = 0; columnIndex < dataGridView.ColumnCount; columnIndex++)
                 {
-                    if (FileEntryVersionHandler.IsCurrenOrUpdatedVersion(dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion))
-                    {
-                        if (!onlyReadWriteAccessColumn || (onlyReadWriteAccessColumn && dataGridViewGenericColumn.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite)) //Check if loaded
-                            dataGridViewGenericColumnList.Add(dataGridViewGenericColumn);
-                    }
-                }
+                    DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
 
+                    if (dataGridViewGenericColumn != null)
+                    {
+                        if (FileEntryVersionHandler.IsCurrenOrUpdatedVersion(dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion))
+                        {
+                            if (!onlyReadWriteAccessColumn || (onlyReadWriteAccessColumn && dataGridViewGenericColumn.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite)) //Check if loaded
+                                dataGridViewGenericColumnList.Add(dataGridViewGenericColumn);
+                        }
+                    }
+
+                }
             }
             return dataGridViewGenericColumnList;
         }
@@ -1252,7 +1308,7 @@ namespace DataGridViewGeneric
                 #endregion
 
                 #region Find where to add *NEW* column
-                int columnIndexFilename = GetColumnIndexFirstFullFilePath(dataGridView, fileEntryAttribute.FileFullPath); //Find first Column with equal name
+                int columnIndexFilename = GetColumnIndexFirstFullFilePath(dataGridView, fileEntryAttribute.FileFullPath, false); //Find first Column with equal name
                 if (columnIndexFilename == -1) //Filename doesn't exist
                 {
                     #region Filename doesn't exist, add last
@@ -1383,7 +1439,12 @@ namespace DataGridViewGeneric
                         case FileEntryVersionCompare.WonFoundNewer:
                         case FileEntryVersionCompare.WonFoundEqual:
                             currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warnings needed, just updated datagrid with new data
-                            currentDataGridViewGenericColumn.Metadata = metadata; //Keep newest version, PS All columns get added with empty Metadata
+                            if (metadata != null)
+                                currentDataGridViewGenericColumn.Metadata = metadata; //Keep newest version, PS All columns get added with empty Metadata
+                            else
+                            {
+                                //DEBUG
+                            }
                             break;
                             
                         case FileEntryVersionCompare.LostFoundOlder:

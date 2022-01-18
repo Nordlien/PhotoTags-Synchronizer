@@ -579,6 +579,7 @@ namespace PhotoTagsSynchronizer
 
                 HashSet<FileEntry> fileEntries = ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, allowUseCache);
                 ImageListView_RemoveNoneExistFilesFromSelectedFiles(ref fileEntries);
+                DataGridView_CleanAll();
                 DataGridView_Populate_SelectedItemsThread(fileEntries);
                 PopulateImageListViewOpenWithToolStripThread(fileEntries, ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));
                 UpdateRibbonsWhenWorkspaceChanged();

@@ -518,12 +518,16 @@ namespace PhotoTagsSynchronizer
                     splitChar = '/';
                     if (!string.IsNullOrWhiteSpace(keywordTag.Keyword) && keywordTag.Keyword.Contains(splitChar.ToString()))
                     {
+                        string mergedTrimmedKeywords = "";
                         string[] keywords = keywordTag.Keyword.Split(splitChar);
                         foreach (string keyword in keywords)
                         {
+                            mergedTrimmedKeywords += (string.IsNullOrWhiteSpace(mergedTrimmedKeywords) ? "" : "/") + keyword.Trim();
                             KeywordTag newKeywordTag = new KeywordTag(keyword.Trim(), keywordTag.Confidence);
                             metadata.PersonalKeywordTagsAddIfNotExists(newKeywordTag);
                         }
+                        KeywordTag mergedTrimmedKeywordTag = new KeywordTag(mergedTrimmedKeywords.Trim(), keywordTag.Confidence);
+                        metadata.PersonalKeywordTagsAddIfNotExists(mergedTrimmedKeywordTag);
                     }
                     #endregion
                 }
