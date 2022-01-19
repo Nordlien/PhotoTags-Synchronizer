@@ -1439,10 +1439,9 @@ namespace DataGridViewGeneric
                         case FileEntryVersionCompare.WonFoundNewer:
                         case FileEntryVersionCompare.WonFoundEqual:
                             currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warnings needed, just updated datagrid with new data
-                            if (metadata != null)
-                                currentDataGridViewGenericColumn.Metadata = metadata; //Keep newest version, PS All columns get added with empty Metadata
-                            else
-                            {
+                            currentDataGridViewGenericColumn.Metadata = metadata; //Keep newest version, PS All columns get added with empty Metadata
+                            if (metadata == null)
+                            {   
                                 //DEBUG
                             }
                             break;

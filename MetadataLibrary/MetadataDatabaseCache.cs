@@ -2800,7 +2800,7 @@ namespace MetadataLibrary
         /// <summary>
         /// Updated the Metadata cache
         /// </summary>
-        /// <param name="fileEntryBroker">When broler is MetadataBrokerType.ExifTool then don't remember null values, meands value not read</param>
+        /// <param name="fileEntryBroker">When broker is MetadataBrokerType.ExifTool then don't remember null values, means value not read</param>
         /// <param name="metadata">Matadata to remeber, also remember null values</param>
         private void MetadataCacheUpdate(FileEntryBroker fileEntryBroker, Metadata metadata)
         {

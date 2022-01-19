@@ -596,7 +596,9 @@ namespace PhotoTagsSynchronizer
                                 bool isMetadataExiftoolFound = false;
                                 bool isMetadataExiftoolErrorFound = false;
                                 bool isMetadataOtherSourceFound = false;
-                                
+                                bool isMetadataExiftoolReadFromSourceRequested = false;
+
+
                                 if (readColumn)
                                 {
                                     #region Exiftool with or without Error
@@ -616,14 +618,16 @@ namespace PhotoTagsSynchronizer
                                         MetadataBrokerType.ExifTool | MetadataBrokerType.ExifToolWriteError);
                                         Metadata metadataExiftoolError = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftoolError);
                                         if (metadataExiftoolError == null)
+                                        {
                                             AddQueueReadFromSourceExiftoolLock(fileEntryAttribute); //Didn't exists in Database, need read from source
+                                            isMetadataExiftoolReadFromSourceRequested = true;
+                                        }
                                         else
                                         {
                                             FileStatus fileStaus = FileHandler.GetFileStatus(fileEntryBrokerExiftoolError.FileFullPath,
                                                 exiftoolProcessStatus: ExiftoolProcessStatus.FileInaccessibleOrError, checkLockedStatus: true);
                                             ImageListView_UpdateItemFileStatusInvoke(fileEntryBrokerExiftoolError.FileFullPath, fileStaus);
                                             isMetadataExiftoolErrorFound = true;
-
                                         }
                                     }
                                     else
@@ -702,7 +706,7 @@ namespace PhotoTagsSynchronizer
                                     {
                                         ImageListView_UpdateItemExiftoolMetadataInvoke(fileEntryAttribute);
                                     }
-                                    if (isMetadataExiftoolFound) // No need update others before Exiftool has data || isMetadataExiftoolErrorFound || isMetadataOtherSourceFound) 
+                                    if (!isMetadataExiftoolReadFromSourceRequested && (isMetadataExiftoolFound || isMetadataExiftoolErrorFound)) // No need update others before Exiftool has data || isMetadataExiftoolErrorFound || isMetadataOtherSourceFound) 
                                         DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute);
                                 }
 
@@ -1908,7 +1912,7 @@ namespace PhotoTagsSynchronizer
                                 if (File.Exists(fileEntry.FileFullPath))
                                 {
                                     FileEntryBroker fileEntryBroker = new FileEntryBroker(fileEntry, MetadataBrokerType.MicrosoftPhotos);
-                                    if (!database.IsMetadataInCache(fileEntryBroker))
+                                    //if (!database.IsMetadataInCache(fileEntryBroker))
                                     {
                                         Metadata metadata = database.ReadMetadataFromCacheOrDatabase(fileEntryBroker);
                                         if (metadata == null)
@@ -2028,7 +2032,7 @@ namespace PhotoTagsSynchronizer
                                     if (File.Exists(fileEntry.FileFullPath))
                                     {
                                         FileEntryBroker fileEntryBroker = new FileEntryBroker(fileEntry, MetadataBrokerType.WindowsLivePhotoGallery);
-                                        if (!database.IsMetadataInCache(fileEntryBroker))
+                                        //if (!database.IsMetadataInCache(fileEntryBroker))
                                         {
                                             Metadata metadata = database.ReadMetadataFromCacheOrDatabase(fileEntryBroker);
                                             if (metadata == null)

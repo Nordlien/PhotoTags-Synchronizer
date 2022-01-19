@@ -6,7 +6,6 @@ using System.Threading;
 using MetadataLibrary;
 using PipeMessage;
 using System.Windows.Forms;
-using System.Reflection;
 
 namespace WindowsLivePhotoGallery
 {

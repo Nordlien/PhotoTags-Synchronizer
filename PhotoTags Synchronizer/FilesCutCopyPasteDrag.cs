@@ -9,7 +9,6 @@ using Thumbnails;
 using static Manina.Windows.Forms.ImageListView;
 using Raccoom.Windows.Forms;
 using Krypton.Toolkit;
-using FileHandeling;
 
 namespace PhotoTagsSynchronizer
 {
