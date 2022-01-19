@@ -26,21 +26,21 @@ namespace ApplicationAssociations
 
         public static string GetFullPathOfFile(string fileName)
         {
-            if (File.Exists(Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), fileName)))
-                return Path.GetFullPath(fileName);
+            string fullFilePathToCheck = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), fileName);
+            if (File.Exists(fullFilePathToCheck)) return fullFilePathToCheck;
 
             var values = Environment.GetEnvironmentVariable("PATH");
             foreach (var path in values.Split(Path.PathSeparator))
             {
-                var fullPath = Path.Combine(path, fileName);
-                if (File.Exists(fullPath)) return fullPath;
+                fullFilePathToCheck = Path.Combine(path, fileName);
+                if (File.Exists(fullFilePathToCheck)) return fullFilePathToCheck;
             }
 
             values = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.User);
             foreach (var path in values.Split(Path.PathSeparator))
             {
-                var fullPath = Path.Combine(path, fileName);
-                if (File.Exists(fullPath)) return fullPath;
+                fullFilePathToCheck = Path.Combine(path, fileName);
+                if (File.Exists(fullFilePathToCheck)) return fullFilePathToCheck;
             }
             return null;
         }
