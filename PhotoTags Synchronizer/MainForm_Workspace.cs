@@ -1,18 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Threading;
 using System.Windows.Forms;
-using DataGridViewGeneric;
-using FileDateTime;
-using Manina.Windows.Forms;
-using MetadataLibrary;
-using WindowsProperty;
-using static Manina.Windows.Forms.ImageListView;
 using Krypton.Toolkit;
 using Krypton.Navigator;
-using System.Diagnostics;
-using System.IO;
 using Raccoom.Windows.Forms;
 
 namespace PhotoTagsSynchronizer
@@ -128,6 +117,8 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
+
+
         private void kryptonWorkspaceMain_ActivePageChanged(object sender, Krypton.Workspace.ActivePageChangedEventArgs e)
         {
             if (e.NewPage == kryptonPageFolderSearchFilterSearch) PopulateDatabaseFilter();

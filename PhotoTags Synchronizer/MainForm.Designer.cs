@@ -1163,8 +1163,8 @@ namespace PhotoTagsSynchronizer
             // 
             this.comboBoxSearchLocationCountry.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxSearchLocationCountry.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.comboBoxSearchLocationCountry.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxSearchLocationCountry.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.None;
+            this.comboBoxSearchLocationCountry.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.None;
             this.comboBoxSearchLocationCountry.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.comboBoxSearchLocationCountry.DropDownWidth = 183;
             this.comboBoxSearchLocationCountry.IntegralHeight = false;
@@ -1190,8 +1190,8 @@ namespace PhotoTagsSynchronizer
             // 
             this.comboBoxSearchLocationState.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxSearchLocationState.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.comboBoxSearchLocationState.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxSearchLocationState.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.None;
+            this.comboBoxSearchLocationState.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.None;
             this.comboBoxSearchLocationState.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.comboBoxSearchLocationState.DropDownWidth = 183;
             this.comboBoxSearchLocationState.IntegralHeight = false;
@@ -1225,8 +1225,8 @@ namespace PhotoTagsSynchronizer
             // 
             this.comboBoxSearchLocationCity.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxSearchLocationCity.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.comboBoxSearchLocationCity.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxSearchLocationCity.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.None;
+            this.comboBoxSearchLocationCity.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.None;
             this.comboBoxSearchLocationCity.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.comboBoxSearchLocationCity.DropDownWidth = 183;
             this.comboBoxSearchLocationCity.IntegralHeight = false;
@@ -1244,8 +1244,8 @@ namespace PhotoTagsSynchronizer
             // 
             this.comboBoxSearchLocationName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxSearchLocationName.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.comboBoxSearchLocationName.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxSearchLocationName.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.None;
+            this.comboBoxSearchLocationName.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.None;
             this.comboBoxSearchLocationName.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.comboBoxSearchLocationName.DropDownWidth = 183;
             this.comboBoxSearchLocationName.IntegralHeight = false;
@@ -1263,8 +1263,8 @@ namespace PhotoTagsSynchronizer
             // 
             this.comboBoxSearchComments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxSearchComments.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.comboBoxSearchComments.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxSearchComments.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.None;
+            this.comboBoxSearchComments.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.None;
             this.comboBoxSearchComments.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.comboBoxSearchComments.DropDownWidth = 290;
             this.comboBoxSearchComments.IntegralHeight = false;
@@ -1298,8 +1298,8 @@ namespace PhotoTagsSynchronizer
             // 
             this.comboBoxSearchTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxSearchTitle.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.comboBoxSearchTitle.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxSearchTitle.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.None;
+            this.comboBoxSearchTitle.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.None;
             this.comboBoxSearchTitle.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.comboBoxSearchTitle.DropDownWidth = 183;
             this.comboBoxSearchTitle.IntegralHeight = false;
@@ -1325,8 +1325,8 @@ namespace PhotoTagsSynchronizer
             // 
             this.comboBoxSearchDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxSearchDescription.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.comboBoxSearchDescription.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxSearchDescription.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.None;
+            this.comboBoxSearchDescription.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.None;
             this.comboBoxSearchDescription.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.comboBoxSearchDescription.DropDownWidth = 183;
             this.comboBoxSearchDescription.IntegralHeight = false;
@@ -1352,8 +1352,8 @@ namespace PhotoTagsSynchronizer
             // 
             this.comboBoxSearchAlbum.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxSearchAlbum.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.comboBoxSearchAlbum.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxSearchAlbum.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.None;
+            this.comboBoxSearchAlbum.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.None;
             this.comboBoxSearchAlbum.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.comboBoxSearchAlbum.DropDownWidth = 183;
             this.comboBoxSearchAlbum.IntegralHeight = false;
@@ -1446,8 +1446,8 @@ namespace PhotoTagsSynchronizer
             // 
             this.comboBoxSearchKeyword.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxSearchKeyword.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.comboBoxSearchKeyword.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxSearchKeyword.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.None;
+            this.comboBoxSearchKeyword.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.None;
             this.comboBoxSearchKeyword.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.comboBoxSearchKeyword.DropDownWidth = 183;
             this.comboBoxSearchKeyword.IntegralHeight = false;
@@ -2115,8 +2115,8 @@ namespace PhotoTagsSynchronizer
             // 
             this.comboBoxAuthor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxAuthor.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.comboBoxAuthor.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxAuthor.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.None;
+            this.comboBoxAuthor.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.None;
             this.comboBoxAuthor.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.comboBoxAuthor.DropDownWidth = 121;
             this.comboBoxAuthor.IntegralHeight = false;
@@ -2145,8 +2145,8 @@ namespace PhotoTagsSynchronizer
             // 
             this.comboBoxComments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxComments.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.comboBoxComments.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxComments.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.None;
+            this.comboBoxComments.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.None;
             this.comboBoxComments.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.comboBoxComments.DropDownWidth = 121;
             this.comboBoxComments.IntegralHeight = false;
@@ -2167,8 +2167,8 @@ namespace PhotoTagsSynchronizer
             // 
             this.comboBoxDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxDescription.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.comboBoxDescription.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxDescription.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.None;
+            this.comboBoxDescription.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.None;
             this.comboBoxDescription.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.comboBoxDescription.DropDownWidth = 121;
             this.comboBoxDescription.IntegralHeight = false;
@@ -2189,8 +2189,8 @@ namespace PhotoTagsSynchronizer
             // 
             this.comboBoxAlbum.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxAlbum.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.comboBoxAlbum.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxAlbum.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.None;
+            this.comboBoxAlbum.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.None;
             this.comboBoxAlbum.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.comboBoxAlbum.DropDownWidth = 290;
             this.comboBoxAlbum.IntegralHeight = false;
@@ -2211,8 +2211,8 @@ namespace PhotoTagsSynchronizer
             // 
             this.comboBoxTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxTitle.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.comboBoxTitle.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxTitle.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.None;
+            this.comboBoxTitle.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.None;
             this.comboBoxTitle.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.comboBoxTitle.DropDownWidth = 121;
             this.comboBoxTitle.IntegralHeight = false;
