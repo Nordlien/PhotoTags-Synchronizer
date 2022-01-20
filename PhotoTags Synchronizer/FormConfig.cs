@@ -397,7 +397,7 @@ namespace PhotoTagsSynchronizer
                 Properties.Settings.Default.CacheFolderWebScraperDataSets = checkBoxCacheFolderWebScraperDataSets.Checked;
 
                 Properties.Settings.Default.ExiftoolMaximumWriteBach = (int)kryptonNumericUpDownMaximumWriteBachExiftool.Value;
-                //Debug
+                //Config Debug
                 Properties.Settings.Default.ApplicationDebugExiftoolReadShowCliWindow = checkBoxApplicationExiftoolReadShowCliWindow.Checked;
                 Properties.Settings.Default.ApplicationDebugExiftoolWriteShowCliWindow = checkBoxApplicationExiftoolWriteShowCliWindow.Checked;
                 Properties.Settings.Default.ApplicationDebugExiftoolReadThreadPrioity = ConvertIndexToProcessPriorityClass(comboBoxApplicationDebugExiftoolReadThreadPrioity.SelectedIndex);
@@ -600,7 +600,7 @@ namespace PhotoTagsSynchronizer
             checkBoxCacheFolderWebScraperDataSets.Checked = Properties.Settings.Default.CacheFolderWebScraperDataSets;
 
             kryptonNumericUpDownMaximumWriteBachExiftool.Value = Properties.Settings.Default.ExiftoolMaximumWriteBach;
-            //Debug
+            //Config Debug
             checkBoxApplicationExiftoolReadShowCliWindow.Checked = Properties.Settings.Default.ApplicationDebugExiftoolReadShowCliWindow;
             checkBoxApplicationExiftoolWriteShowCliWindow.Checked = Properties.Settings.Default.ApplicationDebugExiftoolWriteShowCliWindow;
             comboBoxApplicationDebugExiftoolReadThreadPrioity.SelectedIndex = ConvertPriorityClassToIndex((ProcessPriorityClass)Properties.Settings.Default.ApplicationDebugExiftoolReadThreadPrioity);

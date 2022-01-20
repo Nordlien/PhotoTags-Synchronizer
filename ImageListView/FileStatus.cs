@@ -57,10 +57,6 @@ namespace Manina.Windows.Forms
         {
             get
             {
-                if (IsInCloud != IsVirtual != IsOffline)
-                {
-                    //DEBUG
-                }
                 return IsInCloud || IsVirtual || IsOffline;
             }
         }

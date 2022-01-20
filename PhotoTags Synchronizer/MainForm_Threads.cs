@@ -535,7 +535,8 @@ namespace PhotoTagsSynchronizer
             {
                 foreach (FileEntryAttribute fileEntryAttribute in fileEntryAttributes)
                 {
-                    if (!commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.Contains(fileEntryAttribute)) commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.Add(fileEntryAttribute);
+                    if (!commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.Contains(fileEntryAttribute)) 
+                        commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.Add(fileEntryAttribute);
                 }
             }
         }
@@ -697,15 +698,14 @@ namespace PhotoTagsSynchronizer
                                     }
                                     #endregion
 
-                                    if (isMetadataExiftoolFound || isMetadataExiftoolErrorFound)
-                                    {
+                                    if (metadataExiftool != null) 
                                         ImageListView_UpdateItemExiftoolMetadataInvoke(fileEntryAttribute);
-                                    }
+                                    
                                     if (!isMetadataExiftoolReadFromSourceRequested && (isMetadataExiftoolFound || isMetadataExiftoolErrorFound)) // No need update others before Exiftool has data || isMetadataExiftoolErrorFound || isMetadataOtherSourceFound) 
                                         DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute);
                                 }
 
-                                
+                                #region Remove from Queue
                                 lock (commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnailsLock)
                                 {
                                     if (commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.Count > 0) //The queue can be clear when change folder and search
@@ -723,6 +723,7 @@ namespace PhotoTagsSynchronizer
                                         count = 0; //Start over, no more in queue
                                     }
                                 }
+                                #endregion
 
                                 if (GlobalData.IsApplicationClosing) lock (commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnailsLock) commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.Clear();
                                 TriggerAutoResetEventQueueEmpty();

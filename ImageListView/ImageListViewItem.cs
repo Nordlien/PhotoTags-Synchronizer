@@ -684,7 +684,7 @@ namespace Manina.Windows.Forms
         public FileStatus FileStatus 
         {  
             get { 
-                UpdateFileInfo(FileSizePropertyStatus); 
+                UpdateFileInfo(FileStatusPropertyStatus); 
                 return mFileStatus; 
             } 
             set

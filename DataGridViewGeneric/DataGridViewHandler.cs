@@ -404,7 +404,7 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-        #region DataGridViewAllowUserToAddRows
+        #region DataGridView Handling - AllowUserToAddRows
         public static void SetDataGridViewAllowUserToAddRows(DataGridView dataGridView, bool allowUserToAddRows)
         {
             dataGridView.AllowUserToAddRows = allowUserToAddRows;

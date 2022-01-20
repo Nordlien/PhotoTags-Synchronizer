@@ -72,12 +72,8 @@ namespace PhotoTagsSynchronizer
             ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fileEntry.FileFullPath);
             if (foundItem != null)
             {
-                //if (!foundItem.IsItemDirty())
-                {
-                    ImageListViewItemPushFileStatus(fileEntry.FileFullPath, foundItem.FileStatus);
-                    foundItem.Update();   
-                }
-                
+                ImageListViewItemPushFileStatus(fileEntry.FileFullPath, foundItem.FileStatus);
+                foundItem.Update();   
             }
         }
         #endregion
@@ -142,13 +138,14 @@ namespace PhotoTagsSynchronizer
                         
                         Utility.ShellImageFileInfo fileMetadata = new Utility.ShellImageFileInfo();
                         ConvertMetadataToShellImageFileInfo(ref fileMetadata, metadata);
-                        if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.Error)
-                        {
-                            FileStatus fileStatus = FileHandler.GetFileStatus(fileEntryAttribute.FileFullPath, exiftoolProcessStatus: ExiftoolProcessStatus.FileInaccessibleOrError,
-                                checkLockedStatus: true);
-                            fileMetadata.FileStatus = fileStatus;
-                        }
 
+                        FileStatus fileStatus = FileHandler.GetFileStatus(fileEntryAttribute.FileFullPath,
+                            exiftoolProcessStatus: ExiftoolProcessStatus.WaitAction, //Metadata is found
+                            checkLockedStatus: true);
+
+                        if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.Error)
+                            fileMetadata.FileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.FileInaccessibleOrError; //Error Metadata found
+                        
                         foundItem.UpdateDetails(fileMetadata);
                     }
                 }
@@ -247,16 +244,6 @@ namespace PhotoTagsSynchronizer
                 {
                     FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fileEntryBroker, FileEntryVersion.CurrentVersionInDatabase);
 
-                    #region Check if has Record with Error - flag it with FileInaccessibleOrError
-                    FileEntryBroker fileEntryBrokerError = new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.ExifTool | MetadataBrokerType.ExifToolWriteError);
-                    Metadata metadataError = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBrokerError);
-                    if (metadataError != null) fileStatus.FileInaccessibleOrError = true;
-                    #endregion
-
-                    #region Add to read queue, when data missing and not marked as Error record
-                    if (metadataError == null) AddQueueReadFromSourceIfMissing_AllSoruces(fileEntryAttribute);
-                    #endregion
-
                     e.FileMetadata = new Utility.ShellImageFileInfo(); //Tell that data is create, all is good for internal void UpdateDetailsInternal(Utility.ShellImageFileInfo info)
                     e.FileMetadata.SetPropertyStatusOnAll(PropertyStatus.Requested); //All data will be read, it's in Lazy loading queue
 
@@ -321,13 +308,25 @@ namespace PhotoTagsSynchronizer
                     e.FileMetadata.Extension = Path.GetExtension(e.FileName);
                     e.FileMetadata.FileAttributes = FileAttributes.Normal;
                     #endregion
+
+
+                    #region Check if has Record with Error - flag it with FileInaccessibleOrError
+                    FileEntryBroker fileEntryBrokerError = new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.ExifTool | MetadataBrokerType.ExifToolWriteError);
+                    Metadata metadataError = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBrokerError);
+                    if (metadataError != null) fileStatus.FileInaccessibleOrError = true;
+                    #endregion
+
+                    #region Add to read queue, when data missing and not marked as Error record
+                    if (metadataError == null) AddQueueReadFromSourceIfMissing_AllSoruces(fileEntryAttribute);
+                    #endregion
+
                 }
                 else
                 {
                     Utility.ShellImageFileInfo fileMetadata = new Utility.ShellImageFileInfo();
                     ConvertMetadataToShellImageFileInfo(ref fileMetadata, metadata);
                     e.FileMetadata = fileMetadata;
-                    e.FileMetadata.FileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.WaitAction;
+                    fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.WaitAction;
                 }
 
                 e.FileMetadata.FileStatus = fileStatus;
@@ -344,7 +343,7 @@ namespace PhotoTagsSynchronizer
                     FileStatus fileStatus = FileHandler.GetFileStatus(
                         e.FileName, checkLockedStatus: true,
                         fileInaccessibleOrError: true, fileErrorMessage: ex.Message,
-                        exiftoolProcessStatus: ExiftoolProcessStatus.DoNotUpdate);
+                        exiftoolProcessStatus: ExiftoolProcessStatus.FileInaccessibleOrError);
                     e.FileMetadata.FileStatus = fileStatus;
                     //No need - ImageListView_UpdateItemFileStatusInvoke(e.FileName, fileStatus);
                 }
