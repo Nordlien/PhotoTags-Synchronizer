@@ -710,8 +710,24 @@ namespace PhotoTagsSynchronizer
                                         DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute);
                                 }
 
-                                lock (commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnailsLock) 
-                                    commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.RemoveAt(0);
+                                
+                                lock (commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnailsLock)
+                                {
+                                    if (commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.Count > 0) //The queue can be clear when change folder and search
+                                    {
+                                        //Check if queue been removed and still same item
+                                        if (commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails[0].FileEntry == fileEntryAttribute.FileEntry)
+                                        {
+                                            commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.RemoveAt(0);
+                                        } else
+                                        {
+                                            count = 0; //New queue was create, need start over
+                                        }
+                                    } else //It's no more in queue
+                                    {
+                                        count = 0; //Start over, no more in queue
+                                    }
+                                }
 
                                 if (GlobalData.IsApplicationClosing) lock (commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnailsLock) commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.Clear();
                                 TriggerAutoResetEventQueueEmpty();
