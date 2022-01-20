@@ -213,6 +213,29 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region DataGridView - Populate File - For FileEntryAttribute missing Tag - Invoke
+        private void DataGridView_SetColumnVisibleStatus_FileEntryAttributeInvoke(FileEntryAttribute fileEntryAttribute, bool visible)
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<FileEntryAttribute, bool>(DataGridView_SetColumnVisibleStatus_FileEntryAttributeInvoke), fileEntryAttribute, visible);
+                return;
+            }
+            if (GlobalData.IsApplicationClosing) return;
+            try
+            {
+                DataGridViewHandler.SetColumnVisibleStatus(dataGridViewTagsAndKeywords, fileEntryAttribute, visible);
+                DataGridViewHandler.SetColumnVisibleStatus(dataGridViewPeople, fileEntryAttribute, visible);
+                DataGridViewHandler.SetColumnVisibleStatus(dataGridViewMap, fileEntryAttribute, visible);
+                DataGridViewHandler.SetColumnVisibleStatus(dataGridViewDate, fileEntryAttribute, visible);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
+        }
+        #endregion
+
         #region DataGridView - Populate - Metadata
         private void DataGridView_Populate_Metadata(Metadata metadataToSave)
         {
@@ -221,6 +244,7 @@ namespace PhotoTagsSynchronizer
                 GetActiveTabTag(), metadataToSave);
         }
         #endregion 
+
 
         #region DataGridView - Populate - FileEntryAttribute -> PopulateDataGridViewForSelectedItemsExtrasDelayed();
         private void DataGridView_Populate_FileEntryAttribute(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, string tabTag, Metadata metadataAutoCorrect = null)

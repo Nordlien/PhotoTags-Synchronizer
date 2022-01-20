@@ -1459,7 +1459,6 @@ namespace DataGridViewGeneric
                 }
                 #endregion
 
-                //if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.ExtractedNowFromExternalSource)
                 #region Updated - currentDataGridViewGenericColumn
                 switch (fileEntryVersionCompareReason)
                 {
@@ -1497,6 +1496,20 @@ namespace DataGridViewGeneric
             return columnIndex;
         }
         #endregion
+
+        #region Column Handling - SetColumnVisibleStatus
+
+        public static void SetColumnVisibleStatus(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, bool visible)
+        {
+            int columnIndex = DataGridViewHandler.GetColumnIndexWhenAddColumn(dataGridView, fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionCompare);
+            if (columnIndex != -1) SetColumnVisibleStatus(dataGridView, columnIndex, visible);
+        }
+
+        public static void SetColumnVisibleStatus(DataGridView dataGridView, int columnIndex, bool visible)
+        {
+            dataGridView.Columns[columnIndex].Visible = visible;
+        }
+        #endregion 
 
         #region Column handling - GetColumnDataGridViewGenericColumn
         public static DataGridViewGenericColumn GetColumnDataGridViewGenericColumn(DataGridView dataGridView, int columnIndex)

@@ -511,10 +511,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region LazyLoading - All Sources - AddQueue - (Read order: Cache, Database, Source)
-        //Deleted: DataGridView_AfterPopulateSelectedFiles_LazyLoadFromDatabaseThenSourceAllVersions
-        //Caller: imageListView1_RetrieveItemMetadataDetails
-        //Caller: ThreadSaveUsingExiftoolToMedia
+        #region LazyLoading - All Sources / Metadata And Region Thumbnails - AddQueue - (Read order: Cache, Database, Source)
         public void AddQueueReadFromSourceIfMissing_AllSoruces(FileEntryAttribute fileEntryAttribute)
         {
             FileEntryBroker fileEntryBrokerError = new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.ExifTool | MetadataBrokerType.ExifToolWriteError);
@@ -530,11 +527,7 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        #region LazyLoading - Cache and Database - AddQueue - All type of Metadata And Region Thumbnails - Add Queue - (** Doesn't add Read from Source **)
-        //Caller: DataGridView_AfterPopulateSelectedFiles_LazyLoadFromDatabaseThenSourceAllVersions
-        //Caller: DataGridView_Populate_SelectedItemsInvoke
-        //Caller: AutoCorrectRunDataGridView_Click
-        //Caller: AutoCorrectFormDataGridView_Click
+        #region LazyLoading - All Sources / Metadata And Region Thumbnails - AddQueue - (Read order: Cache, Database, Source)
         public void AddQueueLazyLoadningAllSourcesMetadataAndRegionThumbnailsLock(List<FileEntryAttribute> fileEntryAttributes)
         {
             if (fileEntryAttributes == null) return;
@@ -548,7 +541,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region LazyLoading - Cache and Database - All type of Metadata And Region Thumbnails - Thread - **Populate** - (** Doesn't add Read from Source **)
+        #region LazyLoading - All Sources / Metadata And Region Thumbnails - Thread - **Populate** - (** Doesn't add Read from Source **)
         public void ThreadLazyLoadingAllSourcesMetadataAndRegionThumbnails()
         {
             try
@@ -585,9 +578,11 @@ namespace PhotoTagsSynchronizer
                                         break;
                                     case FileEntryVersion.Error:
                                         if ((showWhatColumns & ShowWhatColumns.ErrorColumns) > 0) readColumn = true;
+                                        else DataGridView_SetColumnVisibleStatus_FileEntryAttributeInvoke(fileEntryAttribute, false);
                                         break;
                                     case FileEntryVersion.Historical:
                                         if ((showWhatColumns & ShowWhatColumns.HistoryColumns) > 0) readColumn = true;
+                                        else DataGridView_SetColumnVisibleStatus_FileEntryAttributeInvoke(fileEntryAttribute, false);
                                         break;
                                     default:
                                         throw new Exception("Not implemeneted");
