@@ -372,7 +372,7 @@ namespace PhotoTagsSynchronizer
 
             MetadataDatabaseCache.StopCaching = true;
             ThumbnailDatabaseCache.StopCaching = true;
-
+            lock (commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnailsLock) commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.Clear();
             lock (commonQueueReadMetadataFromSourceExiftoolLock) commonQueueReadMetadataFromSourceExiftool.Clear();
             lock (commonQueueReadMetadataFromSourceMicrosoftPhotosLock) commonQueueReadMetadataFromSourceMicrosoftPhotos.Clear();
             lock (commonQueueReadMetadataFromSourceWindowsLivePhotoGalleryLock) commonQueueReadMetadataFromSourceWindowsLivePhotoGallery.Clear();
@@ -2235,6 +2235,7 @@ namespace PhotoTagsSynchronizer
                                                                         if (!FileHandler.IsOfflineFileTouched(current_FileEntryBrokerRegion.FileFullPath))
                                                                             FileHandler.TouchOfflineFileToGetFileOnline(current_FileEntryBrokerRegion.FileFullPath);
                                                                     }
+
                                                                 }
                                                             }
                                                             catch (Exception ex)
@@ -2263,6 +2264,14 @@ namespace PhotoTagsSynchronizer
                                                                         exceptionError += (string.IsNullOrWhiteSpace(exceptionError) ? "" : "\r\n") + "Download from clound timeout.";
                                                                     }
                                                                     #endregion
+
+                                                                    if (dontReadFilesInCloud)
+                                                                    {
+                                                                        fileNeedRemoveFromList = true;
+                                                                        didExceptionOccureWhenLoading = true; //Was not able to download in time
+                                                                        exceptionError += (string.IsNullOrWhiteSpace(exceptionError) ? "" : "\r\n") + 
+                                                                            "File is offline and config is set up with 'Don't download files from cloud'.";
+                                                                    }
                                                                 }
 
                                                                 #region Error occured (Remove frome queue)

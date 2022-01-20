@@ -196,7 +196,7 @@ namespace PhotoTagsSynchronizer
             {
                 //lock (commonQueueMetadataWrittenByExiftoolReadyToVerifyLock)
                     foreach (Metadata fileEntry in exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerify)
-                        AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.FileDateModified, "Will be verified after Exiftool readback");
+                        AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.FileDateModified, "In queue for: Will be verified after Exiftool readback");
             }
             catch { }
 
@@ -204,7 +204,7 @@ namespace PhotoTagsSynchronizer
             {
                 //lock (commonQueueReadMetadataFromWindowsLivePhotoGalleryLock) 
                 foreach (FileEntry fileEntry in commonQueueReadMetadataFromSourceWindowsLivePhotoGallery)
-                        AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.LastWriteDateTime, "Read meta information from Windows Live Photo Gallery");
+                        AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.LastWriteDateTime, "In queue for: Read meta information from Windows Live Photo Gallery");
             }
             catch { }
 
@@ -212,7 +212,7 @@ namespace PhotoTagsSynchronizer
             {
                 //lock (commonQueueReadMetadataFromMicrosoftPhotosLock)
                     foreach (FileEntry fileEntry in commonQueueReadMetadataFromSourceMicrosoftPhotos)
-                        AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.LastWriteDateTime, "Read meta information from Microsoft Photos");
+                        AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.LastWriteDateTime, "In queue for: Read meta information from Microsoft Photos");
             }
             catch { }
 
@@ -221,7 +221,7 @@ namespace PhotoTagsSynchronizer
                 //lock (commonQueueReadPosterAndSaveFaceThumbnailsLock)
                     foreach (Metadata fileEntry in commonQueueSaveToDatabaseRegionAndThumbnail)
                         if (fileEntry.PersonalRegionList.Count > 0)
-                        AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.FileDateModified, "Create thumbnail for region: " + fileEntry.PersonalRegionList.Count.ToString());
+                        AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.FileDateModified, "In queue for: Create thumbnail for region: " + fileEntry.PersonalRegionList.Count.ToString());
             }
             catch { }
 
@@ -229,7 +229,7 @@ namespace PhotoTagsSynchronizer
             {
                 //lock (commonQueueSaveMetadataUpdatedByUserLock)
                     foreach (Metadata fileEntry in exiftoolSave_QueueSaveUsingExiftoolMetadataUpdatedByUser)
-                        AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.FileDateModified, "Wait to be saved with " + fileEntry.PersonalRegionList.Count.ToString() + " regions");
+                        AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.FileDateModified, "In queue for: Wait to be saved with " + fileEntry.PersonalRegionList.Count.ToString() + " regions");
             }
             catch { }
 
@@ -237,7 +237,7 @@ namespace PhotoTagsSynchronizer
             {
                 //lock (commonQueueSubsetMetadataToSaveLock)
                     foreach (Metadata fileEntry in exiftoolSave_QueueSubsetMetadataToSave)
-                        AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.FileDateModified, "Saving bulk using exiftool with " + fileEntry.PersonalRegionList.Count.ToString() + " regions");                
+                        AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.FileDateModified, "In queue for: Saving bulk using exiftool with " + fileEntry.PersonalRegionList.Count.ToString() + " regions");                
             }
             catch { }
 
@@ -245,7 +245,7 @@ namespace PhotoTagsSynchronizer
             {
                 //lock (commonQueueRenameLock)
                     foreach (KeyValuePair<string, string> keyValuePair in commonQueueRenameMediaFiles)
-                        AddTaskToFileTasks(fileTasks, keyValuePair.Key, null, "Wait rename to " + keyValuePair.Value);
+                        AddTaskToFileTasks(fileTasks, keyValuePair.Key, null, "In queue for: Wait rename to " + keyValuePair.Value);
             }
             catch { }
 
