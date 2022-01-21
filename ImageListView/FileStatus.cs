@@ -25,7 +25,8 @@ namespace Manina.Windows.Forms
         ExiftoolProcessing,
         ExiftoolWillNotProcessingFileInCloud,
         FileInaccessibleOrError,
-        DoNotUpdate
+        DoNotUpdate,
+        StatusUnknownButRequested //ImageListView has not got an updated, but has requested
     }
     //JTN Added - Item File status
     public class FileStatus //: IComparer
@@ -118,7 +119,10 @@ namespace Manina.Windows.Forms
             else if (ExiftoolProcessStatus == ExiftoolProcessStatus.FileInaccessibleOrError) status = "File is inaccessible";
             else if (ExiftoolProcessStatus == ExiftoolProcessStatus.InExiftoolReadQueue) status = "Wait Exiftool";
             else if (ExiftoolProcessStatus == ExiftoolProcessStatus.WaitOfflineBecomeLocal) status = "Downloading";
-            else if (ExiftoolProcessStatus == ExiftoolProcessStatus.DoNotUpdate) status = "Status requested";
+            else if (ExiftoolProcessStatus == ExiftoolProcessStatus.DoNotUpdate) 
+                status = "Status unknown";
+            else if (ExiftoolProcessStatus == ExiftoolProcessStatus.StatusUnknownButRequested) 
+                status = "Status requested";
             
             if (IsInCloudOrVirtualOrOffline) status += (string.IsNullOrWhiteSpace(status) ? "" : ", ") + "File is offline (" + (IsInCloud ? "C":"") + (IsVirtual ? "V" : "") + (IsOffline ? "O" :"") + ")";
             else if (HasAnyLocks) status += (string.IsNullOrWhiteSpace(status) ? "" : ", ") + "File is locked (" + (IsFileLockedForRead ? "R":"") + (IsFileLockedReadAndWrite ? "W" : "")  + ")";

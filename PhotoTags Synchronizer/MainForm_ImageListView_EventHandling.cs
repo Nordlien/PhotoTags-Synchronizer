@@ -247,7 +247,7 @@ namespace PhotoTagsSynchronizer
                     e.FileMetadata = new Utility.ShellImageFileInfo(); //Tell that data is create, all is good for internal void UpdateDetailsInternal(Utility.ShellImageFileInfo info)
                     e.FileMetadata.SetPropertyStatusOnAll(PropertyStatus.Requested); //All data will be read, it's in Lazy loading queue
 
-                    fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.InExiftoolReadQueue;
+                    fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.StatusUnknownButRequested;
                     string inCloudOrNotExistError = FileHandler.ConvertFileStatusToText(fileStatus);
 
                     #region Assign metadata
@@ -327,9 +327,10 @@ namespace PhotoTagsSynchronizer
                     ConvertMetadataToShellImageFileInfo(ref fileMetadata, metadata);
                     e.FileMetadata = fileMetadata;
                     fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.WaitAction;
+                    
                 }
-
                 e.FileMetadata.FileStatus = fileStatus;
+
             }
             catch (Exception ex)
             {
