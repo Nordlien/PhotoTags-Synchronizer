@@ -2263,8 +2263,7 @@ namespace PhotoTagsSynchronizer
                                                             {
                                                                 FileStatus fileStatus = FileHandler.GetFileStatus(
                                                                     current_FileEntryBrokerRegion.FileFullPath, checkLockedStatus: true,
-                                                                    fileInaccessibleOrError: true, fileErrorMessage: exceptionError,
-                                                                    exiftoolProcessStatus: ExiftoolProcessStatus.DoNotUpdate);
+                                                                    fileInaccessibleOrError: true, fileErrorMessage: exceptionError);
 
                                                                 if (fileStatus.IsInCloudOrVirtualOrOffline)
                                                                 {
@@ -2318,8 +2317,7 @@ namespace PhotoTagsSynchronizer
                                                             fileNeedRemoveFromList = true; //File not exist, remove frome list
                                                             FileStatus fileStatus = FileHandler.GetFileStatus(
                                                                     current_FileEntryBrokerRegion.FileFullPath, checkLockedStatus: true,
-                                                                    fileInaccessibleOrError: true, 
-                                                                    exiftoolProcessStatus: ExiftoolProcessStatus.DoNotUpdate);
+                                                                    fileInaccessibleOrError: true);
                                                             if (!fileStatus.FileExists) fileStatus.FileErrorMessage = "File not found.";
                                                             else if (fileStatus.FileInaccessibleOrError) fileStatus.FileErrorMessage = "Loading Media Poster failed.";
                                                             ImageListView_UpdateItemFileStatusInvoke(current_FileEntryBrokerRegion.FileFullPath, fileStatus);
@@ -3007,8 +3005,7 @@ namespace PhotoTagsSynchronizer
                                             
                                             FileStatus fileStatus = FileHandler.GetFileStatus(
                                                 fullFilename, checkLockedStatus: true,
-                                                fileInaccessibleOrError: true, fileErrorMessage: error,
-                                                exiftoolProcessStatus: ExiftoolProcessStatus.DoNotUpdate);
+                                                fileInaccessibleOrError: true, fileErrorMessage: error);
                                             ImageListView_UpdateItemFileStatusInvoke(fullFilename, fileStatus);
 
                                             error =

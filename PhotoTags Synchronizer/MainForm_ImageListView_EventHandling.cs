@@ -238,6 +238,10 @@ namespace PhotoTagsSynchronizer
                 #region Update FileStatus
                 FileStatus fileStatus = ImageListViewItemPullFileStatus(e.FileName);
                 if (fileStatus == null) fileStatus = FileHandler.GetFileStatus(e.FileName);
+                else
+                {
+                    //DEBUG
+                }
                 #endregion
 
                 if (metadata == null || metadata.FileName == null)
@@ -396,9 +400,7 @@ namespace PhotoTagsSynchronizer
                         if (!string.IsNullOrWhiteSpace(e.FileName))
                         {
                             FileStatus fileStatusError = FileHandler.GetFileStatus(
-                                e.FileName, checkLockedStatus: true,
-                                fileInaccessibleOrError: true, fileErrorMessage: ioe.Message,
-                                exiftoolProcessStatus: ExiftoolProcessStatus.DoNotUpdate);
+                                e.FileName, checkLockedStatus: true, fileInaccessibleOrError: true, fileErrorMessage: ioe.Message);
                             ImageListView_UpdateItemFileStatusInvoke(e.FileName, fileStatusError);
                         }
                         
@@ -410,9 +412,7 @@ namespace PhotoTagsSynchronizer
                         if (!string.IsNullOrWhiteSpace(e.FileName))
                         {
                             FileStatus fileStatusError = FileHandler.GetFileStatus(
-                                e.FileName, checkLockedStatus: true,
-                                fileInaccessibleOrError: true, fileErrorMessage: ex.Message,
-                                exiftoolProcessStatus: ExiftoolProcessStatus.DoNotUpdate);
+                                e.FileName, checkLockedStatus: true, fileInaccessibleOrError: true, fileErrorMessage: ex.Message);
                             ImageListView_UpdateItemFileStatusInvoke(e.FileName, fileStatusError);
                         }
 
@@ -425,9 +425,7 @@ namespace PhotoTagsSynchronizer
                     if (!string.IsNullOrWhiteSpace(e.FileName))
                     {
                         FileStatus fileStatusError = FileHandler.GetFileStatus(
-                            e.FileName, checkLockedStatus: true,
-                            fileInaccessibleOrError: true, fileErrorMessage: "File not exist: " + e.FileName,
-                            exiftoolProcessStatus: ExiftoolProcessStatus.DoNotUpdate);
+                            e.FileName, checkLockedStatus: true, fileInaccessibleOrError: true, fileErrorMessage: "File not exist: " + e.FileName);
                         ImageListView_UpdateItemFileStatusInvoke(e.FileName, fileStatusError);
                     }
 
@@ -439,9 +437,7 @@ namespace PhotoTagsSynchronizer
                 if (!string.IsNullOrWhiteSpace(e.FileName))
                 {
                     FileStatus fileStatusError = FileHandler.GetFileStatus(
-                        e.FileName, checkLockedStatus: true,
-                        fileInaccessibleOrError: true, fileErrorMessage: ex.Message,
-                        exiftoolProcessStatus: ExiftoolProcessStatus.DoNotUpdate);
+                        e.FileName, checkLockedStatus: true, fileInaccessibleOrError: true, fileErrorMessage: ex.Message);
                     ImageListView_UpdateItemFileStatusInvoke(e.FileName, fileStatusError);
                 }
 
@@ -500,9 +496,7 @@ namespace PhotoTagsSynchronizer
                     if (!string.IsNullOrWhiteSpace(e.FullFilePath))
                     {
                         FileStatus fileStatusError = FileHandler.GetFileStatus(
-                            e.FullFilePath, checkLockedStatus: true,
-                            fileInaccessibleOrError: true, fileErrorMessage: ioex.Message,
-                            exiftoolProcessStatus: ExiftoolProcessStatus.DoNotUpdate);
+                            e.FullFilePath, checkLockedStatus: true, fileInaccessibleOrError: true, fileErrorMessage: ioex.Message);
                         ImageListView_UpdateItemFileStatusInvoke(e.FullFilePath, fileStatusError);
                     }
 
@@ -511,9 +505,7 @@ namespace PhotoTagsSynchronizer
                 catch (Exception ex)
                 {
                     FileStatus fileStatus = FileHandler.GetFileStatus(
-                            e.FullFilePath, checkLockedStatus: true,
-                            fileInaccessibleOrError: true, fileErrorMessage: ex.Message,
-                            exiftoolProcessStatus: ExiftoolProcessStatus.DoNotUpdate);
+                            e.FullFilePath, checkLockedStatus: true, fileInaccessibleOrError: true, fileErrorMessage: ex.Message);
                     ImageListView_UpdateItemFileStatusInvoke(e.FullFilePath, fileStatus);
                     
                     e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorGeneral;                    
@@ -527,9 +519,7 @@ namespace PhotoTagsSynchronizer
                 if (e.LoadedImage == null)
                 {
                     FileStatus fileStatus = FileHandler.GetFileStatus(
-                        e.FullFilePath, checkLockedStatus: true,
-                        fileInaccessibleOrError: true, fileErrorMessage: "Failed to load poster",
-                        exiftoolProcessStatus: ExiftoolProcessStatus.DoNotUpdate);
+                        e.FullFilePath, checkLockedStatus: true, fileInaccessibleOrError: true, fileErrorMessage: "Failed to load poster");
                     ImageListView_UpdateItemFileStatusInvoke(e.FullFilePath, fileStatus);
 
                     if (!fileStatus.FileExists) e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorFileNotExist; //File has become deleted
@@ -992,13 +982,11 @@ namespace PhotoTagsSynchronizer
 
                 FileStatus fileStatus = FileHandler.GetFileStatus(
                     filename, checkLockedStatus: true,
-                    fileInaccessibleOrError: true, fileErrorMessage: renameFailed[filename].ErrorMessage,
-                    exiftoolProcessStatus: ExiftoolProcessStatus.DoNotUpdate);
+                    fileInaccessibleOrError: true, fileErrorMessage: renameFailed[filename].ErrorMessage);
                 ImageListView_UpdateItemFileStatusInvoke(filename, fileStatus);
 
                 FileStatus fileStatusRenameFailed = FileHandler.GetFileStatus(
                     renameFailed[filename].NewFilename, checkLockedStatus: true);
-                //ImageListView_UpdateItemFileStatusInvoke(renameFailed[filename].NewFilename, fileStatusRenameFailed);
 
                 AddError(
                         Path.GetDirectoryName(filename), Path.GetFileName(filename), dateTimeLastWriteTime,

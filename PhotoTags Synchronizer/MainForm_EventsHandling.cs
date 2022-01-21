@@ -4374,8 +4374,7 @@ namespace PhotoTagsSynchronizer
                             {
                                 FileStatus fileStatus = FileHandler.GetFileStatus(
                                     dataGridViewGenericColumn.FileEntryAttribute.FileFullPath, checkLockedStatus: true,
-                                    fileInaccessibleOrError: true, fileErrorMessage: ex.Message,
-                                    exiftoolProcessStatus: ExiftoolProcessStatus.DoNotUpdate);
+                                    fileInaccessibleOrError: true, fileErrorMessage: ex.Message);
                                 ImageListView_UpdateItemFileStatusInvoke(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath, fileStatus);
 
                                 string writeErrorDesciption =
