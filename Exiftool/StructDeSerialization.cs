@@ -120,7 +120,7 @@ namespace Exiftool
         */
         //{Regions=[{PersonDisplayName=Kristoffer Monsen Nordlien,PersonSourceID=SKYPE:kristoffer.monsen.nordlien,Rectangle=0.366406|, 0.436458|, 0.064063|, 0.085417},{PersonDisplayName=Julie Monsen Nordlien,Rectangle=0.596094|, 0.571875|, 0.039844|, 0.054167},{PersonDisplayName=Lukas Nordlien,Rectangle=0.741406|, 0.723958|, 0.050000|, 0.066667},{PersonDisplayName=_Ikke marker denne,Rectangle=0.813281|, 0.373958|, 0.024219|, 0.031250}]}
         //{Area={H=0.139205,Unit=normalized,W=0.104403,X=0.232955,Y=0.202415},Name=Julie Monsen Nordlien,Type=Face},
-        public bool Read(out StructObject structObject)
+        public bool Read(out StructObject structObject, bool hasFieldName)
         {
             structObject = new StructObject();
 
@@ -156,6 +156,8 @@ namespace Exiftool
                             break;
 
                         case '=':
+                            if (!hasFieldName) break;
+                            
                             //isInsideList = true;
                             structObject.Type = StructTypes.FieldName;
                             addCharToValue = false;
@@ -204,19 +206,19 @@ namespace Exiftool
             }
 
             structObject.Level = Level;
-            structObject.IsList = isInsideList;
+            structObject.IsList = isInsideList;            
             if (structObject.Type == StructTypes.FieldName) structObject.Value = structObject.Value.TrimStart();
 
             return readLocation <= structString.Length; //New also read last sign
         }
 
-        public static List<string> GetListOfValues(string parameter)
+        public static List<string> GetListOfValues(string parameter, bool hasFieldName)
         {
             List<string> values = new List<string>();
 
             StructDeSerialization structDeSerialization = new StructDeSerialization(parameter);
             StructObject structObject;
-            while (structDeSerialization.Read(out structObject))
+            while (structDeSerialization.Read(out structObject, hasFieldName))
             {
                 switch (structObject.Type) 
                 {

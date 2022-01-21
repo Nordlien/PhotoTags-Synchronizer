@@ -746,7 +746,7 @@ namespace PhotoTagsSynchronizer
                     }
                     else
                     {
-                        return false; //DEBUG
+                        return false; 
                     }
                 }
                 else

@@ -110,7 +110,7 @@ namespace SqliteDatabase
 
         public void TransactionCommit(CommonDatabaseTransaction commonDatabaseTransaction)
         {
-            if (transactionHandler.Connection != null && transactionHandler.Connection.State == System.Data.ConnectionState.Open) commonDatabaseTransaction.DatabaseTransaction.Commit();    
+            if (transactionHandler != null && transactionHandler.Connection != null && transactionHandler.Connection.State == System.Data.ConnectionState.Open) commonDatabaseTransaction.DatabaseTransaction.Commit();    
         }
 
 

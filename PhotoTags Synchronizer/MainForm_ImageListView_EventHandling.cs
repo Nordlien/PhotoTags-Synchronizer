@@ -237,11 +237,7 @@ namespace PhotoTagsSynchronizer
             {
                 #region Update FileStatus
                 FileStatus fileStatus = ImageListViewItemPullFileStatus(e.FileName);
-                if (fileStatus == null) fileStatus = FileHandler.GetFileStatus(e.FileName);
-                else
-                {
-                    //DEBUG
-                }
+                if (fileStatus == null) fileStatus = FileHandler.GetFileStatus(e.FileName, exiftoolProcessStatus: ExiftoolProcessStatus.StatusUnknownButRequested);
                 #endregion
 
                 if (metadata == null || metadata.FileName == null)
@@ -251,7 +247,6 @@ namespace PhotoTagsSynchronizer
                     e.FileMetadata = new Utility.ShellImageFileInfo(); //Tell that data is create, all is good for internal void UpdateDetailsInternal(Utility.ShellImageFileInfo info)
                     e.FileMetadata.SetPropertyStatusOnAll(PropertyStatus.Requested); //All data will be read, it's in Lazy loading queue
 
-                    fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.StatusUnknownButRequested;
                     string inCloudOrNotExistError = FileHandler.ConvertFileStatusToText(fileStatus);
 
                     #region Assign metadata
@@ -312,7 +307,6 @@ namespace PhotoTagsSynchronizer
                     e.FileMetadata.Extension = Path.GetExtension(e.FileName);
                     e.FileMetadata.FileAttributes = FileAttributes.Normal;
                     #endregion
-
 
                     #region Check if has Record with Error - flag it with FileInaccessibleOrError
                     FileEntryBroker fileEntryBrokerError = new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.ExifTool | MetadataBrokerType.ExifToolWriteError);

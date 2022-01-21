@@ -983,7 +983,7 @@ namespace Exiftool
                                     case CompositeTags.ArthurStruct:
                                     case "Creator":         //XMP:XMP-dc	Creator	        [Nokia Imaging SDK]  
                                         MetadataReadPrioity.Add(exifToolData.Region, exifToolData.Command, CompositeTags.ArthurStruct);
-                                        List<string> arthurListStruct = StructDeSerialization.GetListOfValues(parameter);
+                                        List<string> arthurListStruct = StructDeSerialization.GetListOfValues(parameter, true);
 
                                         string arthur = string.Join(";", arthurListStruct.ToArray());
 
@@ -1116,7 +1116,7 @@ namespace Exiftool
                                         StructObject structObject;
                                         string lastKnownFieldName = "";
 
-                                        while (structDeSerialization.Read(out structObject))
+                                        while (structDeSerialization.Read(out structObject, true))
                                         {
                                             switch (structObject.Type)
                                             {
@@ -1348,16 +1348,15 @@ namespace Exiftool
                                         MetadataReadPrioity.Add(exifToolData.Region, exifToolData.Command, CompositeTags.KeywordsStruct);
 
                                         List<string> keywordListStruct;
-
                                         if (!parameter.StartsWith("[")) //It's not a structed list, it's just one item
                                         {
                                             keywordListStruct = new List<string>();
                                             keywordListStruct.Add(parameter);
                                         }
-                                        else keywordListStruct = StructDeSerialization.GetListOfValues(parameter);
-
+                                        else keywordListStruct = StructDeSerialization.GetListOfValues(parameter, false);
                                         foreach (String tag in keywordListStruct)
                                         {
+
                                             Logger.Debug("Keywords: " + exifToolData.Region + " " + exifToolData.Command + " " + tag);
                                             KeywordTag keywordTag = new KeywordTag(tag);
                                             metadata.PersonalKeywordTagsAddIfNotExists(keywordTag);
@@ -1398,7 +1397,7 @@ namespace Exiftool
                                         string lastKnownFieldNameLocation = "";
 
 
-                                        while (structDeSerializationLocation.Read(out structObjectLocation))
+                                        while (structDeSerializationLocation.Read(out structObjectLocation, true))
                                         {
                                             switch (structObjectLocation.Type)
                                             {
