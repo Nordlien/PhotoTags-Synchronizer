@@ -13,6 +13,7 @@ using MetadataPriorityLibrary;
 using TimeZone;
 using FileHandeling;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace Exiftool
 {
@@ -645,6 +646,7 @@ namespace Exiftool
             Process process = null;
             try
             {
+                bool didExiftoolTimeout = false;
                 using (process = new Process())
                 {
                     #region Start Exiftool process
@@ -661,132 +663,141 @@ namespace Exiftool
                     process.StartInfo.StandardOutputEncoding = Encoding.UTF8;
                     #endregion
 
-                    #region process.OutputDataReceived
-                    process.OutputDataReceived += new DataReceivedEventHandler((sender, e) =>
+                    using (AutoResetEvent outputWaitHandle = new AutoResetEvent(false))
+                    using (AutoResetEvent errorWaitHandle = new AutoResetEvent(false))
                     {
-                    try
+                        #region process.OutputDataReceived
+                        process.OutputDataReceived += new DataReceivedEventHandler((sender, e) =>
                     {
-                        String readedLineFromExiftool = e.Data;
-                        if (e.Data == null) return;
-
-                        if (isClosing)
+                        try
                         {
-                            Logger.Debug("Exiftool read: appliaction closing, stopping process");
-                            process.Kill();
-                            return;
-                        }
+                            String readedLineFromExiftool = e.Data;
 
-                        #region Substring(0, 9) == "======== "
-                        Int32 foundToSeperatorInLine = readedLineFromExiftool.IndexOf("\t");
-                        ExiftoolData exifToolData;
-                        if (readedLineFromExiftool.Length >= 9 && readedLineFromExiftool.Substring(0, 9) == "======== ") //This occures only when multiple files found
-                        {
-                            if (metadata != null) //New file found, save all metadata found. 
+                            if (e.Data == null)
                             {
-                                #region Write Metadata and trigger Event afterNewMediaFoundEvent
-                                Logger.Debug("Exiftool read: add to metadata to database: " + metadata.FileFullPath);
-                                if (metadata.Broker != MetadataBrokerType.Empty) //It's empty when rename long filenames and 8.3 filenames still equal
+                                outputWaitHandle.Set();
+                                return;
+                            }
+
+                            if (isClosing)
+                            {
+                                Logger.Debug("Exiftool read: appliaction closing, stopping process");
+                                process.Kill();
+                                return;
+                            }
+
+                            #region Substring(0, 9) == "======== "
+                            Int32 foundToSeperatorInLine = readedLineFromExiftool.IndexOf("\t");
+                            ExiftoolData exifToolData;
+                            if (readedLineFromExiftool.Length >= 9 && readedLineFromExiftool.Substring(0, 9) == "======== ") //This occures only when multiple files found
+                            {
+                                if (metadata != null) //New file found, save all metadata found. 
                                 {
-                                    
-                                    if (metadata.FileDateCreated != null && metadata.FileDateModified != null && metadata.FileSize != null)
+                                    #region Write Metadata and trigger Event afterNewMediaFoundEvent
+                                    Logger.Debug("Exiftool read: add to metadata to database: " + metadata.FileFullPath);
+                                    if (metadata.Broker != MetadataBrokerType.Empty) //It's empty when rename long filenames and 8.3 filenames still equal
                                     {
-                                        CheckTimeZone(metadata, (DateTime)exiftoolDataFileDateModified, ref metadata.errors);
-                                        metadataReadFromExiftool.Add(metadata); //Add list of metadatas read
 
-                                        metadataDatabaseCache.TransactionBeginBatch();
-                                        metadataDatabaseCache.Write(metadata);
-                                        metadataDatabaseCache.TransactionCommitBatch();
+                                        if (metadata.FileDateCreated != null && metadata.FileDateModified != null && metadata.FileSize != null)
+                                        {
+                                            CheckTimeZone(metadata, (DateTime)exiftoolDataFileDateModified, ref metadata.errors);
+                                            metadataReadFromExiftool.Add(metadata); //Add list of metadatas read
 
-                                        if (afterNewMediaFoundEvent != null) afterNewMediaFoundEvent.Invoke(new FileEntry(Path.Combine(metadata.FileDirectory, metadata.FileName), (DateTime)metadata.FileDateModified));
+                                            metadataDatabaseCache.TransactionBeginBatch();
+                                            metadataDatabaseCache.Write(metadata);
+                                            metadataDatabaseCache.TransactionCommitBatch();
+
+                                            if (afterNewMediaFoundEvent != null) afterNewMediaFoundEvent.Invoke(new FileEntry(Path.Combine(metadata.FileDirectory, metadata.FileName), (DateTime)metadata.FileDateModified));
+                                        }
+                                        else
+                                        {
+                                            string error = "Was not able to read exifdata from file. This often occure when File is corrupt, deleted, locked, renamed or OneDrive download files";
+                                            if (!errorMessageOnFiles.ContainsKey(metadata.FileFullPath)) errorMessageOnFiles.Add(metadata.FileFullPath, error);
+                                            Logger.Warn("Error on file: " + metadata.FileFullPath + " Error:" + error);
+                                        }
                                     }
-                                    else
-                                    {
-                                        string error = "Was not able to read exifdata from file. This often occure when File is corrupt, deleted, locked, renamed or OneDrive download files";
-                                        if (!errorMessageOnFiles.ContainsKey(metadata.FileFullPath)) errorMessageOnFiles.Add(metadata.FileFullPath, error);
-                                        Logger.Warn("Error on file: " + metadata.FileFullPath + " Error:" + error);
-                                    }
+                                    #endregion
+
+                                    #region Clean up temporary data - get ready for new media file
+                                    CleanAllOldExiftoolDataForReadNewFile();
+                                    metadata = null; //Start with new empty data when new file found
+                                    exiftoolDatas = new List<ExiftoolData>();
+                                    #endregion
                                 }
-                                #endregion
-
-                                #region Clean up temporary data - get ready for new media file
-                                CleanAllOldExiftoolDataForReadNewFile();
-                                metadata = null; //Start with new empty data when new file found
-                                exiftoolDatas = new List<ExiftoolData>();
-                                #endregion
+                                shortFilename = readedLineFromExiftool.Substring(9, readedLineFromExiftool.Length - 9).Replace("/", "\\");
                             }
-                            shortFilename = readedLineFromExiftool.Substring(9, readedLineFromExiftool.Length - 9).Replace("/", "\\");
-                        }
-                        #endregion
+                            #endregion
 
-                        #region Init metadata with Init known data as directory, filename and last modyfied time
-                        if (metadata == null)  //After loop we also check if metaData not null, to save the last file found
-                        {
-                            fileNumber++;
-                            metadata = new Metadata(MetadataBrokerType.ExifTool); //Get ready to read a meta data
-
-                            //When files gien as argument, sysyetm will short windows 8 names used to avoid  UTF8 filenames problems, like ÆØÅ not converted
-                            string longFilename;
-
-                            if (shortfilesNames.ContainsKey(shortFilename)) longFilename = shortfilesNames[shortFilename];
-                            else longFilename = filesToRead[fileNumber - 1];
-
-                            if (!File.Exists(longFilename))
-                                metadata.Broker = MetadataBrokerType.Empty;
-
-                            metadata.FileName = Path.GetFileName(longFilename);
-                            metadata.FileDirectory = Path.GetDirectoryName(longFilename);
-                            exiftoolDataFileDateModified = File.GetLastWriteTime(Path.Combine(metadata.FileDirectory, metadata.FileName));
-
-                            if (metadata.Broker == MetadataBrokerType.Empty)
+                            #region Init metadata with Init known data as directory, filename and last modyfied time
+                            if (metadata == null)  //After loop we also check if metaData not null, to save the last file found
                             {
-                                string error = "Exiftool read: File been removed or renamed. " + longFilename;
-                                genericExiftoolError += (string.IsNullOrWhiteSpace(genericExiftoolError) ? "" : "\r\n") + error;
+                                fileNumber++;
+                                metadata = new Metadata(MetadataBrokerType.ExifTool); //Get ready to read a meta data
 
-                                Logger.Warn(error);
+                                //When files gien as argument, sysyetm will short windows 8 names used to avoid  UTF8 filenames problems, like ÆØÅ not converted
+                                string longFilename;
+
+                                if (shortfilesNames.ContainsKey(shortFilename)) longFilename = shortfilesNames[shortFilename];
+                                else longFilename = filesToRead[fileNumber - 1];
+
+                                if (!File.Exists(longFilename))
+                                    metadata.Broker = MetadataBrokerType.Empty;
+
+                                metadata.FileName = Path.GetFileName(longFilename);
+                                metadata.FileDirectory = Path.GetDirectoryName(longFilename);
+                                exiftoolDataFileDateModified = File.GetLastWriteTime(Path.Combine(metadata.FileDirectory, metadata.FileName));
+
+                                if (metadata.Broker == MetadataBrokerType.Empty)
+                                {
+                                    string error = "Exiftool read: File been removed or renamed. " + longFilename;
+                                    genericExiftoolError += (string.IsNullOrWhiteSpace(genericExiftoolError) ? "" : "\r\n") + error;
+
+                                    Logger.Warn(error);
+                                }
+                                else
+                                {
+                                    //For debugging
+                                    exifToolData = new ExiftoolData();
+                                    exifToolData.FileName = metadata.FileName;
+                                    exifToolData.FileDirectory = metadata.FileDirectory;
+                                    exifToolData.FileDateModified = (DateTime)exiftoolDataFileDateModified;
+                                    exifToolData.Region = "FileSystem";
+                                    exifToolData.Command = "FileName";
+                                    exifToolData.Parameter = metadata.FileName;
+                                    ConvertAndCheckStringFromString(metadata.FileName, exifToolData, oldExifToolFileName, CompositeTags.FileName, ref metadata.errors);
+                                    oldExifToolFileName = new ExiftoolData(exifToolData);
+
+                                    exifToolData = new ExiftoolData();
+                                    exifToolData.FileName = metadata.FileName;
+                                    exifToolData.FileDirectory = metadata.FileDirectory;
+                                    exifToolData.FileDateModified = (DateTime)exiftoolDataFileDateModified;
+                                    exifToolData.Region = "FileSystem";
+                                    exifToolData.Command = "Directory";
+                                    exifToolData.Parameter = metadata.FileDirectory;
+                                    ConvertAndCheckStringFromString(metadata.FileDirectory, exifToolData, oldExifToolFilePath, CompositeTags.Directory, ref metadata.errors);
+                                    oldExifToolFilePath = new ExiftoolData(exifToolData);
+
+                                    exifToolData = new ExiftoolData();
+                                    exifToolData.FileName = metadata.FileName;
+                                    exifToolData.FileDirectory = metadata.FileDirectory;
+                                    exifToolData.FileDateModified = (DateTime)exiftoolDataFileDateModified;
+                                    exifToolData.Region = "FileSystem";
+                                    exifToolData.Command = "FileModifyDate";
+                                    exifToolData.Parameter = ((DateTime)exiftoolDataFileDateModified).ToString("yyyy:MM:dd HH:mm:ss", CultureInfo.CurrentCulture);
+                                    ConvertAndCheckDateFromString(metadata.FileDateModified, exifToolData, oldExifToolFileName, CompositeTags.FileModificationDateTime, ref metadata.errors);
+                                    oldExifToolFilePath = new ExiftoolData(exifToolData);
+                                }
+                                //In case of crash, delete old data
+                                try
+                                {
+                                    FileEntryBroker fileEntryBroker = new FileEntryBroker(metadata.FileFullPath, (DateTime)exiftoolDataFileDateModified, MetadataBrokerType.ExifTool);
+                                    if (metadataDatabaseCache.ReadMetadataFromCacheOnly(fileEntryBroker) != null) metadataDatabaseCache.DeleteFileEntry(fileEntryBroker);
+                                }
+                                catch (Exception ex)
+                                {
+                                    Logger.Error(ex);
+                                }
                             }
-                            else
-                            {
-                                //For debugging
-                                exifToolData = new ExiftoolData();
-                                exifToolData.FileName = metadata.FileName;
-                                exifToolData.FileDirectory = metadata.FileDirectory;
-                                exifToolData.FileDateModified = (DateTime)exiftoolDataFileDateModified;
-                                exifToolData.Region = "FileSystem";
-                                exifToolData.Command = "FileName";
-                                exifToolData.Parameter = metadata.FileName;
-                                ConvertAndCheckStringFromString(metadata.FileName, exifToolData, oldExifToolFileName, CompositeTags.FileName, ref metadata.errors);
-                                oldExifToolFileName = new ExiftoolData(exifToolData);
-
-                                exifToolData = new ExiftoolData();
-                                exifToolData.FileName = metadata.FileName;
-                                exifToolData.FileDirectory = metadata.FileDirectory;
-                                exifToolData.FileDateModified = (DateTime)exiftoolDataFileDateModified;
-                                exifToolData.Region = "FileSystem";
-                                exifToolData.Command = "Directory";
-                                exifToolData.Parameter = metadata.FileDirectory;
-                                ConvertAndCheckStringFromString(metadata.FileDirectory, exifToolData, oldExifToolFilePath, CompositeTags.Directory, ref metadata.errors);
-                                oldExifToolFilePath = new ExiftoolData(exifToolData);
-
-                                exifToolData = new ExiftoolData();
-                                exifToolData.FileName = metadata.FileName;
-                                exifToolData.FileDirectory = metadata.FileDirectory;
-                                exifToolData.FileDateModified = (DateTime)exiftoolDataFileDateModified;
-                                exifToolData.Region = "FileSystem";
-                                exifToolData.Command = "FileModifyDate";
-                                exifToolData.Parameter = ((DateTime)exiftoolDataFileDateModified).ToString("yyyy:MM:dd HH:mm:ss", CultureInfo.CurrentCulture);
-                                ConvertAndCheckDateFromString(metadata.FileDateModified, exifToolData, oldExifToolFileName, CompositeTags.FileModificationDateTime, ref metadata.errors);
-                                oldExifToolFilePath = new ExiftoolData(exifToolData);
-                            }
-                            //In case of crash, delete old data
-                            try
-                            {
-                                FileEntryBroker fileEntryBroker = new FileEntryBroker(metadata.FileFullPath, (DateTime)exiftoolDataFileDateModified, MetadataBrokerType.ExifTool);
-                                if (metadataDatabaseCache.ReadMetadataFromCacheOnly(fileEntryBroker) != null) metadataDatabaseCache.DeleteFileEntry(fileEntryBroker);
-                            } catch (Exception ex)
-                            {
-                                Logger.Error(ex);
-                            }
-                        }
                             #endregion
 
                             if (metadata.Broker != MetadataBrokerType.Empty && foundToSeperatorInLine >= 0)
@@ -1545,63 +1556,83 @@ namespace Exiftool
                                 MetadataReadPrioity.Add(exifToolData.Region, exifToolData.Command, CompositeTags.NotDefined);
                             }
                         }
-                        catch (Exception ex) 
+                        catch (Exception ex)
                         {
                             Logger.Error(ex, "EXIFTOOL READER ERROR");
                         }
                     });
-                    #endregion
+                        #endregion
 
-                    #region process.ErrorDataReceived
-                    process.ErrorDataReceived += new DataReceivedEventHandler((sender, e) =>
-                    {
-                        // Prepend line numbers to each line of the output.
-                        if (!String.IsNullOrEmpty(e.Data))
+                        #region process.ErrorDataReceived
+                        process.ErrorDataReceived += new DataReceivedEventHandler((sender, e) =>
                         {
-                            genericExiftoolError += e.Data + "\r\n";
-                            Logger.Error("EXIFTOOL READER ERROR: " + e.Data);
-                        }
-                    });
-                    #endregion
+                            if (e.Data == null)
+                            {
+                                errorWaitHandle.Set();
+                                return;
+                            }
+                            // Prepend line numbers to each line of the output.
+                            if (!String.IsNullOrEmpty(e.Data))
+                            {
+                                genericExiftoolError += e.Data + "\r\n";
+                                Logger.Error("EXIFTOOL READER ERROR: " + e.Data);
+                            }
+                        });
+                        #endregion
 
-                    #region process.Start
-                    bool result = process.Start();
-                    try
-                    {
-                        process.PriorityClass = processPriorityClass;
-                    }
-                    catch { }
-
-                    process.BeginOutputReadLine();
-                    process.WaitForExit(1000 * 60 * 5); //5 minutes
-                    #endregion
-
-                    #region Write last Metadata and trigger Event afterNewMediaFoundEvent
-                    if (metadata != null && metadata.FileDateCreated != null && metadata.FileDateModified != null && metadata.FileSize != null) //Save the last one, remover we save everytime, when new file found
-                    {
-                        if (metadata.Broker != MetadataBrokerType.Empty) //It's empty when rename long filenames and 8.3 filenames still equal
+                        #region process.Start
+                        bool result = process.Start();
+                        try
                         {
-                            CheckTimeZone(metadata, (DateTime)exiftoolDataFileDateModified, ref metadata.errors);
-                            metadataReadFromExiftool.Add(metadata);
-
-                            metadataDatabaseCache.TransactionBeginBatch();
-                            metadataDatabaseCache.Write(metadata);
-                            metadataDatabaseCache.TransactionCommitBatch();
-
-                            if (afterNewMediaFoundEvent != null) afterNewMediaFoundEvent.Invoke(new FileEntry(Path.Combine(metadata.FileDirectory, metadata.FileName), (DateTime)metadata.FileDateModified));
+                            process.PriorityClass = processPriorityClass;
                         }
-                    }
-                    else
-                    {
-                        if (metadata != null)
+                        catch { }
+
+                        process.Start();
+                        process.BeginErrorReadLine();
+                        process.BeginOutputReadLine();
+
+                        int timeout = 1000 * 60 * 5; //5 minutes
+                        if (process.WaitForExit(timeout) &&
+                            outputWaitHandle.WaitOne(timeout) &&
+                            errorWaitHandle.WaitOne(timeout))
                         {
-                            string error = "Was not able to read exifdata from file. This often occure when File is corrupt, deleted, locked, renamed or OneDrive download files";
-                            if (!errorMessageOnFiles.ContainsKey(metadata.FileFullPath)) errorMessageOnFiles.Add(metadata.FileFullPath, error);
-                            Logger.Warn("Error on file: " + metadata.FileFullPath + " Error:" + error);
+                            // Process completed. Check process.ExitCode here.
+                            #region Write last Metadata and trigger Event afterNewMediaFoundEvent
+                            if (!didExiftoolTimeout && metadata != null && metadata.FileDateCreated != null && metadata.FileDateModified != null && metadata.FileSize != null) //Save the last one, remover we save everytime, when new file found
+                            {
+                                if (metadata.Broker != MetadataBrokerType.Empty) //It's empty when rename long filenames and 8.3 filenames still equal
+                                {
+                                    CheckTimeZone(metadata, (DateTime)exiftoolDataFileDateModified, ref metadata.errors);
+                                    metadataReadFromExiftool.Add(metadata);
 
+                                    metadataDatabaseCache.TransactionBeginBatch();
+                                    metadataDatabaseCache.Write(metadata);
+                                    metadataDatabaseCache.TransactionCommitBatch();
+
+                                    if (afterNewMediaFoundEvent != null) afterNewMediaFoundEvent.Invoke(new FileEntry(Path.Combine(metadata.FileDirectory, metadata.FileName), (DateTime)metadata.FileDateModified));
+                                }
+                            }
+                            else
+                            {
+                                if (metadata != null)
+                                {
+                                    string error = "Was not able to read exifdata from file. This often occure when File is corrupt, deleted, locked, renamed or OneDrive download files";
+                                    if (!errorMessageOnFiles.ContainsKey(metadata.FileFullPath)) errorMessageOnFiles.Add(metadata.FileFullPath, error);
+                                    Logger.Warn("Error on file: " + metadata.FileFullPath + " Error:" + error);
+
+                                }
+                            }
+                            #endregion
                         }
+                        else
+                        {
+                            // Timed out.
+                            didExiftoolTimeout = true;
+                        }
+                        #endregion
                     }
-                    #endregion
+                    
 
                     #region Log error
                     if (process.ExitCode != 0 || !string.IsNullOrWhiteSpace(genericExiftoolError))
