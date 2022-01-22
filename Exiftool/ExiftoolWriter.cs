@@ -281,18 +281,7 @@ namespace Exiftool
                         {
                             // Timed out.
                         }
-
-                        //process.WaitForExit(); //5 minutes
-                        //if (process.ExitCode != 0)
-                        //{
-                        //    hasExiftoolErrorMessage = true;
-                        //    Logger.Info("process.WaitForExit() " + process.ExitCode);
-                        //}
                     }
-
-                    //while (!process.HasExited) Task.Delay(100).Wait();
-                    //process.Close();
-                    //process.Dispose();
                 }
                 Logger.Debug("WriteMetadata: ended");
                 if (hasExiftoolErrorMessage) throw new Exception(exiftoolOutput);

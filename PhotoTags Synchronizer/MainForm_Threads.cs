@@ -1810,14 +1810,19 @@ namespace PhotoTagsSynchronizer
                                                 DataGridViewSetDirtyFlagAfterSave(currentMetadata, false);
                                                 #endregion
 
-                                                #region If file wa updated - Add to Verify queue
+                                                #region If file was updated - Add to Verify queue
                                                 if (File.Exists(currentMetadata.FileFullPath) && currentLastWrittenDateTime != previousLastWrittenDateTime) 
                                                     AddQueueVerifyMetadataLock(currentMetadata);
                                                 #endregion
 
-                                                FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(currentMetadata.FileEntryBroker, FileEntryVersion.CurrentVersionInDatabase);
+                                                FileEntryAttribute fileEntryAttribute = 
+                                                    new FileEntryAttribute(currentMetadata.FileEntryBroker, FileEntryVersion.CurrentVersionInDatabase);
                                                 AddQueueReadFromSourceIfMissing_AllSoruces(fileEntryAttribute);
                                                 ImageListView_UpdatedThumbnail_RefreshAll(currentMetadata.FileEntryBroker);
+
+                                                FileEntryAttribute fileEntryAttributeHistoricalc = 
+                                                    new FileEntryAttribute(fileSuposeToBeUpdated, FileEntryVersion.Historical);
+                                                AddQueueReadFromSourceIfMissing_AllSoruces(fileEntryAttributeHistoricalc);
                                             }
                                             else
                                             {

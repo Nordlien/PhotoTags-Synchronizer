@@ -245,13 +245,7 @@ namespace PhotoTagsSynchronizer
             try
             {
                 #region Update FileStatus
-                FileStatus fileStatus = ImageListViewItemPullFileStatus(e.FileName);
-                //if (fileStatus == null)
-                fileStatus = FileHandler.GetFileStatus(e.FileName, exiftoolProcessStatus: ExiftoolProcessStatus.StatusUnknownButRequested);
-                //else
-                //{
-                //    //DEBUG
-                //}
+                FileStatus fileStatus = FileHandler.GetFileStatus(e.FileName, exiftoolProcessStatus: ExiftoolProcessStatus.WaitAction);
                 #endregion
 
                 if (metadata == null || metadata.FileName == null)

@@ -1131,16 +1131,6 @@ namespace Manina.Windows.Forms
         {
             if (info != null)
             {
-
-                //JTN: Added priority check
-                if (info.FileStatus.ExiftoolProcessStatus == ExiftoolProcessStatus.StatusUnknownButRequested && 
-                    mFileStatus.ExiftoolProcessStatus != ExiftoolProcessStatus.StatusUnknownButRequested)
-                {
-                    //Due to Unknown sequense of updated from imageListView1_RetrieveItemMetadataDetails or UpdateDetails,
-                    //then prioritize "Real status", not Requested status
-                    //return;
-                }
-
                 #region Provided by FileInfo  
                 if (info.FileStatusPropertyStatus == PropertyStatus.IsSet) mFileStatus = info.FileStatus;
                 if (info.FileSmartDatePropertyStatus == PropertyStatus.IsSet) mFileSmartDate = info.FileSmartDate;

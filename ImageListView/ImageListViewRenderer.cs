@@ -805,8 +805,6 @@ namespace Manina.Windows.Forms
                 else if (item.FileStatus.ExiftoolProcessStatus == ExiftoolProcessStatus.WaitOfflineBecomeLocal) g.DrawImage(mImageListView.StatusIconProcessWaitOfflineBecomeLocal, pos.Left, pos.Top);
                 else if (item.FileStatus.ExiftoolProcessStatus == ExiftoolProcessStatus.DoNotUpdate) 
                     g.DrawImage(mImageListView.StatusIconProcessExiftoolStatusUnknown, pos.Left, pos.Top);
-                else if (item.FileStatus.ExiftoolProcessStatus == ExiftoolProcessStatus.StatusUnknownButRequested) 
-                    g.DrawImage(mImageListView.StatusIconProcessExiftoolStatusUnknown, pos.Left, pos.Top);
 
                 if (item.FileStatus.IsInCloudOrVirtualOrOffline) g.DrawImage(mImageListView.StatusIconFileOffline, pos.Left, pos.Top);
                 else if (item.FileStatus.HasAnyLocks) if (mImageListView.StatusIconFileLocked != null) g.DrawImage(mImageListView.StatusIconFileLocked, pos.Left, pos.Top);
