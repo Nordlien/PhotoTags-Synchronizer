@@ -1134,11 +1134,11 @@ namespace Manina.Windows.Forms
 
                 //JTN: Added priority check
                 if (info.FileStatus.ExiftoolProcessStatus == ExiftoolProcessStatus.StatusUnknownButRequested && 
-                    mFileStatus .ExiftoolProcessStatus != ExiftoolProcessStatus.StatusUnknownButRequested)
+                    mFileStatus.ExiftoolProcessStatus != ExiftoolProcessStatus.StatusUnknownButRequested)
                 {
                     //Due to Unknown sequense of updated from imageListView1_RetrieveItemMetadataDetails or UpdateDetails,
                     //then prioritize "Real status", not Requested status
-                    return;
+                    //return;
                 }
 
                 #region Provided by FileInfo  

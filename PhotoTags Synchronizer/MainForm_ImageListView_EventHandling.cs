@@ -135,18 +135,27 @@ namespace PhotoTagsSynchronizer
                     ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fileEntryAttribute.FileFullPath);
                     if (foundItem != null)
                     {
-                        
-                        Utility.ShellImageFileInfo fileMetadata = new Utility.ShellImageFileInfo();
-                        ConvertMetadataToShellImageFileInfo(ref fileMetadata, metadata);
+                        if (foundItem.DateModified <= fileEntryAttribute.LastWriteDateTime)
+                        {
+                            Utility.ShellImageFileInfo fileMetadata = new Utility.ShellImageFileInfo();
+                            ConvertMetadataToShellImageFileInfo(ref fileMetadata, metadata);
 
-                        FileStatus fileStatus = FileHandler.GetFileStatus(fileEntryAttribute.FileFullPath,
-                            exiftoolProcessStatus: ExiftoolProcessStatus.WaitAction, //Metadata is found
-                            checkLockedStatus: true);
+                            FileStatus fileStatus = FileHandler.GetFileStatus(fileEntryAttribute.FileFullPath,
+                                exiftoolProcessStatus: ExiftoolProcessStatus.WaitAction, //Metadata is found
+                                checkLockedStatus: true);
 
-                        if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.Error)
-                            fileMetadata.FileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.FileInaccessibleOrError; //Error Metadata found
-                        
-                        foundItem.UpdateDetails(fileMetadata);
+                            if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.Error)
+                                fileMetadata.FileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.FileInaccessibleOrError; //Error Metadata found
+
+                            foundItem.UpdateDetails(fileMetadata);
+                        } else if (foundItem.DateModified == fileEntryAttribute.LastWriteDateTime)
+                        {
+                            //DEBUG
+                        }
+                        else
+                        {
+                            //DEBUG - Don't updated older
+                        }
                     }
                 }
 
@@ -237,7 +246,12 @@ namespace PhotoTagsSynchronizer
             {
                 #region Update FileStatus
                 FileStatus fileStatus = ImageListViewItemPullFileStatus(e.FileName);
-                if (fileStatus == null) fileStatus = FileHandler.GetFileStatus(e.FileName, exiftoolProcessStatus: ExiftoolProcessStatus.StatusUnknownButRequested);
+                //if (fileStatus == null)
+                fileStatus = FileHandler.GetFileStatus(e.FileName, exiftoolProcessStatus: ExiftoolProcessStatus.StatusUnknownButRequested);
+                //else
+                //{
+                //    //DEBUG
+                //}
                 #endregion
 
                 if (metadata == null || metadata.FileName == null)
@@ -311,11 +325,17 @@ namespace PhotoTagsSynchronizer
                     #region Check if has Record with Error - flag it with FileInaccessibleOrError
                     FileEntryBroker fileEntryBrokerError = new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.ExifTool | MetadataBrokerType.ExifToolWriteError);
                     Metadata metadataError = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBrokerError);
-                    if (metadataError != null) fileStatus.FileInaccessibleOrError = true;
+                    if (metadataError != null)
+                    {
+                        fileStatus.FileInaccessibleOrError = true;
+                        fileStatus.FileErrorMessage = "Error record in database";
+                        fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.FileInaccessibleOrError;
+                    }
                     #endregion
 
                     #region Add to read queue, when data missing and not marked as Error record
-                    if (metadataError == null) AddQueueReadFromSourceIfMissing_AllSoruces(fileEntryAttribute);
+                    if (metadataError == null) 
+                        AddQueueReadFromSourceIfMissing_AllSoruces(fileEntryAttribute);
                     #endregion
 
                 }

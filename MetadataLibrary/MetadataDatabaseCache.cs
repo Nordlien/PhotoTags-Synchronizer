@@ -1700,7 +1700,7 @@ namespace MetadataLibrary
         /// <param name="broker">Also read (Broker & @Broker) = @Broker) to get ErrorVersions also</param>
         /// <param name="fullFileName">Filename</param>
         /// <returns></returns>
-        public List<FileEntryAttribute> ListFileEntryAttributesCache(MetadataBrokerType broker, string fullFileName)
+        public List<FileEntryAttribute> ListFileEntryAttributesCache(MetadataBrokerType broker, string fullFileName, DateTime currentLastWriteTime)
         {
             List<FileEntryAttribute> fileEntryAttributes = new List<FileEntryAttribute>();
             try
@@ -1711,9 +1711,9 @@ namespace MetadataLibrary
                     if (listFileAttributeDateVersions.ContainsKey(fileBroker)) return listFileAttributeDateVersions[fileBroker];
                 }
 
-                ListFileEntryAttributes2(ref fileEntryAttributes, broker, fullFileName);
+                ListFileEntryAttributes2(ref fileEntryAttributes, broker, fullFileName, currentLastWriteTime);
                 MetadataBrokerType broker2 = broker | MetadataBrokerType.ExifToolWriteError;
-                ListFileEntryAttributes2(ref fileEntryAttributes, broker2, fullFileName);
+                ListFileEntryAttributes2(ref fileEntryAttributes, broker2, fullFileName, currentLastWriteTime);
 
                 lock (_listFileAttributeDateVersionsLock)
                 {
@@ -1734,7 +1734,7 @@ namespace MetadataLibrary
         /// <param name="FileEntryAttributes">List to updated, wgen when Read ExifTool first, then ExiftooError after</param>
         /// <param name="broker">Use excact Broker type (Don't add | (Broker & @Broker) = @Broker)</param>
         /// <param name="fullFileName">Filename</param>
-        private void ListFileEntryAttributes2(ref List<FileEntryAttribute> FileEntryAttributes, MetadataBrokerType broker, string fullFileName)
+        private void ListFileEntryAttributes2(ref List<FileEntryAttribute> FileEntryAttributes, MetadataBrokerType broker, string fullFileName, DateTime currentLastWriteTime)
         {
             
             string sqlCommand =
@@ -1754,8 +1754,6 @@ namespace MetadataLibrary
                 
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
-                    FileEntryAttribute newstFileEntryAttributeForEdit = null;
-
                     while (reader.Read())
                     {
                         bool isErrorVersion = false;
@@ -1769,14 +1767,10 @@ namespace MetadataLibrary
                             currentMetadataDate,
                             isErrorVersion ? FileEntryVersion.Error : FileEntryVersion.Historical
                             );
-                        FileEntryAttributes.Add(fileEntryAttribute);
 
-                        if (!isErrorVersion && (newstFileEntryAttributeForEdit == null || currentMetadataDate > newstFileEntryAttributeForEdit.LastWriteDateTime))
-                        {
-                            newstFileEntryAttributeForEdit = new FileEntryAttribute((FileEntry)fileEntryAttribute, FileEntryVersion.CurrentVersionInDatabase);
-                        }
+                        if (fileEntryAttribute.LastWriteDateTime == currentLastWriteTime) fileEntryAttribute.FileEntryVersion = FileEntryVersion.CurrentVersionInDatabase;
+                        FileEntryAttributes.Add(fileEntryAttribute);
                     }
-                    if (newstFileEntryAttributeForEdit != null) FileEntryAttributes.Add(newstFileEntryAttributeForEdit);                    
                 }
             }
         }

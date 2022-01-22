@@ -440,7 +440,16 @@ namespace MetadataLibrary
             }
         }
 
-        public String FileFullPath { get => Path.Combine(fileDirectory, FileName); }
+        public string FileFullPath 
+        { get 
+            {
+                if (fileDirectory == null || FileName == null)
+                {
+                    //DEBUG
+                }
+                return Path.Combine(fileDirectory, FileName); 
+            }
+        }
         public Int64? FileSize { get; set; }
         public DateTime? FileDateCreated { get; set; }
         public DateTime? FileDateModified { get; set; }

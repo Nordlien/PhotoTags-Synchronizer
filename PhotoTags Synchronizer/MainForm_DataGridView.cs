@@ -9,6 +9,7 @@ using MetadataLibrary;
 using WindowsProperty;
 using Krypton.Toolkit;
 using Exiftool;
+using System.IO;
 
 namespace PhotoTagsSynchronizer
 {
@@ -377,8 +378,13 @@ namespace PhotoTagsSynchronizer
 
             foreach (FileEntry fileEntry in imageListViewSelectItems)
             {
+                if (fileEntry.LastWriteDateTime != File.GetLastWriteTime(fileEntry.FileFullPath))
+                {
+                    //DEBUG
+                }
+
                 List<FileEntryAttribute> fileEntryAttributeDateVersions =
-                    databaseAndCacheMetadataExiftool.ListFileEntryAttributesCache(MetadataBrokerType.ExifTool, fileEntry.FileFullPath);
+                    databaseAndCacheMetadataExiftool.ListFileEntryAttributesCache(MetadataBrokerType.ExifTool, fileEntry.FileFullPath, fileEntry.LastWriteDateTime);
                 lazyLoadingAllExiftoolVersionOfMediaFile.AddRange(fileEntryAttributeDateVersions);
             }
 
@@ -850,8 +856,10 @@ namespace PhotoTagsSynchronizer
             try
             {
                 FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(metadataFixedAndCorrected.FileEntry, FileEntryVersion.AutoCorrect);
-                int columnIndex = DataGridViewHandler.GetColumnIndexUserInput(GetAnyAgregatedDataGridView(), fileEntryAttribute);
-                if (columnIndex == -1)
+                int columnIndex = DataGridViewHandler.GetColumnIndexWhenAddColumn(GetAnyAgregatedDataGridView(), fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionCompare);
+                if (columnIndex == -1 || (
+                    fileEntryVersionCompare != FileEntryVersionCompare.WonFoundNewer &&
+                    fileEntryVersionCompare != FileEntryVersionCompare.WonFoundEqual))
                 {
                     //DEBUG
                 }
@@ -879,8 +887,13 @@ namespace PhotoTagsSynchronizer
             try
             {
                 FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(metadataFixedAndCorrected.FileEntry, FileEntryVersion.AutoCorrect);
-                int columnIndex = DataGridViewHandler.GetColumnIndexUserInput(GetAnyAgregatedDataGridView(), fileEntryAttribute);
-
+                int columnIndex = DataGridViewHandler.GetColumnIndexWhenAddColumn(GetAnyAgregatedDataGridView(), fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionCompare);
+                if (columnIndex == -1 || (
+                    fileEntryVersionCompare != FileEntryVersionCompare.WonFoundNewer &&
+                    fileEntryVersionCompare != FileEntryVersionCompare.WonFoundEqual) )
+                {
+                    //DEBUG
+                }
                 if (DataGridViewHandler.IsColumnPopulated(dataGridViewTagsAndKeywords, columnIndex))
                     DataGridViewHandler.SetColumnDirtyFlag(dataGridViewTagsAndKeywords, columnIndex, isDirty);
                 if (DataGridViewHandler.IsColumnPopulated(dataGridViewPeople, columnIndex))
