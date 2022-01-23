@@ -263,7 +263,10 @@ namespace FileHandeling
                     }
                 }
             }
-            catch { }
+            catch 
+            {
+                FileHandler.RemoveOfflineFileTouched(fullFileName);
+            }
         }
 
         public static void TouchOfflineFileToGetFileOnline(string fullFileName)

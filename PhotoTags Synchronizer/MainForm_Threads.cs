@@ -2273,7 +2273,7 @@ namespace PhotoTagsSynchronizer
                                                                         !FileHandler.IsOfflineFileTouched(current_FileEntryBrokerRegion.FileFullPath))
                                                                     {
                                                                         fileNeedRemoveFromList = true;
-                                                                        didExceptionOccureWhenLoading = true; //Was not able to download in time
+                                                                        didExceptionOccureWhenLoading = true; //Not allowed to download cloud file
                                                                         exceptionError += (string.IsNullOrWhiteSpace(exceptionError) ? "" : "\r\n") +
                                                                             "File is offline and config is set up with 'Don't download files from cloud'.";
                                                                     }

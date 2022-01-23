@@ -681,6 +681,8 @@ namespace PhotoTagsSynchronizer
             #endregion
 
             #region DateAndTime Digitized
+            DateTime? dateTimeGPSLocal = null;
+            string sourceMediaDateTaken = null;
             if (UpdateDateTaken)
             {
                 // Find first No empty date
@@ -691,18 +693,21 @@ namespace PhotoTagsSynchronizer
                     {
                         case DateTimeSources.SmartDate:
                             newDateTime = metadataCopy?.FileSmartDate(allowedDateFormats);
+                            sourceMediaDateTaken = "Smart Date";
                             break;
                         case DateTimeSources.DateTaken:
                             newDateTime = metadataCopy?.MediaDateTaken;
                             if (newDateTime != null) Logger.Debug("FixAndSave: DateAndTime Digitized was found at DateTimeSources.DateTaken: " + newDateTime.ToString());
+                            sourceMediaDateTaken = "Media Date Taken";
                             break;
                         case DateTimeSources.GPSDateAndTime:
                             if (metadataCopy?.LocationLatitude != null && metadataCopy?.LocationLongitude != null && metadataCopy?.LocationDateTime != null)
                             {
                                 TimeZoneInfo timeZoneInfo = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation((double)metadataCopy?.LocationLatitude, (double)metadataCopy?.LocationLongitude);
-                                DateTime dateTimeLocal = TimeZoneInfo.ConvertTimeFromUtc(new DateTime(((DateTime)metadataCopy?.LocationDateTime).Ticks, DateTimeKind.Utc), timeZoneInfo);
-                                newDateTime = dateTimeLocal;
+                                dateTimeGPSLocal = TimeZoneInfo.ConvertTimeFromUtc(new DateTime(((DateTime)metadataCopy?.LocationDateTime).Ticks, DateTimeKind.Utc), timeZoneInfo);
+                                newDateTime = dateTimeGPSLocal;
                                 if (newDateTime != null) Logger.Debug("FixAndSave: DateAndTime Digitized was found at DateTimeSources.GPSDateAndTime: " + newDateTime.ToString());
+                                sourceMediaDateTaken = "GPS Date And Time";
                             }                           
                             break;
                         case DateTimeSources.FirstDateFoundInFilename:
@@ -711,7 +716,7 @@ namespace PhotoTagsSynchronizer
                             if (dates1.Count > 0)
                             {
                                 newDateTime = dates1[0];
-                                Logger.Debug("FixAndSave: DateAndTime Digitized was found at DateTimeSources.FirstDateFoundInFilename: " + newDateTime.ToString());
+                                sourceMediaDateTaken = "1st Date in Filename";
                             }
                             break;
                         case DateTimeSources.LastDateFoundInFilename:
@@ -720,14 +725,16 @@ namespace PhotoTagsSynchronizer
                             if (dates2.Count > 0)
                             {
                                 newDateTime = dates2[dates2.Count - 1];
-                                Logger.Debug("FixAndSave: DateAndTime Digitized was found at DateTimeSources.LastDateFoundInFilename: " + newDateTime.ToString());
+                                sourceMediaDateTaken = "Last Date in Filename";
                             }
                             break;
                         case DateTimeSources.FileCreateDate:
                             newDateTime = metadataCopy?.FileDateCreated;
+                            sourceMediaDateTaken = "File Date Created";
                             break;
                         case DateTimeSources.FileModified:
                             newDateTime = metadataCopy?.FileDateModified;
+                            sourceMediaDateTaken = "File Date Modified";
                             break;
                     }
                     if (UpdateTitleWithFirstInPrioity) break;
@@ -735,12 +742,8 @@ namespace PhotoTagsSynchronizer
                 }
                 if (newDateTime != null)
                 {
-                    if (metadataCopy.MediaDateTaken != newDateTime)
-                    {
-                        //DEBUG, need doubled check why dates changes
-                    }
                     metadataCopy.MediaDateTaken = newDateTime;                    
-                    Logger.Debug("FixAndSave: New DateAndTime Digitized was replaced: " + metadataCopy.MediaDateTaken.ToString());
+                    Logger.Debug("FixAndSave: New DateAndTime Digitized was replaced: " + metadataCopy.MediaDateTaken.ToString() + " from source: " + sourceMediaDateTaken);
                 }
                 else
                 {
@@ -892,7 +895,29 @@ namespace PhotoTagsSynchronizer
                 {
                     metadataCopy.PersonalComments += (string.IsNullOrEmpty(metadataCopy.PersonalComments) ? "" : " ") + "DateTaken: " +
                         "Old: " + (metadata?.MediaDateTaken == null ? "(empty)" : TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadata?.MediaDateTaken)) + " " +
-                        "New: " + (metadataCopy?.MediaDateTaken == null ? "(empty)" : TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadataCopy?.MediaDateTaken));
+                        "New: " + (metadataCopy?.MediaDateTaken == null ? "(empty)" : TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadataCopy?.MediaDateTaken)) +
+                        "Source: " + sourceMediaDateTaken;
+
+                    metadataCopy.PersonalComments += (string.IsNullOrEmpty(metadataCopy.PersonalComments) ? "" : " ") +
+                        "Media Taken: " + TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadataCopy?.MediaDateTaken) + " " +
+                        "Smart Date: " + TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadataCopy?.FileSmartDate(allowedDateFormats)) + " " +
+                        "File Date create: " + TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadataCopy?.FileDateCreated) + " " +
+                        "File Date Modified: " + TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadataCopy?.FileDateModified) + " " +
+                        "File Name: " + metadataCopy?.FileName;
+
+                    if (dateTimeGPSLocal != null)
+                        metadataCopy.PersonalComments += (string.IsNullOrEmpty(metadataCopy.PersonalComments) ? "" : " ") + 
+                            "GPS Date Time Local: " + TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(dateTimeGPSLocal);
+
+                    FileDateTimeReader fileDateTimeReader1 = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
+                    List<DateTime> datesInFilename = fileDateTimeReader1.ListAllDateTimes(Path.GetFileNameWithoutExtension(metadataCopy?.FileName));
+                    foreach (DateTime dateInFilename in datesInFilename)
+                    {
+                        metadataCopy.PersonalComments += (string.IsNullOrEmpty(metadataCopy.PersonalComments) ? "" : " ") +
+                            "Date in filename: " + TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(dateInFilename);
+                    }
+
+
                 }
 
                 if (metadata?.LocationDateTime != metadataCopy?.LocationDateTime)

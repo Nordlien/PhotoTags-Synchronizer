@@ -388,6 +388,8 @@ namespace PhotoTagsSynchronizer
                 FileStatus fileStaus = FileHandler.GetFileStatus(fileEntry.FileFullPath,
                     exiftoolProcessStatus: ExiftoolProcessStatus.InExiftoolReadQueue);
 
+                FileHandler.RemoveOfflineFileTouched(fileEntry.FileFullPath);
+
                 ImageListView_UpdateItemFileStatusInvoke(fileEntry.FileFullPath, fileStaus);
             }
 
@@ -860,12 +862,6 @@ namespace PhotoTagsSynchronizer
             {
                 FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(metadataFixedAndCorrected.FileEntry, FileEntryVersion.AutoCorrect);
                 int columnIndex = DataGridViewHandler.GetColumnIndexWhenAddColumn(GetAnyAgregatedDataGridView(), fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionCompare);
-                if (columnIndex == -1 || (
-                    fileEntryVersionCompare != FileEntryVersionCompare.WonFoundNewer &&
-                    fileEntryVersionCompare != FileEntryVersionCompare.WonFoundEqual))
-                {
-                    //DEBUG
-                }
                 if (DataGridViewHandler.IsColumnPopulated(dataGridViewTagsAndKeywords, columnIndex))
                     DataGridViewHandler.SetColumnHeaderMetadata(dataGridViewTagsAndKeywords, metadataFixedAndCorrected, columnIndex);
                 if (DataGridViewHandler.IsColumnPopulated(dataGridViewPeople, columnIndex))
@@ -891,12 +887,6 @@ namespace PhotoTagsSynchronizer
             {
                 FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(metadataFixedAndCorrected.FileEntry, FileEntryVersion.AutoCorrect);
                 int columnIndex = DataGridViewHandler.GetColumnIndexWhenAddColumn(GetAnyAgregatedDataGridView(), fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionCompare);
-                if (columnIndex == -1 || (
-                    fileEntryVersionCompare != FileEntryVersionCompare.WonFoundNewer &&
-                    fileEntryVersionCompare != FileEntryVersionCompare.WonFoundEqual) )
-                {
-                    //DEBUG
-                }
                 if (DataGridViewHandler.IsColumnPopulated(dataGridViewTagsAndKeywords, columnIndex))
                     DataGridViewHandler.SetColumnDirtyFlag(dataGridViewTagsAndKeywords, columnIndex, isDirty);
                 if (DataGridViewHandler.IsColumnPopulated(dataGridViewPeople, columnIndex))
