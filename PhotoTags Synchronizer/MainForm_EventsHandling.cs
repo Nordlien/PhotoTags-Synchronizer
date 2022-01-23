@@ -9332,7 +9332,7 @@ namespace PhotoTagsSynchronizer
                             return;
                         }
                         else if (region.Thumbnail != null) regionThumbnail = region.Thumbnail;
-                        DataGridViewHandler.DrawImageAndSubText(sender, e, regionThumbnail, ((RegionStructure)e.Value).Name);
+                        DataGridViewHandler.DrawImageAndSubText(sender, e, regionThumbnail, null, ((RegionStructure)e.Value).Name);
 
                         e.Handled = true;
                     }

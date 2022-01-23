@@ -65,6 +65,28 @@ namespace MetadataLibrary
             }
         }
 
+        public static string VersionText(FileEntryVersion fileEntryVersion)
+        {
+            switch (fileEntryVersion)
+            {
+                case FileEntryVersion.AutoCorrect:
+                    return "AutoCorrected";
+                case FileEntryVersion.CurrentVersionInDatabase:
+                    return "Current";
+                case FileEntryVersion.ExtractedNowFromExternalSource:
+                    return "Extracted";
+                case FileEntryVersion.ExtractedNowUsingExiftool:
+                    return "Exiftool extracted";
+                case FileEntryVersion.Error:
+                    return "Error";
+                case FileEntryVersion.Historical:
+                    return "Historical";
+                case FileEntryVersion.NotAvailable:
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
         #region IsReadOnlyType
         public static bool IsReadOnlyType(FileEntryVersion fileEntryVersion)
         {

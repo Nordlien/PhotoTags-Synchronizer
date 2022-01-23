@@ -3133,7 +3133,7 @@ namespace DataGridViewGeneric
         private const int roundedRadius = 8;
 
         #region Cell Paint handling - DrawImageAndSubText
-        public static void DrawImageAndSubText(object sender, DataGridViewCellPaintingEventArgs e, Image image, string text)
+        public static void DrawImageAndSubText(object sender, DataGridViewCellPaintingEventArgs e, Image image, string textTop, string textBottom)
         {
             Rectangle rectangleRoundedCellBounds = CalulateCellRoundedRectangleCellBounds(e.CellBounds);
             if (image != null)
@@ -3148,13 +3148,26 @@ namespace DataGridViewGeneric
                 catch (Exception ex)
                 {
                     //Thumbnail was occupied in other thread
-                    Logger.Error(ex, "DrawImageAndSubText - Thumbnail was occupied in other thread. Text: " + text);
+                    Logger.Error(ex, "DrawImageAndSubText - Thumbnail was occupied in other thread. Text: " + textTop + textBottom);
                 }
             }
 
-            if (text != null)
+            if (!string.IsNullOrWhiteSpace(textTop))
             {
-                SizeF sizeF = e.Graphics.MeasureString(text, ((DataGridView)sender).Font, rectangleRoundedCellBounds.Size);
+                SizeF sizeF = e.Graphics.MeasureString(textTop, ((DataGridView)sender).Font, rectangleRoundedCellBounds.Size);
+
+                var rectF = new RectangleF(
+                    rectangleRoundedCellBounds.X + 2,
+                    rectangleRoundedCellBounds.Y + 2,
+                    sizeF.Width, sizeF.Height);
+                //Filling a 50% transparent rectangle before drawing the string.
+                e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(128, Color.White)), rectF);
+                e.Graphics.DrawString(textTop, ((DataGridView)sender).Font, new SolidBrush(Color.Black), rectF);
+            }
+
+            if (!string.IsNullOrWhiteSpace(textBottom))
+            {
+                SizeF sizeF = e.Graphics.MeasureString(textBottom, ((DataGridView)sender).Font, rectangleRoundedCellBounds.Size);
 
                 var rectF = new RectangleF(
                     rectangleRoundedCellBounds.X + 2,
@@ -3162,7 +3175,7 @@ namespace DataGridViewGeneric
                     sizeF.Width, sizeF.Height);
                 //Filling a 50% transparent rectangle before drawing the string.
                 e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(128, Color.White)), rectF);
-                e.Graphics.DrawString(text, ((DataGridView)sender).Font, new SolidBrush(Color.Black), rectF);
+                e.Graphics.DrawString(textBottom, ((DataGridView)sender).Font, new SolidBrush(Color.Black), rectF);
             }
             
         }
@@ -3491,7 +3504,8 @@ namespace DataGridViewGeneric
             {
                 FileEntryAttribute fileEntryAttributeColumn = dataGridViewGenericColumn.FileEntryAttribute;
 
-                string cellText = "";
+                string cellTextTop = "";
+                string cellTextBottom = "";
                 bool hasFileKnownErrors = errorFileEntries.ContainsKey(fileEntryAttributeColumn.FileEntry.FileFullPath);
 
                 
@@ -3511,48 +3525,32 @@ namespace DataGridViewGeneric
                 }
 
                 if (dataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning)
-                    cellText += "File updated!!\r\n";
+                    cellTextTop += "File updated!!\r\n";
 
-                if (dataGridViewGenericColumn.Metadata != null)
+                switch (GetDataGridSizeLargeMediumSmall(dataGridView))
                 {
-                    switch (GetDataGridSizeLargeMediumSmall(dataGridView))
-                    {
-                        case DataGridViewSize.Small:
-                            cellText += fileEntryAttributeColumn.FileName;
-                            break;
-                        case DataGridViewSize.Medium:
-                            cellText += dataGridViewGenericColumn.Metadata.FileDateModified.ToString() + "\r\n" + fileEntryAttributeColumn.FileName;
-                            break;
-                        case DataGridViewSize.Large:
-                            cellText += dataGridViewGenericColumn.Metadata.FileDateModified.ToString() + "\r\n" + fileEntryAttributeColumn.FileFullPath;
-                            break;
-                        default:
-                            throw new Exception("Not implemented");
-                    }
+                    case DataGridViewSize.Small: //Small
+                        cellTextTop += fileEntryAttributeColumn.LastWriteDateTime.ToString() + "\r\n";
+                        cellTextTop += FileEntryVersionHandler.VersionText(fileEntryAttributeColumn.FileEntryVersion);
+                        cellTextBottom += fileEntryAttributeColumn.FileName;
+                        break;
+                    case DataGridViewSize.Medium: //Medium                        
+                        cellTextBottom += fileEntryAttributeColumn.LastWriteDateTime.ToString() + "\r\n" + fileEntryAttributeColumn.FileName;
+                        cellTextTop += FileEntryVersionHandler.VersionText(fileEntryAttributeColumn.FileEntryVersion);
+                        break;
+                    case DataGridViewSize.Large: //Large
+                        cellTextBottom += fileEntryAttributeColumn.LastWriteDateTime.ToString() + "\r\n" + fileEntryAttributeColumn.FileFullPath;
+                        cellTextTop += FileEntryVersionHandler.VersionText(fileEntryAttributeColumn.FileEntryVersion);
+                        break;
+                    default:
+                        throw new Exception("Not implemented");
                 }
-                else
-                {
-                    switch (GetDataGridSizeLargeMediumSmall(dataGridView))
-                    {
-                        case DataGridViewSize.Small: //Small
-                            cellText += fileEntryAttributeColumn.FileName;
-                            break;
-                        case DataGridViewSize.Medium: //Medium
-                            cellText += fileEntryAttributeColumn.LastWriteDateTime.ToString() + "\r\n" + fileEntryAttributeColumn.FileName;
-                            break;
-                        case DataGridViewSize.Large: //Large
-                            cellText += fileEntryAttributeColumn.LastWriteDateTime.ToString() + "\r\n" + fileEntryAttributeColumn.FileFullPath;
-                            break;
-                        default:
-                            throw new Exception("Not implemented");
-                    }
-                }
-
+                
                 lock (dataGridViewGenericColumn._ThumbnailLock)
                 {
                     Image image = dataGridViewGenericColumn.thumbnailUnlock;
                     if (image == null) image = (Image)Properties.Resources.load_image;
-                    DrawImageAndSubText(sender, e, image, cellText);
+                    DrawImageAndSubText(sender, e, image, cellTextTop, cellTextBottom);
                     if (dataGridViewGenericColumn.IsDirty) DrawIcon16x16OnLeftSide(sender, e, (Image)Properties.Resources.EditPencil);
                 }
             }
