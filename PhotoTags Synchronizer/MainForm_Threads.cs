@@ -376,7 +376,7 @@ namespace PhotoTagsSynchronizer
             lock (commonQueueReadMetadataFromSourceExiftoolLock) commonQueueReadMetadataFromSourceExiftool.Clear();
             lock (commonQueueReadMetadataFromSourceMicrosoftPhotosLock) commonQueueReadMetadataFromSourceMicrosoftPhotos.Clear();
             lock (commonQueueReadMetadataFromSourceWindowsLivePhotoGalleryLock) commonQueueReadMetadataFromSourceWindowsLivePhotoGallery.Clear();
-            //lock (commonQueueSaveThumbnailToDatabaseLock) commonQueueSaveThumbnailToDatabase.Clear();
+            lock (exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerifyLock) exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerify.Clear();
 
             WaitExittoolReadCacheThread = new AutoResetEvent(false);
             WaitThumbnailReadCacheThread = new AutoResetEvent(false);
