@@ -22,44 +22,6 @@ namespace PhotoTagsSynchronizer
         private Dictionary<string, FileStatus> cacheFileStatus = new Dictionary<string, FileStatus>();
         private object cacheFileStatusLock = new object();
 
-        #region ImageListViewItemPushFileStatus
-
-        private void ImageListViewItemPushFileStatus(string fullFileName, FileStatus fileStatus)
-        {
-            lock (cacheFileStatusLock)
-            {
-                if (!cacheFileStatus.ContainsKey(fullFileName)) cacheFileStatus.Add(fullFileName, fileStatus);
-                else cacheFileStatus[fullFileName] = fileStatus;
-            }
-        }
-        #endregion
-
-        #region ImageListViewItemUpdateFileStatus
-        private void ImageListViewItemUpdateFileStatus(string fullFileName, FileStatus fileStatus)
-        {
-            lock (cacheFileStatusLock)
-            {
-                if (cacheFileStatus.ContainsKey(fullFileName)) cacheFileStatus[fullFileName] = fileStatus;
-            }
-        }
-        #endregion
-
-        #region ImageListViewItemPullFileStatus
-        private FileStatus ImageListViewItemPullFileStatus(string fullFileName)
-        {
-            FileStatus fileStatus = null;
-            lock (cacheFileStatusLock)
-            {
-                if (cacheFileStatus.ContainsKey(fullFileName))
-                {
-                    fileStatus = cacheFileStatus[fullFileName];
-                    cacheFileStatus.Remove(fullFileName);
-                }
-            }
-            return fileStatus;
-        }
-        #endregion
-
         #region ImageListView_UpdatedThumbnail_RefreshAll
         private void ImageListView_UpdatedThumbnail_RefreshAll(FileEntry fileEntry)
         {
@@ -70,27 +32,11 @@ namespace PhotoTagsSynchronizer
             }
 
             ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fileEntry.FileFullPath);
-            if (foundItem != null)
-            {
-                ImageListViewItemPushFileStatus(fileEntry.FileFullPath, foundItem.FileStatus);
-                foundItem.Update();   
-            }
+            if (foundItem != null) foundItem.Update();   
         }
         #endregion
 
         #region ImageListView - Update FileStatus - Invoke
-        private void ImageListView_UpdateItemFileStatusInvoke(string fullFileName)
-        {
-            if (InvokeRequired)
-            {
-                this.BeginInvoke(new Action<string>(ImageListView_UpdateItemFileStatusInvoke), fullFileName);
-                return;
-            }
-
-            FileStatus fileStatus = FileHandler.GetFileStatus(fullFileName);
-            ImageListView_UpdateItemFileStatusInvoke(fullFileName, fileStatus);
-        }
-
         private void ImageListView_UpdateItemFileStatusInvoke(string fullFileName, FileStatus fileStatus)
         {
             if (InvokeRequired)
@@ -104,7 +50,6 @@ namespace PhotoTagsSynchronizer
                 ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fullFileName);
                 if (foundItem != null)
                 {
-                    ImageListViewItemUpdateFileStatus(fullFileName, fileStatus);
                     foundItem.FileStatus = fileStatus;
                     foundItem.Invalidate();
                 }

@@ -549,7 +549,7 @@ namespace PhotoTagsSynchronizer
                 {
                     _ThreadLazyLoadingAllSourcesMetadataAndRegionThumbnails = new Thread(() =>
                     {
-                        #region
+                        #region Do the work
                         try
                         {
                             Logger.Trace("ThreadLazyLoadningMetadata - started");
@@ -617,7 +617,7 @@ namespace PhotoTagsSynchronizer
                                         {
                                             FileStatus fileStaus = FileHandler.GetFileStatus(fileEntryBrokerExiftoolError.FileFullPath,
                                                 exiftoolProcessStatus: ExiftoolProcessStatus.FileInaccessibleOrError,
-                                                fileErrorMessage: "Fail has error recorded, you can retry read again", checkLockedStatus: true);
+                                                fileErrorMessage: "File has error recorded, you can retry read again", checkLockedStatus: true);
                                             ImageListView_UpdateItemFileStatusInvoke(fileEntryBrokerExiftoolError.FileFullPath, fileStaus);
                                             isMetadataExiftoolErrorFound = true;
                                         }
@@ -690,17 +690,9 @@ namespace PhotoTagsSynchronizer
                                     #endregion
 
                                     bool isCurrent = FileEntryVersionHandler.IsCurrenOrUpdatedVersion(fileEntryAttribute.FileEntryVersion);
-                                    if (isCurrent)
-                                    {
-                                        if (File.GetLastWriteTime(fileEntryAttribute.FileFullPath) != fileEntryAttribute.LastWriteDateTime)
-                                        {
-                                            isCurrent = false;
-                                        }
-                                    }
                                     if (isCurrent && isMetadataExiftoolFound) //Don't care about historical or error columns
                                         ImageListView_UpdateItemExiftoolMetadataInvoke(fileEntryAttribute);
 
-                                    //if (!isMetadataExiftoolReadFromSourceRequested && (isMetadataExiftoolFound || isMetadataExiftoolErrorFound)) // No need update others before Exiftool has data || isMetadataExiftoolErrorFound || isMetadataOtherSourceFound) 
                                     if (isMetadataExiftoolFound || isMetadataExiftoolErrorFound) // No need update others before Exiftool has data || isMetadataExiftoolErrorFound || isMetadataOtherSourceFound) 
                                         DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute);
                                 }
@@ -1075,25 +1067,6 @@ namespace PhotoTagsSynchronizer
                                         commonQueueReadMetadataFromSourceExiftool.Clear();
                                         Logger.Error(ex);
                                     }
-                                }
-                                #endregion
-
-                                #region //DEBUG
-                                foreach (FileEntry fileEntryReadFromDatabase in mediaFilesNotInDatabase_NeedCheckInCloud)
-                                {
-                                    int indexFoundInSaveQueue= Metadata.FindFileEntryInList(exiftoolSave_QueueSubsetMetadataToSave, fileEntryReadFromDatabase);
-                                    if (indexFoundInSaveQueue != -1)
-                                    {
-                                        //DEBUG
-                                    }
-                                }
-
-                                foreach (FileEntry fileEntryReadFromDatabase in mediaFilesReadFromDatabase_NeedUpdated_DataGridView_ImageList)
-                                {
-                                    //DEBUG - So far never happen
-                                    FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fileEntryReadFromDatabase, FileEntryVersion.CurrentVersionInDatabase);
-                                    DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute);
-                                    ImageListView_UpdateItemFileStatusInvoke(fileEntryReadFromDatabase.FileFullPath);
                                 }
                                 #endregion
 

@@ -3531,16 +3531,16 @@ namespace DataGridViewGeneric
                 {
                     case DataGridViewSize.Small: //Small
                         cellTextTop += fileEntryAttributeColumn.LastWriteDateTime.ToString() + "\r\n";
-                        cellTextTop += FileEntryVersionHandler.VersionText(fileEntryAttributeColumn.FileEntryVersion);
+                        cellTextTop += FileEntryVersionHandler.ToStringShort(fileEntryAttributeColumn.FileEntryVersion);
                         cellTextBottom += fileEntryAttributeColumn.FileName;
                         break;
                     case DataGridViewSize.Medium: //Medium                        
                         cellTextBottom += fileEntryAttributeColumn.LastWriteDateTime.ToString() + "\r\n" + fileEntryAttributeColumn.FileName;
-                        cellTextTop += FileEntryVersionHandler.VersionText(fileEntryAttributeColumn.FileEntryVersion);
+                        cellTextTop += FileEntryVersionHandler.ToStringShort(fileEntryAttributeColumn.FileEntryVersion);
                         break;
                     case DataGridViewSize.Large: //Large
                         cellTextBottom += fileEntryAttributeColumn.LastWriteDateTime.ToString() + "\r\n" + fileEntryAttributeColumn.FileFullPath;
-                        cellTextTop += FileEntryVersionHandler.VersionText(fileEntryAttributeColumn.FileEntryVersion);
+                        cellTextTop += FileEntryVersionHandler.ToStringShort(fileEntryAttributeColumn.FileEntryVersion);
                         break;
                     default:
                         throw new Exception("Not implemented");

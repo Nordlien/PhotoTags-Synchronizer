@@ -46,6 +46,7 @@ namespace MetadataLibrary
         }
         #endregion
 
+        #region ConvertCurrentErrorHistorical
         public static FileEntryVersion ConvertCurrentErrorHistorical(FileEntryVersion fileEntryVersion)
         {
             switch (fileEntryVersion)
@@ -64,8 +65,10 @@ namespace MetadataLibrary
                     throw new NotImplementedException();
             }
         }
+        #endregion
 
-        public static string VersionText(FileEntryVersion fileEntryVersion)
+        #region ToStringShort
+        public static string ToStringShort(FileEntryVersion fileEntryVersion)
         {
             switch (fileEntryVersion)
             {
@@ -86,6 +89,7 @@ namespace MetadataLibrary
                     throw new NotImplementedException();
             }
         }
+        #endregion
 
         #region IsReadOnlyType
         public static bool IsReadOnlyType(FileEntryVersion fileEntryVersion)

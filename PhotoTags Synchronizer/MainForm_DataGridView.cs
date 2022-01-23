@@ -10,6 +10,8 @@ using WindowsProperty;
 using Krypton.Toolkit;
 using Exiftool;
 using System.IO;
+using FileHandeling;
+using Manina.Windows.Forms;
 
 namespace PhotoTagsSynchronizer
 {
@@ -378,14 +380,15 @@ namespace PhotoTagsSynchronizer
 
             foreach (FileEntry fileEntry in imageListViewSelectItems)
             {
-                if (fileEntry.LastWriteDateTime != File.GetLastWriteTime(fileEntry.FileFullPath))
-                {
-                    //DEBUG
-                }
-
                 List<FileEntryAttribute> fileEntryAttributeDateVersions =
-                    databaseAndCacheMetadataExiftool.ListFileEntryAttributesCache(MetadataBrokerType.ExifTool, fileEntry.FileFullPath, File.GetLastWriteTime(fileEntry.FileFullPath));
+                    databaseAndCacheMetadataExiftool.ListFileEntryAttributesCache(MetadataBrokerType.ExifTool, 
+                    fileEntry.FileFullPath, File.GetLastWriteTime(fileEntry.FileFullPath));
                 lazyLoadingAllExiftoolVersionOfMediaFile.AddRange(fileEntryAttributeDateVersions);
+
+                FileStatus fileStaus = FileHandler.GetFileStatus(fileEntry.FileFullPath,
+                    exiftoolProcessStatus: ExiftoolProcessStatus.InExiftoolReadQueue);
+
+                ImageListView_UpdateItemFileStatusInvoke(fileEntry.FileFullPath, fileStaus);
             }
 
             AddQueueLazyLoadningAllSourcesMetadataAndRegionThumbnailsLock(lazyLoadingAllExiftoolVersionOfMediaFile);
