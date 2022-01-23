@@ -1708,7 +1708,8 @@ namespace MetadataLibrary
                 FileBroker fileBroker = new FileBroker(broker, fullFileName);
                 lock (_listFileAttributeDateVersionsLock)
                 {
-                    if (listFileAttributeDateVersions.ContainsKey(fileBroker)) return listFileAttributeDateVersions[fileBroker];
+                    if (listFileAttributeDateVersions.ContainsKey(fileBroker)) return
+                       new List <FileEntryAttribute>(listFileAttributeDateVersions[fileBroker]); //new To avoid Dead Lock
                 }
 
                 ListFileEntryAttributes2(ref fileEntryAttributes, broker, fullFileName, currentLastWriteTime);
@@ -1717,7 +1718,7 @@ namespace MetadataLibrary
 
                 lock (_listFileAttributeDateVersionsLock)
                 {
-                    listFileAttributeDateVersions.Add(fileBroker, fileEntryAttributes);
+                    listFileAttributeDateVersions.Add(fileBroker, new List<FileEntryAttribute>(fileEntryAttributes)); //Cache a copy
                 }
                 
             } catch (Exception ex)
@@ -1768,9 +1769,19 @@ namespace MetadataLibrary
                             isErrorVersion ? FileEntryVersion.Error : FileEntryVersion.Historical
                             );
 
-                        if (fileEntryAttribute.LastWriteDateTime == currentLastWriteTime) fileEntryAttribute.FileEntryVersion = FileEntryVersion.CurrentVersionInDatabase;
+                        
                         FileEntryAttributes.Add(fileEntryAttribute);
                     }
+
+                    FileEntryAttribute fileEntryAttributeCurrent = new FileEntryAttribute
+                            (
+                            fullFileName,
+                            currentLastWriteTime,
+                            FileEntryVersion.CurrentVersionInDatabase
+                            );
+
+                    //if (fileEntryAttribute.LastWriteDateTime == currentLastWriteTime) fileEntryAttribute.FileEntryVersion = FileEntryVersion.CurrentVersionInDatabase;
+                    if (!FileEntryAttributes.Contains(fileEntryAttributeCurrent)) FileEntryAttributes.Add(fileEntryAttributeCurrent);
                 }
             }
         }

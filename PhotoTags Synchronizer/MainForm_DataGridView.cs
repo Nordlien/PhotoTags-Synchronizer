@@ -384,7 +384,7 @@ namespace PhotoTagsSynchronizer
                 }
 
                 List<FileEntryAttribute> fileEntryAttributeDateVersions =
-                    databaseAndCacheMetadataExiftool.ListFileEntryAttributesCache(MetadataBrokerType.ExifTool, fileEntry.FileFullPath, fileEntry.LastWriteDateTime);
+                    databaseAndCacheMetadataExiftool.ListFileEntryAttributesCache(MetadataBrokerType.ExifTool, fileEntry.FileFullPath, File.GetLastWriteTime(fileEntry.FileFullPath));
                 lazyLoadingAllExiftoolVersionOfMediaFile.AddRange(fileEntryAttributeDateVersions);
             }
 
