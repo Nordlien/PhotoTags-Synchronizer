@@ -735,7 +735,11 @@ namespace PhotoTagsSynchronizer
                 }
                 if (newDateTime != null)
                 {
-                    metadataCopy.MediaDateTaken = newDateTime;
+                    if (metadataCopy.MediaDateTaken != newDateTime)
+                    {
+                        //DEBUG, need doubled check why dates changes
+                    }
+                    metadataCopy.MediaDateTaken = newDateTime;                    
                     Logger.Debug("FixAndSave: New DateAndTime Digitized was replaced: " + metadataCopy.MediaDateTaken.ToString());
                 }
                 else

@@ -2268,13 +2268,16 @@ namespace PhotoTagsSynchronizer
                                                                     }
                                                                     #endregion
 
-                                                                    if (dontReadFilesInCloud)
+                                                                    #region If file not touch by Here or By Exiftool process - Give error message
+                                                                    if (dontReadFilesInCloud &&
+                                                                        !FileHandler.IsOfflineFileTouched(current_FileEntryBrokerRegion.FileFullPath))
                                                                     {
                                                                         fileNeedRemoveFromList = true;
                                                                         didExceptionOccureWhenLoading = true; //Was not able to download in time
                                                                         exceptionError += (string.IsNullOrWhiteSpace(exceptionError) ? "" : "\r\n") +
                                                                             "File is offline and config is set up with 'Don't download files from cloud'.";
                                                                     }
+                                                                    #endregion 
                                                                 }
 
                                                                 #region Error occured (Remove frome queue)

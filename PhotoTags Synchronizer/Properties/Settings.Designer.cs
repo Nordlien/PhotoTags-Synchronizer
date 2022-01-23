@@ -421,9 +421,11 @@ namespace PhotoTagsSynchronizer.Properties {
             "ownCountryName={LocationCountry}\r\n-XMP:Country={LocationCountry}\r\n-Country={Loca" +
             "tionCountry}\r\n-ImageRegion=\r\n-RegionInfoMP={PersonalRegionInfoMP}\r\n-RegionInfo={" +
             "PersonalRegionInfo}\r\n-Keyword=\r\n-Category=\r\n-HierarchicalKeywords=\r\n-Hierarchica" +
-            "lSubject=\r\n-LastKeywordXMP=\r\n-LastKeywordIPTC=\r\n-XMP:XMP-digiKam:TagsList=\r\n-IPT" +
-            "C:CatalogSets=\r\n-IPTC:Keywords=\r\n{PersonalKeywordItemsAdd}\r\n-Categories={Persona" +
-            "lKeywordsXML}\r\n-XPKeywords={PersonalKeywordsList}\r\n{FileFullPath}\r\n-execute")]
+            "lSubject=\r\n-LastKeywordXMP=\r\n-LastKeywordIPTC=\r\n-XMP:XMP-microsoft:LastKeywordXM" +
+            "P=\r\n-XMP:XMP-microsoft:LastKeywordIPTC=\r\n-XMP:XMP-digiKam:TagsList=\r\n-IPTC:Catal" +
+            "ogSets=\r\n-IPTC:Keywords=\r\n-XMP:XMP-dc:Subject=\r\n{PersonalKeywordItemsAdd}\r\n-Cate" +
+            "gories={PersonalKeywordsXML}\r\n-XPKeywords={PersonalKeywordsList}\r\n{FileFullPath}" +
+            "\r\n-execute")]
         public string WriteMetadataTags {
             get {
                 return ((string)(this["WriteMetadataTags"]));
@@ -1108,9 +1110,11 @@ explorer ms-photos?filename=""{FileFullPath}""")]
             "ownCountryName={LocationCountry}\r\n-XMP:Country={LocationCountry}\r\n-Country={Loca" +
             "tionCountry}\r\n-ImageRegion=\r\n-RegionInfoMP={PersonalRegionInfoMP}\r\n-RegionInfo={" +
             "PersonalRegionInfo}\r\n-Keyword=\r\n-Category=\r\n-HierarchicalKeywords=\r\n-Hierarchica" +
-            "lSubject=\r\n-LastKeywordXMP=\r\n-LastKeywordIPTC=\r\n-XMP:XMP-digiKam:TagsList=\r\n-IPT" +
-            "C:CatalogSets=\r\n-IPTC:Keywords=\r\n{PersonalKeywordItemsAdd}\r\n-Categories={Persona" +
-            "lKeywordsXML}\r\n-XPKeywords={PersonalKeywordsList}\r\n{FileFullPath}\r\n-execute")]
+            "lSubject=\r\n-LastKeywordXMP=\r\n-LastKeywordIPTC=\r\n-XMP:XMP-microsoft:LastKeywordXM" +
+            "P=\r\n-XMP:XMP-microsoft:LastKeywordIPTC=\r\n-XMP:XMP-digiKam:TagsList=\r\n-IPTC:Catal" +
+            "ogSets=\r\n-IPTC:Keywords=\r\n-XMP:XMP-dc:Subject=\r\n{PersonalKeywordItemsAdd}\r\n-Cate" +
+            "gories={PersonalKeywordsXML}\r\n-XPKeywords={PersonalKeywordsList}\r\n{FileFullPath}" +
+            "\r\n-execute")]
         public string RunArgumentBuildKeywordTags {
             get {
                 return ((string)(this["RunArgumentBuildKeywordTags"]));
@@ -1829,7 +1833,7 @@ explorer ms-photos?filename=""{FileFullPath}""")]
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        [global::System.Configuration.DefaultSettingValueAttribute("120")]
         public int WriteFileAttributeCreatedDateTimeIntervalAccepted {
             get {
                 return ((int)(this["WriteFileAttributeCreatedDateTimeIntervalAccepted"]));

@@ -389,7 +389,7 @@ namespace MetadataLibrary
                 for (int i = 0; i < metadataListToCheck.Count; i++)
                 {
                     Metadata metadata = metadataListToCheck[i];                  
-                    if (metadata != null && metadata.FileFullPath == fileEntry.FileFullPath && fileEntry.LastWriteDateTime == metadata.FileDateModified) 
+                    if (metadata != null && (string.Compare(metadata.FileFullPath, fileEntry.FileFullPath, true) == 0) && fileEntry.LastWriteDateTime == metadata.FileDateModified) 
                         return i;
                 }
             }
@@ -409,7 +409,7 @@ namespace MetadataLibrary
                 for (int i = 0; i < metadataListToCheck.Count; i++)
                 {
                     Metadata metadata = metadataListToCheck[i];
-                    if (metadata != null && metadata.FileFullPath == findThis) return i;
+                    if (metadata != null && (string.Compare(metadata.FileFullPath, findThis) == 0)) return i;
                 }
             }
             catch { }

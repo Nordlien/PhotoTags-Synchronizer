@@ -476,9 +476,12 @@ riff=UTF8
 -HierarchicalSubject=
 -LastKeywordXMP=
 -LastKeywordIPTC=
+-XMP:XMP-microsoft:LastKeywordXMP=
+-XMP:XMP-microsoft:LastKeywordIPTC=
 -XMP:XMP-digiKam:TagsList=
 -IPTC:CatalogSets=
 -IPTC:Keywords=
+-XMP:XMP-dc:Subject=
 {PersonalKeywordItemsAdd}
 -Categories={PersonalKeywordsXML}
 -XPKeywords={PersonalKeywordsList}
@@ -775,9 +778,12 @@ riff=UTF8
 -HierarchicalSubject=
 -LastKeywordXMP=
 -LastKeywordIPTC=
+-XMP:XMP-microsoft:LastKeywordXMP=
+-XMP:XMP-microsoft:LastKeywordIPTC=
 -XMP:XMP-digiKam:TagsList=
 -IPTC:CatalogSets=
 -IPTC:Keywords=
+-XMP:XMP-dc:Subject=
 {PersonalKeywordItemsAdd}
 -Categories={PersonalKeywordsXML}
 -XPKeywords={PersonalKeywordsList}
@@ -1067,7 +1073,7 @@ https://photos.google.com/people</Value>
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="WriteFileAttributeCreatedDateTimeIntervalAccepted" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">10</Value>
+      <Value Profile="(Default)">120</Value>
     </Setting>
     <Setting Name="AutoCorrectFormAlbum" Type="System.String" Scope="User">
       <Value Profile="(Default)" />

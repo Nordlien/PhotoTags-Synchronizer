@@ -102,7 +102,7 @@ namespace MetadataLibrary
             if (fileEntries == null) return -1;
             for (int index = 0; index < Math.Min(fileEntries.Count, range); index++)
             {
-                if (fileEntries[index].FileFullPath == fullFilePath) return index;
+                if (string.Compare(fileEntries[index].FileFullPath, fullFilePath, true) == 0) return index;
             }
             return -1;
         }

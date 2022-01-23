@@ -1056,7 +1056,8 @@ namespace DataGridViewGeneric
                 return; //Should not occure
 
             DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-            if (dataGridViewGenericColumn != null && dataGridViewGenericColumn.IsPopulated && dataGridViewGenericColumn.FileEntryAttribute.FileFullPath == newMetadata.FileEntry.FileFullPath)
+            if (dataGridViewGenericColumn != null && dataGridViewGenericColumn.IsPopulated &&
+                IsFilenameEqual(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath, newMetadata.FileEntry.FileFullPath))
             {
                 dataGridViewGenericColumn.Metadata = new Metadata(newMetadata);
             } else
