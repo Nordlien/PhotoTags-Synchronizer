@@ -389,6 +389,7 @@ namespace PhotoTagsSynchronizer
                     exiftoolProcessStatus: ExiftoolProcessStatus.InExiftoolReadQueue);
 
                 FileHandler.RemoveOfflineFileTouched(fileEntry.FileFullPath);
+                FileHandler.RemoveOfflineFileTouchedFailed(fileEntry.FileFullPath);
 
                 ImageListView_UpdateItemFileStatusInvoke(fileEntry.FileFullPath, fileStaus);
             }
@@ -426,7 +427,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region DataGridView_CleanAll
+        #region DataGridView - CleanAll
         private void DataGridView_CleanAll()
         {
             DataGridViewHandler.SetIsAgregated(dataGridViewTagsAndKeywords, false);

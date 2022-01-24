@@ -1144,8 +1144,11 @@ namespace DataGridViewGeneric
                     {
                         switch (fileEntryAttribute2.FileEntryVersion)
                         {
-                            case FileEntryVersion.ExtractedNowFromExternalSource:
-                            case FileEntryVersion.ExtractedNowUsingExiftool:
+                            case FileEntryVersion.ExtractedNowUsingExiftool: //is used in in DataGridView Column
+                            case FileEntryVersion.ExtractedNowUsingReadMediaFile:
+                            case FileEntryVersion.ExtractedNowUsingWindowsLivePhotoGallery:
+                            case FileEntryVersion.ExtractedNowUsingMicrosoftPhotos:
+                            case FileEntryVersion.ExtractedNowUsingWebScraping:
                             case FileEntryVersion.AutoCorrect:
                             case FileEntryVersion.CurrentVersionInDatabase:
                                 if (FileEntryVersionHandler.IsCurrenOrUpdatedVersion(dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion) &&

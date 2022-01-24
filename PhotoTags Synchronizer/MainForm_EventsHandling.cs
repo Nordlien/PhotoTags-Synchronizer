@@ -7275,10 +7275,14 @@ namespace PhotoTagsSynchronizer
                                 fileEntry.FileFullPath,
                                 checkLockedStatus: true,
                                 exiftoolProcessStatus: ExiftoolProcessStatus.InExiftoolReadQueue);
+                            
+                            if (fileStatus.IsInCloudOrVirtualOrOffline)
+                            {
+                                fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.WaitOfflineBecomeLocal;
+                                FileHandler.TouchOfflineFileToGetFileOnline(fileEntry.FileFullPath);
+                            }
+                            
                             ImageListView_UpdateItemFileStatusInvoke(fileEntry.FileFullPath, fileStatus);
-
-                            if (fileStatus.IsInCloudOrVirtualOrOffline) FileHandler.TouchOfflineFileToGetFileOnline(fileEntry.FileFullPath);
-                            else FileHandler.RemoveOfflineFileTouched(fileEntry.FileFullPath);
                         }
                     }
                     #endregion
@@ -7473,11 +7477,15 @@ namespace PhotoTagsSynchronizer
                             {
                                 FileStatus fileStatus = FileHandler.GetFileStatus(
                                 fullFileName, checkLockedStatus: true,
-                                exiftoolProcessStatus: ExiftoolProcessStatus.InExiftoolReadQueue);
-                                ImageListView_UpdateItemFileStatusInvoke(fullFileName, fileStatus);
+                                exiftoolProcessStatus: ExiftoolProcessStatus.ExiftoolWillNotProcessingFileInCloud);
 
-                                if (fileStatus.IsInCloudOrVirtualOrOffline) FileHandler.TouchOfflineFileToGetFileOnline(fullFileName);
-                                else FileHandler.RemoveOfflineFileTouched(fullFileName);
+                                if (fileStatus.IsInCloudOrVirtualOrOffline)
+                                {
+                                    fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.WaitOfflineBecomeLocal;
+                                    FileHandler.TouchOfflineFileToGetFileOnline(fullFileName);
+                                }
+                                
+                                ImageListView_UpdateItemFileStatusInvoke(fullFileName, fileStatus);
                             }
                             #endregion
 

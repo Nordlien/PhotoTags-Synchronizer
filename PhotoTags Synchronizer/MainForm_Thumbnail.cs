@@ -51,8 +51,8 @@ namespace PhotoTagsSynchronizer
                 else 
                 {
                     //Start downloading in background from OneDrive
-                    if (!dontReadFilesInCloud && fileStatus.IsInCloudOrVirtualOrOffline) FileHandler.TouchOfflineFileToGetFileOnline(fileEntry.FileFullPath);
-                    else FileHandler.RemoveOfflineFileTouched(fileEntry.FileFullPath);
+                    if (!dontReadFilesInCloud && fileStatus.IsInCloudOrVirtualOrOffline) 
+                        FileHandler.TouchOfflineFileToGetFileOnline(fileEntry.FileFullPath);
                 } 
 
                 AddQueueSaveToDatabaseMediaThumbnailLock(

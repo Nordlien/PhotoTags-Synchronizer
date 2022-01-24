@@ -37,11 +37,11 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region ImageListView - Update FileStatus - Invoke
-        private void ImageListView_UpdateItemFileStatusInvoke(string fullFileName, FileStatus fileStatus)
+        private void ImageListView_UpdateItemFileStatusInvoke(string fullFileName, FileStatus fileStatus, DateTime? fileEntryDateTime = null)
         {
             if (InvokeRequired)
             {
-                this.BeginInvoke(new Action<string, FileStatus>(ImageListView_UpdateItemFileStatusInvoke), fullFileName, fileStatus);
+                this.BeginInvoke(new Action<string, FileStatus, DateTime?>(ImageListView_UpdateItemFileStatusInvoke), fullFileName, fileStatus, fileEntryDateTime);
                 return;
             }
             if (GlobalData.IsApplicationClosing) return;
@@ -50,8 +50,11 @@ namespace PhotoTagsSynchronizer
                 ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fullFileName);
                 if (foundItem != null)
                 {
-                    foundItem.FileStatus = fileStatus;
-                    foundItem.Invalidate();
+                    if (fileEntryDateTime == null || (foundItem.DateModified <= fileEntryDateTime))
+                    {
+                        foundItem.FileStatus = fileStatus;
+                        foundItem.Invalidate();
+                    }
                 }
             }
             catch (Exception ex)

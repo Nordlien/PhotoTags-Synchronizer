@@ -211,6 +211,13 @@ namespace FileHandeling
         private static Dictionary<string, DateTime> cloundFileTouchedAndWhen = new Dictionary<string, DateTime>();
         private static object cloundFileTouchedAndWhenLock = new object();
 
+        private static Dictionary<string, DateTime> cloundFileTouchedFailedAndWhen = new Dictionary<string, DateTime>();
+        private static object cloundFileTouchedFailedAndWhenLock = new object();
+
+        private static int TouchTimeout = 1000 * 20;
+        private static int TouchTimeoutFailed = 1000 * 60 * 2;
+
+        #region RemoveOfflineFileTouched
         public static void RemoveOfflineFileTouched(string fullFileName)
         {
             lock (cloundFileTouchedAndWhenLock)
@@ -219,64 +226,126 @@ namespace FileHandeling
             }
         }
 
-        public static bool IsOfflineFileTouched(string fullFileName)
+        public static void RemoveOldOfflineFileTouched(string fullFileName)
         {
-            bool isTounch = false;
-            lock (cloundFileTouchedAndWhenLock)
-            {
-                isTounch = cloundFileTouchedAndWhen.ContainsKey(fullFileName);
-            }
-            return isTounch;
-        }
-
-        public static bool IsOfflineFileTouchedTimedOut(string fullFileName)
-        {
-            bool isTimeout = false;
             lock (cloundFileTouchedAndWhenLock)
             {
                 if (cloundFileTouchedAndWhen.ContainsKey(fullFileName))
                 {
-                    if ((DateTime.Now - cloundFileTouchedAndWhen[fullFileName]).Milliseconds > 1000 * 30) isTimeout = true;
+                    if ((DateTime.Now - cloundFileTouchedAndWhen[fullFileName]).TotalMilliseconds > TouchTimeout) //Remove when timeout
+                        cloundFileTouchedAndWhen.Remove(fullFileName);
                 }
             }
-            return isTimeout;
+        }
+        #endregion
+
+        #region RemoveOfflineFileTouchedFailed
+        public static void RemoveOfflineFileTouchedFailed(string fullFileName)
+        {
+            lock (cloundFileTouchedFailedAndWhenLock)
+            {
+                if (cloundFileTouchedFailedAndWhen.ContainsKey(fullFileName)) cloundFileTouchedFailedAndWhen.Remove(fullFileName);
+            }
         }
 
+        public static void RemoveOldOfflineFileTouchedFailed(string fullFileName)
+        {
+            lock (cloundFileTouchedFailedAndWhenLock)
+            {
+                if (cloundFileTouchedFailedAndWhen.ContainsKey(fullFileName))
+                {
+                    if ((DateTime.Now - cloundFileTouchedFailedAndWhen[fullFileName]).TotalMilliseconds > TouchTimeoutFailed) //Remove when timeout
+                        cloundFileTouchedFailedAndWhen.Remove(fullFileName);
+                }
+            }
+        }
+        #endregion
+
+        #region IsOfflineFileTouchedAndWithoutTimeout
+        public static bool IsOfflineFileTouchedAndWithoutTimeout(string fullFileName)
+        {
+            bool isTounch = false;
+            lock (cloundFileTouchedAndWhenLock)
+            {
+                if (cloundFileTouchedAndWhen.ContainsKey(fullFileName))
+                {
+                    if ((DateTime.Now - cloundFileTouchedAndWhen[fullFileName]).TotalMilliseconds < TouchTimeout) 
+                        isTounch = true;
+                }
+            }
+            return isTounch;
+        }
+        #endregion
+
+        #region IsOfflineFileTouchedAndFailedWithoutTimedOut
+        public static bool IsOfflineFileTouchedAndFailedWithoutTimedOut(string fullFileName)
+        {
+            bool isTounch = false;
+            lock (cloundFileTouchedFailedAndWhenLock)
+            {
+                if (cloundFileTouchedFailedAndWhen.ContainsKey(fullFileName))
+                {
+                    if ((DateTime.Now - cloundFileTouchedFailedAndWhen[fullFileName]).TotalMilliseconds < TouchTimeoutFailed) 
+                        isTounch = true;
+                }
+            }
+            return isTounch;
+        }
+        #endregion
+
+        #region Touch Offline File - Log errors 
         private static void TouchOfflineFileProcess(string fullFileName)
         {
             try
             {
-                FileStatus fileStatus = GetFileStatus(fullFileName, checkLockedStatus: false);
-                if (fileStatus.IsInCloudOrVirtualOrOffline)
+                byte[] buffer = new byte[512];
+                using (FileStream fs = new FileStream(fullFileName, FileMode.Open, FileAccess.Read))
                 {
-                    lock (cloundFileTouchedAndWhenLock)
-                    {
-                        if (!cloundFileTouchedAndWhen.ContainsKey(fullFileName)) cloundFileTouchedAndWhen.Add(fullFileName, DateTime.Now);
-                        else cloundFileTouchedAndWhen[fullFileName] = DateTime.Now;
-                    }
-
-                    byte[] buffer = new byte[512];
-                    using (FileStream fs = new FileStream(fullFileName, FileMode.Open, FileAccess.Read))
-                    {
-                        var bytes_read = fs.Read(buffer, 0, buffer.Length); //Get OneDrive to start download the file
-                        fs.Close();
-                    }
+                    var bytes_read = fs.Read(buffer, 0, buffer.Length); //Get OneDrive to start download the file
+                    fs.Close();
                 }
             }
-            catch 
+            catch
             {
-                FileHandler.RemoveOfflineFileTouched(fullFileName);
+                lock (cloundFileTouchedFailedAndWhenLock)
+                {
+                    if (!cloundFileTouchedFailedAndWhen.ContainsKey(fullFileName)) 
+                        cloundFileTouchedFailedAndWhen.Add(fullFileName, DateTime.Now);
+                }
             }
         }
+        #endregion
 
+        #region Touch Offline File To Get File Online
         public static void TouchOfflineFileToGetFileOnline(string fullFileName)
         {
-            Task task = Task.Run(() =>
+            if (IsOfflineFileTouchedAndFailedWithoutTimedOut(fullFileName)) 
+                return;
+            RemoveOldOfflineFileTouchedFailed(fullFileName);
+
+            if (IsOfflineFileTouchedAndWithoutTimeout(fullFileName)) 
+                return;
+            RemoveOldOfflineFileTouched(fullFileName);
+
+            #region Touch the file and log when
+            FileStatus fileStatus = GetFileStatus(fullFileName, checkLockedStatus: false);
+            if (fileStatus.IsInCloudOrVirtualOrOffline)
             {
-                TouchOfflineFileProcess(fullFileName);
-            });
-            task.Wait(200);
+                lock (cloundFileTouchedAndWhenLock)
+                {
+                    if (!cloundFileTouchedAndWhen.ContainsKey(fullFileName)) cloundFileTouchedAndWhen.Add(fullFileName, DateTime.Now);
+                }
+
+                Task task = Task.Run(() =>
+                {
+                    TouchOfflineFileProcess(fullFileName);
+                });
+                task.Wait(1000);
+            }
+            #endregion
         }
+        #endregion
+
         #endregion
 
         public static string FileLockedByProcess { get; set; }
@@ -374,7 +443,8 @@ namespace FileHandeling
                 {
                     inProcessIsFileLockedByProcess.Clear();
                 }
-                catch { }
+                catch { 
+                }
             }
             return result;
         }
