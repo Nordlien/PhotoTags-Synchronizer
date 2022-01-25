@@ -117,7 +117,7 @@ namespace PhotoTagsSynchronizer
         private static readonly Object exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerifyLock = new Object();
 
         private static List<FileEntry> exiftool_MediaFilesNotInDatabase = new List<FileEntry>(); //It's globale, just to manage to show count status
-        private static readonly Object mediaFilesNotInDatabaseLock = new Object();
+        private static readonly Object exiftool_MediaFilesNotInDatabaseLock = new Object();
 
         private static List<Metadata> exiftoolSave_QueueSubsetMetadataToSave = new List<Metadata>();
         private static readonly Object exiftoolSave_QueueSubsetMetadataToSaveLock = new Object();
@@ -245,7 +245,7 @@ namespace PhotoTagsSynchronizer
         /// <returns>Number of items in queue</returns>
         private int ExiftoolSave_MediaFilesNotInDatabaseCountLock()
         {
-            lock   (mediaFilesNotInDatabaseLock) return exiftool_MediaFilesNotInDatabase.Count;
+            lock   (exiftool_MediaFilesNotInDatabaseLock) return exiftool_MediaFilesNotInDatabase.Count;
         }
 
         private int ExiftoolSave_MediaFilesNotInDatabaseCountDirty()
@@ -1089,6 +1089,7 @@ namespace PhotoTagsSynchronizer
                                 #region Check if need avoid files in cloud, if yes, don't read files in cloud
                                 if (Properties.Settings.Default.AvoidReadExifFromCloud)
                                 {
+
                                     foreach (FileEntry fileEntry in mediaFilesNotInDatabase_NeedCheckInCloud)
                                     {
                                         FileStatus fileStatus = FileHandler.GetFileStatus(fileEntry.FileFullPath);
@@ -1106,7 +1107,7 @@ namespace PhotoTagsSynchronizer
                                         else if (fileStatus.FileExists && !fileStatus.IsInCloudOrVirtualOrOffline)
                                         {
                                             fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.ExiftoolProcessing;
-                                            exiftool_MediaFilesNotInDatabase.Add(fileEntry); 
+                                            lock (exiftool_MediaFilesNotInDatabaseLock) exiftool_MediaFilesNotInDatabase.Add(fileEntry); 
                                         }
                                         #endregion
                                         #region File exist and offline, DON'T TOUCH file, not allowed
@@ -1143,7 +1144,7 @@ namespace PhotoTagsSynchronizer
                                         else if (fileStatus.FileExists && !fileStatus.IsInCloudOrVirtualOrOffline)
                                         {
                                             fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.InExiftoolReadQueue;
-                                            exiftool_MediaFilesNotInDatabase.Add(fileEntry); //File in not in clode, process with file
+                                            lock (exiftool_MediaFilesNotInDatabaseLock) exiftool_MediaFilesNotInDatabase.Add(fileEntry); //File in not in clode, process with file
                                         }
                                         #endregion
                                         #region File exist and offline, touch file and put back last in queue
@@ -1191,7 +1192,7 @@ namespace PhotoTagsSynchronizer
                                     if (useArgFile) maxParameterCommandLength = 50000;
                                     List<String> useExiftoolOnThisSubsetOfFiles;
 
-                                    lock (mediaFilesNotInDatabaseLock)
+                                    lock (exiftool_MediaFilesNotInDatabaseLock)
                                     {
                                         while (argumnetLength < maxParameterCommandLength && range < exiftool_MediaFilesNotInDatabase.Count)
                                         {
@@ -1265,7 +1266,7 @@ namespace PhotoTagsSynchronizer
 
                                                 #region Find FileEntry Information
                                                 FileEntry fileEntryMetadataNotRead;
-                                                lock (mediaFilesNotInDatabaseLock)
+                                                lock (exiftool_MediaFilesNotInDatabaseLock)
                                                 {
                                                     int indexFileEntry = FileEntry.FindIndex(exiftool_MediaFilesNotInDatabase, fullFilePath, range);
 
@@ -1439,7 +1440,7 @@ namespace PhotoTagsSynchronizer
                                     #region mediaFilesNotInDatabase.RemoveRange(0, range)
                                     try
                                     {
-                                        lock (mediaFilesNotInDatabaseLock) exiftool_MediaFilesNotInDatabase.RemoveRange(0, range); //Remove subset from queue before update status bar
+                                        lock (exiftool_MediaFilesNotInDatabaseLock) exiftool_MediaFilesNotInDatabase.RemoveRange(0, range); //Remove subset from queue before update status bar
                                     }
                                     catch (Exception ex)
                                     {
@@ -2607,7 +2608,7 @@ namespace PhotoTagsSynchronizer
                     }
 
             if (!folderInUse)
-                lock (mediaFilesNotInDatabaseLock)
+                lock (exiftool_MediaFilesNotInDatabaseLock)
                     foreach (FileEntry fileEntry in exiftool_MediaFilesNotInDatabase)
                     {
                         if (fileEntry.FileFullPath.StartsWith(folder, comparisonType: StringComparison.OrdinalIgnoreCase))
@@ -2637,7 +2638,7 @@ namespace PhotoTagsSynchronizer
                     }
 
             if (!fileInUse)
-                lock (mediaFilesNotInDatabaseLock)
+                lock (exiftool_MediaFilesNotInDatabaseLock)
                     foreach (FileEntry fileEntry in exiftool_MediaFilesNotInDatabase)
                     {
                         if (FilesCutCopyPasteDrag.IsFilenameEqual(fileEntry.FileFullPath, fullFilename))
