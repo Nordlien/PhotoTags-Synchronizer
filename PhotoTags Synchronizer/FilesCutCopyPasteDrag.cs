@@ -246,34 +246,37 @@ namespace PhotoTagsSynchronizer
 
             GlobalData.IsPopulatingButtonAction = true;
 
-            folderTreeViewFolder.Enabled = false;
+            
             //imageListView.Enabled = false;
-            imageListView.SuspendLayout();
-
-            GlobalData.ProcessCounterDelete = imageListView.SelectedItems.Count;             
-            foreach (ImageListViewItem imageListViewItem in imageListView.SelectedItems)
+            using (new WaitCursor())
             {
-                mainForm.UpdateStatusAction("Refreshing database for " + imageListViewItem.FileFullPath);
-                this.DeleteFileAndHistory(imageListViewItem.FileFullPath);
-                GlobalData.ProcessCounterDelete--;
+                folderTreeViewFolder.Enabled = false;
+                imageListView.SuspendLayout();
+
+                GlobalData.ProcessCounterDelete = imageListView.SelectedItems.Count;
+                foreach (ImageListViewItem imageListViewItem in imageListView.SelectedItems)
+                {
+                    mainForm.UpdateStatusAction("Refreshing database for " + imageListViewItem.FileFullPath);
+                    this.DeleteFileAndHistory(imageListViewItem.FileFullPath);
+                    GlobalData.ProcessCounterDelete--;
+                }
+                GlobalData.ProcessCounterDelete = 0;
+
+                GlobalData.ProcessCounterRefresh = imageListView.SelectedItems.Count;
+                foreach (ImageListViewItem item in imageListView.SelectedItems)
+                {
+                    item.Update();
+                    item.Selected = true;
+                    GlobalData.ProcessCounterRefresh--;
+                }
+                GlobalData.ProcessCounterRefresh = 0;
+
+
+                folderTreeViewFolder.Enabled = true;
+                imageListView.ResumeLayout();
+
+                GlobalData.IsPopulatingButtonAction = false;
             }
-            GlobalData.ProcessCounterDelete = 0;
-
-            GlobalData.ProcessCounterRefresh = imageListView.SelectedItems.Count;
-            foreach (ImageListViewItem item in imageListView.SelectedItems)
-            {
-                item.Update();
-                item.Selected = true;
-                GlobalData.ProcessCounterRefresh--;
-            }
-            GlobalData.ProcessCounterRefresh = 0;
-
-
-            folderTreeViewFolder.Enabled = true;
-
-            GlobalData.IsPopulatingButtonAction = false;
-
-            imageListView.ResumeLayout();
             //imageListView.Enabled = true;
         }
         #endregion

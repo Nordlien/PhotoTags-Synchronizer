@@ -34,6 +34,7 @@ namespace PhotoTagsSynchronizer
             }
 
             StatusActionText = text;
+
             timerShowStatusText_RemoveTimer.Stop(); //Restart
             timerShowStatusText_RemoveTimer.Start();
         }
