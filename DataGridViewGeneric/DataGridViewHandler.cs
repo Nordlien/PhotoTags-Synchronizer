@@ -2425,7 +2425,7 @@ namespace DataGridViewGeneric
                 }
                 else if (dataGridViewCell.Value is LocationNames.LocationCoordinate)
                 {
-                    if (dataGridViewCell.Value.ToString() != value.ToString()) DataGridViewHandler.SetColumnDirtyFlag(dataGridView, dataGridViewCell.ColumnIndex, true);
+                    if (dataGridViewCell.Value != value) DataGridViewHandler.SetColumnDirtyFlag(dataGridView, dataGridViewCell.ColumnIndex, true);
                     dataGridViewCell.Value = value;
                 }
                 else if (dataGridViewCell.Value is RegionStructure cellRegionStructure)
@@ -2660,12 +2660,23 @@ namespace DataGridViewGeneric
         #region Copy Text within Grid
         #region Copy Text within Grid - CopyCellFromBrokerToMedia
         //Copy select Media Broker as Windows Life Photo Gallery, Microsoft Photots, Google Location History, etc... to correct Media File Tag
-        private static Dictionary<CellLocation, DataGridViewGenericCell> CopyCellFromBrokerToMedia(DataGridView dataGridView, string targetHeader, int columnIndex, int rowIndex, bool doOwerwriteData)
+        private static Dictionary<CellLocation, DataGridViewGenericCell> CopyCellFromBrokerToMedia(DataGridView dataGridView, string targetHeader, string targetRowNameStartWithAndTrunc, int columnIndex, int rowIndex, bool doOwerwriteData)
         {
             Dictionary<CellLocation, DataGridViewGenericCell> updatedCells = new Dictionary<CellLocation, DataGridViewGenericCell>();
 
             DataGridViewGenericRow dataGridViewGenericDataRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
-            int targetRowIndex = DataGridViewHandler.GetRowIndex(dataGridView, targetHeader, dataGridViewGenericDataRow.RowName);
+
+            string foundTargetRowName;
+            if (targetRowNameStartWithAndTrunc == null)
+            {
+                foundTargetRowName = dataGridViewGenericDataRow.RowName;
+            }
+            else
+            {
+                if (dataGridViewGenericDataRow.RowName.StartsWith(targetRowNameStartWithAndTrunc)) foundTargetRowName = targetRowNameStartWithAndTrunc;
+                else foundTargetRowName = dataGridViewGenericDataRow.RowName;
+            }
+            int targetRowIndex = DataGridViewHandler.GetRowIndex(dataGridView, targetHeader, foundTargetRowName);
             if (targetRowIndex != -1)
             {
                 if (doOwerwriteData ||
@@ -2683,7 +2694,7 @@ namespace DataGridViewGeneric
         #endregion
 
         #region Copy Text within Grid - CopySelectedCellFromBrokerToMedia
-        public static void CopySelectedCellFromBrokerToMedia(DataGridView dataGridView, string targetHeader, bool overwrite)
+        public static void CopySelectedCellFromBrokerToMedia(DataGridView dataGridView, string targetHeader, string targetRowName, bool overwrite)
         {
             Dictionary<CellLocation, DataGridViewGenericCell> updatedCells = new Dictionary<CellLocation, DataGridViewGenericCell>();
 
@@ -2694,7 +2705,7 @@ namespace DataGridViewGeneric
                 {
                     
                     Dictionary<CellLocation, DataGridViewGenericCell> updatedCellsDelta =
-                        CopyCellFromBrokerToMedia(dataGridView, targetHeader, dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex, overwrite);
+                        CopyCellFromBrokerToMedia(dataGridView, targetHeader, targetRowName, dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex, overwrite);
                     
 
                     if (updatedCellsDelta != null && updatedCellsDelta.Count > 0)
