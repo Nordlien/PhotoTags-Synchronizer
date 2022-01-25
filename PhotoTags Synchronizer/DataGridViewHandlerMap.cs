@@ -39,11 +39,11 @@ namespace PhotoTagsSynchronizer
         public const string headerNominatim = "Nominatim";        
         public const string headerBrowser = "Browser map";
 
-        public const string tagMediaCoordinates = "Coordinates";
-        public const string tagExternalCoordinates = "Coordinates";
-        public const string tagGoogleCoordinateUTC = "Coordinates UTC";
+        public const string tagMediaCoordinates          = "Coordinates"; //MapFastCopyTextAndOverwrite_Click() use String.StartsWith this for fast copy
+        public const string tagExternalCoordinates       = "Coordinates";
+        public const string tagGoogleCoordinateUTC       = "Coordinates UTC";
         public const string tagGoogleCoordinateDateTaken = "Coordinates DateTaken";
-        public const string tagCoordinatesNearByPhotos = "Coordinates";
+        public const string tagCoordinatesNearByPhotos   = "Coordinates";
         public const string tagCameraMakeModel = "Camera make/model";
         public const string tagCameraOwner = "Camera owner";
         public const string tagLocationName = "Location name";

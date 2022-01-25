@@ -4539,7 +4539,7 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                DataGridViewHandler.CopySelectedCellFromBrokerToMedia(dataGridViewTagsAndKeywords, DataGridViewHandlerTagsAndKeywords.headerMedia, false);
+                DataGridViewHandler.CopySelectedCellFromBrokerToMedia(dataGridViewTagsAndKeywords, DataGridViewHandlerTagsAndKeywords.headerMedia, null, false);
             }
             catch (Exception ex)
             {
@@ -4555,7 +4555,7 @@ namespace PhotoTagsSynchronizer
             try
             {
                 DataGridView dataGridView = dataGridViewMap;
-                DataGridViewHandler.CopySelectedCellFromBrokerToMedia(dataGridView, DataGridViewHandlerMap.headerMedia, false);
+                DataGridViewHandler.CopySelectedCellFromBrokerToMedia(dataGridView, DataGridViewHandlerMap.headerMedia, DataGridViewHandlerMap.tagMediaCoordinates, false);
             }
             catch (Exception ex)
             {
@@ -4635,7 +4635,7 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                DataGridViewHandler.CopySelectedCellFromBrokerToMedia(dataGridViewTagsAndKeywords, DataGridViewHandlerTagsAndKeywords.headerMedia, true);
+                DataGridViewHandler.CopySelectedCellFromBrokerToMedia(dataGridViewTagsAndKeywords, DataGridViewHandlerTagsAndKeywords.headerMedia, null, true);
             }
             catch (Exception ex)
             {
@@ -4651,9 +4651,8 @@ namespace PhotoTagsSynchronizer
             try
             {
                 DataGridView dataGridView = dataGridViewMap;
-                DataGridViewHandler.CopySelectedCellFromBrokerToMedia(dataGridView, DataGridViewHandlerMap.headerMedia, true);
-
-
+                DataGridViewHandler.CopySelectedCellFromBrokerToMedia(dataGridView, DataGridViewHandlerMap.headerMedia, DataGridViewHandlerMap.tagMediaCoordinates, true);
+                /*
                 List<int> columnUpdated = new List<int>();
 
                 foreach (DataGridViewCell dataGridViewCell in dataGridView.SelectedCells)
@@ -4667,7 +4666,7 @@ namespace PhotoTagsSynchronizer
                             //gridViewGenericRow.HeaderName.Equals(DataGridViewHandlerMap.headerMedia) &&
 
                             if (!gridViewGenericRow.HeaderName.Equals(DataGridViewHandlerMap.headerMedia) &&
-                                gridViewGenericRow.RowName.Equals(DataGridViewHandlerMap.tagMediaCoordinates))
+                                gridViewGenericRow.RowName.StartsWith(DataGridViewHandlerMap.tagMediaCoordinates))
                             {
                                 object cellValue = DataGridViewHandler.GetCellValue(dataGridViewMap, dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex);
                                 if (cellValue != null)
@@ -4681,6 +4680,7 @@ namespace PhotoTagsSynchronizer
                         }
                     }
                 }
+                */
             }
             catch (Exception ex)
             {
