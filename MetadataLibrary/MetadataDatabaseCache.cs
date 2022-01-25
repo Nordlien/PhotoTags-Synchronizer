@@ -2464,19 +2464,22 @@ namespace MetadataLibrary
         {
             try
             {
-                if (metadataRegionNameCountCache == null)
-                    metadataRegionNameCountCache = new Dictionary<MetadataBrokerType, Dictionary<StringNullable, int>>(); //It should already been created, why isn'y
-                if (!metadataRegionNameCountCache.ContainsKey(metadataBrokerType))
-                    metadataRegionNameCountCache.Add(metadataBrokerType, new Dictionary<StringNullable, int>()); //It should already been created, why isn'y
+                lock (metadataRegionNameCountCacheLock)
+                {
+                    if (metadataRegionNameCountCache == null)
+                        metadataRegionNameCountCache = new Dictionary<MetadataBrokerType, Dictionary<StringNullable, int>>(); //It should already been created, why isn'y
+                    if (!metadataRegionNameCountCache.ContainsKey(metadataBrokerType))
+                        metadataRegionNameCountCache.Add(metadataBrokerType, new Dictionary<StringNullable, int>()); //It should already been created, why isn'y
 
-                StringNullable stringNullableName = new StringNullable(name);
-                if (!metadataRegionNameCountCache[metadataBrokerType].ContainsKey(stringNullableName))
-                {
-                    metadataRegionNameCountCache[metadataBrokerType].Add(stringNullableName, 1);
-                }
-                else
-                {
-                    metadataRegionNameCountCache[metadataBrokerType][stringNullableName]++;
+                    StringNullable stringNullableName = new StringNullable(name);
+                    if (!metadataRegionNameCountCache[metadataBrokerType].ContainsKey(stringNullableName))
+                    {
+                        metadataRegionNameCountCache[metadataBrokerType].Add(stringNullableName, 1);
+                    }
+                    else
+                    {
+                        metadataRegionNameCountCache[metadataBrokerType][stringNullableName]++;
+                    }
                 }
             }
             catch { 
@@ -2577,14 +2580,17 @@ namespace MetadataLibrary
         {
             try
             {
-                if (!metadataRegionNameCountCache.ContainsKey(metadataBrokerType))
-                    metadataRegionNameCountCache.Add(metadataBrokerType, new Dictionary<StringNullable, int>());
+                lock (metadataRegionNameCountCacheLock)
+                {
+                    if (!metadataRegionNameCountCache.ContainsKey(metadataBrokerType))
+                        metadataRegionNameCountCache.Add(metadataBrokerType, new Dictionary<StringNullable, int>());
 
-                StringNullable nameNullable = new StringNullable(name);
-                if (!metadataRegionNameCountCache[metadataBrokerType].ContainsKey(nameNullable))
-                    metadataRegionNameCountCache[metadataBrokerType].Add(nameNullable, 0);
+                    StringNullable nameNullable = new StringNullable(name);
+                    if (!metadataRegionNameCountCache[metadataBrokerType].ContainsKey(nameNullable))
+                        metadataRegionNameCountCache[metadataBrokerType].Add(nameNullable, 0);
 
-                metadataRegionNameCountCache[metadataBrokerType][nameNullable]++;
+                    metadataRegionNameCountCache[metadataBrokerType][nameNullable]++;
+                }
             }
             catch 
             { 
