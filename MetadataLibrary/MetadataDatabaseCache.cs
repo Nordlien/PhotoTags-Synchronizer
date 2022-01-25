@@ -2499,9 +2499,10 @@ namespace MetadataLibrary
                         metadataRegionNameCountCache[metadataBrokerType] = ListAllPersonalRegionNameCount(metadataBrokerType);
                     }
                 }
-                catch { 
+                catch {
+                    //DEBUG - Fixed Added new Dictionary - avoid update outside
                 }
-                return metadataRegionNameCountCache[metadataBrokerType];
+                return new Dictionary<StringNullable, int>(metadataRegionNameCountCache[metadataBrokerType]);
             }
         }
         #endregion
@@ -2510,11 +2511,16 @@ namespace MetadataLibrary
         public Dictionary<StringNullable, int> MergeRegionNameCount(Dictionary<StringNullable, int> list1, Dictionary<StringNullable, int> list2)
         {
             Dictionary<StringNullable, int> mergedLists = new Dictionary<StringNullable, int>(list1);
-
-            foreach (KeyValuePair<StringNullable, int> keyValuePair in list2)
+            try
             {
-                if (!mergedLists.ContainsKey(keyValuePair.Key)) mergedLists.Add(keyValuePair.Key, keyValuePair.Value);
-                else mergedLists[keyValuePair.Key] += keyValuePair.Value;
+                foreach (KeyValuePair<StringNullable, int> keyValuePair in list2)
+                {
+                    if (!mergedLists.ContainsKey(keyValuePair.Key)) mergedLists.Add(keyValuePair.Key, keyValuePair.Value);
+                    else mergedLists[keyValuePair.Key] += keyValuePair.Value;
+                }
+            }
+            catch { 
+                //DEBUG - List2 was edit outisde, during the foreach
             }
             return mergedLists;
         }
