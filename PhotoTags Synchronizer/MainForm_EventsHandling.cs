@@ -4652,35 +4652,7 @@ namespace PhotoTagsSynchronizer
             {
                 DataGridView dataGridView = dataGridViewMap;
                 DataGridViewHandler.CopySelectedCellFromBrokerToMedia(dataGridView, DataGridViewHandlerMap.headerMedia, DataGridViewHandlerMap.tagMediaCoordinates, true);
-                /*
-                List<int> columnUpdated = new List<int>();
-
-                foreach (DataGridViewCell dataGridViewCell in dataGridView.SelectedCells)
-                {
-                    if (!columnUpdated.Contains(dataGridViewCell.ColumnIndex))
-                    {
-                        DataGridViewGenericColumn gridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, dataGridViewCell.ColumnIndex);
-                        if (gridViewGenericColumn.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite)
-                        {
-                            DataGridViewGenericRow gridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, dataGridViewCell.RowIndex);
-                            //gridViewGenericRow.HeaderName.Equals(DataGridViewHandlerMap.headerMedia) &&
-
-                            if (!gridViewGenericRow.HeaderName.Equals(DataGridViewHandlerMap.headerMedia) &&
-                                gridViewGenericRow.RowName.StartsWith(DataGridViewHandlerMap.tagMediaCoordinates))
-                            {
-                                object cellValue = DataGridViewHandler.GetCellValue(dataGridViewMap, dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex);
-                                if (cellValue != null)
-                                {
-                                    string coordinate = cellValue.ToString();
-                                    //UpdateBrowserMap(coordinate);
-                                    DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, dataGridViewCell.ColumnIndex, LocationCoordinate.Parse(coordinate));
-                                    columnUpdated.Add(dataGridViewCell.ColumnIndex);
-                                }
-                            }
-                        }
-                    }
-                }
-                */
+                
             }
             catch (Exception ex)
             {
