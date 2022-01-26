@@ -757,20 +757,27 @@ namespace MetadataLibrary
             //set => personalTagList = value; 
         }
 
-        public void PersonalKeywordTagsAddIfNotExists(KeywordTag keywordTag, bool caseSencetive = true)
+        public bool PersonalKeywordTagsAddIfNotExists(KeywordTag keywordTag, bool caseSencetive = true)
         {
+            bool keywordWasAdded = false;
             if (!caseSencetive)
             {
                 foreach (KeywordTag keywordTagToCkeck in personalTagList)
                 {
-                    if (string.Equals(keywordTagToCkeck.Keyword, keywordTag.Keyword, StringComparison.OrdinalIgnoreCase)) return;
+                    if (string.Equals(keywordTagToCkeck.Keyword, keywordTag.Keyword, StringComparison.OrdinalIgnoreCase)) return true;
                 }
                 personalTagList.Add(keywordTag);
+                keywordWasAdded = true;
             }
             else
             {
-                if (!personalTagList.Contains(keywordTag)) personalTagList.Add(keywordTag);
+                if (!personalTagList.Contains(keywordTag))
+                {
+                    personalTagList.Add(keywordTag);
+                    keywordWasAdded = true;
+                }
             }
+            return keywordWasAdded;
         }
 
         public void PersonalTagListUpdateImage(RegionStructure updateRegion, Image thumbnail)

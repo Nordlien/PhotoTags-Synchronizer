@@ -406,7 +406,7 @@ namespace PhotoTagsSynchronizer
 
         #region Comments 
         [JsonProperty("TrackChangesInComments")]
-        public bool TrackChangesInComments { get; set; } = true;
+        public bool TrackChangesInComments { get; set; } = false;
         #endregion 
 
         #region Author
@@ -441,7 +441,7 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        #region Congig De- Serialization
+        #region Config De- Serialization
         public string SerializeThis()
         {
             return JsonConvert.SerializeObject(this, Formatting.Indented);
@@ -478,7 +478,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region FixMetadata - Xtra atom 
+        #region FixMetadata - CompatibilityCheckMetadata
         public static void CompatibilityCheckMetadata(ref Metadata metadata)
         {
             if (metadata == null) return;
@@ -486,57 +486,63 @@ namespace PhotoTagsSynchronizer
             try
             {
                 Metadata metadataCopy = new Metadata(metadata);
-                foreach (KeywordTag keywordTag in metadataCopy.PersonalKeywordTags) //Read orginal and change the copy
+                bool changesFound;
+                do
                 {
-                    #region Check Metadata.VariablePersonalKeywordsList() - special escape char used as splitter
-                    char splitChar = ';';
-                    if (!string.IsNullOrWhiteSpace(keywordTag.Keyword) && keywordTag.Keyword.Contains(splitChar.ToString()))
-                    {
-                        string[] keywords = keywordTag.Keyword.Split(splitChar);
-                        foreach (string keyword in keywords)
-                        {
-                            KeywordTag newKeywordTag = new KeywordTag(keyword.Trim(), keywordTag.Confidence);
-                            metadata.PersonalKeywordTagsAddIfNotExists(newKeywordTag);
-                        }
-                    }
-                    #endregion
+                    changesFound = false;
 
-                    #region Check
-                    splitChar = ',';
-                    if (!string.IsNullOrWhiteSpace(keywordTag.Keyword) && keywordTag.Keyword.Contains(splitChar.ToString()))
+                    foreach (KeywordTag keywordTag in metadataCopy.PersonalKeywordTags) //Read orginal and change the copy
                     {
-                        string[] keywords = keywordTag.Keyword.Split(splitChar);
-                        foreach (string keyword in keywords)
+                        #region Check Metadata.VariablePersonalKeywordsList() - special escape char used as splitter
+                        char splitChar = ';';
+                        if (!string.IsNullOrWhiteSpace(keywordTag.Keyword) && keywordTag.Keyword.Contains(splitChar.ToString()))
                         {
-                            KeywordTag newKeywordTag = new KeywordTag(keyword.Trim(), keywordTag.Confidence);
-                            metadata.PersonalKeywordTagsAddIfNotExists(newKeywordTag);
+                            string[] keywords = keywordTag.Keyword.Split(splitChar);
+                            foreach (string keyword in keywords)
+                            {
+                                KeywordTag newKeywordTag = new KeywordTag(keyword.Trim(), keywordTag.Confidence);
+                                if (metadata.PersonalKeywordTagsAddIfNotExists(newKeywordTag)) changesFound = true;
+                            }
                         }
-                    }
-                    #endregion
+                        #endregion
 
-                    #region Check Metadata.VariableKeywordCategories() - special escape char used as splitter
-                    splitChar = '/';
-                    if (!string.IsNullOrWhiteSpace(keywordTag.Keyword) && keywordTag.Keyword.Contains(splitChar.ToString()))
-                    {
-                        string mergedTrimmedKeywords = "";
-                        string[] keywords = keywordTag.Keyword.Split(splitChar);
-                        foreach (string keyword in keywords)
+                        #region Check
+                        splitChar = ',';
+                        if (!string.IsNullOrWhiteSpace(keywordTag.Keyword) && keywordTag.Keyword.Contains(splitChar.ToString()))
                         {
-                            mergedTrimmedKeywords += (string.IsNullOrWhiteSpace(mergedTrimmedKeywords) ? "" : "/") + keyword.Trim();
-                            KeywordTag newKeywordTag = new KeywordTag(keyword.Trim(), keywordTag.Confidence);
-                            metadata.PersonalKeywordTagsAddIfNotExists(newKeywordTag);
+                            string[] keywords = keywordTag.Keyword.Split(splitChar);
+                            foreach (string keyword in keywords)
+                            {
+                                KeywordTag newKeywordTag = new KeywordTag(keyword.Trim(), keywordTag.Confidence);
+                                if (metadata.PersonalKeywordTagsAddIfNotExists(newKeywordTag)) changesFound = true;
+                            }
                         }
-                        KeywordTag mergedTrimmedKeywordTag = new KeywordTag(mergedTrimmedKeywords.Trim(), keywordTag.Confidence);
-                        metadata.PersonalKeywordTagsAddIfNotExists(mergedTrimmedKeywordTag);
+                        #endregion
+
+                        #region Check Metadata.VariableKeywordCategories() - special escape char used as splitter
+                        splitChar = '/';
+                        if (!string.IsNullOrWhiteSpace(keywordTag.Keyword) && keywordTag.Keyword.Contains(splitChar.ToString()))
+                        {
+                            string mergedTrimmedKeywords = "";
+                            string[] keywords = keywordTag.Keyword.Split(splitChar);
+                            foreach (string keyword in keywords)
+                            {
+                                mergedTrimmedKeywords += (string.IsNullOrWhiteSpace(mergedTrimmedKeywords) ? "" : "/") + keyword.Trim();
+                                KeywordTag newKeywordTag = new KeywordTag(keyword.Trim(), keywordTag.Confidence);
+                                if (metadata.PersonalKeywordTagsAddIfNotExists(newKeywordTag)) changesFound = true;
+                            }
+                            KeywordTag mergedTrimmedKeywordTag = new KeywordTag(mergedTrimmedKeywords.Trim(), keywordTag.Confidence);
+                            if (metadata.PersonalKeywordTagsAddIfNotExists(mergedTrimmedKeywordTag)) changesFound = true;
+                        }
+                        #endregion
                     }
-                    #endregion
-                }
+                } while (changesFound);
             }
             catch { }
         }
         #endregion
 
-        #region FixAndSave
+        #region RunAlgorithmReturnCopy
         public Metadata RunAlgorithmReturnCopy(Metadata metadata,
             MetadataDatabaseCache metadataAndCacheMetadataExiftool,
             MetadataDatabaseCache databaseAndCacheMetadataMicrosoftPhotos,
@@ -884,69 +890,43 @@ namespace PhotoTagsSynchronizer
 
             if (TrackChangesInComments)
             {
-                if (newDateTimeFileCreated != metadataCopy?.FileDateCreated)
+                if (newDateTimeFileCreated != metadataCopy?.FileDateCreated || 
+                    metadata?.MediaDateTaken != metadataCopy?.MediaDateTaken ||
+                    metadata?.LocationDateTime != metadataCopy?.LocationDateTime)
                 {
-                    metadataCopy.PersonalComments += (string.IsNullOrEmpty(metadataCopy.PersonalComments) ? "" : " ") + "File Created: " +
-                        "Old: " + (metadata?.FileDateCreated == null ? "(empty)" : TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadata?.FileDateCreated)) + " " +
-                        "New: " + (newDateTimeFileCreated == null ? "(empty)" : TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(newDateTimeFileCreated));
-                }
-
-                if (metadata?.MediaDateTaken != metadataCopy?.MediaDateTaken)
-                {
-                    metadataCopy.PersonalComments += (string.IsNullOrEmpty(metadataCopy.PersonalComments) ? "" : " ") + "DateTaken: " +
-                        "Old: " + (metadata?.MediaDateTaken == null ? "(empty)" : TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadata?.MediaDateTaken)) + " " +
-                        "New: " + (metadataCopy?.MediaDateTaken == null ? "(empty)" : TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadataCopy?.MediaDateTaken)) +
-                        "Source: " + sourceMediaDateTaken;
-
-                    metadataCopy.PersonalComments += (string.IsNullOrEmpty(metadataCopy.PersonalComments) ? "" : " ") +
-                        "Media Taken: " + TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadataCopy?.MediaDateTaken) + " " +
-                        "Smart Date: " + TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadataCopy?.FileSmartDate(allowedDateFormats)) + " " +
-                        "File Date create: " + TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadataCopy?.FileDateCreated) + " " +
-                        "File Date Modified: " + TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadataCopy?.FileDateModified) + " " +
-                        "File Name: " + metadataCopy?.FileName;
-
-                    if (dateTimeGPSLocal != null)
-                        metadataCopy.PersonalComments += (string.IsNullOrEmpty(metadataCopy.PersonalComments) ? "" : " ") + 
-                            "GPS Date Time Local: " + TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(dateTimeGPSLocal);
-
-                    FileDateTimeReader fileDateTimeReader1 = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
-                    List<DateTime> datesInFilename = fileDateTimeReader1.ListAllDateTimes(Path.GetFileNameWithoutExtension(metadataCopy?.FileName));
-                    foreach (DateTime dateInFilename in datesInFilename)
-                    {
-                        metadataCopy.PersonalComments += (string.IsNullOrEmpty(metadataCopy.PersonalComments) ? "" : " ") +
-                            "Date in filename: " + TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(dateInFilename);
-                    }
-
-
-                }
-
-                if (metadata?.LocationDateTime != metadataCopy?.LocationDateTime)
-                {
-                    metadataCopy.PersonalComments += (string.IsNullOrEmpty(metadataCopy.PersonalComments) ? "" : " ") + "UTC date and time: " +
-                        "Old: " + (metadata?.LocationDateTime == null ? "(empty)" : TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadata?.LocationDateTime)) + " " +
-                        "New: " + (metadataCopy?.LocationDateTime == null ? "(empty)" : TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadataCopy?.LocationDateTime));
+                    metadataCopy.PersonalComments = 
+                        "Source: " + sourceMediaDateTaken + " " +
+                        "Date: " +
+                        TimeZoneLibrary.ToStringW3CDTF_UTC(metadataCopy?.FileSmartDate(allowedDateFormats)) + " vs " +
+                        TimeZoneLibrary.ToStringW3CDTF_UTC(metadata?.FileSmartDate(allowedDateFormats)) + " " +
+                        "Taken: " +
+                        (metadata?.MediaDateTaken == null ? "(empty)" : TimeZoneLibrary.ToStringW3CDTF_UTC(metadata?.MediaDateTaken)) + " vs " +
+                        (metadataCopy?.MediaDateTaken == null ? "(empty)" : TimeZoneLibrary.ToStringW3CDTF_UTC(metadataCopy?.MediaDateTaken)) + " " +
+                        "GPS: " +
+                        (metadata?.LocationDateTime == null ? "(empty)" : TimeZoneLibrary.ToStringW3CDTF_UTC(metadata?.LocationDateTime)) + " vs " +
+                        (metadataCopy?.LocationDateTime == null ? "(empty)" : TimeZoneLibrary.ToStringW3CDTF_UTC(metadataCopy?.LocationDateTime));
                 }
             }
             #endregion
 
             #region Backup/TrackChanges In keywords
-            if (BackupFileCreatedBeforeUpdate && metadata?.FileDateCreated != null)
-                metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag("File created: " + TimeZone.TimeZoneLibrary.ToStringSortable(metadata?.FileDateCreated)));
+            if (BackupFileCreatedBeforeUpdate && metadata?.FileDateCreated != null && metadata?.FileDateCreated != metadataCopy?.FileDateCreated)
+                metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag("File created: " + TimeZoneLibrary.ToStringSortable(metadata?.FileDateCreated) + " before update"));
 
-            if (BackupDateTakenBeforeUpdate && metadata?.MediaDateTaken != null)
-                metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag("Media taken: " + TimeZone.TimeZoneLibrary.ToStringSortable(metadata?.MediaDateTaken)));
+            if (BackupDateTakenBeforeUpdate && metadata?.MediaDateTaken != null && metadata?.MediaDateTaken != metadataCopy?.MediaDateTaken)
+                metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag("Media taken: " + TimeZoneLibrary.ToStringSortable(metadata?.MediaDateTaken) + " before update"));
 
-            if (BackupGPGDateTimeUTCBeforeUpdate && metadata?.LocationDateTime != null)
-                metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag("UTC time: " + TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadata?.LocationDateTime)));
+            if (BackupGPGDateTimeUTCBeforeUpdate && metadata?.LocationDateTime != null && metadata?.LocationDateTime != metadataCopy?.LocationDateTime)
+                metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag("UTC time: " + TimeZoneLibrary.ToStringW3CDTF_UTC(metadata?.LocationDateTime) + " before update"));
 
-            if (BackupFileCreatedAfterUpdate && metadataCopy?.FileDateCreated != null)
-                metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag("File created: " + TimeZone.TimeZoneLibrary.ToStringSortable(metadataCopy?.FileDateCreated)));
+            if (BackupFileCreatedAfterUpdate && metadataCopy?.FileDateCreated != null && metadata?.FileDateCreated != metadataCopy?.FileDateCreated)
+                metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag("File created: " + TimeZoneLibrary.ToStringSortable(metadataCopy?.FileDateCreated) + " after update"));
 
-            if (BackupDateTakenAfterUpdate && metadataCopy?.MediaDateTaken != null)
-                metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag("Media taken: " + TimeZone.TimeZoneLibrary.ToStringSortable(metadataCopy?.MediaDateTaken)));
+            if (BackupDateTakenAfterUpdate && metadataCopy?.MediaDateTaken != null && metadata?.MediaDateTaken != metadataCopy?.MediaDateTaken)
+                metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag("Media taken: " + TimeZoneLibrary.ToStringSortable(metadataCopy?.MediaDateTaken) + " after update"));
 
-            if (BackupGPGDateTimeUTCAfterUpdate && metadataCopy?.LocationDateTime != null)
-                metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag("UTC time: " + TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadataCopy?.LocationDateTime)));
+            if (BackupGPGDateTimeUTCAfterUpdate && metadataCopy?.LocationDateTime != null && metadata?.LocationDateTime != metadataCopy?.LocationDateTime)
+                metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag("UTC time: " + TimeZoneLibrary.ToStringW3CDTF_UTC(metadataCopy?.LocationDateTime) + " after update"));
             #endregion
 
             #region Backup Region Face Names
