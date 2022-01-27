@@ -914,12 +914,15 @@ namespace MetadataLibrary
         public void RandomThumbnailCacheUpdate(string name, Image image)
         {
             if (name == null) return;
-            if (randomThumbnailCache.ContainsKey(name)) { if (image != null) randomThumbnailCache[name] = image; }
+            if (randomThumbnailCache.ContainsKey(name)) 
+            { 
+                if (image != null) randomThumbnailCache[name] = CropImageInsideCircle32x32(image); 
+            }
             else randomThumbnailCache.Add(name, image);
         }
         #endregion  
 
-        public Image CropImage(Image img)
+        public Image CropImageInsideCircle32x32(Image img)
         {
             int x = img.Width / 2;
             int y = img.Height / 2;
@@ -953,7 +956,6 @@ namespace MetadataLibrary
                 if (image == null) image = ReadRandomThumbnailFromDatabase(name); //Rename
                 if (image != null)
                 {
-                    image = CropImage(image);
                     RandomThumbnailCacheUpdate(name, image);
                 }
             }
