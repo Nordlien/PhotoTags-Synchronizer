@@ -39,6 +39,9 @@ namespace PhotoTagsSynchronizer
 
         private static readonly Object _ThreadLazyLoadingMediaThumbnailLock = new Object();
         private static Thread _ThreadLazyLoadingMediaThumbnail = null; //
+
+        private static readonly Object _ThreadLazyLoadingMapNomnatatimLock = new Object();
+        private static Thread _ThreadLazyLoadingMapNomnatatim = null; //
         #endregion 
 
         #region Read From Source
@@ -76,6 +79,9 @@ namespace PhotoTagsSynchronizer
 
         private static List<FileEntryAttribute> commonQueueLazyLoadingMediaThumbnail = new List<FileEntryAttribute>();
         private static readonly Object commonQueueLazyLoadingThumbnailLock = new Object();
+
+        private static List<FileEntryAttribute> commonLazyLoadingMapNomnatatim = new List<FileEntryAttribute>();
+        private static readonly Object commonLazyLoadingMapNomnatatimLock = new Object();
         #endregion
 
         #region Read from source
@@ -131,6 +137,23 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Get Count of items in Queue with Lock
+        private int CommonQueueLazyLoadingMapNomnatatimLock()
+        {
+            lock (commonLazyLoadingMapNomnatatimLock) return commonLazyLoadingMapNomnatatim.Count;
+        }
+
+        private int CommonQueueLazyLoadingMapNomnatatimDirty()
+        {
+            try
+            {
+                return commonLazyLoadingMapNomnatatim.Count;
+            } catch
+            {
+                return 0;
+            }
+        }
+
+
         /// <summary>
         /// Get Count of items in Queue 
         /// </summary>
@@ -309,6 +332,7 @@ namespace PhotoTagsSynchronizer
             ThreadRenameMediaFiles();
             ThreadLazyLoadingAllSourcesMetadataAndRegionThumbnails();
             ThreadLazyLoadingMediaThumbnail();
+            ThreadQueueLazyLoadingMapNomnatatim();
         }
 
         /// <summary>
@@ -3063,9 +3087,118 @@ namespace PhotoTagsSynchronizer
             
             
         }
-        #endregion 
+        #endregion
 
         #endregion
 
+        #region MapNomnatatim
+        
+        #region MapNomnatatim - LazyLoading - Add Read Queue
+        public void AddQueueLazyLoadingMapNomnatatimLock(FileEntryAttribute fileEntryAttribute)
+        {
+            //Need to add to the end, due due read queue read potion [0] end delete after, not thread safe
+            lock (commonLazyLoadingMapNomnatatimLock)
+            {
+                if (!commonLazyLoadingMapNomnatatim.Contains(fileEntryAttribute)) commonLazyLoadingMapNomnatatim.Add(fileEntryAttribute);
+            }
+        }
+        #endregion
+
+        #region Media Thumbnail - LazyLoading - Add Read Queue
+        public void AddQueueLazyLoadingMapNomnatatimLock(List<FileEntryAttribute> fileEntryAttributes)
+        {
+            if (fileEntryAttributes == null) return;
+            lock (commonLazyLoadingMapNomnatatimLock)
+            {
+                foreach (FileEntryAttribute fileEntryAttribute in fileEntryAttributes)
+                {
+                    if (!commonLazyLoadingMapNomnatatim.Contains(fileEntryAttribute)) commonLazyLoadingMapNomnatatim.Add(fileEntryAttribute);
+                }
+            }
+        }
+        #endregion
+
+        #region MapNomnatatim - LazyLoading - Thread 
+        //private static readonly Object _ThreadLazyLoadingMapNomnatatimLock = new Object();
+        //private static Thread _ThreadLazyLoadingMapNomnatatim = null; //
+        public void ThreadQueueLazyLoadingMapNomnatatim()
+        {
+            if (!DataGridViewHandler.GetIsAgregated(dataGridViewMap)) return;
+            if (DataGridViewHandler.GetIsPopulating(dataGridViewMap)) return;
+            try
+            {
+                lock (_ThreadLazyLoadingMapNomnatatimLock) if (_ThreadLazyLoadingMapNomnatatim != null ||
+                        CommonQueueLazyLoadingMapNomnatatimDirty() <= 0) return;
+
+                lock (_ThreadLazyLoadingMapNomnatatimLock)
+                {
+                    _ThreadLazyLoadingMapNomnatatim = new Thread(() =>
+                    {
+                        #region
+                        try
+                        {
+                            Logger.Trace("ThreadQueueLazyLoadingMapNomnatatim - started");
+                            int count = CommonQueueLazyLoadingMapNomnatatimLock();
+                            while (CommonQueueLazyLoadingMapNomnatatimLock() > 0 && !GlobalData.IsApplicationClosing)
+                            {
+                                count--;
+
+                                #region Do the work
+                                while (!GlobalData.IsApplicationClosing && CommonQueueLazyLoadingMapNomnatatimLock() > 0) //In case some more added to the queue
+                                {
+                                    bool isPopulated = false;
+                                    FileEntryAttribute fileEntryAttribute;
+                                    lock (commonLazyLoadingMapNomnatatimLock) fileEntryAttribute = new FileEntryAttribute(commonLazyLoadingMapNomnatatim[0]);
+
+                                    int columnIndex = DataGridViewHandler.GetColumnIndexWhenAddColumn(dataGridViewMap, fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionCompare);
+                                    if (columnIndex != -1)
+                                    {
+                                        isPopulated = DataGridViewHandler.IsColumnPopulated(dataGridViewMap, columnIndex);
+                                        if (isPopulated) DataGridView_Populate_MapLocation(fileEntryAttribute);
+                                    }
+                                    
+                                    lock (commonLazyLoadingMapNomnatatimLock) if (commonLazyLoadingMapNomnatatim.Count > 0) commonLazyLoadingMapNomnatatim.RemoveAt(0); //Remove from queue after read. Otherwise wrong text in status bar
+
+                                    if (!isPopulated) AddQueueLazyLoadingMapNomnatatimLock(fileEntryAttribute);
+                                }
+                                #endregion
+                            }
+
+                            if (GlobalData.IsApplicationClosing) lock (commonQueueReadMetadataFromSourceMicrosoftPhotosLock) commonQueueReadMetadataFromSourceMicrosoftPhotos.Clear();
+
+                            TriggerAutoResetEventQueueEmpty();
+                        }
+                        catch (Exception ex)
+                        {
+                            KryptonMessageBox.Show("ThreadQueueLazyLoadingMapNomnatatim crashed.", "ThreadQueueLazyLoadingMapNomnatatim failed", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                            Logger.Error(ex, "ThreadQueueLazyLoadingMapNomnatatim failed");
+                        }
+                        finally
+                        {
+                            lock (_ThreadLazyLoadingMapNomnatatimLock) _ThreadLazyLoadingMapNomnatatim = null;
+                            Logger.Trace("ThreadQueueLazyLoadingMapNomnatatim - ended");
+                        }
+                        #endregion
+
+                    });
+
+                    lock (_ThreadLazyLoadingMapNomnatatimLock) if (_ThreadLazyLoadingMapNomnatatim != null)
+                    {
+                        _ThreadLazyLoadingMapNomnatatim.Priority = threadPriority;
+                        _ThreadLazyLoadingMapNomnatatim.Start();
+                    }
+                    else Logger.Error("_ThreadLazyLoadingMapNomnatatim was not able to start");
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "_ThreadLazyLoadingMapNomnatatim.Start failed. ");
+            }
+
+        }
+        #endregion
+
+
+        #endregion
     }
 }

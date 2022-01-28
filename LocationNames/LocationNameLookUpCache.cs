@@ -1,7 +1,5 @@
-﻿using Nominatim.API.Address;
-using Nominatim.API.Geocoders;
+﻿using Nominatim.API.Geocoders;
 using Nominatim.API.Models;
-//using Mono.Data.Sqlite;
 using SqliteDatabase;
 using System;
 using System.Collections.Generic;
@@ -32,11 +30,16 @@ namespace LocationNames
             return locationNameCache.FindNewLocation();
         }
 
-        public LocationCoordinateAndDescription AddressLookup(LocationCoordinate locationCoordinate, float locationAccuracyLatitude, float locationAccuracyLongitude)
-        {
-            LocationNameDatabase locationNameCache = new LocationNameDatabase(dbTools);
 
-            LocationCoordinateAndDescription locationCoordinateAndDescription = locationNameCache.ReadLocationName(locationCoordinate, locationAccuracyLatitude, locationAccuracyLongitude);
+        
+
+        public LocationCoordinateAndDescription AddressLookup(LocationCoordinate locationCoordinate, float locationAccuracyLatitude, float locationAccuracyLongitude, bool onlyFromCache)
+        {
+            LocationNameDatabase locationNameDatabase = new LocationNameDatabase(dbTools);
+
+            if (onlyFromCache && !locationNameDatabase.LocationCoordinateAndDescriptionExsistInCache(locationCoordinate)) return null;
+
+            LocationCoordinateAndDescription locationCoordinateAndDescription = locationNameDatabase.ReadLocationNameFromDatabaseOrCache(locationCoordinate, locationAccuracyLatitude, locationAccuracyLongitude);
             if (locationCoordinateAndDescription != null) return locationCoordinateAndDescription;
 
             try
@@ -71,9 +74,9 @@ namespace LocationNames
                     locationCoordinateAndDescription.Description.City = string.IsNullOrEmpty(locationCoordinateAndDescription.Description.City) ? null : locationCoordinateAndDescription.Description.City;
                     locationCoordinateAndDescription.Description.Country = string.IsNullOrEmpty(locationCoordinateAndDescription.Description.Country) ? null : locationCoordinateAndDescription.Description.Country;
 
-                    locationNameCache.TransactionBeginBatch();
-                    locationNameCache.WriteLocationName(locationCoordinateAndDescription);
-                    locationNameCache.TransactionCommitBatch();
+                    locationNameDatabase.TransactionBeginBatch();
+                    locationNameDatabase.WriteLocationName(locationCoordinateAndDescription);
+                    locationNameDatabase.TransactionCommitBatch();
                     return locationCoordinateAndDescription;
 
                 }
@@ -89,6 +92,7 @@ namespace LocationNames
             
         }
 
+        #region DeleteLocation
         public void DeleteLocation(LocationCoordinate locationCoordinate)
         {
             LocationNameDatabase locationNameCache = new LocationNameDatabase(dbTools);
@@ -96,7 +100,9 @@ namespace LocationNames
             locationNameCache.DeleteLocationName(locationCoordinate);
             locationNameCache.TransactionCommitBatch();
         }
+        #endregion
 
+        #region AddressUpdate
         public void AddressUpdate(LocationCoordinateAndDescription locationCoordinateAndDescription)
         {
             LocationNameDatabase locationNameCache = new LocationNameDatabase(dbTools);
@@ -104,16 +110,19 @@ namespace LocationNames
             locationNameCache.UpdateLocationName(locationCoordinateAndDescription);
             locationNameCache.TransactionCommitBatch();
         }
+        #endregion
 
-        public void AddressLookupNearestAndUpdate(LocationCoordinateAndDescription locationCoordinateAndDescription, float locationAccuracyLatitude, float locationAccuracyLongitude)
+        #region AddressLookupNearestAndUpdate
+        public void AddressLookupNearestAndUpdate(LocationCoordinateAndDescription locationCoordinateAndDescription, float locationAccuracyLatitude, float locationAccuracyLongitude, bool onlyFromCache)
         {
-            LocationCoordinateAndDescription locationCoordinateAndDescriptionLookupNearest = AddressLookup(locationCoordinateAndDescription.Coordinate, locationAccuracyLatitude, locationAccuracyLongitude);
+            LocationCoordinateAndDescription locationCoordinateAndDescriptionLookupNearest = 
+                AddressLookup(locationCoordinateAndDescription.Coordinate, locationAccuracyLatitude, locationAccuracyLongitude, onlyFromCache);
             if (locationCoordinateAndDescriptionLookupNearest != null)
             {
                 locationCoordinateAndDescription.Coordinate = locationCoordinateAndDescriptionLookupNearest.Coordinate;
             }
             AddressUpdate(locationCoordinateAndDescription);
         }
-
+        #endregion
     }
 }

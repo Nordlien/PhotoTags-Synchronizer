@@ -786,7 +786,7 @@ namespace PhotoTagsSynchronizer
                     string.IsNullOrWhiteSpace(metadataCopy?.LocationCity) ||
                     string.IsNullOrWhiteSpace(metadataCopy?.LocationCountry))
                 {
-                    LocationCoordinateAndDescription locationData = locationNameLookUpCache.AddressLookup(metadataCopy?.LocationCoordinate, locationAccuracyLatitude, locationAccuracyLongitude);
+                    LocationCoordinateAndDescription locationData = locationNameLookUpCache.AddressLookup(metadataCopy?.LocationCoordinate, locationAccuracyLatitude, locationAccuracyLongitude, false);
                     if (locationData != null)
                     {
                         if (!UpdateLocationOnlyWhenEmpty || string.IsNullOrWhiteSpace(metadataCopy?.LocationName))

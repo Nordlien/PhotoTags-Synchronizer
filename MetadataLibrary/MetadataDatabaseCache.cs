@@ -1552,8 +1552,6 @@ namespace MetadataLibrary
         }
         #endregion
 
-        
-
         #region WebScraping
         public const string WebScapingFolderName = "WebScraper";
         private static List<DateTime> webScrapingPackageDates = null;
@@ -2246,34 +2244,6 @@ namespace MetadataLibrary
             return listing;
         }
         #endregion
-
-        //#region ListAllPersonalAuthors()
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        ///// <param name="metadataBrokerType"></param>
-        ///// <returns></returns>
-        //public List<string> ListAllPersonalAuthors(MetadataBrokerType metadataBrokerType)
-        //{
-
-        //    List<string> listing = new List<string>();
-
-        //    string sqlCommand =
-        //        "SELECT DISTINCT PersonalAuthor FROM MediaMetadata WHERE Broker = @Broker";
-
-        //    using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
-        //    {
-        //        //commandDatabase.Prepare();
-        //        commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
-                
-        //        using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
-        //        {
-        //            while (reader.Read()) listing.Add(dbTools.ConvertFromDBValString(reader["PersonalAuthor"]));
-        //        }
-        //    }
-        //    return listing;
-        //}
-        //#endregion
 
         #region ListAllLocationNames()
         private List<string> locationNamesCache = null;

@@ -396,7 +396,7 @@ namespace PhotoTagsSynchronizer
 
             AddQueueLazyLoadningAllSourcesMetadataAndRegionThumbnailsLock(lazyLoadingAllExiftoolVersionOfMediaFile);
             AddQueueLazyLoadningMediaThumbnailLock(lazyLoadingAllExiftoolVersionOfMediaFile);
-
+            AddQueueLazyLoadingMapNomnatatimLock(lazyLoadingAllExiftoolVersionOfMediaFile);
             StartThreads();
         }
         #endregion 
@@ -443,6 +443,27 @@ namespace PhotoTagsSynchronizer
 
         }
         #endregion
+
+        private void DataGridView_Populate_MapLocation(FileEntryAttribute fileEntryAttribute)
+        {
+            if (this.InvokeRequired)
+            {
+                BeginInvoke(new Action<FileEntryAttribute>(DataGridView_Populate_MapLocation), fileEntryAttribute);
+                return;
+            }
+            DataGridView dataGridView = dataGridViewMap;
+
+            if (GlobalData.IsApplicationClosing) return;
+            if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return;
+            if (DataGridViewHandler.GetIsPopulating(dataGridView)) return;
+
+            int columnIndex = DataGridViewHandler.GetColumnIndexWhenAddColumn(dataGridView, fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionCompare);
+            if (columnIndex != -1)
+            {
+                LocationNames.LocationCoordinate locationCoordinate = DataGridViewHandlerMap.GetUserInputLocationCoordinate(dataGridView, columnIndex, fileEntryAttribute);
+                DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, columnIndex, locationCoordinate, false);
+            }
+        }
 
         #region DataGridView - Populate Selected Files - OnActiveDataGridView - Invoke 
         /// <summary>

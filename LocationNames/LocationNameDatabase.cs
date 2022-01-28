@@ -10,6 +10,7 @@ using System.Data.SQLite;
 #endif
 
 using SqliteDatabase;
+using System;
 using System.Collections.Generic;
 
 namespace LocationNames
@@ -53,6 +54,7 @@ namespace LocationNames
                 commandDatabase.Parameters.AddWithValue("@Province", locationCoordinateAndDescription.Description.Region);
                 commandDatabase.Parameters.AddWithValue("@Country", locationCoordinateAndDescription.Description.Country);
                 commandDatabase.ExecuteNonQuery();      // Execute the query
+                LocationCoordinateAndDescriptionUpdate(locationCoordinateAndDescription.Coordinate, locationCoordinateAndDescription.Description);
             }
         }
         #endregion 
@@ -67,6 +69,7 @@ namespace LocationNames
                 commandDatabase.Parameters.AddWithValue("@Latitude", locationCoordinate.Latitude);
                 commandDatabase.Parameters.AddWithValue("@Longitude", locationCoordinate.Longitude);
                 commandDatabase.ExecuteNonQuery();      // Execute the query
+                LocationCoordinateAndDescriptionDelete(locationCoordinate);
             }
         }
         #endregion 
@@ -97,9 +100,16 @@ namespace LocationNames
                 commandDatabase.Parameters.AddWithValue("@Province", locationCoordinateAndDescription.Description.Region);
                 commandDatabase.Parameters.AddWithValue("@Country", locationCoordinateAndDescription.Description.Country);
                 commandDatabase.ExecuteNonQuery();      // Execute the query
+                LocationCoordinateAndDescriptionUpdate(locationCoordinateAndDescription.Coordinate, locationCoordinateAndDescription.Description);
             }
         }
         #endregion 
+
+        public LocationCoordinateAndDescription ReadLocationNameFromDatabaseOrCache(LocationCoordinate locationCoordinate, float locationAccuracyLatitude, float locationAccuracyLongitude)
+        {
+            if (LocationCoordinateAndDescriptionExsistInCache(locationCoordinate)) return LocationCoordinateAndDescriptionReadFromCache(locationCoordinate);
+            return ReadLocationName(locationCoordinate, locationAccuracyLatitude, locationAccuracyLongitude);
+        }
 
         #region ReadLocationName
         public LocationCoordinateAndDescription ReadLocationName(LocationCoordinate locationCoordinate, float locationAccuracyLatitude, float locationAccuracyLongitude)
@@ -135,6 +145,7 @@ namespace LocationNames
                         locationCoordinateAndDescription.Description.Region = string.IsNullOrEmpty(locationCoordinateAndDescription.Description.Region) ? null : locationCoordinateAndDescription.Description.Region;
                         locationCoordinateAndDescription.Description.City = string.IsNullOrEmpty(locationCoordinateAndDescription.Description.City) ? null : locationCoordinateAndDescription.Description.City;
                         locationCoordinateAndDescription.Description.Country = string.IsNullOrEmpty(locationCoordinateAndDescription.Description.Country) ? null : locationCoordinateAndDescription.Description.Country;
+                        LocationCoordinateAndDescriptionUpdate(locationCoordinateAndDescription.Coordinate, locationCoordinateAndDescription.Description);
                     }
                 }
             }
@@ -223,6 +234,52 @@ namespace LocationNames
         }
         #endregion 
 
+        private static Dictionary<LocationCoordinate, LocationDescription> locationCoordinateAndDescriptionCache = new Dictionary<LocationCoordinate, LocationDescription>();
+        private static readonly Object locationCoordinateAndDescriptionCacheLock = new Object();
+
+        #region Cache AddressLookup - Updated    
+        private void LocationCoordinateAndDescriptionUpdate(LocationCoordinate locationCoordinate, LocationDescription locationDescription)
+        {
+            lock (locationCoordinateAndDescriptionCacheLock)
+            {
+                if (locationCoordinateAndDescriptionCache.ContainsKey(locationCoordinate))
+                    locationCoordinateAndDescriptionCache[locationCoordinate] = locationDescription;
+                else
+                    locationCoordinateAndDescriptionCache.Add(locationCoordinate, locationDescription);
+            }
+        }
+        #endregion
+
+        #region Cache AddressLookup - Delete from Cache 
+        private void LocationCoordinateAndDescriptionDelete(LocationCoordinate locationCoordinate)
+        {
+            lock (locationCoordinateAndDescriptionCacheLock)
+            {
+                if (locationCoordinateAndDescriptionCache.ContainsKey(locationCoordinate)) locationCoordinateAndDescriptionCache.Remove(locationCoordinate);
+            }
+        }
+        #endregion
+
+        #region Cache AddressLookup - Read from Cache 
+        private LocationCoordinateAndDescription LocationCoordinateAndDescriptionReadFromCache(LocationCoordinate locationCoordinate)
+        {
+            lock (locationCoordinateAndDescriptionCacheLock)
+            {
+                if (locationCoordinateAndDescriptionCache.ContainsKey(locationCoordinate)) return new LocationCoordinateAndDescription(locationCoordinate, locationCoordinateAndDescriptionCache[locationCoordinate]);
+            }
+            return null;
+        }
+        #endregion
+
+        #region Cache AddressLookup - Exisit in Cache    
+        public bool LocationCoordinateAndDescriptionExsistInCache(LocationCoordinate locationCoordinate)
+        {
+            lock (locationCoordinateAndDescriptionCacheLock)
+            {
+                return locationCoordinateAndDescriptionCache.ContainsKey(locationCoordinate);
+            }
+        }
+        #endregion
     }
 
 

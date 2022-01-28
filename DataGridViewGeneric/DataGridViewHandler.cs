@@ -1174,6 +1174,7 @@ namespace DataGridViewGeneric
         }
 
         private static Dictionary<FileEntryAttribute, int> columnIndexCachePriorities = new Dictionary<FileEntryAttribute, int>();
+        private static object columnIndexCachePrioritiesLock = new object();
         public static int GetColumnIndexPriorities(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute2, out FileEntryVersionCompare fileEntryVersionPriorityReason, bool checkIsAgregated = true)
         {
             if (!checkIsAgregated || GetIsAgregated(dataGridView)) //Don't check checkIsAgregated when create new columns
@@ -1184,21 +1185,23 @@ namespace DataGridViewGeneric
 
                 int startColumn = 0;
                 #region Cache logic
-                if (columnIndexCachePriorities.ContainsKey(fileEntryAttributeSearch))
+                lock (columnIndexCachePrioritiesLock)
                 {
-                    int columnIndex = columnIndexCachePriorities[fileEntryAttributeSearch];
-
-                    DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-                    if (dataGridViewGenericColumn != null)
+                    if (columnIndexCachePriorities.ContainsKey(fileEntryAttributeSearch))
                     {
-                        FileEntryAttribute fileEntryAttributeCompare = new FileEntryAttribute(dataGridViewGenericColumn.FileEntryAttribute.FileEntry,
-                        FileEntryVersionHandler.ConvertCurrentErrorHistorical(dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion));
-                        if (fileEntryAttributeCompare == fileEntryAttributeSearch) 
-                            startColumn = columnIndex; //It's still same file in column, (means not column has been added in front)
-                        else
-                            columnIndexCachePriorities.Clear(); //It's a diffrent file, means a column has been added in front, need rebuid cache
+                        int columnIndex = columnIndexCachePriorities[fileEntryAttributeSearch];
+
+                        DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+                        if (dataGridViewGenericColumn != null)
+                        {
+                            FileEntryAttribute fileEntryAttributeCompare = new FileEntryAttribute(dataGridViewGenericColumn.FileEntryAttribute.FileEntry,
+                            FileEntryVersionHandler.ConvertCurrentErrorHistorical(dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion));
+                            if (fileEntryAttributeCompare == fileEntryAttributeSearch)
+                                startColumn = columnIndex; //It's still same file in column, (means not column has been added in front)
+                            else
+                                columnIndexCachePriorities.Clear(); //It's a diffrent file, means a column has been added in front, need rebuid cache
+                        }
                     }
-                    
                 }
                 #endregion
 
@@ -1211,7 +1214,10 @@ namespace DataGridViewGeneric
                         FileEntryAttribute fileEntryAttributeCache = new FileEntryAttribute(dataGridViewGenericColumn.FileEntryAttribute.FileEntry,
                             FileEntryVersionHandler.ConvertCurrentErrorHistorical(dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion));
 
-                        if (!columnIndexCachePriorities.ContainsKey(fileEntryAttributeCache)) columnIndexCachePriorities.Add(fileEntryAttributeCache, columnIndex);
+                        lock (columnIndexCachePrioritiesLock)
+                        {
+                            if (!columnIndexCachePriorities.ContainsKey(fileEntryAttributeCache)) columnIndexCachePriorities.Add(fileEntryAttributeCache, columnIndex);
+                        }
 
                         fileEntryVersionPriorityReason = FileEntryVersionHandler.CompareFileEntryAttribute(dataGridViewGenericColumn.FileEntryAttribute, fileEntryAttribute2);
                         switch (fileEntryVersionPriorityReason)

@@ -192,7 +192,6 @@ namespace PhotoTagsSynchronizer
                 if (locationCoordinate != null)
                 {
                     locationCoordinateRememberForZooming = new LocationCoordinate(locationCoordinate.Latitude, locationCoordinate.Longitude);
-
                     ShowMediaOnMap.UpdateBrowserMap(browser, locationCoordinate, GetZoomLevel(), mapProvider);
                 }
             }
@@ -425,7 +424,7 @@ namespace PhotoTagsSynchronizer
             {
                 string coordinate = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridViewMap, e.ColumnIndex, e.RowIndex);
                 UpdateBrowserMap(coordinate, GetMapProvider());
-                DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, e.ColumnIndex, LocationCoordinate.Parse(coordinate));
+                DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, e.ColumnIndex, LocationCoordinate.Parse(coordinate), false);
                 DataGridViewHandlerDate.PopulateTimeZone(dataGridViewDate, null, dataGridViewGenericColumn.FileEntryAttribute);
             }
 
@@ -496,7 +495,7 @@ namespace PhotoTagsSynchronizer
                                 (string)DataGridViewHandler.GetCellValue(dataGridView, e.ColumnIndex, DataGridViewHandlerMap.headerNominatim, DataGridViewHandlerMap.tagProvince), //State
                                 (string)DataGridViewHandler.GetCellValue(dataGridView, e.ColumnIndex, DataGridViewHandlerMap.headerNominatim, DataGridViewHandlerMap.tagCountry)) //Country
                             ),
-                            locationAccuracyLatitude, locationAccuracyLongitude
+                            locationAccuracyLatitude, locationAccuracyLongitude, false
                         );
                     databaseUtilitiesSqliteMetadata.TransactionCommit(commonDatabaseTransaction);
 
@@ -504,7 +503,7 @@ namespace PhotoTagsSynchronizer
                     {
                         string locationCoordinateString = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridViewMap, columnIndex, DataGridViewHandlerMap.headerMedia, DataGridViewHandlerMap.tagMediaCoordinates);
                         LocationCoordinate locationCoordinate = LocationCoordinate.Parse(locationCoordinateString);
-                        DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, columnIndex, locationCoordinate);
+                        DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, columnIndex, locationCoordinate, false);
                     }
                 }
             }
@@ -536,7 +535,7 @@ namespace PhotoTagsSynchronizer
             foreach (int columnIndex in selectedColumns)
             {
                 string coordinate = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridViewMap, columnIndex, rowIndex);
-                DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, columnIndex, LocationCoordinate.Parse(coordinate));
+                DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, columnIndex, LocationCoordinate.Parse(coordinate), false);
             }
             isDataGridViewMaps_CellValueChanging = false;
         }

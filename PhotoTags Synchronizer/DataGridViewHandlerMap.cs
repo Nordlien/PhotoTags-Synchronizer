@@ -2,14 +2,12 @@
 using DataGridViewGeneric;
 using GoogleLocationHistory;
 using LocationNames;
-using Manina.Windows.Forms;
 using MetadataLibrary;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using Thumbnails;
-using static Manina.Windows.Forms.ImageListView;
 using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
@@ -282,14 +280,18 @@ namespace PhotoTagsSynchronizer
             if (locationCoordinate != null) DatabaseAndCacheLocationAddress.DeleteLocation(locationCoordinate);
         }
 
-        public static void PopulateGrivViewMapNomnatatim(DataGridView dataGridView, int columnIndex, LocationCoordinate locationCoordinate)
+        public static void PopulateGrivViewMapNomnatatim(DataGridView dataGridView, int columnIndex, LocationCoordinate locationCoordinate, bool onlyFromCache)
         {
             LocationCoordinateAndDescription locationCoordinateAndDescription = null;
 
             float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
             float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
 
-            if (locationCoordinate != null) locationCoordinateAndDescription = DatabaseAndCacheLocationAddress.AddressLookup(locationCoordinate, locationAccuracyLatitude, locationAccuracyLongitude);
+            
+            if (locationCoordinate != null) 
+                locationCoordinateAndDescription = DatabaseAndCacheLocationAddress.AddressLookup(
+                    locationCoordinate, locationAccuracyLatitude, locationAccuracyLongitude, onlyFromCache);
+
             bool isReadOnly = (locationCoordinateAndDescription == null);
             //isReadOnly = false;
             AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNominatim, tagLocationName, ReadWriteAccess.AllowCellReadAndWrite), 
@@ -385,7 +387,7 @@ namespace PhotoTagsSynchronizer
 
                 //Nominatim.API
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNominatim));
-                PopulateGrivViewMapNomnatatim(dataGridView, columnIndex, metadataExiftool?.LocationCoordinate);
+                PopulateGrivViewMapNomnatatim(dataGridView, columnIndex, metadataExiftool?.LocationCoordinate, true);
 
                 //WebScraper
                 //headerWebScraping = "WebScraper";
