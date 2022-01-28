@@ -85,8 +85,8 @@ namespace PhotoTagsSynchronizer
         {
             if (writeToDatabase)
             {
-                ExiftoolData exiftoolDataOld = new ExiftoolData(fileName, fileDirectory, fileDateModified, oldRegion, oldCommand, oldParameter);
-                ExiftoolData exiftoolDataNew = new ExiftoolData(fileName, fileDirectory, fileDateModified, newRegion, newCommand, newParameter);
+                ExiftoolData exiftoolDataOld = new ExiftoolData(fileName, fileDirectory, fileDateModified, oldRegion, oldCommand, oldParameter, null);
+                ExiftoolData exiftoolDataNew = new ExiftoolData(fileName, fileDirectory, fileDateModified, newRegion, newCommand, newParameter, null);
                 databaseExiftoolWarning.Write(exiftoolDataOld, exiftoolDataNew, warning);
             }
 

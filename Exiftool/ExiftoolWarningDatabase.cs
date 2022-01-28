@@ -49,14 +49,14 @@ namespace Exiftool
                             (DateTime)dbTools.ConvertFromDBValDateTimeLocal(reader["FileDateModified"]),
                             dbTools.ConvertFromDBValString(reader["OldRegion"]),
                             dbTools.ConvertFromDBValString(reader["OldCommand"]),
-                            dbTools.ConvertFromDBValString(reader["OldParameter"]));
+                            dbTools.ConvertFromDBValString(reader["OldParameter"]), null);
                         exifToolWarningData.NewExiftoolData = new ExiftoolData(
                             dbTools.ConvertFromDBValString(reader["FileName"]),
                             dbTools.ConvertFromDBValString(reader["FileDirectory"]),
                             (DateTime)dbTools.ConvertFromDBValDateTimeLocal(reader["FileDateModified"]),
                             dbTools.ConvertFromDBValString(reader["NewRegion"]),
                             dbTools.ConvertFromDBValString(reader["NewCommand"]),
-                            dbTools.ConvertFromDBValString(reader["NewParameter"]));
+                            dbTools.ConvertFromDBValString(reader["NewParameter"]), null);
                         exifToolWarningData.WarningMessage = dbTools.ConvertFromDBValString(reader["Warning"]);
                         exifToolDataList.Add(exifToolWarningData);
                     }

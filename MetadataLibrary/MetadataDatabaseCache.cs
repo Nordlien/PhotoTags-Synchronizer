@@ -1032,6 +1032,13 @@ namespace MetadataLibrary
                 else commandDatabase.Parameters.AddWithValue("@Thumbnail", dbTools.ImageToByteArray(regionStructure.Thumbnail));
 
                 AddPersonalRegionNameCache(metadata.Broker, regionStructure.Name);
+                if (regionStructure.Thumbnail.Height == 1 || regionStructure.Thumbnail.Width == 1)
+                {
+                    //DEBUG WHY
+
+                    regionStructure.Thumbnail = null;
+                }
+
                 RandomThumbnailCacheUpdate(regionStructure.Name, regionStructure.Thumbnail);
 
                 commandDatabase.ExecuteNonQuery();
@@ -2469,9 +2476,9 @@ namespace MetadataLibrary
                 lock (metadataRegionNameCountCacheLock)
                 {
                     if (metadataRegionNameCountCache == null)
-                        metadataRegionNameCountCache = new Dictionary<MetadataBrokerType, Dictionary<StringNullable, int>>(); //It should already been created, why isn'y
+                        metadataRegionNameCountCache = new Dictionary<MetadataBrokerType, Dictionary<StringNullable, int>>(); //DEBUG It should already been created, why isn'y
                     if (!metadataRegionNameCountCache.ContainsKey(metadataBrokerType))
-                        metadataRegionNameCountCache.Add(metadataBrokerType, new Dictionary<StringNullable, int>()); //It should already been created, why isn'y
+                        metadataRegionNameCountCache.Add(metadataBrokerType, new Dictionary<StringNullable, int>()); 
 
                     StringNullable stringNullableName = new StringNullable(name);
                     if (!metadataRegionNameCountCache[metadataBrokerType].ContainsKey(stringNullableName))
@@ -2484,7 +2491,9 @@ namespace MetadataLibrary
                     }
                 }
             }
-            catch { 
+            catch (Exception ex) 
+            {
+                Logger.Error(ex);
             }
 
         }
@@ -2597,8 +2606,6 @@ namespace MetadataLibrary
             catch 
             { 
             }
-            //Dictionary<MetadataBrokerType, Dictionary<StringNullable, int>> metadataRegionNameCountCache = null;
-            //Dictionary<StringNullable, int>
         }
         #endregion
 

@@ -2356,7 +2356,7 @@ namespace PhotoTagsSynchronizer
                                                         try
                                                         {
                                                             databaseAndCacheThumbnail.TransactionBeginBatch();                                                            
-                                                            RegionThumbnailHandler.SaveThumbnailsForRegionList_AlsoWebScarper(databaseAndCacheMetadataExiftool, checkAgaistAll_MetadataActiveAlreadyCopy, image);                                                            
+                                                            RegionThumbnailHandler.SaveThumbnailsForRegionList_AlsoWebScarper(databaseAndCacheMetadataExiftool, checkAgaistAll_MetadataActiveAlreadyCopy, new Bitmap(image));                                                            
                                                             databaseAndCacheThumbnail.TransactionCommitBatch();
                                                         }
                                                         catch (Exception ex)

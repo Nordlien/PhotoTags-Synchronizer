@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Exiftool
 {
 
-    public struct ExiftoolData
+    public class ExiftoolData
     {
         public string FileName { get; set; }
         public string FileDirectory { get; set; }
@@ -12,7 +12,31 @@ namespace Exiftool
         public string Region { get; set; }
         public string Command { get; set; }
         public string Parameter { get; set; }
-        public string FullFilePath { get { return System.IO.Path.Combine(FileDirectory, FileName); } } 
+        public string FullFilePath { get { return System.IO.Path.Combine(FileDirectory, FileName); } }
+        public bool HasValueSet { get; set; }
+        private object tristateValue;
+
+        public object TristateValue
+        {
+            get { return tristateValue; }
+            set
+            {
+                tristateValue = value;
+                HasValueSet = true;
+            }
+        }
+
+        public ExiftoolData()
+        {
+            this.FileName = null;
+            this.FileDirectory = null;
+            this.FileDateModified = DateTime.MinValue;
+            this.Region = null;
+            this.Command = null;
+            this.Parameter = null;
+            this.TristateValue = null;
+            this.HasValueSet = false; 
+        }
 
         public ExiftoolData(ExiftoolData exifToolData)
         {
@@ -22,9 +46,23 @@ namespace Exiftool
             this.Region = exifToolData.Region;
             this.Command = exifToolData.Command;
             this.Parameter = exifToolData.Parameter;
+            this.TristateValue = exifToolData.TristateValue;
+            this.HasValueSet = exifToolData.HasValueSet;
         }
 
-        public ExiftoolData(string fileName, string fileDirectory, DateTime fileDateModified, string region, string command, string parameter)
+        public ExiftoolData(ExiftoolData exifToolData, object newTristateValue, bool hasValueSet)
+        {
+            this.FileName = exifToolData.FileName;
+            this.FileDirectory = exifToolData.FileDirectory;
+            this.FileDateModified = exifToolData.FileDateModified;
+            this.Region = exifToolData.Region;
+            this.Command = exifToolData.Command;
+            this.Parameter = exifToolData.Parameter;
+            this.TristateValue = newTristateValue;
+            this.HasValueSet = hasValueSet;
+        }
+
+        public ExiftoolData(string fileName, string fileDirectory, DateTime fileDateModified, string region, string command, string parameter, object tristateValue)
         {
             this.FileName = fileName;
             this.FileDirectory = fileDirectory;
@@ -32,6 +70,7 @@ namespace Exiftool
             this.Region = region;
             this.Command = command;
             this.Parameter = parameter;
+            this.TristateValue = tristateValue;
         }
 
         public override bool Equals(object obj)

@@ -862,16 +862,49 @@ namespace PhotoTagsSynchronizer
             try
             {
                 FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(metadataFixedAndCorrected.FileEntry, FileEntryVersion.AutoCorrect);
-                int columnIndex = DataGridViewHandler.GetColumnIndexWhenAddColumn(GetAnyAgregatedDataGridView(), fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionCompare);
-                if (DataGridViewHandler.IsColumnPopulated(dataGridViewTagsAndKeywords, columnIndex))
-                    DataGridViewHandler.SetColumnHeaderMetadata(dataGridViewTagsAndKeywords, metadataFixedAndCorrected, columnIndex);
-                if (DataGridViewHandler.IsColumnPopulated(dataGridViewPeople, columnIndex))
-                    DataGridViewHandler.SetColumnHeaderMetadata(dataGridViewPeople, metadataFixedAndCorrected, columnIndex);
-                if (DataGridViewHandler.IsColumnPopulated(dataGridViewMap, columnIndex))
-                    DataGridViewHandler.SetColumnHeaderMetadata(dataGridViewMap, metadataFixedAndCorrected, columnIndex);
-                if (DataGridViewHandler.IsColumnPopulated(dataGridViewDate, columnIndex))
-                    DataGridViewHandler.SetColumnHeaderMetadata(dataGridViewDate, metadataFixedAndCorrected, columnIndex);                    
-                
+
+                int debugColumn = -1;
+                int columnIndexTagsAndKeywords = DataGridViewHandler.GetColumnIndexWhenAddColumn(dataGridViewConvertAndMerge, fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionCompareTagsAndKeywords);
+                if (DataGridViewHandler.IsColumnPopulated(dataGridViewTagsAndKeywords, columnIndexTagsAndKeywords))
+                    DataGridViewHandler.SetColumnHeaderMetadata(dataGridViewTagsAndKeywords, metadataFixedAndCorrected, columnIndexTagsAndKeywords);
+
+                if (columnIndexTagsAndKeywords != -1) debugColumn = columnIndexTagsAndKeywords;
+                if (debugColumn != -1 && columnIndexTagsAndKeywords != -1 && debugColumn != columnIndexTagsAndKeywords)
+                {
+                    //DEBUG
+                    Logger.Warn("Column updated between user action and thread");
+                }
+
+                int columnIndexPeople = DataGridViewHandler.GetColumnIndexWhenAddColumn(dataGridViewPeople, fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionComparePeople);
+                if (DataGridViewHandler.IsColumnPopulated(dataGridViewPeople, columnIndexPeople))
+                    DataGridViewHandler.SetColumnHeaderMetadata(dataGridViewPeople, metadataFixedAndCorrected, columnIndexPeople);
+                if (columnIndexPeople != -1) debugColumn = columnIndexPeople;
+                if (debugColumn != -1 && columnIndexPeople != -1 && debugColumn != columnIndexPeople)
+                {
+                    //DEBUG
+                    Logger.Warn("Column updated between user action and thread");
+                }
+
+                int columnIndexMap = DataGridViewHandler.GetColumnIndexWhenAddColumn(dataGridViewMap, fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionCompareMap);
+                if (DataGridViewHandler.IsColumnPopulated(dataGridViewMap, columnIndexMap))
+                    DataGridViewHandler.SetColumnHeaderMetadata(dataGridViewMap, metadataFixedAndCorrected, columnIndexMap);
+                if (columnIndexMap != -1) debugColumn = columnIndexMap;
+                if (debugColumn != -1 && columnIndexMap != -1 && debugColumn != columnIndexMap)
+                {
+                    //DEBUG
+                    Logger.Warn("Column updated between user action and thread");
+                }
+
+                int columnIndexDate = DataGridViewHandler.GetColumnIndexWhenAddColumn(dataGridViewDate, fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionCompareDate);
+                if (DataGridViewHandler.IsColumnPopulated(dataGridViewDate, columnIndexDate))
+                    DataGridViewHandler.SetColumnHeaderMetadata(dataGridViewDate, metadataFixedAndCorrected, columnIndexDate);
+                if (columnIndexDate != -1) debugColumn = columnIndexDate;
+                if (debugColumn != -1 && columnIndexDate != -1 && debugColumn != columnIndexDate)
+                {
+                    //DEBUG 
+                    Logger.Warn("Column updated between user action and thread");
+                }
+
             }
             catch (Exception ex)
             {
