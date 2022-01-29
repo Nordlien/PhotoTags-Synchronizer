@@ -96,13 +96,6 @@ namespace PhotoTagsSynchronizer
                                 fileMetadata.FileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.FileInaccessibleOrError; //Error Metadata found
 
                             foundItem.UpdateDetails(fileMetadata);
-                        } else if (foundItem.DateModified == fileEntryAttribute.LastWriteDateTime)
-                        {
-                            //DEBUG
-                        }
-                        else
-                        {
-                            //DEBUG - Don't updated older
                         }
                     }
                 }

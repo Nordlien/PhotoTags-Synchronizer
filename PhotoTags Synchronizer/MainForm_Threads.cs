@@ -3139,7 +3139,7 @@ namespace PhotoTagsSynchronizer
                         {
                             Logger.Trace("ThreadQueueLazyLoadingMapNomnatatim - started");
                             int count = CommonQueueLazyLoadingMapNomnatatimLock();
-                            while (CommonQueueLazyLoadingMapNomnatatimLock() > 0 && !GlobalData.IsApplicationClosing)
+                            while (count > 0 && !GlobalData.IsApplicationClosing)
                             {
                                 count--;
 
@@ -3159,7 +3159,8 @@ namespace PhotoTagsSynchronizer
                                     
                                     lock (commonLazyLoadingMapNomnatatimLock) if (commonLazyLoadingMapNomnatatim.Count > 0) commonLazyLoadingMapNomnatatim.RemoveAt(0); //Remove from queue after read. Otherwise wrong text in status bar
 
-                                    if (!isPopulated) AddQueueLazyLoadingMapNomnatatimLock(fileEntryAttribute);
+                                    if (!isPopulated && fileEntryVersionCompare != FileEntryVersionCompare.LostNoneEqualFound) 
+                                        AddQueueLazyLoadingMapNomnatatimLock(fileEntryAttribute);
                                 }
                                 #endregion
                             }
