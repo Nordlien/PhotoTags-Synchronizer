@@ -103,13 +103,15 @@ namespace LocationNames
                 LocationCoordinateAndDescriptionUpdate(locationCoordinateAndDescription.Coordinate, locationCoordinateAndDescription.Description);
             }
         }
-        #endregion 
+        #endregion
 
+        #region ReadLocationNameFromDatabaseOrCache
         public LocationCoordinateAndDescription ReadLocationNameFromDatabaseOrCache(LocationCoordinate locationCoordinate, float locationAccuracyLatitude, float locationAccuracyLongitude)
         {
             if (LocationCoordinateAndDescriptionExsistInCache(locationCoordinate)) return LocationCoordinateAndDescriptionReadFromCache(locationCoordinate);
             return ReadLocationName(locationCoordinate, locationAccuracyLatitude, locationAccuracyLongitude);
         }
+        #endregion
 
         #region ReadLocationName
         public LocationCoordinateAndDescription ReadLocationName(LocationCoordinate locationCoordinate, float locationAccuracyLatitude, float locationAccuracyLongitude)
