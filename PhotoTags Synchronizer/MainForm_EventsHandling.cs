@@ -8916,7 +8916,11 @@ namespace PhotoTagsSynchronizer
         private string StatusActionText
         {
             get { return kryptonRibbonGroupLabelToolsCurrentActions.TextLine1; }
-            set { kryptonRibbonGroupLabelToolsCurrentActions.TextLine1 = value; Application.DoEvents(); }
+            set { 
+                kryptonRibbonGroupLabelToolsCurrentActions.TextLine1 = value;
+                toolStripStatusLabelStatusAction.Text = value;
+                Application.DoEvents(); 
+            }
         }
         #endregion
 
