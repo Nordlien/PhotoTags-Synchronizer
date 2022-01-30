@@ -706,7 +706,8 @@ namespace Exiftool
                                     return;
                                 }
                             }
-                            catch {
+                            catch //Crash often due debug, due to timeout
+                            {
                                 return;
                             }
 
@@ -1646,7 +1647,7 @@ namespace Exiftool
 
                                         String[] coordinates = exifToolData.Parameter.Split(' ');
 
-                                        if (isGPSLatitudeRef != LocationTristate.NotSet && isGPSLongitudeRef != LocationTristate.NotSet)
+                                        //if (isGPSLatitudeRef != LocationTristate.NotSet && isGPSLongitudeRef != LocationTristate.NotSet)
                                         {
                                             #region Latitude
                                             ExiftoolData tempExiftoolDataNewLatitude = new ExiftoolData(exifToolData, metadata.LocationLatitude, true);
@@ -1673,7 +1674,8 @@ namespace Exiftool
                                             metadata.LocationLongitude = newLocationLongitude;
                                             oldExifToolGPSLongitude = new ExiftoolData(tempExiftoolDataNewLongitude, metadata.LocationLongitude, true);
                                             #endregion
-                                        } else
+                                        }
+                                        if (isGPSLatitudeRef == LocationTristate.NotSet && isGPSLongitudeRef == LocationTristate.NotSet)
                                         {
                                             //DEBUG
                                             //Exiftool has changed behaviour
@@ -1703,9 +1705,15 @@ namespace Exiftool
                         #region process.ErrorDataReceived
                         process.ErrorDataReceived += new DataReceivedEventHandler((sender, e) =>
                         {
-                            if (e.Data == null)
+                            try
                             {
-                                errorWaitHandle.Set();
+                                if (e.Data == null)
+                                {
+                                    errorWaitHandle.Set();
+                                    return;
+                                }
+                            } catch //Crash often when debug, due to timeout
+                            {
                                 return;
                             }
                             // Prepend line numbers to each line of the output.

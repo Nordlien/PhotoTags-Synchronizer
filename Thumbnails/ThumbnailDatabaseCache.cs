@@ -13,7 +13,6 @@ using System.IO;
 using MetadataLibrary;
 using System.Collections.Generic;
 using System;
-using System.Drawing.Drawing2D;
 
 namespace Thumbnails
 {

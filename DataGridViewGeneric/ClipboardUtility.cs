@@ -339,7 +339,10 @@ namespace DataGridViewGeneric
                     Clipboard.SetText(clipboardText);
                 }
                 TextBox textBox = dataGridView.EditingControl as TextBox;
-                if (textBox != null) textBox.Paste();
+                if (textBox != null)
+                {
+                    textBox.Paste();
+                }
                 return; //Can return - don't need push to stach, Edit cell did push to stacj
             }
             #endregion 

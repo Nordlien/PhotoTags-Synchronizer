@@ -248,7 +248,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-
         #region DataGridView - Populate - FileEntryAttribute -> PopulateDataGridViewForSelectedItemsExtrasDelayed();
         private void DataGridView_Populate_FileEntryAttribute(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, string tabTag, Metadata metadataAutoCorrect = null)
         {
@@ -444,6 +443,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region DataGridView - Populate - MapLocation
         private void DataGridView_Populate_MapLocation(FileEntryAttribute fileEntryAttribute)
         {
             if (this.InvokeRequired)
@@ -464,6 +464,7 @@ namespace PhotoTagsSynchronizer
                 DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, columnIndex, locationCoordinate, false);
             }
         }
+        #endregion
 
         #region DataGridView - Populate Selected Files - OnActiveDataGridView - Invoke 
         /// <summary>

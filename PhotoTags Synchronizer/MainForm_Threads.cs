@@ -2178,7 +2178,10 @@ namespace PhotoTagsSynchronizer
                                 {
                                     FileEntryBroker current_FileEntryBrokerRegion;
 
-                                    lock (commonQueueSaveToDatabaseRegionAndThumbnailLock) { current_FileEntryBrokerRegion = new FileEntryBroker(commonQueueSaveToDatabaseRegionAndThumbnail[indexSource].FileEntryBroker); }
+                                    lock (commonQueueSaveToDatabaseRegionAndThumbnailLock) 
+                                    { 
+                                        current_FileEntryBrokerRegion = new FileEntryBroker(commonQueueSaveToDatabaseRegionAndThumbnail[indexSource].FileEntryBroker); 
+                                    }
 
                                     int fileIndexFound; //Loop all files and check more version of the file
                                     bool fileFoundInQueue_NeedCheckForMoreWithSameFilename; //Due to remove item, need loop queue once more
@@ -2211,7 +2214,13 @@ namespace PhotoTagsSynchronizer
                                                 fileFoundInList = true;
                                                 fileFoundInQueue_NeedCheckForMoreWithSameFilename = true;
 
-                                                if (checkAgaistAll_MetadataActiveAlreadyCopy.PersonalRegionList.Count == 0)
+                                                int coundMissingRegionThumbnails = 0;
+                                                foreach (RegionStructure regionStructureCheckForThumbnails in checkAgaistAll_MetadataActiveAlreadyCopy.PersonalRegionList)
+                                                {
+                                                    if (regionStructureCheckForThumbnails.Thumbnail == null) coundMissingRegionThumbnails++;
+                                                }
+
+                                                if (coundMissingRegionThumbnails == 0)
                                                 {
                                                     #region When Face Regions not exists - (Remove from queue)
                                                     fileNeedRemoveFromList = true; //No regions to create, remove from queue
@@ -2219,6 +2228,8 @@ namespace PhotoTagsSynchronizer
                                                 }
                                                 else
                                                 {
+                                                    #region Load Poser when Allowed and from fastest access
+
                                                     #region When Face Regions exists - Load cached poster (Remove from queue - when found poster thumbnail)
                                                     if (onlyDoWhatIsInCacheToAvoidHarddriveOverload)
                                                     {
@@ -2251,7 +2262,16 @@ namespace PhotoTagsSynchronizer
                                                             #endregion
 
                                                             #region If only Full size Thumbnails, try load Poster Thumbnail
-                                                            if (isFullSizeThumbnail) image = databaseAndCacheThumbnail.ReadThumbnailFromCacheOrDatabase(current_FileEntryBrokerRegion);
+                                                            if (isFullSizeThumbnail)
+                                                            {
+                                                                image = databaseAndCacheThumbnail.ReadThumbnailFromCacheOrDatabase(current_FileEntryBrokerRegion);
+
+                                                                if (image == null)
+                                                                {
+                                                                    FileStatus fileStatus = FileHandler.GetFileStatus(current_FileEntryBrokerRegion.FileFullPath);
+                                                                    image = LoadMediaCoverArtThumbnail(current_FileEntryBrokerRegion.FileFullPath, ThumbnailSaveSize, fileStatus);
+                                                                }
+                                                            }
                                                             #endregion
 
                                                             #region Load Poster, or trigger Image Download
@@ -2263,13 +2283,22 @@ namespace PhotoTagsSynchronizer
                                                                 {
                                                                     FileStatus fileStatus = FileHandler.GetFileStatus(current_FileEntryBrokerRegion.FileFullPath);
                                                                     if (!fileStatus.IsInCloudOrVirtualOrOffline)
+                                                                    {
                                                                         image = LoadMediaCoverArtPosterWithCache(current_FileEntryBrokerRegion.FileFullPath);
+                                                                    }
                                                                     else if (fileStatus.IsInCloudOrVirtualOrOffline && !dontReadFilesInCloud) //Allow download from cloud
                                                                     {
-                                                                        //if (!FileHandler.IsOfflineFileTouchedAndWithoutTimeout(current_FileEntryBrokerRegion.FileFullPath))
                                                                         FileHandler.TouchOfflineFileToGetFileOnline(current_FileEntryBrokerRegion.FileFullPath);
                                                                     }
-
+                                                                    else
+                                                                    {
+                                                                        //If all other fails, use Fallback on thumbnail
+                                                                        if (current_FileEntryBrokerRegion.Broker != MetadataBrokerType.ExifTool)
+                                                                        {
+                                                                            image = databaseAndCacheThumbnail.ReadThumbnailFromCacheOrDatabase(current_FileEntryBrokerRegion);
+                                                                            if (image == null) image = LoadMediaCoverArtThumbnail(current_FileEntryBrokerRegion.FileFullPath, ThumbnailSaveSize, fileStatus);
+                                                                        }
+                                                                    }
                                                                 }
                                                             }
                                                             catch (Exception ex)
@@ -2318,7 +2347,8 @@ namespace PhotoTagsSynchronizer
                                                                     ImageListView_UpdateItemFileStatusInvoke(current_FileEntryBrokerRegion.FileFullPath, fileStatus);
 
                                                                     string writeErrorDesciption =
-                                                                        "Issue: Failed loading poster for mediafile. Was not able to update thumbnail for region for the file.\r\n" +
+                                                                        "Issue: Failed loading poster for mediafile. " +
+                                                                        "Was not able to update " + current_FileEntryBrokerRegion.Broker + " thumbnail for region(s) for the media file.\r\n" +
                                                                         "File Name:   " + current_FileEntryBrokerRegion.FileFullPath + "\r\n" +
                                                                         "File Status: " + FileHandler.ConvertFileStatusToText(fileStatus) + "\r\n" +
                                                                         "Error Message: " + exceptionError;
@@ -2338,7 +2368,7 @@ namespace PhotoTagsSynchronizer
                                                         }
                                                         else
                                                         {
-                                                            #region File not exist or not correct WrittenDate - Error handling (Remove from queue)
+                                                            #region Error handling (Remove from queue)
                                                             fileNeedRemoveFromList = true; //File not exist, remove frome list
                                                             FileStatus fileStatus = FileHandler.GetFileStatus(
                                                                     current_FileEntryBrokerRegion.FileFullPath, checkLockedStatus: true,
@@ -2347,10 +2377,11 @@ namespace PhotoTagsSynchronizer
                                                             else if (fileStatus.FileInaccessibleOrError) fileStatus.FileErrorMessage = "Loading Media Poster failed.";
                                                             ImageListView_UpdateItemFileStatusInvoke(current_FileEntryBrokerRegion.FileFullPath, fileStatus);
 
-                                                            if (image == null)
-                                                                image = databaseAndCacheThumbnail.ReadThumbnailFromCacheOrDatabase(current_FileEntryBrokerRegion);
-                                                            if (image != null)
-                                                                fileStatus.FileErrorMessage += " Creating Poster Thumbnail from Media thumbnail, with low resolution.";
+                                                            #region Fallback on Low resolution
+                                                            if (image == null) image = databaseAndCacheThumbnail.ReadThumbnailFromCacheOrDatabase(current_FileEntryBrokerRegion);
+                                                            if (image == null) image = LoadMediaCoverArtThumbnail(current_FileEntryBrokerRegion.FileFullPath, ThumbnailSaveSize, fileStatus);
+                                                            if (image != null) fileStatus.FileErrorMessage += " Creating Poster Region Thumbnails for " + current_FileEntryBrokerRegion.Broker + " from Media file, with low resolution.";
+                                                            #endregion
 
                                                             string errorDesciption =
                                                                 "Issue: Can't create thumbnails for regions.\r\n" +
@@ -2370,7 +2401,9 @@ namespace PhotoTagsSynchronizer
                                                             #endregion
                                                         }
                                                     }
-                                                    #endregion 
+                                                    #endregion
+                                                    
+                                                    #endregion
 
                                                     #region Image found - Save it - and update data grid (Remove from queue)
                                                     if (image != null) //Save regions when have image poster 

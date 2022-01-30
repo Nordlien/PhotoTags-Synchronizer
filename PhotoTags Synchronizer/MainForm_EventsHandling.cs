@@ -852,6 +852,7 @@ namespace PhotoTagsSynchronizer
                 GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
                 ClipboardUtility.PasteDataGridViewSelectedCellsFromClipboard(dataGridView);
                 DataGridViewHandler.Refresh(dataGridView);
+                //dataGridView.BeginEdit(true);
             }
             catch (Exception ex)
             {

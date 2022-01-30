@@ -1041,7 +1041,7 @@ namespace MetadataLibrary
 
                 RandomThumbnailCacheUpdate(regionStructure.Name, regionStructure.Thumbnail);
 
-                commandDatabase.ExecuteNonQuery();
+                int affectCount = commandDatabase.ExecuteNonQuery();
             }
         }
         #endregion
