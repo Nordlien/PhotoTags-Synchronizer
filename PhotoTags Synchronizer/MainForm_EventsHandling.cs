@@ -244,9 +244,10 @@ namespace PhotoTagsSynchronizer
             {
                 if (!dataGridView.Enabled) return;
                 GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
-                ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, true);
-                ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
-                DataGridViewHandler.Refresh(dataGridView);
+                ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, true, out bool textBoxSelectionCanRestore, out int textBoxSelectionStart, out int textBoxSelectionLength);
+                ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView, out textBoxSelectionCanRestore, out textBoxSelectionStart, out textBoxSelectionLength);
+                if (!textBoxSelectionCanRestore) DataGridViewHandler.Refresh(dataGridView);
+                ClipboardUtility.DataGridViewRestoreEditMode(dataGridView, textBoxSelectionCanRestore, textBoxSelectionStart, textBoxSelectionLength);
                 GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
             }
             catch (Exception ex)
@@ -345,10 +346,11 @@ namespace PhotoTagsSynchronizer
                 if (!dataGridView.Enabled) return;
                 GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
 
-                ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, true);
-                ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
+                ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, true, out bool textBoxSelectionCanRestore, out int textBoxSelectionStart, out int textBoxSelectionLength);
+                ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView, out textBoxSelectionCanRestore, out textBoxSelectionStart, out textBoxSelectionLength);
                 ValitedatePastePeople(dataGridView, DataGridViewHandlerPeople.headerPeople);
-                DataGridViewHandler.Refresh(dataGridView);
+                if (!textBoxSelectionCanRestore) DataGridViewHandler.Refresh(dataGridView);
+                ClipboardUtility.DataGridViewRestoreEditMode(dataGridView, textBoxSelectionCanRestore, textBoxSelectionStart, textBoxSelectionLength);
                 GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
             }
             catch (Exception ex)
@@ -404,12 +406,14 @@ namespace PhotoTagsSynchronizer
 
                 string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
 
-                ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, true);
+                ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, true, out bool textBoxSelectionCanRestore, out int textBoxSelectionStart, out int textBoxSelectionLength);
                 ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView, 0, dataGridView.Columns.Count - 1,
                     DataGridViewHandler.GetRowHeadingIndex(dataGridView, header),
-                    DataGridViewHandler.GetRowHeaderItemsEnds(dataGridView, header), true);
-                ValitedatePasteKeywords(dataGridView, header);
-                DataGridViewHandler.Refresh(dataGridView);
+                    DataGridViewHandler.GetRowHeaderItemsEnds(dataGridView, header), true, 
+                    out textBoxSelectionCanRestore, out textBoxSelectionStart, out textBoxSelectionLength);
+                if (!textBoxSelectionCanRestore) ValitedatePasteKeywords(dataGridView, header);
+                if (!textBoxSelectionCanRestore) DataGridViewHandler.Refresh(dataGridView);
+                ClipboardUtility.DataGridViewRestoreEditMode(dataGridView, textBoxSelectionCanRestore, textBoxSelectionStart, textBoxSelectionLength);
             }
             catch (Exception ex)
             {
@@ -552,8 +556,9 @@ namespace PhotoTagsSynchronizer
             try
             {
                 if (!dataGridView.Enabled) return;
-                ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, false);
-                DataGridViewHandler.Refresh(dataGridView);
+                ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, false, out bool textBoxSelectionCanRestore, out int textBoxSelectionStart, out int textBoxSelectionLength);
+                if (!textBoxSelectionCanRestore) DataGridViewHandler.Refresh(dataGridView);
+                ClipboardUtility.DataGridViewRestoreEditMode(dataGridView, textBoxSelectionCanRestore, textBoxSelectionStart, textBoxSelectionLength);
             }
             catch (Exception ex)
             {
@@ -850,9 +855,9 @@ namespace PhotoTagsSynchronizer
             try
             {
                 GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
-                ClipboardUtility.PasteDataGridViewSelectedCellsFromClipboard(dataGridView);
-                DataGridViewHandler.Refresh(dataGridView);
-                //dataGridView.BeginEdit(true);
+                ClipboardUtility.PasteDataGridViewSelectedCellsFromClipboard(dataGridView, out bool textBoxSelectionCanRestore, out int textBoxSelectionStart, out int textBoxSelectionLength);
+                if (!textBoxSelectionCanRestore) DataGridViewHandler.Refresh(dataGridView);
+                ClipboardUtility.DataGridViewRestoreEditMode(dataGridView, textBoxSelectionCanRestore, textBoxSelectionStart, textBoxSelectionLength);
             }
             catch (Exception ex)
             {
@@ -954,9 +959,12 @@ namespace PhotoTagsSynchronizer
             try
             {
                 GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
-                ClipboardUtility.PasteDataGridViewSelectedCellsFromClipboard(dataGridView, -1, -1, -1, -1, false);
+                ClipboardUtility.PasteDataGridViewSelectedCellsFromClipboard(dataGridView, -1, -1, -1, -1, false, 
+                    out bool textBoxSelectionCanRestore, out int textBoxSelectionStart, out int textBoxSelectionLength);
                 ValitedatePastePeople(dataGridView, DataGridViewHandlerPeople.headerPeople);
-                DataGridViewHandler.Refresh(dataGridView);
+                if (!textBoxSelectionCanRestore) DataGridViewHandler.Refresh(dataGridView);
+                ClipboardUtility.DataGridViewRestoreEditMode(dataGridView, textBoxSelectionCanRestore, textBoxSelectionStart, textBoxSelectionLength);
+
             }
             catch (Exception ex)
             {
@@ -1039,12 +1047,16 @@ namespace PhotoTagsSynchronizer
 
                         string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
 
+                        //DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, true);
                         ClipboardUtility.PasteDataGridViewSelectedCellsFromClipboard(
                             dataGridView, 0, dataGridView.Columns.Count - 1,
                             DataGridViewHandler.GetRowHeadingIndex(dataGridView, header),
-                            DataGridViewHandler.GetRowHeaderItemsEnds(dataGridView, header), true);
-                        ValitedatePasteKeywords(dataGridView, header);
-                        DataGridViewHandler.Refresh(dataGridView);
+                            DataGridViewHandler.GetRowHeaderItemsEnds(dataGridView, header), true,
+                            out bool textBoxSelectionCanRestore, out int textBoxSelectionStart, out int textBoxSelectionLength);
+                        if (!textBoxSelectionCanRestore) ValitedatePasteKeywords(dataGridView, header);
+                        if (!textBoxSelectionCanRestore) DataGridViewHandler.Refresh(dataGridView);
+                        ClipboardUtility.DataGridViewRestoreEditMode(dataGridView, textBoxSelectionCanRestore, textBoxSelectionStart, textBoxSelectionLength);
+                        //DataGridViewHandler.ResumeLayoutDelayed(dataGridView);
                     }
                     catch (Exception ex)
                     {
@@ -1262,8 +1274,9 @@ namespace PhotoTagsSynchronizer
             try
             {
                 GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
-                ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
-                DataGridViewHandler.Refresh(dataGridView);
+                ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView, out bool textBoxSelectionCanRestore, out int textBoxSelectionStart, out int textBoxSelectionLength);
+                if (!textBoxSelectionCanRestore) DataGridViewHandler.Refresh(dataGridView);
+                ClipboardUtility.DataGridViewRestoreEditMode(dataGridView, textBoxSelectionCanRestore, textBoxSelectionStart, textBoxSelectionLength);
             }
             catch (Exception ex)
             {
@@ -1366,8 +1379,9 @@ namespace PhotoTagsSynchronizer
             {
                 GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
 
-                ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
-                DataGridViewHandler.Refresh(dataGridView);
+                ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView, out bool textBoxSelectionCanRestore, out int textBoxSelectionStart, out int textBoxSelectionLength);
+                if (!textBoxSelectionCanRestore) DataGridViewHandler.Refresh(dataGridView);
+                ClipboardUtility.DataGridViewRestoreEditMode(dataGridView, textBoxSelectionCanRestore, textBoxSelectionStart, textBoxSelectionLength);
             }
             catch (Exception ex)
             {
@@ -1426,9 +1440,11 @@ namespace PhotoTagsSynchronizer
 
                 ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView, 0, dataGridView.Columns.Count - 1,
                     DataGridViewHandler.GetRowHeadingIndex(dataGridView, header),
-                    DataGridViewHandler.GetRowHeaderItemsEnds(dataGridView, header), true);
+                    DataGridViewHandler.GetRowHeaderItemsEnds(dataGridView, header), true,
+                    out bool textBoxSelectionCanRestore, out int textBoxSelectionStart, out int textBoxSelectionLength);
                 ValitedatePasteKeywords(dataGridView, header);
-                DataGridViewHandler.Refresh(dataGridView);
+                if (!textBoxSelectionCanRestore) DataGridViewHandler.Refresh(dataGridView);
+                ClipboardUtility.DataGridViewRestoreEditMode(dataGridView, textBoxSelectionCanRestore, textBoxSelectionStart, textBoxSelectionLength);
             }
             catch (Exception ex)
             {

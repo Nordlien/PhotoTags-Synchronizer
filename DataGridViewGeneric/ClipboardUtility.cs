@@ -182,9 +182,49 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-        #region CopyDataGridViewSelectedCellsToClipboard
-        public static void CopyDataGridViewSelectedCellsToClipboard(DataGridView dataGridView, bool doCut)
+        #region TextBoxGetSelction
+        public static void TextBoxGetSelction(TextBox textBox, out bool textBoxSelectionCanRestore, out int textBoxSelectionStart, out int textBoxSelectionLength)
         {
+
+            if (textBox != null)
+            {
+                textBoxSelectionStart = textBox.SelectionStart;
+                textBoxSelectionLength = textBox.SelectionLength;
+                textBoxSelectionCanRestore = true;
+            } else
+            {
+                textBoxSelectionStart = 0;
+                textBoxSelectionLength = 0;
+                textBoxSelectionCanRestore = false;
+            }
+        }
+        #endregion
+
+        #region DataGridViewRestoreEditMode
+        public static void DataGridViewRestoreEditMode(DataGridView dataGridView, bool textBoxSelectionCanRestore, int textBoxSelectionStart, int textBoxSelectionLength)
+        {
+            if (textBoxSelectionCanRestore)
+            {
+                if (!IsCurrentCellTextBoxAndInEditMode(dataGridView)) dataGridView.BeginEdit(true);
+                TextBox textBox = dataGridView.EditingControl as TextBox;
+
+                if (textBox != null)
+                {
+                    textBox.SelectionStart = textBoxSelectionStart;
+                    textBox.SelectionLength = textBoxSelectionLength;
+                }
+            }
+        }
+        #endregion
+
+        #region CopyDataGridViewSelectedCellsToClipboard
+        public static void CopyDataGridViewSelectedCellsToClipboard(DataGridView dataGridView, bool doCut, 
+            out bool textBoxSelectionCanRestore, out int textBoxSelectionStart, out int textBoxSelectionLength)
+        {
+            textBoxSelectionStart = 0;
+            textBoxSelectionLength = 0;
+            textBoxSelectionCanRestore = false;
+
             try
             {
                 if (IsCurrentCellTextBoxAndInEditMode(dataGridView))
@@ -192,8 +232,9 @@ namespace DataGridViewGeneric
                     TextBox textBox = dataGridView.EditingControl as TextBox;
                     if (textBox != null)
                     {
-                        //Clipboard.SetText(txt.SelectedText);
                         if (doCut) textBox.Cut(); else textBox.Copy();
+                        TextBoxGetSelction(textBox, out textBoxSelectionCanRestore, out textBoxSelectionStart, out textBoxSelectionLength);
+                        textBoxSelectionCanRestore = true;
                     }                   
                 }                
                 else
@@ -211,19 +252,35 @@ namespace DataGridViewGeneric
         #endregion
 
         #region DeleteDataGridViewSelectedCells
-        public static void DeleteDataGridViewSelectedCells(DataGridView dataGridView)
+        public static void DeleteDataGridViewSelectedCells(DataGridView dataGridView, out bool textBoxSelectionCanRestore, out int textBoxSelectionStart, out int textBoxSelectionLength)
         {
-            DeleteDataGridViewSelectedCells(dataGridView, -1, -1, -1, -1, true);
+            DeleteDataGridViewSelectedCells(dataGridView, -1, -1, -1, -1, true, out textBoxSelectionCanRestore, out textBoxSelectionStart, out textBoxSelectionLength);
         }
         #endregion
 
         #region DeleteDataGridViewSelectedCells
-        public static void DeleteDataGridViewSelectedCells(DataGridView dataGridView, int leftColumnOverwrite, int rightColumnOverwrite, int topRowOverwrite, int buttomRowOverwrite, bool removeTag)
+        public static void DeleteDataGridViewSelectedCells(DataGridView dataGridView, int leftColumnOverwrite, int rightColumnOverwrite, int topRowOverwrite, int buttomRowOverwrite, bool removeTag,
+            out bool textBoxSelectionCanRestore, out int textBoxSelectionStart, out int textBoxSelectionLength)
         {
+            textBoxSelectionStart = 0;
+            textBoxSelectionLength = 0;
+            textBoxSelectionCanRestore = false;
+
             DataGridViewSelectedCellCollection dataGridViewSelectedCellCollection = dataGridView.SelectedCells;
             if (dataGridViewSelectedCellCollection.Count < 1) return;
-            if (dataGridView.CurrentCell.IsInEditMode) return;
-
+            if (IsCurrentCellTextBoxAndInEditMode(dataGridView))
+            {
+                TextBox textBox = dataGridView.EditingControl as TextBox;
+                if (textBox != null)
+                {
+                    TextBoxGetSelction(textBox, out textBoxSelectionCanRestore, out textBoxSelectionStart, out textBoxSelectionLength);
+                    textBox.Text =  textBox.Text.Substring(0, textBox.SelectionStart) + textBox.Text.Substring(textBox.SelectionStart + textBox.SelectedText.Length);
+                    textBox.SelectionStart = textBoxSelectionStart;
+                    textBoxSelectionLength = textBox.SelectionLength = 0;
+                    textBoxSelectionCanRestore = true;
+                }
+                return;
+            }
             PushToUndoStack(dataGridView);
 
             NuberOfItemsToEdit = dataGridViewSelectedCellCollection.Count;
@@ -245,15 +302,22 @@ namespace DataGridViewGeneric
         #endregion
 
         #region PasteDataGridViewSelectedCellsFromClipboard
-        public static void PasteDataGridViewSelectedCellsFromClipboard(DataGridView dataGridView)
+        public static void PasteDataGridViewSelectedCellsFromClipboard(DataGridView dataGridView, out bool textBoxSelectionCanRestore, out int textBoxSelectionStart, out int textBoxSelectionLength)
         {
-            ClipboardUtility.PasteDataGridViewSelectedCellsFromClipboard(dataGridView, -1, -1, -1, -1, true);
+            ClipboardUtility.PasteDataGridViewSelectedCellsFromClipboard(dataGridView, -1, -1, -1, -1, true,
+                    out textBoxSelectionCanRestore, out textBoxSelectionStart, out textBoxSelectionLength);            
         }
         #endregion
 
-        #region PasteDataGridViewSelectedCellsFromClipboard
-        public static void PasteDataGridViewSelectedCellsFromClipboard(DataGridView dataGridView, int leftColumnOverwrite, int rightColumnOverwrite, int topRowOverwrite, int buttomRowOverwrite, bool removeTag)
+        #region PasteDataGridViewSelectedCellsFromClipboard      
+        public static void PasteDataGridViewSelectedCellsFromClipboard(
+            DataGridView dataGridView, int leftColumnOverwrite, int rightColumnOverwrite, int topRowOverwrite, int buttomRowOverwrite, bool removeTag,
+            out bool textBoxSelectionCanRestore, out int textBoxSelectionStart, out int textBoxSelectionLength)
         {
+            textBoxSelectionStart = 0;
+            textBoxSelectionLength = 0;
+            textBoxSelectionCanRestore = false;
+
             #region Html Format
             // Try to process as html format (data from excel) since it keeps the row information intact, instead of assuming
             // a new row for every new line if we just process it as text
@@ -342,6 +406,8 @@ namespace DataGridViewGeneric
                 if (textBox != null)
                 {
                     textBox.Paste();
+                    TextBoxGetSelction(textBox, out textBoxSelectionCanRestore, out textBoxSelectionStart, out textBoxSelectionLength);
+                    textBoxSelectionCanRestore = true;
                 }
                 return; //Can return - don't need push to stach, Edit cell did push to stacj
             }

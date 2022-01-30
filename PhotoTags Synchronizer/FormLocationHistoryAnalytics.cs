@@ -95,8 +95,9 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = kryptonDataGridViewLocationHistory;
             if (!dataGridView.Enabled) return;
 
-            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, false);
-            DataGridViewHandler.Refresh(dataGridView);
+            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, false, out bool textBoxSelectionCanRestore, out int textBoxSelectionStart, out int textBoxSelectionLength);
+            if (!textBoxSelectionCanRestore) DataGridViewHandler.Refresh(dataGridView);
+            ClipboardUtility.DataGridViewRestoreEditMode(dataGridView, textBoxSelectionCanRestore, textBoxSelectionStart, textBoxSelectionLength);
         }
         #endregion
 

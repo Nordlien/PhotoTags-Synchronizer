@@ -1478,9 +1478,10 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = dataGridViewLocationNames;
             if (!dataGridView.Enabled) return;
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
-            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, true);
-            ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
+            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, true, out bool textBoxSelectionCanRestore, out int textBoxSelectionStart, out int textBoxSelectionLength);
+            ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView, out textBoxSelectionCanRestore, out textBoxSelectionStart, out textBoxSelectionLength);
             DataGridViewHandler.Refresh(dataGridView);
+            ClipboardUtility.DataGridViewRestoreEditMode(dataGridView, textBoxSelectionCanRestore, textBoxSelectionStart, textBoxSelectionLength);
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
         #endregion 
@@ -1491,8 +1492,9 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = dataGridViewLocationNames;
             if (!dataGridView.Enabled) return;
 
-            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, false);
-            DataGridViewHandler.Refresh(dataGridView);
+            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, false, out bool textBoxSelectionCanRestore, out int textBoxSelectionStart, out int textBoxSelectionLength);
+            if (!textBoxSelectionCanRestore) DataGridViewHandler.Refresh(dataGridView);
+            ClipboardUtility.DataGridViewRestoreEditMode(dataGridView, textBoxSelectionCanRestore, textBoxSelectionStart, textBoxSelectionLength);
         }
         #endregion
 
@@ -1503,8 +1505,9 @@ namespace PhotoTagsSynchronizer
             if (!dataGridView.Enabled) return;
 
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
-            ClipboardUtility.PasteDataGridViewSelectedCellsFromClipboard(dataGridView);
-            DataGridViewHandler.Refresh(dataGridView);
+            ClipboardUtility.PasteDataGridViewSelectedCellsFromClipboard(dataGridView, out bool textBoxSelectionCanRestore, out int textBoxSelectionStart, out int textBoxSelectionLength);
+            if (!textBoxSelectionCanRestore) DataGridViewHandler.Refresh(dataGridView);
+            ClipboardUtility.DataGridViewRestoreEditMode(dataGridView, textBoxSelectionCanRestore, textBoxSelectionStart, textBoxSelectionLength);
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
         #endregion
@@ -1515,8 +1518,8 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = dataGridViewLocationNames;
             if (!dataGridView.Enabled) return;
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
-            ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
-            DataGridViewHandler.Refresh(dataGridView);
+            ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView, out bool textBoxSelectionCanRestore, out int textBoxSelectionStart, out int textBoxSelectionLength);
+            if (!textBoxSelectionCanRestore) DataGridViewHandler.Refresh(dataGridView);
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
         #endregion 
@@ -1720,9 +1723,10 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = dataGridViewCameraOwner;
             if (!dataGridView.Enabled) return;
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
-            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, true);
-            ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
-            DataGridViewHandler.Refresh(dataGridView);
+            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, true, out bool textBoxSelectionCanRestore, out int textBoxSelectionStart, out int textBoxSelectionLength);
+            ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView, out textBoxSelectionCanRestore, out textBoxSelectionStart, out textBoxSelectionLength);
+            if (!textBoxSelectionCanRestore) DataGridViewHandler.Refresh(dataGridView);
+            ClipboardUtility.DataGridViewRestoreEditMode(dataGridView, textBoxSelectionCanRestore, textBoxSelectionStart, textBoxSelectionLength);
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
         #endregion 
@@ -1733,8 +1737,9 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = dataGridViewCameraOwner;
             if (!dataGridView.Enabled) return;
 
-            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, false);
-            DataGridViewHandler.Refresh(dataGridView);
+            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, false, out bool textBoxSelectionCanRestore, out int textBoxSelectionStart, out int textBoxSelectionLength);
+            if (!textBoxSelectionCanRestore) DataGridViewHandler.Refresh(dataGridView);
+            ClipboardUtility.DataGridViewRestoreEditMode(dataGridView, textBoxSelectionCanRestore, textBoxSelectionStart, textBoxSelectionLength);
         }
         #endregion
 
@@ -1745,8 +1750,9 @@ namespace PhotoTagsSynchronizer
             if (!dataGridView.Enabled) return;
 
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
-            ClipboardUtility.PasteDataGridViewSelectedCellsFromClipboard(dataGridView);
-            DataGridViewHandler.Refresh(dataGridView);
+            ClipboardUtility.PasteDataGridViewSelectedCellsFromClipboard(dataGridView, out bool textBoxSelectionCanRestore, out int textBoxSelectionStart, out int textBoxSelectionLength);
+            if (!textBoxSelectionCanRestore) DataGridViewHandler.Refresh(dataGridView);
+            ClipboardUtility.DataGridViewRestoreEditMode(dataGridView, textBoxSelectionCanRestore, textBoxSelectionStart, textBoxSelectionLength);
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
         #endregion
@@ -1757,8 +1763,8 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = dataGridViewCameraOwner;
             if (!dataGridView.Enabled) return;
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
-            ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
-            DataGridViewHandler.Refresh(dataGridView);
+            ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView, out bool textBoxSelectionCanRestore, out int textBoxSelectionStart, out int textBoxSelectionLength);
+            if (!textBoxSelectionCanRestore) DataGridViewHandler.Refresh(dataGridView);
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
         #endregion 
@@ -2107,8 +2113,9 @@ namespace PhotoTagsSynchronizer
         private void KryptonContextMenuItemAutoKeywordCut_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewAutoKeywords;
-            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, true);
-            ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
+            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, true, out bool textBoxSelectionCanRestore, out int textBoxSelectionStart, out int textBoxSelectionLength);
+            ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView, out textBoxSelectionCanRestore, out textBoxSelectionStart, out textBoxSelectionLength);
+            ClipboardUtility.DataGridViewRestoreEditMode(dataGridView, textBoxSelectionCanRestore, textBoxSelectionStart, textBoxSelectionLength);
         }
         #endregion
 
@@ -2116,7 +2123,8 @@ namespace PhotoTagsSynchronizer
         private void KryptonContextMenuItemAutoKeywordCopy_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewAutoKeywords;
-            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, false);
+            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, false, out bool textBoxSelectionCanRestore, out int textBoxSelectionStart, out int textBoxSelectionLength);
+            ClipboardUtility.DataGridViewRestoreEditMode(dataGridView, textBoxSelectionCanRestore, textBoxSelectionStart, textBoxSelectionLength);
         }
         #endregion
 
@@ -2124,7 +2132,8 @@ namespace PhotoTagsSynchronizer
         private void KryptonContextMenuItemAutoKeywordPaste_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewAutoKeywords;
-            ClipboardUtility.PasteDataGridViewSelectedCellsFromClipboard(dataGridView);
+            ClipboardUtility.PasteDataGridViewSelectedCellsFromClipboard(dataGridView, out bool textBoxSelectionCanRestore, out int textBoxSelectionStart, out int textBoxSelectionLength);
+            ClipboardUtility.DataGridViewRestoreEditMode(dataGridView, textBoxSelectionCanRestore, textBoxSelectionStart, textBoxSelectionLength);
         }
         #endregion
 
@@ -2132,7 +2141,8 @@ namespace PhotoTagsSynchronizer
         private void KryptonContextMenuItemAutoKeywordDelete_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewAutoKeywords;
-            ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
+            ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView, out bool textBoxSelectionCanRestore, out int textBoxSelectionStart, out int textBoxSelectionLength);
+            ClipboardUtility.DataGridViewRestoreEditMode(dataGridView, textBoxSelectionCanRestore, textBoxSelectionStart, textBoxSelectionLength);
         }
         #endregion
 
@@ -2195,8 +2205,9 @@ namespace PhotoTagsSynchronizer
         private void KryptonContextMenuItemMetadataReadCut_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMetadataReadPriority;
-            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, true);
-            ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
+            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, true, out bool textBoxSelectionCanRestore, out int textBoxSelectionStart, out int textBoxSelectionLength);
+            ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView, out textBoxSelectionCanRestore, out textBoxSelectionStart, out textBoxSelectionLength);
+            ClipboardUtility.DataGridViewRestoreEditMode(dataGridView, textBoxSelectionCanRestore, textBoxSelectionStart, textBoxSelectionLength);
         }
         #endregion
 
@@ -2205,7 +2216,8 @@ namespace PhotoTagsSynchronizer
         {
 
             DataGridView dataGridView = dataGridViewMetadataReadPriority;
-            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, false);
+            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, false, out bool textBoxSelectionCanRestore, out int textBoxSelectionStart, out int textBoxSelectionLength);
+            ClipboardUtility.DataGridViewRestoreEditMode(dataGridView, textBoxSelectionCanRestore, textBoxSelectionStart, textBoxSelectionLength);
         }
         #endregion
 
@@ -2213,7 +2225,7 @@ namespace PhotoTagsSynchronizer
         private void KryptonContextMenuItemMetadataReadPaste_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMetadataReadPriority;
-            ClipboardUtility.PasteDataGridViewSelectedCellsFromClipboard(dataGridView);
+            ClipboardUtility.PasteDataGridViewSelectedCellsFromClipboard(dataGridView, out bool textBoxSelectionCanRestore, out int textBoxSelectionStart, out int textBoxSelectionLength);
         }
         #endregion
 
@@ -2221,7 +2233,8 @@ namespace PhotoTagsSynchronizer
         private void KryptonContextMenuItemMetadataReadDelete_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMetadataReadPriority;
-            ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
+            ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView, out bool textBoxSelectionCanRestore, out int textBoxSelectionStart, out int textBoxSelectionLength);
+            ClipboardUtility.DataGridViewRestoreEditMode(dataGridView, textBoxSelectionCanRestore, textBoxSelectionStart, textBoxSelectionLength);
         }
         #endregion
 
