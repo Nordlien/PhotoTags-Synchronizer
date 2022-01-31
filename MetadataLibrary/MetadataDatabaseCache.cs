@@ -185,7 +185,8 @@ namespace MetadataLibrary
             {
                 if (StopCaching) { StopCaching = false; return; }
                 if (StopApplication) return;
-                if (!IsMetadataInCache(fileEntryBrokerToCheckInCache)) fileEntryBrokersToPutInCache.Add(fileEntryBrokerToCheckInCache);
+                if (!IsMetadataInCache(fileEntryBrokerToCheckInCache)) 
+                    fileEntryBrokersToPutInCache.Add(fileEntryBrokerToCheckInCache);
             }
 
             if (fileEntryBrokersToPutInCache.Count() == 0)

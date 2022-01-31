@@ -24,10 +24,7 @@ namespace PhotoTagsSynchronizer
         public static DataGridViewHandler dataGridViewHandlerConvertAndMerge = null;
 
         public static bool lastReadFolderWasRecursive { get; set; } = false;
-
-        public static int ProcessCounterDelete = 0;
-        public static int ProcessCounterRefresh { get; set; } = 0;
-
+        
         public static int ProcessCounterReadProperties = 0;
 
         //

@@ -561,8 +561,8 @@ namespace PhotoTagsSynchronizer
                     commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.Insert(0, fileEntryAttribute);
 
                     //Need add last when not thread safe
-                    //if (!commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.Contains(fileEntryAttribute)) 
-                    //commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.Add(fileEntryAttribute);
+                    //if (!commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.Contains(fileEntryAttribute))
+                    //    commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.Add(fileEntryAttribute);
                 }
             }
         }

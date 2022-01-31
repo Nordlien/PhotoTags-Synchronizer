@@ -50,6 +50,7 @@ namespace PhotoTagsSynchronizer
             }
 
             this.kryptonPageMediaFiles.TextDescription = text;
+            StatusActionText = text;
         }
         #endregion
 
@@ -302,21 +303,12 @@ namespace PhotoTagsSynchronizer
                     string.Format("Rotate: {0}", GetFileEntriesRotateMediaCountDirty());
             threadQueuCount += GetFileEntriesRotateMediaCountDirty();
 
-            if (GlobalData.ProcessCounterDelete > 0)
-                progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") + 
-                    string.Format("Delete: {0}", GlobalData.ProcessCounterDelete);
-            threadQueuCount += GlobalData.ProcessCounterDelete;
-
             if (GlobalData.ProcessCounterReadProperties > 0)
                 progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
                     string.Format("Properties: {0}", GlobalData.ProcessCounterReadProperties);
             threadQueuCount += GlobalData.ProcessCounterReadProperties;
 
-            if (GlobalData.ProcessCounterRefresh > 0)
-                progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") + 
-                    string.Format("Reload: {0}", GlobalData.ProcessCounterRefresh);
-            threadQueuCount += GlobalData.ProcessCounterRefresh;
-
+            
             if (CommonQueueReadMetadataFromSourceWindowsLivePhotoGalleryCountDirty() > 0)
                 progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
                     string.Format("Read WLPG: {0}", CommonQueueReadMetadataFromSourceWindowsLivePhotoGalleryCountDirty());

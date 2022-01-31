@@ -19,6 +19,7 @@ using Raccoom.Windows.Forms;
 using FileDateTime;
 using ColumnNamesAndWidth;
 using FileHandeling;
+using System.Threading;
 
 /*
 Ctrl+X				T	Cut								Home / Organise
@@ -7234,58 +7235,61 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        private void TouchFiles(HashSet<FileEntry> fileEntries)
+        {
+            #region Touch Offline files so they get downloaded
+            bool dontReadFileFromCloud = Properties.Settings.Default.AvoidOfflineMediaFiles;
+            if (!dontReadFileFromCloud)
+            {
+                foreach (FileEntry fileEntry in fileEntries)
+                {
+                    FileStatus fileStatus = FileHandler.GetFileStatus(
+                        fileEntry.FileFullPath,
+                        checkLockedStatus: true,
+                        exiftoolProcessStatus: ExiftoolProcessStatus.InExiftoolReadQueue);
+
+                    if (fileStatus.IsInCloudOrVirtualOrOffline)
+                    {
+                        fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.WaitOfflineBecomeLocal;
+                        FileHandler.TouchOfflineFileToGetFileOnline(fileEntry.FileFullPath);
+                    }
+
+                    ImageListView_UpdatedThumbnail_RefreshAll(fileEntry);
+                    //ImageListView_UpdateItemFileStatusInvoke(fileEntry.FileFullPath, fileStatus);
+                }
+            }
+            #endregion
+        }
+
         #region DeleteLastMediadataAndReload
-        void DeleteLastMediadataAndReload(ImageListView imageListView, bool updatedOnlySelected)
+        void DeleteLastMetadataAndReloadThread(HashSet<FileEntry> fileEntries)
         {
             try
             {
                 if (GlobalData.IsPopulatingAnything()) return;
 
-                using (new WaitCursor())
+                GlobalData.IsPopulatingButtonAction = true;
+                //GlobalData.IsPopulatingImageListView = true; //Avoid one and one select item getting refreshed
+                //GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
+
+                ClearAllQueues();
+
+                TouchFiles(fileEntries);
+                
+                foreach (FileEntry fileEntry in fileEntries)
                 {
-                    GlobalData.IsPopulatingButtonAction = true;
-                    GlobalData.IsPopulatingImageListView = true; //Avoid one and one select item getting refreshed
-                    GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
-                    TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, false);
-
-                    ClearAllQueues();
-
-                    UpdateStatusAction("Delete all data and files...");
-
-                    List<FileEntry> listOfFilesForReload = filesCutCopyPasteDrag.DeleteFileEntriesBeforeReload(imageListView.Items, updatedOnlySelected);
-
-                    #region Touch Offline files so they get downloaded
-                    bool dontReadFileFromCloud = Properties.Settings.Default.AvoidOfflineMediaFiles;
-                    if (!dontReadFileFromCloud)
-                    {
-                        foreach (FileEntry fileEntry in listOfFilesForReload)
-                        {
-                            FileStatus fileStatus = FileHandler.GetFileStatus(
-                                fileEntry.FileFullPath,
-                                checkLockedStatus: true,
-                                exiftoolProcessStatus: ExiftoolProcessStatus.InExiftoolReadQueue);
-                            
-                            if (fileStatus.IsInCloudOrVirtualOrOffline)
-                            {
-                                fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.WaitOfflineBecomeLocal;
-                                FileHandler.TouchOfflineFileToGetFileOnline(fileEntry.FileFullPath);
-                            }
-                            
-                            ImageListView_UpdateItemFileStatusInvoke(fileEntry.FileFullPath, fileStatus);
-                        }
-                    }
-                    #endregion
-
-                    filesCutCopyPasteDrag.ImageListViewReload(imageListView.Items, updatedOnlySelected);
-
-                    TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, true);
-                    //ImageListViewResumeLayoutInvoke(imageListView);
-                    GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
-                    GlobalData.IsPopulatingButtonAction = false;
-                    GlobalData.IsPopulatingImageListView = false;
-
-                    OnImageListViewSelect_FilesSelectedOrNoneSelected(false);
+                    UpdateStatusAction("Delete all data in database for file: " + fileEntry.FileFullPath);
+                    filesCutCopyPasteDrag.DeleteFileEntry(fileEntry);                    
+                    ImageListView_UpdatedThumbnail_RefreshAll(fileEntry);
                 }
+
+                //filesCutCopyPasteDrag.DeleteFileEntries(fileEntries);
+
+                //GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
+                //GlobalData.IsPopulatingImageListView = false;
+                GlobalData.IsPopulatingButtonAction = false;
+
+
             }
             catch (Exception ex)
             {
@@ -7301,8 +7305,14 @@ namespace PhotoTagsSynchronizer
             if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
             try
             {
-                DeleteLastMediadataAndReload(imageListView1, true);
+                HashSet<FileEntry> fileEntries = ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true);
+                Thread thread = new Thread(() =>
+                {
+                    DeleteLastMetadataAndReloadThread(fileEntries);
+                });
+                thread.Start();
 
+                OnImageListViewSelect_FilesSelectedOrNoneSelected(false);
                 DataGridView dataGridView = GetActiveTabDataGridView();
                 if (dataGridView != null) DataGridViewHandler.Focus(dataGridView);
             }
@@ -7320,7 +7330,14 @@ namespace PhotoTagsSynchronizer
             try
             {
                 if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
-                DeleteLastMediadataAndReload(imageListView1, false);
+                HashSet<FileEntry> fileEntries = ImageListViewHandler.GetFileEntriesItems(imageListView1);
+                Thread thread = new Thread(() =>
+                {
+                    DeleteLastMetadataAndReloadThread(fileEntries);
+                });
+                thread.Start();
+
+                OnImageListViewSelect_FilesSelectedOrNoneSelected(false);
                 treeViewFolderBrowser1.Focus();
             }
             catch (Exception ex)
@@ -7395,18 +7412,41 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region ReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory
+        public void ReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory(HashSet<FileEntry> fileEntries)
+        {
+            if (GlobalData.IsPopulatingAnything()) return;
+            GlobalData.IsPopulatingButtonAction = true;
+
+            foreach (FileEntry fileEntry in fileEntries)
+            {
+
+                UpdateStatusAction("Refreshing database for " + fileEntry.FileFullPath);
+                TouchFiles(fileEntries);
+                filesCutCopyPasteDrag.DeleteFileAndHistory(fileEntry.FileFullPath);
+                
+                ImageListView_UpdatedThumbnail_RefreshAll(fileEntry);
+            }
+
+            GlobalData.IsPopulatingButtonAction = false;
+        }
+        #endregion
+
         #region MediaFilesMetadataReloadDeleteHistory_Click
         private void MediaFilesMetadataReloadDeleteHistory_Click()
         {
             if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
             try
             {
-                using (new WaitCursor())
+                HashSet<FileEntry> fileEntries = ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true);
+                Thread thread = new Thread(() =>
                 {
-                    filesCutCopyPasteDrag.ReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory(this, treeViewFolderBrowser1, imageListView1);
-                    OnImageListViewSelect_FilesSelectedOrNoneSelected(false);
-                    DisplayAllQueueStatus();
-                }
+                    ReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory(fileEntries);
+                });
+                thread.Start();
+
+                OnImageListViewSelect_FilesSelectedOrNoneSelected(false);
+                DisplayAllQueueStatus();
                 imageListView1.Focus();
             }
             catch (Exception ex)
@@ -7418,6 +7458,34 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region FolderMetadataReloadDeleteHistory_Click
+        private void FolderMetadataReloadDeleteHistoryThread(string[] files, string folder)
+        {
+            //Clean up ImageListView and other queues
+            ClearAllQueues();
+
+            UpdateStatusAction("Delete all record about files in database....");
+            
+            #region Touch Offline files so they get downloaded
+            foreach (string fullFileName in files)
+            {
+                FileStatus fileStatus = FileHandler.GetFileStatus(
+                fullFileName, checkLockedStatus: true,
+                exiftoolProcessStatus: ExiftoolProcessStatus.ExiftoolWillNotProcessingFileInCloud);
+
+                if (fileStatus.IsInCloudOrVirtualOrOffline)
+                {
+                    fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.WaitOfflineBecomeLocal;
+                    FileHandler.TouchOfflineFileToGetFileOnline(fullFileName);
+                }
+
+                ImageListView_UpdateItemFileStatusInvoke(fullFileName, fileStatus);
+            }
+            #endregion
+
+            int recordAffected = filesCutCopyPasteDrag.DeleteDirectoryAndHistory(folder);
+
+            UpdateStatusAction(recordAffected + " records was delete from database....");
+        }
         private void FolderMetadataReloadDeleteHistory_Click()
         {
             if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
@@ -7450,39 +7518,13 @@ namespace PhotoTagsSynchronizer
                         "You are going to delete all metadata in folder",
                         MessageBoxButtons.YesNo, MessageBoxIcon.Warning, showCtrlCopy: true) == DialogResult.Yes)
                     {
-                        using (new WaitCursor())
+                        
+                        Thread thread = new Thread(() =>
                         {
-                            //Clean up ImageListView and other queues
-                            ImageListViewHandler.ClearThumbnailCache(imageListView1);
-                            imageListView1.Refresh();
-                            ClearAllQueues();
-
-                            UpdateStatusAction("Delete all record about files in database....");
-                            GlobalData.ProcessCounterDelete = FilesCutCopyPasteDrag.DeleteDirectoryAndHistorySize;
-                            int recordAffected = filesCutCopyPasteDrag.DeleteDirectoryAndHistory(ref FilesCutCopyPasteDrag.DeleteDirectoryAndHistorySize, folder);
-
-                            #region Touch Offline files so they get downloaded
-                            foreach (string fullFileName in files) 
-                            {
-                                FileStatus fileStatus = FileHandler.GetFileStatus(
-                                fullFileName, checkLockedStatus: true,
-                                exiftoolProcessStatus: ExiftoolProcessStatus.ExiftoolWillNotProcessingFileInCloud);
-
-                                if (fileStatus.IsInCloudOrVirtualOrOffline)
-                                {
-                                    fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.WaitOfflineBecomeLocal;
-                                    FileHandler.TouchOfflineFileToGetFileOnline(fullFileName);
-                                }
-                                
-                                ImageListView_UpdateItemFileStatusInvoke(fullFileName, fileStatus);
-                            }
-                            #endregion
-
-                            GlobalData.ProcessCounterDelete = 0;
-                            UpdateStatusAction(recordAffected + " records was delete from database....");
-
-                            ImageListView_Aggregate_FromFolder(false, true);
-                        }
+                            FolderMetadataReloadDeleteHistoryThread(files, folder);
+                        });
+                        thread.Start();
+                        ImageListView_Aggregate_FromFolder(false, true);
                     }
                 }
 

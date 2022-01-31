@@ -47,6 +47,23 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region ImageListView - GetFileEntriesItems
+        public static HashSet<FileEntry> GetFileEntriesItems(ImageListView imageListView)
+        {
+            HashSet<FileEntry> fileEntries = new HashSet<FileEntry>();
+            try
+            {
+                foreach (ImageListViewItem imageListViewItem in imageListView.Items)
+                {
+                    FileEntry fileEntry = new FileEntry(imageListViewItem.FileFullPath, imageListViewItem.DateModified);
+                    if (!fileEntries.Contains(fileEntry)) fileEntries.Add(fileEntry);                    
+                }
+            }
+            catch { }
+            return fileEntries;
+        }
+        #endregion
+
         #region ImageListView - Cache - HashSet<FileEntry> - GetFileEntriesSelectedItemsCache
         public static HashSet<FileEntry> GetFileEntriesSelectedItemsCache(ImageListView imageListView, bool allowUseCache)
         {

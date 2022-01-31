@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using Thumbnails;
-using static Manina.Windows.Forms.ImageListView;
 using Raccoom.Windows.Forms;
 using Krypton.Toolkit;
 
@@ -53,36 +52,30 @@ namespace PhotoTagsSynchronizer
 
         #region FilesCutCopyPasteDrag - DeleteDirectoryAndHistory
         public static int DeleteDirectoryAndHistorySize = 6;
-        public int DeleteDirectoryAndHistory(ref int queueSize, string folder)
+        public int DeleteDirectoryAndHistory(string folder)
         {
             int rowsAffected = 0;
-
-            
             rowsAffected += databaseAndCacheMetadataExiftool.DeleteDirectoryAndHistory(MetadataBrokerType.ExifTool, folder); //Also delete When (Broker & @Broker) = @Broker
-            queueSize--; //1
-
             rowsAffected += databaseAndCacheMetadataMicrosoftPhotos.DeleteDirectoryAndHistory(MetadataBrokerType.MicrosoftPhotos, folder);
-            queueSize--; //2
-
             rowsAffected += databaseAndCacheMetadataWindowsLivePhotoGallery.DeleteDirectoryAndHistory(MetadataBrokerType.WindowsLivePhotoGallery, folder);
-            queueSize--; //3
-
             rowsAffected += databaseExiftoolData.DeleteDirectoryAndHistory(folder);
-            queueSize--; //4
-
             rowsAffected += databaseExiftoolWarning.DeleteDirectoryAndHistory(folder);
-            queueSize--; //5
-
             rowsAffected += databaseAndCacheThumbnail.DeleteDirectoryAndHistory(folder);
-            queueSize--; //6
             return rowsAffected;
         }
         #endregion
 
         #region FilesCutCopyPasteDrag - DeleteFileEntry
-        public void DeleteFileEntries(List<FileEntry> fileEntries)
+        public void DeleteFileEntry(FileEntry fileEntry)
         {
-            
+            HashSet<FileEntry> fileEntries = new HashSet<FileEntry>();
+            fileEntries.Add(fileEntry);
+            DeleteFileEntries(fileEntries);
+        }
+        public void DeleteFileEntries(HashSet<FileEntry> fileEntries)
+        {
+
+            List<FileEntry> fileEntriesList = new List<FileEntry>(fileEntries);
             List<FileEntryBroker> fileEntryBrokersExifTool = new List<FileEntryBroker>();
             List<FileEntryBroker> fileEntryBrokersMicrosoftPhotos = new List<FileEntryBroker>();
             List<FileEntryBroker> fileEntryBrokersWindowsPhotoGallary = new List<FileEntryBroker>();
@@ -104,9 +97,9 @@ namespace PhotoTagsSynchronizer
             databaseAndCacheMetadataWindowsLivePhotoGallery.MetadataCacheRemove(fileEntryBrokersWindowsPhotoGallary);
             databaseAndCacheMetadataWindowsLivePhotoGallery.DeleteFileEntries(fileEntryBrokersWindowsPhotoGallary);
 
-            databaseExiftoolData.DeleteFileEntriesFromMediaExiftoolTags(fileEntries);
-            databaseExiftoolWarning.DeleteFileEntriesFromMediaExiftoolTagsWarning(fileEntries);
-            databaseAndCacheThumbnail.DeleteThumbnails(fileEntries);
+            databaseExiftoolData.DeleteFileEntriesFromMediaExiftoolTags(fileEntriesList);
+            databaseExiftoolWarning.DeleteFileEntriesFromMediaExiftoolTagsWarning(fileEntriesList);
+            databaseAndCacheThumbnail.DeleteThumbnails(fileEntriesList);
         }
         #endregion
 
@@ -181,22 +174,21 @@ namespace PhotoTagsSynchronizer
         #region FilesCutCopyPasteDrag - DeleteFilesInFolder
         public int DeleteFilesInFolder(MainForm mainForm, TreeViewFolderBrowser folderTreeViewFolder, string folder)
         {
-            string[] dirs = Directory.GetDirectories(folder + (folder.EndsWith(@"\") ? "" : @"\"), "*", SearchOption.AllDirectories);
+            string[] subFolders = Directory.GetDirectories(folder + (folder.EndsWith(@"\") ? "" : @"\"), "*", SearchOption.AllDirectories);
 
             Directory.Delete(folder, true);
 
             int recordAffected = 0;
-            GlobalData.ProcessCounterDelete = (dirs.Length + 1) * FilesCutCopyPasteDrag.DeleteDirectoryAndHistorySize;
             
-            foreach (string directory in dirs)
+            foreach (string directory in subFolders)
             {
                 mainForm.UpdateStatusAction("Delete all data and files from folder: " + directory);
-                recordAffected += this.DeleteDirectoryAndHistory(ref GlobalData.ProcessCounterDelete, directory);
+                recordAffected += this.DeleteDirectoryAndHistory(directory);
             }
-            mainForm.UpdateStatusAction("Delete all data and files from folder: " + folder);
-            recordAffected += this.DeleteDirectoryAndHistory(ref GlobalData.ProcessCounterDelete, folder);
-            GlobalData.ProcessCounterDelete = 0;
 
+            mainForm.UpdateStatusAction("Delete all data and files from folder: " + folder);
+            recordAffected += this.DeleteDirectoryAndHistory(folder);
+            
             TreeNode selectedNode = folderTreeViewFolder.SelectedNode;
             TreeNode parentNode = folderTreeViewFolder.SelectedNode.Parent;
 
@@ -212,72 +204,6 @@ namespace PhotoTagsSynchronizer
             #endregion
 
             return recordAffected;
-        }
-        #endregion
-
-        #region FilesCutCopyPasteDrag - ImageListViewReload
-        public void ImageListViewReload(ImageListViewItemCollection itemCollection, bool updatedOnlySelected)
-        {            
-            foreach (ImageListViewItem item in itemCollection)
-            {
-                if (!updatedOnlySelected || (updatedOnlySelected && item.Selected)) item.Update();
-            }
-        }
-        #endregion 
-
-        #region FilesCutCopyPasteDrag - DeleteSelectedFilesBeforeReload
-        public List<FileEntry> DeleteFileEntriesBeforeReload(ImageListViewItemCollection itemCollection, bool updatedOnlySelected)
-        {
-            List<FileEntry> fileEntries = new List<FileEntry>();
-            foreach (ImageListViewItem item in itemCollection)
-            {
-                if (!updatedOnlySelected || (updatedOnlySelected && item.Selected)) fileEntries.Add(new FileEntry(item.FileFullPath, item.DateModified));
-            }
-
-            this.DeleteFileEntries(fileEntries);
-            return fileEntries;
-        }
-        #endregion
-
-        #region FilesCutCopyPasteDrag - ReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory
-        public void ReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory(MainForm mainForm, TreeViewFolderBrowser folderTreeViewFolder, ImageListView imageListView)
-        {
-            if (GlobalData.IsPopulatingAnything()) return;
-
-            GlobalData.IsPopulatingButtonAction = true;
-
-            
-            //imageListView.Enabled = false;
-            using (new WaitCursor())
-            {
-                folderTreeViewFolder.Enabled = false;
-                imageListView.SuspendLayout();
-
-                GlobalData.ProcessCounterDelete = imageListView.SelectedItems.Count;
-                foreach (ImageListViewItem imageListViewItem in imageListView.SelectedItems)
-                {
-                    mainForm.UpdateStatusAction("Refreshing database for " + imageListViewItem.FileFullPath);
-                    this.DeleteFileAndHistory(imageListViewItem.FileFullPath);
-                    GlobalData.ProcessCounterDelete--;
-                }
-                GlobalData.ProcessCounterDelete = 0;
-
-                GlobalData.ProcessCounterRefresh = imageListView.SelectedItems.Count;
-                foreach (ImageListViewItem item in imageListView.SelectedItems)
-                {
-                    item.Update();
-                    item.Selected = true;
-                    GlobalData.ProcessCounterRefresh--;
-                }
-                GlobalData.ProcessCounterRefresh = 0;
-
-
-                folderTreeViewFolder.Enabled = true;
-                imageListView.ResumeLayout();
-
-                GlobalData.IsPopulatingButtonAction = false;
-            }
-            //imageListView.Enabled = true;
         }
         #endregion
 
