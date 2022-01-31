@@ -1645,40 +1645,39 @@ namespace Exiftool
                                     case "GPSPosition":
                                         MetadataReadPrioity.Add(exifToolData.Region, exifToolData.Command, CompositeTags.GPSCoordinates);
 
-                                        String[] coordinates = exifToolData.Parameter.Split(' ');
+                                        string[] coordinates = exifToolData.Parameter.Split(' ');
 
-                                        //if (isGPSLatitudeRef != LocationTristate.NotSet && isGPSLongitudeRef != LocationTristate.NotSet)
-                                        {
-                                            #region Latitude
-                                            ExiftoolData tempExiftoolDataNewLatitude = new ExiftoolData(exifToolData, metadata.LocationLatitude, true);
-                                            tempExiftoolDataNewLatitude.Parameter = coordinates[0];
+                                        #region Latitude
+                                        ExiftoolData tempExiftoolDataNewLatitude = new ExiftoolData(exifToolData, metadata.LocationLatitude, true);
+                                        tempExiftoolDataNewLatitude.Parameter = coordinates[0];
 
-                                            if (isGPSLatitudeRef == LocationTristate.Negative && !tempExiftoolDataNewLatitude.Parameter.StartsWith("-"))
-                                                tempExiftoolDataNewLatitude.Parameter = "-" + tempExiftoolDataNewLatitude.Parameter;
+                                        if (isGPSLatitudeRef == LocationTristate.Negative && !tempExiftoolDataNewLatitude.Parameter.StartsWith("-"))
+                                            tempExiftoolDataNewLatitude.Parameter = "-" + tempExiftoolDataNewLatitude.Parameter;
 
-                                            float? newLocationLatitude = ConvertAndCheckNumberFromString(tempExiftoolDataNewLatitude, oldExifToolGPSLatitude,
-                                                CompositeTags.GPSCoordinatesLatitude, ref metadata.errors);
-                                            metadata.LocationLatitude = newLocationLatitude;
-                                            oldExifToolGPSLatitude = new ExiftoolData(tempExiftoolDataNewLatitude, metadata.LocationLatitude, true);
-                                            #endregion
+                                        float? newLocationLatitude = ConvertAndCheckNumberFromString(tempExiftoolDataNewLatitude, oldExifToolGPSLatitude,
+                                            CompositeTags.GPSCoordinatesLatitude, ref metadata.errors);
+                                        metadata.LocationLatitude = newLocationLatitude;
+                                        oldExifToolGPSLatitude = new ExiftoolData(tempExiftoolDataNewLatitude, metadata.LocationLatitude, true);
+                                        #endregion
 
-                                            #region Longitude
-                                            ExiftoolData tempExiftoolDataNewLongitude = new ExiftoolData(exifToolData, metadata.LocationLongitude, true);
-                                            tempExiftoolDataNewLongitude.Parameter = coordinates[1];
+                                        #region Longitude
+                                        ExiftoolData tempExiftoolDataNewLongitude = new ExiftoolData(exifToolData, metadata.LocationLongitude, true);
+                                        tempExiftoolDataNewLongitude.Parameter = coordinates[1];
 
-                                            if (isGPSLongitudeRef == LocationTristate.Negative && !tempExiftoolDataNewLongitude.Parameter.StartsWith("-"))
-                                                tempExiftoolDataNewLongitude.Parameter = "-" + tempExiftoolDataNewLongitude.Parameter;
+                                        if (isGPSLongitudeRef == LocationTristate.Negative && !tempExiftoolDataNewLongitude.Parameter.StartsWith("-"))
+                                            tempExiftoolDataNewLongitude.Parameter = "-" + tempExiftoolDataNewLongitude.Parameter;
 
-                                            float? newLocationLongitude = ConvertAndCheckNumberFromString(tempExiftoolDataNewLongitude, oldExifToolGPSLongitude,
-                                                CompositeTags.GPSCoordinatesLongitude, ref metadata.errors);
-                                            metadata.LocationLongitude = newLocationLongitude;
-                                            oldExifToolGPSLongitude = new ExiftoolData(tempExiftoolDataNewLongitude, metadata.LocationLongitude, true);
-                                            #endregion
-                                        }
+                                        float? newLocationLongitude = ConvertAndCheckNumberFromString(tempExiftoolDataNewLongitude, oldExifToolGPSLongitude,
+                                            CompositeTags.GPSCoordinatesLongitude, ref metadata.errors);
+                                        metadata.LocationLongitude = newLocationLongitude;
+                                        oldExifToolGPSLongitude = new ExiftoolData(tempExiftoolDataNewLongitude, metadata.LocationLongitude, true);
+                                        #endregion
+                                        
                                         if (isGPSLatitudeRef == LocationTristate.NotSet && isGPSLongitudeRef == LocationTristate.NotSet)
                                         {
                                             //DEBUG
                                             //Exiftool has changed behaviour
+                                            Logger.Warn("CoordinateRef not set for Region: " + exifToolData.Region + " Command: " + exifToolData.Command + " Parameter:" + exifToolData.Parameter );
                                         }
                                         break;
                                     case CompositeTags.GPSDateTime:
