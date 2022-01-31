@@ -2749,7 +2749,7 @@ namespace MetadataLibrary
                             }
                         }catch (Exception ex)
                         {
-                            Logger.Warn("ReadRegionThumbnailFromCache was changes outside lock", ex);
+                            Logger.Warn(ex, "ReadRegionThumbnailFromCache was changes outside lock");
 ;                        }
                     }
                 }
@@ -2762,8 +2762,11 @@ namespace MetadataLibrary
         public Metadata ReadMetadataFromCacheOrDatabase(FileEntryBroker fileEntryBroker)
         {
             fileEntryBroker = new FileEntryBroker(fileEntryBroker); //When NOT FileEntryBroker it Will give wrong hash value, and not find the correct result
-            lock (metadataCacheLock) if (metadataCache.ContainsKey(fileEntryBroker)) return metadataCache[fileEntryBroker]; //Also return null
-            
+            lock (metadataCacheLock)
+            {
+                if (metadataCache.ContainsKey(fileEntryBroker)) return metadataCache[fileEntryBroker]; //Also return null
+            }
+
             Metadata metadata = Read(fileEntryBroker);
             MetadataCacheUpdate(fileEntryBroker, metadata);
             return metadata;
