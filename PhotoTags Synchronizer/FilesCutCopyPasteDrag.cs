@@ -55,7 +55,7 @@ namespace PhotoTagsSynchronizer
         public int DeleteDirectoryAndHistory(string folder)
         {
             int rowsAffected = 0;
-            rowsAffected += databaseAndCacheMetadataExiftool.DeleteDirectoryAndHistory(MetadataBrokerType.ExifTool, folder); //Also delete When (Broker & @Broker) = @Broker
+            rowsAffected += databaseAndCacheMetadataExiftool.DeleteDirectoryAndHistory(MetadataBrokerType.ExifTool, folder); //Also delete When Broker = @Broker
             rowsAffected += databaseAndCacheMetadataMicrosoftPhotos.DeleteDirectoryAndHistory(MetadataBrokerType.MicrosoftPhotos, folder);
             rowsAffected += databaseAndCacheMetadataWindowsLivePhotoGallery.DeleteDirectoryAndHistory(MetadataBrokerType.WindowsLivePhotoGallery, folder);
             rowsAffected += databaseExiftoolData.DeleteDirectoryAndHistory(folder);
@@ -89,7 +89,7 @@ namespace PhotoTagsSynchronizer
             }
 
             databaseAndCacheMetadataExiftool.MetadataCacheRemove(fileEntryBrokersExifTool);
-            databaseAndCacheMetadataExiftool.DeleteFileEntries(fileEntryBrokersExifTool);  //Also delete When (Broker & @Broker) = @Broker
+            databaseAndCacheMetadataExiftool.DeleteFileEntries(fileEntryBrokersExifTool);  //Also delete When Broker = @Broker
 
             databaseAndCacheMetadataMicrosoftPhotos.MetadataCacheRemove(fileEntryBrokersMicrosoftPhotos);
             databaseAndCacheMetadataMicrosoftPhotos.DeleteFileEntries(fileEntryBrokersMicrosoftPhotos);

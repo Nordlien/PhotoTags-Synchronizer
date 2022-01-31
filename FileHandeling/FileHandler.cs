@@ -435,7 +435,8 @@ namespace FileHandeling
             // task.Wait(millisecondsTimeout);
             try
             {
-                inProcessIsFileLockedByProcess.Remove(fullFilePath);
+                if (inProcessIsFileLockedByProcess.Contains(fullFilePath))
+                    inProcessIsFileLockedByProcess.Remove(fullFilePath);
             }
             catch
             {

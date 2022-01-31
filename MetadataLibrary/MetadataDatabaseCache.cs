@@ -211,7 +211,7 @@ namespace MetadataLibrary
                     "MediaDateTaken, MediaWidth, MediaHeight, MediaOrientation, " +
                     "LocationAltitude, LocationLatitude, LocationLongitude, LocationDateTime, " +
                     "LocationName, LocationCountry, LocationCity, LocationState " +
-                "FROM MediaMetadata WHERE (Broker & @Broker) = @Broker AND FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
+                "FROM MediaMetadata WHERE Broker = @Broker AND FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
                 foreach (FileEntryBroker fileEntryBroker in fileEntryBrokersToPutInCache)
@@ -286,7 +286,7 @@ namespace MetadataLibrary
             sqlCommand =
                    "SELECT " +
                        "Broker, FileDirectory, FileName, FileDateModified, Keyword, Confidence " +
-                   "FROM MediaPersonalKeywords WHERE (Broker & @Broker) = @Broker AND FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
+                   "FROM MediaPersonalKeywords WHERE Broker = @Broker AND FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
                 //commandDatabase.Prepare();
@@ -336,7 +336,7 @@ namespace MetadataLibrary
                     "Broker, FileDirectory, FileName, FileDateModified, Type, " +
                     "Name, AreaX, AreaY, AreaWidth, AreaHeight, RegionStructureType, Thumbnail " +
                     "FROM MediaPersonalRegions " +
-                    "WHERE (Broker & @Broker) = @Broker AND FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
+                    "WHERE Broker = @Broker AND FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
                 //commandDatabase.Prepare();
@@ -513,7 +513,7 @@ namespace MetadataLibrary
             if (readDataIntoCache) readToCacheParamtersCached.Add(readToCacheParamters);
 
             string sqlWhere = "";
-            if (metadataBrokerType != MetadataBrokerType.Empty) sqlWhere += (sqlWhere == "" ? "" : " AND ") + "(Broker & @Broker) = @Broker";
+            if (metadataBrokerType != MetadataBrokerType.Empty) sqlWhere += (sqlWhere == "" ? "" : " AND ") + "Broker = @Broker";
             if (folder != null) sqlWhere += (sqlWhere == "" ? "" : " AND ") + "FileDirectory = @FileDirectory";
             if (filename != null) sqlWhere += (sqlWhere == "" ? "" : " AND ") + "FileName = @FileName";
             if (fileDateModified != null) sqlWhere += (sqlWhere == "" ? "" : " AND ") + "FileDateModified = @FileDateModified";
@@ -1286,7 +1286,7 @@ namespace MetadataLibrary
         /// <summary>
         /// Delete all records that fits parameters
         /// </summary>
-        /// <param name="broker">When (Broker & @Broker) = @Broker</param>
+        /// <param name="broker">When Broker = @Broker</param>
         /// <param name="fileDirectory">Media in this Folder</param>
         /// <param name="fileDateModified">When media file is modified, if null delete all</param>
         /// <returns></returns>
@@ -1294,7 +1294,7 @@ namespace MetadataLibrary
         {
             int rowsAffected = 0;
             string sqlCommand = "DELETE FROM MediaMetadata WHERE " +
-                            "(Broker & @Broker) = @Broker AND " +
+                            "Broker = @Broker AND " +
                             "FileDirectory = @FileDirectory";
 
             if (fileDateModified != null) sqlCommand += " AND FileDateModified = @FileDateModified";
@@ -1315,7 +1315,7 @@ namespace MetadataLibrary
         /// <summary>
         /// Delete all records that fits parameters
         /// </summary>
-        /// <param name="broker">When (Broker & @Broker) = @Broker</param>
+        /// <param name="broker">When Broker = @Broker</param>
         /// <param name="fileDirectory">Media in this Folder</param>
         /// <param name="fileDateModified">When media file is modified, if null delete all</param>
         /// <returns></returns>
@@ -1323,7 +1323,7 @@ namespace MetadataLibrary
         {
             int rowsAffected = 0;
             string sqlCommand = "DELETE FROM MediaPersonalRegions WHERE " +
-                            "(Broker & @Broker) = @Broker AND " +
+                            "Broker = @Broker AND " +
                             "FileDirectory = @FileDirectory";
             if (fileDateModified != null) sqlCommand += " AND FileDateModified = @FileDateModified";
 
@@ -1343,7 +1343,7 @@ namespace MetadataLibrary
         /// <summary>
         /// Delete all records that fits parameters
         /// </summary>
-        /// <param name="broker">When (Broker & @Broker) = @Broker</param>
+        /// <param name="broker">When Broker = @Broker</param>
         /// <param name="fileDirectory">Media in this Folder</param>
         /// <param name="fileDateModified">When media file is modified, if null delete all</param>
         /// <returns></returns>
@@ -1351,7 +1351,7 @@ namespace MetadataLibrary
         {
             int rowsAffected = 0; 
             string sqlCommand = "DELETE FROM MediaPersonalKeywords WHERE " +
-                            "(Broker & @Broker) = @Broker AND " +
+                            "Broker = @Broker AND " +
                             "FileDirectory = @FileDirectory";
             if (fileDateModified != null) sqlCommand += " AND FileDateModified = @FileDateModified";
 
@@ -1371,7 +1371,7 @@ namespace MetadataLibrary
         /// <summary>
         /// Delete all records and sub-records that fits parameters
         /// </summary>
-        /// <param name="broker">When (Broker & @Broker) = @Broker</param>
+        /// <param name="broker">When Broker = @Broker</param>
         /// <param name="fileDirectory">Media in this Folder</param>
         /// <param name="fileDateModified">When media file is modified, if null delete all</param>
         /// <returns></returns>
@@ -1403,7 +1403,7 @@ namespace MetadataLibrary
         /// <summary>
         /// Delete all records that fits parameters
         /// </summary>
-        /// <param name="fileEntryBroker">Folder, Filename and When (Broker & @Broker) = @Broker</param>
+        /// <param name="fileEntryBroker">Folder, Filename and When Broker = @Broker</param>
         private void DeleteFileEntriesFromMediaMetadata(List<FileEntryBroker> fileEntryBrokers)
         {
             if (fileEntryBrokers.Count() == 0) return;
@@ -1415,7 +1415,7 @@ namespace MetadataLibrary
             OnDeleteRecord(this, deleteRecordEventArgsInit);
 
             string sqlCommand = "DELETE FROM MediaMetadata WHERE " +
-                            "(Broker & @Broker) = @Broker " +
+                            "Broker = @Broker " +
                             "AND FileDirectory = @FileDirectory " +
                             "AND FileName = @FileName " +
                             "AND FileDateModified = @FileDateModified";
@@ -1453,7 +1453,7 @@ namespace MetadataLibrary
         /// <summary>
         /// Delete all records that fits parameters
         /// </summary>
-        /// <param name="fileEntryBroker">Folder, Filename and When (Broker & @Broker) = @Broker</param>
+        /// <param name="fileEntryBroker">Folder, Filename and When Broker = @Broker</param>
         private void DeleteFileEntriesFromMediaPersonalRegions(List<FileEntryBroker> fileEntryBrokers)
         {
             DeleteRecordEventArgs deleteRecordEventArgs = new DeleteRecordEventArgs();
@@ -1467,7 +1467,7 @@ namespace MetadataLibrary
             }
 
             string sqlCommand = "DELETE FROM MediaPersonalRegions WHERE " +
-                "(Broker & @Broker) = @Broker " +
+                "Broker = @Broker " +
                 "AND FileDirectory = @FileDirectory " +
                 "AND FileName = @FileName " +
                 "AND FileDateModified = @FileDateModified";
@@ -1500,7 +1500,7 @@ namespace MetadataLibrary
         /// <summary>
         /// Delete all records that fits parameters
         /// </summary>
-        /// <param name="fileEntryBroker">Folder, Filename and When (Broker & @Broker) = @Broker</param>
+        /// <param name="fileEntryBroker">Folder, Filename and When Broker = @Broker</param>
         private void DeleteFileEntriesFromMediaPersonalKeywords(List<FileEntryBroker> fileEntryBrokers)
         {
             DeleteRecordEventArgs deleteRecordEventArgs = new DeleteRecordEventArgs();
@@ -1514,7 +1514,7 @@ namespace MetadataLibrary
             }
 
             string sqlCommand = "DELETE FROM MediaPersonalKeywords WHERE " +
-                            "(Broker & @Broker) = @Broker " +
+                            "Broker = @Broker " +
                             "AND FileDirectory = @FileDirectory " +
                             "AND FileName = @FileName " +
                             "AND FileDateModified = @FileDateModified";
@@ -1573,7 +1573,7 @@ namespace MetadataLibrary
             List<DateTime> webScrapingPackages = new List<DateTime>();
 
             string sqlCommand = @"SELECT DISTINCT FileDateModified FROM MediaMetadata 
-                    WHERE (Broker & @Broker) = @Broker AND FileDirectory = @FileDirectory ORDER BY FileDateModified DESC";
+                    WHERE Broker = @Broker AND FileDirectory = @FileDirectory ORDER BY FileDateModified DESC";
                 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
@@ -1602,7 +1602,7 @@ namespace MetadataLibrary
             List<FileEntryBroker> fileEntryBrokers = new List<FileEntryBroker>();
 
             string sqlCommand = @"SELECT Broker, FileDirectory, FileName, FileDateModified FROM MediaMetadata 
-                WHERE (Broker & @Broker) = @Broker
+                WHERE Broker = @Broker
                 AND FileDirectory = @FileDirectory 
                 AND FileDateModified = @FileDateModified";
             
@@ -1667,7 +1667,7 @@ namespace MetadataLibrary
                 "SELECT " +
                     "Broker, FileDirectory, FileName, FileDateModified " +
                     "FROM MediaMetadata WHERE " +
-                    "(Broker & @Broker) = @Broker AND " +
+                    "Broker = @Broker AND " +
                     "FileDirectory = @FileDirectory AND " +
                     "FileName = @FileName";
 
@@ -1705,7 +1705,7 @@ namespace MetadataLibrary
         /// <summary>
         /// List all versions for a media file, Broker, Folder, Filename, Modified
         /// </summary>
-        /// <param name="broker">Also read (Broker & @Broker) = @Broker) to get ErrorVersions also</param>
+        /// <param name="broker">Also read Broker = @Broker) to get ErrorVersions also</param>
         /// <param name="fullFileName">Filename</param>
         /// <returns></returns>
         public List<FileEntryAttribute> ListFileEntryAttributesCache(MetadataBrokerType broker, string fullFileName, DateTime currentLastWriteTime)
@@ -1741,7 +1741,7 @@ namespace MetadataLibrary
         /// List all versions for a media file, Broker, Folder, Filename, Modified
         /// </summary>
         /// <param name="FileEntryAttributes">List to updated, wgen when Read ExifTool first, then ExiftooError after</param>
-        /// <param name="broker">Use excact Broker type (Don't add | (Broker & @Broker) = @Broker)</param>
+        /// <param name="broker">Use excact Broker type (Don't add | Broker = @Broker)</param>
         /// <param name="fullFileName">Filename</param>
         private void ListFileEntryAttributes2(ref List<FileEntryAttribute> FileEntryAttributes, MetadataBrokerType broker, string fullFileName, DateTime currentLastWriteTime)
         {
@@ -1750,7 +1750,7 @@ namespace MetadataLibrary
                 "SELECT " +
                     "Broker, FileDirectory, FileName, FileDateModified " +
                     "FROM MediaMetadata WHERE " +
-                    "Broker = @Broker AND " + //(Broker & @Broker) = @Broker
+                    "Broker = @Broker AND " + //Broker = @Broker
                     "FileDirectory = @FileDirectory AND " +
                     "FileName = @FileName";
 
@@ -1837,7 +1837,7 @@ namespace MetadataLibrary
         /// <summary>
         /// Uses for search for media data using a huge list of parameres THAT IS selected to use
         /// </summary>
-        /// <param name="broker">Don't find Error version only excat verson (NB, Don't have (Broker & @Broker) = @Broker) )</param>
+        /// <param name="broker">Don't find Error version only excat verson (NB, Don't have Broker = @Broker) )</param>
         /// <param name="useAndBetweenGrups">When true, use AND else OR between search groups</param>
         /// <param name="useMediaTakenFrom">When true, add parameter mediaTakenFrom</param>
         /// <param name="mediaTakenFrom">When media takes is equal or newer than this date</param>
