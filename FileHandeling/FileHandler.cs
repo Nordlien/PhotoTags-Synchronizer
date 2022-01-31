@@ -410,19 +410,23 @@ namespace FileHandeling
 
         #region IsFileLockedByProcess - Cache
         private static List<string> inProcessIsFileLockedByProcess = new List<string>();
+        private static object inProcessIsFileLockedByProcessLock = new object();
         public static bool IsFileLockedForReadAndWriteCached(string fullFilePath, int millisecondsTimeout)
         {   
             bool result = false;
             try
             {
-                if (inProcessIsFileLockedByProcess.Contains(fullFilePath)) return true;
-                inProcessIsFileLockedByProcess.Add(fullFilePath);
+                lock (inProcessIsFileLockedByProcessLock)
+                {
+                    if (inProcessIsFileLockedByProcess.Contains(fullFilePath)) return true;
+                    inProcessIsFileLockedByProcess.Add(fullFilePath);
+                }
             }
             catch
             {
                 try
                 {
-                    inProcessIsFileLockedByProcess.Clear();
+                    lock (inProcessIsFileLockedByProcessLock) inProcessIsFileLockedByProcess.Clear();
                 }
                 catch { }
             }
@@ -431,20 +435,24 @@ namespace FileHandeling
             {
                 result = IsFileLockedForReadOrWrite(fullFilePath);
             });
-            if (!task.Wait(millisecondsTimeout)) result = true; 
+            if (!task.Wait(millisecondsTimeout)) result = true;
             // task.Wait(millisecondsTimeout);
             try
             {
-                if (inProcessIsFileLockedByProcess.Contains(fullFilePath))
-                    inProcessIsFileLockedByProcess.Remove(fullFilePath);
+                lock (inProcessIsFileLockedByProcessLock)
+                {
+                    if (inProcessIsFileLockedByProcess.Contains(fullFilePath))
+                        inProcessIsFileLockedByProcess.Remove(fullFilePath);
+                }
             }
             catch
             {
                 try
                 {
-                    inProcessIsFileLockedByProcess.Clear();
+                    lock (inProcessIsFileLockedByProcessLock) inProcessIsFileLockedByProcess.Clear();
                 }
-                catch { 
+                catch
+                {
                 }
             }
             return result;
