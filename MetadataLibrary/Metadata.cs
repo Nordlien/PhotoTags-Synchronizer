@@ -15,7 +15,6 @@ namespace MetadataLibrary
     public class Metadata
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
-        //Fields size https://owl.phy.queensu.ca/~phil/exiftool/TagNames.pdf
 
         public String errors = "";
         private String fileDirectory;
@@ -23,8 +22,6 @@ namespace MetadataLibrary
         private Byte? personalRatingPercent;
         private List<RegionStructure> personalRegionList = new List<RegionStructure>();
         private List<KeywordTag> personalTagList = new List<KeywordTag>();
-
-        
 
         //Location
         private float? locationAltitude;
@@ -36,14 +33,20 @@ namespace MetadataLibrary
         private String locationCity;
         private String locationState;
 
+        public bool Readonly { get; set; } //Used to debug, changes of original Metadata
+
         #region MergeMetadatas
         public static Metadata MergeMetadatas (Metadata metadataWinner, Metadata metadataLoser)
         {
             Metadata metadata = new Metadata(metadataWinner);
 
+            if (metadataWinner.Readonly)
+            {
+                //DEBUG - Create to find where orginal is changes
+            }
             //Broker
             //metadata.Broker = metadata.Broker;
-            
+
             //JTN: MediaFileAttributes
             //File
             if (metadata.FileName == null) metadata.FileName = metadataLoser.FileName;
@@ -101,6 +104,7 @@ namespace MetadataLibrary
         {    
             errors = metadata.errors;
 
+            Readonly = false; //Reason for copy, is not to edit original 
             //Broker
             Broker = metadata.Broker;
 
@@ -583,6 +587,10 @@ namespace MetadataLibrary
 
         public void PersonalRegionRotate(double rotateDegrees)
         {
+            if (this.Readonly)
+            {
+                //DEBUG - Create to find where orginal is changes
+            }
             List<RegionStructure> regionStructuresCopy = new List<RegionStructure>();
             foreach (RegionStructure regionStructure in personalRegionList)
             {
@@ -620,6 +628,10 @@ namespace MetadataLibrary
                 //DEBUG - should not happen
                 //throw new NotImplementedException();
             }
+            if (this.Readonly)
+            {
+                //DEBUG - Create to find where orginal is changes
+            }
             if (!personalRegionList.Contains(regionStructure)) personalRegionList.Add(regionStructure);
         }
 
@@ -634,6 +646,10 @@ namespace MetadataLibrary
 
         public void PersonalRegionListAddIfNotAreaAndNameExists(RegionStructure regionStructure)
         {
+            if (this.Readonly)
+            {
+                //DEBUG - Create to find where orginal is changes
+            }
             if (!regionStructure.DoesThisRectangleAndNameExistInList(personalRegionList)) personalRegionList.Add(regionStructure);
         }
 
@@ -748,17 +764,24 @@ namespace MetadataLibrary
 
         public void PersonalRegionListAddIfNameNotExists(RegionStructure regionStructure)
         {
+            if (this.Readonly)
+            {
+                //DEBUG - Create to find where orginal is changes
+            }
             if (!regionStructure.DoesThisNameExistInList(personalRegionList)) personalRegionList.Add(regionStructure);
         }
 
         public List<KeywordTag> PersonalKeywordTags
         {
             get => personalTagList;
-            //set => personalTagList = value; 
         }
 
         public bool PersonalKeywordTagsAddIfNotExists(KeywordTag keywordTag, bool caseSencetive = true)
         {
+            if (this.Readonly)
+            {
+                //DEBUG - Create to find where orginal is changes
+            }
             bool keywordWasAdded = false;
             if (!caseSencetive)
             {
@@ -780,29 +803,29 @@ namespace MetadataLibrary
             return keywordWasAdded;
         }
 
-        public void PersonalTagListUpdateImage(RegionStructure updateRegion, Image thumbnail)
-        {
-            for (int i = 0; i < personalRegionList.Count; i++)
-            {
-                if (personalRegionList[i] == updateRegion)
-                {
-                    RegionStructure region = personalRegionList[i];
-                    region.Thumbnail = thumbnail;
-                    personalRegionList.RemoveAt(i);
-                    personalRegionList.Insert(i, region);
-                    break;
-                }
-            }
-        }
+        //public void PersonalTagListUpdateImage(RegionStructure updateRegion, Image thumbnail)
+        //{
+        //    for (int i = 0; i < personalRegionList.Count; i++)
+        //    {
+        //        if (personalRegionList[i] == updateRegion)
+        //        {
+        //            RegionStructure region = personalRegionList[i];
+        //            region.Thumbnail = thumbnail;
+        //            personalRegionList.RemoveAt(i);
+        //            personalRegionList.Insert(i, region);
+        //            break;
+        //        }
+        //    }
+        //}
 
-        public Image PersonalTagListGetThumbnail(RegionStructure region)
-        {
-            if (personalRegionList.Contains(region))
-            {
-                return personalRegionList[personalRegionList.IndexOf(region)].Thumbnail;
-            }
-            return null;
-        }
+        //public Image PersonalTagListGetThumbnail(RegionStructure region)
+        //{
+        //    if (personalRegionList.Contains(region))
+        //    {
+        //        return personalRegionList[personalRegionList.IndexOf(region)].Thumbnail;
+        //    }
+        //    return null;
+        //}
         #endregion
 
         #region Properties - Camera

@@ -200,6 +200,10 @@ namespace MetadataLibrary
             readToCacheFileEntriesRecordEventArgsInit.FileEntries = fileEntryBrokersToPutInCache.Count() * 3;
             readToCacheFileEntriesRecordEventArgsInit.Aborted = false;
             if (OnRecordReadToCache != null) OnRecordReadToCache(this, readToCacheFileEntriesRecordEventArgsInit);
+            
+            #region Local Cache
+            Dictionary<FileEntryBroker, Metadata> metadataCacheRead = new Dictionary<FileEntryBroker, Metadata>();
+            #endregion
 
             #region MediaMetadata
             string sqlCommand =
@@ -240,8 +244,7 @@ namespace MetadataLibrary
                     {
                         if (reader.Read())
                         {
-                            Metadata metadata = ReadMetadataFromCacheOnly(fileEntryBroker);
-                            if (metadata == null) metadata = new Metadata(fileEntryBroker.Broker);
+                            Metadata metadata = new Metadata(fileEntryBroker.Broker);
 
                             metadata.Broker = (MetadataBrokerType)dbTools.ConvertFromDBValLong(reader["Broker"]);
                             metadata.FileDirectory = dbTools.ConvertFromDBValString(reader["FileDirectory"]);
@@ -272,10 +275,14 @@ namespace MetadataLibrary
                             metadata.LocationCity = dbTools.ConvertFromDBValString(reader["LocationCity"]);
                             metadata.LocationState = dbTools.ConvertFromDBValString(reader["LocationState"]);
 
-                            MetadataCacheUpdate(fileEntryBroker, metadata);
+                            //MetadataCacheUpdate(metadata.FileEntryBroker, metadata); //Created crash 
+                            if (metadataCacheRead.ContainsKey(metadata.FileEntryBroker)) metadataCacheRead[metadata.FileEntryBroker] = metadata;
+                            else metadataCacheRead.Add(metadata.FileEntryBroker, metadata);
                         } else
                         {
-                            MetadataCacheUpdate(fileEntryBroker, null);
+                            //MetadataCacheUpdate(fileEntryBroker, null); //Created crash 
+                            if (metadataCacheRead.ContainsKey(fileEntryBroker)) metadataCacheRead[fileEntryBroker] = null;
+                            else metadataCacheRead.Add(fileEntryBroker, null);
                         }
                     }
                 }
@@ -305,9 +312,11 @@ namespace MetadataLibrary
 
                     if (OnRecordReadToCache != null) OnRecordReadToCache(this, readToCacheFileEntriesRecordEventArgs);
 
-                    Metadata metadata = ReadMetadataFromCacheOnly(fileEntryBroker);
+                    Metadata metadata = null;
+                    if (metadataCacheRead.ContainsKey(fileEntryBroker)) metadata = metadataCacheRead[fileEntryBroker];
                     if (metadata != null)
                     {
+                        metadata.Readonly = false;
                         commandDatabase.Parameters.AddWithValue("@Broker", (int)fileEntryBroker.Broker);
                         commandDatabase.Parameters.AddWithValue("@FileDirectory", Path.GetDirectoryName(fileEntryBroker.FileFullPath));
                         commandDatabase.Parameters.AddWithValue("@FileName", Path.GetFileName(fileEntryBroker.FileFullPath));
@@ -356,7 +365,8 @@ namespace MetadataLibrary
                     ReadToCacheFileEntriesRecordEventArgs readToCacheFileEntriesRecordEventArgs = new ReadToCacheFileEntriesRecordEventArgs(readToCacheFileEntriesRecordEventArgsInit);
                     if (OnRecordReadToCache != null) OnRecordReadToCache(this, readToCacheFileEntriesRecordEventArgs);
 
-                    Metadata metadata = ReadMetadataFromCacheOnly(fileEntryBroker);
+                    Metadata metadata = null;
+                    if (metadataCacheRead.ContainsKey(fileEntryBroker)) metadata = metadataCacheRead[fileEntryBroker];
                     if (metadata != null)
                     {
                         commandDatabase.Parameters.AddWithValue("@Broker", (int)fileEntryBroker.Broker);
@@ -383,7 +393,11 @@ namespace MetadataLibrary
                     }
                 }
             }
-            #endregion 
+            #endregion
+
+            #region Update the Cache after all data is read, not before, will make crash
+            foreach (FileEntryBroker fileEntryBroker in metadataCacheRead.Keys) MetadataCacheUpdate(fileEntryBroker, metadataCacheRead[fileEntryBroker]);
+            #endregion
 
             ReadToCacheFileEntriesRecordEventArgs readToCacheFileEntriesRecordEventArgsEnd = new ReadToCacheFileEntriesRecordEventArgs(readToCacheFileEntriesRecordEventArgsInit);
             readToCacheFileEntriesRecordEventArgsEnd.Aborted = true;
@@ -519,6 +533,10 @@ namespace MetadataLibrary
             if (fileDateModified != null) sqlWhere += (sqlWhere == "" ? "" : " AND ") + "FileDateModified = @FileDateModified";
             sqlWhere = (sqlWhere == "" ? "" : " WHERE ") + sqlWhere;
 
+            #region Local Cache
+            Dictionary<FileEntryBroker, Metadata> metadataCacheRead = new Dictionary<FileEntryBroker, Metadata>();
+            #endregion
+
             #region MediaMetadata
             string sqlCommand =
                 "SELECT " +
@@ -593,7 +611,9 @@ namespace MetadataLibrary
                             metadata.LocationCity = dbTools.ConvertFromDBValString(reader["LocationCity"]);
                             metadata.LocationState = dbTools.ConvertFromDBValString(reader["LocationState"]);
 
-                            MetadataCacheUpdate(metadata.FileEntryBroker, metadata);
+                            //MetadataCacheUpdate(metadata.FileEntryBroker, metadata); //Created crash 
+                            if (metadataCacheRead.ContainsKey(metadata.FileEntryBroker)) metadataCacheRead[metadata.FileEntryBroker] = metadata;
+                            else metadataCacheRead.Add(metadata.FileEntryBroker, metadata);
                         }
                     }
                 }
@@ -642,10 +662,13 @@ namespace MetadataLibrary
                             (MetadataBrokerType)dbTools.ConvertFromDBValLong(reader["Broker"])
                             );
 
-                            Metadata metadata = ReadMetadataFromCacheOnly(fileEntryBroker);
+                            Metadata metadata = null;
+
+                            if (metadataCacheRead.ContainsKey(fileEntryBroker)) metadata = metadataCacheRead[fileEntryBroker];
 
                             if (metadata != null)
                             {
+                                metadata.Readonly = false;
                                 metadata.PersonalKeywordTagsAddIfNotExists(
                                     new KeywordTag(
                                     dbTools.ConvertFromDBValString(reader["Keyword"]),
@@ -700,10 +723,12 @@ namespace MetadataLibrary
                             (MetadataBrokerType)dbTools.ConvertFromDBValLong(reader["Broker"])
                             );
 
-                            Metadata metadata = ReadMetadataFromCacheOnly(fileEntryBroker);
+                            Metadata metadata = null;
+                            if (metadataCacheRead.ContainsKey(fileEntryBroker)) metadata = metadataCacheRead[fileEntryBroker];
 
                             if (metadata != null)
                             {
+                                metadata.Readonly = false;
                                 RegionStructure region = new RegionStructure();
                                 region.Type = dbTools.ConvertFromDBValString(reader["Type"]);
                                 string name = dbTools.ConvertFromDBValString(reader["Name"]);
@@ -738,6 +763,10 @@ namespace MetadataLibrary
                 }
             }
             #endregion 
+
+            #region Update the Cache after all data is read, not before, will make crash
+            foreach (FileEntryBroker fileEntryBroker in metadataCacheRead.Keys) MetadataCacheUpdate(fileEntryBroker, metadataCacheRead[fileEntryBroker]);
+            #endregion
         }
         #endregion 
 
@@ -2808,6 +2837,7 @@ namespace MetadataLibrary
 
             lock (metadataCacheLock)
             {
+                if (metadata != null) metadata.Readonly = true;
                 if (metadataCache.ContainsKey(fileEntryBroker)) metadataCache[fileEntryBroker] = metadata;
                 else metadataCache.Add(fileEntryBroker, metadata);
             }
@@ -2826,7 +2856,6 @@ namespace MetadataLibrary
         {
             Metadata metadataCopy = new Metadata(metadata);
             MetadataCacheRemoveMetadataCacheRemove(metadata.FileEntryBroker);
-
 
             try
             {
