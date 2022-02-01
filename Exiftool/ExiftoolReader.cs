@@ -714,7 +714,11 @@ namespace Exiftool
                             if (isClosing)
                             {
                                 Logger.Debug("Exiftool read: appliaction closing, stopping process");
-                                process.Kill();
+                                try
+                                {
+                                    process.Kill();
+                                }
+                                catch { }
                                 return;
                             }
 
