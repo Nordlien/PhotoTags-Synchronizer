@@ -7172,7 +7172,33 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        #region MetadataRefreshLast (Files in Folder, ImageListView, NOT Grid)
+        private void TouchFiles(HashSet<FileEntry> fileEntries)
+        {
+            #region Touch Offline files so they get downloaded
+            bool dontReadFileFromCloud = Properties.Settings.Default.AvoidOfflineMediaFiles;
+            if (!dontReadFileFromCloud)
+            {
+                foreach (FileEntry fileEntry in fileEntries)
+                {
+                    FileStatus fileStatus = FileHandler.GetFileStatus(
+                        fileEntry.FileFullPath,
+                        checkLockedStatus: true,
+                        exiftoolProcessStatus: ExiftoolProcessStatus.InExiftoolReadQueue);
+
+                    if (fileStatus.IsInCloudOrVirtualOrOffline)
+                    {
+                        fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.WaitOfflineBecomeLocal;
+                        FileHandler.TouchOfflineFileToGetFileOnline(fileEntry.FileFullPath);
+                    }
+
+                    ImageListView_UpdatedThumbnail_RefreshAll(fileEntry);
+                    //ImageListView_UpdateItemFileStatusInvoke(fileEntry.FileFullPath, fileStatus);
+                }
+            }
+            #endregion
+        }
+
+        #region Metadata - Refresh - Last (Files in Folder, ImageListView, NOT Grid)
 
         #region ActionMetadataRefreshLast
         private void ActionMetadataRefreshLast()
@@ -7234,32 +7260,6 @@ namespace PhotoTagsSynchronizer
             ActionMetadataRefreshLast();
         }
         #endregion
-
-        private void TouchFiles(HashSet<FileEntry> fileEntries)
-        {
-            #region Touch Offline files so they get downloaded
-            bool dontReadFileFromCloud = Properties.Settings.Default.AvoidOfflineMediaFiles;
-            if (!dontReadFileFromCloud)
-            {
-                foreach (FileEntry fileEntry in fileEntries)
-                {
-                    FileStatus fileStatus = FileHandler.GetFileStatus(
-                        fileEntry.FileFullPath,
-                        checkLockedStatus: true,
-                        exiftoolProcessStatus: ExiftoolProcessStatus.InExiftoolReadQueue);
-
-                    if (fileStatus.IsInCloudOrVirtualOrOffline)
-                    {
-                        fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.WaitOfflineBecomeLocal;
-                        FileHandler.TouchOfflineFileToGetFileOnline(fileEntry.FileFullPath);
-                    }
-
-                    ImageListView_UpdatedThumbnail_RefreshAll(fileEntry);
-                    //ImageListView_UpdateItemFileStatusInvoke(fileEntry.FileFullPath, fileStatus);
-                }
-            }
-            #endregion
-        }
 
         #region DeleteLastMediadataAndReload
         void DeleteLastMetadataAndReloadThread(HashSet<FileEntry> fileEntries)
@@ -7350,7 +7350,7 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        #region MetadataReloadDeleteHistory (Files in Folder, ImageListView, NOT Grid)
+        #region Metadata - Reload - DeleteHistory (Files in Folder, ImageListView, NOT Grid)
 
         #region ActionMetadataReloadDeleteHistory
         private void ActionMetadataReloadDeleteHistory()

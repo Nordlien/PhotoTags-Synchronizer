@@ -438,7 +438,7 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-                if (threadQueuCount == 0) progressBackgroundStatusText = "Nothing...";
+                if (threadQueuCount == 0) progressBackgroundStatusText = "";
                 else progressBackgroundStatusText = "(" + threadQueuCount + ") " + progressBackgroundStatusText;
                 ProgressBackgroundStatusText = progressBackgroundStatusText;
             }
@@ -624,11 +624,12 @@ namespace PhotoTagsSynchronizer
         {
             get
             {
-                return kryptonRibbonGroupLabelToolsProgressBackgroundBackgroundProcessText.TextLine1;
+                return toolStripStatusLabelStatusProcess.Text;
             }
             set
             {
                 kryptonRibbonGroupLabelToolsProgressBackgroundBackgroundProcessText.TextLine1 = value;
+                toolStripStatusLabelStatusProcess.Text = value;
             }
         }
         #endregion

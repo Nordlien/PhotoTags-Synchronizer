@@ -563,6 +563,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuSeparator2 = new Krypton.Toolkit.KryptonContextMenuSeparator();
             this.kryptonStatusStrip1 = new Krypton.Toolkit.KryptonStatusStrip();
             this.toolStripStatusLabelStatusAction = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabelStatusProcess = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.panelMain)).BeginInit();
             this.panelMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceMain)).BeginInit();
@@ -3238,7 +3239,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxBrowserURL.Location = new System.Drawing.Point(132, 6);
             this.textBoxBrowserURL.Name = "textBoxBrowserURL";
-            this.textBoxBrowserURL.Size = new System.Drawing.Size(252, 20);
+            this.textBoxBrowserURL.Size = new System.Drawing.Size(252, 21);
             this.textBoxBrowserURL.TabIndex = 9;
             this.textBoxBrowserURL.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxBrowserURL_KeyPress);
             // 
@@ -3610,7 +3611,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxRenameNewName.Location = new System.Drawing.Point(101, 27);
             this.textBoxRenameNewName.Name = "textBoxRenameNewName";
-            this.textBoxRenameNewName.Size = new System.Drawing.Size(294, 20);
+            this.textBoxRenameNewName.Size = new System.Drawing.Size(294, 21);
             this.textBoxRenameNewName.TabIndex = 1;
             this.textBoxRenameNewName.Enter += new System.EventHandler(this.textBoxRenameNewName_Enter);
             this.textBoxRenameNewName.Leave += new System.EventHandler(this.textBoxRenameNewName_Leave);
@@ -3959,7 +3960,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonTabSelect,
             this.kryptonRibbonTabTools,
             this.kryptonRibbonTabPreview});
-            this.kryptonRibbonMain.SelectedContext = null;
             this.kryptonRibbonMain.SelectedTab = this.kryptonRibbonTabHome;
             this.kryptonRibbonMain.Size = new System.Drawing.Size(1214, 115);
             this.kryptonRibbonMain.TabIndex = 12;
@@ -6066,7 +6066,8 @@ namespace PhotoTagsSynchronizer
             // 
             this.kryptonStatusStrip1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
             this.kryptonStatusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabelStatusAction});
+            this.toolStripStatusLabelStatusAction,
+            this.toolStripStatusLabelStatusProcess});
             this.kryptonStatusStrip1.Location = new System.Drawing.Point(0, 872);
             this.kryptonStatusStrip1.Name = "kryptonStatusStrip1";
             this.kryptonStatusStrip1.ProgressBars = null;
@@ -6080,6 +6081,12 @@ namespace PhotoTagsSynchronizer
             this.toolStripStatusLabelStatusAction.Name = "toolStripStatusLabelStatusAction";
             this.toolStripStatusLabelStatusAction.Size = new System.Drawing.Size(67, 17);
             this.toolStripStatusLabelStatusAction.Text = "Wait action";
+            // 
+            // toolStripStatusLabelStatusProcess
+            // 
+            this.toolStripStatusLabelStatusProcess.Name = "toolStripStatusLabelStatusProcess";
+            this.toolStripStatusLabelStatusProcess.Size = new System.Drawing.Size(51, 17);
+            this.toolStripStatusLabelStatusProcess.Text = "Nothing";
             // 
             // MainForm
             // 
@@ -6848,6 +6855,7 @@ namespace PhotoTagsSynchronizer
         private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItemGenericRegionRenameMostUsedExample;
         private Krypton.Toolkit.KryptonStatusStrip kryptonStatusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelStatusAction;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelStatusProcess;
     }
 }
 
