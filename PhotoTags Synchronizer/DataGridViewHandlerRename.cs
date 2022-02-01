@@ -1,15 +1,11 @@
 ﻿using System.Windows.Forms;
 using MetadataLibrary;
 using DataGridViewGeneric;
-using Manina.Windows.Forms;
-using static Manina.Windows.Forms.ImageListView;
 using System;
 using System.IO;
 using FileDateTime;
 using System.Collections.Generic;
-using NLog;
 using FileHandeling;
-using ColumnNamesAndWidth;
 
 namespace PhotoTagsSynchronizer
 {
@@ -23,13 +19,9 @@ namespace PhotoTagsSynchronizer
         public static bool HasBeenInitialized { get; set; } = false;
         public static MetadataDatabaseCache DatabaseAndCacheMetadataExiftool { get; set; }
         public static FileDateTimeReader FileDateTimeFormats { get; set; }
-
         public static FilesCutCopyPasteDrag FilesCutCopyPasteDrag { get; set; }
-
         public static string RenameVaribale { get; set; }
         public static bool ShowFullPath { get; set; } = false;
-
-
 
         #region CreateNewFilename
         public static string CreateNewFilename(string newFilenameVariable, string oldFilename, Metadata metadata)

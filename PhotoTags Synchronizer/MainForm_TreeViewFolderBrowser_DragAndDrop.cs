@@ -1,19 +1,9 @@
-﻿using ApplicationAssociations;
-using DataGridViewGeneric;
-using Exiftool;
-using ImageAndMovieFileExtentions;
-using LocationNames;
-using Manina.Windows.Forms;
-using MetadataLibrary;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Collections.Specialized;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Windows.Forms;
-using Thumbnails;
 using Krypton.Toolkit;
 using Raccoom.Windows.Forms;
 

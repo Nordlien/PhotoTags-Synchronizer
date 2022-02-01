@@ -1,19 +1,10 @@
 ﻿using System;
-using System.Drawing;
 using System.Windows.Forms;
-using System.IO;
-using SqliteDatabase;
-using DataGridViewGeneric;
-using FileDateTime;
 using System.Collections.Generic;
-using Manina.Windows.Forms;
-using static Manina.Windows.Forms.ImageListView;
-using System.Linq;
 using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
-
     public partial class MainForm : KryptonForm
     {
         #region comboBoxRenameVariableList_SelectionChangeCommitted
@@ -136,6 +127,5 @@ namespace PhotoTagsSynchronizer
             controlPasteWithFocusRename = (Control)sender;
         }
         #endregion
-
     }
 }

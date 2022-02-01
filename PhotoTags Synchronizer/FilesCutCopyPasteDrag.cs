@@ -208,7 +208,6 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region FilesCutCopyPasteDrag - MoveFile
-        
         public bool MoveFile(string sourceFullFilename, string targetFullFilename)
         {
             bool directoryCreated = false;
