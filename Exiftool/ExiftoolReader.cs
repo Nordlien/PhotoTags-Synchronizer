@@ -1772,14 +1772,20 @@ namespace Exiftool
                         else
                         {
                             // Timed out.
+                            genericExiftoolError += (string.IsNullOrWhiteSpace(genericExiftoolError) ? "" : "\r\n") + "Waiting for Exiftool to completed timeouted";
                             didExiftoolTimeout = true;
+                            try
+                            {
+                                if (process != null) process.Kill();
+                            }
+                            catch { }
                         }
                         #endregion
                     }
                     
 
                     #region Log error
-                    if (process.ExitCode != 0 || !string.IsNullOrWhiteSpace(genericExiftoolError))
+                    if (didExiftoolTimeout || !string.IsNullOrWhiteSpace(genericExiftoolError) || process.ExitCode != 0)
                     {
                         //Logger.Error("ERROR: " + error);
                         throw new Exception(genericExiftoolError);

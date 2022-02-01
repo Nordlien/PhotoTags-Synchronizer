@@ -597,6 +597,7 @@ namespace FileHandeling
                         }
 
                         if (machineNameFound && !fixError) return true;
+
                         string pathWithoutMachineName = fileEntryMaybeHasMachineName.FileFullPath.Substring(0, indexOfMachineName);
                         FileEntry fileEntryWithoutMachineName = new FileEntry(fileEntryMaybeHasMachineName.FileFullPath, fileEntryMaybeHasMachineName.LastWriteDateTime);
 
