@@ -1791,14 +1791,15 @@ namespace Exiftool
             }
             catch (Exception ex)
             {
+                Logger.Error("Exiftool.Read(): " + ex.ToString() + "\r\n" + filesToRead.ToString());
+                if (useArguFile) if (File.Exists(exiftoolArgFileFullpath)) File.Delete(exiftoolArgFileFullpath);
+                
                 try
                 {
                     if (process != null && !process.HasExited) process.Kill();
                 }
                 catch { }
 
-                Logger.Error("Exiftool.Read(): " + ex.ToString() + "\r\n" + filesToRead.ToString());
-                if (useArguFile) if (File.Exists(exiftoolArgFileFullpath)) File.Delete(exiftoolArgFileFullpath);
                 throw ex;
             }
 

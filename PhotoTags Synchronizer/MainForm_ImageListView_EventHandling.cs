@@ -721,6 +721,7 @@ namespace PhotoTagsSynchronizer
                 TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, false);
                 LoadingItemsImageListView(1, 6);
                 UpdateStatusImageListView("Clear all old queues");
+                RemoveErrors();
                 ClearAllQueues();
 
                 if (runPopulateFilter) FilterVerifyer.ClearTreeViewNodes(treeViewFilter);

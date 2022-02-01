@@ -95,6 +95,8 @@ namespace PhotoTagsSynchronizer
             {
                 if (!queueErrorQueue.ContainsKey(fullFilePath)) queueErrorQueue.Add(fullFilePath, warning);
             }
+            FileStatus fileStatus = FileHandler.GetFileStatus(fullFilePath, fileErrorMessage: warning, exiftoolProcessStatus: ExiftoolProcessStatus.FileInaccessibleOrError);
+            ImageListView_UpdateItemFileStatusInvoke(fullFilePath, fileStatus);
 
             listOfErrors += warning + "\r\n------\r\n\r\n";
             hasWriteAndVerifyMetadataErrors = true;
@@ -105,9 +107,19 @@ namespace PhotoTagsSynchronizer
         {
             lock (queueErrorQueueLock)
             {
-                if (queueErrorQueue.ContainsKey(fullFilePath)) queueErrorQueue.Remove(fullFilePath);
+                if (queueErrorQueue.ContainsKey(fullFilePath)) 
+                    queueErrorQueue.Remove(fullFilePath);
             }
         }
+
+        public void RemoveErrors()
+        {
+            lock (queueErrorQueueLock)
+            {
+                queueErrorQueue.Clear();
+            }
+        }
+
 
         private static FormMessageBox formMessageBoxWarnings = null;
         private void timerShowErrorMessage_Tick(object sender, EventArgs e)
