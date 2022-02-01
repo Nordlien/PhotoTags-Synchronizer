@@ -13,6 +13,7 @@ using System.Data.SQLite;
 using SqliteDatabase;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
@@ -368,7 +369,7 @@ namespace MetadataLibrary
                     Metadata metadata = null;
                     if (metadataCacheRead.ContainsKey(fileEntryBroker)) metadata = metadataCacheRead[fileEntryBroker];
                     if (metadata != null)
-                    {
+                    {   
                         commandDatabase.Parameters.AddWithValue("@Broker", (int)fileEntryBroker.Broker);
                         commandDatabase.Parameters.AddWithValue("@FileDirectory", Path.GetDirectoryName(fileEntryBroker.FileFullPath));
                         commandDatabase.Parameters.AddWithValue("@FileName", Path.GetFileName(fileEntryBroker.FileFullPath));
@@ -1044,6 +1045,12 @@ namespace MetadataLibrary
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                if (regionStructure.Thumbnail.Height == 1 || regionStructure.Thumbnail.Width == 1)
+                {
+                    //DEBUG WHY
+                    regionStructure.Thumbnail = null;
+                }
+
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)metadata.Broker);
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", metadata.FileDirectory);
@@ -1062,12 +1069,7 @@ namespace MetadataLibrary
                 else commandDatabase.Parameters.AddWithValue("@Thumbnail", dbTools.ImageToByteArray(regionStructure.Thumbnail));
 
                 AddPersonalRegionNameCache(metadata.Broker, regionStructure.Name);
-                if (regionStructure.Thumbnail.Height == 1 || regionStructure.Thumbnail.Width == 1)
-                {
-                    //DEBUG WHY
-
-                    regionStructure.Thumbnail = null;
-                }
+                
 
                 RandomThumbnailCacheUpdate(regionStructure.Name, regionStructure.Thumbnail);
 

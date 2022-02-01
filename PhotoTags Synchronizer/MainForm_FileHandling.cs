@@ -213,7 +213,7 @@ namespace PhotoTagsSynchronizer
                         string newFullFilename = Path.Combine(targetDirectory, oldFilename);
                         Logger.Trace("Rename from:" + oldFullFilename + " to: " + newFullFilename);
 
-                        databaseAndCacheThumbnail.Move(Path.GetDirectoryName(oldFullFilename), Path.GetFileName(oldFullFilename), Path.GetDirectoryName(newFullFilename), Path.GetFileName(newFullFilename));
+                        databaseAndCacheThumbnailPoster.Move(Path.GetDirectoryName(oldFullFilename), Path.GetFileName(oldFullFilename), Path.GetDirectoryName(newFullFilename), Path.GetFileName(newFullFilename));
                         databaseAndCacheMetadataExiftool.Move(Path.GetDirectoryName(oldFullFilename), Path.GetFileName(oldFullFilename), Path.GetDirectoryName(newFullFilename), Path.GetFileName(newFullFilename));
                     }
                     #endregion

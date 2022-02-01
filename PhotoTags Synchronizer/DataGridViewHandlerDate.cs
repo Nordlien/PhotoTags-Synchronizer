@@ -46,7 +46,7 @@ namespace PhotoTagsSynchronizer
         public static string DataGridViewMapHeaderMedia { get; set; }
         public static string DataGridViewMapTagCoordinates { get; set; }
 
-        public static ThumbnailDatabaseCache DatabaseAndCacheThumbnail { get; set; }
+        public static ThumbnailPosterDatabaseCache DatabaseAndCacheThumbnail { get; set; }
         public static MetadataDatabaseCache DatabaseAndCacheMetadataExiftool { get; set; }
         public static MetadataDatabaseCache DatabaseAndCacheMetadataMicrosoftPhotos { get; set; }
         public static MetadataDatabaseCache DatabaseAndCacheMetadataWindowsLivePhotoGallery { get; set; }

@@ -32,7 +32,7 @@ namespace PhotoTagsSynchronizer
             FileEntryVersion fileEntryVersion = FileEntryVersion.ExtractedNowUsingExiftool;
 
             Image thumbnailImage;
-            thumbnailImage = databaseAndCacheThumbnail.ReadThumbnailFromCacheOrDatabase(fileEntry);
+            thumbnailImage = databaseAndCacheThumbnailPoster.ReadThumbnailFromCacheOrDatabase(fileEntry);
             if (thumbnailImage != null) fileEntryVersion = FileEntryVersion.CurrentVersionInDatabase;
 
             if (thumbnailImage == null) //Was not read from database or cache
@@ -44,7 +44,7 @@ namespace PhotoTagsSynchronizer
 
                 if (thumbnailImage != null)
                 {
-                    databaseAndCacheThumbnail.ThumbnailCacheUpdate(fileEntry, new Bitmap(thumbnailImage)); //Remember the Thumbnail, before Save, for show in DataGridView etc., no need to load again                        
+                    databaseAndCacheThumbnailPoster.ThumbnailCacheUpdate(fileEntry, new Bitmap(thumbnailImage)); //Remember the Thumbnail, before Save, for show in DataGridView etc., no need to load again                        
                     DataGridView_UpdateColumnThumbnail_OnFileEntryAttribute(new FileEntryAttribute(fileEntry, fileEntryVersion), new Bitmap(thumbnailImage));
                     DataGridView_UpdateColumnThumbnail_OnFileEntryAttribute(new FileEntryAttribute(fileEntry, FileEntryVersion.Error), new Bitmap(thumbnailImage));
                 }

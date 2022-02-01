@@ -659,7 +659,8 @@ namespace Exiftool
             #endregion
 
             #region Init all data for start "first/each file"
-            string genericExiftoolError = ""; //  genericExiftoolErrorMessage = "";
+            string genericExiftoolError = "";
+            bool didExiftoolTimeout = false;
             CleanAllOldExiftoolDataForReadNewFile();
             Metadata metadata = null;
             DateTime? exiftoolDataFileDateModified = null;
@@ -672,7 +673,6 @@ namespace Exiftool
             Process process = null;
             try
             {
-                bool didExiftoolTimeout = false;
                 using (process = new Process())
                 {
                     #region Start Exiftool process
@@ -1732,7 +1732,7 @@ namespace Exiftool
                         bool result = process.Start();
                         try
                         {
-                            process.PriorityClass = processPriorityClass;
+                           process.PriorityClass = processPriorityClass;
                         }
                         catch { }
 
@@ -1806,7 +1806,11 @@ namespace Exiftool
                 
                 try
                 {
+#if DEBUG
+                    if (!didExiftoolTimeout && process != null && !process.HasExited) process.Kill();
+#else
                     if (process != null && !process.HasExited) process.Kill();
+#endif
                 }
                 catch { }
 
@@ -1827,9 +1831,9 @@ namespace Exiftool
             genericExiftoolErrorMessage = genericExiftoolError = "";
             return; // metaDataCollections;
         }
-        #endregion
+#endregion
 
-        #endregion 
+#endregion
 
     }
 }

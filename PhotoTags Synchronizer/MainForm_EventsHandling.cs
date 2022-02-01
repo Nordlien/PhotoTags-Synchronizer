@@ -7646,7 +7646,7 @@ namespace PhotoTagsSynchronizer
                     {
                         //Thumbnail
                         ThumbnailSaveSize = Properties.Settings.Default.ApplicationThumbnail;
-                        RegionThumbnailHandler.FaceThumbnailSize = Properties.Settings.Default.ApplicationRegionThumbnail;
+                        ThumbnailRegionHandler.FaceThumbnailSize = Properties.Settings.Default.ApplicationRegionThumbnail;
                         fileDateTimeReader = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
 
                         databaseLocationAddress.PreferredLanguagesString = Properties.Settings.Default.ApplicationPreferredLanguages;

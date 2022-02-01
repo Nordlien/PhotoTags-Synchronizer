@@ -18,7 +18,7 @@ namespace PhotoTagsSynchronizer
         public const string headerPeopleMostUsed = "Most used";
         public const string headerPeopleAdded = "Added";
         public static bool HasBeenInitialized { get; set; } = false;
-        public static ThumbnailDatabaseCache DatabaseAndCacheThumbnail { get; set; }
+        public static ThumbnailPosterDatabaseCache DatabaseAndCacheThumbnail { get; set; }
         public static MetadataDatabaseCache DatabaseAndCacheMetadataExiftool { get; set; }
         public static MetadataDatabaseCache DatabaseAndCacheMetadataMicrosoftPhotos { get; set; }
         public static MetadataDatabaseCache DatabaseAndCacheMetadataWindowsLivePhotoGallery { get; set; }

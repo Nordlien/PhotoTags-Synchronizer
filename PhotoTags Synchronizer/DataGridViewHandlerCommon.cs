@@ -15,7 +15,7 @@ namespace PhotoTagsSynchronizer
     {
         #region Column handling - AddColumnSelectedFiles
         public static void AddColumnSelectedFiles(
-            DataGridView dataGridView, ThumbnailDatabaseCache databaseAndCacheThumbnail, HashSet<FileEntry> imageListViewItems, 
+            DataGridView dataGridView, ThumbnailPosterDatabaseCache databaseAndCacheThumbnail, HashSet<FileEntry> imageListViewItems, 
             ReadWriteAccess readWriteAccessForColumn, ShowWhatColumns showWhatColumns, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefault)
         {
             foreach (FileEntry imageListViewItem in imageListViewItems)

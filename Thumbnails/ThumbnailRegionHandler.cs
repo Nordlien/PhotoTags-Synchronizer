@@ -4,7 +4,7 @@ using System.Drawing;
 
 namespace Thumbnails
 {
-    public static class RegionThumbnailHandler
+    public static class ThumbnailRegionHandler
     {
         public static Size FaceThumbnailSize { get; set; } = new Size(100, 100);
 
@@ -64,6 +64,7 @@ namespace Thumbnails
         {
             if (metadata == null) return false; //When new directory selected, array are become empty and list of null will be created
 
+            //metadataDatabase.TransactionBeginBatch();
             if (metadata.Broker == MetadataBrokerType.WebScraping)
             {
                 DateTime? dateTimeLastPackageDate = metadataDatabase.GetWebScraperLastPackageDate();
@@ -86,6 +87,7 @@ namespace Thumbnails
                     metadataDatabase.UpdateRegionThumbnail(metadata, regionStructure);
                 }
             }
+            //metadataDatabase.TransactionCommitBatch();
             return true;
         }
         #endregion 

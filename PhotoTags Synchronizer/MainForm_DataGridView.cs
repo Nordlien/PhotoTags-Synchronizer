@@ -357,7 +357,7 @@ namespace PhotoTagsSynchronizer
                     #endregion
 
                     #region Check if got thumbnail, if not, push to read queue
-                    Image thumbnailImage = databaseAndCacheThumbnail.ReadThumbnailFromCacheOnly(fileEntryAttribute);
+                    Image thumbnailImage = databaseAndCacheThumbnailPoster.ReadThumbnailFromCacheOnly(fileEntryAttribute);
                     if (thumbnailImage == null)
                         AddQueueLazyLoadningMediaThumbnailLock(fileEntryAttribute);
                     #endregion
@@ -570,7 +570,7 @@ namespace PhotoTagsSynchronizer
                         case LinkTabAndDataGridViewNameTags:
                             InitDetailViewTagsAndKeywords();
                             DataGridViewHandlerTagsAndKeywords.MediaAiTagConfidence = GetAiConfidence();
-                            DataGridViewHandlerTagsAndKeywords.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
+                            DataGridViewHandlerTagsAndKeywords.DatabaseAndCacheThumbnail = databaseAndCacheThumbnailPoster;
                             DataGridViewHandlerTagsAndKeywords.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
                             DataGridViewHandlerTagsAndKeywords.DatabaseAndCacheMetadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery;
                             DataGridViewHandlerTagsAndKeywords.DatabaseAndCacheMetadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos;
@@ -583,7 +583,7 @@ namespace PhotoTagsSynchronizer
                             //splitContainerMap.SplitterDistance = Properties.Settings.Default.SplitContainerMap;
                             DataGridViewHandlerMap.TimeZoneShift = GetTimeZoneShift();
                             DataGridViewHandlerMap.AccepedIntervalSecound = GetAccepedIntervalSecound();
-                            DataGridViewHandlerMap.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
+                            DataGridViewHandlerMap.DatabaseAndCacheThumbnail = databaseAndCacheThumbnailPoster;
                             DataGridViewHandlerMap.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
                             DataGridViewHandlerMap.DatabaseAndCacheMetadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery;
                             DataGridViewHandlerMap.DatabaseAndCacheMetadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos;
@@ -596,7 +596,7 @@ namespace PhotoTagsSynchronizer
                             DataGridView_AfterPopulateSelectedFiles_LazyLoadFromDatabaseThenSourceAllVersions(imageListViewSelectItems);
                             break;
                         case LinkTabAndDataGridViewNamePeople:
-                            DataGridViewHandlerPeople.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
+                            DataGridViewHandlerPeople.DatabaseAndCacheThumbnail = databaseAndCacheThumbnailPoster;
                             DataGridViewHandlerPeople.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
                             DataGridViewHandlerPeople.DatabaseAndCacheMetadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery;
                             DataGridViewHandlerPeople.DatabaseAndCacheMetadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos;
@@ -620,7 +620,7 @@ namespace PhotoTagsSynchronizer
                             DataGridViewHandlerDate.DataGridViewMap = dataGridViewMap;
                             DataGridViewHandlerDate.DataGridViewMapHeaderMedia = DataGridViewHandlerMap.headerMedia;
                             DataGridViewHandlerDate.DataGridViewMapTagCoordinates = DataGridViewHandlerMap.tagMediaCoordinates;
-                            DataGridViewHandlerDate.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
+                            DataGridViewHandlerDate.DatabaseAndCacheThumbnail = databaseAndCacheThumbnailPoster;
                             DataGridViewHandlerDate.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
                             DataGridViewHandlerDate.DatabaseAndCacheMetadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery;
                             DataGridViewHandlerDate.DatabaseAndCacheMetadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos;
@@ -629,7 +629,7 @@ namespace PhotoTagsSynchronizer
                             DataGridView_AfterPopulateSelectedFiles_LazyLoadFromDatabaseThenSourceAllVersions(imageListViewSelectItems);
                             break;
                         case LinkTabAndDataGridViewNameExiftool:
-                            DataGridViewHandlerExiftool.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
+                            DataGridViewHandlerExiftool.DatabaseAndCacheThumbnail = databaseAndCacheThumbnailPoster;
                             DataGridViewHandlerExiftool.DatabaseExiftoolData = databaseExiftoolData;
                             DataGridViewHandlerExiftool.exiftoolReader = exiftoolReader;
                             DataGridViewHandlerExiftool.HasBeenInitialized = true;
@@ -638,7 +638,7 @@ namespace PhotoTagsSynchronizer
                             AddQueueLazyLoadningMediaThumbnailLock(lazyLoading);
                             break;
                         case LinkTabAndDataGridViewNameWarnings:
-                            DataGridViewHandlerExiftoolWarnings.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
+                            DataGridViewHandlerExiftoolWarnings.DatabaseAndCacheThumbnail = databaseAndCacheThumbnailPoster;
                             DataGridViewHandlerExiftoolWarnings.DatabaseExiftoolWarning = databaseExiftoolWarning;
                             DataGridViewHandlerExiftoolWarnings.exiftoolReader = exiftoolReader;
                             DataGridViewHandlerExiftoolWarnings.HasBeenInitialized = true;

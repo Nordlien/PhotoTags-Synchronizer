@@ -395,7 +395,7 @@ namespace PhotoTagsSynchronizer
             GlobalData.IsStopAndEmptyThumbnailQueueRequest = true;
 
             MetadataDatabaseCache.StopCaching = true;
-            ThumbnailDatabaseCache.StopCaching = true;
+            ThumbnailPosterDatabaseCache.StopCaching = true;
             lock (commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnailsLock) commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.Clear();
             lock (commonQueueReadMetadataFromSourceExiftoolLock) commonQueueReadMetadataFromSourceExiftool.Clear();
             lock (commonQueueReadMetadataFromSourceMicrosoftPhotosLock) commonQueueReadMetadataFromSourceMicrosoftPhotos.Clear();
@@ -414,7 +414,7 @@ namespace PhotoTagsSynchronizer
             WaitThumbnailReadCacheThread = null;
 
             MetadataDatabaseCache.StopCaching = false;
-            ThumbnailDatabaseCache.StopCaching = false;
+            ThumbnailPosterDatabaseCache.StopCaching = false;
 
             GlobalData.IsStopAndEmptyExiftoolReadQueueRequest = false;
             GlobalData.IsStopAndEmptyThumbnailQueueRequest = false;
@@ -439,7 +439,7 @@ namespace PhotoTagsSynchronizer
                     if (isThreadRunning)
                     {
                         MetadataDatabaseCache.StopCaching = true;
-                        ThumbnailDatabaseCache.StopCaching = true;
+                        ThumbnailPosterDatabaseCache.StopCaching = true;
                         Task.Delay(10).Wait(); //Wait thread stopping
                         Logger.Debug("CacheFileEntries - sleep(100) - ThreadRunning is running");
                     }
@@ -458,7 +458,7 @@ namespace PhotoTagsSynchronizer
                         {
                             if (selectedFolder != null)
                             {
-                                if (cacheFolderThumbnails) databaseAndCacheThumbnail.ReadToCacheFolder(selectedFolder);
+                                if (cacheFolderThumbnails) databaseAndCacheThumbnailPoster.ReadToCacheFolder(selectedFolder);
                                 if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCacheAllMetadatas(selectedFolder, MetadataBrokerType.ExifTool);
                                 if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCacheAllMetadatas(selectedFolder, MetadataBrokerType.WindowsLivePhotoGallery);
                                 if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCacheAllMetadatas(selectedFolder, MetadataBrokerType.MicrosoftPhotos);
@@ -466,7 +466,7 @@ namespace PhotoTagsSynchronizer
                             }
                             else
                             {
-                                if (cacheFolderThumbnails) databaseAndCacheThumbnail.ReadToCache(fileEntries); //Read missing, new media files added
+                                if (cacheFolderThumbnails) databaseAndCacheThumbnailPoster.ReadToCache(fileEntries); //Read missing, new media files added
                                 if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCache(fileEntries, MetadataBrokerType.ExifTool); //Read missing, new media files added
                                 if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCache(fileEntries, MetadataBrokerType.WindowsLivePhotoGallery); //Read missing, new media files added
                                 if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCache(fileEntries, MetadataBrokerType.MicrosoftPhotos); //Read missing, new media files added
@@ -481,7 +481,7 @@ namespace PhotoTagsSynchronizer
                         finally
                         {
                             MetadataDatabaseCache.StopCaching = false;
-                            ThumbnailDatabaseCache.StopCaching = false;
+                            ThumbnailPosterDatabaseCache.StopCaching = false;
                             lock (_ThreadLazyLoadingMetadataFolderLock) _ThreadLazyLoadingMetadataFolder = null;
                         }
                         #endregion
@@ -501,7 +501,7 @@ namespace PhotoTagsSynchronizer
             {
                 //Retry after crash, eg. thread creation failed
                 MetadataDatabaseCache.StopCaching = false;
-                ThumbnailDatabaseCache.StopCaching = false;
+                ThumbnailPosterDatabaseCache.StopCaching = false;
             }
         }
         #endregion 
@@ -850,7 +850,7 @@ namespace PhotoTagsSynchronizer
                                     FileEntryAttribute fileEntryAttribute;
                                     lock (commonQueueLazyLoadingThumbnailLock) fileEntryAttribute = commonQueueLazyLoadingMediaThumbnail[0];
 
-                                    if (!databaseAndCacheThumbnail.DoesThumbnailExistInCache(fileEntryAttribute))
+                                    if (!databaseAndCacheThumbnailPoster.DoesThumbnailExistInCache(fileEntryAttribute))
                                     {
                                         bool dontReadFileFromCloud = Properties.Settings.Default.AvoidOfflineMediaFiles;
                                         FileStatus fileStatus = FileHandler.GetFileStatus(fileEntryAttribute.FileFullPath);
@@ -973,9 +973,9 @@ namespace PhotoTagsSynchronizer
                                     {
                                         if (fileEntryImage.Image != null)
                                         {
-                                            databaseAndCacheThumbnail.TransactionBeginBatch();
-                                            databaseAndCacheThumbnail.WriteThumbnail(fileEntryImage, fileEntryImage.Image);
-                                            databaseAndCacheThumbnail.TransactionCommitBatch();
+                                            databaseAndCacheThumbnailPoster.TransactionBeginBatch();
+                                            databaseAndCacheThumbnailPoster.WriteThumbnail(fileEntryImage, fileEntryImage.Image);
+                                            databaseAndCacheThumbnailPoster.TransactionCommitBatch();
 
                                             if (wasThumnbailEmptyAndReloaded)
                                             {
@@ -2222,7 +2222,8 @@ namespace PhotoTagsSynchronizer
                                                 int coundMissingRegionThumbnails = 0;
                                                 foreach (RegionStructure regionStructureCheckForThumbnails in checkAgaistAll_MetadataActiveAlreadyCopy.PersonalRegionList)
                                                 {
-                                                    if (regionStructureCheckForThumbnails.Thumbnail == null) coundMissingRegionThumbnails++;
+                                                    if (regionStructureCheckForThumbnails.Thumbnail == null) 
+                                                        coundMissingRegionThumbnails++;
                                                 }
 
                                                 if (coundMissingRegionThumbnails == 0)
@@ -2269,7 +2270,7 @@ namespace PhotoTagsSynchronizer
                                                             #region If only Full size Thumbnails, try load Poster Thumbnail
                                                             if (isFullSizeThumbnail)
                                                             {
-                                                                image = databaseAndCacheThumbnail.ReadThumbnailFromCacheOrDatabase(current_FileEntryBrokerRegion);
+                                                                image = databaseAndCacheThumbnailPoster.ReadThumbnailFromCacheOrDatabase(current_FileEntryBrokerRegion);
 
                                                                 if (image == null)
                                                                 {
@@ -2300,7 +2301,7 @@ namespace PhotoTagsSynchronizer
                                                                         //If all other fails, use Fallback on thumbnail
                                                                         if (current_FileEntryBrokerRegion.Broker != MetadataBrokerType.ExifTool)
                                                                         {
-                                                                            image = databaseAndCacheThumbnail.ReadThumbnailFromCacheOrDatabase(current_FileEntryBrokerRegion);
+                                                                            image = databaseAndCacheThumbnailPoster.ReadThumbnailFromCacheOrDatabase(current_FileEntryBrokerRegion);
                                                                             if (image == null) image = LoadMediaCoverArtThumbnail(current_FileEntryBrokerRegion.FileFullPath, ThumbnailSaveSize, fileStatus);
                                                                         }
                                                                     }
@@ -2383,7 +2384,7 @@ namespace PhotoTagsSynchronizer
                                                             ImageListView_UpdateItemFileStatusInvoke(current_FileEntryBrokerRegion.FileFullPath, fileStatus);
 
                                                             #region Fallback on Low resolution
-                                                            if (image == null) image = databaseAndCacheThumbnail.ReadThumbnailFromCacheOrDatabase(current_FileEntryBrokerRegion);
+                                                            if (image == null) image = databaseAndCacheThumbnailPoster.ReadThumbnailFromCacheOrDatabase(current_FileEntryBrokerRegion);
                                                             if (image == null) image = LoadMediaCoverArtThumbnail(current_FileEntryBrokerRegion.FileFullPath, ThumbnailSaveSize, fileStatus);
                                                             if (image != null) fileStatus.FileErrorMessage += " Creating Poster Region Thumbnails for " + current_FileEntryBrokerRegion.Broker + " from Media file, with low resolution.";
                                                             #endregion
@@ -2417,9 +2418,9 @@ namespace PhotoTagsSynchronizer
 
                                                         try
                                                         {
-                                                            databaseAndCacheThumbnail.TransactionBeginBatch();                                                            
-                                                            RegionThumbnailHandler.SaveThumbnailsForRegionList_AlsoWebScarper(databaseAndCacheMetadataExiftool, checkAgaistAll_MetadataActiveAlreadyCopy, new Bitmap(image));                                                            
-                                                            databaseAndCacheThumbnail.TransactionCommitBatch();
+                                                            databaseAndCacheMetadataExiftool.TransactionBeginBatch();                                                            
+                                                            ThumbnailRegionHandler.SaveThumbnailsForRegionList_AlsoWebScarper(databaseAndCacheMetadataExiftool, checkAgaistAll_MetadataActiveAlreadyCopy, new Bitmap(image));
+                                                            databaseAndCacheMetadataExiftool.TransactionCommitBatch();
                                                         }
                                                         catch (Exception ex)
                                                         {

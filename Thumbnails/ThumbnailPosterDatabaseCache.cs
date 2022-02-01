@@ -16,14 +16,14 @@ using System;
 
 namespace Thumbnails
 {
-    public class ThumbnailDatabaseCache
+    public class ThumbnailPosterDatabaseCache
     {
         public static bool StopCaching { 
             get; 
             set; 
         } = false;
         private SqliteDatabaseUtilities dbTools;
-        public ThumbnailDatabaseCache(SqliteDatabaseUtilities databaseTools)
+        public ThumbnailPosterDatabaseCache(SqliteDatabaseUtilities databaseTools)
         {
             dbTools = databaseTools;
         }

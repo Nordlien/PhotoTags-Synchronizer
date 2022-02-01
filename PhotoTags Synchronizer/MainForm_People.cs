@@ -215,7 +215,7 @@ namespace PhotoTagsSynchronizer
                             RegionStructure regionStructure = DataGridViewHandler.GetCellRegionStructure(dataGridView, dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex);
                             if (regionStructure != null)
                             {
-                                if (imageCoverArt != null) regionStructure.Thumbnail = RegionThumbnailHandler.CopyRegionFromImage(imageCoverArt, regionStructure);
+                                if (imageCoverArt != null) regionStructure.Thumbnail = ThumbnailRegionHandler.CopyRegionFromImage(imageCoverArt, regionStructure);
                                 else regionStructure.Thumbnail = (Image)Properties.Resources.RegionLoading;
                             }
                         } else

@@ -19,7 +19,7 @@ namespace PhotoTagsSynchronizer
         private MetadataDatabaseCache databaseAndCacheMetadataExiftool;
         private MetadataDatabaseCache databaseAndCacheMetadataWindowsLivePhotoGallery;
         private MetadataDatabaseCache databaseAndCacheMetadataMicrosoftPhotos;
-        private ThumbnailDatabaseCache databaseAndCacheThumbnail;
+        private ThumbnailPosterDatabaseCache databaseAndCacheThumbnail;
         private ExiftoolDataDatabase databaseExiftoolData;
         private ExiftoolWarningDatabase databaseExiftoolWarning;
 
@@ -37,7 +37,7 @@ namespace PhotoTagsSynchronizer
         public FilesCutCopyPasteDrag(MetadataDatabaseCache databaseAndCacheMetadataExiftool, 
             MetadataDatabaseCache databaseAndCacheMetadataWindowsLivePhotoGallery, 
             MetadataDatabaseCache databaseAndCacheMetadataMicrosoftPhotos, 
-            ThumbnailDatabaseCache databaseAndCacheThumbnail, 
+            ThumbnailPosterDatabaseCache databaseAndCacheThumbnail, 
             ExiftoolDataDatabase databaseExiftoolData, 
             ExiftoolWarningDatabase databaseExiftoolWarning)
         {

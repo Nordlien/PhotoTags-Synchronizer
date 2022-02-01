@@ -81,7 +81,7 @@ namespace PhotoTagsSynchronizer
         private SqliteDatabaseUtilities databaseUtilitiesSqliteMetadata;
 
         private GoogleLocationHistoryDatabaseCache databaseGoogleLocationHistory;
-        private ThumbnailDatabaseCache databaseAndCacheThumbnail;
+        private ThumbnailPosterDatabaseCache databaseAndCacheThumbnailPoster;
         private CameraOwnersDatabaseCache databaseAndCahceCameraOwner;
 
         //Exif from media file
@@ -349,8 +349,8 @@ namespace PhotoTagsSynchronizer
             databaseAndCacheMetadataExiftool.OnRecordReadToCache += DatabaseAndCacheMetadataExiftool_OnRecordReadToCache;
             databaseAndCacheMetadataExiftool.OnDeleteRecord += DatabaseAndCacheMetadataExiftool_OnDeleteRecord;
 
-            databaseAndCacheThumbnail = new ThumbnailDatabaseCache(databaseUtilitiesSqliteMetadata);
-            databaseAndCacheThumbnail.UpsizeThumbnailSize = ThumbnailMaxUpsize;
+            databaseAndCacheThumbnailPoster = new ThumbnailPosterDatabaseCache(databaseUtilitiesSqliteMetadata);
+            databaseAndCacheThumbnailPoster.UpsizeThumbnailSize = ThumbnailMaxUpsize;
 
             databaseExiftoolData = new ExiftoolDataDatabase(databaseUtilitiesSqliteMetadata);
             databaseExiftoolWarning = new ExiftoolWarningDatabase(databaseUtilitiesSqliteMetadata);
@@ -382,7 +382,7 @@ namespace PhotoTagsSynchronizer
                 Thread threadCache = new Thread(() =>
                 {
 
-                    if (cacheAllThumbnails) databaseAndCacheThumbnail.ReadToCacheFolder(null);
+                    if (cacheAllThumbnails) databaseAndCacheThumbnailPoster.ReadToCacheFolder(null);
                     if (cacheAllMetadatas) databaseAndCacheMetadataExiftool.ReadToCacheAllMetadatas();
                     if (cacheAllWebScraperDataSets) databaseAndCacheMetadataExiftool.ReadToCacheWebScarpingAllDataSets();
                 });
@@ -393,7 +393,7 @@ namespace PhotoTagsSynchronizer
             #endregion 
 
             filesCutCopyPasteDrag = new FilesCutCopyPasteDrag(databaseAndCacheMetadataExiftool, databaseAndCacheMetadataWindowsLivePhotoGallery,
-                databaseAndCacheMetadataMicrosoftPhotos, databaseAndCacheThumbnail, databaseExiftoolData, databaseExiftoolWarning);
+                databaseAndCacheMetadataMicrosoftPhotos, databaseAndCacheThumbnailPoster, databaseExiftoolData, databaseExiftoolWarning);
 
             #region Connect to Microsoft Photos
             FormSplash.UpdateStatus("Initialize database: Connect to Microsoft Photos...");
@@ -532,7 +532,7 @@ namespace PhotoTagsSynchronizer
 
             #region Setup Global Variables - Thumbnail
             ThumbnailSaveSize = Properties.Settings.Default.ApplicationThumbnail;
-            RegionThumbnailHandler.FaceThumbnailSize = Properties.Settings.Default.ApplicationRegionThumbnail;
+            ThumbnailRegionHandler.FaceThumbnailSize = Properties.Settings.Default.ApplicationRegionThumbnail;
             #endregion
             #endregion
 
@@ -745,7 +745,7 @@ namespace PhotoTagsSynchronizer
                 {
                     GlobalData.IsStopAndEmptyExiftoolReadQueueRequest = true;
                     MetadataDatabaseCache.StopCaching = true;
-                    ThumbnailDatabaseCache.StopCaching = true;
+                    ThumbnailPosterDatabaseCache.StopCaching = true;
 
                     //Close down nHTTP server;
                     nHttpServerThreadWaitApplicationClosing.Set();
