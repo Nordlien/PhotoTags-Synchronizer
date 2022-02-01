@@ -537,12 +537,29 @@ namespace PhotoTagsSynchronizer
                         #endregion
                     }
                 } while (changesFound);
+
+                do
+                {
+                    changesFound = false;
+                    for (int indexKeyword = 0; indexKeyword < metadataCopy.PersonalKeywordTags.Count; indexKeyword++)
+                    {
+                        if (metadataCopy.PersonalKeywordTags[indexKeyword].Keyword != null && 
+                            metadataCopy.PersonalKeywordTags[indexKeyword].Keyword.Trim() != metadataCopy.PersonalKeywordTags[indexKeyword].Keyword)
+                        {
+                            KeywordTag trimmedKeywordTag = new KeywordTag(metadataCopy.PersonalKeywordTags[indexKeyword].Keyword.Trim(), metadataCopy.PersonalKeywordTags[indexKeyword].Confidence);
+                            metadataCopy.PersonalKeywordTags.RemoveAt(indexKeyword);
+                            metadataCopy.PersonalKeywordTags.Insert(indexKeyword, trimmedKeywordTag);
+                            changesFound = true;
+                            break;
+                        }
+                    }
+                } while (changesFound);
             }
             catch { }
         }
         #endregion
 
-        #region RunAlgorithmReturnCopy
+        #region FixMetadata - RunAlgorithmReturnCopy
         public Metadata RunAlgorithmReturnCopy(Metadata metadata,
             MetadataDatabaseCache metadataAndCacheMetadataExiftool,
             MetadataDatabaseCache databaseAndCacheMetadataMicrosoftPhotos,
