@@ -3058,7 +3058,6 @@ namespace PhotoTagsSynchronizer
                                             #endregion
 
                                             RenameFile_Thread_UpdateTreeViewFolderBrowser(treeViewFolderBrowser1, imageListView1, CommonQueueRenameCountLock(), fullFilename, newFullFilename);
-
                                         }
                                         else
                                         {

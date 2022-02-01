@@ -34,7 +34,7 @@ namespace PhotoTagsSynchronizer
         #region CreateNewFilename
         public static string CreateNewFilename(string newFilenameVariable, string oldFilename, Metadata metadata)
         {
-
+            #region List of vaiables - that can be used in Rename tool
             //%Trim%%MediaFileNow_DateTime% %FileNameWithoutDateTime%%Extension%
             //%Trim%
             //%FileName%
@@ -70,20 +70,22 @@ namespace PhotoTagsSynchronizer
             //%LocationName%
             //%LocationCountry%
             //%LocationRegion%
+            #endregion
 
+            #region Filename
             string newFilename = newFilenameVariable;
             newFilename = newFilename.Replace("%FileName%", Path.GetFileNameWithoutExtension(oldFilename));
             newFilename = newFilename.Replace("%FileNameWithoutDateTime%", FileDateTimeFormats.RemoveAllDateTimes(Path.GetFileNameWithoutExtension(oldFilename)));
-            //newFilename = newFilename.Replace("%FileNameWithoutDateTrim%", FileDateTimeFormats.RemoveAllDateTimes(Path.GetFileNameWithoutExtension(oldFilename))).Trim().Replace("  ", " ").Replace(" _", "_").Replace("_ ", "_");
-
             newFilename = newFilename.Replace("%Extension%", Path.GetExtension(oldFilename));
+            #endregion
+
+            #region DataTime
             DateTime dateTime;
             if ((metadata != null && metadata.MediaDateTaken != null)) dateTime = (DateTime)metadata.MediaDateTaken;
             else if (metadata != null && metadata.FileDateCreated != null) dateTime = (DateTime)metadata.FileDateCreated;
             else dateTime = DateTime.Now;
-
             newFilename = newFilename.Replace("%MediaFileNow_DateTime%", dateTime.ToString("yyyy-MM-dd HH-mm-ss"));
-
+            
             newFilename = newFilename.Replace("%Media_DateTime%", (metadata == null || metadata.MediaDateTaken == null) ? "" : ((DateTime)metadata.MediaDateTaken).ToString("yyyy-MM-dd HH-mm-ss"));
             newFilename = newFilename.Replace("%Media_yyyy%", (metadata == null || metadata.MediaDateTaken == null) ? "" : ((DateTime)metadata.MediaDateTaken).ToString("yyyy"));
             newFilename = newFilename.Replace("%Media_MM%", (metadata == null || metadata.MediaDateTaken == null) ? "" : ((DateTime)metadata.MediaDateTaken).ToString("MM"));
@@ -109,17 +111,23 @@ namespace PhotoTagsSynchronizer
             newFilename = newFilename.Replace("%Now_ss%", DateTime.Now.ToString("ss"));
 
             newFilename = newFilename.Replace("%GPS_DateTimeUTC%", (metadata == null || metadata.LocationDateTime == null) ? "" : ((DateTime)metadata.LocationDateTime).ToString("u").Replace(":", "-"));
+            #endregion
 
+            #region Media Text
             newFilename = newFilename.Replace("%MediaAlbum%", (metadata == null || metadata.PersonalAlbum == null) ? "" : metadata.PersonalAlbum);
             newFilename = newFilename.Replace("%MediaTitle%", (metadata == null || metadata.PersonalTitle == null) ? "" : metadata.PersonalTitle);
             newFilename = newFilename.Replace("%MediaDescription%", (metadata == null || metadata.PersonalDescription == null) ? "" : metadata.PersonalDescription);
             newFilename = newFilename.Replace("%MediaAuthor%", (metadata == null || metadata.PersonalAuthor == null) ? "" : metadata.PersonalAuthor);
+            #endregion
 
+            #region Location
             newFilename = newFilename.Replace("%LocationName%", (metadata == null || metadata.LocationName == null) ? "" : metadata.LocationName);
             newFilename = newFilename.Replace("%LocationCountry%", (metadata == null || metadata.LocationCountry == null) ? "" : metadata.LocationCountry);
             newFilename = newFilename.Replace("%LocationRegion%", (metadata == null || metadata.LocationState == null) ? "" : metadata.LocationState);
             newFilename = newFilename.Replace("%LocationCity%", (metadata == null || metadata.LocationCity == null) ? "" : metadata.LocationCity);
+            #endregion
 
+            #region Trim WhiteSpace 
             if (newFilename.Contains("%Trim%"))
             {
                 int indexOfSplit = newFilename.IndexOf("%Trim%");
@@ -132,11 +140,16 @@ namespace PhotoTagsSynchronizer
                 afterSplit = FileHandler.TrimFolderName(afterSplit, " .", ".");
                 afterSplit = FileHandler.TrimFolderName(afterSplit, ". ", ".");
                 afterSplit = FileHandler.TrimFolderName(afterSplit, "\\ ", "\\");
-                afterSplit = FileHandler.TrimFolderName(afterSplit, " \\", "\\");
+                afterSplit = FileHandler.TrimFolderName(afterSplit, " \\", "\\"); 
                 newFilename = (beforeSplit + afterSplit).Replace("%Trim%", "").Trim(); //If contains more %Trim%, just remove them
             }
-            newFilename = FileHandler.TrimFolderName(newFilename); //https://docs.microsoft.com/en-us/dotnet/api/system.io.directory.createdirectory?view=net-5.0
+            #endregion
 
+            #region Trim Leading space Folder Names
+            newFilename = FileHandler.TrimFolderName(newFilename); //https://docs.microsoft.com/en-us/dotnet/api/system.io.directory.createdirectory?view=net-5.0
+            #endregion
+
+            #region Remove Not allowed Chars
             newFilename = newFilename
                   .Replace("\u0000", "")
                   .Replace("\u0001", "")
@@ -172,18 +185,21 @@ namespace PhotoTagsSynchronizer
                   .Replace("\u001F", "")
                   .Replace("<", "")
                   .Replace(">", "")
-                  //.Replace(":", "")
                   .Replace("|", "")
                   .Replace("?", "")
                   .Replace("*", "")
                   .Replace("/", "")
-                  //.Replace("\\", "")
                   .Replace("\"", "");
+            #endregion
+
+            #region Handle Drive letters A:\ a:\ B:\ b:\ C:\ and remove other :
             if (newFilename.Length >= 3 && Char.IsLetter(newFilename[0]) && newFilename[2] == '\\') //x:\
             {
                 newFilename = newFilename.Substring(0, 3) + newFilename.Substring(3).Replace(":", "");
             }
             else newFilename = newFilename.Replace(":", "");
+            #endregion
+
             return newFilename;
         }
         #endregion
@@ -233,12 +249,15 @@ namespace PhotoTagsSynchronizer
                     string oldFullFilename = FileHandler.CombinePathAndName(oldDirectory, oldFilename);
                     #endregion
 
-                    #region Get New filename from grid
-                    string newFullFilename = FileHandler.CombinePathAndName(oldDirectory, DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, rowIndex));
-                    
+                    #region Get New filename from grid and rename
+                    if (dataGridViewGenericRow.Metadata != null) 
+                    {
+                        string newFullFilename = FileHandler.CombinePathAndName(oldDirectory, DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, rowIndex));
+                        FilesCutCopyPasteDrag.RenameFile(oldFullFilename, newFullFilename, ref renameSuccess, ref renameFailed);
+                    }
                     #endregion 
 
-                    FilesCutCopyPasteDrag.RenameFile(oldFullFilename, newFullFilename, ref renameSuccess, ref renameFailed);
+                    
                 }
             }
 
@@ -263,13 +282,10 @@ namespace PhotoTagsSynchronizer
             for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
             {
                 DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
-                DataGridViewGenericCell cellGridViewGenericCell = DataGridViewHandler.GetCellDataGridViewGenericCellCopy(dataGridView, columnIndex, rowIndex);
 
-                
-                if (!cellGridViewGenericCell.CellStatus.CellReadOnly)
+                if (!dataGridViewGenericRow.IsHeader)
                 {
-                    string newShortOrFullFilename = GetShortOrFullFilename(newFilenameVariable, dataGridViewGenericRow.Metadata, showFullPath, dataGridViewGenericRow.HeaderName, dataGridViewGenericRow.RowName);
-                    DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, newShortOrFullFilename, false);
+                    PopulateFile(dataGridView, dataGridViewGenericRow.FileEntryAttribute, showFullPath, dataGridViewGenericRow.Metadata, true);
                 }
             }
         }
@@ -299,13 +315,18 @@ namespace PhotoTagsSynchronizer
                 if (metadataAutoCorrected != null) metadata = metadataAutoCorrected;
                 else metadata = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryAttribute.GetFileEntryBroker(MetadataBrokerType.ExifTool));
 
-                string directory = fileEntryAttribute.Directory;
-                string filename = fileEntryAttribute.FileName;
+                #region Folder header
+                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(fileEntryAttribute.Directory), true);
+                #endregion
 
-                //Media
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(directory), true);
-                string newShortOrFullFilename = GetShortOrFullFilename(RenameVaribale, metadata, showFullPath, directory, filename);
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(directory, filename, metadata, fileEntryAttribute), newShortOrFullFilename, false);
+                #region Filename
+                string newShortOrFullFilename;
+                if (metadata == null) newShortOrFullFilename = "Waiting metadata to be loaded";
+                else newShortOrFullFilename = GetShortOrFullFilename(RenameVaribale, metadata, showFullPath, fileEntryAttribute.Directory, fileEntryAttribute.FileName);
+                
+                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(
+                    fileEntryAttribute.Directory, fileEntryAttribute.FileName, metadata, fileEntryAttribute), newShortOrFullFilename, metadata == null);
+                #endregion
             }
 
             //-----------------------------------------------------------------
