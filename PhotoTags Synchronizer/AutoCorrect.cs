@@ -51,15 +51,6 @@ namespace PhotoTagsSynchronizer
                 if (list.Contains(word.Trim().ToUpper())) return true;
             }
             return false;
-            //foreach (string word in list)
-            //{
-            //    if (!string.IsNullOrWhiteSpace(word))
-            //    {
-            //        string pattern = @"\b" + Regex.Escape(word) + @"\b";
-            //        Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
-            //        if (regex.IsMatch(findInThisText)) return true;
-            //    }
-            //}
         }
         #endregion
 
