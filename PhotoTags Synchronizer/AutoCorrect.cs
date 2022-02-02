@@ -18,30 +18,48 @@ namespace PhotoTagsSynchronizer
 {
     public class AutoKeywordConvertion
     {
-        public List<string> LocationNames = new List<string>();
-        public List<string> Titles = new List<string>();
-        public List<string> Descriptions = new List<string>();
-        public List<string> Comments = new List<string>();
-        public List<string> Albums = new List<string>();
-        public List<string> Keywords = new List<string>();
-        public List<string> NewKeywords = new List<string>();
+        public HashSet<string> LocationNames = new HashSet<string>();
+        public HashSet<string> Titles = new HashSet<string>();
+        public HashSet<string> Descriptions = new HashSet<string>();
+        public HashSet<string> Comments = new HashSet<string>();
+        public HashSet<string> Albums = new HashSet<string>();
+        public HashSet<string> Keywords = new HashSet<string>();
+        public HashSet<string> NewKeywords = new HashSet<string>();
+
+        #region
+        public static void AddRangeToUpper(HashSet<string> list, string[] addThisArray)
+        {
+            foreach (string addThisItem in addThisArray)
+            {
+                if (!string.IsNullOrWhiteSpace(addThisItem)) 
+                {
+                    string itemToUpper = addThisItem.ToUpper();
+                    if (!list.Contains(itemToUpper)) list.Add(itemToUpper);
+                } 
+            }
+        }
+        #endregion
 
         #region DoesWordExistInList
-        private bool DoesWordExistInList(List<string> list, string findInThisText)
+        private bool DoesWordExistInList(HashSet<string> list, string findInThisText)
         {
             if (string.IsNullOrWhiteSpace(findInThisText)) return false;
-            
-            
-            foreach (string word in list)
+            char[] delimiterChars = { ' ', ',', '.', ':', '\t', '\r', '\n' };
+            string[] wordsInText = findInThisText.Split(delimiterChars, StringSplitOptions.RemoveEmptyEntries);
+            foreach (string word in wordsInText)
             {
-                if (!string.IsNullOrWhiteSpace(word))
-                {
-                    string pattern = @"\b" + Regex.Escape(word) + @"\b";
-                    Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
-                    if (regex.IsMatch(findInThisText)) return true;
-                }
+                if (list.Contains(word.Trim().ToUpper())) return true;
             }
             return false;
+            //foreach (string word in list)
+            //{
+            //    if (!string.IsNullOrWhiteSpace(word))
+            //    {
+            //        string pattern = @"\b" + Regex.Escape(word) + @"\b";
+            //        Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
+            //        if (regex.IsMatch(findInThisText)) return true;
+            //    }
+            //}
         }
         #endregion
 
@@ -179,25 +197,25 @@ namespace PhotoTagsSynchronizer
                                 switch (columnIndex)
                                 {
                                     case 0:
-                                        autoKeywordConvertion.LocationNames.AddRange(items);
+                                        AutoKeywordConvertion.AddRangeToUpper(autoKeywordConvertion.LocationNames, items);
                                         break;
                                     case 1:
-                                        autoKeywordConvertion.Titles.AddRange(items);
+                                        AutoKeywordConvertion.AddRangeToUpper(autoKeywordConvertion.Titles, items);
                                         break;
                                     case 2:
-                                        autoKeywordConvertion.Albums.AddRange(items);
+                                        AutoKeywordConvertion.AddRangeToUpper(autoKeywordConvertion.Albums, items);
                                         break;
                                     case 3:
-                                        autoKeywordConvertion.Descriptions.AddRange(items);
+                                        AutoKeywordConvertion.AddRangeToUpper(autoKeywordConvertion.Descriptions, items);
                                         break;
                                     case 4:
-                                        autoKeywordConvertion.Titles.AddRange(items);
+                                        AutoKeywordConvertion.AddRangeToUpper(autoKeywordConvertion.Titles, items);
                                         break;
                                     case 5:
-                                        autoKeywordConvertion.Keywords.AddRange(items);
+                                        AutoKeywordConvertion.AddRangeToUpper(autoKeywordConvertion.Keywords, items);
                                         break;
                                     case 6:
-                                        autoKeywordConvertion.NewKeywords.AddRange(items);
+                                        AutoKeywordConvertion.AddRangeToUpper(autoKeywordConvertion.NewKeywords, items);
                                         break;
                                 }
                             }
@@ -220,7 +238,10 @@ namespace PhotoTagsSynchronizer
             {
                 if (autoKeywordConvertion.DoesWordExistInAnyList(locationName, title, album, description, comment, keywordTags))
                 {
-                    foreach (string newKeyword in autoKeywordConvertion.NewKeywords) if (!string.IsNullOrWhiteSpace(newKeyword) && !newKeywords.Contains(newKeyword)) newKeywords.Add(newKeyword);
+                    foreach (string newKeyword in autoKeywordConvertion.NewKeywords)
+                    {
+                        if (!string.IsNullOrWhiteSpace(newKeyword) && !newKeywords.Contains(newKeyword)) newKeywords.Add(newKeyword);
+                    }
                 }
             }
             return newKeywords;

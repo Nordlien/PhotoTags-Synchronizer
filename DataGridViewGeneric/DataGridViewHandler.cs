@@ -2550,17 +2550,19 @@ namespace DataGridViewGeneric
         #region Cell Handling - SetCellReadOnlyDependingOfStatus -  int columnIndex, int rowIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatus
         public static void SetCellReadOnlyDependingOfStatus(DataGridView dataGridView, int columnIndex, int rowIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatus)
         {
-            //DataGridViewGenericCellStatus dataGridViewGenericCellStatus = GetCellStatus(dataGridView, columnIndex, rowIndex);
-            if (dataGridViewGenericCellStatus != null)
-                dataGridView[columnIndex, rowIndex].ReadOnly = dataGridViewGenericCellStatus.CellReadOnly;
+            if (dataGridViewGenericCellStatus != null && 
+                dataGridView[columnIndex, rowIndex].ReadOnly != dataGridViewGenericCellStatus.CellReadOnly) //Why check, because changing takes lot of CPU time
+                dataGridView[columnIndex, rowIndex].ReadOnly = dataGridViewGenericCellStatus.CellReadOnly; 
 
             DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-            if (dataGridViewGenericColumn.ReadWriteAccess == ReadWriteAccess.ForceCellToReadOnly)
+            if (dataGridViewGenericColumn.ReadWriteAccess == ReadWriteAccess.ForceCellToReadOnly &&
+                dataGridView[columnIndex, rowIndex].ReadOnly != true)
                 dataGridView[columnIndex, rowIndex].ReadOnly = true;
 
             DataGridViewGenericRow dataGridViewGenericRow = GetRowDataGridViewGenericRow(dataGridView, rowIndex);
             if (dataGridViewGenericRow != null && (
-                dataGridViewGenericRow.ReadWriteAccess == ReadWriteAccess.ForceCellToReadOnly))
+                dataGridViewGenericRow.ReadWriteAccess == ReadWriteAccess.ForceCellToReadOnly) &&
+                dataGridView[columnIndex, rowIndex].ReadOnly != true)
                 dataGridView[columnIndex, rowIndex].ReadOnly = true;
         }
         #endregion
