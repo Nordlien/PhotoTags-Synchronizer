@@ -17,7 +17,7 @@ namespace PhotoTagsSynchronizer
         private int lastGroupDirection = 0;
 
         #region GroupSelectionClear
-        private void GroupSelectionClear()
+        private void FastGroupSelection_Clear()
         {
             lastGroupDirection = 0;
             lastGroupBaseIndex = int.MaxValue;
@@ -98,7 +98,7 @@ namespace PhotoTagsSynchronizer
             ImageListViewResumeLayoutInvoke(imageListView);
             imageListView.Focus();
 
-            OnImageListViewSelect_FilesSelectedOrNoneSelected(false);
+            ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
 
         }
         #endregion
@@ -189,7 +189,7 @@ namespace PhotoTagsSynchronizer
                 ImageListViewResumeLayoutInvoke(imageListView);
                 imageListView.Focus();
 
-                OnImageListViewSelect_FilesSelectedOrNoneSelected(false);
+                ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
                 lastGroupBaseIndex = baseItemIndex;
             }
         }
@@ -442,7 +442,7 @@ namespace PhotoTagsSynchronizer
             kryptonRibbonGroupCheckBoxSelectLocationStateRegion.Checked = Properties.Settings.Default.SelectGroupSameDistrict;
             kryptonRibbonGroupCheckBoxSelectLocationCountry.Checked = Properties.Settings.Default.SelectGroupSameCountry;
             kryptonRibbonGroupCheckBoxSelectCheckAllLocations.Checked = Properties.Settings.Default.SelectGroupCheckAllLocations;
-            GroupSelectionClear();
+            FastGroupSelection_Clear();
         }
         #endregion
 

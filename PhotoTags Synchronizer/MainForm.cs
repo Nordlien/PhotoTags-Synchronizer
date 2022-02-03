@@ -714,7 +714,7 @@ namespace PhotoTagsSynchronizer
                 {
                     GlobalData.IsApplicationClosing = true;
                     ImageListViewHandler.ClearAllAndCaches(imageListView1);
-                    OnImageListViewSelect_FilesSelectedOrNoneSelected(true); //Even when 0 selected files, allocate data and flags, etc...
+                    ImageListView_SelectionChanged_Action_ImageListView_DataGridView(true); //Even when 0 selected files, allocate data and flags, etc...
                 }
             }
 
@@ -945,8 +945,8 @@ namespace PhotoTagsSynchronizer
             }
             #endregion
 
-            ImageListView_Aggregate_FromFolder(false, true);
-            OnImageListViewSelect_FilesSelectedOrNoneSelected(false);
+            ImageListView_FetchListOfMediaFiles_FromFolder_and_Aggregate(false, true);
+            ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
 
             MaximizeOrRestoreWorkspaceMainCellAndChilds();
             SetNavigatorModeSearch((NavigatorMode)Properties.Settings.Default.WorkspaceCellFolderSearchFilterNavigatorMode);

@@ -699,30 +699,30 @@ namespace ImageAndMovieFileExtentions
         }
         #endregion
 
-        #region GetFilesByExtensions - clasic way
-        public static FileInfo[] GetFilesByExtensions(string folder, HashSet<string> extensions, bool recursive)
-        {
-            FileInfo[] files = new FileInfo[0];
+        //#region GetFilesByExtensions - clasic way
+        //public static FileInfo[] GetFilesByExtensions(string folder, HashSet<string> extensions, bool recursive)
+        //{
+        //    FileInfo[] files = new FileInfo[0];
             
-            try
-            {
-                if (!string.IsNullOrWhiteSpace(folder) && Directory.Exists(folder))
-                {
-                    DirectoryInfo dirInfo = new DirectoryInfo(folder);
+        //    try
+        //    {
+        //        if (!string.IsNullOrWhiteSpace(folder) && Directory.Exists(folder))
+        //        {
+        //            DirectoryInfo dirInfo = new DirectoryInfo(folder);
 
-                    SearchOption searchOption;
-                    if (recursive) searchOption = SearchOption.AllDirectories;
-                    else searchOption = SearchOption.TopDirectoryOnly;
+        //            SearchOption searchOption;
+        //            if (recursive) searchOption = SearchOption.AllDirectories;
+        //            else searchOption = SearchOption.TopDirectoryOnly;
 
-                    files = dirInfo.GetFiles("*", searchOption).Where(f => extensions.Contains(f.Extension.ToUpper())).ToArray();
-                }
-            } catch (Exception ex)
-            {
-                Logger.Error(ex, "GetFilesByExtensions: ");
-            }
-            return files;
-        }
-        #endregion
+        //            files = dirInfo.GetFiles("*", searchOption).Where(f => extensions.Contains(f.Extension.ToUpper())).ToArray();
+        //        }
+        //    } catch (Exception ex)
+        //    {
+        //        Logger.Error(ex, "GetFilesByExtensions: ");
+        //    }
+        //    return files;
+        //}
+        //#endregion
 
         #region IsVideoFormat
         public static bool IsVideoFormat(string filename)

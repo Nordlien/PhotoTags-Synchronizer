@@ -138,7 +138,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region DataGridView - Populate - SelectedExtrasDropdownAndColumnSizesInvoke (Populate DataGridView Extras)
+        #region DataGridView - Populate - ExtrasAsDropdownAndColumnSizesInvoke (Populate DataGridView Extras)
         private void DataGridView_Populate_ExtrasAsDropdownAndColumnSizesInvoke()
         {
             if (this.InvokeRequired)
@@ -187,6 +187,8 @@ namespace PhotoTagsSynchronizer
                         break;
                     default: throw new NotImplementedException();
                 }
+
+                
             }
         }
         #endregion
@@ -345,14 +347,6 @@ namespace PhotoTagsSynchronizer
                             break;
                         default:
                             throw new NotImplementedException();
-                    }
-                    #endregion
-
-                    #region PopulateTreeViewFolderFilter
-                    if (!IsPopulateTreeViewFolderFilterThreadRunning)
-                    {
-                        PopulateTreeViewFolderFilterAdd(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.ExifTool));
-                        PopulateTreeViewFolderFilterUpdatedTreeViewFilterInvoke();
                     }
                     #endregion
 
@@ -960,6 +954,63 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region DataGridView - GetSelectedFilesFromActiveDataGridView
+        private HashSet<FileEntry> DataGridView_GetSelectedFilesFromActive()
+        {
+            HashSet<FileEntry> files = new HashSet<FileEntry>();
+            try
+            {
+                DataGridView dataGridView;
+                switch (ActiveKryptonPage)
+                {
+                    case KryptonPages.None:
+                    case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                    case KryptonPages.kryptonPageFolderSearchFilterSearch:
+                    case KryptonPages.kryptonPageFolderSearchFilterFilter:
+                    case KryptonPages.kryptonPageMediaFiles:
+                        break;
+                    case KryptonPages.kryptonPageToolboxTags:
+                    case KryptonPages.kryptonPageToolboxPeople:
+                    case KryptonPages.kryptonPageToolboxMap:
+                    case KryptonPages.kryptonPageToolboxDates:
+                    case KryptonPages.kryptonPageToolboxExiftool:
+                    case KryptonPages.kryptonPageToolboxWarnings:
+                    case KryptonPages.kryptonPageToolboxProperties:
+                        dataGridView = GetActiveTabDataGridView();
+                        if (dataGridView != null)
+                        {
+                            foreach (int columnIndex in DataGridViewHandler.GetColumnSelected(GetActiveTabDataGridView()))
+                            {
+                                DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(GetActiveTabDataGridView(), columnIndex);
+                                if (dataGridViewGenericColumn != null && !files.Contains(dataGridViewGenericColumn.FileEntryAttribute.FileEntry)) files.Add(dataGridViewGenericColumn.FileEntryAttribute.FileEntry);
+                            }
+                        }
+                        break;
+                    case KryptonPages.kryptonPageToolboxRename:
+                    case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                        dataGridView = GetActiveTabDataGridView();
+                        if (dataGridView != null)
+                        {
+                            foreach (int rowIndex in DataGridViewHandler.GetRowSelected(GetActiveTabDataGridView()))
+                            {
+                                DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(GetActiveTabDataGridView(), rowIndex);
+                                FileEntry fileEntry = dataGridViewGenericRow.FileEntryAttribute.FileEntry;
+                                if (dataGridViewGenericRow != null && !dataGridViewGenericRow.IsHeader && !files.Contains(fileEntry)) files.Add(fileEntry);
+                            }
+                        }
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            return files;
+        }
+        #endregion
 
     }
 }

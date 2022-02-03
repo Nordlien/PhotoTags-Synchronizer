@@ -223,7 +223,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Map - ShowCoordinate On OpenStreetMap_Click
+        #region DataGridView - Map - ShowCoordinate On OpenStreetMap_Click
 
         private void KryptonContextMenuItemMapShowCoordinateOnOpenStreetMap_Click(object sender, EventArgs e)
         {
@@ -231,7 +231,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region Map - ShowCoordinate On GoogleMap_Click
+        #region DataGridView - Map - ShowCoordinate On GoogleMap_Click
         private void KryptonContextMenuItemMapShowCoordinateOnGoogleMap_Click(object sender, EventArgs e)
         {
             GetLocationAndShow(MapProvider.GoogleMap);
@@ -363,19 +363,21 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        #region DataGridMap Enter Cell with GPS location, update map
-
+        #region DataGridView - Map - CellEnter
         private void dataGridViewMap_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
             DataGridView dataGridView = dataGridViewMap;
             RegionSelectorLoadAndSelect(dataGridView, e.RowIndex, e.ColumnIndex);
         }
+        #endregion
 
+        #region DataGridView - Map - CellMouseClick
         private void dataGridViewMap_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             DataGridView dataGridView = ((DataGridView)sender);
             if (e.RowIndex == -1) RegionSelectorLoadAndSelect(dataGridView, e.RowIndex, e.ColumnIndex);
         }
+        #endregion
 
         #region DataGridView - Map - Cell Mouse *Double* Click
         private void dataGridViewMap_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -404,7 +406,11 @@ namespace PhotoTagsSynchronizer
         {
             if (isDataGridViewMaps_CellValueChanging) return; //Avoid requirng isues
             if (GlobalData.IsApplicationClosing) return;
-            if (GlobalData.IsPopulatingAnything()) return;
+            if (GlobalData.IsPopulatingAnything())
+            {
+                KryptonMessageBox.Show("Data is populating, please try a bit later.", "Need wait...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
+                return;
+            }
             if (e.ColumnIndex < 0) return;
             if (e.RowIndex < 0) return;
 
@@ -510,8 +516,6 @@ namespace PhotoTagsSynchronizer
 
             isDataGridViewMaps_CellValueChanging = false;
         }
-        #endregion
-
         #endregion
 
         #region Map - ReloadUsingNominatim_Click

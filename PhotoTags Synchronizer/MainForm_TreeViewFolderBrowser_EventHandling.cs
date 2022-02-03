@@ -32,8 +32,9 @@ namespace PhotoTagsSynchronizer
                 if (GlobalData.IsPopulatingFolderTree) return;
                 if (GlobalData.IsDragAndDropActive) return;
                 if (GlobalData.DoNotRefreshImageListView) return;
+
                 GlobalData.SearchFolder = true;
-                ImageListView_Aggregate_FromFolder(false, true);
+                ImageListView_FetchListOfMediaFiles_FromFolder_and_Aggregate(false, true);
             }
             catch (Exception ex)
             {

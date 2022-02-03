@@ -26,7 +26,7 @@ namespace PhotoTagsSynchronizer
         public HashSet<string> Keywords = new HashSet<string>();
         public HashSet<string> NewKeywords = new HashSet<string>();
 
-        #region
+        #region AddRangeToUpper
         public static void AddRangeToUpper(HashSet<string> list, string[] addThisArray)
         {
             foreach (string addThisItem in addThisArray)
@@ -44,7 +44,7 @@ namespace PhotoTagsSynchronizer
         private bool DoesWordExistInList(HashSet<string> list, string findInThisText)
         {
             if (string.IsNullOrWhiteSpace(findInThisText)) return false;
-            char[] delimiterChars = { ' ', ',', '.', ':', '\t', '\r', '\n' };
+            char[] delimiterChars = { ' ', ',', '.', ':', '\'', '\"', '\\', '\0', '\f', '\n', '\r', '\t'};
             string[] wordsInText = findInThisText.Split(delimiterChars, StringSplitOptions.RemoveEmptyEntries);
             foreach (string word in wordsInText)
             {
@@ -69,8 +69,6 @@ namespace PhotoTagsSynchronizer
     }
     class AutoKeywordHandler
     {
-        
-
         #region Const
         const string Filename = "AutoKeywords.xml";
         const string DataSetName = "AutoKeywordsDataSet";

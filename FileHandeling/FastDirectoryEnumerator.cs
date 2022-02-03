@@ -269,32 +269,32 @@ namespace FileHandeling
         }
         #endregion
 
-        #region FileData[] GetFiles(string path, string searchPattern, SearchOption searchOption)
-        /// <summary>
-        /// Gets <see cref="FileData"/> for all the files in a directory that match a 
-        /// specific filter.
-        /// </summary>
-        /// <param name="path">The path to search.</param>
-        /// <param name="searchPattern">The search string to match against files in the path.</param>
-        /// <returns>An object that implements <see cref="IEnumerable{FileData}"/> and 
-        /// allows you to enumerate the files in the given directory.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="path"/> is a null reference (Nothing in VB)
-        /// </exception>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="filter"/> is a null reference (Nothing in VB)
-        /// </exception>
-        public static FileData[] GetFiles(string path, string searchPattern, SearchOption searchOption)
-        {
-            IEnumerable<FileData> e = FastDirectoryEnumerator.EnumerateFiles(path, searchPattern, searchOption);
-            List<FileData> list = new List<FileData>(e);
+        //#region FileData[] GetFiles(string path, string searchPattern, SearchOption searchOption)
+        ///// <summary>
+        ///// Gets <see cref="FileData"/> for all the files in a directory that match a 
+        ///// specific filter.
+        ///// </summary>
+        ///// <param name="path">The path to search.</param>
+        ///// <param name="searchPattern">The search string to match against files in the path.</param>
+        ///// <returns>An object that implements <see cref="IEnumerable{FileData}"/> and 
+        ///// allows you to enumerate the files in the given directory.</returns>
+        ///// <exception cref="ArgumentNullException">
+        ///// <paramref name="path"/> is a null reference (Nothing in VB)
+        ///// </exception>
+        ///// <exception cref="ArgumentNullException">
+        ///// <paramref name="filter"/> is a null reference (Nothing in VB)
+        ///// </exception>
+        //public static FileData[] GetFiles(string path, string searchPattern, SearchOption searchOption)
+        //{
+        //    IEnumerable<FileData> e = FastDirectoryEnumerator.EnumerateFiles(path, searchPattern, searchOption);
+        //    List<FileData> list = new List<FileData>(e);
 
-            FileData[] retval = new FileData[list.Count];
-            list.CopyTo(retval);
+        //    FileData[] retval = new FileData[list.Count];
+        //    list.CopyTo(retval);
 
-            return retval;
-        }
-        #endregion
+        //    return retval;
+        //}
+        //#endregion
 
         #region FileEnumerable : IEnumerable<FileData>
         /// <summary>

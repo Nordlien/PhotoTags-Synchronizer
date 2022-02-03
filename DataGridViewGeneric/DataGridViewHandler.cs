@@ -1729,13 +1729,6 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-        #region Row handling - DoesRowHeaderAndNameExist
-        public static bool DoesRowHeaderAndNameExist(DataGridView dataGridView, string headerName, string rowName)
-        {
-            return GetRowIndex(dataGridView, headerName, rowName) != -1;
-        }
-        #endregion
-
         #region Row handling - DeleteRow
         public static bool DeleteRow(DataGridView dataGridView, string headerName, string rowName)
         {

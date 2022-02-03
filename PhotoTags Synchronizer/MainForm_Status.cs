@@ -77,7 +77,6 @@ namespace PhotoTagsSynchronizer
         private void timerStatusThreadQueue_Tick(object sender, EventArgs e)
         {
             DisplayAllQueueStatus();
-            //Application.DoEvents();
         }
         #endregion 
 

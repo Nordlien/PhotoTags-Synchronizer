@@ -422,89 +422,89 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Preloading - Metadata - Thread - Faster Sqlite read for a list of files
-        /// <summary>
-        /// Faster read of metadata and put into the cache
-        /// </summary>
-        /// <param name="fileEntries">List of FileEntires to put in cache</param>
-        public void PreloadCacheFileEntries(HashSet<FileEntry> fileEntries, string selectedFolder)
-        {            
-            try
-            {
-                bool isThreadRunning;
-                int retry = 200;
-                do
-                {
-                    lock (_ThreadLazyLoadingMetadataFolderLock) isThreadRunning = (_ThreadLazyLoadingMetadataFolder != null);
-                    if (isThreadRunning)
-                    {
-                        MetadataDatabaseCache.StopCaching = true;
-                        ThumbnailPosterDatabaseCache.StopCaching = true;
-                        Task.Delay(10).Wait(); //Wait thread stopping
-                        Logger.Debug("CacheFileEntries - sleep(100) - ThreadRunning is running");
-                    }
-                } while (isThreadRunning && retry-- > 0);
+        //#region Preloading - Metadata - Thread - Faster Sqlite read for a list of files
+        ///// <summary>
+        ///// Faster read of metadata and put into the cache
+        ///// </summary>
+        ///// <param name="fileEntries">List of FileEntires to put in cache</param>
+        //public void PreloadCacheFileEntries(HashSet<FileEntry> fileEntries, string selectedFolder)
+        //{            
+        //    try
+        //    {
+        //        bool isThreadRunning;
+        //        int retry = 200;
+        //        do
+        //        {
+        //            lock (_ThreadLazyLoadingMetadataFolderLock) isThreadRunning = (_ThreadLazyLoadingMetadataFolder != null);
+        //            if (isThreadRunning)
+        //            {
+        //                MetadataDatabaseCache.StopCaching = true;
+        //                ThumbnailPosterDatabaseCache.StopCaching = true;
+        //                Task.Delay(10).Wait(); //Wait thread stopping
+        //                Logger.Debug("CacheFileEntries - sleep(100) - ThreadRunning is running");
+        //            }
+        //        } while (isThreadRunning && retry-- > 0);
 
-                lock (_ThreadLazyLoadingMetadataFolderLock) isThreadRunning = (_ThreadLazyLoadingMetadataFolder != null);
+        //        lock (_ThreadLazyLoadingMetadataFolderLock) isThreadRunning = (_ThreadLazyLoadingMetadataFolder != null);
 
-                if (isThreadRunning) return; //Still running, give up
+        //        if (isThreadRunning) return; //Still running, give up
 
-                lock (_ThreadLazyLoadingMetadataFolderLock)
-                {
-                    _ThreadLazyLoadingMetadataFolder = new Thread(() =>
-                    {
-                        #region
-                        try
-                        {
-                            if (selectedFolder != null)
-                            {
-                                if (cacheFolderThumbnails) databaseAndCacheThumbnailPoster.ReadToCacheFolder(selectedFolder);
-                                if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCacheAllMetadatas(selectedFolder, MetadataBrokerType.ExifTool);
-                                if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCacheAllMetadatas(selectedFolder, MetadataBrokerType.WindowsLivePhotoGallery);
-                                if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCacheAllMetadatas(selectedFolder, MetadataBrokerType.MicrosoftPhotos);
-                                if (cacheFolderWebScraperDataSets) databaseAndCacheMetadataExiftool.ReadToCacheWebScraperDataSet(fileEntries); //Don't have folder
-                            }
-                            else
-                            {
-                                if (cacheFolderThumbnails) databaseAndCacheThumbnailPoster.ReadToCache(fileEntries); //Read missing, new media files added
-                                if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCache(fileEntries, MetadataBrokerType.ExifTool); //Read missing, new media files added
-                                if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCache(fileEntries, MetadataBrokerType.WindowsLivePhotoGallery); //Read missing, new media files added
-                                if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCache(fileEntries, MetadataBrokerType.MicrosoftPhotos); //Read missing, new media files added
-                                if (cacheFolderWebScraperDataSets) databaseAndCacheMetadataExiftool.ReadToCacheWebScraperDataSet(fileEntries); //Read missing, new media files added
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            KryptonMessageBox.Show("CacheFileEntries crashed.", "CacheFileEntries failed", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-                            Logger.Error(ex, "CacheFileEntries crashed");
-                        }
-                        finally
-                        {
-                            MetadataDatabaseCache.StopCaching = false;
-                            ThumbnailPosterDatabaseCache.StopCaching = false;
-                            lock (_ThreadLazyLoadingMetadataFolderLock) _ThreadLazyLoadingMetadataFolder = null;
-                        }
-                        #endregion
-                    });
-                }
+        //        lock (_ThreadLazyLoadingMetadataFolderLock)
+        //        {
+        //            _ThreadLazyLoadingMetadataFolder = new Thread(() =>
+        //            {
+        //                #region
+        //                try
+        //                {
+        //                    if (selectedFolder != null)
+        //                    {
+        //                        if (cacheFolderThumbnails) databaseAndCacheThumbnailPoster.ReadToCacheFolder(selectedFolder);
+        //                        if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCacheAllMetadatas(selectedFolder, MetadataBrokerType.ExifTool);
+        //                        if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCacheAllMetadatas(selectedFolder, MetadataBrokerType.WindowsLivePhotoGallery);
+        //                        if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCacheAllMetadatas(selectedFolder, MetadataBrokerType.MicrosoftPhotos);
+        //                        if (cacheFolderWebScraperDataSets) databaseAndCacheMetadataExiftool.ReadToCacheWebScraperDataSet(fileEntries); //Don't have folder
+        //                    }
+        //                    else
+        //                    {
+        //                        if (cacheFolderThumbnails) databaseAndCacheThumbnailPoster.ReadToCache(fileEntries); //Read missing, new media files added
+        //                        if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCache(fileEntries, MetadataBrokerType.ExifTool); //Read missing, new media files added
+        //                        if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCache(fileEntries, MetadataBrokerType.WindowsLivePhotoGallery); //Read missing, new media files added
+        //                        if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCache(fileEntries, MetadataBrokerType.MicrosoftPhotos); //Read missing, new media files added
+        //                        if (cacheFolderWebScraperDataSets) databaseAndCacheMetadataExiftool.ReadToCacheWebScraperDataSet(fileEntries); //Read missing, new media files added
+        //                    }
+        //                }
+        //                catch (Exception ex)
+        //                {
+        //                    KryptonMessageBox.Show("CacheFileEntries crashed.", "CacheFileEntries failed", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+        //                    Logger.Error(ex, "CacheFileEntries crashed");
+        //                }
+        //                finally
+        //                {
+        //                    MetadataDatabaseCache.StopCaching = false;
+        //                    ThumbnailPosterDatabaseCache.StopCaching = false;
+        //                    lock (_ThreadLazyLoadingMetadataFolderLock) _ThreadLazyLoadingMetadataFolder = null;
+        //                }
+        //                #endregion
+        //            });
+        //        }
 
-                lock (_ThreadLazyLoadingMetadataFolderLock) if (_ThreadLazyLoadingMetadataFolder != null)
-                {
-                    _ThreadLazyLoadingMetadataFolder.Priority = threadPriority;
-                    _ThreadLazyLoadingMetadataFolder.Start();                    
-                }
-                else Logger.Error("_ThreadCacheSelectedFastRead was not able to start");
+        //        lock (_ThreadLazyLoadingMetadataFolderLock) if (_ThreadLazyLoadingMetadataFolder != null)
+        //        {
+        //            _ThreadLazyLoadingMetadataFolder.Priority = threadPriority;
+        //            _ThreadLazyLoadingMetadataFolder.Start();                    
+        //        }
+        //        else Logger.Error("_ThreadCacheSelectedFastRead was not able to start");
                 
 
-            }
-            catch
-            {
-                //Retry after crash, eg. thread creation failed
-                MetadataDatabaseCache.StopCaching = false;
-                ThumbnailPosterDatabaseCache.StopCaching = false;
-            }
-        }
-        #endregion 
+        //    }
+        //    catch
+        //    {
+        //        //Retry after crash, eg. thread creation failed
+        //        MetadataDatabaseCache.StopCaching = false;
+        //        ThumbnailPosterDatabaseCache.StopCaching = false;
+        //    }
+        //}
+        //#endregion 
 
         #endregion
 
@@ -981,7 +981,7 @@ namespace PhotoTagsSynchronizer
                                             {
                                                 DataGridView_UpdateColumnThumbnail_OnFileEntryAttribute(new FileEntryAttribute(fileEntryImage, FileEntryVersion.ExtractedNowUsingReadMediaFile), fileEntryImage.Image);
                                                 DataGridView_UpdateColumnThumbnail_OnFileEntryAttribute(new FileEntryAttribute(fileEntryImage, FileEntryVersion.Error), fileEntryImage.Image);
-                                                ImageListView_UpdatedThumbnail_RefreshAll(fileEntryImage);
+                                                ImageListView_UpdateItemThumbnailUpdateAllInvoke(fileEntryImage);
                                             }
                                         }
                                     }
@@ -1826,7 +1826,7 @@ namespace PhotoTagsSynchronizer
                                                 FileEntryAttribute fileEntryAttribute = 
                                                     new FileEntryAttribute(currentMetadata.FileEntryBroker, FileEntryVersion.CurrentVersionInDatabase);
                                                 AddQueueReadFromSourceIfMissing_AllSoruces(fileEntryAttribute);
-                                                ImageListView_UpdatedThumbnail_RefreshAll(currentMetadata.FileEntryBroker);
+                                                ImageListView_UpdateItemThumbnailUpdateAllInvoke(currentMetadata.FileEntryBroker);
 
                                                 FileEntryAttribute fileEntryAttributeHistoricalc = 
                                                     new FileEntryAttribute(fileSuposeToBeUpdated, FileEntryVersion.Historical);

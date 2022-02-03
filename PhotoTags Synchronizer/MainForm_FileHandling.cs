@@ -9,12 +9,74 @@ using Manina.Windows.Forms;
 using static Manina.Windows.Forms.ImageListView;
 using FileHandeling;
 using Krypton.Toolkit;
+using MetadataLibrary;
+using ImageAndMovieFileExtentions;
 
 namespace PhotoTagsSynchronizer
 {
 
     public partial class MainForm : KryptonForm
     {
+
+        #region Files In Folder Helper - GetFilesInSelectedFolderCached
+        private string cachedFolder = "";
+        private HashSet<FileEntry> fileEntriesFolderCached = new HashSet<FileEntry>();
+        private HashSet<FileEntry> GetFilesInSelectedFolderCached()
+        {
+
+            try
+            {
+                string folder = GetSelectedNodeFullRealPath();
+                if (folder == null || !Directory.Exists(folder))
+                {
+                    KryptonMessageBox.Show("Can't reach the folder. Not a valid folder selected.", "Invalid folder...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
+                    cachedFolder = "";
+                    fileEntriesFolderCached = new HashSet<FileEntry>();
+                    return fileEntriesFolderCached;
+                }
+
+                if (cachedFolder != folder) //Need updated cache
+                {
+                    IEnumerable<FileData> fileDatas = ImageAndMovieFileExtentionsUtility.GetFilesByEnumerableFast(folder, false);
+                    HashSet<FileEntry> fileEntriesFolder = new HashSet<FileEntry>();
+                    foreach (FileData fileData in fileDatas)
+                    {
+                        if (ImageAndMovieFileExtentionsUtility.IsMediaFormat(fileData)) fileEntriesFolder.Add(new FileEntry(fileData.Path, fileData.LastWriteTime));
+                    }
+                    fileEntriesFolderCached = fileEntriesFolder;
+                    cachedFolder = folder;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+            }
+
+            return fileEntriesFolderCached;
+        }
+        #endregion
+
+        #region Files In Folder Helper - GetFilesInSelectedFolder
+        private IEnumerable<FileData> GetFilesInSelectedFolder(string folder, bool recursive = false)
+        {
+            IEnumerable<FileData> fileDatas = null;
+            try
+            {
+                if (folder == null || !Directory.Exists(folder))
+                {
+                    KryptonMessageBox.Show("Can't reach the folder. Not a valid folder selected.", "Invalid folder...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
+                    return fileDatas;
+                }
+                fileDatas = ImageAndMovieFileExtentionsUtility.GetFilesByEnumerableFast(folder, recursive);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+            }
+            return fileDatas;
+        }
+        #endregion
+
         #region RenameFileProcess from thread queue
         private void RenameFile_Thread_UpdateTreeViewFolderBrowser(TreeViewFolderBrowser folderTreeView, ImageListView imageListView, int renameQueueCount, string sourceFullFilename, string targetFullFilename)
         {
@@ -44,7 +106,10 @@ namespace PhotoTagsSynchronizer
                     ImageListViewHandler.ImageListViewRemoveItem(imageListView, foundItem);
 
                     #region Add new renames back to list
-                    ImageListViewHandler.ImageListViewAddItem(imageListView, targetFullFilename);
+                    lock (keepTrackOfLoadedMetadataLock)
+                    {
+                        ImageListViewHandler.ImageListViewAddItem(imageListView1, targetFullFilename, ref hasTriggerLoadAllMetadataActions, ref keepTrackOfLoadedMetadata);
+                    }
                     #endregion
 
                     #region Select back all Items renamed
@@ -92,7 +157,7 @@ namespace PhotoTagsSynchronizer
             if (renameQueueCount == 0) 
                 //To avoid selected files becomes added back to read queue, and also exist in rename queue,
                 //that rename item can get removed after rename. With old name in read queue, and this file will then not exist when read
-                OnImageListViewSelect_FilesSelectedOrNoneSelected(false);
+                ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
 
         }
         #endregion 
@@ -174,7 +239,7 @@ namespace PhotoTagsSynchronizer
             }
             GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
 
-            OnImageListViewSelect_FilesSelectedOrNoneSelected(false);
+            ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
         }
         #endregion
 
@@ -224,7 +289,7 @@ namespace PhotoTagsSynchronizer
 
                 }
                 //----- Updated ImageListView with files ------
-                ImageListView_Aggregate_FromFolder(false, true);
+                ImageListView_FetchListOfMediaFiles_FromFolder_and_Aggregate(false, true);
 
             }
             catch (Exception ex)
@@ -296,7 +361,7 @@ namespace PhotoTagsSynchronizer
                 }
             }
 
-            OnImageListViewSelect_FilesSelectedOrNoneSelected(false);
+            ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
         }
         #endregion
 

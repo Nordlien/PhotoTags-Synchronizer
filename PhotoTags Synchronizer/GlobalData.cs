@@ -34,7 +34,7 @@ namespace PhotoTagsSynchronizer
         public static bool IsPopulatingFolderTree { get; set; } = true;
         public static bool IsPopulatingImageListView { get; set; } = false;
         public static bool IsImageListViewForEachInProgressRequestStop { get; set; } = false;
-        public static bool IsPopulatingFolderSelected { get; set; } = false;
+        public static bool IsPopulatingImageListViewFromFolderOrDatabaseList { get; set; } = false;
         public static bool IsDataGridViewCutPasteDeleteFindReplaceInProgress { get; set; } = false;
 
 
@@ -136,7 +136,7 @@ namespace PhotoTagsSynchronizer
                 IsApplicationClosing ||
                 IsPopulatingFolderTree ||
                 IsPopulatingImageListView ||
-                IsPopulatingFolderSelected ||
+                IsPopulatingImageListViewFromFolderOrDatabaseList ||
                 //IsSaveButtonPushed ||
 
                 //Acton button

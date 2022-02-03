@@ -559,7 +559,7 @@ namespace FileHandeling
         #region FixOneDriveIssues 
         public static bool FixOneDriveIssues(HashSet<FileEntry> fileEntries, Form form, List<string> listOfNetworkNames, bool fixError = false, bool letNewestFileWin = true)
         {
-            
+
             foreach (string networkName in listOfNetworkNames)
             {
                 string machineName = "-" + networkName;

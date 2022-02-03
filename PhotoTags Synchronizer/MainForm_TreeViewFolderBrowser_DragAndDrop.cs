@@ -137,7 +137,7 @@ namespace PhotoTagsSynchronizer
 
                         treeViewFolderBrowser1.SelectedNode = targetNode;
                         treeViewFolderBrowser1.SelectedNode.Expand();
-                        ImageListView_Aggregate_FromFolder(false, true);
+                        ImageListView_FetchListOfMediaFiles_FromFolder_and_Aggregate(false, true);
                         treeViewFolderBrowser1.Focus();
                     }
                 } 
@@ -297,7 +297,7 @@ namespace PhotoTagsSynchronizer
                 }
                 else if (e.Button == MouseButtons.Left)
                 {
-                    if (((TreeViewFolderBrowser)sender).SelectedNode == e.Node) ImageListView_Aggregate_FromFolder(false, true);
+                    if (((TreeViewFolderBrowser)sender).SelectedNode == e.Node) ImageListView_FetchListOfMediaFiles_FromFolder_and_Aggregate(false, true);
                 }
             }
             catch (Exception ex)

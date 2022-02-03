@@ -68,7 +68,7 @@ namespace PhotoTagsSynchronizer
                     {
                         DataGridViewHandlerRename.Write(dataGridViewRename, out renameSuccess, out renameFailed, checkBoxRenameShowFullPath.Checked);
                         UpdateImageViewListeAfterRename(imageListView1, renameSuccess, renameFailed, true);
-                        OnImageListViewSelect_FilesSelectedOrNoneSelected(false);
+                        ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
                     }
                 }
             }
