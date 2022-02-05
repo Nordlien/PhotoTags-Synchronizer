@@ -29,12 +29,19 @@ namespace PhotoTagsSynchronizer
             bool checkFileCreated, bool checkMediaTaken, bool checkAllDates, int maxDayRange,
             bool checkLocationName, bool checkLocationCity, bool checkLocationDistrict, bool checkLocationCountry, bool checkAllLocations)
         {
+            ImageListViewHandler.SuspendLayout(imageListView1);
+            ImageListViewHandler.Enable(imageListView, false);
+            TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, false);
+
+            #region Do the work
             using (new WaitCursor())
             {
                 ImageListViewItemCollection imageListViewItems = imageListView.Items;
 
                 List<GroupMacth> groupMacthSourceList = new List<GroupMacth>();
 
+                
+                #region Init
                 foreach (ImageListViewItem imageListViewItem in imageListView.SelectedItems)
                 {
                     Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(new FileEntryBroker(imageListViewItem.FileFullPath, imageListViewItem.DateModified, MetadataBrokerType.ExifTool));
@@ -49,19 +56,12 @@ namespace PhotoTagsSynchronizer
                     groupMacthSource.LocationCountry = metadata?.LocationCountry;
                     groupMacthSourceList.Add(groupMacthSource);
                 }
+                #endregion
 
-
-                GlobalData.IsPopulatingButtonAction = true;
-                GlobalData.IsPopulatingImageListView = true; //Avoid one and one select item getting refreshed
-                GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
-
-                TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, false);
-                ImageListViewHandler.Enable(imageListView, false);
-                ImageListViewSuspendLayoutInvoke(imageListView);
-
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
                 imageListView.ClearSelection();
 
-
+                #region Find and Select
                 foreach (ImageListViewItem imageListViewItem in imageListView.Items)
                 {
                     Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(new FileEntryBroker(imageListViewItem.FileFullPath, imageListViewItem.DateModified, MetadataBrokerType.ExifTool));
@@ -87,19 +87,21 @@ namespace PhotoTagsSynchronizer
 
                     if (isItemsEqual) imageListViewItem.Selected = true; else imageListViewItem.Selected = false;
                 }
+                #endregion
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+
             }
+            #endregion
 
-            GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
-            GlobalData.IsPopulatingButtonAction = false;
-            GlobalData.IsPopulatingImageListView = false;
-
-            ImageListViewHandler.Enable(imageListView, true);
             TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, true);
-            ImageListViewResumeLayoutInvoke(imageListView);
+            ImageListViewHandler.Enable(imageListView, true);
+            ImageListViewHandler.ResumeLayout(imageListView1);
+
             imageListView.Focus();
 
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
             ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
-
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
         }
         #endregion
 
@@ -108,13 +110,18 @@ namespace PhotoTagsSynchronizer
             bool checkFileCreated, bool checkMediaTaken, bool checkAllDates, int maxDayRange,
             bool checkLocationName, bool checkLocationCity, bool checkLocationDistrict, bool checkLocationCountry, bool checkAllLocations)
         {
+            ImageListViewHandler.SuspendLayout(imageListView1);
+            ImageListViewHandler.Enable(imageListView, false);
+            TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, false);
+            
+            #region Do the work
             using (new WaitCursor())
             {
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
                 ImageListViewItemCollection imageListViewItems = imageListView.Items;
                 if (baseItemIndex < imageListViewItems.Count && direction != 0)
                 {
-                    bool checkDayRange = maxDayRange > 0;
-
+                    #region Init Variables
                     GroupMacth groupMacthSource = new GroupMacth();
                     
                     ImageListViewItem imageListViewItem = imageListViewItems[baseItemIndex];
@@ -127,27 +134,15 @@ namespace PhotoTagsSynchronizer
                     groupMacthSource.LocationCity = metadata?.LocationCity;
                     groupMacthSource.LocationDistrict = metadata?.LocationState;
                     groupMacthSource.LocationCountry = metadata?.LocationCountry;
-                    
-                    
-
-                    GlobalData.IsPopulatingButtonAction = true;
-                    GlobalData.IsPopulatingImageListView = true; //Avoid one and one select item getting refreshed
-                    GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
-
-                    TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, false);
-                    ImageListViewHandler.Enable(imageListView, false);
-                    ImageListViewSuspendLayoutInvoke(imageListView);
+                    #endregion
 
                     imageListView.ClearSelection();
 
+                    #region Find and Select
                     int selectedCount = 0;
-
                     int itemIndex = baseItemIndex;
-
                     while (itemIndex > -1 && itemIndex < imageListViewItems.Count && selectedCount < maxSelectCount)
                     {
-                        
-
                         imageListViewItem = imageListViewItems[itemIndex];
                         metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(new FileEntryBroker(imageListViewItem.FileFullPath, imageListViewItem.DateModified, MetadataBrokerType.ExifTool));
 
@@ -174,24 +169,26 @@ namespace PhotoTagsSynchronizer
 
                         itemIndex += direction;
                     }
+                    #endregion
 
                     imageListView.EnsureVisible(itemIndex - direction);
                     imageListView.EnsureVisible(baseItemIndex);
-
                 }
-
-                GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
-                GlobalData.IsPopulatingButtonAction = false;
-                GlobalData.IsPopulatingImageListView = false;
-
-                TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, true);
-                ImageListViewHandler.Enable(imageListView, true);
-                ImageListViewResumeLayoutInvoke(imageListView);
-                imageListView.Focus();
-
-                ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
                 lastGroupBaseIndex = baseItemIndex;
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
             }
+            #endregion
+
+            TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, true);
+            ImageListViewHandler.Enable(imageListView, true);
+            ImageListViewHandler.ResumeLayout(imageListView1);
+
+            imageListView.Focus();
+
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
+            ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+
         }
         #endregion 
 
@@ -268,6 +265,7 @@ namespace PhotoTagsSynchronizer
                 int baseItemIndex = SelectedGroupFindBaseItemIndex(imageListView1, lastGroupDirection);
 
                 SelectGroupGetProperties();
+                //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
                 SelectedGroupBySelections(imageListView1, baseItemIndex, lastGroupDirection,
                     Properties.Settings.Default.SelectGroupMaxCount,
                     Properties.Settings.Default.SelectGroupFileCreated,
@@ -279,6 +277,7 @@ namespace PhotoTagsSynchronizer
                     Properties.Settings.Default.SelectGroupSameDistrict,
                     Properties.Settings.Default.SelectGroupSameCountry,
                     Properties.Settings.Default.SelectGroupCheckAllLocations);
+                //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
             }
             catch (Exception ex)
             {
@@ -291,14 +290,32 @@ namespace PhotoTagsSynchronizer
         #region SelectNext_Click
         private void kryptonRibbonGroupButtonSelectForwards_Click(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Select Forwards")) return;
+            if (IsPopulatingAnything("Select Forwards")) return;
             if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+            GlobalData.IsPerformingAButtonAction = true;
+
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
             ActionSelectNext();
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+
+            GlobalData.IsPerformingAButtonAction = false;
         }
 
         private void kryptonRibbonQATButtonSelectNext_Click(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Select Next")) return;
+            if (IsPopulatingAnything("Select Next")) return;
             if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+            GlobalData.IsPerformingAButtonAction = true;
+
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
             ActionSelectNext();
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+
+            GlobalData.IsPerformingAButtonAction = false;
         }
         #endregion
 
@@ -315,6 +332,7 @@ namespace PhotoTagsSynchronizer
                 int baseItemIndex = SelectedGroupFindBaseItemIndex(imageListView1, lastGroupDirection);
 
                 SelectGroupGetProperties();
+                //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
                 SelectedGroupBySelections(imageListView1, baseItemIndex, lastGroupDirection,
                     Properties.Settings.Default.SelectGroupMaxCount,
                     Properties.Settings.Default.SelectGroupFileCreated,
@@ -326,6 +344,7 @@ namespace PhotoTagsSynchronizer
                     Properties.Settings.Default.SelectGroupSameDistrict,
                     Properties.Settings.Default.SelectGroupSameCountry,
                     Properties.Settings.Default.SelectGroupCheckAllLocations);
+                //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
             }
             catch (Exception ex)
             {
@@ -335,17 +354,33 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region SelectPrevius_Click
-        private void kryptonRibbonQATButtonSelectPrevius_Click(object sender, EventArgs e)
+        #region SelectPrevious_Click
+        private void kryptonRibbonQATButtonSelectPrevious_Click(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Select Previous")) return;
+            if (IsPopulatingAnything("Select Backwards")) return;
             if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+            
+            GlobalData.IsPerformingAButtonAction = true;
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
             ActionSelectPrevious();
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+            GlobalData.IsPerformingAButtonAction = false;
         }
 
         private void kryptonRibbonGroupButtonSelectBackwards_Click(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Select Backwards")) return;
+            if (IsPopulatingAnything("Select Backwards")) return;
             if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+            
+            GlobalData.IsPerformingAButtonAction = true;
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
             ActionSelectPrevious();
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+            GlobalData.IsPerformingAButtonAction = false;
         }
         #endregion
 
@@ -359,6 +394,7 @@ namespace PhotoTagsSynchronizer
             try
             {
                 SelectGroupGetProperties();
+                //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
                 SelectedGroupByMatch(imageListView1,
                     kryptonRibbonGroupCheckBoxSelectFileCreated.Checked,
                     kryptonRibbonGroupCheckBoxSelectMediaTaken.Checked,
@@ -369,6 +405,7 @@ namespace PhotoTagsSynchronizer
                     Properties.Settings.Default.SelectGroupSameDistrict,
                     Properties.Settings.Default.SelectGroupSameCountry,
                     kryptonRibbonGroupCheckBoxSelectCheckAllLocations.Checked);
+                //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
             }
             catch (Exception ex)
             {
@@ -381,14 +418,30 @@ namespace PhotoTagsSynchronizer
         #region SelectMatch_Click
         private void kryptonRibbonGroupButtonSelectEqual_Click(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Select Equal")) return;
+            if (IsPopulatingAnything("Select Equal")) return;
             if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
             ActionSelectMatch();
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+            GlobalData.IsPerformingAButtonAction = false;
         }
 
         private void kryptonRibbonQATButtonSelectEqual_Click(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Select Equal")) return;
+            if (IsPopulatingAnything("Select Equal")) return;
             if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
             ActionSelectMatch();
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+            GlobalData.IsPerformingAButtonAction = false;
         }
         #endregion 
 
@@ -449,6 +502,12 @@ namespace PhotoTagsSynchronizer
         #region Select Group - GroupSelectLast
         public void GroupSelectLast()
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Select Last")) return;
+            if (IsPopulatingAnything("Select Last")) return;
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
             try
             {
                 int baseItemIndex = SelectedGroupFindBaseItemIndex(imageListView1, 0);
@@ -471,6 +530,8 @@ namespace PhotoTagsSynchronizer
                 Logger.Error(ex, "");
                 KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
+
+            GlobalData.IsPerformingAButtonAction = false;
         }
         #endregion 
 

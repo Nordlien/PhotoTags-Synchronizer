@@ -86,73 +86,78 @@ namespace PhotoTagsSynchronizer
                 return;
             }
 
-            GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
-            ImageListViewSuspendLayoutInvoke(imageListView1);
 
-            try
+            GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
+            ImageListViewHandler.SuspendLayout(imageListView1);
+
+            using (new WaitCursor())
             {
-                bool directoryCreated = filesCutCopyPasteDrag.MoveFile(sourceFullFilename, targetFullFilename);
-
-                if (directoryCreated)
-                {
-                    GlobalData.DoNotRefreshImageListView = true;
-                    TreeViewFolderBrowserHandler.RefreshFolderWithName(folderTreeView, targetFullFilename, true);
-                    GlobalData.DoNotRefreshImageListView = false;
-                }
-
-                ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView.Items, sourceFullFilename);
-                if (foundItem != null)
-                {
-                    ImageListViewHandler.ImageListViewRemoveItem(imageListView, foundItem);
-
-                    #region Add new renames back to list
-                    lock (keepTrackOfLoadedMetadataLock)
-                    {
-                        ImageListViewHandler.ImageListViewAddItem(imageListView1, targetFullFilename, ref hasTriggerLoadAllMetadataActions, ref keepTrackOfLoadedMetadata);
-                    }
-                    #endregion
-
-                    #region Select back all Items renamed
-                    foundItem = ImageListViewHandler.FindItem(imageListView.Items, targetFullFilename);
-                    if (foundItem != null) foundItem.Selected = true;
-                    #endregion
-                }
-            }
-            catch (Exception ex)
-            {
-
-                DateTime dateTimeLastWriteTime = DateTime.Now;
                 try
                 {
-                    dateTimeLastWriteTime = File.GetLastWriteTime(sourceFullFilename);
+                    bool directoryCreated = filesCutCopyPasteDrag.MoveFile(sourceFullFilename, targetFullFilename);
+
+                    if (directoryCreated)
+                    {
+                        GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect = true;
+                        TreeViewFolderBrowserHandler.RefreshFolderWithName(folderTreeView, targetFullFilename, true);
+                        GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect = false;
+                    }
+
+                    ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView.Items, sourceFullFilename);
+                    if (foundItem != null)
+                    {
+                        ImageListViewHandler.ImageListViewRemoveItem(imageListView, foundItem);
+
+                        #region Add new renames back to list
+                        lock (keepTrackOfLoadedMetadataLock)
+                        {
+                            ImageListViewHandler.ImageListViewAddItem(imageListView1, targetFullFilename, ref hasTriggerLoadAllMetadataActions, ref keepTrackOfLoadedMetadata);
+                        }
+                        #endregion
+
+                        #region Select back all Items renamed
+                        foundItem = ImageListViewHandler.FindItem(imageListView.Items, targetFullFilename);
+                        if (foundItem != null) foundItem.Selected = true;
+                        #endregion
+                    }
                 }
-                catch { }
+                catch (Exception ex)
+                {
 
-                FileStatus fileStatus = FileHandler.GetFileStatus(
-                    sourceFullFilename, checkLockedStatus: true, fileInaccessibleOrError: true, fileErrorMessage: ex.Message);
-                ImageListView_UpdateItemFileStatusInvoke(sourceFullFilename, fileStatus);
+                    DateTime dateTimeLastWriteTime = DateTime.Now;
+                    try
+                    {
+                        dateTimeLastWriteTime = File.GetLastWriteTime(sourceFullFilename);
+                    }
+                    catch { }
 
-                FileStatus fileStatusTarget = FileHandler.GetFileStatus(
-                    targetFullFilename, checkLockedStatus: true,
-                    fileInaccessibleOrError: true, fileErrorMessage: ex.Message,
-                    exiftoolProcessStatus: ExiftoolProcessStatus.DoNotUpdate);
-                ImageListView_UpdateItemFileStatusInvoke(targetFullFilename, fileStatus);
+                    FileStatus fileStatus = FileHandler.GetFileStatus(
+                        sourceFullFilename, checkLockedStatus: true, fileInaccessibleOrError: true, fileErrorMessage: ex.Message);
+                    ImageListView_UpdateItemFileStatusInvoke(sourceFullFilename, fileStatus);
 
-                AddError(
-                    Path.GetDirectoryName(sourceFullFilename),
-                    Path.GetFileName(sourceFullFilename),
-                    dateTimeLastWriteTime,
-                    AddErrorFileSystemRegion, AddErrorFileSystemMove, sourceFullFilename, targetFullFilename,
-                    "Issue: Failed moving file.\r\n" +
-                    "From File name : " + sourceFullFilename + "\r\n" +
-                    "From File staus: " + fileStatus.ToString() + "\r\n" +
-                    "To   File name : " + targetFullFilename + "\r\n" +
-                    "To   File staus: " + fileStatusTarget.ToString() + "\r\n" +
-                    "Error message: " + ex.Message);
-                Logger.Error(ex, "Error when move file.");
+                    FileStatus fileStatusTarget = FileHandler.GetFileStatus(
+                        targetFullFilename, checkLockedStatus: true,
+                        fileInaccessibleOrError: true, fileErrorMessage: ex.Message,
+                        exiftoolProcessStatus: ExiftoolProcessStatus.DoNotUpdate);
+                    ImageListView_UpdateItemFileStatusInvoke(targetFullFilename, fileStatus);
+
+                    AddError(
+                        Path.GetDirectoryName(sourceFullFilename),
+                        Path.GetFileName(sourceFullFilename),
+                        dateTimeLastWriteTime,
+                        AddErrorFileSystemRegion, AddErrorFileSystemMove, sourceFullFilename, targetFullFilename,
+                        "Issue: Failed moving file.\r\n" +
+                        "From File name : " + sourceFullFilename + "\r\n" +
+                        "From File staus: " + fileStatus.ToString() + "\r\n" +
+                        "To   File name : " + targetFullFilename + "\r\n" +
+                        "To   File staus: " + fileStatusTarget.ToString() + "\r\n" +
+                        "Error message: " + ex.Message);
+                    Logger.Error(ex, "Error when move file.");
+                }
             }
-            ImageListViewResumeLayoutInvoke(imageListView1);
-            GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
+
+            ImageListViewHandler.ResumeLayout(imageListView1);
+            GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
 
             if (renameQueueCount == 0) 
                 //To avoid selected files becomes added back to read queue, and also exist in rename queue,
@@ -165,17 +170,24 @@ namespace PhotoTagsSynchronizer
         #region Move files to new folder (no rename)
         private void MoveFilesNoRename_UpdateTreeViewFolderBrowser(TreeViewFolderBrowser folderTreeView, ImageListView imageListView, StringCollection files, string targetNodeDirectory, TreeNode treeNodeTarget)
         {
+            if (GlobalData.IsApplicationClosing) return;
+
             if (InvokeRequired)
             {
                 this.BeginInvoke(new Action<TreeViewFolderBrowser, ImageListView, StringCollection, string, TreeNode>(MoveFilesNoRename_UpdateTreeViewFolderBrowser), folderTreeView, imageListView, files, targetNodeDirectory, treeNodeTarget);
                 return;
             }
 
-            GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
+            if (GlobalData.IsApplicationClosing) return;
+
+            if (DoNotTrigger_ImageListView_SelectionChanged()) return;
+            GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
+
+            ImageListViewHandler.SuspendLayout(imageListView1);
+
+            #region Do the work
             using (new WaitCursor())
             {
-                imageListView.SuspendLayout();
-
                 foreach (string oldPath in files) //Move all files to target directory 
                 {
                     string sourceFullFilename = oldPath;
@@ -186,7 +198,7 @@ namespace PhotoTagsSynchronizer
                         bool directoryCreated = filesCutCopyPasteDrag.MoveFile(sourceFullFilename, targetFullFilename);
 
                         //------ Update node tree -----
-                        GlobalData.DoNotRefreshImageListView = true;
+                        GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect = true;
 
                         if (treeNodeTarget == null)
                         {
@@ -195,7 +207,7 @@ namespace PhotoTagsSynchronizer
                         }
                         else TreeViewFolderBrowserHandler.RefreshTreeNode(folderTreeView, treeNodeTarget);
 
-                        GlobalData.DoNotRefreshImageListView = false;
+                        GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect = false;
 
                         ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView.Items, sourceFullFilename);
                         if (foundItem != null) ImageListViewHandler.ImageListViewRemoveItem(imageListView, foundItem);
@@ -235,9 +247,11 @@ namespace PhotoTagsSynchronizer
                         Logger.Error(ex, "Error when move file.");
                     }
                 }
-                imageListView.ResumeLayout();
             }
-            GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
+            #endregion
+
+            ImageListViewHandler.ResumeLayout(imageListView1);
+            GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
 
             ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
         }
@@ -264,11 +278,11 @@ namespace PhotoTagsSynchronizer
                     #endregion
 
                     #region Update node tree
-                    GlobalData.DoNotRefreshImageListView = true;
+                    GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect = true;
                     TreeViewFolderBrowserHandler.RefreshFolderWithName(folderTreeView, sourceDirectory, true);                    
                     TreeViewFolderBrowserHandler.RemoveFolderWithName(folderTreeView, sourceDirectory);
                     TreeViewFolderBrowserHandler.RefreshFolderWithName(folderTreeView, targetDirectory, true);
-                    GlobalData.DoNotRefreshImageListView = false;
+                    GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect = false;
                     #endregion
 
                     #region Update database
@@ -285,7 +299,10 @@ namespace PhotoTagsSynchronizer
 
                     DirectoryInfo directoryInfo = new DirectoryInfo(sourceDirectory);                    
                     string targetFullFolderName = targetDirectory + directoryInfo.Parent.Name;
+
+                    GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect = true;
                     treeViewFolderBrowser1.Populate(targetDirectory);
+                    GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect = false;
 
                 }
                 //----- Updated ImageListView with files ------
@@ -325,9 +342,9 @@ namespace PhotoTagsSynchronizer
 
                         if (directoryCreated)
                         {
-                            GlobalData.DoNotRefreshImageListView = true;
+                            GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect = true;
                             TreeViewFolderBrowserHandler.RefreshTreeNode(folderTreeView, targetNode);
-                            GlobalData.DoNotRefreshImageListView = false;
+                            GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect = false;
                         }
                     }
                     catch (Exception ex)
@@ -438,9 +455,9 @@ namespace PhotoTagsSynchronizer
             }
 
             //------ Update node tree -----
-            GlobalData.DoNotRefreshImageListView = true;
+            GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect = true;
             TreeViewFolderBrowserHandler.RefreshTreeNode(folderTreeView, targetNode);
-            GlobalData.DoNotRefreshImageListView = false;
+            GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect = false;
         }
         #endregion
 

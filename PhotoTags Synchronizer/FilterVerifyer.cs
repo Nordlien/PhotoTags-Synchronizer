@@ -288,7 +288,7 @@ namespace PhotoTagsSynchronizer
         #region ClearTreeViewNodes
         public static void ClearTreeViewNodes(KryptonTreeView treeView)
         {
-            GlobalData.IsPopulatingFilter = true;
+            GlobalData.DoNotTrigger_TreeViewFilter_BeforeAndAfterCheck = true;
 
             treeView.Nodes.Clear();
             albums = new HashSet<string>();
@@ -306,14 +306,14 @@ namespace PhotoTagsSynchronizer
             keywords = new HashSet<string>();
 
             PopulateTreeViewBasicNodes(treeView, Root);
-            GlobalData.IsPopulatingFilter = false;
+            GlobalData.DoNotTrigger_TreeViewFilter_BeforeAndAfterCheck = false;
         }
         #endregion
 
         #region PopulateTreeViewBasicNodes
         public static void PopulateTreeViewBasicNodes(KryptonTreeView treeView, string rootNode)
         {
-            GlobalData.IsPopulatingFilter = true;
+            GlobalData.DoNotTrigger_TreeViewFilter_BeforeAndAfterCheck = true;
             treeView.Nodes.Clear();
             TreeNode treeNode;
             TreeNode treeNodeRoot;
@@ -365,7 +365,7 @@ namespace PhotoTagsSynchronizer
 
             treeNodeRoot.Expand();
 
-            GlobalData.IsPopulatingFilter = false;
+            GlobalData.DoNotTrigger_TreeViewFilter_BeforeAndAfterCheck = false;
         }
         #endregion
 
@@ -404,11 +404,16 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region StopPopulate
+        public static bool StopPopulate = false;
+        #endregion
+
         #region PopulateTreeViewWithValues
         private static void PopulateTreeViewLeafNodeWithValues(KryptonTreeView treeView, string keyRoot, string key, HashSet<string> nodes)
         {
             foreach (string node in nodes)
             {
+                if (StopPopulate) break;
                 treeView.Nodes[keyRoot].Nodes[key].Nodes.Add(node, FilterVerifyer.GetTreeNodeText(GlobalData.SearchFolder, node, false));
             }
         }
@@ -417,6 +422,8 @@ namespace PhotoTagsSynchronizer
         #region PopulateTreeViewFolderFilterUpdatedTreeViewFilterInvoke
         public static void PopulateTreeViewFilterWithValues(KryptonTreeView treeViewFilter)
         {
+            StopPopulate = false;
+
             string node = FilterVerifyer.Root;
 
             FilterVerifyer.PopulateTreeViewLeafNodeWithValues(treeViewFilter, node, FilterVerifyer.Albums, albums);

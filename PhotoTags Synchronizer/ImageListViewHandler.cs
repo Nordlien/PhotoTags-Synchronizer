@@ -169,6 +169,14 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        
+        public static void SuspendLayout(ImageListView imageListView)
+        {
+            imageListView.SuspendLayout();
+        }
+
+        public static void ResumeLayout(ImageListView imageListView)
+        {
+            imageListView.ResumeLayout();
+        }
     }
 }

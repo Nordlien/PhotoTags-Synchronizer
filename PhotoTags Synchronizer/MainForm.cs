@@ -714,7 +714,9 @@ namespace PhotoTagsSynchronizer
                 {
                     GlobalData.IsApplicationClosing = true;
                     ImageListViewHandler.ClearAllAndCaches(imageListView1);
+                    //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
                     ImageListView_SelectionChanged_Action_ImageListView_DataGridView(true); //Even when 0 selected files, allocate data and flags, etc...
+                    //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
                 }
             }
 
@@ -900,7 +902,7 @@ namespace PhotoTagsSynchronizer
             try
             {
                 FormSplash.UpdateStatus("Initialize folder tree...");
-                GlobalData.IsPopulatingFolderTree = true;
+                GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect = true;
 
                 try
                 {
@@ -923,7 +925,7 @@ namespace PhotoTagsSynchronizer
                     KryptonMessageBox.Show(Application.ProductName + "\r\n\r\n" + ee.Message, "Initialize folder tree failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
                 }
 
-                GlobalData.IsPopulatingFolderTree = false;
+                GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect = false;
             }
             catch (Exception ex)
             {
@@ -945,8 +947,15 @@ namespace PhotoTagsSynchronizer
             }
             #endregion
 
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
+            //GlobalData.IsPopulatingImageListViewFromFolderOrDatabaseList = true;
             ImageListView_FetchListOfMediaFiles_FromFolder_and_Aggregate(false, true);
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+            //GlobalData.IsPopulatingImageListViewFromFolderOrDatabaseList = false;
+
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
             ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
 
             MaximizeOrRestoreWorkspaceMainCellAndChilds();
             SetNavigatorModeSearch((NavigatorMode)Properties.Settings.Default.WorkspaceCellFolderSearchFilterNavigatorMode);

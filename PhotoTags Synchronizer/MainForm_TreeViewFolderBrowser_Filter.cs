@@ -13,13 +13,23 @@ namespace PhotoTagsSynchronizer
         bool isCorrectingDoubleClikcBug = false;
         private void treeViewFilter_BeforeCheck(object sender, TreeViewCancelEventArgs e)
         {
-            if (GlobalData.IsPopulatingFilter) return;
-            if (isCorrectingDoubleClikcBug) return;
+            if (GlobalData.IsApplicationClosing) e.Cancel = true;
+            if (GlobalData.DoNotTrigger_TreeViewFilter_BeforeAndAfterCheck) e.Cancel = true;
+            if (!GlobalData.DoNotTrigger_TreeViewFilter_BeforeAndAfterCheck && //Allowed
+                IsPopulatingAnything("Selecting Filter")) e.Cancel = true;
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) e.Cancel = true;
 
-            TreeNode treeNode = e.Node;
-            if (treeNode.Tag is int)
+            if (!e.Cancel)
             {
-                if ((int)treeNode.Tag == FilterVerifyer.TagRegionOr) e.Cancel = true;
+                GlobalData.IsPerformingAButtonAction = true;
+
+                if (isCorrectingDoubleClikcBug) return;
+
+                TreeNode treeNode = e.Node;
+                if (treeNode.Tag is int)
+                {
+                    if ((int)treeNode.Tag == FilterVerifyer.TagRegionOr) e.Cancel = true;
+                }
             }
         }
         #endregion 
@@ -27,10 +37,6 @@ namespace PhotoTagsSynchronizer
         #region TreeViewFilter - AfterCheck
         private void treeViewFilter_AfterCheck(object sender, TreeViewEventArgs e)
         {
-            if (GlobalData.IsPopulatingFilter) return;
-
-            if (SaveBeforeContinue(false) == DialogResult.Cancel) return;
-
             //Hack for double - click bug
             TreeNode treeNode = e.Node;
             if (treeNode.Tag is int)
@@ -40,7 +46,13 @@ namespace PhotoTagsSynchronizer
                     (int)treeNode.Tag == FilterVerifyer.TagRoot) treeNode.Text = FilterVerifyer.GetTreeNodeText(GlobalData.SearchFolder, treeNode.Name, treeNode.Checked);
             }
 
+            GlobalData.IsPerformingAButtonAction = false;
+
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
+            //GlobalData.IsPopulatingImageListViewFromFolderOrDatabaseList = true;
             ImageListView_Aggregate_UsingFiltersOnExistingFiles(treeViewFilter);
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+            //GlobalData.IsPopulatingImageListViewFromFolderOrDatabaseList = false;
         }
         #endregion
 
@@ -186,10 +198,7 @@ namespace PhotoTagsSynchronizer
                 return;
             }
 
-            if (!GlobalData.IsImageListViewForEachInProgressRequestStop)
-            {
-               FilterVerifyer.PopulateTreeViewFilterWithValues(treeViewFilter); 
-            }
+            FilterVerifyer.PopulateTreeViewFilterWithValues(treeViewFilter); 
         }
         #endregion
 

@@ -20,19 +20,24 @@ namespace PhotoTagsSynchronizer
         #region TreeViewFolderBrowser - BeforeSelect - Click
         private void treeViewFolderBrowser1_BeforeSelect(object sender, TreeViewCancelEventArgs e)
         {
-            if (SaveBeforeContinue(true) == DialogResult.Cancel) e.Cancel = true;
+            if (GlobalData.IsApplicationClosing) e.Cancel = true;
+            if (!DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect())
+            {
+                if (DoNotTrigger_TreeViewFilter_BeforeAndAfterCheck()) e.Cancel = true;
+                if (IsPopulatingAnything("Select Items")) e.Cancel = true;
+                if (SaveBeforeContinue(true) == DialogResult.Cancel) e.Cancel = true;
+            }
         }
         #endregion
 
         #region TreeViewFolderBrowser - AfterSelect - Click
         private void treeViewFolderBrowser1_AfterSelect(object sender, TreeViewEventArgs e)
         {
+            if (DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect()) return;
+            if (IsDragAndDropActive()) return;
+            
             try
             {
-                if (GlobalData.IsPopulatingFolderTree) return;
-                if (GlobalData.IsDragAndDropActive) return;
-                if (GlobalData.DoNotRefreshImageListView) return;
-
                 GlobalData.SearchFolder = true;
                 ImageListView_FetchListOfMediaFiles_FromFolder_and_Aggregate(false, true);
             }

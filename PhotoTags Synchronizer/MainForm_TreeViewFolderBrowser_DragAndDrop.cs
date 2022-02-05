@@ -174,8 +174,6 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-
-
                 if (e.Node == null || e.Node.Parent == null) e.CancelEdit = true;
                 if (e.CancelEdit == false)
                 {
@@ -187,7 +185,6 @@ namespace PhotoTagsSynchronizer
                         KryptonMessageBox.Show("Can't edit folder name. No valid folder selected.", "Invalid folder...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
                         return;
                     }
-
                 }
             }
             catch (Exception ex)
@@ -415,13 +412,13 @@ namespace PhotoTagsSynchronizer
                 else
                     e.Effect = DragDropEffects.Move;
 
-                GlobalData.DoNotRefreshImageListView = true;
+                GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect = true;
                 // Retrieve the client coordinates of the mouse position.  
                 Point targetPoint = treeViewFolderBrowser1.PointToClient(new Point(e.X, e.Y));
 
                 // Select the node at the mouse position.  
                 treeViewFolderBrowser1.SelectedNode = treeViewFolderBrowser1.GetNodeAt(targetPoint);
-                GlobalData.DoNotRefreshImageListView = false;
+                GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect = false;
             }
             catch (Exception ex)
             {

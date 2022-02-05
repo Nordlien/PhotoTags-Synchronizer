@@ -4001,7 +4001,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonQATButtonSelectPrevius.ToolTipBody = "Select Previous group of media files. Using the properties set in this ribbon.";
             this.kryptonRibbonQATButtonSelectPrevius.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.SelectPrevious;
             this.kryptonRibbonQATButtonSelectPrevius.ToolTipTitle = "Select Previous (Ctrl+Alt+Left)";
-            this.kryptonRibbonQATButtonSelectPrevius.Click += new System.EventHandler(this.kryptonRibbonQATButtonSelectPrevius_Click);
+            this.kryptonRibbonQATButtonSelectPrevius.Click += new System.EventHandler(this.kryptonRibbonQATButtonSelectPrevious_Click);
             // 
             // kryptonRibbonQATButtonSelectNext
             // 

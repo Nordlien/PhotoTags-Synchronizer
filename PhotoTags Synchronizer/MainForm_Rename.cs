@@ -53,7 +53,8 @@ namespace PhotoTagsSynchronizer
         #region SaveRename
         private void SaveRename()
         {
-            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            if (GlobalData.IsApplicationClosing) return;
             try
             {
                 if (IsFileInAnyQueueLock(imageListView1.SelectedItems))
@@ -64,12 +65,15 @@ namespace PhotoTagsSynchronizer
                 {                    
                     Dictionary<string, string> renameSuccess;
                     Dictionary<string, RenameToNameAndResult> renameFailed;
-                    using (new WaitCursor())
-                    {
-                        DataGridViewHandlerRename.Write(dataGridViewRename, out renameSuccess, out renameFailed, checkBoxRenameShowFullPath.Checked);
-                        UpdateImageViewListeAfterRename(imageListView1, renameSuccess, renameFailed, true);
-                        ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
-                    }
+                    
+                    DataGridViewHandlerRename.Write(dataGridViewRename, out renameSuccess, out renameFailed, checkBoxRenameShowFullPath.Checked);
+                    //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
+                    UpdateImageViewListeAfterRename(imageListView1, renameSuccess, renameFailed, true);
+                    //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+
+                    //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
+                    ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
+                    //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
                 }
             }
             catch (Exception ex)
@@ -83,7 +87,16 @@ namespace PhotoTagsSynchronizer
         #region buttonRenameSave_Click
         private void buttonRenameSave_Click(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Rename")) return;
+            if (IsPopulatingAnything("Rename")) return;
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
             SaveRename();
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+            GlobalData.IsPerformingAButtonAction = false;
         }
         #endregion
 

@@ -7,6 +7,7 @@ using System.Diagnostics;
 using FileHandeling;
 using Krypton.Toolkit;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace PhotoTagsSynchronizer
 {
@@ -814,6 +815,68 @@ namespace PhotoTagsSynchronizer
         public void LoadingItemsImageListView(int value, int maximum)
         {
             SetButtonSpecNavigator(buttonSpecNavigatorImageListViewLoadStatus, maximum - value, maximum);
+        }
+        #endregion
+
+        #endregion
+
+
+        //---- Tools Progress and Status 
+        #region StatusActionText
+        private string StatusActionText
+        {
+            get { return kryptonRibbonGroupLabelToolsCurrentActions.TextLine1; }
+            set
+            {
+                kryptonRibbonGroupLabelToolsCurrentActions.TextLine1 = value;
+                toolStripStatusLabelStatusAction.Text = value;
+            }
+        }
+        #endregion
+
+        #region ProgressbarSaveAndConvertProgress
+
+        #region ProgressbarSaveAndConvertProgress(bool enabled, int value)
+        private void ProgressbarSaveAndConvertProgress(bool enabled, int value)
+        {
+            progressBarSaveConvert.Value = value;
+            ProgressbarSaveProgress(enabled);
+        }
+        #endregion
+
+        #region ProgressbarSaveProgress(bool enabled, int value, int minimum, int maximum, string descrption)
+        private void ProgressbarSaveAndConvertProgress(bool enabled, int value, int minimum, int maximum, string descrption)
+        {
+            try
+            {
+                progressBarSaveConvert.Minimum = minimum;
+                progressBarSaveConvert.Maximum = maximum;
+                progressBarSaveConvert.Value = value;
+                ProgressbarSaveProgress(enabled);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion
+
+        #region ProgressbarSaveProgress(bool visible)
+        private void ProgressbarSaveProgress(bool visible)
+        {
+            try
+            {
+                kryptonRibbonGroupTripleProgressStatusSave.Visible = visible;
+                kryptonRibbonGroupCustomControlToolsProgressSave.Visible = visible;
+                kryptonRibbonGroupLabelToolsProgressSave.Visible = visible;
+                kryptonRibbonGroupLabelToolsProgressSaveText.Visible = visible;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion
 

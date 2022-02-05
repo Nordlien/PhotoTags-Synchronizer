@@ -1,25 +1,24 @@
-﻿using DataGridViewGeneric;
+﻿using ApplicationAssociations;
+using ColumnNamesAndWidth;
+using DataGridViewGeneric;
+using Exiftool;
+using FileDateTime;
+using FileHandeling;
 using Krypton.Toolkit;
 using LocationNames;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Windows.Forms;
-using Exiftool;
-using MetadataLibrary;
-using Thumbnails;
 using Manina.Windows.Forms;
-using ApplicationAssociations;
-using System.Collections.Specialized;
-using System.Reflection;
+using MetadataLibrary;
 using MetadataPriorityLibrary;
 using Raccoom.Windows.Forms;
-using FileDateTime;
-using ColumnNamesAndWidth;
-using FileHandeling;
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Threading;
+using System.Windows.Forms;
+using Thumbnails;
 
 /*
 Ctrl+X				T	Cut								Home / Organise
@@ -124,12 +123,26 @@ namespace PhotoTagsSynchronizer
         #region Cut - Click Events Sources       
         private void kryptonRibbonGroupButtonHomeCut_Click(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Cut")) return;
+            //if (IsPopulatingAnything("Cut")) return;
+            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
             ActionCut();
+            GlobalData.IsPerformingAButtonAction = false;
         }
 
         private void KryptonContextMenuItemGenericCut_Click(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Cut")) return;
+            //if (IsPopulatingAnything("Cut")) return;
+            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
             ActionCut();
+            GlobalData.IsPerformingAButtonAction = false;
         }
         #endregion
 
@@ -143,41 +156,41 @@ namespace PhotoTagsSynchronizer
                     case KryptonPages.None:
                         break;
                     case KryptonPages.kryptonPageFolderSearchFilterFolder:
-                        FolderCut_Click();
+                        FolderCut();
                         break;
                     case KryptonPages.kryptonPageFolderSearchFilterSearch:
                         break;
                     case KryptonPages.kryptonPageFolderSearchFilterFilter:
                         break;
                     case KryptonPages.kryptonPageMediaFiles:
-                        MediaFilesCut_Click();
+                        MediaFilesCut();
                         break;
                     case KryptonPages.kryptonPageToolboxTags:
-                        TagsAndKeywordsCut_Click();
+                        TagsAndKeywordsCut();
                         break;
                     case KryptonPages.kryptonPageToolboxPeople:
-                        PeopleCut_Click();
+                        PeopleCut();
                         break;
                     case KryptonPages.kryptonPageToolboxMap:
-                        MapCut_Click();
+                        MapCut();
                         break;
                     case KryptonPages.kryptonPageToolboxDates:
-                        DateCut_Click();
+                        DateCut();
                         break;
                     case KryptonPages.kryptonPageToolboxExiftool:
-                        ExiftoolCut_Click();
+                        ExiftoolCut();
                         break;
                     case KryptonPages.kryptonPageToolboxWarnings:
-                        ExiftoolWarningCut_Click();
+                        ExiftoolWarningCut();
                         break;
                     case KryptonPages.kryptonPageToolboxProperties:
-                        PropertiesCut_Click();
+                        PropertiesCut();
                         break;
                     case KryptonPages.kryptonPageToolboxRename:
-                        RenameCut_Click();
+                        RenameCut();
                         break;
                     case KryptonPages.kryptonPageToolboxConvertAndMerge:
-                        ConvertAndMergeCut_Click();
+                        ConvertAndMergeCut();
                         break;
                     default:
                         throw new NotImplementedException();
@@ -191,8 +204,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region MediaFilesCut_Click
-        private void MediaFilesCut_Click()
+        #region MediaFilesCut
+        private void MediaFilesCut()
         {
             try
             {
@@ -212,8 +225,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region FolderCut_Click
-        private void FolderCut_Click()
+        #region FolderCut
+        private void FolderCut()
         {
             try
             {
@@ -238,8 +251,8 @@ namespace PhotoTagsSynchronizer
 }
         #endregion
 
-        #region DataGridGeneric_Cut
-        private void DataGridGeneric_Cut(DataGridView dataGridView)
+        #region DataGridGenericCut
+        private void DataGridGenericCut(DataGridView dataGridView)
         {
             try
             {
@@ -259,13 +272,13 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ConvertAndMergeCut_Click
-        private void ConvertAndMergeCut_Click()
+        #region ConvertAndMergeCut
+        private void ConvertAndMergeCut()
         {
             try
             {
                 DataGridView dataGridView = dataGridViewConvertAndMerge;
-                DataGridGeneric_Cut(dataGridView);
+                DataGridGenericCut(dataGridView);
             }
             catch (Exception ex)
             {
@@ -275,13 +288,13 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region DateCut_Click
-        private void DateCut_Click()
+        #region DateCut
+        private void DateCut()
         {
             try
             {
                 DataGridView dataGridView = dataGridViewDate;
-                DataGridGeneric_Cut(dataGridView);
+                DataGridGenericCut(dataGridView);
             }
             catch (Exception ex)
             {
@@ -291,12 +304,12 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ExiftoolCut_Click
-        private void ExiftoolCut_Click()
+        #region ExiftoolCut
+        private void ExiftoolCut()
         {
             try {
                 DataGridView dataGridView = dataGridViewExiftool;
-                DataGridGeneric_Cut(dataGridView);
+                DataGridGenericCut(dataGridView);
             }
             catch (Exception ex)
             {
@@ -306,13 +319,13 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ExiftoolWarningCut_Click
-        private void ExiftoolWarningCut_Click()
+        #region ExiftoolWarningCut
+        private void ExiftoolWarningCut()
         {
             try
             {
                 DataGridView dataGridView = dataGridViewExiftoolWarning;
-                DataGridGeneric_Cut(dataGridView);
+                DataGridGenericCut(dataGridView);
             }
             catch (Exception ex)
             {
@@ -322,13 +335,13 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region MapCut_Click
-        private void MapCut_Click()
+        #region MapCut
+        private void MapCut()
         {
             try
             {
                 DataGridView dataGridView = dataGridViewMap;
-                DataGridGeneric_Cut(dataGridView);
+                DataGridGenericCut(dataGridView);
             }
             catch (Exception ex)
             {
@@ -338,8 +351,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region PeopleCut_Click
-        private void PeopleCut_Click()
+        #region PeopleCut
+        private void PeopleCut()
         {
             try
             {
@@ -362,13 +375,13 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region PropertiesCut_Click
-        private void PropertiesCut_Click()
+        #region PropertiesCut
+        private void PropertiesCut()
         {
             try
             {
                 DataGridView dataGridView = dataGridViewProperties;
-                DataGridGeneric_Cut(dataGridView);
+                DataGridGenericCut(dataGridView);
             }
             catch (Exception ex)
             {
@@ -378,13 +391,13 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region RenameCut_Click
-        private void RenameCut_Click()
+        #region RenameCut
+        private void RenameCut()
         {
             try
             {
                 DataGridView dataGridView = dataGridViewRename;
-                DataGridGeneric_Cut(dataGridView);
+                DataGridGenericCut(dataGridView);
             }
             catch (Exception ex)
             {
@@ -394,8 +407,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region TagsAndKeywordsCut_Click
-        private void TagsAndKeywordsCut_Click()
+        #region TagsAndKeywordsCut
+        private void TagsAndKeywordsCut()
         {
             try
             {
@@ -435,12 +448,26 @@ namespace PhotoTagsSynchronizer
         #region Copy - Click Events Sources
         private void kryptonRibbonGroupButtonHomeCopy_Click(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Copy")) return;
+            //if (IsPopulatingAnything("Copy")) return;
+            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
             ActionCopy();
+            GlobalData.IsPerformingAButtonAction = false;
         }
 
         private void KryptonContextMenuItemGenericCopy_Click(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Copy")) return;
+            //if (IsPopulatingAnything("Copy")) return;
+            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
             ActionCopy();
+            GlobalData.IsPerformingAButtonAction = false;
         }
         #endregion
 
@@ -454,41 +481,41 @@ namespace PhotoTagsSynchronizer
                     case KryptonPages.None:
                         break;
                     case KryptonPages.kryptonPageFolderSearchFilterFolder:
-                        FolderCopy_Click();
+                        FolderCopy();
                         break;
                     case KryptonPages.kryptonPageFolderSearchFilterSearch:
                         break;
                     case KryptonPages.kryptonPageFolderSearchFilterFilter:
                         break;
                     case KryptonPages.kryptonPageMediaFiles:
-                        MediaFilesCopy_Click();
+                        MediaFilesCopy();
                         break;
                     case KryptonPages.kryptonPageToolboxTags:
-                        TagsAndKeywordsCopy_Click();
+                        TagsAndKeywordsCopy();
                         break;
                     case KryptonPages.kryptonPageToolboxPeople:
-                        PeopleCopy_Click();
+                        PeopleCopy();
                         break;
                     case KryptonPages.kryptonPageToolboxMap:
-                        MapCopy_Click();
+                        MapCopy();
                         break;
                     case KryptonPages.kryptonPageToolboxDates:
-                        DateCopy_Click();
+                        DateCopy();
                         break;
                     case KryptonPages.kryptonPageToolboxExiftool:
-                        ExiftoolCopy_Click();
+                        ExiftoolCopy();
                         break;
                     case KryptonPages.kryptonPageToolboxWarnings:
-                        ExiftoolWarningCopy_Click();
+                        ExiftoolWarningCopy();
                         break;
                     case KryptonPages.kryptonPageToolboxProperties:
-                        PropertiesCopy_Click();
+                        PropertiesCopy();
                         break;
                     case KryptonPages.kryptonPageToolboxRename:
-                        RenameCopy_Click();
+                        RenameCopy();
                         break;
                     case KryptonPages.kryptonPageToolboxConvertAndMerge:
-                        ConvertAndMergeCopy_Click();
+                        ConvertAndMergeCopy();
                         break;
                     default:
                         throw new NotImplementedException();
@@ -502,8 +529,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region MediaFilesCopy_Click
-        private void MediaFilesCopy_Click()
+        #region MediaFilesCopy
+        private void MediaFilesCopy()
         {
             try
             {
@@ -523,8 +550,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region FolderTree - Copy - Click
-        private void FolderCopy_Click()
+        #region FolderCopy
+        private void FolderCopy()
         {
             try
             {
@@ -552,7 +579,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region DataGridGeneric_Copy
-        private void DataGridGeneric_Copy(DataGridView dataGridView)
+        private void DataGridGenericCopy(DataGridView dataGridView)
         {
             try
             {
@@ -569,13 +596,13 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ConvertAndMergeCopy_Click
-        private void ConvertAndMergeCopy_Click()
+        #region ConvertAndMergeCopy
+        private void ConvertAndMergeCopy()
         {
             try
             {
                 DataGridView dataGridView = dataGridViewConvertAndMerge;
-                DataGridGeneric_Copy(dataGridView);
+                DataGridGenericCopy(dataGridView);
             }
             catch (Exception ex)
             {
@@ -585,13 +612,13 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region DateCopy_Click
-        private void DateCopy_Click()
+        #region DateCopy
+        private void DateCopy()
         {
             try
             {
                 DataGridView dataGridView = dataGridViewDate;
-                DataGridGeneric_Copy(dataGridView);
+                DataGridGenericCopy(dataGridView);
             }
             catch (Exception ex)
             {
@@ -601,13 +628,13 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ExiftoolCopy_Click
-        private void ExiftoolCopy_Click()
+        #region ExiftoolCopy
+        private void ExiftoolCopy()
         {
             try
             {
                 DataGridView dataGridView = dataGridViewExiftool;
-                DataGridGeneric_Copy(dataGridView);
+                DataGridGenericCopy(dataGridView);
             }
             catch (Exception ex)
             {
@@ -617,13 +644,13 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ExiftoolWarningCopy_Click
-        private void ExiftoolWarningCopy_Click()
+        #region ExiftoolWarningCopy
+        private void ExiftoolWarningCopy()
         {
             try
             {
                 DataGridView dataGridView = dataGridViewExiftoolWarning;
-                DataGridGeneric_Copy(dataGridView);
+                DataGridGenericCopy(dataGridView);
             }
             catch (Exception ex)
             {
@@ -633,13 +660,13 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region MapCopy_Click
-        private void MapCopy_Click()
+        #region MapCopy
+        private void MapCopy()
         {
             try
             {
                 DataGridView dataGridView = dataGridViewMap;
-                DataGridGeneric_Copy(dataGridView);
+                DataGridGenericCopy(dataGridView);
             }
             catch (Exception ex)
             {
@@ -649,13 +676,13 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region PeopleCopy_Click
-        private void PeopleCopy_Click()
+        #region PeopleCopy
+        private void PeopleCopy()
         {
             try
             {
                 DataGridView dataGridView = dataGridViewPeople;
-                DataGridGeneric_Copy(dataGridView);
+                DataGridGenericCopy(dataGridView);
             }
             catch (Exception ex)
             {
@@ -665,12 +692,12 @@ namespace PhotoTagsSynchronizer
 }
         #endregion
 
-        #region PropertiesCopy_Click
-        private void PropertiesCopy_Click()
+        #region PropertiesCopy
+        private void PropertiesCopy()
         {
             try { 
             DataGridView dataGridView = dataGridViewProperties;
-            DataGridGeneric_Copy(dataGridView);
+            DataGridGenericCopy(dataGridView);
             }
             catch (Exception ex)
             {
@@ -680,13 +707,13 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region RenameCopy_Click
-        private void RenameCopy_Click()
+        #region RenameCopy
+        private void RenameCopy()
         {
             try
             {
                 DataGridView dataGridView = dataGridViewRename;
-                DataGridGeneric_Copy(dataGridView);
+                DataGridGenericCopy(dataGridView);
             }
             catch (Exception ex)
             {
@@ -696,13 +723,13 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region TagsAndKeywords_Click
-        private void TagsAndKeywordsCopy_Click()
+        #region TagsAndKeywordsCopy
+        private void TagsAndKeywordsCopy()
         {
             try
             {
                 DataGridView dataGridView = dataGridViewTagsAndKeywords;
-                DataGridGeneric_Copy(dataGridView);
+                DataGridGenericCopy(dataGridView);
             }
             catch (Exception ex)
             {
@@ -719,11 +746,25 @@ namespace PhotoTagsSynchronizer
         #region Paste - Click Events Sources
         private void kryptonRibbonGroupButtonHomePaste_Click(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Paste")) return;
+            //if (IsPopulatingAnything("Paste")) return;
+            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
             ActionPaste();
+            GlobalData.IsPerformingAButtonAction = false;
         }
         private void KryptonContextMenuItemGenericPaste_Click(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Paste")) return;
+            //if (IsPopulatingAnything("Paste")) return;
+            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
             ActionPaste();
+            GlobalData.IsPerformingAButtonAction = false;
         }
         #endregion 
 
@@ -737,41 +778,41 @@ namespace PhotoTagsSynchronizer
                     case KryptonPages.None:
                         break;
                     case KryptonPages.kryptonPageFolderSearchFilterFolder:
-                        FolderPaste_Click();
+                        FolderPaste();
                         break;
                     case KryptonPages.kryptonPageFolderSearchFilterSearch:
                         break;
                     case KryptonPages.kryptonPageFolderSearchFilterFilter:
                         break;
                     case KryptonPages.kryptonPageMediaFiles:
-                        MediaFilesPaste_Click();
+                        MediaFilesPaste();
                         break;
                     case KryptonPages.kryptonPageToolboxTags:
-                        TagsAndKeywordsPaste_Click();
+                        TagsAndKeywordsPaste();
                         break;
                     case KryptonPages.kryptonPageToolboxPeople:
-                        PeoplePaste_Click();
+                        PeoplePaste();
                         break;
                     case KryptonPages.kryptonPageToolboxMap:
-                        MapPaste_Click();
+                        MapPaste();
                         break;
                     case KryptonPages.kryptonPageToolboxDates:
-                        DatePaste_Click();
+                        DatePaste();
                         break;
                     case KryptonPages.kryptonPageToolboxExiftool:
-                        ExiftoolPaste_Click();
+                        ExiftoolPaste();
                         break;
                     case KryptonPages.kryptonPageToolboxWarnings:
-                        ExiftoolWarningPaste_Click();
+                        ExiftoolWarningPaste();
                         break;
                     case KryptonPages.kryptonPageToolboxProperties:
-                        PropertiesPaste_Click();
+                        PropertiesPaste();
                         break;
                     case KryptonPages.kryptonPageToolboxRename:
-                        RenamePaste_Click();
+                        RenamePaste();
                         break;
                     case KryptonPages.kryptonPageToolboxConvertAndMerge:
-                        ConvertAndMergePaste_Click();
+                        ConvertAndMergePaste();
                         break;
                     default:
                         throw new NotImplementedException();
@@ -785,8 +826,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region MediaFilesPaste_Click
-        private void MediaFilesPaste_Click()
+        #region MediaFilesPaste
+        private void MediaFilesPaste()
         {
             try
             {
@@ -826,8 +867,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region FolderPaste_Click
-        private void FolderPaste_Click()
+        #region FolderPaste
+        private void FolderPaste()
         {
             try
             {
@@ -878,8 +919,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region ConvertAndMerge
-        private void ConvertAndMergePaste_Click()
+        #region ConvertAndMergePaste
+        private void ConvertAndMergePaste()
         {
             try
             {
@@ -894,8 +935,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Date
-        private void DatePaste_Click()
+        #region DatePaste
+        private void DatePaste()
         {
             try
             {
@@ -910,8 +951,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Exiftool
-        private void ExiftoolPaste_Click()
+        #region ExiftoolPaste
+        private void ExiftoolPaste()
         {
             try
             {
@@ -926,8 +967,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ExiftoolWarning
-        private void ExiftoolWarningPaste_Click()
+        #region ExiftoolWarningPaste
+        private void ExiftoolWarningPaste()
         {
             try
             {
@@ -942,8 +983,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Map
-        private void MapPaste_Click()
+        #region MapPaste
+        private void MapPaste()
         {
             try
             {
@@ -958,8 +999,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region People
-        private void PeoplePaste_Click()
+        #region PeoplePaste
+        private void PeoplePaste()
         {
             DataGridView dataGridView = dataGridViewPeople;
             if (!dataGridView.Enabled) return;
@@ -985,8 +1026,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Properties
-        private void PropertiesPaste_Click()
+        #region PropertiesPaste
+        private void PropertiesPaste()
         {
             try
             {
@@ -1001,8 +1042,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Rename
-        private void RenamePaste_Click()
+        #region RenamePaste
+        private void RenamePaste()
         {
             try
             {
@@ -1024,8 +1065,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region TagsAndKeywords
-        private void TagsAndKeywordsPaste_Click()
+        #region TagsAndKeywordsPaste
+        private void TagsAndKeywordsPaste()
         {
             try
             {
@@ -1091,12 +1132,26 @@ namespace PhotoTagsSynchronizer
         #region Delete - Click Events Sources
         private void kryptonRibbonGroupButtonHomeFileSystemDelete_Click(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Delete")) return;
+            //if (IsPopulatingAnything("Delete")) return;
+            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
             ActionGridCellAndFileSystemDelete();
+            GlobalData.IsPerformingAButtonAction = false;
         }
 
         private void KryptonContextMenuItemGenericFileSystemDelete_Click(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Delete")) return;
+            //if (IsPopulatingAnything("Delete")) return;
+            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
             ActionGridCellAndFileSystemDelete();
+            GlobalData.IsPerformingAButtonAction = false;
         }
         #endregion 
 
@@ -1110,41 +1165,41 @@ namespace PhotoTagsSynchronizer
                     case KryptonPages.None:
                         break;
                     case KryptonPages.kryptonPageFolderSearchFilterFolder:
-                        FileSystemFolderDelete_Click();
+                        FileSystemFolderDelete();
                         break;
                     case KryptonPages.kryptonPageFolderSearchFilterSearch:
                         break;
                     case KryptonPages.kryptonPageFolderSearchFilterFilter:
                         break;
                     case KryptonPages.kryptonPageMediaFiles:
-                        FileSystemSelectedFilesDelete_Click();
+                        FileSystemSelectedFilesDelete();
                         break;
                     case KryptonPages.kryptonPageToolboxTags:
-                        TagsAndKeywordsDelete_Click();
+                        TagsAndKeywordsDelete();
                         break;
                     case KryptonPages.kryptonPageToolboxPeople:
-                        PeopleDelete_Click();
+                        PeopleDelete();
                         break;
                     case KryptonPages.kryptonPageToolboxMap:
-                        MapDelete_Click();
+                        MapDelete();
                         break;
                     case KryptonPages.kryptonPageToolboxDates:
-                        DateDelete_Click();
+                        DateDelete();
                         break;
                     case KryptonPages.kryptonPageToolboxExiftool:
-                        ExiftoolDelete_Click();
+                        ExiftoolDelete();
                         break;
                     case KryptonPages.kryptonPageToolboxWarnings:
-                        ExiftoolWarningDelete_Click();
+                        ExiftoolWarningDelete();
                         break;
                     case KryptonPages.kryptonPageToolboxProperties:
-                        PropertiesDelete_Click();
+                        PropertiesDelete();
                         break;
                     case KryptonPages.kryptonPageToolboxRename:
-                        RenameDelete_Click();
+                        RenameDelete();
                         break;
                     case KryptonPages.kryptonPageToolboxConvertAndMerge:
-                        ConvertAndMergeDelete_Click();
+                        ConvertAndMergeDelete();
                         break;
                     default:
                         throw new NotImplementedException();
@@ -1158,23 +1213,12 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region FileSystemSelectedFilesDelete_Click
-        private void FileSystemSelectedFilesDelete_Click()
+        #region FileSystemSelectedFilesDelete
+        private void FileSystemSelectedFilesDelete()
         {
-            if (GlobalData.IsApplicationClosing) return;
-            if (GlobalData.IsPopulatingAnything())
-            {
-                KryptonMessageBox.Show("Data is populating, please try a bit later.", "Need wait...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
-                return;
-            }
-
+            if (GlobalData.IsApplicationClosing) return;            
             try
             {
-                if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
-
-                TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, false);
-                ImageListViewHandler.Enable(imageListView1, false);
-
                 try
                 {
                     HashSet<string> selectedFiles = ImageListViewHandler.GetFilesSelectedItemsCache(imageListView1);
@@ -1192,7 +1236,9 @@ namespace PhotoTagsSynchronizer
                             HashSet<FileEntry> fileEntries = ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true);
                             filesCutCopyPasteDrag.DeleteSelectedFiles(this, imageListView1, fileEntries, true);
                             ImageListViewHandler.ClearCacheFileEntries(imageListView1);
+                            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
                             ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
+                            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
                         }
                     }
                 }
@@ -1200,11 +1246,6 @@ namespace PhotoTagsSynchronizer
                 {
                     KryptonMessageBox.Show(ex.Message, "Syntax error", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
                 }
-
-                TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, true);
-                ImageListViewHandler.Enable(imageListView1, true);
-                imageListView1.Focus();
-                DisplayAllQueueStatus();
             }
             catch (Exception ex)
             {
@@ -1212,14 +1253,15 @@ namespace PhotoTagsSynchronizer
                 KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
 
+            imageListView1.Focus();
+            DisplayAllQueueStatus();
         }
         #endregion
 
-        #region FileSystemFolderDelete_Click
-        private void FileSystemFolderDelete_Click()
+        #region FileSystemFolderDelete
+        private void FileSystemFolderDelete()
         {
-            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
-
+            if (GlobalData.IsApplicationClosing) return;            
             try
             {
                 string folder = GetSelectedNodeFullRealPath();
@@ -1234,6 +1276,7 @@ namespace PhotoTagsSynchronizer
                     KryptonMessageBox.Show("Can't delete folder. Files in folder is been used, you need wait until process is finished.", "File are in queue....", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
                     return;
                 }
+
                 try
                 {
                     string[] fileAndFolderEntriesCount = Directory.EnumerateFiles(folder, "*", SearchOption.AllDirectories).Take(51).ToArray();
@@ -1268,7 +1311,7 @@ namespace PhotoTagsSynchronizer
                 }
                 finally
                 {
-                    GlobalData.DoNotRefreshImageListView = false;
+                    GlobalData.DoNotTrigger_ImageListView_ItemUpdate = false;
                 }
                 treeViewFolderBrowser1.Focus();
             }
@@ -1303,8 +1346,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ConvertAndMergeDelete_Click
-        private void ConvertAndMergeDelete_Click()
+        #region ConvertAndMergeDelete
+        private void ConvertAndMergeDelete()
         {
             try
             {
@@ -1319,8 +1362,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region DateDelete_Click
-        private void DateDelete_Click()
+        #region DateDelete
+        private void DateDelete()
         {
             try
             {
@@ -1335,8 +1378,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region ExiftoolDelete_Click
-        private void ExiftoolDelete_Click()
+        #region ExiftoolDelete
+        private void ExiftoolDelete()
         {
             try
             {
@@ -1351,8 +1394,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region ExiftoolWarningDelete_Click
-        private void ExiftoolWarningDelete_Click()
+        #region ExiftoolWarningDelete
+        private void ExiftoolWarningDelete()
         {
             try
             {
@@ -1367,8 +1410,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region MapDelete_Click
-        private void MapDelete_Click()
+        #region MapDelete
+        private void MapDelete()
         {
             try
             {
@@ -1383,8 +1426,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region PeopleDelete_Click
-        private void PeopleDelete_Click()
+        #region PeopleDelete
+        private void PeopleDelete()
         {
             DataGridView dataGridView = dataGridViewPeople;
             if (!dataGridView.Enabled) return;
@@ -1408,8 +1451,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region PropertiesDelete_Click
-        private void PropertiesDelete_Click()
+        #region PropertiesDelete
+        private void PropertiesDelete()
         {
             try
             {
@@ -1424,8 +1467,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region RenameDelete_Click
-        private void RenameDelete_Click()
+        #region RenameDelete
+        private void RenameDelete()
         {
             try
             {
@@ -1440,8 +1483,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region TagsAndKeywordsDelete_Click()
-        private void TagsAndKeywordsDelete_Click()
+        #region TagsAndKeywordsDelete()
+        private void TagsAndKeywordsDelete()
         {
             try
             {
@@ -1478,12 +1521,26 @@ namespace PhotoTagsSynchronizer
         #region Undo - Click Events Sources
         private void kryptonRibbonGroupButtonHomeUndo_Click(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Undo")) return;
+            //if (IsPopulatingAnything("Undo")) return;
+            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
             ActionUndo();
+            GlobalData.IsPerformingAButtonAction = false;
         }
 
         private void KryptonContextMenuItemGenericUndo_Click(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Undo")) return;
+            //if (IsPopulatingAnything("Undo")) return;
+            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
             ActionUndo();
+            GlobalData.IsPerformingAButtonAction = false;
         }
         #endregion 
 
@@ -1505,31 +1562,31 @@ namespace PhotoTagsSynchronizer
                     case KryptonPages.kryptonPageMediaFiles:
                         break;
                     case KryptonPages.kryptonPageToolboxTags:
-                        TagsAndKeywordsUndo_Click();
+                        TagsAndKeywordsUndo();
                         break;
                     case KryptonPages.kryptonPageToolboxPeople:
-                        PeopleUndo_Click();
+                        PeopleUndo();
                         break;
                     case KryptonPages.kryptonPageToolboxMap:
-                        MapUndo_Click();
+                        MapUndo();
                         break;
                     case KryptonPages.kryptonPageToolboxDates:
-                        DateUndo_Click();
+                        DateUndo();
                         break;
                     case KryptonPages.kryptonPageToolboxExiftool:
-                        ExiftoolUndo_Click();
+                        ExiftoolUndo();
                         break;
                     case KryptonPages.kryptonPageToolboxWarnings:
-                        ExiftoolWarningUndo_Click();
+                        ExiftoolWarningUndo();
                         break;
                     case KryptonPages.kryptonPageToolboxProperties:
-                        PropertiesUndo_Click();
+                        PropertiesUndo();
                         break;
                     case KryptonPages.kryptonPageToolboxRename:
-                        RenameUndo_Click();
+                        RenameUndo();
                         break;
                     case KryptonPages.kryptonPageToolboxConvertAndMerge:
-                        ConvertAndMergeUndo_Click();
+                        ConvertAndMergeUndo();
                         break;
                     default:
                         throw new NotImplementedException();
@@ -1565,8 +1622,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ConvertAndMergeUndo_Click
-        private void ConvertAndMergeUndo_Click()
+        #region ConvertAndMergeUndo
+        private void ConvertAndMergeUndo()
         {
             try
             {
@@ -1581,8 +1638,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region DateUndo_Click
-        private void DateUndo_Click()
+        #region DateUndo
+        private void DateUndo()
         {
             try
             {
@@ -1597,8 +1654,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region ExiftoolUndo_Click
-        private void ExiftoolUndo_Click()
+        #region ExiftoolUndo
+        private void ExiftoolUndo()
         {
             try
             {
@@ -1613,8 +1670,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ExiftoolWarningUndo_Click
-        private void ExiftoolWarningUndo_Click()
+        #region ExiftoolWarningUndo
+        private void ExiftoolWarningUndo()
         {
             try
             {
@@ -1629,8 +1686,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Map
-        private void MapUndo_Click()
+        #region MapUndo
+        private void MapUndo()
         {
             try
             {
@@ -1645,8 +1702,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region PeopleUndo_Click
-        private void PeopleUndo_Click()
+        #region PeopleUndo
+        private void PeopleUndo()
         {
             try
             {
@@ -1669,8 +1726,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region PropertiesUndo_Click
-        private void PropertiesUndo_Click()
+        #region PropertiesUndo
+        private void PropertiesUndo()
         {
             try
             {
@@ -1685,8 +1742,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region RenameUndo_Click
-        private void RenameUndo_Click()
+        #region RenameUndo
+        private void RenameUndo()
         {
             try
             {
@@ -1701,8 +1758,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region TagsAndKeywords
-        private void TagsAndKeywordsUndo_Click()
+        #region TagsAndKeywordsUndo
+        private void TagsAndKeywordsUndo()
         {
             try
             {
@@ -1734,11 +1791,25 @@ namespace PhotoTagsSynchronizer
         #region Redo - Click Events Sources
         private void kryptonRibbonGroupButtonHomeRedo_Click(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Redo")) return;
+            //if (IsPopulatingAnything("Redo")) return;
+            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
             ActionRedo();
+            GlobalData.IsPerformingAButtonAction = false;
         }
         private void KryptonContextMenuItemGenericRedo_Click(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Redo")) return;
+            //if (IsPopulatingAnything("Redo")) return;
+            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
             ActionRedo();
+            GlobalData.IsPerformingAButtonAction = false;
         }
         #endregion
 
@@ -1760,31 +1831,31 @@ namespace PhotoTagsSynchronizer
                     case KryptonPages.kryptonPageMediaFiles:
                         break;
                     case KryptonPages.kryptonPageToolboxTags:
-                        TagsAndKeywordsRedo_Click();
+                        TagsAndKeywordsRedo();
                         break;
                     case KryptonPages.kryptonPageToolboxPeople:
-                        PeopleRedo_Click();
+                        PeopleRedo();
                         break;
                     case KryptonPages.kryptonPageToolboxMap:
-                        MapRedo_Click();
+                        MapRedo();
                         break;
                     case KryptonPages.kryptonPageToolboxDates:
-                        DateRedo_Click();
+                        DateRedo();
                         break;
                     case KryptonPages.kryptonPageToolboxExiftool:
-                        ExiftoolRedo_Click();
+                        ExiftoolRedo();
                         break;
                     case KryptonPages.kryptonPageToolboxWarnings:
-                        ExiftoolWarningRedo_Click();
+                        ExiftoolWarningRedo();
                         break;
                     case KryptonPages.kryptonPageToolboxProperties:
-                        PropertiesRedo_Click();
+                        PropertiesRedo();
                         break;
                     case KryptonPages.kryptonPageToolboxRename:
-                        RenameRedo_Click();
+                        RenameRedo();
                         break;
                     case KryptonPages.kryptonPageToolboxConvertAndMerge:
-                        ConvertAndMergeRedo_Click();
+                        ConvertAndMergeRedo();
                         break;
                     default:
                         throw new NotImplementedException();
@@ -1822,8 +1893,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ConvertAndMergepRedo_Click
-        private void ConvertAndMergeRedo_Click()
+        #region ConvertAndMergeRedo
+        private void ConvertAndMergeRedo()
         {
             try
             {
@@ -1838,8 +1909,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region DateRedo_Click
-        private void DateRedo_Click()
+        #region DateRedo
+        private void DateRedo()
         {
             try
             {
@@ -1854,8 +1925,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region ExiftoolRedo_Click
-        private void ExiftoolRedo_Click()
+        #region ExiftoolRedo
+        private void ExiftoolRedo()
         {
             try
             {
@@ -1870,8 +1941,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ExiftoolWarningRedo_Click
-        private void ExiftoolWarningRedo_Click()
+        #region ExiftoolWarningRedo
+        private void ExiftoolWarningRedo()
         {
             try
             {
@@ -1886,8 +1957,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region MapRedo_Click
-        private void MapRedo_Click()
+        #region MapRedo
+        private void MapRedo()
         {
             try
             {
@@ -1902,8 +1973,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region PeopleRedo_Click
-        private void PeopleRedo_Click()
+        #region PeopleRedo
+        private void PeopleRedo()
         {
             DataGridView dataGridView = dataGridViewPeople;
             if (!dataGridView.Enabled) return;
@@ -1926,8 +1997,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region PropertiesRedo_Click
-        private void PropertiesRedo_Click()
+        #region PropertiesRedo
+        private void PropertiesRedo()
         {
             try
             {
@@ -1942,8 +2013,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region RenameRedo_Click
-        private void RenameRedo_Click()
+        #region RenameRedo
+        private void RenameRedo()
         {
             try
             {
@@ -1958,8 +2029,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region TagsAndKeywordsRedo_Click
-        private void TagsAndKeywordsRedo_Click()
+        #region TagsAndKeywordsRedo
+        private void TagsAndKeywordsRedo()
         {
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
             if (!dataGridView.Enabled) return;
@@ -1991,11 +2062,25 @@ namespace PhotoTagsSynchronizer
         #region Find - Click Events Sources
         private void kryptonRibbonGroupButtonHomeFind_Click(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Find")) return;
+            //if (IsPopulatingAnything("Find")) return;
+            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
             ActionFind();
+            GlobalData.IsPerformingAButtonAction = false;
         }
         private void KryptonContextMenuItemGenericFind_Click(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Find")) return;
+            //if (IsPopulatingAnything("Find")) return;
+            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
             ActionFind();
+            GlobalData.IsPerformingAButtonAction = false;
         }
         #endregion 
 
@@ -2009,42 +2094,42 @@ namespace PhotoTagsSynchronizer
                     case KryptonPages.None:
                         break;
                     case KryptonPages.kryptonPageFolderSearchFilterFolder:
-                        FolderSearchFilterFolderFind_Click();
+                        FolderSearchFilterFolderFind();
                         break;
                     case KryptonPages.kryptonPageFolderSearchFilterSearch:
-                        FolderSearchFilterSearchFind_Click();
+                        FolderSearchFilterSearchFind();
                         break;
                     case KryptonPages.kryptonPageFolderSearchFilterFilter:
                         break;
                     case KryptonPages.kryptonPageMediaFiles:
-                        MediaFilesFind_Click();
+                        MediaFilesFind();
                         break;
                     case KryptonPages.kryptonPageToolboxTags:
-                        TagsAndKeywordsFind_Click();
+                        TagsAndKeywordsFind();
                         break;
                     case KryptonPages.kryptonPageToolboxPeople:
-                        PeopleFind_Click();
+                        PeopleFind();
                         break;
                     case KryptonPages.kryptonPageToolboxMap:
-                        MapFind_Click();
+                        MapFind();
                         break;
                     case KryptonPages.kryptonPageToolboxDates:
-                        DateFind_Click();
+                        DateFind();
                         break;
                     case KryptonPages.kryptonPageToolboxExiftool:
-                        ExiftoolFind_Click();
+                        ExiftoolFind();
                         break;
                     case KryptonPages.kryptonPageToolboxWarnings:
-                        ExiftoolWarningFind_Click();
+                        ExiftoolWarningFind();
                         break;
                     case KryptonPages.kryptonPageToolboxProperties:
-                        PropertiesFind_Click();
+                        PropertiesFind();
                         break;
                     case KryptonPages.kryptonPageToolboxRename:
-                        RenameFind_Click();
+                        RenameFind();
                         break;
                     case KryptonPages.kryptonPageToolboxConvertAndMerge:
-                        ConvertAndMergeFind_Click();
+                        ConvertAndMergeFind();
                         break;
                     default:
                         throw new NotImplementedException();
@@ -2058,8 +2143,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region FolderSearchFilterFolderFind_Click
-        private void FolderSearchFilterFolderFind_Click()
+        #region FolderSearchFilterFolderFind
+        private void FolderSearchFilterFolderFind()
         {
             try
             {
@@ -2074,15 +2159,15 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region FolderSearchFilterSearchFind_Click
-        private void FolderSearchFilterSearchFind_Click()
+        #region FolderSearchFilterSearchFind
+        private void FolderSearchFilterSearchFind()
         {
             ImageListView_FetchListOfMediaFiles_FromDatabase_and_Aggregate();
         }
         #endregion
 
-        #region MediaFilesFind_Click
-        private void MediaFilesFind_Click()
+        #region MediaFilesFind
+        private void MediaFilesFind()
         {
             try
             {
@@ -2161,8 +2246,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ConvertAndMergeFind_Click
-        private void ConvertAndMergeFind_Click()
+        #region ConvertAndMergeFind
+        private void ConvertAndMergeFind()
         {
             try
             {
@@ -2177,8 +2262,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region DateFind_Click
-        private void DateFind_Click()
+        #region DateFind
+        private void DateFind()
         {
             try
             {
@@ -2193,8 +2278,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region ExiftoolFind_Click
-        private void ExiftoolFind_Click()
+        #region ExiftoolFind
+        private void ExiftoolFind()
         {
             try
             {
@@ -2209,8 +2294,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ExiftoolWarningFind_Click
-        private void ExiftoolWarningFind_Click()
+        #region ExiftoolWarningFind
+        private void ExiftoolWarningFind()
         {
             try
             {
@@ -2225,8 +2310,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region MapFind_Click
-        private void MapFind_Click()
+        #region MapFind
+        private void MapFind()
         {
             try
             {
@@ -2241,8 +2326,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region PeopleFind_Click
-        private void PeopleFind_Click()
+        #region PeopleFind
+        private void PeopleFind()
         {
             try
             {
@@ -2262,8 +2347,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region PropertiesFind_Click
-        private void PropertiesFind_Click()
+        #region PropertiesFind
+        private void PropertiesFind()
         {
             try
             {
@@ -2278,8 +2363,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region RenameFind_Click
-        private void RenameFind_Click()
+        #region RenameFind
+        private void RenameFind()
         {
             try
             {
@@ -2294,8 +2379,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region TagsAndKeywordsFind_Click
-        private void TagsAndKeywordsFind_Click()
+        #region TagsAndKeywordsFind
+        private void TagsAndKeywordsFind()
         {
             try
             {
@@ -2327,11 +2412,25 @@ namespace PhotoTagsSynchronizer
         #region FindAndReplace - Click Events Sources
         private void kryptonRibbonGroupButtonHomeReplace_Click(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Replace")) return;
+            //if (IsPopulatingAnything("Replace")) return;
+            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
             ActionFindAndReplace();
+            GlobalData.IsPerformingAButtonAction = false;
         }
         private void KryptonContextMenuItemGenericReplace_Click(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Replace")) return;
+            //if (IsPopulatingAnything("Replace")) return;
+            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
             ActionFindAndReplace();
+            GlobalData.IsPerformingAButtonAction = false;
         }
         #endregion
 
@@ -2353,31 +2452,31 @@ namespace PhotoTagsSynchronizer
                     case KryptonPages.kryptonPageMediaFiles:
                         break;
                     case KryptonPages.kryptonPageToolboxTags:
-                        TagsAndKeywordsFindAndReplace_Click();
+                        TagsAndKeywordsFindAndReplace();
                         break;
                     case KryptonPages.kryptonPageToolboxPeople:
-                        PeopleFindAndReplace_Click();
+                        PeopleFindAndReplace();
                         break;
                     case KryptonPages.kryptonPageToolboxMap:
-                        MapFindAndReplace_Click();
+                        MapFindAndReplace();
                         break;
                     case KryptonPages.kryptonPageToolboxDates:
-                        DateFindAndReplace_Click();
+                        DateFindAndReplace();
                         break;
                     case KryptonPages.kryptonPageToolboxExiftool:
-                        ExiftoolFindAndReplace_Click();
+                        ExiftoolFindAndReplace();
                         break;
                     case KryptonPages.kryptonPageToolboxWarnings:
-                        ExiftoolWarningFindAndReplace_Click();
+                        ExiftoolWarningFindAndReplace();
                         break;
                     case KryptonPages.kryptonPageToolboxProperties:
-                        PropertiesFindAndReplace_Click();
+                        PropertiesFindAndReplace();
                         break;
                     case KryptonPages.kryptonPageToolboxRename:
-                        RenameFindAndReplace_Click();
+                        RenameFindAndReplace();
                         break;
                     case KryptonPages.kryptonPageToolboxConvertAndMerge:
-                        ConvertAndMergeFindAndReplace_Click();
+                        ConvertAndMergeFindAndReplace();
                         break;
                     default:
                         throw new NotImplementedException();
@@ -2414,8 +2513,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ConvertAndMergeFindAndReplace_Click
-        private void ConvertAndMergeFindAndReplace_Click()
+        #region ConvertAndMergeFindAndReplace
+        private void ConvertAndMergeFindAndReplace()
         {
             try
             {
@@ -2430,8 +2529,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region DateFindAndReplace_Click
-        private void DateFindAndReplace_Click()
+        #region DateFindAndReplace
+        private void DateFindAndReplace()
         {
             try
             {
@@ -2446,8 +2545,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region ExiftoolFindAndReplace_Click
-        private void ExiftoolFindAndReplace_Click()
+        #region ExiftoolFindAndReplace
+        private void ExiftoolFindAndReplace()
         {
             try
             {
@@ -2462,8 +2561,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ExiftoolWarningFindAndReplace_Click
-        private void ExiftoolWarningFindAndReplace_Click()
+        #region ExiftoolWarningFindAndReplace
+        private void ExiftoolWarningFindAndReplace()
         {
             try
             {
@@ -2478,8 +2577,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region MapFindAndReplace_Click
-        private void MapFindAndReplace_Click()
+        #region MapFindAndReplace
+        private void MapFindAndReplace()
         {
             try
             {
@@ -2494,8 +2593,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region PeopleFindAndReplace_Click
-        private void PeopleFindAndReplace_Click()
+        #region PeopleFindAndReplace
+        private void PeopleFindAndReplace()
         {
             DataGridView dataGridView = dataGridViewPeople;
             if (!dataGridView.Enabled) return;
@@ -2518,8 +2617,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region PropertiesFindAndReplace_Click
-        private void PropertiesFindAndReplace_Click()
+        #region PropertiesFindAndReplace
+        private void PropertiesFindAndReplace()
         {
             try
             {
@@ -2534,8 +2633,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region RenameFindAndReplace_Click
-        private void RenameFindAndReplace_Click()
+        #region RenameFindAndReplace
+        private void RenameFindAndReplace()
         {
             try
             {
@@ -2550,8 +2649,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region TagsAndKeywordsFindAndReplace_Click
-        private void TagsAndKeywordsFindAndReplace_Click()
+        #region TagsAndKeywordsFindAndReplace
+        private void TagsAndKeywordsFindAndReplace()
         {
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
             if (!dataGridView.Enabled) return;
@@ -2583,7 +2682,14 @@ namespace PhotoTagsSynchronizer
         #region Favorite Add - Click Events Sources
         private void KryptonContextMenuItemGenericFavoriteAdd_Click(object sender, EventArgs e) //---------------------------------------
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("FavoriteAdd")) return;
+            //if (IsPopulatingAnything("FavoriteAdd")) return;
+            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
             ActionFavoriteAdd();
+            GlobalData.IsPerformingAButtonAction = false;
         }
         #endregion 
 
@@ -2605,31 +2711,31 @@ namespace PhotoTagsSynchronizer
                     case KryptonPages.kryptonPageMediaFiles:
                         break;
                     case KryptonPages.kryptonPageToolboxTags:
-                        TagsAndKeywordsFavoriteAdd_Click();
+                        TagsAndKeywordsFavoriteAdd();
                         break;
                     case KryptonPages.kryptonPageToolboxPeople:
-                        PeopleFavoriteAdd_Click();
+                        PeopleFavoriteAdd();
                         break;
                     case KryptonPages.kryptonPageToolboxMap:
-                        MapFavoriteAdd_Click();
+                        MapFavoriteAdd();
                         break;
                     case KryptonPages.kryptonPageToolboxDates:
-                        DateFavoriteAdd_Click();
+                        DateFavoriteAdd();
                         break;
                     case KryptonPages.kryptonPageToolboxExiftool:
-                        ExiftoolFavoriteAdd_Click();
+                        ExiftoolFavoriteAdd();
                         break;
                     case KryptonPages.kryptonPageToolboxWarnings:
-                        ExiftoolWarningFavoriteAdd_Click();
+                        ExiftoolWarningFavoriteAdd();
                         break;
                     case KryptonPages.kryptonPageToolboxProperties:
-                        PropertiesFavoriteAdd_Click();
+                        PropertiesFavoriteAdd();
                         break;
                     case KryptonPages.kryptonPageToolboxRename:
-                        RenameFavoriteAdd_Click();
+                        RenameFavoriteAdd();
                         break;
                     case KryptonPages.kryptonPageToolboxConvertAndMerge:
-                        ConvertAndMergeFavoriteAdd_Click();
+                        ConvertAndMergeFavoriteAdd();
                         break;
                     default:
                         throw new NotImplementedException();
@@ -2659,8 +2765,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ConvertAndMergeFavoriteAdd_Click
-        private void ConvertAndMergeFavoriteAdd_Click()
+        #region ConvertAndMergeFavoriteAdd
+        private void ConvertAndMergeFavoriteAdd()
         {
             try
             {
@@ -2675,8 +2781,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region DateFavoriteAdd_Click
-        private void DateFavoriteAdd_Click()
+        #region DateFavoriteAdd
+        private void DateFavoriteAdd()
         {
             try
             {
@@ -2691,8 +2797,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ExiftoolFavoriteAdd_Click
-        private void ExiftoolFavoriteAdd_Click()
+        #region ExiftoolFavoriteAdd
+        private void ExiftoolFavoriteAdd()
         {
             try
             {
@@ -2707,8 +2813,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ExiftoolWarningFavoriteAdd_Click
-        private void ExiftoolWarningFavoriteAdd_Click()
+        #region ExiftoolWarningFavoriteAdd
+        private void ExiftoolWarningFavoriteAdd()
         {
             try
             {
@@ -2723,8 +2829,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region MapFavoriteAdd_Click
-        private void MapFavoriteAdd_Click()
+        #region MapFavoriteAdd
+        private void MapFavoriteAdd()
         {
             try
             {
@@ -2739,8 +2845,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region PeopleFavoriteAdd_Click
-        private void PeopleFavoriteAdd_Click()
+        #region PeopleFavoriteAdd
+        private void PeopleFavoriteAdd()
         {
             try
             {
@@ -2755,8 +2861,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region PropertiesFavoriteAdd_Click
-        private void PropertiesFavoriteAdd_Click()
+        #region PropertiesFavoriteAdd
+        private void PropertiesFavoriteAdd()
         {
             try
             {
@@ -2771,8 +2877,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region RenameFavoriteAdd_Click
-        private void RenameFavoriteAdd_Click()
+        #region RenameFavoriteAdd
+        private void RenameFavoriteAdd()
         {
             try
             {
@@ -2787,8 +2893,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region TagsAndKeywordsFavoriteAdd_Click
-        private void TagsAndKeywordsFavoriteAdd_Click()
+        #region TagsAndKeywordsFavoriteAdd
+        private void TagsAndKeywordsFavoriteAdd()
         {
             try
             {
@@ -2810,7 +2916,14 @@ namespace PhotoTagsSynchronizer
         #region Favorite Remove - Click Events Sources
         private void KryptonContextMenuItemGenericFavoriteDelete_Click(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("FavoriteDelete")) return;
+            //if (IsPopulatingAnything("FavoriteDelete")) return;
+            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
             ActionFavoriteDelete();
+            GlobalData.IsPerformingAButtonAction = false;
         }
         #endregion 
 
@@ -2832,31 +2945,31 @@ namespace PhotoTagsSynchronizer
                     case KryptonPages.kryptonPageMediaFiles:
                         break;
                     case KryptonPages.kryptonPageToolboxTags:
-                        TagsAndKeywordsFavoriteDelete_Click();
+                        TagsAndKeywordsFavoriteDelete();
                         break;
                     case KryptonPages.kryptonPageToolboxPeople:
-                        PeopleFavoriteDelete_Click();
+                        PeopleFavoriteDelete();
                         break;
                     case KryptonPages.kryptonPageToolboxMap:
-                        MapFavoriteDelete_Click();
+                        MapFavoriteDelete();
                         break;
                     case KryptonPages.kryptonPageToolboxDates:
-                        DateFavoriteDelete_Click();
+                        DateFavoriteDelete();
                         break;
                     case KryptonPages.kryptonPageToolboxExiftool:
-                        ExiftoolFavoriteDelete_Click();
+                        ExiftoolFavoriteDelete();
                         break;
                     case KryptonPages.kryptonPageToolboxWarnings:
-                        ExiftoolWarningFavoriteDelete_Click();
+                        ExiftoolWarningFavoriteDelete();
                         break;
                     case KryptonPages.kryptonPageToolboxProperties:
-                        PropertiesFavoriteDelete_Click();
+                        PropertiesFavoriteDelete();
                         break;
                     case KryptonPages.kryptonPageToolboxRename:
-                        RenameFavoriteDelete_Click();
+                        RenameFavoriteDelete();
                         break;
                     case KryptonPages.kryptonPageToolboxConvertAndMerge:
-                        ConvertAndMergeFavoriteDelete_Click();
+                        ConvertAndMergeFavoriteDelete();
                         break;
                     default:
                         throw new NotImplementedException();
@@ -2886,8 +2999,8 @@ namespace PhotoTagsSynchronizer
 }
         #endregion
 
-        #region ConvertAndMergeFavoriteDelete_Click
-        private void ConvertAndMergeFavoriteDelete_Click()
+        #region ConvertAndMergeFavoriteDelete
+        private void ConvertAndMergeFavoriteDelete()
         {
             try
             {
@@ -2902,8 +3015,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region DateFavoriteDelete_Click
-        private void DateFavoriteDelete_Click()
+        #region DateFavoriteDelete
+        private void DateFavoriteDelete()
         {
             try
             {
@@ -2918,8 +3031,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region ExiftoolFavoriteDelete_Click
-        private void ExiftoolFavoriteDelete_Click()
+        #region ExiftoolFavoriteDelete
+        private void ExiftoolFavoriteDelete()
         {
             try
             {
@@ -2934,8 +3047,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ExiftoolWarningFavoriteDelete_Click
-        private void ExiftoolWarningFavoriteDelete_Click()
+        #region ExiftoolWarningFavoriteDelete
+        private void ExiftoolWarningFavoriteDelete()
         {
             try
             {
@@ -2950,8 +3063,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region MapFavoriteDelete_Click
-        private void MapFavoriteDelete_Click()
+        #region MapFavoriteDelete
+        private void MapFavoriteDelete()
         {
             try
             {
@@ -2966,8 +3079,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region PeopleFavoriteDelete_Click
-        private void PeopleFavoriteDelete_Click()
+        #region PeopleFavoriteDelete
+        private void PeopleFavoriteDelete()
         {
             try
             {
@@ -2982,8 +3095,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region PropertiesFavoriteDelete_Click
-        private void PropertiesFavoriteDelete_Click()
+        #region PropertiesFavoriteDelete
+        private void PropertiesFavoriteDelete()
         {
             try
             {
@@ -2998,8 +3111,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region RenameFavoriteDelete_Click
-        private void RenameFavoriteDelete_Click()
+        #region RenameFavoriteDelete
+        private void RenameFavoriteDelete()
         {
             try
             {
@@ -3014,8 +3127,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region TagsAndKeywordsFavoriteDelete_Click
-        private void TagsAndKeywordsFavoriteDelete_Click()
+        #region TagsAndKeywordsFavoriteDelete
+        private void TagsAndKeywordsFavoriteDelete()
         {
             try
             {
@@ -3037,7 +3150,14 @@ namespace PhotoTagsSynchronizer
         #region FavoriteToggle - Click Events Sources
         private void KryptonContextMenuItemFavoriteToggle_Click(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("FavoriteToggle")) return;
+            //if (IsPopulatingAnything("FavoriteToggle")) return;
+            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
             ActionFavoriteToggle();
+            GlobalData.IsPerformingAButtonAction = false;
         }
         #endregion 
 
@@ -3264,12 +3384,26 @@ namespace PhotoTagsSynchronizer
         #region RowsShowFavoriteToggle - Click Events Sources
         private void kryptonRibbonGroupButtonDataGridViewRowsFavorite_Click(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("ShowFavorite")) return;
+            //if (IsPopulatingAnything("ShowFavorite")) return;
+            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
             ActionRowsShowFavoriteToggle();
+            GlobalData.IsPerformingAButtonAction = false;
         }
 
         private void KryptonContextMenuItemGenericRowShowFavorite_Click(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("ShowFavorite")) return;
+            //if (IsPopulatingAnything("ShowFavorite")) return;
+            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
             ActionRowsShowFavoriteToggle();
+            GlobalData.IsPerformingAButtonAction = false;
         }
         #endregion
 
@@ -3514,12 +3648,26 @@ namespace PhotoTagsSynchronizer
         #region RowsHideEqualToggle - Click Events Sources
         private void KryptonContextMenuItemGenericRowHideEqual_Click(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("HideEqual")) return;
+            //if (IsPopulatingAnything("HideEqual")) return;
+            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
             ActionRowsHideEqualToggle();
+            GlobalData.IsPerformingAButtonAction = false;
         }
 
         private void kryptonRibbonGroupButtonDataGridViewRowsHideEqual_Click(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("HideEqual")) return;
+            //if (IsPopulatingAnything("HideEqual")) return;
+            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
             ActionRowsHideEqualToggle();
+            GlobalData.IsPerformingAButtonAction = false;
         }
         #endregion
 
@@ -3747,12 +3895,26 @@ namespace PhotoTagsSynchronizer
         #region CopyText - Click Events Sources
         private void kryptonRibbonGroupButtonHomeCopyText_Click(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("CopyText")) return;
+            //if (IsPopulatingAnything("CopyText")) return;
+            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
             ActionCopyText();
+            GlobalData.IsPerformingAButtonAction = false;
         }
 
         private void KryptonContextMenuItemGenericCopyText_Click(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("CopyText")) return;
+            //if (IsPopulatingAnything("CopyText")) return;
+            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
             ActionCopyText();
+            GlobalData.IsPerformingAButtonAction = false;
         }
         #endregion
 
@@ -3776,31 +3938,31 @@ namespace PhotoTagsSynchronizer
                         MediaFilesCopyNameToClipboard_Click();
                         break;
                     case KryptonPages.kryptonPageToolboxTags:
-                        TagsAndKeywordsCopy_Click();
+                        TagsAndKeywordsCopy();
                         break;
                     case KryptonPages.kryptonPageToolboxPeople:
-                        PeopleCopy_Click();
+                        PeopleCopy();
                         break;
                     case KryptonPages.kryptonPageToolboxMap:
-                        MapCopy_Click();
+                        MapCopy();
                         break;
                     case KryptonPages.kryptonPageToolboxDates:
-                        DateCopy_Click();
+                        DateCopy();
                         break;
                     case KryptonPages.kryptonPageToolboxExiftool:
-                        ExiftoolCopy_Click();
+                        ExiftoolCopy();
                         break;
                     case KryptonPages.kryptonPageToolboxWarnings:
-                        ExiftoolWarningCopy_Click();
+                        ExiftoolWarningCopy();
                         break;
                     case KryptonPages.kryptonPageToolboxProperties:
-                        PropertiesCopy_Click();
+                        PropertiesCopy();
                         break;
                     case KryptonPages.kryptonPageToolboxRename:
-                        RenameCopy_Click();
+                        RenameCopy();
                         break;
                     case KryptonPages.kryptonPageToolboxConvertAndMerge:
-                        ConvertAndMergeCopy_Click();
+                        ConvertAndMergeCopy();
                         break;
                     default:
                         throw new NotImplementedException();
@@ -4189,7 +4351,16 @@ namespace PhotoTagsSynchronizer
         #region Save and AutoCorrect
         private void kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave_Click(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Save")) return;
+            if (IsPopulatingAnything("Save")) return;
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
             ActionSave(true);
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+            GlobalData.IsPerformingAButtonAction = false;
         }
         #endregion
 
@@ -4198,17 +4369,45 @@ namespace PhotoTagsSynchronizer
         #region Save - Click Events Sources
         private void kryptonRibbonQATButtonSave_Click(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Save")) return;
+            if (IsPopulatingAnything("Save")) return;
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
             ActionSave(false);
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+            GlobalData.IsPerformingAButtonAction = false;
         }
 
         private void kryptonRibbonGroupButtonHomeSaveSave_Click(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Save")) return;
+            if (IsPopulatingAnything("Save")) return;
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
             ActionSave(false);
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+            GlobalData.IsPerformingAButtonAction = true;
         }
 
         private void KryptonContextMenuItemGenericSave_Click(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Save")) return;
+            if (IsPopulatingAnything("Save")) return;
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
             ActionSave(false);
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+            GlobalData.IsPerformingAButtonAction = true;
+
         }
         #endregion 
 
@@ -4216,19 +4415,12 @@ namespace PhotoTagsSynchronizer
         private void ActionSave(bool useAutoCorrect)
         {
             if (GlobalData.IsApplicationClosing) return;
-            if (GlobalData.IsPopulatingAnything())
-            {
-                KryptonMessageBox.Show("Data is populating, please try a bit later.", "Need wait...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
-                return;
-            }
 
             try
             {
                 this.Activate();
                 this.Validate(); //Get the latest changes, that are text in edit mode
 
-                if (GlobalData.IsSaveButtonPushed) return;
-                GlobalData.IsSaveButtonPushed = true;
                 this.Enabled = false;
                 using (new WaitCursor())
                 {
@@ -4267,7 +4459,9 @@ namespace PhotoTagsSynchronizer
                             SaveProperties();
                             break;
                         case KryptonPages.kryptonPageToolboxRename:
+                            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
                             SaveRename();
+                            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
                             break;
                         case KryptonPages.kryptonPageToolboxConvertAndMerge:
                             SaveConvertAndMerge();
@@ -4276,7 +4470,7 @@ namespace PhotoTagsSynchronizer
                             throw new NotImplementedException();
                     }
                 }
-                GlobalData.IsSaveButtonPushed = false;
+                
                 this.Enabled = true;
             }
             catch (Exception ex)
@@ -4307,17 +4501,7 @@ namespace PhotoTagsSynchronizer
         private void SaveDataGridViewMetadata(bool useAutoCorrect)
         {
             if (GlobalData.IsApplicationClosing) return;
-            if (GlobalData.IsPopulatingAnything())
-            {
-                KryptonMessageBox.Show("Data is populating, please try a bit later.", "Need wait...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
-                return;
-            }
-
-            if (!GlobalData.IsAgredagedGridViewAny())
-            {
-                KryptonMessageBox.Show("Nothing has been agredaged, nothing to do.", "Nothing to save...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
-                return;
-            }
+            if (!HasDataGridViewAggregatedAny()) return;
 
             try
             {
@@ -4433,9 +4617,12 @@ namespace PhotoTagsSynchronizer
                     }
 
                     GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
-                    //ImageListViewReloadThumbnailInvoke(imageListView1, null); //Why null
+                    
                     DataGridView_AfterPopulateSelectedFiles_LazyLoadFromDatabaseThenSourceAllVersions(ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));
+
+                    //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
                     ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
+                    //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
                 }
             }
             catch (Exception ex)
@@ -5804,14 +5991,19 @@ namespace PhotoTagsSynchronizer
         #region FolderRefresh_Click
         private void FolderRefresh_Click()
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Refresh Folder")) return;
+            if (IsPopulatingAnything("Refresh Folder")) return;
             if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
 
+            GlobalData.IsPerformingAButtonAction = true;
+            
             try
             {
-                GlobalData.DoNotRefreshImageListView = true;
+                GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect = true;
                 TreeNodePath selectedNode = (TreeNodePath)treeViewFolderBrowser1.SelectedNode;
                 TreeViewFolderBrowserHandler.RefreshTreeNode(treeViewFolderBrowser1, selectedNode);
-                GlobalData.DoNotRefreshImageListView = false;
+                GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect = false;
                 ImageListView_FetchListOfMediaFiles_FromFolder_and_Aggregate(false, true);
                 treeViewFolderBrowser1.Focus();
             }
@@ -5820,13 +6012,19 @@ namespace PhotoTagsSynchronizer
                 Logger.Error(ex, "");
                 KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
+
+            GlobalData.IsPerformingAButtonAction = false;
         }
         #endregion
 
         #region MediaFilesRefresh_Click
         private void MediaFilesRefresh_Click()
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Refresh data on Media Files")) return;
+            if (IsPopulatingAnything("Refresh data on Media Files")) return;
             if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+            GlobalData.IsPerformingAButtonAction = true;
 
             try
             {
@@ -5838,6 +6036,7 @@ namespace PhotoTagsSynchronizer
                 Logger.Error(ex, "");
                 KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
+            GlobalData.IsPerformingAButtonAction = false;
         }
         #endregion
 
@@ -6855,12 +7054,8 @@ namespace PhotoTagsSynchronizer
                 KryptonMessageBox.Show("Data is populating, please try a bit later.", "Need wait...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
                 return;
             }
+            if (!HasDataGridViewAggregatedAny()) return;
 
-            if (!GlobalData.IsAgredagedGridViewAny())
-            {
-                KryptonMessageBox.Show("No metadata are updated.", "Warning...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
-                return;
-            }
             DataGridView dataGridView = GetActiveTabDataGridView();
 
             try
@@ -7128,12 +7323,8 @@ namespace PhotoTagsSynchronizer
                 KryptonMessageBox.Show("Data is populating, please try a bit later.", "Need wait...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
                 return;
             }
+            if (!HasDataGridViewAggregatedAny()) return;
 
-            if (!GlobalData.IsAgredagedGridViewAny())
-            {
-                KryptonMessageBox.Show("No metadata are updated.", "Warning...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
-                return;
-            }
             DataGridView dataGridView = GetActiveTabDataGridView();
 
             try
@@ -7302,7 +7493,7 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-                GlobalData.IsPopulatingButtonAction = true;
+                GlobalData.IsPerformingAButtonAction = true;
                 //GlobalData.IsPopulatingImageListView = true; //Avoid one and one select item getting refreshed
                 //GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
 
@@ -7321,7 +7512,7 @@ namespace PhotoTagsSynchronizer
 
                 //GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
                 //GlobalData.IsPopulatingImageListView = false;
-                GlobalData.IsPopulatingButtonAction = false;
+                GlobalData.IsPerformingAButtonAction = false;
 
 
             }
@@ -7337,6 +7528,7 @@ namespace PhotoTagsSynchronizer
         private void MediaFilesMetadataRefreshLast_Click()
         {
             if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
             try
             {
                 HashSet<FileEntry> fileEntries = ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true);
@@ -7456,7 +7648,7 @@ namespace PhotoTagsSynchronizer
                 return;
             }
 
-            GlobalData.IsPopulatingButtonAction = true;
+            GlobalData.IsPerformingAButtonAction = true;
 
             foreach (FileEntry fileEntry in fileEntries)
             {
@@ -7468,7 +7660,7 @@ namespace PhotoTagsSynchronizer
                 ImageListView_UpdateItemThumbnailUpdateAllInvoke(fileEntry);
             }
 
-            GlobalData.IsPopulatingButtonAction = false;
+            GlobalData.IsPerformingAButtonAction = false;
         }
         #endregion
 
@@ -8881,12 +9073,17 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
+                ImageListViewHandler.SuspendLayout(imageListView1);
+               
                 using (new WaitCursor())
                 {
                     imageListView1.SelectAll();
                 }
-                GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
+                
+                ImageListViewHandler.ResumeLayout(imageListView1);
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+
                 ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
             }
             catch (Exception ex)
@@ -8920,12 +9117,17 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
+                ImageListViewHandler.SuspendLayout(imageListView1);
+
                 using (new WaitCursor())
                 {
                     imageListView1.ClearSelection();
                 }
-                GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
+
+                ImageListViewHandler.ResumeLayout(imageListView1);
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+
                 ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
             }
             catch (Exception ex)
@@ -8959,14 +9161,19 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
+                ImageListViewHandler.SuspendLayout(imageListView1);
+
                 using (new WaitCursor())
                 {
                     ImageListViewSuspendLayoutInvoke(imageListView1);
                     foreach (ImageListViewItem imageListViewItem in imageListView1.Items) imageListViewItem.Selected = !imageListViewItem.Selected;
                     ImageListViewResumeLayoutInvoke(imageListView1);
                 }
-                GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
+
+                ImageListViewHandler.ResumeLayout(imageListView1);
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+
                 ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
             }
             catch (Exception ex)
@@ -8993,67 +9200,6 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        //---- Tools Progress and Status 
-        #region StatusActionText
-        private string StatusActionText
-        {
-            get { return kryptonRibbonGroupLabelToolsCurrentActions.TextLine1; }
-            set { 
-                kryptonRibbonGroupLabelToolsCurrentActions.TextLine1 = value;
-                toolStripStatusLabelStatusAction.Text = value;
-                Application.DoEvents(); 
-            }
-        }
-        #endregion
-
-        #region ProgressbarSaveAndConvertProgress
-
-        #region ProgressbarSaveAndConvertProgress(bool enabled, int value)
-        private void ProgressbarSaveAndConvertProgress(bool enabled, int value)
-        {
-            progressBarSaveConvert.Value = value;
-            ProgressbarSaveProgress(enabled);
-        }
-        #endregion
-
-        #region ProgressbarSaveProgress(bool enabled, int value, int minimum, int maximum, string descrption)
-        private void ProgressbarSaveAndConvertProgress(bool enabled, int value, int minimum, int maximum, string descrption)
-        {
-            try
-            {
-                progressBarSaveConvert.Minimum = minimum;
-                progressBarSaveConvert.Maximum = maximum;
-                progressBarSaveConvert.Value = value;
-                ProgressbarSaveProgress(enabled);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-            }
-        }
-        #endregion
-
-        #region ProgressbarSaveProgress(bool visible)
-        private void ProgressbarSaveProgress(bool visible)
-        {
-            try
-            {
-                kryptonRibbonGroupTripleProgressStatusSave.Visible = visible;
-                kryptonRibbonGroupCustomControlToolsProgressSave.Visible = visible;
-                kryptonRibbonGroupLabelToolsProgressSave.Visible = visible;
-                kryptonRibbonGroupLabelToolsProgressSaveText.Visible = visible;
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-            }
-        }
-        #endregion
-
-        #endregion
-
         #region SeeProcessQueue_Clcik
         private void kryptonRibbonGroupButtonToolsProgressLazyloadingShowStatus_Click(object sender, EventArgs e)
         {
@@ -9075,431 +9221,9 @@ namespace PhotoTagsSynchronizer
         //----
         
 
-        #region DirtyFlag - DataGridView - CellLeave - UpdatedDirtyFlag
-        private void dataGridViewTagsAndKeywords_CellLeave(object sender, DataGridViewCellEventArgs e)
-        {
-            DataGridView dataGridView = (DataGridView)sender;
-            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex, out string diffrences), diffrences);
-        }
+        
 
-        private void dataGridViewConvertAndMerge_CellLeave(object sender, DataGridViewCellEventArgs e)
-        {
-            DataGridView dataGridView = (DataGridView)sender;
-            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex, out string diffrences), diffrences);
-        }
-
-        private void dataGridViewProperties_CellLeave(object sender, DataGridViewCellEventArgs e)
-        {
-            DataGridView dataGridView = (DataGridView)sender;
-            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex, out string diffrences), diffrences);
-        }
-
-        private void dataGridViewDate_CellLeave(object sender, DataGridViewCellEventArgs e)
-        {
-            DataGridView dataGridView = (DataGridView)sender;
-            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex, out string diffrences), diffrences);
-        }
-
-        private void dataGridViewMap_CellLeave(object sender, DataGridViewCellEventArgs e)
-        {
-            DataGridView dataGridView = (DataGridView)sender;
-            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex, out string diffrences), diffrences);
-        }
-
-        private void dataGridViewPeople_CellLeave(object sender, DataGridViewCellEventArgs e)
-        {
-            DataGridView dataGridView = (DataGridView)sender;
-            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex, out string diffrences), diffrences);
-        }
-        #endregion
-
-        #region Cell BeginEdit
-
-        #region Cell BeginEdit - Date
-        private void dataGridViewDate_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
-        {
-            try
-            {
-                DataGridView dataGridView = ((DataGridView)sender);
-                if (!dataGridView.Enabled) return;
-
-                ClipboardUtility.PushToUndoStack(dataGridView);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-            }
-        }
-        #endregion
-
-        #region Cell BeginEdit - Exiftool
-        private void dataGridViewExifTool_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
-        {
-            try
-            {
-                DataGridView dataGridView = ((DataGridView)sender);
-                if (!dataGridView.Enabled) return;
-
-                ClipboardUtility.PushToUndoStack(dataGridView);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-            }
-        }
-        #endregion
-
-        #region Cell BeginEdit - ExiftoolWarning
-        private void dataGridViewExifToolWarning_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
-        {
-            try
-            {
-                DataGridView dataGridView = ((DataGridView)sender);
-                if (!dataGridView.Enabled) return;
-
-                ClipboardUtility.PushToUndoStack(dataGridView);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-            }
-        }
-        #endregion
-
-        #region Cell BeginEdit - Map
-        private void dataGridViewMap_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
-        {
-            try
-            {
-                DataGridView dataGridView = ((DataGridView)sender);
-                if (!dataGridView.Enabled) return;
-
-                ClipboardUtility.PushToUndoStack(dataGridView);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-            }
-        }
-        #endregion
-
-        #region Cell BeginEdit - People
-        private void dataGridViewPeople_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
-        {
-            try
-            {
-                if (((KryptonDataGridView)sender)[e.ColumnIndex, e.RowIndex].Value is RegionStructure regionStructure) regionStructure.ShowNameInToString = true; //Just a hack so KryptonDataGridView don't print name alse
-
-                if (triStateButtomClick)
-                {
-                    e.Cancel = true;
-                    return;
-                }
-
-                DataGridView dataGridView = ((DataGridView)sender);
-                if (!dataGridView.Enabled) return;
-
-                ClipboardUtility.PushToUndoStack(dataGridView);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-            }
-        }
-        #endregion
-
-        #region Cell BeginEdit - Properties
-        private void dataGridViewProperties_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
-        {
-            try
-            {
-                DataGridView dataGridView = ((DataGridView)sender);
-                if (!dataGridView.Enabled) return;
-
-                ClipboardUtility.PushToUndoStack(dataGridView);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-            }
-        }
-        #endregion
-
-        #region Cell BeginEdit - Rename
-        private void dataGridViewRename_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
-        {
-            try {
-                DataGridView dataGridView = ((DataGridView)sender);
-                if (!dataGridView.Enabled) return;
-
-                ClipboardUtility.PushToUndoStack(dataGridView);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-            }
-        }
-
-        #endregion
-
-        #region Cell BeginEdit - TagsAndKeywords
-        private void dataGridViewTagsAndKeywords_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
-        {
-            try
-            {
-                if (triStateButtomClick)
-                {
-                    e.Cancel = true;
-                    return;
-                }
-
-                DataGridView dataGridView = ((DataGridView)sender);
-                if (!dataGridView.Enabled) return;
-
-                ClipboardUtility.PushToUndoStack(dataGridView);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-            }
-        }
-        #endregion
-
-        #endregion
-
-        #region Cell Painting
-
-        #region Cell Painting - Convert and Merge
-        private void dataGridViewConvertAndMerge_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
-        {
-            try
-            {
-                DataGridViewHandler.CellPaintingHandleDefault(sender, e, true);
-                //DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
-                //DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
-                DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
-
-                //Draw red line for drag and drop
-                DataGridView dataGridView = (DataGridView)sender;
-                if (e.RowIndex == dragdropcurrentIndex && e.RowIndex > -1 && dragdropcurrentIndex < DataGridViewHandler.GetRowCount(dataGridView))
-                {
-                    Pen p = new Pen(Color.Red, 2);
-                    e.Graphics.DrawLine(p, e.CellBounds.Left, e.CellBounds.Top + e.CellBounds.Height - 1, e.CellBounds.Right, e.CellBounds.Top + e.CellBounds.Height - 1);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                //KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-            }
-        }
-        #endregion 
-
-        #region Cell Painting - Date
-        private void dataGridViewDate_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
-        {
-            try
-            {
-                DataGridView dataGridView = ((DataGridView)sender);
-                string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
-
-                DataGridViewHandler.CellPaintingHandleDefault(sender, e, false);
-                DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
-                DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
-                DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                //KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-            }
-        }
-        #endregion
-
-        #region Cell Painting - Exiftool
-        private void dataGridViewExifTool_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
-        {
-            try
-            {
-                DataGridViewHandler.CellPaintingHandleDefault(sender, e, false);
-                DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
-                //DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
-                DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                //KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-            }
-        }
-        #endregion
-
-        #region Cell Painting - ExiftoolWarning
-        private void dataGridViewExifToolWarning_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
-        {
-            try
-            {
-                DataGridViewHandler.CellPaintingHandleDefault(sender, e, false);
-                DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
-                //DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
-                DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                //KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-            }
-        }
-        #endregion
-
-        #region Cell Painting - Map
-        private void dataGridViewMap_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
-        {
-            try
-            {
-                DataGridViewHandler.CellPaintingHandleDefault(sender, e, false);
-                DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
-                //DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
-                DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                //KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-            }
-        }
-        #endregion
-
-        #region Cell Painting - People
-        private void dataGridViewPeople_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
-        {
-            try
-            {
-                DataGridView dataGridView = ((DataGridView)sender);
-                string header = DataGridViewHandlerPeople.headerPeople;
-
-                DataGridViewHandler.CellPaintingHandleDefault(sender, e, false);
-                DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
-                DataGridViewHandler.CellPaintingColumnHeaderRegionsInThumbnail(sender, e);
-                DataGridViewHandler.CellPaintingColumnHeaderMouseRegion(sender, e, drawingRegion, peopleMouseDownX, peopleMouseDownY, peopleMouseMoveX, peopleMouseMoveY);
-
-                DataGridViewGenericRow gridViewGenericDataRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, e.RowIndex);
-                if (gridViewGenericDataRow == null) return; //Don't paint anything TriState on "New Empty Row" for "new Keywords"
-
-                DataGridViewGenericColumn dataGridViewGenericDataColumn = null;
-                if (e.ColumnIndex > -1)
-                {
-                    dataGridViewGenericDataColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, e.ColumnIndex);
-                    if (dataGridViewGenericDataColumn == null) return; //Data is not set, no point to check more.
-                    if (dataGridViewGenericDataColumn.Metadata == null) return; //Don't paint TriState button when MetaData is null (data not loaded)
-                }
-
-                //If people region row
-                if (gridViewGenericDataRow.HeaderName.Equals(DataGridViewHandlerPeople.headerPeople))
-                {
-                    if (!gridViewGenericDataRow.IsHeader && e.ColumnIndex > -1)
-                    {
-                        MetadataLibrary.RegionStructure region = DataGridViewHandler.GetCellRegionStructure(dataGridView, e.ColumnIndex, e.RowIndex);
-                        Image regionThumbnail = (Image)Properties.Resources.RegionLoading;
-                        if (region == null)
-                        {
-                            e.Handled = false;
-                            return;
-                        }
-                        else if (region.Thumbnail != null) regionThumbnail = region.Thumbnail;
-                        DataGridViewHandler.DrawImageAndSubText(sender, e, regionThumbnail, null, ((RegionStructure)e.Value).Name);
-
-                        e.Handled = true;
-                    }
-
-                    DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
-                }
-                DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                //KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-            }
-        }
-        #endregion
-
-        #region Cell Painting - Properties
-        private void dataGridViewProperties_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
-        {
-            try
-            {
-                DataGridViewHandler.CellPaintingHandleDefault(sender, e, false);
-                DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
-                //DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
-                DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                //KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-            }
-        }
-        #endregion
-
-        #region Cell Painting - Rename
-        private void dataGridViewRename_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
-        {
-            try
-            {
-                DataGridViewHandler.CellPaintingHandleDefault(sender, e, true);
-                //DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
-                //DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
-                DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-            }
-        }
-        #endregion
-
-        #region Cell Painting - TagsAndKeywords
-        private void dataGridViewTagsAndKeywords_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
-        {
-            try
-            {
-                DataGridView dataGridView = ((DataGridView)sender);
-                string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
-
-                DataGridViewHandler.CellPaintingHandleDefault(sender, e, false);
-                DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
-                DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
-                DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                //KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-            }
-        }
-        #endregion
-
-        #endregion
-
-        //ConvertAndMerge
-        //Date
-        //Exiftool
-        //ExiftoolWarning
-        //Map
-        //People
-        //Properties
-        //Rename
-        //TagsAndKeywords
+       
 
 
     }

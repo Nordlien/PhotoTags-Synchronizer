@@ -406,11 +406,7 @@ namespace PhotoTagsSynchronizer
         {
             if (isDataGridViewMaps_CellValueChanging) return; //Avoid requirng isues
             if (GlobalData.IsApplicationClosing) return;
-            if (GlobalData.IsPopulatingAnything())
-            {
-                KryptonMessageBox.Show("Data is populating, please try a bit later.", "Need wait...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
-                return;
-            }
+            if (IsPopulatingAnything("Cell value changed")) return;
             if (e.ColumnIndex < 0) return;
             if (e.RowIndex < 0) return;
 

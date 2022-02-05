@@ -9,100 +9,113 @@ namespace PhotoTagsSynchronizer
         public static readonly object populateSelectedLock = new object(); //Avoid gridview to update while updateing
         public static readonly object metadataUpdateLock = new object();
 
+        public static int ProcessCounterReadProperties = 0;
+
+        #region 
         public static HashSet<FileEntry> SerachFilterResult { get; set; }
-
         public static bool SearchFolder { get; set; } = true;
+        public static bool lastReadFolderWasRecursive { get; set; } = false;
+        #endregion
 
+        public static bool DoNotTrigger_ImageListView_ItemUpdate { get; set; } = false;
+        public static bool DoNotTrigger_ImageListView_SelectionChanged { get; set; } = false;
+        public static bool DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect { get; set; } = false; //To avoid Populate twice
+        public static bool DoNotTrigger_TreeViewFilter_BeforeAndAfterCheck { get; set; } = false; //To avoid double click / start process twice
+
+        
+        #region Avoid double click / start process twice
+        public static bool IsPerformingAButtonAction { get; set; } = false;
+        public static bool IsSaveButtonPushed { get; set; } = false; //To avoid double click / start process twice
+
+        
+        public static bool IsDragAndDropActive { get; set; } = false; //To avoid enter rutine when in process        
+        public static bool IsPopulatingImageListViewFromFolderOrDatabaseList { get; set; } = false; //When started twice, stop current, continue with new
+        public static bool IsDataGridViewCutPasteDeleteFindReplaceInProgress { get; set; } = false; //To avoid trigger "Changes Value Cell"
+        #endregion
+
+        #region Stop onging process, other task requested
+        public static bool IsApplicationClosing { get; set; } = false; //Tell ongoing process, the application is closing, just termiate the ongoing process
+        public static bool IsStopAndEmptyExiftoolReadQueueRequest { get; set; } = false;
+        public static bool IsStopAndEmptyThumbnailQueueRequest { get; set; } = false;
+        #endregion
+
+
+        #region DataGridViewHandler
         public static DataGridViewHandler dataGridViewHandlerTags = null;
-        public static DataGridViewHandler dataGridViewHandlerMap = null;       
+        public static DataGridViewHandler dataGridViewHandlerMap = null;
         public static DataGridViewHandler dataGridViewHandlerPeople = null;
         public static DataGridViewHandler dataGridViewHandlerDates = null;
-        public static DataGridViewHandler dataGridViewHandlerExiftoolTags = null;        
-        public static DataGridViewHandler dataGridViewHandlerExiftoolWarning = null;       
+        public static DataGridViewHandler dataGridViewHandlerExiftoolTags = null;
+        public static DataGridViewHandler dataGridViewHandlerExiftoolWarning = null;
         public static DataGridViewHandler dataGridViewHandlerProperties = null;
         public static DataGridViewHandler dataGridViewHandlerRename = null;
         public static DataGridViewHandler dataGridViewHandlerConvertAndMerge = null;
+        #endregion
 
-        public static bool lastReadFolderWasRecursive { get; set; } = false;
-        
-        public static int ProcessCounterReadProperties = 0;
-
-        //
-        public static bool IsApplicationClosing { get; set; } = false;
-        public static bool IsStopAndEmptyExiftoolReadQueueRequest { get; set; } = false;
-        public static bool IsStopAndEmptyThumbnailQueueRequest { get; set; } = false;
-        public static bool IsPopulatingFolderTree { get; set; } = true;
-        public static bool IsPopulatingImageListView { get; set; } = false;
-        public static bool IsImageListViewForEachInProgressRequestStop { get; set; } = false;
-        public static bool IsPopulatingImageListViewFromFolderOrDatabaseList { get; set; } = false;
-        public static bool IsDataGridViewCutPasteDeleteFindReplaceInProgress { get; set; } = false;
-
-
-        //Keywords
+        #region DataGridView - Tags & Keywords
         public static bool IsPopulatingTags { get => dataGridViewHandlerTags.IsPopulating; set => dataGridViewHandlerTags.IsPopulating = value; }
         public static bool IsPopulatingTagsFile { get => dataGridViewHandlerTags.IsPopulatingFile; set => dataGridViewHandlerTags.IsPopulatingFile = value; }
         public static bool IsPopulatingTagsImage { get => dataGridViewHandlerTags.IsPopulatingImage; set => dataGridViewHandlerTags.IsPopulatingImage = value; }
         public static bool IsAgregatedTags { get => dataGridViewHandlerTags.IsAgregated; set => dataGridViewHandlerTags.IsAgregated = value; }
-        
-        //Map
+        #endregion
+
+        #region DataGridView - Map
         public static bool IsPopulatingMap { get => dataGridViewHandlerMap.IsPopulating; set => dataGridViewHandlerMap.IsPopulating = value; }
         public static bool IsPopulatingMapFile { get => dataGridViewHandlerMap.IsPopulatingFile; set => dataGridViewHandlerMap.IsPopulatingFile = value; }
         public static bool IsPopulatingMapImage { get => dataGridViewHandlerMap.IsPopulatingImage; set => dataGridViewHandlerMap.IsPopulatingImage = value; }
         public static bool IsAgregatedMap { get => dataGridViewHandlerMap.IsAgregated; set => dataGridViewHandlerMap.IsAgregated = value; }
-        
-        //People
+        #endregion
+
+        #region DataGridView - People
         public static bool IsPopulatingPeople { get => dataGridViewHandlerPeople.IsPopulating; set => dataGridViewHandlerPeople.IsPopulating = value; }
         public static bool IsPopulatingPeopleFile { get => dataGridViewHandlerPeople.IsPopulatingFile; set => dataGridViewHandlerPeople.IsPopulatingFile = value; }
         public static bool IsPopulatingPeopleImage { get => dataGridViewHandlerPeople.IsPopulatingImage; set => dataGridViewHandlerPeople.IsPopulatingImage = value; }
         public static bool IsAgregatedPeople { get => dataGridViewHandlerPeople.IsAgregated; set => dataGridViewHandlerPeople.IsAgregated = value; }
+        #endregion
 
-        //Date
+        #region DataGridView - Date
         public static bool IsPopulatingDate { get => dataGridViewHandlerDates.IsPopulating; set => dataGridViewHandlerDates.IsPopulating = value; }
         public static bool IsPopulatingDateFile { get => dataGridViewHandlerDates.IsPopulatingFile; set => dataGridViewHandlerDates.IsPopulatingFile = value; }
         public static bool IsPopulatingDateImage { get => dataGridViewHandlerDates.IsPopulatingImage; set => dataGridViewHandlerDates.IsPopulatingImage = value; }
         public static bool IsAgregatedDate { get => dataGridViewHandlerDates.IsAgregated; set => dataGridViewHandlerDates.IsAgregated = value; }
+        #endregion
 
-        //Exiftool tags
+        #region DataGridView - Exiftool tags
         public static bool IsPopulatingExiftoolTags { get => dataGridViewHandlerExiftoolTags.IsPopulating; set => dataGridViewHandlerExiftoolTags.IsPopulating = value; }
         public static bool IsPopulatingExiftoolTagsFile { get => dataGridViewHandlerExiftoolTags.IsPopulatingFile; set => dataGridViewHandlerExiftoolTags.IsPopulatingFile = value; }
-        //public static bool IsPopulatingExiftoolTagsImage { get => dataGridViewHandlerExiftoolTags.IsPopulatingImage; set => dataGridViewHandlerExiftoolTags.IsPopulatingImage = value; }
+        public static bool IsPopulatingExiftoolTagsImage { get => dataGridViewHandlerExiftoolTags.IsPopulatingImage; set => dataGridViewHandlerExiftoolTags.IsPopulatingImage = value; }
         public static bool IsAgregatedExiftoolTags { get => dataGridViewHandlerExiftoolTags.IsAgregated; set => dataGridViewHandlerExiftoolTags.IsAgregated = value; }
-        
-        //Exiftool warning
+        #endregion
+
+        #region DataGridView - Exiftool warning
         public static bool IsPopulatingExiftoolWarning { get => dataGridViewHandlerExiftoolWarning.IsPopulating; set => dataGridViewHandlerExiftoolWarning.IsPopulating = value; }
         public static bool IsPopulatingExiftoolWarningFile { get => dataGridViewHandlerExiftoolWarning.IsPopulatingFile; set => dataGridViewHandlerExiftoolWarning.IsPopulatingFile = value; }
         public static bool IsPopulatingExiftoolWarningImage { get => dataGridViewHandlerExiftoolWarning.IsPopulatingImage; set => dataGridViewHandlerExiftoolWarning.IsPopulatingImage = value; }
         public static bool IsAgregatedExiftoolWarning { get => dataGridViewHandlerExiftoolWarning.IsAgregated; set => dataGridViewHandlerExiftoolWarning.IsAgregated = value; }
-        
-        //Properties
+        #endregion
+
+        #region DataGridView - Properties
         public static bool IsPopulatingProperties { get => dataGridViewHandlerProperties.IsPopulating; set => dataGridViewHandlerProperties.IsPopulating = value; }
         public static bool IsPopulatingPropertiesFile { get => dataGridViewHandlerProperties.IsPopulatingFile; set => dataGridViewHandlerProperties.IsPopulatingFile = value; }
         public static bool IsPopulatingPropertiesImage { get => dataGridViewHandlerProperties.IsPopulatingImage; set => dataGridViewHandlerProperties.IsPopulatingImage = value; }
         public static bool IsAgregatedProperties { get => dataGridViewHandlerProperties.IsAgregated; set => dataGridViewHandlerProperties.IsAgregated = value; }
+        #endregion
 
-        //Rename
+        #region DataGridView - Rename
         public static bool IsPopulatingRename { get => dataGridViewHandlerRename.IsPopulating; set => dataGridViewHandlerRename.IsPopulating = value; }
         public static bool IsPopulatingRenameFile { get => dataGridViewHandlerRename.IsPopulatingFile; set => dataGridViewHandlerRename.IsPopulatingFile = value; }
         public static bool IsPopulatingRenameImage { get => dataGridViewHandlerRename.IsPopulatingImage; set => dataGridViewHandlerRename.IsPopulatingImage = value; }
         public static bool IsAgregatedRename { get => dataGridViewHandlerRename.IsAgregated; set => dataGridViewHandlerRename.IsAgregated = value; }
-        
+        #endregion
 
-        //Convert and Merge
+        #region DataGridView - Convert and Merge
         public static bool IsPopulatingConvertAndMerge { get => dataGridViewHandlerConvertAndMerge.IsPopulating; set => dataGridViewHandlerConvertAndMerge.IsPopulating = value; }
         public static bool IsPopulatingConvertAndMergeFile { get => dataGridViewHandlerConvertAndMerge.IsPopulatingFile; set => dataGridViewHandlerConvertAndMerge.IsPopulatingFile = value; }
         public static bool IsPopulatingConvertAndMergeImage { get => dataGridViewHandlerConvertAndMerge.IsPopulatingImage; set => dataGridViewHandlerConvertAndMerge.IsPopulatingImage = value; }
         public static bool IsAgregatedConvertAndMerge { get => dataGridViewHandlerConvertAndMerge.IsAgregated; set => dataGridViewHandlerConvertAndMerge.IsAgregated = value; }
+        #endregion
 
-        //Acton button
-        public static bool IsPopulatingButtonAction { get; set; } = false;
-
-        public static bool IsSaveButtonPushed { get; set; } = false;
-
-        public static bool DoNotRefreshDataGridViewWhileFileSelect { get; set; } = false;
-        public static bool DoNotRefreshImageListView { get; set; } = false;
-        public static bool IsDragAndDropActive { get; set; } = false;
-        public static bool IsPopulatingFilter { get; set; } = false;
-
+        #region SetDataNotAgreegatedOnGridViewForAnyTabs
         public static void SetDataNotAgreegatedOnGridViewForAnyTabs()
         {
             IsAgregatedTags = false;            
@@ -114,10 +127,11 @@ namespace PhotoTagsSynchronizer
             IsAgregatedProperties = false;
             IsAgregatedRename = false;
             IsAgregatedConvertAndMerge = false;
-        }        
+        }
+        #endregion
 
-        //Data stored in DataGridView
-        public static bool IsAgredagedGridViewAny()
+        #region IsAgredagedGridViewAny
+        public static bool HasDataGridViewAggregatedAny()
         {
             return (IsAgregatedTags ||
                 IsAgregatedMap ||
@@ -129,18 +143,74 @@ namespace PhotoTagsSynchronizer
                 IsAgregatedRename || 
                 IsAgregatedConvertAndMerge);
         }
+        #endregion
 
+        #region WhatsPopulating
+        public static string WhatsPopulating()
+        {
+            return
+                (IsApplicationClosing ? "Application is closing\r\n" : "") +
+                (IsPopulatingImageListViewFromFolderOrDatabaseList ? "Is Populating ImageListView List\r\n" : "") +
+                
+                //Acton button
+                (IsPerformingAButtonAction ? "Is Action is started\r\n" : "") +
+
+                //Keywords
+                (IsPopulatingTags ? "Is Populating Tags and Keywords\r\n" : "") +
+                (IsPopulatingTagsFile ? "Is Populating Tags and Keywords File\r\n" : "") +
+                (IsPopulatingTagsImage ? "Is Populating Tags and Keywords Image\r\n" : "") +
+
+                //Map
+                (IsPopulatingMap ? "Is Populating Map\r\n" : "") +
+                (IsPopulatingMapFile ? "Is Populating Map File\r\n" : "") +
+                (IsPopulatingMapImage ? "Is Populating Map Image\r\n" : "") +
+
+                //People
+                (IsPopulatingPeople ? "Is Populating People\r\n" : "") +
+                (IsPopulatingPeopleFile ? "Is Populating People File\r\n" : "") +
+                (IsPopulatingPeopleImage ? "Is Populating People Image\r\n" : "") +
+
+                //Date
+                (IsPopulatingDate ? "Is PopulatingDate\r\n" : "") +
+                (IsPopulatingDateFile ? "Is PopulatingDate File\r\n" : "") +
+                (IsPopulatingDateImage ? "Is PopulatingDate Image\r\n" : "") +
+
+                //Exiftool tags
+                (IsPopulatingExiftoolTags ? "Is PopulatingExiftoolTags\r\n" : "") +
+                (IsPopulatingExiftoolTagsFile ? "Is PopulatingExiftoolTags File\r\n" : "") +
+                (IsPopulatingExiftoolTagsImage ? "Is PopulatingExiftoolTags Image\r\n" : "") +
+
+                //Exiftool warning
+                (IsPopulatingExiftoolWarning ? "Is Populating ExiftoolWarning\r\n" : "") +
+                (IsPopulatingExiftoolWarningFile ? "Is Populating ExiftoolWarning File\r\n" : "") +
+                (IsPopulatingExiftoolWarningImage ? "Is Populating ExiftoolWarning Image\r\n" : "") +
+
+                //Properties
+                (IsPopulatingProperties ? "Is Populating Properties\r\n" : "") +
+                (IsPopulatingPropertiesFile ? "Is Populating Properties File\r\n" : "") +
+                (IsPopulatingPropertiesImage ? "Is Populating Properties Image\r\n" : "") +
+
+                //Rename
+                (IsPopulatingRename ? "Is Populating Rename\r\n" : "") +
+                (IsPopulatingRenameFile ? "Is Populating Rename File\r\n" : "") +
+                (IsPopulatingRenameImage ? "Is Populating Rename Image\r\n" : "") +
+
+                //Convert and Merge
+                (IsPopulatingConvertAndMerge ? "Is Populating ConvertAndMerge\r\n" : "") +
+                (IsPopulatingConvertAndMergeFile ? "Is Populating ConvertAndMerge File\r\n" : "") +
+                (IsPopulatingConvertAndMergeImage ? "Is Populating ConvertAndMerge Image\r\n" : "");
+        }
+        #endregion
+
+        #region IsPopulatingAnything
         public static bool IsPopulatingAnything()
-        {            
-            return (
+        {    
+            bool result = (
                 IsApplicationClosing ||
-                IsPopulatingFolderTree ||
-                IsPopulatingImageListView ||
                 IsPopulatingImageListViewFromFolderOrDatabaseList ||
-                //IsSaveButtonPushed ||
 
                 //Acton button
-                IsPopulatingButtonAction ||
+                IsPerformingAButtonAction ||
 
                 //Keywords
                 IsPopulatingTags ||
@@ -165,7 +235,7 @@ namespace PhotoTagsSynchronizer
                 //Exiftool tags
                 IsPopulatingExiftoolTags ||
                 IsPopulatingExiftoolTagsFile ||
-                //IsPopulatingExiftoolTagsImage ||
+                IsPopulatingExiftoolTagsImage ||
 
                 //Exiftool warning
                 IsPopulatingExiftoolWarning ||
@@ -187,8 +257,8 @@ namespace PhotoTagsSynchronizer
                 IsPopulatingConvertAndMergeFile ||
                 IsPopulatingConvertAndMergeImage
                 );
-
+            return result;
         }
-
+        #endregion
     }
 }

@@ -1,23 +1,458 @@
-﻿using System;
+﻿using DataGridViewGeneric;
+using Exiftool;
+using FileDateTime;
+using FileHandeling;
+using Krypton.Toolkit;
+using Manina.Windows.Forms;
+using MetadataLibrary;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Threading;
 using System.Windows.Forms;
-using DataGridViewGeneric;
-using FileDateTime;
-using MetadataLibrary;
 using WindowsProperty;
-using Krypton.Toolkit;
-using Exiftool;
-using System.IO;
-using FileHandeling;
-using Manina.Windows.Forms;
 
 namespace PhotoTagsSynchronizer
 {
 
     public partial class MainForm : KryptonForm
     {
+        //ConvertAndMerge
+        //Date
+        //Exiftool
+        //ExiftoolWarning
+        //Map
+        //People
+        //Properties
+        //Rename
+        //TagsAndKeywords
+        #region DirtyFlag - DataGridView - CellLeave - UpdatedDirtyFlag
+        private void dataGridViewTagsAndKeywords_CellLeave(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView dataGridView = (DataGridView)sender;
+            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex, out string diffrences), diffrences);
+        }
+
+        private void dataGridViewConvertAndMerge_CellLeave(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView dataGridView = (DataGridView)sender;
+            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex, out string diffrences), diffrences);
+        }
+
+        private void dataGridViewProperties_CellLeave(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView dataGridView = (DataGridView)sender;
+            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex, out string diffrences), diffrences);
+        }
+
+        private void dataGridViewDate_CellLeave(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView dataGridView = (DataGridView)sender;
+            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex, out string diffrences), diffrences);
+        }
+
+        private void dataGridViewMap_CellLeave(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView dataGridView = (DataGridView)sender;
+            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex, out string diffrences), diffrences);
+        }
+
+        private void dataGridViewPeople_CellLeave(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView dataGridView = (DataGridView)sender;
+            DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex, out string diffrences), diffrences);
+        }
+        #endregion
+
+        #region Cell BeginEdit
+
+        #region Cell BeginEdit - Date
+        private void dataGridViewDate_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            try
+            {
+                DataGridView dataGridView = ((DataGridView)sender);
+                if (!dataGridView.Enabled) return;
+
+                ClipboardUtility.PushToUndoStack(dataGridView);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion
+
+        #region Cell BeginEdit - Exiftool
+        private void dataGridViewExifTool_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            try
+            {
+                DataGridView dataGridView = ((DataGridView)sender);
+                if (!dataGridView.Enabled) return;
+
+                ClipboardUtility.PushToUndoStack(dataGridView);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion
+
+        #region Cell BeginEdit - ExiftoolWarning
+        private void dataGridViewExifToolWarning_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            try
+            {
+                DataGridView dataGridView = ((DataGridView)sender);
+                if (!dataGridView.Enabled) return;
+
+                ClipboardUtility.PushToUndoStack(dataGridView);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion
+
+        #region Cell BeginEdit - Map
+        private void dataGridViewMap_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            try
+            {
+                DataGridView dataGridView = ((DataGridView)sender);
+                if (!dataGridView.Enabled) return;
+
+                ClipboardUtility.PushToUndoStack(dataGridView);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion
+
+        #region Cell BeginEdit - People
+        private void dataGridViewPeople_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            try
+            {
+                if (((KryptonDataGridView)sender)[e.ColumnIndex, e.RowIndex].Value is RegionStructure regionStructure) regionStructure.ShowNameInToString = true; //Just a hack so KryptonDataGridView don't print name alse
+
+                if (triStateButtomClick)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+
+                DataGridView dataGridView = ((DataGridView)sender);
+                if (!dataGridView.Enabled) return;
+
+                ClipboardUtility.PushToUndoStack(dataGridView);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion
+
+        #region Cell BeginEdit - Properties
+        private void dataGridViewProperties_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            try
+            {
+                DataGridView dataGridView = ((DataGridView)sender);
+                if (!dataGridView.Enabled) return;
+
+                ClipboardUtility.PushToUndoStack(dataGridView);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion
+
+        #region Cell BeginEdit - Rename
+        private void dataGridViewRename_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            try
+            {
+                DataGridView dataGridView = ((DataGridView)sender);
+                if (!dataGridView.Enabled) return;
+
+                ClipboardUtility.PushToUndoStack(dataGridView);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+
+        #endregion
+
+        #region Cell BeginEdit - TagsAndKeywords
+        private void dataGridViewTagsAndKeywords_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            try
+            {
+                if (triStateButtomClick)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+
+                DataGridView dataGridView = ((DataGridView)sender);
+                if (!dataGridView.Enabled) return;
+
+                ClipboardUtility.PushToUndoStack(dataGridView);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion
+
+        #endregion
+
+        #region Cell Painting
+
+        #region Cell Painting - Convert and Merge
+        private void dataGridViewConvertAndMerge_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            try
+            {
+                DataGridViewHandler.CellPaintingHandleDefault(sender, e, true);
+                //DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
+                //DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
+                DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
+
+                //Draw red line for drag and drop
+                DataGridView dataGridView = (DataGridView)sender;
+                if (e.RowIndex == dragdropcurrentIndex && e.RowIndex > -1 && dragdropcurrentIndex < DataGridViewHandler.GetRowCount(dataGridView))
+                {
+                    Pen p = new Pen(Color.Red, 2);
+                    e.Graphics.DrawLine(p, e.CellBounds.Left, e.CellBounds.Top + e.CellBounds.Height - 1, e.CellBounds.Right, e.CellBounds.Top + e.CellBounds.Height - 1);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                //KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion 
+
+        #region Cell Painting - Date
+        private void dataGridViewDate_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            try
+            {
+                DataGridView dataGridView = ((DataGridView)sender);
+                string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
+
+                DataGridViewHandler.CellPaintingHandleDefault(sender, e, false);
+                DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
+                DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
+                DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                //KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion
+
+        #region Cell Painting - Exiftool
+        private void dataGridViewExifTool_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            try
+            {
+                DataGridViewHandler.CellPaintingHandleDefault(sender, e, false);
+                DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
+                //DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
+                DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                //KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion
+
+        #region Cell Painting - ExiftoolWarning
+        private void dataGridViewExifToolWarning_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            try
+            {
+                DataGridViewHandler.CellPaintingHandleDefault(sender, e, false);
+                DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
+                //DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
+                DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                //KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion
+
+        #region Cell Painting - Map
+        private void dataGridViewMap_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            try
+            {
+                DataGridViewHandler.CellPaintingHandleDefault(sender, e, false);
+                DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
+                //DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
+                DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                //KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion
+
+        #region Cell Painting - People
+        private void dataGridViewPeople_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            try
+            {
+                DataGridView dataGridView = ((DataGridView)sender);
+                string header = DataGridViewHandlerPeople.headerPeople;
+
+                DataGridViewHandler.CellPaintingHandleDefault(sender, e, false);
+                DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
+                DataGridViewHandler.CellPaintingColumnHeaderRegionsInThumbnail(sender, e);
+                DataGridViewHandler.CellPaintingColumnHeaderMouseRegion(sender, e, drawingRegion, peopleMouseDownX, peopleMouseDownY, peopleMouseMoveX, peopleMouseMoveY);
+
+                DataGridViewGenericRow gridViewGenericDataRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, e.RowIndex);
+                if (gridViewGenericDataRow == null) return; //Don't paint anything TriState on "New Empty Row" for "new Keywords"
+
+                DataGridViewGenericColumn dataGridViewGenericDataColumn = null;
+                if (e.ColumnIndex > -1)
+                {
+                    dataGridViewGenericDataColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, e.ColumnIndex);
+                    if (dataGridViewGenericDataColumn == null) return; //Data is not set, no point to check more.
+                    if (dataGridViewGenericDataColumn.Metadata == null) return; //Don't paint TriState button when MetaData is null (data not loaded)
+                }
+
+                //If people region row
+                if (gridViewGenericDataRow.HeaderName.Equals(DataGridViewHandlerPeople.headerPeople))
+                {
+                    if (!gridViewGenericDataRow.IsHeader && e.ColumnIndex > -1)
+                    {
+                        MetadataLibrary.RegionStructure region = DataGridViewHandler.GetCellRegionStructure(dataGridView, e.ColumnIndex, e.RowIndex);
+                        Image regionThumbnail = (Image)Properties.Resources.RegionLoading;
+                        if (region == null)
+                        {
+                            e.Handled = false;
+                            return;
+                        }
+                        else if (region.Thumbnail != null) regionThumbnail = region.Thumbnail;
+                        DataGridViewHandler.DrawImageAndSubText(sender, e, regionThumbnail, null, ((RegionStructure)e.Value).Name);
+
+                        e.Handled = true;
+                    }
+
+                    DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
+                }
+                DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                //KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion
+
+        #region Cell Painting - Properties
+        private void dataGridViewProperties_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            try
+            {
+                DataGridViewHandler.CellPaintingHandleDefault(sender, e, false);
+                DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
+                //DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
+                DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                //KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion
+
+        #region Cell Painting - Rename
+        private void dataGridViewRename_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            try
+            {
+                DataGridViewHandler.CellPaintingHandleDefault(sender, e, true);
+                //DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
+                //DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
+                DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion
+
+        #region Cell Painting - TagsAndKeywords
+        private void dataGridViewTagsAndKeywords_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            try
+            {
+                DataGridView dataGridView = ((DataGridView)sender);
+                string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
+
+                DataGridViewHandler.CellPaintingHandleDefault(sender, e, false);
+                DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
+                DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
+                DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                //KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion
+
+        #endregion
+
+        //ConvertAndMerge
+        //Date
+        //Exiftool
+        //ExiftoolWarning
+        //Map
+        //People
+        //Properties
+        //Rename
+        //TagsAndKeywords
         #region DataGridView - UpdateColumnThumbnail - OnFileEntryAttribute - OnSelectedGrivView
         private void DataGridView_UpdateColumnThumbnail_OnFileEntryAttribute(FileEntryAttribute fileEntryAttribute, Image image)
         {
@@ -678,6 +1113,126 @@ namespace PhotoTagsSynchronizer
                 if (imageListViewSelectItems.Count == 0) LazyLoadingDataGridViewProgressUpdateStatus(-1);
             }
             StartThreads();
+        }
+        #endregion
+
+        #region IsPopulatingButtonAction
+        private bool IsPerforminAButtonAction(string nameOfAction = "")
+        {
+            if (GlobalData.IsPerformingAButtonAction)
+            {
+                bool retry = true;
+                Thread.Sleep(1000);
+                while (GlobalData.IsPerformingAButtonAction && retry)
+                {
+                    if (
+                        KryptonMessageBox.Show(
+                        "Ongoing action in progress. Do you want to retry" + (string.IsNullOrWhiteSpace(nameOfAction) ? "" : " " + nameOfAction) + "?\r\n\r\n" +
+                        "Retry - Yes, I have already waited, please retry.\r\n" +
+                        "Cacnel - No worries, I'll try later.\r\n",
+                        "Opps, you was a little to quick on your hands.",
+                        MessageBoxButtons.RetryCancel,
+                        MessageBoxIcon.Exclamation, showCtrlCopy: true) == DialogResult.Retry)
+                    {
+                        retry = true;
+                        Application.DoEvents();
+                    }
+                    else retry = false;
+                }
+            }
+            return GlobalData.IsPerformingAButtonAction;
+        }
+        #endregion 
+
+        #region DoNotRefreshImageListView - ImageListView
+        private bool DoNotTrigger_ImageListView_ItemUpdate()
+        {
+            return GlobalData.DoNotTrigger_ImageListView_ItemUpdate;
+        }
+        #endregion
+
+        #region DoNotTriggerFolderTreeBeforeAndAfterSelect - Folder
+        private bool DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect()
+        {
+            return GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect;
+        }
+        #endregion
+
+        #region DoNotTriggerTreeViewFilterBeforeAndAfterCheck - Filter
+        private bool DoNotTrigger_TreeViewFilter_BeforeAndAfterCheck()
+        {
+            return GlobalData.DoNotTrigger_TreeViewFilter_BeforeAndAfterCheck;
+        }
+        #endregion
+
+        #region DoNotTrigger_ImageListView_SelectionChanged
+        private bool DoNotTrigger_ImageListView_SelectionChanged()
+        {
+            return GlobalData.DoNotTrigger_ImageListView_SelectionChanged;
+        }
+        #endregion
+
+        #region IsDragAndDropActive
+        private bool IsDragAndDropActive()
+        {
+            if (!GlobalData.IsApplicationClosing && GlobalData.IsDragAndDropActive)
+            {
+                bool retry = true;
+                Thread.Sleep(1000);
+                while (GlobalData.IsDragAndDropActive && retry)
+                {
+                    if (
+                        KryptonMessageBox.Show(
+                        "Drag and Drop activites is in progress. Do you want to retry?\r\n\r\n" +
+                        "Retry - Yes, I have already waited, please retry.\r\n" +
+                        "Cacnel - No worries, I'll try later.\r\n",
+                        "Opps, you was a little to quick on your hands.",
+                        MessageBoxButtons.RetryCancel,
+                        MessageBoxIcon.Exclamation, showCtrlCopy: true) == DialogResult.Retry)
+                    {
+                        retry = true;
+                        Application.DoEvents();
+                    }
+                    else retry = false;
+                }
+            }
+            return GlobalData.IsDragAndDropActive;
+        }
+        #endregion
+
+        #region IsPopulatingAnything
+        private bool IsPopulatingAnything(string nameOfAction = "")
+        {
+            if (!GlobalData.IsApplicationClosing && GlobalData.IsPopulatingAnything())
+            {
+                bool retry = true;
+                Thread.Sleep(1000);
+                while (GlobalData.IsPopulatingAnything() && retry)
+                {
+                    if (
+                        KryptonMessageBox.Show(
+                        "Populationg data in progress.\r\n" + GlobalData.WhatsPopulating() + "\r\n" +
+                        "Do you want to retry" + (string.IsNullOrWhiteSpace(nameOfAction) ? "" : " " + nameOfAction) + "?\r\n\r\n" +
+                        "Retry - Yes, I have already waited, please retry.\r\n" +
+                        "Cacnel - No worries, I'll try later.\r\n",
+                        "Opps, you was a little to quick on your hands.",
+                        MessageBoxButtons.RetryCancel,
+                        MessageBoxIcon.Exclamation, showCtrlCopy: true) == DialogResult.Retry)
+                    {
+                        retry = true;
+                        Application.DoEvents();
+                    }
+                    else retry = false;
+                }
+            }
+            return GlobalData.IsPopulatingAnything();
+        }
+        #endregion 
+
+        #region HasDataGridViewAggregatedAny
+        private bool HasDataGridViewAggregatedAny(string nameOfAction = "")
+        {
+            return GlobalData.HasDataGridViewAggregatedAny();
         }
         #endregion
 

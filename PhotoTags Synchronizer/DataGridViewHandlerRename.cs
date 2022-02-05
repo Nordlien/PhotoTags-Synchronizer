@@ -221,38 +221,40 @@ namespace PhotoTagsSynchronizer
         #region Write
         public static void Write(DataGridView dataGridView, out Dictionary<string, string> renameSuccess, out Dictionary<string, RenameToNameAndResult> renameFailed, bool showFullPathIsUsed)
         {
-            renameSuccess = new Dictionary<string, string>();
-            renameFailed = new Dictionary<string, RenameToNameAndResult>();
-
-            int columnIndex = DataGridViewHandler.GetColumnIndexFirstFullFilePath(dataGridView, headerNewFilename, false);
-            if (columnIndex == -1) return;
-
-            for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
+            using (new WaitCursor())
             {
-                DataGridViewGenericCell cellGridViewGenericCell = DataGridViewHandler.GetCellDataGridViewGenericCellCopy(dataGridView, columnIndex, rowIndex);
+                renameSuccess = new Dictionary<string, string>();
+                renameFailed = new Dictionary<string, RenameToNameAndResult>();
 
-                if (!cellGridViewGenericCell.CellStatus.CellReadOnly)
+                int columnIndex = DataGridViewHandler.GetColumnIndexFirstFullFilePath(dataGridView, headerNewFilename, false);
+                if (columnIndex == -1) return;
+
+                for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
                 {
-                    DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
+                    DataGridViewGenericCell cellGridViewGenericCell = DataGridViewHandler.GetCellDataGridViewGenericCellCopy(dataGridView, columnIndex, rowIndex);
 
-                    #region Get Old filename from grid
-                    string oldFilename = dataGridViewGenericRow.RowName;
-                    string oldDirectory = dataGridViewGenericRow.HeaderName;
-                    string oldFullFilename = FileHandler.CombinePathAndName(oldDirectory, oldFilename);
-                    #endregion
-
-                    #region Get New filename from grid and rename
-                    if (dataGridViewGenericRow.Metadata != null) 
+                    if (!cellGridViewGenericCell.CellStatus.CellReadOnly)
                     {
-                        string newFullFilename = FileHandler.CombinePathAndName(oldDirectory, DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, rowIndex));
-                        FilesCutCopyPasteDrag.RenameFile(oldFullFilename, newFullFilename, ref renameSuccess, ref renameFailed);
-                    }
-                    #endregion 
+                        DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
 
-                    
+                        #region Get Old filename from grid
+                        string oldFilename = dataGridViewGenericRow.RowName;
+                        string oldDirectory = dataGridViewGenericRow.HeaderName;
+                        string oldFullFilename = FileHandler.CombinePathAndName(oldDirectory, oldFilename);
+                        #endregion
+
+                        #region Get New filename from grid and rename
+                        if (dataGridViewGenericRow.Metadata != null)
+                        {
+                            string newFullFilename = FileHandler.CombinePathAndName(oldDirectory, DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, rowIndex));
+                            FilesCutCopyPasteDrag.RenameFile(oldFullFilename, newFullFilename, ref renameSuccess, ref renameFailed);
+                        }
+                        #endregion
+
+
+                    }
                 }
             }
-
         }
         #endregion
 
