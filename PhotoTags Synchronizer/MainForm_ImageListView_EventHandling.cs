@@ -559,10 +559,9 @@ namespace PhotoTagsSynchronizer
         private void imageListView1_SelectionChanged(object sender, EventArgs e)
         {
             if (GlobalData.IsApplicationClosing) return;
-            if (IsPerforminAButtonAction("Select media files")) return;
             if (GlobalData.DoNotTrigger_ImageListView_SelectionChanged) return;
-            if (!GlobalData.DoNotTrigger_ImageListView_SelectionChanged && //Allowed
-                IsPopulatingAnything("Select media files")) return;
+            if (IsPerforminAButtonAction("Select media files")) return;
+            if (IsPopulatingAnything("Select media files")) return;
             if (!GlobalData.IsPopulatingImageListViewFromFolderOrDatabaseList) SaveBeforeContinue(false);
 
             GlobalData.IsPerformingAButtonAction = true;
@@ -777,7 +776,7 @@ namespace PhotoTagsSynchronizer
                             kryptonContextMenuItem.Text = singelVerbApplicationData.FriendlyAppName.Replace("&", "&&") + " - " + verbLink.Verb;
                             kryptonContextMenuItem.Image = new Bitmap(singelVerbApplicationData.Icon.ToBitmap(), new Size(32, 32));
                             kryptonContextMenuItem.Tag = singelVerbApplicationData;
-                            kryptonContextMenuItem.Click += KryptonContextMenuItemOpenWithSelectedVerb_Click;
+                            kryptonContextMenuItem.Click += KryptonContextMenuItemOpenWithSelectedVerb;
                             kryptonContextMenuItemsGenericOpenWithAppList.Items.Add(kryptonContextMenuItem);
                             kryptonContextMenuItems.Items.Add(kryptonContextMenuItem);
                         }
@@ -1008,7 +1007,6 @@ namespace PhotoTagsSynchronizer
         {
             if (treeView.Nodes == null) return;
             if (treeView.Nodes[FilterVerifyer.Root] == null) return;
-
 
             FilterVerifyer filterVerifyerFolder = new FilterVerifyer();
             filterVerifyerFolder.ReadValuesFromRootNodesWithChilds(treeView, FilterVerifyer.Root);

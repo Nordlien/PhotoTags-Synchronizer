@@ -1116,34 +1116,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region IsPopulatingButtonAction
-        private bool IsPerforminAButtonAction(string nameOfAction = "")
-        {
-            if (GlobalData.IsPerformingAButtonAction)
-            {
-                bool retry = true;
-                Thread.Sleep(1000);
-                while (GlobalData.IsPerformingAButtonAction && retry)
-                {
-                    if (
-                        KryptonMessageBox.Show(
-                        "Ongoing action in progress. Do you want to retry" + (string.IsNullOrWhiteSpace(nameOfAction) ? "" : " " + nameOfAction) + "?\r\n\r\n" +
-                        "Retry - Yes, I have already waited, please retry.\r\n" +
-                        "Cacnel - No worries, I'll try later.\r\n",
-                        "Opps, you was a little to quick on your hands.",
-                        MessageBoxButtons.RetryCancel,
-                        MessageBoxIcon.Exclamation, showCtrlCopy: true) == DialogResult.Retry)
-                    {
-                        retry = true;
-                        Application.DoEvents();
-                    }
-                    else retry = false;
-                }
-            }
-            return GlobalData.IsPerformingAButtonAction;
-        }
-        #endregion 
-
         #region DoNotRefreshImageListView - ImageListView
         private bool DoNotTrigger_ImageListView_ItemUpdate()
         {
@@ -1199,6 +1171,36 @@ namespace PhotoTagsSynchronizer
             return GlobalData.IsDragAndDropActive;
         }
         #endregion
+        #region IsPopulatingButtonAction
+        private string previousAction = "";
+        private bool IsPerforminAButtonAction(string nameOfAction = "")
+        {
+            if (GlobalData.IsPerformingAButtonAction)
+            {
+                bool retry = true;
+                Thread.Sleep(1000);
+                while (GlobalData.IsPerformingAButtonAction && retry)
+                {
+                    if (
+                        KryptonMessageBox.Show(
+                        "Ongoing action in progress. " + previousAction + "\r\n" +
+                        "Do you want to retry" + (string.IsNullOrWhiteSpace(nameOfAction) ? "" : " " + nameOfAction) + "?\r\n\r\n" +
+                        "Retry - Yes, I have already waited, please retry.\r\n" +
+                        "Cacnel - No worries, I'll try later.\r\n",
+                        "Opps, you was a little to quick on your hands.",
+                        MessageBoxButtons.RetryCancel,
+                        MessageBoxIcon.Exclamation, showCtrlCopy: true) == DialogResult.Retry)
+                    {
+                        retry = true;
+                        Application.DoEvents();
+                    }
+                    else retry = false;
+                }
+            }
+            else previousAction = nameOfAction;
+            return GlobalData.IsPerformingAButtonAction;
+        }
+        #endregion 
 
         #region IsPopulatingAnything
         private bool IsPopulatingAnything(string nameOfAction = "")
