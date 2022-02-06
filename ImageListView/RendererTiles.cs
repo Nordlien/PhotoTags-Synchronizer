@@ -33,6 +33,7 @@ namespace Manina.Windows.Forms
                 }
             }
 
+            #region Constructor(s)
             /// <summary>
             /// Initializes a new instance of the RendererTiles class.
             /// </summary>
@@ -50,7 +51,9 @@ namespace Manina.Windows.Forms
             {
                 mTileWidth = tileWidth;
             }
+            #endregion
 
+            #region Dispose
             /// <summary>
             /// Releases managed resources.
             /// </summary>
@@ -61,6 +64,9 @@ namespace Manina.Windows.Forms
 
                 base.Dispose();
             }
+            #endregion
+
+            #region MeasureItem
             /// <summary>
             /// Returns item size for the given view mode.
             /// </summary>
@@ -81,8 +87,9 @@ namespace Manina.Windows.Forms
                 else
                     return base.MeasureItem(view);
             }
+            #endregion
 
-
+            #region DrawItem and Title(s)
             /// <summary>
             /// Draws the specified item on the given graphics.
             /// </summary>
@@ -96,7 +103,7 @@ namespace Manina.Windows.Forms
                 {
                     Size itemPadding = new Size(4, 4);
 
-                    // Paint background
+                    #region Paint background
                     using (Brush bItemBack = new SolidBrush(item.BackColor))
                     {
                         g.FillRectangle(bItemBack, bounds);
@@ -123,15 +130,16 @@ namespace Manina.Windows.Forms
                             Utility.FillRoundedRectangle(g, bHovered, bounds, 4);
                         }
                     }
+                    #endregion
 
-                    // Draw the image
+                    #region Draw the image and Title(s)
                     Image img = item.ThumbnailImage;
                     if (img != null)
                     {
                         Rectangle pos = Utility.GetSizedImageBounds(img, new Rectangle(bounds.Location + itemPadding, ImageListView.ThumbnailSize), 0.0f, 50.0f);
                         g.DrawImage(img, pos);
 
-                        DrawThumbnai(g, item, img, pos);
+                        DrawThumbnail(g, item, img, pos);
                         
                         // Draw image border
                         if (Math.Min(pos.Width, pos.Height) > 32)
@@ -158,7 +166,6 @@ namespace Manina.Windows.Forms
                             sf.FormatFlags = StringFormatFlags.NoWrap;
                             sf.LineAlignment = StringAlignment.Center;
                             sf.Trimming = StringTrimming.EllipsisCharacter;
-
 
                             using (Brush bItemFore = new SolidBrush(item.ForeColor))
                             {
@@ -199,8 +206,9 @@ namespace Manina.Windows.Forms
                             }
                         }
                     }
+                    #endregion
 
-                    // Item border
+                    #region Item border
                     using (Pen pWhite128 = new Pen(Color.FromArgb(128, Color.White)))
                     {
                         Utility.DrawRoundedRectangle(g, pWhite128, bounds.Left + 1, bounds.Top + 1, bounds.Width - 3, bounds.Height - 3, 4);
@@ -234,12 +242,14 @@ namespace Manina.Windows.Forms
                             Utility.DrawRoundedRectangle(g, pHighlight64, bounds.Left, bounds.Top, bounds.Width - 1, bounds.Height - 1, 4);
                         }
                     }
+                    #endregion
 
-                    // Focus rectangle
+                    #region Focus rectangle
                     if (ImageListView.Focused && ((state & ItemState.Focused) != ItemState.None))
                     {
                         ControlPaint.DrawFocusRectangle(g, bounds);
                     }
+                    #endregion
                 }
                 else
                 {
@@ -247,6 +257,7 @@ namespace Manina.Windows.Forms
                     base.DrawItem(g, item, state, bounds);
                 }
             }
+            #endregion
         }
         #endregion
 

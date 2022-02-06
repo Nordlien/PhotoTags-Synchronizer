@@ -193,7 +193,10 @@ namespace Manina.Windows.Forms
         private string mMediaAlbum
         {
             get { return mmMediaAlbum; }
-            set { MediaAlbumPropertyStatus = PropertyStatus.IsSet; mmMediaAlbum = value; }
+            set {
+                MediaAlbumPropertyStatus = PropertyStatus.IsSet; 
+                mmMediaAlbum = value; 
+            }
         }
         private PropertyStatus MediaAlbumPropertyStatus = PropertyStatus.IsDirty;
         #endregion
@@ -584,6 +587,16 @@ namespace Manina.Windows.Forms
         /// </summary>
         [Category("Appearance"), Browsable(true), Description("Gets or sets the draw order of the item."), DefaultValue(0)]
         public int ZOrder { get { return mZOrder; } set { mZOrder = value; } }
+        #endregion
+
+        //JTN: Added more column types
+        //JTN: MediaFileAttributes
+        #region long UpdatedTickCount
+        /// <summary>
+        /// Gets the creation date of the image file represented by this item.
+        /// </summary>
+        [Category("Data"), Browsable(false), Description("Gets ticks when item reuqesed an update.")]
+        public long UpdateRequestedTickCount { get; set; }
         #endregion
 
         //JTN: Added more column types
@@ -991,10 +1004,13 @@ namespace Manina.Windows.Forms
         }
         #endregion
 
+        #region Invalidate
+        //JTN ADD
         public void Invalidate()
         {
             mImageListView.Invalidate();
         }
+        #endregion
 
         #region Dirty()
         /// <summary>
@@ -1097,7 +1113,7 @@ namespace Manina.Windows.Forms
 
         #region Helper Methods
 
-        #region UpdateFileInfo(PropertyStatus propertyStatus)
+        #region UpdateFileInfo - When READ Properites is NOT Set - Then Request RetrieveItemMetadataDetailsInternal
         /// <summary>
         /// Updates file info for the image file represented by this item.
         /// </summary>
@@ -1110,63 +1126,69 @@ namespace Manina.Windows.Forms
             {
                 RetrieveItemMetadataDetailsEventArgs e = new RetrieveItemMetadataDetailsEventArgs(mFileName);
                 mImageListView.RetrieveItemMetadataDetailsInternal(e);
-                if (e.FileMetadata != null) UpdateDetailsInternal(e.FileMetadata);
+                if (e.FileMetadata != null) UpdateDetailsInternal(e.FileMetadata, e.RequestedTicks);
             }
         }
         #endregion
 
-        #region UpdateDetails
+        #region UpdateDetails - Current TickCount
         public void UpdateDetails(Utility.ShellImageFileInfo info)
         {
-            UpdateDetailsInternal(info);
+            UpdateDetailsInternal(info, Utility.TickCount());
         }
         #endregion 
 
         //JTN: MediaFileAttribute
-        #region UpdateDetailsInternal(Utility.ShellImageFileInfo info)
+        #region UpdateDetailsInternal - Latest TickCount wins
         /// <summary>
         /// Invoked by the worker thread to update item details.
         /// </summary>
-        internal void UpdateDetailsInternal(Utility.ShellImageFileInfo info)
+        internal void UpdateDetailsInternal(Utility.ShellImageFileInfo info, long requestedTicks)
         {
             if (info != null)
             {
-                #region Provided by FileInfo  
-                if (info.FileStatusPropertyStatus == PropertyStatus.IsSet) mFileStatus = info.FileStatus;
-                if (info.FileSmartDatePropertyStatus == PropertyStatus.IsSet) mFileSmartDate = info.FileSmartDate;
-                if (info.FileDateCreatedPropertyStatus == PropertyStatus.IsSet) mFileDateCreated = info.FileDateCreated;
-                if (info.FileDateModifiedPropertyStatus == PropertyStatus.IsSet) mFileDateModified = info.FileDateModified;
+                if (requestedTicks > UpdateRequestedTickCount)
+                {
+                    //DEBUG
+                    UpdateRequestedTickCount = requestedTicks;
 
-                if (info.FileSizePropertyStatus == PropertyStatus.IsSet) mFileSize = info.FileSize;
-                if (info.FileStatusPropertyStatus == PropertyStatus.IsSet) mFileStatus = info.FileStatus;
-                if (info.FileMimeTypePropertyStatus == PropertyStatus.IsSet) mFileType = info.FileMimeType;
-                if (info.FileDirectoryPropertyStatus == PropertyStatus.IsSet) mFileDirectory = info.FileDirectory;
-                #endregion
+                    #region Provided by FileInfo  
+                    if (info.FileStatusPropertyStatus == PropertyStatus.IsSet) mFileStatus = info.FileStatus;
+                    if (info.FileSmartDatePropertyStatus == PropertyStatus.IsSet) mFileSmartDate = info.FileSmartDate;
+                    if (info.FileDateCreatedPropertyStatus == PropertyStatus.IsSet) mFileDateCreated = info.FileDateCreated;
+                    if (info.FileDateModifiedPropertyStatus == PropertyStatus.IsSet) mFileDateModified = info.FileDateModified;
 
-                #region Provided by ShellImageFileInfo, MagickImage                                
-                if (info.CameraMakePropertyStatus == PropertyStatus.IsSet) mCameraMake = info.CameraMake;
-                if (info.CameraModelPropertyStatus == PropertyStatus.IsSet) mCameraModel = info.CameraModel;
-                if (info.MediaDimensionsPropertyStatus == PropertyStatus.IsSet) mMediaDimensions = info.MediaDimensions;
-                if (info.MediaDateTakenPropertyStatus == PropertyStatus.IsSet) mMediaDateTaken = info.MediaDateTaken;
-                #endregion
+                    if (info.FileSizePropertyStatus == PropertyStatus.IsSet) mFileSize = info.FileSize;
+                    if (info.FileStatusPropertyStatus == PropertyStatus.IsSet) mFileStatus = info.FileStatus;
+                    if (info.FileMimeTypePropertyStatus == PropertyStatus.IsSet) mFileType = info.FileMimeType;
+                    if (info.FileDirectoryPropertyStatus == PropertyStatus.IsSet) mFileDirectory = info.FileDirectory;
+                    #endregion
 
-                #region Provided by MagickImage, Exiftool
-                if (info.MediaTitlePropertyStatus == PropertyStatus.IsSet) mMediaTitle = info.MediaTitle;
-                if (info.MediaDescriptionPropertyStatus == PropertyStatus.IsSet) mMediaDescription = info.MediaDescription;
-                if (info.MediaCommentPropertyStatus == PropertyStatus.IsSet) mMediaComment = info.MediaComment;
-                if (info.MediaAuthorPropertyStatus == PropertyStatus.IsSet) mMediaAuthor = info.MediaAuthor;
-                if (info.MediaRatingPropertyStatus == PropertyStatus.IsSet) mMediaRating = info.MediaRating;
-                #endregion
+                    #region Provided by ShellImageFileInfo, MagickImage                                
+                    if (info.CameraMakePropertyStatus == PropertyStatus.IsSet) mCameraMake = info.CameraMake;
+                    if (info.CameraModelPropertyStatus == PropertyStatus.IsSet) mCameraModel = info.CameraModel;
+                    if (info.MediaDimensionsPropertyStatus == PropertyStatus.IsSet) mMediaDimensions = info.MediaDimensions;
+                    if (info.MediaDateTakenPropertyStatus == PropertyStatus.IsSet) mMediaDateTaken = info.MediaDateTaken;
+                    #endregion
 
-                #region Provided by Exiftool
-                if (info.MediaAlbumPropertyStatus == PropertyStatus.IsSet) mMediaAlbum = info.MediaAlbum;
-                if (info.LocationDateTimePropertyStatus == PropertyStatus.IsSet) mLocationDateTime = info.LocationDateTime;
-                if (info.LocationTimeZonePropertyStatus == PropertyStatus.IsSet) mLocationTimeZone = info.LocationTimeZone;
-                if (info.LocationNamePropertyStatus == PropertyStatus.IsSet) mLocationName = info.LocationName;
-                if (info.LocationRegionStatePropertyStatus == PropertyStatus.IsSet) mLocationRegionState = info.LocationRegionState;
-                if (info.LocationCityPropertyStatus == PropertyStatus.IsSet) mLocationCity = info.LocationCity;
-                if (info.LocationCountryPropertyStatus == PropertyStatus.IsSet) mLocationCountry = info.LocationCountry;
-                #endregion
+                    #region Provided by MagickImage, Exiftool
+                    if (info.MediaTitlePropertyStatus == PropertyStatus.IsSet) mMediaTitle = info.MediaTitle;
+                    if (info.MediaDescriptionPropertyStatus == PropertyStatus.IsSet) mMediaDescription = info.MediaDescription;
+                    if (info.MediaCommentPropertyStatus == PropertyStatus.IsSet) mMediaComment = info.MediaComment;
+                    if (info.MediaAuthorPropertyStatus == PropertyStatus.IsSet) mMediaAuthor = info.MediaAuthor;
+                    if (info.MediaRatingPropertyStatus == PropertyStatus.IsSet) mMediaRating = info.MediaRating;
+                    #endregion
+
+                    #region Provided by Exiftool
+                    if (info.MediaAlbumPropertyStatus == PropertyStatus.IsSet) mMediaAlbum = info.MediaAlbum;
+                    if (info.LocationDateTimePropertyStatus == PropertyStatus.IsSet) mLocationDateTime = info.LocationDateTime;
+                    if (info.LocationTimeZonePropertyStatus == PropertyStatus.IsSet) mLocationTimeZone = info.LocationTimeZone;
+                    if (info.LocationNamePropertyStatus == PropertyStatus.IsSet) mLocationName = info.LocationName;
+                    if (info.LocationRegionStatePropertyStatus == PropertyStatus.IsSet) mLocationRegionState = info.LocationRegionState;
+                    if (info.LocationCityPropertyStatus == PropertyStatus.IsSet) mLocationCity = info.LocationCity;
+                    if (info.LocationCountryPropertyStatus == PropertyStatus.IsSet) mLocationCountry = info.LocationCountry;
+                    #endregion
+                } 
             }        
         }
         #endregion 

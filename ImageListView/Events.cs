@@ -524,16 +524,24 @@ namespace Manina.Windows.Forms
     public class RetrieveItemMetadataDetailsEventArgs
     {
         private string mFileName;
+        private long mRequestedTicks;  
         private Utility.ShellImageFileInfo mFileMetadata;
+
+
+        #region RequestedTicks
+        public long RequestedTicks
+        {
+            get { return mRequestedTicks; }
+        }
+        #endregion
 
         #region FileName
         /// <summary>
         /// Get Filename for Image that are become to be loaded
         /// </summary>
-        public String FileName
+        public string FileName
         {
             get { return mFileName; }
-            //set { mFileName = value; }
         }
         #endregion
 
@@ -552,6 +560,7 @@ namespace Manina.Windows.Forms
         public RetrieveItemMetadataDetailsEventArgs(string filename)
         {
             mFileName = filename;
+            mRequestedTicks = Utility.TickCount(); 
         }
         #endregion
     }
@@ -668,280 +677,6 @@ namespace Manina.Windows.Forms
             Key = key;
         }
     }
-
-    /*
-    /// <summary>
-    /// Represents the event arguments related to virtual item details.
-    /// </summary>
-    [Serializable, ComVisible(true)]
-    public class VirtualItemDetailsEventArgs
-    {
-        /// <summary>
-        /// Gets the key of the virtual item.
-        /// </summary>
-        public object Key { get; private set; }
-        #region Provided by FileInfo
-        /// <summary>
-        /// FileAttributes supported by FileInfo 
-        /// </summary>
-        public FileAttributes FileAttributes
-        {
-            get { return fileAttributes; }
-            set { fileAttributes = value; IsFileAttributesSet = true; }
-        }
-        private FileAttributes fileAttributes;
-        public bool IsFileAttributesSet { get; set; } = false;
-
-        /// <summary>
-        /// CreationTime supported by FileInfo 
-        /// </summary>
-        public DateTime FileDateCreated
-        {
-            get { return fileDateCreated; }
-            set { fileDateCreated = value; IsFileDateCreatedSet = true; }
-        }
-        private DateTime fileDateCreated;
-        public bool IsFileDateCreatedSet { get; set; } = false;
-
-        /// <summary>
-        /// LastWriteTime supported by FileInfo 
-        /// </summary>
-        public DateTime FileDateModified
-        {
-            get { return fileDateModified; }
-            set { fileDateModified = value; IsFileDateModifiedSet = true; }
-        }
-        private DateTime fileDateModified;
-        public bool IsFileDateModifiedSet { get; set; } = false;
-
-        /// <summary>
-        /// Extension supported by FileInfo 
-        /// </summary>
-        public string Extension
-        {
-            get { return extension; }
-            set { extension = value; IsExtensionSet = true; }
-        }
-        private string extension;
-        public bool IsExtensionSet { get; set; } = false;
-
-        /// <summary>
-        /// DirectoryName supported by FileInfo 
-        /// </summary>
-        public string FileDirectory
-        {
-            get { return fileDirectory; }
-            set { fileDirectory = value; IsFileDirectorySet = true; }
-        }
-        private string fileDirectory;
-        public bool IsFileDirectorySet { get; set; } = false;
-
-        /// <summary>
-        /// DisplayName supported by FileInfo
-        /// </summary>
-        public string DisplayName
-        {
-            get { return displayName; }
-            set { displayName = value; IsDisplayNameSet = true; }
-        }
-        private string displayName;
-        public bool IsDisplayNameSet { get; set; } = false;
-
-        /// <summary>
-        /// File size supported by FileInfo 
-        /// </summary>
-        public long FileSize
-        {
-            get { return fileSize; }
-            set { fileSize = value; IsFileSizeSet = true; }
-        }
-        private long fileSize;
-        public bool IsFileSizeSet { get; set; } = false;
-
-        /// <summary>
-        /// TypeName supported by FileInfo 
-        /// </summary>
-        public string FileMimeType
-        {
-            get { return fileMimeType; }
-            set { fileMimeType = value; IsFileMimeTypeSet = true; }
-        }
-        private string fileMimeType;
-        public bool IsFileMimeTypeSet { get; set; } = false;
-        #endregion
-
-        #region Provided by ShellImageFileInfo, MagickImage
-        /// <summary>
-        /// Dimensions supported by ShellImageFileInfo, MagickImage 
-        /// </summary>
-        public Size MediaDimensions
-        {
-            get { return mediaDimensions; }
-            set { mediaDimensions = value; IsMediaDimensionsSet = true; }
-        }
-        private Size mediaDimensions;
-        public bool IsMediaDimensionsSet { get; set; } = false;
-
-        /// <summary>
-        /// supported by ShellImageFileInfo, MagickImage
-        /// </summary>
-        public string CameraMake
-        {
-            get { return cameraMake; }
-            set { cameraMake = value; IsCameraMakeSet = true; }
-        }
-        private string cameraMake;
-        public bool IsCameraMakeSet { get; set; } = false;
-
-        /// <summary>
-        /// supported by ShellImageFileInfo, MagickImage
-        /// </summary>
-        public string CameraModel
-        {
-            get { return cameraModel; }
-            set { cameraModel = value; IsCameraModelSet = true; }
-        }
-        private string cameraModel;
-        public bool IsCameraModelSet { get; set; } = false;
-
-        /// <summary>
-        /// supported by ShellImageFileInfo, MagickImage
-        /// </summary>
-        public DateTime MediaDateTaken
-        {
-            get { return mediaDateTaken; }
-            set { mediaDateTaken = value; IsMediaDateTakenSet = true; }
-        }
-        private DateTime mediaDateTaken;
-        public bool IsMediaDateTakenSet { get; set; } = false;
-
-        #endregion
-
-        #region Provided by MagickImage, Exiftool
-        /// <summary>
-        /// MediaTitle supported by MagickImage, Exiftool
-        /// </summary>
-        public string MediaTitle
-        {
-            get { return mediaTitle; }
-            set { mediaTitle = value; IsMediaTitleSet = true; }
-        }
-        private string mediaTitle;
-        public bool IsMediaTitleSet { get; set; } = false;
-
-        /// <summary>
-        /// MediaDescription supported by MagickImage, Exiftool
-        /// </summary>
-        public string MediaDescription
-        {
-            get { return mediaDescription; }
-            set { mediaDescription = value; IsMediaDescriptionSet = true; }
-        }
-        private string mediaDescription;
-        public bool IsMediaDescriptionSet { get; set; } = false;
-
-        /// <summary>
-        /// MediaComment supported by MagickImage, Exiftool, 
-        /// </summary>
-        public string MediaComment
-        {
-            get { return mediaComment; }
-            set { mediaComment = value; IsMediaCommentSet = true; }
-        }
-        private string mediaComment;
-        public bool IsMediaCommentSet { get; set; } = false;
-
-        /// <summary>
-        /// MediaAuthor supported by MagickImage, Exiftool
-        /// </summary>
-        public string MediaAuthor
-        {
-            get { return mediaAuthor; }
-            set { mediaAuthor = value; IsMediaAuthorSet = true; }
-        }
-        private string mediaAuthor;
-        public bool IsMediaAuthorSet { get; set; } = false;
-
-        /// <summary>
-        /// MediaRating supported by MagickImage, Exiftool
-        /// </summary>
-        public byte MediaRating
-        {
-            get { return mediaRating; }
-            set { mediaRating = value; IsMediaRatingSet = true; }
-        }
-        private byte mediaRating;
-        public bool IsMediaRatingSet { get; set; } = false;
-        #endregion
-
-        #region Provided by Exiftool
-        /// <summary>
-        /// MediaAlbum supported by Exiftool
-        /// </summary>
-        public string MediaAlbum
-        {
-            get { return mediaAlbum; }
-            set { mediaAlbum = value; IsMediaAlbumSet = true; }
-        }
-        private string mediaAlbum;
-        public bool IsMediaAlbumSet { get; set; } = false;
-
-        /// <summary>
-        /// LocationName supported by Exiftool
-        /// </summary>
-        public string LocationName
-        {
-            get { return locationName; }
-            set { locationName = value; IsLocationNameSet = true; }
-        }
-        private string locationName;
-        public bool IsLocationNameSet { get; set; } = false;
-
-        /// <summary>
-        /// LocationRegionState supported by Exiftool
-        /// </summary>
-        public string LocationRegionState
-        {
-            get { return locationRegionState; }
-            set { locationRegionState = value; IsLocationRegionStateSet = true; }
-        }
-        private string locationRegionState;
-        public bool IsLocationRegionStateSet { get; set; } = false;
-
-        /// <summary>
-        /// LocationCity supported by Exiftool
-        /// </summary>
-        public string LocationCity
-        {
-            get { return locationCity; }
-            set { locationCity = value; IsLocationCitySet = true; }
-        }
-        private string locationCity;
-        public bool IsLocationCitySet { get; set; } = false;
-
-        /// <summary>
-        /// LocationCountry supported by Exiftool
-        /// </summary>
-        public string LocationCountry
-        {
-            get { return locationCountry; }
-            set { locationCountry = value; IsLocationCountrySet = true; }
-        }
-        private string locationCountry;
-        public bool IsLocationCountrySet { get; set; } = false;
-        #endregion
-
-
-        /// <summary>
-        /// Initializes a new instance of the LayoutEventArgs class.
-        /// </summary>
-        /// <param name="key">The key of the virtual item.</param>
-        public VirtualItemDetailsEventArgs(object key)
-        {
-            Key = key;
-        }
-    }
-    */
     #endregion
     
 }

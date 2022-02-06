@@ -45,14 +45,15 @@ namespace Manina.Windows.Forms
         private bool disposed;
         #endregion
 
-
         //JTN
+        #region IsBackgroundThreadsStopped
         public bool IsBackgroundThreadsStopped()
         {
             return stopped;
         }
+        #endregion
 
-        #region Private Classes
+        #region CacheItem
         /// <summary>
         /// Represents an item in the item cache.
         /// </summary>
@@ -92,7 +93,7 @@ namespace Manina.Windows.Forms
         }
         #endregion
 
-        #region Properties
+        #region Stopping / Stoped
         /// <summary>
         /// Determines whether the cache thread is being stopped.
         /// </summary>

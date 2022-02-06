@@ -38,6 +38,13 @@ namespace Manina.Windows.Forms
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
+        #region TickCount
+        public static long TickCount()
+        {
+            return Environment.TickCount;
+        }
+        #endregion
+
         #region Platform Invoke
         // GetFileAttributesEx
         [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
@@ -599,8 +606,7 @@ namespace Manina.Windows.Forms
             //Create for external use
             public void ReadShellImageFileInfo(string path)
             {
-                if (cachedFileTypes == null)
-                    cachedFileTypes = new Dictionary<string, string>();
+                if (cachedFileTypes == null) cachedFileTypes = new Dictionary<string, string>();
 
                 try
                 {                    

@@ -669,7 +669,7 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandlerTagsAndKeywords.MediaAiTagConfidence = GetAiConfidence();
             try
             {
-                DataGridView_AfterPopulateSelectedFiles_LazyLoadFromDatabaseThenSourceAllVersions(ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));
+                AddQueueLazyLoadningAllVersionsAllSourcesMetadataAndRegionThumbnailsLock_AfterPopulateSelectedFiles(ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));
             }
             catch (Exception ex)
             {

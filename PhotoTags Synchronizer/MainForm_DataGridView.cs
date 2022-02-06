@@ -1,14 +1,11 @@
 ﻿using DataGridViewGeneric;
 using Exiftool;
 using FileDateTime;
-using FileHandeling;
 using Krypton.Toolkit;
-using Manina.Windows.Forms;
 using MetadataLibrary;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using WindowsProperty;
@@ -801,34 +798,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region DataGridView - LazyLoad - AfterPopulateSelectedFilesLazyLoadOtherFileVersions 
-        private void DataGridView_AfterPopulateSelectedFiles_LazyLoadFromDatabaseThenSourceAllVersions(HashSet<FileEntry> imageListViewSelectItems)
-        {
-            List<FileEntryAttribute> lazyLoadingAllExiftoolVersionOfMediaFile = new List<FileEntryAttribute>();
-
-            foreach (FileEntry fileEntry in imageListViewSelectItems)
-            {
-                List<FileEntryAttribute> fileEntryAttributeDateVersions =
-                    databaseAndCacheMetadataExiftool.ListFileEntryAttributesCache(MetadataBrokerType.ExifTool, 
-                    fileEntry.FileFullPath, File.GetLastWriteTime(fileEntry.FileFullPath));
-                lazyLoadingAllExiftoolVersionOfMediaFile.AddRange(fileEntryAttributeDateVersions);
-
-                FileStatus fileStaus = FileHandler.GetFileStatus(fileEntry.FileFullPath,
-                    exiftoolProcessStatus: ExiftoolProcessStatus.InExiftoolReadQueue);
-
-                FileHandler.RemoveOfflineFileTouched(fileEntry.FileFullPath);
-                FileHandler.RemoveOfflineFileTouchedFailed(fileEntry.FileFullPath);
-
-                ImageListView_UpdateItemFileStatusInvoke(fileEntry.FileFullPath, fileStaus);
-            }
-
-            AddQueueLazyLoadningAllSourcesMetadataAndRegionThumbnailsLock(lazyLoadingAllExiftoolVersionOfMediaFile);
-            AddQueueLazyLoadningMediaThumbnailLock(lazyLoadingAllExiftoolVersionOfMediaFile);
-            AddQueueLazyLoadingMapNomnatatimLock(lazyLoadingAllExiftoolVersionOfMediaFile);
-            StartThreads();
-        }
-        #endregion 
-
         #region DataGridView - Populate Selected Files - OnActiveDataGridView - Thread
         private void DataGridView_Populate_SelectedItemsThread(HashSet<FileEntry> imageListViewSelectItems)
         {
@@ -1007,7 +976,7 @@ namespace PhotoTagsSynchronizer
                             DataGridViewHandlerTagsAndKeywords.AutoKeywordConvertions = autoKeywordConvertions;
                             DataGridViewHandlerTagsAndKeywords.HasBeenInitialized = true;
                             DataGridViewHandlerTagsAndKeywords.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, dataGridViewSize, showWhatColumnsForTab);
-                            DataGridView_AfterPopulateSelectedFiles_LazyLoadFromDatabaseThenSourceAllVersions(imageListViewSelectItems);
+                            AddQueueLazyLoadningAllVersionsAllSourcesMetadataAndRegionThumbnailsLock_AfterPopulateSelectedFiles(imageListViewSelectItems);
                             break;
                         case LinkTabAndDataGridViewNameMap:
                             //splitContainerMap.SplitterDistance = Properties.Settings.Default.SplitContainerMap;
@@ -1023,7 +992,7 @@ namespace PhotoTagsSynchronizer
                             DataGridViewHandlerMap.DatabaseAndCacheCameraOwner = databaseAndCahceCameraOwner;
                             DataGridViewHandlerMap.HasBeenInitialized = true;
                             DataGridViewHandlerMap.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, dataGridViewSize, showWhatColumnsForTab);
-                            DataGridView_AfterPopulateSelectedFiles_LazyLoadFromDatabaseThenSourceAllVersions(imageListViewSelectItems);
+                            AddQueueLazyLoadningAllVersionsAllSourcesMetadataAndRegionThumbnailsLock_AfterPopulateSelectedFiles(imageListViewSelectItems);
                             break;
                         case LinkTabAndDataGridViewNamePeople:
                             DataGridViewHandlerPeople.DatabaseAndCacheThumbnail = databaseAndCacheThumbnailPoster;
@@ -1043,7 +1012,7 @@ namespace PhotoTagsSynchronizer
                                 Properties.Settings.Default.SuggestRegionNameMostUsedContextMenuCount,
                                 Properties.Settings.Default.ApplicationSizeOfRegionNamesGroup,
                                 Properties.Settings.Default.RenameDateFormats);
-                            DataGridView_AfterPopulateSelectedFiles_LazyLoadFromDatabaseThenSourceAllVersions(imageListViewSelectItems);
+                            AddQueueLazyLoadningAllVersionsAllSourcesMetadataAndRegionThumbnailsLock_AfterPopulateSelectedFiles(imageListViewSelectItems);
                             break;
                         case LinkTabAndDataGridViewNameDates:
                             DataGridViewHandlerDate.DatabaseExiftoolData = databaseExiftoolData;
@@ -1056,7 +1025,7 @@ namespace PhotoTagsSynchronizer
                             DataGridViewHandlerDate.DatabaseAndCacheMetadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos;
                             DataGridViewHandlerDate.HasBeenInitialized = true;
                             DataGridViewHandlerDate.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, dataGridViewSize, showWhatColumnsForTab);
-                            DataGridView_AfterPopulateSelectedFiles_LazyLoadFromDatabaseThenSourceAllVersions(imageListViewSelectItems);
+                            AddQueueLazyLoadningAllVersionsAllSourcesMetadataAndRegionThumbnailsLock_AfterPopulateSelectedFiles(imageListViewSelectItems);
                             break;
                         case LinkTabAndDataGridViewNameExiftool:
                             DataGridViewHandlerExiftool.DatabaseAndCacheThumbnail = databaseAndCacheThumbnailPoster;
@@ -1091,7 +1060,7 @@ namespace PhotoTagsSynchronizer
                             checkBoxRenameShowFullPath.Checked = DataGridViewHandlerRename.ShowFullPath;
                             DataGridViewHandlerRename.HasBeenInitialized = true;
                             DataGridViewHandlerRename.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, dataGridViewSize, showWhatColumnsForTab, DataGridViewHandlerRename.ShowFullPath);
-                            DataGridView_AfterPopulateSelectedFiles_LazyLoadFromDatabaseThenSourceAllVersions(imageListViewSelectItems);
+                            AddQueueLazyLoadningAllVersionsAllSourcesMetadataAndRegionThumbnailsLock_AfterPopulateSelectedFiles(imageListViewSelectItems);
                             break;
                         case LinkTabAndDataGridViewNameConvertAndMerge:
                             DataGridViewHandlerConvertAndMerge.FileDateTimeFormats = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);

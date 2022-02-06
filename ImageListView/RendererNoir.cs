@@ -245,7 +245,7 @@ namespace Manina.Windows.Forms
 
                     // Draw item image
                     DrawImageWithReflection(g, img, pos, mReflectionSize);
-                    DrawThumbnai(g, item, img, pos, drawThumbnail: false);
+                    DrawThumbnail(g, item, img, pos, drawThumbnail: false);
 
 
                     // Highlight

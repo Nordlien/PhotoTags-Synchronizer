@@ -161,7 +161,7 @@ namespace Manina.Windows.Forms
 
                     // Draw the image
                     //g.DrawImage(img, pos);
-                    DrawThumbnai(g, item, img, pos);
+                    DrawThumbnail(g, item, img, pos);
 
                     // Draw image border
                     if (Math.Min(imageWidth, imageHeight) > 32)

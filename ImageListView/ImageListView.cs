@@ -39,10 +39,13 @@ namespace Manina.Windows.Forms
     [Docking(DockingBehavior.Ask)]
     public partial class ImageListView : Control
     {
+        //JTN Added 
+        #region IsBackgroundThreadsStopped
         public bool IsBackgroundThreadsStopped()
         {
             return cacheManager.IsBackgroundThreadsStopped() || itemCacheManager.IsBackgroundThreadsStopped();
         }
+        #endregion
 
         #region Constants
         /// <summary>
@@ -594,8 +597,6 @@ namespace Manina.Windows.Forms
             timerDelayRefresh.Elapsed += delayRefreshTimer_Tick;
             timerDelayRefresh.Interval = timerDelayRefreshInterval;
         }
-
-
         #endregion
 
         #region Instance Methods
@@ -914,10 +915,9 @@ namespace Manina.Windows.Forms
             }
             return visible;
         }
-
         #endregion
 
-        #region Event Handlers
+        #region Refresh delay
         private System.Timers.Timer timerDelayRefresh = new System.Timers.Timer();
         private bool isTimerDelayRefreshStarted = false;
         private DateTime startTimeDelayRefresh = DateTime.Now;
@@ -973,7 +973,9 @@ namespace Manina.Windows.Forms
                 timerDelayRefresh.Start();
             }
         }
+        #endregion
 
+        #region Event Handlers
         /// <summary>
         /// Handles the CreateControl event.
         /// </summary>
@@ -1239,7 +1241,9 @@ namespace Manina.Windows.Forms
         }
         #endregion
 
-        #region Virtual Functions
+        #region Virtual Functions- Load data via Event
+
+        #region OnDropFiles
         /// <summary>
         /// Raises the DropFiles event.
         /// </summary>
@@ -1272,6 +1276,9 @@ namespace Manina.Windows.Forms
             EnsureVisible(firstItemIndex);
             OnSelectionChangedInternal();
         }
+        #endregion
+
+        #region OnColumnWidthChanged
         /// <summary>
         /// Raises the ColumnWidthChanged event.
         /// </summary>
@@ -1281,6 +1288,9 @@ namespace Manina.Windows.Forms
             if (ColumnWidthChanged != null)
                 ColumnWidthChanged(this, e);
         }
+        #endregion
+
+        #region OnColumnClick
         /// <summary>
         /// Raises the ColumnClick event.
         /// </summary>
@@ -1290,6 +1300,9 @@ namespace Manina.Windows.Forms
             if (ColumnClick != null)
                 ColumnClick(this, e);
         }
+        #endregion
+
+        #region OnColumnHover
         /// <summary>
         /// Raises the ColumnHover event.
         /// </summary>
@@ -1299,6 +1312,9 @@ namespace Manina.Windows.Forms
             if (ColumnHover != null)
                 ColumnHover(this, e);
         }
+        #endregion
+
+        #region OnItemClick
         /// <summary>
         /// Raises the ItemClick event.
         /// </summary>
@@ -1308,6 +1324,9 @@ namespace Manina.Windows.Forms
             if (ItemClick != null)
                 ItemClick(this, e);
         }
+        #endregion
+
+        #region OnItemHover
         /// <summary>
         /// Raises the ItemHover event.
         /// </summary>
@@ -1317,6 +1336,9 @@ namespace Manina.Windows.Forms
             if (ItemHover != null)
                 ItemHover(this, e);
         }
+        #endregion
+
+        #region OnItemDoubleClick
         /// <summary>
         /// Raises the ItemDoubleClick event.
         /// </summary>
@@ -1326,6 +1348,9 @@ namespace Manina.Windows.Forms
             if (ItemDoubleClick != null)
                 ItemDoubleClick(this, e);
         }
+        #endregion
+
+        #region OnSelectionChanged
         /// <summary>
         /// Raises the SelectionChanged event.
         /// </summary>
@@ -1335,6 +1360,9 @@ namespace Manina.Windows.Forms
             if (SelectionChanged != null)
                 SelectionChanged(this, e);
         }
+        #endregion
+
+        #region OnSelectionChangedInternal
         /// <summary>
         /// Raises the SelectionChanged event.
         /// </summary>
@@ -1342,9 +1370,9 @@ namespace Manina.Windows.Forms
         {
             OnSelectionChanged(new EventArgs());
         }
+        #endregion
 
-        
-
+        #region OnThumbnailCached
         /// <summary>
         /// Raises the ThumbnailCached event.
         /// </summary>
@@ -1354,7 +1382,9 @@ namespace Manina.Windows.Forms
             if (ThumbnailCached != null)
                 ThumbnailCached(this, e);
         }
+        #endregion
 
+        #region OnThumbnailCachedInternal
         /// <summary>
         /// Raises the ThumbnailCached event.
         /// This method is invoked from the thumbnail thread.
@@ -1370,10 +1400,11 @@ namespace Manina.Windows.Forms
             if (itemIndex != -1)
                 OnThumbnailCached(new ThumbnailCachedEventArgs(Items[itemIndex], thumbnail, requestedSize, error, wasThumbnailReadFromFile, didErrorOccureReadFromFile));
         }
-
+        #endregion
 
         /////////////////////////////////////////////////////////////////////////////////////
 
+        #region OnRefreshInternal
         /// <summary>
         /// Raises the refresh event.
         /// This method is invoked from the thumbnail thread.
@@ -1382,16 +1413,20 @@ namespace Manina.Windows.Forms
         {
             Refresh(); //ImageList.Refresh
         }
+        #endregion
+
+        #region UpdateItemDetailsInternal
         /// <summary>
         /// Updates item details.
         /// This method is invoked from the item cache thread.
         /// </summary>
         internal void UpdateItemDetailsInternal(ImageListViewItem item, Utility.ShellImageFileInfo info)
         {
-            item.UpdateDetailsInternal(info);
+            item.UpdateDetailsInternal(info, Utility.TickCount());
         }
-        
-        
+        #endregion
+
+        #region OnRetrieveVirtualItemThumbnail
         /// <summary>
         /// Raises the RetrieveVirtualItem event.
         /// </summary>
@@ -1401,7 +1436,9 @@ namespace Manina.Windows.Forms
             if (RetrieveVirtualItemThumbnail != null)
                 RetrieveVirtualItemThumbnail(this, e);
         }
+        #endregion
 
+        #region RetrieveVirtualItemThumbnailInternal - NOT IN USE
         /// <summary>
         /// Raises the RetrieveVirtualItem event.
         /// This method is invoked from the thumbnail thread.
@@ -1411,8 +1448,9 @@ namespace Manina.Windows.Forms
         {                   
             OnRetrieveVirtualItemThumbnail(e);
         }
+        #endregion
 
-
+        #region OnRetrieveVirtualItemImage
         /// <summary> 
         /// Raises the RetrieveVirtualItemImage event.
         /// </summary>
@@ -1422,7 +1460,9 @@ namespace Manina.Windows.Forms
             if (RetrieveVirtualItemImage != null)
                 RetrieveVirtualItemImage(this, e);
         }
+        #endregion
 
+        #region RetrieveVirtualItemImageInternal
         /// <summary>
         /// Raises the RetrieveVirtualItemImage event.
         /// This method is invoked from the thumbnail thread.
@@ -1432,8 +1472,10 @@ namespace Manina.Windows.Forms
         {
             OnRetrieveVirtualItemImage(e);
         }
+        #endregion
 
         //JTN Added RetrieveItemMetadataDetailsEventHandler
+        #region OnRetrieveItemMetadataDetails
         /// <summary>
         /// Raises the RetrieveMetadata event.
         /// </summary>
@@ -1442,8 +1484,10 @@ namespace Manina.Windows.Forms
         {
             if (RetrieveItemMetadataDetails != null) RetrieveItemMetadataDetails(this, e);
         }
+        #endregion
 
         //JTN Added
+        #region RetrieveItemMetadataDetailsInternal
         /// <summary>
         /// Raises the RetrieveImage event.
         /// This method is invoked from the thumbnail thread.
@@ -1453,8 +1497,10 @@ namespace Manina.Windows.Forms
         {
             OnRetrieveItemMetadataDetails(e);
         }
-
+        #endregion
+        
         //JTN Added
+        #region OnRetrieveItemImage
         /// <summary>
         /// Raises the RetrieveImage event.
         /// </summary>
@@ -1463,8 +1509,10 @@ namespace Manina.Windows.Forms
         {
             if (RetrieveItemImage != null) RetrieveItemImage(this, e);
         }
+        #endregion
 
         //JTN Added
+        #region RetrieveItemImageInternal
         /// <summary>
         /// Raises the RetrieveImage event.
         /// This method is invoked from the thumbnail thread.
@@ -1474,8 +1522,10 @@ namespace Manina.Windows.Forms
         {
             OnRetrieveItemImage(e);
         }
+        #endregion
 
         //JTN Added
+        #region OnRetrieveItemThumbnail
         /// <summary>
         /// Raises the RetrieveImage event.
         /// </summary>
@@ -1484,8 +1534,10 @@ namespace Manina.Windows.Forms
         {
             if (RetrieveItemThumbnail != null) RetrieveItemThumbnail(this, e);
         }
+        #endregion
 
         //JTN Added
+        #region RetrieveItemThumbnailInternal
         /// <summary>
         /// Raises the RetrieveImage event.
         /// This method is invoked from the thumbnail thread.
@@ -1495,7 +1547,7 @@ namespace Manina.Windows.Forms
         {
             OnRetrieveItemThumbnail(e);
         }
-
+        #endregion
 
         #endregion
 

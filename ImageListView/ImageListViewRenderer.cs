@@ -281,7 +281,7 @@ namespace Manina.Windows.Forms
             }
             #endregion
 
-            #region Instance Methods
+            #region GetImageAsync
             /// <summary>
             /// Loads and returns the image for the given item.
             /// </summary>
@@ -297,6 +297,8 @@ namespace Manina.Windows.Forms
             #endregion
 
             #region Internal Methods
+
+            #region Refresh
             /// <summary>
             /// Redraws the owner control.
             /// </summary>
@@ -310,6 +312,9 @@ namespace Manina.Windows.Forms
                 else
                     needsPaint = true;
             }
+            #endregion
+
+            #region Refresh
             /// <summary>
             /// Redraws the owner control.
             /// </summary>
@@ -317,6 +322,9 @@ namespace Manina.Windows.Forms
             {
                 Refresh(graphics, false);
             }
+            #endregion
+
+            #region SuspendPaint
             /// <summary>
             /// Suspends painting until a matching ResumePaint call is made.
             /// Used by the parent control as part of SuspendLayout.
@@ -328,6 +336,9 @@ namespace Manina.Windows.Forms
                 else
                     SuspendPaint();
             }
+            #endregion
+
+            #region ResumePaint
             /// <summary>
             /// Resumes painting. This call must be matched by a prior SuspendPaint call.
             /// Used by the parent control as part of ResumeLayout.
@@ -342,6 +353,9 @@ namespace Manina.Windows.Forms
                 else
                     ResumePaint();
             }
+            #endregion
+
+            #region SuspendPaint
             /// <summary>
             /// Suspends painting until a matching ResumePaint call is made.
             /// </summary>
@@ -350,6 +364,9 @@ namespace Manina.Windows.Forms
                 if (suspendCount == 0) needsPaint = false;
                 suspendCount++;
             }
+            #endregion
+
+            #region ResumePaint
             /// <summary>
             /// Resumes painting. This call must be matched by a prior SuspendPaint call.
             /// </summary>
@@ -365,6 +382,9 @@ namespace Manina.Windows.Forms
                 if (needsPaint)
                     mImageListView.Refresh();
             }
+            #endregion
+
+            #region CanPaint
             /// <summary>
             /// Determines if the control can be painted.
             /// </summary>
@@ -372,6 +392,9 @@ namespace Manina.Windows.Forms
             {
                 return (suspended == false && suspendCount == 0);
             }
+            #endregion
+
+            #region *** Render ***
             /// <summary>
             /// Renders the control.
             /// </summary>
@@ -384,18 +407,21 @@ namespace Manina.Windows.Forms
                     if (!RecreateBuffer()) return;
                 }
 
-                // Update the layout
+                #region Update the layout
                 mImageListView.layoutManager.Update();
+                #endregion
 
-                // Set drawing area
+                #region Set drawing area
                 Graphics g = bufferGraphics.Graphics;
                 g.ResetClip();
+                #endregion
 
-                // Draw background
+                #region Draw background
                 g.SetClip(mImageListView.layoutManager.ClientArea);
                 DrawBackground(g, mImageListView.layoutManager.ClientArea);
+                #endregion
 
-                // Draw column headers
+                #region Draw column headers
                 if (mImageListView.View == View.Details)
                 {
                     int x = mImageListView.layoutManager.ColumnHeaderBounds.Left;
@@ -427,7 +453,7 @@ namespace Manina.Windows.Forms
                         lastX = bounds.Right;
                     }
 
-                    // Extender column
+                    #region Extender column
                     if (mImageListView.Columns.Count != 0)
                     {
                         if (lastX < mImageListView.layoutManager.ClientArea.Right)
@@ -453,9 +479,11 @@ namespace Manina.Windows.Forms
                             g.SetClip(mImageListView.layoutManager.ClientArea);
                         DrawColumnExtender(g, extender);
                     }
+                    #endregion
                 }
+                #endregion
 
-                // Draw items
+                #region Draw items
                 if (mImageListView.Items.Count > 0 &&
                     (mImageListView.View != View.Details ||
                     (mImageListView.View == View.Details && mImageListView.Columns.GetDisplayedColumns().Count != 0)) &&
@@ -504,8 +532,9 @@ namespace Manina.Windows.Forms
                         DrawItem(g, param.Item, param.State, param.Bounds);
                     }
                 }
+                #endregion
 
-                // Draw the large preview image in Gallery mode
+                #region Draw the large preview image in Gallery mode
                 if (mImageListView.View == View.Gallery)
                 {
                     Rectangle bounds = mImageListView.layoutManager.ClientArea;
@@ -533,8 +562,9 @@ namespace Manina.Windows.Forms
 
                     DrawGalleryImage(g, item, image, bounds);
                 }
+                #endregion
 
-                // Draw the left-pane
+                #region Draw the left-pane
                 if (mImageListView.View == View.Pane)
                 {
                     Rectangle bounds = mImageListView.layoutManager.ClientArea;
@@ -562,12 +592,14 @@ namespace Manina.Windows.Forms
 
                     DrawPane(g, item, image, bounds);
                 }
+                #endregion
 
-                // Draw the overlay image
+                #region Draw the overlay image
                 g.SetClip(mImageListView.layoutManager.ClientArea);
                 DrawOverlay(g, mImageListView.layoutManager.ClientArea);
+                #endregion
 
-                // Draw the selection rectangle
+                #region Draw the selection rectangle
                 if (mImageListView.navigationManager.MouseSelecting)
                 {
                     Rectangle sel = mImageListView.navigationManager.SelectionRectangle;
@@ -584,8 +616,9 @@ namespace Manina.Windows.Forms
                         DrawSelectionRectangle(g, sel);
                     }
                 }
+                #endregion
 
-                // Draw the insertion caret
+                #region Draw the insertion caret
                 if (mImageListView.navigationManager.DropTarget != null)
                 {
                     Rectangle bounds = mImageListView.layoutManager.GetItemBounds(mImageListView.navigationManager.DropTarget.Index);
@@ -610,8 +643,9 @@ namespace Manina.Windows.Forms
                         g.SetClip(mImageListView.layoutManager.ClientArea);
                     DrawInsertionCaret(g, bounds);
                 }
+                #endregion
 
-                // Scrollbar filler
+                #region Scrollbar filler
                 if (mImageListView.hScrollBar.Visible && mImageListView.vScrollBar.Visible)
                 {
                     Rectangle bounds = mImageListView.layoutManager.ClientArea;
@@ -619,10 +653,14 @@ namespace Manina.Windows.Forms
                     g.SetClip(filler);
                     g.FillRectangle(SystemBrushes.Control, filler);
                 }
+                #endregion
 
                 // Draw on to the control
                 bufferGraphics.Render(graphics);
             }
+            #endregion
+
+            #region RecreateBuffer
             /// <summary>
             /// Destroys the current buffer and creates a new buffered graphics 
             /// sized to the client area of the owner control.
@@ -652,6 +690,9 @@ namespace Manina.Windows.Forms
 
                 return true;
             }
+            #endregion
+
+            #region Dispose
             /// <summary>
             /// Releases buffered graphics objects.
             /// </summary>
@@ -667,7 +708,11 @@ namespace Manina.Windows.Forms
             }
             #endregion
 
+            #endregion
+
             #region Virtual Methods
+
+            #region InitializeGraphics
             /// <summary>
             /// Initializes the System.Drawing.Graphics used to draw
             /// control elements.
@@ -678,6 +723,9 @@ namespace Manina.Windows.Forms
                 g.PixelOffsetMode = PixelOffsetMode.None;
                 g.InterpolationMode = InterpolationMode.HighQualityBicubic;
             }
+            #endregion
+
+            #region MeasureColumnHeaderHeight
             /// <summary>
             /// Returns the height of column headers.
             /// </summary>
@@ -688,6 +736,9 @@ namespace Manina.Windows.Forms
                 else
                     return System.Math.Max(mImageListView.HeaderFont.Height + 4, 24);
             }
+            #endregion
+
+            #region MeasureItemMargin
             /// <summary>
             /// Returns the spacing between items for the given view mode.
             /// </summary>
@@ -699,6 +750,9 @@ namespace Manina.Windows.Forms
                 else
                     return new Size(4, 4);
             }
+            #endregion
+
+            #region MeasureItem
             /// <summary>
             /// Returns item size for the given view mode.
             /// </summary>
@@ -728,6 +782,9 @@ namespace Manina.Windows.Forms
 
                 return itemSize;
             }
+            #endregion
+
+            #region DrawBackground
             /// <summary>
             /// Draws the background of the control.
             /// </summary>
@@ -735,10 +792,11 @@ namespace Manina.Windows.Forms
             /// <param name="bounds">The client coordinates of the item area.</param>
             public virtual void DrawBackground(Graphics g, Rectangle bounds)
             {
-                // Clear the background
+                #region Clear the background
                 g.Clear(mImageListView.BackColor);
+                #endregion
 
-                // Draw the background image
+                #region Draw the background image
                 if (ImageListView.BackgroundImage != null)
                 {
                     Image img = ImageListView.BackgroundImage;
@@ -776,7 +834,11 @@ namespace Manina.Windows.Forms
                         g.DrawImage(img, x, y, width, height);
                     }
                 }
+                #endregion
             }
+            #endregion
+
+            #region DrawSelectionRectangle
             /// <summary>
             /// Draws the selection rectangle.
             /// </summary>
@@ -790,8 +852,10 @@ namespace Manina.Windows.Forms
                     g.DrawRectangle(SystemPens.Highlight, selection);
                 }
             }
+            #endregion
 
-            public virtual void DrawThumbnai(Graphics g, ImageListViewItem item, Image img, Rectangle pos, bool drawThumbnail = true)
+            #region DrawThumbnail
+            public virtual void DrawThumbnail(Graphics g, ImageListViewItem item, Image img, Rectangle pos, bool drawThumbnail = true)
             {
                 if (drawThumbnail) g.DrawImage(img, pos);
 
@@ -803,15 +867,16 @@ namespace Manina.Windows.Forms
                 else if (item.FileStatus.ExiftoolProcessStatus == ExiftoolProcessStatus.FileInaccessibleOrError) g.DrawImage(mImageListView.StatusIconProcessFileInaccessible, pos.Left, pos.Top);
                 else if (item.FileStatus.ExiftoolProcessStatus == ExiftoolProcessStatus.InExiftoolReadQueue) g.DrawImage(mImageListView.StatusIconProcessInExiftoolReadQueue, pos.Left, pos.Top);
                 else if (item.FileStatus.ExiftoolProcessStatus == ExiftoolProcessStatus.WaitOfflineBecomeLocal) g.DrawImage(mImageListView.StatusIconProcessWaitOfflineBecomeLocal, pos.Left, pos.Top);
-                else if (item.FileStatus.ExiftoolProcessStatus == ExiftoolProcessStatus.DoNotUpdate) 
+                else if (item.FileStatus.ExiftoolProcessStatus == ExiftoolProcessStatus.DoNotUpdate)
                     g.DrawImage(mImageListView.StatusIconProcessExiftoolStatusUnknown, pos.Left, pos.Top);
 
                 if (item.FileStatus.IsInCloudOrVirtualOrOffline) g.DrawImage(mImageListView.StatusIconFileOffline, pos.Left, pos.Top);
                 else if (item.FileStatus.HasAnyLocks) if (mImageListView.StatusIconFileLocked != null) g.DrawImage(mImageListView.StatusIconFileLocked, pos.Left, pos.Top);
                 if (item.FileStatus.IsReadOnly) if (mImageListView.StatusIconFileLocked != null) g.DrawImage(mImageListView.StatusIconFileReadOnly, pos.Left, pos.Top);
-
             }
+            #endregion
 
+            #region DrawItem
             /// <summary>
             /// Draws the specified item on the given graphics.
             /// </summary>
@@ -823,7 +888,7 @@ namespace Manina.Windows.Forms
             {
                 Size itemPadding = new Size(4, 4);
 
-                // Paint background
+                #region Paint background
                 using (Brush bItemBack = new SolidBrush(item.BackColor))
                 {
                     g.FillRectangle(bItemBack, bounds);
@@ -850,18 +915,20 @@ namespace Manina.Windows.Forms
                         Utility.FillRoundedRectangle(g, bHovered, bounds, (mImageListView.View == View.Details ? 2 : 4));
                     }
                 }
+                #endregion
 
+                #region Draw the image and Text
                 if (mImageListView.View != View.Details)
                 {
-                    // Draw the image
+                    #region Draw Image
                     Image img = item.ThumbnailImage;
                     if (img != null)
                     {
                         Rectangle pos = Utility.GetSizedImageBounds(img, new Rectangle(bounds.Location + itemPadding, mImageListView.ThumbnailSize));
 
-                        DrawThumbnai(g, item, img, pos);
+                        DrawThumbnail(g, item, img, pos);
 
-                        // Draw image border
+                        #region Draw image border
                         if (Math.Min(pos.Width, pos.Height) > 32)
                         {
                             using (Pen pGray128 = new Pen(Color.FromArgb(128, Color.Gray)))
@@ -876,9 +943,11 @@ namespace Manina.Windows.Forms
                                 }
                             }
                         }
+                        #endregion
                     }
+                    #endregion
 
-                    // Draw item text
+                    #region Draw item text
                     SizeF szt = TextRenderer.MeasureText(item.Text, mImageListView.Font);
                     RectangleF rt;
                     using (StringFormat sf = new StringFormat())
@@ -893,11 +962,13 @@ namespace Manina.Windows.Forms
                             g.DrawString(item.Text, mImageListView.Font, bItemFore, rt, sf);
                         }
                     }
+                    #endregion
                 }
                 else // if (mImageListView.View == View.Details)
                 {
+
                     List<ImageListViewColumnHeader> uicolumns = mImageListView.Columns.GetDisplayedColumns();
-                    // Shade sort column
+                    #region Shade sort column
                     int x = mImageListView.layoutManager.ColumnHeaderBounds.Left;
                     foreach (ImageListViewColumnHeader column in uicolumns)
                     {
@@ -915,7 +986,9 @@ namespace Manina.Windows.Forms
                         }
                         x += column.Width;
                     }
-                    // Separators 
+                    #endregion
+
+                    #region Separators
                     x = mImageListView.layoutManager.ColumnHeaderBounds.Left;
                     foreach (ImageListViewColumnHeader column in uicolumns)
                     {
@@ -947,9 +1020,11 @@ namespace Manina.Windows.Forms
                             rt.X += column.Width;
                         }
                     }
+                    #endregion
                 }
+                #endregion
 
-                // Item border
+                #region Item border
                 using (Pen pWhite128 = new Pen(Color.FromArgb(128, Color.White)))
                 {
                     Utility.DrawRoundedRectangle(g, pWhite128, bounds.Left + 1, bounds.Top + 1, bounds.Width - 3, bounds.Height - 3, (mImageListView.View == View.Details ? 2 : 4));
@@ -983,13 +1058,18 @@ namespace Manina.Windows.Forms
                         Utility.DrawRoundedRectangle(g, pHighlight64, bounds.Left, bounds.Top, bounds.Width - 1, bounds.Height - 1, (mImageListView.View == View.Details ? 2 : 4));
                     }
                 }
+                #endregion
 
-                // Focus rectangle
+                #region Focus rectangle
                 if (mImageListView.Focused && ((state & ItemState.Focused) != ItemState.None))
                 {
                     ControlPaint.DrawFocusRectangle(g, bounds);
                 }
+                #endregion
             }
+            #endregion
+
+            #region DrawColumnHeader
             /// <summary>
             /// Draws the column headers.
             /// </summary>
@@ -999,7 +1079,7 @@ namespace Manina.Windows.Forms
             /// <param name="bounds">The bounding rectangle of column in client coordinates.</param>
             public virtual void DrawColumnHeader(Graphics g, ImageListViewColumnHeader column, ColumnState state, Rectangle bounds)
             {
-                // Paint background
+                #region Paint background
                 if (mImageListView.Focused && ((state & ColumnState.Hovered) == ColumnState.Hovered))
                 {
                     using (Brush bHovered = new LinearGradientBrush(bounds, Color.FromArgb(16, SystemColors.Highlight), Color.FromArgb(64, SystemColors.Highlight), LinearGradientMode.Vertical))
@@ -1022,8 +1102,9 @@ namespace Manina.Windows.Forms
                 }
                 g.DrawLine(SystemPens.ControlLightLight, bounds.Left + 1, bounds.Top + 1, bounds.Left + 1, bounds.Bottom - 2);
                 g.DrawLine(SystemPens.ControlLightLight, bounds.Right - 1, bounds.Top + 1, bounds.Right - 1, bounds.Bottom - 2);
+                #endregion
 
-                // Draw the sort arrow
+                #region Draw the sort arrow
                 int textOffset = 4;
                 if (mImageListView.SortOrder != SortOrder.None && mImageListView.SortColumn == column.Type)
                 {
@@ -1035,8 +1116,9 @@ namespace Manina.Windows.Forms
                     g.DrawImageUnscaled(img, bounds.X + 4, bounds.Top + (bounds.Height - img.Height) / 2);
                     textOffset += img.Width;
                 }
+                #endregion
 
-                // Text
+                #region Text
                 bounds.X += textOffset;
                 bounds.Width -= textOffset;
                 if (bounds.Width > 4)
@@ -1050,7 +1132,11 @@ namespace Manina.Windows.Forms
                         g.DrawString(column.Text, (mImageListView.HeaderFont == null ? mImageListView.Font : mImageListView.HeaderFont), SystemBrushes.WindowText, bounds, sf);
                     }
                 }
+                #endregion
             }
+            #endregion
+
+            #region DrawPane
             /// <summary>
             /// Draws the left pane in Pane view mode.
             /// </summary>
@@ -1060,7 +1146,7 @@ namespace Manina.Windows.Forms
             /// <param name="bounds">The bounding rectangle of the pane.</param>
             public virtual void DrawPane(Graphics g, ImageListViewItem item, Image image, Rectangle bounds)
             {
-                // Draw pane background
+                #region Draw pane background
                 using (Brush bGray16 = new SolidBrush(Color.FromArgb(16, SystemColors.GrayText)))
                 {
                     g.FillRectangle(bGray16, bounds);
@@ -1070,15 +1156,20 @@ namespace Manina.Windows.Forms
                     g.FillRectangle(bBorder, bounds.Right - 2, bounds.Top, 2, bounds.Height);
                 }
                 bounds.Width -= 2;
+                #endregion
 
                 if (item != null && image != null)
                 {
-                    // Calculate image bounds
+                    #region Calculate image bounds
                     Size itemMargin = MeasureItemMargin(mImageListView.View);
                     Rectangle pos = Utility.GetSizedImageBounds(image, new Rectangle(bounds.Location + itemMargin, bounds.Size - itemMargin - itemMargin), 50.0f, 0.0f);
-                    // Draw image
+                    #endregion
+
+                    #region Draw image
                     g.DrawImage(image, pos);
-                    // Draw image border
+                    #endregion
+
+                    #region Draw image border
                     if (Math.Min(pos.Width, pos.Height) > 32)
                     {
                         using (Pen pGray128 = new Pen(Color.FromArgb(128, Color.Gray)))
@@ -1094,8 +1185,9 @@ namespace Manina.Windows.Forms
                     bounds.Width -= 2 * itemMargin.Width;
                     bounds.Y = pos.Height + 16;
                     bounds.Height -= pos.Height + 16;
+                    #endregion
 
-                    // Item text
+                    #region Item text
                     if (mImageListView.Columns[ColumnType.FileName].Visible && bounds.Height > 0)
                     {
                         int y = Utility.DrawStringPair(g, bounds, "", item.Text, mImageListView.Font,
@@ -1103,8 +1195,9 @@ namespace Manina.Windows.Forms
                         bounds.Y += 2 * y;
                         bounds.Height -= 2 * y;
                     }
+                    #endregion
 
-                    // File type
+                    #region File type
                     if (mImageListView.Columns[ColumnType.FileType].Visible && bounds.Height > 0 && !string.IsNullOrWhiteSpace(item.FileType))
                     {
                         int y = Utility.DrawStringPair(g, bounds, mImageListView.Columns[ColumnType.FileType].Text + ": ",
@@ -1112,8 +1205,9 @@ namespace Manina.Windows.Forms
                         bounds.Y += y;
                         bounds.Height -= y;
                     }
+                    #endregion
 
-                    // Metatada
+                    #region Metatada
                     foreach (ImageListView.ImageListViewColumnHeader column in mImageListView.Columns)
                     {
                         if (column.Type == ColumnType.MediaDescription)
@@ -1142,8 +1236,12 @@ namespace Manina.Windows.Forms
                             }
                         }
                     }
+                    #endregion
                 }
             }
+            #endregion
+
+            #region DrawGalleryImage
             /// <summary>
             /// Draws the large preview image of the focused item in Gallery mode.
             /// </summary>
@@ -1174,6 +1272,9 @@ namespace Manina.Windows.Forms
                     }
                 }
             }
+            #endregion
+
+            #region DrawColumnExtender
             /// <summary>
             /// Draws the extender after the last column.
             /// </summary>
@@ -1195,6 +1296,9 @@ namespace Manina.Windows.Forms
                 g.DrawLine(SystemPens.ControlLightLight, bounds.Left + 1, bounds.Top + 1, bounds.Left + 1, bounds.Bottom - 2);
                 g.DrawLine(SystemPens.ControlLightLight, bounds.Right - 1, bounds.Top + 1, bounds.Right - 1, bounds.Bottom - 2);
             }
+            #endregion
+
+            #region DrawInsertionCaret
             /// <summary>
             /// Draws the insertion caret for drag and drop operations.
             /// </summary>
@@ -1207,6 +1311,9 @@ namespace Manina.Windows.Forms
                     g.FillRectangle(b, bounds);
                 }
             }
+            #endregion
+
+            #region DrawOverlay
             /// <summary>
             /// Draws an overlay image over the client area.
             /// </summary>
@@ -1216,6 +1323,9 @@ namespace Manina.Windows.Forms
             {
                 ;
             }
+            #endregion
+
+            #region Dispose
             /// <summary>
             /// Releases managed resources.
             /// </summary>
@@ -1223,6 +1333,9 @@ namespace Manina.Windows.Forms
             {
                 ;
             }
+            #endregion
+
+            #region OnLayout
             /// <summary>
             /// Sets the layout of the control.
             /// </summary>
@@ -1231,6 +1344,8 @@ namespace Manina.Windows.Forms
             {
                 ;
             }
+            #endregion
+
             #endregion
         }
     }

@@ -68,7 +68,7 @@ namespace PhotoTagsSynchronizer
 
         #region ImageListView - Update Exiftool Metadata - Invoke
         private void ImageListView_UpdateItemExiftoolMetadataInvoke(FileEntryAttribute fileEntryAttribute)
-        {
+        {   
             if (InvokeRequired)
             {
                 this.BeginInvoke(new Action<FileEntryAttribute>(ImageListView_UpdateItemExiftoolMetadataInvoke), fileEntryAttribute);
@@ -79,6 +79,7 @@ namespace PhotoTagsSynchronizer
             {
                 Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(
                         new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.ExifTool));
+
                 if (metadata != null)
                 {
                     PopulateTreeViewFolderFilterAdd(metadata);
@@ -99,6 +100,7 @@ namespace PhotoTagsSynchronizer
                                 fileMetadata.FileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.FileInaccessibleOrError; //Error Metadata found
 
                             foundItem.UpdateDetails(fileMetadata);
+                            //foundItem.Invalidate();
                         }
                         else
                         {
@@ -106,6 +108,9 @@ namespace PhotoTagsSynchronizer
                         }
                         KeepTrackOfMetadataLoadedRemoveFromList(fileEntryAttribute.FileFullPath);
                     }
+                } else
+                {
+                    //DEBUG - Not found
                 }
 
             }
@@ -335,7 +340,7 @@ namespace PhotoTagsSynchronizer
 
                     #region Add to read queue, when data missing and not marked as Error record
                     if (metadataError == null) 
-                        AddQueueReadFromSourceIfMissing_AllSoruces(fileEntryAttribute);
+                        AddQueueLazyLoadningAllSourcesMetadataAndRegionThumbnailsLock(fileEntryAttribute);
                     #endregion
 
                 }
@@ -347,7 +352,6 @@ namespace PhotoTagsSynchronizer
                     ConvertMetadataToShellImageFileInfo(ref fileMetadata, metadata);
                     e.FileMetadata = fileMetadata;
                     fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.WaitAction;
-                    
                 }
                 e.FileMetadata.FileStatus = fileStatus;
 
@@ -561,10 +565,8 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsApplicationClosing) return;
             if (GlobalData.DoNotTrigger_ImageListView_SelectionChanged) return;
             if (IsPerforminAButtonAction("Select media files")) return;
-            if (IsPopulatingAnything("Select media files")) 
-                return;
-            if (!GlobalData.IsPopulatingImageListViewFromFolderOrDatabaseList) 
-                SaveBeforeContinue(false);
+            if (IsPopulatingAnything("Select media files")) return;
+            if (!GlobalData.IsPopulatingImageListViewFromFolderOrDatabaseList) SaveBeforeContinue(false);
 
             GlobalData.IsPerformingAButtonAction = true;
 
@@ -798,7 +800,6 @@ namespace PhotoTagsSynchronizer
 
         #region ImageListView - Aggregate / Populate 
 
-
         #region Database Search - click
         private void buttonFilterSearch_Click(object sender, EventArgs e)
         {
@@ -939,15 +940,7 @@ namespace PhotoTagsSynchronizer
             }
             #endregion
 
-            if (GlobalData.IsPopulatingAnything())
-            {
-                //    KryptonMessageBox.Show("Data is populating, please try a bit later.", "Need wait...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
-                //    return;
-                //DEBUG
-            }
-
             #region Read from Folder
-
             string selectedFolder = GetSelectedNodeFullRealPath();
             Properties.Settings.Default.LastFolder = GetSelectedNodeFullLinkPath();
 
@@ -988,7 +981,6 @@ namespace PhotoTagsSynchronizer
 
             } while (wasOneDriveDublicatedFoundAndremoved);
             #endregion
-
         }
         #endregion
 
@@ -1164,7 +1156,6 @@ namespace PhotoTagsSynchronizer
             return fileEntriesFound;
         }
         #endregion
-
 
         #endregion
 
