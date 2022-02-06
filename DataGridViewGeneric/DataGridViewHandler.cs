@@ -1544,7 +1544,7 @@ namespace DataGridViewGeneric
                     int maxHeight = 0;
                     for (int columnIndex = 0; columnIndex < GetColumnCount(dataGridView); columnIndex++)
                     {
-                        var value = dataGridView[columnIndex, rowIndex].Value;
+                        var value = dataGridView.Rows[rowIndex].Cells[columnIndex].Value;
                         if (value != null) // && value.ToString().Length > longestString.Length)
                         {//longestString = value.ToString();
                             SizeF size = gfx.MeasureString(value.ToString(), dataGridView.Font, dataGridView.Columns[0].HeaderCell.Size.Width - 4);
@@ -1845,10 +1845,10 @@ namespace DataGridViewGeneric
                             dataGridView.Rows[rowIndex].HeaderCell.Tag = dataGridViewGenericRow;
                     }
 
-                    if (dataGridView[columnIndex, rowIndex].Value != value)
+                    if (dataGridView.Rows[rowIndex].Cells[columnIndex].Value != value)
                     {
                         isValueUpdated = true;
-                        dataGridView[columnIndex, rowIndex].Value = value;
+                        dataGridView.Rows[rowIndex].Cells[columnIndex].Value = value;
                         
                     }
                 }
@@ -2043,18 +2043,18 @@ namespace DataGridViewGeneric
             {
                 if (!fistValueFound)
                 {
-                    firstValue = dataGridView[columnIndex, rowIndex].Value;
+                    firstValue = dataGridView.Rows[rowIndex].Cells[columnIndex].Value;
                     fistValueFound = true;
                 }
                 else
                 {
-                    if (firstValue == null && dataGridView[columnIndex, rowIndex].Value != null)
+                    if (firstValue == null && dataGridView.Rows[rowIndex].Cells[columnIndex].Value != null)
                         return true;
-                    else if (firstValue != null && dataGridView[columnIndex, rowIndex].Value == null)
+                    else if (firstValue != null && dataGridView.Rows[rowIndex].Cells[columnIndex].Value == null)
                         return true;
-                    else if (firstValue == null && dataGridView[columnIndex, rowIndex].Value == null)
+                    else if (firstValue == null && dataGridView.Rows[rowIndex].Cells[columnIndex].Value == null)
                     { } //Do nothing
-                    else if (firstValue.ToString() != dataGridView[columnIndex, rowIndex].Value.ToString())
+                    else if (firstValue.ToString() != dataGridView.Rows[rowIndex].Cells[columnIndex].Value.ToString())
                         return true;
                 }
             }
@@ -2261,7 +2261,7 @@ namespace DataGridViewGeneric
         #region Cell Handling - GetCellDataGridViewCell -  int columnIndex, int rowIndex
         public static DataGridViewCell GetCellDataGridViewCell(DataGridView dataGridView, int columnIndex, int rowIndex)
         {
-            return dataGridView[columnIndex, rowIndex];
+            return dataGridView.Rows[rowIndex].Cells[columnIndex];
         }
         #endregion
 
@@ -2284,7 +2284,7 @@ namespace DataGridViewGeneric
         #region Cell Handling - GetCellValue - int columnIndex, int rowIndex
         public static object GetCellValue(DataGridView dataGridView, int columnIndex, int rowIndex)
         {
-            return GetCellValue(dataGridView[columnIndex, rowIndex]);
+            return GetCellValue(dataGridView.Rows[rowIndex].Cells[columnIndex]);
         }
         #endregion
 
@@ -2294,7 +2294,7 @@ namespace DataGridViewGeneric
             string value = null;
             try
             {
-                value = (dataGridView[columnIndex, rowIndex].Value == null ? null : dataGridView[columnIndex, rowIndex].Value.ToString().Trim());
+                value = (dataGridView.Rows[rowIndex].Cells[columnIndex].Value == null ? null : dataGridView.Rows[rowIndex].Cells[columnIndex].Value.ToString().Trim());
                 if (string.IsNullOrEmpty(value)) value = null;
             }
             catch (Exception ex) 
@@ -2317,7 +2317,7 @@ namespace DataGridViewGeneric
         #region Cell Handling - IsCellNullOrWhiteSpace - int columnIndex, int rowIndex
         public static bool IsCellNullOrWhiteSpace(DataGridView dataGridView, int columnIndex, int rowIndex)
         {
-            return dataGridView[columnIndex, rowIndex].Value == null || string.IsNullOrWhiteSpace(dataGridView[columnIndex, rowIndex].Value.ToString().Trim());
+            return dataGridView.Rows[rowIndex].Cells[columnIndex].Value == null || string.IsNullOrWhiteSpace(dataGridView.Rows[rowIndex].Cells[columnIndex].Value.ToString().Trim());
         }
         #endregion
 
@@ -2334,8 +2334,8 @@ namespace DataGridViewGeneric
         {
             if (rowIndex > -1 && columnIndex > -1)
             {
-                if (setDirtyFalgWhenValueChanged && dataGridView[columnIndex, rowIndex].Value != value) SetColumnDirtyFlag(dataGridView, columnIndex, true); 
-                dataGridView[columnIndex, rowIndex].Value = value;
+                if (setDirtyFalgWhenValueChanged && dataGridView.Rows[rowIndex].Cells[columnIndex].Value != value) SetColumnDirtyFlag(dataGridView, columnIndex, true); 
+                dataGridView.Rows[rowIndex].Cells[columnIndex].Value = value;
             }
         }
         #endregion
@@ -2350,7 +2350,7 @@ namespace DataGridViewGeneric
         #region Cell Handling - GetCellStatus - int columnIndex, int rowIndex
         public static DataGridViewGenericCellStatus GetCellStatus(DataGridView dataGridView, int columnIndex, int rowIndex)
         {
-            return GetCellStatus(dataGridView[columnIndex, rowIndex]);
+            return GetCellStatus(dataGridView.Rows[rowIndex].Cells[columnIndex]);
         }
         #endregion
 
@@ -2365,7 +2365,7 @@ namespace DataGridViewGeneric
                     if (switchStates != SwitchStates.Undefine && switchStates != dataGridViewGenericCellStatus.SwitchState)
                         SetColumnDirtyFlag(dataGridView, columnIndex, true);
                 }
-                dataGridView[columnIndex, rowIndex].Tag = dataGridViewGenericCellStatus;
+                dataGridView.Rows[rowIndex].Cells[columnIndex].Tag = dataGridViewGenericCellStatus;
             }
         }
         #endregion
@@ -2447,7 +2447,7 @@ namespace DataGridViewGeneric
         #region Cell Handling - SetCellToolTipText
         public static void SetCellToolTipText(DataGridView dataGridView, int columnIndex, int rowIndex, string toolTipText)
         {
-            dataGridView[columnIndex, rowIndex].ToolTipText = toolTipText;
+            dataGridView.Rows[rowIndex].Cells[columnIndex].ToolTipText = toolTipText;
         }
         #endregion
 
@@ -2464,7 +2464,7 @@ namespace DataGridViewGeneric
         #region Cell Handling - SetCellControlType
         public static void SetCellControlType(DataGridView dataGridView, int columnIndex, int rowIndex, DataGridViewCell dataGridViewCell)
         {
-            if (rowIndex > -1 && columnIndex > -1) dataGridView[columnIndex, rowIndex] = dataGridViewCell;
+            if (rowIndex > -1 && columnIndex > -1) dataGridView.Rows[rowIndex].Cells[columnIndex] = dataGridViewCell;
         }
         #endregion
 
@@ -2510,7 +2510,7 @@ namespace DataGridViewGeneric
         #region Cell Handling - IsCellDataGridViewGenericCellStatus - int columnIndex, int rowIndex
         public static bool IsCellDataGridViewGenericCellStatus(DataGridView dataGridView, int columnIndex, int rowIndex)
         {
-            return (dataGridView[columnIndex, rowIndex].Tag != null && dataGridView[columnIndex, rowIndex].Tag.GetType() == typeof(DataGridViewGenericCellStatus));
+            return (dataGridView.Rows[rowIndex].Cells[columnIndex].Tag != null && dataGridView.Rows[rowIndex].Cells[columnIndex].Tag.GetType() == typeof(DataGridViewGenericCellStatus));
         }
         #endregion
 
@@ -2540,20 +2540,22 @@ namespace DataGridViewGeneric
         #region Cell Handling - SetCellReadOnlyDependingOfStatus -  int columnIndex, int rowIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatus
         public static void SetCellReadOnlyDependingOfStatus(DataGridView dataGridView, int columnIndex, int rowIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatus)
         {
-            if (dataGridViewGenericCellStatus != null && 
-                dataGridView[columnIndex, rowIndex].ReadOnly != dataGridViewGenericCellStatus.CellReadOnly) //Why check, because changing takes lot of CPU time
-                dataGridView[columnIndex, rowIndex].ReadOnly = dataGridViewGenericCellStatus.CellReadOnly; 
+
+            if (dataGridViewGenericCellStatus != null &&
+                dataGridView.Rows[rowIndex].Cells[columnIndex].ReadOnly != dataGridViewGenericCellStatus.CellReadOnly) //Why check, because changing takes lot of CPU time
+                dataGridView.Rows[rowIndex].Cells[columnIndex].ReadOnly = dataGridViewGenericCellStatus.CellReadOnly; 
 
             DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+            
             if (dataGridViewGenericColumn.ReadWriteAccess == ReadWriteAccess.ForceCellToReadOnly &&
-                dataGridView[columnIndex, rowIndex].ReadOnly != true)
-                dataGridView[columnIndex, rowIndex].ReadOnly = true;
+                dataGridView.Rows[rowIndex].Cells[columnIndex].ReadOnly != true)
+                dataGridView.Rows[rowIndex].Cells[columnIndex].ReadOnly = true;
 
             DataGridViewGenericRow dataGridViewGenericRow = GetRowDataGridViewGenericRow(dataGridView, rowIndex);
             if (dataGridViewGenericRow != null && (
                 dataGridViewGenericRow.ReadWriteAccess == ReadWriteAccess.ForceCellToReadOnly) &&
-                dataGridView[columnIndex, rowIndex].ReadOnly != true)
-                dataGridView[columnIndex, rowIndex].ReadOnly = true;
+                dataGridView.Rows[rowIndex].Cells[columnIndex].ReadOnly != true)
+                dataGridView.Rows[rowIndex].Cells[columnIndex].ReadOnly = true;
         }
         #endregion
 
@@ -2568,7 +2570,7 @@ namespace DataGridViewGeneric
 
             if (dataGridViewGenericRow == null)
             {
-                if (dataGridView[columnIndex, rowIndex].ReadOnly)
+                if (dataGridView.Rows[rowIndex].Cells[columnIndex].ReadOnly)
                 {
                     backColor = ColorBackCellReadOnly(dataGridView);
                     textColor = ColorTextCellReadOnly(dataGridView);
@@ -2581,17 +2583,19 @@ namespace DataGridViewGeneric
             }
             else
             {
-                if (dataGridViewGenericRow.IsFavourite && !dataGridView[columnIndex, rowIndex].ReadOnly)
+                if (dataGridViewGenericRow.IsFavourite && 
+                    !dataGridView.Rows[rowIndex].Cells[columnIndex].ReadOnly)
                 {
                     backColor = ColorBackCellFavorite(dataGridView);
                     textColor = ColorTextCellFavorite(dataGridView);
                 }
-                else if (!dataGridViewGenericRow.IsFavourite && dataGridView[columnIndex, rowIndex].ReadOnly)
+                else if (!dataGridViewGenericRow.IsFavourite && 
+                    dataGridView.Rows[rowIndex].Cells[columnIndex].ReadOnly)
                 {
                     backColor = ColorBackCellReadOnly(dataGridView);
                     textColor = ColorTextCellReadOnly(dataGridView);
                 }
-                else if (dataGridViewGenericRow.IsFavourite && dataGridView[columnIndex, rowIndex].ReadOnly)
+                else if (dataGridViewGenericRow.IsFavourite && dataGridView.Rows[rowIndex].Cells[columnIndex].ReadOnly)
                 {
                     backColor = ColorBackCellFavoriteReadOnly(dataGridView);
                     textColor = ColorTextCellFavoriteReadOnly(dataGridView);
@@ -2609,10 +2613,12 @@ namespace DataGridViewGeneric
                 textColor = ColorTextCellError(dataGridView);
             }
 
-            if (backColor != Color.Empty && backColor != dataGridView[columnIndex, rowIndex].Style.BackColor)
+            if (backColor != Color.Empty && backColor != dataGridView.Rows[rowIndex].Cells[columnIndex].Style.BackColor)
             {
-                dataGridView[columnIndex, rowIndex].Style.BackColor = backColor;
-                dataGridView[columnIndex, rowIndex].Style.ForeColor = textColor;
+                if (dataGridView.Rows[rowIndex].Cells[columnIndex].Style.BackColor != backColor) //Why check? Update DataGridView takes time
+                    dataGridView.Rows[rowIndex].Cells[columnIndex].Style.BackColor = backColor;
+                if (dataGridView.Rows[rowIndex].Cells[columnIndex].Style.ForeColor != textColor) //Why check? Update DataGridView takes time
+                    dataGridView.Rows[rowIndex].Cells[columnIndex].Style.ForeColor = textColor;
             }
         }
         #endregion
@@ -2620,7 +2626,7 @@ namespace DataGridViewGeneric
         #region Cell Handling - GetCellReadOnly - int columnIndex, int rowIndex
         public static bool GetCellReadOnly(DataGridView dataGridView, int columnIndex, int rowIndex)
         {
-            return dataGridView[columnIndex, rowIndex].ReadOnly;
+            return dataGridView.Rows[rowIndex].Cells[columnIndex].ReadOnly;
         }
         #endregion
 

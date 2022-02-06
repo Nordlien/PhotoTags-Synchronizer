@@ -524,16 +524,7 @@ namespace Manina.Windows.Forms
     public class RetrieveItemMetadataDetailsEventArgs
     {
         private string mFileName;
-        private long mRequestedTicks;  
         private Utility.ShellImageFileInfo mFileMetadata;
-
-
-        #region RequestedTicks
-        public long RequestedTicks
-        {
-            get { return mRequestedTicks; }
-        }
-        #endregion
 
         #region FileName
         /// <summary>
@@ -560,7 +551,6 @@ namespace Manina.Windows.Forms
         public RetrieveItemMetadataDetailsEventArgs(string filename)
         {
             mFileName = filename;
-            mRequestedTicks = Utility.TickCount(); 
         }
         #endregion
     }

@@ -113,7 +113,7 @@ namespace PhotoTagsSynchronizer
                         for (int columnIndex = 0; columnIndex < dataTable.Columns.Count; columnIndex++)
                         {
                             object[] dataItems = dataTable.Rows[rowIndex].ItemArray;
-                            dataGridView[columnIndex, rowIndex].Value = dataItems[columnIndex];
+                            dataGridView.Rows[rowIndex].Cells[columnIndex].Value = dataItems[columnIndex];
                         }
                     }
                     dataGridView.Rows[dataGridView.Rows.Count - 1].HeaderCell.Value = "*" + (dataGridView.Rows[dataGridView.Rows.Count - 1].Index + 1).ToString();

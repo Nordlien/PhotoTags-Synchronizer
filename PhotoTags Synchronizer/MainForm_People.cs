@@ -795,7 +795,7 @@ namespace PhotoTagsSynchronizer
                 string dataGridViewGenericRowHeaderName = (dataGridViewGenericRow != null ? dataGridViewGenericRow.HeaderName : DataGridViewHandlerPeople.headerPeopleAdded);
                 DataGridViewHandler.SetRowHeaderNameAndFontStyle(dataGridView, rowIndex,
                     new DataGridViewGenericRow(dataGridViewGenericRowHeaderName,
-                    dataGridView[columnIndex, rowIndex].Value == null ? "" : dataGridView[columnIndex, rowIndex].Value.ToString(), ReadWriteAccess.AllowCellReadAndWrite));
+                    dataGridView.Rows[rowIndex].Cells[columnIndex].Value == null ? "" : dataGridView.Rows[rowIndex].Cells[columnIndex].Value.ToString(), ReadWriteAccess.AllowCellReadAndWrite));
                 #endregion
             }
             catch (Exception ex)

@@ -16,7 +16,6 @@
 // Ozgur Ozcitak (ozcitak@yahoo.com)
 
 using System;
-using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
@@ -1126,7 +1125,8 @@ namespace Manina.Windows.Forms
             {
                 RetrieveItemMetadataDetailsEventArgs e = new RetrieveItemMetadataDetailsEventArgs(mFileName);
                 mImageListView.RetrieveItemMetadataDetailsInternal(e);
-                if (e.FileMetadata != null) UpdateDetailsInternal(e.FileMetadata, e.RequestedTicks);
+                
+                if (e.FileMetadata != null) UpdateDetailsInternal(e.FileMetadata, this.UpdateRequestedTickCount - 1000); //Low priority
             }
         }
         #endregion
