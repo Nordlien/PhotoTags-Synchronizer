@@ -62,7 +62,6 @@ namespace PhotoTagsSynchronizer
 
             string dateTimeStringMediaTaken = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, (int)columnIndex, headerMedia, tagMediaDateTaken);
             return TimeZoneLibrary.ParseDateTimeAsLocal(dateTimeStringMediaTaken);
-
         }
         #endregion
 
@@ -73,6 +72,7 @@ namespace PhotoTagsSynchronizer
             if (columnIndex == null) columnIndex = DataGridViewHandler.GetColumnIndexUserInput(dataGridView, fileEntryAttribute);
             if (columnIndex == -1) return null;
             if (!DataGridViewHandler.IsColumnPopulated(dataGridView, (int)columnIndex)) return null;
+
             string dateTimeStringLocation = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, (int)columnIndex, headerMedia, tagGPSLocationDateTime);
             DateTime? date = TimeZoneLibrary.ParseDateTimeAsUTC(dateTimeStringLocation);
             return date;

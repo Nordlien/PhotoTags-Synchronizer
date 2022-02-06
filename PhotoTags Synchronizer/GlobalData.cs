@@ -25,9 +25,6 @@ namespace PhotoTagsSynchronizer
         
         #region Avoid double click / start process twice
         public static bool IsPerformingAButtonAction { get; set; } = false;
-        public static bool IsSaveButtonPushed { get; set; } = false; //To avoid double click / start process twice
-
-        
         public static bool IsDragAndDropActive { get; set; } = false; //To avoid enter rutine when in process        
         public static bool IsPopulatingImageListViewFromFolderOrDatabaseList { get; set; } = false; //When started twice, stop current, continue with new
         public static bool IsDataGridViewCutPasteDeleteFindReplaceInProgress { get; set; } = false; //To avoid trigger "Changes Value Cell"
@@ -150,55 +147,55 @@ namespace PhotoTagsSynchronizer
         {
             return
                 (IsApplicationClosing ? "Application is closing\r\n" : "") +
-                (IsPopulatingImageListViewFromFolderOrDatabaseList ? "Is Populating ImageListView List\r\n" : "") +
+                (IsPopulatingImageListViewFromFolderOrDatabaseList ? "Populating ImageListView List\r\n" : "") +
                 
                 //Acton button
-                (IsPerformingAButtonAction ? "Is Action is started\r\n" : "") +
+                (IsPerformingAButtonAction ? "Action Button\r\n" : "") +
 
                 //Keywords
-                (IsPopulatingTags ? "Is Populating Tags and Keywords\r\n" : "") +
-                (IsPopulatingTagsFile ? "Is Populating Tags and Keywords File\r\n" : "") +
-                (IsPopulatingTagsImage ? "Is Populating Tags and Keywords Image\r\n" : "") +
+                (IsPopulatingTags ? "Populating Tags and Keywords\r\n" : "") +
+                (IsPopulatingTagsFile ? "Populating Tags and Keywords File\r\n" : "") +
+                (IsPopulatingTagsImage ? "Populating Tags and Keywords Image\r\n" : "") +
 
                 //Map
-                (IsPopulatingMap ? "Is Populating Map\r\n" : "") +
-                (IsPopulatingMapFile ? "Is Populating Map File\r\n" : "") +
-                (IsPopulatingMapImage ? "Is Populating Map Image\r\n" : "") +
+                (IsPopulatingMap ? "Populating Map\r\n" : "") +
+                (IsPopulatingMapFile ? "Populating Map File\r\n" : "") +
+                (IsPopulatingMapImage ? "Populating Map Image\r\n" : "") +
 
                 //People
-                (IsPopulatingPeople ? "Is Populating People\r\n" : "") +
-                (IsPopulatingPeopleFile ? "Is Populating People File\r\n" : "") +
-                (IsPopulatingPeopleImage ? "Is Populating People Image\r\n" : "") +
+                (IsPopulatingPeople ? "Populating People\r\n" : "") +
+                (IsPopulatingPeopleFile ? "Populating People File\r\n" : "") +
+                (IsPopulatingPeopleImage ? "Populating People Image\r\n" : "") +
 
                 //Date
-                (IsPopulatingDate ? "Is PopulatingDate\r\n" : "") +
-                (IsPopulatingDateFile ? "Is PopulatingDate File\r\n" : "") +
-                (IsPopulatingDateImage ? "Is PopulatingDate Image\r\n" : "") +
+                (IsPopulatingDate ? "PopulatingDate\r\n" : "") +
+                (IsPopulatingDateFile ? "PopulatingDate File\r\n" : "") +
+                (IsPopulatingDateImage ? "PopulatingDate Image\r\n" : "") +
 
                 //Exiftool tags
-                (IsPopulatingExiftoolTags ? "Is PopulatingExiftoolTags\r\n" : "") +
-                (IsPopulatingExiftoolTagsFile ? "Is PopulatingExiftoolTags File\r\n" : "") +
-                (IsPopulatingExiftoolTagsImage ? "Is PopulatingExiftoolTags Image\r\n" : "") +
+                (IsPopulatingExiftoolTags ? "PopulatingExiftoolTags\r\n" : "") +
+                (IsPopulatingExiftoolTagsFile ? "PopulatingExiftoolTags File\r\n" : "") +
+                (IsPopulatingExiftoolTagsImage ? "PopulatingExiftoolTags Image\r\n" : "") +
 
                 //Exiftool warning
-                (IsPopulatingExiftoolWarning ? "Is Populating ExiftoolWarning\r\n" : "") +
-                (IsPopulatingExiftoolWarningFile ? "Is Populating ExiftoolWarning File\r\n" : "") +
-                (IsPopulatingExiftoolWarningImage ? "Is Populating ExiftoolWarning Image\r\n" : "") +
+                (IsPopulatingExiftoolWarning ? "Populating ExiftoolWarning\r\n" : "") +
+                (IsPopulatingExiftoolWarningFile ? "Populating ExiftoolWarning File\r\n" : "") +
+                (IsPopulatingExiftoolWarningImage ? "Populating ExiftoolWarning Image\r\n" : "") +
 
                 //Properties
-                (IsPopulatingProperties ? "Is Populating Properties\r\n" : "") +
-                (IsPopulatingPropertiesFile ? "Is Populating Properties File\r\n" : "") +
-                (IsPopulatingPropertiesImage ? "Is Populating Properties Image\r\n" : "") +
+                (IsPopulatingProperties ? "Populating Properties\r\n" : "") +
+                (IsPopulatingPropertiesFile ? "Populating Properties File\r\n" : "") +
+                (IsPopulatingPropertiesImage ? "Populating Properties Image\r\n" : "") +
 
                 //Rename
-                (IsPopulatingRename ? "Is Populating Rename\r\n" : "") +
-                (IsPopulatingRenameFile ? "Is Populating Rename File\r\n" : "") +
-                (IsPopulatingRenameImage ? "Is Populating Rename Image\r\n" : "") +
+                (IsPopulatingRename ? "Populating Rename\r\n" : "") +
+                (IsPopulatingRenameFile ? "Populating Rename File\r\n" : "") +
+                (IsPopulatingRenameImage ? "Populating Rename Image\r\n" : "") +
 
                 //Convert and Merge
-                (IsPopulatingConvertAndMerge ? "Is Populating ConvertAndMerge\r\n" : "") +
-                (IsPopulatingConvertAndMergeFile ? "Is Populating ConvertAndMerge File\r\n" : "") +
-                (IsPopulatingConvertAndMergeImage ? "Is Populating ConvertAndMerge Image\r\n" : "");
+                (IsPopulatingConvertAndMerge ? "Populating ConvertAndMerge\r\n" : "") +
+                (IsPopulatingConvertAndMergeFile ? "Populating ConvertAndMerge File\r\n" : "") +
+                (IsPopulatingConvertAndMergeImage ? "Populating ConvertAndMerge Image\r\n" : "");
         }
         #endregion
 

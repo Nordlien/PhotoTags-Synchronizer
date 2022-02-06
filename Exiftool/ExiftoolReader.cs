@@ -712,13 +712,20 @@ namespace Exiftool
                             }
 
                             if (isClosing)
-                            {
-                                Logger.Debug("Exiftool read: appliaction closing, stopping process");
+                            {                                
                                 try
                                 {
-                                    process.Kill();
+                                    if (process != null)
+                                    {
+                                        Logger.Debug("Exiftool read: appliaction closing, force stopping Exiftool process");
+                                        process.Kill();
+                                    }
                                 }
                                 catch { }
+                                finally
+                                {
+                                    process = null;
+                                } 
                                 return;
                             }
 

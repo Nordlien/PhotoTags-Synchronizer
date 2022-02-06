@@ -1857,7 +1857,6 @@ namespace DataGridViewGeneric
             else dataGridViewGenericCellStatusDefault.CellReadOnly = true;
 
             SetRowFavoriteFlag(dataGridView, rowIndex, dataGridFavorites);
-
             if (columnIndex != -1) //When adding empty row without value in a given column
             {
                 //It's only possible to update ReadOnly field
@@ -1865,9 +1864,7 @@ namespace DataGridViewGeneric
                 if (dataGridViewGenericCellStatus != null) dataGridViewGenericCellStatus.CellReadOnly = dataGridViewGenericCellStatusDefault.CellReadOnly;
                 SetCellReadOnlyDependingOfStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatus);
             }
-
             SetCellBackGroundColorForRow(dataGridView, rowIndex);
-
 
             return rowIndex;
         }

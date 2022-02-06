@@ -875,6 +875,7 @@ namespace PhotoTagsSynchronizer
         #region DataGridView - Populate - MapLocation
         private void DataGridView_Populate_MapLocation(FileEntryAttribute fileEntryAttribute)
         {
+            if (GlobalData.IsApplicationClosing) return;
             if (this.InvokeRequired)
             {
                 BeginInvoke(new Action<FileEntryAttribute>(DataGridView_Populate_MapLocation), fileEntryAttribute);
@@ -882,9 +883,10 @@ namespace PhotoTagsSynchronizer
             }
             DataGridView dataGridView = dataGridViewMap;
 
-            if (GlobalData.IsApplicationClosing) return;
-            if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return;
-            if (DataGridViewHandler.GetIsPopulating(dataGridView)) return;
+            if (!DataGridViewHandler.GetIsAgregated(dataGridView)) 
+                return;
+            if (DataGridViewHandler.GetIsPopulating(dataGridView)) 
+                return;
 
             int columnIndex = DataGridViewHandler.GetColumnIndexWhenAddColumn(dataGridView, fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionCompare);
             if (columnIndex != -1)
@@ -903,15 +905,14 @@ namespace PhotoTagsSynchronizer
         /// <param name="imageListViewSelectItems"></param>
         private void DataGridView_Populate_SelectedItemsInvoke(HashSet<FileEntry> imageListViewSelectItems)
         {
-            
+            if (GlobalData.IsApplicationClosing) return;
             if (this.InvokeRequired)
             {
                 LazyLoadingDataGridViewProgressUpdateStatus(GetCircleProgressCount(true, 4));
                 BeginInvoke(new Action<HashSet<FileEntry>>(DataGridView_Populate_SelectedItemsInvoke), imageListViewSelectItems);
                 return;
             }
-            if (GlobalData.IsApplicationClosing) return;
-
+            
             LazyLoadingDataGridViewProgressUpdateStatus(GetCircleProgressCount(true, 3));
 
             lock (GlobalData.populateSelectedLock)
@@ -1144,6 +1145,13 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region HasDataGridViewAggregatedAny
+        private bool HasDataGridViewAggregatedAny(string nameOfAction = "")
+        {
+            return GlobalData.HasDataGridViewAggregatedAny();
+        }
+        #endregion
+
         #region IsDragAndDropActive
         private bool IsDragAndDropActive()
         {
@@ -1171,6 +1179,7 @@ namespace PhotoTagsSynchronizer
             return GlobalData.IsDragAndDropActive;
         }
         #endregion
+
         #region IsPopulatingButtonAction
         private string previousAction = "";
         private bool IsPerforminAButtonAction(string nameOfAction = "")
@@ -1230,13 +1239,6 @@ namespace PhotoTagsSynchronizer
             return GlobalData.IsPopulatingAnything();
         }
         #endregion 
-
-        #region HasDataGridViewAggregatedAny
-        private bool HasDataGridViewAggregatedAny(string nameOfAction = "")
-        {
-            return GlobalData.HasDataGridViewAggregatedAny();
-        }
-        #endregion
 
         #region DataGridView - SaveBeforeContinue
         private DialogResult SaveBeforeContinue(bool canCancel)

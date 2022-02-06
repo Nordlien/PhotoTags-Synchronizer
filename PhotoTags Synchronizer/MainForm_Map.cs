@@ -406,12 +406,17 @@ namespace PhotoTagsSynchronizer
         {
             if (isDataGridViewMaps_CellValueChanging) return; //Avoid requirng isues
             if (GlobalData.IsApplicationClosing) return;
-            if (IsPopulatingAnything("Cell value changed")) return;
+            //if (ClipboardUtility.IsClipboardActive) return;
+            //if (GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress) return;
             if (e.ColumnIndex < 0) return;
             if (e.RowIndex < 0) return;
 
             DataGridView dataGridView = ((DataGridView)sender);
             if (!dataGridView.Enabled) return;
+            if (DataGridViewHandler.GetIsPopulatingFile(dataGridView)) return;
+            if (DataGridViewHandler.GetIsPopulating(dataGridView)) return;
+            if (IsPopulatingAnything("Map Cell value changed")) return;
+            
 
             DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, e.ColumnIndex);
             if (dataGridViewGenericColumn?.Metadata == null) return;
@@ -458,11 +463,19 @@ namespace PhotoTagsSynchronizer
                         {
                             DataGridViewGenericColumn gridViewGenericColumnCheck = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
 
+                            if (gridViewGenericColumnCheck?.Metadata == null)
+                            {
+                                //DEBUG
+                            }
+                            if (dataGridViewGenericColumn.Metadata == null)
+                            {
+                                //DEBUG
+                            }
                             if (gridViewGenericColumnCheck?.Metadata?.CameraMake == dataGridViewGenericColumn.Metadata.CameraMake &&
                                 gridViewGenericColumnCheck?.Metadata?.CameraModel == dataGridViewGenericColumn.Metadata.CameraModel)
                             {
                                 DataGridViewHandlerMap.PopulateCameraOwner(dataGridView, columnIndex, gridViewGenericColumnCheck.ReadWriteAccess,
-                                    gridViewGenericColumnCheck.Metadata.CameraMake, gridViewGenericColumnCheck.Metadata.CameraModel);
+                                    gridViewGenericColumnCheck?.Metadata?.CameraMake, gridViewGenericColumnCheck?.Metadata?.CameraModel);
                                 DataGridViewHandlerMap.PopulateGoogleHistoryCoordinateAndNearby(dataGridView, dataGridViewDate, columnIndex, GetTimeZoneShift(), GetAccepedIntervalSecound());
 
                             }

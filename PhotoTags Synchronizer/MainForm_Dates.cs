@@ -49,19 +49,24 @@ namespace PhotoTagsSynchronizer
         private bool isDataGridViewDate_CellValueChanging = false; 
         private void dataGridViewDate_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            //if (ClipboardUtility.IsClipboardActive) return;
-            if (GlobalData.IsApplicationClosing) return;
-            if (GlobalData.IsPopulatingDate || GlobalData.IsPopulatingDateFile) return;
             if (isDataGridViewDate_CellValueChanging) return; //To avoid loop and stack overflow
-            isDataGridViewDate_CellValueChanging = true;
+            if (GlobalData.IsApplicationClosing) return;
+            //if (ClipboardUtility.IsClipboardActive) return;
+            //if (GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress) return;
+            if (e.ColumnIndex < 0) return;
+            if (e.RowIndex < 0) return;
 
             DataGridView dataGridView = ((DataGridView)sender);
             if (!dataGridView.Enabled) return;
+            if (DataGridViewHandler.GetIsPopulatingFile(dataGridView)) return;
+            if (DataGridViewHandler.GetIsPopulating(dataGridView)) return;
+            if (IsPopulatingAnything("Date Cell value changed")) return;
 
             DataGridViewGenericRow gridViewGenericDataRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, e.RowIndex);
             if (gridViewGenericDataRow == null) return;
-
             if (!gridViewGenericDataRow.HeaderName.Equals(DataGridViewHandlerDate.headerMedia)) return;
+
+            isDataGridViewDate_CellValueChanging = true;
 
             if (gridViewGenericDataRow.RowName.Equals(DataGridViewHandlerDate.tagMediaDateTaken)) //headerMedia, tagMediaDateTaken
             {

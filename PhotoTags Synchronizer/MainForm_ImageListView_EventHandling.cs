@@ -561,8 +561,10 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsApplicationClosing) return;
             if (GlobalData.DoNotTrigger_ImageListView_SelectionChanged) return;
             if (IsPerforminAButtonAction("Select media files")) return;
-            if (IsPopulatingAnything("Select media files")) return;
-            if (!GlobalData.IsPopulatingImageListViewFromFolderOrDatabaseList) SaveBeforeContinue(false);
+            if (IsPopulatingAnything("Select media files")) 
+                return;
+            if (!GlobalData.IsPopulatingImageListViewFromFolderOrDatabaseList) 
+                SaveBeforeContinue(false);
 
             GlobalData.IsPerformingAButtonAction = true;
 
@@ -939,8 +941,9 @@ namespace PhotoTagsSynchronizer
 
             if (GlobalData.IsPopulatingAnything())
             {
-                KryptonMessageBox.Show("Data is populating, please try a bit later.", "Need wait...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
-                return;
+                //    KryptonMessageBox.Show("Data is populating, please try a bit later.", "Need wait...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
+                //    return;
+                //DEBUG
             }
 
             #region Read from Folder
@@ -993,11 +996,6 @@ namespace PhotoTagsSynchronizer
         private void ImageListView_Aggregate_FromDatabaseSearchResult_and_Aggregate(HashSet<FileEntry> searchFilterResult, bool runPopulateFilter = true)
         {
             if (GlobalData.IsApplicationClosing) return;
-            if (GlobalData.IsPopulatingAnything())
-            {
-                KryptonMessageBox.Show("Data is populating, please try a bit later.", "Need wait...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
-                return;
-            }
             HashSet<FileEntry> _ = ImageListView_Populate_ListOfMediaFiles_AddFilter(null, searchFilterResult, null, runPopulateFilter);
         }
         #endregion

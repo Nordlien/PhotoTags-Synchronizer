@@ -236,14 +236,18 @@ namespace PhotoTagsSynchronizer
         private void dataGridViewTagsAndKeywords_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             if (isDataGridViewTagsAndKeywords_CellValueChanging) return; //Avoid recursive isues
-            if (ClipboardUtility.IsClipboardActive) return;                    
-            if (GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress) return;
-
             if (GlobalData.IsApplicationClosing) return;
-            if (GlobalData.IsPopulatingTags || GlobalData.IsPopulatingTagsFile) return;
-            if (e.ColumnIndex == -1) return; //Row added, this is not a cell value changed
+            if (ClipboardUtility.IsClipboardActive) return;
+            if (GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress) return;
+            if (e.ColumnIndex < 0) return;
+            if (e.RowIndex < 0) return;
+
             DataGridView dataGridView = ((DataGridView)sender);
             if (!dataGridView.Enabled) return;
+            if (DataGridViewHandler.GetIsPopulatingFile(dataGridView)) return;
+            if (DataGridViewHandler.GetIsPopulating(dataGridView)) return;
+            if (IsPopulatingAnything("Tags and Keywords Cell value changed")) return;
+
 
             isDataGridViewTagsAndKeywords_CellValueChanging = true;
             try
