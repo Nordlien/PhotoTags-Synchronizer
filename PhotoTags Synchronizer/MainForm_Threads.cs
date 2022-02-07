@@ -616,12 +616,9 @@ namespace PhotoTagsSynchronizer
                                 bool readColumn = false;
                                 switch (fileEntryAttribute.FileEntryVersion)
                                 {
-                                    case FileEntryVersion.AutoCorrect:
-                                        readColumn = true;
-                                        break;
+                                    case FileEntryVersion.MetadataToSave:
+                                    case FileEntryVersion.CompatibilityFixedAndAutoUpdated:
                                     case FileEntryVersion.CurrentVersionInDatabase:
-                                        readColumn = true;
-                                        break;
                                     case FileEntryVersion.ExtractedNowUsingExiftool:
                                         readColumn = true;
                                         break;

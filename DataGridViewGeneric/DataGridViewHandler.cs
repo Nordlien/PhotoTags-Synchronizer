@@ -1149,7 +1149,8 @@ namespace DataGridViewGeneric
                             case FileEntryVersion.ExtractedNowUsingWindowsLivePhotoGallery:
                             case FileEntryVersion.ExtractedNowUsingMicrosoftPhotos:
                             case FileEntryVersion.ExtractedNowUsingWebScraping:
-                            case FileEntryVersion.AutoCorrect:
+                            case FileEntryVersion.CompatibilityFixedAndAutoUpdated:
+                            case FileEntryVersion.MetadataToSave:
                             case FileEntryVersion.CurrentVersionInDatabase:
                                 if (FileEntryVersionHandler.IsCurrenOrUpdatedVersion(dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion) &&
                                     IsFilenameEqual(fileEntryAttribute2.FileFullPath, dataGridViewGenericColumn.FileEntryAttribute.FileFullPath) &&
@@ -1407,10 +1408,15 @@ namespace DataGridViewGeneric
                         case FileEntryVersionCompare.WonFoundNewer:
 
                         case FileEntryVersionCompare.WonFoundEqual:
-                            if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect)
+                            if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.MetadataToSave)
                             {
                                 currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed, expected behaviour
-                                currentDataGridViewGenericColumn.Metadata = metadata; //Don't updated Metadata with AutoCorrect, needs to know orginal to check for changes
+                                currentDataGridViewGenericColumn.Metadata = metadata; //This need to saved, to check if correct read back
+                            }
+                            else if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.CompatibilityFixedAndAutoUpdated)
+                            {
+                                currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed, expected behaviour
+                                //currentDataGridViewGenericColumn.Metadata = metadata; //Don't updated Metadata with AutoCorrect, needs to know orginal to check for changes
                             } 
                             else 
                             { 

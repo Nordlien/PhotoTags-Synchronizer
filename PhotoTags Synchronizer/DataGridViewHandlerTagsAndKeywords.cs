@@ -143,7 +143,8 @@ namespace PhotoTagsSynchronizer
                     DataGridViewGenericCellStatus dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(DataGridViewHandler.GetCellStatus(dataGridView, columnIndex, rowIndex));
 
                     dataGridViewGenericCellStatus.MetadataBrokerType |= metadataBrokerType;
-                    if (fileEntryAttribute.FileEntryVersion != FileEntryVersion.AutoCorrect)
+                    if (fileEntryAttribute.FileEntryVersion != FileEntryVersion.CompatibilityFixedAndAutoUpdated &&
+                        fileEntryAttribute.FileEntryVersion != FileEntryVersion.MetadataToSave)
                     {
                         if (dataGridViewGenericCellStatus.SwitchState == SwitchStates.Undefine)
                             dataGridViewGenericCellStatus.SwitchState = (dataGridViewGenericCellStatus.MetadataBrokerType & MetadataBrokerType.ExifTool) == MetadataBrokerType.ExifTool ? SwitchStates.On : SwitchStates.Off;
@@ -281,10 +282,9 @@ namespace PhotoTagsSynchronizer
 
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerKeywords), false);
 
-                if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.AutoCorrect)
+                if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.CompatibilityFixedAndAutoUpdated ||
+                    fileEntryAttribute.FileEntryVersion == FileEntryVersion.MetadataToSave)
                 {
-                    
-
                     int keywordsStarts = DataGridViewHandler.GetRowHeaderItemStarts(dataGridView, headerKeywords);
                     int keywordsEnds = DataGridViewHandler.GetRowHeaderItemsEnds(dataGridView, headerKeywords);
                     for (int rowIndexToClean = keywordsStarts; rowIndexToClean <= keywordsEnds; rowIndexToClean++)

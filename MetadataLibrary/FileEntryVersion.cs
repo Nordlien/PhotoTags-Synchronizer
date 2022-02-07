@@ -8,7 +8,8 @@ namespace MetadataLibrary
         CurrentVersionInDatabase,
         Historical,
         Error,
-        AutoCorrect,
+        MetadataToSave,
+        CompatibilityFixedAndAutoUpdated,
         ExtractedNowUsingExiftoolWithError,
         ExtractedNowUsingExiftoolTimeout,
         ExtractedNowUsingExiftoolFileNotExist,
@@ -36,7 +37,9 @@ namespace MetadataLibrary
         public static bool IsCurrenOrUpdatedVersion(FileEntryVersion fileEntryVersion)
         {
             return 
-                fileEntryVersion == FileEntryVersion.CurrentVersionInDatabase || fileEntryVersion == FileEntryVersion.AutoCorrect || 
+                fileEntryVersion == FileEntryVersion.CurrentVersionInDatabase || 
+                fileEntryVersion == FileEntryVersion.CompatibilityFixedAndAutoUpdated ||
+                fileEntryVersion == FileEntryVersion.MetadataToSave ||
                 fileEntryVersion == FileEntryVersion.ExtractedNowUsingExiftool || 
                 fileEntryVersion == FileEntryVersion.ExtractedNowUsingReadMediaFile ||
                 fileEntryVersion == FileEntryVersion.ExtractedNowUsingWindowsLivePhotoGallery ||
@@ -58,7 +61,8 @@ namespace MetadataLibrary
         {
             switch (fileEntryVersion)
             {
-                case FileEntryVersion.AutoCorrect:
+                case FileEntryVersion.MetadataToSave:
+                case FileEntryVersion.CompatibilityFixedAndAutoUpdated:
                 case FileEntryVersion.CurrentVersionInDatabase:
                 case FileEntryVersion.ExtractedNowUsingExiftool:
                 case FileEntryVersion.ExtractedNowUsingReadMediaFile:
@@ -86,7 +90,9 @@ namespace MetadataLibrary
         {
             switch (fileEntryVersion)
             {
-                case FileEntryVersion.AutoCorrect:
+                case FileEntryVersion.MetadataToSave:
+                    return "Save and Compatibility checked";
+                case FileEntryVersion.CompatibilityFixedAndAutoUpdated:
                     return "AutoCorrected";
                 case FileEntryVersion.CurrentVersionInDatabase:
                     return "Current";
@@ -122,7 +128,8 @@ namespace MetadataLibrary
         {
             switch (fileEntryVersion)
             {
-                case FileEntryVersion.AutoCorrect:
+                case FileEntryVersion.MetadataToSave:
+                case FileEntryVersion.CompatibilityFixedAndAutoUpdated:
                 case FileEntryVersion.CurrentVersionInDatabase:
                 case FileEntryVersion.ExtractedNowUsingExiftool:
                 case FileEntryVersion.ExtractedNowUsingReadMediaFile:
@@ -194,8 +201,8 @@ namespace MetadataLibrary
                                 return FileEntryVersionCompare.LostFoundOlder; //DEBUG, in case of queue get not in sequence
 
                             break;
-
-                        case FileEntryVersion.AutoCorrect: //is store in DataGridView Column
+                        case FileEntryVersion.MetadataToSave:
+                        case FileEntryVersion.CompatibilityFixedAndAutoUpdated: //is store in DataGridView Column
                             return FileEntryVersionCompare.WonFoundNewer; //Extracted from source always win over AutoCorrect (No need to check dates, It's only exist one column, regardless of date)
                             
                         case FileEntryVersion.CurrentVersionInDatabase: //is store in DataGridView Column
@@ -215,7 +222,8 @@ namespace MetadataLibrary
 
                     break;
 
-                case FileEntryVersion.AutoCorrect:
+                case FileEntryVersion.MetadataToSave:
+                case FileEntryVersion.CompatibilityFixedAndAutoUpdated:
 
                     switch (fileEntryAttributeDataGridViewColumn.FileEntryVersion)
                     {
@@ -235,8 +243,8 @@ namespace MetadataLibrary
                                 return FileEntryVersionCompare.LostFoundOlder; //DEBUG, in case of queue get not in sequence
 
                             break;
-
-                        case FileEntryVersion.AutoCorrect: //is store in DataGridView Column
+                        case FileEntryVersion.MetadataToSave:
+                        case FileEntryVersion.CompatibilityFixedAndAutoUpdated: //is store in DataGridView Column
                             //AutoCorrect, wins if newer
                             if (fileEntryAttributeFromQueue.LastWriteDateTime > fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
                                 return FileEntryVersionCompare.WonFoundNewer;
@@ -274,9 +282,10 @@ namespace MetadataLibrary
                         case FileEntryVersion.ExtractedNowUsingWindowsLivePhotoGallery:
                         case FileEntryVersion.ExtractedNowUsingMicrosoftPhotos:
                         case FileEntryVersion.ExtractedNowUsingWebScraping:
-                            return FileEntryVersionCompare.LostFoundOlder; 
+                            return FileEntryVersionCompare.LostFoundOlder;
 
-                        case FileEntryVersion.AutoCorrect: //is store in DataGridView Column
+                        case FileEntryVersion.MetadataToSave:
+                        case FileEntryVersion.CompatibilityFixedAndAutoUpdated: //is store in DataGridView Column
                             return FileEntryVersionCompare.WonFoundNewer;
 
                         case FileEntryVersion.CurrentVersionInDatabase: //is store in DataGridView Column
@@ -316,7 +325,8 @@ namespace MetadataLibrary
                         case FileEntryVersion.ExtractedNowUsingWindowsLivePhotoGallery:
                         case FileEntryVersion.ExtractedNowUsingMicrosoftPhotos:
                         case FileEntryVersion.ExtractedNowUsingWebScraping:
-                        case FileEntryVersion.AutoCorrect: //is store in DataGridView Column
+                        case FileEntryVersion.MetadataToSave:
+                        case FileEntryVersion.CompatibilityFixedAndAutoUpdated: //is store in DataGridView Column
                         case FileEntryVersion.CurrentVersionInDatabase: //is store in DataGridView Column
                             return FileEntryVersionCompare.LostNoneEqualFound;
 

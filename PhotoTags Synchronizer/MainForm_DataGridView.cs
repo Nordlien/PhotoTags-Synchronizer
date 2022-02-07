@@ -674,11 +674,10 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region DataGridView - Populate - Metadata
-        private void DataGridView_Populate_Metadata(Metadata metadataToSave)
+        private void DataGridView_Populate_CompatibilityCheckedMetadataToSave(Metadata metadataToSave, FileEntryVersion fileEntryVersion)
         {
             DataGridView_Populate_FileEntryAttribute(GetActiveTabDataGridView(),
-                new FileEntryAttribute(metadataToSave.FileEntry, FileEntryVersion.AutoCorrect),
-                GetActiveTabTag(), metadataToSave);
+                new FileEntryAttribute(metadataToSave.FileEntry, fileEntryVersion), GetActiveTabTag(), metadataToSave);
         }
         #endregion 
 
@@ -1405,7 +1404,7 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(metadataFixedAndCorrected.FileEntry, FileEntryVersion.AutoCorrect);
+                FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(metadataFixedAndCorrected.FileEntry, FileEntryVersion.MetadataToSave);
 
                 int debugColumn = -1;
                 int columnIndexTagsAndKeywords = DataGridViewHandler.GetColumnIndexWhenAddColumn(dataGridViewConvertAndMerge, fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionCompareTagsAndKeywords);
@@ -1463,7 +1462,7 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(metadataFixedAndCorrected.FileEntry, FileEntryVersion.AutoCorrect);
+                FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(metadataFixedAndCorrected.FileEntry, FileEntryVersion.MetadataToSave);
                 int columnIndex = DataGridViewHandler.GetColumnIndexWhenAddColumn(GetAnyAgregatedDataGridView(), fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionCompare);
                 if (DataGridViewHandler.IsColumnPopulated(dataGridViewTagsAndKeywords, columnIndex))
                     DataGridViewHandler.SetColumnDirtyFlag(dataGridViewTagsAndKeywords, columnIndex, isDirty);

@@ -4553,7 +4553,7 @@ namespace PhotoTagsSynchronizer
                         if (metadataToSave != metadataListOriginalExiftool[index])
                         {
                             changesFound = true;                            
-                            DataGridView_Populate_Metadata(metadataToSave);
+                            DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, FileEntryVersion.MetadataToSave);
                             AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, metadataListOriginalExiftool[index]);
                         }
                     }
@@ -7036,41 +7036,41 @@ namespace PhotoTagsSynchronizer
                     case KryptonPages.None:
                         break;
                     case KryptonPages.kryptonPageFolderSearchFilterFolder:
-                        AutoCorrectRunFolder();
+                        AutoCorrectRunFolder(FileEntryVersion.MetadataToSave);
                         break;
                     case KryptonPages.kryptonPageFolderSearchFilterSearch:
                         break;
                     case KryptonPages.kryptonPageFolderSearchFilterFilter:
                         break;
                     case KryptonPages.kryptonPageMediaFiles:
-                        AutoCorrectRunMediaFiles();
+                        AutoCorrectRunMediaFiles(FileEntryVersion.MetadataToSave);
                         break;
                     case KryptonPages.kryptonPageToolboxTags:
-                        AutoCorrectRunDataGridView();
+                        AutoCorrectRunDataGridView(FileEntryVersion.CompatibilityFixedAndAutoUpdated);
                         break;
                     case KryptonPages.kryptonPageToolboxPeople:
-                        AutoCorrectRunDataGridView();
+                        AutoCorrectRunDataGridView(FileEntryVersion.CompatibilityFixedAndAutoUpdated);
                         break;
                     case KryptonPages.kryptonPageToolboxMap:
-                        AutoCorrectRunDataGridView();
+                        AutoCorrectRunDataGridView(FileEntryVersion.CompatibilityFixedAndAutoUpdated);
                         break;
                     case KryptonPages.kryptonPageToolboxDates:
-                        AutoCorrectRunDataGridView();
+                        AutoCorrectRunDataGridView(FileEntryVersion.CompatibilityFixedAndAutoUpdated);
                         break;
                     case KryptonPages.kryptonPageToolboxExiftool:
-                        AutoCorrectRunDataGridView();
+                        AutoCorrectRunDataGridView(FileEntryVersion.MetadataToSave);
                         break;
                     case KryptonPages.kryptonPageToolboxWarnings:
-                        AutoCorrectRunDataGridView();
+                        AutoCorrectRunDataGridView(FileEntryVersion.MetadataToSave);
                         break;
                     case KryptonPages.kryptonPageToolboxProperties:
-                        AutoCorrectRunDataGridView();
+                        AutoCorrectRunDataGridView(FileEntryVersion.MetadataToSave);
                         break;
                     case KryptonPages.kryptonPageToolboxRename:
-                        AutoCorrectRunDataGridView();
+                        AutoCorrectRunDataGridView(FileEntryVersion.MetadataToSave);
                         break;
                     case KryptonPages.kryptonPageToolboxConvertAndMerge:
-                        AutoCorrectRunDataGridView();
+                        AutoCorrectRunDataGridView(FileEntryVersion.MetadataToSave);
                         break;
                     default:
                         throw new NotImplementedException();
@@ -7090,7 +7090,18 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsApplicationClosing) return;
             if (IsPerforminAButtonAction("AutoCorrectRun")) return;
             if (IsPopulatingAnything("AutoCorrectRun")) return;
-            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            switch (ActiveKryptonPage)
+            {            
+                case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                case KryptonPages.kryptonPageMediaFiles:
+                case KryptonPages.kryptonPageToolboxRename:
+                case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                    if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }    
 
             GlobalData.IsPerformingAButtonAction = true;
             ActionAutoCorrectRun();
@@ -7101,7 +7112,18 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsApplicationClosing) return;
             if (IsPerforminAButtonAction("AutoCorrectRun")) return;
             if (IsPopulatingAnything("AutoCorrectRun")) return;
-            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            switch (ActiveKryptonPage)
+            {
+                case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                case KryptonPages.kryptonPageMediaFiles:
+                case KryptonPages.kryptonPageToolboxRename:
+                case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                    if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
 
             GlobalData.IsPerformingAButtonAction = true;
             ActionAutoCorrectRun();
@@ -7110,7 +7132,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region AutoCorrectRunMediaFiles
-        private void AutoCorrectRunMediaFiles()
+        private void AutoCorrectRunMediaFiles(FileEntryVersion fileEntryVersion)
         {
             if (GlobalData.IsApplicationClosing) return;
             try
@@ -7143,7 +7165,7 @@ namespace PhotoTagsSynchronizer
                             {
                                 AutoKeywords(ref metadataToSave);
                                 AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave);
-                                DataGridView_Populate_Metadata(metadataToSave);
+                                DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
                                 AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
                                 AddQueueRenameMediaFilesLock(item.FileFullPath, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
                             }
@@ -7161,7 +7183,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region AutoCorrectRunFolder
-        private void AutoCorrectRunFolder()
+        private void AutoCorrectRunFolder(FileEntryVersion fileEntryVersion)
         {
             if (GlobalData.IsApplicationClosing) return;
             try
@@ -7201,7 +7223,7 @@ namespace PhotoTagsSynchronizer
                             {
                                 AutoKeywords(ref metadataToSave);
                                 AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave);
-                                DataGridView_Populate_Metadata(metadataToSave);
+                                DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
                                 AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
                                 AddQueueRenameMediaFilesLock(file, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
                             }
@@ -7219,7 +7241,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region AutoCorrectRunDataGridView
-        private void AutoCorrectRunDataGridView()
+        private void AutoCorrectRunDataGridView(FileEntryVersion fileEntryVersion)
         {
             if (GlobalData.IsApplicationClosing) return;;
 
@@ -7261,7 +7283,7 @@ namespace PhotoTagsSynchronizer
                             {
                                 AutoKeywords(ref metadataToSave);
                                 AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave);
-                                DataGridView_Populate_Metadata(metadataToSave);
+                                DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
                                 //MakeEqualBetweenMetadataAndDataGridViewContent(metadataToSave, isDirty);
                             }
                         }
@@ -7292,41 +7314,41 @@ namespace PhotoTagsSynchronizer
                     case KryptonPages.None:
                         break;
                     case KryptonPages.kryptonPageFolderSearchFilterFolder:
-                        AutoCorrectFormFolder();
+                        AutoCorrectFormFolder(FileEntryVersion.MetadataToSave);
                         break;
                     case KryptonPages.kryptonPageFolderSearchFilterSearch:
                         break;
                     case KryptonPages.kryptonPageFolderSearchFilterFilter:
                         break;
                     case KryptonPages.kryptonPageMediaFiles:
-                        AutoCorrectFormMediaFiles();
+                        AutoCorrectFormMediaFiles(FileEntryVersion.MetadataToSave);
                         break;
                     case KryptonPages.kryptonPageToolboxTags:
-                        AutoCorrectFormDataGridView();
+                        AutoCorrectFormDataGridView(FileEntryVersion.CompatibilityFixedAndAutoUpdated);
                         break;
                     case KryptonPages.kryptonPageToolboxPeople:
-                        AutoCorrectFormDataGridView();
+                        AutoCorrectFormDataGridView(FileEntryVersion.CompatibilityFixedAndAutoUpdated);
                         break;
                     case KryptonPages.kryptonPageToolboxMap:
-                        AutoCorrectFormDataGridView();
+                        AutoCorrectFormDataGridView(FileEntryVersion.CompatibilityFixedAndAutoUpdated);
                         break;
                     case KryptonPages.kryptonPageToolboxDates:
-                        AutoCorrectFormDataGridView();
+                        AutoCorrectFormDataGridView(FileEntryVersion.CompatibilityFixedAndAutoUpdated);
                         break;
                     case KryptonPages.kryptonPageToolboxExiftool:
-                        AutoCorrectFormDataGridView();
+                        AutoCorrectFormDataGridView(FileEntryVersion.MetadataToSave);
                         break;
                     case KryptonPages.kryptonPageToolboxWarnings:
-                        AutoCorrectFormDataGridView();
+                        AutoCorrectFormDataGridView(FileEntryVersion.MetadataToSave);
                         break;
                     case KryptonPages.kryptonPageToolboxProperties:
-                        AutoCorrectFormDataGridView();
+                        AutoCorrectFormDataGridView(FileEntryVersion.MetadataToSave);
                         break;
                     case KryptonPages.kryptonPageToolboxRename:
-                        AutoCorrectFormDataGridView();
+                        AutoCorrectFormDataGridView(FileEntryVersion.MetadataToSave);
                         break;
                     case KryptonPages.kryptonPageToolboxConvertAndMerge:
-                        AutoCorrectFormDataGridView();
+                        AutoCorrectFormDataGridView(FileEntryVersion.MetadataToSave);
                         break;
                     default:
                         throw new NotImplementedException();
@@ -7346,7 +7368,17 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsApplicationClosing) return;
             if (IsPerforminAButtonAction("AutoCorrectForm")) return;
             if (IsPopulatingAnything("AutoCorrectForm")) return;
-            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+            switch (ActiveKryptonPage)
+            {
+                case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                case KryptonPages.kryptonPageMediaFiles:
+                case KryptonPages.kryptonPageToolboxRename:
+                case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                    if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
 
             GlobalData.IsPerformingAButtonAction = true;
             ActionAutoCorrectForm();
@@ -7357,7 +7389,17 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsApplicationClosing) return;
             if (IsPerforminAButtonAction("AutoCorrectForm")) return;
             if (IsPopulatingAnything("AutoCorrectForm")) return;
-            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+            switch (ActiveKryptonPage)
+            {
+                case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                case KryptonPages.kryptonPageMediaFiles:
+                case KryptonPages.kryptonPageToolboxRename:
+                case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                    if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
 
             GlobalData.IsPerformingAButtonAction = true;
             ActionAutoCorrectForm();
@@ -7366,7 +7408,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region AutoCorrectFormMediaFiles
-        private void AutoCorrectFormMediaFiles()
+        private void AutoCorrectFormMediaFiles(FileEntryVersion fileEntryVersion)
         {
             if (GlobalData.IsApplicationClosing) return;
             try
@@ -7409,7 +7451,7 @@ namespace PhotoTagsSynchronizer
                                 {
                                     AutoKeywords(ref metadataToSave);
                                     AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave);
-                                    DataGridView_Populate_Metadata(metadataToSave);
+                                    DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
                                     AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
                                     AddQueueRenameMediaFilesLock(item.FileFullPath, autoCorrect.RenameVariable);
                                 }
@@ -7428,7 +7470,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region AutoCorrectFormFolder
-        private void AutoCorrectFormFolder()
+        private void AutoCorrectFormFolder(FileEntryVersion fileEntryVersion)
         {
             if (GlobalData.IsApplicationClosing) return;
             try
@@ -7477,7 +7519,7 @@ namespace PhotoTagsSynchronizer
                                     AutoKeywords(ref metadataToSave);
                                     AutoCorrectFormVaraibles.UseAutoCorrectFormData(ref metadataToSave, autoCorrectFormVaraibles);
                                     AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave);
-                                    DataGridView_Populate_Metadata(metadataToSave);
+                                    DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
                                     AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
                                     AddQueueRenameMediaFilesLock(file, autoCorrect.RenameVariable);
                                 }
@@ -7495,8 +7537,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region AutoCorrectFormDataGridView_Click
-        private void AutoCorrectFormDataGridView()
+        #region AutoCorrectFormDataGridView
+        private void AutoCorrectFormDataGridView(FileEntryVersion fileEntryVersion)
         {
             if (GlobalData.IsApplicationClosing) return;
             if (!HasDataGridViewAggregatedAny()) return;
@@ -7548,7 +7590,7 @@ namespace PhotoTagsSynchronizer
                                 {
                                     AutoKeywords(ref metadataToSave); 
                                     AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave);
-                                    DataGridView_Populate_Metadata(metadataToSave);
+                                    DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
                                     //MakeEqualBetweenMetadataAndDataGridViewContent(metadataToSave, isDirty);
                                 }
                             }
@@ -7780,7 +7822,7 @@ namespace PhotoTagsSynchronizer
                     case KryptonPages.kryptonPageFolderSearchFilterFilter:
                         break;
                     case KryptonPages.kryptonPageMediaFiles:
-                        MediaFilesMetadataReloadDeleteHistory_Click();
+                        MediaFilesMetadataReloadDeleteHistoryk();
                         break;
                     case KryptonPages.kryptonPageToolboxTags:
                         break;
@@ -7858,8 +7900,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region MediaFilesMetadataReloadDeleteHistory_Click
-        private void MediaFilesMetadataReloadDeleteHistory_Click()
+        #region MediaFilesMetadataReloadDeleteHistory
+        private void MediaFilesMetadataReloadDeleteHistoryk()
         {
             if (GlobalData.IsApplicationClosing) return;
             try
