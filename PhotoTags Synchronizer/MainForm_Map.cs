@@ -415,7 +415,7 @@ namespace PhotoTagsSynchronizer
             if (!dataGridView.Enabled) return;
             if (DataGridViewHandler.GetIsPopulatingFile(dataGridView)) return;
             if (DataGridViewHandler.GetIsPopulating(dataGridView)) return;
-            if (IsPopulatingAnything("Map Cell value changed")) return;
+            //if (IsPopulatingAnything("Map Cell value changed")) return;
             
 
             DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, e.ColumnIndex);

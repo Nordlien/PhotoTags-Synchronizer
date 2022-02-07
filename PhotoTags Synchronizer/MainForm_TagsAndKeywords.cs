@@ -246,7 +246,7 @@ namespace PhotoTagsSynchronizer
             if (!dataGridView.Enabled) return;
             if (DataGridViewHandler.GetIsPopulatingFile(dataGridView)) return;
             if (DataGridViewHandler.GetIsPopulating(dataGridView)) return;
-            if (IsPopulatingAnything("Tags and Keywords Cell value changed")) return;
+            //if (IsPopulatingAnything("Tags and Keywords Cell value changed")) return;
 
 
             isDataGridViewTagsAndKeywords_CellValueChanging = true;

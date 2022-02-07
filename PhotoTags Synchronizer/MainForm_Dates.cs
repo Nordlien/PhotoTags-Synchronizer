@@ -60,7 +60,7 @@ namespace PhotoTagsSynchronizer
             if (!dataGridView.Enabled) return;
             if (DataGridViewHandler.GetIsPopulatingFile(dataGridView)) return;
             if (DataGridViewHandler.GetIsPopulating(dataGridView)) return;
-            if (IsPopulatingAnything("Date Cell value changed")) return;
+            //if (IsPopulatingAnything("Date Cell value changed")) return;
 
             DataGridViewGenericRow gridViewGenericDataRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, e.RowIndex);
             if (gridViewGenericDataRow == null) return;
