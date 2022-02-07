@@ -404,28 +404,28 @@ namespace PhotoTagsSynchronizer.Properties {
             "}\r\n-XMP-acdsee:Rating={PersonalRating}\r\n-EXIF:Rating={PersonalRating}\r\n-Rating={" +
             "PersonalRating}\r\n-ItemList:Title={PersonalTitle}\r\n-EXIF:XPTitle={PersonalTitle}\r" +
             "\n-XMP-dc:Title={PersonalTitle}\r\n-XMP:Title={PersonalTitle}\r\n-ItemList:Title={Per" +
-            "sonalTitle}\r\n-EXIF:GPSLatitude={LocationLatitude}\r\n-XMP-exif:GPSLatitude={Locati" +
-            "onLatitude}\r\n-XMP:GPSLatitude={LocationLatitude}\r\n-GPS:GPSLatitude={LocationLati" +
-            "tude}\r\n-GPSLatitude={LocationLatitude}\r\n-EXIF:GPSLongitude={LocationLongitude}\r\n" +
-            "-XMP-exif:GPSLongitude={LocationLongitude}\r\n-XMP:GPSLongitude={LocationLongitude" +
-            "}\r\n-GPS:GPSLongitude={LocationLongitude}\r\n-GPSLongitude={LocationLongitude}\r\n-XM" +
-            "P:Location={LocationName}\r\n-XMP-iptcCore:Location={LocationName}\r\n-XMP-iptcExt:L" +
-            "ocationShownSublocation={LocationName}\r\n-XMP:LocationCreatedSublocation={Locatio" +
-            "nName}\r\n-IPTC:Sub-location={LocationName}\r\n-Sub-location={LocationName}\r\n-Locati" +
-            "on={LocationName}\r\n-XMP-iptcExt:LocationShownProvinceState={LocationState}\r\n-XMP" +
-            "-photoshop:State={LocationState}\r\n-IPTC:Province-State={LocationState}\r\n-XMP:Sta" +
-            "te={LocationState}\r\n-State={LocationState}\r\n-XMP-photoshop:City={LocationCity}\r\n" +
-            "-XMP-iptcExt:LocationShownCity={LocationCity}\r\n-IPTC:City={LocationCity}\r\n-XMP:C" +
-            "ity={LocationCity}\r\n-City={LocationCity}\r\n-IPTC:Country-PrimaryLocationName={Loc" +
-            "ationCountry}\r\n-XMP-photoshop:Country={LocationCountry}\r\n-XMP-iptcExt:LocationSh" +
-            "ownCountryName={LocationCountry}\r\n-XMP:Country={LocationCountry}\r\n-Country={Loca" +
-            "tionCountry}\r\n-ImageRegion=\r\n-RegionInfoMP={PersonalRegionInfoMP}\r\n-RegionInfo={" +
-            "PersonalRegionInfo}\r\n-Keyword=\r\n-Category=\r\n-HierarchicalKeywords=\r\n-Hierarchica" +
-            "lSubject=\r\n-LastKeywordXMP=\r\n-LastKeywordIPTC=\r\n-XMP:XMP-microsoft:LastKeywordXM" +
-            "P=\r\n-XMP:XMP-microsoft:LastKeywordIPTC=\r\n-XMP:XMP-digiKam:TagsList=\r\n-IPTC:Catal" +
-            "ogSets=\r\n-IPTC:Keywords=\r\n-XMP:XMP-dc:Subject=\r\n{PersonalKeywordItemsAdd}\r\n-Cate" +
-            "gories={PersonalKeywordsXML}\r\n-XPKeywords={PersonalKeywordsList}\r\n{FileFullPath}" +
-            "\r\n-execute")]
+            "sonalTitle}\r\n-UserData:GPSCoordinates=\r\n-EXIF:GPSLatitude={LocationLatitude}\r\n-X" +
+            "MP-exif:GPSLatitude={LocationLatitude}\r\n-XMP:GPSLatitude={LocationLatitude}\r\n-GP" +
+            "S:GPSLatitude={LocationLatitude}\r\n-GPSLatitude={LocationLatitude}\r\n-EXIF:GPSLong" +
+            "itude={LocationLongitude}\r\n-XMP-exif:GPSLongitude={LocationLongitude}\r\n-XMP:GPSL" +
+            "ongitude={LocationLongitude}\r\n-GPS:GPSLongitude={LocationLongitude}\r\n-GPSLongitu" +
+            "de={LocationLongitude}\r\n-XMP:Location={LocationName}\r\n-XMP-iptcCore:Location={Lo" +
+            "cationName}\r\n-XMP-iptcExt:LocationShownSublocation={LocationName}\r\n-XMP:Location" +
+            "CreatedSublocation={LocationName}\r\n-IPTC:Sub-location={LocationName}\r\n-Sub-locat" +
+            "ion={LocationName}\r\n-Location={LocationName}\r\n-XMP-iptcExt:LocationShownProvince" +
+            "State={LocationState}\r\n-XMP-photoshop:State={LocationState}\r\n-IPTC:Province-Stat" +
+            "e={LocationState}\r\n-XMP:State={LocationState}\r\n-State={LocationState}\r\n-XMP-phot" +
+            "oshop:City={LocationCity}\r\n-XMP-iptcExt:LocationShownCity={LocationCity}\r\n-IPTC:" +
+            "City={LocationCity}\r\n-XMP:City={LocationCity}\r\n-City={LocationCity}\r\n-IPTC:Count" +
+            "ry-PrimaryLocationName={LocationCountry}\r\n-XMP-photoshop:Country={LocationCountr" +
+            "y}\r\n-XMP-iptcExt:LocationShownCountryName={LocationCountry}\r\n-XMP:Country={Locat" +
+            "ionCountry}\r\n-Country={LocationCountry}\r\n-ImageRegion=\r\n-RegionInfoMP={PersonalR" +
+            "egionInfoMP}\r\n-RegionInfo={PersonalRegionInfo}\r\n-Keyword=\r\n-Category=\r\n-Hierarch" +
+            "icalKeywords=\r\n-HierarchicalSubject=\r\n-LastKeywordXMP=\r\n-LastKeywordIPTC=\r\n-XMP:" +
+            "XMP-microsoft:LastKeywordXMP=\r\n-XMP:XMP-microsoft:LastKeywordIPTC=\r\n-XMP:XMP-dig" +
+            "iKam:TagsList=\r\n-IPTC:CatalogSets=\r\n-IPTC:Keywords=\r\n-XMP:XMP-dc:Subject=\r\n{Pers" +
+            "onalKeywordItemsAdd}\r\n-Categories={PersonalKeywordsXML}\r\n-XPKeywords={PersonalKe" +
+            "ywordsList}\r\n{FileFullPath}\r\n-execute")]
         public string WriteMetadataTags {
             get {
                 return ((string)(this["WriteMetadataTags"]));
@@ -1093,28 +1093,28 @@ explorer ms-photos?filename=""{FileFullPath}""")]
             "}\r\n-XMP-acdsee:Rating={PersonalRating}\r\n-EXIF:Rating={PersonalRating}\r\n-Rating={" +
             "PersonalRating}\r\n-ItemList:Title={PersonalTitle}\r\n-EXIF:XPTitle={PersonalTitle}\r" +
             "\n-XMP-dc:Title={PersonalTitle}\r\n-XMP:Title={PersonalTitle}\r\n-ItemList:Title={Per" +
-            "sonalTitle}\r\n-EXIF:GPSLatitude={LocationLatitude}\r\n-XMP-exif:GPSLatitude={Locati" +
-            "onLatitude}\r\n-XMP:GPSLatitude={LocationLatitude}\r\n-GPS:GPSLatitude={LocationLati" +
-            "tude}\r\n-GPSLatitude={LocationLatitude}\r\n-EXIF:GPSLongitude={LocationLongitude}\r\n" +
-            "-XMP-exif:GPSLongitude={LocationLongitude}\r\n-XMP:GPSLongitude={LocationLongitude" +
-            "}\r\n-GPS:GPSLongitude={LocationLongitude}\r\n-GPSLongitude={LocationLongitude}\r\n-XM" +
-            "P:Location={LocationName}\r\n-XMP-iptcCore:Location={LocationName}\r\n-XMP-iptcExt:L" +
-            "ocationShownSublocation={LocationName}\r\n-XMP:LocationCreatedSublocation={Locatio" +
-            "nName}\r\n-IPTC:Sub-location={LocationName}\r\n-Sub-location={LocationName}\r\n-Locati" +
-            "on={LocationName}\r\n-XMP-iptcExt:LocationShownProvinceState={LocationState}\r\n-XMP" +
-            "-photoshop:State={LocationState}\r\n-IPTC:Province-State={LocationState}\r\n-XMP:Sta" +
-            "te={LocationState}\r\n-State={LocationState}\r\n-XMP-photoshop:City={LocationCity}\r\n" +
-            "-XMP-iptcExt:LocationShownCity={LocationCity}\r\n-IPTC:City={LocationCity}\r\n-XMP:C" +
-            "ity={LocationCity}\r\n-City={LocationCity}\r\n-IPTC:Country-PrimaryLocationName={Loc" +
-            "ationCountry}\r\n-XMP-photoshop:Country={LocationCountry}\r\n-XMP-iptcExt:LocationSh" +
-            "ownCountryName={LocationCountry}\r\n-XMP:Country={LocationCountry}\r\n-Country={Loca" +
-            "tionCountry}\r\n-ImageRegion=\r\n-RegionInfoMP={PersonalRegionInfoMP}\r\n-RegionInfo={" +
-            "PersonalRegionInfo}\r\n-Keyword=\r\n-Category=\r\n-HierarchicalKeywords=\r\n-Hierarchica" +
-            "lSubject=\r\n-LastKeywordXMP=\r\n-LastKeywordIPTC=\r\n-XMP:XMP-microsoft:LastKeywordXM" +
-            "P=\r\n-XMP:XMP-microsoft:LastKeywordIPTC=\r\n-XMP:XMP-digiKam:TagsList=\r\n-IPTC:Catal" +
-            "ogSets=\r\n-IPTC:Keywords=\r\n-XMP:XMP-dc:Subject=\r\n{PersonalKeywordItemsAdd}\r\n-Cate" +
-            "gories={PersonalKeywordsXML}\r\n-XPKeywords={PersonalKeywordsList}\r\n{FileFullPath}" +
-            "\r\n-execute")]
+            "sonalTitle}\r\n-UserData:GPSCoordinates=\r\n-EXIF:GPSLatitude={LocationLatitude}\r\n-X" +
+            "MP-exif:GPSLatitude={LocationLatitude}\r\n-XMP:GPSLatitude={LocationLatitude}\r\n-GP" +
+            "S:GPSLatitude={LocationLatitude}\r\n-GPSLatitude={LocationLatitude}\r\n-EXIF:GPSLong" +
+            "itude={LocationLongitude}\r\n-XMP-exif:GPSLongitude={LocationLongitude}\r\n-XMP:GPSL" +
+            "ongitude={LocationLongitude}\r\n-GPS:GPSLongitude={LocationLongitude}\r\n-GPSLongitu" +
+            "de={LocationLongitude}\r\n-XMP:Location={LocationName}\r\n-XMP-iptcCore:Location={Lo" +
+            "cationName}\r\n-XMP-iptcExt:LocationShownSublocation={LocationName}\r\n-XMP:Location" +
+            "CreatedSublocation={LocationName}\r\n-IPTC:Sub-location={LocationName}\r\n-Sub-locat" +
+            "ion={LocationName}\r\n-Location={LocationName}\r\n-XMP-iptcExt:LocationShownProvince" +
+            "State={LocationState}\r\n-XMP-photoshop:State={LocationState}\r\n-IPTC:Province-Stat" +
+            "e={LocationState}\r\n-XMP:State={LocationState}\r\n-State={LocationState}\r\n-XMP-phot" +
+            "oshop:City={LocationCity}\r\n-XMP-iptcExt:LocationShownCity={LocationCity}\r\n-IPTC:" +
+            "City={LocationCity}\r\n-XMP:City={LocationCity}\r\n-City={LocationCity}\r\n-IPTC:Count" +
+            "ry-PrimaryLocationName={LocationCountry}\r\n-XMP-photoshop:Country={LocationCountr" +
+            "y}\r\n-XMP-iptcExt:LocationShownCountryName={LocationCountry}\r\n-XMP:Country={Locat" +
+            "ionCountry}\r\n-Country={LocationCountry}\r\n-ImageRegion=\r\n-RegionInfoMP={PersonalR" +
+            "egionInfoMP}\r\n-RegionInfo={PersonalRegionInfo}\r\n-Keyword=\r\n-Category=\r\n-Hierarch" +
+            "icalKeywords=\r\n-HierarchicalSubject=\r\n-LastKeywordXMP=\r\n-LastKeywordIPTC=\r\n-XMP:" +
+            "XMP-microsoft:LastKeywordXMP=\r\n-XMP:XMP-microsoft:LastKeywordIPTC=\r\n-XMP:XMP-dig" +
+            "iKam:TagsList=\r\n-IPTC:CatalogSets=\r\n-IPTC:Keywords=\r\n-XMP:XMP-dc:Subject=\r\n{Pers" +
+            "onalKeywordItemsAdd}\r\n-Categories={PersonalKeywordsXML}\r\n-XPKeywords={PersonalKe" +
+            "ywordsList}\r\n{FileFullPath}\r\n-execute")]
         public string RunArgumentBuildKeywordTags {
             get {
                 return ((string)(this["RunArgumentBuildKeywordTags"]));
