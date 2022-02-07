@@ -7099,8 +7099,6 @@ namespace PhotoTagsSynchronizer
                 case KryptonPages.kryptonPageToolboxConvertAndMerge:
                     if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
                     break;
-                default:
-                    throw new NotImplementedException();
             }    
 
             GlobalData.IsPerformingAButtonAction = true;
@@ -7121,8 +7119,6 @@ namespace PhotoTagsSynchronizer
                 case KryptonPages.kryptonPageToolboxConvertAndMerge:
                     if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
                     break;
-                default:
-                    throw new NotImplementedException();
             }
 
             GlobalData.IsPerformingAButtonAction = true;
@@ -7376,8 +7372,6 @@ namespace PhotoTagsSynchronizer
                 case KryptonPages.kryptonPageToolboxConvertAndMerge:
                     if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
                     break;
-                default:
-                    throw new NotImplementedException();
             }
 
             GlobalData.IsPerformingAButtonAction = true;
@@ -7397,8 +7391,6 @@ namespace PhotoTagsSynchronizer
                 case KryptonPages.kryptonPageToolboxConvertAndMerge:
                     if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
                     break;
-                default:
-                    throw new NotImplementedException();
             }
 
             GlobalData.IsPerformingAButtonAction = true;
