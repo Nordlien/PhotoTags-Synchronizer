@@ -4354,7 +4354,7 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsApplicationClosing) return;
             if (IsPerforminAButtonAction("Save")) return;
             if (IsPopulatingAnything("Save")) return;
-            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
 
             GlobalData.IsPerformingAButtonAction = true;
             //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
@@ -4400,7 +4400,7 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsApplicationClosing) return;
             if (IsPerforminAButtonAction("Save")) return;
             if (IsPopulatingAnything("Save")) return;
-            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
 
             GlobalData.IsPerformingAButtonAction = true;
             //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;

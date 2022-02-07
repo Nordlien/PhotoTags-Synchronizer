@@ -1845,15 +1845,17 @@ namespace MetadataLibrary
                 string keywordItemToWrite = this.ReplaceVariables(stringWithVariables, true, true, allowedFileNameDateTimeFormats,
                     personalRegionInfoMP, personalRegionInfo, personalKeywordsList, keywordCategories, "");
                 keywordItemToWrite = this.ReplaceKeywordItemVariables(keywordItemToWrite, keywordTag.Keyword);
+                if (!string.IsNullOrWhiteSpace(keywordItemToWrite))
+                {
+                    if (!keywordItemToWrite.EndsWith("\r\n") || !keywordItemToWrite.EndsWith("\r") || !keywordItemToWrite.EndsWith("\n"))
+                        keywordItemToWrite += "\r\n";
 
-                personalKeywordAdd += keywordItemToWrite + (string.IsNullOrWhiteSpace(personalKeywordAdd) ? "" : "\r\n");
+                    personalKeywordAdd += keywordItemToWrite;
+                } 
             }
             return personalKeywordAdd;
         }
         #endregion
-
-
-        
     }
 }
 

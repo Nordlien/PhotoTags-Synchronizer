@@ -111,6 +111,7 @@ namespace PhotoTagsSynchronizer
                 } else
                 {
                     //DEBUG - Not found
+                    //Got this when Delete Hstory twice
                 }
 
             }
