@@ -107,7 +107,10 @@ namespace PhotoTagsSynchronizer
         public void DeleteFileAndHistory(string fullFilePath)
         {
             List<FileEntryBroker> fileEntryBrokers = databaseAndCacheMetadataExiftool.ListFileEntryBrokerDateVersions(MetadataBrokerType.ExifTool, fullFilePath);
+            databaseAndCacheMetadataExiftool.MetadataCacheRemove(fileEntryBrokers);
+            databaseAndCacheMetadataExiftool.DeleteFileEntries(fileEntryBrokers);
 
+            fileEntryBrokers = databaseAndCacheMetadataExiftool.ListFileEntryBrokerDateVersions(MetadataBrokerType.ExifTool | MetadataBrokerType.ExifToolWriteError, fullFilePath);
             databaseAndCacheMetadataExiftool.MetadataCacheRemove(fileEntryBrokers);
             databaseAndCacheMetadataExiftool.DeleteFileEntries(fileEntryBrokers);
 
