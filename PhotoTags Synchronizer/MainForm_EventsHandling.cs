@@ -4546,7 +4546,7 @@ namespace PhotoTagsSynchronizer
                         else
                         {
                             metadataToSave = new Metadata(metadataFromDataGridView);
-                            AutoKeywords(ref metadataToSave);
+                            //AutoKeywords(ref metadataToSave);
                             AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave); 
                         }
 
