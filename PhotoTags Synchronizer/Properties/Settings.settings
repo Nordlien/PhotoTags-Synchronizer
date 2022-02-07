@@ -804,7 +804,9 @@ riff=UTF8
     <Setting Name="PeopleRename" Type="System.String" Scope="User">
       <Value Profile="(Default)">Unknown 1
 Unknown 2
-Unknown 3</Value>
+Unknown 3
+Unknown 4
+Unknown 5</Value>
     </Setting>
     <Setting Name="AvoidOfflineMediaFiles" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>

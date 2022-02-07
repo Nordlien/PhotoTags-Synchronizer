@@ -1162,7 +1162,7 @@ explorer ms-photos?filename=""{FileFullPath}""")]
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Unknown 1\r\nUnknown 2\r\nUnknown 3")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Unknown 1\r\nUnknown 2\r\nUnknown 3\r\nUnknown 4\r\nUnknown 5")]
         public string PeopleRename {
             get {
                 return ((string)(this["PeopleRename"]));
