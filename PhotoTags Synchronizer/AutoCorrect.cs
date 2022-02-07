@@ -24,7 +24,7 @@ namespace PhotoTagsSynchronizer
         public HashSet<string> Comments = new HashSet<string>();
         public HashSet<string> Albums = new HashSet<string>();
         public HashSet<string> Keywords = new HashSet<string>();
-        public HashSet<string> NewKeywords = new HashSet<string>();
+        public List<string> NewKeywords = new List<string>();
 
         #region AddRangeToUpper
         public static void AddRangeToUpper(HashSet<string> list, string[] addThisArray)
@@ -204,7 +204,7 @@ namespace PhotoTagsSynchronizer
                                         AutoKeywordConvertion.AddRangeToUpper(autoKeywordConvertion.Keywords, items);
                                         break;
                                     case 6:
-                                        AutoKeywordConvertion.AddRangeToUpper(autoKeywordConvertion.NewKeywords, items);
+                                        autoKeywordConvertion.NewKeywords.AddRange(items); //Not ToUpper
                                         break;
                                 }
                             }
