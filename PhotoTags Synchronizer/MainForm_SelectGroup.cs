@@ -254,10 +254,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ImageListView - Select Next
-
-        #region ActionSelectNext
-        private void ActionSelectNext()
+        #region ImageListViewSelectNext
+        private void ImageListViewSelectNext()
         {
             try
             {
@@ -287,44 +285,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region SelectNext_Click
-        private void kryptonRibbonGroupButtonSelectForwards_Click(object sender, EventArgs e)
-        {
-            if (GlobalData.IsApplicationClosing) return;
-            if (IsPerforminAButtonAction("Select Forwards")) return;
-            if (IsPopulatingAnything("Select Forwards")) return;
-            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
-            GlobalData.IsPerformingAButtonAction = true;
-
-            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
-            ActionSelectNext();
-            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
-
-            GlobalData.IsPerformingAButtonAction = false;
-        }
-
-        private void kryptonRibbonQATButtonSelectNext_Click(object sender, EventArgs e)
-        {
-            if (GlobalData.IsApplicationClosing) return;
-            if (IsPerforminAButtonAction("Select Next")) return;
-            if (IsPopulatingAnything("Select Next")) return;
-            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
-            GlobalData.IsPerformingAButtonAction = true;
-
-            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
-            ActionSelectNext();
-            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
-
-            GlobalData.IsPerformingAButtonAction = false;
-        }
-        #endregion
-
-        #endregion
-
-        #region ImageListView - Select Previous
-
-        #region ActionSelectPrevious
-        private void ActionSelectPrevious()
+        #region ImageListViewSelectPrevious
+        private void ImageListViewSelectPrevious()
         {
             try
             {
@@ -354,42 +316,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region SelectPrevious_Click
-        private void kryptonRibbonQATButtonSelectPrevious_Click(object sender, EventArgs e)
-        {
-            if (GlobalData.IsApplicationClosing) return;
-            if (IsPerforminAButtonAction("Select Previous")) return;
-            if (IsPopulatingAnything("Select Backwards")) return;
-            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
-            
-            GlobalData.IsPerformingAButtonAction = true;
-            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
-            ActionSelectPrevious();
-            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
-            GlobalData.IsPerformingAButtonAction = false;
-        }
-
-        private void kryptonRibbonGroupButtonSelectBackwards_Click(object sender, EventArgs e)
-        {
-            if (GlobalData.IsApplicationClosing) return;
-            if (IsPerforminAButtonAction("Select Backwards")) return;
-            if (IsPopulatingAnything("Select Backwards")) return;
-            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
-            
-            GlobalData.IsPerformingAButtonAction = true;
-            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
-            ActionSelectPrevious();
-            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
-            GlobalData.IsPerformingAButtonAction = false;
-        }
-        #endregion
-
-        #endregion
-
-        #region ImageListView - Select Previous
-
-        #region ActionSelectMatch
-        private void ActionSelectMatch()
+        #region ImageListViewSelectMatch
+        private void ImageListViewSelectMatch()
         {
             try
             {
@@ -414,40 +342,8 @@ namespace PhotoTagsSynchronizer
             }
         }
         #endregion 
-
-        #region SelectMatch_Click
-        private void kryptonRibbonGroupButtonSelectEqual_Click(object sender, EventArgs e)
-        {
-            if (GlobalData.IsApplicationClosing) return;
-            if (IsPerforminAButtonAction("Select Equal")) return;
-            if (IsPopulatingAnything("Select Equal")) return;
-            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
-
-            GlobalData.IsPerformingAButtonAction = true;
-            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
-            ActionSelectMatch();
-            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
-            GlobalData.IsPerformingAButtonAction = false;
-        }
-
-        private void kryptonRibbonQATButtonSelectEqual_Click(object sender, EventArgs e)
-        {
-            if (GlobalData.IsApplicationClosing) return;
-            if (IsPerforminAButtonAction("Select Equal")) return;
-            if (IsPopulatingAnything("Select Equal")) return;
-            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
-
-            GlobalData.IsPerformingAButtonAction = true;
-            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
-            ActionSelectMatch();
-            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
-            GlobalData.IsPerformingAButtonAction = false;
-        }
-        #endregion 
-
-        #endregion
         
-        #region Select Grup - Getvalues
+        #region Select Group - Getvalues
         private void SelectGroupGetProperties()
         {
 

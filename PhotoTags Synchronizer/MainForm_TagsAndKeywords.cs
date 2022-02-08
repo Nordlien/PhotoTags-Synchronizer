@@ -513,7 +513,6 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Control with focus (For Cut/Copy/Paste)
-
         private Control controlPasteWithFocusTag = null;
         private void comboBoxAlbum_Enter(object sender, EventArgs e)
         {

@@ -626,6 +626,13 @@ namespace PhotoTagsSynchronizer
                         kryptonRibbonGroupButtonHomeAutoCorrectRun.TextLine2 = "";
                         kryptonRibbonGroupButtonHomeAutoCorrectForm.TextLine2 = "";
                         kryptonRibbonGroupButtonDatGridShowPoster.TextLine2 = "";
+
+                        kryptonRibbonQATButtonSelectPrevius.ToolTipBody = "(Inactive)";
+                        kryptonRibbonQATButtonSelectNext.ToolTipBody = "(Inactive)";
+                        kryptonRibbonQATButtonSelectEqual.ToolTipBody = "(Inactive)";
+                        kryptonRibbonQATButtonSelectAll.ToolTipBody = "(Inactive)";
+                        kryptonRibbonQATButtonSelectNone.ToolTipBody = "(Inactive)";
+                        kryptonRibbonQATButtonSelectToggle.ToolTipBody = "(Inactive)";
                         break;
                     case KryptonPages.kryptonPageFolderSearchFilterFolder:
                         //Home - Clipboard
@@ -654,6 +661,13 @@ namespace PhotoTagsSynchronizer
                         kryptonRibbonGroupButtonHomeAutoCorrectRun.TextLine2 = "(Folder)";
                         kryptonRibbonGroupButtonHomeAutoCorrectForm.TextLine2 = "(Folder)";
                         kryptonRibbonGroupButtonDatGridShowPoster.TextLine2 = "(Inactive)";
+
+                        kryptonRibbonQATButtonSelectPrevius.ToolTipBody = "(Inactive)";
+                        kryptonRibbonQATButtonSelectNext.ToolTipBody = "(Inactive)";
+                        kryptonRibbonQATButtonSelectEqual.ToolTipBody = "(Inactive)";
+                        kryptonRibbonQATButtonSelectAll.ToolTipBody = "(Inactive)";
+                        kryptonRibbonQATButtonSelectNone.ToolTipBody = "(Inactive)";
+                        kryptonRibbonQATButtonSelectToggle.ToolTipBody = "(Inactive)";
                         break;
                     case KryptonPages.kryptonPageFolderSearchFilterSearch:
                         //Home - Clipboard
@@ -684,6 +698,13 @@ namespace PhotoTagsSynchronizer
                         kryptonRibbonGroupButtonHomeAutoCorrectRun.TextLine2 = "(Inactive)";
                         kryptonRibbonGroupButtonHomeAutoCorrectForm.TextLine2 = "(Inactive)";
                         kryptonRibbonGroupButtonDatGridShowPoster.TextLine2 = "(Inactive)";
+
+                        kryptonRibbonQATButtonSelectPrevius.ToolTipBody = "(Inactive)";
+                        kryptonRibbonQATButtonSelectNext.ToolTipBody = "(Inactive)";
+                        kryptonRibbonQATButtonSelectEqual.ToolTipBody = "(Inactive)";
+                        kryptonRibbonQATButtonSelectAll.ToolTipBody = "(Inactive)";
+                        kryptonRibbonQATButtonSelectNone.ToolTipBody = "(Inactive)";
+                        kryptonRibbonQATButtonSelectToggle.ToolTipBody = "(Inactive)";
                         break;
                     case KryptonPages.kryptonPageFolderSearchFilterFilter:
                         //Home - Clipboard
@@ -712,6 +733,13 @@ namespace PhotoTagsSynchronizer
                         kryptonRibbonGroupButtonHomeAutoCorrectRun.TextLine2 = "(Inactive)";
                         kryptonRibbonGroupButtonHomeAutoCorrectForm.TextLine2 = "(Inactive)";
                         kryptonRibbonGroupButtonDatGridShowPoster.TextLine2 = "(Inactive)";
+
+                        kryptonRibbonQATButtonSelectPrevius.ToolTipBody = "(Inactive)";
+                        kryptonRibbonQATButtonSelectNext.ToolTipBody = "(Inactive)";
+                        kryptonRibbonQATButtonSelectEqual.ToolTipBody = "(Inactive)";
+                        kryptonRibbonQATButtonSelectAll.ToolTipBody = "(Inactive)";
+                        kryptonRibbonQATButtonSelectNone.ToolTipBody = "(Inactive)";
+                        kryptonRibbonQATButtonSelectToggle.ToolTipBody = "(Inactive)";
                         break;
                     case KryptonPages.kryptonPageMediaFiles:
                         //Home - Clipboard
@@ -775,7 +803,15 @@ namespace PhotoTagsSynchronizer
                         kryptonRibbonGroupButtonHomeAutoCorrectRun.TextLine2 = "(Files)";
                         kryptonRibbonGroupButtonHomeAutoCorrectForm.TextLine2 = "(Files)";
                         kryptonRibbonGroupButtonDatGridShowPoster.TextLine2 = "(Files)";
+
+                        this.kryptonRibbonQATButtonSelectPrevius.ToolTipBody = "Select Previous group of media files. Using the properties set in this ribbon.";
+                        this.kryptonRibbonQATButtonSelectNext.ToolTipBody = "Select Next group of media files. Using the properties set in this ribbon.";
+                        this.kryptonRibbonQATButtonSelectEqual.ToolTipBody = "Select all media files that match criterias from selected files.";
+                        this.kryptonRibbonQATButtonSelectAll.ToolTipBody = "Select all media files";
+                        this.kryptonRibbonQATButtonSelectNone.ToolTipBody = "Select none of the media files";
+                        this.kryptonRibbonQATButtonSelectToggle.ToolTipBody = "Invert selection of the media files.";
                         break;
+
                     case KryptonPages.kryptonPageToolboxTags:
                         //Home - Clipboard
                         RibbonGroupButtonHomeClipboard(enabledCopy: isSomethingSelected, enabledCutPaste: isSomethingSelected, enabledUndoRedo: isSomethingSelected);
@@ -796,6 +832,7 @@ namespace PhotoTagsSynchronizer
                         kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.TextLine2 = "(Cells)";
                         kryptonRibbonGroupButtonFileSystemRunCommand.TextLine2 = "(Cells)";
                         kryptonRibbonGroupButtonHomeFileSystemEdit.TextLine2 = "(Cells)";
+
                         //Home - Rotate
                         RibbonGroupButtonHomeRotate(enabled: false);
                         //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
@@ -803,6 +840,13 @@ namespace PhotoTagsSynchronizer
                         kryptonRibbonGroupButtonHomeAutoCorrectRun.TextLine2 = "(Cells)";
                         kryptonRibbonGroupButtonHomeAutoCorrectForm.TextLine2 = "(Cells)";
                         kryptonRibbonGroupButtonDatGridShowPoster.TextLine2 = "(Cells)";
+
+                        kryptonRibbonQATButtonSelectPrevius.ToolTipBody = "Select all cells in Previous Column.";
+                        kryptonRibbonQATButtonSelectNext.ToolTipBody = "Select all cells in Next Column.";
+                        kryptonRibbonQATButtonSelectEqual.ToolTipBody = "Select all cells match current cell.";
+                        kryptonRibbonQATButtonSelectAll.ToolTipBody = "Select all cells";
+                        kryptonRibbonQATButtonSelectNone.ToolTipBody = "Select no cells";
+                        kryptonRibbonQATButtonSelectToggle.ToolTipBody = "Invert selection of cells.";
                         break;
                     case KryptonPages.kryptonPageToolboxPeople:
                         //Home - Clipboard
@@ -831,6 +875,13 @@ namespace PhotoTagsSynchronizer
                         kryptonRibbonGroupButtonHomeAutoCorrectRun.TextLine2 = "(Cells)";
                         kryptonRibbonGroupButtonHomeAutoCorrectForm.TextLine2 = "(Cells)";
                         kryptonRibbonGroupButtonDatGridShowPoster.TextLine2 = "(Cells)";
+
+                        kryptonRibbonQATButtonSelectPrevius.ToolTipBody = "Select all cells in Previous Column.";
+                        kryptonRibbonQATButtonSelectNext.ToolTipBody = "Select all cells in Next Column.";
+                        kryptonRibbonQATButtonSelectEqual.ToolTipBody = "Select all cells match current cell.";
+                        kryptonRibbonQATButtonSelectAll.ToolTipBody = "Select all cells";
+                        kryptonRibbonQATButtonSelectNone.ToolTipBody = "Select no cells";
+                        kryptonRibbonQATButtonSelectToggle.ToolTipBody = "Invert selection of cells.";
                         break;
                     case KryptonPages.kryptonPageToolboxMap:
                         //Home - Clipboard
@@ -859,6 +910,13 @@ namespace PhotoTagsSynchronizer
                         kryptonRibbonGroupButtonHomeAutoCorrectRun.TextLine2 = "(Cells)";
                         kryptonRibbonGroupButtonHomeAutoCorrectForm.TextLine2 = "(Cells)";
                         kryptonRibbonGroupButtonDatGridShowPoster.TextLine2 = "(Cells)";
+
+                        kryptonRibbonQATButtonSelectPrevius.ToolTipBody = "Select all cells in Previous Column.";
+                        kryptonRibbonQATButtonSelectNext.ToolTipBody = "Select all cells in Next Column.";
+                        kryptonRibbonQATButtonSelectEqual.ToolTipBody = "Select all cells match current cell.";
+                        kryptonRibbonQATButtonSelectAll.ToolTipBody = "Select all cells";
+                        kryptonRibbonQATButtonSelectNone.ToolTipBody = "Select no cells";
+                        kryptonRibbonQATButtonSelectToggle.ToolTipBody = "Invert selection of cells.";
                         break;
                     case KryptonPages.kryptonPageToolboxDates:
                         //Home - Clipboard
@@ -915,6 +973,13 @@ namespace PhotoTagsSynchronizer
                         kryptonRibbonGroupButtonHomeAutoCorrectRun.TextLine2 = "(Cells)";
                         kryptonRibbonGroupButtonHomeAutoCorrectForm.TextLine2 = "(Cells)";
                         kryptonRibbonGroupButtonDatGridShowPoster.TextLine2 = "(Cells)";
+
+                        kryptonRibbonQATButtonSelectPrevius.ToolTipBody = "Select all cells in Previous Column.";
+                        kryptonRibbonQATButtonSelectNext.ToolTipBody = "Select all cells in Next Column.";
+                        kryptonRibbonQATButtonSelectEqual.ToolTipBody = "Select all cells match current cell.";
+                        kryptonRibbonQATButtonSelectAll.ToolTipBody = "Select all cells";
+                        kryptonRibbonQATButtonSelectNone.ToolTipBody = "Select no cells";
+                        kryptonRibbonQATButtonSelectToggle.ToolTipBody = "Invert selection of cells.";
                         break;
                     case KryptonPages.kryptonPageToolboxWarnings:
                         //Home - Clipboard
@@ -943,6 +1008,13 @@ namespace PhotoTagsSynchronizer
                         kryptonRibbonGroupButtonHomeAutoCorrectRun.TextLine2 = "(Cells)";
                         kryptonRibbonGroupButtonHomeAutoCorrectForm.TextLine2 = "(Cells)";
                         kryptonRibbonGroupButtonDatGridShowPoster.TextLine2 = "(Cells)";
+
+                        kryptonRibbonQATButtonSelectPrevius.ToolTipBody = "Select all cells in Previous Column.";
+                        kryptonRibbonQATButtonSelectNext.ToolTipBody = "Select all cells in Next Column.";
+                        kryptonRibbonQATButtonSelectEqual.ToolTipBody = "Select all cells match current cell.";
+                        kryptonRibbonQATButtonSelectAll.ToolTipBody = "Select all cells";
+                        kryptonRibbonQATButtonSelectNone.ToolTipBody = "Select no cells";
+                        kryptonRibbonQATButtonSelectToggle.ToolTipBody = "Invert selection of cells.";
                         break;
                     case KryptonPages.kryptonPageToolboxProperties:
                         //Home - Clipboard
@@ -971,6 +1043,13 @@ namespace PhotoTagsSynchronizer
                         kryptonRibbonGroupButtonHomeAutoCorrectRun.TextLine2 = "(Cells)";
                         kryptonRibbonGroupButtonHomeAutoCorrectForm.TextLine2 = "(Cells)";
                         kryptonRibbonGroupButtonDatGridShowPoster.TextLine2 = "(Cells)";
+
+                        kryptonRibbonQATButtonSelectPrevius.ToolTipBody = "Select all cells in Previous Column.";
+                        kryptonRibbonQATButtonSelectNext.ToolTipBody = "Select all cells in Next Column.";
+                        kryptonRibbonQATButtonSelectEqual.ToolTipBody = "Select all cells match current cell.";
+                        kryptonRibbonQATButtonSelectAll.ToolTipBody = "Select all cells";
+                        kryptonRibbonQATButtonSelectNone.ToolTipBody = "Select no cells";
+                        kryptonRibbonQATButtonSelectToggle.ToolTipBody = "Invert selection of cells.";
                         break;
                     case KryptonPages.kryptonPageToolboxRename:
                         //Home - Clipboard
@@ -999,6 +1078,13 @@ namespace PhotoTagsSynchronizer
                         kryptonRibbonGroupButtonHomeAutoCorrectRun.TextLine2 = "(Cells)";
                         kryptonRibbonGroupButtonHomeAutoCorrectForm.TextLine2 = "(Cells)";
                         kryptonRibbonGroupButtonDatGridShowPoster.TextLine2 = "(Cells)";
+
+                        kryptonRibbonQATButtonSelectPrevius.ToolTipBody = "Select all cells in Previous Column.";
+                        kryptonRibbonQATButtonSelectNext.ToolTipBody = "Select all cells in Next Column.";
+                        kryptonRibbonQATButtonSelectEqual.ToolTipBody = "Select all cells match current cell.";
+                        kryptonRibbonQATButtonSelectAll.ToolTipBody = "Select all cells";
+                        kryptonRibbonQATButtonSelectNone.ToolTipBody = "Select no cells";
+                        kryptonRibbonQATButtonSelectToggle.ToolTipBody = "Invert selection of cells.";
                         break;
                     case KryptonPages.kryptonPageToolboxConvertAndMerge:
                         //Home - Clipboard
@@ -1027,6 +1113,13 @@ namespace PhotoTagsSynchronizer
                         kryptonRibbonGroupButtonHomeAutoCorrectRun.TextLine2 = "(Cells)";
                         kryptonRibbonGroupButtonHomeAutoCorrectForm.TextLine2 = "(Cells)";
                         kryptonRibbonGroupButtonDatGridShowPoster.TextLine2 = "(Cells)";
+
+                        kryptonRibbonQATButtonSelectPrevius.ToolTipBody = "Select all cells in Previous Column.";
+                        kryptonRibbonQATButtonSelectNext.ToolTipBody = "Select all cells in Next Column.";
+                        kryptonRibbonQATButtonSelectEqual.ToolTipBody = "Select all cells match current cell.";
+                        kryptonRibbonQATButtonSelectAll.ToolTipBody = "Select all cells";
+                        kryptonRibbonQATButtonSelectNone.ToolTipBody = "Select no cells";
+                        kryptonRibbonQATButtonSelectToggle.ToolTipBody = "Invert selection of cells.";
                         break;
                     default:
                         throw new NotImplementedException();

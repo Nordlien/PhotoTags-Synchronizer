@@ -118,7 +118,7 @@ namespace PhotoTagsSynchronizer
     public partial class MainForm : KryptonForm
     {
         // -----------------------------------------------------------------------
-        #region Select all 
+        #region Select All 
 
         #region SelectAll - Click Events Sources
         private void kryptonRibbonQATButtonSelectAll_Click(object sender, EventArgs e)
@@ -165,22 +165,32 @@ namespace PhotoTagsSynchronizer
                         ImageListViewSelectAll();
                         break;
                     case KryptonPages.kryptonPageToolboxTags:
+                        if (controlPasteWithFocusTag is KryptonComboBox) ComboBoxSelectAll();
+                        if (controlPasteWithFocusTag is KryptonDataGridView) DataGridViewSelectAll(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxPeople:
+                        DataGridViewSelectAll(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxMap:
+                        DataGridViewSelectAll(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxDates:
+                        DataGridViewSelectAll(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxExiftool:
+                        DataGridViewSelectAll(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxWarnings:
+                        DataGridViewSelectAll(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxProperties:
+                        DataGridViewSelectAll(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxRename:
+                        DataGridViewSelectAll(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                        DataGridViewSelectAll(GetActiveTabDataGridView());
                         break;
                     default:
                         throw new NotImplementedException();
@@ -218,6 +228,33 @@ namespace PhotoTagsSynchronizer
                 Logger.Error(ex, "");
                 KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
+        }
+        #endregion
+
+        #region ComboBoxSelectAll
+        private void ComboBoxSelectAll()
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            try
+            {
+                if (controlPasteWithFocusTag is KryptonComboBox)
+                {
+                    ((KryptonComboBox)controlPasteWithFocusTag).SelectAll();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion
+
+        #region DataGridViewSelectAll
+        private void DataGridViewSelectAll(DataGridView dataGridView)
+        {
+            if (dataGridView == null || dataGridView.ColumnCount == 0 || dataGridView.RowCount == 0) return;
+            dataGridView.SelectAll();
         }
         #endregion
 
@@ -268,23 +305,33 @@ namespace PhotoTagsSynchronizer
                     case KryptonPages.kryptonPageMediaFiles:
                         ImageListViewSelectNone();
                         break;
-                    case KryptonPages.kryptonPageToolboxTags:
+                    case KryptonPages.kryptonPageToolboxTags:                        
+                        if (controlPasteWithFocusTag is KryptonComboBox) ComboBoxSelectNone();
+                        if (controlPasteWithFocusTag is KryptonDataGridView) DataGridViewSelectNone(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxPeople:
+                        DataGridViewSelectNone(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxMap:
+                        DataGridViewSelectNone(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxDates:
+                        DataGridViewSelectNone(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxExiftool:
+                        DataGridViewSelectNone(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxWarnings:
+                        DataGridViewSelectNone(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxProperties:
+                        DataGridViewSelectNone(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxRename:
+                        DataGridViewSelectNone(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                        DataGridViewSelectNone(GetActiveTabDataGridView());
                         break;
                     default:
                         throw new NotImplementedException();
@@ -325,11 +372,38 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region ComboBoxSelectNone
+        private void ComboBoxSelectNone()
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            try
+            {
+                if (controlPasteWithFocusTag is KryptonComboBox)
+                {
+                    ((KryptonComboBox)controlPasteWithFocusTag).SelectionLength = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
         #endregion
 
-        #region SelectToggle
+        #region DataGridViewSelectNone
+        private void DataGridViewSelectNone(DataGridView dataGridView)
+        {
+            if (dataGridView == null || dataGridView.ColumnCount == 0 || dataGridView.RowCount == 0) return;
+            dataGridView.ClearSelection();
+        }
+        #endregion
 
-        #region SelectToggle - Click Events Sources
+        #endregion
+
+        #region Select Toggle
+
+        #region Select Toggle - Click Events Sources
         private void kryptonRibbonGroupButtonSelectToggle_Click(object sender, EventArgs e)
         {
             if (GlobalData.IsApplicationClosing) return;
@@ -373,23 +447,33 @@ namespace PhotoTagsSynchronizer
                     case KryptonPages.kryptonPageMediaFiles:
                         ImageListViewSelectToggle();
                         break;
-                    case KryptonPages.kryptonPageToolboxTags:
+                    case KryptonPages.kryptonPageToolboxTags:                        
+                        if (controlPasteWithFocusTag is KryptonComboBox) ComboBoxSelectToggle();
+                        if (controlPasteWithFocusTag is KryptonDataGridView) DataGridViewSelectToggle(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxPeople:
+                        DataGridViewSelectToggle(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxMap:
+                        DataGridViewSelectToggle(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxDates:
+                        DataGridViewSelectToggle(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxExiftool:
+                        DataGridViewSelectToggle(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxWarnings:
+                        DataGridViewSelectToggle(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxProperties:
+                        DataGridViewSelectToggle(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxRename:
+                        DataGridViewSelectToggle(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                        DataGridViewSelectToggle(GetActiveTabDataGridView());
                         break;
                     default:
                         throw new NotImplementedException();
@@ -429,6 +513,494 @@ namespace PhotoTagsSynchronizer
                 Logger.Error(ex, "");
                 KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
+        }
+        #endregion
+
+        #region ComboBoxSelectToggle
+        private void ComboBoxSelectToggle()
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            try
+            {
+                if (controlPasteWithFocusTag is KryptonComboBox)
+                {
+                    KryptonComboBox kryptonComboBox = (KryptonComboBox)controlPasteWithFocusTag;                    
+                    if (kryptonComboBox.SelectionLength == 0)
+                    {
+                        //|---- -> #####
+                        kryptonComboBox.SelectAll();
+                    }
+                    else if (kryptonComboBox.SelectionStart == 0 && kryptonComboBox.SelectionLength > 0)
+                    {
+                        //##--- -> --###
+                        int selectionStart = kryptonComboBox.SelectionLength;
+                        int selectionLength = kryptonComboBox.Text.Length - selectionStart;
+                        kryptonComboBox.Select(selectionStart, selectionLength);
+                    }
+                    else if (kryptonComboBox.SelectionStart > 0 && kryptonComboBox.SelectionLength > 0)
+                    {
+                        //--##- -> ##---
+                        //--### -> ##---
+                        int selectionStart = 0;
+                        int selectionLength = kryptonComboBox.SelectionStart;
+                        kryptonComboBox.Select(selectionStart, selectionLength);
+                    }
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion
+
+        #region DataGridViewSelectNone
+        private void DataGridViewSelectToggle(DataGridView dataGridView)
+        {
+            if (dataGridView == null || dataGridView.ColumnCount == 0 || dataGridView.RowCount == 0) return;
+            foreach (DataGridViewRow dataGridViewRow in dataGridView.Rows)
+            {
+                foreach (DataGridViewCell dataGridViewCell in dataGridViewRow.Cells) dataGridViewCell.Selected = !dataGridViewCell.Selected;
+            }
+        }
+        #endregion
+
+        #endregion
+
+        #region Select Next
+
+        #region Select Next - Click Events Sources
+        private void kryptonRibbonGroupButtonSelectForwards_Click(object sender, EventArgs e)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Select Forwards")) return;
+            if (IsPopulatingAnything("Select Forwards")) return;
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+            GlobalData.IsPerformingAButtonAction = true;
+
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
+            ActionSelectNext();
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+
+            GlobalData.IsPerformingAButtonAction = false;
+        }
+
+        private void kryptonRibbonQATButtonSelectNext_Click(object sender, EventArgs e)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Select Next")) return;
+            if (IsPopulatingAnything("Select Next")) return;
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+            GlobalData.IsPerformingAButtonAction = true;
+
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
+            ActionSelectNext();
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+
+            GlobalData.IsPerformingAButtonAction = false;
+        }
+        #endregion
+
+        #region ActionSelectNext
+        private void ActionSelectNext()
+        {
+            try
+            {
+                switch (ActiveKryptonPage)
+                {
+                    case KryptonPages.None:
+                        break;
+                    case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                        break;
+                    case KryptonPages.kryptonPageFolderSearchFilterSearch:
+                        break;
+                    case KryptonPages.kryptonPageFolderSearchFilterFilter:
+                        break;
+                    case KryptonPages.kryptonPageMediaFiles:
+                        ImageListViewSelectNext();
+                        break;
+                    case KryptonPages.kryptonPageToolboxTags:
+                        if (controlPasteWithFocusTag is KryptonComboBox) ComboBoxSelectNext();
+                        if (controlPasteWithFocusTag is KryptonDataGridView) DataGridViewSelectNext(GetActiveTabDataGridView());
+                        break;
+                    case KryptonPages.kryptonPageToolboxPeople:
+                        DataGridViewSelectNext(GetActiveTabDataGridView());
+                        break;
+                    case KryptonPages.kryptonPageToolboxMap:
+                        DataGridViewSelectNext(GetActiveTabDataGridView());
+                        break;
+                    case KryptonPages.kryptonPageToolboxDates:
+                        DataGridViewSelectNext(GetActiveTabDataGridView());
+                        break;
+                    case KryptonPages.kryptonPageToolboxExiftool:
+                        DataGridViewSelectNext(GetActiveTabDataGridView());
+                        break;
+                    case KryptonPages.kryptonPageToolboxWarnings:
+                        DataGridViewSelectNext(GetActiveTabDataGridView());
+                        break;
+                    case KryptonPages.kryptonPageToolboxProperties:
+                        DataGridViewSelectNext(GetActiveTabDataGridView());
+                        break;
+                    case KryptonPages.kryptonPageToolboxRename:
+                        DataGridViewSelectNext(GetActiveTabDataGridView());
+                        break;
+                    case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                        DataGridViewSelectNext(GetActiveTabDataGridView());
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion
+
+        #region ComboBoxSelectNext
+        private void ComboBoxSelectNext()
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            try
+            {
+                if (controlPasteWithFocusTag is KryptonComboBox)
+                {
+                    KryptonComboBox kryptonComboBox = (KryptonComboBox)controlPasteWithFocusTag;
+
+                    string text = kryptonComboBox.Text;
+
+                    #region Cursor Position
+                    int selectionCursorPositon = kryptonComboBox.SelectionStart + kryptonComboBox.SelectionLength;
+                    if (selectionCursorPositon == text.Length) selectionCursorPositon = 0;
+                    #endregion
+
+                    #region Find Start Position - Jump over space - In Front
+                    int newStartingPosition = selectionCursorPositon + 1;
+                    while (newStartingPosition < text.Length - 1 && text.IndexOf(" ", newStartingPosition) == newStartingPosition)
+                        newStartingPosition = newStartingPosition + 1;
+
+                    if (newStartingPosition == text.Length - 1) newStartingPosition = 0;
+                    #endregion
+
+                    #region Find End Position
+                    int selectionEndPoint = text.IndexOf(" ", newStartingPosition);
+                    if (selectionEndPoint == -1) selectionEndPoint = text.Length;
+                    #endregion
+
+                    #region Selection Start and Length
+                    int selectionStart = newStartingPosition;
+                    int selectionLength = selectionEndPoint - selectionStart;
+                    #endregion
+
+                    kryptonComboBox.Select(selectionStart, selectionLength);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion
+
+        #region DataGridViewSelectNext
+        private void DataGridViewSelectNext(DataGridView dataGridView)
+        {
+            if (dataGridView == null || dataGridView.ColumnCount == 0 || dataGridView.RowCount == 0) return;
+            int selectColumnIndex = dataGridView.CurrentCell.ColumnIndex + 1;
+            if (selectColumnIndex > dataGridView.ColumnCount - 1) selectColumnIndex = 0;
+            dataGridView.CurrentCell = dataGridView[selectColumnIndex, 0];
+            for (int rowIndex = 0; rowIndex < dataGridView.RowCount; rowIndex++) dataGridView[selectColumnIndex, rowIndex].Selected = true;
+        }
+        #endregion
+
+        #endregion 
+
+        #region Select Match
+
+        #region Select Match - Click Events Sources
+        private void kryptonRibbonGroupButtonSelectEqual_Click(object sender, EventArgs e)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Select Equal")) return;
+            if (IsPopulatingAnything("Select Equal")) return;
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
+            ActionSelectMatch();
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+            GlobalData.IsPerformingAButtonAction = false;
+        }
+
+        private void kryptonRibbonQATButtonSelectEqual_Click(object sender, EventArgs e)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Select Equal")) return;
+            if (IsPopulatingAnything("Select Equal")) return;
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
+            ActionSelectMatch();
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+            GlobalData.IsPerformingAButtonAction = false;
+        }
+        #endregion
+
+        #region ActionSelectMatch
+        private void ActionSelectMatch()
+        {
+            try
+            {
+                switch (ActiveKryptonPage)
+                {
+                    case KryptonPages.None:
+                        break;
+                    case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                        break;
+                    case KryptonPages.kryptonPageFolderSearchFilterSearch:
+                        break;
+                    case KryptonPages.kryptonPageFolderSearchFilterFilter:
+                        break;
+                    case KryptonPages.kryptonPageMediaFiles:
+                        ImageListViewSelectMatch();
+                        break;
+                    case KryptonPages.kryptonPageToolboxTags:
+                        if (controlPasteWithFocusTag is KryptonComboBox) ComboBoxSelectMatch();
+                        if (controlPasteWithFocusTag is KryptonDataGridView) DataGridViewSelectMatch(GetActiveTabDataGridView());
+                        break;
+                    case KryptonPages.kryptonPageToolboxPeople:
+                        DataGridViewSelectMatch(GetActiveTabDataGridView());
+                        break;
+                    case KryptonPages.kryptonPageToolboxMap:
+                        DataGridViewSelectMatch(GetActiveTabDataGridView());
+                        break;
+                    case KryptonPages.kryptonPageToolboxDates:
+                        DataGridViewSelectMatch(GetActiveTabDataGridView());
+                        break;
+                    case KryptonPages.kryptonPageToolboxExiftool:
+                        DataGridViewSelectMatch(GetActiveTabDataGridView());
+                        break;
+                    case KryptonPages.kryptonPageToolboxWarnings:
+                        DataGridViewSelectMatch(GetActiveTabDataGridView());
+                        break;
+                    case KryptonPages.kryptonPageToolboxProperties:
+                        DataGridViewSelectMatch(GetActiveTabDataGridView());
+                        break;
+                    case KryptonPages.kryptonPageToolboxRename:
+                        DataGridViewSelectMatch(GetActiveTabDataGridView());
+                        break;
+                    case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                        DataGridViewSelectMatch(GetActiveTabDataGridView());
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion
+
+        #region ComboBoxSelectMatch
+        private void ComboBoxSelectMatch()
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            try
+            {
+                if (controlPasteWithFocusTag is KryptonComboBox)
+                {
+                    KryptonComboBox kryptonComboBox = (KryptonComboBox)controlPasteWithFocusTag;
+
+                    string text = kryptonComboBox.Text;
+                    int selectionStartingPoint = kryptonComboBox.SelectionStart;
+                    int selectionEnd = text.IndexOf(" ", selectionStartingPoint);
+                    int selectionStart = text.LastIndexOf(" ", selectionStartingPoint) + 1;
+                    int selectionLength = selectionEnd - selectionStart;
+                    kryptonComboBox.Select(selectionStart, selectionLength);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion
+
+        #region DataGridViewSelectMatch
+        private void DataGridViewSelectMatch(DataGridView dataGridView)
+        {
+            if (dataGridView == null || dataGridView.ColumnCount == 0 || dataGridView.RowCount == 0) return;
+            string selectMatch = (string)dataGridView.CurrentCell.Value;
+            dataGridView.ClearSelection();
+            foreach (DataGridViewRow dataGridViewRow in dataGridView.Rows)
+            {
+                foreach (DataGridViewCell dataGridViewCell in dataGridViewRow.Cells)
+                {
+                    if ((string)dataGridViewCell.Value == selectMatch) dataGridViewCell.Selected = true;
+                }
+            }
+        }
+        #endregion
+
+
+        #endregion
+
+        #region Select Previous
+
+        #region Select Previous - Click Events Sources
+        private void kryptonRibbonQATButtonSelectPrevious_Click(object sender, EventArgs e)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Select Previous")) return;
+            if (IsPopulatingAnything("Select Backwards")) return;
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
+            ActionSelectPrevious();
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+            GlobalData.IsPerformingAButtonAction = false;
+        }
+
+        private void kryptonRibbonGroupButtonSelectBackwards_Click(object sender, EventArgs e)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Select Backwards")) return;
+            if (IsPopulatingAnything("Select Backwards")) return;
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
+            ActionSelectPrevious();
+            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+            GlobalData.IsPerformingAButtonAction = false;
+        }
+        #endregion
+
+        #region ActionSelectPrevious
+        private void ActionSelectPrevious()
+        {
+            try
+            {
+                switch (ActiveKryptonPage)
+                {
+                    case KryptonPages.None:
+                        break;
+                    case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                        break;
+                    case KryptonPages.kryptonPageFolderSearchFilterSearch:
+                        break;
+                    case KryptonPages.kryptonPageFolderSearchFilterFilter:
+                        break;
+                    case KryptonPages.kryptonPageMediaFiles:
+                        ImageListViewSelectPrevious();
+                        break;
+                    case KryptonPages.kryptonPageToolboxTags:
+                        if (controlPasteWithFocusTag is KryptonComboBox) ComboBoxSelectPrevious();
+                        if (controlPasteWithFocusTag is KryptonDataGridView) DataGridViewSelectPrevious(GetActiveTabDataGridView());
+                        break;
+                    case KryptonPages.kryptonPageToolboxPeople:
+                        DataGridViewSelectPrevious(GetActiveTabDataGridView());
+                        break;
+                    case KryptonPages.kryptonPageToolboxMap:
+                        DataGridViewSelectPrevious(GetActiveTabDataGridView());
+                        break;
+                    case KryptonPages.kryptonPageToolboxDates:
+                        DataGridViewSelectPrevious(GetActiveTabDataGridView());
+                        break;
+                    case KryptonPages.kryptonPageToolboxExiftool:
+                        DataGridViewSelectPrevious(GetActiveTabDataGridView());
+                        break;
+                    case KryptonPages.kryptonPageToolboxWarnings:
+                        DataGridViewSelectPrevious(GetActiveTabDataGridView());
+                        break;
+                    case KryptonPages.kryptonPageToolboxProperties:
+                        DataGridViewSelectPrevious(GetActiveTabDataGridView());
+                        break;
+                    case KryptonPages.kryptonPageToolboxRename:
+                        DataGridViewSelectPrevious(GetActiveTabDataGridView());
+                        break;
+                    case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                        DataGridViewSelectPrevious(GetActiveTabDataGridView());
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion
+
+        #region ComboBoxSelectPrevious
+        private void ComboBoxSelectPrevious()
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            try
+            {
+                if (controlPasteWithFocusTag is KryptonComboBox)
+                {
+                    KryptonComboBox kryptonComboBox = (KryptonComboBox)controlPasteWithFocusTag;
+
+                    string text = kryptonComboBox.Text;
+
+                    #region Cursor Position
+                    int selectionCursorPositon = kryptonComboBox.SelectionStart; // + kryptonComboBox.SelectionLength;
+                    if (selectionCursorPositon == 0) selectionCursorPositon = text.Length - 1;
+                    #endregion
+
+                    #region Find End Position - Jump over space - From Back
+                    int newEndPosition = selectionCursorPositon;
+                    while (newEndPosition > 0 && text.LastIndexOf(" ", newEndPosition - 1) == newEndPosition - 1)
+                        newEndPosition = newEndPosition - 1;
+
+                    if (newEndPosition == 0) newEndPosition = text.Length - 1;
+                    #endregion
+
+                    #region Find Start Position
+                    int selectionStartPoint = text.LastIndexOf(" ", newEndPosition - 1) + 1;
+                    if (selectionStartPoint == text.Length - 1) selectionStartPoint = 0;
+                    #endregion
+
+                    #region Selection Start and Length
+                    int selectionStart = selectionStartPoint;
+                    int selectionLength = newEndPosition - selectionStart;
+                    #endregion
+
+                    kryptonComboBox.Select(selectionStart, selectionLength);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion
+
+        #region DataGridViewSelectPrevious
+        private void DataGridViewSelectPrevious(DataGridView dataGridView)
+        {
+            if (dataGridView == null || dataGridView.ColumnCount == 0 || dataGridView.RowCount == 0) return;
+            int selectColumnIndex = dataGridView.CurrentCell.ColumnIndex - 1;
+            if (selectColumnIndex < 0) selectColumnIndex = dataGridView.ColumnCount - 1;
+            dataGridView.ClearSelection();
+            dataGridView.CurrentCell = dataGridView[selectColumnIndex, 0];
+            for (int rowIndex = 0; rowIndex < dataGridView.RowCount; rowIndex++) dataGridView[selectColumnIndex, rowIndex].Selected = true;
         }
         #endregion
 
@@ -8771,6 +9343,7 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         //----
+
         #region DataGridView - SetGridViewSize Small / Medium / Big - Click
 
         #region SetRibbonDataGridViewSizeBottons
