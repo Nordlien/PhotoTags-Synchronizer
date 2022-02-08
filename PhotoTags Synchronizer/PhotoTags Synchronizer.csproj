@@ -169,8 +169,8 @@
     <ProjectReference Include="..\WindowsProperty\WindowsProperty.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CefSharp.Common" Version="97.1.60" />
-    <PackageReference Include="CefSharp.WinForms" Version="97.1.60" />
+    <PackageReference Include="CefSharp.Common" Version="97.1.61" />
+    <PackageReference Include="CefSharp.WinForms" Version="97.1.61" />
     <PackageReference Include="CyotekImageBox">
       <Version>1.3.1</Version>
     </PackageReference>
