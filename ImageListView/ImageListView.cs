@@ -1420,9 +1420,9 @@ namespace Manina.Windows.Forms
         /// Updates item details.
         /// This method is invoked from the item cache thread.
         /// </summary>
-        internal void UpdateItemDetailsInternal(ImageListViewItem item, Utility.ShellImageFileInfo info)
+        internal void UpdateItemDetailsInternal(ImageListViewItem item, Utility.ShellImageFileInfo info, long requestedTickCount)
         {
-            item.UpdateDetailsInternal(info, Utility.TickCount());
+            item.UpdateDetailsInternal(info, requestedTickCount);
         }
         #endregion
 

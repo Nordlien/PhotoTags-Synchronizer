@@ -118,6 +118,322 @@ namespace PhotoTagsSynchronizer
     public partial class MainForm : KryptonForm
     {
         // -----------------------------------------------------------------------
+        #region Select all 
+
+        #region SelectAll - Click Events Sources
+        private void kryptonRibbonQATButtonSelectAll_Click(object sender, EventArgs e)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Select all")) return;
+            if (IsPopulatingAnything("Select all")) return;
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
+            ActionSelectAll();
+            GlobalData.IsPerformingAButtonAction = false;
+        }
+
+        private void kryptonRibbonGroupButtonSelectAll_Click(object sender, EventArgs e)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Select all")) return;
+            if (IsPopulatingAnything("Select all")) return;
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
+            ActionSelectAll();
+            GlobalData.IsPerformingAButtonAction = false;
+        }
+        #endregion
+
+        #region ActionSelectAll
+        private void ActionSelectAll()
+        {
+            try
+            {
+                switch (ActiveKryptonPage)
+                {
+                    case KryptonPages.None:
+                        break;
+                    case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                        break;
+                    case KryptonPages.kryptonPageFolderSearchFilterSearch:
+                        break;
+                    case KryptonPages.kryptonPageFolderSearchFilterFilter:
+                        break;
+                    case KryptonPages.kryptonPageMediaFiles:
+                        ImageListViewSelectAll();
+                        break;
+                    case KryptonPages.kryptonPageToolboxTags:
+                        break;
+                    case KryptonPages.kryptonPageToolboxPeople:
+                        break;
+                    case KryptonPages.kryptonPageToolboxMap:
+                        break;
+                    case KryptonPages.kryptonPageToolboxDates:
+                        break;
+                    case KryptonPages.kryptonPageToolboxExiftool:
+                        break;
+                    case KryptonPages.kryptonPageToolboxWarnings:
+                        break;
+                    case KryptonPages.kryptonPageToolboxProperties:
+                        break;
+                    case KryptonPages.kryptonPageToolboxRename:
+                        break;
+                    case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion
+
+        #region ImageListViewSelectAll
+        private void ImageListViewSelectAll()
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            try
+            {
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
+                ImageListViewHandler.SuspendLayout(imageListView1);
+
+                using (new WaitCursor())
+                {
+                    imageListView1.SelectAll();
+                }
+
+                ImageListViewHandler.ResumeLayout(imageListView1);
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+
+                ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion
+
+        #endregion
+
+        #region Select None
+
+        #region SelectNone - Click Events Sources
+        private void kryptonRibbonQATButtonSelectNone_Click(object sender, EventArgs e)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Select none")) return;
+            if (IsPopulatingAnything("Select none")) return;
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
+            ActionSelectNone();
+            GlobalData.IsPerformingAButtonAction = false;
+        }
+        private void kryptonRibbonGroupButtonSelectNone_Click(object sender, EventArgs e)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Select none")) return;
+            if (IsPopulatingAnything("Select none")) return;
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
+            ActionSelectNone();
+            GlobalData.IsPerformingAButtonAction = false;
+        }
+        #endregion
+
+        #region ActionSelectNone
+        private void ActionSelectNone()
+        {
+            try
+            {
+                switch (ActiveKryptonPage)
+                {
+                    case KryptonPages.None:
+                        break;
+                    case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                        break;
+                    case KryptonPages.kryptonPageFolderSearchFilterSearch:
+                        break;
+                    case KryptonPages.kryptonPageFolderSearchFilterFilter:
+                        break;
+                    case KryptonPages.kryptonPageMediaFiles:
+                        ImageListViewSelectNone();
+                        break;
+                    case KryptonPages.kryptonPageToolboxTags:
+                        break;
+                    case KryptonPages.kryptonPageToolboxPeople:
+                        break;
+                    case KryptonPages.kryptonPageToolboxMap:
+                        break;
+                    case KryptonPages.kryptonPageToolboxDates:
+                        break;
+                    case KryptonPages.kryptonPageToolboxExiftool:
+                        break;
+                    case KryptonPages.kryptonPageToolboxWarnings:
+                        break;
+                    case KryptonPages.kryptonPageToolboxProperties:
+                        break;
+                    case KryptonPages.kryptonPageToolboxRename:
+                        break;
+                    case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion
+
+        #region ImageListViewSelectNone
+        private void ImageListViewSelectNone()
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            try
+            {
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
+                ImageListViewHandler.SuspendLayout(imageListView1);
+
+                using (new WaitCursor())
+                {
+                    imageListView1.ClearSelection();
+                }
+
+                ImageListViewHandler.ResumeLayout(imageListView1);
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+
+                ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion
+
+        #endregion
+
+        #region SelectToggle
+
+        #region SelectToggle - Click Events Sources
+        private void kryptonRibbonGroupButtonSelectToggle_Click(object sender, EventArgs e)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Select toggle")) return;
+            if (IsPopulatingAnything("Select toggle")) return;
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
+            ActionSelectToggle();
+            GlobalData.IsPerformingAButtonAction = false;
+        }
+
+        private void kryptonRibbonQATButtonSelectToggle_Click(object sender, EventArgs e)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Select toggle")) return;
+            if (IsPopulatingAnything("Select toggle")) return;
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            GlobalData.IsPerformingAButtonAction = true;
+            ActionSelectToggle();
+            GlobalData.IsPerformingAButtonAction = false;
+        }
+        #endregion
+
+        #region ActionSelectToggle
+        private void ActionSelectToggle()
+        {
+            try
+            {
+                switch (ActiveKryptonPage)
+                {
+                    case KryptonPages.None:
+                        break;
+                    case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                        break;
+                    case KryptonPages.kryptonPageFolderSearchFilterSearch:
+                        break;
+                    case KryptonPages.kryptonPageFolderSearchFilterFilter:
+                        break;
+                    case KryptonPages.kryptonPageMediaFiles:
+                        ImageListViewSelectToggle();
+                        break;
+                    case KryptonPages.kryptonPageToolboxTags:
+                        break;
+                    case KryptonPages.kryptonPageToolboxPeople:
+                        break;
+                    case KryptonPages.kryptonPageToolboxMap:
+                        break;
+                    case KryptonPages.kryptonPageToolboxDates:
+                        break;
+                    case KryptonPages.kryptonPageToolboxExiftool:
+                        break;
+                    case KryptonPages.kryptonPageToolboxWarnings:
+                        break;
+                    case KryptonPages.kryptonPageToolboxProperties:
+                        break;
+                    case KryptonPages.kryptonPageToolboxRename:
+                        break;
+                    case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion
+
+        #region ImageListViewSelectToggle
+        private void ImageListViewSelectToggle()
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            try
+            {
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
+                ImageListViewHandler.SuspendLayout(imageListView1);
+
+                using (new WaitCursor())
+                {
+                    ImageListViewSuspendLayoutInvoke(imageListView1);
+                    foreach (ImageListViewItem imageListViewItem in imageListView1.Items) imageListViewItem.Selected = !imageListViewItem.Selected;
+                    ImageListViewResumeLayoutInvoke(imageListView1);
+                }
+
+                ImageListViewHandler.ResumeLayout(imageListView1);
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+
+                ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion
+
+        #endregion
+
         #region Cut
 
         #region Cut - Click Events Sources       
@@ -9485,178 +9801,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         //--
-        #region ImageListView - Select all 
-
-        #region ActionSelectAll
-        private void ActionSelectAll()
-        {
-            if (GlobalData.IsApplicationClosing) return;
-            try
-            {
-                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
-                ImageListViewHandler.SuspendLayout(imageListView1);
-               
-                using (new WaitCursor())
-                {
-                    imageListView1.SelectAll();
-                }
-                
-                ImageListViewHandler.ResumeLayout(imageListView1);
-                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
-
-                ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-            }
-        }
-        #endregion
-
-        #region SelectAll_Click
-        private void kryptonRibbonQATButtonSelectAll_Click(object sender, EventArgs e)
-        {
-            if (GlobalData.IsApplicationClosing) return;
-            if (IsPerforminAButtonAction("Select all")) return;
-            if (IsPopulatingAnything("Select all")) return;
-            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
-
-            GlobalData.IsPerformingAButtonAction = true;
-            ActionSelectAll();
-            GlobalData.IsPerformingAButtonAction = false;
-        }
-
-        private void kryptonRibbonGroupButtonSelectAll_Click(object sender, EventArgs e)
-        {
-            if (GlobalData.IsApplicationClosing) return;
-            if (IsPerforminAButtonAction("Select all")) return;
-            if (IsPopulatingAnything("Select all")) return;
-            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
-
-            GlobalData.IsPerformingAButtonAction = true;
-            ActionSelectAll();
-            GlobalData.IsPerformingAButtonAction = false;
-        }
-        #endregion
-
-        #endregion 
-
-        #region ImageListView - Select None
-
-        #region ActionSelectNone
-        private void ActionSelectNone()
-        {
-            if (GlobalData.IsApplicationClosing) return;
-            try
-            {
-                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
-                ImageListViewHandler.SuspendLayout(imageListView1);
-
-                using (new WaitCursor())
-                {
-                    imageListView1.ClearSelection();
-                }
-
-                ImageListViewHandler.ResumeLayout(imageListView1);
-                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
-
-                ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-            }
-        }
-        #endregion
-
-        #region SelectNone_Click
-        private void kryptonRibbonQATButtonSelectNone_Click(object sender, EventArgs e)
-        {
-            if (GlobalData.IsApplicationClosing) return;
-            if (IsPerforminAButtonAction("Select none")) return;
-            if (IsPopulatingAnything("Select none")) return;
-            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
-
-            GlobalData.IsPerformingAButtonAction = true;
-            ActionSelectNone();
-            GlobalData.IsPerformingAButtonAction = false;
-        }
-
-        private void kryptonRibbonGroupButtonSelectNone_Click(object sender, EventArgs e)
-        {
-            if (GlobalData.IsApplicationClosing) return;
-            if (IsPerforminAButtonAction("Select none")) return;
-            if (IsPopulatingAnything("Select none")) return;
-            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
-
-            GlobalData.IsPerformingAButtonAction = true;
-            ActionSelectNone();
-            GlobalData.IsPerformingAButtonAction = false;
-        }
-        #endregion
-
-        #endregion
-
-        #region ImageListView - Select Toggle
-
-        #region ActionSelectToggle
-        private void ActionSelectToggle()
-        {
-            if (GlobalData.IsApplicationClosing) return;
-            try
-            {
-                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
-                ImageListViewHandler.SuspendLayout(imageListView1);
-
-                using (new WaitCursor())
-                {
-                    ImageListViewSuspendLayoutInvoke(imageListView1);
-                    foreach (ImageListViewItem imageListViewItem in imageListView1.Items) imageListViewItem.Selected = !imageListViewItem.Selected;
-                    ImageListViewResumeLayoutInvoke(imageListView1);
-                }
-
-                ImageListViewHandler.ResumeLayout(imageListView1);
-                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
-
-                ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-            }
-        }
-        #endregion
-
-        #region SelectToggle_Click
-        private void kryptonRibbonGroupButtonSelectToggle_Click(object sender, EventArgs e)
-        {
-            if (GlobalData.IsApplicationClosing) return;
-            if (IsPerforminAButtonAction("Select toggle")) return;
-            if (IsPopulatingAnything("Select toggle")) return;
-            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
-
-            GlobalData.IsPerformingAButtonAction = true;
-            ActionSelectToggle(); 
-            GlobalData.IsPerformingAButtonAction = false;
-        }
-
-        private void kryptonRibbonQATButtonSelectToggle_Click(object sender, EventArgs e)
-        {
-            if (GlobalData.IsApplicationClosing) return;
-            if (IsPerforminAButtonAction("Select toggle")) return;
-            if (IsPopulatingAnything("Select toggle")) return;
-            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
-
-            GlobalData.IsPerformingAButtonAction = true;
-            ActionSelectToggle();
-            GlobalData.IsPerformingAButtonAction = false;
-        }
-        #endregion
-
-        #endregion
+        
 
         #region SeeProcessQueue_Clcik
         private void kryptonRibbonGroupButtonToolsProgressLazyloadingShowStatus_Click(object sender, EventArgs e)

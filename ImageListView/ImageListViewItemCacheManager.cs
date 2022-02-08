@@ -251,6 +251,7 @@ namespace Manina.Windows.Forms
                 // Read file info
                 if (item != null)
                 {
+                    long requestedTickCount = Utility.TickCount();
                     RetrieveItemMetadataDetailsEventArgs e = new RetrieveItemMetadataDetailsEventArgs(item.FileName);
                     mImageListView.RetrieveItemMetadataDetailsInternal(e);
 
@@ -272,7 +273,7 @@ namespace Manina.Windows.Forms
                         {
                             if (mImageListView != null && mImageListView.IsHandleCreated && !mImageListView.IsDisposed && mImageListView.Enabled)
                             {
-                                mImageListView.Invoke(new UpdateItemDetailsDelegateInternal(mImageListView.UpdateItemDetailsInternal), item.Item, info);
+                                mImageListView.Invoke(new UpdateItemDetailsDelegateInternal(mImageListView.UpdateItemDetailsInternal), item.Item, info, requestedTickCount);
                             }
                         }
                         catch (ObjectDisposedException ex)

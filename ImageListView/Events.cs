@@ -140,7 +140,7 @@ namespace Manina.Windows.Forms
     /// Updates item details.
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    internal delegate void UpdateItemDetailsDelegateInternal(ImageListViewItem item, Utility.ShellImageFileInfo info);
+    internal delegate void UpdateItemDetailsDelegateInternal(ImageListViewItem item, Utility.ShellImageFileInfo info, long requestedTickCount);
     /// <summary>
     /// Determines if the given item is visible.
     /// </summary>

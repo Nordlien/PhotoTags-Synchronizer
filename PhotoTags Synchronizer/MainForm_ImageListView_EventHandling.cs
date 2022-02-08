@@ -56,6 +56,9 @@ namespace PhotoTagsSynchronizer
                     {
                         foundItem.FileStatus = fileStatus;
                         foundItem.Invalidate();
+                    } else
+                    {
+                        //DEBUG
                     }
                 }
             }
@@ -268,6 +271,7 @@ namespace PhotoTagsSynchronizer
                     e.FileMetadata.SetPropertyStatusOnAll(PropertyStatus.Requested); //All data will be read, it's in Lazy loading queue
 
                     string inCloudOrNotExistError = FileHandler.ConvertFileStatusToText(fileStatus);
+                    if (string.IsNullOrWhiteSpace(inCloudOrNotExistError)) inCloudOrNotExistError = "Info Requested";
 
                     #region Assign metadata
 
@@ -371,6 +375,7 @@ namespace PhotoTagsSynchronizer
                         fileInaccessibleOrError: true, fileErrorMessage: ex.Message,
                         exiftoolProcessStatus: ExiftoolProcessStatus.FileInaccessibleOrError);
                     e.FileMetadata.FileStatus = fileStatus;
+                    e.FileMetadata.SetPropertyStatusOnAll(PropertyStatus.IsSet);
                     //No need - ImageListView_UpdateItemFileStatusInvoke(e.FileName, fileStatus);
                 }
             }

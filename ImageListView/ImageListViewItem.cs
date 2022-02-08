@@ -1123,10 +1123,11 @@ namespace Manina.Windows.Forms
             
             if (!isVirtualItem)
             {
+                long tickCount = Utility.TickCount();
                 RetrieveItemMetadataDetailsEventArgs e = new RetrieveItemMetadataDetailsEventArgs(mFileName);
                 mImageListView.RetrieveItemMetadataDetailsInternal(e);
                 
-                if (e.FileMetadata != null) UpdateDetailsInternal(e.FileMetadata, this.UpdateRequestedTickCount - 1000); //Low priority
+                if (e.FileMetadata != null) UpdateDetailsInternal(e.FileMetadata, tickCount); 
             }
         }
         #endregion
