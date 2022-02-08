@@ -94,7 +94,9 @@ namespace DataGridViewGeneric
         #region UndoDataGridView
         public static void UndoDataGridView(DataGridView dataGridView)
         {
-            if (IsDoingUndoRedo) return;            
+            if (IsDoingUndoRedo) return;
+            if (dataGridView.CurrentCell == null) return;
+
             CellLocation currentCell = DataGridViewHandler.GetCurrentCellLocation(dataGridView.CurrentCell);
             
             if (dataGridView.TopLeftHeaderCell.Tag == null) return;
@@ -131,6 +133,7 @@ namespace DataGridViewGeneric
         public static void RedoDataGridView(DataGridView dataGridView)
         {
             if (IsDoingUndoRedo) return;
+            if (dataGridView.CurrentCell == null) return;
 
             CellLocation currentCell = DataGridViewHandler.GetCurrentCellLocation(dataGridView.CurrentCell);           
 

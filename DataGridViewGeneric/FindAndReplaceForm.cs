@@ -230,6 +230,7 @@ namespace DataGridViewGeneric
 
         DataGridViewCell FindAndReplaceInSelection(bool bReplace, bool bStopOnFind, bool markCell, String replaceString)
         {
+            
             // Search criterions
             String sFindWhat = this.FindWhatTextBox1.Text;
             bool bMatchCase = this.MatchCaseCheckBox1.Checked;

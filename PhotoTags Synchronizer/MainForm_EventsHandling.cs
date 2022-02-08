@@ -572,6 +572,7 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
+                if (dataGridView == null || dataGridView.RowCount == 0 || dataGridView.ColumnCount == 0) return;
                 if (!dataGridView.Enabled) return;
                 GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
                 ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, true, out bool textBoxSelectionCanRestore, out int textBoxSelectionStart, out int textBoxSelectionLength);
@@ -729,6 +730,7 @@ namespace PhotoTagsSynchronizer
             try
             {
                 DataGridView dataGridView = dataGridViewTagsAndKeywords;
+                if (dataGridView == null || dataGridView.RowCount == 0 || dataGridView.ColumnCount == 0) return;
                 if (!dataGridView.Enabled) return;
 
                 if (dataGridView.CurrentCell.IsInEditMode)
@@ -5290,6 +5292,7 @@ namespace PhotoTagsSynchronizer
             try
             {
                 DataGridView dataGridView = GetActiveTabDataGridView();
+                if (dataGridView == null || dataGridView.SelectedCells.Count == 0) return; 
                 dataGridView.BeginEdit(true);
             }
             catch (Exception ex)
@@ -6132,6 +6135,8 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
+                if (dataGridView == null || dataGridView.RowCount == 0 || dataGridView.ColumnCount == 0) return;
+
                 List<string> listOfMediaFiles = new List<string>();
 
                 List<int> selectedColumns = DataGridViewHandler.GetColumnSelected(dataGridView);

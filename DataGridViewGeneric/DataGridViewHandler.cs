@@ -888,6 +888,8 @@ namespace DataGridViewGeneric
 
         public static void ActionFindAndReplace(DataGridView dataGridView, bool replaceTab)
         {
+            if (dataGridView == null) return;
+            if (dataGridView.ColumnCount == 0 || dataGridView.RowCount == 0) return;
             if (m_FindAndReplaceForm == null)
             {
                 m_FindAndReplaceForm = new FindAndReplaceForm(dataGridView, replaceTab);
