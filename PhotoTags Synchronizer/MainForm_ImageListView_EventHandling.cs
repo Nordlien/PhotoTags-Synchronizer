@@ -561,9 +561,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #endregion
-
-        #region ImageListView - SelectionChanged 
+        #region ImageListView - Event - SelectionChanged 
 
         #region ImageListView - Event - SelectionChanged - *** imageListView1_SelectionChanged ***
         private void imageListView1_SelectionChanged(object sender, EventArgs e)
@@ -693,6 +691,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #endregion
         #endregion
 
         #region ImageListView - OpenWith

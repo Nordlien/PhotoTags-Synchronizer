@@ -6206,7 +6206,7 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsApplicationClosing) return;
             if (IsPerforminAButtonAction("ViewAsPoster")) return;
             if (IsPopulatingAnything("ViewAsPoster")) return;
-            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
 
             GlobalData.IsPerformingAButtonAction = true;
             ActionMediaViewAsPoster();
@@ -6218,7 +6218,7 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsApplicationClosing) return;
             if (IsPerforminAButtonAction("ViewAsPoster")) return;
             if (IsPopulatingAnything("ViewAsPoster")) return;
-            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
 
             GlobalData.IsPerformingAButtonAction = true;
             ActionMediaViewAsPoster();
