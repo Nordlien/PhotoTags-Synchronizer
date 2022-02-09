@@ -149,7 +149,7 @@ namespace PhotoTagsSynchronizer
         {
             if (e.NewPage == kryptonPageFolderSearchFilterSearch) PopulateDatabaseFilter();
             e.OldPage.Text = e.OldPage.TextTitle = e.OldPage.Text.TrimEnd('*');
-            e.NewPage.Text = e.NewPage.TextTitle = e.OldPage.Text.TrimEnd('*') + "*";
+            e.NewPage.Text = e.NewPage.TextTitle = e.NewPage.Text.TrimEnd('*') + "*";
         }
         #endregion
 
