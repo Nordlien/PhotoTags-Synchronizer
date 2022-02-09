@@ -60,10 +60,9 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2019.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="FCTB" Version="2.16.24" />
+    <PackageReference Include="Krypton.Navigator" Version="60.22.2.32" />
+    <PackageReference Include="Krypton.Toolkit" Version="60.22.2.32" />
     <PackageReference Include="NLog" Version="4.7.13" />
   </ItemGroup>
   <ItemGroup>

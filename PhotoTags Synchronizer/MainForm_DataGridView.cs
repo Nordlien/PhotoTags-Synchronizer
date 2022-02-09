@@ -1193,7 +1193,7 @@ namespace PhotoTagsSynchronizer
                         "Populationg data in progress.\r\n" + GlobalData.WhatsPopulating() + "\r\n" +
                         "Do you want to retry" + (string.IsNullOrWhiteSpace(nameOfAction) ? "" : " " + nameOfAction) + "?\r\n\r\n" +
                         "Retry - Yes, I have already waited, please retry.\r\n" +
-                        "Cacnel - No worries, I'll try later.\r\n",
+                        "Cancel - No worries, I'll try later.\r\n",
                         "Opps, you was a little to quick on your hands.",
                         MessageBoxButtons.RetryCancel,
                         MessageBoxIcon.Exclamation, showCtrlCopy: true) == DialogResult.Retry)

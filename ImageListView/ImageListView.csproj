@@ -88,6 +88,7 @@
     <EmbeddedResource Include="ImageListView.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Krypton.Toolkit" Version="60.22.2.32" />
     <PackageReference Include="NLog">
       <Version>4.7.13</Version>
     </PackageReference>
@@ -95,9 +96,6 @@
   <ItemGroup>
     <Compile Remove="Events.old.cs" />
     <Compile Remove="ImageListViewCacheManager.old.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2019.csproj" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Properties\Resources.resx">

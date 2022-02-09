@@ -72,7 +72,6 @@ namespace PhotoTagsSynchronizer
                     case PaletteMode.Office2010Blue:
                     case PaletteMode.Office2010Silver:
                     case PaletteMode.Office2010White:
-                    case PaletteMode.Office2013:
                     case PaletteMode.Office2013White:
                     case PaletteMode.Office365Blue:
                     case PaletteMode.Office365Silver:
@@ -163,7 +162,6 @@ namespace PhotoTagsSynchronizer
                 else if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2010Blue)) kryptonPalette.BasePaletteMode = PaletteMode.Office2010Blue;
                 else if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2010Silver)) kryptonPalette.BasePaletteMode = PaletteMode.Office2010Silver;
                 else if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2010White)) kryptonPalette.BasePaletteMode = PaletteMode.Office2010White;
-                else if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2013)) kryptonPalette.BasePaletteMode = PaletteMode.Office2013;
                 else if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2013White)) kryptonPalette.BasePaletteMode = PaletteMode.Office2013White;
                 else if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office365Black)) kryptonPalette.BasePaletteMode = PaletteMode.Office365Black;
                 else if (paletteName == ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office365Blue)) kryptonPalette.BasePaletteMode = PaletteMode.Office365Blue;

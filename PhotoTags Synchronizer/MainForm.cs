@@ -463,11 +463,11 @@ namespace PhotoTagsSynchronizer
             imageListView1.ThumbnailSize = thumbnailSizes[Properties.Settings.Default.ThumbmailViewSizeIndex];
             SetThumbnailSize(Properties.Settings.Default.ThumbmailViewSizeIndex);
 
-            kryptonRibbonGroupButtonThumbnailSizeXLarge.ToolTipTitle = "Thumbnail size " + thumbnailSizes[4].Width + "x" + thumbnailSizes[4].Height;
-            kryptonRibbonGroupButtonThumbnailSizeLarge.ToolTipTitle = "Thumbnail size " + thumbnailSizes[3].Width + "x" + thumbnailSizes[3].Height;
-            kryptonRibbonGroupButtonThumbnailSizeMedium.ToolTipTitle = "Thumbnail size " + thumbnailSizes[2].Width + "x" + thumbnailSizes[2].Height;
-            kryptonRibbonGroupButtonThumbnailSizeSmall.ToolTipTitle = "Thumbnail size " + thumbnailSizes[1].Width + "x" + thumbnailSizes[1].Height;
-            kryptonRibbonGroupButtonThumbnailSizeXSmall.ToolTipTitle = "Thumbnail size " + thumbnailSizes[0].Width + "x" + thumbnailSizes[0].Height;
+            kryptonRibbonGroupButtonThumbnailSizeXLarge.ToolTipValues.Heading = "Thumbnail size " + thumbnailSizes[4].Width + "x" + thumbnailSizes[4].Height;
+            kryptonRibbonGroupButtonThumbnailSizeLarge.ToolTipValues.Heading = "Thumbnail size " + thumbnailSizes[3].Width + "x" + thumbnailSizes[3].Height;
+            kryptonRibbonGroupButtonThumbnailSizeMedium.ToolTipValues.Heading = "Thumbnail size " + thumbnailSizes[2].Width + "x" + thumbnailSizes[2].Height;
+            kryptonRibbonGroupButtonThumbnailSizeSmall.ToolTipValues.Heading = "Thumbnail size " + thumbnailSizes[1].Width + "x" + thumbnailSizes[1].Height;
+            kryptonRibbonGroupButtonThumbnailSizeXSmall.ToolTipValues.Heading = "Thumbnail size " + thumbnailSizes[0].Width + "x" + thumbnailSizes[0].Height;
             #endregion
 
             #region Setup Global Variables - Link Tab and DataGridView

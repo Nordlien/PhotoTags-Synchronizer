@@ -363,7 +363,6 @@ namespace PhotoTagsSynchronizer
             this.buttonSystem = new Krypton.Toolkit.KryptonButton();
             this.buttonDarkMode = new Krypton.Toolkit.KryptonButton();
             this.buttonOffice2013White = new Krypton.Toolkit.KryptonButton();
-            this.buttonOffice2013 = new Krypton.Toolkit.KryptonButton();
             this.kryptonWorkspaceCellApplicationThemesSelect = new Krypton.Workspace.KryptonWorkspaceCell();
             this.kryptonWorkspaceCellApplicationThemesPreview = new Krypton.Workspace.KryptonWorkspaceCell();
             this.kryptonPageApplicationThemesPreview = new Krypton.Navigator.KryptonPage();
@@ -4619,7 +4618,6 @@ namespace PhotoTagsSynchronizer
             this.C.Controls.Add(this.buttonSystem, 0, 2);
             this.C.Controls.Add(this.buttonDarkMode, 0, 3);
             this.C.Controls.Add(this.buttonOffice2013White, 0, 5);
-            this.C.Controls.Add(this.buttonOffice2013, 0, 4);
             this.C.Dock = System.Windows.Forms.DockStyle.Fill;
             this.C.Location = new System.Drawing.Point(0, 0);
             this.C.Name = "C";
@@ -4840,15 +4838,6 @@ namespace PhotoTagsSynchronizer
             this.buttonOffice2013White.TabIndex = 28;
             this.buttonOffice2013White.Values.Text = "Office 2013 White";
             this.buttonOffice2013White.Click += new System.EventHandler(this.buttonOffice2013White_Click);
-            // 
-            // buttonOffice2013
-            // 
-            this.buttonOffice2013.Location = new System.Drawing.Point(3, 131);
-            this.buttonOffice2013.Name = "buttonOffice2013";
-            this.buttonOffice2013.Size = new System.Drawing.Size(138, 27);
-            this.buttonOffice2013.TabIndex = 27;
-            this.buttonOffice2013.Values.Text = "Office 2013";
-            this.buttonOffice2013.Click += new System.EventHandler(this.buttonOffice2013_Click);
             // 
             // kryptonWorkspaceCellApplicationThemesSelect
             // 
@@ -8760,7 +8749,6 @@ namespace PhotoTagsSynchronizer
         private KryptonButton buttonOffice2010White;
         private KryptonButton buttonDarkMode;
         private KryptonButton buttonOffice2013White;
-        private KryptonButton buttonOffice2013;
         private KryptonButton buttonOffice365White;
         private KryptonButton buttonOffice365Black;
         private KryptonButton buttonOffice365Silver;

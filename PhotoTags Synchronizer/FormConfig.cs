@@ -3137,11 +3137,6 @@ namespace PhotoTagsSynchronizer
             SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.SparklePurple)), true, true);
         }
 
-        private void buttonOffice2013_Click(object sender, EventArgs e)
-        {
-            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2013)), true, true);
-        }
-
         private void buttonOffice2013White_Click(object sender, EventArgs e)
         {
             SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2013White)), true, true);

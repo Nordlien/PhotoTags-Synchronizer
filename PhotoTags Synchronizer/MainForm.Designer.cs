@@ -4140,9 +4140,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonHomeCopy.KeyTip = "C";
             this.kryptonRibbonGroupButtonHomeCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
             this.kryptonRibbonGroupButtonHomeCopy.TextLine1 = "Copy";
-            this.kryptonRibbonGroupButtonHomeCopy.ToolTipBody = "Copy selected content to Clipboard";
-            this.kryptonRibbonGroupButtonHomeCopy.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.EditCopy32x32;
-            this.kryptonRibbonGroupButtonHomeCopy.ToolTipTitle = "Copy (Ctrl+C)";
+            this.kryptonRibbonGroupButtonHomeCopy.ToolTipValues.Description = "Copy selected content to Clipboard";
+            this.kryptonRibbonGroupButtonHomeCopy.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditCopy32x32;
+            this.kryptonRibbonGroupButtonHomeCopy.ToolTipValues.Heading = "Copy (Ctrl+C)";
             this.kryptonRibbonGroupButtonHomeCopy.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeCopy_Click);
             // 
             // kryptonRibbonGroupButtonHomeCut
@@ -4152,9 +4152,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonHomeCut.KeyTip = "T";
             this.kryptonRibbonGroupButtonHomeCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
             this.kryptonRibbonGroupButtonHomeCut.TextLine1 = "Cut";
-            this.kryptonRibbonGroupButtonHomeCut.ToolTipBody = "Cut selected content to Clipboard";
-            this.kryptonRibbonGroupButtonHomeCut.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.EditCut32x32;
-            this.kryptonRibbonGroupButtonHomeCut.ToolTipTitle = "Cut (Ctrl+X)";
+            this.kryptonRibbonGroupButtonHomeCut.ToolTipValues.Description = "Cut selected content to Clipboard";
+            this.kryptonRibbonGroupButtonHomeCut.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditCut32x32;
+            this.kryptonRibbonGroupButtonHomeCut.ToolTipValues.Heading = "Cut (Ctrl+X)";
             this.kryptonRibbonGroupButtonHomeCut.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeCut_Click);
             // 
             // kryptonRibbonGroupButtonHomePaste
@@ -4164,9 +4164,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonHomePaste.KeyTip = "P";
             this.kryptonRibbonGroupButtonHomePaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
             this.kryptonRibbonGroupButtonHomePaste.TextLine1 = "Paste";
-            this.kryptonRibbonGroupButtonHomePaste.ToolTipBody = "Paste content from Clipboard";
-            this.kryptonRibbonGroupButtonHomePaste.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.EditPaste32x32;
-            this.kryptonRibbonGroupButtonHomePaste.ToolTipTitle = "Paste (Ctrl+V)";
+            this.kryptonRibbonGroupButtonHomePaste.ToolTipValues.Description = "Paste content from Clipboard";
+            this.kryptonRibbonGroupButtonHomePaste.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditPaste32x32;
+            this.kryptonRibbonGroupButtonHomePaste.ToolTipValues.Heading = "Paste (Ctrl+V)";
             this.kryptonRibbonGroupButtonHomePaste.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomePaste_Click);
             // 
             // kryptonRibbonGroupTripleHomeUndoRedo
@@ -4183,9 +4183,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonHomeUndo.KeyTip = "U";
             this.kryptonRibbonGroupButtonHomeUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
             this.kryptonRibbonGroupButtonHomeUndo.TextLine1 = "Undo";
-            this.kryptonRibbonGroupButtonHomeUndo.ToolTipBody = "Undo last command, or keep undo more commands.";
-            this.kryptonRibbonGroupButtonHomeUndo.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.EditUndo32x32;
-            this.kryptonRibbonGroupButtonHomeUndo.ToolTipTitle = "Undo (Ctrl+X)";
+            this.kryptonRibbonGroupButtonHomeUndo.ToolTipValues.Description = "Undo last command, or keep undo more commands.";
+            this.kryptonRibbonGroupButtonHomeUndo.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditUndo32x32;
+            this.kryptonRibbonGroupButtonHomeUndo.ToolTipValues.Heading = "Undo (Ctrl+X)";
             this.kryptonRibbonGroupButtonHomeUndo.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeUndo_Click);
             // 
             // kryptonRibbonGroupButtonRedo
@@ -4195,9 +4195,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonRedo.KeyTip = "R";
             this.kryptonRibbonGroupButtonRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
             this.kryptonRibbonGroupButtonRedo.TextLine1 = "Redo";
-            this.kryptonRibbonGroupButtonRedo.ToolTipBody = "Cancel last or many undo(s).";
-            this.kryptonRibbonGroupButtonRedo.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.EditRedo32x32;
-            this.kryptonRibbonGroupButtonRedo.ToolTipTitle = "Redo (Ctrl+Y)";
+            this.kryptonRibbonGroupButtonRedo.ToolTipValues.Description = "Cancel last or many undo(s).";
+            this.kryptonRibbonGroupButtonRedo.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditRedo32x32;
+            this.kryptonRibbonGroupButtonRedo.ToolTipValues.Heading = "Redo (Ctrl+Y)";
             this.kryptonRibbonGroupButtonRedo.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeRedo_Click);
             // 
             // kryptonRibbonGroupHomeManage
@@ -4227,10 +4227,10 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.Keys.T)));
             this.kryptonRibbonGroupButtonHomeCopyText.TextLine1 = "Copy";
             this.kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "text";
-            this.kryptonRibbonGroupButtonHomeCopyText.ToolTipBody = "Copy text from selected content. Example: filename or path, depending what is sel" +
+            this.kryptonRibbonGroupButtonHomeCopyText.ToolTipValues.Description = "Copy text from selected content. Example: filename or path, depending what is sel" +
     "ected.";
-            this.kryptonRibbonGroupButtonHomeCopyText.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.EditCopyText32x32;
-            this.kryptonRibbonGroupButtonHomeCopyText.ToolTipTitle = "Copy only text (Ctrl+Shift+T)";
+            this.kryptonRibbonGroupButtonHomeCopyText.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditCopyText32x32;
+            this.kryptonRibbonGroupButtonHomeCopyText.ToolTipValues.Heading = "Copy only text (Ctrl+Shift+T)";
             this.kryptonRibbonGroupButtonHomeCopyText.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeCopyText_Click);
             // 
             // kryptonRibbonGroupButtonHomeFastCopyNoOverwrite
@@ -4241,9 +4241,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.TextLine1 = "Fast copy";
             this.kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.TextLine2 = "No overwrite";
-            this.kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.ToolTipBody = resources.GetString("kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.ToolTipBody");
-            this.kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.EditFastTextCopyNotOverwrite32x32;
-            this.kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.ToolTipTitle = "Fast Copy Text and no Overwrite (Ctrl+O)";
+            this.kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.ToolTipValues.Description = resources.GetString("kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.ToolTipBody");
+            this.kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditFastTextCopyNotOverwrite32x32;
+            this.kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.ToolTipValues.Heading = "Fast Copy Text and no Overwrite (Ctrl+O)";
             this.kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeFastCopyNoOverwrite_Click);
             // 
             // kryptonRibbonGroupButtonHomeFastCopyOverwrite
@@ -4255,9 +4255,9 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.Keys.O)));
             this.kryptonRibbonGroupButtonHomeFastCopyOverwrite.TextLine1 = "Fast Copy";
             this.kryptonRibbonGroupButtonHomeFastCopyOverwrite.TextLine2 = "Overwrite";
-            this.kryptonRibbonGroupButtonHomeFastCopyOverwrite.ToolTipBody = resources.GetString("kryptonRibbonGroupButtonHomeFastCopyOverwrite.ToolTipBody");
-            this.kryptonRibbonGroupButtonHomeFastCopyOverwrite.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.EditFastTextCopyAndReplace32x32;
-            this.kryptonRibbonGroupButtonHomeFastCopyOverwrite.ToolTipTitle = "Fast Copy Text and Overwrite (Ctrl+Shift+O";
+            this.kryptonRibbonGroupButtonHomeFastCopyOverwrite.ToolTipValues.Description = resources.GetString("kryptonRibbonGroupButtonHomeFastCopyOverwrite.ToolTipBody");
+            this.kryptonRibbonGroupButtonHomeFastCopyOverwrite.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditFastTextCopyAndReplace32x32;
+            this.kryptonRibbonGroupButtonHomeFastCopyOverwrite.ToolTipValues.Heading = "Fast Copy Text and Overwrite (Ctrl+Shift+O";
             this.kryptonRibbonGroupButtonHomeFastCopyOverwrite.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeFastCopyOverwrite_Click);
             // 
             // kryptonRibbonGroupTripleHomeSortFindAndSearch
@@ -4275,9 +4275,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonHomeFind.KeyTip = "MF";
             this.kryptonRibbonGroupButtonHomeFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
             this.kryptonRibbonGroupButtonHomeFind.TextLine1 = "Find";
-            this.kryptonRibbonGroupButtonHomeFind.ToolTipBody = "Find text";
-            this.kryptonRibbonGroupButtonHomeFind.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.EditFind32x32;
-            this.kryptonRibbonGroupButtonHomeFind.ToolTipTitle = "Find (Ctrl+F)";
+            this.kryptonRibbonGroupButtonHomeFind.ToolTipValues.Description = "Find text";
+            this.kryptonRibbonGroupButtonHomeFind.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditFind32x32;
+            this.kryptonRibbonGroupButtonHomeFind.ToolTipValues.Heading = "Find (Ctrl+F)";
             this.kryptonRibbonGroupButtonHomeFind.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeFind_Click);
             // 
             // kryptonRibbonGroupButtonHomeReplace
@@ -4287,9 +4287,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonHomeReplace.KeyTip = "MR";
             this.kryptonRibbonGroupButtonHomeReplace.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
             this.kryptonRibbonGroupButtonHomeReplace.TextLine1 = "Replace";
-            this.kryptonRibbonGroupButtonHomeReplace.ToolTipBody = "Find text and replace wuth your text";
-            this.kryptonRibbonGroupButtonHomeReplace.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.EditReplace32x32;
-            this.kryptonRibbonGroupButtonHomeReplace.ToolTipTitle = "Replace (Ctrl+H)";
+            this.kryptonRibbonGroupButtonHomeReplace.ToolTipValues.Description = "Find text and replace wuth your text";
+            this.kryptonRibbonGroupButtonHomeReplace.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditReplace32x32;
+            this.kryptonRibbonGroupButtonHomeReplace.ToolTipValues.Heading = "Replace (Ctrl+H)";
             this.kryptonRibbonGroupButtonHomeReplace.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeReplace_Click);
             // 
             // kryptonRibbonGroupButtonHomeSortColumn
@@ -4299,9 +4299,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonHomeSortColumn.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemColumnSort;
             this.kryptonRibbonGroupButtonHomeSortColumn.KeyTip = "S";
             this.kryptonRibbonGroupButtonHomeSortColumn.TextLine1 = "Sort";
-            this.kryptonRibbonGroupButtonHomeSortColumn.ToolTipBody = "Select what column your want to sort the mediafiles";
-            this.kryptonRibbonGroupButtonHomeSortColumn.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemColumnSort;
-            this.kryptonRibbonGroupButtonHomeSortColumn.ToolTipTitle = "Sort Column ";
+            this.kryptonRibbonGroupButtonHomeSortColumn.ToolTipValues.Description = "Select what column your want to sort the mediafiles";
+            this.kryptonRibbonGroupButtonHomeSortColumn.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemColumnSort;
+            this.kryptonRibbonGroupButtonHomeSortColumn.ToolTipValues.Heading = "Sort Column ";
             // 
             // kryptonRibbonGroupHomeFileSystem
             // 
@@ -4330,9 +4330,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonHomeFileSystemDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
             this.kryptonRibbonGroupButtonHomeFileSystemDelete.TextLine1 = "Delete";
             this.kryptonRibbonGroupButtonHomeFileSystemDelete.TextLine2 = "folder";
-            this.kryptonRibbonGroupButtonHomeFileSystemDelete.ToolTipBody = "Delete selected content";
-            this.kryptonRibbonGroupButtonHomeFileSystemDelete.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemDelete32x32;
-            this.kryptonRibbonGroupButtonHomeFileSystemDelete.ToolTipTitle = "Delete (Del)";
+            this.kryptonRibbonGroupButtonHomeFileSystemDelete.ToolTipValues.Description = "Delete selected content";
+            this.kryptonRibbonGroupButtonHomeFileSystemDelete.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemDelete32x32;
+            this.kryptonRibbonGroupButtonHomeFileSystemDelete.ToolTipValues.Heading = "Delete (Del)";
             this.kryptonRibbonGroupButtonHomeFileSystemDelete.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeFileSystemDelete_Click);
             // 
             // kryptonRibbonGroupButtonHomeFileSystemRename
@@ -4343,9 +4343,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonHomeFileSystemRename.ShortcutKeys = System.Windows.Forms.Keys.F2;
             this.kryptonRibbonGroupButtonHomeFileSystemRename.TextLine1 = "Rename";
             this.kryptonRibbonGroupButtonHomeFileSystemRename.TextLine2 = "folder name";
-            this.kryptonRibbonGroupButtonHomeFileSystemRename.ToolTipBody = "Rename selected content";
-            this.kryptonRibbonGroupButtonHomeFileSystemRename.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemRename;
-            this.kryptonRibbonGroupButtonHomeFileSystemRename.ToolTipTitle = "Rename (F2)";
+            this.kryptonRibbonGroupButtonHomeFileSystemRename.ToolTipValues.Description = "Rename selected content";
+            this.kryptonRibbonGroupButtonHomeFileSystemRename.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemRename;
+            this.kryptonRibbonGroupButtonHomeFileSystemRename.ToolTipValues.Heading = "Rename (F2)";
             this.kryptonRibbonGroupButtonHomeFileSystemRename.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeFileSystemRename_Click);
             // 
             // kryptonRibbonGroupButtonHomeFileSystemRefresh
@@ -4355,9 +4355,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonHomeFileSystemRefresh.KeyTip = "OF";
             this.kryptonRibbonGroupButtonHomeFileSystemRefresh.TextLine1 = "Refresh";
             this.kryptonRibbonGroupButtonHomeFileSystemRefresh.TextLine2 = "folder";
-            this.kryptonRibbonGroupButtonHomeFileSystemRefresh.ToolTipBody = "Refresh the view with current information in the FileSystem";
-            this.kryptonRibbonGroupButtonHomeFileSystemRefresh.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemRefresh32x32;
-            this.kryptonRibbonGroupButtonHomeFileSystemRefresh.ToolTipTitle = "Refresh (F5)";
+            this.kryptonRibbonGroupButtonHomeFileSystemRefresh.ToolTipValues.Description = "Refresh the view with current information in the FileSystem";
+            this.kryptonRibbonGroupButtonHomeFileSystemRefresh.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemRefresh32x32;
+            this.kryptonRibbonGroupButtonHomeFileSystemRefresh.ToolTipValues.Heading = "Refresh (F5)";
             this.kryptonRibbonGroupButtonHomeFileSystemRefresh.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeFileSystemRefreshFolder_Click);
             // 
             // kryptonRibbonGroupTripleHomeOpenWith
@@ -4375,8 +4375,8 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonHomeFileSystemOpen.KeyTip = "OP";
             this.kryptonRibbonGroupButtonHomeFileSystemOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Return)));
             this.kryptonRibbonGroupButtonHomeFileSystemOpen.TextLine1 = "Open";
-            this.kryptonRibbonGroupButtonHomeFileSystemOpen.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemOpen;
-            this.kryptonRibbonGroupButtonHomeFileSystemOpen.ToolTipTitle = "Open (Ctrl+Enter)";
+            this.kryptonRibbonGroupButtonHomeFileSystemOpen.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemOpen;
+            this.kryptonRibbonGroupButtonHomeFileSystemOpen.ToolTipValues.Heading = "Open (Ctrl+Enter)";
             this.kryptonRibbonGroupButtonHomeFileSystemOpen.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeFileSystemOpen_Click);
             // 
             // kryptonRibbonGroupButtonHomeFileSystemOpenWith
@@ -4386,8 +4386,8 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonHomeFileSystemOpenWith.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemOpenWith;
             this.kryptonRibbonGroupButtonHomeFileSystemOpenWith.KeyTip = "OW";
             this.kryptonRibbonGroupButtonHomeFileSystemOpenWith.TextLine1 = "Open with";
-            this.kryptonRibbonGroupButtonHomeFileSystemOpenWith.ToolTipBody = "Open media file(s) with the selected application from the dropdown list";
-            this.kryptonRibbonGroupButtonHomeFileSystemOpenWith.ToolTipTitle = "Open with";
+            this.kryptonRibbonGroupButtonHomeFileSystemOpenWith.ToolTipValues.Description = "Open media file(s) with the selected application from the dropdown list";
+            this.kryptonRibbonGroupButtonHomeFileSystemOpenWith.ToolTipValues.Heading = "Open with";
             // 
             // kryptonRibbonGroupButtonHomeFileSystemOpenAssociateDialog
             // 
@@ -4397,8 +4397,8 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonHomeFileSystemOpenAssociateDialog.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.Return)));
             this.kryptonRibbonGroupButtonHomeFileSystemOpenAssociateDialog.TextLine1 = "Associate dialog";
-            this.kryptonRibbonGroupButtonHomeFileSystemOpenAssociateDialog.ToolTipBody = "Opens the Windows Associate File dialog windows";
-            this.kryptonRibbonGroupButtonHomeFileSystemOpenAssociateDialog.ToolTipTitle = "Associate dialog (Ctrl+Shift+Enter)";
+            this.kryptonRibbonGroupButtonHomeFileSystemOpenAssociateDialog.ToolTipValues.Description = "Opens the Windows Associate File dialog windows";
+            this.kryptonRibbonGroupButtonHomeFileSystemOpenAssociateDialog.ToolTipValues.Heading = "Associate dialog (Ctrl+Shift+Enter)";
             this.kryptonRibbonGroupButtonHomeFileSystemOpenAssociateDialog.Click += new System.EventHandler(this.kryptonRibbonGroupButtonFileSystemOpenAssociateDialog_Click);
             // 
             // kryptonRibbonGroupTripleHomeRunEdit
@@ -4417,9 +4417,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
             this.kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.TextLine1 = "Explorer";
             this.kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.TextLine2 = "location";
-            this.kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.ToolTipBody = "Open File Explorer in folder where media files is located";
-            this.kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemExplorer32x32;
-            this.kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.ToolTipTitle = "Open File Explore (Ctrl+E)";
+            this.kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.ToolTipValues.Description = "Open File Explorer in folder where media files is located";
+            this.kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemExplorer32x32;
+            this.kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.ToolTipValues.Heading = "Open File Explore (Ctrl+E)";
             this.kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeFileSystemOpenExplorerLocation_Click);
             // 
             // kryptonRibbonGroupButtonFileSystemRunCommand
@@ -4430,9 +4430,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonFileSystemRunCommand.ShortcutKeys = System.Windows.Forms.Keys.F6;
             this.kryptonRibbonGroupButtonFileSystemRunCommand.TextLine1 = "Run";
             this.kryptonRibbonGroupButtonFileSystemRunCommand.TextLine2 = "Command";
-            this.kryptonRibbonGroupButtonFileSystemRunCommand.ToolTipBody = "Open a Run Command Window, where commands can be run with lot of parameters";
-            this.kryptonRibbonGroupButtonFileSystemRunCommand.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.ToolsRunCommand32x32;
-            this.kryptonRibbonGroupButtonFileSystemRunCommand.ToolTipTitle = "Run command (F6)";
+            this.kryptonRibbonGroupButtonFileSystemRunCommand.ToolTipValues.Description = "Open a Run Command Window, where commands can be run with lot of parameters";
+            this.kryptonRibbonGroupButtonFileSystemRunCommand.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.ToolsRunCommand32x32;
+            this.kryptonRibbonGroupButtonFileSystemRunCommand.ToolTipValues.Heading = "Run command (F6)";
             this.kryptonRibbonGroupButtonFileSystemRunCommand.Click += new System.EventHandler(this.kryptonRibbonGroupButtonFileSystemRunCommand_Click);
             // 
             // kryptonRibbonGroupButtonHomeFileSystemEdit
@@ -4442,8 +4442,8 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonHomeFileSystemEdit.KeyTip = "OE";
             this.kryptonRibbonGroupButtonHomeFileSystemEdit.ShortcutKeys = System.Windows.Forms.Keys.F4;
             this.kryptonRibbonGroupButtonHomeFileSystemEdit.TextLine1 = "Edit";
-            this.kryptonRibbonGroupButtonHomeFileSystemEdit.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemEdit;
-            this.kryptonRibbonGroupButtonHomeFileSystemEdit.ToolTipTitle = "Edit (F4)";
+            this.kryptonRibbonGroupButtonHomeFileSystemEdit.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemEdit;
+            this.kryptonRibbonGroupButtonHomeFileSystemEdit.ToolTipValues.Heading = "Edit (F4)";
             this.kryptonRibbonGroupButtonHomeFileSystemEdit.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeFileSystemVerbEdit_Click);
             // 
             // kryptonRibbonGroupHomeRotate
@@ -4470,9 +4470,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonMediaFileRotate90CCW.KeyTip = "2";
             this.kryptonRibbonGroupButtonMediaFileRotate90CCW.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D2)));
             this.kryptonRibbonGroupButtonMediaFileRotate90CCW.TextLine1 = "90 CCW";
-            this.kryptonRibbonGroupButtonMediaFileRotate90CCW.ToolTipBody = "Load media, rotate 270° (90° CCW) and write back to media file.";
-            this.kryptonRibbonGroupButtonMediaFileRotate90CCW.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate90CCW;
-            this.kryptonRibbonGroupButtonMediaFileRotate90CCW.ToolTipTitle = "Rotate media 270° (90° CCW) (Ctrl+2)";
+            this.kryptonRibbonGroupButtonMediaFileRotate90CCW.ToolTipValues.Description = "Load media, rotate 270° (90° CCW) and write back to media file.";
+            this.kryptonRibbonGroupButtonMediaFileRotate90CCW.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate90CCW;
+            this.kryptonRibbonGroupButtonMediaFileRotate90CCW.ToolTipValues.Heading = "Rotate media 270° (90° CCW) (Ctrl+2)";
             this.kryptonRibbonGroupButtonMediaFileRotate90CCW.Click += new System.EventHandler(this.kryptonRibbonGroupButtonMediaFileRotate90CCW_Click);
             // 
             // kryptonRibbonGroupButtonMediaFileRotate180
@@ -4482,9 +4482,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonMediaFileRotate180.KeyTip = "1";
             this.kryptonRibbonGroupButtonMediaFileRotate180.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D1)));
             this.kryptonRibbonGroupButtonMediaFileRotate180.TextLine1 = "180";
-            this.kryptonRibbonGroupButtonMediaFileRotate180.ToolTipBody = "Load media, rotate 180° (180° CW) and write back to media file.";
-            this.kryptonRibbonGroupButtonMediaFileRotate180.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate180;
-            this.kryptonRibbonGroupButtonMediaFileRotate180.ToolTipTitle = "Rotate media 180° (180° CW) (Ctrl+1)";
+            this.kryptonRibbonGroupButtonMediaFileRotate180.ToolTipValues.Description = "Load media, rotate 180° (180° CW) and write back to media file.";
+            this.kryptonRibbonGroupButtonMediaFileRotate180.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate180;
+            this.kryptonRibbonGroupButtonMediaFileRotate180.ToolTipValues.Heading = "Rotate media 180° (180° CW) (Ctrl+1)";
             this.kryptonRibbonGroupButtonMediaFileRotate180.Click += new System.EventHandler(this.kryptonRibbonGroupButtonMediaFileRotate180_Click);
             // 
             // kryptonRibbonGroupButtonMediaFileRotate90CW
@@ -4494,9 +4494,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonMediaFileRotate90CW.KeyTip = "9";
             this.kryptonRibbonGroupButtonMediaFileRotate90CW.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D9)));
             this.kryptonRibbonGroupButtonMediaFileRotate90CW.TextLine1 = "90 CW";
-            this.kryptonRibbonGroupButtonMediaFileRotate90CW.ToolTipBody = "Load media, rotate 90° (90° CW) and write back to media file.";
-            this.kryptonRibbonGroupButtonMediaFileRotate90CW.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate90CW;
-            this.kryptonRibbonGroupButtonMediaFileRotate90CW.ToolTipTitle = "Rotate media 90° (90° CW) (Ctrl+9)";
+            this.kryptonRibbonGroupButtonMediaFileRotate90CW.ToolTipValues.Description = "Load media, rotate 90° (90° CW) and write back to media file.";
+            this.kryptonRibbonGroupButtonMediaFileRotate90CW.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate90CW;
+            this.kryptonRibbonGroupButtonMediaFileRotate90CW.ToolTipValues.Heading = "Rotate media 90° (90° CW) (Ctrl+9)";
             this.kryptonRibbonGroupButtonMediaFileRotate90CW.Click += new System.EventHandler(this.kryptonRibbonGroupButtonMediaFileRotate90CW_Click);
             // 
             // kryptonRibbonGroupHomeMetadata
@@ -4524,9 +4524,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonHomeMetadataRefresh.KeyTip = "MER";
             this.kryptonRibbonGroupButtonHomeMetadataRefresh.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.F5)));
             this.kryptonRibbonGroupButtonHomeMetadataRefresh.TextLine1 = "Refresh";
-            this.kryptonRibbonGroupButtonHomeMetadataRefresh.ToolTipBody = "Delete last metadata information and last thumbnail and refresh the information";
-            this.kryptonRibbonGroupButtonHomeMetadataRefresh.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MetadataReload;
-            this.kryptonRibbonGroupButtonHomeMetadataRefresh.ToolTipTitle = "Refresh (Shift+F5)";
+            this.kryptonRibbonGroupButtonHomeMetadataRefresh.ToolTipValues.Description = "Delete last metadata information and last thumbnail and refresh the information";
+            this.kryptonRibbonGroupButtonHomeMetadataRefresh.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.MetadataReload;
+            this.kryptonRibbonGroupButtonHomeMetadataRefresh.ToolTipValues.Heading = "Refresh (Shift+F5)";
             this.kryptonRibbonGroupButtonHomeMetadataRefresh.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeMetadataRefreshLast_Click);
             // 
             // kryptonRibbonGroupButtonHomeMetadataReload
@@ -4536,9 +4536,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonHomeMetadataReload.KeyTip = "MEL";
             this.kryptonRibbonGroupButtonHomeMetadataReload.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F5)));
             this.kryptonRibbonGroupButtonHomeMetadataReload.TextLine1 = "Reload";
-            this.kryptonRibbonGroupButtonHomeMetadataReload.ToolTipBody = "Delete all metadata history and thumbnail and reload latest information";
-            this.kryptonRibbonGroupButtonHomeMetadataReload.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MetadataDeleteHistory;
-            this.kryptonRibbonGroupButtonHomeMetadataReload.ToolTipTitle = "Delete History and Reload(Ctrl+F5)";
+            this.kryptonRibbonGroupButtonHomeMetadataReload.ToolTipValues.Description = "Delete all metadata history and thumbnail and reload latest information";
+            this.kryptonRibbonGroupButtonHomeMetadataReload.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.MetadataDeleteHistory;
+            this.kryptonRibbonGroupButtonHomeMetadataReload.ToolTipValues.Heading = "Delete History and Reload(Ctrl+F5)";
             this.kryptonRibbonGroupButtonHomeMetadataReload.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeMetadataReloadDeleteHistory_Click);
             // 
             // kryptonRibbonGroupTripleHomeAutoCorrect
@@ -4556,10 +4556,10 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonHomeAutoCorrectRun.ShortcutKeys = System.Windows.Forms.Keys.F7;
             this.kryptonRibbonGroupButtonHomeAutoCorrectRun.TextLine1 = "AutoCorrect Run";
             this.kryptonRibbonGroupButtonHomeAutoCorrectRun.TextLine2 = "(Inactive)";
-            this.kryptonRibbonGroupButtonHomeAutoCorrectRun.ToolTipBody = "AutoCorrect use diffrent rules set in Config to fix metadata contence in the medi" +
+            this.kryptonRibbonGroupButtonHomeAutoCorrectRun.ToolTipValues.Description = "AutoCorrect use diffrent rules set in Config to fix metadata contence in the medi" +
     "a file.";
-            this.kryptonRibbonGroupButtonHomeAutoCorrectRun.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MetadataAutoCorrectRun32x32;
-            this.kryptonRibbonGroupButtonHomeAutoCorrectRun.ToolTipTitle = "AutoCorrect Metadata (F7)";
+            this.kryptonRibbonGroupButtonHomeAutoCorrectRun.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.MetadataAutoCorrectRun32x32;
+            this.kryptonRibbonGroupButtonHomeAutoCorrectRun.ToolTipValues.Heading = "AutoCorrect Metadata (F7)";
             this.kryptonRibbonGroupButtonHomeAutoCorrectRun.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeAutoCorrectRun_Click);
             // 
             // kryptonRibbonGroupButtonHomeAutoCorrectForm
@@ -4570,10 +4570,10 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonHomeAutoCorrectForm.ShortcutKeys = System.Windows.Forms.Keys.F8;
             this.kryptonRibbonGroupButtonHomeAutoCorrectForm.TextLine1 = "AutoCorrect Form";
             this.kryptonRibbonGroupButtonHomeAutoCorrectForm.TextLine2 = "(Inactive)";
-            this.kryptonRibbonGroupButtonHomeAutoCorrectForm.ToolTipBody = "AutoCorrect use diffrent rules set in Config to fix metadata contence in the medi" +
+            this.kryptonRibbonGroupButtonHomeAutoCorrectForm.ToolTipValues.Description = "AutoCorrect use diffrent rules set in Config to fix metadata contence in the medi" +
     "a file.";
-            this.kryptonRibbonGroupButtonHomeAutoCorrectForm.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MetadataAutoCorrectForm32x32;
-            this.kryptonRibbonGroupButtonHomeAutoCorrectForm.ToolTipTitle = "AutoCorrect Metadata Form (F8)";
+            this.kryptonRibbonGroupButtonHomeAutoCorrectForm.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.MetadataAutoCorrectForm32x32;
+            this.kryptonRibbonGroupButtonHomeAutoCorrectForm.ToolTipValues.Heading = "AutoCorrect Metadata Form (F8)";
             this.kryptonRibbonGroupButtonHomeAutoCorrectForm.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeAutoCorrectForm_Click);
             // 
             // kryptonRibbonGroupButtonDatGridShowPoster
@@ -4584,9 +4584,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonDatGridShowPoster.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.F11)));
             this.kryptonRibbonGroupButtonDatGridShowPoster.TextLine1 = "Show Poster";
             this.kryptonRibbonGroupButtonDatGridShowPoster.TextLine2 = "(Inactive)";
-            this.kryptonRibbonGroupButtonDatGridShowPoster.ToolTipBody = resources.GetString("kryptonRibbonGroupButtonDatGridShowPoster.ToolTipBody");
-            this.kryptonRibbonGroupButtonDatGridShowPoster.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MediaRegionSelector;
-            this.kryptonRibbonGroupButtonDatGridShowPoster.ToolTipTitle = "Show Poster and/or Select region (Shift+F11)";
+            this.kryptonRibbonGroupButtonDatGridShowPoster.ToolTipValues.Description = resources.GetString("kryptonRibbonGroupButtonDatGridShowPoster.ToolTipBody");
+            this.kryptonRibbonGroupButtonDatGridShowPoster.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaRegionSelector;
+            this.kryptonRibbonGroupButtonDatGridShowPoster.ToolTipValues.Heading = "Show Poster and/or Select region (Shift+F11)";
             this.kryptonRibbonGroupButtonDatGridShowPoster.Click += new System.EventHandler(this.kryptonRibbonGroupButtonDatGridShowPoster_Click);
             // 
             // kryptonRibbonGroupTripleHomeTriState
@@ -4605,9 +4605,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonHomeTagSelectOn.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.Space)));
             this.kryptonRibbonGroupButtonHomeTagSelectOn.TextLine1 = "Select";
-            this.kryptonRibbonGroupButtonHomeTagSelectOn.ToolTipBody = "Turn on all for all selected selected cells";
-            this.kryptonRibbonGroupButtonHomeTagSelectOn.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.EditTriStateSelect32x32;
-            this.kryptonRibbonGroupButtonHomeTagSelectOn.ToolTipTitle = "Turn on (Ctrl+Shift+Space)";
+            this.kryptonRibbonGroupButtonHomeTagSelectOn.ToolTipValues.Description = "Turn on all for all selected selected cells";
+            this.kryptonRibbonGroupButtonHomeTagSelectOn.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditTriStateSelect32x32;
+            this.kryptonRibbonGroupButtonHomeTagSelectOn.ToolTipValues.Heading = "Turn on (Ctrl+Shift+Space)";
             this.kryptonRibbonGroupButtonHomeTagSelectOn.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeTriStateOn_Click);
             // 
             // kryptonRibbonGroupButtonHomeTagSelectToggle
@@ -4617,9 +4617,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonHomeTagSelectToggle.KeyTip = "MST";
             this.kryptonRibbonGroupButtonHomeTagSelectToggle.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Space)));
             this.kryptonRibbonGroupButtonHomeTagSelectToggle.TextLine1 = "Toggle";
-            this.kryptonRibbonGroupButtonHomeTagSelectToggle.ToolTipBody = "Toggle on/off state for all selected selected cells";
-            this.kryptonRibbonGroupButtonHomeTagSelectToggle.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.EditTriStateToggle32x32;
-            this.kryptonRibbonGroupButtonHomeTagSelectToggle.ToolTipTitle = "Toggle (Ctrl+Space)";
+            this.kryptonRibbonGroupButtonHomeTagSelectToggle.ToolTipValues.Description = "Toggle on/off state for all selected selected cells";
+            this.kryptonRibbonGroupButtonHomeTagSelectToggle.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditTriStateToggle32x32;
+            this.kryptonRibbonGroupButtonHomeTagSelectToggle.ToolTipValues.Heading = "Toggle (Ctrl+Space)";
             this.kryptonRibbonGroupButtonHomeTagSelectToggle.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeTriStateToggle_Click);
             // 
             // kryptonRibbonGroupButtonHomeTagSelectOff
@@ -4629,9 +4629,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonHomeTagSelectOff.KeyTip = "MSR";
             this.kryptonRibbonGroupButtonHomeTagSelectOff.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Delete)));
             this.kryptonRibbonGroupButtonHomeTagSelectOff.TextLine1 = "Remove";
-            this.kryptonRibbonGroupButtonHomeTagSelectOff.ToolTipBody = "Turn off all for all selected selected cells";
-            this.kryptonRibbonGroupButtonHomeTagSelectOff.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.EditTriStateDelete32x32;
-            this.kryptonRibbonGroupButtonHomeTagSelectOff.ToolTipTitle = "Turn off (Ctrl+Del)";
+            this.kryptonRibbonGroupButtonHomeTagSelectOff.ToolTipValues.Description = "Turn off all for all selected selected cells";
+            this.kryptonRibbonGroupButtonHomeTagSelectOff.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditTriStateDelete32x32;
+            this.kryptonRibbonGroupButtonHomeTagSelectOff.ToolTipValues.Heading = "Turn off (Ctrl+Del)";
             this.kryptonRibbonGroupButtonHomeTagSelectOff.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeTriStateOff_Click);
             // 
             // kryptonRibbonGroupHomeSave
@@ -4654,9 +4654,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonHomeSaveSave.KeyTip = "S1";
             this.kryptonRibbonGroupButtonHomeSaveSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.kryptonRibbonGroupButtonHomeSaveSave.TextLine1 = "Save";
-            this.kryptonRibbonGroupButtonHomeSaveSave.ToolTipBody = "Save you changes";
-            this.kryptonRibbonGroupButtonHomeSaveSave.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MetadataSave32x32;
-            this.kryptonRibbonGroupButtonHomeSaveSave.ToolTipTitle = "Save (Ctrl+S)";
+            this.kryptonRibbonGroupButtonHomeSaveSave.ToolTipValues.Description = "Save you changes";
+            this.kryptonRibbonGroupButtonHomeSaveSave.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.MetadataSave32x32;
+            this.kryptonRibbonGroupButtonHomeSaveSave.ToolTipValues.Heading = "Save (Ctrl+S)";
             this.kryptonRibbonGroupButtonHomeSaveSave.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeSaveSave_Click);
             // 
             // kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave
@@ -4668,10 +4668,10 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.Keys.S)));
             this.kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave.TextLine1 = "AutoCorrect";
             this.kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave.TextLine2 = "Then Save";
-            this.kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave.ToolTipBody = "Run AutoCorrect accorindg to Config \r\nand changed you have edit in the DataGrid\r\n" +
+            this.kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave.ToolTipValues.Description = "Run AutoCorrect accorindg to Config \r\nand changed you have edit in the DataGrid\r\n" +
     "Then save all back to media file.\r\n\r\n";
-            this.kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MetadataSaveAndAutoCorrect;
-            this.kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave.ToolTipTitle = "AutoCorret then Save (Ctrl+Shift+S)";
+            this.kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.MetadataSaveAndAutoCorrect;
+            this.kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave.ToolTipValues.Heading = "AutoCorret then Save (Ctrl+Shift+S)";
             this.kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeSaveAutoCorrectAndSave_Click);
             // 
             // kryptonRibbonTabView
@@ -4892,7 +4892,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonDataGridViewColumnsHistory.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewHistoryColumn32x32;
             this.kryptonRibbonGroupButtonDataGridViewColumnsHistory.KeyTip = "CH";
             this.kryptonRibbonGroupButtonDataGridViewColumnsHistory.TextLine1 = "History";
-            this.kryptonRibbonGroupButtonDataGridViewColumnsHistory.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewHistoryColumn32x32;
+            this.kryptonRibbonGroupButtonDataGridViewColumnsHistory.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewHistoryColumn32x32;
             this.kryptonRibbonGroupButtonDataGridViewColumnsHistory.Click += new System.EventHandler(this.kryptonRibbonGroupButtonDataGridViewColumnsHistory_Click);
             // 
             // kryptonRibbonGroupButtonDataGridViewColumnsErrors
@@ -4902,7 +4902,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonDataGridViewColumnsErrors.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewErrorColumn32x32;
             this.kryptonRibbonGroupButtonDataGridViewColumnsErrors.KeyTip = "CE";
             this.kryptonRibbonGroupButtonDataGridViewColumnsErrors.TextLine1 = "Errors";
-            this.kryptonRibbonGroupButtonDataGridViewColumnsErrors.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewErrorColumn32x32;
+            this.kryptonRibbonGroupButtonDataGridViewColumnsErrors.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewErrorColumn32x32;
             this.kryptonRibbonGroupButtonDataGridViewColumnsErrors.Click += new System.EventHandler(this.kryptonRibbonGroupButtonDataGridViewColumnsErrors_Click);
             // 
             // kryptonRibbonGroupViewRows
@@ -4960,9 +4960,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonDataGridViewFavouriteAdd.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
             this.kryptonRibbonGroupButtonDataGridViewFavouriteAdd.TextLine1 = "Make as";
             this.kryptonRibbonGroupButtonDataGridViewFavouriteAdd.TextLine2 = "Fovorite";
-            this.kryptonRibbonGroupButtonDataGridViewFavouriteAdd.ToolTipBody = "Set row as favorite";
-            this.kryptonRibbonGroupButtonDataGridViewFavouriteAdd.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteSelect32x32;
-            this.kryptonRibbonGroupButtonDataGridViewFavouriteAdd.ToolTipTitle = "Make as Fovorite (Ctrl+D)";
+            this.kryptonRibbonGroupButtonDataGridViewFavouriteAdd.ToolTipValues.Description = "Set row as favorite";
+            this.kryptonRibbonGroupButtonDataGridViewFavouriteAdd.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteSelect32x32;
+            this.kryptonRibbonGroupButtonDataGridViewFavouriteAdd.ToolTipValues.Heading = "Make as Fovorite (Ctrl+D)";
             // 
             // kryptonRibbonGroupButtonDataGridViewFavouriteToggle
             // 
@@ -4972,9 +4972,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonDataGridViewFavouriteToggle.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
             this.kryptonRibbonGroupButtonDataGridViewFavouriteToggle.TextLine1 = "Toggle";
             this.kryptonRibbonGroupButtonDataGridViewFavouriteToggle.TextLine2 = "Selection";
-            this.kryptonRibbonGroupButtonDataGridViewFavouriteToggle.ToolTipBody = "Favorite rows will become normal, normal will become favorite";
-            this.kryptonRibbonGroupButtonDataGridViewFavouriteToggle.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteToggle32x32;
-            this.kryptonRibbonGroupButtonDataGridViewFavouriteToggle.ToolTipTitle = "Toggle Favorites on selection (Ctrl+T)";
+            this.kryptonRibbonGroupButtonDataGridViewFavouriteToggle.ToolTipValues.Description = "Favorite rows will become normal, normal will become favorite";
+            this.kryptonRibbonGroupButtonDataGridViewFavouriteToggle.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteToggle32x32;
+            this.kryptonRibbonGroupButtonDataGridViewFavouriteToggle.ToolTipValues.Heading = "Toggle Favorites on selection (Ctrl+T)";
             // 
             // kryptonRibbonGroupButtonDataGridViewFavouriteDelete
             // 
@@ -4985,9 +4985,9 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.Keys.D)));
             this.kryptonRibbonGroupButtonDataGridViewFavouriteDelete.TextLine1 = "Set as";
             this.kryptonRibbonGroupButtonDataGridViewFavouriteDelete.TextLine2 = "Normal";
-            this.kryptonRibbonGroupButtonDataGridViewFavouriteDelete.ToolTipBody = "Remove row as favorite and set as normal row";
-            this.kryptonRibbonGroupButtonDataGridViewFavouriteDelete.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteRemove32x32;
-            this.kryptonRibbonGroupButtonDataGridViewFavouriteDelete.ToolTipTitle = "Remove as favorite (Ctrl+Shift+D)";
+            this.kryptonRibbonGroupButtonDataGridViewFavouriteDelete.ToolTipValues.Description = "Remove row as favorite and set as normal row";
+            this.kryptonRibbonGroupButtonDataGridViewFavouriteDelete.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteRemove32x32;
+            this.kryptonRibbonGroupButtonDataGridViewFavouriteDelete.ToolTipValues.Heading = "Remove as favorite (Ctrl+Shift+D)";
             // 
             // kryptonRibbonTabSelect
             // 
@@ -5023,9 +5023,9 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.Keys.Left)));
             this.kryptonRibbonGroupButtonSelectBackwards.TextLine1 = "Select";
             this.kryptonRibbonGroupButtonSelectBackwards.TextLine2 = "Backwards";
-            this.kryptonRibbonGroupButtonSelectBackwards.ToolTipBody = "Select Previous group of media files. Using the properties set in this ribbon.";
-            this.kryptonRibbonGroupButtonSelectBackwards.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.SelectPrevious;
-            this.kryptonRibbonGroupButtonSelectBackwards.ToolTipTitle = "Select Backwards (Ctrl+Alt+Left)";
+            this.kryptonRibbonGroupButtonSelectBackwards.ToolTipValues.Description = "Select Previous group of media files. Using the properties set in this ribbon.";
+            this.kryptonRibbonGroupButtonSelectBackwards.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.SelectPrevious;
+            this.kryptonRibbonGroupButtonSelectBackwards.ToolTipValues.Heading = "Select Backwards (Ctrl+Alt+Left)";
             this.kryptonRibbonGroupButtonSelectBackwards.Click += new System.EventHandler(this.kryptonRibbonGroupButtonSelectBackwards_Click);
             // 
             // kryptonRibbonGroupButtonSelectForwards
@@ -5037,9 +5037,9 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.Keys.Right)));
             this.kryptonRibbonGroupButtonSelectForwards.TextLine1 = "Select";
             this.kryptonRibbonGroupButtonSelectForwards.TextLine2 = "Forwards";
-            this.kryptonRibbonGroupButtonSelectForwards.ToolTipBody = "Select Next group of media files. Using the properties set in this ribbon.";
-            this.kryptonRibbonGroupButtonSelectForwards.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.SelectNext;
-            this.kryptonRibbonGroupButtonSelectForwards.ToolTipTitle = "Select Forwards (Ctrl+Alt+Right)";
+            this.kryptonRibbonGroupButtonSelectForwards.ToolTipValues.Description = "Select Next group of media files. Using the properties set in this ribbon.";
+            this.kryptonRibbonGroupButtonSelectForwards.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.SelectNext;
+            this.kryptonRibbonGroupButtonSelectForwards.ToolTipValues.Heading = "Select Forwards (Ctrl+Alt+Right)";
             this.kryptonRibbonGroupButtonSelectForwards.Click += new System.EventHandler(this.kryptonRibbonGroupButtonSelectForwards_Click);
             // 
             // kryptonRibbonGroupButtonSelectEqual
@@ -5051,9 +5051,9 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.Keys.I)));
             this.kryptonRibbonGroupButtonSelectEqual.TextLine1 = "Select";
             this.kryptonRibbonGroupButtonSelectEqual.TextLine2 = "match";
-            this.kryptonRibbonGroupButtonSelectEqual.ToolTipBody = "Select all media files that match criterias from selected files.";
-            this.kryptonRibbonGroupButtonSelectEqual.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.SelectEqual;
-            this.kryptonRibbonGroupButtonSelectEqual.ToolTipTitle = "Select match (Ctrl+Shift+I)";
+            this.kryptonRibbonGroupButtonSelectEqual.ToolTipValues.Description = "Select all media files that match criterias from selected files.";
+            this.kryptonRibbonGroupButtonSelectEqual.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.SelectEqual;
+            this.kryptonRibbonGroupButtonSelectEqual.ToolTipValues.Heading = "Select match (Ctrl+Shift+I)";
             this.kryptonRibbonGroupButtonSelectEqual.Click += new System.EventHandler(this.kryptonRibbonGroupButtonSelectEqual_Click);
             // 
             // kryptonRibbonGroupTripleSelectAllNoneToggle
@@ -5071,9 +5071,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonSelectAll.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
             this.kryptonRibbonGroupButtonSelectAll.TextLine1 = "Select";
             this.kryptonRibbonGroupButtonSelectAll.TextLine2 = "all";
-            this.kryptonRibbonGroupButtonSelectAll.ToolTipBody = "Select all media files";
-            this.kryptonRibbonGroupButtonSelectAll.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.SelectAll;
-            this.kryptonRibbonGroupButtonSelectAll.ToolTipTitle = "Select all (Ctrl+A)";
+            this.kryptonRibbonGroupButtonSelectAll.ToolTipValues.Description = "Select all media files";
+            this.kryptonRibbonGroupButtonSelectAll.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.SelectAll;
+            this.kryptonRibbonGroupButtonSelectAll.ToolTipValues.Heading = "Select all (Ctrl+A)";
             this.kryptonRibbonGroupButtonSelectAll.Click += new System.EventHandler(this.kryptonRibbonGroupButtonSelectAll_Click);
             // 
             // kryptonRibbonGroupButtonSelectNone
@@ -5085,9 +5085,9 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.Keys.A)));
             this.kryptonRibbonGroupButtonSelectNone.TextLine1 = "Select ";
             this.kryptonRibbonGroupButtonSelectNone.TextLine2 = "none";
-            this.kryptonRibbonGroupButtonSelectNone.ToolTipBody = "Deselect / Select none of the media files";
-            this.kryptonRibbonGroupButtonSelectNone.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.SelectNone;
-            this.kryptonRibbonGroupButtonSelectNone.ToolTipTitle = "Select All (Ctrl+Shift+A)";
+            this.kryptonRibbonGroupButtonSelectNone.ToolTipValues.Description = "Deselect / Select none of the media files";
+            this.kryptonRibbonGroupButtonSelectNone.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.SelectNone;
+            this.kryptonRibbonGroupButtonSelectNone.ToolTipValues.Heading = "Select All (Ctrl+Shift+A)";
             this.kryptonRibbonGroupButtonSelectNone.Click += new System.EventHandler(this.kryptonRibbonGroupButtonSelectNone_Click);
             // 
             // kryptonRibbonGroupButtonSelectToggle
@@ -5098,9 +5098,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonSelectToggle.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
             this.kryptonRibbonGroupButtonSelectToggle.TextLine1 = "Invert ";
             this.kryptonRibbonGroupButtonSelectToggle.TextLine2 = "selection";
-            this.kryptonRibbonGroupButtonSelectToggle.ToolTipBody = "Invert selection of the media files.";
-            this.kryptonRibbonGroupButtonSelectToggle.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.SelectToggle;
-            this.kryptonRibbonGroupButtonSelectToggle.ToolTipTitle = "Invert selection (Ctrl+I)";
+            this.kryptonRibbonGroupButtonSelectToggle.ToolTipValues.Description = "Invert selection of the media files.";
+            this.kryptonRibbonGroupButtonSelectToggle.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.SelectToggle;
+            this.kryptonRibbonGroupButtonSelectToggle.ToolTipValues.Heading = "Invert selection (Ctrl+I)";
             this.kryptonRibbonGroupButtonSelectToggle.Click += new System.EventHandler(this.kryptonRibbonGroupButtonSelectToggle_Click);
             // 
             // kryptonRibbonGroup2
@@ -5290,9 +5290,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonToolsImportLocations.KeyTip = "I";
             this.kryptonRibbonGroupButtonToolsImportLocations.TextLine1 = "Import";
             this.kryptonRibbonGroupButtonToolsImportLocations.TextLine2 = "Locations";
-            this.kryptonRibbonGroupButtonToolsImportLocations.ToolTipBody = resources.GetString("kryptonRibbonGroupButtonToolsImportLocations.ToolTipBody");
-            this.kryptonRibbonGroupButtonToolsImportLocations.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.ToolsImportGoogleLocation32x32;
-            this.kryptonRibbonGroupButtonToolsImportLocations.ToolTipTitle = "Import Locations";
+            this.kryptonRibbonGroupButtonToolsImportLocations.ToolTipValues.Description = resources.GetString("kryptonRibbonGroupButtonToolsImportLocations.ToolTipBody");
+            this.kryptonRibbonGroupButtonToolsImportLocations.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.ToolsImportGoogleLocation32x32;
+            this.kryptonRibbonGroupButtonToolsImportLocations.ToolTipValues.Heading = "Import Locations";
             this.kryptonRibbonGroupButtonToolsImportLocations.Click += new System.EventHandler(this.kryptonRibbonGroupButtonToolsImportLocations_Click);
             // 
             // kryptonRibbonGroupButtonToolsLocationAnalytics
@@ -5302,9 +5302,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonToolsLocationAnalytics.KeyTip = "L";
             this.kryptonRibbonGroupButtonToolsLocationAnalytics.TextLine1 = "Location";
             this.kryptonRibbonGroupButtonToolsLocationAnalytics.TextLine2 = "Analytics";
-            this.kryptonRibbonGroupButtonToolsLocationAnalytics.ToolTipBody = resources.GetString("kryptonRibbonGroupButtonToolsLocationAnalytics.ToolTipBody");
-            this.kryptonRibbonGroupButtonToolsLocationAnalytics.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.ToolsLocationAnalytics;
-            this.kryptonRibbonGroupButtonToolsLocationAnalytics.ToolTipTitle = "Location Analytics";
+            this.kryptonRibbonGroupButtonToolsLocationAnalytics.ToolTipValues.Description = resources.GetString("kryptonRibbonGroupButtonToolsLocationAnalytics.ToolTipBody");
+            this.kryptonRibbonGroupButtonToolsLocationAnalytics.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.ToolsLocationAnalytics;
+            this.kryptonRibbonGroupButtonToolsLocationAnalytics.ToolTipValues.Heading = "Location Analytics";
             this.kryptonRibbonGroupButtonToolsLocationAnalytics.Click += new System.EventHandler(this.kryptonRibbonGroupButtonToolsLocationAnalytics_Click);
             // 
             // kryptonRibbonGroupButtonToolsWebScraping
@@ -5314,9 +5314,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonToolsWebScraping.KeyTip = "W";
             this.kryptonRibbonGroupButtonToolsWebScraping.TextLine1 = "Web";
             this.kryptonRibbonGroupButtonToolsWebScraping.TextLine2 = "Scraping";
-            this.kryptonRibbonGroupButtonToolsWebScraping.ToolTipBody = "Fetch your own data from web albums that belongs to you.";
-            this.kryptonRibbonGroupButtonToolsWebScraping.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.ToolsWebScraping32x32;
-            this.kryptonRibbonGroupButtonToolsWebScraping.ToolTipTitle = "WebScraping";
+            this.kryptonRibbonGroupButtonToolsWebScraping.ToolTipValues.Description = "Fetch your own data from web albums that belongs to you.";
+            this.kryptonRibbonGroupButtonToolsWebScraping.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.ToolsWebScraping32x32;
+            this.kryptonRibbonGroupButtonToolsWebScraping.ToolTipValues.Heading = "WebScraping";
             this.kryptonRibbonGroupButtonToolsWebScraping.Click += new System.EventHandler(this.kryptonRibbonGroupButtonToolsWebScraping_Click);
             // 
             // kryptonRibbonGroupTriple3
@@ -5331,10 +5331,10 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonToolsDatabaseCleaner.KeyTip = "DC";
             this.kryptonRibbonGroupButtonToolsDatabaseCleaner.TextLine1 = "Database";
             this.kryptonRibbonGroupButtonToolsDatabaseCleaner.TextLine2 = "Cleaning";
-            this.kryptonRibbonGroupButtonToolsDatabaseCleaner.ToolTipBody = "Clean database for unused data.\r\nFor example when media files are deleted outside" +
+            this.kryptonRibbonGroupButtonToolsDatabaseCleaner.ToolTipValues.Description = "Clean database for unused data.\r\nFor example when media files are deleted outside" +
     " this application.";
-            this.kryptonRibbonGroupButtonToolsDatabaseCleaner.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.ToolsDatabaseCleaning32x32;
-            this.kryptonRibbonGroupButtonToolsDatabaseCleaner.ToolTipTitle = "Database Cleaning";
+            this.kryptonRibbonGroupButtonToolsDatabaseCleaner.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.ToolsDatabaseCleaning32x32;
+            this.kryptonRibbonGroupButtonToolsDatabaseCleaner.ToolTipValues.Heading = "Database Cleaning";
             this.kryptonRibbonGroupButtonToolsDatabaseCleaner.Click += new System.EventHandler(this.kryptonRibbonGroupButtonToolsDatabaseCleaner_Click);
             // 
             // kryptonRibbonGroup1
@@ -5356,9 +5356,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonToolsConfig.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.ToolsConfig32x32;
             this.kryptonRibbonGroupButtonToolsConfig.KeyTip = "C";
             this.kryptonRibbonGroupButtonToolsConfig.TextLine1 = "Config";
-            this.kryptonRibbonGroupButtonToolsConfig.ToolTipBody = "Here you can confiurate the application so it fits to your needs";
-            this.kryptonRibbonGroupButtonToolsConfig.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.ToolsConfig32x32;
-            this.kryptonRibbonGroupButtonToolsConfig.ToolTipTitle = "Config";
+            this.kryptonRibbonGroupButtonToolsConfig.ToolTipValues.Description = "Here you can confiurate the application so it fits to your needs";
+            this.kryptonRibbonGroupButtonToolsConfig.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.ToolsConfig32x32;
+            this.kryptonRibbonGroupButtonToolsConfig.ToolTipValues.Heading = "Config";
             this.kryptonRibbonGroupButtonToolsConfig.Click += new System.EventHandler(this.kryptonRibbonGroupButtonToolsConfig_Click);
             // 
             // kryptonRibbonGroupButtonToolsAbout
@@ -5367,9 +5367,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonToolsAbout.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.ToolsAbout32x32;
             this.kryptonRibbonGroupButtonToolsAbout.KeyTip = "A";
             this.kryptonRibbonGroupButtonToolsAbout.TextLine1 = "About";
-            this.kryptonRibbonGroupButtonToolsAbout.ToolTipBody = "Read about this application";
-            this.kryptonRibbonGroupButtonToolsAbout.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.ToolsAbout32x32;
-            this.kryptonRibbonGroupButtonToolsAbout.ToolTipTitle = "About";
+            this.kryptonRibbonGroupButtonToolsAbout.ToolTipValues.Description = "Read about this application";
+            this.kryptonRibbonGroupButtonToolsAbout.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.ToolsAbout32x32;
+            this.kryptonRibbonGroupButtonToolsAbout.ToolTipValues.Heading = "About";
             this.kryptonRibbonGroupButtonToolsAbout.Click += new System.EventHandler(this.kryptonRibbonGroupButtonToolsAbout_Click);
             // 
             // kryptonRibbonGroupToolsProgressStatus
@@ -5467,9 +5467,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonToolsProgressLazyloadingShowStatus.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.ToolsProcessQueue;
             this.kryptonRibbonGroupButtonToolsProgressLazyloadingShowStatus.KeyTip = "T";
             this.kryptonRibbonGroupButtonToolsProgressLazyloadingShowStatus.TextLine1 = "Task list";
-            this.kryptonRibbonGroupButtonToolsProgressLazyloadingShowStatus.ToolTipBody = "Show the queue of task wating to be processed.";
-            this.kryptonRibbonGroupButtonToolsProgressLazyloadingShowStatus.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.ToolsProcessQueue;
-            this.kryptonRibbonGroupButtonToolsProgressLazyloadingShowStatus.ToolTipTitle = "Task list";
+            this.kryptonRibbonGroupButtonToolsProgressLazyloadingShowStatus.ToolTipValues.Description = "Show the queue of task wating to be processed.";
+            this.kryptonRibbonGroupButtonToolsProgressLazyloadingShowStatus.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.ToolsProcessQueue;
+            this.kryptonRibbonGroupButtonToolsProgressLazyloadingShowStatus.ToolTipValues.Heading = "Task list";
             this.kryptonRibbonGroupButtonToolsProgressLazyloadingShowStatus.Click += new System.EventHandler(this.kryptonRibbonGroupButtonToolsProgressLazyloadingShowStatus_Click);
             // 
             // kryptonRibbonTabPreview
@@ -5504,10 +5504,10 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonPreviewPreview.ShortcutKeys = System.Windows.Forms.Keys.F11;
             this.kryptonRibbonGroupButtonPreviewPreview.TextLine1 = "Full";
             this.kryptonRibbonGroupButtonPreviewPreview.TextLine2 = "screen";
-            this.kryptonRibbonGroupButtonPreviewPreview.ToolTipBody = "After selection of one of more media files you can show video and photos covering" +
+            this.kryptonRibbonGroupButtonPreviewPreview.ToolTipValues.Description = "After selection of one of more media files you can show video and photos covering" +
     " full window.";
-            this.kryptonRibbonGroupButtonPreviewPreview.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MediaPreview;
-            this.kryptonRibbonGroupButtonPreviewPreview.ToolTipTitle = "Preview video and photos (F11)";
+            this.kryptonRibbonGroupButtonPreviewPreview.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaPreview;
+            this.kryptonRibbonGroupButtonPreviewPreview.ToolTipValues.Heading = "Preview video and photos (F11)";
             this.kryptonRibbonGroupButtonPreviewPreview.Click += new System.EventHandler(this.kryptonRibbonGroupButtonPreviewPreview_Click);
             // 
             // kryptonRibbonGroupPreviewNavigate
@@ -5533,9 +5533,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonPreviewSkipPrev.KeyTip = "NSP";
             this.kryptonRibbonGroupButtonPreviewSkipPrev.TextLine1 = "Skip";
             this.kryptonRibbonGroupButtonPreviewSkipPrev.TextLine2 = "Prev";
-            this.kryptonRibbonGroupButtonPreviewSkipPrev.ToolTipBody = "Show previous media file from the list of selection ";
-            this.kryptonRibbonGroupButtonPreviewSkipPrev.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerPrevious;
-            this.kryptonRibbonGroupButtonPreviewSkipPrev.ToolTipTitle = "Skip previous";
+            this.kryptonRibbonGroupButtonPreviewSkipPrev.ToolTipValues.Description = "Show previous media file from the list of selection ";
+            this.kryptonRibbonGroupButtonPreviewSkipPrev.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerPrevious;
+            this.kryptonRibbonGroupButtonPreviewSkipPrev.ToolTipValues.Heading = "Skip previous";
             this.kryptonRibbonGroupButtonPreviewSkipPrev.Click += new System.EventHandler(this.kryptonRibbonGroupButtonPreviewSkipPrev_Click);
             // 
             // kryptonRibbonGroupButtonPreviewSkipNext
@@ -5545,9 +5545,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonPreviewSkipNext.KeyTip = "NSN";
             this.kryptonRibbonGroupButtonPreviewSkipNext.TextLine1 = "Skip";
             this.kryptonRibbonGroupButtonPreviewSkipNext.TextLine2 = "Next";
-            this.kryptonRibbonGroupButtonPreviewSkipNext.ToolTipBody = "Show next media file from the list of selection ";
-            this.kryptonRibbonGroupButtonPreviewSkipNext.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerNext;
-            this.kryptonRibbonGroupButtonPreviewSkipNext.ToolTipTitle = "Skip next";
+            this.kryptonRibbonGroupButtonPreviewSkipNext.ToolTipValues.Description = "Show next media file from the list of selection ";
+            this.kryptonRibbonGroupButtonPreviewSkipNext.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerNext;
+            this.kryptonRibbonGroupButtonPreviewSkipNext.ToolTipValues.Heading = "Skip next";
             this.kryptonRibbonGroupButtonPreviewSkipNext.Click += new System.EventHandler(this.kryptonRibbonGroupButtonPreviewSkipNext_Click);
             // 
             // kryptonRibbonGroupTriplePreviewPlayPause
@@ -5562,7 +5562,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonPreviewPlay.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerPlay;
             this.kryptonRibbonGroupButtonPreviewPlay.KeyTip = "NPL";
             this.kryptonRibbonGroupButtonPreviewPlay.TextLine1 = "Play";
-            this.kryptonRibbonGroupButtonPreviewPlay.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerPlay;
+            this.kryptonRibbonGroupButtonPreviewPlay.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerPlay;
             this.kryptonRibbonGroupButtonPreviewPlay.Click += new System.EventHandler(this.kryptonRibbonGroupButtonPreviewPlay_Click);
             // 
             // kryptonRibbonGroupButtonPreviewPause
@@ -5571,7 +5571,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonPreviewPause.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerPause;
             this.kryptonRibbonGroupButtonPreviewPause.KeyTip = "NPA";
             this.kryptonRibbonGroupButtonPreviewPause.TextLine1 = "Pause";
-            this.kryptonRibbonGroupButtonPreviewPause.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerPause;
+            this.kryptonRibbonGroupButtonPreviewPause.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerPause;
             this.kryptonRibbonGroupButtonPreviewPause.Click += new System.EventHandler(this.kryptonRibbonGroupButtonPreviewPause_Click);
             // 
             // kryptonRibbonGroupTriplePreviewRewindForwardStop
@@ -5587,9 +5587,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonPreviewRewind.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerFastBackward;
             this.kryptonRibbonGroupButtonPreviewRewind.KeyTip = "NR";
             this.kryptonRibbonGroupButtonPreviewRewind.TextLine1 = "Rewind";
-            this.kryptonRibbonGroupButtonPreviewRewind.ToolTipBody = "When showing video files, this will jump the movie 10 secouns back in time";
-            this.kryptonRibbonGroupButtonPreviewRewind.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerFastBackward;
-            this.kryptonRibbonGroupButtonPreviewRewind.ToolTipTitle = "Rewind";
+            this.kryptonRibbonGroupButtonPreviewRewind.ToolTipValues.Description = "When showing video files, this will jump the movie 10 secouns back in time";
+            this.kryptonRibbonGroupButtonPreviewRewind.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerFastBackward;
+            this.kryptonRibbonGroupButtonPreviewRewind.ToolTipValues.Heading = "Rewind";
             this.kryptonRibbonGroupButtonPreviewRewind.Click += new System.EventHandler(this.kryptonRibbonGroupButtonPreviewRewind_Click);
             // 
             // kryptonRibbonGroupButtonPreviewForward
@@ -5598,9 +5598,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonPreviewForward.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerFastForward;
             this.kryptonRibbonGroupButtonPreviewForward.KeyTip = "NF";
             this.kryptonRibbonGroupButtonPreviewForward.TextLine1 = "Forward";
-            this.kryptonRibbonGroupButtonPreviewForward.ToolTipBody = "When showing video files, this will jump the movie 10 secouns forward in time";
-            this.kryptonRibbonGroupButtonPreviewForward.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerFastForward;
-            this.kryptonRibbonGroupButtonPreviewForward.ToolTipTitle = "Forward";
+            this.kryptonRibbonGroupButtonPreviewForward.ToolTipValues.Description = "When showing video files, this will jump the movie 10 secouns forward in time";
+            this.kryptonRibbonGroupButtonPreviewForward.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerFastForward;
+            this.kryptonRibbonGroupButtonPreviewForward.ToolTipValues.Heading = "Forward";
             this.kryptonRibbonGroupButtonPreviewForward.Click += new System.EventHandler(this.kryptonRibbonGroupButtonPreviewForward_Click);
             // 
             // kryptonRibbonGroupButtonPreviewStop
@@ -5609,9 +5609,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonPreviewStop.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerStop;
             this.kryptonRibbonGroupButtonPreviewStop.KeyTip = "NS";
             this.kryptonRibbonGroupButtonPreviewStop.TextLine1 = "Stop";
-            this.kryptonRibbonGroupButtonPreviewStop.ToolTipBody = "Stop chasting / video playpack";
-            this.kryptonRibbonGroupButtonPreviewStop.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerStop;
-            this.kryptonRibbonGroupButtonPreviewStop.ToolTipTitle = "Stop";
+            this.kryptonRibbonGroupButtonPreviewStop.ToolTipValues.Description = "Stop chasting / video playpack";
+            this.kryptonRibbonGroupButtonPreviewStop.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerStop;
+            this.kryptonRibbonGroupButtonPreviewStop.ToolTipValues.Heading = "Stop";
             this.kryptonRibbonGroupButtonPreviewStop.Click += new System.EventHandler(this.kryptonRibbonGroupButtonPreviewStop_Click);
             // 
             // kryptonRibbonGroupLinesPreviewTimer
@@ -5647,9 +5647,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonPreviewRotate270.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate90CCW;
             this.kryptonRibbonGroupButtonPreviewRotate270.KeyTip = "2";
             this.kryptonRibbonGroupButtonPreviewRotate270.TextLine1 = "90° CCW";
-            this.kryptonRibbonGroupButtonPreviewRotate270.ToolTipBody = "Rotate the media on screen only";
-            this.kryptonRibbonGroupButtonPreviewRotate270.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate90CCW;
-            this.kryptonRibbonGroupButtonPreviewRotate270.ToolTipTitle = "Roatet 270° / 90° CCW";
+            this.kryptonRibbonGroupButtonPreviewRotate270.ToolTipValues.Description = "Rotate the media on screen only";
+            this.kryptonRibbonGroupButtonPreviewRotate270.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate90CCW;
+            this.kryptonRibbonGroupButtonPreviewRotate270.ToolTipValues.Heading = "Roatet 270° / 90° CCW";
             this.kryptonRibbonGroupButtonPreviewRotate270.Click += new System.EventHandler(this.kryptonRibbonGroupButtonPreviewRotate270_Click);
             // 
             // kryptonRibbonGroupButtonPreviewRotate180
@@ -5659,9 +5659,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonPreviewRotate180.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate180;
             this.kryptonRibbonGroupButtonPreviewRotate180.KeyTip = "1";
             this.kryptonRibbonGroupButtonPreviewRotate180.TextLine1 = "180°";
-            this.kryptonRibbonGroupButtonPreviewRotate180.ToolTipBody = "Rotate the media on screen only";
-            this.kryptonRibbonGroupButtonPreviewRotate180.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate180;
-            this.kryptonRibbonGroupButtonPreviewRotate180.ToolTipTitle = "Roatet 180° CW";
+            this.kryptonRibbonGroupButtonPreviewRotate180.ToolTipValues.Description = "Rotate the media on screen only";
+            this.kryptonRibbonGroupButtonPreviewRotate180.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate180;
+            this.kryptonRibbonGroupButtonPreviewRotate180.ToolTipValues.Heading = "Roatet 180° CW";
             this.kryptonRibbonGroupButtonPreviewRotate180.Click += new System.EventHandler(this.kryptonRibbonGroupButtonPreviewRotate180_Click);
             // 
             // kryptonRibbonGroupButtonPreviewRotate90
@@ -5671,9 +5671,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonPreviewRotate90.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate90CW;
             this.kryptonRibbonGroupButtonPreviewRotate90.KeyTip = "9";
             this.kryptonRibbonGroupButtonPreviewRotate90.TextLine1 = "90° CW";
-            this.kryptonRibbonGroupButtonPreviewRotate90.ToolTipBody = "Rotate the media on screen only";
-            this.kryptonRibbonGroupButtonPreviewRotate90.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate90CW;
-            this.kryptonRibbonGroupButtonPreviewRotate90.ToolTipTitle = "Roatet 90° CW";
+            this.kryptonRibbonGroupButtonPreviewRotate90.ToolTipValues.Description = "Rotate the media on screen only";
+            this.kryptonRibbonGroupButtonPreviewRotate90.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaRotate90CW;
+            this.kryptonRibbonGroupButtonPreviewRotate90.ToolTipValues.Heading = "Roatet 90° CW";
             this.kryptonRibbonGroupButtonPreviewRotate90.Click += new System.EventHandler(this.kryptonRibbonGroupButtonPreviewRotate90_Click);
             // 
             // kryptonRibbonGroupPreviewSlideshow
@@ -5697,9 +5697,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonPreviewSlideshowPlay.KeyTip = "SS";
             this.kryptonRibbonGroupButtonPreviewSlideshowPlay.TextLine1 = "Start";
             this.kryptonRibbonGroupButtonPreviewSlideshowPlay.TextLine2 = "Slideshow";
-            this.kryptonRibbonGroupButtonPreviewSlideshowPlay.ToolTipBody = "Start / stop slideshow of selected media files";
-            this.kryptonRibbonGroupButtonPreviewSlideshowPlay.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MediaPreviewSlideshowPlay;
-            this.kryptonRibbonGroupButtonPreviewSlideshowPlay.ToolTipTitle = "Start / stop slideshow";
+            this.kryptonRibbonGroupButtonPreviewSlideshowPlay.ToolTipValues.Description = "Start / stop slideshow of selected media files";
+            this.kryptonRibbonGroupButtonPreviewSlideshowPlay.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaPreviewSlideshowPlay;
+            this.kryptonRibbonGroupButtonPreviewSlideshowPlay.ToolTipValues.Heading = "Start / stop slideshow";
             this.kryptonRibbonGroupButtonPreviewSlideshowPlay.Click += new System.EventHandler(this.kryptonRibbonGroupButtonPreviewSlideshowPlay_Click);
             // 
             // kryptonRibbonGroupTriplePreviewSlideshow
@@ -5717,9 +5717,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonPreviewSlideshow.KeyTip = "SM";
             this.kryptonRibbonGroupButtonPreviewSlideshow.TextLine1 = "Select";
             this.kryptonRibbonGroupButtonPreviewSlideshow.TextLine2 = "Media";
-            this.kryptonRibbonGroupButtonPreviewSlideshow.ToolTipBody = "Jump to a given media file";
-            this.kryptonRibbonGroupButtonPreviewSlideshow.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MediaPreviewSlideshow;
-            this.kryptonRibbonGroupButtonPreviewSlideshow.ToolTipTitle = "Select media";
+            this.kryptonRibbonGroupButtonPreviewSlideshow.ToolTipValues.Description = "Jump to a given media file";
+            this.kryptonRibbonGroupButtonPreviewSlideshow.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaPreviewSlideshow;
+            this.kryptonRibbonGroupButtonPreviewSlideshow.ToolTipValues.Heading = "Select media";
             // 
             // kryptonRibbonGroupButtonPreviewSlideshowTimeInterval
             // 
@@ -5729,9 +5729,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonPreviewSlideshowTimeInterval.KeyTip = "ST";
             this.kryptonRibbonGroupButtonPreviewSlideshowTimeInterval.TextLine1 = "Time";
             this.kryptonRibbonGroupButtonPreviewSlideshowTimeInterval.TextLine2 = "Interval";
-            this.kryptonRibbonGroupButtonPreviewSlideshowTimeInterval.ToolTipBody = "Set the pause between move to next media files during slideshow";
-            this.kryptonRibbonGroupButtonPreviewSlideshowTimeInterval.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MediaPreviewSlideshowInterval;
-            this.kryptonRibbonGroupButtonPreviewSlideshowTimeInterval.ToolTipTitle = "Time interval";
+            this.kryptonRibbonGroupButtonPreviewSlideshowTimeInterval.ToolTipValues.Description = "Set the pause between move to next media files during slideshow";
+            this.kryptonRibbonGroupButtonPreviewSlideshowTimeInterval.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaPreviewSlideshowInterval;
+            this.kryptonRibbonGroupButtonPreviewSlideshowTimeInterval.ToolTipValues.Heading = "Time interval";
             // 
             // kryptonRibbonGroupButtonPreviewChromecast
             // 
@@ -5740,9 +5740,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonPreviewChromecast.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerChromecast;
             this.kryptonRibbonGroupButtonPreviewChromecast.KeyTip = "C";
             this.kryptonRibbonGroupButtonPreviewChromecast.TextLine1 = "Chromecast";
-            this.kryptonRibbonGroupButtonPreviewChromecast.ToolTipBody = "Select where to chromecast";
-            this.kryptonRibbonGroupButtonPreviewChromecast.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerChromecast;
-            this.kryptonRibbonGroupButtonPreviewChromecast.ToolTipTitle = "Chromecast";
+            this.kryptonRibbonGroupButtonPreviewChromecast.ToolTipValues.Description = "Select where to chromecast";
+            this.kryptonRibbonGroupButtonPreviewChromecast.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaPlayerChromecast;
+            this.kryptonRibbonGroupButtonPreviewChromecast.ToolTipValues.Heading = "Chromecast";
             // 
             // kryptonRibbonGroupPreviewStatus
             // 

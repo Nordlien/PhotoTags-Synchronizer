@@ -207,7 +207,7 @@ namespace PhotoTagsSynchronizer
                 IsPopulatingImageListViewFromFolderOrDatabaseList ||
 
                 //Acton button
-                IsPerformingAButtonAction ||
+                //IsPerformingAButtonAction ||
 
                 //Keywords
                 IsPopulatingTags ||

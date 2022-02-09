@@ -150,10 +150,6 @@
     <ProjectReference Include="..\GoogleLocationHistory\GoogleLocationHistory.csproj" />
     <ProjectReference Include="..\ImageAndMovieFileExtentions\ImageAndMovieFileExtentions.csproj" />
     <ProjectReference Include="..\ImageListView\ImageListView.csproj" />
-    <ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2019.csproj" />
-    <ProjectReference Include="..\Krypton.Ribbon\Krypton.Ribbon 2019.csproj" />
-    <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2019.csproj" />
-    <ProjectReference Include="..\Krypton.Workspace\Krypton.Workspace 2019.csproj" />
     <ProjectReference Include="..\LocationNames\LocationNames.csproj" />
     <ProjectReference Include="..\MetadataLibrary\MetadataLibrary.csproj" />
     <ProjectReference Include="..\MetadataPriorityLibrary\MetadataPriorityLibrary.csproj" />
@@ -175,6 +171,11 @@
       <Version>1.3.1</Version>
     </PackageReference>
     <PackageReference Include="FCTB" Version="2.16.24" />
+    <PackageReference Include="Krypton.Docking" Version="60.22.2.32" />
+    <PackageReference Include="Krypton.Navigator" Version="60.22.2.32" />
+    <PackageReference Include="Krypton.Ribbon" Version="60.22.2.32" />
+    <PackageReference Include="Krypton.Toolkit" Version="60.22.2.32" />
+    <PackageReference Include="Krypton.Workspace" Version="60.22.2.32" />
     <PackageReference Include="LibVLCSharp.WinForms" Version="3.6.5" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="NLog">
@@ -191,9 +192,7 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="MainForm_ErrorHandling.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="MainForm_ErrorHandling.cs" />
     <Compile Update="MainForm_Workspace.cs" />
     <Compile Update="MainForm_LocationHistoryAnalytics.cs" />
     <Compile Update="Properties\Resources.Designer.cs">
