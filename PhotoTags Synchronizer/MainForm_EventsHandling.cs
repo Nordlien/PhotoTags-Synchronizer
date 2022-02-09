@@ -4,6 +4,7 @@ using DataGridViewGeneric;
 using Exiftool;
 using FileDateTime;
 using FileHandeling;
+using ImageAndMovieFileExtentions;
 using Krypton.Toolkit;
 using LocationNames;
 using Manina.Windows.Forms;
@@ -8090,10 +8091,11 @@ namespace PhotoTagsSynchronizer
                         KryptonMessageBox.Show("Can't run AutoCorrect. Not a valid folder selected.", "Invalid folder...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
                         return;
                     }
-                    string[] files = Directory.GetFiles(selectedFolder, "*.*");
-                    foreach (string file in files)
+
+                    IEnumerable<FileData> fileDatas = ImageAndMovieFileExtentionsUtility.GetFilesByEnumerableFast(selectedFolder, false);
+                    foreach (FileData file in fileDatas)
                     {
-                        FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(file, File.GetLastWriteTime(file), MetadataBrokerType.ExifTool);
+                        FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(file.Path, File.GetLastWriteTime(file.Path), MetadataBrokerType.ExifTool);
                         Metadata metadataInCache = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftool);
                         if (metadataInCache != null)
                         {
@@ -8114,7 +8116,7 @@ namespace PhotoTagsSynchronizer
                                 AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave);
                                 DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
                                 AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
-                                AddQueueRenameMediaFilesLock(file, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
+                                AddQueueRenameMediaFilesLock(file.Path, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
                             }
                         }
                     }
@@ -8379,10 +8381,10 @@ namespace PhotoTagsSynchronizer
                             KryptonMessageBox.Show("Can't run AutoCorrect. Not a valid folder selected.", "Invalid folder...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
                             return;
                         }
-                        string[] files = Directory.GetFiles(selectedFolder, "*.*");
-                        foreach (string file in files)
+                        IEnumerable<FileData> fileDatas = ImageAndMovieFileExtentionsUtility.GetFilesByEnumerableFast(selectedFolder, false);
+                        foreach (FileData fileData in fileDatas)
                         {
-                            FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(file, File.GetLastWriteTime(file), MetadataBrokerType.ExifTool);
+                            FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(fileData.Path, File.GetLastWriteTime(fileData.Path), MetadataBrokerType.ExifTool);
                             Metadata metadataInCache = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftool);
                             if (metadataInCache != null)
                             {
@@ -8406,7 +8408,7 @@ namespace PhotoTagsSynchronizer
                                     AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave);
                                     DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
                                     AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
-                                    AddQueueRenameMediaFilesLock(file, autoCorrect.RenameVariable);
+                                    AddQueueRenameMediaFilesLock(fileData.Path, autoCorrect.RenameVariable);
                                 }
                             }
                         }
@@ -8852,6 +8854,7 @@ namespace PhotoTagsSynchronizer
                 }
 
                 string[] files = Directory.GetFiles(folder, "*", SearchOption.TopDirectoryOnly);
+
                 int filesCount = files.Length;
 
                 int foldersCount = 0;

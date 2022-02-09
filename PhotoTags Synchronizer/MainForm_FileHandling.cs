@@ -266,7 +266,7 @@ namespace PhotoTagsSynchronizer
             {
                 using (new WaitCursor())
                 {
-                    string[] allSourceFullFilenames = Directory.GetFiles(sourceDirectory, "*.*", SearchOption.AllDirectories);
+                    IEnumerable<FileData> fileDatas = ImageAndMovieFileExtentionsUtility.GetFilesByEnumerableFast(sourceDirectory, true);
 
                     #region Move all folder and files
                     Logger.Trace("Move folder from:" + sourceDirectory + " to: " + targetDirectory);
@@ -286,14 +286,14 @@ namespace PhotoTagsSynchronizer
                     #endregion
 
                     #region Update database
-                    foreach (string oldFullFilename in allSourceFullFilenames)
+                    foreach (FileData oldFileData in fileDatas)
                     {
-                        string oldFilename = Path.GetFileName(oldFullFilename);
+                        string oldFilename = Path.GetFileName(oldFileData.Path);
                         string newFullFilename = Path.Combine(targetDirectory, oldFilename);
-                        Logger.Trace("Rename from:" + oldFullFilename + " to: " + newFullFilename);
+                        Logger.Trace("Rename from:" + oldFileData.Path + " to: " + newFullFilename);
 
-                        databaseAndCacheThumbnailPoster.Move(Path.GetDirectoryName(oldFullFilename), Path.GetFileName(oldFullFilename), Path.GetDirectoryName(newFullFilename), Path.GetFileName(newFullFilename));
-                        databaseAndCacheMetadataExiftool.Move(Path.GetDirectoryName(oldFullFilename), Path.GetFileName(oldFullFilename), Path.GetDirectoryName(newFullFilename), Path.GetFileName(newFullFilename));
+                        databaseAndCacheThumbnailPoster.Move(Path.GetDirectoryName(oldFileData.Path), Path.GetFileName(oldFileData.Path), Path.GetDirectoryName(newFullFilename), Path.GetFileName(newFullFilename));
+                        databaseAndCacheMetadataExiftool.Move(Path.GetDirectoryName(oldFileData.Path), Path.GetFileName(oldFileData.Path), Path.GetDirectoryName(newFullFilename), Path.GetFileName(newFullFilename));
                     }
                     #endregion
 
@@ -385,7 +385,7 @@ namespace PhotoTagsSynchronizer
         #region Copy Folder
         private void CopyFolder_UpdateTreeViewFolderBrowser(TreeViewFolderBrowser folderTreeView, string sourceDirectory, string tagretDirectory, TreeNode targetNode)
         {
-            string[] allSourceFullFilenames = Directory.GetFiles(sourceDirectory, "*.*", SearchOption.AllDirectories);
+            IEnumerable<FileData> allSourceFileDatas = ImageAndMovieFileExtentionsUtility.GetFilesByEnumerableFast(sourceDirectory, true);
 
             //----- Create directories and sub-directories
             Directory.CreateDirectory(tagretDirectory);
@@ -408,44 +408,44 @@ namespace PhotoTagsSynchronizer
             using (new WaitCursor())
             {
                 //Copy all the files & Replaces any files with the same name
-                foreach (string sourceFullFilename in allSourceFullFilenames)
+                foreach (FileData sourceFileData in allSourceFileDatas)
                 {
-                    string sourceFilename = Path.GetFileName(sourceFullFilename);
+                    string sourceFilename = Path.GetFileName(sourceFileData.Path);
                     string targetFullFilename = Path.Combine(tagretDirectory, sourceFilename);
                     try
                     {
-                        Logger.Trace("Copy from:" + sourceFullFilename + " to: " + targetFullFilename);
-                        File.Copy(sourceFullFilename, sourceFullFilename.Replace(sourceDirectory, tagretDirectory), false);
+                        Logger.Trace("Copy from:" + sourceFileData.Path + " to: " + targetFullFilename);
+                        File.Copy(sourceFileData.Path, sourceFileData.Path.Replace(sourceDirectory, tagretDirectory), false);
 
                         if (targetNode != null)
                             TreeViewFolderBrowserHandler.RefreshTreeNode(folderTreeView, targetNode);
 
                         databaseAndCacheMetadataExiftool.Copy(
-                            Path.GetDirectoryName(sourceFullFilename), Path.GetFileName(sourceFullFilename),
-                            Path.GetDirectoryName(targetFullFilename), Path.GetFileName(targetFullFilename));
+                            Path.GetDirectoryName(sourceFileData.Path), Path.GetFileName(sourceFileData.Path),
+                            Path.GetDirectoryName(sourceFileData.Path), Path.GetFileName(sourceFileData.Path));
                     }
                     catch (SystemException ex)
                     {
                         DateTime dateTimeLastWriteTime = DateTime.Now;
                         try
                         {
-                            dateTimeLastWriteTime = File.GetLastWriteTime(sourceFullFilename);
+                            dateTimeLastWriteTime = File.GetLastWriteTime(sourceFileData.Path);
                         }
                         catch { }
 
                         FileStatus fileStatusSource = FileHandler.GetFileStatus(
-                            sourceFullFilename, checkLockedStatus: true, fileInaccessibleOrError: true, fileErrorMessage: ex.Message);
-                        ImageListView_UpdateItemFileStatusInvoke(sourceFullFilename, fileStatusSource);
+                            sourceFileData.Path, checkLockedStatus: true, fileInaccessibleOrError: true, fileErrorMessage: ex.Message);
+                        ImageListView_UpdateItemFileStatusInvoke(sourceFileData.Path, fileStatusSource);
 
                         FileStatus fileStatusTarget = FileHandler.GetFileStatus(
                             targetFullFilename, checkLockedStatus: true);
                         //ImageListView_UpdateItemFileStatusInvoke(targetFullFilename, fileStatusTarget);
 
                         AddError(
-                            Path.GetDirectoryName(sourceFullFilename), Path.GetFileName(sourceFullFilename), dateTimeLastWriteTime,
-                            AddErrorFileSystemRegion, AddErrorFileSystemCopy, sourceFullFilename, targetFullFilename,
+                            Path.GetDirectoryName(sourceFileData.Path), Path.GetFileName(sourceFileData.Path), dateTimeLastWriteTime,
+                            AddErrorFileSystemRegion, AddErrorFileSystemCopy, sourceFileData.Path, targetFullFilename,
                             "Issue: Failed copying file.\r\n" +
-                            "From File Name:  " + sourceFullFilename + "\r\n" +
+                            "From File Name:  " + sourceFileData.Path + "\r\n" +
                             "From File Staus: " + fileStatusSource.ToString() + "\r\n" +
                             "To   File Name:  " + targetFullFilename + "\r\n" +
                             "To   File Staus: " + fileStatusTarget.ToString() + "\r\n" +
