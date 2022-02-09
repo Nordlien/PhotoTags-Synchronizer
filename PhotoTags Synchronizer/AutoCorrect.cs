@@ -54,10 +54,7 @@ namespace PhotoTagsSynchronizer
                     int wordLength = word.Length;
                     int startSearchIndex = 0;
                     bool needSearchMore = true;
-                    if (word == "*")
-                    {
-                        //DEBUG
-                    }
+                    
                     while (startSearchIndex <= findInThisTextLastChar && needSearchMore)
                     {
                         int foundLocation = findInThisText.IndexOf(word, startSearchIndex);

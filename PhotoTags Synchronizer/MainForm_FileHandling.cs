@@ -266,7 +266,7 @@ namespace PhotoTagsSynchronizer
             {
                 using (new WaitCursor())
                 {
-                    IEnumerable<FileData> fileDatas = ImageAndMovieFileExtentionsUtility.GetFilesByEnumerableFast(sourceDirectory, true);
+                    FileData[] fileDatas = FastDirectoryEnumerator.GetFiles(sourceDirectory, "*.*", SearchOption.AllDirectories);
 
                     #region Move all folder and files
                     Logger.Trace("Move folder from:" + sourceDirectory + " to: " + targetDirectory);
