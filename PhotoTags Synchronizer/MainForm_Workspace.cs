@@ -118,11 +118,40 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
+        #region KryptonWorkspaceCell Click - Media files
+        private void kryptonWorkspaceCellMediaFiles_Click(object sender, EventArgs e)
+        {
+            ((Krypton.Workspace.KryptonWorkspaceCell)sender).Focus();
+        }
+        #endregion
 
+        #region KryptonWorkspaceCell Click - Keywords and Tags
+        private void kryptonWorkspaceCellToolboxTagsDetails_Click(object sender, EventArgs e)
+        {
+            ((Krypton.Workspace.KryptonWorkspaceCell)sender).Focus();
+        }
+
+        private void kryptonWorkspaceCellToolboxTagsKeywords_Click(object sender, EventArgs e)
+        {
+            ((Krypton.Workspace.KryptonWorkspaceCell)sender).Focus();
+        }
+        #endregion 
+
+        #region KryptonWorkspaceCell Click - Folder,Search, Filter
+        private void kryptonWorkspaceCellFolderSearchFilter_Click(object sender, EventArgs e)
+        {
+            ((Krypton.Workspace.KryptonWorkspaceCell)sender).Focus();
+        }
+        #endregion 
+
+        #region ActivePageChanged - PopulateDatabaseFilter / Add TextTitle + *
         private void kryptonWorkspaceMain_ActivePageChanged(object sender, Krypton.Workspace.ActivePageChangedEventArgs e)
         {
             if (e.NewPage == kryptonPageFolderSearchFilterSearch) PopulateDatabaseFilter();
+            e.OldPage.Text = e.OldPage.TextTitle = e.OldPage.Text.TrimEnd('*');
+            e.NewPage.Text = e.NewPage.TextTitle = e.OldPage.Text.TrimEnd('*') + "*";
         }
+        #endregion
 
         #region Workspace -- Selected DataGrivView tab - Changed --
         private void kryptonWorkspaceCellToolbox_SelectedPageChanged(object sender, EventArgs e)
