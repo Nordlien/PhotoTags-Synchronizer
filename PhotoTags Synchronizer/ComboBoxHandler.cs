@@ -17,10 +17,8 @@ namespace PhotoTagsSynchronizer
             try
             {
                 textBox.Focus();
-                var selectionIndex = textBox.SelectionStart;
-                textBox.Text = textBox.Text.Remove(selectionIndex, textBox.SelectionLength);
-                textBox.Text = textBox.Text.Insert(selectionIndex, insertText);
-                textBox.SelectionStart = selectionIndex + insertText.Length;
+                Clipboard.SetText(insertText);
+                textBox.Paste();
             }
             catch (Exception ex)
             {

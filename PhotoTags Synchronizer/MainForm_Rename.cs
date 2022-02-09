@@ -11,11 +11,8 @@ namespace PhotoTagsSynchronizer
         private void comboBoxRenameVariableList_SelectionChangeCommitted(object sender, EventArgs e)
         {
             textBoxRenameNewName.Focus();
-            var insertText = comboBoxRenameVariableList.Text;
-            var selectionIndex = textBoxRenameNewName.SelectionStart;
-            textBoxRenameNewName.Text = textBoxRenameNewName.Text.Remove(selectionIndex, textBoxRenameNewName.SelectionLength);
-            textBoxRenameNewName.Text = textBoxRenameNewName.Text.Insert(selectionIndex, insertText);
-            textBoxRenameNewName.SelectionStart = selectionIndex + insertText.Length;
+            Clipboard.SetText(comboBoxRenameVariableList.Text);
+            textBoxRenameNewName.Paste();
         }
         #endregion
 

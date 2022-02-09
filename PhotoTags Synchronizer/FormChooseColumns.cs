@@ -151,40 +151,6 @@ namespace PhotoTagsSynchronizer
             }
         }
 
-        private static string GetTextOfColumnType(ColumnType columnType)
-        {
-            switch (columnType)
-            {
-                //JTN: MediaFileAttributes 
-                case ColumnType.FileDate: return "FileDate";
-                case ColumnType.FileSmartDate: return "FileSmartDate";
-                case ColumnType.FileDateCreated: return "FileDateCreated";
-                case ColumnType.FileDateModified: return "FileDateModified";
-                case ColumnType.MediaDateTaken: return "MediaDateTaken";
-                case ColumnType.FileType: return "FileType";
-                case ColumnType.FileFullPath: return "FileFullPath";
-                case ColumnType.FileDirectory: return "FileDirectory";
-                case ColumnType.FileSize: return "FileSize";
-                case ColumnType.FileStatus: return "FileStatus";
-                case ColumnType.MediaAlbum: return "MediaAlbum";
-                case ColumnType.MediaTitle: return "MediaTitle";
-                case ColumnType.MediaDescription: return "MediaDescription";
-                case ColumnType.MediaComment: return "MediaComment";
-                case ColumnType.MediaAuthor: return "MediaAuthor";
-                case ColumnType.MediaRating: return "MediaRating";
-                case ColumnType.LocationDateTime: return "LocationDateTime";
-                case ColumnType.LocationTimeZone: return "LocationTimeZone";
-                case ColumnType.LocationName: return "LocationName";
-                case ColumnType.LocationRegionState: return "LocationRegionState";
-                case ColumnType.LocationCity: return "LocationCity";
-                case ColumnType.LocationCountry: return "LocationCountry";
-                case ColumnType.CameraMake: return "CameraMake";
-                case ColumnType.CameraModel: return "CameraModel";
-                case ColumnType.MediaDimensions: return "MediaDimensions";
-                default: /*"FileName":*/ return "FileName";
-            }
-        }
-
         private void GetComboBoxValues()
         {
             if (isPopulating) return;
