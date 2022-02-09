@@ -607,6 +607,7 @@ namespace PhotoTagsSynchronizer
             this.ResumeLayout();
             #endregion
 
+
             #region OneDriveNetworkNames - for automatic remove
             if (!oneDriveNetworkNames.Contains(Environment.MachineName)) oneDriveNetworkNames.Add(Environment.MachineName);
             try

@@ -136,6 +136,7 @@ namespace PhotoTagsSynchronizer
 
                     List<KeywordTag> keywordTags = new List<KeywordTag>();
                     keywordTags.Add(new KeywordTag(tag.Keyword));
+
                     List<string> newKeywords = AutoKeywordHandler.NewKeywords(AutoKeywordConvertions, null, null, null, null, null, keywordTags);
                     DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndex, "Running AutoCorrect will add these keywords", newKeywords);
 

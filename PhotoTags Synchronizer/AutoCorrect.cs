@@ -44,11 +44,51 @@ namespace PhotoTagsSynchronizer
         private bool DoesWordExistInList(HashSet<string> list, string findInThisText)
         {
             if (string.IsNullOrWhiteSpace(findInThisText)) return false;
-            char[] delimiterChars = { ' ', ',', '.', ':', '\'', '\"', '\\', '\0', '\f', '\n', '\r', '\t'};
-            string[] wordsInText = findInThisText.Split(delimiterChars, StringSplitOptions.RemoveEmptyEntries);
-            foreach (string word in wordsInText)
+            findInThisText = findInThisText.ToUpper();
+
+            foreach (string word in list)
             {
-                if (list.Contains(word.Trim().ToUpper())) return true;
+                if (!string.IsNullOrWhiteSpace(word))
+                {
+                    int findInThisTextLastChar = findInThisText.Length - 1;
+                    int wordLength = word.Length;
+                    int startSearchIndex = 0;
+                    bool needSearchMore = true;
+                    if (word == "*")
+                    {
+                        //DEBUG
+                    }
+                    while (startSearchIndex <= findInThisTextLastChar && needSearchMore)
+                    {
+                        int foundLocation = findInThisText.IndexOf(word, startSearchIndex);
+                        if (foundLocation > -1)
+                        {
+                            bool isWhiteSpaceInFront = true;
+                            int locationBefore = foundLocation - 1;
+                            if (foundLocation > 0 && 
+                                !char.IsWhiteSpace(findInThisText[locationBefore]) && 
+                                !char.IsPunctuation(findInThisText[locationBefore])) isWhiteSpaceInFront = false;
+
+                            bool isWhiteSpaceAfter = true;
+                            if (isWhiteSpaceInFront) //No need to check
+                            {
+                                int locationAfter = foundLocation + wordLength;
+                                if (locationAfter <= findInThisTextLastChar &&
+                                    !char.IsWhiteSpace(findInThisText[locationAfter]) &&
+                                    !char.IsPunctuation(findInThisText[locationAfter])) isWhiteSpaceAfter = false;
+                            }
+
+                            if (isWhiteSpaceInFront && isWhiteSpaceAfter) 
+                                return true; //Found a word (and not whinin other words)
+                            startSearchIndex = foundLocation + 1; //It was not a word, but text whithin, need continue search
+                            needSearchMore = true;
+                        }
+                        else
+                        {
+                            needSearchMore = false; //Nothing found, don't need search for more
+                        }
+                    }
+                }
             }
             return false;
         }

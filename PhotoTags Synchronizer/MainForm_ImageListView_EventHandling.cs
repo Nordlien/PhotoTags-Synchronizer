@@ -107,7 +107,7 @@ namespace PhotoTagsSynchronizer
                         }
                         else
                         {
-                            //DEBUG
+                            //DEBUG, Looks as this happen after two save fast after each other
                         }
                         KeepTrackOfMetadataLoadedRemoveFromList(fileEntryAttribute.FileFullPath);
                     }
