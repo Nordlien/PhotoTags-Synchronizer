@@ -1012,6 +1012,8 @@ namespace PhotoTagsSynchronizer
             {
                 DataSet dataSet = AutoKeywordHandler.ReadDataSetFromXML();
                 AutoKeywordHandler.PopulateDataGridView(dataGridViewAutoKeywords, dataSet);
+                DataGridViewHandler.SetIsAgregated(dataGridViewAutoKeywords, true);
+                DataGridViewHandler.FastAutoSizeRowsHeight(dataGridViewAutoKeywords, 0);
             } catch (Exception ex)
             {
                 KryptonMessageBox.Show(ex.Message, "AutoKeywords failed to saved", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
