@@ -60,44 +60,41 @@ namespace PhotoTagsSynchronizer
             {
                 if (IsFileInAnyQueueLock(imageListView1.SelectedItems))
                 {
-                    if (
-                        KryptonMessageBox.Show(
-                        "Can't start rename process right now, because files being updated in background\r\n" +
-                        "You need wait files to be finished updating or add rename into the queue.\r\n" +
-                        "Will you add rename into task queue, and then rename process will start when ready?",
-                        "Can't start rename right now", MessageBoxButtons.OKCancel, MessageBoxIcon.Error, showCtrlCopy: true) == DialogResult.OK)
+                    //if (
+                    //    KryptonMessageBox.Show(
+                    //    "Can't start rename process right now, because files being updated in background\r\n" +
+                    //    "You need wait files to be finished updating or add rename into the queue.\r\n" +
+                    //    "Will you add rename into task queue, and then rename process will start when ready?",
+                    //    "Can't start rename right now", MessageBoxButtons.OKCancel, MessageBoxIcon.Error, showCtrlCopy: true) == DialogResult.OK)
+                    //{
+                    DataGridViewHandlerRename.RenameVaribale = Properties.Settings.Default.RenameVariable;
+
+                    using (new WaitCursor())
                     {
-                        DataGridViewHandlerRename.RenameVaribale = Properties.Settings.Default.RenameVariable;
-                        
+                        DataGridView dataGridView = dataGridViewRename;
 
-                        using (new WaitCursor())
+                        int columnIndex = DataGridViewHandler.GetColumnIndexFirstFullFilePath(dataGridView, DataGridViewHandlerRename.headerNewFilename, false);
+                        if (columnIndex == -1) return;
+
+                        for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
                         {
-                            DataGridView dataGridView = dataGridViewRename;
+                            DataGridViewGenericCell cellGridViewGenericCell = DataGridViewHandler.GetCellDataGridViewGenericCellCopy(dataGridView, columnIndex, rowIndex);
 
-                            int columnIndex = DataGridViewHandler.GetColumnIndexFirstFullFilePath(dataGridView, DataGridViewHandlerRename.headerNewFilename, false);
-                            if (columnIndex == -1) return;
-
-                            for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
+                            if (!cellGridViewGenericCell.CellStatus.CellReadOnly)
                             {
-                                DataGridViewGenericCell cellGridViewGenericCell = DataGridViewHandler.GetCellDataGridViewGenericCellCopy(dataGridView, columnIndex, rowIndex);
+                                DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
 
-                                if (!cellGridViewGenericCell.CellStatus.CellReadOnly)
-                                {
-                                    DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
+                                #region Get Old filename from grid
+                                string oldFilename = dataGridViewGenericRow.RowName;
+                                string oldDirectory = dataGridViewGenericRow.HeaderName;
+                                string oldFullFilename = FileHandler.CombinePathAndName(oldDirectory, oldFilename);
+                                #endregion
 
-                                    #region Get Old filename from grid
-                                    string oldFilename = dataGridViewGenericRow.RowName;
-                                    string oldDirectory = dataGridViewGenericRow.HeaderName;
-                                    string oldFullFilename = FileHandler.CombinePathAndName(oldDirectory, oldFilename);
-                                    #endregion
-
-                                    AddQueueRenameMediaFilesLock(oldFullFilename, DataGridViewHandlerRename.RenameVaribale); 
-
-
-                                }
+                                AddQueueRenameMediaFilesLock(oldFullFilename, DataGridViewHandlerRename.RenameVaribale); 
                             }
                         }
                     }
+                    //}
                 
                 
                 }
