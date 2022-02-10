@@ -1162,18 +1162,6 @@ explorer ms-photos?filename=""{FileFullPath}""")]
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Unknown 1\r\nUnknown 2\r\nUnknown 3\r\nUnknown 4\r\nUnknown 5")]
-        public string PeopleRename {
-            get {
-                return ((string)(this["PeopleRename"]));
-            }
-            set {
-                this["PeopleRename"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool AvoidOfflineMediaFiles {
             get {
@@ -2704,6 +2692,42 @@ explorer ms-photos?filename=""{FileFullPath}""")]
             }
             set {
                 this["ExiftoolMaximumWriteBach"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Unknown 1\r\nUnknown 2\r\nUnknown 3\r\nUnknown 4\r\nUnknown 5\r\n")]
+        public string PeopleRename {
+            get {
+                return ((string)(this["PeopleRename"]));
+            }
+            set {
+                this["PeopleRename"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool WriteUsingCompatibilityCheck {
+            get {
+                return ((bool)(this["WriteUsingCompatibilityCheck"]));
+            }
+            set {
+                this["WriteUsingCompatibilityCheck"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool WriteAutoKeywordsSynonyms {
+            get {
+                return ((bool)(this["WriteAutoKeywordsSynonyms"]));
+            }
+            set {
+                this["WriteAutoKeywordsSynonyms"] = value;
             }
         }
     }

@@ -425,6 +425,8 @@ namespace PhotoTagsSynchronizer
                 Properties.Settings.Default.JavaScriptExecuteTimeout = (int)numericUpDownJavaScriptExecuteTimeout.Value;
 
                 //Metadata Write
+                Properties.Settings.Default.WriteUsingCompatibilityCheck = kryptonCheckBoxWriteMetadataCompatibilityCheckAndFix.Checked;
+                Properties.Settings.Default.WriteAutoKeywordsSynonyms = kryptonCheckBoxWriteAutoKeywordsSynonyms.Checked;
                 Properties.Settings.Default.WriteMetadataTags = fastColoredTextBoxMetadataWriteTags.Text;
                 Properties.Settings.Default.WriteMetadataKeywordAdd = fastColoredTextBoxMetadataWriteKeywordAdd.Text;
 
@@ -2366,6 +2368,8 @@ namespace PhotoTagsSynchronizer
             comboBoxWriteXtraAtomVariables.Items.AddRange(Metadata.ListOfProperties(false));
             comboBoxMetadataWriteKeywordAdd.Items.AddRange(Metadata.ListOfProperties(true));
 
+            kryptonCheckBoxWriteMetadataCompatibilityCheckAndFix.Checked = Properties.Settings.Default.WriteUsingCompatibilityCheck;
+            kryptonCheckBoxWriteAutoKeywordsSynonyms.Checked = Properties.Settings.Default.WriteAutoKeywordsSynonyms;
             fastColoredTextBoxMetadataWriteTags.Text = Properties.Settings.Default.WriteMetadataTags;
             fastColoredTextBoxMetadataWriteKeywordAdd.Text = Properties.Settings.Default.WriteMetadataKeywordAdd;
 

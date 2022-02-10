@@ -1857,7 +1857,6 @@ namespace DataGridViewGeneric
                     {
                         isValueUpdated = true;
                         dataGridView.Rows[rowIndex].Cells[columnIndex].Value = value;
-                        
                     }
                 }
                 if (isValueUpdated && dataGridViewGenericRow.IsMultiLine) dataGridView.Columns[columnIndex].DefaultCellStyle.WrapMode = DataGridViewTriState.True;

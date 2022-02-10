@@ -1,11 +1,8 @@
 ﻿using GeoTimeZone;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using TimeZoneConverter;
-using TimeZoneNames;
 
 namespace TimeZone
 {
@@ -243,6 +240,8 @@ namespace TimeZone
 
         public static string ToStringW3CDTF_UTC_Convert(DateTime? dateTime)
         {
+            if (dateTime != null && ((DateTime)dateTime).Kind == DateTimeKind.Unspecified)
+                return ((DateTimeOffset)dateTime).ToString(DateTimeSortable) + "Z";
             return dateTime == null ? "" : ((DateTimeOffset)dateTime).ToUniversalTime().ToString(DateTimeSortable) + "Z";
         }
 

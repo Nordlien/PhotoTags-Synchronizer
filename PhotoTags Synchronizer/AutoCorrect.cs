@@ -488,6 +488,18 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
+        #region DateTakenFix
+        public static void DateTakenFix(ref Metadata metadataCopy)
+        {
+            if (metadataCopy?.MediaDateTaken == null && metadataCopy?.LocationLatitude != null && metadataCopy?.LocationLongitude != null && metadataCopy?.LocationDateTime != null)
+            {
+                TimeZoneInfo timeZoneInfo = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation((double)metadataCopy?.LocationLatitude, (double)metadataCopy?.LocationLongitude);
+                DateTime dateTime = TimeZoneInfo.ConvertTimeFromUtc(new DateTime(((DateTime)metadataCopy?.LocationDateTime).Ticks, DateTimeKind.Utc), timeZoneInfo);
+                metadataCopy.MediaDateTaken = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second, dateTime.Millisecond, DateTimeKind.Local);                
+            }
+        }
+        #endregion
+
         #region Config De- Serialization
         public string SerializeThis()
         {
@@ -526,7 +538,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region FixMetadata - CompatibilityCheckMetadata
-        public static void CompatibilityCheckMetadata(ref Metadata metadata)
+        public static void CompatibilityCheckMetadata(ref Metadata metadata, bool fixDateTaken)
         {
             if (metadata == null) return;
             
@@ -601,6 +613,8 @@ namespace PhotoTagsSynchronizer
                         }
                     }
                 } while (changesFound);
+
+                if (fixDateTaken) DateTakenFix(ref metadata);
             }
             catch { }
         }

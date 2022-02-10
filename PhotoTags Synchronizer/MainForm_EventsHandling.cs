@@ -5523,14 +5523,14 @@ namespace PhotoTagsSynchronizer
                                 autoKeywordConvertions,
                                 Properties.Settings.Default.RenameDateFormats);
 
-                            AutoKeywords(ref metadataToSave);
-                            AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave);
+                            if (Properties.Settings.Default.WriteAutoKeywordsSynonyms) AutoKeywords(ref metadataToSave);
+                            if (Properties.Settings.Default.WriteUsingCompatibilityCheck) AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave, fixDateTaken: false);
                         }
                         else
                         {
                             metadataToSave = new Metadata(metadataFromDataGridView);
                             //AutoKeywords(ref metadataToSave);
-                            AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave); 
+                            if (Properties.Settings.Default.WriteUsingCompatibilityCheck) AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave, fixDateTaken: true);
                         }
 
                         if (metadataToSave != metadataListOriginalExiftool[index])
@@ -5546,6 +5546,7 @@ namespace PhotoTagsSynchronizer
                 {
                     KryptonMessageBox.Show(
                         "Can't find any value that was changed.\r\n" +
+                        "Compatibility Check and Fix can replace values back to original values.\t\n" +
                         (useAutoCorrect ? "Please note AutoCorrect can have changed back information." : ""),
                         "Nothing to save...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
                     return;
@@ -8148,8 +8149,8 @@ namespace PhotoTagsSynchronizer
                             
                             if (metadataToSave != null)
                             {
-                                AutoKeywords(ref metadataToSave);
-                                AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave);
+                                if (Properties.Settings.Default.WriteAutoKeywordsSynonyms) AutoKeywords(ref metadataToSave);
+                                if (Properties.Settings.Default.WriteUsingCompatibilityCheck) AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave, fixDateTaken: false);
                                 DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
                                 AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
                                 AddQueueRenameMediaFilesLock(item.FileFullPath, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
@@ -8207,8 +8208,8 @@ namespace PhotoTagsSynchronizer
                             Properties.Settings.Default.RenameDateFormats);
                             if (metadataToSave != null)
                             {
-                                AutoKeywords(ref metadataToSave);
-                                AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave);
+                                if (Properties.Settings.Default.WriteAutoKeywordsSynonyms) AutoKeywords(ref metadataToSave);
+                                if (Properties.Settings.Default.WriteUsingCompatibilityCheck) AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave, fixDateTaken: false);
                                 DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
                                 AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
                                 AddQueueRenameMediaFilesLock(file.Path, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
@@ -8267,8 +8268,8 @@ namespace PhotoTagsSynchronizer
                             
                             if (metadataToSave != null)
                             {
-                                AutoKeywords(ref metadataToSave);
-                                AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave);
+                                if (Properties.Settings.Default.WriteAutoKeywordsSynonyms) AutoKeywords(ref metadataToSave);
+                                if (Properties.Settings.Default.WriteUsingCompatibilityCheck) AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave, fixDateTaken: false);
                                 DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
                                 //MakeEqualBetweenMetadataAndDataGridViewContent(metadataToSave, isDirty);
                             }
@@ -8431,8 +8432,8 @@ namespace PhotoTagsSynchronizer
 
                                 if (metadataToSave != null)
                                 {
-                                    AutoKeywords(ref metadataToSave);
-                                    AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave);
+                                    if (Properties.Settings.Default.WriteAutoKeywordsSynonyms) AutoKeywords(ref metadataToSave);
+                                    if (Properties.Settings.Default.WriteUsingCompatibilityCheck) AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave, fixDateTaken: false);
                                     DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
                                     AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
                                     AddQueueRenameMediaFilesLock(item.FileFullPath, autoCorrect.RenameVariable);
@@ -8498,9 +8499,9 @@ namespace PhotoTagsSynchronizer
 
                                 if (metadataToSave != null)
                                 {
-                                    AutoKeywords(ref metadataToSave);
+                                    if (Properties.Settings.Default.WriteAutoKeywordsSynonyms) AutoKeywords(ref metadataToSave);
                                     AutoCorrectFormVaraibles.UseAutoCorrectFormData(ref metadataToSave, autoCorrectFormVaraibles);
-                                    AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave);
+                                    if (Properties.Settings.Default.WriteUsingCompatibilityCheck) AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave, fixDateTaken: false);
                                     DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
                                     AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
                                     AddQueueRenameMediaFilesLock(fileData.Path, autoCorrect.RenameVariable);
@@ -8570,8 +8571,8 @@ namespace PhotoTagsSynchronizer
 
                                 if (metadataToSave != null)
                                 {
-                                    AutoKeywords(ref metadataToSave); 
-                                    AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave);
+                                    if (Properties.Settings.Default.WriteAutoKeywordsSynonyms) AutoKeywords(ref metadataToSave);
+                                    if (Properties.Settings.Default.WriteUsingCompatibilityCheck) AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave, fixDateTaken: false);
                                     DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
                                     //MakeEqualBetweenMetadataAndDataGridViewContent(metadataToSave, isDirty);
                                 }
