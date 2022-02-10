@@ -15,7 +15,7 @@ namespace PhotoTagsSynchronizer
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-        private static string headerNewFilename = "New filename";
+        public static string headerNewFilename = "New filename";
         public static bool HasBeenInitialized { get; set; } = false;
         public static MetadataDatabaseCache DatabaseAndCacheMetadataExiftool { get; set; }
         public static FileDateTimeReader FileDateTimeFormats { get; set; }

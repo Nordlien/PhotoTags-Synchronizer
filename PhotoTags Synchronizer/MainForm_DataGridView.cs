@@ -694,6 +694,13 @@ namespace PhotoTagsSynchronizer
                 {
                     DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, isFilSelectedInImageListView); //Will not suspend when Column Don't exist, but counter will increase
 
+                    DataGridViewHandlerRename.RenameVaribale = Properties.Settings.Default.RenameVariable;
+                    DataGridViewHandlerRename.ShowFullPath = Properties.Settings.Default.RenameShowFullPath;
+                    DataGridViewHandlerConvertAndMerge.FileDateTimeFormats = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
+                    DataGridViewHandlerConvertAndMerge.RenameVaribale = Properties.Settings.Default.RenameVariable;
+                    DataGridViewHandlerPeople.SuggestRegionNameNearByDays = Properties.Settings.Default.SuggestRegionNameNearbyDays;
+                    DataGridViewHandlerPeople.SuggestRegionNameNearByTopMostCount = Properties.Settings.Default.SuggestRegionNameNearByCount;
+                    DataGridViewHandlerPeople.RenameDateFormats = Properties.Settings.Default.RenameDateFormats;
                     #region Popuate File
                     switch (tabTag)
                     {
@@ -1209,8 +1216,11 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region DataGridView - SaveBeforeContinue
-        private DialogResult SaveBeforeContinue(bool canCancel)
+        private DialogResult SaveBeforeContinue(bool canCancel, bool useAutoSave = false)
         {
+            this.Activate();
+            this.Validate(); //Get the latest changes, that are text in edit mode
+
             DialogResult dialogResult = DialogResult.No;
             try
             {
@@ -1219,7 +1229,7 @@ namespace PhotoTagsSynchronizer
 
                     dialogResult = KryptonMessageBox.Show(
                         "Do you want to save before continue?\r\n" +
-                        "Yes - Save without AutoCorrect and continue\r\n" +
+                        "Yes - Save using " + (useAutoSave ? "" : "without ") +  "AutoCorrect and continue\r\n" +
                         "No - Don't save and continue without save." +
                         (canCancel ? "\r\nCancel - Cancel the opeation and continue where you left." : ""),
                         "Warning, unsaved data! Save before continue?",
@@ -1228,7 +1238,7 @@ namespace PhotoTagsSynchronizer
                     if (dialogResult == DialogResult.Yes)
                     {
                         //ActionSave(false);
-                        SaveDataGridViewMetadata(false);
+                        SaveDataGridViewMetadata(useAutoSave);
                     }
                 }
             }

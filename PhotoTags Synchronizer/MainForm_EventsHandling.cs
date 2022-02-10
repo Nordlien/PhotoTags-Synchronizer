@@ -5245,7 +5245,30 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsApplicationClosing) return;
             if (IsPerforminAButtonAction("Save")) return;
             if (IsPopulatingAnything("Save")) return;
-            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+            //if (SaveBeforeContinue(true, useAutoSave: true) == DialogResult.Cancel) return;
+            switch (ActiveKryptonPage)
+            {
+                case KryptonPages.None:
+                case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                case KryptonPages.kryptonPageFolderSearchFilterSearch:
+                case KryptonPages.kryptonPageFolderSearchFilterFilter:
+                case KryptonPages.kryptonPageMediaFiles:
+                case KryptonPages.kryptonPageToolboxTags:
+                case KryptonPages.kryptonPageToolboxPeople:
+                case KryptonPages.kryptonPageToolboxMap:
+                case KryptonPages.kryptonPageToolboxDates:
+                case KryptonPages.kryptonPageToolboxExiftool:
+                case KryptonPages.kryptonPageToolboxWarnings:
+                case KryptonPages.kryptonPageToolboxProperties:
+                    break;
+                case KryptonPages.kryptonPageToolboxRename:
+                    if (SaveBeforeContinue(true, useAutoSave: true) == DialogResult.Cancel) return;
+                    break;
+                case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
 
             GlobalData.IsPerformingAButtonAction = true;
             //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
@@ -5263,7 +5286,30 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsApplicationClosing) return;
             if (IsPerforminAButtonAction("Save")) return;
             if (IsPopulatingAnything("Save")) return;
-            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+            //if (SaveBeforeContinue(true, useAutoSave: true) == DialogResult.Cancel) return;
+            switch (ActiveKryptonPage)
+            {
+                case KryptonPages.None:
+                case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                case KryptonPages.kryptonPageFolderSearchFilterSearch:
+                case KryptonPages.kryptonPageFolderSearchFilterFilter:
+                case KryptonPages.kryptonPageMediaFiles:
+                case KryptonPages.kryptonPageToolboxTags:
+                case KryptonPages.kryptonPageToolboxPeople:
+                case KryptonPages.kryptonPageToolboxMap:
+                case KryptonPages.kryptonPageToolboxDates:
+                case KryptonPages.kryptonPageToolboxExiftool:
+                case KryptonPages.kryptonPageToolboxWarnings:
+                case KryptonPages.kryptonPageToolboxProperties:
+                    break;
+                case KryptonPages.kryptonPageToolboxRename:
+                    if (SaveBeforeContinue(true, useAutoSave: false) == DialogResult.Cancel) return;
+                    break;
+                case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
 
             GlobalData.IsPerformingAButtonAction = true;
             //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
@@ -5278,6 +5324,29 @@ namespace PhotoTagsSynchronizer
             if (IsPerforminAButtonAction("Save")) return;
             if (IsPopulatingAnything("Save")) return;
             //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+            switch (ActiveKryptonPage)
+            {
+                case KryptonPages.None:
+                case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                case KryptonPages.kryptonPageFolderSearchFilterSearch:
+                case KryptonPages.kryptonPageFolderSearchFilterFilter:
+                case KryptonPages.kryptonPageMediaFiles:
+                case KryptonPages.kryptonPageToolboxTags:
+                case KryptonPages.kryptonPageToolboxPeople:
+                case KryptonPages.kryptonPageToolboxMap:
+                case KryptonPages.kryptonPageToolboxDates:
+                case KryptonPages.kryptonPageToolboxExiftool:
+                case KryptonPages.kryptonPageToolboxWarnings:
+                case KryptonPages.kryptonPageToolboxProperties:
+                    break;
+                case KryptonPages.kryptonPageToolboxRename:
+                    if (SaveBeforeContinue(true, useAutoSave: false) == DialogResult.Cancel) return;
+                    break;
+                case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
 
             GlobalData.IsPerformingAButtonAction = true;
             //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
@@ -5292,6 +5361,29 @@ namespace PhotoTagsSynchronizer
             if (IsPerforminAButtonAction("Save")) return;
             if (IsPopulatingAnything("Save")) return;
             //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+            switch (ActiveKryptonPage)
+            {
+                case KryptonPages.None:
+                case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                case KryptonPages.kryptonPageFolderSearchFilterSearch:
+                case KryptonPages.kryptonPageFolderSearchFilterFilter:
+                case KryptonPages.kryptonPageMediaFiles:
+                case KryptonPages.kryptonPageToolboxTags:
+                case KryptonPages.kryptonPageToolboxPeople:
+                case KryptonPages.kryptonPageToolboxMap:
+                case KryptonPages.kryptonPageToolboxDates:
+                case KryptonPages.kryptonPageToolboxExiftool:
+                case KryptonPages.kryptonPageToolboxWarnings:
+                case KryptonPages.kryptonPageToolboxProperties:
+                    break;
+                case KryptonPages.kryptonPageToolboxRename:
+                    if (SaveBeforeContinue(true, useAutoSave: false) == DialogResult.Cancel) return;
+                    break;
+                case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
 
             GlobalData.IsPerformingAButtonAction = true;
             //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
@@ -5452,7 +5544,10 @@ namespace PhotoTagsSynchronizer
 
                 if (!changesFound)
                 {
-                    KryptonMessageBox.Show("Can't find any value that was changed.", "Nothing to save...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
+                    KryptonMessageBox.Show(
+                        "Can't find any value that was changed.\r\n" +
+                        (useAutoCorrect ? "Please note AutoCorrect can have changed back information." : ""),
+                        "Nothing to save...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
                     return;
                 }
                 ThreadSaveUsingExiftoolToMedia();

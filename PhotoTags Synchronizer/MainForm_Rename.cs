@@ -2,6 +2,8 @@
 using System.Windows.Forms;
 using System.Collections.Generic;
 using Krypton.Toolkit;
+using DataGridViewGeneric;
+using FileHandeling;
 
 namespace PhotoTagsSynchronizer
 {
@@ -21,6 +23,8 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
+                DataGridViewHandlerRename.RenameVaribale = Properties.Settings.Default.RenameVariable;
+                DataGridViewHandlerRename.ShowFullPath = Properties.Settings.Default.RenameShowFullPath;
                 DataGridViewHandlerRename.UpdateFilenames(dataGridViewRename, Properties.Settings.Default.RenameVariable, checkBoxRenameShowFullPath.Checked);
             }
             catch (Exception ex)
@@ -56,7 +60,46 @@ namespace PhotoTagsSynchronizer
             {
                 if (IsFileInAnyQueueLock(imageListView1.SelectedItems))
                 {
-                    KryptonMessageBox.Show("Can't start rename process, files being updated, need wait files finished with updating.", "Can't start rename", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    if (
+                        KryptonMessageBox.Show(
+                        "Can't start rename process right now, because files being updated in background\r\n" +
+                        "You need wait files to be finished updating or add rename into the queue.\r\n" +
+                        "Will you add rename into task queue, and then rename process will start when ready?",
+                        "Can't start rename right now", MessageBoxButtons.OKCancel, MessageBoxIcon.Error, showCtrlCopy: true) == DialogResult.OK)
+                    {
+                        DataGridViewHandlerRename.RenameVaribale = Properties.Settings.Default.RenameVariable;
+                        
+
+                        using (new WaitCursor())
+                        {
+                            DataGridView dataGridView = dataGridViewRename;
+
+                            int columnIndex = DataGridViewHandler.GetColumnIndexFirstFullFilePath(dataGridView, DataGridViewHandlerRename.headerNewFilename, false);
+                            if (columnIndex == -1) return;
+
+                            for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
+                            {
+                                DataGridViewGenericCell cellGridViewGenericCell = DataGridViewHandler.GetCellDataGridViewGenericCellCopy(dataGridView, columnIndex, rowIndex);
+
+                                if (!cellGridViewGenericCell.CellStatus.CellReadOnly)
+                                {
+                                    DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
+
+                                    #region Get Old filename from grid
+                                    string oldFilename = dataGridViewGenericRow.RowName;
+                                    string oldDirectory = dataGridViewGenericRow.HeaderName;
+                                    string oldFullFilename = FileHandler.CombinePathAndName(oldDirectory, oldFilename);
+                                    #endregion
+
+                                    AddQueueRenameMediaFilesLock(oldFullFilename, DataGridViewHandlerRename.RenameVaribale); 
+
+
+                                }
+                            }
+                        }
+                    }
+                
+                
                 }
                 else
                 {                    
