@@ -82,7 +82,13 @@ namespace SqliteDatabase
                 {
                     if (!databaseCommand.CommandText.Contains("SELECT CameraMake, CameraModel, UserAccount FROM CameraOwner") &&
                         !databaseCommand.CommandText.Contains("SELECT DISTINCT UserAccount FROM LocationSource") &&
-                        !databaseCommand.CommandText.Contains("SELECT * FROM (SELECT 1 AS Priority, LocationDateTime AS Date, ABS(LocationDateTime - @LocationDateTime)"))
+                        !databaseCommand.CommandText.Contains("SELECT * FROM (SELECT 1 AS Priority, LocationDateTime AS Date, ABS(LocationDateTime - @LocationDateTime)")
+                        //&&
+                        //!databaseCommand.CommandText.Contains("SELECT") &&
+                        //!databaseCommand.CommandText.Contains("SELECT") &&
+                        //!databaseCommand.CommandText.Contains("SELECT") &&
+                        //!databaseCommand.CommandText.Contains("SELECT") 
+                        )
                     {
                         Debug.WriteLine("0 - Sql Performance using SCAN");
                         Debug.WriteLine("0 - Sql Performance using SCAN Command: " + databaseCommand.CommandText);
@@ -174,7 +180,7 @@ namespace SqliteDatabase
                     }
                     else if (detail.ToString().Contains("sqlite_autoindex_LocationName_1"))
                     {
-                        if (!detail.ToString().Contains("(Latitude>? AND Latitude<?)"))
+                        if (!detail.ToString().Contains("(Latitude=? AND Longitude=?)"))
                         {
                             Debug.WriteLine("4 - Sql Performance NOT use full Index, Command: " + databaseCommand.CommandText);
                             Debug.WriteLine("4 - Sql Performance NOT use full Index: " + detail.ToString());

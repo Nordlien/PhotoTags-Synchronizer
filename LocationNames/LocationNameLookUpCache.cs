@@ -18,110 +18,155 @@ namespace LocationNames
             PreferredLanguagesString = preferredLanguagesString;
         }
 
+        #region ReadLocationNames
         public Dictionary<LocationCoordinate, LocationDescription> ReadLocationNames()
         {
             LocationNameDatabase locationNameCache = new LocationNameDatabase(dbTools);
             return locationNameCache.ReadLocationNames();
         }
+        #endregion
 
+        #region FindNewLocation
         public Dictionary<LocationCoordinate, LocationDescription> FindNewLocation()
         {
             LocationNameDatabase locationNameCache = new LocationNameDatabase(dbTools);
             return locationNameCache.FindNewLocation();
         }
+        #endregion
 
-
-        
-
-        public LocationCoordinateAndDescription AddressLookup(LocationCoordinate locationCoordinate, float locationAccuracyLatitude, float locationAccuracyLongitude, bool onlyFromCache)
+        #region LocationCoordinateInDatabase
+        public LocationCoordinate LocationCoordinateInDatabase(LocationCoordinate locationCoordinateSearch, float locationAccuracyLatitude, float locationAccuracyLongitude)
         {
             LocationNameDatabase locationNameDatabase = new LocationNameDatabase(dbTools);
-
-            if (onlyFromCache && !locationNameDatabase.LocationCoordinateAndDescriptionExsistInCache(locationCoordinate)) return null;
-
-            LocationCoordinateAndDescription locationCoordinateAndDescription = locationNameDatabase.ReadLocationNameFromDatabaseOrCache(locationCoordinate, locationAccuracyLatitude, locationAccuracyLongitude);
-            if (locationCoordinateAndDescription != null) return locationCoordinateAndDescription;
-
-            try
-            {
-                var y = new ReverseGeocoder();
-                var r2 = y.ReverseGeocode(new ReverseGeocodeRequest
-                {
-                    Longitude = locationCoordinate.Longitude,
-                    Latitude = locationCoordinate.Latitude,
-
-                    BreakdownAddressElements = true,
-                    ShowExtraTags = true,
-                    ShowAlternativeNames = true,
-                    ShowGeoJSON = true,
-                    PreferredLanguages = PreferredLanguagesString
-                });
-                r2.Wait();
-
-                if (r2.IsCompleted && !r2.IsFaulted && r2.Result != null && r2.Result.Address != null)
-                {
-                    locationCoordinateAndDescription = new LocationCoordinateAndDescription();
-
-                    locationCoordinateAndDescription.Coordinate.Latitude = locationCoordinate.Latitude;
-                    locationCoordinateAndDescription.Coordinate.Longitude = locationCoordinate.Longitude;
-                    locationCoordinateAndDescription.Description.City = (r2.Result.Address.City + " " + r2.Result.Address.Town + " " + r2.Result.Address.Village).Trim().Replace("  ", " ");
-                    locationCoordinateAndDescription.Description.Country = r2.Result.Address.Country;
-                    locationCoordinateAndDescription.Description.Name = (r2.Result.Address.Road + " " + r2.Result.Address.HouseNumber).Trim();
-                    locationCoordinateAndDescription.Description.Region = (r2.Result.Address.State + " " + r2.Result.Address.County + " " + r2.Result.Address.Suburb + " " + r2.Result.Address.District + " " + r2.Result.Address.Hamlet).Trim().Replace("  ", " ");
-
-                    locationCoordinateAndDescription.Description.Name = string.IsNullOrEmpty(locationCoordinateAndDescription.Description.Name) ? null : locationCoordinateAndDescription.Description.Name;
-                    locationCoordinateAndDescription.Description.Region = string.IsNullOrEmpty(locationCoordinateAndDescription.Description.Region) ? null : locationCoordinateAndDescription.Description.Region;
-                    locationCoordinateAndDescription.Description.City = string.IsNullOrEmpty(locationCoordinateAndDescription.Description.City) ? null : locationCoordinateAndDescription.Description.City;
-                    locationCoordinateAndDescription.Description.Country = string.IsNullOrEmpty(locationCoordinateAndDescription.Description.Country) ? null : locationCoordinateAndDescription.Description.Country;
-
-                    locationNameDatabase.TransactionBeginBatch();
-                    locationNameDatabase.WriteLocationName(locationCoordinateAndDescription);
-                    locationNameDatabase.TransactionCommitBatch();
-                    return locationCoordinateAndDescription;
-
-                }
-                else
-                {
-                    return null;
-                }
-            } catch (Exception ex)
-            {
-                Logger.Error(ex, "AddressLookup");
-            }
-            return null;
-            
+            LocationCoordinateAndDescription locationInDatbaseCoordinateAndDescription = locationNameDatabase.ReadLocationNameFromDatabaseOrCache(locationCoordinateSearch, locationAccuracyLatitude, locationAccuracyLongitude);
+            return locationInDatbaseCoordinateAndDescription.Coordinate;
         }
+        #endregion
+
+
 
         #region DeleteLocation
-        public void DeleteLocation(LocationCoordinate locationCoordinate)
+        public void DeleteLocationBySearch(LocationCoordinate locationCoordinateBySearch, float locationAccuracyLatitude, float locationAccuracyLongitude)
+        {
+            LocationCoordinateAndDescription locationCoordinateAndDescriptionFromDatabase = AddressLookupAndReverseGeocoder(
+                locationCoordinateBySearch, locationAccuracyLatitude, locationAccuracyLongitude,
+                onlyFromCache: false, canReverseGeocoder: false);
+            if (locationCoordinateAndDescriptionFromDatabase != null) 
+                DeleteLocation(locationCoordinateAndDescriptionFromDatabase.Coordinate);
+            else
+                DeleteLocation(locationCoordinateBySearch);
+        }
+
+        public void DeleteLocation(LocationCoordinate locationCoordinateInDatabase)
         {
             LocationNameDatabase locationNameCache = new LocationNameDatabase(dbTools);
             locationNameCache.TransactionBeginBatch();
-            locationNameCache.DeleteLocationName(locationCoordinate);
+            locationNameCache.DeleteLocationName(locationCoordinateInDatabase: locationCoordinateInDatabase);
             locationNameCache.TransactionCommitBatch();
         }
         #endregion
 
         #region AddressUpdate
-        public void AddressUpdate(LocationCoordinateAndDescription locationCoordinateAndDescription)
+        public void AddressUpdate(LocationCoordinate locationCoordinateSearch, LocationCoordinateAndDescription locationCoordinateAndDescription)
         {
             LocationNameDatabase locationNameCache = new LocationNameDatabase(dbTools);
             locationNameCache.TransactionBeginBatch();
-            locationNameCache.UpdateLocationName(locationCoordinateAndDescription);
+            locationNameCache.UpdateLocationName(
+                    locationCoordinateSearch: locationCoordinateSearch, 
+                    locationCoordinateAndDescriptionInDatbase: locationCoordinateAndDescription);
             locationNameCache.TransactionCommitBatch();
         }
         #endregion
 
-        #region AddressLookupNearestAndUpdate
-        public void AddressLookupNearestAndUpdate(LocationCoordinateAndDescription locationCoordinateAndDescription, float locationAccuracyLatitude, float locationAccuracyLongitude, bool onlyFromCache)
+        #region AddressLookup
+
+        //AddressLookupAndReverseGeocoder
+
+        public LocationCoordinateAndDescription AddressLookupAndReverseGeocoder(
+            LocationCoordinate locationCoordinateSearch, float locationAccuracyLatitude, float locationAccuracyLongitude, 
+            bool onlyFromCache, bool canReverseGeocoder)
         {
-            LocationCoordinateAndDescription locationCoordinateAndDescriptionLookupNearest = 
-                AddressLookup(locationCoordinateAndDescription.Coordinate, locationAccuracyLatitude, locationAccuracyLongitude, onlyFromCache);
-            if (locationCoordinateAndDescriptionLookupNearest != null)
+            LocationNameDatabase locationNameDatabase = new LocationNameDatabase(dbTools);
+
+            // Check if exist in cache
+            if (onlyFromCache && !locationNameDatabase.LocationCoordinateAndDescriptionExsistInCache(locationCoordinateSearch)) return null;
+
+            // Return location from Cache or Database
+            LocationCoordinateAndDescription locationInDatbaseCoordinateAndDescription = locationNameDatabase.ReadLocationNameFromDatabaseOrCache(locationCoordinateSearch, locationAccuracyLatitude, locationAccuracyLongitude);
+            if (locationInDatbaseCoordinateAndDescription != null) return locationInDatbaseCoordinateAndDescription;
+
+            if (canReverseGeocoder)
             {
-                locationCoordinateAndDescription.Coordinate = locationCoordinateAndDescriptionLookupNearest.Coordinate;
+                try
+                {
+                    var y = new ReverseGeocoder();
+                    var r2 = y.ReverseGeocode(new ReverseGeocodeRequest
+                    {
+                        Longitude = locationCoordinateSearch.Longitude,
+                        Latitude = locationCoordinateSearch.Latitude,
+
+                        BreakdownAddressElements = true,
+                        ShowExtraTags = true,
+                        ShowAlternativeNames = true,
+                        ShowGeoJSON = true,
+                        PreferredLanguages = PreferredLanguagesString
+                    });
+                    r2.Wait();
+
+                    if (r2.IsCompleted && !r2.IsFaulted && r2.Result != null && r2.Result.Address != null)
+                    {
+                        locationInDatbaseCoordinateAndDescription = new LocationCoordinateAndDescription();
+
+                        locationInDatbaseCoordinateAndDescription.Coordinate.Latitude = locationCoordinateSearch.Latitude;
+                        locationInDatbaseCoordinateAndDescription.Coordinate.Longitude = locationCoordinateSearch.Longitude;
+                        locationInDatbaseCoordinateAndDescription.Description.City = (r2.Result.Address.City + " " + r2.Result.Address.Town + " " + r2.Result.Address.Village).Trim().Replace("  ", " ");
+                        locationInDatbaseCoordinateAndDescription.Description.Country = r2.Result.Address.Country;
+                        locationInDatbaseCoordinateAndDescription.Description.Name = (r2.Result.Address.Road + " " + r2.Result.Address.HouseNumber).Trim();
+                        locationInDatbaseCoordinateAndDescription.Description.Region = (r2.Result.Address.State + " " + r2.Result.Address.County + " " + r2.Result.Address.Suburb + " " + r2.Result.Address.District + " " + r2.Result.Address.Hamlet).Trim().Replace("  ", " ");
+
+                        locationInDatbaseCoordinateAndDescription.Description.Name = string.IsNullOrEmpty(locationInDatbaseCoordinateAndDescription.Description.Name) ? null : locationInDatbaseCoordinateAndDescription.Description.Name;
+                        locationInDatbaseCoordinateAndDescription.Description.Region = string.IsNullOrEmpty(locationInDatbaseCoordinateAndDescription.Description.Region) ? null : locationInDatbaseCoordinateAndDescription.Description.Region;
+                        locationInDatbaseCoordinateAndDescription.Description.City = string.IsNullOrEmpty(locationInDatbaseCoordinateAndDescription.Description.City) ? null : locationInDatbaseCoordinateAndDescription.Description.City;
+                        locationInDatbaseCoordinateAndDescription.Description.Country = string.IsNullOrEmpty(locationInDatbaseCoordinateAndDescription.Description.Country) ? null : locationInDatbaseCoordinateAndDescription.Description.Country;
+
+                        locationNameDatabase.TransactionBeginBatch();
+                        locationNameDatabase.WriteLocationName(locationCoordinateSearch, locationInDatbaseCoordinateAndDescription);
+                        locationNameDatabase.TransactionCommitBatch();
+                        return locationInDatbaseCoordinateAndDescription;
+
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex, "AddressLookup");
+                }
             }
-            AddressUpdate(locationCoordinateAndDescription);
+            return null;
+        }
+        #endregion
+
+        #region AddressLookupNearestAndUpdate
+        public void AddressUpdateBySearchLocation(
+            LocationCoordinateAndDescription locationCoordinateAndDescriptionSearch, float locationAccuracyLatitude, float locationAccuracyLongitude)
+        {
+            LocationCoordinateAndDescription locationCoordinateAndDescriptionFromDatabase = AddressLookupAndReverseGeocoder(
+                locationCoordinateAndDescriptionSearch.Coordinate, locationAccuracyLatitude, locationAccuracyLongitude,
+                onlyFromCache: false, canReverseGeocoder: false);
+
+            if (locationCoordinateAndDescriptionFromDatabase == null)
+            {
+                //Didn't exist in database, new will be created
+                AddressUpdate(locationCoordinateAndDescriptionSearch.Coordinate, locationCoordinateAndDescriptionSearch);
+            } else
+            {
+                //Update existing
+                AddressUpdate(locationCoordinateAndDescriptionFromDatabase.Coordinate, locationCoordinateAndDescriptionSearch);
+            }
+
         }
         #endregion
     }

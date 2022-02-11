@@ -570,7 +570,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region DataGridView - Populate - ExtrasAsDropdownAndColumnSizesInvoke (Populate DataGridView Extras)
+        #region DataGridView - Populate Extras - AsDropdownAndColumnSizesInvoke (Populate DataGridView Extras)
         private void DataGridView_Populate_ExtrasAsDropdownAndColumnSizesInvoke()
         {
             if (this.InvokeRequired)
@@ -625,7 +625,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region DataGridView - Populate File - For FileEntryAttribute missing Tag - Invoke
+        #region DataGridView - Populate File - FileEntryAttribute missing Tag - Invoke
         private void DataGridView_Populate_FileEntryAttributeInvoke(FileEntryAttribute fileEntryAttribute)
         {
             if (InvokeRequired)
@@ -650,7 +650,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region DataGridView - Populate File - For FileEntryAttribute missing Tag - Invoke
+        #region DataGridView - Populate File - FileEntryAttribute missing Tag - Invoke
         private void DataGridView_SetColumnVisibleStatus_FileEntryAttributeInvoke(FileEntryAttribute fileEntryAttribute, bool visible)
         {
             if (InvokeRequired)
@@ -673,7 +673,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region DataGridView - Populate - Metadata
+        #region DataGridView - Populate File - FileEntryVersion - CompatibilityCheckedMetadataToSave
         private void DataGridView_Populate_CompatibilityCheckedMetadataToSave(Metadata metadataToSave, FileEntryVersion fileEntryVersion)
         {
             DataGridView_Populate_FileEntryAttribute(GetActiveTabDataGridView(),
@@ -681,7 +681,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region DataGridView - Populate - FileEntryAttribute -> PopulateDataGridViewForSelectedItemsExtrasDelayed();
+        #region DataGridView - Populate File - FileEntryAttribute -> DataGridView_Populate_FileEntryAttribute();
         private void DataGridView_Populate_FileEntryAttribute(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, string tabTag, Metadata metadataAutoCorrect = null)
         {
             lock (GlobalData.populateSelectedLock)
@@ -867,7 +867,7 @@ namespace PhotoTagsSynchronizer
             if (columnIndex != -1)
             {
                 LocationNames.LocationCoordinate locationCoordinate = DataGridViewHandlerMap.GetUserInputLocationCoordinate(dataGridView, columnIndex, fileEntryAttribute);
-                DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, columnIndex, locationCoordinate, false);
+                DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, columnIndex, locationCoordinate, onlyFromCache: false, canReverseGeocoder: true);
             }
         }
         #endregion

@@ -59,6 +59,7 @@ namespace PhotoTagsSynchronizer
         #region DataGridView - Map
         public static bool IsPopulatingMap { get => dataGridViewHandlerMap.IsPopulating; set => dataGridViewHandlerMap.IsPopulating = value; }
         public static bool IsPopulatingMapFile { get => dataGridViewHandlerMap.IsPopulatingFile; set => dataGridViewHandlerMap.IsPopulatingFile = value; }
+        public static bool IsPopulatingMapLocation { get; set; } = false;
         public static bool IsPopulatingMapImage { get => dataGridViewHandlerMap.IsPopulatingImage; set => dataGridViewHandlerMap.IsPopulatingImage = value; }
         public static bool IsAgregatedMap { get => dataGridViewHandlerMap.IsAgregated; set => dataGridViewHandlerMap.IsAgregated = value; }
         #endregion

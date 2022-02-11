@@ -275,22 +275,24 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region PopulateGrivViewMapNomnatatim
-        public static void DeleteMapNomnatatim(LocationCoordinate locationCoordinate)
+        public static void DeleteMapNomnatatimSearch(LocationCoordinate locationCoordinateSearch, float locationAccuracyLatitude, float locationAccuracyLongitude)
         {
-            if (locationCoordinate != null) DatabaseAndCacheLocationAddress.DeleteLocation(locationCoordinate);
+
+            if (locationCoordinateSearch != null) DatabaseAndCacheLocationAddress.DeleteLocationBySearch(locationCoordinateBySearch: locationCoordinateSearch, locationAccuracyLatitude, locationAccuracyLongitude);
         }
 
-        public static void PopulateGrivViewMapNomnatatim(DataGridView dataGridView, int columnIndex, LocationCoordinate locationCoordinate, bool onlyFromCache)
+        public static void PopulateGrivViewMapNomnatatim(DataGridView dataGridView, int columnIndex, LocationCoordinate locationCoordinate, 
+            bool onlyFromCache, bool canReverseGeocoder)
         {
+            GlobalData.IsPopulatingMapLocation = true;
             LocationCoordinateAndDescription locationCoordinateAndDescription = null;
-
+            
             float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
             float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
 
-            
             if (locationCoordinate != null) 
-                locationCoordinateAndDescription = DatabaseAndCacheLocationAddress.AddressLookup(
-                    locationCoordinate, locationAccuracyLatitude, locationAccuracyLongitude, onlyFromCache);
+                locationCoordinateAndDescription = DatabaseAndCacheLocationAddress.AddressLookupAndReverseGeocoder(
+                    locationCoordinate, locationAccuracyLatitude, locationAccuracyLongitude, onlyFromCache: onlyFromCache, canReverseGeocoder: canReverseGeocoder);
 
             bool isReadOnly = (locationCoordinateAndDescription == null);
             //isReadOnly = false;
@@ -301,8 +303,8 @@ namespace PhotoTagsSynchronizer
             AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNominatim, tagProvince, ReadWriteAccess.AllowCellReadAndWrite), 
                 locationCoordinateAndDescription?.Description.Region, isReadOnly); 
             AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNominatim, tagCountry, ReadWriteAccess.AllowCellReadAndWrite), 
-                locationCoordinateAndDescription?.Description.Country, isReadOnly); 
-           
+                locationCoordinateAndDescription?.Description.Country, isReadOnly);
+            GlobalData.IsPopulatingMapLocation = false;
         }
         #endregion
 
@@ -387,7 +389,7 @@ namespace PhotoTagsSynchronizer
 
                 //Nominatim.API
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNominatim));
-                PopulateGrivViewMapNomnatatim(dataGridView, columnIndex, metadataExiftool?.LocationCoordinate, true);
+                PopulateGrivViewMapNomnatatim(dataGridView, columnIndex, metadataExiftool?.LocationCoordinate, onlyFromCache: true, canReverseGeocoder: false);
 
                 //WebScraper
                 //headerWebScraping = "WebScraper";

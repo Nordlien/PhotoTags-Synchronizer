@@ -1353,15 +1353,24 @@ namespace PhotoTagsSynchronizer
                 DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, row);
                 if (!dataGridViewGenericRow.IsHeader)
                 {
-                    LocationCoordinate locationCoordinate = dataGridViewGenericRow.LocationCoordinate;
+                    LocationCoordinate locationCoordinateSearch = dataGridViewGenericRow.LocationCoordinate;
                     LocationDescription locationDescription = new LocationDescription(
                         DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndexName, row),
                         DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndexCity, row),
                         DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndexRegion, row),
                         DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndexCountry, row));
 
-                    if (locationNames.ContainsKey(locationCoordinate) && locationNames[locationCoordinate] != locationDescription)
-                    DatabaseLocationNames.AddressUpdate(new LocationCoordinateAndDescription(locationCoordinate, locationDescription));
+                    if (locationNames.ContainsKey(locationCoordinateSearch) && locationNames[locationCoordinateSearch] != locationDescription)
+                    {
+                        float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
+                        float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
+                        LocationCoordinate locationCoordinateInDatabase = DatabaseLocationNames.LocationCoordinateInDatabase(locationCoordinateSearch,
+                            locationAccuracyLatitude, locationAccuracyLongitude);
+
+                        DatabaseLocationNames.AddressUpdate(
+                            locationCoordinateSearch: locationCoordinateInDatabase, 
+                            locationCoordinateAndDescription: new LocationCoordinateAndDescription(locationCoordinateSearch, locationDescription));
+                    }
                 }
             }
             DatabaseAndCacheCameraOwner.CameraMakeModelAndOwnerMakeDirty();
@@ -1668,10 +1677,12 @@ namespace PhotoTagsSynchronizer
                     DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
                     if (dataGridViewGenericRow != null && !dataGridViewGenericRow.IsHeader && dataGridViewGenericRow?.LocationCoordinate != null)
                     {
-                        DatabaseAndCacheLocationAddress.DeleteLocation(dataGridViewGenericRow?.LocationCoordinate); //Delete from database cache
+                        DataGridViewHandlerMap.DeleteMapNomnatatimSearch(locationCoordinateSearch: dataGridViewGenericRow?.LocationCoordinate,
+                            locationAccuracyLatitude, locationAccuracyLongitude); //Delete from database cache
 
-                        LocationCoordinateAndDescription locationCoordinateAndDescription = DatabaseAndCacheLocationAddress.AddressLookup(
-                            dataGridViewGenericRow?.LocationCoordinate, locationAccuracyLatitude, locationAccuracyLongitude, false);
+                        LocationCoordinateAndDescription locationCoordinateAndDescription = 
+                            DatabaseAndCacheLocationAddress.AddressLookupAndReverseGeocoder(
+                            dataGridViewGenericRow?.LocationCoordinate, locationAccuracyLatitude, locationAccuracyLongitude, onlyFromCache: false, canReverseGeocoder: true);
 
                         DataGridViewHandler.SetCellValue(dataGridView, columnIndexName, rowIndex, locationCoordinateAndDescription?.Description.Name, true);
                         DataGridViewHandler.SetCellValue(dataGridView, columnIndexCity, rowIndex, locationCoordinateAndDescription?.Description.City, true);

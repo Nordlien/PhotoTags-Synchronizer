@@ -404,15 +404,16 @@ namespace PhotoTagsSynchronizer
         private bool isDataGridViewMaps_CellValueChanging = false;
         private void dataGridViewMap_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.ColumnIndex < 0) return;
+            if (e.RowIndex < 0) return;
+
             if (isDataGridViewMaps_CellValueChanging) return; //Avoid requirng isues
             if (GlobalData.IsApplicationClosing) return;
             //if (ClipboardUtility.IsClipboardActive) return;
             //if (GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress) return;
-            if (e.ColumnIndex < 0) return;
-            if (e.RowIndex < 0) return;
-
             DataGridView dataGridView = ((DataGridView)sender);
             if (!dataGridView.Enabled) return;
+            if (GlobalData.IsPopulatingMapLocation) return; 
             if (DataGridViewHandler.GetIsPopulatingFile(dataGridView)) return;
             if (DataGridViewHandler.GetIsPopulating(dataGridView)) return;
             //if (IsPopulatingAnything("Map Cell value changed")) return;
@@ -431,7 +432,7 @@ namespace PhotoTagsSynchronizer
             {
                 string coordinate = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridViewMap, e.ColumnIndex, e.RowIndex);
                 UpdateBrowserMap(coordinate, GetMapProvider());
-                DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, e.ColumnIndex, LocationCoordinate.Parse(coordinate), false);
+                DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, e.ColumnIndex, LocationCoordinate.Parse(coordinate), onlyFromCache: false, canReverseGeocoder: true);
                 DataGridViewHandlerDate.PopulateTimeZone(dataGridViewDate, null, dataGridViewGenericColumn.FileEntryAttribute);
             }
 
@@ -499,8 +500,9 @@ namespace PhotoTagsSynchronizer
                     LocationNameLookUpCache locationAddress = new LocationNameLookUpCache(databaseUtilitiesSqliteMetadata, Properties.Settings.Default.ApplicationPreferredLanguages);
 
                     CommonDatabaseTransaction commonDatabaseTransaction = databaseUtilitiesSqliteMetadata.TransactionBegin(CommonDatabaseTransaction.TransactionReadCommitted);
-                    locationAddress.AddressLookupNearestAndUpdate(
-                        new LocationCoordinateAndDescription(
+                    locationAddress.AddressUpdateBySearchLocation(
+                        new LocationCoordinateAndDescription
+                        (
                             new LocationCoordinate( 
                                 (float)locationCoordinateNomnatatim.Latitude,
                                 (float)locationCoordinateNomnatatim.Longitude),
@@ -509,16 +511,16 @@ namespace PhotoTagsSynchronizer
                                 (string)DataGridViewHandler.GetCellValue(dataGridView, e.ColumnIndex, DataGridViewHandlerMap.headerNominatim, DataGridViewHandlerMap.tagCity), //City
                                 (string)DataGridViewHandler.GetCellValue(dataGridView, e.ColumnIndex, DataGridViewHandlerMap.headerNominatim, DataGridViewHandlerMap.tagProvince), //State
                                 (string)DataGridViewHandler.GetCellValue(dataGridView, e.ColumnIndex, DataGridViewHandlerMap.headerNominatim, DataGridViewHandlerMap.tagCountry)) //Country
-                            ),
-                            locationAccuracyLatitude, locationAccuracyLongitude, false
-                        );
+                        ),
+                        locationAccuracyLatitude, locationAccuracyLongitude);
+
                     databaseUtilitiesSqliteMetadata.TransactionCommit(commonDatabaseTransaction);
 
                     for (int columnIndex = 0; columnIndex < dataGridViewMap.ColumnCount; columnIndex++)
                     {
                         string locationCoordinateString = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridViewMap, columnIndex, DataGridViewHandlerMap.headerMedia, DataGridViewHandlerMap.tagMediaCoordinates);
                         LocationCoordinate locationCoordinate = LocationCoordinate.Parse(locationCoordinateString);
-                        DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, columnIndex, locationCoordinate, false);
+                        DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, columnIndex, locationCoordinate, onlyFromCache: false, canReverseGeocoder: true);
                     }
                 }
             }
@@ -537,18 +539,20 @@ namespace PhotoTagsSynchronizer
             isDataGridViewMaps_CellValueChanging = true;
             int rowIndex = DataGridViewHandler.GetRowIndex(dataGridView, DataGridViewHandlerMap.headerMedia, DataGridViewHandlerMap.tagMediaCoordinates);
 
+            float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
+            float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
             //Delete from database cache
             foreach (int columnIndex in selectedColumns)
             {
                 string coordinate = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridViewMap, columnIndex, rowIndex);
-                DataGridViewHandlerMap.DeleteMapNomnatatim(LocationCoordinate.Parse(coordinate));
+                DataGridViewHandlerMap.DeleteMapNomnatatimSearch(LocationCoordinate.Parse(coordinate), locationAccuracyLatitude, locationAccuracyLongitude);
             }
 
             //Reload data from Nomnatatim or if from database in case equal
             foreach (int columnIndex in selectedColumns)
             {
                 string coordinate = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridViewMap, columnIndex, rowIndex);
-                DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, columnIndex, LocationCoordinate.Parse(coordinate), false);
+                DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, columnIndex, LocationCoordinate.Parse(coordinate), onlyFromCache: false, canReverseGeocoder: true);
             }
             isDataGridViewMaps_CellValueChanging = false;
         }
