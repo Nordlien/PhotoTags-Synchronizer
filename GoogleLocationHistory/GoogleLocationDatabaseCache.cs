@@ -99,6 +99,7 @@ namespace GoogleLocationHistory
 
             string sqlCommand = "";
 
+            #region LocationDateTime
             if (locationDateTime != null)
                 sqlCommand +=
                 "(SELECT 1 AS Priority, LocationDateTime AS Date, ABS(LocationDateTime - @LocationDateTime) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
@@ -112,7 +113,9 @@ namespace GoogleLocationHistory
                 "AND  LocationLatitude != 0 AND LocationLongitude != 0 " +
                 "AND (LocationLatitude IS NOT NULL OR LocationLongitude IS NOT NULL) " +
                 "ORDER BY LocationDateTime DESC LIMIT 3) ";
-            
+            #endregion
+
+            #region MediaDateTaken
             if (mediaDateTaken != null) sqlCommand += 
                 (sqlCommand == "" ? "" : "UNION SELECT * FROM ") +
                 "(SELECT 2 AS Priority, MediaDateTaken AS Date, ABS(MediaDateTaken - @MediaDateTaken) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
@@ -126,20 +129,23 @@ namespace GoogleLocationHistory
                 "AND  LocationLatitude != 0 AND LocationLongitude != 0 " +
                 "AND (LocationLatitude IS NOT NULL OR LocationLongitude IS NOT NULL) " +
                 "ORDER BY MediaDateTaken DESC LIMIT 3) ";
+            #endregion
 
+            #region FileDateCreated
             if (fileDate != null) sqlCommand +=
                 (sqlCommand == "" ? "" : "UNION SELECT * FROM ") +
-                "(SELECT 3 AS Priority, MIN(FileDateModified, FileDateCreated) AS Date, ABS( MIN(FileDateModified, FileDateCreated) - @FileDateCreated) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
-                "WHERE MIN(FileDateModified, FileDateCreated) >= @FileDateCreated " +
+                "(SELECT 3 AS Priority, FileDateCreated AS Date, ABS(FileDateCreated - @FileDateCreated) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
+                "WHERE FileDateCreated >= @FileDateCreated " +
                 "AND  LocationLatitude != 0 AND LocationLongitude != 0 " +
                 "AND (LocationLatitude IS NOT NULL OR LocationLongitude IS NOT NULL) " +
                 "ORDER BY FileDateCreated LIMIT 3) " +
                 "UNION SELECT * FROM " +
-                "(SELECT 3 AS Priority, MIN(FileDateModified, FileDateCreated) AS Date, ABS( MIN(FileDateModified, FileDateCreated) - @FileDateCreated) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
-                "WHERE MIN(FileDateModified, FileDateCreated) <= @FileDateCreated " +
+                "(SELECT 3 AS Priority, FileDateCreated AS Date, ABS(FileDateCreated - @FileDateCreated) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
+                "WHERE FileDateCreated <= @FileDateCreated " +
                 "AND  LocationLatitude != 0 AND LocationLongitude != 0 " +
                 "AND (LocationLatitude IS NOT NULL OR LocationLongitude IS NOT NULL) " +
                 "ORDER BY FileDateCreated DESC LIMIT 3) ";
+            #endregion
 
             sqlCommand = "SELECT * FROM " + sqlCommand +
                 "ORDER BY Priority, TimeDistance ";

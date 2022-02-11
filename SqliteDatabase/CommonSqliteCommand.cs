@@ -80,10 +80,14 @@ namespace SqliteDatabase
                 var detail = sqliteDataReaderDebug[3];
                 if (!detail.ToString().StartsWith("SEARCH", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    Debug.WriteLine("0 - Sql Performance using SCAN");
-                    Debug.WriteLine("0 - Sql Performance using SCAN Command: " + databaseCommand.CommandText);
-                    Debug.WriteLine("0 - Sql Performance using SCAN Index: " + detail.ToString());
-                    
+                    if (!databaseCommand.CommandText.Contains("SELECT CameraMake, CameraModel, UserAccount FROM CameraOwner") &&
+                        !databaseCommand.CommandText.Contains("SELECT DISTINCT UserAccount FROM LocationSource") &&
+                        !databaseCommand.CommandText.Contains("SELECT * FROM (SELECT 1 AS Priority, LocationDateTime AS Date, ABS(LocationDateTime - @LocationDateTime)"))
+                    {
+                        Debug.WriteLine("0 - Sql Performance using SCAN");
+                        Debug.WriteLine("0 - Sql Performance using SCAN Command: " + databaseCommand.CommandText);
+                        Debug.WriteLine("0 - Sql Performance using SCAN Index: " + detail.ToString());
+                    }
                 } else
                 {
                     if (detail.ToString().Contains("sqlite_autoindex_MediaMetadata_1"))
@@ -154,8 +158,23 @@ namespace SqliteDatabase
                     }
                     else if (detail.ToString().Contains("MediaPersonalRegions_Name_FileDateModified"))
                     {
-                        //SELECT Thumbnail FROM MediaPersonalRegions WHERE Name = @Name AND Thumbnail IS NOT NULL ORDER BY FileDateModified LIMIT 1
                         if (!detail.ToString().Contains("(Name=?)"))
+                        {
+                            Debug.WriteLine("4 - Sql Performance NOT use full Index, Command: " + databaseCommand.CommandText);
+                            Debug.WriteLine("4 - Sql Performance NOT use full Index: " + detail.ToString());
+                        }
+                    }
+                    else if (detail.ToString().Contains("sqlite_autoindex_LocationHistory_1"))
+                    {
+                        if (!detail.ToString().Contains("(UserAccount=? AND TimeStamp=?)"))
+                        {
+                            Debug.WriteLine("4 - Sql Performance NOT use full Index, Command: " + databaseCommand.CommandText);
+                            Debug.WriteLine("4 - Sql Performance NOT use full Index: " + detail.ToString());
+                        }
+                    }
+                    else if (detail.ToString().Contains("sqlite_autoindex_LocationName_1"))
+                    {
+                        if (!detail.ToString().Contains("(Latitude>? AND Latitude<?)"))
                         {
                             Debug.WriteLine("4 - Sql Performance NOT use full Index, Command: " + databaseCommand.CommandText);
                             Debug.WriteLine("4 - Sql Performance NOT use full Index: " + detail.ToString());

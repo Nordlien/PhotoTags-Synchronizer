@@ -15,10 +15,11 @@ namespace PhotoTagsSynchronizer
         {
             if (GlobalData.IsApplicationClosing) e.Cancel = true;
             if (GlobalData.DoNotTrigger_TreeViewFilter_BeforeAndAfterCheck) e.Cancel = true;
-            if (!GlobalData.DoNotTrigger_TreeViewFilter_BeforeAndAfterCheck && //Allowed
-                IsPopulatingAnything("Selecting Filter")) e.Cancel = true;
-            if (SaveBeforeContinue(true) == DialogResult.Cancel) e.Cancel = true;
-
+            else
+            {
+                if (IsPopulatingAnything("Selecting Filter")) e.Cancel = true;
+                if (SaveBeforeContinue(true) == DialogResult.Cancel) e.Cancel = true;
+            }
             if (!e.Cancel)
             {
                 GlobalData.IsPerformingAButtonAction = true;
