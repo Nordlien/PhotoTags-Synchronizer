@@ -569,93 +569,97 @@ namespace FileHandeling
                 {
                     bool machineNameFound = false;
 
-                    int indexOfMachineName = fileEntryMaybeHasMachineName.FileFullPath.IndexOf(machineName, StringComparison.OrdinalIgnoreCase);
+                    string filenameWithoutExtension = Path.GetFileNameWithoutExtension(fileEntryMaybeHasMachineName.FileName);
+                    int indexOfMachineName = filenameWithoutExtension.IndexOf(machineName, StringComparison.OrdinalIgnoreCase);
                     if (indexOfMachineName >= 0)
                     {
-                        int charsBehindMachineName = fileEntryMaybeHasMachineName.FileFullPath.Length - indexOfMachineName + machineNameLength;
+                        int charsBehindMachineName = filenameWithoutExtension.Length - indexOfMachineName - machineNameLength;
 
-                        switch (charsBehindMachineName) //Validate position and extras chars behind machinename
+                        if (charsBehindMachineName == 0) machineNameFound = true;
+                        else if (charsBehindMachineName == 1) machineNameFound = false;
+                        else if (charsBehindMachineName == 2)
                         {
-                            case 0: //Ok
-                                machineNameFound = true;
-                                break;
-                            case 1: //
-                                machineNameFound = false;
-                                break;
-                            case 2: //Somthing more behine -MachineName-x
-                                if (fileEntryMaybeHasMachineName.FileFullPath[indexOfMachineName + machineNameLength] == '-' &&
+                            if (fileEntryMaybeHasMachineName.FileFullPath[indexOfMachineName + machineNameLength] == '-' &&
                                 char.IsDigit(fileEntryMaybeHasMachineName.FileFullPath[indexOfMachineName + machineNameLength + 1])) machineNameFound = true; //numberExtraCharBehind = 2;
-                                break;
-                            case 3: //Somthing more behine -MachineName-xx
-                                if (fileEntryMaybeHasMachineName.FileFullPath[indexOfMachineName + machineNameLength] == '-' &&
+
+                        }
+                        else if (charsBehindMachineName == 3)
+                        {
+                            if (fileEntryMaybeHasMachineName.FileFullPath[indexOfMachineName + machineNameLength] == '-' &&
                                 char.IsDigit(fileEntryMaybeHasMachineName.FileFullPath[indexOfMachineName + machineNameLength + 1]) &&
                                 char.IsDigit(fileEntryMaybeHasMachineName.FileFullPath[indexOfMachineName + machineNameLength + 2])) machineNameFound = true; //numberExtraCharBehind = 3;
-                                break;
-                            default: //not ok
+                        }
+                        else
+                        {
+                            if (filenameWithoutExtension.IndexOf(machineName, indexOfMachineName, StringComparison.OrdinalIgnoreCase) != -1)
+                                machineNameFound = true;
+                            else
                                 machineNameFound = false;
-                                break;
                         }
 
                         if (machineNameFound && !fixError) return true;
-
+                        
                         string pathWithoutMachineName = fileEntryMaybeHasMachineName.FileFullPath.Substring(0, indexOfMachineName);
                         FileEntry fileEntryWithoutMachineName = new FileEntry(fileEntryMaybeHasMachineName.FileFullPath, fileEntryMaybeHasMachineName.LastWriteDateTime);
 
-                        if (fileEntries.Contains(fileEntryWithoutMachineName))
+                        if (fixError)
                         {
-                            if (letNewestFileWin)
+                            if (fileEntries.Contains(fileEntryWithoutMachineName))
                             {
-                                try
+                                if (letNewestFileWin)
                                 {
-                                    DateTime dateTimeWithoutMachineName = fileEntryWithoutMachineName.LastWriteDateTime;
-                                    DateTime dateTimeHasMachineName = fileEntryMaybeHasMachineName.LastWriteDateTime;
+                                    try
+                                    {
+                                        DateTime dateTimeWithoutMachineName = fileEntryWithoutMachineName.LastWriteDateTime;
+                                        DateTime dateTimeHasMachineName = fileEntryMaybeHasMachineName.LastWriteDateTime;
 
-                                    if (dateTimeHasMachineName > dateTimeWithoutMachineName)
-                                    {
-                                        try
+                                        if (dateTimeHasMachineName > dateTimeWithoutMachineName)
                                         {
-                                            File.Delete(fileEntryWithoutMachineName.FileFullPath);
-                                            File.Move(fileEntryMaybeHasMachineName.FileFullPath, fileEntryWithoutMachineName.FileFullPath);
+                                            try
+                                            {
+                                                File.Delete(fileEntryWithoutMachineName.FileFullPath);
+                                                File.Move(fileEntryMaybeHasMachineName.FileFullPath, fileEntryWithoutMachineName.FileFullPath);
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                Logger.Error(ex);
+                                                KryptonMessageBox.Show(ex.Message + "\r\nWas trying to replace\r\n" + fileEntryWithoutMachineName.FileFullPath + "\r\n with\r\n" + fileEntryMaybeHasMachineName.FileFullPath,
+                                                    "Was not able to remove duplicated file.", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                                            }
                                         }
-                                        catch (Exception ex)
+                                        else
                                         {
-                                            Logger.Error(ex);
-                                            KryptonMessageBox.Show(ex.Message + "\r\nWas trying to replace\r\n" + fileEntryWithoutMachineName.FileFullPath + "\r\n with\r\n" + fileEntryMaybeHasMachineName.FileFullPath, 
-                                                "Was not able to remove dubpliacted file.", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                                            try
+                                            {
+                                                File.Delete(fileEntryMaybeHasMachineName.FileFullPath);
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                Logger.Error(ex);
+                                                KryptonMessageBox.Show(ex.Message + "\r\n" + fileEntryMaybeHasMachineName.FileFullPath,
+                                                    "Was not able to remove dubpliacted file.", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                                            }
                                         }
                                     }
-                                    else
+                                    catch (Exception ex)
                                     {
-                                        try
-                                        {
-                                            File.Delete(fileEntryMaybeHasMachineName.FileFullPath);
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            Logger.Error(ex);
-                                            KryptonMessageBox.Show(ex.Message + "\r\n" + fileEntryMaybeHasMachineName.FileFullPath, 
-                                                "Was not able to remove dubpliacted file.", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-                                        }
+                                        Logger.Error(ex);
+                                        KryptonMessageBox.Show(ex.Message + "\r\n" + fileEntryWithoutMachineName.FileFullPath + "\r\n" + fileEntryMaybeHasMachineName.FileFullPath,
+                                            "Was not able to remove the oldest of dubpliacted file.", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
                                     }
                                 }
-                                catch (Exception ex)
+                                else
                                 {
-                                    Logger.Error(ex);
-                                    KryptonMessageBox.Show(ex.Message + "\r\n" + fileEntryWithoutMachineName.FileFullPath + "\r\n" + fileEntryMaybeHasMachineName.FileFullPath, 
-                                        "Was not able to remove the oldest of dubpliacted file.", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-                                }
-                            }
-                            else
-                            {
-                                try
-                                {
-                                    File.Delete(fileEntryMaybeHasMachineName.FileFullPath);
-                                }
-                                catch (Exception ex)
-                                {
-                                    Logger.Error(ex);
-                                    KryptonMessageBox.Show(ex.Message + "\r\n" + fileEntryMaybeHasMachineName.FileFullPath, 
-                                        "Was not able to remove dubpliacted file.", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                                    try
+                                    {
+                                        File.Delete(fileEntryMaybeHasMachineName.FileFullPath);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Logger.Error(ex);
+                                        KryptonMessageBox.Show(ex.Message + "\r\n" + fileEntryMaybeHasMachineName.FileFullPath,
+                                            "Was not able to remove dubpliacted file.", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                                    }
                                 }
                             }
                         }
