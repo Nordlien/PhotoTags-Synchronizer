@@ -10,7 +10,6 @@ using Newtonsoft.Json;
 using NLog;
 using NLog.Targets;
 using NLog.Targets.Wrappers;
-using SqliteDatabase;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -1343,7 +1342,7 @@ namespace PhotoTagsSynchronizer
         {
             int rowCount = DataGridViewHandler.GetRowCount(dataGridView);
 
-            DatabaseAndCacheCameraOwner.TransactionCommitBatch();
+            DatabaseAndCacheCameraOwner.TransactionBeginBatch();
             for (int row = 0; row < rowCount; row++)
             {
                 DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, row);
