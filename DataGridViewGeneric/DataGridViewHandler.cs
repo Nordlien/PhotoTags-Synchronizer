@@ -1225,12 +1225,13 @@ namespace DataGridViewGeneric
                         fileEntryVersionPriorityReason = FileEntryVersionHandler.CompareFileEntryAttribute(dataGridViewGenericColumn.FileEntryAttribute, fileEntryAttribute2);
                         switch (fileEntryVersionPriorityReason)
                         {
-                            case FileEntryVersionCompare.LostNoneEqualFound:
+                            case FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch:
                                 break; //Continue search
-                            case FileEntryVersionCompare.LostFoundOlder:
+                            case FileEntryVersionCompare.LostWasOlder:
+                                //break; //Continue search
                                 return columnIndex;
-                            case FileEntryVersionCompare.WonFoundEqual:
-                            case FileEntryVersionCompare.WonFoundNewer:
+                            case FileEntryVersionCompare.WonWasEqual:
+                            case FileEntryVersionCompare.WonWasNewer:
                                 return columnIndex;
                             default:
                                 throw new NotImplementedException();
@@ -1242,7 +1243,7 @@ namespace DataGridViewGeneric
             {
                 //DEBUG
             }
-            fileEntryVersionPriorityReason = FileEntryVersionCompare.LostNoneEqualFound;
+            fileEntryVersionPriorityReason = FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch;
             return -1; //Not found
         }
 
@@ -1284,9 +1285,9 @@ namespace DataGridViewGeneric
             out FileEntryVersionCompare fileEntryVersionCompareReason)
         {
             int columnIndex = GetColumnIndexWhenAddColumn(dataGridView, fileEntryAttribute, out fileEntryVersionCompareReason); //Find column Index for Filename and date last written, Prioritize
-            if (fileEntryVersionCompareReason == FileEntryVersionCompare.LostNoneEqualFound && columnIndex != -1)
+            if (fileEntryVersionCompareReason == FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch && columnIndex != -1)
             {
-                fileEntryVersionCompareReason = FileEntryVersionCompare.LostNoneEqualFound;
+                fileEntryVersionCompareReason = FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch;
                 return -1; //DEBUG, should not happen, need to fix IF happen
             }
 
@@ -1297,11 +1298,11 @@ namespace DataGridViewGeneric
             bool isCurrenOrUpdatedColumn = FileEntryVersionHandler.IsCurrenOrUpdatedVersion(fileEntryAttribute.FileEntryVersion);
             bool isErrorOrHistoricalColumn = FileEntryVersionHandler.IsErrorOrHistoricalVersion(fileEntryAttribute.FileEntryVersion);
 
-            if (fileEntryVersionCompareReason == FileEntryVersionCompare.LostNoneEqualFound) //Column not found, add a new column
+            if (fileEntryVersionCompareReason == FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch) //Column not found, add a new column
             {
                 if (columnIndex != -1)
                 {
-                    fileEntryVersionCompareReason = FileEntryVersionCompare.LostNoneEqualFound;
+                    fileEntryVersionCompareReason = FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch;
                     return -1; //DEBUG, should not happen, need to fix IF happen
                 }
 
@@ -1359,7 +1360,7 @@ namespace DataGridViewGeneric
                             )
                         {
                             columnIndexFilename += 1;
-                            fileEntryVersionCompareReason = FileEntryVersionCompare.WonFoundEqual;
+                            fileEntryVersionCompareReason = FileEntryVersionCompare.WonWasEqual;
 
                         }
                     }
@@ -1407,9 +1408,9 @@ namespace DataGridViewGeneric
 
                     switch (fileEntryVersionCompareReason)
                     {
-                        case FileEntryVersionCompare.WonFoundNewer:
+                        case FileEntryVersionCompare.WonWasNewer:
 
-                        case FileEntryVersionCompare.WonFoundEqual:
+                        case FileEntryVersionCompare.WonWasEqual:
                             if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.MetadataToSave)
                             {
                                 currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed, expected behaviour
@@ -1438,10 +1439,10 @@ namespace DataGridViewGeneric
                                 }
                             }
                             break;
-                        case FileEntryVersionCompare.LostFoundOlder:
+                        case FileEntryVersionCompare.LostWasOlder:
                             currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed
                             break;
-                        case FileEntryVersionCompare.LostNoneEqualFound:
+                        case FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch:
                             break;
                         //case FileEntryVersionCompare.LostOverUserInput:
                         default:
@@ -1454,16 +1455,16 @@ namespace DataGridViewGeneric
                     #region Check if need to reload/refresh dataGridView
                     switch (fileEntryVersionCompareReason)
                     {
-                        case FileEntryVersionCompare.WonFoundNewer:
-                        case FileEntryVersionCompare.WonFoundEqual:
+                        case FileEntryVersionCompare.WonWasNewer:
+                        case FileEntryVersionCompare.WonWasEqual:
                             currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warnings needed, just updated datagrid with new data
                             currentDataGridViewGenericColumn.Metadata = metadata; //Keep newest version, PS All columns get added with empty Metadata
                             break;
                             
-                        case FileEntryVersionCompare.LostFoundOlder:
+                        case FileEntryVersionCompare.LostWasOlder:
                             currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed
                             break;
-                        case FileEntryVersionCompare.LostNoneEqualFound:
+                        case FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch:
                             break;
                         //case FileEntryVersionCompare.LostOverUserInput:
                         default:
@@ -1476,8 +1477,8 @@ namespace DataGridViewGeneric
                 #region Updated - currentDataGridViewGenericColumn
                 switch (fileEntryVersionCompareReason)
                 {
-                    case FileEntryVersionCompare.WonFoundNewer:
-                    case FileEntryVersionCompare.WonFoundEqual:                    
+                    case FileEntryVersionCompare.WonWasNewer:
+                    case FileEntryVersionCompare.WonWasEqual:                    
                         currentDataGridViewGenericColumn.FileEntryAttribute = fileEntryAttribute; //Updated from FromSource, Database or AutoCorrect                
                         currentDataGridViewGenericColumn.Thumbnail = (thumbnail == null ? null : new Bitmap(thumbnail)); //Avoid thread issues
                         currentDataGridViewGenericColumn.ReadWriteAccess = readWriteAccessForColumn;
@@ -1485,8 +1486,8 @@ namespace DataGridViewGeneric
                         SetCellBackgroundColorForColumn(dataGridView, columnIndex);
                         break;
                     case FileEntryVersionCompare.LostOverUserInput:
-                    case FileEntryVersionCompare.LostFoundOlder:
-                    case FileEntryVersionCompare.LostNoneEqualFound:
+                    case FileEntryVersionCompare.LostWasOlder:
+                    case FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch:
                         break;
                     default:
                         throw new NotImplementedException();

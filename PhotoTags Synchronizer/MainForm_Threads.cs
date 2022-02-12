@@ -3273,7 +3273,7 @@ namespace PhotoTagsSynchronizer
                                     
                                     lock (commonLazyLoadingMapNomnatatimLock) if (commonLazyLoadingMapNomnatatim.Count > 0) commonLazyLoadingMapNomnatatim.RemoveAt(0); //Remove from queue after read. Otherwise wrong text in status bar
 
-                                    if (!isPopulated && fileEntryVersionCompare != FileEntryVersionCompare.LostNoneEqualFound) 
+                                    if (!isPopulated && fileEntryVersionCompare != FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch) 
                                         AddQueueLazyLoadingMapNomnatatimLock(fileEntryAttribute);
                                 }
                                 #endregion
