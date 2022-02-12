@@ -87,7 +87,7 @@ namespace Thumbnails
                     metadataDatabase.UpdateRegionThumbnail(metadata, regionStructure);
                 }
             }
-            //metadataDatabase.TransactionCommitBatch();
+            //metadataDatabase.TransactionCommitBatch(true);
             return true;
         }
         #endregion 

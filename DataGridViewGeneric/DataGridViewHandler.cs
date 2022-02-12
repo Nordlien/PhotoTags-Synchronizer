@@ -1106,12 +1106,12 @@ namespace DataGridViewGeneric
         #region Column handling - GetColumnIndex - FileEntryAttribute    
         private static Dictionary<FileEntryAttribute, int> columnIndexCache = new Dictionary<FileEntryAttribute, int>();
 
-        public static int GetColumnIndexUserInput(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute2)
+        public static int GetColumnIndexUserInput(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute)
         {
             if (!GetIsAgregated(dataGridView)) 
                 return -1;
-            FileEntryAttribute fileEntryAttributeSearch = new FileEntryAttribute(fileEntryAttribute2.FileEntry, 
-                FileEntryVersionHandler.ConvertCurrentErrorHistorical(fileEntryAttribute2.FileEntryVersion));
+            FileEntryAttribute fileEntryAttributeSearch = new FileEntryAttribute(fileEntryAttribute.FileEntry, 
+                FileEntryVersionHandler.ConvertCurrentErrorHistorical(fileEntryAttribute.FileEntryVersion));
 
             #region Cache logic
             if (columnIndexCache.ContainsKey(fileEntryAttributeSearch))
@@ -1144,7 +1144,7 @@ namespace DataGridViewGeneric
 
                     if (dataGridViewGenericColumn != null)
                     {
-                        switch (fileEntryAttribute2.FileEntryVersion)
+                        switch (fileEntryAttribute.FileEntryVersion)
                         {
                             case FileEntryVersion.ExtractedNowUsingExiftool: //is used in in DataGridView Column
                             case FileEntryVersion.ExtractedNowUsingReadMediaFile:
@@ -1155,7 +1155,7 @@ namespace DataGridViewGeneric
                             case FileEntryVersion.MetadataToSave:
                             case FileEntryVersion.CurrentVersionInDatabase:
                                 if (FileEntryVersionHandler.IsCurrenOrUpdatedVersion(dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion) &&
-                                    IsFilenameEqual(fileEntryAttribute2.FileFullPath, dataGridViewGenericColumn.FileEntryAttribute.FileFullPath) &&
+                                    IsFilenameEqual(fileEntryAttribute.FileFullPath, dataGridViewGenericColumn.FileEntryAttribute.FileFullPath) &&
                                     dataGridViewGenericColumn.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite //Is Edit Column (User Input Column)
                                     )
                                     //fileEntryAttribute.LastWriteDateTime == dataGridViewGenericColumn.FileEntryAttribute.LastWriteDateTime)

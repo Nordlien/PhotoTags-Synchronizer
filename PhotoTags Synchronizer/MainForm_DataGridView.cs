@@ -684,6 +684,7 @@ namespace PhotoTagsSynchronizer
         #region DataGridView - Populate File - FileEntryAttribute -> DataGridView_Populate_FileEntryAttribute();
         private void DataGridView_Populate_FileEntryAttribute(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, string tabTag, Metadata metadataAutoCorrect = null)
         {
+            //if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.ExtractedNowUsingReadMediaFile) return; //When call from ThreadSaveToDatabaseRegionAndThumbnail
             lock (GlobalData.populateSelectedLock)
             {
                 #region isFileInDataGridView

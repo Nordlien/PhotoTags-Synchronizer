@@ -178,18 +178,19 @@ namespace MetadataLibrary
 
             switch (fileEntryAttributeFromQueue.FileEntryVersion)
             {
-                case FileEntryVersion.ExtractedNowUsingExiftool:
-                case FileEntryVersion.ExtractedNowUsingReadMediaFile:
-                case FileEntryVersion.ExtractedNowUsingWindowsLivePhotoGallery:
-                case FileEntryVersion.ExtractedNowUsingMicrosoftPhotos:
-                case FileEntryVersion.ExtractedNowUsingWebScraping:
+                case FileEntryVersion.ExtractedNowUsingExiftool:                        //From queue
+                case FileEntryVersion.ExtractedNowUsingReadMediaFile:                   //From queue
+                case FileEntryVersion.ExtractedNowUsingWindowsLivePhotoGallery:         //From queue
+                case FileEntryVersion.ExtractedNowUsingMicrosoftPhotos:                 //From queue
+                case FileEntryVersion.ExtractedNowUsingWebScraping:                     //From queue
+                    #region
                     switch (fileEntryAttributeDataGridViewColumn.FileEntryVersion)
                     {
-                        case FileEntryVersion.ExtractedNowUsingExiftool: //is used in in DataGridView Column
-                        case FileEntryVersion.ExtractedNowUsingReadMediaFile:
-                        case FileEntryVersion.ExtractedNowUsingWindowsLivePhotoGallery:
-                        case FileEntryVersion.ExtractedNowUsingMicrosoftPhotos:
-                        case FileEntryVersion.ExtractedNowUsingWebScraping:
+                        case FileEntryVersion.ExtractedNowUsingExiftool:                //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingReadMediaFile:           //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingWindowsLivePhotoGallery: //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingMicrosoftPhotos:         //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingWebScraping:             //DataGridView Column
                             //Both Extracted from source, newst version win
                             if (fileEntryAttributeFromQueue.LastWriteDateTime > fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
                                 return FileEntryVersionCompare.WonFoundNewer;
@@ -198,40 +199,40 @@ namespace MetadataLibrary
                                 return FileEntryVersionCompare.WonFoundEqual;
 
                             if (fileEntryAttributeFromQueue.LastWriteDateTime < fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
-                                return FileEntryVersionCompare.LostFoundOlder; //DEBUG, in case of queue get not in sequence
+                                return FileEntryVersionCompare.LostFoundOlder; //DEBUG, ThreadSaveToDatabaseRegionAndThumbnail when updated old regions
 
                             break;
-                        case FileEntryVersion.MetadataToSave:
-                        case FileEntryVersion.CompatibilityFixedAndAutoUpdated: //is store in DataGridView Column
+                        case FileEntryVersion.MetadataToSave:                           //DataGridView Column
+                        case FileEntryVersion.CompatibilityFixedAndAutoUpdated:         //DataGridView Column
                             return FileEntryVersionCompare.WonFoundNewer; //Extracted from source always win over AutoCorrect (No need to check dates, It's only exist one column, regardless of date)
                             
-                        case FileEntryVersion.CurrentVersionInDatabase: //is store in DataGridView Column
+                        case FileEntryVersion.CurrentVersionInDatabase:                 //DataGridView Column
                             return FileEntryVersionCompare.WonFoundNewer; //Extracted from source always win over Read from database (No need to check dates, It's only exist one column, regardless of date)
 
-                        case FileEntryVersion.Historical: //is store in DataGridView Column
-                        case FileEntryVersion.ExtractedNowUsingExiftoolTimeout:
-                        case FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist:
-                        case FileEntryVersion.ExtractedNowUsingExiftoolWithError:
-                        case FileEntryVersion.Error: //is store in DataGridView Column
-                            return FileEntryVersionCompare.LostNoneEqualFound;
-                        case FileEntryVersion.NotAvailable:
+                        case FileEntryVersion.Historical:                               //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingExiftoolTimeout:         //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist:    //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingExiftoolWithError:       //DataGridView Column
+                        case FileEntryVersion.Error:                                    //DataGridView Column
+                            return FileEntryVersionCompare.LostNoneEqualFound;          
+                        case FileEntryVersion.NotAvailable:                             //DataGridView Column
                             return FileEntryVersionCompare.LostNoneEqualFound;
                         default:
                             throw new NotImplementedException();
                     }
-
+                    #endregion
                     break;
 
-                case FileEntryVersion.MetadataToSave:
-                case FileEntryVersion.CompatibilityFixedAndAutoUpdated:
-
+                case FileEntryVersion.MetadataToSave:                                   //From queue
+                case FileEntryVersion.CompatibilityFixedAndAutoUpdated:                 //From queue
+                    #region
                     switch (fileEntryAttributeDataGridViewColumn.FileEntryVersion)
                     {
-                        case FileEntryVersion.ExtractedNowUsingExiftool: //is used in in DataGridView Column
-                        case FileEntryVersion.ExtractedNowUsingReadMediaFile:
-                        case FileEntryVersion.ExtractedNowUsingWindowsLivePhotoGallery:
-                        case FileEntryVersion.ExtractedNowUsingMicrosoftPhotos:
-                        case FileEntryVersion.ExtractedNowUsingWebScraping:
+                        case FileEntryVersion.ExtractedNowUsingExiftool:                //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingReadMediaFile:           //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingWindowsLivePhotoGallery: //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingMicrosoftPhotos:         //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingWebScraping:             //DataGridView Column
                             //AutoCorrect, wins if newer
                             if (fileEntryAttributeFromQueue.LastWriteDateTime > fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
                                 return FileEntryVersionCompare.WonFoundNewer;
@@ -240,11 +241,11 @@ namespace MetadataLibrary
                                 return FileEntryVersionCompare.WonFoundEqual;
 
                             if (fileEntryAttributeFromQueue.LastWriteDateTime < fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
-                                return FileEntryVersionCompare.LostFoundOlder; //DEBUG, in case of queue get not in sequence
+                                return FileEntryVersionCompare.LostFoundOlder; //DEBUG, ThreadSaveToDatabaseRegionAndThumbnail when updated old regions
 
                             break;
-                        case FileEntryVersion.MetadataToSave:
-                        case FileEntryVersion.CompatibilityFixedAndAutoUpdated: //is store in DataGridView Column
+                        case FileEntryVersion.MetadataToSave:                           //DataGridView Column
+                        case FileEntryVersion.CompatibilityFixedAndAutoUpdated:         //DataGridView Column
                             //AutoCorrect, wins if newer
                             if (fileEntryAttributeFromQueue.LastWriteDateTime > fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
                                 return FileEntryVersionCompare.WonFoundNewer;
@@ -253,44 +254,45 @@ namespace MetadataLibrary
                                 return FileEntryVersionCompare.WonFoundEqual;
 
                             if (fileEntryAttributeFromQueue.LastWriteDateTime < fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
-                                return FileEntryVersionCompare.LostFoundOlder; //DEBUG, in case of queue get not in sequence
+                                return FileEntryVersionCompare.LostFoundOlder; //DEBUG, ThreadSaveToDatabaseRegionAndThumbnail when updated old regions
                             break;
 
-                        case FileEntryVersion.CurrentVersionInDatabase: //is store in DataGridView Column
+                        case FileEntryVersion.CurrentVersionInDatabase:                 //DataGridView Column
                             //AutoCorrect, always win over Read from database
                             return FileEntryVersionCompare.WonFoundNewer;
 
-                        case FileEntryVersion.Historical: //is store in DataGridView Column
-                        case FileEntryVersion.ExtractedNowUsingExiftoolTimeout:
-                        case FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist:
-                        case FileEntryVersion.ExtractedNowUsingExiftoolWithError:
+                        case FileEntryVersion.Historical:                               //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingExiftoolTimeout:         //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist:    //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingExiftoolWithError:       //DataGridView Column
                         case FileEntryVersion.Error: //is store in DataGridView Column
                                                      //Need continue the search
                             return FileEntryVersionCompare.LostNoneEqualFound;
-                        case FileEntryVersion.NotAvailable:
+                        case FileEntryVersion.NotAvailable:                             //DataGridView Column
                             return FileEntryVersionCompare.LostNoneEqualFound;
                         default:
                             throw new NotImplementedException();
                     }
+                    #endregion
                     break;
-                case FileEntryVersion.CurrentVersionInDatabase:
-
+                case FileEntryVersion.CurrentVersionInDatabase:                         //From queue
+                    #region 
                     switch (fileEntryAttributeDataGridViewColumn.FileEntryVersion)
                     {
-                        case FileEntryVersion.ExtractedNowUsingExiftool: //is used in in DataGridView Column
-                        case FileEntryVersion.ExtractedNowUsingReadMediaFile:
-                        case FileEntryVersion.ExtractedNowUsingWindowsLivePhotoGallery:
-                        case FileEntryVersion.ExtractedNowUsingMicrosoftPhotos:
-                        case FileEntryVersion.ExtractedNowUsingWebScraping:
-                            return FileEntryVersionCompare.LostFoundOlder;
+                        case FileEntryVersion.ExtractedNowUsingExiftool:                //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingReadMediaFile:           //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingWindowsLivePhotoGallery: //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingMicrosoftPhotos:         //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingWebScraping:             //DataGridView Column
+                            return FileEntryVersionCompare.LostFoundOlder;              //DataGridView Column
 
-                        case FileEntryVersion.MetadataToSave:
-                        case FileEntryVersion.CompatibilityFixedAndAutoUpdated: //is store in DataGridView Column
-                            return FileEntryVersionCompare.WonFoundNewer;
+                        case FileEntryVersion.MetadataToSave:                           //DataGridView Column
+                        case FileEntryVersion.CompatibilityFixedAndAutoUpdated:         //DataGridView Column
+                            return FileEntryVersionCompare.WonFoundNewer;               //DataGridView Column
 
-                        case FileEntryVersion.CurrentVersionInDatabase: //is store in DataGridView Column
+                        case FileEntryVersion.CurrentVersionInDatabase:                 //DataGridView Column
                             if (fileEntryAttributeFromQueue.LastWriteDateTime > fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
-                                return FileEntryVersionCompare.WonFoundNewer;
+                                return FileEntryVersionCompare.WonFoundNewer;           
 
                             if (fileEntryAttributeFromQueue.LastWriteDateTime == fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
                                 return FileEntryVersionCompare.WonFoundEqual;
@@ -299,51 +301,53 @@ namespace MetadataLibrary
                                 return FileEntryVersionCompare.LostFoundOlder; //DEBUG, in case of queue get not in sequence
                             break;
 
-                        case FileEntryVersion.Historical: //is store in DataGridView Column
-                        case FileEntryVersion.ExtractedNowUsingExiftoolTimeout:
-                        case FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist:
-                        case FileEntryVersion.ExtractedNowUsingExiftoolWithError:
-                        case FileEntryVersion.Error: //is store in DataGridView Column
+                        case FileEntryVersion.Historical:                               //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingExiftoolTimeout:         //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist:    //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingExiftoolWithError:       //DataGridView Column
+                        case FileEntryVersion.Error:                                    //DataGridView Column
                             //Need continue the search
                             return FileEntryVersionCompare.LostNoneEqualFound;
-                        case FileEntryVersion.NotAvailable:
+                        case FileEntryVersion.NotAvailable:                             //DataGridView Column
                             return FileEntryVersionCompare.LostNoneEqualFound;
                         default:
                             throw new NotImplementedException();
                     }
+                    #endregion
                     break;
-
-                case FileEntryVersion.Error:
-                case FileEntryVersion.ExtractedNowUsingExiftoolTimeout:
-                case FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist:
-                case FileEntryVersion.ExtractedNowUsingExiftoolWithError:
-                case FileEntryVersion.Historical:
+                case FileEntryVersion.Error:                                            //From queue
+                case FileEntryVersion.ExtractedNowUsingExiftoolTimeout:                 //From queue
+                case FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist:            //From queue
+                case FileEntryVersion.ExtractedNowUsingExiftoolWithError:               //From queue
+                case FileEntryVersion.Historical:                                       //From queue
+                    #region 
                     switch (fileEntryAttributeDataGridViewColumn.FileEntryVersion)
                     {
-                        case FileEntryVersion.ExtractedNowUsingExiftool: //is used in in DataGridView Column
-                        case FileEntryVersion.ExtractedNowUsingReadMediaFile:
-                        case FileEntryVersion.ExtractedNowUsingWindowsLivePhotoGallery:
-                        case FileEntryVersion.ExtractedNowUsingMicrosoftPhotos:
-                        case FileEntryVersion.ExtractedNowUsingWebScraping:
-                        case FileEntryVersion.MetadataToSave:
-                        case FileEntryVersion.CompatibilityFixedAndAutoUpdated: //is store in DataGridView Column
-                        case FileEntryVersion.CurrentVersionInDatabase: //is store in DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingExiftool:                //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingReadMediaFile:           //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingWindowsLivePhotoGallery: //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingMicrosoftPhotos:         //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingWebScraping:             //DataGridView Column
+                        case FileEntryVersion.MetadataToSave:                           //DataGridView Column
+                        case FileEntryVersion.CompatibilityFixedAndAutoUpdated:         //DataGridView Column
+                        case FileEntryVersion.CurrentVersionInDatabase:                 //DataGridView Column
                             return FileEntryVersionCompare.LostNoneEqualFound;
 
-                        case FileEntryVersion.Historical: //is store in DataGridView Column
-                        case FileEntryVersion.ExtractedNowUsingExiftoolTimeout:
-                        case FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist:
-                        case FileEntryVersion.ExtractedNowUsingExiftoolWithError:
-                        case FileEntryVersion.Error: //is store in DataGridView Column
+                        case FileEntryVersion.Historical:                               //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingExiftoolTimeout:         //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist:    //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingExiftoolWithError:       //DataGridView Column
+                        case FileEntryVersion.Error:                                    //DataGridView Column
                             if (fileEntryAttributeFromQueue.LastWriteDateTime == fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
                                 return FileEntryVersionCompare.WonFoundEqual;
                             return FileEntryVersionCompare.LostNoneEqualFound;
-                        case FileEntryVersion.NotAvailable:
+                        case FileEntryVersion.NotAvailable:                             //DataGridView Column
                             return FileEntryVersionCompare.LostNoneEqualFound;
                         default:
                             throw new NotImplementedException();
                     }
-                case FileEntryVersion.NotAvailable:
+                    #endregion
+                case FileEntryVersion.NotAvailable:                                     //From queue
                     return FileEntryVersionCompare.LostNoneEqualFound;
                 default:
                     throw new NotImplementedException();

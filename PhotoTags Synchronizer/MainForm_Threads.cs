@@ -2226,9 +2226,9 @@ namespace PhotoTagsSynchronizer
                                 {
                                     FileEntryBroker current_FileEntryBrokerRegion;
 
-                                    lock (commonQueueSaveToDatabaseRegionAndThumbnailLock) 
-                                    { 
-                                        current_FileEntryBrokerRegion = new FileEntryBroker(commonQueueSaveToDatabaseRegionAndThumbnail[indexSource].FileEntryBroker); 
+                                    lock (commonQueueSaveToDatabaseRegionAndThumbnailLock)
+                                    {
+                                        current_FileEntryBrokerRegion = new FileEntryBroker(commonQueueSaveToDatabaseRegionAndThumbnail[indexSource].FileEntryBroker);
                                     }
 
                                     int fileIndexFound; //Loop all files and check more version of the file
@@ -2254,7 +2254,7 @@ namespace PhotoTagsSynchronizer
                                             //Find current file entry in queue, Exiftool, Microsoft Photos, Windows Live Gallery, etc...
                                             if (
                                                 FilesCutCopyPasteDrag.IsFilenameEqual(
-                                                    checkAgaistAll_MetadataActiveAlreadyCopy.FileFullPath, 
+                                                    checkAgaistAll_MetadataActiveAlreadyCopy.FileFullPath,
                                                     current_FileEntryBrokerRegion.FileFullPath) &&
                                                 checkAgaistAll_MetadataActiveAlreadyCopy.FileDateModified == current_FileEntryBrokerRegion.LastWriteDateTime)
                                             {
@@ -2265,7 +2265,7 @@ namespace PhotoTagsSynchronizer
                                                 int coundMissingRegionThumbnails = 0;
                                                 foreach (RegionStructure regionStructureCheckForThumbnails in checkAgaistAll_MetadataActiveAlreadyCopy.PersonalRegionList)
                                                 {
-                                                    if (regionStructureCheckForThumbnails.Thumbnail == null) 
+                                                    if (regionStructureCheckForThumbnails.Thumbnail == null)
                                                         coundMissingRegionThumbnails++;
                                                 }
 
@@ -2287,13 +2287,28 @@ namespace PhotoTagsSynchronizer
                                                     }
                                                     #endregion
                                                     else
-                                                    #region When Face Regions exists - Load poster
+                                                    #region When Face Regions exists but missing - Load poster
                                                     {
-                                                        if (File.Exists(current_FileEntryBrokerRegion.FileFullPath) &&
-                                                            (
-                                                            current_FileEntryBrokerRegion.Broker == MetadataBrokerType.WebScraping || //If source WebScraper, date and time will not match                                                        
-                                                            File.GetLastWriteTime(current_FileEntryBrokerRegion.FileFullPath) == current_FileEntryBrokerRegion.LastWriteDateTime) //Check if the current Metadata are same as newest file 
-                                                            )
+                                                        bool fileExists;
+                                                        bool fileHasCorrectDate;
+
+                                                        if (File.Exists(current_FileEntryBrokerRegion.FileFullPath))
+                                                        {
+                                                            fileExists = true;
+
+                                                            if (current_FileEntryBrokerRegion.Broker == MetadataBrokerType.WebScraping || //If source WebScraper, date and time will not match                                                        
+                                                                File.GetLastWriteTime(current_FileEntryBrokerRegion.FileFullPath) == current_FileEntryBrokerRegion.LastWriteDateTime) //Check if the current Metadata are same as newest file 
+                                                                fileHasCorrectDate = true;
+                                                            else 
+                                                                fileHasCorrectDate = false;
+                                                        }
+                                                        else
+                                                        {
+                                                            fileExists = false;
+                                                            fileHasCorrectDate = false;
+                                                        }
+
+                                                        if (fileExists && fileHasCorrectDate)
                                                         {
                                                             #region Is Only Full size Thumbnails
                                                             bool isFullSizeThumbnail = true;
@@ -2345,7 +2360,11 @@ namespace PhotoTagsSynchronizer
                                                                         if (current_FileEntryBrokerRegion.Broker != MetadataBrokerType.ExifTool)
                                                                         {
                                                                             image = databaseAndCacheThumbnailPoster.ReadThumbnailFromCacheOrDatabase(current_FileEntryBrokerRegion);
-                                                                            if (image == null) image = LoadMediaCoverArtThumbnail(current_FileEntryBrokerRegion.FileFullPath, ThumbnailSaveSize, fileStatus);
+                                                                            if (image == null)
+                                                                            {
+                                                                                image = LoadMediaCoverArtThumbnail(current_FileEntryBrokerRegion.FileFullPath, ThumbnailSaveSize, fileStatus);
+                                                                                if (image != null) fileStatus.FileErrorMessage += " Creating Poster Region Thumbnails for " + current_FileEntryBrokerRegion.Broker + " from Media file, with low resolution.";
+                                                                            }
                                                                         }
                                                                     }
                                                                 }
@@ -2418,22 +2437,30 @@ namespace PhotoTagsSynchronizer
                                                         else
                                                         {
                                                             #region Error handling (Remove from queue)
-                                                            fileNeedRemoveFromList = true; //File not exist, remove frome list
+                                                            fileNeedRemoveFromList = true; //File not exist or to old, remove from list
                                                             FileStatus fileStatus = FileHandler.GetFileStatus(
                                                                     current_FileEntryBrokerRegion.FileFullPath, checkLockedStatus: true,
                                                                     fileInaccessibleOrError: true);
                                                             if (!fileStatus.FileExists) fileStatus.FileErrorMessage = "File not found.";
-                                                            else if (fileStatus.FileInaccessibleOrError) fileStatus.FileErrorMessage = "Loading Media Poster failed.";
+                                                            if (!fileHasCorrectDate) fileStatus.FileErrorMessage += 
+                                                                "File date has changed. Need create thumbnail for different date. Requested: " + 
+                                                                current_FileEntryBrokerRegion.LastWriteDateTime.ToString() + " vs. File date: " +
+                                                                File.GetLastWriteTime(current_FileEntryBrokerRegion.FileFullPath);
+
+                                                            //if (fileStatus.FileInaccessibleOrError) fileStatus.FileErrorMessage = "Loading Media Poster failed.";
                                                             ImageListView_UpdateItemFileStatusInvoke(current_FileEntryBrokerRegion.FileFullPath, fileStatus);
 
                                                             #region Fallback on Low resolution
                                                             if (image == null) image = databaseAndCacheThumbnailPoster.ReadThumbnailFromCacheOrDatabase(current_FileEntryBrokerRegion);
-                                                            if (image == null) image = LoadMediaCoverArtThumbnail(current_FileEntryBrokerRegion.FileFullPath, ThumbnailSaveSize, fileStatus);
-                                                            if (image != null) fileStatus.FileErrorMessage += " Creating Poster Region Thumbnails for " + current_FileEntryBrokerRegion.Broker + " from Media file, with low resolution.";
+                                                            if (image == null)
+                                                            {
+                                                                image = LoadMediaCoverArtThumbnail(current_FileEntryBrokerRegion.FileFullPath, ThumbnailSaveSize, fileStatus);
+                                                                if (image != null) fileStatus.FileErrorMessage += " Creating Poster Region Thumbnails for " + current_FileEntryBrokerRegion.Broker + " from Media file, with low resolution.";
+                                                            }
                                                             #endregion
 
                                                             string errorDesciption =
-                                                                "Issue: Can't create thumbnails for regions.\r\n" +
+                                                                "Issue: Issue while create thumbnails for regions.\r\n" +
                                                                 "File Name: " + current_FileEntryBrokerRegion.FileFullPath + "\r\n" +
                                                                 "File Status: " + FileHandler.ConvertFileStatusToText(fileStatus) + "\r\n" +
                                                                 "Error Message: " + fileStatus.FileErrorMessage;
@@ -2461,9 +2488,9 @@ namespace PhotoTagsSynchronizer
 
                                                         try
                                                         {
-                                                            databaseAndCacheMetadataExiftool.TransactionBeginBatch();                                                            
+                                                            //databaseAndCacheMetadataExiftool.TransactionBeginBatch();
                                                             ThumbnailRegionHandler.SaveThumbnailsForRegionList_AlsoWebScarper(databaseAndCacheMetadataExiftool, checkAgaistAll_MetadataActiveAlreadyCopy, new Bitmap(image));
-                                                            databaseAndCacheMetadataExiftool.TransactionCommitBatch();
+                                                            //databaseAndCacheMetadataExiftool.TransactionCommitBatch();
                                                         }
                                                         catch (Exception ex)
                                                         {

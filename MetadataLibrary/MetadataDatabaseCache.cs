@@ -1018,6 +1018,29 @@ namespace MetadataLibrary
         }
         #endregion
 
+        public string ConvertToSqliteCommand(string sqlComand, CommonSqliteCommand commandDatabase)
+        {
+            for (int parameterIndex = 0; parameterIndex < commandDatabase.Parameters.Count; parameterIndex++)
+            {
+                string parameterName = commandDatabase.Parameters[parameterIndex].ParameterName;
+                string value = "";
+                if (commandDatabase.Parameters[parameterIndex].Value == null) value = "NULL";
+                else if (commandDatabase.Parameters[parameterIndex].Value is string) value = "'" + (string)commandDatabase.Parameters[parameterIndex].Value + "'";
+                else if (commandDatabase.Parameters[parameterIndex].Value is float) value = ((float)commandDatabase.Parameters[parameterIndex].Value).ToString().Replace(",", ".");
+                else if (commandDatabase.Parameters[parameterIndex].Value is int) value = ((int)commandDatabase.Parameters[parameterIndex].Value).ToString();
+                else if (commandDatabase.Parameters[parameterIndex].Value is long) value = ((long)commandDatabase.Parameters[parameterIndex].Value).ToString();
+                else if (commandDatabase.Parameters[parameterIndex].Value is byte[]) value = "byte[]";
+                else
+                {
+                    //DEBUG MISSING
+                }
+
+                sqlComand = sqlComand.Replace(parameterName, value);
+                
+            }
+            return sqlComand;
+        }
+
         #region Updated - Region - UpdateRegionThumbnail
         /// <summary>
         /// Updated Region data for Give media file
@@ -1029,9 +1052,11 @@ namespace MetadataLibrary
             
             MetadataRegionCacheUpdate(metadata, regionStructure);
 
-            string sqlCommand =
-                    "UPDATE MediaPersonalRegions " +
-                    "SET Thumbnail = @Thumbnail " +
+            dbTools.TransactionBeginBatch();
+
+            #region Delete
+            string sqlCommandDelete =
+                    "DELETE FROM MediaPersonalRegions " +
                     "WHERE Broker = @Broker " +
                     "AND FileDirectory = @FileDirectory " +
                     "AND FileName = @FileName " +
@@ -1044,14 +1069,10 @@ namespace MetadataLibrary
                     "AND Round(AreaHeight, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") = Round(@AreaHeight, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") " +
                     "AND RegionStructureType = @RegionStructureType";
 
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommandDelete, dbTools.ConnectionDatabase))
             {
-                if (regionStructure.Thumbnail.Height == 1 || regionStructure.Thumbnail.Width == 1)
-                {
-                    //DEBUG WHY
-                    regionStructure.Thumbnail = null;
-                }
-
+                if (regionStructure.Thumbnail.Height == 1 || regionStructure.Thumbnail.Width == 1) regionStructure.Thumbnail = null;
+                
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)metadata.Broker);
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", metadata.FileDirectory);
@@ -1065,17 +1086,48 @@ namespace MetadataLibrary
                 commandDatabase.Parameters.AddWithValue("@AreaHeight", regionStructure.AreaHeight);
                 commandDatabase.Parameters.AddWithValue("@RegionStructureType", (int)regionStructure.RegionStructureType);
 
-                if (regionStructure.Thumbnail == null)
-                    commandDatabase.Parameters.AddWithValue("@Thumbnail", DBNull.Value);
+                int affectCount = commandDatabase.ExecuteNonQuery();
+            }
+            #endregion
+
+            #region Insert
+            string sqlCommandInsert =
+                "INSERT INTO MediaPersonalRegions (" +
+                    "Broker, FileDirectory, FileName, FileDateModified, FileDateCreated, Type, Name, " +
+                    "AreaX, AreaY, AreaWidth, AreaHeight, RegionStructureType, Thumbnail " +
+                ") Values (" +
+                    "@Broker, @FileDirectory, @FileName, @FileDateModified, @FileDateCreated, @Type, @Name, " +
+                    "@AreaX, @AreaY, @AreaWidth, @AreaHeight, @RegionStructureType, @Thumbnail " +
+                    ")";
+
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommandInsert, dbTools.ConnectionDatabase))
+            {
+                //commandDatabase.Prepare();
+                
+                //PersonalRegionNameCountCacheUpdated(metadata.Broker, region.Name);
+                commandDatabase.Parameters.AddWithValue("@Broker", (int)metadata.Broker);
+                commandDatabase.Parameters.AddWithValue("@FileDirectory", metadata.FileDirectory);
+                commandDatabase.Parameters.AddWithValue("@FileName", metadata.FileName);
+                commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(metadata.FileDateModified));
+                commandDatabase.Parameters.AddWithValue("@FileDateCreated", dbTools.ConvertFromDateTimeToDBVal(metadata.FileDate));
+                commandDatabase.Parameters.AddWithValue("@Type", regionStructure.Type);
+                commandDatabase.Parameters.AddWithValue("@Name", regionStructure.Name);
+                commandDatabase.Parameters.AddWithValue("@AreaX", regionStructure.AreaX);
+                commandDatabase.Parameters.AddWithValue("@AreaY", regionStructure.AreaY);
+                commandDatabase.Parameters.AddWithValue("@AreaWidth", regionStructure.AreaWidth);
+                commandDatabase.Parameters.AddWithValue("@AreaHeight", regionStructure.AreaHeight);
+                commandDatabase.Parameters.AddWithValue("@RegionStructureType", regionStructure.RegionStructureType);
+                if (regionStructure.Thumbnail == null) commandDatabase.Parameters.AddWithValue("@Thumbnail", DBNull.Value);
                 else commandDatabase.Parameters.AddWithValue("@Thumbnail", dbTools.ImageToByteArray(regionStructure.Thumbnail));
 
                 AddPersonalRegionNameCache(metadata.Broker, regionStructure.Name);
-                
-
                 RandomThumbnailCacheUpdate(regionStructure.Name, regionStructure.Thumbnail);
 
                 int affectCount = commandDatabase.ExecuteNonQuery();
             }
+            #endregion
+
+            dbTools.TransactionCommitBatch(false);
         }
         #endregion
 
@@ -1412,7 +1464,7 @@ namespace MetadataLibrary
             int rowsAffected = 0;
             int rowsAffectedTotal = 0;
             webScrapingPackageDates = null;
-            TransactionCommitBatch(true);
+            TransactionBeginBatch();
             if (dateTime == null) MetadataCacheRemove(fileDirectory);
             else MetadataCacheRemove(broker, fileDirectory, (DateTime)dateTime);
             rowsAffected += DeleteDirectoryMediaMetadata(broker, fileDirectory, dateTime);
@@ -1421,6 +1473,7 @@ namespace MetadataLibrary
             if (rowsAffected >= 0) rowsAffectedTotal += rowsAffected;
             rowsAffected += DeleteDirectoryMediaPersonalKeywords(broker, fileDirectory, dateTime);
             if (rowsAffected >= 0) rowsAffectedTotal += rowsAffected;
+            TransactionCommitBatch();
             return rowsAffectedTotal;
         }
         #endregion
