@@ -10,6 +10,17 @@ namespace CameraOwners
         public static readonly string MissingLocationsOwners = "(Need to import GPS location)\t";
         
         private readonly SqliteDatabaseUtilities dbTools;
+
+        public void TransactionBeginBatch()
+        {
+            dbTools.TransactionBeginBatch();
+        }
+
+        public void TransactionCommitBatch()
+        {
+            dbTools.TransactionCommitBatch(false);
+        }
+
         public CameraOwnersDatabaseCache(SqliteDatabaseUtilities databaseTools)
         {
             dbTools = databaseTools;
@@ -84,7 +95,7 @@ namespace CameraOwners
         #endregion
 
         #region SaveCameraMakeModelAndOwner
-        public void SaveCameraMakeModelAndOwner(CommonDatabaseTransaction commonDatabaseTransaction, CameraOwner cameraOwner)
+        public void SaveCameraMakeModelAndOwner(CameraOwner cameraOwner)
         {
             if (cameraOwner == null) return;
             if (string.IsNullOrWhiteSpace(cameraOwner.Make)) cameraOwner.Make = CameraOwner.UnknownMake;
@@ -94,7 +105,7 @@ namespace CameraOwners
             string sqlCommand =
                 "DELETE FROM CameraOwner WHERE " +
                 "CameraMake = @CameraMake AND CameraModel = @CameraModel";
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, commonDatabaseTransaction.DatabaseTransaction))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@CameraMake", cameraOwner.Make);
@@ -105,7 +116,7 @@ namespace CameraOwners
             sqlCommand =
                     "INSERT INTO CameraOwner (CameraMake, CameraModel, UserAccount) " +
                     "Values (@CameraMake, @CameraModel, @UserAccount)";
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, commonDatabaseTransaction.DatabaseTransaction))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@CameraMake", cameraOwner.Make);

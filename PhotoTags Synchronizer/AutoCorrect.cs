@@ -626,7 +626,7 @@ namespace PhotoTagsSynchronizer
             MetadataDatabaseCache databaseAndCacheMetadataMicrosoftPhotos,
             MetadataDatabaseCache databaseAndCacheMetadataWindowsLivePhotoGallery,
             CameraOwnersDatabaseCache cameraOwnersDatabaseCache,
-            LocationNameLookUpCache locationNameLookUpCache,
+            LocationNameDatabaseAndLookUpCache locationNameLookUpCache,
             GoogleLocationHistoryDatabaseCache databaseGoogleLocationHistory,
             float locationAccuracyLatitude,
             float locationAccuracyLongitude,

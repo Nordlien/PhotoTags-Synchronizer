@@ -21,7 +21,7 @@ namespace PhotoTagsSynchronizer
         public static MetadataDatabaseCache DatabaseAndCacheMetadataExiftool { get; set; }
         public static MetadataDatabaseCache DatabaseAndCacheMetadataMicrosoftPhotos { get; set; }
         public static MetadataDatabaseCache DatabaseAndCacheMetadataWindowsLivePhotoGallery { get; set; }
-        public static LocationNameLookUpCache DatabaseAndCacheLocationAddress { get; set; }
+        public static LocationNameDatabaseAndLookUpCache DatabaseAndCacheLocationAddress { get; set; }
         public static CameraOwnersDatabaseCache DatabaseAndCacheCameraOwner { get; set; }
         public static GoogleLocationHistoryDatabaseCache DatabaseGoogleLocationHistory {get; set; }
         public static List<AutoKeywordConvertion> AutoKeywordConvertions { get; set; }

@@ -36,9 +36,8 @@ namespace PhotoTagsSynchronizer
 
         public MetadataReadPrioity MetadataReadPrioity { get; set; }
         public CameraOwnersDatabaseCache DatabaseAndCacheCameraOwner { get; set; }
-        public LocationNameLookUpCache DatabaseLocationNames { get; set; }
-        public LocationNameLookUpCache DatabaseAndCacheLocationAddress { get; set; }
-        public SqliteDatabaseUtilities DatabaseUtilitiesSqliteMetadata { get; set; }
+        public LocationNameDatabaseAndLookUpCache DatabaseAndCacheLocationAddress { get; set; }
+        public MetadataDatabaseCache DatabaseAndCacheMetadataExiftool { get; set; }
 
         private readonly ChromiumWebBrowser browser;
 
@@ -1063,8 +1062,7 @@ namespace PhotoTagsSynchronizer
         private void SaveMetadataCameraOwner(DataGridView dataGridView)
         {
             int rowCount = DataGridViewHandler.GetRowCount(dataGridView);
-
-            CommonDatabaseTransaction commonDatabaseTransaction = DatabaseUtilitiesSqliteMetadata.TransactionBegin(CommonDatabaseTransaction.TransactionReadCommitted);
+            DatabaseAndCacheCameraOwner.TransactionBeginBatch();
             for (int row = 0; row < rowCount; row++) 
             {
                 DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, row);
@@ -1073,12 +1071,11 @@ namespace PhotoTagsSynchronizer
                     string camerMakeModelOwner = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndexOwner, row);
                     if (camerMakeModelOwner == CameraOwnersDatabaseCache.MissingLocationsOwners) camerMakeModelOwner = null;
                     CameraOwner cameraOwner = new CameraOwner(dataGridViewGenericRow.HeaderName, dataGridViewGenericRow.RowName, camerMakeModelOwner);
-                    DatabaseAndCacheCameraOwner.SaveCameraMakeModelAndOwner(commonDatabaseTransaction, cameraOwner);
+                    DatabaseAndCacheCameraOwner.SaveCameraMakeModelAndOwner(cameraOwner);
                 }
             }
             DatabaseAndCacheCameraOwner.CameraMakeModelAndOwnerMakeDirty();
-            DatabaseUtilitiesSqliteMetadata.TransactionCommit(commonDatabaseTransaction);
-
+            DatabaseAndCacheCameraOwner.TransactionCommitBatch();
         }
         #endregion 
 
@@ -1235,7 +1232,7 @@ namespace PhotoTagsSynchronizer
                 null, null, ReadWriteAccess.AllowCellReadAndWrite, ShowWhatColumns.HistoryColumns,
                 new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true), out _);
 
-            locationNames = DatabaseLocationNames.ReadLocationNames();
+            locationNames = DatabaseAndCacheLocationAddress.ReadAllLocationsData();
             PopulateMetadataLocationNames(dataGridView, locationNames);
         }
         #endregion
@@ -1346,8 +1343,7 @@ namespace PhotoTagsSynchronizer
         {
             int rowCount = DataGridViewHandler.GetRowCount(dataGridView);
 
-            CommonDatabaseTransaction commonDatabaseTransaction = DatabaseUtilitiesSqliteMetadata.TransactionBegin(CommonDatabaseTransaction.TransactionReadCommitted);
-            
+            DatabaseAndCacheCameraOwner.TransactionCommitBatch();
             for (int row = 0; row < rowCount; row++)
             {
                 DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, row);
@@ -1364,18 +1360,17 @@ namespace PhotoTagsSynchronizer
                     {
                         float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
                         float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
-                        LocationCoordinate locationCoordinateInDatabase = DatabaseLocationNames.LocationCoordinateInDatabase(locationCoordinateSearch,
+                        LocationCoordinate locationCoordinateInDatabase = DatabaseAndCacheLocationAddress.LocationCoordinateInDatabase(locationCoordinateSearch,
                             locationAccuracyLatitude, locationAccuracyLongitude);
 
-                        DatabaseLocationNames.AddressUpdate(
+                        DatabaseAndCacheLocationAddress.AddressUpdate(
                             locationCoordinateSearch: locationCoordinateInDatabase, 
                             locationCoordinateAndDescription: new LocationCoordinateAndDescription(locationCoordinateSearch, locationDescription));
                     }
                 }
             }
             DatabaseAndCacheCameraOwner.CameraMakeModelAndOwnerMakeDirty();
-            DatabaseUtilitiesSqliteMetadata.TransactionCommit(commonDatabaseTransaction);
-
+            DatabaseAndCacheCameraOwner.TransactionCommitBatch();
         }
         #endregion 
 
@@ -1702,7 +1697,7 @@ namespace PhotoTagsSynchronizer
         private void KryptonContextMenuItemLocationNamesSearchInMediaFiles_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewLocationNames;
-            Dictionary<LocationCoordinate, LocationDescription> locationFound = DatabaseLocationNames.FindNewLocation();
+            Dictionary<LocationCoordinate, LocationDescription> locationFound = DatabaseAndCacheMetadataExiftool.FindNewLocationFromMediaMetadata();
             Dictionary<LocationCoordinate, LocationDescription> locationNotFound = new Dictionary<LocationCoordinate, LocationDescription>();
 
             float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;

@@ -5517,7 +5517,7 @@ namespace PhotoTagsSynchronizer
                                 databaseAndCacheMetadataMicrosoftPhotos,
                                 databaseAndCacheMetadataWindowsLivePhotoGallery,
                                 databaseAndCahceCameraOwner,
-                                databaseLocationAddress,
+                                databaseLocationNameAndLookUp,
                                 databaseGoogleLocationHistory,
                                 locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
                                 autoKeywordConvertions,
@@ -7963,7 +7963,7 @@ namespace PhotoTagsSynchronizer
                                 databaseAndCacheMetadataMicrosoftPhotos,
                                 databaseAndCacheMetadataWindowsLivePhotoGallery,
                                 databaseAndCahceCameraOwner,
-                                databaseLocationAddress,
+                                databaseLocationNameAndLookUp,
                                 databaseGoogleLocationHistory,
                                 locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
                                 autoKeywordConvertions,
@@ -8141,7 +8141,7 @@ namespace PhotoTagsSynchronizer
                                 databaseAndCacheMetadataMicrosoftPhotos,
                                 databaseAndCacheMetadataWindowsLivePhotoGallery,
                                 databaseAndCahceCameraOwner,
-                                databaseLocationAddress,
+                                databaseLocationNameAndLookUp,
                                 databaseGoogleLocationHistory,
                                 locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
                                 autoKeywordConvertions,
@@ -8202,7 +8202,7 @@ namespace PhotoTagsSynchronizer
                             databaseAndCacheMetadataMicrosoftPhotos,
                             databaseAndCacheMetadataWindowsLivePhotoGallery,
                             databaseAndCahceCameraOwner,
-                            databaseLocationAddress,
+                            databaseLocationNameAndLookUp,
                             databaseGoogleLocationHistory, locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
                             autoKeywordConvertions,
                             Properties.Settings.Default.RenameDateFormats);
@@ -8260,7 +8260,7 @@ namespace PhotoTagsSynchronizer
                                 databaseAndCacheMetadataMicrosoftPhotos,
                                 databaseAndCacheMetadataWindowsLivePhotoGallery,
                                 databaseAndCahceCameraOwner,
-                                databaseLocationAddress,
+                                databaseLocationNameAndLookUp,
                                 databaseGoogleLocationHistory,
                                 locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
                                 autoKeywordConvertions,
@@ -8424,7 +8424,7 @@ namespace PhotoTagsSynchronizer
                                     databaseAndCacheMetadataMicrosoftPhotos,
                                     databaseAndCacheMetadataWindowsLivePhotoGallery,
                                     databaseAndCahceCameraOwner,
-                                    databaseLocationAddress,
+                                    databaseLocationNameAndLookUp,
                                     databaseGoogleLocationHistory,
                                     locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
                                     autoKeywordConvertions,
@@ -8491,7 +8491,7 @@ namespace PhotoTagsSynchronizer
                                 databaseAndCacheMetadataMicrosoftPhotos,
                                 databaseAndCacheMetadataWindowsLivePhotoGallery,
                                 databaseAndCahceCameraOwner,
-                                databaseLocationAddress,
+                                databaseLocationNameAndLookUp,
                                 databaseGoogleLocationHistory,
                                 locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
                                 autoKeywordConvertions,
@@ -8563,7 +8563,7 @@ namespace PhotoTagsSynchronizer
                                     databaseAndCacheMetadataMicrosoftPhotos,
                                     databaseAndCacheMetadataWindowsLivePhotoGallery,
                                     databaseAndCahceCameraOwner,
-                                    databaseLocationAddress,
+                                    databaseLocationNameAndLookUp,
                                     databaseGoogleLocationHistory,
                                     locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
                                     autoKeywordConvertions,
@@ -9097,15 +9097,12 @@ namespace PhotoTagsSynchronizer
                 {
                     using (new WaitCursor())
                     {
-                        LocationNameLookUpCache databaseLocationNames = new LocationNameLookUpCache(databaseUtilitiesSqliteMetadata, Properties.Settings.Default.ApplicationPreferredLanguages);
-
                         exiftoolReader.MetadataReadPrioity.ReadOnlyOnce();
                         config.MetadataReadPrioity = exiftoolReader.MetadataReadPrioity;
                         config.ThumbnailSizes = thumbnailSizes;
                         config.DatabaseAndCacheCameraOwner = databaseAndCahceCameraOwner;
-                        config.DatabaseLocationNames = databaseLocationNames;
-                        config.DatabaseAndCacheLocationAddress = databaseLocationAddress;
-                        config.DatabaseUtilitiesSqliteMetadata = databaseUtilitiesSqliteMetadata;
+                        config.DatabaseAndCacheLocationAddress = databaseLocationNameAndLookUp;
+                        config.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
                         config.Init();
                     }
                     if (config.ShowDialog() != DialogResult.Cancel)
@@ -9115,7 +9112,7 @@ namespace PhotoTagsSynchronizer
                         ThumbnailRegionHandler.FaceThumbnailSize = Properties.Settings.Default.ApplicationRegionThumbnail;
                         fileDateTimeReader = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
 
-                        databaseLocationAddress.PreferredLanguagesString = Properties.Settings.Default.ApplicationPreferredLanguages;
+                        databaseLocationNameAndLookUp.PreferredLanguagesString = Properties.Settings.Default.ApplicationPreferredLanguages;
                         RegionStructure.SetAcceptRegionMissmatchProcent((float)Properties.Settings.Default.RegionMissmatchProcent);
 
                         autoKeywordConvertions = AutoKeywordHandler.PopulateList(AutoKeywordHandler.ReadDataSetFromXML());

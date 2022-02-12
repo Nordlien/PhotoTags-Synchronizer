@@ -455,10 +455,10 @@ namespace PhotoTagsSynchronizer
                             dataGridViewGenericColumn.Metadata.CameraModel,
                             selectedCameraOwner);
 
-                        CommonDatabaseTransaction commonDatabaseTransaction = databaseUtilitiesSqliteMetadata.TransactionBegin(CommonDatabaseTransaction.TransactionReadCommitted);
-                        databaseAndCahceCameraOwner.SaveCameraMakeModelAndOwner(commonDatabaseTransaction, cameraOwner);
+                        databaseAndCahceCameraOwner.TransactionBeginBatch();
+                        databaseAndCahceCameraOwner.SaveCameraMakeModelAndOwner(cameraOwner);
                         databaseAndCahceCameraOwner.CameraMakeModelAndOwnerMakeDirty();
-                        databaseUtilitiesSqliteMetadata.TransactionCommit(commonDatabaseTransaction);
+                        databaseAndCahceCameraOwner.TransactionCommitBatch(); 
 
                         for (int columnIndex = 0; columnIndex < DataGridViewHandler.GetColumnCount(dataGridViewMap); columnIndex++)
                         {
@@ -497,10 +497,8 @@ namespace PhotoTagsSynchronizer
 
                 if (locationCoordinateNomnatatim != null)
                 {
-                    LocationNameLookUpCache locationAddress = new LocationNameLookUpCache(databaseUtilitiesSqliteMetadata, Properties.Settings.Default.ApplicationPreferredLanguages);
-
-                    CommonDatabaseTransaction commonDatabaseTransaction = databaseUtilitiesSqliteMetadata.TransactionBegin(CommonDatabaseTransaction.TransactionReadCommitted);
-                    locationAddress.AddressUpdateBySearchLocation(
+                    databaseLocationNameAndLookUp.TransactionBeginBatch();
+                    databaseLocationNameAndLookUp.AddressUpdateBySearchLocation(
                         new LocationCoordinateAndDescription
                         (
                             new LocationCoordinate( 
@@ -514,7 +512,7 @@ namespace PhotoTagsSynchronizer
                         ),
                         locationAccuracyLatitude, locationAccuracyLongitude);
 
-                    databaseUtilitiesSqliteMetadata.TransactionCommit(commonDatabaseTransaction);
+                    databaseLocationNameAndLookUp.TransactionCommitBatch();
 
                     for (int columnIndex = 0; columnIndex < dataGridViewMap.ColumnCount; columnIndex++)
                     {
