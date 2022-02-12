@@ -293,7 +293,6 @@ namespace LocationNames
         #region AddressUpdate
         public void AddressUpdate(LocationCoordinate locationCoordinateSearch, LocationCoordinateAndDescription locationCoordinateAndDescription)
         {
-            LocationNameDatabase locationNameCache = new LocationNameDatabase(dbTools);
             TransactionBeginBatch();
             UpdateLocationName(
                     locationCoordinateSearch: locationCoordinateSearch, 

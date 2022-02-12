@@ -3,7 +3,6 @@ using System.Windows.Forms;
 using CefSharp;
 using System.Globalization;
 using CameraOwners;
-using SqliteDatabase;
 using LocationNames;
 using DataGridViewGeneric;
 using System.Collections.Generic;
