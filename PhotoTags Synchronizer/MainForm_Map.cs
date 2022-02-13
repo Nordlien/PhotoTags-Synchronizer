@@ -529,6 +529,7 @@ namespace PhotoTagsSynchronizer
         #region Map - ReloadUsingNominatim_Click
         private void KryptonContextMenuItemMapReloadUsingNominatim_Click(object sender, EventArgs e)
         {
+            
             DataGridView dataGridView = dataGridViewMap;
             List<int> selectedColumns = DataGridViewHandler.GetColumnSelected(dataGridView);
             if (selectedColumns.Count == 0) return;
@@ -544,6 +545,8 @@ namespace PhotoTagsSynchronizer
                 string coordinate = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridViewMap, columnIndex, rowIndex);
                 DataGridViewHandlerMap.DeleteMapNomnatatimSearch(LocationCoordinate.Parse(coordinate), locationAccuracyLatitude, locationAccuracyLongitude);
             }
+
+            //AddQueueLazyLoadingMapNomnatatimLock(List < FileEntryAttribute > fileEntryAttributes)
 
             //Reload data from Nomnatatim or if from database in case equal
             foreach (int columnIndex in selectedColumns)

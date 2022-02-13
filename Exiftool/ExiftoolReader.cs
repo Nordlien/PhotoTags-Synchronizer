@@ -1840,7 +1840,7 @@ namespace Exiftool
         }
 #endregion
 
-#endregion
+        #endregion
 
     }
 }
