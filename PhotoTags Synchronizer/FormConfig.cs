@@ -1676,7 +1676,8 @@ namespace PhotoTagsSynchronizer
 
                         LocationCoordinateAndDescription locationCoordinateAndDescription = 
                             DatabaseAndCacheLocationAddress.AddressLookupAndReverseGeocoder(
-                            dataGridViewGenericRow?.LocationCoordinate, locationAccuracyLatitude, locationAccuracyLongitude, onlyFromCache: false, canReverseGeocoder: true);
+                            dataGridViewGenericRow?.LocationCoordinate, locationAccuracyLatitude, locationAccuracyLongitude, 
+                            onlyFromCache: false, canReverseGeocoder: true, metadataLocationDescription: null);
 
                         DataGridViewHandler.SetCellValue(dataGridView, columnIndexName, rowIndex, locationCoordinateAndDescription?.Description.Name, true);
                         DataGridViewHandler.SetCellValue(dataGridView, columnIndexCity, rowIndex, locationCoordinateAndDescription?.Description.City, true);

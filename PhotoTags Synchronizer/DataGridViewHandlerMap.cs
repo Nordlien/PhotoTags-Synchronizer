@@ -282,7 +282,7 @@ namespace PhotoTagsSynchronizer
         }
 
         public static void PopulateGrivViewMapNomnatatim(DataGridView dataGridView, int columnIndex, LocationCoordinate locationCoordinate, 
-            bool onlyFromCache, bool canReverseGeocoder)
+            bool onlyFromCache, bool canReverseGeocoder, bool canLocationFromMetadata)
         {
             GlobalData.IsPopulatingMapLocation = true;
             LocationCoordinateAndDescription locationCoordinateAndDescription = null;
@@ -290,9 +290,26 @@ namespace PhotoTagsSynchronizer
             float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
             float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
 
+            LocationDescription locationDescription = null;
+            DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+            if (canLocationFromMetadata && dataGridViewGenericColumn?.Metadata != null)
+            {
+                if (!string.IsNullOrEmpty(dataGridViewGenericColumn?.Metadata.LocationName) ||
+                    !string.IsNullOrEmpty(dataGridViewGenericColumn?.Metadata.LocationCity) ||
+                    !string.IsNullOrEmpty(dataGridViewGenericColumn?.Metadata.LocationState) ||
+                    !string.IsNullOrEmpty(dataGridViewGenericColumn?.Metadata.LocationCountry))
+                    locationDescription = new LocationDescription(
+                        dataGridViewGenericColumn?.Metadata.LocationName,
+                        dataGridViewGenericColumn?.Metadata.LocationCity,
+                        dataGridViewGenericColumn?.Metadata.LocationState,
+                        dataGridViewGenericColumn?.Metadata.LocationCountry
+                    );
+            }
+
             if (locationCoordinate != null) 
                 locationCoordinateAndDescription = DatabaseAndCacheLocationAddress.AddressLookupAndReverseGeocoder(
-                    locationCoordinate, locationAccuracyLatitude, locationAccuracyLongitude, onlyFromCache: onlyFromCache, canReverseGeocoder: canReverseGeocoder);
+                    locationCoordinate, locationAccuracyLatitude, locationAccuracyLongitude, onlyFromCache: onlyFromCache, 
+                    canReverseGeocoder: canReverseGeocoder, metadataLocationDescription: locationDescription);
 
             bool isReadOnly = (locationCoordinateAndDescription == null);
             //isReadOnly = false;
@@ -389,7 +406,7 @@ namespace PhotoTagsSynchronizer
 
                 //Nominatim.API
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNominatim));
-                PopulateGrivViewMapNomnatatim(dataGridView, columnIndex, metadataExiftool?.LocationCoordinate, onlyFromCache: true, canReverseGeocoder: false);
+                PopulateGrivViewMapNomnatatim(dataGridView, columnIndex, metadataExiftool?.LocationCoordinate, onlyFromCache: true, canReverseGeocoder: false, canLocationFromMetadata: true);
 
                 //WebScraper
                 //headerWebScraping = "WebScraper";

@@ -868,7 +868,7 @@ namespace PhotoTagsSynchronizer
             if (columnIndex != -1)
             {
                 LocationNames.LocationCoordinate locationCoordinate = DataGridViewHandlerMap.GetUserInputLocationCoordinate(dataGridView, columnIndex, fileEntryAttribute);
-                DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, columnIndex, locationCoordinate, onlyFromCache: false, canReverseGeocoder: true);
+                DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, columnIndex, locationCoordinate, onlyFromCache: false, canReverseGeocoder: true, canLocationFromMetadata: true);
             }
         }
         #endregion

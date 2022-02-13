@@ -182,8 +182,6 @@ namespace LocationNames
         }
         #endregion 
 
-        
-
         private static Dictionary<LocationCoordinate, LocationDescription> locationCoordinateAndDescriptionInDatbaseCache = new Dictionary<LocationCoordinate, LocationDescription>();
         private static Dictionary<LocationCoordinate, LocationCoordinate> locationCoordinateConvertFromSearchToDatabaseCache = new Dictionary<LocationCoordinate, LocationCoordinate>();
         private static readonly Object locationCoordinateAndDescriptionCacheLock = new Object();
@@ -275,7 +273,7 @@ namespace LocationNames
         {
             LocationCoordinateAndDescription locationCoordinateAndDescriptionFromDatabase = AddressLookupAndReverseGeocoder(
                 locationCoordinateBySearch, locationAccuracyLatitude, locationAccuracyLongitude,
-                onlyFromCache: false, canReverseGeocoder: false);
+                onlyFromCache: false, canReverseGeocoder: false, metadataLocationDescription: null);
             if (locationCoordinateAndDescriptionFromDatabase != null) 
                 DeleteLocation(locationCoordinateAndDescriptionFromDatabase.Coordinate);
             else
@@ -307,7 +305,7 @@ namespace LocationNames
 
         public LocationCoordinateAndDescription AddressLookupAndReverseGeocoder(
             LocationCoordinate locationCoordinateSearch, float locationAccuracyLatitude, float locationAccuracyLongitude, 
-            bool onlyFromCache, bool canReverseGeocoder)
+            bool onlyFromCache, bool canReverseGeocoder, LocationDescription metadataLocationDescription)
         {
             // Check if exist in cache
             if (onlyFromCache && !LocationCoordinateAndDescriptionExsistInCache(locationCoordinateSearch)) return null;
@@ -316,8 +314,19 @@ namespace LocationNames
             LocationCoordinateAndDescription locationInDatbaseCoordinateAndDescription = ReadLocationNameFromDatabaseOrCache(locationCoordinateSearch, locationAccuracyLatitude, locationAccuracyLongitude);
             if (locationInDatbaseCoordinateAndDescription != null) return locationInDatbaseCoordinateAndDescription;
 
+            if (metadataLocationDescription != null)
+            {
+                locationInDatbaseCoordinateAndDescription = new LocationCoordinateAndDescription(
+                    locationCoordinateSearch, metadataLocationDescription);
+                TransactionBeginBatch();
+                WriteLocationName(locationCoordinateSearch, locationInDatbaseCoordinateAndDescription);
+                TransactionCommitBatch();
+                return locationInDatbaseCoordinateAndDescription;
+            }
+
             if (canReverseGeocoder)
             {
+                #region ReverseGeocoder
                 try
                 {
                     var y = new ReverseGeocoder();
@@ -364,6 +373,7 @@ namespace LocationNames
                 {
                     Logger.Error(ex, "AddressLookup");
                 }
+                #endregion
             }
             return null;
         }
@@ -375,7 +385,7 @@ namespace LocationNames
         {
             LocationCoordinateAndDescription locationCoordinateAndDescriptionFromDatabase = AddressLookupAndReverseGeocoder(
                 locationCoordinateAndDescriptionSearch.Coordinate, locationAccuracyLatitude, locationAccuracyLongitude,
-                onlyFromCache: false, canReverseGeocoder: false);
+                onlyFromCache: false, canReverseGeocoder: false, metadataLocationDescription: null);
 
             if (locationCoordinateAndDescriptionFromDatabase == null)
             {

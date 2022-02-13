@@ -431,7 +431,7 @@ namespace PhotoTagsSynchronizer
             {
                 string coordinate = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridViewMap, e.ColumnIndex, e.RowIndex);
                 UpdateBrowserMap(coordinate, GetMapProvider());
-                DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, e.ColumnIndex, LocationCoordinate.Parse(coordinate), onlyFromCache: false, canReverseGeocoder: true);
+                DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, e.ColumnIndex, LocationCoordinate.Parse(coordinate), onlyFromCache: false, canReverseGeocoder: true, canLocationFromMetadata: true);
                 DataGridViewHandlerDate.PopulateTimeZone(dataGridViewDate, null, dataGridViewGenericColumn.FileEntryAttribute);
             }
 
@@ -517,7 +517,7 @@ namespace PhotoTagsSynchronizer
                     {
                         string locationCoordinateString = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridViewMap, columnIndex, DataGridViewHandlerMap.headerMedia, DataGridViewHandlerMap.tagMediaCoordinates);
                         LocationCoordinate locationCoordinate = LocationCoordinate.Parse(locationCoordinateString);
-                        DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, columnIndex, locationCoordinate, onlyFromCache: false, canReverseGeocoder: true);
+                        DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, columnIndex, locationCoordinate, onlyFromCache: false, canReverseGeocoder: true, canLocationFromMetadata: true);
                     }
                 }
             }
@@ -549,7 +549,8 @@ namespace PhotoTagsSynchronizer
             foreach (int columnIndex in selectedColumns)
             {
                 string coordinate = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridViewMap, columnIndex, rowIndex);
-                DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, columnIndex, LocationCoordinate.Parse(coordinate), onlyFromCache: false, canReverseGeocoder: true);
+                LocationCoordinate locationCoordinate = LocationCoordinate.Parse(coordinate);
+                DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, columnIndex, LocationCoordinate.Parse(coordinate), onlyFromCache: false, canReverseGeocoder: true, canLocationFromMetadata: false);
             }
             isDataGridViewMaps_CellValueChanging = false;
         }
