@@ -849,12 +849,12 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region DataGridView - Populate - MapLocation
-        private void DataGridView_Populate_MapLocation(FileEntryAttribute fileEntryAttribute)
+        private void DataGridView_Populate_MapLocation(FileEntryAttribute fileEntryAttribute, bool forceReloadUsingReverseGeocoder)
         {
             if (GlobalData.IsApplicationClosing) return;
             if (this.InvokeRequired)
             {
-                BeginInvoke(new Action<FileEntryAttribute>(DataGridView_Populate_MapLocation), fileEntryAttribute);
+                BeginInvoke(new Action<FileEntryAttribute, bool>(DataGridView_Populate_MapLocation), fileEntryAttribute, forceReloadUsingReverseGeocoder);
                 return;
             }
             DataGridView dataGridView = dataGridViewMap;
@@ -868,7 +868,14 @@ namespace PhotoTagsSynchronizer
             if (columnIndex != -1)
             {
                 LocationNames.LocationCoordinate locationCoordinate = DataGridViewHandlerMap.GetUserInputLocationCoordinate(dataGridView, columnIndex, fileEntryAttribute);
-                DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, columnIndex, locationCoordinate, onlyFromCache: false, canReverseGeocoder: true, canLocationFromMetadata: true);
+                bool createNewAccurateLocationUsingSearchLocation = DataGridViewHandlerMap.GetUserInputIsCreateNewAccurateLocationUsingSearchLocation(dataGridView, columnIndex, fileEntryAttribute);
+
+                if (locationCoordinate != null)
+                {
+                    DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, columnIndex, locationCoordinate,
+                        onlyFromCache: false, canReverseGeocoder: true, forceReloadUsingReverseGeocoder: forceReloadUsingReverseGeocoder, 
+                        createNewAccurateLocationUsingSearchLocation: createNewAccurateLocationUsingSearchLocation);
+                }
             }
         }
         #endregion

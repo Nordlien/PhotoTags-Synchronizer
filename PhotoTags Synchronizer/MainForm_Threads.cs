@@ -12,6 +12,7 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -80,7 +81,7 @@ namespace PhotoTagsSynchronizer
         private static List<FileEntryAttribute> commonQueueLazyLoadingMediaThumbnail = new List<FileEntryAttribute>();
         private static readonly Object commonQueueLazyLoadingThumbnailLock = new Object();
 
-        private static List<FileEntryAttribute> commonLazyLoadingMapNomnatatim = new List<FileEntryAttribute>();
+        private static Dictionary<FileEntryAttribute, bool> commonLazyLoadingMapNomnatatim = new Dictionary<FileEntryAttribute, bool>();
         private static readonly Object commonLazyLoadingMapNomnatatimLock = new Object();
         #endregion
 
@@ -558,7 +559,7 @@ namespace PhotoTagsSynchronizer
 
             AddQueueLazyLoadningAllSourcesMetadataAndRegionThumbnailsLock(lazyLoadingAllExiftoolVersionOfMediaFile);
             AddQueueLazyLoadningMediaThumbnailLock(lazyLoadingAllExiftoolVersionOfMediaFile);
-            AddQueueLazyLoadingMapNomnatatimLock(lazyLoadingAllExiftoolVersionOfMediaFile);
+            AddQueueLazyLoadingMapNomnatatimLock(lazyLoadingAllExiftoolVersionOfMediaFile, forceReloadUsingReverseGeocoder: false);
             StartThreads();
         }
         #endregion 
@@ -3208,25 +3209,25 @@ namespace PhotoTagsSynchronizer
         #region MapNomnatatim
         
         #region MapNomnatatim - LazyLoading - Add Read Queue
-        public void AddQueueLazyLoadingMapNomnatatimLock(FileEntryAttribute fileEntryAttribute)
+        public void AddQueueLazyLoadingMapNomnatatimLock(FileEntryAttribute fileEntryAttribute, bool forceReloadUsingReverseGeocoder)
         {
             //Need to add to the end, due due read queue read potion [0] end delete after, not thread safe
             lock (commonLazyLoadingMapNomnatatimLock)
             {
-                if (!commonLazyLoadingMapNomnatatim.Contains(fileEntryAttribute)) commonLazyLoadingMapNomnatatim.Add(fileEntryAttribute);
+                if (!commonLazyLoadingMapNomnatatim.ContainsKey(fileEntryAttribute)) commonLazyLoadingMapNomnatatim.Add(fileEntryAttribute, forceReloadUsingReverseGeocoder);
             }
         }
         #endregion
 
         #region Media Thumbnail - LazyLoading - Add Read Queue
-        public void AddQueueLazyLoadingMapNomnatatimLock(List<FileEntryAttribute> fileEntryAttributes)
+        public void AddQueueLazyLoadingMapNomnatatimLock(List<FileEntryAttribute> fileEntryAttributes, bool forceReloadUsingReverseGeocoder)
         {
             if (fileEntryAttributes == null) return;
             lock (commonLazyLoadingMapNomnatatimLock)
             {
                 foreach (FileEntryAttribute fileEntryAttribute in fileEntryAttributes)
                 {
-                    if (!commonLazyLoadingMapNomnatatim.Contains(fileEntryAttribute)) commonLazyLoadingMapNomnatatim.Add(fileEntryAttribute);
+                    if (!commonLazyLoadingMapNomnatatim.ContainsKey(fileEntryAttribute)) commonLazyLoadingMapNomnatatim.Add(fileEntryAttribute, forceReloadUsingReverseGeocoder);
                 }
             }
         }
@@ -3261,20 +3262,30 @@ namespace PhotoTagsSynchronizer
                                 while (!GlobalData.IsApplicationClosing && CommonQueueLazyLoadingMapNomnatatimLock() > 0) //In case some more added to the queue
                                 {
                                     bool isPopulated = false;
-                                    FileEntryAttribute fileEntryAttribute;
-                                    lock (commonLazyLoadingMapNomnatatimLock) fileEntryAttribute = new FileEntryAttribute(commonLazyLoadingMapNomnatatim[0]);
+                                    KeyValuePair<FileEntryAttribute,bool> fileEntryAttributeAndAllowUseMetadataLocationInfo;
 
-                                    int columnIndex = DataGridViewHandler.GetColumnIndexWhenAddColumn(dataGridViewMap, fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionCompare);
+                                    lock (commonLazyLoadingMapNomnatatimLock) fileEntryAttributeAndAllowUseMetadataLocationInfo = 
+                                        commonLazyLoadingMapNomnatatim.First();
+
+                                    int columnIndex = DataGridViewHandler.GetColumnIndexWhenAddColumn(dataGridViewMap, 
+                                        fileEntryAttributeAndAllowUseMetadataLocationInfo.Key, out FileEntryVersionCompare fileEntryVersionCompare);
+
                                     if (columnIndex != -1)
                                     {
                                         isPopulated = DataGridViewHandler.IsColumnPopulated(dataGridViewMap, columnIndex);
-                                        if (isPopulated) DataGridView_Populate_MapLocation(fileEntryAttribute);
+                                        if (isPopulated) DataGridView_Populate_MapLocation(
+                                            fileEntryAttributeAndAllowUseMetadataLocationInfo.Key,
+                                            fileEntryAttributeAndAllowUseMetadataLocationInfo.Value);
                                     }
                                     
-                                    lock (commonLazyLoadingMapNomnatatimLock) if (commonLazyLoadingMapNomnatatim.Count > 0) commonLazyLoadingMapNomnatatim.RemoveAt(0); //Remove from queue after read. Otherwise wrong text in status bar
+                                    lock (commonLazyLoadingMapNomnatatimLock) 
+                                        if (commonLazyLoadingMapNomnatatim.Count > 0) 
+                                            commonLazyLoadingMapNomnatatim.Remove(fileEntryAttributeAndAllowUseMetadataLocationInfo.Key); //Remove from queue after read. Otherwise wrong text in status bar
 
                                     if (!isPopulated && fileEntryVersionCompare != FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch) 
-                                        AddQueueLazyLoadingMapNomnatatimLock(fileEntryAttribute);
+                                        AddQueueLazyLoadingMapNomnatatimLock(
+                                            fileEntryAttributeAndAllowUseMetadataLocationInfo.Key,
+                                            fileEntryAttributeAndAllowUseMetadataLocationInfo.Value);
                                 }
                                 #endregion
                             }

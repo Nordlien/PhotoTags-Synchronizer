@@ -118,12 +118,24 @@ namespace PhotoTagsSynchronizer
             if (columnIndex == -1) return null;
             if (!DataGridViewHandler.IsColumnPopulated(dataGridViewMap, (int)columnIndex)) return null;
             
-            LocationCoordinate locationCoordinate = null;            
+            LocationCoordinate locationCoordinate;            
             string locationCoordinateString = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridViewMap, (int)columnIndex, headerMedia, tagMediaCoordinates);
+            locationCoordinateString = locationCoordinateString.TrimEnd('+');
             locationCoordinate = LocationCoordinate.Parse(locationCoordinateString);
             return locationCoordinate;
         }
+
+        public static bool GetUserInputIsCreateNewAccurateLocationUsingSearchLocation(DataGridView dataGridViewMap, int? columnIndex, FileEntryAttribute fileEntryAttribute)
+        {
+            if (!DataGridViewHandler.GetIsAgregated(dataGridViewMap)) return false;
+            if (columnIndex == null) columnIndex = DataGridViewHandler.GetColumnIndexUserInput(dataGridViewMap, fileEntryAttribute);
+            if (columnIndex == -1) return false;
+            if (!DataGridViewHandler.IsColumnPopulated(dataGridViewMap, (int)columnIndex)) return false;
+            string locationCoordinateString = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridViewMap, (int)columnIndex, headerMedia, tagMediaCoordinates);
+            return locationCoordinateString.EndsWith("+");
+        }
         #endregion 
+
 
         #region PopulateGrivViewMapCameraOwner
         private static DataGridViewComboBoxCell dataGridViewComboBoxCellCameraOwners = null;
@@ -275,53 +287,102 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region PopulateGrivViewMapNomnatatim
-        public static void DeleteMapNomnatatimSearch(LocationCoordinate locationCoordinateSearch, float locationAccuracyLatitude, float locationAccuracyLongitude)
-        {
-
-            if (locationCoordinateSearch != null) DatabaseAndCacheLocationAddress.DeleteLocationBySearch(locationCoordinateBySearch: locationCoordinateSearch, locationAccuracyLatitude, locationAccuracyLongitude);
-        }
-
-        public static void PopulateGrivViewMapNomnatatim(DataGridView dataGridView, int columnIndex, LocationCoordinate locationCoordinate, 
-            bool onlyFromCache, bool canReverseGeocoder, bool canLocationFromMetadata)
+        public static void PopulateGrivViewMapNomnatatim(DataGridView dataGridView, int columnIndex, LocationCoordinate locationCoordinateSearch, 
+            bool onlyFromCache, bool canReverseGeocoder, bool forceReloadUsingReverseGeocoder, bool createNewAccurateLocationUsingSearchLocation)
         {
             GlobalData.IsPopulatingMapLocation = true;
-            LocationCoordinateAndDescription locationCoordinateAndDescription = null;
-            
-            float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
-            float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
-
-            LocationDescription locationDescription = null;
-            DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-            if (canLocationFromMetadata && dataGridViewGenericColumn?.Metadata != null)
+            try
             {
-                if (!string.IsNullOrEmpty(dataGridViewGenericColumn?.Metadata.LocationName) ||
-                    !string.IsNullOrEmpty(dataGridViewGenericColumn?.Metadata.LocationCity) ||
-                    !string.IsNullOrEmpty(dataGridViewGenericColumn?.Metadata.LocationState) ||
-                    !string.IsNullOrEmpty(dataGridViewGenericColumn?.Metadata.LocationCountry))
-                    locationDescription = new LocationDescription(
-                        dataGridViewGenericColumn?.Metadata.LocationName,
-                        dataGridViewGenericColumn?.Metadata.LocationCity,
-                        dataGridViewGenericColumn?.Metadata.LocationState,
-                        dataGridViewGenericColumn?.Metadata.LocationCountry
-                    );
+                LocationCoordinateAndDescription locationCoordinateAndDescriptionInDatabase = null;
+
+                float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
+                float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
+
+                LocationDescription locationDescription = null;
+                #region Get Location Info from User when allowed
+                DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+                if (!forceReloadUsingReverseGeocoder && dataGridViewGenericColumn?.Metadata != null)
+                {
+                    if (!string.IsNullOrEmpty(dataGridViewGenericColumn?.Metadata.LocationName) ||
+                        !string.IsNullOrEmpty(dataGridViewGenericColumn?.Metadata.LocationCity) ||
+                        !string.IsNullOrEmpty(dataGridViewGenericColumn?.Metadata.LocationState) ||
+                        !string.IsNullOrEmpty(dataGridViewGenericColumn?.Metadata.LocationCountry))
+                    {
+                        locationDescription = new LocationDescription(
+                            dataGridViewGenericColumn?.Metadata.LocationName,
+                            dataGridViewGenericColumn?.Metadata.LocationCity,
+                            dataGridViewGenericColumn?.Metadata.LocationState,
+                            dataGridViewGenericColumn?.Metadata.LocationCountry
+                        );
+                    }
+                }
+                #endregion
+
+                #region Get Nearby Location Coordinate and Info in Database
+                locationCoordinateAndDescriptionInDatabase = DatabaseAndCacheLocationAddress.AddressLookupAndReverseGeocoder(
+                    locationCoordinateSearch, locationAccuracyLatitude, locationAccuracyLongitude, onlyFromCache: onlyFromCache,
+                    canReverseGeocoder: canReverseGeocoder, metadataLocationDescription: locationDescription, forceReloadUsingReverseGeocoder: false);
+                #endregion
+
+                if (createNewAccurateLocationUsingSearchLocation) 
+                {
+                    try
+                    {
+                        locationCoordinateAndDescriptionInDatabase = new LocationCoordinateAndDescription(locationCoordinateSearch, locationCoordinateAndDescriptionInDatabase.Description);
+                        DatabaseAndCacheLocationAddress.WriteLocationName(locationCoordinateSearch, locationCoordinateAndDescriptionInDatabase);
+
+                        dataGridView.EndEdit();
+                        //Remove + sign
+                        AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagMediaCoordinates,
+                            ReadWriteAccess.AllowCellReadAndWrite), locationCoordinateSearch.ToString(), false);
+                    } catch 
+                    {
+                        //DEBUG
+                    }
+                }
+
+                
+
+                #region If Asked to Reload, reload from UsingReverseGeocoder
+                if (forceReloadUsingReverseGeocoder && locationCoordinateAndDescriptionInDatabase != null)
+                {
+                    locationCoordinateAndDescriptionInDatabase = DatabaseAndCacheLocationAddress.AddressLookupAndReverseGeocoder(
+                    locationCoordinateSearch, locationAccuracyLatitude, locationAccuracyLongitude, onlyFromCache: false,
+                    canReverseGeocoder: true, metadataLocationDescription: null, forceReloadUsingReverseGeocoder: true);
+                }
+                #endregion
+
+                #region Show Tooltip when Use need Nearby coordinate
+                int rowIndex = DataGridViewHandler.GetRowIndex(dataGridView, headerMedia, tagMediaCoordinates);
+                if (locationCoordinateAndDescriptionInDatabase != null && locationCoordinateSearch != locationCoordinateAndDescriptionInDatabase.Coordinate)
+                {                    
+                    DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndex, "Near by location used: " + locationCoordinateAndDescriptionInDatabase.Coordinate.ToString());
+                } else
+                {
+                    DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndex, "");
+                }
+                #endregion
+
+                bool isReadOnly = (locationCoordinateAndDescriptionInDatabase == null);
+                #region Updated DataGridView with new data
+                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNominatim, tagLocationName, ReadWriteAccess.AllowCellReadAndWrite),
+                    locationCoordinateAndDescriptionInDatabase?.Description.Name, isReadOnly);
+                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNominatim, tagCity, ReadWriteAccess.AllowCellReadAndWrite),
+                    locationCoordinateAndDescriptionInDatabase?.Description.City, isReadOnly);
+                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNominatim, tagProvince, ReadWriteAccess.AllowCellReadAndWrite),
+                    locationCoordinateAndDescriptionInDatabase?.Description.Region, isReadOnly);
+                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNominatim, tagCountry, ReadWriteAccess.AllowCellReadAndWrite),
+                    locationCoordinateAndDescriptionInDatabase?.Description.Country, isReadOnly);
+                #endregion
             }
+            catch
+            {
 
-            if (locationCoordinate != null) 
-                locationCoordinateAndDescription = DatabaseAndCacheLocationAddress.AddressLookupAndReverseGeocoder(
-                    locationCoordinate, locationAccuracyLatitude, locationAccuracyLongitude, onlyFromCache: onlyFromCache, 
-                    canReverseGeocoder: canReverseGeocoder, metadataLocationDescription: locationDescription);
-
-            bool isReadOnly = (locationCoordinateAndDescription == null);
-            //isReadOnly = false;
-            AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNominatim, tagLocationName, ReadWriteAccess.AllowCellReadAndWrite), 
-                locationCoordinateAndDescription?.Description.Name, isReadOnly); 
-            AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNominatim, tagCity, ReadWriteAccess.AllowCellReadAndWrite), 
-                locationCoordinateAndDescription?.Description.City, isReadOnly); 
-            AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNominatim, tagProvince, ReadWriteAccess.AllowCellReadAndWrite), 
-                locationCoordinateAndDescription?.Description.Region, isReadOnly); 
-            AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNominatim, tagCountry, ReadWriteAccess.AllowCellReadAndWrite), 
-                locationCoordinateAndDescription?.Description.Country, isReadOnly);
-            GlobalData.IsPopulatingMapLocation = false;
+            }
+            finally
+            {
+                GlobalData.IsPopulatingMapLocation = false;
+            }
         }
         #endregion
 
@@ -406,7 +467,8 @@ namespace PhotoTagsSynchronizer
 
                 //Nominatim.API
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNominatim));
-                PopulateGrivViewMapNomnatatim(dataGridView, columnIndex, metadataExiftool?.LocationCoordinate, onlyFromCache: true, canReverseGeocoder: false, canLocationFromMetadata: true);
+                PopulateGrivViewMapNomnatatim(dataGridView, columnIndex, metadataExiftool?.LocationCoordinate, 
+                    onlyFromCache: true, canReverseGeocoder: false, forceReloadUsingReverseGeocoder: false, createNewAccurateLocationUsingSearchLocation:false);
 
                 //WebScraper
                 //headerWebScraping = "WebScraper";

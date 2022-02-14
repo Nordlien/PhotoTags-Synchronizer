@@ -431,7 +431,10 @@ namespace PhotoTagsSynchronizer
             {
                 string coordinate = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridViewMap, e.ColumnIndex, e.RowIndex);
                 UpdateBrowserMap(coordinate, GetMapProvider());
-                DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, e.ColumnIndex, LocationCoordinate.Parse(coordinate), onlyFromCache: false, canReverseGeocoder: true, canLocationFromMetadata: true);
+
+                DataGridViewGenericColumn dataGridViewGenericColumnLookup = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridViewMap, e.ColumnIndex);
+                AddQueueLazyLoadingMapNomnatatimLock(dataGridViewGenericColumnLookup.FileEntryAttribute, forceReloadUsingReverseGeocoder: false);
+
                 DataGridViewHandlerDate.PopulateTimeZone(dataGridViewDate, null, dataGridViewGenericColumn.FileEntryAttribute);
             }
 
@@ -491,34 +494,53 @@ namespace PhotoTagsSynchronizer
             float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
             if (gridViewGenericRow.HeaderName.Equals(DataGridViewHandlerMap.headerNominatim))
             {
-                string coordinate = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridViewMap, e.ColumnIndex, DataGridViewHandlerMap.headerMedia, DataGridViewHandlerMap.tagMediaCoordinates);
-                LocationCoordinate locationCoordinateNomnatatim = LocationCoordinate.Parse(coordinate);
-
+                LocationCoordinate locationCoordinateNomnatatim = DataGridViewHandlerMap.GetUserInputLocationCoordinate(dataGridViewMap, e.ColumnIndex, null);
+                bool createNewAccurateLocation = DataGridViewHandlerMap.GetUserInputIsCreateNewAccurateLocationUsingSearchLocation(dataGridViewMap, e.ColumnIndex, null);
+ 
                 if (locationCoordinateNomnatatim != null)
                 {
-                    databaseLocationNameAndLookUp.TransactionBeginBatch();
-                    databaseLocationNameAndLookUp.AddressUpdateBySearchLocation(
+                    #region Get Coordinateds enter by user
+                    LocationCoordinate locationCoordinateSearch = new LocationCoordinate(
+                        (float)locationCoordinateNomnatatim.Latitude,
+                        (float)locationCoordinateNomnatatim.Longitude);
+                    #endregion
+
+                    #region Get Coordinates use to store in database
+                    LocationCoordinateAndDescription locationCoordinateAndDescriptionFromDatabase = databaseLocationNameAndLookUp.ReadLocationNameFromDatabaseOrCache(
+                        locationCoordinateSearch, locationAccuracyLatitude, locationAccuracyLongitude);
+                    #endregion
+
+                    #region Find nearby location in Datbase
+                    LocationCoordinate locationCoordinateFromDatabase;
+                    if (locationCoordinateAndDescriptionFromDatabase != null && !createNewAccurateLocation)
+                        locationCoordinateFromDatabase = locationCoordinateAndDescriptionFromDatabase.Coordinate; //If exist, updated
+                    else
+                        locationCoordinateFromDatabase = locationCoordinateSearch; //If not, create new
+
+                    LocationCoordinateAndDescription locationCoordinateAndDescriptionUpdated =
                         new LocationCoordinateAndDescription
                         (
-                            new LocationCoordinate( 
-                                (float)locationCoordinateNomnatatim.Latitude,
-                                (float)locationCoordinateNomnatatim.Longitude),
+                            locationCoordinateSearch,
                             new LocationDescription(
                                 (string)DataGridViewHandler.GetCellValue(dataGridView, e.ColumnIndex, DataGridViewHandlerMap.headerNominatim, DataGridViewHandlerMap.tagLocationName), //Name
                                 (string)DataGridViewHandler.GetCellValue(dataGridView, e.ColumnIndex, DataGridViewHandlerMap.headerNominatim, DataGridViewHandlerMap.tagCity), //City
                                 (string)DataGridViewHandler.GetCellValue(dataGridView, e.ColumnIndex, DataGridViewHandlerMap.headerNominatim, DataGridViewHandlerMap.tagProvince), //State
                                 (string)DataGridViewHandler.GetCellValue(dataGridView, e.ColumnIndex, DataGridViewHandlerMap.headerNominatim, DataGridViewHandlerMap.tagCountry)) //Country
-                        ),
-                        locationAccuracyLatitude, locationAccuracyLongitude);
+                        );
+                    #endregion
 
-                    databaseLocationNameAndLookUp.TransactionCommitBatch();
+                    #region Updated the database
+                    databaseLocationNameAndLookUp.AddressUpdate(locationCoordinateFromDatabase,
+                        locationCoordinateAndDescriptionUpdated, locationAccuracyLatitude, locationAccuracyLongitude);
+                    #endregion
 
+                    #region Updated DataGridView with new data
                     for (int columnIndex = 0; columnIndex < dataGridViewMap.ColumnCount; columnIndex++)
                     {
-                        string locationCoordinateString = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridViewMap, columnIndex, DataGridViewHandlerMap.headerMedia, DataGridViewHandlerMap.tagMediaCoordinates);
-                        LocationCoordinate locationCoordinate = LocationCoordinate.Parse(locationCoordinateString);
-                        DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, columnIndex, locationCoordinate, onlyFromCache: false, canReverseGeocoder: true, canLocationFromMetadata: true);
+                        DataGridViewGenericColumn dataGridViewGenericColumnLookup = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridViewMap, columnIndex);
+                        AddQueueLazyLoadingMapNomnatatimLock(dataGridViewGenericColumnLookup.FileEntryAttribute, forceReloadUsingReverseGeocoder: false);
                     }
+                    #endregion 
                 }
             }
 
@@ -537,23 +559,14 @@ namespace PhotoTagsSynchronizer
             isDataGridViewMaps_CellValueChanging = true;
             int rowIndex = DataGridViewHandler.GetRowIndex(dataGridView, DataGridViewHandlerMap.headerMedia, DataGridViewHandlerMap.tagMediaCoordinates);
 
-            float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
-            float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
-            //Delete from database cache
-            foreach (int columnIndex in selectedColumns)
-            {
-                string coordinate = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridViewMap, columnIndex, rowIndex);
-                DataGridViewHandlerMap.DeleteMapNomnatatimSearch(LocationCoordinate.Parse(coordinate), locationAccuracyLatitude, locationAccuracyLongitude);
-            }
-
-            //AddQueueLazyLoadingMapNomnatatimLock(List < FileEntryAttribute > fileEntryAttributes)
-
             //Reload data from Nomnatatim or if from database in case equal
             foreach (int columnIndex in selectedColumns)
             {
-                string coordinate = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridViewMap, columnIndex, rowIndex);
-                LocationCoordinate locationCoordinate = LocationCoordinate.Parse(coordinate);
-                DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, columnIndex, LocationCoordinate.Parse(coordinate), onlyFromCache: false, canReverseGeocoder: true, canLocationFromMetadata: false);
+                DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+                if (dataGridViewGenericColumn != null && dataGridViewGenericColumn?.FileEntryAttribute != null)
+                {
+                    AddQueueLazyLoadingMapNomnatatimLock(dataGridViewGenericColumn?.FileEntryAttribute, forceReloadUsingReverseGeocoder: true);
+                }
             }
             isDataGridViewMaps_CellValueChanging = false;
         }
