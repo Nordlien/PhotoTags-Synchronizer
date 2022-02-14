@@ -120,7 +120,7 @@ namespace PhotoTagsSynchronizer
             
             LocationCoordinate locationCoordinate;            
             string locationCoordinateString = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridViewMap, (int)columnIndex, headerMedia, tagMediaCoordinates);
-            locationCoordinateString = locationCoordinateString.TrimEnd('+');
+            if (!string.IsNullOrEmpty(locationCoordinateString)) locationCoordinateString = locationCoordinateString.TrimEnd('+');
             locationCoordinate = LocationCoordinate.Parse(locationCoordinateString);
             return locationCoordinate;
         }
@@ -132,6 +132,11 @@ namespace PhotoTagsSynchronizer
             if (columnIndex == -1) return false;
             if (!DataGridViewHandler.IsColumnPopulated(dataGridViewMap, (int)columnIndex)) return false;
             string locationCoordinateString = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridViewMap, (int)columnIndex, headerMedia, tagMediaCoordinates);
+
+            if (string.IsNullOrEmpty(locationCoordinateString)) return false;
+            LocationCoordinate locationCoordinate = LocationCoordinate.Parse(locationCoordinateString.TrimEnd('+'));
+            if (locationCoordinate == null) return false; 
+
             return locationCoordinateString.EndsWith("+");
         }
         #endregion 
@@ -324,6 +329,7 @@ namespace PhotoTagsSynchronizer
                     canReverseGeocoder: canReverseGeocoder, metadataLocationDescription: locationDescription, forceReloadUsingReverseGeocoder: false);
                 #endregion
 
+                #region createNewAccurateLocationUsingSearchLocation
                 if (createNewAccurateLocationUsingSearchLocation) 
                 {
                     try
@@ -340,15 +346,14 @@ namespace PhotoTagsSynchronizer
                         //DEBUG
                     }
                 }
-
-                
+                #endregion
 
                 #region If Asked to Reload, reload from UsingReverseGeocoder
                 if (forceReloadUsingReverseGeocoder && locationCoordinateAndDescriptionInDatabase != null)
                 {
                     locationCoordinateAndDescriptionInDatabase = DatabaseAndCacheLocationAddress.AddressLookupAndReverseGeocoder(
-                    locationCoordinateSearch, locationAccuracyLatitude, locationAccuracyLongitude, onlyFromCache: false,
-                    canReverseGeocoder: true, metadataLocationDescription: null, forceReloadUsingReverseGeocoder: true);
+                        locationCoordinateSearch, locationAccuracyLatitude, locationAccuracyLongitude, onlyFromCache: false,
+                        canReverseGeocoder: true, metadataLocationDescription: null, forceReloadUsingReverseGeocoder: true);
                 }
                 #endregion
 
@@ -363,7 +368,10 @@ namespace PhotoTagsSynchronizer
                 }
                 #endregion
 
+                #region No data location data loaded, set as readonly
                 bool isReadOnly = (locationCoordinateAndDescriptionInDatabase == null);
+                #endregion
+
                 #region Updated DataGridView with new data
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNominatim, tagLocationName, ReadWriteAccess.AllowCellReadAndWrite),
                     locationCoordinateAndDescriptionInDatabase?.Description.Name, isReadOnly);
@@ -377,7 +385,7 @@ namespace PhotoTagsSynchronizer
             }
             catch
             {
-
+                //DEBUG
             }
             finally
             {

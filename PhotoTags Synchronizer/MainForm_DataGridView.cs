@@ -869,7 +869,7 @@ namespace PhotoTagsSynchronizer
             {
                 LocationNames.LocationCoordinate locationCoordinate = DataGridViewHandlerMap.GetUserInputLocationCoordinate(dataGridView, columnIndex, fileEntryAttribute);
                 bool createNewAccurateLocationUsingSearchLocation = DataGridViewHandlerMap.GetUserInputIsCreateNewAccurateLocationUsingSearchLocation(dataGridView, columnIndex, fileEntryAttribute);
-
+                
                 if (locationCoordinate != null)
                 {
                     DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, columnIndex, locationCoordinate,

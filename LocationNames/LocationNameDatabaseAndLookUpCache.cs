@@ -138,6 +138,10 @@ namespace LocationNames
         #region ReadLocationNameFromDatabaseOrCache
         public LocationCoordinateAndDescription ReadLocationNameFromDatabaseOrCache(LocationCoordinate locationCoordinate, float locationAccuracyLatitude, float locationAccuracyLongitude)
         {
+            if (locationCoordinate == null)
+            {
+                //DEBUG
+            }
             if (LocationCoordinateAndDescriptionExsistInCache(locationCoordinate)) return LocationCoordinateAndDescriptionReadFromCache(locationCoordinate);
             return ReadLocationName(locationCoordinate, locationAccuracyLatitude, locationAccuracyLongitude);
         }
@@ -297,6 +301,11 @@ namespace LocationNames
         #region Cache AddressLookup - Exisit in Cache    
         public bool LocationCoordinateAndDescriptionExsistInCache(LocationCoordinate locationCoordinateSearch)
         {
+            if (locationCoordinateSearch == null)
+            {
+                return false;
+                //DEBUG
+            }
             lock (locationCoordinateAndDescriptionCacheLock)
             {
                 if (locationCoordinateAndDescriptionInDatbaseCache.ContainsKey(locationCoordinateSearch)) return true;
@@ -334,17 +343,25 @@ namespace LocationNames
             LocationCoordinate locationCoordinateSearch, float locationAccuracyLatitude, float locationAccuracyLongitude, 
             bool onlyFromCache, bool canReverseGeocoder, LocationDescription metadataLocationDescription, bool forceReloadUsingReverseGeocoder)
         {
-            // Check if exist in cache
-            if (onlyFromCache && !LocationCoordinateAndDescriptionExsistInCache(locationCoordinateSearch)) return null;
+            if (locationCoordinateSearch == null)
+            {
+                //DEBUG
+                return null;
+            }
 
+            #region Only From Cache - Nothing in cache - ** return null **
+            if (onlyFromCache && !LocationCoordinateAndDescriptionExsistInCache(locationCoordinateSearch)) return null;
+            #endregion
 
             if (!forceReloadUsingReverseGeocoder)
             {
-                // Return location from Cache or Database
+                #region If exist - ** Return ** location from Cache or Database
                 LocationCoordinateAndDescription locationInDatbaseCoordinateAndDescription =
                     ReadLocationNameFromDatabaseOrCache(locationCoordinateSearch, locationAccuracyLatitude, locationAccuracyLongitude);
                 if (locationInDatbaseCoordinateAndDescription != null) return locationInDatbaseCoordinateAndDescription;
+                #endregion
 
+                #region If not exist in Database, but Metadata has Location info, save it and ** return it ***
                 if (metadataLocationDescription != null)
                 {
                     locationInDatbaseCoordinateAndDescription = new LocationCoordinateAndDescription(
@@ -354,16 +371,20 @@ namespace LocationNames
                     TransactionCommitBatch();
                     return locationInDatbaseCoordinateAndDescription;
                 }
-            } else
+                #endregion
+            }
+            else
             {
+                #region When: Force to read from ReverseGeocode - Delete old data and continue to ReverseGeocode
                 ReadLocationNameFromDatabaseOrCache(locationCoordinateSearch, locationAccuracyLatitude, locationAccuracyLongitude);
                 DeleteLocation(locationCoordinateSearch, locationAccuracyLatitude, locationAccuracyLongitude);
+                #endregion
             }
 
             if (canReverseGeocoder)
             {
-                LocationCoordinateAndDescription locationInDatbaseCoordinateAndDescription = null;
                 #region ReverseGeocoder
+                LocationCoordinateAndDescription locationInDatbaseCoordinateAndDescription;                
                 try
                 {
                     var y = new ReverseGeocoder();
