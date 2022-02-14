@@ -117,8 +117,8 @@ namespace LocationNames
                 locationCoordinateAndDescriptionInDatbase.Description.Country = string.IsNullOrEmpty(locationCoordinateAndDescriptionInDatbase.Description.Country) ? null : locationCoordinateAndDescriptionInDatbase.Description.Country;
 
                 //commandDatabase.Prepare();
-                commandDatabase.Parameters.AddWithValue("@Latitude", locationCoordinateAndDescriptionInDatbase.Coordinate.Latitude);
-                commandDatabase.Parameters.AddWithValue("@Longitude", locationCoordinateAndDescriptionInDatbase.Coordinate.Longitude);
+                commandDatabase.Parameters.AddWithValue("@Latitude", locationCoordinateInDatabase.Latitude);
+                commandDatabase.Parameters.AddWithValue("@Longitude", locationCoordinateInDatabase.Longitude);
                 commandDatabase.Parameters.AddWithValue("@Name", locationCoordinateAndDescriptionInDatbase.Description.Name);
                 commandDatabase.Parameters.AddWithValue("@City", locationCoordinateAndDescriptionInDatbase.Description.City);
                 commandDatabase.Parameters.AddWithValue("@Province", locationCoordinateAndDescriptionInDatbase.Description.Region);
@@ -214,6 +214,7 @@ namespace LocationNames
                             dbTools.ConvertFromDBValString(reader["Country"]));
 
                         if (!locations.ContainsKey(locationCoordinate)) locations.Add(locationCoordinate, locationDescription);
+                        LocationCoordinateAndDescriptionUpdate(locationCoordinate, locationCoordinate, locationDescription);
                     }
                 }
             }
