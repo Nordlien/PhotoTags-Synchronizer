@@ -9176,8 +9176,8 @@ namespace PhotoTagsSynchronizer
                 {
                     using (new WaitCursor())
                     {
-                        formDatabaseCleaner.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
-                    
+                        formDatabaseCleaner.databaseUtilitiesSqliteMetadata = databaseUtilitiesSqliteMetadata;
+                        formDatabaseCleaner.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;                    
                     }
                     if (formDatabaseCleaner.ShowDialog() != DialogResult.Cancel)
                     {

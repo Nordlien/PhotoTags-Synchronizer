@@ -18,6 +18,7 @@ namespace PhotoTagsSynchronizer
     public partial class FormDatabaseCleaner : KryptonForm
     {
         public MetadataDatabaseCache DatabaseAndCacheMetadataExiftool;
+        public SqliteDatabaseUtilities databaseUtilitiesSqliteMetadata;
         //private MetadataDatabaseCache databaseAndCacheMetadataWindowsLivePhotoGallery;
         //private MetadataDatabaseCache databaseAndCacheMetadataMicrosoftPhotos;
         //public SqliteDatabaseUtilities DatabaseUtilitiesSqliteMetadata { get; set; }
@@ -86,6 +87,25 @@ namespace PhotoTagsSynchronizer
         private void DatabaseAndCacheMetadataExiftool_OnRecordReadToCacheParameter(object sender, ReadToCacheParameterRecordEventArgs e)
         {
             UpdateStatus("Reading: " + e.MetadataCount + " / " + e.KeywordCount + " / " + e.RegionCount);
+        }
+
+        private void kryptonButtonCheckDatabase_Click(object sender, EventArgs e)
+        {
+            //PRAGMA optimize;
+            //PRAGMA foreign_key_check;
+            //PRAGMA quick_check;
+            //"PRAGMA lock_status;";
+            UpdateStatus("Started: PRAGMA optimize;");
+            string result = databaseUtilitiesSqliteMetadata.PRAGMA_Run("PRAGMA optimize;");
+            UpdateStatus("Ended: PRAGMA optimize; " + result);
+
+            UpdateStatus("Started: PRAGMA foreign_key_check;");
+            result = databaseUtilitiesSqliteMetadata.PRAGMA_Run("PRAGMA foreign_key_check;");
+            UpdateStatus("Ended: PRAGMA foreign_key_check; " + result);
+
+            UpdateStatus("Started: PRAGMA quick_check;");
+            result = databaseUtilitiesSqliteMetadata.PRAGMA_Run("PRAGMA quick_check;");
+            UpdateStatus("Ended: PRAGMA quick_check; " + result);
         }
     }
 }

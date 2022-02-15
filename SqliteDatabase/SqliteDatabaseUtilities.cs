@@ -83,7 +83,7 @@ namespace SqliteDatabase
         public SqliteTransaction TransactionBeginSelect()
         {
             countTransactionSelect++;
-            return null;
+            //return null;
             return connectionDatabase.BeginTransaction();
         }
         #endregion
@@ -107,7 +107,7 @@ namespace SqliteDatabase
         #endif
         {
             countTransactionInsertsUpdates++;
-            return null;
+            //xreturn null;
             if (connectionDatabase.State == System.Data.ConnectionState.Open)
             {
                 countTransactionInsertsUpdates++;
@@ -202,6 +202,27 @@ namespace SqliteDatabase
             #endregion
         }
         #endregion
+
+        public string PRAGMA_Run(string sqlCommand)
+        {
+
+            string result = "";
+            #region PRAGMA lock_status;
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, connectionDatabase, null))
+            {
+                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        result += reader[0].ToString() + "\r\n";
+                        //reader[0].ToString();
+                        Debug.WriteLine("-----");
+                    }
+                }
+            }
+            #endregion
+            return result;
+        }
 
         #region Convert Object to Variable
 
