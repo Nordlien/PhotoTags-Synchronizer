@@ -29,7 +29,6 @@ namespace Thumbnails
             dbTools = databaseTools; 
         }
 
-        #region Thumbnail
         public Size UpsizeThumbnailSize { get; set; } = new Size(192, 192);
 
         #region Thumbnail - WriteThumbnail
@@ -312,8 +311,6 @@ namespace Thumbnails
             return needCreateThumbnail;
         }
         #endregion
-
-        #endregion 
 
         #region Thumbnail - Cache
         private static Dictionary<FileEntry, Image> thumbnailCache = new Dictionary<FileEntry, Image>();

@@ -16,7 +16,7 @@ namespace SqliteDatabase
 {
     public class CommonSqliteDataReader : IDisposable
     {
-
+        #region public CommonSqliteDataReader
 #if MonoSqlite
         Mono.Data.Sqlite.SqliteDataReader sqliteDataReader;
         public CommonSqliteDataReader(SqliteDataReader sqliteDataReader)
@@ -30,7 +30,9 @@ namespace SqliteDatabase
         {
             this.sqliteDataReader = sqliteDataReader;
         }
+        #endregion
 
+        #region Read
         public bool Read()
         {
             try
@@ -41,11 +43,13 @@ namespace SqliteDatabase
                 return false;
             }
         }
+        #endregion
 
-        public object this[string key]
-        {
-            get => sqliteDataReader[key];
-        }
+        #region 
+        public object this[string key] => sqliteDataReader[key];
+
+        public object this[int i] => sqliteDataReader[i];
+        #endregion
 
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
@@ -62,12 +66,16 @@ namespace SqliteDatabase
                 disposedValue = true;
             }
         }
+        #endregion
 
+        #region Destructor
         ~CommonSqliteDataReader()
         {
             Dispose(false);
         }
+        #endregion
 
+        #region Dispose
         public void Dispose()
         {
             Dispose(true);

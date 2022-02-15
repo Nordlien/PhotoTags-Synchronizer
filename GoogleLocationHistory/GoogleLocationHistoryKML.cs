@@ -28,6 +28,7 @@ namespace GoogleLocationHistory
             dbTools = databaseTools;
         }
 
+        #region ReadJsonAndWriteToCache
         public void ReadJsonAndWriteToCache(String filePath, String userName)
         {
             username = userName;
@@ -49,7 +50,9 @@ namespace GoogleLocationHistory
             }
             
         }
+        #endregion
 
+        #region ExtractPlacemarks
         private void ExtractPlacemarks(Feature feature)
         {
             // Is the passed in value a Placemark?
@@ -86,9 +89,9 @@ namespace GoogleLocationHistory
                 }
             }
         }
-
+        #endregion 
     }
 
-    
+
 }
 

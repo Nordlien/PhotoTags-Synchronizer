@@ -22,6 +22,7 @@ namespace GoogleLocationHistory
             dbTools = databaseTools;
         }
 
+        #region ReadJsonAndWriteToCache
         public GoogleLocationHistoryItems ReadJsonAndWriteToCache(String jsonPath, String userName, bool returnGoogleLocationHistoryItems)
         {
         
@@ -68,11 +69,9 @@ namespace GoogleLocationHistory
             return googleLocationHistory;
 
         }
-
-
-
+        #endregion 
     }
 
-    
+
 }
 
