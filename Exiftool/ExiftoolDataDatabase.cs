@@ -9,8 +9,6 @@ using Microsoft.Data.Sqlite;
 using System.Data.SQLite;
 #endif
 
-
-
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -28,16 +26,6 @@ namespace Exiftool
         public ExiftoolDataDatabase(SqliteDatabaseUtilities databaseTools)
         {
             dbTools = databaseTools;
-        }
-
-        public void TransactionBeginBatch()
-        {
-            dbTools.TransactionBeginBatch();
-        }
-
-        public void TransactionCommitBatch()
-        {
-            dbTools.TransactionCommitBatch(false);
         }
 
         #region Table: MediaExiftoolTags
@@ -75,9 +63,11 @@ namespace Exiftool
 
         public bool Write(ExiftoolData exifToolData)
         {
+            bool success = false;
+            var sqlTransaction = dbTools.TransactionBeginBatch();
             string sqlCommand =
-            "INSERT INTO MediaExiftoolTags (FileDirectory, FileName, FileDateModified, Region, Command, Parameter) " +
-            "Values (@FileDirectory, @FileName, @FileDateModified, @Region, @Command, @Parameter)";
+                "INSERT INTO MediaExiftoolTags (FileDirectory, FileName, FileDateModified, Region, Command, Parameter) " +
+                "Values (@FileDirectory, @FileName, @FileDateModified, @Region, @Command, @Parameter)";
             using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
                 //commandDatabase.Prepare();
@@ -87,22 +77,24 @@ namespace Exiftool
                 commandDatabase.Parameters.AddWithValue("@Region", exifToolData.Region);
                 commandDatabase.Parameters.AddWithValue("@Command", exifToolData.Command);
                 commandDatabase.Parameters.AddWithValue("@Parameter", exifToolData.Parameter);
-                
-                if (commandDatabase.ExecuteNonQuery() == -1)
+
+                if (commandDatabase.ExecuteNonQuery() != -1) success = true;
+                if (success)
                 {
                     Logger.Error("Delete MediaExiftoolTags data due to previous application crash for file: " + exifToolData.FullFilePath);
                     //Delete all extries due to crash.
                     DeleteFileEntryMediaExiftoolTags(new FileEntry(exifToolData.FileDirectory, exifToolData.FileName, exifToolData.FileDateModified));
                     commandDatabase.ExecuteNonQuery();
-                    return false;                     
                 }   // Execute the query
-                return true;
             }
+            dbTools.TransactionCommitBatch(sqlTransaction);
+            return success;
         }
 
         public int DeleteDirectoryAndHistory(string fileDirectory)
         {
             int recordAffected = 0;
+            var sqlTransaction = dbTools.TransactionBeginBatch();
             string sqlCommand = "DELETE FROM MediaExiftoolTags WHERE FileDirectory = @FileDirectory";
             using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
@@ -110,6 +102,7 @@ namespace Exiftool
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", fileDirectory);
                 recordAffected = commandDatabase.ExecuteNonQuery();      // Execute the query
             }
+            dbTools.TransactionCommitBatch(sqlTransaction);
             return recordAffected;
         }
 
@@ -122,6 +115,7 @@ namespace Exiftool
 
         public void DeleteFileEntriesFromMediaExiftoolTags(List<FileEntry> fileEntries)
         {
+            var sqlTransaction = dbTools.TransactionBeginBatch();
             string sqlCommand = "DELETE FROM MediaExiftoolTags " +
                 "WHERE FileDirectory = @FileDirectory " +
                 "AND FileName = @FileName " +
@@ -137,6 +131,7 @@ namespace Exiftool
                     commandDatabase.ExecuteNonQuery();      // Execute the query
                 }
             }
+            dbTools.TransactionCommitBatch(sqlTransaction);
         }
 
 

@@ -22,19 +22,19 @@ namespace SqliteDatabase
 
     public class SqliteDatabaseUtilities // : IDisposable
     {
-#if MonoSqlite
-        private SqliteTransaction transactionHandler = null;
-#elif MicrosoftDataSqlite
-        private SqliteTransaction transactionHandler = null;
-#else
-        private SQLiteTransaction transactionHandler = null;
-#endif
+//#if MonoSqlite
+//        private SqliteTransaction transactionHandler = null;
+//#elif MicrosoftDataSqlite
+//        private SqliteTransaction transactionHandler = null;
+//#else
+//        private SQLiteTransaction transactionHandler = null;
+//#endif
 
-        private int transactionCount = 0;
+        private int insertsAndUpdatesCount = 0;
         private bool transactionStarted = false;
         private Stopwatch transactionStopwatch = new Stopwatch();
         private Timer transactionTimer = new Timer();
-        private int numberOfTransactionbeforeCommit = 10000;
+        private int numberOfInsertsAndUpdatesBeforeCommit = 10000;
         private int elapsedMillisecondsBeforeCommit = 5000;
         private object transactionLock = new object();
         public static int NumberOfDecimals { get; set; } = 5;
@@ -45,7 +45,7 @@ namespace SqliteDatabase
 
         public SqliteDatabaseUtilities(DatabaseType type, int numberOfTransactionbeforeCommit, int elapsedMillisecondsBeforeCommit)
         {
-            this.numberOfTransactionbeforeCommit = numberOfTransactionbeforeCommit;
+            this.numberOfInsertsAndUpdatesBeforeCommit = numberOfTransactionbeforeCommit;
             this.elapsedMillisecondsBeforeCommit = elapsedMillisecondsBeforeCommit;
 
             if (type == DatabaseType.SqliteMicrosoftPhotos)
@@ -61,59 +61,82 @@ namespace SqliteDatabase
         #region Transaction Begin and Commit
 
 
-
-        public void TransactionBeginBatch()
+        #if MonoSqlite
+        public SqliteTransaction TransactionBeginBatch()
+        #elif MicrosoftDataSqlite
+        public SqliteTransaction TransactionBeginBatch()
+        #else
+        public SQLiteTransaction TransactionBeginBatch();
+        #endif
         {
             lock (transactionLock)
             {
-                if (transactionStarted) return;
-            
-                transactionCount = 0;
-                transactionStarted = true;
-                transactionStopwatch.Restart();
-                if (connectionDatabase.State == System.Data.ConnectionState.Open) transactionHandler = connectionDatabase.BeginTransaction();
-                transactionTimer.Interval = elapsedMillisecondsBeforeCommit / 2;
-                transactionTimer.Elapsed += TimerStatus_Elapsed;
+                //testTrancationConnnectionCount++;
+                //if (transactionStarted) 
+                //    return;
+
+                //insertsAndUpdatesCount = 0;
+                //try { 
+                //    if (connectionDatabase.State == System.Data.ConnectionState.Open) transactionHandler = connectionDatabase.BeginTransaction();
+                //    transactionStarted = true;
+                //    transactionStopwatch.Restart();
+                //    transactionTimer.Interval = elapsedMillisecondsBeforeCommit / 2;
+                //    transactionTimer.Elapsed += TimerStatus_Elapsed;
+                //}
+                //catch (Exception ex)
+                //{
+                //    throw new Exception(ex.Message);
+                //}
             }
+            if (connectionDatabase.State == System.Data.ConnectionState.Open) return connectionDatabase.BeginTransaction();
+            else return null;
         }
 
         private void TimerStatus_Elapsed(object sender, ElapsedEventArgs e)
         {
-            TransactionCommitBatch(false);
+            //TransactionCommitBatch(true);
         }
 
-        /*public void TransactionCommitBatch(bool forced)
+        #if MonoSqlite
+        public void TransactionCommitBatch(SqliteTransaction sqliteTransaction)
+        #elif MicrosoftDataSqlite
+        TransactionCommitBatch(SqliteTransaction sqliteTransaction)
+        #else
+        TransactionCommitBatch(SQLiteTransaction sqliteTransaction)
+        #endif
         {
-            TransactionCommitBatch(forced);
-        }*/
-        public void TransactionCommitBatch(bool forced)
-        {
-            lock (transactionLock)
-            {
-                if (transactionStarted)
-                {
-                
-                    if (forced || transactionCount++ > numberOfTransactionbeforeCommit || transactionStopwatch.ElapsedMilliseconds > elapsedMillisecondsBeforeCommit)
-                    {
-                        transactionStarted = false;
-                        if (transactionHandler.Connection.State == System.Data.ConnectionState.Open) transactionHandler.Commit();   
-                        
-                    }
-                }
-            }
+            sqliteTransaction.Commit();
+            //lock (transactionLock)
+            //{
+
+            //if (transactionStarted)
+            //{
+            //    testTrancationConnnectionCount--;
+            //    if (testTrancationConnnectionCount != 0)
+            //    {
+            //        //DEBUG
+            //    }
+
+            //    if (forced || insertsAndUpdatesCount++ > numberOfInsertsAndUpdatesBeforeCommit || transactionStopwatch.ElapsedMilliseconds > elapsedMillisecondsBeforeCommit)
+            //    {
+            //        try
+            //        {
+            //            if (transactionHandler.Connection.State == System.Data.ConnectionState.Open) transactionHandler.Commit();
+            //            transactionStarted = false;
+            //            transactionHandler = null;
+            //        }
+            //        catch (Exception ex)
+            //        {
+            //            throw new Exception(ex.Message);
+            //        }
+            //    }
+            //} 
+            //else
+            //{
+            //    //DEBUG
+            //}
+            //}
         }
-
-        public CommonDatabaseTransaction TransactionBegin(System.Data.IsolationLevel isolationLevel)
-        {
-            return new CommonDatabaseTransaction(connectionDatabase.BeginTransaction(isolationLevel));        
-        }
-
-        public void TransactionCommit(CommonDatabaseTransaction commonDatabaseTransaction)
-        {
-            if (transactionHandler != null && transactionHandler.Connection != null && transactionHandler.Connection.State == System.Data.ConnectionState.Open) commonDatabaseTransaction.DatabaseTransaction.Commit();    
-        }
-
-
 #endregion
 
         private string databasePath;
@@ -631,7 +654,7 @@ namespace SqliteDatabase
 #region Database Close
         public void DatabaseClose()
         {
-            TransactionCommitBatch(true);
+            //TransactionCommitBatch(true);
             try
             {
                 if (this.ConnectionDatabase.State == System.Data.ConnectionState.Open)

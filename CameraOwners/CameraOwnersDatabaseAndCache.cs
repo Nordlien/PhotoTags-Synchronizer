@@ -11,16 +11,6 @@ namespace CameraOwners
         
         private readonly SqliteDatabaseUtilities dbTools;
 
-        public void TransactionBeginBatch()
-        {
-            dbTools.TransactionBeginBatch();
-        }
-
-        public void TransactionCommitBatch()
-        {
-            dbTools.TransactionCommitBatch(false);
-        }
-
         public CameraOwnersDatabaseCache(SqliteDatabaseUtilities databaseTools)
         {
             dbTools = databaseTools;
@@ -102,6 +92,7 @@ namespace CameraOwners
             if (string.IsNullOrWhiteSpace(cameraOwner.Model)) cameraOwner.Model = CameraOwner.UnknownModel;
             //if (string.IsNullOrWhiteSpace(cameraOwner.Owner)) cameraOwner.Owner = CameraOwner.UnknownOwner;
 
+            var sqlTransaction = dbTools.TransactionBeginBatch();
             string sqlCommand =
                 "DELETE FROM CameraOwner WHERE " +
                 "CameraMake = @CameraMake AND CameraModel = @CameraModel";
@@ -125,6 +116,7 @@ namespace CameraOwners
                 commandDatabase.ExecuteNonQuery();      // Execute the query
             }
 
+            dbTools.TransactionCommitBatch(sqlTransaction);
             MakeCameraOwnersDirty();
         }
         #endregion 

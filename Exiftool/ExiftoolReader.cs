@@ -746,10 +746,8 @@ namespace Exiftool
                                             CheckTimeZone(metadata, (DateTime)exiftoolDataFileDateModified, ref metadata.errors);
                                             metadataReadFromExiftool.Add(metadata); //Add list of metadatas read
 
-                                            metadataDatabaseCache.TransactionBeginBatch();
                                             metadataDatabaseCache.Write(metadata);
-                                            metadataDatabaseCache.TransactionCommitBatch();
-
+                                            
                                             if (afterNewMediaFoundEvent != null) afterNewMediaFoundEvent.Invoke(new FileEntry(Path.Combine(metadata.FileDirectory, metadata.FileName), (DateTime)metadata.FileDateModified));
                                         }
                                         else
@@ -868,14 +866,12 @@ namespace Exiftool
 
                                 #region Log all Exiftool Region, Command and Paramters
                                 //Make the Command unique, due to exif delivers not unique valies 
-                                metadataExiftoolDatabase.TransactionBeginBatch();
                                 string tempCommad = exifToolData.Command;
                                 int uniqueNumber = 1;
                                 while (exiftoolDatas.Contains(exifToolData)) exifToolData.Command = tempCommad + "(" + (uniqueNumber++) + ")";
                                 exiftoolDatas.Add(exifToolData);    //Remover what's been saved to avoid 2 equal rows in database
                                 metadataExiftoolDatabase.Write(exifToolData);
                                 exifToolData.Command = tempCommad;  //Put original values back, after stores into database as Unique
-                                metadataExiftoolDatabase.TransactionCommitBatch();
                                 #endregion
 
                                 #region Find Composite Tag and Priority
@@ -1761,10 +1757,8 @@ namespace Exiftool
                                     CheckTimeZone(metadata, (DateTime)exiftoolDataFileDateModified, ref metadata.errors);
                                     metadataReadFromExiftool.Add(metadata);
 
-                                    metadataDatabaseCache.TransactionBeginBatch();
                                     metadataDatabaseCache.Write(metadata);
-                                    metadataDatabaseCache.TransactionCommitBatch();
-
+                                    
                                     if (afterNewMediaFoundEvent != null) afterNewMediaFoundEvent.Invoke(new FileEntry(Path.Combine(metadata.FileDirectory, metadata.FileName), (DateTime)metadata.FileDateModified));
                                 }
                             }

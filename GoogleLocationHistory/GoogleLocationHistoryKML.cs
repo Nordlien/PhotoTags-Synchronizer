@@ -33,10 +33,7 @@ namespace GoogleLocationHistory
             username = userName;
 
             googleLocationDatabaseCache = new GoogleLocationHistoryDatabaseCache(dbTools);
-            googleLocationDatabaseCache.TransactionBeginBatch();
-
             googleLocationDatabaseCache.WriteLocationHistorySource(userName, filePath); //Need check exist
-            googleLocationDatabaseCache.TransactionCommitBatch();
             
             TextReader reader = File.OpenText(filePath);
             KmlFile file = KmlFile.Load(reader);

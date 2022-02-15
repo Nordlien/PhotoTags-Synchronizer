@@ -20,10 +20,10 @@ namespace MicrosoftPhotos
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-        private SqliteDatabaseUtilities dbTools;
+        private SqliteDatabaseUtilities dbToolsMicrosoftReader;
         public MicrosoftPhotosReader()
         {
-            dbTools = new SqliteDatabaseUtilities(DatabaseType.SqliteMicrosoftPhotos, 1000, 100);
+            dbToolsMicrosoftReader = new SqliteDatabaseUtilities(DatabaseType.SqliteMicrosoftPhotos, 1000, 100);
         }
 
         public Metadata Read(MetadataBrokerType broker, string fullFilePath)
@@ -70,7 +70,7 @@ namespace MicrosoftPhotos
 
 
 
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(query, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(query, dbToolsMicrosoftReader.ConnectionDatabase))
             {
                 commandDatabase.Parameters.AddWithValue("@FileName", fileName);
 
@@ -79,18 +79,18 @@ namespace MicrosoftPhotos
 
                     while (reader.Read())
                     {
-                        String itemPath = dbTools.ConvertFromDBValString(reader["ItemPath"]);
+                        String itemPath = dbToolsMicrosoftReader.ConvertFromDBValString(reader["ItemPath"]);
                         itemPath = itemPath.Replace("/", "\\");
                         if (fileDirectory.EndsWith(itemPath, StringComparison.InvariantCulture) == true)
                         {
                             //File
                             metadata = new Metadata(broker);
-                            metadata.FileName = dbTools.ConvertFromDBValString(reader["Item_Filename"]);
+                            metadata.FileName = dbToolsMicrosoftReader.ConvertFromDBValString(reader["Item_Filename"]);
                             //metadata.FileDirectory = dbTools.ConvertFromDBValString(reader["ItemPath"]);
                             metadata.FileDirectory = fileDirectory; //Override path from database, it's not a complete folder path, missing root path
-                            metadata.FileSize = dbTools.ConvertFromDBValLong(reader["Item_FileSize"]);
-                            metadata.FileDateCreated = dbTools.ConvertSecoundsSince1600ToDateTime(reader["Item_DateCreated"], DateTimeKind.Utc);
-                            metadata.FileDateModified = dbTools.ConvertSecoundsSince1600ToDateTime(reader["Item_DateModified"], DateTimeKind.Utc);
+                            metadata.FileSize = dbToolsMicrosoftReader.ConvertFromDBValLong(reader["Item_FileSize"]);
+                            metadata.FileDateCreated = dbToolsMicrosoftReader.ConvertSecoundsSince1600ToDateTime(reader["Item_DateCreated"], DateTimeKind.Utc);
+                            metadata.FileDateModified = dbToolsMicrosoftReader.ConvertSecoundsSince1600ToDateTime(reader["Item_DateModified"], DateTimeKind.Utc);
 
                             if (metadata.FileDateCreated == null ||
                                 metadata.FileDateModified == null ||
@@ -114,29 +114,29 @@ namespace MicrosoftPhotos
                             }
 
                             //Personal
-                            metadata.PersonalTitle = dbTools.ConvertFromDBValString(reader["Item_Caption"]);
+                            metadata.PersonalTitle = dbToolsMicrosoftReader.ConvertFromDBValString(reader["Item_Caption"]);
                             //metaData.PersonalDescription = dbTools.ConvertFromDBValString(reader["Item_Caption"]);
-                            metadata.PersonalRating = dbTools.ConvertFromDBValByte(reader["Item_SimpleRating"]);
+                            metadata.PersonalRating = dbToolsMicrosoftReader.ConvertFromDBValByte(reader["Item_SimpleRating"]);
                             //metaData.PersonalAuthor = dbTools.ConvertFromDBValString(reader["Unknown"]);
-                            metadata.PersonalAlbum = dbTools.ConvertFromDBValString(reader["Album_Name"]);
+                            metadata.PersonalAlbum = dbToolsMicrosoftReader.ConvertFromDBValString(reader["Album_Name"]);
 
                             //Media
-                            metadata.MediaWidth = dbTools.ConvertFromDBValInt(reader["Item_Width"]);
-                            metadata.MediaHeight = dbTools.ConvertFromDBValInt(reader["Item_Height"]);
-                            metadata.MediaDateTaken = dbTools.ConvertSecoundsSince1600ToDateTime(reader["Item_DateTaken"], DateTimeKind.Local);
+                            metadata.MediaWidth = dbToolsMicrosoftReader.ConvertFromDBValInt(reader["Item_Width"]);
+                            metadata.MediaHeight = dbToolsMicrosoftReader.ConvertFromDBValInt(reader["Item_Height"]);
+                            metadata.MediaDateTaken = dbToolsMicrosoftReader.ConvertSecoundsSince1600ToDateTime(reader["Item_DateTaken"], DateTimeKind.Local);
 
                             //Camera
-                            metadata.CameraMake = dbTools.ConvertFromDBValString(reader["CameraManufacturer_Text"]);
-                            metadata.CameraModel = dbTools.ConvertFromDBValString(reader["CameraModel_Text"]);
+                            metadata.CameraMake = dbToolsMicrosoftReader.ConvertFromDBValString(reader["CameraManufacturer_Text"]);
+                            metadata.CameraModel = dbToolsMicrosoftReader.ConvertFromDBValString(reader["CameraModel_Text"]);
 
                             //Location
-                            metadata.LocationName = dbTools.ConvertFromDBValString(reader["Location_Name"]);
-                            metadata.LocationCountry = dbTools.ConvertFromDBValString(reader["LocationCountry_Name"]);
-                            metadata.LocationCity = dbTools.ConvertFromDBValString(reader["LocationDistrict_Name"]);
-                            metadata.LocationState = dbTools.ConvertFromDBValString(reader["LocationRegion_Name"]);
+                            metadata.LocationName = dbToolsMicrosoftReader.ConvertFromDBValString(reader["Location_Name"]);
+                            metadata.LocationCountry = dbToolsMicrosoftReader.ConvertFromDBValString(reader["LocationCountry_Name"]);
+                            metadata.LocationCity = dbToolsMicrosoftReader.ConvertFromDBValString(reader["LocationDistrict_Name"]);
+                            metadata.LocationState = dbToolsMicrosoftReader.ConvertFromDBValString(reader["LocationRegion_Name"]);
 
-                            metadata.LocationLatitude = dbTools.ConvertFromDBValFloat(reader["Item_Latitude"]);
-                            metadata.LocationLongitude = dbTools.ConvertFromDBValFloat(reader["Item_Longitude"]);
+                            metadata.LocationLatitude = dbToolsMicrosoftReader.ConvertFromDBValFloat(reader["Item_Latitude"]);
+                            metadata.LocationLongitude = dbToolsMicrosoftReader.ConvertFromDBValFloat(reader["Item_Longitude"]);
 
                             if (metadata.LocationLatitude == 0 && metadata.LocationLongitude == 0) //Due to bug in Microsoft Photos Gallery
                             {
@@ -174,7 +174,7 @@ namespace MicrosoftPhotos
                 "WHERE " +
                 "Item.Item_Filename LIKE @FileName";
 
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(query, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(query, dbToolsMicrosoftReader.ConnectionDatabase))
             {
                 commandDatabase.Parameters.AddWithValue("@FileName", fileName);
 
@@ -182,16 +182,16 @@ namespace MicrosoftPhotos
                 {                   
                     while (reader.Read())
                     {
-                        String itemPath = dbTools.ConvertFromDBValString(reader["ItemPath"]);
+                        String itemPath = dbToolsMicrosoftReader.ConvertFromDBValString(reader["ItemPath"]);
                         itemPath = itemPath.Replace("/", "\\");
                         if (fileDirectory.EndsWith(itemPath, StringComparison.InvariantCulture) == true)
                         {
                             RegionStructure region = new RegionStructure();
-                            region.Name = dbTools.ConvertFromDBValString(reader["Person_Name"]);
-                            region.AreaX = (float)dbTools.ConvertFromDBValFloat(reader["Face_Rect_Left"]);
-                            region.AreaY = (float)dbTools.ConvertFromDBValFloat(reader["Face_Rect_Top"]);
-                            region.AreaWidth = (float)dbTools.ConvertFromDBValFloat(reader["Face_Rect_Width"]);
-                            region.AreaHeight = (float)dbTools.ConvertFromDBValFloat(reader["Face_Rect_Height"]);
+                            region.Name = dbToolsMicrosoftReader.ConvertFromDBValString(reader["Person_Name"]);
+                            region.AreaX = (float)dbToolsMicrosoftReader.ConvertFromDBValFloat(reader["Face_Rect_Left"]);
+                            region.AreaY = (float)dbToolsMicrosoftReader.ConvertFromDBValFloat(reader["Face_Rect_Top"]);
+                            region.AreaWidth = (float)dbToolsMicrosoftReader.ConvertFromDBValFloat(reader["Face_Rect_Width"]);
+                            region.AreaHeight = (float)dbToolsMicrosoftReader.ConvertFromDBValFloat(reader["Face_Rect_Height"]);
                             region.Type = "Face";
                             region.RegionStructureType = RegionStructureTypes.MicrosoftPhotosDatabase;
                             metadata.PersonalRegionListAddIfNotExists(region);
@@ -220,7 +220,7 @@ namespace MicrosoftPhotos
                 "INNER JOIN Tag ON ItemTags1.ItemTags_TagId = Tag.Tag_Id " +
                 "WHERE Item.Item_Filename LIKE @FileName";
     
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(query, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(query, dbToolsMicrosoftReader.ConnectionDatabase))
             {
                 commandDatabase.Parameters.AddWithValue("@FileName", fileName);
 
@@ -228,13 +228,13 @@ namespace MicrosoftPhotos
                 {
                     while (reader.Read())
                     {
-                        String itemPath = dbTools.ConvertFromDBValString(reader["ItemPath"]);
+                        String itemPath = dbToolsMicrosoftReader.ConvertFromDBValString(reader["ItemPath"]);
                         itemPath = itemPath.Replace("/", "\\");
                         if (fileDirectory.EndsWith(itemPath, StringComparison.InvariantCulture) == true)
                         {
                             KeywordTag keywordTag = new KeywordTag(
-                                dbTools.ConvertFromDBValString(reader["TagVariant_Text"]), 
-                                (float)dbTools.ConvertFromDBValFloat(reader["ItemTags_Confidence"])
+                                dbToolsMicrosoftReader.ConvertFromDBValString(reader["TagVariant_Text"]), 
+                                (float)dbToolsMicrosoftReader.ConvertFromDBValFloat(reader["ItemTags_Confidence"])
                                 );
                             metadata.PersonalKeywordTagsAddIfNotExists(keywordTag);
                         }

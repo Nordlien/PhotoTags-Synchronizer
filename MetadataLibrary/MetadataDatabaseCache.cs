@@ -110,16 +110,7 @@ namespace MetadataLibrary
         {
             dbTools = databaseTools;
         }
-        public void TransactionBeginBatch()
-        {
-            dbTools.TransactionBeginBatch();
-        }
-
-        public void TransactionCommitBatch(bool force = false)
-        {
-            dbTools.TransactionCommitBatch(force);
-        }
-
+        
         #region Read (FileEntryBroker)
         /// <summary>
         /// Find metadata in database or cache and return the found metadata
@@ -778,10 +769,6 @@ namespace MetadataLibrary
         public void Write(Metadata metadata)
         {
             if (metadata == null) throw new Exception("Error in DatabaseCache. metaData is Null. Error in code");
-
-
-            dbTools.TransactionBeginBatch();
-
             MetadataCacheUpdate(metadata.FileEntryBroker, metadata);
 
             AddPersonalAlbumCache(metadata.PersonalAlbum);
@@ -793,6 +780,7 @@ namespace MetadataLibrary
             AddLocationNamesCache(metadata.LocationName);
             AddLocationStatesCache(metadata.LocationState);
 
+            var sqlTransaction = dbTools.TransactionBeginBatch();
             string sqlCommand =
                 "INSERT INTO MediaMetadata (" +
                     "Broker, FileDirectory, FileName, FileSize, " +
@@ -935,7 +923,7 @@ namespace MetadataLibrary
                 }
             }
 
-            dbTools.TransactionCommitBatch(false);
+            dbTools.TransactionCommitBatch(sqlTransaction);
         }
         #endregion
 
@@ -1052,7 +1040,7 @@ namespace MetadataLibrary
             
             MetadataRegionCacheUpdate(metadata, regionStructure);
 
-            dbTools.TransactionBeginBatch();
+            var sqlTransaction = dbTools.TransactionBeginBatch();
 
             #region Delete
             string sqlCommandDelete =
@@ -1127,7 +1115,7 @@ namespace MetadataLibrary
             }
             #endregion
 
-            dbTools.TransactionCommitBatch(false);
+            dbTools.TransactionCommitBatch(sqlTransaction);
         }
         #endregion
 
@@ -1135,7 +1123,8 @@ namespace MetadataLibrary
         public void Copy(string oldDirectory, string oldFilename, string newDirectory, string newFilename)
         {
             MetadataCacheRemove(oldDirectory, oldFilename);
-            dbTools.TransactionBeginBatch();
+
+            var sqlTransaction = dbTools.TransactionBeginBatch();
 
             string sqlCommand =
                 "INSERT INTO MediaMetadata (" +
@@ -1232,7 +1221,6 @@ namespace MetadataLibrary
                 commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
                 commandDatabase.ExecuteNonQuery();
             }
-            dbTools.TransactionCommitBatch(false);
 
             sqlCommand =
                 "INSERT INTO MediaThumbnail (FileDirectory, FileName, FileDateModified, Image) " +
@@ -1246,7 +1234,8 @@ namespace MetadataLibrary
                 commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
                 commandDatabase.ExecuteNonQuery();
             }
-            dbTools.TransactionCommitBatch(false);
+
+            dbTools.TransactionCommitBatch(sqlTransaction);
         }
         #endregion
 
@@ -1256,7 +1245,7 @@ namespace MetadataLibrary
             bool movedOk = true;
             MetadataCacheRemove(oldDirectory, oldFilename);
 
-            dbTools.TransactionBeginBatch();
+            var sqlTransaction = dbTools.TransactionBeginBatch();
 
             List<MetadataBrokerType> listOfBrokers = new List<MetadataBrokerType>();
             listOfBrokers.Add(MetadataBrokerType.ExifTool);
@@ -1360,7 +1349,7 @@ namespace MetadataLibrary
                     #endregion
                 }
             }
-            dbTools.TransactionCommitBatch(false);
+            dbTools.TransactionCommitBatch(sqlTransaction);
 
             return movedOk;
         }
@@ -1377,6 +1366,7 @@ namespace MetadataLibrary
         private int DeleteDirectoryMediaMetadata(MetadataBrokerType broker, string fileDirectory, DateTime? fileDateModified = null)
         {
             int rowsAffected = 0;
+            var sqlTransaction = dbTools.TransactionBeginBatch();
             string sqlCommand = "DELETE FROM MediaMetadata WHERE " +
                             "Broker = @Broker AND " +
                             "FileDirectory = @FileDirectory";
@@ -1391,6 +1381,7 @@ namespace MetadataLibrary
                 if (fileDateModified != null) commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileDateModified));
                 rowsAffected = commandDatabase.ExecuteNonQuery();      // Execute the query
             }
+            dbTools.TransactionCommitBatch(sqlTransaction);
             return rowsAffected;
         }
         #endregion
@@ -1406,6 +1397,7 @@ namespace MetadataLibrary
         private int DeleteDirectoryMediaPersonalRegions(MetadataBrokerType broker, string fileDirectory, DateTime? fileDateModified = null)
         {
             int rowsAffected = 0;
+            var sqlTransaction = dbTools.TransactionBeginBatch();
             string sqlCommand = "DELETE FROM MediaPersonalRegions WHERE " +
                             "Broker = @Broker AND " +
                             "FileDirectory = @FileDirectory";
@@ -1419,6 +1411,7 @@ namespace MetadataLibrary
                 if (fileDateModified != null) commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileDateModified));
                 rowsAffected = commandDatabase.ExecuteNonQuery();      // Execute the query
             }
+            dbTools.TransactionCommitBatch(sqlTransaction);
             return rowsAffected;
         }
         #endregion
@@ -1433,7 +1426,8 @@ namespace MetadataLibrary
         /// <returns></returns>
         private int DeleteDirectoryMediaPersonalKeywords(MetadataBrokerType broker, string fileDirectory, DateTime? fileDateModified = null)
         {
-            int rowsAffected = 0; 
+            int rowsAffected = 0;
+            var sqlTransaction = dbTools.TransactionBeginBatch();
             string sqlCommand = "DELETE FROM MediaPersonalKeywords WHERE " +
                             "Broker = @Broker AND " +
                             "FileDirectory = @FileDirectory";
@@ -1447,6 +1441,7 @@ namespace MetadataLibrary
                 if (fileDateModified != null) commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileDateModified));
                 rowsAffected = commandDatabase.ExecuteNonQuery();      // Execute the query
             }
+            dbTools.TransactionCommitBatch(sqlTransaction);
             return rowsAffected;
         }
         #endregion
@@ -1464,7 +1459,6 @@ namespace MetadataLibrary
             int rowsAffected = 0;
             int rowsAffectedTotal = 0;
             webScrapingPackageDates = null;
-            TransactionBeginBatch();
             if (dateTime == null) MetadataCacheRemove(fileDirectory);
             else MetadataCacheRemove(broker, fileDirectory, (DateTime)dateTime);
             rowsAffected += DeleteDirectoryMediaMetadata(broker, fileDirectory, dateTime);
@@ -1473,7 +1467,6 @@ namespace MetadataLibrary
             if (rowsAffected >= 0) rowsAffectedTotal += rowsAffected;
             rowsAffected += DeleteDirectoryMediaPersonalKeywords(broker, fileDirectory, dateTime);
             if (rowsAffected >= 0) rowsAffectedTotal += rowsAffected;
-            TransactionCommitBatch();
             return rowsAffectedTotal;
         }
         #endregion
@@ -1498,7 +1491,7 @@ namespace MetadataLibrary
             deleteRecordEventArgsInit.TableName = "Metadata";
             deleteRecordEventArgsInit.FileEntries = fileEntryBrokers.Count();
             OnDeleteRecord(this, deleteRecordEventArgsInit);
-
+            var sqlTransaction = dbTools.TransactionBeginBatch();
             string sqlCommand = "DELETE FROM MediaMetadata WHERE " +
                             "Broker = @Broker " +
                             "AND FileDirectory = @FileDirectory " +
@@ -1521,7 +1514,7 @@ namespace MetadataLibrary
                     commandDatabase.ExecuteNonQuery();      // Execute the query
                 }
             }
-
+            dbTools.TransactionCommitBatch(sqlTransaction);
             DeleteRecordEventArgs deleteRecordEventArgsEnd = new DeleteRecordEventArgs(deleteRecordEventArgsInit);
             deleteRecordEventArgsEnd.Aborted = true;
             if (OnDeleteRecord != null) OnDeleteRecord(this, deleteRecordEventArgsEnd);
@@ -1551,6 +1544,7 @@ namespace MetadataLibrary
                 return;
             }
 
+            var sqlTransaction = dbTools.TransactionBeginBatch();
             string sqlCommand = "DELETE FROM MediaPersonalRegions WHERE " +
                 "Broker = @Broker " +
                 "AND FileDirectory = @FileDirectory " +
@@ -1571,6 +1565,7 @@ namespace MetadataLibrary
                     commandDatabase.ExecuteNonQuery();      // Execute the query
                 }
             }
+            dbTools.TransactionCommitBatch(sqlTransaction);
         }
         #endregion
 
@@ -1598,6 +1593,7 @@ namespace MetadataLibrary
                 return;
             }
 
+            var sqlTransaction = dbTools.TransactionBeginBatch();
             string sqlCommand = "DELETE FROM MediaPersonalKeywords WHERE " +
                             "Broker = @Broker " +
                             "AND FileDirectory = @FileDirectory " +
@@ -1618,6 +1614,7 @@ namespace MetadataLibrary
                     commandDatabase.ExecuteNonQuery();      // Execute the query
                 }
             }
+            dbTools.TransactionCommitBatch(sqlTransaction);
         }
         #endregion
 

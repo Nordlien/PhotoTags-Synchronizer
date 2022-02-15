@@ -457,11 +457,9 @@ namespace PhotoTagsSynchronizer
                             dataGridViewGenericColumn.Metadata.CameraModel,
                             selectedCameraOwner);
 
-                        databaseAndCahceCameraOwner.TransactionBeginBatch();
                         databaseAndCahceCameraOwner.SaveCameraMakeModelAndOwner(cameraOwner);
                         databaseAndCahceCameraOwner.CameraMakeModelAndOwnerMakeDirty();
-                        databaseAndCahceCameraOwner.TransactionCommitBatch(); 
-
+                        
                         for (int columnIndex = 0; columnIndex < DataGridViewHandler.GetColumnCount(dataGridViewMap); columnIndex++)
                         {
                             DataGridViewGenericColumn gridViewGenericColumnCheck = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);

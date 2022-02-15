@@ -22,20 +22,11 @@ namespace Thumbnails
             get; 
             set; 
         } = false;
+
         private SqliteDatabaseUtilities dbTools;
         public ThumbnailPosterDatabaseCache(SqliteDatabaseUtilities databaseTools)
         {
-            dbTools = databaseTools;
-        }
-
-        public void TransactionBeginBatch()
-        {
-            dbTools.TransactionBeginBatch();
-        }
-
-        public void TransactionCommitBatch()
-        {
-            dbTools.TransactionCommitBatch(false);
+            dbTools = databaseTools; 
         }
 
         #region Thumbnail
@@ -46,6 +37,7 @@ namespace Thumbnails
         {
             //Don't do DeleteThumbnail(fileDirectory, fileName, size); //It create a lot overhead
             //Do to read thumbnail only write back what doesn't exist
+            var sqlTransaction = dbTools.TransactionBeginBatch();
             string sqlCommand =
                 "INSERT INTO MediaThumbnail (FileDirectory, FileName, FileDateModified,Image) " +
                 "Values (@FileDirectory, @FileName, @FileDateModified, @Image)";
@@ -58,6 +50,7 @@ namespace Thumbnails
                 commandDatabase.Parameters.AddWithValue("@Image", dbTools.ImageToByteArray(image));
                 commandDatabase.ExecuteNonQuery();      // Execute the query
             }
+            dbTools.TransactionCommitBatch(sqlTransaction);
             ThumbnailCacheUpdate(fileEntry, image);
         }
         #endregion
@@ -79,7 +72,7 @@ namespace Thumbnails
             bool movedOk = true;
             ThumnbailCacheRemove(oldDirectory, oldFilename);
 
-            dbTools.TransactionBeginBatch();
+            var sqlTransaction = dbTools.TransactionBeginBatch();
 
             string oldPath = Path.Combine(oldDirectory, oldFilename).ToLower();
             string newPath = Path.Combine(newDirectory, newFilename).ToLower();
@@ -101,7 +94,7 @@ namespace Thumbnails
                 }
             }
             
-            dbTools.TransactionCommitBatch(false);
+            dbTools.TransactionCommitBatch(sqlTransaction);
             return movedOk;
         }
         #endregion
@@ -187,6 +180,7 @@ namespace Thumbnails
         #region Thumbnail - DeleteThumbnail
         public void DeleteThumbnails(List<FileEntry> fileEntries)
         {
+            var sqlTransaction = dbTools.TransactionBeginBatch();
             string sqlCommand = "DELETE FROM MediaThumbnail WHERE FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
@@ -200,7 +194,7 @@ namespace Thumbnails
                     ThumnbailCacheRemove(fileEntry);
                 }
             }
-            
+            dbTools.TransactionCommitBatch(sqlTransaction);
         }
         #endregion 
 
@@ -209,6 +203,7 @@ namespace Thumbnails
         {
             int rowsAffected = 0;
             ThumbnailClearCache();
+            var sqlTransaction = dbTools.TransactionBeginBatch();
             string sqlCommand = "DELETE FROM MediaThumbnail WHERE FileDirectory = @FileDirectory";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
@@ -216,6 +211,7 @@ namespace Thumbnails
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", fileDirectory);
                 rowsAffected = commandDatabase.ExecuteNonQuery();      // Execute the query
             }
+            dbTools.TransactionCommitBatch(sqlTransaction);
             return rowsAffected;
         }
         #endregion 

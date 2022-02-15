@@ -104,7 +104,7 @@ namespace PhotoTagsSynchronizer
 
         private FileDateTimeReader fileDateTimeReader = null; 
         //Cache level
-        private int cacheNumberOfPosters = 10;
+        private int cacheNumberOfPosters;
         private bool cacheAllMetadatas = false;
         private bool cacheAllThumbnails = false;
         private bool cacheAllWebScraperDataSets = false;
@@ -336,7 +336,7 @@ namespace PhotoTagsSynchronizer
             FormSplash.UpdateStatus("Initialize database: connect...");
             try
             {
-                databaseUtilitiesSqliteMetadata = new SqliteDatabaseUtilities(DatabaseType.SqliteMetadataDatabase, 10000, 5000);
+                databaseUtilitiesSqliteMetadata = new SqliteDatabaseUtilities(DatabaseType.SqliteMetadataDatabase, 9999, 4999);
             }
             catch (Exception ex)
             {

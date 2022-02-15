@@ -67,7 +67,7 @@ namespace Exiftool
 
         public void Write(ExiftoolData exifToolOldValue, ExiftoolData exifToolNewValue, string warning)
         {
-            dbTools.TransactionBeginBatch();
+            var sqlTransaction = dbTools.TransactionBeginBatch();
 
             warning = "(Logged: " + DateTime.Now.ToString() + ")\r\n" + warning;
             string sqlRead =
@@ -148,12 +148,13 @@ namespace Exiftool
                 }
             }
 
-            dbTools.TransactionCommitBatch(false);
+            dbTools.TransactionCommitBatch(sqlTransaction);
         }
 
         public int DeleteDirectoryAndHistory(string fileDirectory)
         {
             int rowsAffected = 0;
+            var sqlTransaction = dbTools.TransactionBeginBatch();
             string sqlCommand = "DELETE FROM MediaExiftoolTagsWarning WHERE FileDirectory = @FileDirectory";
             using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
@@ -161,6 +162,7 @@ namespace Exiftool
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", fileDirectory);
                 rowsAffected = commandDatabase.ExecuteNonQuery();      // Execute the query
             }
+            dbTools.TransactionCommitBatch(sqlTransaction);
             return rowsAffected;
         }
 
@@ -172,6 +174,7 @@ namespace Exiftool
         }
         public void DeleteFileEntriesFromMediaExiftoolTagsWarning(List<FileEntry> fileEntries)
         {
+            var sqlTransaction = dbTools.TransactionBeginBatch();
             string sqlCommand = "DELETE FROM MediaExiftoolTagsWarning " +
                 "WHERE FileDirectory = @FileDirectory " +
                 "AND FileName = @FileName " +
@@ -187,6 +190,7 @@ namespace Exiftool
                     commandDatabase.ExecuteNonQuery();      // Execute the query
                 }
             }
+            dbTools.TransactionCommitBatch(sqlTransaction);
         }
 
         

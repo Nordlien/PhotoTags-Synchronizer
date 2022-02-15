@@ -32,7 +32,7 @@ namespace PhotoTagsSynchronizer
     public partial class FormConfig : KryptonForm
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
-
+        
         public MetadataReadPrioity MetadataReadPrioity { get; set; }
         public CameraOwnersDatabaseCache DatabaseAndCacheCameraOwner { get; set; }
         public LocationNameDatabaseAndLookUpCache DatabaseAndCacheLocationAddress { get; set; }
@@ -1061,7 +1061,6 @@ namespace PhotoTagsSynchronizer
         private void SaveMetadataCameraOwner(DataGridView dataGridView)
         {
             int rowCount = DataGridViewHandler.GetRowCount(dataGridView);
-            DatabaseAndCacheCameraOwner.TransactionBeginBatch();
             for (int row = 0; row < rowCount; row++) 
             {
                 DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, row);
@@ -1074,7 +1073,6 @@ namespace PhotoTagsSynchronizer
                 }
             }
             DatabaseAndCacheCameraOwner.CameraMakeModelAndOwnerMakeDirty();
-            DatabaseAndCacheCameraOwner.TransactionCommitBatch();
         }
         #endregion 
 
@@ -1342,8 +1340,6 @@ namespace PhotoTagsSynchronizer
         {
             int rowCount = DataGridViewHandler.GetRowCount(dataGridView);
 
-            DatabaseAndCacheCameraOwner.TransactionBeginBatch();
-
             float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
             float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
 
@@ -1372,7 +1368,6 @@ namespace PhotoTagsSynchronizer
                 }
             }
             DatabaseAndCacheCameraOwner.CameraMakeModelAndOwnerMakeDirty();
-            DatabaseAndCacheCameraOwner.TransactionCommitBatch();
         }
         #endregion 
 

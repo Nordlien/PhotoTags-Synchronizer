@@ -26,10 +26,8 @@ namespace GoogleLocationHistory
         {
         
             GoogleLocationHistoryDatabaseCache googleLocationDatabaseCache = new GoogleLocationHistoryDatabaseCache(dbTools);
-            googleLocationDatabaseCache.TransactionBeginBatch();
             googleLocationDatabaseCache.WriteLocationHistorySource(userName, jsonPath);
-            googleLocationDatabaseCache.TransactionCommitBatch();
-
+            
             GoogleLocationHistoryItems googleLocationHistory = null;
             if (returnGoogleLocationHistoryItems)
             {

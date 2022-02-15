@@ -1332,7 +1332,6 @@ namespace PhotoTagsSynchronizer
                 if (_metadataDataTotalMerged.Count > 0)
                 {
                     DateTime dateTimeSaveDate = DateTime.Now;
-                    DatabaseAndCacheMetadataExiftool.TransactionBeginBatch();
                     foreach (Metadata metadata in _metadataDataTotalMerged.Values)
                     {
                         writedCount++;
@@ -1342,8 +1341,7 @@ namespace PhotoTagsSynchronizer
                         metadata.FileSize = -1;
                         DatabaseAndCacheMetadataExiftool.WebScrapingWrite(metadata);
                     }
-                    DatabaseAndCacheMetadataExiftool.TransactionCommitBatch();
-
+                    
                     
 
                     WebScrapingDataSet webScrapingDataSet = new WebScrapingDataSet();
@@ -1512,7 +1510,6 @@ namespace PhotoTagsSynchronizer
 
             fastColoredTextBoxJavaScriptResult.Text = "Deleteing DataSet\r\n";
 
-            DatabaseAndCacheMetadataExiftool.TransactionBeginBatch();
             foreach (ListViewItem listViewItem in listViewDataSetDates.Items)
             {
                 if (listViewItem.Checked && listViewItem.Tag is DateTime)
@@ -1523,8 +1520,7 @@ namespace PhotoTagsSynchronizer
                     fastColoredTextBoxJavaScriptResult.Text += rowsAffected.ToString() + " rows deleted for date: " + packageDateTime.ToString() + "\r\n";
                 }
             }
-            DatabaseAndCacheMetadataExiftool.TransactionCommitBatch(true);
-
+            
             List<DateTime> webScrapingDataSetDates = DatabaseAndCacheMetadataExiftool.ListWebScraperDataSet(MetadataBrokerType.WebScraping, webScrapingName);
             _webScrapingDataSet = WebScrapingDataSetStatusRead(webScrapingDataSetDates);
             UpdatedWebScrapingDataSetList(_webScrapingDataSet);

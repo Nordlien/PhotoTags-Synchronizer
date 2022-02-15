@@ -1,4 +1,5 @@
 ﻿using ApplicationAssociations;
+using CameraOwners;
 using ColumnNamesAndWidth;
 using DataGridViewGeneric;
 using Exiftool;
@@ -11,6 +12,7 @@ using Manina.Windows.Forms;
 using MetadataLibrary;
 using MetadataPriorityLibrary;
 using Raccoom.Windows.Forms;
+using SqliteDatabase;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -9097,12 +9099,21 @@ namespace PhotoTagsSynchronizer
                 {
                     using (new WaitCursor())
                     {
+                        SqliteDatabaseUtilities databaseUtilitiesSqliteThread = new SqliteDatabaseUtilities(DatabaseType.SqliteMetadataDatabase, 9999, 4999);
+                        CameraOwnersDatabaseCache databaseAndCahceCameraOwnerThread;
+                        databaseAndCahceCameraOwnerThread = new CameraOwnersDatabaseCache(databaseUtilitiesSqliteThread);
+                        MetadataDatabaseCache databaseAndCacheMetadataExiftoolThread;
+                        databaseAndCacheMetadataExiftoolThread = new MetadataDatabaseCache(databaseUtilitiesSqliteThread);
+                        LocationNameDatabaseAndLookUpCache databaseLocationNameAndLookUpThread;
+                        databaseLocationNameAndLookUpThread = new LocationNameDatabaseAndLookUpCache(databaseUtilitiesSqliteThread, Properties.Settings.Default.ApplicationPreferredLanguages);
+
+
                         exiftoolReader.MetadataReadPrioity.ReadOnlyOnce();
                         config.MetadataReadPrioity = exiftoolReader.MetadataReadPrioity;
                         config.ThumbnailSizes = thumbnailSizes;
-                        config.DatabaseAndCacheCameraOwner = databaseAndCahceCameraOwner;
-                        config.DatabaseAndCacheLocationAddress = databaseLocationNameAndLookUp;
-                        config.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
+                        config.DatabaseAndCacheCameraOwner = databaseAndCahceCameraOwnerThread;
+                        config.DatabaseAndCacheLocationAddress = databaseLocationNameAndLookUpThread;
+                        config.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftoolThread;
                         config.Init();
                     }
                     if (config.ShowDialog() != DialogResult.Cancel)

@@ -28,22 +28,12 @@ namespace GoogleLocationHistory
             dbTools = databaseTools;
         }
 
-        public void TransactionBeginBatch()
-        {
-            dbTools.TransactionBeginBatch();
-        }
-
-        public void TransactionCommitBatch()
-        {
-            dbTools.TransactionCommitBatch(false);
-        }
-
-
         #region WriteLocationHistorySource
         public void WriteLocationHistorySource(string userAccount, string fileNamePath)
         {
             if (File.Exists(fileNamePath))
             {
+                var sqlTransaction = dbTools.TransactionBeginBatch();
                 string sqlCommand =
                     "INSERT INTO LocationSource (UserAccount, FileDirectory, FileName, FileDateModified, FileDateImported) " +
                     "Values (@UserAccount, @FileDirectory, @FileName, @FileDateModified, @FileDateImported)";
@@ -57,6 +47,7 @@ namespace GoogleLocationHistory
                     commandDatabase.Parameters.AddWithValue("@FileDateImported", dbTools.ConvertFromDateTimeToDBVal(DateTime.UtcNow));
                     commandDatabase.ExecuteNonQuery();      // Execute the query
                 }
+                dbTools.TransactionCommitBatch(sqlTransaction);
             }
         }
         #endregion

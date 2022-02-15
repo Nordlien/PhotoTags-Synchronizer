@@ -1005,10 +1005,8 @@ namespace PhotoTagsSynchronizer
                                     {
                                         if (fileEntryImage.Image != null)
                                         {
-                                            databaseAndCacheThumbnailPoster.TransactionBeginBatch();
                                             databaseAndCacheThumbnailPoster.WriteThumbnail(fileEntryImage, fileEntryImage.Image);
-                                            databaseAndCacheThumbnailPoster.TransactionCommitBatch();
-
+                                            
                                             if (wasThumnbailEmptyAndReloaded)
                                             {
                                                 DataGridView_UpdateColumnThumbnail_OnFileEntryAttribute(new FileEntryAttribute(fileEntryImage, FileEntryVersion.ExtractedNowUsingReadMediaFile), fileEntryImage.Image);
@@ -1375,9 +1373,7 @@ namespace PhotoTagsSynchronizer
                                                     }
                                                 }
                                                 catch { }
-                                                databaseAndCacheMetadataExiftool.TransactionBeginBatch();
                                                 databaseAndCacheMetadataExiftool.Write(metadataDummy);
-                                                databaseAndCacheMetadataExiftool.TransactionCommitBatch();
                                                 #endregion
 
                                                 #region Save Error, Update ImageListView Exiftool status
@@ -1445,9 +1441,7 @@ namespace PhotoTagsSynchronizer
                                                     Metadata metadataError = new Metadata(metadataUpdatedByUserCopy);
                                                     //metadataError.FileDateModified = DateTime.Now;
                                                     metadataError.Broker |= MetadataBrokerType.ExifToolWriteError;
-                                                    databaseAndCacheMetadataExiftool.TransactionBeginBatch();
                                                     databaseAndCacheMetadataExiftool.Write(metadataError);
-                                                    databaseAndCacheMetadataExiftool.TransactionCommitBatch();
                                                     #endregion
 
                                                     DataGridViewSetMetadataOnAllDataGridView(metadataRead);
@@ -2001,9 +1995,7 @@ namespace PhotoTagsSynchronizer
                                             if (metadataMicrosoftPhotos != null)
                                             {
                                                 //Windows Live Photo Gallery writes direclty to database from sepearte thread when found
-                                                database.TransactionBeginBatch();
                                                 database.Write(metadataMicrosoftPhotos);
-                                                database.TransactionCommitBatch();
                                                 AddQueueSaveToDatabaseRegionAndThumbnailLock(metadataMicrosoftPhotos);
 
                                                 FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(metadataMicrosoftPhotos.FileFullPath, (DateTime)metadataMicrosoftPhotos.FileDateModified, FileEntryVersion.ExtractedNowUsingMicrosoftPhotos);
@@ -2122,9 +2114,7 @@ namespace PhotoTagsSynchronizer
                                             metadataWindowsLivePhotoGallery = databaseSourceReader.Read(broker, fileEntry.FileFullPath);
                                             if (metadataWindowsLivePhotoGallery != null)
                                             {
-                                                database.TransactionBeginBatch();
                                                 database.Write(metadataWindowsLivePhotoGallery);
-                                                database.TransactionCommitBatch();
                                                 AddQueueSaveToDatabaseRegionAndThumbnailLock(metadataWindowsLivePhotoGallery);
 
                                                 FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(metadataWindowsLivePhotoGallery.FileFullPath, (DateTime)metadataWindowsLivePhotoGallery.FileDateModified, FileEntryVersion.ExtractedNowUsingWindowsLivePhotoGallery);
