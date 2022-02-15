@@ -32,6 +32,7 @@ namespace MicrosoftPhotos
             string fileDirectory = Path.GetDirectoryName(fullFilePath);
             string fileName = Path.GetFileName(fullFilePath);
 
+            #region SELECT 
             String query = "SELECT(WITH RECURSIVE " +
                 "under_alice(folderid, folderlevel, foldername) AS( " +
                 "VALUES(Item_ParentFolderId, 0, NULL) " +
@@ -67,8 +68,6 @@ namespace MicrosoftPhotos
                 "WHERE Item_Filename LIKE @FileName";
                 //"WHERE Item_Filename = '" + fullFilePath + "'";
                 //"AND ItemPath = '" + path + "%'";
-
-
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(query, dbToolsMicrosoftReader.ConnectionDatabase))
             {
@@ -149,8 +148,10 @@ namespace MicrosoftPhotos
                     
                 }
             }
+            #endregion
             if (metadata == null) return null;
 
+            #region SELECT
             query = "SELECT(WITH RECURSIVE " +
                 "under_alice(folderid, folderlevel, foldername) AS( " +
                 "VALUES(Item_ParentFolderId, 0, NULL) " +
@@ -201,7 +202,9 @@ namespace MicrosoftPhotos
                     }
                 }
             }
+            #endregion
 
+            #region SELECT 
             query = "SELECT (WITH RECURSIVE under_alice(folderid, folderlevel, foldername) AS(VALUES(Item_ParentFolderId, 0, NULL) " + 
                 "UNION ALL SELECT Folder_ParentFolderId, under_alice.folderlevel + 1 AS folderlevel, Folder_DisplayName " +
                 "FROM Folder JOIN under_alice " +
@@ -242,6 +245,8 @@ namespace MicrosoftPhotos
 
                 }
             }
+            #endregion 
+
             return metadata;
 
         }

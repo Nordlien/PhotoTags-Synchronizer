@@ -9099,21 +9099,12 @@ namespace PhotoTagsSynchronizer
                 {
                     using (new WaitCursor())
                     {
-                        SqliteDatabaseUtilities databaseUtilitiesSqliteThread = new SqliteDatabaseUtilities(DatabaseType.SqliteMetadataDatabase, 9999, 4999);
-                        CameraOwnersDatabaseCache databaseAndCahceCameraOwnerThread;
-                        databaseAndCahceCameraOwnerThread = new CameraOwnersDatabaseCache(databaseUtilitiesSqliteThread);
-                        MetadataDatabaseCache databaseAndCacheMetadataExiftoolThread;
-                        databaseAndCacheMetadataExiftoolThread = new MetadataDatabaseCache(databaseUtilitiesSqliteThread);
-                        LocationNameDatabaseAndLookUpCache databaseLocationNameAndLookUpThread;
-                        databaseLocationNameAndLookUpThread = new LocationNameDatabaseAndLookUpCache(databaseUtilitiesSqliteThread, Properties.Settings.Default.ApplicationPreferredLanguages);
-
-
                         exiftoolReader.MetadataReadPrioity.ReadOnlyOnce();
                         config.MetadataReadPrioity = exiftoolReader.MetadataReadPrioity;
                         config.ThumbnailSizes = thumbnailSizes;
-                        config.DatabaseAndCacheCameraOwner = databaseAndCahceCameraOwnerThread;
-                        config.DatabaseAndCacheLocationAddress = databaseLocationNameAndLookUpThread;
-                        config.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftoolThread;
+                        config.DatabaseAndCacheCameraOwner = databaseAndCahceCameraOwner;
+                        config.DatabaseAndCacheLocationAddress = databaseLocationNameAndLookUp;
+                        config.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
                         config.Init();
                     }
                     if (config.ShowDialog() != DialogResult.Cancel)

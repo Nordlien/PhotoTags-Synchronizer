@@ -39,7 +39,7 @@ namespace Exiftool
             #region SELECT FROM MediaExiftoolTags
             string sqlCommand = "SELECT FileDirectory, FileName, FileDateModified, Region, Command, Parameter FROM " +
                 "MediaExiftoolTags WHERE FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
-            using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
             {
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", Path.GetDirectoryName(file.FileFullPath));
@@ -77,7 +77,7 @@ namespace Exiftool
             string sqlCommand =
                 "INSERT INTO MediaExiftoolTags (FileDirectory, FileName, FileDateModified, Region, Command, Parameter) " +
                 "Values (@FileDirectory, @FileName, @FileDateModified, @Region, @Command, @Parameter)";
-            using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
             {
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", exifToolData.FileDirectory);
@@ -110,7 +110,7 @@ namespace Exiftool
 
             #region DELETE FROM MediaExiftoolTags 
             string sqlCommand = "DELETE FROM MediaExiftoolTags WHERE FileDirectory = @FileDirectory";
-            using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
             {
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", fileDirectory);
@@ -139,7 +139,7 @@ namespace Exiftool
                 "WHERE FileDirectory = @FileDirectory " +
                 "AND FileName = @FileName " +
                 "AND FileDateModified = @FileDateModified ";
-            using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
             {
                 foreach (FileEntry fileEntry in fileEntries)
                 {
@@ -170,7 +170,7 @@ namespace Exiftool
             #region SELECT DISTINCT FileDirectory, FileName, FileDateModified FROM MediaExiftoolTags 
             string sqlCommand = "SELECT DISTINCT FileDirectory, FileName, FileDateModified FROM MediaExiftoolTags " + 
                 "WHERE FileDirectory = @FileDirectory AND FileName = @FileName";
-            using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
             {
                 FileEntryAttribute newstFileEntryAttributeForEdit = null;
 

@@ -44,7 +44,7 @@ namespace Thumbnails
             string sqlCommand =
                 "INSERT INTO MediaThumbnail (FileDirectory, FileName, FileDateModified,Image) " +
                 "Values (@FileDirectory, @FileName, @FileDateModified, @Image)";
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
             {
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntry.Directory);
@@ -83,13 +83,14 @@ namespace Thumbnails
             if (string.Compare(oldPath, newPath, true) != 0)
             {
                 var sqlTransaction = dbTools.TransactionBeginBatch();
-
+                //CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction)
+                //CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
                 #region UPDATE MediaThumbnail 
                 string sqlCommand =
                            "UPDATE MediaThumbnail SET " +
                            "FileDirectory = @NewFileDirectory, FileName = @NewFileName " +
                            "WHERE FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
-                using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+                using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
                 {
                     //commandDatabase.Prepare();
                     //commandDatabase.Parameters.AddWithValue("@Broker", (int)broker);
@@ -124,7 +125,7 @@ namespace Thumbnails
             #region SELECT Image FROM MediaThumbnail 
             string sqlCommand =
                 "SELECT Image FROM MediaThumbnail WHERE FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
             {
                 foreach (FileEntry fileEntry in fileEntriesPutInCache)
                 {
@@ -163,7 +164,7 @@ namespace Thumbnails
             string sqlCommand = "SELECT FileDirectory, FileName, FileDateModified, Image FROM MediaThumbnail";
             if (!string.IsNullOrWhiteSpace(directory)) sqlCommand += " WHERE FileDirectory = @FileDirectory";
             
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
             {
                 if (!string.IsNullOrWhiteSpace(directory)) commandDatabase.Parameters.AddWithValue("@FileDirectory", directory);
                 
@@ -205,7 +206,7 @@ namespace Thumbnails
 
             #region DELETE FROM MediaThumbnail 
             string sqlCommand = "DELETE FROM MediaThumbnail WHERE FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
             {
                 foreach (FileEntry fileEntry in fileEntries)
                 {
@@ -233,7 +234,7 @@ namespace Thumbnails
             
             #region DELETE FROM MediaThumbnail 
             string sqlCommand = "DELETE FROM MediaThumbnail WHERE FileDirectory = @FileDirectory";
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
             {
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", fileDirectory);
@@ -257,7 +258,7 @@ namespace Thumbnails
             #region SELECT DISTINCT FileDirectory, FileName, FileDateModified FROM MediaThumbnail
             string sqlCommand = "SELECT DISTINCT FileDirectory, FileName, FileDateModified FROM MediaThumbnail " +
                 "WHERE FileDirectory = @FileDirectory AND FileName = @FileName";
-            using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
             {
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", fileDirectory);

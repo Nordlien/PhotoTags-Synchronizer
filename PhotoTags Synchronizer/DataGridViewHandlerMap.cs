@@ -323,40 +323,51 @@ namespace PhotoTagsSynchronizer
                 }
                 #endregion
 
-                #region Get Nearby Location Coordinate and Info in Database
-                locationCoordinateAndDescriptionInDatabase = DatabaseAndCacheLocationAddress.AddressLookupAndReverseGeocoder(
+                if (locationCoordinateSearch != null)
+                {
+                    #region Get Nearby Location Coordinate and Info in Database            
+                    locationCoordinateAndDescriptionInDatabase = DatabaseAndCacheLocationAddress.AddressLookupAndReverseGeocoder(
                     locationCoordinateSearch, locationAccuracyLatitude, locationAccuracyLongitude, onlyFromCache: onlyFromCache,
                     canReverseGeocoder: canReverseGeocoder, metadataLocationDescription: locationDescription, forceReloadUsingReverseGeocoder: false);
-                #endregion
+                    #endregion
 
-                #region createNewAccurateLocationUsingSearchLocation
-                if (createNewAccurateLocationUsingSearchLocation) 
-                {
-                    try
+                    #region createNewAccurateLocationUsingSearchLocation
+                    if (createNewAccurateLocationUsingSearchLocation)
                     {
-                        locationCoordinateAndDescriptionInDatabase = new LocationCoordinateAndDescription(locationCoordinateSearch, locationCoordinateAndDescriptionInDatabase.Description);
-                        DatabaseAndCacheLocationAddress.WriteLocationName(locationCoordinateSearch, locationCoordinateAndDescriptionInDatabase);
+                        try
+                        {
+                            locationCoordinateAndDescriptionInDatabase = new LocationCoordinateAndDescription(locationCoordinateSearch, locationCoordinateAndDescriptionInDatabase.Description);
+                            DatabaseAndCacheLocationAddress.WriteLocationName(locationCoordinateSearch, locationCoordinateAndDescriptionInDatabase);
 
-                        dataGridView.EndEdit();
-                        //Remove + sign
-                        AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagMediaCoordinates,
-                            ReadWriteAccess.AllowCellReadAndWrite), locationCoordinateSearch.ToString(), false);
-                    } catch 
-                    {
-                        //DEBUG
+                            dataGridView.EndEdit();
+                            //Remove + sign
+                            AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagMediaCoordinates,
+                                ReadWriteAccess.AllowCellReadAndWrite), locationCoordinateSearch.ToString(), false);
+                        }
+                        catch
+                        {
+                            //DEBUG
+                        }
+                        
                     }
-                }
-                #endregion
+                    #endregion
 
-                #region If Asked to Reload, reload from UsingReverseGeocoder
-                if (forceReloadUsingReverseGeocoder && locationCoordinateAndDescriptionInDatabase != null)
+                    #region If Asked to Reload, reload from UsingReverseGeocoder
+                    if (forceReloadUsingReverseGeocoder && locationCoordinateAndDescriptionInDatabase != null)
+                    {
+                        locationCoordinateAndDescriptionInDatabase = DatabaseAndCacheLocationAddress.AddressLookupAndReverseGeocoder(
+                            locationCoordinateSearch, locationAccuracyLatitude, locationAccuracyLongitude, onlyFromCache: false,
+                            canReverseGeocoder: true, metadataLocationDescription: null, forceReloadUsingReverseGeocoder: true);
+                    }
+                    #endregion
+                }
+                else
                 {
-                    locationCoordinateAndDescriptionInDatabase = DatabaseAndCacheLocationAddress.AddressLookupAndReverseGeocoder(
-                        locationCoordinateSearch, locationAccuracyLatitude, locationAccuracyLongitude, onlyFromCache: false,
-                        canReverseGeocoder: true, metadataLocationDescription: null, forceReloadUsingReverseGeocoder: true);
+                    #region No coordinates found
+                    AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagMediaCoordinates,
+                            ReadWriteAccess.AllowCellReadAndWrite), null, false);
+                    #endregion
                 }
-                #endregion
-
                 #region Show Tooltip when Use need Nearby coordinate
                 int rowIndex = DataGridViewHandler.GetRowIndex(dataGridView, headerMedia, tagMediaCoordinates);
                 if (locationCoordinateAndDescriptionInDatabase != null && locationCoordinateSearch != locationCoordinateAndDescriptionInDatabase.Coordinate)

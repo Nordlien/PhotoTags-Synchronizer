@@ -1,7 +1,7 @@
 ﻿#define MonoSqlite
 #define noMicrosoftDataSqlite
 #if DEBUG
-#define DEBUGSCAN
+#define noDEBUGSCAN
 #endif
 
 #if MonoSqlite
@@ -29,7 +29,7 @@ namespace SqliteDatabase
 
         public CommonSqliteCommand(string commandText, SqliteConnection connection, SqliteTransaction transaction)
         {
-            databaseCommand = new SqliteCommand(commandText, connection, transaction);            
+            databaseCommand = new SqliteCommand(commandText, connection); //, transaction);            
         }
 
         public CommonSqliteCommand(string commandText, SqliteConnection connection)

@@ -40,7 +40,7 @@ namespace CameraOwners
                 #region SELECT CameraMake, CameraModel, UserAccount FROM CameraOwner
                 string sqlCommand = "SELECT CameraMake, CameraModel, UserAccount FROM CameraOwner";
                 
-                using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+                using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
                 {
                     //commandDatabase.Prepare();
                     using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
@@ -72,7 +72,7 @@ namespace CameraOwners
             #region SELECT DISTINCT CameraMake, CameraModel, NULL as UserAccount FROM MediaMetadata
             string sqlCommand = "SELECT DISTINCT CameraMake, CameraModel, NULL as UserAccount FROM MediaMetadata";
 
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
             {
                 //commandDatabase.Prepare();
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
@@ -112,7 +112,7 @@ namespace CameraOwners
             string sqlCommand =
                 "DELETE FROM CameraOwner WHERE " +
                 "CameraMake = @CameraMake AND CameraModel = @CameraModel";
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
             {
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@CameraMake", cameraOwner.Make);
@@ -125,7 +125,7 @@ namespace CameraOwners
             sqlCommand =
                     "INSERT INTO CameraOwner (CameraMake, CameraModel, UserAccount) " +
                     "Values (@CameraMake, @CameraModel, @UserAccount)";
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
             {
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@CameraMake", cameraOwner.Make);
@@ -157,7 +157,7 @@ namespace CameraOwners
 
                 #region SELECT DISTINCT UserAccount FROM LocationSource
                 string sqlCommand = "SELECT DISTINCT UserAccount FROM LocationSource";
-                using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+                using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
                 {
                     //commandDatabase.Prepare();
                     commandDatabase.ExecuteNonQuery();      // Execute the query

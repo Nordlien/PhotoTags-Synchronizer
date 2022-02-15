@@ -22,13 +22,32 @@ namespace SqliteDatabase
 
     public class SqliteDatabaseUtilities // : IDisposable
     {
-//#if MonoSqlite
-//        private SqliteTransaction transactionHandler = null;
-//#elif MicrosoftDataSqlite
-//        private SqliteTransaction transactionHandler = null;
-//#else
-//        private SQLiteTransaction transactionHandler = null;
-//#endif
+        //#if MonoSqlite
+        //        private SqliteTransaction transactionHandler = null;
+        //#elif MicrosoftDataSqlite
+        //        private SqliteTransaction transactionHandler = null;
+        //#else
+        //        private SQLiteTransaction transactionHandler = null;
+        //#endif
+
+        private string databasePath;
+        private string databaseFile;
+
+        #if MonoSqlite
+        private SqliteConnection connectionDatabase;
+        #elif MicrosoftDataSqlite
+        private SqliteConnection connectionDatabase;
+        #else
+        private SQLiteConnection connectionDatabase;
+        #endif
+
+        #if MonoSqlite
+        public SqliteConnection ConnectionDatabase { get => connectionDatabase; set => connectionDatabase = value; }
+        #elif MicrosoftDataSqlite
+        public SqliteConnection ConnectionDatabase { get => connectionDatabase; set => connectionDatabase = value; }
+        #else
+        public SQLiteConnection ConnectionDatabase { get => connectionDatabase; set => connectionDatabase = value; }
+        #endif
 
         private int insertsAndUpdatesCount = 0;
         private bool transactionStarted = false;
@@ -42,7 +61,7 @@ namespace SqliteDatabase
         public const string SqliteDateTimeFormat = "INTEGER";
         public const string SqliteNumberFormat = "DECIMAL(10,5)";
 
-
+        #region SqliteDatabaseUtilities(DatabaseType type, int numberOfTransactionbeforeCommit, int elapsedMillisecondsBeforeCommit)
         public SqliteDatabaseUtilities(DatabaseType type, int numberOfTransactionbeforeCommit, int elapsedMillisecondsBeforeCommit)
         {
             this.numberOfInsertsAndUpdatesBeforeCommit = numberOfTransactionbeforeCommit;
@@ -57,21 +76,27 @@ namespace SqliteDatabase
                 ConnectSqliteCacheDatabase("metadata.db3");
             }
         }
+        #endregion
 
-        #region Transaction Begin and Commit
+        #region TransactionBeginSelect
         int countTransactionSelect = 0;
         public SqliteTransaction TransactionBeginSelect()
         {
             countTransactionSelect++;
-            return connectionDatabase.BeginTransaction(System.Data.IsolationLevel.ReadCommitted);
+            return null;
+            return connectionDatabase.BeginTransaction();
         }
+        #endregion
 
+        #region TransactionCommitSelect
         public void TransactionCommitSelect(SqliteTransaction sqliteTransaction)
         {
             countTransactionSelect--;
-            sqliteTransaction.Commit();
+            if (sqliteTransaction != null) sqliteTransaction.Commit();
         }
+        #endregion
 
+        #region TransactionBeginBatch
         int countTransactionInsertsUpdates = 0;
         #if MonoSqlite
         public SqliteTransaction TransactionBeginBatch()
@@ -82,17 +107,25 @@ namespace SqliteDatabase
         #endif
         {
             countTransactionInsertsUpdates++;
+            return null;
             if (connectionDatabase.State == System.Data.ConnectionState.Open)
-                return connectionDatabase.BeginTransaction(); // deferredLock);
-            else 
+            {
+                countTransactionInsertsUpdates++;
+                return connectionDatabase.BeginTransaction(); // System.Data.IsolationLevel.ReadUncommitted); // deferredLock);
+            }
+            else
+            {
                 return null;
+            }
         }
+        #endregion 
 
         private void TimerStatus_Elapsed(object sender, ElapsedEventArgs e)
         {
             //TransactionCommitBatch(true);
         }
 
+        #region TransactionCommitBatch
         #if MonoSqlite
         public void TransactionCommitBatch(SqliteTransaction sqliteTransaction)
         #elif MicrosoftDataSqlite
@@ -102,50 +135,32 @@ namespace SqliteDatabase
         #endif
         {
             countTransactionInsertsUpdates--;
-            sqliteTransaction.Commit();
+            if (sqliteTransaction != null) sqliteTransaction.Commit();
         }
         #endregion
 
-        private string databasePath;
-        private string databaseFile;
-
-#if MonoSqlite
-        private SqliteConnection connectionDatabase;
-#elif MicrosoftDataSqlite
-        private SqliteConnection connectionDatabase;
-#else
-        private SQLiteConnection connectionDatabase;
-#endif
-
-
-#if MonoSqlite
+        #region SqliteCommand
+        #if MonoSqlite
         public SqliteCommand SqliteCommand()
         {
             return new SqliteCommand(connectionDatabase);
         }
-#elif MicrosoftDataSqlite
+        #elif MicrosoftDataSqlite
         public SqliteCommand SqliteCommand()
         {
             return new SqliteCommand();
         }
-#else
+        #else
         public SQLiteCommand SqliteCommand()
         {
             return new SQLiteCommand(connectionDatabase);
         }
-#endif
+        #endif
 
+        #endregion
 
-#if MonoSqlite
-        public SqliteConnection ConnectionDatabase { get => connectionDatabase; set => connectionDatabase = value; }
-#elif MicrosoftDataSqlite
-        public SqliteConnection ConnectionDatabase { get => connectionDatabase; set => connectionDatabase = value; }
-#else
-        public SQLiteConnection ConnectionDatabase { get => connectionDatabase; set => connectionDatabase = value; }
-#endif
-
-        #region 
-        public string DebugConvertToSqliteCommand(string sqlComand, CommonSqliteCommand commandDatabase)
+        #region Debug - ConvertToSqliteCommand
+        public string DebugConvertToSqliteCommand(string sqlCommand, CommonSqliteCommand commandDatabase)
         {
             for (int parameterIndex = 0; parameterIndex < commandDatabase.Parameters.Count; parameterIndex++)
             {
@@ -162,10 +177,29 @@ namespace SqliteDatabase
                     //DEBUG MISSING
                 }
 
-                sqlComand = sqlComand.Replace(parameterName, value);
-
+                sqlCommand = sqlCommand.Replace(parameterName, value);
+                Debug.WriteLine(sqlCommand);
             }
-            return sqlComand;
+            return sqlCommand;
+        }
+        #endregion
+
+        #region Debug - PRAGMA lock_status;
+        public void Debug_PRAGMA_lock_status()
+        {
+            #region PRAGMA lock_status;
+            string sqlCommand = "PRAGMA lock_status;";
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, connectionDatabase, null))
+            {
+                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Debug.WriteLine("-----");
+                    }
+                }
+            }
+            #endregion
         }
         #endregion
 
@@ -312,8 +346,9 @@ namespace SqliteDatabase
             if (obj == null || obj == DBNull.Value) return (string)null;
             return (string)obj;             
         }
-#endregion
+        #endregion
 
+        #region GetMicrosoftPhotosDatabaseBackupFile
         public static string GetMicrosoftPhotosDatabaseBackupFile()
         {
             string databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PhotoTagsSynchronizer");
@@ -323,11 +358,14 @@ namespace SqliteDatabase
             }
             return Path.Combine(databasePath, "MediaDb.v1.sqlite");
         }
+        #endregion
 
+        #region GetMicrosoftPhotosDatabaseOriginalFile
         public static string GetMicrosoftPhotosDatabaseOriginalFile()
         {
             return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Packages\\Microsoft.Windows.Photos_8wekyb3d8bbwe\\LocalState\\MediaDb.v1.sqlite");
         }
+        #endregion
 
         #region Connect Microsoft Phontos Database
         public void ConnectMicrosoftPhotosDatabase()  //TODO Move this out of here
@@ -346,15 +384,16 @@ namespace SqliteDatabase
                 }
                 catch {}
 
-#if MonoSqlite
+                #if MonoSqlite
                 ConnectionDatabase = new SqliteConnection("Data Source=" +
-                        destinationFile + ";Version=3;Pooling=True;Synchronous=Off;Journal Mode=Off; Read Only = false;nolock=true;"
+                        destinationFile //+ ";Version=3;Pooling=True;Synchronous=Off;Journal Mode=None; Read Only = false;nolock=true;"
                         );           
-#elif MicrosoftDataSqlite
+                #elif MicrosoftDataSqlite
                 ConnectionDatabase = new SqliteConnection("Data Source=" + destinationFile); 
-#else
+                #else
                 ConnectionDatabase = new SQLiteConnection("Data Source=" + destinationFile);
-#endif
+                #endif
+                
                 Exception forwardException = null;
                 try
                 {
@@ -383,15 +422,9 @@ namespace SqliteDatabase
                 if (forwardException != null) throw forwardException;
             }
         }
-#endregion
+        #endregion
 
-        public void ConnectPhotoTagsSynchronizerDatabase()
-        {
-            ConnectSqliteCacheDatabase("metadata.db3");
-        }
-
-
-#region Connect and create Metadata Database
+        #region Connect and create Metadata Database
         public void ConnectSqliteCacheDatabase(string databasename)
         {
             // This is the query which will create a new table in our database file with three columns. An auto increment column called "ID", and two NVARCHAR type columns with the names "Key" and "Value"
@@ -409,27 +442,27 @@ namespace SqliteDatabase
             if (!doesDatabaseExist)
             {
 
-#if MonoSqlite
-                SqliteConnection.CreateFile(databaseFile);        // Create the file which will be hosting our database
-#elif MicrosoftDataSqlite
-                //SqliteConnection.CreateFile(databaseFile);        // Create the file which will be hosting our database
-#else
-                SQLiteConnection.CreateFile(databaseFile);        // Create the file which will be hosting our database
-#endif
+            #if MonoSqlite
+                            SqliteConnection.CreateFile(databaseFile);        // Create the file which will be hosting our database
+            #elif MicrosoftDataSqlite
+                            //SqliteConnection.CreateFile(databaseFile);        // Create the file which will be hosting our database
+            #else
+                            SQLiteConnection.CreateFile(databaseFile);        // Create the file which will be hosting our database
+            #endif
 
             }
 
-#if MonoSqlite
+            #if MonoSqlite
             connectionDatabase = new SqliteConnection("data source=" + databaseFile + ";Synchronous=OFF;Journal Mode=Memory;Cache Size=20000;"
                             //+ ";Version=3;Pooling=True;Synchronous=Off;Journal Mode=Off; Read Only = false;nolock=true;");
                             ); // + ";Version=3;Pooling=True;Synchronous=Off;Journal Mode=Off; Read Only = false;nolock=false;");
-#elif MicrosoftDataSqlite
+            #elif MicrosoftDataSqlite
             connectionDatabase = new SqliteConnection("data source=" + databaseFile + ";"); 
-#else
+            #else
             connectionDatabase = new SQLiteConnection("data source=" + databaseFile
                 + ";Version=3;Pooling=True;Synchronous=Off;Journal Mode=Memory;Read Only=False;Nolock=true;"
                 );
-#endif
+            #endif
 
             connectionDatabase.Open();                             // Open the connection to the database
 
@@ -641,7 +674,7 @@ namespace SqliteDatabase
         }
 #endregion
 
-#region Database Close
+        #region Database Close
         public void DatabaseClose()
         {
             //TransactionCommitBatch(true);
@@ -656,10 +689,6 @@ namespace SqliteDatabase
         {
             throw new NotImplementedException();
         }
-#endregion
-
-        
-
-
+        #endregion
     }
 }

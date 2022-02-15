@@ -39,7 +39,7 @@ namespace GoogleLocationHistory
                 string sqlCommand =
                     "INSERT INTO LocationSource (UserAccount, FileDirectory, FileName, FileDateModified, FileDateImported) " +
                     "Values (@UserAccount, @FileDirectory, @FileName, @FileDateModified, @FileDateImported)";
-                using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+                using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
                 {
                     //commandDatabase.Prepare();
                     commandDatabase.Parameters.AddWithValue("@UserAccount", userAccount);
@@ -63,7 +63,7 @@ namespace GoogleLocationHistory
             string sqlCommand =
                 "INSERT OR IGNORE INTO LocationHistory (UserAccount, TimeStamp, Latitude, Longitude, Altitude, Accuracy) " +
                 "Values (@UserAccount, @TimeStamp, @Latitude, @Longitude, @Altitude, @Accuracy) ";
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase)) //, sqlTransactionSelect))
             {
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@UserAccount", userAccount);
@@ -152,7 +152,7 @@ namespace GoogleLocationHistory
                 //"LIMIT 1";
 
             List<Metadata> metadatas = new List<Metadata>();
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
             {
                 //commandDatabase.Prepare();
                 if (locationDateTime != null) commandDatabase.Parameters.AddWithValue("@LocationDateTime", dbTools.ConvertFromDateTimeToDBVal(locationDateTime));
@@ -220,7 +220,7 @@ namespace GoogleLocationHistory
                 "TimeStamp >= @dateTimeFrom AND TimeStamp <= @dateTimeTo " +
                 "ORDER BY TimeStamp LIMIT 5000";
 
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
             {
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@dateTimeFrom", dbTools.ConvertFromDateTimeToDBVal(dateTimeFrom));
@@ -272,7 +272,7 @@ namespace GoogleLocationHistory
                 "TimeStamp >= @TimeStamp " +
                 "AND UserAccount = @UserAccount) " +
                 ")";
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
             {
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@TimeStamp", dbTools.ConvertFromDateTimeToDBVal(datetime));

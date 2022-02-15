@@ -211,7 +211,7 @@ namespace MetadataLibrary
                     "LocationAltitude, LocationLatitude, LocationLongitude, LocationDateTime, " +
                     "LocationName, LocationCountry, LocationCity, LocationState " +
                 "FROM MediaMetadata WHERE Broker = @Broker AND FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
             {
                 foreach (FileEntryBroker fileEntryBroker in fileEntryBrokersToPutInCache)
                 {
@@ -289,7 +289,7 @@ namespace MetadataLibrary
                    "SELECT " +
                        "Broker, FileDirectory, FileName, FileDateModified, Keyword, Confidence " +
                    "FROM MediaPersonalKeywords WHERE Broker = @Broker AND FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
             {
                 //commandDatabase.Prepare();
                 foreach (FileEntryBroker fileEntryBroker in fileEntryBrokersToPutInCache)
@@ -341,7 +341,7 @@ namespace MetadataLibrary
                     "Name, AreaX, AreaY, AreaWidth, AreaHeight, RegionStructureType, Thumbnail " +
                     "FROM MediaPersonalRegions " +
                     "WHERE Broker = @Broker AND FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
             {
                 //commandDatabase.Prepare();
 
@@ -550,7 +550,7 @@ namespace MetadataLibrary
 
             ReadToCacheParameterRecordEventArgs readRecordEventArgs = new ReadToCacheParameterRecordEventArgs();
 
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
             {
                 //commandDatabase.Prepare();
                 if (metadataBrokerType != MetadataBrokerType.Empty) commandDatabase.Parameters.AddWithValue("@Broker", metadataBrokerType);
@@ -625,7 +625,7 @@ namespace MetadataLibrary
                        "Broker, FileDirectory, FileName, FileDateModified, Keyword, Confidence " +
                    "FROM MediaPersonalKeywords" + sqlWhere;
 
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
             {
                 //commandDatabase.Prepare();
                 if (metadataBrokerType != MetadataBrokerType.Empty) commandDatabase.Parameters.AddWithValue("@Broker", metadataBrokerType);
@@ -686,7 +686,7 @@ namespace MetadataLibrary
                     "Broker, FileDirectory, FileName, FileDateModified, Type, " +
                     "Name, AreaX, AreaY, AreaWidth, AreaHeight, RegionStructureType, Thumbnail " +
                     "FROM MediaPersonalRegions " + sqlWhere;
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
             {
                 //commandDatabase.Prepare();
                 if (metadataBrokerType != MetadataBrokerType.Empty) commandDatabase.Parameters.AddWithValue("@Broker", metadataBrokerType);
@@ -810,7 +810,7 @@ namespace MetadataLibrary
                     "@LocationName, @LocationCountry, @LocationCity, @LocationState, @RowChangedDated" +
                 ")";
 
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
             {
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)metadata.Broker);
@@ -871,7 +871,7 @@ namespace MetadataLibrary
                 ") Values (" +
                     "@Broker, @FileDirectory, @FileName, @FileDateModified, @Keyword, @Confidence)";
 
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
             {
                 //commandDatabase.Prepare();
                 foreach (KeywordTag tag in metadata.PersonalKeywordTags)
@@ -903,7 +903,7 @@ namespace MetadataLibrary
                     "@Broker, @FileDirectory, @FileName, @FileDateModified, @FileDateCreated, @Type, @Name, " +
                     "@AreaX, @AreaY, @AreaWidth, @AreaHeight, @RegionStructureType, @Thumbnail " +
                     ")";
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
             {
                 //commandDatabase.Prepare();
                 foreach (RegionStructure region in metadata.PersonalRegionList)
@@ -1010,7 +1010,7 @@ namespace MetadataLibrary
 
             #region SELECT Thumbnail FROM MediaPersonalRegions
             string sqlCommand = "SELECT Thumbnail FROM MediaPersonalRegions WHERE Name = @Name AND Thumbnail IS NOT NULL ORDER BY FileDateModified LIMIT 1";
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
             {
                 if (!string.IsNullOrWhiteSpace(name)) commandDatabase.Parameters.AddWithValue("@Name", name);
 
@@ -1064,7 +1064,7 @@ namespace MetadataLibrary
                     "AND Round(AreaHeight, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") = Round(@AreaHeight, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") " +
                     "AND RegionStructureType = @RegionStructureType";
 
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommandDelete, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommandDelete, dbTools.ConnectionDatabase, sqlTransaction))
             {
                 if (regionStructure.Thumbnail.Height == 1 || regionStructure.Thumbnail.Width == 1) regionStructure.Thumbnail = null;
                 
@@ -1095,7 +1095,7 @@ namespace MetadataLibrary
                     "@AreaX, @AreaY, @AreaWidth, @AreaHeight, @RegionStructureType, @Thumbnail " +
                     ")";
 
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommandInsert, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommandInsert, dbTools.ConnectionDatabase, sqlTransaction))
             {
                 //commandDatabase.Prepare();
                 
@@ -1153,7 +1153,7 @@ namespace MetadataLibrary
                      "LocationName, LocationCountry, LocationCity, LocationState, RowChangedDated " +
                  "FROM MediaMetadata WHERE FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
 
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
             {
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
@@ -1172,7 +1172,7 @@ namespace MetadataLibrary
                     "Broker, @NewFileDirectory, @NewFileName, FileDateModified, Keyword, Confidence " +
                     "FROM MediaPersonalKeywords WHERE FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
 
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
             {
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
@@ -1193,7 +1193,7 @@ namespace MetadataLibrary
                     "Name, AreaX, AreaY, AreaWidth, AreaHeight, RegionStructureType, Thumbnail " +
                     "FROM MediaPersonalRegions WHERE FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
 
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
             {
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
@@ -1210,7 +1210,7 @@ namespace MetadataLibrary
                 "SELECT @NewFileDirectory, @NewFileName, FileDateModified, Region, Command, Parameter FROM " +
                 "MediaExiftoolTags WHERE FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
 
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
             {
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
@@ -1228,7 +1228,7 @@ namespace MetadataLibrary
                 "SELECT @NewFileDirectory, @NewFileName, FileDateModified, OldRegion, OldCommand, OldParameter, NewRegion, NewCommand, NewParameter, Warning FROM " +
                     "MediaExiftoolTagsWarning WHERE FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
 
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
             {
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
@@ -1243,7 +1243,7 @@ namespace MetadataLibrary
             sqlCommand =
                 "INSERT INTO MediaThumbnail (FileDirectory, FileName, FileDateModified, Image) " +
                 "SELECT @NewFileDirectory, @NewFileName, FileDateModified, Image FROM MediaThumbnail WHERE FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
             {
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
@@ -1292,7 +1292,7 @@ namespace MetadataLibrary
                         "FileDirectory = @NewFileDirectory, FileName = @NewFileName " +
                         "WHERE Broker = @Broker AND FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
 
-                    using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+                    using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
                     {
                         //commandDatabase.Prepare();
                         commandDatabase.Parameters.AddWithValue("@Broker", (int)broker);
@@ -1310,7 +1310,7 @@ namespace MetadataLibrary
                         "FileDirectory = @NewFileDirectory, FileName = @NewFileName " +
                         "WHERE Broker = @Broker AND FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
 
-                    using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+                    using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
                     {
                         //commandDatabase.Prepare();
                         commandDatabase.Parameters.AddWithValue("@Broker", (int)broker);
@@ -1330,7 +1330,7 @@ namespace MetadataLibrary
                             "UPDATE MediaPersonalRegions SET " +
                             "FileDirectory = @NewFileDirectory, FileName = @NewFileName " +
                             "WHERE Broker = @Broker AND FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
-                        using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+                        using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
                         {
                             //commandDatabase.Prepare();
                             commandDatabase.Parameters.AddWithValue("@Broker", (int)broker);
@@ -1347,7 +1347,7 @@ namespace MetadataLibrary
                             "UPDATE MediaExiftoolTags SET " +
                             "FileDirectory = @NewFileDirectory, FileName = @NewFileName " +
                             "WHERE FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
-                        using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+                        using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
                         {
                             //commandDatabase.Prepare();
                             //commandDatabase.Parameters.AddWithValue("@Broker", (int)broker);
@@ -1364,7 +1364,7 @@ namespace MetadataLibrary
                             "UPDATE MediaExiftoolTagsWarning SET " +
                             "FileDirectory = @NewFileDirectory, FileName = @NewFileName " +
                             "WHERE FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
-                        using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+                        using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
                         {
                             //commandDatabase.Prepare();
                             //commandDatabase.Parameters.AddWithValue("@Broker", (int)broker);
@@ -1408,7 +1408,7 @@ namespace MetadataLibrary
 
             if (fileDateModified != null) sqlCommand += " AND FileDateModified = @FileDateModified";
 
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
             {
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", broker);
@@ -1442,7 +1442,7 @@ namespace MetadataLibrary
                             "FileDirectory = @FileDirectory";
             if (fileDateModified != null) sqlCommand += " AND FileDateModified = @FileDateModified";
 
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
             {
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", broker);
@@ -1476,7 +1476,7 @@ namespace MetadataLibrary
                             "FileDirectory = @FileDirectory";
             if (fileDateModified != null) sqlCommand += " AND FileDateModified = @FileDateModified";
 
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
             {
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", broker);
@@ -1545,7 +1545,7 @@ namespace MetadataLibrary
                             "AND FileDirectory = @FileDirectory " +
                             "AND FileName = @FileName " +
                             "AND FileDateModified = @FileDateModified";
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
             {
                 foreach (FileEntryBroker fileEntryBroker in fileEntryBrokers)
                 {
@@ -1603,7 +1603,7 @@ namespace MetadataLibrary
                 "AND FileDirectory = @FileDirectory " +
                 "AND FileName = @FileName " +
                 "AND FileDateModified = @FileDateModified";
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
             {
                 foreach (FileEntryBroker fileEntryBroker in fileEntryBrokers)
                 {
@@ -1658,7 +1658,7 @@ namespace MetadataLibrary
                             "AND FileDirectory = @FileDirectory " +
                             "AND FileName = @FileName " +
                             "AND FileDateModified = @FileDateModified";
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
             {
                 foreach (FileEntryBroker fileEntryBroker in fileEntryBrokers)
                 {
@@ -1721,7 +1721,7 @@ namespace MetadataLibrary
             string sqlCommand = @"SELECT DISTINCT FileDateModified FROM MediaMetadata 
                     WHERE Broker = @Broker AND FileDirectory = @FileDirectory ORDER BY FileDateModified DESC";
                 
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
             {
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)broker);
@@ -1758,7 +1758,7 @@ namespace MetadataLibrary
                 AND FileDirectory = @FileDirectory 
                 AND FileDateModified = @FileDateModified";
             
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
             {
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)broker);
@@ -1829,7 +1829,7 @@ namespace MetadataLibrary
                     "FileDirectory = @FileDirectory AND " +
                     "FileName = @FileName";
 
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
             {
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)broker);
@@ -1919,7 +1919,7 @@ namespace MetadataLibrary
                     "FileDirectory = @FileDirectory AND " +
                     "FileName = @FileName";
 
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
             {
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)broker);
@@ -2211,7 +2211,7 @@ namespace MetadataLibrary
 
             var sqlTransactionSelect = dbTools.TransactionBeginSelect();
 
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
             {
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)broker);
@@ -2297,7 +2297,7 @@ namespace MetadataLibrary
             string sqlCommand =
                 "SELECT DISTINCT PersonalAlbum FROM MediaMetadata WHERE Broker = @Broker";
 
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
             {
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
@@ -2343,7 +2343,7 @@ namespace MetadataLibrary
             string sqlCommand =
                 "SELECT DISTINCT PersonalDescription FROM MediaMetadata WHERE Broker = @Broker";
 
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
             {
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
@@ -2389,7 +2389,7 @@ namespace MetadataLibrary
             string sqlCommand =
                 "SELECT DISTINCT PersonalTitle FROM MediaMetadata WHERE Broker = @Broker";
 
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
             {
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
@@ -2435,7 +2435,7 @@ namespace MetadataLibrary
             string sqlCommand =
                 "SELECT DISTINCT PersonalComments FROM MediaMetadata WHERE Broker = @Broker";
 
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
             {
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
@@ -2481,7 +2481,7 @@ namespace MetadataLibrary
             string sqlCommand =
                 "SELECT DISTINCT LocationName FROM MediaMetadata WHERE Broker = @Broker";
 
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
             {
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
@@ -2527,7 +2527,7 @@ namespace MetadataLibrary
             string sqlCommand =
                 "SELECT DISTINCT LocationCity FROM MediaMetadata WHERE Broker = @Broker";
 
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
             {
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
@@ -2573,7 +2573,7 @@ namespace MetadataLibrary
             string sqlCommand =
                 "SELECT DISTINCT LocationState FROM MediaMetadata WHERE Broker = @Broker";
 
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
             {
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
@@ -2619,7 +2619,7 @@ namespace MetadataLibrary
             string sqlCommand =
                 "SELECT DISTINCT LocationCountry FROM MediaMetadata WHERE Broker = @Broker";
 
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
             {
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
@@ -2649,7 +2649,7 @@ namespace MetadataLibrary
                 "Round(LocationLatitude, 5) AS LocationLatitude, " +
                 "Round(LocationLongitude, 5) AS LocationLongitude, " +
                 "LocationName, LocationCity, LocationState, LocationCountry FROM MediaMetadata";
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
             {
                 //commandDatabase.Prepare();
 
@@ -2709,7 +2709,7 @@ namespace MetadataLibrary
             string sqlCommand =
                 "SELECT Name, Count(1) AS CountNames FROM MediaPersonalRegions WHERE Broker = @Broker GROUP BY Name";
 
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
             {
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
@@ -2935,7 +2935,7 @@ namespace MetadataLibrary
                 //"GROUP BY Name ";
             }
 
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
             {
                 //commandDatabase.Prepare();
                 if (metadataBrokerType != MetadataBrokerType.Empty) commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
