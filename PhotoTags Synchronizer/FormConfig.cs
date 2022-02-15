@@ -181,7 +181,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-
         #region Combobox Helper
 
         #region Combobox - Select Best Match Combobox

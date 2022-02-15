@@ -37,7 +37,10 @@ namespace Thumbnails
         {
             //Don't do DeleteThumbnail(fileDirectory, fileName, size); //It create a lot overhead
             //Do to read thumbnail only write back what doesn't exist
+
             var sqlTransaction = dbTools.TransactionBeginBatch();
+
+            #region INSERT INTO MediaThumbnail
             string sqlCommand =
                 "INSERT INTO MediaThumbnail (FileDirectory, FileName, FileDateModified,Image) " +
                 "Values (@FileDirectory, @FileName, @FileDateModified, @Image)";
@@ -50,7 +53,10 @@ namespace Thumbnails
                 commandDatabase.Parameters.AddWithValue("@Image", dbTools.ImageToByteArray(image));
                 commandDatabase.ExecuteNonQuery();      // Execute the query
             }
+            #endregion
+
             dbTools.TransactionCommitBatch(sqlTransaction);
+            
             ThumbnailCacheUpdate(fileEntry, image);
         }
         #endregion
@@ -72,12 +78,13 @@ namespace Thumbnails
             bool movedOk = true;
             ThumnbailCacheRemove(oldDirectory, oldFilename);
 
-            var sqlTransaction = dbTools.TransactionBeginBatch();
-
             string oldPath = Path.Combine(oldDirectory, oldFilename).ToLower();
             string newPath = Path.Combine(newDirectory, newFilename).ToLower();
             if (string.Compare(oldPath, newPath, true) != 0)
             {
+                var sqlTransaction = dbTools.TransactionBeginBatch();
+
+                #region UPDATE MediaThumbnail 
                 string sqlCommand =
                            "UPDATE MediaThumbnail SET " +
                            "FileDirectory = @NewFileDirectory, FileName = @NewFileName " +
@@ -92,9 +99,12 @@ namespace Thumbnails
                     commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
                     if (commandDatabase.ExecuteNonQuery() == -1) movedOk = false;
                 }
+                #endregion
+
+                dbTools.TransactionCommitBatch(sqlTransaction);
             }
             
-            dbTools.TransactionCommitBatch(sqlTransaction);
+            
             return movedOk;
         }
         #endregion
@@ -109,6 +119,9 @@ namespace Thumbnails
                 if (image == null) fileEntriesPutInCache.Add(fileEntryToCheckInCache);
             }
 
+            var sqlTransactionSelect = dbTools.TransactionBeginSelect();
+            
+            #region SELECT Image FROM MediaThumbnail 
             string sqlCommand =
                 "SELECT Image FROM MediaThumbnail WHERE FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
@@ -131,7 +144,9 @@ namespace Thumbnails
                     }
                 }
             }
+            #endregion
 
+            dbTools.TransactionCommitSelect(sqlTransactionSelect);
         }
         #endregion 
 
@@ -142,6 +157,9 @@ namespace Thumbnails
             if (readFolderToCacheCached.Contains(directory)) return;
             readFolderToCacheCached.Add(directory);
 
+            var sqlTransactionSelect = dbTools.TransactionBeginSelect();
+
+            #region SELECT FileDirectory, FileName, FileDateModified, Image FROM MediaThumbnail
             string sqlCommand = "SELECT FileDirectory, FileName, FileDateModified, Image FROM MediaThumbnail";
             if (!string.IsNullOrWhiteSpace(directory)) sqlCommand += " WHERE FileDirectory = @FileDirectory";
             
@@ -174,6 +192,9 @@ namespace Thumbnails
                     }
                 }
             }
+            #endregion
+
+            dbTools.TransactionCommitSelect(sqlTransactionSelect);
         }
         #endregion
 
@@ -181,6 +202,8 @@ namespace Thumbnails
         public void DeleteThumbnails(List<FileEntry> fileEntries)
         {
             var sqlTransaction = dbTools.TransactionBeginBatch();
+
+            #region DELETE FROM MediaThumbnail 
             string sqlCommand = "DELETE FROM MediaThumbnail WHERE FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
@@ -194,6 +217,8 @@ namespace Thumbnails
                     ThumnbailCacheRemove(fileEntry);
                 }
             }
+            #endregion
+
             dbTools.TransactionCommitBatch(sqlTransaction);
         }
         #endregion 
@@ -203,7 +228,10 @@ namespace Thumbnails
         {
             int rowsAffected = 0;
             ThumbnailClearCache();
+            
             var sqlTransaction = dbTools.TransactionBeginBatch();
+            
+            #region DELETE FROM MediaThumbnail 
             string sqlCommand = "DELETE FROM MediaThumbnail WHERE FileDirectory = @FileDirectory";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
@@ -211,23 +239,22 @@ namespace Thumbnails
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", fileDirectory);
                 rowsAffected = commandDatabase.ExecuteNonQuery();      // Execute the query
             }
-            dbTools.TransactionCommitBatch(sqlTransaction);
-            return rowsAffected;
-        }
-        #endregion 
+            #endregion
 
-        #region Thumbnail - ListFileEntryDateVersions
-        public List<FileEntry> ListFileEntryDateVersions(string fullFileName)
-        {
-            return ListFileEntryDateVersions(Path.GetDirectoryName(fullFileName), Path.GetFileName(fullFileName));
+            dbTools.TransactionCommitBatch(sqlTransaction);
+            
+            return rowsAffected;
         }
         #endregion
 
-        #region Thumbnail - ListFileEntryDateVersions
+        #region Thumbnail - SELECT - ListFileEntryDateVersions
         public List<FileEntry> ListFileEntryDateVersions(string fileDirectory, string fileName)
         {
             List<FileEntry> fileEntries = new List<FileEntry>();
 
+            var sqlTransactionSelect = dbTools.TransactionBeginSelect();
+
+            #region SELECT DISTINCT FileDirectory, FileName, FileDateModified FROM MediaThumbnail
             string sqlCommand = "SELECT DISTINCT FileDirectory, FileName, FileDateModified FROM MediaThumbnail " +
                 "WHERE FileDirectory = @FileDirectory AND FileName = @FileName";
             using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
@@ -252,9 +279,19 @@ namespace Thumbnails
 
                 //fileEntries.Sort();
             }
+            #endregion
+
+            dbTools.TransactionCommitSelect(sqlTransactionSelect);
+
             return fileEntries;
         }
         #endregion 
+        #region Thumbnail - ListFileEntryDateVersions
+        public List<FileEntry> ListFileEntryDateVersions(string fullFileName)
+        {
+            return ListFileEntryDateVersions(Path.GetDirectoryName(fullFileName), Path.GetFileName(fullFileName));
+        }
+        #endregion
 
         #region Thumbnail - DoesMetadataMissThumbnailInRegion
         public bool DoesMetadataMissThumbnailInRegion(Metadata metadata)

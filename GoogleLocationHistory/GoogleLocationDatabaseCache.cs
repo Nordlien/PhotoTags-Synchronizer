@@ -34,6 +34,8 @@ namespace GoogleLocationHistory
             if (File.Exists(fileNamePath))
             {
                 var sqlTransaction = dbTools.TransactionBeginBatch();
+
+                #region INSERT INTO LocationSource 
                 string sqlCommand =
                     "INSERT INTO LocationSource (UserAccount, FileDirectory, FileName, FileDateModified, FileDateImported) " +
                     "Values (@UserAccount, @FileDirectory, @FileName, @FileDateModified, @FileDateImported)";
@@ -47,6 +49,8 @@ namespace GoogleLocationHistory
                     commandDatabase.Parameters.AddWithValue("@FileDateImported", dbTools.ConvertFromDateTimeToDBVal(DateTime.UtcNow));
                     commandDatabase.ExecuteNonQuery();      // Execute the query
                 }
+                #endregion
+
                 dbTools.TransactionCommitBatch(sqlTransaction);
             }
         }
@@ -55,6 +59,7 @@ namespace GoogleLocationHistory
         #region WriteLocationHistory
         public void WriteLocationHistory(string userAccount, GoogleJsonLocations googleJsonLocations)
         {
+            #region INSERT OR IGNORE INTO LocationHistory
             string sqlCommand =
                 "INSERT OR IGNORE INTO LocationHistory (UserAccount, TimeStamp, Latitude, Longitude, Altitude, Accuracy) " +
                 "Values (@UserAccount, @TimeStamp, @Latitude, @Longitude, @Altitude, @Accuracy) ";
@@ -69,6 +74,7 @@ namespace GoogleLocationHistory
                 commandDatabase.Parameters.AddWithValue("@Accuracy", googleJsonLocations.Accuracy);
                 commandDatabase.ExecuteNonQuery();      // Execute the query
             }
+            #endregion
         }
         #endregion
 
@@ -138,6 +144,9 @@ namespace GoogleLocationHistory
                 "ORDER BY FileDateCreated DESC LIMIT 3) ";
             #endregion
 
+            var sqlTransactionSelect = dbTools.TransactionBeginSelect();
+
+            #region SELECT FROM MediaMetadata
             sqlCommand = "SELECT * FROM " + sqlCommand +
                 "ORDER BY Priority, TimeDistance ";
                 //"LIMIT 1";
@@ -191,6 +200,10 @@ namespace GoogleLocationHistory
 
                 }
             }
+            #endregion
+
+            dbTools.TransactionCommitSelect(sqlTransactionSelect);
+            
             return metadatas;
         }
         #endregion
@@ -200,6 +213,9 @@ namespace GoogleLocationHistory
         {
             HashSet<LocationsHistory> locationsHistories = new HashSet<LocationsHistory>();
 
+            var sqlTransactionSelect = dbTools.TransactionBeginSelect();
+
+            #region SELECT UserAccount, TimeStamp, Latitude, Longitude, Altitude, Accuracy FROM LocationHistory
             string sqlCommand = "SELECT UserAccount, TimeStamp, Latitude, Longitude, Altitude, Accuracy FROM LocationHistory WHERE " +
                 "TimeStamp >= @dateTimeFrom AND TimeStamp <= @dateTimeTo " +
                 "ORDER BY TimeStamp LIMIT 5000";
@@ -227,6 +243,10 @@ namespace GoogleLocationHistory
                     }
                 }
             }
+            #endregion
+
+            dbTools.TransactionCommitSelect(sqlTransactionSelect);
+
             return locationsHistories;
         }
         #endregion
@@ -234,6 +254,10 @@ namespace GoogleLocationHistory
         #region FindLocationBasedOnTime
         public Metadata FindLocationBasedOnTime(String userAccount, DateTime? datetime, int acceptDiffrentSecound)
         {
+            Metadata metadataResult = null;
+            var sqlTransactionSelect = dbTools.TransactionBeginSelect();
+
+            #region SELECT UserAccount, TimeStamp, Latitude, Longitude, Altitude, Accuracy FROM LocationHistory
             //I could use pythagoras to get excact distance, but I don't see the point of doing that
             string sqlCommand = 
                 "SELECT UserAccount, TimeStamp, Latitude, Longitude, Altitude, Accuracy FROM LocationHistory WHERE " +
@@ -265,63 +289,65 @@ namespace GoogleLocationHistory
 
                     if (reader.Read())
                     {
-                        //UserAccount, TimeStamp, Latitude, Longitude, Altitude, Accuracy
+                        #region Read minLatitude, minLongitude, minAltitude
                         minTimeStamp = (DateTime)dbTools.ConvertFromDBValDateTimeUtc(reader["TimeStamp"]); 
                         minLatitude = dbTools.ConvertFromDBValFloat(reader["Latitude"]);
                         minLongitude = dbTools.ConvertFromDBValFloat(reader["Longitude"]);
                         minAltitude = dbTools.ConvertFromDBValFloat(reader["Altitude"]);
                         minAccuracy = dbTools.ConvertFromDBValFloat(reader["Accuracy"]);
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                        
+                        if (minTimeStamp == datetime)
+                        {
+                            metadata.LocationLatitude = minLatitude;
+                            metadata.LocationLongitude = minLongitude;
+                            metadata.LocationAltitude = minAltitude;
+                        }
+                        #endregion 
 
-                    if (minTimeStamp == datetime)
-                    {
-                        metadata.LocationLatitude = minLatitude;
-                        metadata.LocationLongitude = minLongitude;
-                        metadata.LocationAltitude = minAltitude;
-                    }
+                        if (reader.Read())
+                        {
+                            #region Read maxLatitude, maxLongitude, maxAltitude, maxAccuracy
+                            DateTime? maxTimeStamp = (DateTime)dbTools.ConvertFromDBValDateTimeUtc(reader["TimeStamp"]);
+                            float? maxLatitude = dbTools.ConvertFromDBValFloat(reader["Latitude"]);
+                            float? maxLongitude = dbTools.ConvertFromDBValFloat(reader["Longitude"]);
+                            float? maxAltitude = dbTools.ConvertFromDBValFloat(reader["Altitude"]);
+                            float? maxAccuracy = dbTools.ConvertFromDBValFloat(reader["Accuracy"]);
+                            #endregion
 
+                            #region Calc diff
+                            Double lowDiffInSeconds = Math.Abs((minTimeStamp - datetime).Value.TotalSeconds);
+                            Double highDiffInSeconds = Math.Abs((maxTimeStamp - datetime).Value.TotalSeconds);
+                            Double totalDifInSeconds = lowDiffInSeconds + highDiffInSeconds;
+                            #endregion
 
-                    if (reader.Read())
-                    {
-                        //UserAccount, TimeStamp, Latitude, Longitude, Altitude, Accuracy
-                        DateTime? maxTimeStamp = (DateTime)dbTools.ConvertFromDBValDateTimeUtc(reader["TimeStamp"]); 
-                        float? maxLatitude = dbTools.ConvertFromDBValFloat(reader["Latitude"]);
-                        float? maxLongitude = dbTools.ConvertFromDBValFloat(reader["Longitude"]);
-                        float? maxAltitude = dbTools.ConvertFromDBValFloat(reader["Altitude"]);
-                        float? maxAccuracy = dbTools.ConvertFromDBValFloat(reader["Accuracy"]);
+                            #region If diff < acceptDiffrentSecound - Set result metadata
+                            if (Math.Min(lowDiffInSeconds, highDiffInSeconds) < acceptDiffrentSecound)
+                            {
+                                metadata.LocationAltitude = (float)
+                                        (((minAltitude * (totalDifInSeconds - lowDiffInSeconds)) +
+                                        (maxAltitude * (totalDifInSeconds - highDiffInSeconds)))
+                                        / totalDifInSeconds);
+                                metadata.LocationLatitude = (float)
+                                        (((minLatitude * (totalDifInSeconds - lowDiffInSeconds)) +
+                                        (maxLatitude * (totalDifInSeconds - highDiffInSeconds)))
+                                        / totalDifInSeconds);
+                                metadata.LocationLongitude = (float)
+                                        (((minLongitude * (totalDifInSeconds - lowDiffInSeconds)) +
+                                        (maxLongitude * (totalDifInSeconds - highDiffInSeconds)))
+                                        / totalDifInSeconds);
 
-                        Double lowDiffInSeconds = Math.Abs((minTimeStamp - datetime).Value.TotalSeconds);
-                        Double highDiffInSeconds = Math.Abs((maxTimeStamp - datetime).Value.TotalSeconds);
-                        Double totalDifInSeconds = lowDiffInSeconds + highDiffInSeconds;
-                        if (Math.Min(lowDiffInSeconds, highDiffInSeconds) > acceptDiffrentSecound) 
-                            return null;
-
-
-                        metadata.LocationAltitude = (float)
-                                (((minAltitude * (totalDifInSeconds - lowDiffInSeconds)) +
-                                (maxAltitude * (totalDifInSeconds - highDiffInSeconds)))
-                                / totalDifInSeconds);
-                        metadata.LocationLatitude = (float)
-                                (((minLatitude * (totalDifInSeconds - lowDiffInSeconds)) +
-                                (maxLatitude * (totalDifInSeconds - highDiffInSeconds)))
-                                / totalDifInSeconds);
-                        metadata.LocationLongitude = (float)
-                                (((minLongitude * (totalDifInSeconds - lowDiffInSeconds)) +
-                                (maxLongitude * (totalDifInSeconds - highDiffInSeconds)))
-                                / totalDifInSeconds);
-
-                        return metadata;
-                    }
-                    else
-                    {
-                        return null;
+                                metadataResult = metadata;
+                            }
+                            #endregion
+                        }
                     }
                 }
             }
+            #endregion
+
+            dbTools.TransactionCommitSelect(sqlTransactionSelect);
+
+            return metadataResult;
         }
         #endregion
 

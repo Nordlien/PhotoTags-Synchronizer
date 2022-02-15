@@ -26,9 +26,11 @@ namespace Exiftool
         #region Table: MediaExiftoolTagsWarning
         public List<ExiftoolWarningData> Read(FileEntry fileEntry)
         {
-            
             List<ExiftoolWarningData> exifToolDataList = new List<ExiftoolWarningData>();
 
+            var sqlTransactionSelect = dbTools.TransactionBeginSelect();
+
+            #region SELECT MediaExiftoolTagsWarning
             string sqlCommand = "SELECT FileDirectory, FileName, FileDateModified, OldRegion, OldCommand, OldParameter, NewRegion, NewCommand, NewParameter, Warning FROM " +
                 "MediaExiftoolTagsWarning WHERE FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified=@FileDateModified";
             using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
@@ -62,6 +64,10 @@ namespace Exiftool
                     }
                 }
             }
+            #endregion
+
+            dbTools.TransactionCommitSelect(sqlTransactionSelect);
+
             return exifToolDataList;
         }
 
@@ -69,6 +75,7 @@ namespace Exiftool
         {
             var sqlTransaction = dbTools.TransactionBeginBatch();
 
+            #region SELECT Warning FROM MediaExiftoolTagsWarning
             warning = "(Logged: " + DateTime.Now.ToString() + ")\r\n" + warning;
             string sqlRead =
                 "SELECT Warning FROM MediaExiftoolTagsWarning WHERE " +
@@ -97,7 +104,9 @@ namespace Exiftool
                 }
                 oldRecordFound = true;
             }
+            #endregion
 
+            #region DELETE FROM MediaExiftoolTagsWarning
             if (oldRecordFound)
             {
                 string sqlDelete =
@@ -119,7 +128,9 @@ namespace Exiftool
                     commandDatabase.ExecuteNonQuery();                    
                 }
             }
+            #endregion
 
+            #region INSERT INTO MediaExiftoolTagsWarning 
             string sqlCommand =
                 "INSERT INTO MediaExiftoolTagsWarning (FileDirectory, FileName, FileDateModified, OldRegion, OldCommand, OldParameter, NewRegion, NewCommand, NewParameter, Warning) " +
                 "Values (@FileDirectory, @FileName, @FileDateModified, @OldRegion, @OldCommand, @OldParameter, @NewRegion, @NewCommand, @NewParameter, @Warning)";
@@ -147,6 +158,7 @@ namespace Exiftool
                     commandDatabase.ExecuteNonQuery();
                 }
             }
+            #endregion
 
             dbTools.TransactionCommitBatch(sqlTransaction);
         }
@@ -154,7 +166,10 @@ namespace Exiftool
         public int DeleteDirectoryAndHistory(string fileDirectory)
         {
             int rowsAffected = 0;
+
             var sqlTransaction = dbTools.TransactionBeginBatch();
+
+            #region DELETE FROM MediaExiftoolTagsWarning 
             string sqlCommand = "DELETE FROM MediaExiftoolTagsWarning WHERE FileDirectory = @FileDirectory";
             using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
@@ -162,7 +177,10 @@ namespace Exiftool
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", fileDirectory);
                 rowsAffected = commandDatabase.ExecuteNonQuery();      // Execute the query
             }
+            #endregion
+
             dbTools.TransactionCommitBatch(sqlTransaction);
+
             return rowsAffected;
         }
 
@@ -172,9 +190,12 @@ namespace Exiftool
             fileEntries.Add(fileEntry);
             DeleteFileEntriesFromMediaExiftoolTagsWarning(fileEntries);
         }
+
         public void DeleteFileEntriesFromMediaExiftoolTagsWarning(List<FileEntry> fileEntries)
         {
             var sqlTransaction = dbTools.TransactionBeginBatch();
+
+            #region DELETE FROM MediaExiftoolTagsWarning 
             string sqlCommand = "DELETE FROM MediaExiftoolTagsWarning " +
                 "WHERE FileDirectory = @FileDirectory " +
                 "AND FileName = @FileName " +
@@ -190,6 +211,8 @@ namespace Exiftool
                     commandDatabase.ExecuteNonQuery();      // Execute the query
                 }
             }
+            #endregion
+
             dbTools.TransactionCommitBatch(sqlTransaction);
         }
 
@@ -203,6 +226,7 @@ namespace Exiftool
         {
             List<FileEntryAttribute> exifToolDates = new List<FileEntryAttribute>();
 
+            #region SELECT DISTINCT FileDirectory, FileName, FileDateModified FROM MediaExiftoolTagsWarning 
             string sqlCommand = "SELECT DISTINCT FileDirectory, FileName, FileDateModified FROM MediaExiftoolTagsWarning " + 
                 "WHERE FileDirectory = @FileDirectory AND FileName = @FileName";
             using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
@@ -241,6 +265,8 @@ namespace Exiftool
 
                 exifToolDates.Sort();
             }
+            #endregion
+
             return exifToolDates;
         }
 

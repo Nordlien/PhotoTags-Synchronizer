@@ -34,6 +34,9 @@ namespace Exiftool
         {
             List<ExiftoolData> exifToolDataList = new List<ExiftoolData>();
 
+            var sqlTransactionSelect = dbTools.TransactionBeginSelect();
+
+            #region SELECT FROM MediaExiftoolTags
             string sqlCommand = "SELECT FileDirectory, FileName, FileDateModified, Region, Command, Parameter FROM " +
                 "MediaExiftoolTags WHERE FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
             using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
@@ -58,6 +61,10 @@ namespace Exiftool
                     }
                 }
             }
+            #endregion
+
+            dbTools.TransactionCommitSelect(sqlTransactionSelect);
+
             return exifToolDataList;
         }
 
@@ -65,6 +72,8 @@ namespace Exiftool
         {
             bool success = false;
             var sqlTransaction = dbTools.TransactionBeginBatch();
+
+            #region INSERT INTO MediaExiftoolTags
             string sqlCommand =
                 "INSERT INTO MediaExiftoolTags (FileDirectory, FileName, FileDateModified, Region, Command, Parameter) " +
                 "Values (@FileDirectory, @FileName, @FileDateModified, @Region, @Command, @Parameter)";
@@ -87,6 +96,8 @@ namespace Exiftool
                     commandDatabase.ExecuteNonQuery();
                 }   // Execute the query
             }
+            #endregion
+
             dbTools.TransactionCommitBatch(sqlTransaction);
             return success;
         }
@@ -94,7 +105,10 @@ namespace Exiftool
         public int DeleteDirectoryAndHistory(string fileDirectory)
         {
             int recordAffected = 0;
+
             var sqlTransaction = dbTools.TransactionBeginBatch();
+
+            #region DELETE FROM MediaExiftoolTags 
             string sqlCommand = "DELETE FROM MediaExiftoolTags WHERE FileDirectory = @FileDirectory";
             using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
@@ -102,7 +116,10 @@ namespace Exiftool
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", fileDirectory);
                 recordAffected = commandDatabase.ExecuteNonQuery();      // Execute the query
             }
+            #endregion
+
             dbTools.TransactionCommitBatch(sqlTransaction);
+            
             return recordAffected;
         }
 
@@ -116,6 +133,8 @@ namespace Exiftool
         public void DeleteFileEntriesFromMediaExiftoolTags(List<FileEntry> fileEntries)
         {
             var sqlTransaction = dbTools.TransactionBeginBatch();
+
+            #region DELETE FROM MediaExiftoolTags 
             string sqlCommand = "DELETE FROM MediaExiftoolTags " +
                 "WHERE FileDirectory = @FileDirectory " +
                 "AND FileName = @FileName " +
@@ -131,6 +150,8 @@ namespace Exiftool
                     commandDatabase.ExecuteNonQuery();      // Execute the query
                 }
             }
+            #endregion
+
             dbTools.TransactionCommitBatch(sqlTransaction);
         }
 
@@ -143,6 +164,10 @@ namespace Exiftool
         public List<FileEntryAttribute> ListFileEntryDateVersions(string fileName, string fileDirectory)
         {
             List<FileEntryAttribute> exifToolDates = new List<FileEntryAttribute>();
+
+            var sqlTransactionSelect = dbTools.TransactionBeginSelect();
+
+            #region SELECT DISTINCT FileDirectory, FileName, FileDateModified FROM MediaExiftoolTags 
             string sqlCommand = "SELECT DISTINCT FileDirectory, FileName, FileDateModified FROM MediaExiftoolTags " + 
                 "WHERE FileDirectory = @FileDirectory AND FileName = @FileName";
             using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
@@ -177,6 +202,10 @@ namespace Exiftool
 
                 exifToolDates.Sort();
             }
+            #endregion
+
+            dbTools.TransactionCommitSelect(sqlTransactionSelect);
+
             return exifToolDates;
         }
 

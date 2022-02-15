@@ -22,6 +22,8 @@ namespace LocationNames
         public void WriteLocationName(LocationCoordinate locationCoordinateSearch, LocationCoordinateAndDescription locationInDatabaseCoordinateAndDescription)
         {
             var sqlTransaction = dbTools.TransactionBeginBatch();
+
+            #region INSERT INTO LocationName 
             string sqlCommand =
                 "INSERT INTO LocationName (Latitude, Longitude, Name, City, Province, Country) " +
                 "Values (@Latitude, @Longitude, @Name, @City, @Province, @Country)";
@@ -42,6 +44,8 @@ namespace LocationNames
                 int rowAffted = commandDatabase.ExecuteNonQuery();      // Execute the query
                 LocationCoordinateAndDescriptionUpdate(locationCoordinateSearch, locationInDatabaseCoordinateAndDescription.Coordinate, locationInDatabaseCoordinateAndDescription.Description);
             }
+            #endregion
+
             dbTools.TransactionCommitBatch(sqlTransaction);
         }
         #endregion 
@@ -50,6 +54,8 @@ namespace LocationNames
         private void DeleteLocationName(LocationCoordinate locationCoordinateInDatabase, float locationAccuracyLatitude, float locationAccuracyLongitude)
         {
             var sqlTransaction = dbTools.TransactionBeginBatch();
+
+            #region DELETE FROM LocationName 
             string sqlCommand = "DELETE FROM LocationName " +
                 //"WHERE Latitude = @Latitude AND Longitude = @Longitude";
                 "WHERE Latitude = (SELECT Latitude FROM (" +
@@ -77,6 +83,8 @@ namespace LocationNames
                 }
                 LocationCoordinateAndDescriptionDelete(locationCoordinateInDatabase: locationCoordinateInDatabase);
             }
+            #endregion
+
             dbTools.TransactionCommitBatch(sqlTransaction);
         }
         #endregion 
@@ -148,6 +156,9 @@ namespace LocationNames
         {
             LocationCoordinateAndDescription locationCoordinateAndDescriptionInDatabase = null;
 
+            var sqlTransactionSelect = dbTools.TransactionBeginSelect();
+
+            #region SELECT FROM LocationName 
             string sqlCommand = "SELECT Latitude, Longitude, Name, City, Province, Country, " +
                 "Max(Abs(Latitude - @Latitude), Abs(Longitude - @Longitude)) AS Distance " +
                 "FROM LocationName WHERE Latitude >= (@Latitude - @LocationAccuracyLatitude) AND Latitude <= (@Latitude + @LocationAccuracyLatitude) " +
@@ -182,6 +193,10 @@ namespace LocationNames
                     }
                 }
             }
+            #endregion
+
+            dbTools.TransactionCommitSelect(sqlTransactionSelect);
+
             return locationCoordinateAndDescriptionInDatabase;
         }
         #endregion 
@@ -191,6 +206,9 @@ namespace LocationNames
         {
             Dictionary<LocationCoordinate, LocationDescription> locations = new Dictionary<LocationCoordinate, LocationDescription>();
 
+            var sqlTransactionSelect = dbTools.TransactionBeginSelect();
+
+            #region SELECT Latitude, Longitude, Name, City, Province, Country FROM LocationName
             string sqlCommand = "SELECT Latitude, Longitude, Name, City, Province, Country FROM LocationName";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
@@ -215,6 +233,10 @@ namespace LocationNames
                     }
                 }
             }
+            #endregion
+
+            dbTools.TransactionCommitSelect(sqlTransactionSelect);
+
             return locations;
         }
         #endregion 

@@ -59,8 +59,20 @@ namespace SqliteDatabase
         }
 
         #region Transaction Begin and Commit
+        int countTransactionSelect = 0;
+        public SqliteTransaction TransactionBeginSelect()
+        {
+            countTransactionSelect++;
+            return connectionDatabase.BeginTransaction(System.Data.IsolationLevel.ReadCommitted);
+        }
 
+        public void TransactionCommitSelect(SqliteTransaction sqliteTransaction)
+        {
+            countTransactionSelect--;
+            sqliteTransaction.Commit();
+        }
 
+        int countTransactionInsertsUpdates = 0;
         #if MonoSqlite
         public SqliteTransaction TransactionBeginBatch()
         #elif MicrosoftDataSqlite
@@ -69,27 +81,11 @@ namespace SqliteDatabase
         public SQLiteTransaction TransactionBeginBatch();
         #endif
         {
-            lock (transactionLock)
-            {
-                //testTrancationConnnectionCount++;
-                //if (transactionStarted) 
-                //    return;
-
-                //insertsAndUpdatesCount = 0;
-                //try { 
-                //    if (connectionDatabase.State == System.Data.ConnectionState.Open) transactionHandler = connectionDatabase.BeginTransaction();
-                //    transactionStarted = true;
-                //    transactionStopwatch.Restart();
-                //    transactionTimer.Interval = elapsedMillisecondsBeforeCommit / 2;
-                //    transactionTimer.Elapsed += TimerStatus_Elapsed;
-                //}
-                //catch (Exception ex)
-                //{
-                //    throw new Exception(ex.Message);
-                //}
-            }
-            if (connectionDatabase.State == System.Data.ConnectionState.Open) return connectionDatabase.BeginTransaction();
-            else return null;
+            countTransactionInsertsUpdates++;
+            if (connectionDatabase.State == System.Data.ConnectionState.Open)
+                return connectionDatabase.BeginTransaction(); // deferredLock);
+            else 
+                return null;
         }
 
         private void TimerStatus_Elapsed(object sender, ElapsedEventArgs e)
@@ -105,39 +101,10 @@ namespace SqliteDatabase
         TransactionCommitBatch(SQLiteTransaction sqliteTransaction)
         #endif
         {
+            countTransactionInsertsUpdates--;
             sqliteTransaction.Commit();
-            //lock (transactionLock)
-            //{
-
-            //if (transactionStarted)
-            //{
-            //    testTrancationConnnectionCount--;
-            //    if (testTrancationConnnectionCount != 0)
-            //    {
-            //        //DEBUG
-            //    }
-
-            //    if (forced || insertsAndUpdatesCount++ > numberOfInsertsAndUpdatesBeforeCommit || transactionStopwatch.ElapsedMilliseconds > elapsedMillisecondsBeforeCommit)
-            //    {
-            //        try
-            //        {
-            //            if (transactionHandler.Connection.State == System.Data.ConnectionState.Open) transactionHandler.Commit();
-            //            transactionStarted = false;
-            //            transactionHandler = null;
-            //        }
-            //        catch (Exception ex)
-            //        {
-            //            throw new Exception(ex.Message);
-            //        }
-            //    }
-            //} 
-            //else
-            //{
-            //    //DEBUG
-            //}
-            //}
         }
-#endregion
+        #endregion
 
         private string databasePath;
         private string databaseFile;
@@ -177,6 +144,30 @@ namespace SqliteDatabase
         public SQLiteConnection ConnectionDatabase { get => connectionDatabase; set => connectionDatabase = value; }
 #endif
 
+        #region 
+        public string DebugConvertToSqliteCommand(string sqlComand, CommonSqliteCommand commandDatabase)
+        {
+            for (int parameterIndex = 0; parameterIndex < commandDatabase.Parameters.Count; parameterIndex++)
+            {
+                string parameterName = commandDatabase.Parameters[parameterIndex].ParameterName;
+                string value = "";
+                if (commandDatabase.Parameters[parameterIndex].Value == null) value = "NULL";
+                else if (commandDatabase.Parameters[parameterIndex].Value is string) value = "'" + (string)commandDatabase.Parameters[parameterIndex].Value + "'";
+                else if (commandDatabase.Parameters[parameterIndex].Value is float) value = ((float)commandDatabase.Parameters[parameterIndex].Value).ToString().Replace(",", ".");
+                else if (commandDatabase.Parameters[parameterIndex].Value is int) value = ((int)commandDatabase.Parameters[parameterIndex].Value).ToString();
+                else if (commandDatabase.Parameters[parameterIndex].Value is long) value = ((long)commandDatabase.Parameters[parameterIndex].Value).ToString();
+                else if (commandDatabase.Parameters[parameterIndex].Value is byte[]) value = "byte[]";
+                else
+                {
+                    //DEBUG MISSING
+                }
+
+                sqlComand = sqlComand.Replace(parameterName, value);
+
+            }
+            return sqlComand;
+        }
+        #endregion
 
         #region Convert Object to Variable
 
@@ -357,9 +348,8 @@ namespace SqliteDatabase
 
 #if MonoSqlite
                 ConnectionDatabase = new SqliteConnection("Data Source=" +
-                        destinationFile
-                        //+ ";Version=3;Pooling=True;Synchronous=Off;Journal Mode=Off; Read Only = false;nolock=true;");
-                        ); // +";Version=3;Pooling=True;Synchronous=Off;Journal Mode=Off; Read Only = true");          
+                        destinationFile + ";Version=3;Pooling=True;Synchronous=Off;Journal Mode=Off; Read Only = false;nolock=true;"
+                        );           
 #elif MicrosoftDataSqlite
                 ConnectionDatabase = new SqliteConnection("Data Source=" + destinationFile); 
 #else
