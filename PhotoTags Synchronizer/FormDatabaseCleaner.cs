@@ -91,10 +91,6 @@ namespace PhotoTagsSynchronizer
 
         private void kryptonButtonCheckDatabase_Click(object sender, EventArgs e)
         {
-            //PRAGMA optimize;
-            //PRAGMA foreign_key_check;
-            //PRAGMA quick_check;
-            //"PRAGMA lock_status;";
             UpdateStatus("Started: PRAGMA optimize;");
             string result = databaseUtilitiesSqliteMetadata.PRAGMA_Run("PRAGMA optimize;");
             UpdateStatus("Ended: PRAGMA optimize; " + result);
