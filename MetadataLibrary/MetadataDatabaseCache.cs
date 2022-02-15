@@ -1035,7 +1035,6 @@ namespace MetadataLibrary
 
         #endregion
 
-
         #region Updated - Region - UpdateRegionThumbnail
         /// <summary>
         /// Updated Region data for Give media file

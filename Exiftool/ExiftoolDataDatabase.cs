@@ -28,8 +28,7 @@ namespace Exiftool
             dbTools = databaseTools;
         }
 
-        #region Table: MediaExiftoolTags
-
+        #region Read
         public List<ExiftoolData> Read(FileEntry file)
         {
             List<ExiftoolData> exifToolDataList = new List<ExiftoolData>();
@@ -67,7 +66,9 @@ namespace Exiftool
 
             return exifToolDataList;
         }
+        #endregion
 
+        #region Write
         public bool Write(ExiftoolData exifToolData)
         {
             bool success = false;
@@ -101,7 +102,9 @@ namespace Exiftool
             dbTools.TransactionCommitBatch(sqlTransaction);
             return success;
         }
+        #endregion
 
+        #region DeleteDirectoryAndHistory
         public int DeleteDirectoryAndHistory(string fileDirectory)
         {
             int recordAffected = 0;
@@ -122,14 +125,18 @@ namespace Exiftool
             
             return recordAffected;
         }
+        #endregion
 
+        #region DeleteFileEntryMediaExiftoolTags
         private void DeleteFileEntryMediaExiftoolTags(FileEntry fileEntry)
         {
             List<FileEntry> fileEntries = new List<FileEntry>();
             fileEntries.Add(fileEntry);
             DeleteFileEntriesFromMediaExiftoolTags(fileEntries);
         }
+        #endregion
 
+        #region DeleteFileEntriesFromMediaExiftoolTags
         public void DeleteFileEntriesFromMediaExiftoolTags(List<FileEntry> fileEntries)
         {
             var sqlTransaction = dbTools.TransactionBeginBatch();
@@ -154,13 +161,16 @@ namespace Exiftool
 
             dbTools.TransactionCommitBatch(sqlTransaction);
         }
+        #endregion
 
-
+        #region ListFileEntryDateVersions
         public List<FileEntryAttribute> ListFileEntryDateVersions(string fileName)
         {
             return ListFileEntryDateVersions(Path.GetFileName(fileName), Path.GetDirectoryName(fileName));
         }
+        #endregion
 
+        #region ListFileEntryDateVersions
         public List<FileEntryAttribute> ListFileEntryDateVersions(string fileName, string fileDirectory)
         {
             List<FileEntryAttribute> exifToolDates = new List<FileEntryAttribute>();
@@ -208,8 +218,6 @@ namespace Exiftool
 
             return exifToolDates;
         }
-
-
         #endregion 
 
     }

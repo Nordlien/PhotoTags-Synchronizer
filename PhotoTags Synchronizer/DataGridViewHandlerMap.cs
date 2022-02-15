@@ -141,7 +141,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-
         #region PopulateGrivViewMapCameraOwner
         private static DataGridViewComboBoxCell dataGridViewComboBoxCellCameraOwners = null;
 
