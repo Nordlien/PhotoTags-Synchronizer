@@ -31,10 +31,13 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormDatabaseCleaner));
             this.kryptonPanelMain = new Krypton.Toolkit.KryptonPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.kryptonButtonDatabaseOptimize = new Krypton.Toolkit.KryptonButton();
+            this.kryptonButtonDatabaseForeignKeyCheck = new Krypton.Toolkit.KryptonButton();
             this.kryptonLabelStatusLabel = new Krypton.Toolkit.KryptonLabel();
             this.kryptonLabelStatus = new Krypton.Toolkit.KryptonLabel();
             this.kryptonButtonDatabaseCleanerExiftoolData = new Krypton.Toolkit.KryptonButton();
-            this.kryptonButtonCheckDatabase = new Krypton.Toolkit.KryptonButton();
+            this.kryptonButtonCheckDatabaseIntegrityCheck = new Krypton.Toolkit.KryptonButton();
+            this.kryptonButtonDatabaseQuickCheck = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanelMain)).BeginInit();
             this.kryptonPanelMain.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -52,13 +55,17 @@
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
+            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.kryptonButtonDatabaseOptimize, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.kryptonButtonDatabaseForeignKeyCheck, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.kryptonLabelStatusLabel, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.kryptonLabelStatus, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.kryptonButtonCheckDatabase, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.kryptonButtonDatabaseCleanerExiftoolData, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.kryptonButtonCheckDatabaseIntegrityCheck, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.kryptonButtonDatabaseQuickCheck, 2, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -69,19 +76,40 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(673, 315);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
+            // kryptonButtonDatabaseOptimize
+            // 
+            this.kryptonButtonDatabaseOptimize.Location = new System.Drawing.Point(3, 287);
+            this.kryptonButtonDatabaseOptimize.Name = "kryptonButtonDatabaseOptimize";
+            this.kryptonButtonDatabaseOptimize.Size = new System.Drawing.Size(114, 25);
+            this.kryptonButtonDatabaseOptimize.TabIndex = 7;
+            this.kryptonButtonDatabaseOptimize.Values.Text = "Optimize database";
+            this.kryptonButtonDatabaseOptimize.Click += new System.EventHandler(this.kryptonButtonDatabaseOptimize_Click);
+            // 
+            // kryptonButtonDatabaseForeignKeyCheck
+            // 
+            this.kryptonButtonDatabaseForeignKeyCheck.Location = new System.Drawing.Point(153, 287);
+            this.kryptonButtonDatabaseForeignKeyCheck.Name = "kryptonButtonDatabaseForeignKeyCheck";
+            this.kryptonButtonDatabaseForeignKeyCheck.Size = new System.Drawing.Size(114, 25);
+            this.kryptonButtonDatabaseForeignKeyCheck.TabIndex = 6;
+            this.kryptonButtonDatabaseForeignKeyCheck.Values.Text = "Foreign key check";
+            this.kryptonButtonDatabaseForeignKeyCheck.Click += new System.EventHandler(this.kryptonButtonDatabaseForeignKeyCheck_Click);
+            // 
             // kryptonLabelStatusLabel
             // 
+            this.kryptonLabelStatusLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonLabelStatusLabel.Location = new System.Drawing.Point(3, 3);
             this.kryptonLabelStatusLabel.Name = "kryptonLabelStatusLabel";
-            this.kryptonLabelStatusLabel.Size = new System.Drawing.Size(47, 20);
+            this.kryptonLabelStatusLabel.Size = new System.Drawing.Size(144, 247);
             this.kryptonLabelStatusLabel.TabIndex = 1;
             this.kryptonLabelStatusLabel.Values.Text = "Status:";
             // 
             // kryptonLabelStatus
             // 
-            this.kryptonLabelStatus.Location = new System.Drawing.Point(123, 3);
+            this.tableLayoutPanel1.SetColumnSpan(this.kryptonLabelStatus, 2);
+            this.kryptonLabelStatus.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kryptonLabelStatus.Location = new System.Drawing.Point(153, 3);
             this.kryptonLabelStatus.Name = "kryptonLabelStatus";
-            this.kryptonLabelStatus.Size = new System.Drawing.Size(95, 20);
+            this.kryptonLabelStatus.Size = new System.Drawing.Size(517, 247);
             this.kryptonLabelStatus.TabIndex = 2;
             this.kryptonLabelStatus.Values.Text = "Wating action...";
             // 
@@ -94,14 +122,23 @@
             this.kryptonButtonDatabaseCleanerExiftoolData.Values.Text = "Clean Exifdata";
             this.kryptonButtonDatabaseCleanerExiftoolData.Click += new System.EventHandler(this.kryptonButtonDatabaseCleanerExiftoolData_Click);
             // 
-            // kryptonButtonCheckDatabase
+            // kryptonButtonCheckDatabaseIntegrityCheck
             // 
-            this.kryptonButtonCheckDatabase.Location = new System.Drawing.Point(3, 287);
-            this.kryptonButtonCheckDatabase.Name = "kryptonButtonCheckDatabase";
-            this.kryptonButtonCheckDatabase.Size = new System.Drawing.Size(114, 25);
-            this.kryptonButtonCheckDatabase.TabIndex = 3;
-            this.kryptonButtonCheckDatabase.Values.Text = "Check Database";
-            this.kryptonButtonCheckDatabase.Click += new System.EventHandler(this.kryptonButtonCheckDatabase_Click);
+            this.kryptonButtonCheckDatabaseIntegrityCheck.Location = new System.Drawing.Point(153, 256);
+            this.kryptonButtonCheckDatabaseIntegrityCheck.Name = "kryptonButtonCheckDatabaseIntegrityCheck";
+            this.kryptonButtonCheckDatabaseIntegrityCheck.Size = new System.Drawing.Size(114, 25);
+            this.kryptonButtonCheckDatabaseIntegrityCheck.TabIndex = 3;
+            this.kryptonButtonCheckDatabaseIntegrityCheck.Values.Text = "Integrity check";
+            this.kryptonButtonCheckDatabaseIntegrityCheck.Click += new System.EventHandler(this.kryptonButtonDatabaseIntegrityCheck_Click);
+            // 
+            // kryptonButtonDatabaseQuickCheck
+            // 
+            this.kryptonButtonDatabaseQuickCheck.Location = new System.Drawing.Point(303, 256);
+            this.kryptonButtonDatabaseQuickCheck.Name = "kryptonButtonDatabaseQuickCheck";
+            this.kryptonButtonDatabaseQuickCheck.Size = new System.Drawing.Size(114, 25);
+            this.kryptonButtonDatabaseQuickCheck.TabIndex = 4;
+            this.kryptonButtonDatabaseQuickCheck.Values.Text = "Quick check";
+            this.kryptonButtonDatabaseQuickCheck.Click += new System.EventHandler(this.kryptonButtonDatabaseQuickCheck_Click);
             // 
             // FormDatabaseCleaner
             // 
@@ -127,6 +164,9 @@
         private Krypton.Toolkit.KryptonButton kryptonButtonDatabaseCleanerExiftoolData;
         private Krypton.Toolkit.KryptonLabel kryptonLabelStatusLabel;
         private Krypton.Toolkit.KryptonLabel kryptonLabelStatus;
-        private Krypton.Toolkit.KryptonButton kryptonButtonCheckDatabase;
+        private Krypton.Toolkit.KryptonButton kryptonButtonCheckDatabaseIntegrityCheck;
+        private Krypton.Toolkit.KryptonButton kryptonButtonDatabaseQuickCheck;
+        private Krypton.Toolkit.KryptonButton kryptonButtonDatabaseOptimize;
+        private Krypton.Toolkit.KryptonButton kryptonButtonDatabaseForeignKeyCheck;
     }
 }

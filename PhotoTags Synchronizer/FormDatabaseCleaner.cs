@@ -62,16 +62,17 @@ namespace PhotoTagsSynchronizer
             kryptonLabelStatus.Text = "Done cleaning...";
         }
 
-        private void UpdateStatus(string text)
+        private void UpdateStatus(string text, bool direclyNoTimer = false)
         {
             if (InvokeRequired)
             {
-                this.BeginInvoke(new Action<string>(UpdateStatus), text);
+                this.BeginInvoke(new Action<string, bool>(UpdateStatus), text, direclyNoTimer);
                 return;
             }
-            if (!stopWatch.IsRunning) stopWatch.Start();
-            if (stopWatch.ElapsedMilliseconds > 300)
+            
+            if (direclyNoTimer || !stopWatch.IsRunning || stopWatch.ElapsedMilliseconds > 300)
             {
+                if (!direclyNoTimer && !stopWatch.IsRunning) stopWatch.Start();
                 kryptonLabelStatus.Text = text;
                 kryptonLabelStatus.Refresh();
                 stopWatch.Restart();
@@ -89,19 +90,72 @@ namespace PhotoTagsSynchronizer
             UpdateStatus("Reading: " + e.MetadataCount + " / " + e.KeywordCount + " / " + e.RegionCount);
         }
 
-        private void kryptonButtonCheckDatabase_Click(object sender, EventArgs e)
+        private void kryptonButtonDatabaseIntegrityCheck_Click(object sender, EventArgs e)
         {
-            UpdateStatus("Started: PRAGMA optimize;");
-            string result = databaseUtilitiesSqliteMetadata.PRAGMA_Run("PRAGMA optimize;");
-            UpdateStatus("Ended: PRAGMA optimize; " + result);
+            try
+            {
+                using (new WaitCursor())
+                {
+                    UpdateStatus("Started: PRAGMA integrity_check;", true);
+                    string result = databaseUtilitiesSqliteMetadata.PRAGMA_Run("PRAGMA integrity_check;");
+                    UpdateStatus("Ended: PRAGMA integrity_check; " + result, true);
+                }
+            }
+            catch (Exception ex)
+            {
+                UpdateStatus("Ended: PRAGMA integrity_check; " + ex.Message, true);
+            }
+        }
 
-            UpdateStatus("Started: PRAGMA foreign_key_check;");
-            result = databaseUtilitiesSqliteMetadata.PRAGMA_Run("PRAGMA foreign_key_check;");
-            UpdateStatus("Ended: PRAGMA foreign_key_check; " + result);
+        private void kryptonButtonDatabaseForeignKeyCheck_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (new WaitCursor())
+                {
+                    UpdateStatus("Started: PRAGMA foreign_key_check;", true);
+                    string result = databaseUtilitiesSqliteMetadata.PRAGMA_Run("PRAGMA foreign_key_check;");
+                    UpdateStatus("Ended: PRAGMA foreign_key_check; " + result, true);
+                }
+            }
+            catch (Exception ex)
+            {
+                UpdateStatus("Ended: PRAGMA foreign_key_check; " + ex.Message, true);
+            }
+        }
 
-            UpdateStatus("Started: PRAGMA quick_check;");
-            result = databaseUtilitiesSqliteMetadata.PRAGMA_Run("PRAGMA quick_check;");
-            UpdateStatus("Ended: PRAGMA quick_check; " + result);
+        private void kryptonButtonDatabaseOptimize_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (new WaitCursor())
+                {
+                    UpdateStatus("Started: PRAGMA optimize;", true);
+                    string result = databaseUtilitiesSqliteMetadata.PRAGMA_Run("PRAGMA optimize;");
+                    UpdateStatus("Ended: PRAGMA optimize; " + result, true);
+                }
+            }
+            catch (Exception ex)
+            {
+                UpdateStatus("Ended: PRAGMA optimize; " + ex.Message, true);
+            }
+}
+
+        private void kryptonButtonDatabaseQuickCheck_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (new WaitCursor())
+                {
+                    UpdateStatus("Started: PRAGMA quick_check;", true);
+                    string result = databaseUtilitiesSqliteMetadata.PRAGMA_Run("PRAGMA quick_check;");
+                    UpdateStatus("Ended: PRAGMA quick_check; " + result, true);
+                }
+            }
+            catch (Exception ex)
+            {
+                UpdateStatus("Ended: PRAGMA quick_check; " + ex.Message, true);
+            }
         }
     }
 }
