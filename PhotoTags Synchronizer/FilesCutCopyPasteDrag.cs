@@ -144,31 +144,41 @@ namespace PhotoTagsSynchronizer
         #region FilesCutCopyPasteDrag - DeleteSelectedFiles
         public void DeleteSelectedFiles(MainForm mainForm, ImageListView imageListView, HashSet<FileEntry> fileEntries, bool deleteFromFileSystemAlso)
         {
-            GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
-            ImageListViewHandler.SuspendLayout(imageListView);
-
-            using (new WaitCursor())
+            try
             {
-                foreach (FileEntry fileEntry in fileEntries)
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
+                ImageListViewHandler.SuspendLayout(imageListView);
+
+                using (new WaitCursor())
                 {
-                    try
+                    foreach (FileEntry fileEntry in fileEntries)
                     {
-                        mainForm.UpdateStatusAction("Deleting the file " + fileEntry.FileFullPath + " and records in database");
-                        if (deleteFromFileSystemAlso) File.Delete(fileEntry.FileFullPath);
-                        this.DeleteFileAndHistory(fileEntry.FileFullPath);
-                        imageListView.Items.Remove(ImageListViewHandler.FindItem(imageListView.Items, fileEntry.FileFullPath));
-                    }
-                    catch (Exception ex)
-                    {
-                        KryptonMessageBox.Show("Was not able to delete the file: " + fileEntry.FileFullPath + "\r\n\r\n" + ex.Message,
-                            "Deleting file failed", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                        try
+                        {
+                            mainForm.UpdateStatusAction("Deleting the file " + fileEntry.FileFullPath + " and records in database");
+                            if (deleteFromFileSystemAlso) File.Delete(fileEntry.FileFullPath);
+                            this.DeleteFileAndHistory(fileEntry.FileFullPath);
+                            imageListView.Items.Remove(ImageListViewHandler.FindItem(imageListView.Items, fileEntry.FileFullPath));
+                        }
+                        catch (Exception ex)
+                        {
+                            KryptonMessageBox.Show("Was not able to delete the file: " + fileEntry.FileFullPath + "\r\n\r\n" + ex.Message,
+                                "Deleting file failed", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                        }
                     }
                 }
             }
-
-            ImageListViewHandler.ResumeLayout(imageListView);
-            GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
-  
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                ImageListViewHandler.ResumeLayout(imageListView);
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+            }
         }
         #endregion
 

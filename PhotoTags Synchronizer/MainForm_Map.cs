@@ -328,7 +328,6 @@ namespace PhotoTagsSynchronizer
             UpdateGoodleHistoryCoordinateAndNearBy();
 
             if (dataGridViewMap.CurrentCell != null && dataGridViewMap.CurrentCell.Value != null) UpdateBrowserMap(dataGridViewMap.CurrentCell.Value.ToString(), GetMapProvider());
-
         }
         #endregion 
 
@@ -408,14 +407,12 @@ namespace PhotoTagsSynchronizer
 
             if (isDataGridViewMaps_CellValueChanging) return; //Avoid requirng isues
             if (GlobalData.IsApplicationClosing) return;
-            //if (ClipboardUtility.IsClipboardActive) return;
-            //if (GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress) return;
+            
             DataGridView dataGridView = ((DataGridView)sender);
             if (!dataGridView.Enabled) return;
             if (GlobalData.IsPopulatingMapLocation) return; 
             if (DataGridViewHandler.GetIsPopulatingFile(dataGridView)) return;
             if (DataGridViewHandler.GetIsPopulating(dataGridView)) return;
-            //if (IsPopulatingAnything("Map Cell value changed")) return;
             
 
             DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, e.ColumnIndex);

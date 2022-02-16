@@ -86,79 +86,88 @@ namespace PhotoTagsSynchronizer
                 return;
             }
 
-
-            GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
-            ImageListViewHandler.SuspendLayout(imageListView1);
-
-            using (new WaitCursor())
+            try
             {
-                try
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
+                ImageListViewHandler.SuspendLayout(imageListView1);
+
+                using (new WaitCursor())
                 {
-                    bool directoryCreated = filesCutCopyPasteDrag.MoveFile(sourceFullFilename, targetFullFilename);
-
-                    if (directoryCreated)
-                    {
-                        GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect = true;
-                        TreeViewFolderBrowserHandler.RefreshFolderWithName(folderTreeView, targetFullFilename, true);
-                        GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect = false;
-                    }
-
-                    ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView.Items, sourceFullFilename);
-                    if (foundItem != null)
-                    {
-                        ImageListViewHandler.ImageListViewRemoveItem(imageListView, foundItem);
-
-                        #region Add new renames back to list
-                        lock (keepTrackOfLoadedMetadataLock)
-                        {
-                            ImageListViewHandler.ImageListViewAddItem(imageListView1, targetFullFilename, ref hasTriggerLoadAllMetadataActions, ref keepTrackOfLoadedMetadata);
-                        }
-                        #endregion
-
-                        #region Select back all Items renamed
-                        foundItem = ImageListViewHandler.FindItem(imageListView.Items, targetFullFilename);
-                        if (foundItem != null) foundItem.Selected = true;
-                        #endregion
-                    }
-                }
-                catch (Exception ex)
-                {
-
-                    DateTime dateTimeLastWriteTime = DateTime.Now;
                     try
                     {
-                        dateTimeLastWriteTime = File.GetLastWriteTime(sourceFullFilename);
+                        bool directoryCreated = filesCutCopyPasteDrag.MoveFile(sourceFullFilename, targetFullFilename);
+
+                        if (directoryCreated)
+                        {
+                            GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect = true;
+                            TreeViewFolderBrowserHandler.RefreshFolderWithName(folderTreeView, targetFullFilename, true);
+                            GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect = false;
+                        }
+
+                        ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView.Items, sourceFullFilename);
+                        if (foundItem != null)
+                        {
+                            ImageListViewHandler.ImageListViewRemoveItem(imageListView, foundItem);
+
+                            #region Add new renames back to list
+                            lock (keepTrackOfLoadedMetadataLock)
+                            {
+                                ImageListViewHandler.ImageListViewAddItem(imageListView1, targetFullFilename, ref hasTriggerLoadAllMetadataActions, ref keepTrackOfLoadedMetadata);
+                            }
+                            #endregion
+
+                            #region Select back all Items renamed
+                            foundItem = ImageListViewHandler.FindItem(imageListView.Items, targetFullFilename);
+                            if (foundItem != null) foundItem.Selected = true;
+                            #endregion
+                        }
                     }
-                    catch { }
+                    catch (Exception ex)
+                    {
 
-                    FileStatus fileStatus = FileHandler.GetFileStatus(
-                        sourceFullFilename, checkLockedStatus: true, fileInaccessibleOrError: true, fileErrorMessage: ex.Message);
-                    ImageListView_UpdateItemFileStatusInvoke(sourceFullFilename, fileStatus);
+                        DateTime dateTimeLastWriteTime = DateTime.Now;
+                        try
+                        {
+                            dateTimeLastWriteTime = File.GetLastWriteTime(sourceFullFilename);
+                        }
+                        catch { }
 
-                    FileStatus fileStatusTarget = FileHandler.GetFileStatus(
-                        targetFullFilename, checkLockedStatus: true,
-                        fileInaccessibleOrError: true, fileErrorMessage: ex.Message,
-                        exiftoolProcessStatus: ExiftoolProcessStatus.DoNotUpdate);
-                    ImageListView_UpdateItemFileStatusInvoke(targetFullFilename, fileStatus);
+                        FileStatus fileStatus = FileHandler.GetFileStatus(
+                            sourceFullFilename, checkLockedStatus: true, fileInaccessibleOrError: true, fileErrorMessage: ex.Message);
+                        ImageListView_UpdateItemFileStatusInvoke(sourceFullFilename, fileStatus);
 
-                    AddError(
-                        Path.GetDirectoryName(sourceFullFilename),
-                        Path.GetFileName(sourceFullFilename),
-                        dateTimeLastWriteTime,
-                        AddErrorFileSystemRegion, AddErrorFileSystemMove, sourceFullFilename, targetFullFilename,
-                        "Issue: Failed moving file.\r\n" +
-                        "From File name : " + sourceFullFilename + "\r\n" +
-                        "From File staus: " + fileStatus.ToString() + "\r\n" +
-                        "To   File name : " + targetFullFilename + "\r\n" +
-                        "To   File staus: " + fileStatusTarget.ToString() + "\r\n" +
-                        "Error message: " + ex.Message);
-                    Logger.Error(ex, "Error when move file.");
+                        FileStatus fileStatusTarget = FileHandler.GetFileStatus(
+                            targetFullFilename, checkLockedStatus: true,
+                            fileInaccessibleOrError: true, fileErrorMessage: ex.Message,
+                            exiftoolProcessStatus: ExiftoolProcessStatus.DoNotUpdate);
+                        ImageListView_UpdateItemFileStatusInvoke(targetFullFilename, fileStatus);
+
+                        AddError(
+                            Path.GetDirectoryName(sourceFullFilename),
+                            Path.GetFileName(sourceFullFilename),
+                            dateTimeLastWriteTime,
+                            AddErrorFileSystemRegion, AddErrorFileSystemMove, sourceFullFilename, targetFullFilename,
+                            "Issue: Failed moving file.\r\n" +
+                            "From File name : " + sourceFullFilename + "\r\n" +
+                            "From File staus: " + fileStatus.ToString() + "\r\n" +
+                            "To   File name : " + targetFullFilename + "\r\n" +
+                            "To   File staus: " + fileStatusTarget.ToString() + "\r\n" +
+                            "Error message: " + ex.Message);
+                        Logger.Error(ex, "Error when move file.");
+                    }
                 }
             }
-
-            ImageListViewHandler.ResumeLayout(imageListView1);
-            GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
-
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                ImageListViewHandler.ResumeLayout(imageListView1);
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+            }
             if (renameQueueCount == 0) 
                 //To avoid selected files becomes added back to read queue, and also exist in rename queue,
                 //that rename item can get removed after rename. With old name in read queue, and this file will then not exist when read
@@ -181,79 +190,92 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsApplicationClosing) return;
 
             if (DoNotTrigger_ImageListView_SelectionChanged()) return;
-            GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
 
-            ImageListViewHandler.SuspendLayout(imageListView1);
-
-            #region Do the work
-            using (new WaitCursor())
+            try
             {
-                foreach (string oldPath in files) //Move all files to target directory 
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
+
+                ImageListViewHandler.SuspendLayout(imageListView1);
+
+                #region Do the work
+                using (new WaitCursor())
                 {
-                    string sourceFullFilename = oldPath;
-                    string filename = Path.GetFileName(sourceFullFilename);
-                    string targetFullFilename = Path.Combine(targetNodeDirectory, filename);
-                    try
+                    foreach (string oldPath in files) //Move all files to target directory 
                     {
-                        bool directoryCreated = filesCutCopyPasteDrag.MoveFile(sourceFullFilename, targetFullFilename);
-
-                        //------ Update node tree -----
-                        GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect = true;
-
-                        if (treeNodeTarget == null)
-                        {
-                            string targetFolder = Path.GetDirectoryName(targetFullFilename);
-                            TreeViewFolderBrowserHandler.RemoveFolderWithName(folderTreeView, targetFolder);
-                        }
-                        else TreeViewFolderBrowserHandler.RefreshTreeNode(folderTreeView, treeNodeTarget);
-
-                        GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect = false;
-
-                        ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView.Items, sourceFullFilename);
-                        if (foundItem != null) ImageListViewHandler.ImageListViewRemoveItem(imageListView, foundItem);
-                    }
-                    catch (Exception ex)
-                    {
-
-                        DateTime dateTimeLastWriteTime = DateTime.Now;
+                        string sourceFullFilename = oldPath;
+                        string filename = Path.GetFileName(sourceFullFilename);
+                        string targetFullFilename = Path.Combine(targetNodeDirectory, filename);
                         try
                         {
-                            dateTimeLastWriteTime = File.GetLastWriteTime(sourceFullFilename);
+                            bool directoryCreated = filesCutCopyPasteDrag.MoveFile(sourceFullFilename, targetFullFilename);
+
+                            //------ Update node tree -----
+                            GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect = true;
+
+                            if (treeNodeTarget == null)
+                            {
+                                string targetFolder = Path.GetDirectoryName(targetFullFilename);
+                                TreeViewFolderBrowserHandler.RemoveFolderWithName(folderTreeView, targetFolder);
+                            }
+                            else TreeViewFolderBrowserHandler.RefreshTreeNode(folderTreeView, treeNodeTarget);
+
+                            GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect = false;
+
+                            ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView.Items, sourceFullFilename);
+                            if (foundItem != null) ImageListViewHandler.ImageListViewRemoveItem(imageListView, foundItem);
                         }
-                        catch { }
+                        catch (Exception ex)
+                        {
 
-                        FileStatus fileStatus = FileHandler.GetFileStatus(
-                            sourceFullFilename,  checkLockedStatus: true, fileInaccessibleOrError: true, fileErrorMessage: ex.Message);
-                        ImageListView_UpdateItemFileStatusInvoke(sourceFullFilename, fileStatus);
+                            DateTime dateTimeLastWriteTime = DateTime.Now;
+                            try
+                            {
+                                dateTimeLastWriteTime = File.GetLastWriteTime(sourceFullFilename);
+                            }
+                            catch { }
 
-                        FileStatus fileStatusTarget = FileHandler.GetFileStatus(
-                            targetFullFilename, checkLockedStatus: true,
-                            fileInaccessibleOrError: true, fileErrorMessage: ex.Message,
-                            exiftoolProcessStatus: ExiftoolProcessStatus.DoNotUpdate);
-                        ImageListView_UpdateItemFileStatusInvoke(targetFullFilename, fileStatus);
+                            FileStatus fileStatus = FileHandler.GetFileStatus(
+                                sourceFullFilename, checkLockedStatus: true, fileInaccessibleOrError: true, fileErrorMessage: ex.Message);
+                            ImageListView_UpdateItemFileStatusInvoke(sourceFullFilename, fileStatus);
 
-                        AddError(
-                            Path.GetDirectoryName(sourceFullFilename),
-                            Path.GetFileName(sourceFullFilename),
-                            dateTimeLastWriteTime,
-                            AddErrorFileSystemRegion, AddErrorFileSystemMove, sourceFullFilename, targetFullFilename,
-                            "Issue: Failed moving file.\r\n" +
-                            "From File name : " + sourceFullFilename + "\r\n" +
-                            "From File staus: " + fileStatus.ToString() + "\r\n" +
-                            "To   File name : " + targetFullFilename + "\r\n" +
-                            "To   File staus: " + fileStatusTarget.ToString() + "\r\n" +
-                            "Error message: " + ex.Message);
+                            FileStatus fileStatusTarget = FileHandler.GetFileStatus(
+                                targetFullFilename, checkLockedStatus: true,
+                                fileInaccessibleOrError: true, fileErrorMessage: ex.Message,
+                                exiftoolProcessStatus: ExiftoolProcessStatus.DoNotUpdate);
+                            ImageListView_UpdateItemFileStatusInvoke(targetFullFilename, fileStatus);
 
-                        Logger.Error(ex, "Error when move file.");
+                            AddError(
+                                Path.GetDirectoryName(sourceFullFilename),
+                                Path.GetFileName(sourceFullFilename),
+                                dateTimeLastWriteTime,
+                                AddErrorFileSystemRegion, AddErrorFileSystemMove, sourceFullFilename, targetFullFilename,
+                                "Issue: Failed moving file.\r\n" +
+                                "From File name : " + sourceFullFilename + "\r\n" +
+                                "From File staus: " + fileStatus.ToString() + "\r\n" +
+                                "To   File name : " + targetFullFilename + "\r\n" +
+                                "To   File staus: " + fileStatusTarget.ToString() + "\r\n" +
+                                "Error message: " + ex.Message);
+
+                            Logger.Error(ex, "Error when move file.");
+                        }
                     }
                 }
+                #endregion
             }
-            #endregion
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                GlobalData.IsPerformingAButtonAction = false;
+                ImageListViewHandler.ResumeLayout(imageListView1);
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
 
-            ImageListViewHandler.ResumeLayout(imageListView1);
-            GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
-
-            ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
+                ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
+            }
         }
         #endregion
 

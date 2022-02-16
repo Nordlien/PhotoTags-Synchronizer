@@ -104,13 +104,8 @@ namespace PhotoTagsSynchronizer
                     Dictionary<string, RenameToNameAndResult> renameFailed;
                     
                     DataGridViewHandlerRename.Write(dataGridViewRename, out renameSuccess, out renameFailed, checkBoxRenameShowFullPath.Checked);
-                    //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
                     UpdateImageViewListeAfterRename(imageListView1, renameSuccess, renameFailed, true);
-                    //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
-
-                    //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
                     ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
-                    //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
                 }
             }
             catch (Exception ex)
@@ -129,11 +124,21 @@ namespace PhotoTagsSynchronizer
             if (IsPopulatingAnything("Rename")) return;
             if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
 
-            GlobalData.IsPerformingAButtonAction = true;
-            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
-            SaveRename();
-            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
-            GlobalData.IsPerformingAButtonAction = false;
+            try
+            {
+                GlobalData.IsPerformingAButtonAction = true;
+                SaveRename();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                GlobalData.IsPerformingAButtonAction = false;
+            }
         }
         #endregion
 

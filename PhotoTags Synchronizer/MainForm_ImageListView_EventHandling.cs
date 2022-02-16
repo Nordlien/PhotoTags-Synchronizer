@@ -574,17 +574,27 @@ namespace PhotoTagsSynchronizer
 
             GlobalData.IsPerformingAButtonAction = true;
 
-            ImageListViewHandler.ClearCacheFileEntriesSelectedItems(imageListView1);
-            FastGroupSelection_Clear();
-            
-            ImageListViewSuspendLayoutInvoke(imageListView1); 
-            ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
-            ImageListViewResumeLayoutInvoke(imageListView1);
+            try
+            {
+                ImageListViewHandler.ClearCacheFileEntriesSelectedItems(imageListView1);
+                FastGroupSelection_Clear();
 
-            MaximizeOrRestoreWorkspaceMainCellAndChilds();
+                ImageListViewSuspendLayoutInvoke(imageListView1);
+                ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
+                ImageListViewResumeLayoutInvoke(imageListView1);
 
-            GlobalData.IsPerformingAButtonAction = false;
-
+                MaximizeOrRestoreWorkspaceMainCellAndChilds();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                GlobalData.IsPerformingAButtonAction = false;
+            }
         }
         #endregion
 
@@ -592,24 +602,35 @@ namespace PhotoTagsSynchronizer
         private void ImageListView_SelectionChanged_Action_ImageListView_DataGridView(bool allowUseCache)
         {
             if (GlobalData.IsApplicationClosing) return;
-            
-            GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
-            ImageListViewHandler.SuspendLayout(imageListView1);
 
-            using (new WaitCursor())
+            try
             {
-                GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
+                ImageListViewHandler.SuspendLayout(imageListView1);
 
-                HashSet<FileEntry> fileEntries = ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, allowUseCache);
-                ImageListView_SelectionChanged_Action_RemoveNoneExistFilesFromSelectedFiles(ref fileEntries);
-                DataGridView_CleanAll();
-                DataGridView_Populate_SelectedItemsThread(fileEntries);
-                PopulateImageListViewOpenWithToolStripThread(fileEntries, ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));
-                UpdateRibbonsWhenWorkspaceChanged();
+                using (new WaitCursor())
+                {
+                    GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
+
+                    HashSet<FileEntry> fileEntries = ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, allowUseCache);
+                    ImageListView_SelectionChanged_Action_RemoveNoneExistFilesFromSelectedFiles(ref fileEntries);
+                    DataGridView_CleanAll();
+                    DataGridView_Populate_SelectedItemsThread(fileEntries);
+                    PopulateImageListViewOpenWithToolStripThread(fileEntries, ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));
+                    UpdateRibbonsWhenWorkspaceChanged();
+                }
             }
-
-            ImageListViewHandler.ResumeLayout(imageListView1);
-            GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                ImageListViewHandler.ResumeLayout(imageListView1);
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+            }
         }
         #endregion
 
@@ -1017,92 +1038,102 @@ namespace PhotoTagsSynchronizer
         private HashSet<FileEntry> ImageListView_Populate_ListOfMediaFiles_AddFilter(IEnumerable<FileData> fileDatasFromFolder, HashSet<FileEntry> fileEntriesFromDatabase, string selectedFolder, bool runPopulateFilter = true)
         {
             GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
-            GlobalData.IsPopulatingImageListViewFromFolderOrDatabaseList = true; 
-            
+            GlobalData.IsPopulatingImageListViewFromFolderOrDatabaseList = true;
+          
             HashSet<FileEntry> fileEntriesFound = new HashSet<FileEntry>();
-            using (new WaitCursor())
-            {
-                LoadingItemsImageListView(2, 6);
-                UpdateStatusImageListView("Clear old data...");
-                
-                #region Init - Clear Old data and Caches
-                if (Properties.Settings.Default.ImageViewLoadThumbnailOnDemandMode) imageListView1.CacheMode = CacheMode.OnDemand;
-                else imageListView1.CacheMode = CacheMode.Continuous;
-
-                //GlobalData.DoNotTrigger_ImageListView_ItemUpdate = true;
-                if (runPopulateFilter) FilterVerifyer.ClearTreeViewNodes(treeViewFilter);
-                //GlobalData.DoNotTrigger_ImageListView_ItemUpdate = false;
-
-                KeepTrackOfMetadataLoadedClearList();
-                RemoveErrors();
-                ClearAllQueues();                
-                ImageListViewHandler.ClearAllAndCaches(imageListView1);
-                #endregion
-
-                #region Suspend / Resume
-                TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, false);
-                ImageListViewHandler.Enable(imageListView1, false);
-                ImageListViewSuspendLayoutInvoke(imageListView1);
-                #endregion
-
-                LoadingItemsImageListView(3, 6);
-                UpdateStatusImageListView("Checking filter...");
-                #region Get Filter
-                FilterVerifyer filterVerifyerFolder = new FilterVerifyer();
-                int valuesCountFiltersAdded = filterVerifyerFolder.ReadValuesFromRootNodesWithChilds(treeViewFilter, FilterVerifyer.Root); //Get filters
-                #endregion
-
-                LoadingItemsImageListView(4, 6);
-                UpdateStatusImageListView("Populating...");
-
-                #region Populate ImageListView
-                #region Mediafiles Fetched from Folder
-                if (fileDatasFromFolder != null)
+            try 
+            { 
+                using (new WaitCursor())
                 {
-                    foreach (FileData fileData in fileDatasFromFolder)
-                    {
-                        if (ImageAndMovieFileExtentionsUtility.IsMediaFormat(fileData))
-                        {
-                            #region Add to ImageListView and check filter
-                            FileEntry fileEntry = new FileEntry(fileData.Path, fileData.LastWriteTime);
-                            fileEntriesFound.Add(fileEntry);
+                    LoadingItemsImageListView(2, 6);
+                    UpdateStatusImageListView("Clear old data...");
 
-                            if (valuesCountFiltersAdded > 0) // no filter values added, no need read from database, this just for optimize speed
+                    #region Init - Clear Old data and Caches
+                    if (Properties.Settings.Default.ImageViewLoadThumbnailOnDemandMode) imageListView1.CacheMode = CacheMode.OnDemand;
+                    else imageListView1.CacheMode = CacheMode.Continuous;
+
+                    //GlobalData.DoNotTrigger_ImageListView_ItemUpdate = true;
+                    if (runPopulateFilter) FilterVerifyer.ClearTreeViewNodes(treeViewFilter);
+                    //GlobalData.DoNotTrigger_ImageListView_ItemUpdate = false;
+
+                    KeepTrackOfMetadataLoadedClearList();
+                    RemoveErrors();
+                    ClearAllQueues();
+                    ImageListViewHandler.ClearAllAndCaches(imageListView1);
+                    #endregion
+
+                    #region Suspend / Resume
+                    TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, false);
+                    ImageListViewHandler.Enable(imageListView1, false);
+                    ImageListViewSuspendLayoutInvoke(imageListView1);
+                    #endregion
+
+                    LoadingItemsImageListView(3, 6);
+                    UpdateStatusImageListView("Checking filter...");
+                    #region Get Filter
+                    FilterVerifyer filterVerifyerFolder = new FilterVerifyer();
+                    int valuesCountFiltersAdded = filterVerifyerFolder.ReadValuesFromRootNodesWithChilds(treeViewFilter, FilterVerifyer.Root); //Get filters
+                    #endregion
+
+                    LoadingItemsImageListView(4, 6);
+                    UpdateStatusImageListView("Populating...");
+
+                    #region Populate ImageListView
+                    #region Mediafiles Fetched from Folder
+                    if (fileDatasFromFolder != null)
+                    {
+                        foreach (FileData fileData in fileDatasFromFolder)
+                        {
+                            if (ImageAndMovieFileExtentionsUtility.IsMediaFormat(fileData))
                             {
-                                Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileData.Path, fileData.LastWriteTime, MetadataBrokerType.ExifTool));
-                                if (filterVerifyerFolder.VerifyMetadata(metadata))
+                                #region Add to ImageListView and check filter
+                                FileEntry fileEntry = new FileEntry(fileData.Path, fileData.LastWriteTime);
+                                fileEntriesFound.Add(fileEntry);
+
+                                if (valuesCountFiltersAdded > 0) // no filter values added, no need read from database, this just for optimize speed
+                                {
+                                    Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileData.Path, fileData.LastWriteTime, MetadataBrokerType.ExifTool));
+                                    if (filterVerifyerFolder.VerifyMetadata(metadata))
+                                    {
+                                        lock (keepTrackOfLoadedMetadataLock)
+                                        {
+                                            ImageListViewHandler.ImageListViewAddItem(imageListView1, fileData.Path, ref hasTriggerLoadAllMetadataActions, ref keepTrackOfLoadedMetadata);
+                                        }
+                                    }
+                                }
+                                else
                                 {
                                     lock (keepTrackOfLoadedMetadataLock)
                                     {
                                         ImageListViewHandler.ImageListViewAddItem(imageListView1, fileData.Path, ref hasTriggerLoadAllMetadataActions, ref keepTrackOfLoadedMetadata);
                                     }
                                 }
+                                #endregion
                             }
-                            else
-                            {
-                                lock (keepTrackOfLoadedMetadataLock)
-                                {
-                                    ImageListViewHandler.ImageListViewAddItem(imageListView1, fileData.Path, ref hasTriggerLoadAllMetadataActions, ref keepTrackOfLoadedMetadata);
-                                }
-                            }
-                            #endregion
                         }
                     }
-                }
-                #endregion
+                    #endregion
 
-                #region Mediafiles Fetched from Database
-                if (fileEntriesFromDatabase != null)
-                {
-                    foreach (FileEntry fileEntry in fileEntriesFromDatabase)
+                    #region Mediafiles Fetched from Database
+                    if (fileEntriesFromDatabase != null)
                     {
-                        #region Add to ImageListView and check filter
-                        if (File.Exists(fileEntry.FileFullPath))
+                        foreach (FileEntry fileEntry in fileEntriesFromDatabase)
                         {
-                            if (valuesCountFiltersAdded > 0) // no filter values added, no need read from database, this just for optimize speed
+                            #region Add to ImageListView and check filter
+                            if (File.Exists(fileEntry.FileFullPath))
                             {
-                                Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
-                                if (filterVerifyerFolder.VerifyMetadata(metadata))
+                                if (valuesCountFiltersAdded > 0) // no filter values added, no need read from database, this just for optimize speed
+                                {
+                                    Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
+                                    if (filterVerifyerFolder.VerifyMetadata(metadata))
+                                    {
+                                        lock (keepTrackOfLoadedMetadataLock)
+                                        {
+                                            ImageListViewHandler.ImageListViewAddItem(imageListView1, fileEntry.FileFullPath, ref hasTriggerLoadAllMetadataActions, ref keepTrackOfLoadedMetadata);
+                                        }
+                                    }
+                                }
+                                else
                                 {
                                     lock (keepTrackOfLoadedMetadataLock)
                                     {
@@ -1110,54 +1141,55 @@ namespace PhotoTagsSynchronizer
                                     }
                                 }
                             }
-                            else
-                            {
-                                lock (keepTrackOfLoadedMetadataLock)
-                                {
-                                    ImageListViewHandler.ImageListViewAddItem(imageListView1, fileEntry.FileFullPath, ref hasTriggerLoadAllMetadataActions, ref keepTrackOfLoadedMetadata);
-                                }
-                            }
+                            #endregion
                         }
-                        #endregion
+                        fileEntriesFound = fileEntriesFromDatabase;
                     }
-                    fileEntriesFound = fileEntriesFromDatabase;
+                    #endregion
+
+                    #endregion
+
+                    #region Suspend / Resume
+                    ImageListViewHandler.Enable(imageListView1, true);
+                    ImageListViewResumeLayoutInvoke(imageListView1);
+                    TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, true);
+                    #endregion
+
+                    LoadingItemsImageListView(5, 6);
+                    UpdateStatusImageListView(fileEntriesFound.Count + " files added");
+
+                    ///////////////////////////////////
+
+                    ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false); //Even when 0 selected files, allocate data and flags, etc...
+                    #region Read to cache
+                    if (cacheFolderThumbnails || cacheFolderMetadatas || cacheFolderWebScraperDataSets)
+                    {
+                        LoadingItemsImageListView(4, 6);
+                        UpdateStatusImageListView("Started the cache process...");
+                        //PreloadCacheFileEntries(fileEntries, selectedFolder);
+                    }
+                    #endregion
+                    StartThreads();
+
+
+                    LoadingItemsImageListView(6, 6);
+                    UpdateStatusImageListView("Done populate " + fileEntriesFound.Count + " media files...");
+
+                    treeViewFolderBrowser1.Focus();
+                    LoadingItemsImageListView(0, 0);
                 }
-                #endregion
-
-                #endregion
-
-                #region Suspend / Resume
-                ImageListViewHandler.Enable(imageListView1, true);
-                ImageListViewResumeLayoutInvoke(imageListView1);
-                TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, true);
-                #endregion
-
-                LoadingItemsImageListView(5, 6);
-                UpdateStatusImageListView(fileEntriesFound.Count + " files added");
-
-                ///////////////////////////////////
-
-                ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false); //Even when 0 selected files, allocate data and flags, etc...
-                #region Read to cache
-                if (cacheFolderThumbnails || cacheFolderMetadatas || cacheFolderWebScraperDataSets)
-                {
-                    LoadingItemsImageListView(4, 6);
-                    UpdateStatusImageListView("Started the cache process...");
-                    //PreloadCacheFileEntries(fileEntries, selectedFolder);
-                }
-                #endregion
-                StartThreads();
-
-
-                LoadingItemsImageListView(6, 6);
-                UpdateStatusImageListView("Done populate " + fileEntriesFound.Count + " media files...");
-
-                treeViewFolderBrowser1.Focus();
-                LoadingItemsImageListView(0, 0);
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+                GlobalData.IsPopulatingImageListViewFromFolderOrDatabaseList = false;
             }
 
-            GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
-            GlobalData.IsPopulatingImageListViewFromFolderOrDatabaseList = false;
             return fileEntriesFound;
         }
         #endregion
@@ -1167,80 +1199,90 @@ namespace PhotoTagsSynchronizer
         #region ImageListView - Aggregate - Rename Items
         private void UpdateImageViewListeAfterRename(ImageListView imageListView, Dictionary<string, string> renameSuccess, Dictionary<string, RenameToNameAndResult> renameFailed, bool onlyRenameAddbackToListView)
         {
-            ImageListViewHandler.SuspendLayout(imageListView1);
-            GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
+            try 
+            { 
+                ImageListViewHandler.SuspendLayout(imageListView1);
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
 
-
-            using (new WaitCursor())
-            {
-                #region Remove items with old names
-                foreach (string filename in renameSuccess.Keys)
+                using (new WaitCursor())
                 {
-                    ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView.Items, filename);
-                    if (foundItem != null) ImageListViewHandler.ImageListViewRemoveItem(imageListView, foundItem);
-                }
-                #endregion
-
-                #region Add new renames back to list
-                if (onlyRenameAddbackToListView)
-                {
-                    lock (keepTrackOfLoadedMetadataLock)
+                    #region Remove items with old names
+                    foreach (string filename in renameSuccess.Keys)
                     {
-                        foreach (string filename in renameSuccess.Values)
+                        ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView.Items, filename);
+                        if (foundItem != null) ImageListViewHandler.ImageListViewRemoveItem(imageListView, foundItem);
+                    }
+                    #endregion
+
+                    #region Add new renames back to list
+                    if (onlyRenameAddbackToListView)
+                    {
+                        lock (keepTrackOfLoadedMetadataLock)
                         {
-                            ImageListViewHandler.ImageListViewAddItem(imageListView, filename, ref hasTriggerLoadAllMetadataActions, ref keepTrackOfLoadedMetadata);
+                            foreach (string filename in renameSuccess.Values)
+                            {
+                                ImageListViewHandler.ImageListViewAddItem(imageListView, filename, ref hasTriggerLoadAllMetadataActions, ref keepTrackOfLoadedMetadata);
+                            }
                         }
                     }
-                }
-                #endregion
+                    #endregion
 
-                #region AddErrors to Error Queue - Also Select all previous selected Items 
-                foreach (string filename in renameFailed.Keys)
-                {
-                    DateTime dateTimeLastWriteTime = DateTime.Now;
-                    try
+                    #region AddErrors to Error Queue - Also Select all previous selected Items 
+                    foreach (string filename in renameFailed.Keys)
                     {
-                        dateTimeLastWriteTime = File.GetLastWriteTime(filename);
-                    }
-                    catch { }
+                        DateTime dateTimeLastWriteTime = DateTime.Now;
+                        try
+                        {
+                            dateTimeLastWriteTime = File.GetLastWriteTime(filename);
+                        }
+                        catch { }
 
-                    FileStatus fileStatus = FileHandler.GetFileStatus(
-                        filename, checkLockedStatus: true,
-                        fileInaccessibleOrError: true, fileErrorMessage: renameFailed[filename].ErrorMessage);
-                    ImageListView_UpdateItemFileStatusInvoke(filename, fileStatus);
+                        FileStatus fileStatus = FileHandler.GetFileStatus(
+                            filename, checkLockedStatus: true,
+                            fileInaccessibleOrError: true, fileErrorMessage: renameFailed[filename].ErrorMessage);
+                        ImageListView_UpdateItemFileStatusInvoke(filename, fileStatus);
 
-                    FileStatus fileStatusRenameFailed = FileHandler.GetFileStatus(
-                        renameFailed[filename].NewFilename, checkLockedStatus: true);
+                        FileStatus fileStatusRenameFailed = FileHandler.GetFileStatus(
+                            renameFailed[filename].NewFilename, checkLockedStatus: true);
 
-                    AddError(
-                            Path.GetDirectoryName(filename), Path.GetFileName(filename), dateTimeLastWriteTime,
-                            AddErrorFileSystemRegion, AddErrorFileSystemMove, filename, renameFailed[filename].NewFilename,
-                            "Issue: Failed to rename file.\r\n" +
-                            "From File Name:  " + filename + "\r\n" +
-                            "From File Staus: " + fileStatus.ToString() + "\r\n" +
-                            "To   File Name:  " + renameFailed[filename].NewFilename + "\r\n" +
-                            "To   File Staus: " + fileStatusRenameFailed.ToString() + "\r\n" +
-                            "Error message: " + renameFailed[filename].ErrorMessage);
+                        AddError(
+                                Path.GetDirectoryName(filename), Path.GetFileName(filename), dateTimeLastWriteTime,
+                                AddErrorFileSystemRegion, AddErrorFileSystemMove, filename, renameFailed[filename].NewFilename,
+                                "Issue: Failed to rename file.\r\n" +
+                                "From File Name:  " + filename + "\r\n" +
+                                "From File Staus: " + fileStatus.ToString() + "\r\n" +
+                                "To   File Name:  " + renameFailed[filename].NewFilename + "\r\n" +
+                                "To   File Staus: " + fileStatusRenameFailed.ToString() + "\r\n" +
+                                "Error message: " + renameFailed[filename].ErrorMessage);
 
-                    ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView.Items, filename);
-                    if (foundItem != null) foundItem.Selected = true;
-                }
-                #endregion
-
-                #region Select back all Items renamed
-                if (onlyRenameAddbackToListView)
-                {
-                    foreach (string filename in renameSuccess.Values)
-                    {
                         ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView.Items, filename);
                         if (foundItem != null) foundItem.Selected = true;
                     }
-                }
-                #endregion
-            }
-            GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+                    #endregion
 
-            ImageListViewHandler.ResumeLayout(imageListView1);
+                    #region Select back all Items renamed
+                    if (onlyRenameAddbackToListView)
+                    {
+                        foreach (string filename in renameSuccess.Values)
+                        {
+                            ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView.Items, filename);
+                            if (foundItem != null) foundItem.Selected = true;
+                        }
+                    }
+                    #endregion
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+                ImageListViewHandler.ResumeLayout(imageListView1);
+            }
             
         }
 

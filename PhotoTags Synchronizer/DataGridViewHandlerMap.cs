@@ -393,9 +393,10 @@ namespace PhotoTagsSynchronizer
                     locationCoordinateAndDescriptionInDatabase?.Description.Country, isReadOnly);
                 #endregion
             }
-            catch
+            catch (Exception ex)
             {
-                //DEBUG
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {

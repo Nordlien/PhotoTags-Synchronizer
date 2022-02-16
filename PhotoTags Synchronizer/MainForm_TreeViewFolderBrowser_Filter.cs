@@ -48,12 +48,7 @@ namespace PhotoTagsSynchronizer
             }
 
             GlobalData.IsPerformingAButtonAction = false;
-
-            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
-            //GlobalData.IsPopulatingImageListViewFromFolderOrDatabaseList = true;
             ImageListView_Aggregate_UsingFiltersOnExistingFiles(treeViewFilter);
-            //GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
-            //GlobalData.IsPopulatingImageListViewFromFolderOrDatabaseList = false;
         }
         #endregion
 
