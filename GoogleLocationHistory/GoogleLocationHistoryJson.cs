@@ -37,6 +37,8 @@ namespace GoogleLocationHistory
                 
 
             int locationsFoundCount = 0;
+            var sqlTransactionBatch = googleLocationDatabaseCache.TransactionBegin();
+
             var dinamic = new DinamicStreamJsonParser()
             {
                 PropertyToType = new Dictionary<string, Type>()
@@ -49,6 +51,11 @@ namespace GoogleLocationHistory
                     if (obj.GetType() == typeof(GoogleJsonLocations))
                     {
                         locationsFoundCount++;
+                        if (locationsFoundCount % 5000 == 0)
+                        {
+                            googleLocationDatabaseCache.TransactionCommit(sqlTransactionBatch);
+                            sqlTransactionBatch = googleLocationDatabaseCache.TransactionBegin();
+                        }
                         if (returnGoogleLocationHistoryItems) googleLocationHistory.Add ((GoogleJsonLocations)obj);
                         
                         googleLocationDatabaseCache.WriteLocationHistory(userName, (GoogleJsonLocations)obj);
@@ -65,6 +72,8 @@ namespace GoogleLocationHistory
                 
             };
             dinamic.Parse();
+            
+            googleLocationDatabaseCache.TransactionCommit(sqlTransactionBatch);
 
             return googleLocationHistory;
 

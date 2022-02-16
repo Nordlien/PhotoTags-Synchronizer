@@ -61,9 +61,15 @@ namespace GoogleLocationHistory
                 SharpKml.Dom.GX.Track track = placemark.Geometry as SharpKml.Dom.GX.Track;
                 SharpKml.Base.Vector[] vector = track.Coordinates.ToArray();
                 DateTime[] whenElement =  track.When.ToArray();
-                
+
+                var sqlTransactionBatch = googleLocationDatabaseCache.TransactionBegin();
                 for (int i = 0; i < vector.Length; i++)
                 {
+                    if (i % 5000 == 0)
+                    {
+                        googleLocationDatabaseCache.TransactionCommit(sqlTransactionBatch);
+                        sqlTransactionBatch = googleLocationDatabaseCache.TransactionBegin();
+                    }
                     LocationFoundParam?.Invoke(this, i, i, vector.Length);
 
                     GoogleJsonLocations googleJsonLocations = new GoogleJsonLocations();
@@ -74,6 +80,7 @@ namespace GoogleLocationHistory
                     googleJsonLocations.Timestamp = whenElement[i];
                     googleLocationDatabaseCache.WriteLocationHistory(username, googleJsonLocations);
                 }
+                googleLocationDatabaseCache.TransactionCommit(sqlTransactionBatch);
             }
             else
             {

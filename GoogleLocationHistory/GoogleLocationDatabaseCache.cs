@@ -30,6 +30,20 @@ namespace GoogleLocationHistory
         }
         #endregion
 
+        #region TransactionBeginSelect
+        public SqliteTransaction TransactionBegin()
+        {
+            return dbTools.TransactionBegin();
+        }
+        #endregion
+
+        #region TransactionCommitSelect
+        public void TransactionCommit(SqliteTransaction sqliteTransaction)
+        {
+            dbTools.TransactionCommit(sqliteTransaction);
+        }
+        #endregion
+
         #region WriteLocationHistorySource
         public void WriteLocationHistorySource(string userAccount, string fileNamePath)
         {
