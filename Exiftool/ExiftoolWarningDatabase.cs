@@ -74,7 +74,7 @@ namespace Exiftool
         #region Write
         public void Write(ExiftoolData exifToolOldValue, ExiftoolData exifToolNewValue, string warning)
         {
-            var sqlTransaction = dbTools.TransactionBeginBatch();
+            var sqlTransaction = dbTools.TransactionBegin();
 
             #region SELECT Warning FROM MediaExiftoolTagsWarning
             warning = "(Logged: " + DateTime.Now.ToString() + ")\r\n" + warning;
@@ -161,7 +161,7 @@ namespace Exiftool
             }
             #endregion
 
-            dbTools.TransactionCommitBatch(sqlTransaction);
+            dbTools.TransactionCommit(sqlTransaction);
         }
         #endregion
 
@@ -170,7 +170,7 @@ namespace Exiftool
         {
             int rowsAffected = 0;
 
-            var sqlTransaction = dbTools.TransactionBeginBatch();
+            var sqlTransaction = dbTools.TransactionBegin();
 
             #region DELETE FROM MediaExiftoolTagsWarning 
             string sqlCommand = "DELETE FROM MediaExiftoolTagsWarning WHERE FileDirectory = @FileDirectory";
@@ -182,7 +182,7 @@ namespace Exiftool
             }
             #endregion
 
-            dbTools.TransactionCommitBatch(sqlTransaction);
+            dbTools.TransactionCommit(sqlTransaction);
 
             return rowsAffected;
         }
@@ -200,7 +200,7 @@ namespace Exiftool
         #region DeleteFileEntriesFromMediaExiftoolTagsWarning
         public void DeleteFileEntriesFromMediaExiftoolTagsWarning(List<FileEntry> fileEntries)
         {
-            var sqlTransaction = dbTools.TransactionBeginBatch();
+            var sqlTransaction = dbTools.TransactionBegin();
 
             #region DELETE FROM MediaExiftoolTagsWarning 
             string sqlCommand = "DELETE FROM MediaExiftoolTagsWarning " +
@@ -220,7 +220,7 @@ namespace Exiftool
             }
             #endregion
 
-            dbTools.TransactionCommitBatch(sqlTransaction);
+            dbTools.TransactionCommit(sqlTransaction);
         }
         #endregion
 

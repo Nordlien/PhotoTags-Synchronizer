@@ -788,7 +788,7 @@ namespace MetadataLibrary
             AddLocationNamesCache(metadata.LocationName);
             AddLocationStatesCache(metadata.LocationState);
 
-            var sqlTransaction = dbTools.TransactionBeginBatch();
+            var sqlTransaction = dbTools.TransactionBegin();
 
             #region INSERT INTO MediaMetadata
             string sqlCommand =
@@ -938,7 +938,7 @@ namespace MetadataLibrary
             }
             #endregion
 
-            dbTools.TransactionCommitBatch(sqlTransaction);
+            dbTools.TransactionCommit(sqlTransaction);
         }
         #endregion
 
@@ -1046,7 +1046,7 @@ namespace MetadataLibrary
             
             MetadataRegionCacheUpdate(metadata, regionStructure);
 
-            var sqlTransaction = dbTools.TransactionBeginBatch();
+            var sqlTransaction = dbTools.TransactionBegin();
 
             #region DELETE FROM MediaPersonalRegions
             string sqlCommandDelete =
@@ -1121,7 +1121,7 @@ namespace MetadataLibrary
             }
             #endregion
 
-            dbTools.TransactionCommitBatch(sqlTransaction);
+            dbTools.TransactionCommit(sqlTransaction);
         }
         #endregion
 
@@ -1130,7 +1130,7 @@ namespace MetadataLibrary
         {
             MetadataCacheRemove(oldDirectory, oldFilename);
 
-            var sqlTransaction = dbTools.TransactionBeginBatch();
+            var sqlTransaction = dbTools.TransactionBegin();
 
             #region INSERT INTO MediaMetadata
             string sqlCommand =
@@ -1253,7 +1253,7 @@ namespace MetadataLibrary
             }
             #endregion
 
-            dbTools.TransactionCommitBatch(sqlTransaction);
+            dbTools.TransactionCommit(sqlTransaction);
         }
         #endregion
 
@@ -1283,7 +1283,7 @@ namespace MetadataLibrary
                 string newPath = Path.Combine(newDirectory, newFilename).ToLower();
                 if (string.Compare(oldPath, newPath) != 0)
                 {
-                    var sqlTransaction = dbTools.TransactionBeginBatch();
+                    var sqlTransaction = dbTools.TransactionBegin();
 
                     #region UPDATE MediaMetadata
                     string sqlCommand =
@@ -1377,7 +1377,7 @@ namespace MetadataLibrary
                     }
                     #endregion
 
-                    dbTools.TransactionCommitBatch(sqlTransaction);
+                    dbTools.TransactionCommit(sqlTransaction);
                 }
             }
             
@@ -1398,7 +1398,7 @@ namespace MetadataLibrary
         {
             int rowsAffected = 0;
 
-            var sqlTransaction = dbTools.TransactionBeginBatch();
+            var sqlTransaction = dbTools.TransactionBegin();
 
             #region DELETE FROM MediaMetadata
             string sqlCommand = "DELETE FROM MediaMetadata WHERE " +
@@ -1417,7 +1417,7 @@ namespace MetadataLibrary
             }
             #endregion
 
-            dbTools.TransactionCommitBatch(sqlTransaction);
+            dbTools.TransactionCommit(sqlTransaction);
             return rowsAffected;
         }
         #endregion
@@ -1433,7 +1433,7 @@ namespace MetadataLibrary
         private int DeleteDirectoryMediaPersonalRegions(MetadataBrokerType broker, string fileDirectory, DateTime? fileDateModified = null)
         {
             int rowsAffected = 0;
-            var sqlTransaction = dbTools.TransactionBeginBatch();
+            var sqlTransaction = dbTools.TransactionBegin();
 
             #region DELETE FROM MediaPersonalRegions
             string sqlCommand = "DELETE FROM MediaPersonalRegions WHERE " +
@@ -1451,7 +1451,7 @@ namespace MetadataLibrary
             }
             #endregion
 
-            dbTools.TransactionCommitBatch(sqlTransaction);
+            dbTools.TransactionCommit(sqlTransaction);
             return rowsAffected;
         }
         #endregion
@@ -1467,7 +1467,7 @@ namespace MetadataLibrary
         private int DeleteDirectoryMediaPersonalKeywords(MetadataBrokerType broker, string fileDirectory, DateTime? fileDateModified = null)
         {
             int rowsAffected = 0;
-            var sqlTransaction = dbTools.TransactionBeginBatch();
+            var sqlTransaction = dbTools.TransactionBegin();
 
             #region DELETE FROM MediaPersonalKeywords
             string sqlCommand = "DELETE FROM MediaPersonalKeywords WHERE " +
@@ -1485,7 +1485,7 @@ namespace MetadataLibrary
             }
             #endregion
 
-            dbTools.TransactionCommitBatch(sqlTransaction);
+            dbTools.TransactionCommit(sqlTransaction);
             return rowsAffected;
         }
         #endregion
@@ -1536,7 +1536,7 @@ namespace MetadataLibrary
             deleteRecordEventArgsInit.FileEntries = fileEntryBrokers.Count();
             OnDeleteRecord(this, deleteRecordEventArgsInit);
 
-            var sqlTransaction = dbTools.TransactionBeginBatch();
+            var sqlTransaction = dbTools.TransactionBegin();
 
             #region DELETE FROM MediaMetadata
             string sqlCommand = "DELETE FROM MediaMetadata WHERE " +
@@ -1563,7 +1563,7 @@ namespace MetadataLibrary
             }
             #endregion
 
-            dbTools.TransactionCommitBatch(sqlTransaction);
+            dbTools.TransactionCommit(sqlTransaction);
             
             DeleteRecordEventArgs deleteRecordEventArgsEnd = new DeleteRecordEventArgs(deleteRecordEventArgsInit);
             deleteRecordEventArgsEnd.Aborted = true;
@@ -1594,7 +1594,7 @@ namespace MetadataLibrary
                 return;
             }
 
-            var sqlTransaction = dbTools.TransactionBeginBatch();
+            var sqlTransaction = dbTools.TransactionBegin();
 
             #region DELETE FROM MediaPersonalRegions
             string sqlCommand = "DELETE FROM MediaPersonalRegions WHERE " +
@@ -1619,7 +1619,7 @@ namespace MetadataLibrary
             }
             #endregion
 
-            dbTools.TransactionCommitBatch(sqlTransaction);
+            dbTools.TransactionCommit(sqlTransaction);
         }
         #endregion
 
@@ -1649,7 +1649,7 @@ namespace MetadataLibrary
                 return;
             }
 
-            var sqlTransaction = dbTools.TransactionBeginBatch();
+            var sqlTransaction = dbTools.TransactionBegin();
 
             #region DELETE FROM MediaPersonalKeywords
             string sqlCommand = "DELETE FROM MediaPersonalKeywords WHERE " +
@@ -1674,7 +1674,7 @@ namespace MetadataLibrary
             }
             #endregion
 
-            dbTools.TransactionCommitBatch(sqlTransaction);
+            dbTools.TransactionCommit(sqlTransaction);
         }
         #endregion
 

@@ -72,7 +72,7 @@ namespace Exiftool
         public bool Write(ExiftoolData exifToolData)
         {
             bool success = false;
-            var sqlTransaction = dbTools.TransactionBeginBatch();
+            var sqlTransaction = dbTools.TransactionBegin();
 
             #region INSERT INTO MediaExiftoolTags
             string sqlCommand =
@@ -99,7 +99,7 @@ namespace Exiftool
             }
             #endregion
 
-            dbTools.TransactionCommitBatch(sqlTransaction);
+            dbTools.TransactionCommit(sqlTransaction);
             return success;
         }
         #endregion
@@ -109,7 +109,7 @@ namespace Exiftool
         {
             int recordAffected = 0;
 
-            var sqlTransaction = dbTools.TransactionBeginBatch();
+            var sqlTransaction = dbTools.TransactionBegin();
 
             #region DELETE FROM MediaExiftoolTags 
             string sqlCommand = "DELETE FROM MediaExiftoolTags WHERE FileDirectory = @FileDirectory";
@@ -121,7 +121,7 @@ namespace Exiftool
             }
             #endregion
 
-            dbTools.TransactionCommitBatch(sqlTransaction);
+            dbTools.TransactionCommit(sqlTransaction);
             
             return recordAffected;
         }
@@ -139,7 +139,7 @@ namespace Exiftool
         #region DeleteFileEntriesFromMediaExiftoolTags
         public void DeleteFileEntriesFromMediaExiftoolTags(List<FileEntry> fileEntries)
         {
-            var sqlTransaction = dbTools.TransactionBeginBatch();
+            var sqlTransaction = dbTools.TransactionBegin();
 
             #region DELETE FROM MediaExiftoolTags 
             string sqlCommand = "DELETE FROM MediaExiftoolTags " +
@@ -159,7 +159,7 @@ namespace Exiftool
             }
             #endregion
 
-            dbTools.TransactionCommitBatch(sqlTransaction);
+            dbTools.TransactionCommit(sqlTransaction);
         }
         #endregion
 

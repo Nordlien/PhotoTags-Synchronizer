@@ -23,6 +23,7 @@ namespace SqliteDatabase
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
+        #region DatabaseCommand
 #if MonoSqlite
         private SqliteCommand databaseCommand;
         public SqliteCommand DatabaseCommand { get => databaseCommand; set => databaseCommand = value; }
@@ -63,12 +64,13 @@ namespace SqliteDatabase
             databaseCommand = new SQLiteCommand(commandText, connection, transaction);
         }
 #endif
+        #endregion
 
-
+        #region TableScanDebug
 #if DEBUGSCAN
         private void TableScanDebug(int debugTickCount, SqliteCommand databaseCommand)
         {
-            #region DEBUG
+        #region DEBUG
             Mono.Data.Sqlite.SqliteCommand sqliteCommand = new SqliteCommand("EXPLAIN QUERY PLAN " + databaseCommand.CommandText, databaseCommand.Connection);
             foreach (SqliteParameter sqliteParameter in databaseCommand.Parameters)
             {
@@ -202,9 +204,12 @@ namespace SqliteDatabase
                 Debug.WriteLine("100 - Sql Performance command: " + databaseCommand.CommandText);
                 //DEBUG - Table scan, To Slow Performance???
             }
-            #endregion
+        #endregion
         }
 #endif
+        #endregion
+
+        #region ExecuteNonQuery
         public int ExecuteNonQuery()
         {
             try
@@ -238,12 +243,16 @@ namespace SqliteDatabase
                 return -1;
             }
         }
+        #endregion
 
+        #region Dispose
         public void Dispose()
         {
             databaseCommand.Dispose();
         }
+        #endregion
 
+        #region Parameters
 #if MonoSqlite
         public SqliteParameterCollection Parameters { get => databaseCommand.Parameters; }
 #elif MicrosoftDataSqlite
@@ -251,6 +260,9 @@ namespace SqliteDatabase
 #else
         public SQLiteParameterCollection Parameters { get => databaseCommand.Parameters; }
 #endif
+        #endregion
+
+        #region ExecuteReader
         public CommonSqliteDataReader ExecuteReader()
         {
             CommonSqliteDataReader sqliteDataReader = null;
@@ -264,15 +276,20 @@ namespace SqliteDatabase
 #endif
             return sqliteDataReader;
         }
+        #endregion
 
+        #region ExecuteScalar
         public object ExecuteScalar()
         {
             return databaseCommand.ExecuteScalar();
         }
+        #endregion
 
+        #region Prepare - Can remove
         public void Prepare()
         {
             //databaseCommand.Prepare();
         }
+        #endregion 
     }
 }

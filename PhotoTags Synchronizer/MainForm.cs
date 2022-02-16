@@ -336,7 +336,7 @@ namespace PhotoTagsSynchronizer
             FormSplash.UpdateStatus("Initialize database: connect...");
             try
             {
-                databaseUtilitiesSqliteMetadata = new SqliteDatabaseUtilities(DatabaseType.SqliteMetadataDatabase, 9999, 4999);
+                databaseUtilitiesSqliteMetadata = new SqliteDatabaseUtilities(DatabaseType.SqliteMetadataDatabase);
             }
             catch (Exception ex)
             {

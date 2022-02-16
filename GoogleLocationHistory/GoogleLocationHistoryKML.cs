@@ -72,7 +72,6 @@ namespace GoogleLocationHistory
                     googleJsonLocations.Latitude = (float)vector[i].Latitude;
                     googleJsonLocations.Longitude = (float)vector[i].Longitude;
                     googleJsonLocations.Timestamp = whenElement[i];
-
                     googleLocationDatabaseCache.WriteLocationHistory(username, googleJsonLocations);
                 }
             }

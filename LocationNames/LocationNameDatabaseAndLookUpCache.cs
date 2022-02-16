@@ -21,7 +21,7 @@ namespace LocationNames
         #region Database - WriteLocationName
         public void WriteLocationName(LocationCoordinate locationCoordinateSearch, LocationCoordinateAndDescription locationInDatabaseCoordinateAndDescription)
         {
-            var sqlTransaction = dbTools.TransactionBeginBatch();
+            var sqlTransaction = dbTools.TransactionBegin();
 
             #region INSERT INTO LocationName 
             string sqlCommand =
@@ -46,14 +46,14 @@ namespace LocationNames
             }
             #endregion
 
-            dbTools.TransactionCommitBatch(sqlTransaction);
+            dbTools.TransactionCommit(sqlTransaction);
         }
         #endregion 
 
         #region Database - DeleteLocationName
         private void DeleteLocationName(LocationCoordinate locationCoordinateInDatabase, float locationAccuracyLatitude, float locationAccuracyLongitude)
         {
-            var sqlTransaction = dbTools.TransactionBeginBatch();
+            var sqlTransaction = dbTools.TransactionBegin();
 
             #region DELETE FROM LocationName 
             string sqlCommand = "DELETE FROM LocationName " +
@@ -85,7 +85,7 @@ namespace LocationNames
             }
             #endregion
 
-            dbTools.TransactionCommitBatch(sqlTransaction);
+            dbTools.TransactionCommit(sqlTransaction);
         }
         #endregion 
 

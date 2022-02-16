@@ -22,18 +22,20 @@ namespace GoogleLocationHistory
 {
     public class GoogleLocationHistoryDatabaseCache
     {
+        #region GoogleLocationHistoryDatabaseCache
         private SqliteDatabaseUtilities dbTools;
         public GoogleLocationHistoryDatabaseCache(SqliteDatabaseUtilities databaseTools)
         {
             dbTools = databaseTools;
         }
+        #endregion
 
         #region WriteLocationHistorySource
         public void WriteLocationHistorySource(string userAccount, string fileNamePath)
         {
             if (File.Exists(fileNamePath))
             {
-                var sqlTransaction = dbTools.TransactionBeginBatch();
+                var sqlTransaction = dbTools.TransactionBegin();
 
                 #region INSERT INTO LocationSource 
                 string sqlCommand =
@@ -51,7 +53,7 @@ namespace GoogleLocationHistory
                 }
                 #endregion
 
-                dbTools.TransactionCommitBatch(sqlTransaction);
+                dbTools.TransactionCommit(sqlTransaction);
             }
         }
         #endregion

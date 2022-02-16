@@ -37,7 +37,7 @@ namespace Thumbnails
             //Don't do DeleteThumbnail(fileDirectory, fileName, size); //It create a lot overhead
             //Do to read thumbnail only write back what doesn't exist
 
-            var sqlTransaction = dbTools.TransactionBeginBatch();
+            var sqlTransaction = dbTools.TransactionBegin();
 
             #region INSERT INTO MediaThumbnail
             string sqlCommand =
@@ -54,7 +54,7 @@ namespace Thumbnails
             }
             #endregion
 
-            dbTools.TransactionCommitBatch(sqlTransaction);
+            dbTools.TransactionCommit(sqlTransaction);
             
             ThumbnailCacheUpdate(fileEntry, image);
         }
@@ -81,7 +81,7 @@ namespace Thumbnails
             string newPath = Path.Combine(newDirectory, newFilename).ToLower();
             if (string.Compare(oldPath, newPath, true) != 0)
             {
-                var sqlTransaction = dbTools.TransactionBeginBatch();
+                var sqlTransaction = dbTools.TransactionBegin();
                 //CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction)
                 //CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
                 #region UPDATE MediaThumbnail 
@@ -101,7 +101,7 @@ namespace Thumbnails
                 }
                 #endregion
 
-                dbTools.TransactionCommitBatch(sqlTransaction);
+                dbTools.TransactionCommit(sqlTransaction);
             }
             
             
@@ -201,7 +201,7 @@ namespace Thumbnails
         #region Thumbnail - DeleteThumbnail
         public void DeleteThumbnails(List<FileEntry> fileEntries)
         {
-            var sqlTransaction = dbTools.TransactionBeginBatch();
+            var sqlTransaction = dbTools.TransactionBegin();
 
             #region DELETE FROM MediaThumbnail 
             string sqlCommand = "DELETE FROM MediaThumbnail WHERE FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
@@ -219,7 +219,7 @@ namespace Thumbnails
             }
             #endregion
 
-            dbTools.TransactionCommitBatch(sqlTransaction);
+            dbTools.TransactionCommit(sqlTransaction);
         }
         #endregion 
 
@@ -229,7 +229,7 @@ namespace Thumbnails
             int rowsAffected = 0;
             ThumbnailClearCache();
             
-            var sqlTransaction = dbTools.TransactionBeginBatch();
+            var sqlTransaction = dbTools.TransactionBegin();
             
             #region DELETE FROM MediaThumbnail 
             string sqlCommand = "DELETE FROM MediaThumbnail WHERE FileDirectory = @FileDirectory";
@@ -241,7 +241,7 @@ namespace Thumbnails
             }
             #endregion
 
-            dbTools.TransactionCommitBatch(sqlTransaction);
+            dbTools.TransactionCommit(sqlTransaction);
             
             return rowsAffected;
         }

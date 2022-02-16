@@ -23,7 +23,7 @@ namespace MicrosoftPhotos
         private SqliteDatabaseUtilities dbToolsMicrosoftReader;
         public MicrosoftPhotosReader()
         {
-            dbToolsMicrosoftReader = new SqliteDatabaseUtilities(DatabaseType.SqliteMicrosoftPhotos, 1000, 100);
+            dbToolsMicrosoftReader = new SqliteDatabaseUtilities(DatabaseType.SqliteMicrosoftPhotos);
         }
 
         public Metadata Read(MetadataBrokerType broker, string fullFilePath)

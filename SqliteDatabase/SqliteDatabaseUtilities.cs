@@ -49,24 +49,14 @@ namespace SqliteDatabase
         public SQLiteConnection ConnectionDatabase { get => connectionDatabase; set => connectionDatabase = value; }
         #endif
 
-        private int insertsAndUpdatesCount = 0;
-        private bool transactionStarted = false;
-        private Stopwatch transactionStopwatch = new Stopwatch();
-        private Timer transactionTimer = new Timer();
-        private int numberOfInsertsAndUpdatesBeforeCommit = 10000;
-        private int elapsedMillisecondsBeforeCommit = 5000;
-        private object transactionLock = new object();
         public static int NumberOfDecimals { get; set; } = 5;
         public static int NumberOfDecimalsShort { get; set; } = 2;
         public const string SqliteDateTimeFormat = "INTEGER";
         public const string SqliteNumberFormat = "DECIMAL(10,5)";
 
-        #region SqliteDatabaseUtilities(DatabaseType type, int numberOfTransactionbeforeCommit, int elapsedMillisecondsBeforeCommit)
-        public SqliteDatabaseUtilities(DatabaseType type, int numberOfTransactionbeforeCommit, int elapsedMillisecondsBeforeCommit)
+        #region SqliteDatabaseUtilities(DatabaseType type)
+        public SqliteDatabaseUtilities(DatabaseType type)
         {
-            this.numberOfInsertsAndUpdatesBeforeCommit = numberOfTransactionbeforeCommit;
-            this.elapsedMillisecondsBeforeCommit = elapsedMillisecondsBeforeCommit;
-
             if (type == DatabaseType.SqliteMicrosoftPhotos)
             {
                 ConnectMicrosoftPhotosDatabase();
@@ -79,11 +69,8 @@ namespace SqliteDatabase
         #endregion
 
         #region TransactionBeginSelect
-        int countTransactionSelect = 0;
         public SqliteTransaction TransactionBeginSelect()
         {
-            countTransactionSelect++;
-            //return null;
             return connectionDatabase.BeginTransaction();
         }
         #endregion
@@ -91,27 +78,22 @@ namespace SqliteDatabase
         #region TransactionCommitSelect
         public void TransactionCommitSelect(SqliteTransaction sqliteTransaction)
         {
-            countTransactionSelect--;
             if (sqliteTransaction != null) sqliteTransaction.Commit();
         }
         #endregion
 
-        #region TransactionBeginBatch
-        int countTransactionInsertsUpdates = 0;
+        #region TransactionBegin
         #if MonoSqlite
-        public SqliteTransaction TransactionBeginBatch()
+        public SqliteTransaction TransactionBegin()
         #elif MicrosoftDataSqlite
         public SqliteTransaction TransactionBeginBatch()
         #else
         public SQLiteTransaction TransactionBeginBatch();
         #endif
         {
-            countTransactionInsertsUpdates++;
-            //xreturn null;
             if (connectionDatabase.State == System.Data.ConnectionState.Open)
             {
-                countTransactionInsertsUpdates++;
-                return connectionDatabase.BeginTransaction(); // System.Data.IsolationLevel.ReadUncommitted); // deferredLock);
+                return connectionDatabase.BeginTransaction(); 
             }
             else
             {
@@ -120,21 +102,15 @@ namespace SqliteDatabase
         }
         #endregion 
 
-        private void TimerStatus_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            //TransactionCommitBatch(true);
-        }
-
-        #region TransactionCommitBatch
+        #region TransactionCommit
         #if MonoSqlite
-        public void TransactionCommitBatch(SqliteTransaction sqliteTransaction)
+        public void TransactionCommit(SqliteTransaction sqliteTransaction)
         #elif MicrosoftDataSqlite
         TransactionCommitBatch(SqliteTransaction sqliteTransaction)
         #else
         TransactionCommitBatch(SQLiteTransaction sqliteTransaction)
         #endif
         {
-            countTransactionInsertsUpdates--;
             if (sqliteTransaction != null) sqliteTransaction.Commit();
         }
         #endregion
@@ -184,25 +160,7 @@ namespace SqliteDatabase
         }
         #endregion
 
-        #region Debug - PRAGMA lock_status;
-        public void Debug_PRAGMA_lock_status()
-        {
-            #region PRAGMA lock_status;
-            string sqlCommand = "PRAGMA lock_status;";
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, connectionDatabase, null))
-            {
-                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        Debug.WriteLine("-----");
-                    }
-                }
-            }
-            #endregion
-        }
-        #endregion
-
+        #region PRAGMA_Run
         public string PRAGMA_Run(string sqlCommand)
         {
 
@@ -214,15 +172,14 @@ namespace SqliteDatabase
                 {
                     while (reader.Read())
                     {
-                        result += reader[0].ToString() + "\r\n";
-                        //reader[0].ToString();
-                        Debug.WriteLine("-----");
+                        result += reader[0].ToString() + " ";
                     }
                 }
             }
             #endregion
             return result;
         }
+        #endregion
 
         #region Convert Object to Variable
 
@@ -698,7 +655,6 @@ namespace SqliteDatabase
         #region Database Close
         public void DatabaseClose()
         {
-            //TransactionCommitBatch(true);
             try
             {
                 if (this.ConnectionDatabase.State == System.Data.ConnectionState.Open)

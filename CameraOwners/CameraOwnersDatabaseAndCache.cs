@@ -106,7 +106,7 @@ namespace CameraOwners
             if (string.IsNullOrWhiteSpace(cameraOwner.Model)) cameraOwner.Model = CameraOwner.UnknownModel;
             //if (string.IsNullOrWhiteSpace(cameraOwner.Owner)) cameraOwner.Owner = CameraOwner.UnknownOwner;
 
-            var sqlTransaction = dbTools.TransactionBeginBatch();
+            var sqlTransaction = dbTools.TransactionBegin();
 
             #region DELETE FROM CameraOwner
             string sqlCommand =
@@ -135,7 +135,7 @@ namespace CameraOwners
             }
             #endregion 
 
-            dbTools.TransactionCommitBatch(sqlTransaction);
+            dbTools.TransactionCommit(sqlTransaction);
             MakeCameraOwnersDirty();
         }
         #endregion 
