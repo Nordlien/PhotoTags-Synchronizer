@@ -14,7 +14,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Thumbnails;
 using static Manina.Windows.Forms.ImageListView;
@@ -2479,9 +2478,7 @@ namespace PhotoTagsSynchronizer
 
                                                         try
                                                         {
-                                                            //databaseAndCacheMetadataExiftool.TransactionBeginBatch();
                                                             ThumbnailRegionHandler.SaveThumbnailsForRegionList_AlsoWebScarper(databaseAndCacheMetadataExiftool, checkAgaistAll_MetadataActiveAlreadyCopy, new Bitmap(image));
-                                                            //databaseAndCacheMetadataExiftool.TransactionCommitBatch();
                                                         }
                                                         catch (Exception ex)
                                                         {

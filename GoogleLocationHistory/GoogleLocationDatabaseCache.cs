@@ -50,24 +50,31 @@ namespace GoogleLocationHistory
             if (File.Exists(fileNamePath))
             {
                 var sqlTransaction = dbTools.TransactionBegin();
-
-                #region INSERT INTO LocationSource 
-                string sqlCommand =
-                    "INSERT INTO LocationSource (UserAccount, FileDirectory, FileName, FileDateModified, FileDateImported) " +
-                    "Values (@UserAccount, @FileDirectory, @FileName, @FileDateModified, @FileDateImported)";
-                using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
+                try
                 {
-                    //commandDatabase.Prepare();
-                    commandDatabase.Parameters.AddWithValue("@UserAccount", userAccount);
-                    commandDatabase.Parameters.AddWithValue("@FileDirectory", Path.GetDirectoryName(fileNamePath));
-                    commandDatabase.Parameters.AddWithValue("@FileName", Path.GetFileName(fileNamePath));
-                    commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(File.GetLastWriteTimeUtc(fileNamePath)));
-                    commandDatabase.Parameters.AddWithValue("@FileDateImported", dbTools.ConvertFromDateTimeToDBVal(DateTime.UtcNow));
-                    commandDatabase.ExecuteNonQuery();      // Execute the query
+                    #region INSERT INTO LocationSource 
+                    string sqlCommand =
+                        "INSERT INTO LocationSource (UserAccount, FileDirectory, FileName, FileDateModified, FileDateImported) " +
+                        "Values (@UserAccount, @FileDirectory, @FileName, @FileDateModified, @FileDateImported)";
+                    using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
+                    {
+                        //commandDatabase.Prepare();
+                        commandDatabase.Parameters.AddWithValue("@UserAccount", userAccount);
+                        commandDatabase.Parameters.AddWithValue("@FileDirectory", Path.GetDirectoryName(fileNamePath));
+                        commandDatabase.Parameters.AddWithValue("@FileName", Path.GetFileName(fileNamePath));
+                        commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(File.GetLastWriteTimeUtc(fileNamePath)));
+                        commandDatabase.Parameters.AddWithValue("@FileDateImported", dbTools.ConvertFromDateTimeToDBVal(DateTime.UtcNow));
+                        commandDatabase.ExecuteNonQuery();      // Execute the query
+                    }
+                    #endregion
+                    dbTools.TransactionCommit(sqlTransaction);
                 }
-                #endregion
-
-                dbTools.TransactionCommit(sqlTransaction);
+                catch (Exception ex)
+                {
+                    Logger.Error(ex);
+                    dbTools.TransactionRollback(sqlTransaction);
+                    throw new Exception(ex.Message);
+                }
             }
         }
         #endregion

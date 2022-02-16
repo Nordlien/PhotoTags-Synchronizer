@@ -73,33 +73,40 @@ namespace Exiftool
         {
             bool success = false;
             var sqlTransaction = dbTools.TransactionBegin();
-
-            #region INSERT INTO MediaExiftoolTags
-            string sqlCommand =
-                "INSERT INTO MediaExiftoolTags (FileDirectory, FileName, FileDateModified, Region, Command, Parameter) " +
-                "Values (@FileDirectory, @FileName, @FileDateModified, @Region, @Command, @Parameter)";
-            using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
+            try
             {
-                //commandDatabase.Prepare();
-                commandDatabase.Parameters.AddWithValue("@FileDirectory", exifToolData.FileDirectory);
-                commandDatabase.Parameters.AddWithValue("@FileName", exifToolData.FileName);
-                commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(exifToolData.FileDateModified));
-                commandDatabase.Parameters.AddWithValue("@Region", exifToolData.Region);
-                commandDatabase.Parameters.AddWithValue("@Command", exifToolData.Command);
-                commandDatabase.Parameters.AddWithValue("@Parameter", exifToolData.Parameter);
-
-                if (commandDatabase.ExecuteNonQuery() != -1) success = true;
-                if (success)
+                #region INSERT INTO MediaExiftoolTags
+                string sqlCommand =
+                    "INSERT INTO MediaExiftoolTags (FileDirectory, FileName, FileDateModified, Region, Command, Parameter) " +
+                    "Values (@FileDirectory, @FileName, @FileDateModified, @Region, @Command, @Parameter)";
+                using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
                 {
-                    Logger.Error("Delete MediaExiftoolTags data due to previous application crash for file: " + exifToolData.FullFilePath);
-                    //Delete all extries due to crash.
-                    DeleteFileEntryMediaExiftoolTags(new FileEntry(exifToolData.FileDirectory, exifToolData.FileName, exifToolData.FileDateModified));
-                    commandDatabase.ExecuteNonQuery();
-                }   // Execute the query
-            }
-            #endregion
+                    //commandDatabase.Prepare();
+                    commandDatabase.Parameters.AddWithValue("@FileDirectory", exifToolData.FileDirectory);
+                    commandDatabase.Parameters.AddWithValue("@FileName", exifToolData.FileName);
+                    commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(exifToolData.FileDateModified));
+                    commandDatabase.Parameters.AddWithValue("@Region", exifToolData.Region);
+                    commandDatabase.Parameters.AddWithValue("@Command", exifToolData.Command);
+                    commandDatabase.Parameters.AddWithValue("@Parameter", exifToolData.Parameter);
 
-            dbTools.TransactionCommit(sqlTransaction);
+                    if (commandDatabase.ExecuteNonQuery() != -1) success = true;
+                    if (success)
+                    {
+                        Logger.Error("Delete MediaExiftoolTags data due to previous application crash for file: " + exifToolData.FullFilePath);
+                        //Delete all extries due to crash.
+                        DeleteFileEntryMediaExiftoolTags(new FileEntry(exifToolData.FileDirectory, exifToolData.FileName, exifToolData.FileDateModified));
+                        commandDatabase.ExecuteNonQuery();
+                    }   // Execute the query
+                }
+                #endregion
+                dbTools.TransactionCommit(sqlTransaction);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                dbTools.TransactionRollback(sqlTransaction);
+                throw new Exception(ex.Message);
+            }
             return success;
         }
         #endregion
@@ -110,19 +117,25 @@ namespace Exiftool
             int recordAffected = 0;
 
             var sqlTransaction = dbTools.TransactionBegin();
-
-            #region DELETE FROM MediaExiftoolTags 
-            string sqlCommand = "DELETE FROM MediaExiftoolTags WHERE FileDirectory = @FileDirectory";
-            using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
+            try
             {
-                //commandDatabase.Prepare();
-                commandDatabase.Parameters.AddWithValue("@FileDirectory", fileDirectory);
-                recordAffected = commandDatabase.ExecuteNonQuery();      // Execute the query
+                #region DELETE FROM MediaExiftoolTags 
+                string sqlCommand = "DELETE FROM MediaExiftoolTags WHERE FileDirectory = @FileDirectory";
+                using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
+                {
+                    //commandDatabase.Prepare();
+                    commandDatabase.Parameters.AddWithValue("@FileDirectory", fileDirectory);
+                    recordAffected = commandDatabase.ExecuteNonQuery();      // Execute the query
+                }
+                #endregion
+                dbTools.TransactionCommit(sqlTransaction);
             }
-            #endregion
-
-            dbTools.TransactionCommit(sqlTransaction);
-            
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                dbTools.TransactionRollback(sqlTransaction);
+                throw new Exception(ex.Message);
+            }
             return recordAffected;
         }
         #endregion
@@ -140,26 +153,33 @@ namespace Exiftool
         public void DeleteFileEntriesFromMediaExiftoolTags(List<FileEntry> fileEntries)
         {
             var sqlTransaction = dbTools.TransactionBegin();
-
-            #region DELETE FROM MediaExiftoolTags 
-            string sqlCommand = "DELETE FROM MediaExiftoolTags " +
-                "WHERE FileDirectory = @FileDirectory " +
-                "AND FileName = @FileName " +
-                "AND FileDateModified = @FileDateModified ";
-            using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
+            try
             {
-                foreach (FileEntry fileEntry in fileEntries)
+                #region DELETE FROM MediaExiftoolTags 
+                string sqlCommand = "DELETE FROM MediaExiftoolTags " +
+                    "WHERE FileDirectory = @FileDirectory " +
+                    "AND FileName = @FileName " +
+                    "AND FileDateModified = @FileDateModified ";
+                using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
                 {
-                    //commandDatabase.Prepare();
-                    commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntry.Directory);
-                    commandDatabase.Parameters.AddWithValue("@FileName", fileEntry.FileName);
-                    commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntry.LastWriteDateTime));
-                    commandDatabase.ExecuteNonQuery();      // Execute the query
+                    foreach (FileEntry fileEntry in fileEntries)
+                    {
+                        //commandDatabase.Prepare();
+                        commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntry.Directory);
+                        commandDatabase.Parameters.AddWithValue("@FileName", fileEntry.FileName);
+                        commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntry.LastWriteDateTime));
+                        commandDatabase.ExecuteNonQuery();      // Execute the query
+                    }
                 }
+                #endregion
+                dbTools.TransactionCommit(sqlTransaction);
             }
-            #endregion
-
-            dbTools.TransactionCommit(sqlTransaction);
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                dbTools.TransactionRollback(sqlTransaction);
+                throw new Exception(ex.Message);
+            }
         }
         #endregion
 

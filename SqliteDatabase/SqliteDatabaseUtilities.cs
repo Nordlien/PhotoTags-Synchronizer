@@ -13,7 +13,6 @@ using System.Data.SQLite;
 using System;
 using System.IO;
 using System.Diagnostics;
-using System.Timers;
 using System.Drawing;
 
 namespace SqliteDatabase
@@ -22,13 +21,7 @@ namespace SqliteDatabase
 
     public class SqliteDatabaseUtilities // : IDisposable
     {
-        //#if MonoSqlite
-        //        private SqliteTransaction transactionHandler = null;
-        //#elif MicrosoftDataSqlite
-        //        private SqliteTransaction transactionHandler = null;
-        //#else
-        //        private SQLiteTransaction transactionHandler = null;
-        //#endif
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         private string databasePath;
         private string databaseFile;
@@ -115,8 +108,27 @@ namespace SqliteDatabase
         }
         #endregion
 
+        #region TransactionRollback
+#if MonoSqlite
+        public void TransactionRollback(SqliteTransaction sqliteTransaction)
+#elif MicrosoftDataSqlite
+        TransactionCommitBatch(SqliteTransaction sqliteTransaction)
+#else
+        TransactionCommitBatch(SQLiteTransaction sqliteTransaction)
+#endif
+        {
+            try
+            {
+                if (sqliteTransaction != null) sqliteTransaction.Rollback();
+            } catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
+        }
+        #endregion
+
         #region SqliteCommand
-        #if MonoSqlite
+#if MonoSqlite
         public SqliteCommand SqliteCommand()
         {
             return new SqliteCommand(connectionDatabase);

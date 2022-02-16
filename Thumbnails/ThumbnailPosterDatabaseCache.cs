@@ -18,6 +18,8 @@ namespace Thumbnails
 {
     public class ThumbnailPosterDatabaseCache
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         public static bool StopCaching { 
             get; 
             set; 
@@ -38,24 +40,31 @@ namespace Thumbnails
             //Do to read thumbnail only write back what doesn't exist
 
             var sqlTransaction = dbTools.TransactionBegin();
-
-            #region INSERT INTO MediaThumbnail
-            string sqlCommand =
-                "INSERT INTO MediaThumbnail (FileDirectory, FileName, FileDateModified,Image) " +
-                "Values (@FileDirectory, @FileName, @FileDateModified, @Image)";
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
+            try
             {
-                //commandDatabase.Prepare();
-                commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntry.Directory);
-                commandDatabase.Parameters.AddWithValue("@FileName", fileEntry.FileName);
-                commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntry.LastWriteDateTime));
-                commandDatabase.Parameters.AddWithValue("@Image", dbTools.ImageToByteArray(image));
-                commandDatabase.ExecuteNonQuery();      // Execute the query
+                #region INSERT INTO MediaThumbnail
+                string sqlCommand =
+                    "INSERT INTO MediaThumbnail (FileDirectory, FileName, FileDateModified,Image) " +
+                    "Values (@FileDirectory, @FileName, @FileDateModified, @Image)";
+                using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
+                {
+                    //commandDatabase.Prepare();
+                    commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntry.Directory);
+                    commandDatabase.Parameters.AddWithValue("@FileName", fileEntry.FileName);
+                    commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntry.LastWriteDateTime));
+                    commandDatabase.Parameters.AddWithValue("@Image", dbTools.ImageToByteArray(image));
+                    commandDatabase.ExecuteNonQuery();      // Execute the query
+                }
+                #endregion
+                dbTools.TransactionCommit(sqlTransaction);
             }
-            #endregion
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                dbTools.TransactionRollback(sqlTransaction);
+                throw new Exception(ex.Message);
+            }
 
-            dbTools.TransactionCommit(sqlTransaction);
-            
             ThumbnailCacheUpdate(fileEntry, image);
         }
         #endregion
@@ -82,26 +91,32 @@ namespace Thumbnails
             if (string.Compare(oldPath, newPath, true) != 0)
             {
                 var sqlTransaction = dbTools.TransactionBegin();
-                //CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction)
-                //CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
-                #region UPDATE MediaThumbnail 
-                string sqlCommand =
-                           "UPDATE MediaThumbnail SET " +
-                           "FileDirectory = @NewFileDirectory, FileName = @NewFileName " +
-                           "WHERE FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
-                using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
+                try
                 {
-                    //commandDatabase.Prepare();
-                    //commandDatabase.Parameters.AddWithValue("@Broker", (int)broker);
-                    commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
-                    commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
-                    commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
-                    commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
-                    if (commandDatabase.ExecuteNonQuery() == -1) movedOk = false;
+                    #region UPDATE MediaThumbnail 
+                    string sqlCommand =
+                               "UPDATE MediaThumbnail SET " +
+                               "FileDirectory = @NewFileDirectory, FileName = @NewFileName " +
+                               "WHERE FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
+                    using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
+                    {
+                        //commandDatabase.Prepare();
+                        //commandDatabase.Parameters.AddWithValue("@Broker", (int)broker);
+                        commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
+                        commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
+                        commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
+                        commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
+                        if (commandDatabase.ExecuteNonQuery() == -1) movedOk = false;
+                    }
+                    #endregion
+                    dbTools.TransactionCommit(sqlTransaction);
                 }
-                #endregion
-
-                dbTools.TransactionCommit(sqlTransaction);
+                catch (Exception ex)
+                {
+                    Logger.Error(ex);
+                    dbTools.TransactionRollback(sqlTransaction);
+                    throw new Exception(ex.Message);
+                }
             }
             
             
@@ -202,24 +217,31 @@ namespace Thumbnails
         public void DeleteThumbnails(List<FileEntry> fileEntries)
         {
             var sqlTransaction = dbTools.TransactionBegin();
-
-            #region DELETE FROM MediaThumbnail 
-            string sqlCommand = "DELETE FROM MediaThumbnail WHERE FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
+            try
             {
-                foreach (FileEntry fileEntry in fileEntries)
+                #region DELETE FROM MediaThumbnail 
+                string sqlCommand = "DELETE FROM MediaThumbnail WHERE FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
+                using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
                 {
-                    //commandDatabase.Prepare();
-                    commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntry.Directory);
-                    commandDatabase.Parameters.AddWithValue("@FileName", fileEntry.FileName);
-                    commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntry.LastWriteDateTime));
-                    commandDatabase.ExecuteNonQuery();      // Execute the query
-                    ThumnbailCacheRemove(fileEntry);
+                    foreach (FileEntry fileEntry in fileEntries)
+                    {
+                        //commandDatabase.Prepare();
+                        commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntry.Directory);
+                        commandDatabase.Parameters.AddWithValue("@FileName", fileEntry.FileName);
+                        commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntry.LastWriteDateTime));
+                        commandDatabase.ExecuteNonQuery();      // Execute the query
+                        ThumnbailCacheRemove(fileEntry);
+                    }
                 }
+                #endregion
+                dbTools.TransactionCommit(sqlTransaction);
             }
-            #endregion
-
-            dbTools.TransactionCommit(sqlTransaction);
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                dbTools.TransactionRollback(sqlTransaction);
+                throw new Exception(ex.Message);
+            }
         }
         #endregion 
 
@@ -230,19 +252,25 @@ namespace Thumbnails
             ThumbnailClearCache();
             
             var sqlTransaction = dbTools.TransactionBegin();
-            
-            #region DELETE FROM MediaThumbnail 
-            string sqlCommand = "DELETE FROM MediaThumbnail WHERE FileDirectory = @FileDirectory";
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
+            try
             {
-                //commandDatabase.Prepare();
-                commandDatabase.Parameters.AddWithValue("@FileDirectory", fileDirectory);
-                rowsAffected = commandDatabase.ExecuteNonQuery();      // Execute the query
+                #region DELETE FROM MediaThumbnail 
+                string sqlCommand = "DELETE FROM MediaThumbnail WHERE FileDirectory = @FileDirectory";
+                using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
+                {
+                    //commandDatabase.Prepare();
+                    commandDatabase.Parameters.AddWithValue("@FileDirectory", fileDirectory);
+                    rowsAffected = commandDatabase.ExecuteNonQuery();      // Execute the query
+                }
+                #endregion
+                dbTools.TransactionCommit(sqlTransaction);
             }
-            #endregion
-
-            dbTools.TransactionCommit(sqlTransaction);
-            
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                dbTools.TransactionRollback(sqlTransaction);
+                throw new Exception(ex.Message);
+            }
             return rowsAffected;
         }
         #endregion

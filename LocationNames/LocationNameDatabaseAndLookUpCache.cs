@@ -22,31 +22,38 @@ namespace LocationNames
         public void WriteLocationName(LocationCoordinate locationCoordinateSearch, LocationCoordinateAndDescription locationInDatabaseCoordinateAndDescription)
         {
             var sqlTransaction = dbTools.TransactionBegin();
-
-            #region INSERT INTO LocationName 
-            string sqlCommand =
-                "INSERT INTO LocationName (Latitude, Longitude, Name, City, Province, Country) " +
-                "Values (@Latitude, @Longitude, @Name, @City, @Province, @Country)";
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
+            try
             {
-                locationInDatabaseCoordinateAndDescription.Description.Name = string.IsNullOrEmpty(locationInDatabaseCoordinateAndDescription.Description.Name) ? null : locationInDatabaseCoordinateAndDescription.Description.Name;
-                locationInDatabaseCoordinateAndDescription.Description.Region = string.IsNullOrEmpty(locationInDatabaseCoordinateAndDescription.Description.Region) ? null : locationInDatabaseCoordinateAndDescription.Description.Region;
-                locationInDatabaseCoordinateAndDescription.Description.City = string.IsNullOrEmpty(locationInDatabaseCoordinateAndDescription.Description.City) ? null : locationInDatabaseCoordinateAndDescription.Description.City;
-                locationInDatabaseCoordinateAndDescription.Description.Country = string.IsNullOrEmpty(locationInDatabaseCoordinateAndDescription.Description.Country) ? null : locationInDatabaseCoordinateAndDescription.Description.Country;
+                #region INSERT INTO LocationName 
+                string sqlCommand =
+                    "INSERT INTO LocationName (Latitude, Longitude, Name, City, Province, Country) " +
+                    "Values (@Latitude, @Longitude, @Name, @City, @Province, @Country)";
+                using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
+                {
+                    locationInDatabaseCoordinateAndDescription.Description.Name = string.IsNullOrEmpty(locationInDatabaseCoordinateAndDescription.Description.Name) ? null : locationInDatabaseCoordinateAndDescription.Description.Name;
+                    locationInDatabaseCoordinateAndDescription.Description.Region = string.IsNullOrEmpty(locationInDatabaseCoordinateAndDescription.Description.Region) ? null : locationInDatabaseCoordinateAndDescription.Description.Region;
+                    locationInDatabaseCoordinateAndDescription.Description.City = string.IsNullOrEmpty(locationInDatabaseCoordinateAndDescription.Description.City) ? null : locationInDatabaseCoordinateAndDescription.Description.City;
+                    locationInDatabaseCoordinateAndDescription.Description.Country = string.IsNullOrEmpty(locationInDatabaseCoordinateAndDescription.Description.Country) ? null : locationInDatabaseCoordinateAndDescription.Description.Country;
 
-                //commandDatabase.Prepare();
-                commandDatabase.Parameters.AddWithValue("@Latitude", locationInDatabaseCoordinateAndDescription.Coordinate.Latitude);
-                commandDatabase.Parameters.AddWithValue("@Longitude", locationInDatabaseCoordinateAndDescription.Coordinate.Longitude);
-                commandDatabase.Parameters.AddWithValue("@Name", locationInDatabaseCoordinateAndDescription.Description.Name);
-                commandDatabase.Parameters.AddWithValue("@City", locationInDatabaseCoordinateAndDescription.Description.City);
-                commandDatabase.Parameters.AddWithValue("@Province", locationInDatabaseCoordinateAndDescription.Description.Region);
-                commandDatabase.Parameters.AddWithValue("@Country", locationInDatabaseCoordinateAndDescription.Description.Country);
-                int rowAffted = commandDatabase.ExecuteNonQuery();      // Execute the query
-                LocationCoordinateAndDescriptionUpdate(locationCoordinateSearch, locationInDatabaseCoordinateAndDescription.Coordinate, locationInDatabaseCoordinateAndDescription.Description);
+                    //commandDatabase.Prepare();
+                    commandDatabase.Parameters.AddWithValue("@Latitude", locationInDatabaseCoordinateAndDescription.Coordinate.Latitude);
+                    commandDatabase.Parameters.AddWithValue("@Longitude", locationInDatabaseCoordinateAndDescription.Coordinate.Longitude);
+                    commandDatabase.Parameters.AddWithValue("@Name", locationInDatabaseCoordinateAndDescription.Description.Name);
+                    commandDatabase.Parameters.AddWithValue("@City", locationInDatabaseCoordinateAndDescription.Description.City);
+                    commandDatabase.Parameters.AddWithValue("@Province", locationInDatabaseCoordinateAndDescription.Description.Region);
+                    commandDatabase.Parameters.AddWithValue("@Country", locationInDatabaseCoordinateAndDescription.Description.Country);
+                    int rowAffted = commandDatabase.ExecuteNonQuery();      // Execute the query
+                    LocationCoordinateAndDescriptionUpdate(locationCoordinateSearch, locationInDatabaseCoordinateAndDescription.Coordinate, locationInDatabaseCoordinateAndDescription.Description);
+                }
+                #endregion
+                dbTools.TransactionCommit(sqlTransaction);
             }
-            #endregion
-
-            dbTools.TransactionCommit(sqlTransaction);
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                dbTools.TransactionRollback(sqlTransaction);
+                throw new Exception(ex.Message);
+            }
         }
         #endregion 
 
@@ -54,38 +61,45 @@ namespace LocationNames
         private void DeleteLocationName(LocationCoordinate locationCoordinateInDatabase, float locationAccuracyLatitude, float locationAccuracyLongitude)
         {
             var sqlTransaction = dbTools.TransactionBegin();
-
-            #region DELETE FROM LocationName 
-            string sqlCommand = "DELETE FROM LocationName " +
-                //"WHERE Latitude = @Latitude AND Longitude = @Longitude";
-                "WHERE Latitude = (SELECT Latitude FROM (" +
-                "SELECT Latitude, Name, Max(Abs(Latitude-@Latitude), Abs(Longitude - @Longitude)) AS Distance " +
-                "FROM LocationName WHERE Latitude >= (@Latitude - @LocationAccuracyLatitude) AND Latitude <= (@Latitude + @LocationAccuracyLatitude) " +
-                "AND Longitude >= (@Longitude - @LocationAccuracyLongitude) AND Longitude <= (@Longitude + @LocationAccuracyLongitude) " +
-                "ORDER BY Distance DESC LIMIT 1 " +
-                ")) AND " +
-                "Longitude = (SELECT Longitude FROM (" +
-                "SELECT Longitude, Name, Max(Abs(Latitude-@Latitude), Abs(Longitude - @Longitude)) AS Distance " +
-                "FROM LocationName WHERE Latitude >= (@Latitude - @LocationAccuracyLatitude) AND Latitude <= (@Latitude + @LocationAccuracyLatitude) " +
-                "AND Longitude >= (@Longitude - @LocationAccuracyLongitude) AND Longitude <= (@Longitude + @LocationAccuracyLongitude) " +
-                "ORDER BY Distance DESC LIMIT 1))";
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
+            try
             {
-                //commandDatabase.Prepare();
-                commandDatabase.Parameters.AddWithValue("@Latitude", locationCoordinateInDatabase.Latitude);
-                commandDatabase.Parameters.AddWithValue("@Longitude", locationCoordinateInDatabase.Longitude);
-                commandDatabase.Parameters.AddWithValue("@LocationAccuracyLatitude", locationAccuracyLatitude);
-                commandDatabase.Parameters.AddWithValue("@LocationAccuracyLongitude", locationAccuracyLongitude);
-                int affectedRows = commandDatabase.ExecuteNonQuery();      // Execute the query
-                if (affectedRows <= 0)
+                #region DELETE FROM LocationName 
+                string sqlCommand = "DELETE FROM LocationName " +
+                    //"WHERE Latitude = @Latitude AND Longitude = @Longitude";
+                    "WHERE Latitude = (SELECT Latitude FROM (" +
+                    "SELECT Latitude, Name, Max(Abs(Latitude-@Latitude), Abs(Longitude - @Longitude)) AS Distance " +
+                    "FROM LocationName WHERE Latitude >= (@Latitude - @LocationAccuracyLatitude) AND Latitude <= (@Latitude + @LocationAccuracyLatitude) " +
+                    "AND Longitude >= (@Longitude - @LocationAccuracyLongitude) AND Longitude <= (@Longitude + @LocationAccuracyLongitude) " +
+                    "ORDER BY Distance DESC LIMIT 1 " +
+                    ")) AND " +
+                    "Longitude = (SELECT Longitude FROM (" +
+                    "SELECT Longitude, Name, Max(Abs(Latitude-@Latitude), Abs(Longitude - @Longitude)) AS Distance " +
+                    "FROM LocationName WHERE Latitude >= (@Latitude - @LocationAccuracyLatitude) AND Latitude <= (@Latitude + @LocationAccuracyLatitude) " +
+                    "AND Longitude >= (@Longitude - @LocationAccuracyLongitude) AND Longitude <= (@Longitude + @LocationAccuracyLongitude) " +
+                    "ORDER BY Distance DESC LIMIT 1))";
+                using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
                 {
-                    //DEBUG, This means problem with accurcy in number
+                    //commandDatabase.Prepare();
+                    commandDatabase.Parameters.AddWithValue("@Latitude", locationCoordinateInDatabase.Latitude);
+                    commandDatabase.Parameters.AddWithValue("@Longitude", locationCoordinateInDatabase.Longitude);
+                    commandDatabase.Parameters.AddWithValue("@LocationAccuracyLatitude", locationAccuracyLatitude);
+                    commandDatabase.Parameters.AddWithValue("@LocationAccuracyLongitude", locationAccuracyLongitude);
+                    int affectedRows = commandDatabase.ExecuteNonQuery();      // Execute the query
+                    if (affectedRows <= 0)
+                    {
+                        //DEBUG, This means problem with accurcy in number
+                    }
+                    LocationCoordinateAndDescriptionDelete(locationCoordinateInDatabase: locationCoordinateInDatabase);
                 }
-                LocationCoordinateAndDescriptionDelete(locationCoordinateInDatabase: locationCoordinateInDatabase);
+                #endregion
+                dbTools.TransactionCommit(sqlTransaction);
             }
-            #endregion
-
-            dbTools.TransactionCommit(sqlTransaction);
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                dbTools.TransactionRollback(sqlTransaction);
+                throw new Exception(ex.Message);
+            }
         }
         #endregion 
 

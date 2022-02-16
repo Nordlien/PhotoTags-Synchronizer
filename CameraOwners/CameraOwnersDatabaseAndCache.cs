@@ -1,4 +1,5 @@
 ﻿using SqliteDatabase;
+using System;
 using System.Collections.Generic;
 
 
@@ -7,6 +8,7 @@ namespace CameraOwners
 
     public class CameraOwnersDatabaseCache    
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         public static readonly string MissingLocationsOwners = "(Need to import GPS location)\t";
         
         private readonly SqliteDatabaseUtilities dbTools;
@@ -107,35 +109,44 @@ namespace CameraOwners
             //if (string.IsNullOrWhiteSpace(cameraOwner.Owner)) cameraOwner.Owner = CameraOwner.UnknownOwner;
 
             var sqlTransaction = dbTools.TransactionBegin();
-
-            #region DELETE FROM CameraOwner
-            string sqlCommand =
-                "DELETE FROM CameraOwner WHERE " +
-                "CameraMake = @CameraMake AND CameraModel = @CameraModel";
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
+            try
             {
-                //commandDatabase.Prepare();
-                commandDatabase.Parameters.AddWithValue("@CameraMake", cameraOwner.Make);
-                commandDatabase.Parameters.AddWithValue("@CameraModel", cameraOwner.Model);
-                commandDatabase.ExecuteNonQuery();      // Execute the query
-            }
-            #endregion
+                #region DELETE FROM CameraOwner
+                string sqlCommand =
+                    "DELETE FROM CameraOwner WHERE " +
+                    "CameraMake = @CameraMake AND CameraModel = @CameraModel";
+                using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
+                {
+                    //commandDatabase.Prepare();
+                    commandDatabase.Parameters.AddWithValue("@CameraMake", cameraOwner.Make);
+                    commandDatabase.Parameters.AddWithValue("@CameraModel", cameraOwner.Model);
+                    commandDatabase.ExecuteNonQuery();      // Execute the query
+                }
+                #endregion
 
-            #region INSERT INTO CameraOwner 
-            sqlCommand =
-                    "INSERT INTO CameraOwner (CameraMake, CameraModel, UserAccount) " +
-                    "Values (@CameraMake, @CameraModel, @UserAccount)";
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
+                #region INSERT INTO CameraOwner 
+                sqlCommand =
+                        "INSERT INTO CameraOwner (CameraMake, CameraModel, UserAccount) " +
+                        "Values (@CameraMake, @CameraModel, @UserAccount)";
+                using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
+                {
+                    //commandDatabase.Prepare();
+                    commandDatabase.Parameters.AddWithValue("@CameraMake", cameraOwner.Make);
+                    commandDatabase.Parameters.AddWithValue("@CameraModel", cameraOwner.Model);
+                    commandDatabase.Parameters.AddWithValue("@UserAccount", cameraOwner.Owner);
+                    commandDatabase.ExecuteNonQuery();      // Execute the query
+                }
+                #endregion
+
+                dbTools.TransactionCommit(sqlTransaction);
+            }
+            catch (Exception ex)
             {
-                //commandDatabase.Prepare();
-                commandDatabase.Parameters.AddWithValue("@CameraMake", cameraOwner.Make);
-                commandDatabase.Parameters.AddWithValue("@CameraModel", cameraOwner.Model);
-                commandDatabase.Parameters.AddWithValue("@UserAccount", cameraOwner.Owner);
-                commandDatabase.ExecuteNonQuery();      // Execute the query
+                Logger.Error(ex);
+                dbTools.TransactionRollback(sqlTransaction);
+                throw new Exception(ex.Message);
             }
-            #endregion 
 
-            dbTools.TransactionCommit(sqlTransaction);
             MakeCameraOwnersDirty();
         }
         #endregion 
