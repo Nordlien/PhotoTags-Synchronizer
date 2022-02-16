@@ -22,6 +22,8 @@ namespace GoogleLocationHistory
 {
     public class GoogleLocationHistoryDatabaseCache
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         #region GoogleLocationHistoryDatabaseCache
         private SqliteDatabaseUtilities dbTools;
         public GoogleLocationHistoryDatabaseCache(SqliteDatabaseUtilities databaseTools)
@@ -373,9 +375,6 @@ namespace GoogleLocationHistory
             return metadataResult;
         }
         #endregion
-
-
-
     }
 }
 

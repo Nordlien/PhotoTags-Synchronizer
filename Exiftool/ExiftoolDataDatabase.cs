@@ -99,6 +99,7 @@ namespace Exiftool
                     }   // Execute the query
                 }
                 #endregion
+
                 dbTools.TransactionCommit(sqlTransaction);
             }
             catch (Exception ex)
@@ -128,6 +129,7 @@ namespace Exiftool
                     recordAffected = commandDatabase.ExecuteNonQuery();      // Execute the query
                 }
                 #endregion
+
                 dbTools.TransactionCommit(sqlTransaction);
             }
             catch (Exception ex)
@@ -172,6 +174,7 @@ namespace Exiftool
                     }
                 }
                 #endregion
+
                 dbTools.TransactionCommit(sqlTransaction);
             }
             catch (Exception ex)

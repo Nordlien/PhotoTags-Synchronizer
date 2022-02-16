@@ -314,6 +314,7 @@ namespace Thumbnails
             return fileEntries;
         }
         #endregion 
+
         #region Thumbnail - ListFileEntryDateVersions
         public List<FileEntry> ListFileEntryDateVersions(string fullFileName)
         {
