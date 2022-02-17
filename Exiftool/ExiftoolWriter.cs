@@ -85,13 +85,13 @@ namespace Exiftool
                 #endregion 
 
                 #region Replace Variable 
-                string writeXtraAtomAlbumReult = metadataToWrite.ReplaceVariables(writeXtraAtomAlbumVariable, allowedFileNameDateTimeFormats);
-                string writeXtraAtomCategoriesResult = metadataToWrite.ReplaceVariables(writeXtraAtomCategoriesVariable, allowedFileNameDateTimeFormats);
-                string writeXtraAtomCommentResult = metadataToWrite.ReplaceVariables(writeXtraAtomCommentVariable, allowedFileNameDateTimeFormats);
-                string writeXtraAtomKeywordsResult = metadataToWrite.ReplaceVariables(writeXtraAtomKeywordsVariable, allowedFileNameDateTimeFormats);
-                string writeXtraAtomSubjectResult = metadataToWrite.ReplaceVariables(writeXtraAtomSubjectVariable, allowedFileNameDateTimeFormats);
-                string writeXtraAtomSubtitleResult = metadataToWrite.ReplaceVariables(writeXtraAtomSubtitleVariable, allowedFileNameDateTimeFormats);
-                string writeXtraAtomArtistResult = metadataToWrite.ReplaceVariables(writeXtraAtomArtistVariable, allowedFileNameDateTimeFormats);
+                string writeXtraAtomAlbumReult = metadataToWrite.ReplaceVariablesWrittenByUser(writeXtraAtomAlbumVariable, allowedFileNameDateTimeFormats);
+                string writeXtraAtomCategoriesResult = metadataToWrite.ReplaceVariablesWrittenByUser(writeXtraAtomCategoriesVariable, allowedFileNameDateTimeFormats);
+                string writeXtraAtomCommentResult = metadataToWrite.ReplaceVariablesWrittenByUser(writeXtraAtomCommentVariable, allowedFileNameDateTimeFormats);
+                string writeXtraAtomKeywordsResult = metadataToWrite.ReplaceVariablesWrittenByUser(writeXtraAtomKeywordsVariable, allowedFileNameDateTimeFormats);
+                string writeXtraAtomSubjectResult = metadataToWrite.ReplaceVariablesWrittenByUser(writeXtraAtomSubjectVariable, allowedFileNameDateTimeFormats);
+                string writeXtraAtomSubtitleResult = metadataToWrite.ReplaceVariablesWrittenByUser(writeXtraAtomSubtitleVariable, allowedFileNameDateTimeFormats);
+                string writeXtraAtomArtistResult = metadataToWrite.ReplaceVariablesWrittenByUser(writeXtraAtomArtistVariable, allowedFileNameDateTimeFormats);
                 #endregion
 
                 #region Write Xtra Atrom using Property Writer
@@ -149,7 +149,7 @@ namespace Exiftool
 
         #region CreateExiftoolArguFileText
         public static List<FileEntry> CreateExiftoolArguFileText(List<Metadata> metadataListToWrite, List<Metadata> metadataListOriginal, List<string> allowedFileNameDateTimeFormats,
-            string writeMetadataTagsVariable, string writeMetadataKeywordAddVariable, bool alwaysWrite, 
+            string writeMetadataTagsConfiguration, string writeMetadataKeywordAddConfiguration, bool alwaysWrite, 
             out string exiftoolArguFileText)
         {
             exiftoolArguFileText = "";
@@ -169,13 +169,18 @@ namespace Exiftool
                 
                 filesNeedToBeUpadted.Add(metadataToWrite.FileEntryBroker);
 
-                string tagsToWrite = metadataToWrite.RemoveLines(writeMetadataTagsVariable, metadataOriginal, alwaysWrite);
+                string tagsToWrite = metadataToWrite.ExiftoolWriterBuilderRemoveLinesNotChanged(writeMetadataTagsConfiguration, metadataOriginal, alwaysWrite);
 
-                string personalKeywordAddVariable = metadataToWrite.ReplaceVariables(writeMetadataKeywordAddVariable, allowedFileNameDateTimeFormats);
+                string personalKeywordAddContent = metadataToWrite.ReplaceVariablesWrittenByUser(writeMetadataKeywordAddConfiguration, allowedFileNameDateTimeFormats);
+                string personalKeywordAddItems = metadataToWrite.VariablePersonalKeywordsWrittenByUser(personalKeywordAddContent, allowedFileNameDateTimeFormats);
 
-                string personalKeywordAddItems = metadataToWrite.VariablePersonalKeywords(personalKeywordAddVariable, allowedFileNameDateTimeFormats);
+                string personalKeywordAddContentOriginal = metadataOriginal.ReplaceVariablesOriginal(writeMetadataTagsConfiguration, allowedFileNameDateTimeFormats);
+                string personalKeywordAddItemsOriginal = metadataOriginal.VariablePersonalKeywordsOriginal(personalKeywordAddContentOriginal, allowedFileNameDateTimeFormats);
 
-                tagsToWrite = metadataToWrite.ReplaceVariables(tagsToWrite, allowedFileNameDateTimeFormats, personalKeywordAddItems);
+                tagsToWrite = metadataOriginal.ReplaceVariablesOriginal(tagsToWrite, allowedFileNameDateTimeFormats, personalKeywordAddItemsOriginal);
+                tagsToWrite = metadataToWrite.ReplaceVariablesWrittenByUser(tagsToWrite, allowedFileNameDateTimeFormats, personalKeywordAddItems);
+
+                
                 if (!string.IsNullOrWhiteSpace(tagsToWrite)) exiftoolArguFileText += (string.IsNullOrWhiteSpace(exiftoolArguFileText) ? "" : "\r\n") + tagsToWrite;
             }
             return filesNeedToBeUpadted;
@@ -184,11 +189,11 @@ namespace Exiftool
 
         #region WriteMetadata
         public static void WriteMetadata(List<Metadata> metadataListToWrite, List<Metadata> metadataListOriginal, List<string> allowedFileNameDateTimeFormats,
-            string writeMetadataTagsVariable, string writeMetadataKeywordAddVariable, 
+            string writeMetadataTagsConfiguration, string writeMetadataKeywordAddConfiguration, 
             out List<FileEntry> mediaFilesWithChangesWillBeUpdated, bool showCliWindow, ProcessPriorityClass processPriorityClass)
         {
             mediaFilesWithChangesWillBeUpdated = CreateExiftoolArguFileText(
-                metadataListToWrite, metadataListOriginal, allowedFileNameDateTimeFormats, writeMetadataTagsVariable, writeMetadataKeywordAddVariable, 
+                metadataListToWrite, metadataListOriginal, allowedFileNameDateTimeFormats, writeMetadataTagsConfiguration, writeMetadataKeywordAddConfiguration, 
                 false, out string resultReplaceVariables);
 
             if (mediaFilesWithChangesWillBeUpdated.Count > 0) //Save if has anything to save

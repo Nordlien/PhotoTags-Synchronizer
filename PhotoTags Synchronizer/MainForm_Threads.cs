@@ -1586,8 +1586,8 @@ namespace PhotoTagsSynchronizer
                                 #region Init - Write with Exiftool - Variables and Parameters
                                 bool writeXtraAtomOnMediaFile = Properties.Settings.Default.XtraAtomWriteOnFile;
 
-                                string writeMetadataTagsVariable = Properties.Settings.Default.WriteMetadataTags;
-                                string writeMetadataKeywordAddVariable = Properties.Settings.Default.WriteMetadataKeywordAdd;
+                                string writeMetadataTagsConfiguration = Properties.Settings.Default.WriteMetadataTags;
+                                string writeMetadataKeywordAddConfiguration = Properties.Settings.Default.WriteMetadataKeywordAdd;
 
                                 string writeXtraAtomAlbumVariable = Properties.Settings.Default.XtraAtomAlbumVariable;
                                 bool writeXtraAtomAlbumVideo = Properties.Settings.Default.XtraAtomAlbumVideo;
@@ -1681,7 +1681,7 @@ namespace PhotoTagsSynchronizer
                                             UpdateStatusAction("Batch update a subset of " + exiftoolSave_QueueSubsetMetadataToSave.Count + " media files...");
                                             ExiftoolWriter.WriteMetadata(
                                                 exiftoolSave_QueueSubsetMetadataToSave, queueSubsetMetadataOrginalBeforeUserEdit, allowedFileNameDateTimeFormats,
-                                                writeMetadataTagsVariable, writeMetadataKeywordAddVariable, out mediaFilesUpdatedByExiftool,
+                                                writeMetadataTagsConfiguration, writeMetadataKeywordAddConfiguration, out mediaFilesUpdatedByExiftool,
                                                 showCliWindow, processPriorityClass);
                                         }
                                     }

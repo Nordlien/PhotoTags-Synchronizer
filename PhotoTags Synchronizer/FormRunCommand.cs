@@ -507,7 +507,7 @@ namespace PhotoTagsSynchronizer
 
             if (kryptonWorkspaceCellRunBatchImage.SelectedPage.Tag.ToString() == "Command")
                 foreach (Metadata metadata in MetadatasGridView) textBoxRunBatchImageExample.Text += (textBoxRunBatchImageExample.Text == "" ? "" : "\r\n") +
-                        metadata.ReplaceVariables(comboBoxBatchRunImageCommand.Text, AllowedFileNameDateTimeFormats);
+                        metadata.ReplaceVariablesWrittenByUser(comboBoxBatchRunImageCommand.Text, AllowedFileNameDateTimeFormats);
             else
                 foreach (Metadata metadata in MetadatasGridView) textBoxRunBatchImageExample.Text += (textBoxRunBatchImageExample.Text == "" ? "" : "\r\n") +
                         comboBoxBatchRunImageVerb.Text + " " + comboBoxBatchRunImageAppId.Text + " " + metadata.FileFullPath;
@@ -515,7 +515,7 @@ namespace PhotoTagsSynchronizer
             textBoxRunBatchVideoExample.Text = "";
             if (kryptonWorkspaceCellRunBatchVideo.SelectedPage.Tag.ToString() == "Command")
                 foreach (Metadata metadata in MetadatasGridView) textBoxRunBatchVideoExample.Text += (textBoxRunBatchVideoExample.Text == "" ? "" : "\r\n") +
-                        metadata.ReplaceVariables(comboBoxBatchRunVideoCommand.Text, AllowedFileNameDateTimeFormats);
+                        metadata.ReplaceVariablesWrittenByUser(comboBoxBatchRunVideoCommand.Text, AllowedFileNameDateTimeFormats);
             else
                 foreach (Metadata metadata in MetadatasGridView) textBoxRunBatchVideoExample.Text += (textBoxRunBatchVideoExample.Text == "" ? "" : "\r\n") +
                         comboBoxBatchRunVideoVerb.Text + " " + comboBoxBatchRunVideoAppId.Text + " " + metadata.FileFullPath;
@@ -588,8 +588,8 @@ namespace PhotoTagsSynchronizer
 
                 try
                 {
-                    string imageCommandWithArguments = metadata.ReplaceVariables(comboBoxBatchRunImageCommand.Text, AllowedFileNameDateTimeFormats);
-                    string videoCommandWithArguments = metadata.ReplaceVariables(comboBoxBatchRunVideoCommand.Text, AllowedFileNameDateTimeFormats);
+                    string imageCommandWithArguments = metadata.ReplaceVariablesWrittenByUser(comboBoxBatchRunImageCommand.Text, AllowedFileNameDateTimeFormats);
+                    string videoCommandWithArguments = metadata.ReplaceVariablesWrittenByUser(comboBoxBatchRunVideoCommand.Text, AllowedFileNameDateTimeFormats);
 
                     if (ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.IsImageFormat(metadata.FileFullPath))
                     {

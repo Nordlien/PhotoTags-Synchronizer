@@ -16,6 +16,7 @@ namespace MetadataLibrary
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
+        #region Local variables
         public String errors = "";
         private String fileDirectory;
         private Byte? personalRating;
@@ -34,6 +35,7 @@ namespace MetadataLibrary
         private String locationState;
 
         public bool Readonly { get; set; } //Used to debug, changes of original Metadata
+        #endregion
 
         #region MergeMetadatas
         public static Metadata MergeMetadatas (Metadata metadataWinner, Metadata metadataLoser)
@@ -166,7 +168,7 @@ namespace MetadataLibrary
         }
         #endregion 
 
-        #region Override
+        #region Override - Equals
         public override bool Equals(Object obj)
         {
             //Check for null and compare run-time types.
@@ -179,22 +181,9 @@ namespace MetadataLibrary
                 return this == (Metadata)obj;
             }
         }
+        #endregion
 
-        private static bool VerifyRegionStructureList(List<RegionStructure> personalRegionList1, List<RegionStructure> personalRegionList2)
-        {
-            foreach (RegionStructure region in personalRegionList1) if (!region.DoesThisRectangleAndNameExistInList(personalRegionList2)) return false;
-            foreach (RegionStructure region in personalRegionList2) if (!region.DoesThisRectangleAndNameExistInList(personalRegionList1)) return false;
-            return true;
-        }
-
-        private static bool VerifyKeywordList(List<KeywordTag> personalKeywordTagList1, List<KeywordTag> personalKeywordTagList2)
-        {
-            if (personalKeywordTagList1.Count != personalKeywordTagList2.Count) return false;
-            foreach (KeywordTag tag in personalKeywordTagList1) if (!personalKeywordTagList2.Contains(tag)) return false;
-            foreach (KeywordTag tag in personalKeywordTagList2) if (!personalKeywordTagList1.Contains(tag)) return false;
-            return true;
-        }
-
+        #region operator ==
         public static bool operator ==(Metadata m1, Metadata m2)
         {
             if (m1 is null && m2 is null) return true;
@@ -249,16 +238,24 @@ namespace MetadataLibrary
             if (m1.locationState != m2.locationState) return false;
 
             return true;
-
         }
+        #endregion
 
+        #region operator !=
+        public static bool operator !=(Metadata m1, Metadata m2)
+        {
+            return !(m1 == m2);
+        }
+        #endregion
+
+        #region GetHashCode
         public override int GetHashCode()
         {
             int hashCode = 0;
             //Broker
             //if (broker != null) hashCode += broker.GetHashCode();
 
-            //File
+            #region File
             if (FileName != null) hashCode += FileName.GetHashCode();
             if (fileDirectory != null) hashCode += fileDirectory.GetHashCode();
             if (FileSize != null) hashCode += FileSize.GetHashCode();
@@ -266,8 +263,9 @@ namespace MetadataLibrary
             if (FileDateModified != null) hashCode += FileDateModified.GetHashCode();
             if (FileDateAccessed != null) hashCode += FileDateAccessed.GetHashCode();
             if (FileMimeType != null) hashCode += FileMimeType.GetHashCode();
+            #endregion
 
-            //Personal
+            #region Personal
             if (PersonalTitle != null) hashCode += PersonalTitle.GetHashCode();
             if (PersonalDescription != null) hashCode += PersonalDescription.GetHashCode();
             if (PersonalComments != null) hashCode += PersonalComments.GetHashCode();
@@ -275,18 +273,22 @@ namespace MetadataLibrary
             if (personalRatingPercent != null) hashCode += personalRatingPercent.GetHashCode();
             if (PersonalAuthor != null) hashCode += PersonalAuthor.GetHashCode();
             if (PersonalAlbum != null) hashCode += PersonalAlbum.GetHashCode();
-            //Camera
+            #endregion
+
+            #region Camera
             if (CameraMake != null) hashCode += CameraMake.GetHashCode();
             if (CameraModel != null) hashCode += CameraModel.GetHashCode();
+            #endregion
 
-            //Media
+            #region Media
             if (mediaDateTaken != null) hashCode += mediaDateTaken.GetHashCode();
             if (mediaWidth != null) hashCode += mediaWidth.GetHashCode();
             if (mediaHeight != null) hashCode += mediaHeight.GetHashCode();
             if (mediaOrientation != null) hashCode += mediaOrientation.GetHashCode();
             if (mediaVideoLength != null) hashCode += mediaVideoLength.GetHashCode();
+            #endregion
 
-            //Location
+            #region Location
             if (locationAltitude != null) hashCode += locationAltitude.GetHashCode();
             if (locationLatitude != null) hashCode += locationLatitude.GetHashCode();
             if (locationLongitude != null) hashCode += locationLongitude.GetHashCode();
@@ -295,16 +297,36 @@ namespace MetadataLibrary
             if (locationCountry != null) hashCode += locationCountry.GetHashCode();
             if (locationCity != null) hashCode += locationCity.GetHashCode();
             if (locationState != null) hashCode += locationState.GetHashCode();
+            #endregion
 
+            #region PersonalRegionList
             foreach (RegionStructure region in personalRegionList) hashCode += region.GetHashCode();
+            #endregion
+
+            #region PersonalTagList
             foreach (KeywordTag tag in personalTagList) hashCode += tag.GetHashCode();
+            #endregion
 
             return hashCode;
         }
+        #endregion
 
-        public static bool operator !=(Metadata m1, Metadata m2)
+        #region private - VerifyRegionStructureList
+        private static bool VerifyRegionStructureList(List<RegionStructure> personalRegionList1, List<RegionStructure> personalRegionList2)
         {
-            return !(m1 == m2);
+            foreach (RegionStructure region in personalRegionList1) if (!region.DoesThisRectangleAndNameExistInList(personalRegionList2)) return false;
+            foreach (RegionStructure region in personalRegionList2) if (!region.DoesThisRectangleAndNameExistInList(personalRegionList1)) return false;
+            return true;
+        }
+        #endregion
+
+        #region private - VerifyKeywordList
+        private static bool VerifyKeywordList(List<KeywordTag> personalKeywordTagList1, List<KeywordTag> personalKeywordTagList2)
+        {
+            if (personalKeywordTagList1.Count != personalKeywordTagList2.Count) return false;
+            foreach (KeywordTag tag in personalKeywordTagList1) if (!personalKeywordTagList2.Contains(tag)) return false;
+            foreach (KeywordTag tag in personalKeywordTagList2) if (!personalKeywordTagList1.Contains(tag)) return false;
+            return true;
         }
         #endregion
 
@@ -951,11 +973,19 @@ namespace MetadataLibrary
         #endregion
 
         #region Errors handler
+
+        #region Errors handler - Property
+        public string Errors { get => errors; set => errors = value; }
+        #endregion
+
+        #region Errors handler - AddError
         private static string AddError(string text, object o1, object o2)
         {
             return text + ": '" + (o1 == null ? "" : o1.ToString()) + "' vs. '" + (o2 == null ? "" : o2.ToString()) + "'\r\n";
         }
+        #endregion
 
+        #region Errors handler - GetErrors
         public static string GetErrors(Metadata metadataOriginal, Metadata metadataChangeInto, bool whatsAddedChanged = false)
         {
             string errors = "";
@@ -970,7 +1000,7 @@ namespace MetadataLibrary
                 "Edited by user vs Media file\r\n" + "File: " + metadataChangeInto.FileFullPath + "\r\n" :
                 "Original (saved) vs. Read back after saved\r\n" + "File: " + metadataChangeInto.FileFullPath + "\r\n");
 
-            //File
+            #region File
             if (metadataOriginal.Broker != metadataChangeInto.Broker) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Broker", metadataOriginal.Broker, metadataChangeInto.Broker);
             if (String.Compare(metadataOriginal.FileName, metadataChangeInto.FileName, comparisonType: StringComparison.OrdinalIgnoreCase) != 0) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("File name", metadataOriginal.FileName, metadataChangeInto.FileName);
             if (String.Compare(metadataOriginal.fileDirectory, metadataChangeInto.fileDirectory, comparisonType: StringComparison.OrdinalIgnoreCase) != 0) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("File direcotry", metadataOriginal.fileDirectory, metadataChangeInto.fileDirectory);
@@ -979,8 +1009,9 @@ namespace MetadataLibrary
             if (metadataOriginal.FileDateModified != metadataChangeInto.FileDateModified) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("File Date Modified", metadataOriginal.FileDateModified, metadataChangeInto.FileDateModified);
             if (metadataOriginal.FileDateAccessed != metadataChangeInto.FileDateAccessed) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("File Last Accessed", metadataOriginal.FileDateAccessed, metadataChangeInto.FileDateAccessed);
             if (metadataOriginal.FileMimeType != metadataChangeInto.FileMimeType) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("FileMimeType", metadataOriginal.FileMimeType, metadataChangeInto.FileMimeType);
+            #endregion
 
-            //Personal
+            #region Personal
             if (metadataOriginal.PersonalTitle != metadataChangeInto.PersonalTitle) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Title", metadataOriginal.PersonalTitle, metadataChangeInto.PersonalTitle);
             if (metadataOriginal.PersonalDescription != metadataChangeInto.PersonalDescription) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Description", metadataOriginal.PersonalDescription, metadataChangeInto.PersonalDescription);
             if (metadataOriginal.PersonalComments != metadataChangeInto.PersonalComments) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Comments", metadataOriginal.PersonalComments, metadataChangeInto.PersonalComments);
@@ -988,19 +1019,22 @@ namespace MetadataLibrary
             if (metadataOriginal.personalRatingPercent != metadataChangeInto.personalRatingPercent) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Rating Percent", metadataOriginal.personalRatingPercent, metadataChangeInto.personalRatingPercent);
             if (metadataOriginal.PersonalAuthor != metadataChangeInto.PersonalAuthor) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Author", metadataOriginal.PersonalAuthor, metadataChangeInto.PersonalAuthor);
             if (metadataOriginal.PersonalAlbum != metadataChangeInto.PersonalAlbum) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Album", metadataOriginal.PersonalAlbum, metadataChangeInto.PersonalAlbum);
+            #endregion
 
-            //Camera
+            #region Camera
             if (metadataOriginal.CameraMake != metadataChangeInto.CameraMake) return errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Camera Make", metadataOriginal.CameraMake, metadataChangeInto.CameraMake);
             if (metadataOriginal.CameraModel != metadataChangeInto.CameraModel) return errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Camra Model", metadataOriginal.CameraModel, metadataChangeInto.CameraModel);
+            #endregion
 
-            //Media
+            #region Media
             if (metadataOriginal.mediaDateTaken != metadataChangeInto.mediaDateTaken) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Media DateTaken", metadataOriginal.mediaDateTaken, metadataChangeInto.mediaDateTaken);
             if (metadataOriginal.mediaWidth != metadataChangeInto.mediaWidth) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Media Width", metadataOriginal.mediaWidth, metadataChangeInto.mediaWidth);
             if (metadataOriginal.mediaHeight != metadataChangeInto.mediaHeight) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Media Hieght", metadataOriginal.mediaHeight, metadataChangeInto.mediaHeight);
             if (metadataOriginal.mediaOrientation != metadataChangeInto.mediaOrientation) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Media Orientation", metadataOriginal.mediaOrientation, metadataChangeInto.mediaOrientation);
             if (metadataOriginal.mediaVideoLength != metadataChangeInto.mediaVideoLength) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Media Video lenth", metadataOriginal.mediaVideoLength, metadataChangeInto.mediaVideoLength);
+            #endregion
 
-            //Location
+            #region Location
             if (metadataOriginal.locationAltitude != metadataChangeInto.locationAltitude) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Location Altitude", metadataOriginal.locationAltitude, metadataChangeInto.locationAltitude);
             if (metadataOriginal.locationLatitude != metadataChangeInto.locationLatitude) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Location Latitude", metadataOriginal.locationLatitude, metadataChangeInto.locationLatitude);
             if (metadataOriginal.locationLongitude != metadataChangeInto.locationLongitude) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Location Longitude", metadataOriginal.locationLongitude, metadataChangeInto.locationLongitude);
@@ -1009,7 +1043,9 @@ namespace MetadataLibrary
             if (metadataOriginal.locationCountry != metadataChangeInto.locationCountry) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Location Country", metadataOriginal.locationCountry, metadataChangeInto.locationCountry);
             if (metadataOriginal.locationCity != metadataChangeInto.locationCity) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Location District", metadataOriginal.locationCity, metadataChangeInto.locationCity);
             if (metadataOriginal.locationState != metadataChangeInto.locationState) errors += (string.IsNullOrWhiteSpace(errors) ? fileInformation : "") + AddError("Location Region", metadataOriginal.locationState, metadataChangeInto.locationState);
+            #endregion
 
+            #region personalRegionList
             string notAdded = (whatsAddedChanged ? " - Was added by user" : " - Was not added the metadata in file");
             string notRemoved = (whatsAddedChanged ? " - Was removed by user" : " - Not not removed metadata in file");
             string vierfied = " Verified OK";
@@ -1027,7 +1063,9 @@ namespace MetadataLibrary
                         (region.DoesThisRectangleAndNameExistInList(metadataOriginal.personalRegionList) ? notAdded : notRemoved)) +
                         "\r\n";
             }
+            #endregion
 
+            #region personalTagList
             if (VerifyKeywordList(metadataOriginal.personalTagList, metadataChangeInto.personalTagList) == false)
             {
 
@@ -1043,19 +1081,101 @@ namespace MetadataLibrary
                         (metadataOriginal.PersonalKeywordTags.Contains(tag) ? notAdded : notRemoved)) +
                         "\r\n";
             }
+            #endregion
 
             return errors;
         }
-
-        public string Errors { get => errors; set => errors = value; }
         #endregion
+
+        #endregion Errors handler
+
+
+        #region ExiftoolWriterBuilder - AddLine
+        private string ExiftoolWriterBuilderAddLine(string line, string variable, bool alwaysWrite, Metadata metadata, ref bool vaiableFound)
+        {
+            if (line.Contains(variable))
+            {
+                vaiableFound = true;
+                line = line.Replace(variable, "");
+                //If always write, then line will be added
+                //If not always write, then check if vaiable is changed
+                if (!alwaysWrite && !HasValueChanged(variable, metadata)) line = "";
+            }
+
+            return line;
+        }
+        #endregion
+
+        #region ExiftoolWriterBuilder - RemoveLinesNotChanged
+        public string ExiftoolWriterBuilderRemoveLinesNotChanged(string stringWithVariables, Metadata metadata, bool alwaysWrite)
+        {
+            string result = "";
+            string addLine;
+            string[] lines = stringWithVariables.Replace("\r\n", "\n").Split('\n');
+
+            foreach (string line in lines)
+            {
+                addLine = line;
+                bool vaiableFound = false;
+                do
+                {
+                    vaiableFound = false;
+                    #region File
+                    addLine = ExiftoolWriterBuilderAddLine(addLine, "{IfFileDateModifiedChanged}", alwaysWrite, metadata, ref vaiableFound);
+                    #endregion
+
+                    #region FileName/Folder/Path
+                    addLine = ExiftoolWriterBuilderAddLine(addLine, "{IfFilePathChanged}", alwaysWrite, metadata, ref vaiableFound);
+                    addLine = ExiftoolWriterBuilderAddLine(addLine, "{IfFileNameChanged}", alwaysWrite, metadata, ref vaiableFound);
+                    addLine = ExiftoolWriterBuilderAddLine(addLine, "{IfFileDirectoryChanged}", alwaysWrite, metadata, ref vaiableFound);
+                    #endregion
+
+                    #region Personal
+                    addLine = ExiftoolWriterBuilderAddLine(addLine, "{IfPersonalTitleChanged}", alwaysWrite, metadata, ref vaiableFound);
+                    addLine = ExiftoolWriterBuilderAddLine(addLine, "{IfPersonalDescriptionChanged}", alwaysWrite, metadata, ref vaiableFound);
+                    addLine = ExiftoolWriterBuilderAddLine(addLine, "{IfPersonalCommentsChanged}", alwaysWrite, metadata, ref vaiableFound);
+                    addLine = ExiftoolWriterBuilderAddLine(addLine, "{IfPersonalRatingChanged}", alwaysWrite, metadata, ref vaiableFound);
+                    addLine = ExiftoolWriterBuilderAddLine(addLine, "{IfPersonalAuthorChanged}", alwaysWrite, metadata, ref vaiableFound);
+                    addLine = ExiftoolWriterBuilderAddLine(addLine, "{IfPersonalAlbumChanged}", alwaysWrite, metadata, ref vaiableFound);
+                    #endregion
+
+                    #region  Region
+                    addLine = ExiftoolWriterBuilderAddLine(addLine, "{IfPersonalRegionChanged}", alwaysWrite, metadata, ref vaiableFound);
+                    #endregion
+
+                    #region Keyword
+                    addLine = ExiftoolWriterBuilderAddLine(addLine, "{IfPersonalKeywordsChanged}", alwaysWrite, metadata, ref vaiableFound);
+                    #endregion
+
+                    #region Media
+                    addLine = ExiftoolWriterBuilderAddLine(addLine, "{IfMediaDateTakenChanged}", alwaysWrite, metadata, ref vaiableFound);
+                    #endregion
+
+                    #region Location
+                    addLine = ExiftoolWriterBuilderAddLine(addLine, "{IfLocationChanged}", alwaysWrite, metadata, ref vaiableFound);
+                    addLine = ExiftoolWriterBuilderAddLine(addLine, "{IfLocationAltitudeChanged}", alwaysWrite, metadata, ref vaiableFound);
+                    addLine = ExiftoolWriterBuilderAddLine(addLine, "{IfLocationLatitudeChanged}", alwaysWrite, metadata, ref vaiableFound);
+                    addLine = ExiftoolWriterBuilderAddLine(addLine, "{IfLocationLongitudeChanged}", alwaysWrite, metadata, ref vaiableFound);
+                    addLine = ExiftoolWriterBuilderAddLine(addLine, "{IfLocationDateTimeChanged}", alwaysWrite, metadata, ref vaiableFound);
+                    addLine = ExiftoolWriterBuilderAddLine(addLine, "{IfLocationNameChanged}", alwaysWrite, metadata, ref vaiableFound);
+                    addLine = ExiftoolWriterBuilderAddLine(addLine, "{IfLocationCityChanged}", alwaysWrite, metadata, ref vaiableFound);
+                    addLine = ExiftoolWriterBuilderAddLine(addLine, "{IfLocationStateChanged}", alwaysWrite, metadata, ref vaiableFound);
+                    addLine = ExiftoolWriterBuilderAddLine(addLine, "{IfLocationCountryChanged}", alwaysWrite, metadata, ref vaiableFound);
+                    #endregion
+                } while (vaiableFound);
+                if (!string.IsNullOrWhiteSpace(addLine)) result += addLine + "\r\n";
+            }
+            return result;
+        }
+        #endregion
+
 
         #region Variables - List if Variable 
         public static string[] ListOfProperties(bool addKeywordItems)
         {
             List<string> listOfProperties = new List<string>();
 
-            //System
+            #region SystemDateTime
             listOfProperties.Add("{SystemDateTime}");
             listOfProperties.Add("{SystemDateTimeDateStamp}");
             listOfProperties.Add("{SystemDateTimeTimeStamp}");
@@ -1065,128 +1185,225 @@ namespace MetadataLibrary
             listOfProperties.Add("{SystemDateTime_HH}");
             listOfProperties.Add("{SystemDateTime_mm}");
             listOfProperties.Add("{SystemDateTime_ss}");
+            #endregion
 
-            //Filesystem
+            #region FileName/Folder/Path
+            listOfProperties.Add("{IfFileNameChanged}");
             listOfProperties.Add("{FileName}");
+            listOfProperties.Add("{OriginalFileName}");
+
+            listOfProperties.Add("{IfFilePathChanged}");
             listOfProperties.Add("{FileFullPath}");
+            listOfProperties.Add("{OriginalFileFullPath}");
+            
             listOfProperties.Add("{FileFullPath.8.3}");
-            listOfProperties.Add("{FileNameWithoutExtension}");
+            listOfProperties.Add("{OriginalFileFullPath.8.3}");
+
             listOfProperties.Add("{FileNameWithoutDateTime}");
+            listOfProperties.Add("{OriginalFileNameWithoutExtension}");
+
             listOfProperties.Add("{FileExtension}");
+            listOfProperties.Add("{OriginalFileExtension}");
+
+            listOfProperties.Add("{IfFileDirectoryChanged}");
             listOfProperties.Add("{FileDirectory}");
+            listOfProperties.Add("{OriginalFileDirectory}");
+            #endregion
+
+            #region FileAttributes
             listOfProperties.Add("{FileSize}");
+            listOfProperties.Add("{FileMimeType}");
+            #endregion
 
+            #region FileDate
             listOfProperties.Add("{FileDate}");
+            listOfProperties.Add("{OriginalFileDate}");
+
             listOfProperties.Add("{FileDateDateStamp}");
+            listOfProperties.Add("{OriginalFileDateDateStamp}");
+
             listOfProperties.Add("{FileDateTimeStamp}");
+            listOfProperties.Add("{OriginalFileDateTimeStamp}");
+
             listOfProperties.Add("{FileDate_yyyy}");
+            listOfProperties.Add("{OriginalFileDate_yyyy}");
+
             listOfProperties.Add("{FileDate_MM}");
+            listOfProperties.Add("{OriginalFileDate_MM}");
+
             listOfProperties.Add("{FileDate_dd}");
+            listOfProperties.Add("{OriginalFileDate_dd}");
+
             listOfProperties.Add("{FileDate_HH}");
+            listOfProperties.Add("{OriginalFileDate_HH}");
+
             listOfProperties.Add("{FileDate_mm}");
+            listOfProperties.Add("{OriginalFileDate_mm}");
+
             listOfProperties.Add("{FileDate_ss}");
+            listOfProperties.Add("{OriginalFileDate_ss}");
+            #endregion
 
+            #region FileDateCreated
             listOfProperties.Add("{FileDateCreated}");
-            listOfProperties.Add("{FileDateCreatedDateStamp}");
-            listOfProperties.Add("{FileDateCreatedTimeStamp}");
-            listOfProperties.Add("{FileDateCreated_yyyy}");
-            listOfProperties.Add("{FileDateCreated_MM}");
-            listOfProperties.Add("{FileDateCreated_dd}");
-            listOfProperties.Add("{FileDateCreated_HH}");
-            listOfProperties.Add("{FileDateCreated_mm}");
-            listOfProperties.Add("{FileDateCreated_ss}");
+            listOfProperties.Add("{OriginalFileDateCreated}");
 
-            listOfProperties.Add("{FileDateModified}");
+            listOfProperties.Add("{FileDateCreatedDateStamp}");
+            listOfProperties.Add("{OriginalFileDateCreatedDateStamp}");
+            
+            listOfProperties.Add("{FileDateCreatedTimeStamp}");
+            listOfProperties.Add("{OriginalFileDateCreatedTimeStamp}");
+            
+            listOfProperties.Add("{FileDateCreated_yyyy}");
+            listOfProperties.Add("{OriginalFileDateCreated_yyyy}");
+
+            listOfProperties.Add("{OriginalFileDateCreated_MM}");
+            listOfProperties.Add("{FileDateCreated_MM}");
+            
+            listOfProperties.Add("{OriginalFileDateCreated_dd}");
+            listOfProperties.Add("{FileDateCreated_dd}");
+
+            listOfProperties.Add("{OriginalFileDateCreated_HH}");
+            listOfProperties.Add("{FileDateCreated_HH}");
+
+            listOfProperties.Add("{OriginalFileDateCreated_mm}");
+            listOfProperties.Add("{FileDateCreated_mm}");
+
+            listOfProperties.Add("{OriginalFileDateCreated_ss}");
+            listOfProperties.Add("{FileDateCreated_ss}");
+            #endregion
+
+            #region FileDateModified
             listOfProperties.Add("{IfFileDateModifiedChanged}");
 
+            listOfProperties.Add("{FileDateModified}");
+            listOfProperties.Add("{OriginalFileDateModified}");
+            
             listOfProperties.Add("{FileDateModifiedDateStamp}");
+            listOfProperties.Add("{OriginalFileDateModifiedDateStamp}");
+
             listOfProperties.Add("{FileDateModifiedTimeStamp}");
+            listOfProperties.Add("{OriginalFileDateModifiedTimeStamp}");
+
             listOfProperties.Add("{FileDateModified_yyyy}");
+            listOfProperties.Add("{OriginalFileDateModified_yyyy}");
+            
             listOfProperties.Add("{FileDateModified_MM}");
+            listOfProperties.Add("{OriginalFileDateModified_MM}");
+            
             listOfProperties.Add("{FileDateModified_dd}");
+            listOfProperties.Add("{OriginalFileDateModified_dd}");
+            
             listOfProperties.Add("{FileDateModified_HH}");
+            listOfProperties.Add("{OriginalFileDateModified_HH}");
+            
             listOfProperties.Add("{FileDateModified_mm}");
+            listOfProperties.Add("{OriginalFileDateModified_mm}");
+
             listOfProperties.Add("{FileDateModified_ss}");
-            listOfProperties.Add("{FileLastAccessed}");
-            listOfProperties.Add("{FileLastAccessedDateStamp}");
-            listOfProperties.Add("{FileLastAccessedTimeStamp}");
-            listOfProperties.Add("{FileLastAccessed_yyyy}");
-            listOfProperties.Add("{FileLastAccessed_MM}");
-            listOfProperties.Add("{FileLastAccessed_dd}");
-            listOfProperties.Add("{FileLastAccessed_HH}");
-            listOfProperties.Add("{FileLastAccessed_mm}");
-            listOfProperties.Add("{FileLastAccessed_ss}");
+            listOfProperties.Add("{OriginalFileDateModified_ss}");
+            #endregion 
 
-            listOfProperties.Add("{FileMimeType}");
-
-            //Personal
-            listOfProperties.Add("{PersonalTitle}");
-            listOfProperties.Add("{IfPersonalTitleChanged}");
-
-            listOfProperties.Add("{PersonalDescription}");
-            listOfProperties.Add("{IfPersonalDescriptionChanged}");
-
-            listOfProperties.Add("{PersonalComments}");
-            listOfProperties.Add("{IfPersonalCommentsChanged}");
-
-            listOfProperties.Add("{PersonalRating}");
-            listOfProperties.Add("{IfPersonalRatingChanged}");
-            listOfProperties.Add("{PersonalRatingPercent}");
-
-            listOfProperties.Add("{PersonalAuthor}");
-            listOfProperties.Add("{IfPersonalAuthorChanged}");
-
-            listOfProperties.Add("{PersonalAlbum}");
-            listOfProperties.Add("{IfPersonalAlbumChanged}");
-
-            //Region
-            listOfProperties.Add("{PersonalRegionInfoMP}");
-            listOfProperties.Add("{PersonalRegionInfo}");
-            listOfProperties.Add("{IfPersonalRegionChanged}");
-
-            //Keyword
-            if (addKeywordItems) listOfProperties.Add("{KeywordItem}");
-            listOfProperties.Add("{PersonalKeywordsList}");
-            listOfProperties.Add("{PersonalKeywordsXML}");
-            listOfProperties.Add("{PersonalKeywordItemsDelete}");
-            listOfProperties.Add("{PersonalKeywordItemsAdd}");
-            listOfProperties.Add("{IfPersonalKeywordsChanged}");
-
-            //Camera
-            listOfProperties.Add("{CameraMake}");
-            listOfProperties.Add("{CameraModel}");
-
-            //Media
-            listOfProperties.Add("{MediaDateTaken}");
+            #region Media MediaDateTaken
             listOfProperties.Add("{IfMediaDateTakenChanged}");
+            listOfProperties.Add("{MediaDateTaken}");
+            listOfProperties.Add("{MediaDateTaken}");
 
             listOfProperties.Add("{MediaDateTakenDateStamp}");
+            listOfProperties.Add("{MediaDateTakenDateStamp}");
+
             listOfProperties.Add("{MediaDateTakenTimeStamp}");
+            listOfProperties.Add("{MediaDateTakenTimeStamp}");
+
             listOfProperties.Add("{MediaDateTaken_yyyy}");
+            listOfProperties.Add("{MediaDateTaken_yyyy}");
+
             listOfProperties.Add("{MediaDateTaken_MM}");
+            listOfProperties.Add("{MediaDateTaken_MM}");
+
             listOfProperties.Add("{MediaDateTaken_dd}");
+            listOfProperties.Add("{MediaDateTaken_dd}");
+
             listOfProperties.Add("{MediaDateTaken_HH}");
+            listOfProperties.Add("{MediaDateTaken_HH}");
+
             listOfProperties.Add("{MediaDateTaken_mm}");
+            listOfProperties.Add("{MediaDateTaken_mm}");
+
+            listOfProperties.Add("{MediaDateTaken_ss}");
             listOfProperties.Add("{MediaDateTaken_ss}");
 
             listOfProperties.Add("{MediaWidth}");
             listOfProperties.Add("{MediaHeight}");
             listOfProperties.Add("{MediaOrientation}");
             listOfProperties.Add("{MediaVideoLength}");
+            #endregion
 
-            //Location
-            listOfProperties.Add("{LocationAltitude}");
+            #region Personal
+            listOfProperties.Add("{IfPersonalTitleChanged}");
+            listOfProperties.Add("{PersonalTitle}");            
+            listOfProperties.Add("{OriginalPersonalTitle}");
+
+            listOfProperties.Add("{IfPersonalDescriptionChanged}");
+            listOfProperties.Add("{PersonalDescription}");
+            listOfProperties.Add("{OriginalPersonalDescription}");
+
+            listOfProperties.Add("{IfPersonalCommentsChanged}");
+            listOfProperties.Add("{PersonalComments}");
+            listOfProperties.Add("{OriginalPersonalComments}");
+
+            listOfProperties.Add("{IfPersonalRatingChanged}");
+            listOfProperties.Add("{PersonalRating}");            
+            listOfProperties.Add("{PersonalRatingPercent}");
+            listOfProperties.Add("{OriginalPersonalRating}");;
+            listOfProperties.Add("{OriginalPersonalRatingPercent}");
+
+            listOfProperties.Add("{PersonalAuthor}");
+            listOfProperties.Add("{IfPersonalAuthorChanged}");
+            listOfProperties.Add("{OriginalPersonalAuthor}");
+
+            listOfProperties.Add("{IfPersonalAlbumChanged}");
+            listOfProperties.Add("{PersonalAlbum}");            
+            listOfProperties.Add("{OriginalPersonalAlbum}");
+            #endregion
+
+            #region Region
+            listOfProperties.Add("{IfPersonalRegionChanged}");
+
+            listOfProperties.Add("{PersonalRegionInfoMP}");
+            listOfProperties.Add("{PersonalRegionInfo}");
+            #endregion
+
+            #region Keyword
+            if (addKeywordItems) 
+                listOfProperties.Add("{KeywordItem}");
+            listOfProperties.Add("{IfPersonalKeywordsChanged}");
+            listOfProperties.Add("{PersonalKeywordsList}");
+            listOfProperties.Add("{PersonalKeywordsXML}");
+            listOfProperties.Add("{PersonalKeywordItemsDelete}");
+            listOfProperties.Add("{PersonalKeywordItemsAdd}");
+            #endregion
+
+            #region Camera
+            listOfProperties.Add("{CameraMake}");
+            listOfProperties.Add("{CameraModel}");
+            #endregion
+
+            #region Location
+            listOfProperties.Add("{IfLocationChanged}");
+
             listOfProperties.Add("{IfLocationAltitudeChanged}");
+            listOfProperties.Add("{LocationAltitude}");
 
+            listOfProperties.Add("{IfLocationLatitudeChanged}"); 
             listOfProperties.Add("{LocationLatitude}");
-            listOfProperties.Add("{IfLocationLatitudeChanged}");
 
-            listOfProperties.Add("{LocationLongitude}");
             listOfProperties.Add("{IfLocationLongitudeChanged}");
+            listOfProperties.Add("{LocationLongitude}");
 
+            listOfProperties.Add("{IfLocationDateTimeChanged}"); 
             listOfProperties.Add("{LocationDateTime}");
-            listOfProperties.Add("{IfLocationDateTimeChanged}");
-
+            
             listOfProperties.Add("{LocationDateTimeUTC}");
             listOfProperties.Add("{LocationDateTimeDateStamp}");
             listOfProperties.Add("{LocationDateTimeTimeStamp}");
@@ -1197,23 +1414,25 @@ namespace MetadataLibrary
             listOfProperties.Add("{LocationDateTime_mm}");
             listOfProperties.Add("{LocationDateTime_ss}");
 
-            listOfProperties.Add("{LocationName}");
             listOfProperties.Add("{IfLocationNameChanged}");
+            listOfProperties.Add("{LocationName}");
 
-            listOfProperties.Add("{LocationCity}");
             listOfProperties.Add("{IfLocationCityChanged}");
+            listOfProperties.Add("{LocationCity}");
 
-            listOfProperties.Add("{LocationState}");
             listOfProperties.Add("{IfLocationStateChanged}");
+            listOfProperties.Add("{LocationState}");
 
-            listOfProperties.Add("{LocationCountry}");
             listOfProperties.Add("{IfLocationCountryChanged}");
+            listOfProperties.Add("{LocationCountry}");
+            #endregion
 
             return listOfProperties.ToArray(); // arrayOfProperties;
         }
+        #endregion Variables - List if Variable
 
-
-        public string GetPropertyValue(string variableName, bool useExifFormat, bool convertNullToBlank,
+        #region Variables - GetPropertyValueWrittenByUser
+        public string GetPropertyValueWrittenByUser(string variableName, bool useExifFormat, bool convertNullToBlank,
             List<string> allowedFileNameDateTimeFormats,
             string personalRegionInfoMP, string personalRegionInfo, string personalKeywordList, string personalKeywordsXML, string personalKeywordItemsAdd)
         {
@@ -1537,27 +1756,371 @@ namespace MetadataLibrary
                     break;
                 #endregion
                 default:
-                    throw new Exception("Theres a been use on none existing variable in config for wtire metadata: '"+ variableName + "' that is not implemented");
+                    throw new Exception("Theres a been use on none existing variable in config for write metadata: '"+ variableName + "' that is not implemented");
                     
             }
             if (convertNullToBlank && result == null) result = "";
             return result;
         }
+        #endregion Variables - GetPropertyValueWrittenByUser
 
-        #endregion
+        #region Variables - GetPropertyValueOriginal
+        public string GetPropertyValueOriginal(string variableName, bool useExifFormat, bool convertNullToBlank,
+            List<string> allowedFileNameDateTimeFormats,
+            string personalRegionInfoMP, string personalRegionInfo, string personalKeywordList, string personalKeywordsXML, string personalKeywordItemsAdd)
+        {
+            string result = variableName;
+            DateTime dateTimeSystem = DateTime.Now;
+            FileDateTimeReader fileDateTimeFormats = new FileDateTimeReader(allowedFileNameDateTimeFormats);
+            switch (variableName)
+            {
+                #region System
+                case "{OriginalSystemDateTime}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftool(dateTimeSystem);
+                    else result = TimeZoneLibrary.ToStringFilename(dateTimeSystem);
+                    break;
+                case "{OriginalSystemDateTimeDateStamp}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftoolDateStamp(dateTimeSystem);
+                    else result = TimeZoneLibrary.ToStringFilenameDateStamp(dateTimeSystem);
+                    break;
+                case "{OriginalSystemDateTimeTimeStamp}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftoolTimeStamp(dateTimeSystem);
+                    else result = TimeZoneLibrary.ToStringFilenameTimeStamp(dateTimeSystem);
+                    break;
+                case "{OriginalSystemDateTime_yyyy}":
+                    result = TimeZoneLibrary.ToStringDateTime_yyyy(dateTimeSystem);
+                    break;
+                case "{OriginalSystemDateTime_MM}":
+                    result = TimeZoneLibrary.ToStringDateTime_MM(dateTimeSystem);
+                    break;
+                case "{OriginalSystemDateTime_dd}":
+                    result = TimeZoneLibrary.ToStringDateTime_dd(dateTimeSystem);
+                    break;
+                case "{OriginalSystemDateTime_HH}":
+                    result = TimeZoneLibrary.ToStringDateTime_HH(dateTimeSystem);
+                    break;
+                case "{OriginalSystemDateTime_mm}":
+                    result = TimeZoneLibrary.ToStringDateTime_mm(dateTimeSystem);
+                    break;
+                case "{OriginalSystemDateTime_ss}":
+                    result = TimeZoneLibrary.ToStringDateTime_ss(dateTimeSystem);
+                    break;
+                #endregion System
 
-        #region Variables - Replace Variable with Propertiy values
+                #region Filesystem
+                case "{OriginalFileName}":
+                    result = FileName;
+                    break;
+                case "{OriginalFileFullPath}":
+                    result = FileFullPath;
+                    break;
+                case "{OriginalFileFullPath.8.3}":
+                    result = NativeMethods.ShortFileName(FileFullPath);
+                    break;
+                case "{OriginalFileNameWithoutExtension}":
+                    result = Path.GetFileNameWithoutExtension(FileName);
+                    break;
+                case "{OriginalFileNameWithoutDateTime}":
+                    result = fileDateTimeFormats.RemoveAllDateTimes(Path.GetFileNameWithoutExtension(FileName));
+                    break;
+                case "{OriginalFileExtension}":
+                    result = Path.GetExtension(FileName);
+                    break;
+                case "{OriginalFileDirectory}":
+                    result = FileDirectory;
+                    break;
+                case "{OriginalFileSize}":
+                    result = FileSize == null ? null : ((long)FileSize).ToString(CultureInfo.InvariantCulture);
+                    break;
+                case "{FileDate}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftool(FileDate);
+                    else result = TimeZoneLibrary.ToStringFilename(FileDate);
+                    break;
+                case "{OriginalFileDateCreated}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftool(FileDateCreated);
+                    else result = TimeZoneLibrary.ToStringFilename(FileDateCreated);
+                    break;
+                case "{OriginalFileDateCreatedDateStamp}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftoolDateStamp(FileDateCreated);
+                    else result = TimeZoneLibrary.ToStringFilenameDateStamp(FileDateCreated);
+                    break;
+                case "{OriginalFileDateCreatedTimeStamp}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftoolTimeStamp(FileDateCreated);
+                    else result = TimeZoneLibrary.ToStringFilenameTimeStamp(FileDateCreated);
+                    break;
+                case "{OriginalFileDateCreated_yyyy}":
+                    result = TimeZoneLibrary.ToStringDateTime_yyyy(FileDateCreated);
+                    break;
+                case "{OriginalFileDateCreated_MM}":
+                    result = TimeZoneLibrary.ToStringDateTime_MM(FileDateCreated);
+                    break;
+                case "{OriginalFileDateCreated_dd}":
+                    result = TimeZoneLibrary.ToStringDateTime_dd(FileDateCreated);
+                    break;
+                case "{OriginalFileDateCreated_HH}":
+                    result = TimeZoneLibrary.ToStringDateTime_HH(FileDateCreated);
+                    break;
+                case "{OriginalFileDateCreated_mm}":
+                    result = TimeZoneLibrary.ToStringDateTime_mm(FileDateCreated);
+                    break;
+                case "{OriginalFileDateCreated_ss}":
+                    result = TimeZoneLibrary.ToStringDateTime_ss(FileDateCreated);
+                    break;
+                case "{OriginalFileDateModified}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftool(FileDateModified);
+                    else result = TimeZoneLibrary.ToStringFilename(FileDateModified);
+                    break;
+                case "{OriginalFileDateModifiedDateStamp}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftoolDateStamp(FileDateModified);
+                    else result = TimeZoneLibrary.ToStringFilenameDateStamp(FileDateModified);
+                    break;
+                case "{OriginalFileDateModifiedTimeStamp}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftoolTimeStamp(FileDateModified);
+                    else result = TimeZoneLibrary.ToStringFilenameTimeStamp(FileDateModified);
+                    break;
+                case "{OriginalFileDateModified_yyyy}":
+                    result = TimeZoneLibrary.ToStringDateTime_yyyy(FileDateModified);
+                    break;
+                case "{OriginalFileDateModified_MM}":
+                    result = TimeZoneLibrary.ToStringDateTime_MM(FileDateModified);
+                    break;
+                case "{OriginalFileDateModified_dd}":
+                    result = TimeZoneLibrary.ToStringDateTime_dd(FileDateModified);
+                    break;
+                case "{OriginalFileDateModified_HH}":
+                    result = TimeZoneLibrary.ToStringDateTime_HH(FileDateModified);
+                    break;
+                case "{OriginalFileDateModified_mm}":
+                    result = TimeZoneLibrary.ToStringDateTime_mm(FileDateModified);
+                    break;
+                case "{OriginalFileDateModified_ss}":
+                    result = TimeZoneLibrary.ToStringDateTime_ss(FileDateModified);
+                    break;
+                case "{OriginalFileLastAccessed}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftool(FileDateAccessed);
+                    else result = TimeZoneLibrary.ToStringFilename(FileDateAccessed);
+                    break;
+                case "{OriginalFileLastAccessedDateStamp}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftoolDateStamp(FileDateAccessed);
+                    else result = TimeZoneLibrary.ToStringFilenameDateStamp(FileDateAccessed);
+                    break;
+                case "{OriginalFileLastAccessedTimeStamp}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftoolTimeStamp(FileDateAccessed);
+                    else result = TimeZoneLibrary.ToStringFilenameTimeStamp(FileDateAccessed);
+                    break;
+                case "{OriginalFileLastAccessed_yyyy}":
+                    result = TimeZoneLibrary.ToStringDateTime_yyyy(FileDateAccessed);
+                    break;
+                case "{OriginalFileLastAccessed_MM}":
+                    result = TimeZoneLibrary.ToStringDateTime_MM(FileDateAccessed);
+                    break;
+                case "{OriginalFileLastAccessed_dd}":
+                    result = TimeZoneLibrary.ToStringDateTime_dd(FileDateAccessed);
+                    break;
+                case "{OriginalFileLastAccessed_HH}":
+                    result = TimeZoneLibrary.ToStringDateTime_HH(FileDateAccessed);
+                    break;
+                case "{OriginalFileLastAccessed_mm}":
+                    result = TimeZoneLibrary.ToStringDateTime_mm(FileDateAccessed);
+                    break;
+                case "{OriginalFileLastAccessed_ss}":
+                    result = TimeZoneLibrary.ToStringDateTime_ss(FileDateAccessed);
+                    break;
+                case "{OriginalFileMimeType}":
+                    result = FileMimeType;
+                    break;
+                #endregion Filesystem
+
+                #region Personal
+                case "{OriginalPersonalTitle}":
+                    result = PersonalTitle;
+                    break;
+                case "{OriginalPersonalDescription}":
+                    result = PersonalDescription;
+                    break;
+                case "{OriginalPersonalComments}":
+                    result = PersonalComments;
+                    break;
+                case "{OriginalPersonalRating}":
+                    result = PersonalRating == null ? null : ((byte)PersonalRating).ToString(CultureInfo.InvariantCulture);
+                    break;
+                case "{OriginalPersonalRatingPercent}":
+                    result = PersonalRatingPercent == null ? null : ((byte)PersonalRatingPercent).ToString(CultureInfo.InvariantCulture);
+                    break;
+                case "{OriginalPersonalAuthor}":
+                    result = PersonalAuthor;
+                    break;
+                case "{OriginalPersonalAlbum}":
+                    result = PersonalAlbum;
+                    break;
+                #endregion Personal
+
+                #region Face Region
+                case "{OriginalPersonalRegionInfoMP}":
+                    result = personalRegionInfoMP;
+                    break;
+                case "{OriginalPersonalRegionInfo}":
+                    result = personalRegionInfo;
+                    break;
+                #endregion Face Region
+
+                #region Keyword
+                case "{OriginalPersonalKeywordsList}":
+                    result = personalKeywordList;
+                    break;
+                case "{OriginalPersonalKeywordsXML}":
+                    result = personalKeywordsXML;
+                    break;
+                case "{OriginalPersonalKeywordItemsAdd}":
+                    result = personalKeywordItemsAdd;
+                    break;
+                #endregion Keyword
+
+                #region Camera
+                case "{OriginalCameraMake}":
+                    result = CameraMake;
+                    break;
+                case "{OriginalCameraModel}":
+                    result = CameraModel;
+                    break;
+                #endregion Camera
+
+                #region Media
+                case "{OriginalMediaDateTaken}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftool(MediaDateTaken);
+                    else result = TimeZoneLibrary.ToStringFilename(MediaDateTaken);
+                    break;
+                case "{OriginalMediaDateTakenDateStamp}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftoolDateStamp(MediaDateTaken);
+                    else result = TimeZoneLibrary.ToStringFilenameDateStamp(MediaDateTaken);
+                    break;
+                case "{OriginalMediaDateTakenTimeStamp}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftoolTimeStamp(MediaDateTaken);
+                    else result = TimeZoneLibrary.ToStringFilenameTimeStamp(MediaDateTaken);
+                    break;
+                case "{OriginalMediaDateTaken_yyyy}":
+                    result = TimeZoneLibrary.ToStringDateTime_yyyy(MediaDateTaken);
+                    break;
+                case "{OriginalMediaDateTaken_MM}":
+                    result = TimeZoneLibrary.ToStringDateTime_MM(MediaDateTaken);
+                    break;
+                case "{OriginalMediaDateTaken_dd}":
+                    result = TimeZoneLibrary.ToStringDateTime_dd(MediaDateTaken);
+                    break;
+                case "{OriginalMediaDateTaken_HH}":
+                    result = TimeZoneLibrary.ToStringDateTime_HH(MediaDateTaken);
+                    break;
+                case "{OriginalMediaDateTaken_mm}":
+                    result = TimeZoneLibrary.ToStringDateTime_mm(MediaDateTaken);
+                    break;
+                case "{OriginalMediaDateTaken_ss}":
+                    result = TimeZoneLibrary.ToStringDateTime_ss(MediaDateTaken);
+                    break;
+                case "{OriginalMediaWidth}":
+                    result = MediaWidth == null ? null : ((int)MediaWidth).ToString(CultureInfo.InvariantCulture);
+                    break;
+                case "{OriginalMediaHeight}":
+                    result = MediaHeight == null ? null : ((int)MediaHeight).ToString(CultureInfo.InvariantCulture);
+                    break;
+                case "{OriginalMediaOrientation}":
+                    result = MediaOrientation == null ? null : ((int)MediaOrientation).ToString(CultureInfo.InvariantCulture);
+                    break;
+                case "{OriginalMediaVideoLength}":
+                    result = MediaVideoLength == null ? null : ((int)MediaVideoLength).ToString(CultureInfo.InvariantCulture);
+                    break;
+                #endregion Media
+
+                #region Location
+                case "{OriginalLocationAltitude}":
+                    result = LocationAltitude == null ? null : ((float)LocationAltitude).ToString(CultureInfo.InvariantCulture);
+                    break;
+                case "{OriginalLocationLatitude}":
+                    result = LocationLatitude == null ? null : ((float)LocationLatitude).ToString(CultureInfo.InvariantCulture);
+                    break;
+                case "{OriginalLocationLongitude}":
+                    result = LocationLongitude == null ? null : ((float)LocationLongitude).ToString(CultureInfo.InvariantCulture);
+                    break;
+                case "{OriginalLocationDateTime}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftool(LocationDateTime);
+                    else result = TimeZoneLibrary.ToStringFilename(LocationDateTime);
+                    break;
+                case "{OriginalLocationDateTimeUTC}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftoolUTC(LocationDateTime);
+                    else result = TimeZoneLibrary.ToStringFilenameUTC(LocationDateTime);
+                    break;
+                case "{OriginalLocationDateTimeDateStamp}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftoolDateStamp(LocationDateTime);
+                    else result = TimeZoneLibrary.ToStringFilenameDateStamp(LocationDateTime);
+                    break;
+                case "{OriginalLocationDateTimeTimeStamp}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftoolTimeStamp(LocationDateTime);
+                    else result = TimeZoneLibrary.ToStringFilenameTimeStamp(LocationDateTime);
+                    break;
+                case "{OriginalLocationDateTime_yyyy}":
+                    result = TimeZoneLibrary.ToStringDateTime_yyyy(LocationDateTime);
+                    break;
+                case "{OriginalLocationDateTime_MM}":
+                    result = TimeZoneLibrary.ToStringDateTime_MM(LocationDateTime);
+                    break;
+                case "{OriginalLocationDateTime_dd}":
+                    result = TimeZoneLibrary.ToStringDateTime_dd(LocationDateTime);
+                    break;
+                case "{OriginalLocationDateTime_HH}":
+                    result = TimeZoneLibrary.ToStringDateTime_HH(LocationDateTime);
+                    break;
+                case "{OriginalLocationDateTime_mm}":
+                    result = TimeZoneLibrary.ToStringDateTime_mm(LocationDateTime);
+                    break;
+                case "{OriginalLocationDateTime_ss}":
+                    result = TimeZoneLibrary.ToStringDateTime_ss(LocationDateTime);
+                    break;
+                case "{OriginalLocationName}":
+                    result = LocationName;
+                    break;
+                case "{OriginalLocationCountry}":
+                    result = LocationCountry;
+                    break;
+                case "{OriginalLocationState}":
+                    result = LocationState;
+                    break;
+                case "{OriginalLocationCity}":
+                    result = LocationCity;
+                    break;
+                #endregion Location
+                default:
+                    throw new Exception("Theres a been use on none existing variable in config for write metadata: '" + variableName + "' that is not implemented");
+
+            }
+            if (convertNullToBlank && result == null) result = "";
+            return result;
+        }
+        #endregion Variables - GetPropertyValueOriginal
+
+        #region Variables - HasValueChanged
         private bool HasValueChanged(string variable, Metadata metadata)
         {
             bool result = false;
             switch (variable)
             {
-                //System
+                #region File System
                 case "{IfFileDateModifiedChanged}":
                     if (!TimeZoneLibrary.IsDateTimeEqualWithinOneSecond(this.FileDateAccessed, metadata.FileDateAccessed)) result = true;
                     break;
+                #endregion
 
-                //Personal
+                #region FileName/Folder/Path
+                case "{IfFilePathChanged}":
+                    if (this.FileFullPath != metadata.FileFullPath) result = true;
+                    break;
+                case "{IfFileNameChanged}":
+                    if (this.FileName != metadata.FileName) result = true;
+                    break;
+                case "{IfFileDirectoryChanged}":
+                    if (this.FileDirectory != metadata.FileDirectory) result = true;
+                    break;
+                #endregion
+
+                #region Personal
                 case "{IfPersonalTitleChanged}":
                     if (this.PersonalTitle != metadata.PersonalTitle) result = true;
                     break;
@@ -1577,19 +2140,31 @@ namespace MetadataLibrary
                 case "{IfPersonalAlbumChanged}":
                     if (this.PersonalAlbum != metadata.PersonalAlbum) result = true;
                     break;
-                //Region
+                #endregion
+
+                #region Region
                 case "{IfPersonalRegionChanged}":
                     if (VerifyRegionStructureList(this.personalRegionList, metadata.personalRegionList) == false) result = true;
                     break;
-                //Keyword
+                #endregion
+
+                #region Keyword
                 case "{IfPersonalKeywordsChanged}":
                     if (VerifyKeywordList(this.personalTagList, metadata.personalTagList) == false) result = true;
                     break;
-                //Media
+                #endregion
+
+                #region Media
                 case "{IfMediaDateTakenChanged}":
                     if (!TimeZoneLibrary.IsDateTimeEqualWithinOneSecond(this.MediaDateTaken, metadata.MediaDateTaken)) result = true;
                     break;
-                //Location
+                #endregion
+
+                #region Location
+                case "{IfLocationChanged}":
+                    if (this.locationLatitude != metadata.locationLatitude ||
+                        this.LocationLongitude != metadata.locationLongitude) result = true;
+                    break;
                 case "{IfLocationAltitudeChanged}":
                     if (this.locationAltitude != metadata.locationAltitude) result = true;
                     break;
@@ -1614,73 +2189,15 @@ namespace MetadataLibrary
                 case "{IfLocationStateChanged}":
                     if (this.locationState != metadata.locationState) result = true;
                     break;
+                #endregion
             }
             return result;
+
         }
+        #endregion 
 
-        private string AddLine(string line, string variable, bool alwaysWrite, Metadata metadata, ref bool vaiableFound)
-        {
-            if (line.Contains(variable))
-            {
-                vaiableFound = true;
-                line = line.Replace(variable, "");
-                //If always write, then line will be added
-                //If not always write, then check if vaiable is changed
-                if (!alwaysWrite && !HasValueChanged(variable, metadata)) line = "";
-            }
-
-            return line;
-        }
-
-        public string RemoveLines(string stringWithVariables, Metadata metadata, bool alwaysWrite)
-        {
-            string result = "";
-            string addLine;
-            string[] lines = stringWithVariables.Replace("\r\n", "\n").Split('\n');
-
-            foreach (string line in lines)
-            {
-                addLine = line;
-                bool vaiableFound = false;
-                do
-                {
-                    vaiableFound = false;
-                    //File
-                    addLine = AddLine(addLine, "{IfFileDateModifiedChanged}", alwaysWrite, metadata, ref vaiableFound);
-
-                    //Personal
-                    addLine = AddLine(addLine, "{IfPersonalTitleChanged}", alwaysWrite, metadata, ref vaiableFound);
-                    addLine = AddLine(addLine, "{IfPersonalDescriptionChanged}", alwaysWrite, metadata, ref vaiableFound);
-                    addLine = AddLine(addLine, "{IfPersonalCommentsChanged}", alwaysWrite, metadata, ref vaiableFound);
-                    addLine = AddLine(addLine, "{IfPersonalRatingChanged}", alwaysWrite, metadata, ref vaiableFound);
-                    addLine = AddLine(addLine, "{IfPersonalAuthorChanged}", alwaysWrite, metadata, ref vaiableFound);
-                    addLine = AddLine(addLine, "{IfPersonalAlbumChanged}", alwaysWrite, metadata, ref vaiableFound);
-
-                    //Region
-                    addLine = AddLine(addLine, "{IfPersonalRegionChanged}", alwaysWrite, metadata, ref vaiableFound);
-
-                    //Keyword
-                    addLine = AddLine(addLine, "{IfPersonalKeywordsChanged}", alwaysWrite, metadata, ref vaiableFound);
-                    //Media
-                    addLine = AddLine(addLine, "{IfMediaDateTakenChanged}", alwaysWrite, metadata, ref vaiableFound);
-
-                    //Location
-                    addLine = AddLine(addLine, "{IfLocationAltitudeChanged}", alwaysWrite, metadata, ref vaiableFound);
-                    addLine = AddLine(addLine, "{IfLocationLatitudeChanged}", alwaysWrite, metadata, ref vaiableFound);
-                    addLine = AddLine(addLine, "{IfLocationLongitudeChanged}", alwaysWrite, metadata, ref vaiableFound);
-                    addLine = AddLine(addLine, "{IfLocationDateTimeChanged}", alwaysWrite, metadata, ref vaiableFound);
-                    addLine = AddLine(addLine, "{IfLocationNameChanged}", alwaysWrite, metadata, ref vaiableFound);
-                    addLine = AddLine(addLine, "{IfLocationCityChanged}", alwaysWrite, metadata, ref vaiableFound);
-                    addLine = AddLine(addLine, "{IfLocationStateChanged}", alwaysWrite, metadata, ref vaiableFound);
-                    addLine = AddLine(addLine, "{IfLocationCountryChanged}", alwaysWrite, metadata, ref vaiableFound);
-                } while (vaiableFound);
-                if (!string.IsNullOrWhiteSpace(addLine)) result += addLine + "\r\n";
-            }
-            return result;
-        }
-
-
-        public string ReplaceVariables(string stringWithVariables, bool useExifFormat, bool convertNullToBlank, List<string> allowedFileNameDateTimeFormats,
+        #region Variables - ReplaceVariablesWrittenByUser
+        public string ReplaceVariablesWrittenByUser(string stringWithVariables, bool useExifFormat, bool convertNullToBlank, List<string> allowedFileNameDateTimeFormats,
             string personalRegionInfoMP, string personalRegionInfo, string personalKeywordList, string personalKeywordsXML, string personalKeywordItemsAdd)
         {
             string result = stringWithVariables;
@@ -1688,29 +2205,82 @@ namespace MetadataLibrary
             foreach (string variable in variables)
             {
                 while (result.Contains(variable))
-                    result = result.Replace(variable, GetPropertyValue(variable, useExifFormat, convertNullToBlank,
+                    result = result.Replace(variable, GetPropertyValueWrittenByUser(variable, useExifFormat, convertNullToBlank,
                     allowedFileNameDateTimeFormats, personalRegionInfoMP, personalRegionInfo, personalKeywordList, personalKeywordsXML, personalKeywordItemsAdd));
             }
             result = result.Replace("\r\n\r\n", "\r\n");
             return result;
         }
+        #endregion
 
-        public string ReplaceKeywordItemVariables(string stringWithVariables, string keyword)
+        #region Variables - ReplaceVariablesOriginal
+        public string ReplaceVariablesOriginal(string stringWithVariables, bool useExifFormat, bool convertNullToBlank, List<string> allowedFileNameDateTimeFormats,
+            string personalRegionInfoMP, string personalRegionInfo, string personalKeywordList, string personalKeywordsXML, string personalKeywordItemsAdd)
+        {
+            string result = stringWithVariables;
+            string[] variables = Metadata.ListOfProperties(false);
+            foreach (string variable in variables)
+            {
+                while (result.Contains(variable))
+                    result = result.Replace(variable, GetPropertyValueOriginal(variable, useExifFormat, convertNullToBlank,
+                    allowedFileNameDateTimeFormats, personalRegionInfoMP, personalRegionInfo, personalKeywordList, personalKeywordsXML, personalKeywordItemsAdd));
+            }
+            result = result.Replace("\r\n\r\n", "\r\n");
+            return result;
+        }
+        #endregion
+
+        #region Variables - ReplaceKeywordItemVariablesWrittenByUser
+        public string ReplaceKeywordItemVariablesWrittenByUser(string stringWithVariables, string keyword)
         {
             string result = stringWithVariables;
             while (result.Contains("{KeywordItem}")) result = result.Replace("{KeywordItem}", keyword);
             return result;
         }
+        #endregion
 
-        public string ReplaceVariables(string stringWithVariables, List<string> allowedFileNameDateTimeFormats)
+        #region Variables - ReplaceKeywordItemVariablesOriginal
+        public string ReplaceKeywordItemVariablesOriginal(string stringWithVariables, string keyword)
         {
-            return ReplaceVariables(stringWithVariables, true, true, allowedFileNameDateTimeFormats, VariablePersonalRegionInfoMP(), VariablePersonalRegionInfo(), VariablePersonalKeywordsList(), VariableKeywordCategories(), "");
+            string result = stringWithVariables;
+            while (result.Contains("{KeywordItemOriginal}")) result = result.Replace("{KeywordItemOriginal}", keyword);
+            return result;
         }
+        #endregion
 
-        public string ReplaceVariables(string stringWithVariables, List<string> allowedFileNameDateTimeFormats, string personalKeywordItemsAdd)
+        #region Variables - ReplaceVariablesWrittenByUser
+        public string ReplaceVariablesWrittenByUser(string stringWithVariables, List<string> allowedFileNameDateTimeFormats)
         {
-            return ReplaceVariables(stringWithVariables, true, true, allowedFileNameDateTimeFormats,
-                VariablePersonalRegionInfoMP(), VariablePersonalRegionInfo(), VariablePersonalKeywordsList(), VariableKeywordCategories(), personalKeywordItemsAdd);
+            return ReplaceVariablesWrittenByUser(stringWithVariables, true, true, allowedFileNameDateTimeFormats, 
+                VariablePersonalRegionInfoMP(), VariablePersonalRegionInfo(), VariablePersonalKeywordsList(), VariableKeywordCategories(), 
+                "");
+        }
+        #endregion
+
+        #region Variables - ReplaceVariablesOriginal
+        public string ReplaceVariablesOriginal(string stringWithVariables, List<string> allowedFileNameDateTimeFormats)
+        {
+            return ReplaceVariablesOriginal(stringWithVariables, true, true, allowedFileNameDateTimeFormats,
+                VariablePersonalRegionInfoMP(), VariablePersonalRegionInfo(), VariablePersonalKeywordsList(), VariableKeywordCategories(), 
+                "");
+        }
+        #endregion
+
+        #region Variables - ReplaceVariablesWrittenByUser
+        public string ReplaceVariablesWrittenByUser(string stringWithVariables, List<string> allowedFileNameDateTimeFormats, string personalKeywordItemsAdd)
+        {
+            return ReplaceVariablesWrittenByUser(stringWithVariables, true, true, allowedFileNameDateTimeFormats,
+                VariablePersonalRegionInfoMP(), VariablePersonalRegionInfo(), VariablePersonalKeywordsList(), VariableKeywordCategories(), 
+                personalKeywordItemsAdd);
+        }
+        #endregion 
+
+        #region Variables - ReplaceVariablesOriginal
+        public string ReplaceVariablesOriginal(string stringWithVariables, List<string> allowedFileNameDateTimeFormats, string personalKeywordItemsAdd)
+        {
+            return ReplaceVariablesOriginal(stringWithVariables, true, true, allowedFileNameDateTimeFormats,
+                VariablePersonalRegionInfoMP(), VariablePersonalRegionInfo(), VariablePersonalKeywordsList(), VariableKeywordCategories(), 
+                personalKeywordItemsAdd);
         }
         #endregion 
 
@@ -1832,7 +2402,7 @@ namespace MetadataLibrary
         #endregion
 
         #region Variables - Create Variable - Keyword items - ***Loop of keyword items***
-        public string VariablePersonalKeywords(string stringWithVariables, List<string> allowedFileNameDateTimeFormats)
+        public string VariablePersonalKeywordsWrittenByUser(string stringWithVariables, List<string> allowedFileNameDateTimeFormats)
         {
             string personalRegionInfoMP = VariablePersonalRegionInfoMP();
             string personalRegionInfo = VariablePersonalRegionInfo();
@@ -1842,9 +2412,9 @@ namespace MetadataLibrary
             string personalKeywordAdd = "";
             foreach (KeywordTag keywordTag in this.PersonalKeywordTags)
             {
-                string keywordItemToWrite = this.ReplaceVariables(stringWithVariables, true, true, allowedFileNameDateTimeFormats,
+                string keywordItemToWrite = this.ReplaceVariablesWrittenByUser(stringWithVariables, true, true, allowedFileNameDateTimeFormats,
                     personalRegionInfoMP, personalRegionInfo, personalKeywordsList, keywordCategories, "");
-                keywordItemToWrite = this.ReplaceKeywordItemVariables(keywordItemToWrite, keywordTag.Keyword);
+                keywordItemToWrite = this.ReplaceKeywordItemVariablesWrittenByUser(keywordItemToWrite, keywordTag.Keyword);
                 if (!string.IsNullOrWhiteSpace(keywordItemToWrite))
                 {
                     if (!keywordItemToWrite.EndsWith("\r\n") || !keywordItemToWrite.EndsWith("\r") || !keywordItemToWrite.EndsWith("\n"))
@@ -1856,6 +2426,33 @@ namespace MetadataLibrary
             return personalKeywordAdd;
         }
         #endregion
+
+        #region Variables - Create Variable - Keyword items - ***Loop of keyword items***
+        public string VariablePersonalKeywordsOriginal(string stringWithVariables, List<string> allowedFileNameDateTimeFormats)
+        {
+            string personalRegionInfoMP = VariablePersonalRegionInfoMP();
+            string personalRegionInfo = VariablePersonalRegionInfo();
+            string personalKeywordsList = VariablePersonalKeywordsList();
+            string keywordCategories = VariableKeywordCategories();
+
+            string personalKeywordAdd = "";
+            foreach (KeywordTag keywordTag in this.PersonalKeywordTags)
+            {
+                string keywordItemToWrite = this.ReplaceVariablesOriginal(stringWithVariables, true, true, allowedFileNameDateTimeFormats,
+                    personalRegionInfoMP, personalRegionInfo, personalKeywordsList, keywordCategories, "");
+                keywordItemToWrite = this.ReplaceKeywordItemVariablesOriginal(keywordItemToWrite, keywordTag.Keyword);
+                if (!string.IsNullOrWhiteSpace(keywordItemToWrite))
+                {
+                    if (!keywordItemToWrite.EndsWith("\r\n") || !keywordItemToWrite.EndsWith("\r") || !keywordItemToWrite.EndsWith("\n"))
+                        keywordItemToWrite += "\r\n";
+
+                    personalKeywordAdd += keywordItemToWrite;
+                }
+            }
+            return personalKeywordAdd;
+        }
+        #endregion
+
     }
 }
 

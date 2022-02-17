@@ -8616,8 +8616,8 @@ namespace PhotoTagsSynchronizer
                 {
                     FormSplash.ShowSplashScreen("Populate the 'Advance: Run Command' form...", imageListView1.SelectedItems.Count + 3, false, false);
 
-                    string writeMetadataTagsVariable = Properties.Settings.Default.WriteMetadataTags;
-                    string writeMetadataKeywordAddVariable = Properties.Settings.Default.WriteMetadataKeywordAdd;
+                    string writeMetadataTagsConfiguration = Properties.Settings.Default.WriteMetadataTags;
+                    string writeMetadataKeywordAddConfiguration = Properties.Settings.Default.WriteMetadataKeywordAdd;
 
                     List<string> allowedFileNameDateTimeFormats = FileDateTime.FileDateTimeReader.ConvertStringOfDatesToList(Properties.Settings.Default.RenameDateFormats);
 
@@ -8626,7 +8626,8 @@ namespace PhotoTagsSynchronizer
                     CollectMetadataFromAllDataGridViewData(out List <Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView, false);
 
                     ExiftoolWriter.CreateExiftoolArguFileText(
-                        metadataListFromDataGridView, metadataListOriginalExiftool, allowedFileNameDateTimeFormats, writeMetadataTagsVariable, writeMetadataKeywordAddVariable,
+                        metadataListFromDataGridView, metadataListOriginalExiftool, allowedFileNameDateTimeFormats, 
+                        writeMetadataTagsConfiguration, writeMetadataKeywordAddConfiguration,
                         true, out string exiftoolAgruFileText);
                     #endregion
 
@@ -8674,7 +8675,7 @@ namespace PhotoTagsSynchronizer
 
                     ExiftoolWriter.CreateExiftoolArguFileText(
                         metadataListFromDataGridViewAutoCorrect, metadataListEmpty, allowedFileNameDateTimeFormats,
-                        writeMetadataTagsVariable, writeMetadataKeywordAddVariable,
+                        writeMetadataTagsConfiguration, writeMetadataKeywordAddConfiguration,
                         true, out string exiftoolAutoCorrectFileText);
                     #endregion
 
