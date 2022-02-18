@@ -2364,9 +2364,9 @@ namespace PhotoTagsSynchronizer
         #region Metadata Write - Populate Window
         private void PopulateMetadataWritePoperties()
         {
-            comboBoxMetadataWriteStandardTags.Items.AddRange(Metadata.ListOfProperties(false));
-            comboBoxWriteXtraAtomVariables.Items.AddRange(Metadata.ListOfProperties(false));
-            comboBoxMetadataWriteKeywordAdd.Items.AddRange(Metadata.ListOfProperties(true));
+            comboBoxMetadataWriteStandardTags.Items.AddRange(Metadata.ListOfPropertiesCombined(false));
+            comboBoxWriteXtraAtomVariables.Items.AddRange(Metadata.ListOfPropertiesCombined(false));
+            comboBoxMetadataWriteKeywordAdd.Items.AddRange(Metadata.ListOfPropertiesCombined(true));
 
             kryptonCheckBoxWriteMetadataCompatibilityCheckAndFix.Checked = Properties.Settings.Default.WriteUsingCompatibilityCheck;
             kryptonCheckBoxWriteAutoKeywordsSynonyms.Checked = Properties.Settings.Default.WriteAutoKeywordsSynonyms;

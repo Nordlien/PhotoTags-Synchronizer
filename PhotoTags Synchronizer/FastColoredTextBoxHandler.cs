@@ -75,7 +75,7 @@ namespace PhotoTagsSynchronizer
             popupMenuMetadataProperties.MinFragmentLength = 2;
 
             List<AutocompleteItem> autoCompleteItems = new List<AutocompleteItem>();
-            string[] listOfProperties = Metadata.ListOfProperties(addKeywordItem);
+            string[] listOfProperties = Metadata.ListOfPropertiesCombined(addKeywordItem);
 
             string regexPatternProperties = "";
             foreach (string item in listOfProperties)

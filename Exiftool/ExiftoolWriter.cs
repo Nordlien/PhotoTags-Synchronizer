@@ -174,7 +174,7 @@ namespace Exiftool
                 string personalKeywordAddContent = metadataToWrite.ReplaceVariablesWrittenByUser(writeMetadataKeywordAddConfiguration, allowedFileNameDateTimeFormats);
                 string personalKeywordAddItems = metadataToWrite.VariablePersonalKeywordsWrittenByUser(personalKeywordAddContent, allowedFileNameDateTimeFormats);
 
-                string personalKeywordAddContentOriginal = metadataOriginal.ReplaceVariablesOriginal(writeMetadataTagsConfiguration, allowedFileNameDateTimeFormats);
+                string personalKeywordAddContentOriginal = metadataOriginal.ReplaceVariablesOriginal(writeMetadataKeywordAddConfiguration, allowedFileNameDateTimeFormats);
                 string personalKeywordAddItemsOriginal = metadataOriginal.VariablePersonalKeywordsOriginal(personalKeywordAddContentOriginal, allowedFileNameDateTimeFormats);
 
                 tagsToWrite = metadataOriginal.ReplaceVariablesOriginal(tagsToWrite, allowedFileNameDateTimeFormats, personalKeywordAddItemsOriginal);

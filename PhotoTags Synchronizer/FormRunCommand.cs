@@ -61,8 +61,8 @@ namespace PhotoTagsSynchronizer
 
             isPopulation = true;
             #region Tab - Run batch - Command
-            comboBoxBatchRunImageVariables.Items.AddRange(Metadata.ListOfProperties(false));
-            comboBoxBatchRunVideoVariables.Items.AddRange(Metadata.ListOfProperties(false));
+            comboBoxBatchRunImageVariables.Items.AddRange(Metadata.ListOfPropertiesCombined(false));
+            comboBoxBatchRunVideoVariables.Items.AddRange(Metadata.ListOfPropertiesCombined(false));
             ComboBoxHandler.ComboBoxPopulateClear(comboBoxBatchRunImageCommand, Properties.Settings.Default.RunBatchImageCommandList, Properties.Settings.Default.RunBatchImageCommand);
             ComboBoxHandler.ComboBoxPopulateClear(comboBoxBatchRunVideoCommand, Properties.Settings.Default.RunBatchVideoCommandList, Properties.Settings.Default.RunBatchVideoCommand);
             checkBoxBatchRunImageWaitForCommandExit.Checked = Properties.Settings.Default.RunBatchImageWaitForCommand;
@@ -126,8 +126,8 @@ namespace PhotoTagsSynchronizer
             comboBoxArgumentFileBuilderCommandVariables.Items.Add("{TempFileArgumentFullPath}");
             ComboBoxHandler.ComboBoxPopulateClear(comboBoxArgumentFileBuilderCommand, Properties.Settings.Default.RunArgumentBuildCommandList, Properties.Settings.Default.RunArgumentBuildCommand);
 
-            comboBoxMetadataWriteStandardTags.Items.AddRange(Metadata.ListOfProperties(false));
-            comboBoxMetadataWriteKeywordAdd.Items.AddRange(Metadata.ListOfProperties(true));
+            comboBoxMetadataWriteStandardTags.Items.AddRange(Metadata.ListOfPropertiesCombined(false));
+            comboBoxMetadataWriteKeywordAdd.Items.AddRange(Metadata.ListOfPropertiesCombined(true));
 
             fastColoredTextBoxMetadataWriteKeywordAdd.Text = Properties.Settings.Default.RunArgumentBuildKeywordAdd;
             fastColoredTextBoxMetadataWriteTags.Text = Properties.Settings.Default.RunArgumentBuildKeywordTags;

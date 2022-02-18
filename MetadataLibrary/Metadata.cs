@@ -7,6 +7,7 @@ using TimeZone;
 using LocationNames;
 using FileDateTime;
 using ApplicationAssociations;
+using System.Linq;
 
 namespace MetadataLibrary
 {
@@ -1171,7 +1172,14 @@ namespace MetadataLibrary
 
 
         #region Variables - List if Variable 
-        public static string[] ListOfProperties(bool addKeywordItems)
+        public static string[] ListOfPropertiesCombined(bool addKeywordItems)
+        {
+            List<string> listOfPropertiesWrittenByUser = ListOfPropertiesWrittenByUser(addKeywordItems);
+            List<string> listOfPropertiesOriginal = ListOfPropertiesOriginal(addKeywordItems);
+            return listOfPropertiesWrittenByUser.Union(listOfPropertiesOriginal).ToArray();
+        }
+
+        public static List<string> ListOfPropertiesWrittenByUser(bool addKeywordItems)
         {
             List<string> listOfProperties = new List<string>();
 
@@ -1190,24 +1198,13 @@ namespace MetadataLibrary
             #region FileName/Folder/Path
             listOfProperties.Add("{IfFileNameChanged}");
             listOfProperties.Add("{FileName}");
-            listOfProperties.Add("{OriginalFileName}");
-
             listOfProperties.Add("{IfFilePathChanged}");
             listOfProperties.Add("{FileFullPath}");
-            listOfProperties.Add("{OriginalFileFullPath}");
-            
             listOfProperties.Add("{FileFullPath.8.3}");
-            listOfProperties.Add("{OriginalFileFullPath.8.3}");
-
             listOfProperties.Add("{FileNameWithoutDateTime}");
-            listOfProperties.Add("{OriginalFileNameWithoutExtension}");
-
             listOfProperties.Add("{FileExtension}");
-            listOfProperties.Add("{OriginalFileExtension}");
-
             listOfProperties.Add("{IfFileDirectoryChanged}");
             listOfProperties.Add("{FileDirectory}");
-            listOfProperties.Add("{OriginalFileDirectory}");
             #endregion
 
             #region FileAttributes
@@ -1217,123 +1214,52 @@ namespace MetadataLibrary
 
             #region FileDate
             listOfProperties.Add("{FileDate}");
-            listOfProperties.Add("{OriginalFileDate}");
-
             listOfProperties.Add("{FileDateDateStamp}");
-            listOfProperties.Add("{OriginalFileDateDateStamp}");
-
             listOfProperties.Add("{FileDateTimeStamp}");
-            listOfProperties.Add("{OriginalFileDateTimeStamp}");
-
             listOfProperties.Add("{FileDate_yyyy}");
-            listOfProperties.Add("{OriginalFileDate_yyyy}");
-
             listOfProperties.Add("{FileDate_MM}");
-            listOfProperties.Add("{OriginalFileDate_MM}");
-
             listOfProperties.Add("{FileDate_dd}");
-            listOfProperties.Add("{OriginalFileDate_dd}");
-
             listOfProperties.Add("{FileDate_HH}");
-            listOfProperties.Add("{OriginalFileDate_HH}");
-
             listOfProperties.Add("{FileDate_mm}");
-            listOfProperties.Add("{OriginalFileDate_mm}");
-
             listOfProperties.Add("{FileDate_ss}");
-            listOfProperties.Add("{OriginalFileDate_ss}");
             #endregion
 
             #region FileDateCreated
             listOfProperties.Add("{FileDateCreated}");
-            listOfProperties.Add("{OriginalFileDateCreated}");
-
             listOfProperties.Add("{FileDateCreatedDateStamp}");
-            listOfProperties.Add("{OriginalFileDateCreatedDateStamp}");
-            
             listOfProperties.Add("{FileDateCreatedTimeStamp}");
-            listOfProperties.Add("{OriginalFileDateCreatedTimeStamp}");
-            
             listOfProperties.Add("{FileDateCreated_yyyy}");
-            listOfProperties.Add("{OriginalFileDateCreated_yyyy}");
-
             listOfProperties.Add("{OriginalFileDateCreated_MM}");
-            listOfProperties.Add("{FileDateCreated_MM}");
-            
             listOfProperties.Add("{OriginalFileDateCreated_dd}");
-            listOfProperties.Add("{FileDateCreated_dd}");
-
             listOfProperties.Add("{OriginalFileDateCreated_HH}");
-            listOfProperties.Add("{FileDateCreated_HH}");
-
             listOfProperties.Add("{OriginalFileDateCreated_mm}");
-            listOfProperties.Add("{FileDateCreated_mm}");
-
             listOfProperties.Add("{OriginalFileDateCreated_ss}");
-            listOfProperties.Add("{FileDateCreated_ss}");
             #endregion
 
             #region FileDateModified
             listOfProperties.Add("{IfFileDateModifiedChanged}");
-
             listOfProperties.Add("{FileDateModified}");
-            listOfProperties.Add("{OriginalFileDateModified}");
-            
             listOfProperties.Add("{FileDateModifiedDateStamp}");
-            listOfProperties.Add("{OriginalFileDateModifiedDateStamp}");
-
             listOfProperties.Add("{FileDateModifiedTimeStamp}");
-            listOfProperties.Add("{OriginalFileDateModifiedTimeStamp}");
-
             listOfProperties.Add("{FileDateModified_yyyy}");
-            listOfProperties.Add("{OriginalFileDateModified_yyyy}");
-            
             listOfProperties.Add("{FileDateModified_MM}");
-            listOfProperties.Add("{OriginalFileDateModified_MM}");
-            
             listOfProperties.Add("{FileDateModified_dd}");
-            listOfProperties.Add("{OriginalFileDateModified_dd}");
-            
             listOfProperties.Add("{FileDateModified_HH}");
-            listOfProperties.Add("{OriginalFileDateModified_HH}");
-            
             listOfProperties.Add("{FileDateModified_mm}");
-            listOfProperties.Add("{OriginalFileDateModified_mm}");
-
             listOfProperties.Add("{FileDateModified_ss}");
-            listOfProperties.Add("{OriginalFileDateModified_ss}");
             #endregion 
 
             #region Media MediaDateTaken
             listOfProperties.Add("{IfMediaDateTakenChanged}");
             listOfProperties.Add("{MediaDateTaken}");
-            listOfProperties.Add("{MediaDateTaken}");
-
             listOfProperties.Add("{MediaDateTakenDateStamp}");
-            listOfProperties.Add("{MediaDateTakenDateStamp}");
-
             listOfProperties.Add("{MediaDateTakenTimeStamp}");
-            listOfProperties.Add("{MediaDateTakenTimeStamp}");
-
             listOfProperties.Add("{MediaDateTaken_yyyy}");
-            listOfProperties.Add("{MediaDateTaken_yyyy}");
-
             listOfProperties.Add("{MediaDateTaken_MM}");
-            listOfProperties.Add("{MediaDateTaken_MM}");
-
             listOfProperties.Add("{MediaDateTaken_dd}");
-            listOfProperties.Add("{MediaDateTaken_dd}");
-
             listOfProperties.Add("{MediaDateTaken_HH}");
-            listOfProperties.Add("{MediaDateTaken_HH}");
-
             listOfProperties.Add("{MediaDateTaken_mm}");
-            listOfProperties.Add("{MediaDateTaken_mm}");
-
             listOfProperties.Add("{MediaDateTaken_ss}");
-            listOfProperties.Add("{MediaDateTaken_ss}");
-
-            listOfProperties.Add("{MediaWidth}");
             listOfProperties.Add("{MediaHeight}");
             listOfProperties.Add("{MediaOrientation}");
             listOfProperties.Add("{MediaVideoLength}");
@@ -1342,41 +1268,27 @@ namespace MetadataLibrary
             #region Personal
             listOfProperties.Add("{IfPersonalTitleChanged}");
             listOfProperties.Add("{PersonalTitle}");            
-            listOfProperties.Add("{OriginalPersonalTitle}");
-
             listOfProperties.Add("{IfPersonalDescriptionChanged}");
             listOfProperties.Add("{PersonalDescription}");
-            listOfProperties.Add("{OriginalPersonalDescription}");
-
             listOfProperties.Add("{IfPersonalCommentsChanged}");
             listOfProperties.Add("{PersonalComments}");
-            listOfProperties.Add("{OriginalPersonalComments}");
-
             listOfProperties.Add("{IfPersonalRatingChanged}");
             listOfProperties.Add("{PersonalRating}");            
             listOfProperties.Add("{PersonalRatingPercent}");
-            listOfProperties.Add("{OriginalPersonalRating}");;
-            listOfProperties.Add("{OriginalPersonalRatingPercent}");
-
             listOfProperties.Add("{PersonalAuthor}");
             listOfProperties.Add("{IfPersonalAuthorChanged}");
-            listOfProperties.Add("{OriginalPersonalAuthor}");
-
             listOfProperties.Add("{IfPersonalAlbumChanged}");
             listOfProperties.Add("{PersonalAlbum}");            
-            listOfProperties.Add("{OriginalPersonalAlbum}");
             #endregion
 
             #region Region
             listOfProperties.Add("{IfPersonalRegionChanged}");
-
             listOfProperties.Add("{PersonalRegionInfoMP}");
             listOfProperties.Add("{PersonalRegionInfo}");
             #endregion
 
             #region Keyword
-            if (addKeywordItems) 
-                listOfProperties.Add("{KeywordItem}");
+            if (addKeywordItems) listOfProperties.Add("{KeywordItem}");
             listOfProperties.Add("{IfPersonalKeywordsChanged}");
             listOfProperties.Add("{PersonalKeywordsList}");
             listOfProperties.Add("{PersonalKeywordsXML}");
@@ -1391,19 +1303,14 @@ namespace MetadataLibrary
 
             #region Location
             listOfProperties.Add("{IfLocationChanged}");
-
             listOfProperties.Add("{IfLocationAltitudeChanged}");
             listOfProperties.Add("{LocationAltitude}");
-
             listOfProperties.Add("{IfLocationLatitudeChanged}"); 
             listOfProperties.Add("{LocationLatitude}");
-
             listOfProperties.Add("{IfLocationLongitudeChanged}");
             listOfProperties.Add("{LocationLongitude}");
-
             listOfProperties.Add("{IfLocationDateTimeChanged}"); 
             listOfProperties.Add("{LocationDateTime}");
-            
             listOfProperties.Add("{LocationDateTimeUTC}");
             listOfProperties.Add("{LocationDateTimeDateStamp}");
             listOfProperties.Add("{LocationDateTimeTimeStamp}");
@@ -1413,21 +1320,175 @@ namespace MetadataLibrary
             listOfProperties.Add("{LocationDateTime_HH}");
             listOfProperties.Add("{LocationDateTime_mm}");
             listOfProperties.Add("{LocationDateTime_ss}");
-
             listOfProperties.Add("{IfLocationNameChanged}");
             listOfProperties.Add("{LocationName}");
-
             listOfProperties.Add("{IfLocationCityChanged}");
             listOfProperties.Add("{LocationCity}");
-
             listOfProperties.Add("{IfLocationStateChanged}");
             listOfProperties.Add("{LocationState}");
-
             listOfProperties.Add("{IfLocationCountryChanged}");
             listOfProperties.Add("{LocationCountry}");
             #endregion
 
-            return listOfProperties.ToArray(); // arrayOfProperties;
+            return listOfProperties; 
+        }
+
+        public static List<string> ListOfPropertiesOriginal(bool addKeywordItems)
+        {
+            List<string> listOfProperties = new List<string>();
+
+            #region FileName/Folder/Path
+            listOfProperties.Add("{IfFileNameChanged}");
+            listOfProperties.Add("{OriginalFileName}");
+
+            listOfProperties.Add("{IfFilePathChanged}");
+            listOfProperties.Add("{OriginalFileFullPath}");
+            listOfProperties.Add("{OriginalFileFullPath.8.3}");
+            listOfProperties.Add("{OriginalFileNameWithoutExtension}");
+            listOfProperties.Add("{OriginalFileExtension}");
+
+            listOfProperties.Add("{IfFileDirectoryChanged}");
+            listOfProperties.Add("{OriginalFileDirectory}");
+            #endregion
+
+            #region FileAttributes
+            
+            #endregion
+
+            #region FileDate
+            listOfProperties.Add("{OriginalFileDate}");
+            listOfProperties.Add("{OriginalFileDateDateStamp}");
+            listOfProperties.Add("{OriginalFileDateTimeStamp}");
+            listOfProperties.Add("{OriginalFileDate_yyyy}");
+            listOfProperties.Add("{OriginalFileDate_MM}");
+            listOfProperties.Add("{OriginalFileDate_dd}");
+            listOfProperties.Add("{OriginalFileDate_HH}");
+            listOfProperties.Add("{OriginalFileDate_mm}");
+            listOfProperties.Add("{OriginalFileDate_ss}");
+            #endregion
+
+            #region FileDateCreated
+            listOfProperties.Add("{OriginalFileDateCreated}");
+            listOfProperties.Add("{OriginalFileDateCreatedDateStamp}");
+            listOfProperties.Add("{OriginalFileDateCreatedTimeStamp}");
+            listOfProperties.Add("{OriginalFileDateCreated_yyyy}");
+            listOfProperties.Add("{OriginalFileDateCreated_MM}");
+            listOfProperties.Add("{OriginalFileDateCreated_dd}");
+            listOfProperties.Add("{OriginalFileDateCreated_HH}");
+            listOfProperties.Add("{OriginalFileDateCreated_mm}");
+            listOfProperties.Add("{OriginalFileDateCreated_ss}");
+            #endregion
+
+            #region FileDateModified
+            listOfProperties.Add("{IfFileDateModifiedChanged}");
+            listOfProperties.Add("{OriginalFileDateModified}");
+            listOfProperties.Add("{OriginalFileDateModifiedDateStamp}");
+            listOfProperties.Add("{OriginalFileDateModifiedTimeStamp}");
+            listOfProperties.Add("{OriginalFileDateModified_yyyy}");
+            listOfProperties.Add("{OriginalFileDateModified_MM}");
+            listOfProperties.Add("{OriginalFileDateModified_dd}");
+            listOfProperties.Add("{OriginalFileDateModified_HH}");
+            listOfProperties.Add("{OriginalFileDateModified_mm}");
+            listOfProperties.Add("{OriginalFileDateModified_ss}");
+            #endregion 
+
+            #region Media MediaDateTaken
+            listOfProperties.Add("{IfMediaDateTakenChanged}");
+            listOfProperties.Add("{OriginalMediaDateTaken}");
+            listOfProperties.Add("{OriginalMediaDateTakenDateStamp}");
+            listOfProperties.Add("{OriginalMediaDateTakenTimeStamp}");
+            listOfProperties.Add("{OriginalMediaDateTaken_yyyy}");
+            listOfProperties.Add("{OriginalMediaDateTaken_MM}");
+            listOfProperties.Add("{OriginalMediaDateTaken_dd}");
+            listOfProperties.Add("{OriginalMediaDateTaken_HH}");
+            listOfProperties.Add("{OriginalMediaDateTaken_mm}");
+            listOfProperties.Add("{OriginalMediaDateTaken_ss}");
+            listOfProperties.Add("{OriginalMediaWidth}");
+            listOfProperties.Add("{OriginalMediaHeight}");
+            listOfProperties.Add("{OriginalMediaOrientation}");
+            listOfProperties.Add("{OriginalMediaVideoLength}");
+            #endregion
+
+            #region Personal
+            listOfProperties.Add("{IfPersonalTitleChanged}");
+            listOfProperties.Add("{OriginalPersonalTitle}");
+
+            listOfProperties.Add("{IfPersonalDescriptionChanged}");
+            listOfProperties.Add("{OriginalPersonalDescription}");
+
+            listOfProperties.Add("{IfPersonalCommentsChanged}");
+            listOfProperties.Add("{OriginalPersonalComments}");
+
+            listOfProperties.Add("{IfPersonalRatingChanged}");
+            listOfProperties.Add("{OriginalPersonalRating}"); ;
+            listOfProperties.Add("{OriginalPersonalRatingPercent}");
+
+            listOfProperties.Add("{IfPersonalAuthorChanged}");
+            listOfProperties.Add("{OriginalPersonalAuthor}");
+
+            listOfProperties.Add("{IfPersonalAlbumChanged}");
+            listOfProperties.Add("{OriginalPersonalAlbum}");
+            #endregion
+
+            #region Region
+            listOfProperties.Add("{IfPersonalRegionChanged}");
+            listOfProperties.Add("{OriginalPersonalRegionInfoMP}");
+            listOfProperties.Add("{OriginalPersonalRegionInfo}");
+            #endregion
+
+            #region Keyword
+            if (addKeywordItems) listOfProperties.Add("{OriginalKeywordItem}");
+            listOfProperties.Add("{IfPersonalKeywordsChanged}");
+            listOfProperties.Add("{OriginalPersonalKeywordsList}");
+            listOfProperties.Add("{OriginalPersonalKeywordsXML}");
+            listOfProperties.Add("{OriginalPersonalKeywordItemsDelete}");
+            listOfProperties.Add("{OriginalPersonalKeywordItemsAdd}");
+            #endregion
+
+            #region Camera
+            listOfProperties.Add("{OriginalCameraMake}");
+            listOfProperties.Add("{OriginalCameraModel}");
+            #endregion
+
+            #region Location
+            listOfProperties.Add("{IfLocationChanged}");
+
+            listOfProperties.Add("{IfLocationAltitudeChanged}");
+            listOfProperties.Add("{OriginalLocationAltitude}");
+
+            listOfProperties.Add("{IfLocationLatitudeChanged}");
+            listOfProperties.Add("{OriginalLocationLatitude}");
+
+            listOfProperties.Add("{IfLocationLongitudeChanged}");
+            listOfProperties.Add("{OriginalLocationLongitude}");
+
+            listOfProperties.Add("{IfLocationDateTimeChanged}");
+            listOfProperties.Add("{OriginalLocationDateTime}");
+
+            listOfProperties.Add("{OriginalLocationDateTimeUTC}");
+            listOfProperties.Add("{OriginalLocationDateTimeDateStamp}");
+            listOfProperties.Add("{OriginalLocationDateTimeTimeStamp}");
+            listOfProperties.Add("{OriginalLocationDateTime_yyyy}");
+            listOfProperties.Add("{OriginalLocationDateTime_MM}");
+            listOfProperties.Add("{OriginalLocationDateTime_dd}");
+            listOfProperties.Add("{OriginalLocationDateTime_HH}");
+            listOfProperties.Add("{OriginalLocationDateTime_mm}");
+            listOfProperties.Add("{OriginalLocationDateTime_ss}");
+
+            listOfProperties.Add("{IfLocationNameChanged}");
+            listOfProperties.Add("{OriginalLocationName}");
+
+            listOfProperties.Add("{IfLocationCityChanged}");
+            listOfProperties.Add("{OriginalLocationCity}");
+
+            listOfProperties.Add("{IfLocationStateChanged}");
+            listOfProperties.Add("{OriginalLocationState}");
+
+            listOfProperties.Add("{IfLocationCountryChanged}");
+            listOfProperties.Add("{OriginalLocationCountry}");
+            #endregion
+
+            return listOfProperties; 
         }
         #endregion Variables - List if Variable
 
@@ -2201,7 +2262,7 @@ namespace MetadataLibrary
             string personalRegionInfoMP, string personalRegionInfo, string personalKeywordList, string personalKeywordsXML, string personalKeywordItemsAdd)
         {
             string result = stringWithVariables;
-            string[] variables = Metadata.ListOfProperties(false);
+            List<string> variables = Metadata.ListOfPropertiesWrittenByUser(false);
             foreach (string variable in variables)
             {
                 while (result.Contains(variable))
@@ -2218,7 +2279,7 @@ namespace MetadataLibrary
             string personalRegionInfoMP, string personalRegionInfo, string personalKeywordList, string personalKeywordsXML, string personalKeywordItemsAdd)
         {
             string result = stringWithVariables;
-            string[] variables = Metadata.ListOfProperties(false);
+            List<string> variables = Metadata.ListOfPropertiesOriginal(false);
             foreach (string variable in variables)
             {
                 while (result.Contains(variable))
