@@ -90,17 +90,21 @@ namespace Exiftool
                     commandDatabase.Parameters.AddWithValue("@Parameter", exifToolData.Parameter);
 
                     if (commandDatabase.ExecuteNonQuery() != -1) success = true;
-                    if (success)
+                    if (!success)
                     {
                         Logger.Error("Delete MediaExiftoolTags data due to previous application crash for file: " + exifToolData.FullFilePath);
+                        dbTools.TransactionRollback(sqlTransaction);
                         //Delete all extries due to crash.
                         DeleteFileEntryMediaExiftoolTags(new FileEntry(exifToolData.FileDirectory, exifToolData.FileName, exifToolData.FileDateModified));
+                        sqlTransaction = dbTools.TransactionBegin();
                         commandDatabase.ExecuteNonQuery();
                     }   // Execute the query
                 }
                 #endregion
 
                 dbTools.TransactionCommit(sqlTransaction);
+
+                
             }
             catch (Exception ex)
             {

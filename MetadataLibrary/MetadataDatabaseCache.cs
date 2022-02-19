@@ -856,10 +856,14 @@ namespace MetadataLibrary
                     if (commandDatabase.ExecuteNonQuery() == -1)
                     {
                         Logger.Warn("Delete MediaMetadata and sub data due to previous application crash for file: " + metadata.FileFullPath);
+                        dbTools.TransactionRollback(sqlTransaction);
+
                         //Delete all extries due to crash.
                         DeleteFileEntryFromMediaMetadata(metadata.FileEntryBroker);
                         DeleteFileEntryFromMediaPersonalKeywords(metadata.FileEntryBroker);
                         DeleteFileEntryFromMediaPersonalRegions(metadata.FileEntryBroker);
+
+                        sqlTransaction = dbTools.TransactionBegin();
                         commandDatabase.ExecuteNonQuery();
                     }
                 }

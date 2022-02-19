@@ -155,8 +155,12 @@ namespace Exiftool
                     if (commandDatabase.ExecuteNonQuery() == -1)
                     {
                         Logger.Error("Delete MediaExiftoolTagsWarning data due to previous application crash for file: " + exifToolNewValue.FullFilePath);
+
+                        dbTools.TransactionRollback(sqlTransaction);
                         //Delete all extries due to crash.
                         DeleteFileEntryFromMediaExiftoolTagsWarning(new FileEntry(exifToolNewValue.FileDirectory, exifToolNewValue.FileName, exifToolNewValue.FileDateModified));
+
+                        sqlTransaction = dbTools.TransactionBegin();
                         commandDatabase.ExecuteNonQuery();
                     }
                 }
