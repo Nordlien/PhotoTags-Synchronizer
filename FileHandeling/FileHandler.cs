@@ -579,15 +579,15 @@ namespace FileHandeling
                         else if (charsBehindMachineName == 1) machineNameFound = false;
                         else if (charsBehindMachineName == 2)
                         {
-                            if (fileEntryMaybeHasMachineName.FileFullPath[indexOfMachineName + machineNameLength] == '-' &&
-                                char.IsDigit(fileEntryMaybeHasMachineName.FileFullPath[indexOfMachineName + machineNameLength + 1])) machineNameFound = true; //numberExtraCharBehind = 2;
+                            if (filenameWithoutExtension[indexOfMachineName + machineNameLength] == '-' &&
+                                char.IsDigit(filenameWithoutExtension[indexOfMachineName + machineNameLength + 1])) machineNameFound = true; //numberExtraCharBehind = 2;
 
                         }
                         else if (charsBehindMachineName == 3)
                         {
                             if (fileEntryMaybeHasMachineName.FileFullPath[indexOfMachineName + machineNameLength] == '-' &&
-                                char.IsDigit(fileEntryMaybeHasMachineName.FileFullPath[indexOfMachineName + machineNameLength + 1]) &&
-                                char.IsDigit(fileEntryMaybeHasMachineName.FileFullPath[indexOfMachineName + machineNameLength + 2])) machineNameFound = true; //numberExtraCharBehind = 3;
+                                char.IsDigit(filenameWithoutExtension[indexOfMachineName + machineNameLength + 1]) &&
+                                char.IsDigit(filenameWithoutExtension[indexOfMachineName + machineNameLength + 2])) machineNameFound = true; //numberExtraCharBehind = 3;
                         }
                         else
                         {
@@ -597,10 +597,19 @@ namespace FileHandeling
                                 machineNameFound = false;
                         }
 
-                        if (machineNameFound && !fixError) return true;
                         
-                        string pathWithoutMachineName = fileEntryMaybeHasMachineName.FileFullPath.Substring(0, indexOfMachineName);
-                        FileEntry fileEntryWithoutMachineName = new FileEntry(fileEntryMaybeHasMachineName.FileFullPath, fileEntryMaybeHasMachineName.LastWriteDateTime);
+                        
+                        //string filenameWithoutMachineName = fileEntryMaybeHasMachineName
+                        string pathWithoutMachineName = filenameWithoutExtension.Substring(0, indexOfMachineName);
+                        FileEntry fileEntryWithoutMachineName = new FileEntry(
+                            Path.Combine(Path.GetDirectoryName(fileEntryMaybeHasMachineName.FileFullPath),
+                            pathWithoutMachineName + Path.GetExtension(fileEntryMaybeHasMachineName.FileFullPath)), 
+                            fileEntryMaybeHasMachineName.LastWriteDateTime);
+
+                        if (machineNameFound && !fixError)
+                        {
+                            return fileEntries.Contains(fileEntryWithoutMachineName);
+                        }
 
                         if (fixError)
                         {
