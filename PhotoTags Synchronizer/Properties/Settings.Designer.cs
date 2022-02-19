@@ -2730,5 +2730,29 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["WriteAutoKeywordsSynonyms"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool MicosoftOneDriveLocationHackUse {
+            get {
+                return ((bool)(this["MicosoftOneDriveLocationHackUse"]));
+            }
+            set {
+                this["MicosoftOneDriveLocationHackUse"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-GPS-")]
+        public string MicosoftOneDriveLocationHackPostfix {
+            get {
+                return ((string)(this["MicosoftOneDriveLocationHackPostfix"]));
+            }
+            set {
+                this["MicosoftOneDriveLocationHackPrefix"] = value;
+            }
+        }
     }
 }

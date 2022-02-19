@@ -5878,6 +5878,55 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        private void MicrosoftLocationHack(ref Metadata metadataToSave, Metadata metadataListOriginal, bool useMicrosoftLocationHack, string filenamePostfix)
+        {
+            if (useMicrosoftLocationHack)
+            {
+
+                if (Properties.Settings.Default.MicosoftOneDriveLocationHackUse)
+                {
+                    if (metadataToSave.LocationCoordinate != metadataListOriginal.LocationCoordinate)
+                    {
+                        string oldDirectory = metadataToSave.FileDirectory;
+                        string oldFilename = metadataToSave.FileName;
+                        string oldFullFilename = metadataToSave.FileFullPath;
+                        string newDirectory = metadataToSave.FileDirectory;
+                        string newFilename = Path.GetFileNameWithoutExtension(oldFullFilename) + filenamePostfix + Path.GetExtension(oldFullFilename);
+                        string newFullFilename = Path.Combine(newDirectory, newFilename);
+                        metadataToSave.FileName = newFilename;
+
+                        ImageListViewItem imageListViewItem = ImageListViewHandler.FindItem(imageListView1.Items, oldFullFilename);
+                        imageListViewItem.FileFullPath = newFullFilename;
+                        //ImageListViewHandler.ClearAllAndCaches(imageListView1);
+                        ImageListViewHandler.ClearCacheFileEntries(imageListView1);
+                        ImageListViewHandler.ClearCacheFileEntriesSelectedItems(imageListView1);
+                        try
+                        {
+                            if (GlobalData.IsAgregatedTags) DataGridViewUpdatedFilename(dataGridViewTagsAndKeywords, oldFullFilename, newFullFilename);
+                            if (GlobalData.IsAgregatedMap) DataGridViewUpdatedFilename(dataGridViewMap, oldFullFilename, newFullFilename);
+                            if (GlobalData.IsAgregatedPeople) DataGridViewUpdatedFilename(dataGridViewPeople, oldFullFilename, newFullFilename);
+                            if (GlobalData.IsAgregatedDate) DataGridViewUpdatedFilename(dataGridViewDate, oldFullFilename, newFullFilename);
+                            //DataGridViewHandlerDate.GetUserInputChanges(ref dataGridViewDate, metadataFromDataGridView, fileEntryAttribute);
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.Error(ex);
+                            KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                        }
+
+
+                        databaseAndCacheThumbnailPoster.Move(oldDirectory, oldFilename, newDirectory, newFilename);
+                        if (!databaseAndCacheMetadataExiftool.Move(oldDirectory, oldFilename, newDirectory, newFilename))
+                        {
+                            filesCutCopyPasteDrag.DeleteFileAndHistory(oldFilename);
+                            databaseAndCacheThumbnailPoster.Move(oldDirectory, oldFilename, newDirectory, newFilename);
+                            databaseAndCacheMetadataExiftool.Move(oldDirectory, oldFilename, newDirectory, newFilename);
+                        }
+                    }
+                }
+            }
+        }
+
         #region Save - SaveDataGridViewMetadata
         private void SaveDataGridViewMetadata(bool useAutoCorrect)
         {
@@ -5933,7 +5982,9 @@ namespace PhotoTagsSynchronizer
 
                         if (metadataToSave != metadataListOriginalExiftool[index])
                         {
-                            changesFound = true;                            
+                            changesFound = true;
+
+                            MicrosoftLocationHack(ref metadataToSave, metadataListOriginalExiftool[index], Properties.Settings.Default.MicosoftOneDriveLocationHackUse, Properties.Settings.Default.MicosoftOneDriveLocationHackPostfix);
                             DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, FileEntryVersion.MetadataToSave);
                             AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, metadataListOriginalExiftool[index]);
                         }

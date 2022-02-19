@@ -452,6 +452,10 @@ namespace PhotoTagsSynchronizer
                 Properties.Settings.Default.XtraAtomSubjectVariable = textBoxWriteXtraAtomSubject.Text;
                 Properties.Settings.Default.XtraAtomSubtitleVariable = textBoxWriteXtraAtomSubtitle.Text;
 
+                Properties.Settings.Default.MicosoftOneDriveLocationHackUse = kryptonCheckBoxMicrosoftPhotosLocationHack.Checked;
+                Properties.Settings.Default.MicosoftOneDriveLocationHackPostfix = 
+                    (string.IsNullOrWhiteSpace(kryptonTextBoxMicrosoftPhotosLocationHackPostfix.Text.Trim()) ? "-GPS-" :
+                    kryptonTextBoxMicrosoftPhotosLocationHackPostfix.Text);
                 //Camera Owner 
                 SaveMetadataCameraOwner(dataGridViewCameraOwner);
 
@@ -2397,6 +2401,9 @@ namespace PhotoTagsSynchronizer
             textBoxWriteXtraAtomKeywords.Text = Properties.Settings.Default.XtraAtomKeywordsVariable;
             textBoxWriteXtraAtomSubject.Text = Properties.Settings.Default.XtraAtomSubjectVariable;
             textBoxWriteXtraAtomSubtitle.Text = Properties.Settings.Default.XtraAtomSubtitleVariable;
+
+            kryptonCheckBoxMicrosoftPhotosLocationHack.Checked = Properties.Settings.Default.MicosoftOneDriveLocationHackUse;
+            kryptonTextBoxMicrosoftPhotosLocationHackPostfix.Text = Properties.Settings.Default.MicosoftOneDriveLocationHackPostfix;
         }
         #endregion
 

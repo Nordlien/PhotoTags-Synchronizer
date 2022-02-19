@@ -1363,6 +1363,35 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        private void DataGridViewUpdatedFilename(DataGridView dataGridView, string oldFullFileName, string newFullFileName)
+        {
+            try
+            {
+                for (int columnIndex = 0; columnIndex < DataGridViewHandler.GetColumnCount(dataGridView); columnIndex++)
+                {
+                    DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+                    if (dataGridViewGenericColumn.IsPopulated)
+                    {
+                        if (dataGridViewGenericColumn.FileEntryAttribute != null)
+                        {
+                            if (dataGridViewGenericColumn.FileEntryAttribute.FileFullPath == oldFullFileName)
+                            {
+                                dataGridViewGenericColumn.FileEntryAttribute = new FileEntryAttribute(
+                                    newFullFileName,
+                                    dataGridViewGenericColumn.FileEntryAttribute.LastWriteDateTime, 
+                                    dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+
         #region DataGridView - CollectMetadataFromAllDataGridViewData - FileEntry
         private void CollectedMetadataFromAllDataGridView(FileEntryAttribute fileEntryAttribute, ref Metadata metadataFromDataGridView)
         {

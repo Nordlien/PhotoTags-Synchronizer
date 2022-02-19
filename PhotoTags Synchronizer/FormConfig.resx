@@ -352,6 +352,23 @@ When keywords contains semicommas ';' the keywords will become split and added a
 
 </value>
   </data>
+  <data name="kryptonTextBoxMicrosoftPhotosLocationHackDescription.Text" xml:space="preserve">
+    <value>When changing Location Metadata on a media file, the Exiftool updates the media file correctly. The media file will get synced using OneDrive, the Microsoft Photos AI engine will read the new version of the media file. For a strange reason, Microsoft Photos will let all tags intact, but not the Coordinates. The old location coordinates will be replaced with old known coordinates. Then the media file will be synced back to your computer with old coordinates.
+ 
+Example:
+1. Picture has Coordinate (10.123, 10.000)
+2. You updated this to: (10.123, 10.123), and write if to the file.
+3. You can verify the content of the file is correct.
+4. OneDrive sync this to cloud
+5. Microsoft Photos replace (10.123, 10.123) -&gt; (10.123, 10.000)
+6. After few minutes, OneDrive sync this changes back to your computer
+7. You can now see changes in the file
+ 
+The hack: writing the data to a different file, avoiding Microsoft photos to update coordinates with old coordinates, since it’s a “new” file, without previous coordinates. 
+
+The new file will get the filename:   old_filename+postfix.old_extention
+Example: 2022-02-18 My image file.jpg -&gt; 2022-02-18 My image file-GPS-.jpg</value>
+  </data>
   <data name="fastColoredTextBoxShowLog.ServiceColors" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdGYXN0Q29sb3JlZFRleHRCb3gsIFZlcnNpb249Mi4xNi4yNC4w

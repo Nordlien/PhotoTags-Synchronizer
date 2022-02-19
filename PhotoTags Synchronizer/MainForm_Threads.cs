@@ -789,17 +789,17 @@ namespace PhotoTagsSynchronizer
                         }
                         catch (Exception ex)
                         {
-                            KryptonMessageBox.Show("LazyLoadingMetadata crashed.\r\n" + 
-                                "The 'LazyLoadingMetadata' was cleared.\r\n" + 
+                            KryptonMessageBox.Show("ThreadLazyLoadingAllSourcesMetadataAndRegionThumbnails crashed.\r\n" +
+                                "The 'commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails' was cleared.\r\n" + 
                                 "Exception message:" + ex.Message + "\r\n",
-                                "Saving Region Thumbnail failed", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                                "Lazy loading queue failed", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
                             lock (commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnailsLock) commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.Clear();  //Avoid loop, due to unknown error
-                            Logger.Error(ex, "ThreadLazyLoadningMetadata");
+                            Logger.Error(ex, "ThreadLazyLoadingAllSourcesMetadataAndRegionThumbnails");
                         }
                         finally
                         {
                             lock (_ThreadLazyLoadingAllSourcesMetadataAndRegionThumbnailsLock) _ThreadLazyLoadingAllSourcesMetadataAndRegionThumbnails = null;
-                            Logger.Trace("ThreadLazyLoadningMetadata - ended");
+                            Logger.Trace("ThreadLazyLoadingAllSourcesMetadataAndRegionThumbnails - ended");
                         }
                         #endregion
                     });
@@ -809,7 +809,7 @@ namespace PhotoTagsSynchronizer
                         _ThreadLazyLoadingAllSourcesMetadataAndRegionThumbnails.Priority = threadPriority;
                         _ThreadLazyLoadingAllSourcesMetadataAndRegionThumbnails.Start();                        
                     }
-                    else Logger.Error("_ThreadLazyLoadingMetadata was not able to start");
+                    else Logger.Error("ThreadLazyLoadingAllSourcesMetadataAndRegionThumbnails was not able to start");
                 }
 
             }

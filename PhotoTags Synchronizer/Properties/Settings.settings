@@ -1305,5 +1305,11 @@ Unknown 5
     <Setting Name="WriteAutoKeywordsSynonyms" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="MicosoftOneDriveLocationHackUse" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="MicosoftOneDriveLocationHackPrefix" Type="System.String" Scope="User">
+      <Value Profile="(Default)">-GPS-</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
