@@ -5896,7 +5896,11 @@ namespace PhotoTagsSynchronizer
                         metadataToSave.FileName = newFilename;
 
                         ImageListViewItem imageListViewItem = ImageListViewHandler.FindItem(imageListView1.Items, oldFullFilename);
-                        imageListViewItem.FileFullPath = newFullFilename;
+                        if (imageListViewItem != null) imageListViewItem.FileFullPath = newFullFilename;
+                        else
+                        {
+                            //DEBUG
+                        }
                         //ImageListViewHandler.ClearAllAndCaches(imageListView1);
                         ImageListViewHandler.ClearCacheFileEntries(imageListView1);
                         ImageListViewHandler.ClearCacheFileEntriesSelectedItems(imageListView1);
