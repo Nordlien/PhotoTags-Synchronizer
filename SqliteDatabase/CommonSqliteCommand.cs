@@ -30,6 +30,7 @@ namespace SqliteDatabase
 
         public CommonSqliteCommand(string commandText, SqliteConnection connection, SqliteTransaction transaction)
         {
+            SqliteDatabaseUtilities.LastKnownCommand = commandText;
             databaseCommand = new SqliteCommand(commandText, connection); //, transaction);            
         }
 

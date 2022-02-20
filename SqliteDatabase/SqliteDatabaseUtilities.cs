@@ -46,6 +46,7 @@ namespace SqliteDatabase
         public static int NumberOfDecimalsShort { get; set; } = 2;
         public const string SqliteDateTimeFormat = "INTEGER";
         public const string SqliteNumberFormat = "DECIMAL(10,5)";
+        public static string LastKnownCommand { get; set;  } = "";
 
         #region SqliteDatabaseUtilities(DatabaseType type)
         public SqliteDatabaseUtilities(DatabaseType type)
@@ -71,7 +72,15 @@ namespace SqliteDatabase
         #region TransactionCommitSelect
         public void TransactionCommitSelect(SqliteTransaction sqliteTransaction)
         {
-            if (sqliteTransaction != null) sqliteTransaction.Commit();
+            try
+            {
+                if (sqliteTransaction != null) sqliteTransaction.Commit();
+            }
+            catch (Exception ex)
+            {
+                Logger.Warn(ex + "\r\nLast knwon command: " + LastKnownCommand);
+                //throw new Exception(ex + "\r\nLast knwon command: " + LastKnownCommand);
+            }
         }
         #endregion
 
@@ -104,7 +113,15 @@ namespace SqliteDatabase
         TransactionCommitBatch(SQLiteTransaction sqliteTransaction)
         #endif
         {
-            if (sqliteTransaction != null) sqliteTransaction.Commit();
+            try
+            {
+                if (sqliteTransaction != null) sqliteTransaction.Commit();
+            }
+            catch (Exception ex)
+            {
+                Logger.Warn(ex + "\r\nLast knwon command: " + LastKnownCommand);
+                throw new Exception(ex + "\r\nLast knwon command: " + LastKnownCommand);
+            }
         }
         #endregion
 
@@ -122,30 +139,31 @@ namespace SqliteDatabase
                 if (sqliteTransaction != null) sqliteTransaction.Rollback();
             } catch (Exception ex)
             {
-                Logger.Warn(ex);
+                Logger.Warn(ex + "\r\nLast knwon command: " + LastKnownCommand);
+                throw new Exception(ex + "\r\nLast knwon command: " + LastKnownCommand);
             }
         }
         #endregion
 
-        #region SqliteCommand
-#if MonoSqlite
-        public SqliteCommand SqliteCommand()
-        {
-            return new SqliteCommand(connectionDatabase);
-        }
-        #elif MicrosoftDataSqlite
-        public SqliteCommand SqliteCommand()
-        {
-            return new SqliteCommand();
-        }
-        #else
-        public SQLiteCommand SqliteCommand()
-        {
-            return new SQLiteCommand(connectionDatabase);
-        }
-        #endif
+//        #region SqliteCommand
+//#if MonoSqlite
+//        public SqliteCommand SqliteCommand()
+//        {
+//            return new SqliteCommand(connectionDatabase);
+//        }
+//        #elif MicrosoftDataSqlite
+//        public SqliteCommand SqliteCommand()
+//        {
+//            return new SqliteCommand();
+//        }
+//        #else
+//        public SQLiteCommand SqliteCommand()
+//        {
+//            return new SQLiteCommand(connectionDatabase);
+//        }
+//        #endif
 
-        #endregion
+//        #endregion
 
         #region Debug - ConvertToSqliteCommand
         public string DebugConvertToSqliteCommand(string sqlCommand, CommonSqliteCommand commandDatabase)
