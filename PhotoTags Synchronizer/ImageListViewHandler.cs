@@ -108,17 +108,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        //#region ImageListView - Cache - FileEntry - GetFileEntryFromSelectedFilesCached
-        //public static FileEntry GetFileEntryFromSelectedFilesCached(ImageListView imageListView, string fullFileName)
-        //{
-        //    foreach (FileEntry fileEntry in GetFileEntriesSelectedItemsCache(imageListView, true))
-        //    {
-        //        if (FilesCutCopyPasteDrag.IsFilenameEqual(fileEntry.FileFullPath, fullFileName)) return fileEntry;
-        //    }
-        //    return null;
-        //}
-        //#endregion
-
         #region ImageListView - Cache - DoesExistInSelectedFiles
         public static bool DoesExistInSelectedFiles(ImageListView imageListView, string fullFilename)
         {
