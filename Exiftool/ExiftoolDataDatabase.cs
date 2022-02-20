@@ -33,10 +33,13 @@ namespace Exiftool
         {
             List<ExiftoolData> exifToolDataList = new List<ExiftoolData>();
 
-            var sqlTransactionSelect = dbTools.TransactionBeginSelect();
+            Mono.Data.Sqlite.SqliteTransaction sqlTransactionSelect;
+            do
+            {
+                sqlTransactionSelect = dbTools.TransactionBeginSelect();
 
-            #region SELECT FROM MediaExiftoolTags
-            string sqlCommand = "SELECT FileDirectory, FileName, FileDateModified, Region, Command, Parameter FROM " +
+                #region SELECT FROM MediaExiftoolTags
+                string sqlCommand = "SELECT FileDirectory, FileName, FileDateModified, Region, Command, Parameter FROM " +
                 "MediaExiftoolTags WHERE FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
             using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
             {
@@ -60,9 +63,9 @@ namespace Exiftool
                     }
                 }
             }
-            #endregion
+                #endregion
 
-            dbTools.TransactionCommitSelect(sqlTransactionSelect);
+            } while (!dbTools.TransactionCommitSelect(sqlTransactionSelect));
 
             return exifToolDataList;
         }
@@ -72,9 +75,10 @@ namespace Exiftool
         public bool Write(ExiftoolData exifToolData)
         {
             bool success = false;
-            var sqlTransaction = dbTools.TransactionBegin();
-            try
+            Mono.Data.Sqlite.SqliteTransaction sqlTransaction;
+            do
             {
+                sqlTransaction = dbTools.TransactionBegin();
                 #region INSERT INTO MediaExiftoolTags
                 string sqlCommand =
                     "INSERT INTO MediaExiftoolTags (FileDirectory, FileName, FileDateModified, Region, Command, Parameter) " +
@@ -101,17 +105,7 @@ namespace Exiftool
                     }   // Execute the query
                 }
                 #endregion
-
-                dbTools.TransactionCommit(sqlTransaction);
-
-                
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                dbTools.TransactionRollback(sqlTransaction);
-                throw new Exception(ex.Message);
-            }
+            } while (!dbTools.TransactionCommit(sqlTransaction));
             return success;
         }
         #endregion
@@ -121,9 +115,10 @@ namespace Exiftool
         {
             int recordAffected = 0;
 
-            var sqlTransaction = dbTools.TransactionBegin();
-            try
+            Mono.Data.Sqlite.SqliteTransaction sqlTransaction;
+            do
             {
+                sqlTransaction = dbTools.TransactionBegin();
                 #region DELETE FROM MediaExiftoolTags 
                 string sqlCommand = "DELETE FROM MediaExiftoolTags WHERE FileDirectory = @FileDirectory";
                 using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
@@ -133,15 +128,8 @@ namespace Exiftool
                     recordAffected = commandDatabase.ExecuteNonQuery();      // Execute the query
                 }
                 #endregion
+            } while (!dbTools.TransactionCommit(sqlTransaction));
 
-                dbTools.TransactionCommit(sqlTransaction);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                dbTools.TransactionRollback(sqlTransaction);
-                throw new Exception(ex.Message);
-            }
             return recordAffected;
         }
         #endregion
@@ -158,9 +146,10 @@ namespace Exiftool
         #region DeleteFileEntriesFromMediaExiftoolTags
         public void DeleteFileEntriesFromMediaExiftoolTags(List<FileEntry> fileEntries)
         {
-            var sqlTransaction = dbTools.TransactionBegin();
-            try
+            Mono.Data.Sqlite.SqliteTransaction sqlTransaction;
+            do
             {
+                sqlTransaction = dbTools.TransactionBegin();
                 #region DELETE FROM MediaExiftoolTags 
                 string sqlCommand = "DELETE FROM MediaExiftoolTags " +
                     "WHERE FileDirectory = @FileDirectory " +
@@ -178,15 +167,7 @@ namespace Exiftool
                     }
                 }
                 #endregion
-
-                dbTools.TransactionCommit(sqlTransaction);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                dbTools.TransactionRollback(sqlTransaction);
-                throw new Exception(ex.Message);
-            }
+            } while (!dbTools.TransactionCommit(sqlTransaction));
         }
         #endregion
 
@@ -202,10 +183,13 @@ namespace Exiftool
         {
             List<FileEntryAttribute> exifToolDates = new List<FileEntryAttribute>();
 
-            var sqlTransactionSelect = dbTools.TransactionBeginSelect();
+            Mono.Data.Sqlite.SqliteTransaction sqlTransactionSelect;
+            do
+            {
+                sqlTransactionSelect = dbTools.TransactionBeginSelect();
 
-            #region SELECT DISTINCT FileDirectory, FileName, FileDateModified FROM MediaExiftoolTags 
-            string sqlCommand = "SELECT DISTINCT FileDirectory, FileName, FileDateModified FROM MediaExiftoolTags " + 
+                #region SELECT DISTINCT FileDirectory, FileName, FileDateModified FROM MediaExiftoolTags 
+                string sqlCommand = "SELECT DISTINCT FileDirectory, FileName, FileDateModified FROM MediaExiftoolTags " + 
                 "WHERE FileDirectory = @FileDirectory AND FileName = @FileName";
             using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
             {
@@ -239,9 +223,9 @@ namespace Exiftool
 
                 exifToolDates.Sort();
             }
-            #endregion
+                #endregion
 
-            dbTools.TransactionCommitSelect(sqlTransactionSelect);
+            } while (!dbTools.TransactionCommitSelect(sqlTransactionSelect));
 
             return exifToolDates;
         }

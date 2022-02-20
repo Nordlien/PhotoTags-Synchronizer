@@ -169,66 +169,70 @@ namespace GoogleLocationHistory
                 "ORDER BY FileDateCreated DESC LIMIT 3) ";
             #endregion
 
-            var sqlTransactionSelect = dbTools.TransactionBeginSelect();
+            List<Metadata> metadatas;
+            Mono.Data.Sqlite.SqliteTransaction sqlTransactionSelect;
+            do
+            {
+                sqlTransactionSelect = dbTools.TransactionBeginSelect();
 
-            #region SELECT FROM MediaMetadata
-            sqlCommand = "SELECT * FROM " + sqlCommand +
+                #region SELECT FROM MediaMetadata
+                sqlCommand = "SELECT * FROM " + sqlCommand +
                 "ORDER BY Priority, TimeDistance ";
                 //"LIMIT 1";
 
-            List<Metadata> metadatas = new List<Metadata>();
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
-            {
-                //commandDatabase.Prepare();
-                if (locationDateTime != null) commandDatabase.Parameters.AddWithValue("@LocationDateTime", dbTools.ConvertFromDateTimeToDBVal(locationDateTime));
-                if (mediaDateTaken != null) commandDatabase.Parameters.AddWithValue("@MediaDateTaken", dbTools.ConvertFromDateTimeToDBVal(mediaDateTaken));
-                if (fileDate != null) commandDatabase.Parameters.AddWithValue("@FileDateCreated", dbTools.ConvertFromDateTimeToDBVal(fileDate));
-                //if (fileDateCreated != null) commandDatabase.Parameters.AddWithValue("@FileDateCreated", dbTools.ConvertFromDateTimeToDBVal(fileDateCreated));
-
-                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                metadatas = new List<Metadata>();
+                using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
                 {
-                    
-                    while (reader.Read())
+                    //commandDatabase.Prepare();
+                    if (locationDateTime != null) commandDatabase.Parameters.AddWithValue("@LocationDateTime", dbTools.ConvertFromDateTimeToDBVal(locationDateTime));
+                    if (mediaDateTaken != null) commandDatabase.Parameters.AddWithValue("@MediaDateTaken", dbTools.ConvertFromDateTimeToDBVal(mediaDateTaken));
+                    if (fileDate != null) commandDatabase.Parameters.AddWithValue("@FileDateCreated", dbTools.ConvertFromDateTimeToDBVal(fileDate));
+                    //if (fileDateCreated != null) commandDatabase.Parameters.AddWithValue("@FileDateCreated", dbTools.ConvertFromDateTimeToDBVal(fileDateCreated));
+
+                    using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                     {
-                        long? priority = dbTools.ConvertFromDBValLong(reader["Priority"]);
-                        DateTime? date = dbTools.ConvertFromDBValDateTimeLocal(reader["Date"]);
-                        long? timeDistance = dbTools.ConvertFromDBValLong(reader["TimeDistance"]);
-                        float? locationLatitude = dbTools.ConvertFromDBValFloat(reader["LocationLatitude"]);
-                        float? locationLongitude = dbTools.ConvertFromDBValFloat(reader["LocationLongitude"]);
 
-                        if (timeDistance / 100000 < acceptDiffrentSecound)
+                        while (reader.Read())
                         {
-                            Metadata metadata = new Metadata(MetadataBrokerType.GoogleLocationHistory);
-                            switch (priority)
+                            long? priority = dbTools.ConvertFromDBValLong(reader["Priority"]);
+                            DateTime? date = dbTools.ConvertFromDBValDateTimeLocal(reader["Date"]);
+                            long? timeDistance = dbTools.ConvertFromDBValLong(reader["TimeDistance"]);
+                            float? locationLatitude = dbTools.ConvertFromDBValFloat(reader["LocationLatitude"]);
+                            float? locationLongitude = dbTools.ConvertFromDBValFloat(reader["LocationLongitude"]);
+
+                            if (timeDistance / 100000 < acceptDiffrentSecound)
                             {
-                                case 3:
-                                    metadata.FileDateCreated = date;
-                                    break;
-                                case 2:
-                                    metadata.MediaDateTaken = date;
-                                    break;
-                                case 1:
-                                    metadata.LocationDateTime = date;
-                                    break;
+                                Metadata metadata = new Metadata(MetadataBrokerType.GoogleLocationHistory);
+                                switch (priority)
+                                {
+                                    case 3:
+                                        metadata.FileDateCreated = date;
+                                        break;
+                                    case 2:
+                                        metadata.MediaDateTaken = date;
+                                        break;
+                                    case 1:
+                                        metadata.LocationDateTime = date;
+                                        break;
+                                }
+                                metadata.LocationLatitude = locationLatitude;
+                                metadata.LocationLongitude = locationLongitude;
+                                bool doesCoordinatesExist = false;
+                                foreach (Metadata metadataToCheck in metadatas)
+                                {
+                                    if (metadataToCheck.LocationLatitude == metadata.LocationLatitude &&
+                                        metadataToCheck.LocationLongitude == metadata.LocationLongitude) doesCoordinatesExist = true;
+                                }
+                                if (!doesCoordinatesExist) metadatas.Add(metadata);
                             }
-                            metadata.LocationLatitude = locationLatitude;
-                            metadata.LocationLongitude = locationLongitude;
-                            bool doesCoordinatesExist = false;
-                            foreach (Metadata metadataToCheck in metadatas)
-                            {
-                                if (metadataToCheck.LocationLatitude == metadata.LocationLatitude &&
-                                    metadataToCheck.LocationLongitude == metadata.LocationLongitude) doesCoordinatesExist = true;
-                            }
-                            if (!doesCoordinatesExist) metadatas.Add(metadata);
                         }
+
                     }
-
                 }
-            }
-            #endregion
+                #endregion
 
-            dbTools.TransactionCommitSelect(sqlTransactionSelect);
-            
+            } while (!dbTools.TransactionCommitSelect(sqlTransactionSelect));
+
             return metadatas;
         }
         #endregion
@@ -238,10 +242,13 @@ namespace GoogleLocationHistory
         {
             HashSet<LocationsHistory> locationsHistories = new HashSet<LocationsHistory>();
 
-            var sqlTransactionSelect = dbTools.TransactionBeginSelect();
+            Mono.Data.Sqlite.SqliteTransaction sqlTransactionSelect;
+            do
+            {
+                sqlTransactionSelect = dbTools.TransactionBeginSelect();
 
-            #region SELECT UserAccount, TimeStamp, Latitude, Longitude, Altitude, Accuracy FROM LocationHistory
-            string sqlCommand = "SELECT UserAccount, TimeStamp, Latitude, Longitude, Altitude, Accuracy FROM LocationHistory WHERE " +
+                #region SELECT UserAccount, TimeStamp, Latitude, Longitude, Altitude, Accuracy FROM LocationHistory
+                string sqlCommand = "SELECT UserAccount, TimeStamp, Latitude, Longitude, Altitude, Accuracy FROM LocationHistory WHERE " +
                 "TimeStamp >= @dateTimeFrom AND TimeStamp <= @dateTimeTo " +
                 "ORDER BY TimeStamp LIMIT 5000";
 
@@ -268,9 +275,9 @@ namespace GoogleLocationHistory
                     }
                 }
             }
-            #endregion
+                #endregion
 
-            dbTools.TransactionCommitSelect(sqlTransactionSelect);
+            } while (!dbTools.TransactionCommitSelect(sqlTransactionSelect));
 
             return locationsHistories;
         }
@@ -280,11 +287,14 @@ namespace GoogleLocationHistory
         public Metadata FindLocationBasedOnTime(String userAccount, DateTime? datetime, int acceptDiffrentSecound)
         {
             Metadata metadataResult = null;
-            var sqlTransactionSelect = dbTools.TransactionBeginSelect();
+            Mono.Data.Sqlite.SqliteTransaction sqlTransactionSelect;
+            do
+            {
+                sqlTransactionSelect = dbTools.TransactionBeginSelect();
 
-            #region SELECT UserAccount, TimeStamp, Latitude, Longitude, Altitude, Accuracy FROM LocationHistory
-            //I could use pythagoras to get excact distance, but I don't see the point of doing that
-            string sqlCommand = 
+                #region SELECT UserAccount, TimeStamp, Latitude, Longitude, Altitude, Accuracy FROM LocationHistory
+                //I could use pythagoras to get excact distance, but I don't see the point of doing that
+                string sqlCommand = 
                 "SELECT UserAccount, TimeStamp, Latitude, Longitude, Altitude, Accuracy FROM LocationHistory WHERE " +
                 "UserAccount = @UserAccount AND " +
                 "( " +
@@ -368,9 +378,9 @@ namespace GoogleLocationHistory
                     }
                 }
             }
-            #endregion
+                #endregion
 
-            dbTools.TransactionCommitSelect(sqlTransactionSelect);
+            } while (!dbTools.TransactionCommitSelect(sqlTransactionSelect));
 
             return metadataResult;
         }

@@ -37,30 +37,33 @@ namespace CameraOwners
             {
                 cameraMakeModelAndOwnersCache = new List<CameraOwner>();
 
-                var sqlTransactionSelect = dbTools.TransactionBeginSelect();
-
-                #region SELECT CameraMake, CameraModel, UserAccount FROM CameraOwner
-                string sqlCommand = "SELECT CameraMake, CameraModel, UserAccount FROM CameraOwner";
-                
-                using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
+                Mono.Data.Sqlite.SqliteTransaction sqlTransactionSelect;
+                do
                 {
-                    //commandDatabase.Prepare();
-                    using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
-                    {
+                    sqlTransactionSelect = dbTools.TransactionBeginSelect();
 
-                        while (reader.Read())
+                    #region SELECT CameraMake, CameraModel, UserAccount FROM CameraOwner
+                    string sqlCommand = "SELECT CameraMake, CameraModel, UserAccount FROM CameraOwner";
+
+                    using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
+                    {
+                        //commandDatabase.Prepare();
+                        using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                         {
-                            CameraOwner cameraOwner = new CameraOwner(
-                                dbTools.ConvertFromDBValString(reader["CameraMake"]),
-                                dbTools.ConvertFromDBValString(reader["CameraModel"]),
-                                dbTools.ConvertFromDBValString(reader["UserAccount"]));
-                            cameraMakeModelAndOwnersCache.Add(cameraOwner);
+
+                            while (reader.Read())
+                            {
+                                CameraOwner cameraOwner = new CameraOwner(
+                                    dbTools.ConvertFromDBValString(reader["CameraMake"]),
+                                    dbTools.ConvertFromDBValString(reader["CameraModel"]),
+                                    dbTools.ConvertFromDBValString(reader["UserAccount"]));
+                                cameraMakeModelAndOwnersCache.Add(cameraOwner);
+                            }
                         }
                     }
-                }
-                #endregion
+                    #endregion
 
-                dbTools.TransactionCommitSelect(sqlTransactionSelect);
+                } while (!dbTools.TransactionCommitSelect(sqlTransactionSelect));
             }
             return cameraMakeModelAndOwnersCache;
         }
@@ -69,10 +72,13 @@ namespace CameraOwners
         #region ReadCameraMakeModelAndOwnersThatNotExist from MediaMetadata
         public List<CameraOwner> ReadCameraMakeModelAndOwnersThatNotExist(List<CameraOwner> cameraOwners)
         {
-            var sqlTransactionSelect = dbTools.TransactionBeginSelect();
+            Mono.Data.Sqlite.SqliteTransaction sqlTransactionSelect;
+            do
+            {
+                sqlTransactionSelect = dbTools.TransactionBeginSelect();
 
-            #region SELECT DISTINCT CameraMake, CameraModel, NULL as UserAccount FROM MediaMetadata
-            string sqlCommand = "SELECT DISTINCT CameraMake, CameraModel, NULL as UserAccount FROM MediaMetadata";
+                #region SELECT DISTINCT CameraMake, CameraModel, NULL as UserAccount FROM MediaMetadata
+                string sqlCommand = "SELECT DISTINCT CameraMake, CameraModel, NULL as UserAccount FROM MediaMetadata";
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
             {
@@ -92,9 +98,9 @@ namespace CameraOwners
                     }
                 }
             }
-            #endregion
+                #endregion
 
-            dbTools.TransactionCommitSelect(sqlTransactionSelect);
+            } while (!dbTools.TransactionCommitSelect(sqlTransactionSelect));
 
             return cameraOwners;
         }
@@ -108,9 +114,10 @@ namespace CameraOwners
             if (string.IsNullOrWhiteSpace(cameraOwner.Model)) cameraOwner.Model = CameraOwner.UnknownModel;
             //if (string.IsNullOrWhiteSpace(cameraOwner.Owner)) cameraOwner.Owner = CameraOwner.UnknownOwner;
 
-            var sqlTransaction = dbTools.TransactionBegin();
-            try
+            Mono.Data.Sqlite.SqliteTransaction sqlTransaction;
+            do
             {
+                sqlTransaction = dbTools.TransactionBegin();
                 #region DELETE FROM CameraOwner
                 string sqlCommand =
                     "DELETE FROM CameraOwner WHERE " +
@@ -137,15 +144,7 @@ namespace CameraOwners
                     commandDatabase.ExecuteNonQuery();      // Execute the query
                 }
                 #endregion
-
-                dbTools.TransactionCommit(sqlTransaction);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                dbTools.TransactionRollback(sqlTransaction);
-                throw new Exception(ex.Message);
-            }
+            } while (!dbTools.TransactionCommit(sqlTransaction));
 
             MakeCameraOwnersDirty();
         }
@@ -164,28 +163,31 @@ namespace CameraOwners
         {
             if (cameraOwnerCache == null)
             {
-                var sqlTransactionSelect = dbTools.TransactionBeginSelect();
-
-                #region SELECT DISTINCT UserAccount FROM LocationSource
-                string sqlCommand = "SELECT DISTINCT UserAccount FROM LocationSource";
-                using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
+                Mono.Data.Sqlite.SqliteTransaction sqlTransactionSelect;
+                do
                 {
-                    //commandDatabase.Prepare();
-                    commandDatabase.ExecuteNonQuery();      // Execute the query
+                    sqlTransactionSelect = dbTools.TransactionBeginSelect();
 
-                    using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                    #region SELECT DISTINCT UserAccount FROM LocationSource
+                    string sqlCommand = "SELECT DISTINCT UserAccount FROM LocationSource";
+                    using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
                     {
-                        cameraOwnerCache = new List<string>();
-                        while (reader.Read())
-                        {
-                            cameraOwnerCache.Add(dbTools.ConvertFromDBValString(reader["UserAccount"]));
-                        }
-                    }
-                    if (cameraOwnerCache.Count == 0) cameraOwnerCache.Add(MissingLocationsOwners);
-                }
-                #endregion
+                        //commandDatabase.Prepare();
+                        commandDatabase.ExecuteNonQuery();      // Execute the query
 
-                dbTools.TransactionCommitSelect(sqlTransactionSelect);
+                        using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                        {
+                            cameraOwnerCache = new List<string>();
+                            while (reader.Read())
+                            {
+                                cameraOwnerCache.Add(dbTools.ConvertFromDBValString(reader["UserAccount"]));
+                            }
+                        }
+                        if (cameraOwnerCache.Count == 0) cameraOwnerCache.Add(MissingLocationsOwners);
+                    }
+                    #endregion
+
+                } while (!dbTools.TransactionCommitSelect(sqlTransactionSelect));
             }
             return cameraOwnerCache;
 

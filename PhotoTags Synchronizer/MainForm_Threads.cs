@@ -1848,6 +1848,10 @@ namespace PhotoTagsSynchronizer
 
                                             #region Check if - Write using Exiftool failed?
                                             DateTime currentLastWrittenDateTime = File.GetLastWriteTime(fileSuposeToBeUpdated.FileFullPath);
+                                            if (currentLastWrittenDateTime < new DateTime(1700, 1, 1, 1,1,1))
+                                            {
+                                                //DEBUG
+                                            }
                                             DateTime previousLastWrittenDateTime = (DateTime)fileSuposeToBeUpdated.LastWriteDateTime;
 
                                             //Find last known writtenDate for file

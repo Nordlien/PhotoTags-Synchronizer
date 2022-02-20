@@ -39,9 +39,11 @@ namespace Thumbnails
             //Don't do DeleteThumbnail(fileDirectory, fileName, size); //It create a lot overhead
             //Do to read thumbnail only write back what doesn't exist
 
-            var sqlTransaction = dbTools.TransactionBegin();
-            try
+            Mono.Data.Sqlite.SqliteTransaction sqlTransaction;
+            do
             {
+                sqlTransaction = dbTools.TransactionBegin();
+
                 #region INSERT INTO MediaThumbnail
                 string sqlCommand =
                     "INSERT INTO MediaThumbnail (FileDirectory, FileName, FileDateModified,Image) " +
@@ -60,14 +62,8 @@ namespace Thumbnails
                     }      // Execute the query
                 }
                 #endregion
-                dbTools.TransactionCommit(sqlTransaction);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                dbTools.TransactionRollback(sqlTransaction);
-                throw new Exception(ex.Message);
-            }
+
+            } while (!dbTools.TransactionCommit(sqlTransaction));
 
             ThumbnailCacheUpdate(fileEntry, image);
         }
@@ -94,9 +90,11 @@ namespace Thumbnails
             string newPath = Path.Combine(newDirectory, newFilename).ToLower();
             if (string.Compare(oldPath, newPath, true) != 0)
             {
-                var sqlTransaction = dbTools.TransactionBegin();
-                try
+                Mono.Data.Sqlite.SqliteTransaction sqlTransaction;
+                do
                 {
+                    sqlTransaction = dbTools.TransactionBegin();
+
                     #region UPDATE MediaThumbnail 
                     string sqlCommand =
                                "UPDATE MediaThumbnail SET " +
@@ -113,14 +111,8 @@ namespace Thumbnails
                         if (commandDatabase.ExecuteNonQuery() == -1) movedOk = false;
                     }
                     #endregion
-                    dbTools.TransactionCommit(sqlTransaction);
-                }
-                catch (Exception ex)
-                {
-                    Logger.Error(ex);
-                    dbTools.TransactionRollback(sqlTransaction);
-                    throw new Exception(ex.Message);
-                }
+
+                } while (!dbTools.TransactionCommit(sqlTransaction));
             }
             
             
@@ -138,34 +130,36 @@ namespace Thumbnails
                 if (image == null) fileEntriesPutInCache.Add(fileEntryToCheckInCache);
             }
 
-            var sqlTransactionSelect = dbTools.TransactionBeginSelect();
-            
-            #region SELECT Image FROM MediaThumbnail 
-            string sqlCommand =
-                "SELECT Image FROM MediaThumbnail WHERE FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
-            {
-                foreach (FileEntry fileEntry in fileEntriesPutInCache)
-                {
-                    if (StopCaching) { StopCaching = false; return; }
-                    //commandDatabase.Prepare();
-                    commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntry.Directory);
-                    commandDatabase.Parameters.AddWithValue("@FileName", fileEntry.FileName);
-                    commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntry.LastWriteDateTime));
+            Mono.Data.Sqlite.SqliteTransaction sqlTransactionSelect;
+            do {
+                sqlTransactionSelect = dbTools.TransactionBeginSelect();
 
-                    using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                #region SELECT Image FROM MediaThumbnail 
+                string sqlCommand =
+                    "SELECT Image FROM MediaThumbnail WHERE FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
+                using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
+                {
+                    foreach (FileEntry fileEntry in fileEntriesPutInCache)
                     {
-                        while (reader.Read())
+                        if (StopCaching) { StopCaching = false; return; }
+                        //commandDatabase.Prepare();
+                        commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntry.Directory);
+                        commandDatabase.Parameters.AddWithValue("@FileName", fileEntry.FileName);
+                        commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntry.LastWriteDateTime));
+
+                        using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                         {
-                            Image image = dbTools.ByteArrayToImage(dbTools.ConvertFromDBValByteArray(reader["Image"]));
-                            ThumbnailCacheUpdate(fileEntry, image);
+                            while (reader.Read())
+                            {
+                                Image image = dbTools.ByteArrayToImage(dbTools.ConvertFromDBValByteArray(reader["Image"]));
+                                ThumbnailCacheUpdate(fileEntry, image);
+                            }
                         }
                     }
                 }
-            }
-            #endregion
+                #endregion
 
-            dbTools.TransactionCommitSelect(sqlTransactionSelect);
+            } while (!dbTools.TransactionCommitSelect(sqlTransactionSelect));
         }
         #endregion 
 
@@ -176,53 +170,59 @@ namespace Thumbnails
             if (readFolderToCacheCached.Contains(directory)) return;
             readFolderToCacheCached.Add(directory);
 
-            var sqlTransactionSelect = dbTools.TransactionBeginSelect();
-
-            #region SELECT FileDirectory, FileName, FileDateModified, Image FROM MediaThumbnail
-            string sqlCommand = "SELECT FileDirectory, FileName, FileDateModified, Image FROM MediaThumbnail";
-            if (!string.IsNullOrWhiteSpace(directory)) sqlCommand += " WHERE FileDirectory = @FileDirectory";
-            
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
+            Mono.Data.Sqlite.SqliteTransaction sqlTransactionSelect;
+            do
             {
-                if (!string.IsNullOrWhiteSpace(directory)) commandDatabase.Parameters.AddWithValue("@FileDirectory", directory);
-                
-                //commandDatabase.Prepare();
+                sqlTransactionSelect = dbTools.TransactionBeginSelect();
 
-                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                #region SELECT FileDirectory, FileName, FileDateModified, Image FROM MediaThumbnail
+                string sqlCommand = "SELECT FileDirectory, FileName, FileDateModified, Image FROM MediaThumbnail";
+                if (!string.IsNullOrWhiteSpace(directory)) sqlCommand += " WHERE FileDirectory = @FileDirectory";
+
+                using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
                 {
-                    while (reader.Read())
+                    if (!string.IsNullOrWhiteSpace(directory)) commandDatabase.Parameters.AddWithValue("@FileDirectory", directory);
+
+                    //commandDatabase.Prepare();
+
+                    using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                     {
-                        if (StopCaching) {
-                            try
+                        while (reader.Read())
+                        {
+                            if (StopCaching)
                             {
-                                readFolderToCacheCached.Remove(directory);
+                                try
+                                {
+                                    readFolderToCacheCached.Remove(directory);
+                                }
+                                catch { }
+                                StopCaching = false;
+                                return;
                             }
-                            catch { }
-                            StopCaching = false; 
-                            return; 
+                            FileEntry fileEntry = new FileEntry(
+                                dbTools.ConvertFromDBValString(reader["FileDirectory"]),
+                                dbTools.ConvertFromDBValString(reader["FileName"]),
+                                (DateTime)dbTools.ConvertFromDBValDateTimeLocal(reader["FileDateModified"])
+                                );
+                            Image image = dbTools.ByteArrayToImage(dbTools.ConvertFromDBValByteArray(reader["Image"]));
+                            ThumbnailCacheUpdate(fileEntry, image);
                         }
-                        FileEntry fileEntry = new FileEntry(
-                            dbTools.ConvertFromDBValString(reader["FileDirectory"]),
-                            dbTools.ConvertFromDBValString(reader["FileName"]),
-                            (DateTime)dbTools.ConvertFromDBValDateTimeLocal(reader["FileDateModified"])
-                            );
-                        Image image = dbTools.ByteArrayToImage(dbTools.ConvertFromDBValByteArray(reader["Image"]));
-                        ThumbnailCacheUpdate(fileEntry, image);
                     }
                 }
-            }
-            #endregion
+                #endregion
 
-            dbTools.TransactionCommitSelect(sqlTransactionSelect);
+            } while (!dbTools.TransactionCommitSelect(sqlTransactionSelect));
         }
         #endregion
 
         #region Thumbnail - DeleteThumbnail
         public void DeleteThumbnails(List<FileEntry> fileEntries)
         {
-            var sqlTransaction = dbTools.TransactionBegin();
-            try
+            Mono.Data.Sqlite.SqliteTransaction sqlTransaction;
+            do
             {
+                sqlTransaction = dbTools.TransactionBegin();
+
                 #region DELETE FROM MediaThumbnail 
                 string sqlCommand = "DELETE FROM MediaThumbnail WHERE FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
                 using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
@@ -238,14 +238,8 @@ namespace Thumbnails
                     }
                 }
                 #endregion
-                dbTools.TransactionCommit(sqlTransaction);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                dbTools.TransactionRollback(sqlTransaction);
-                throw new Exception(ex.Message);
-            }
+
+            } while (!dbTools.TransactionCommit(sqlTransaction));
         }
         #endregion 
 
@@ -254,10 +248,12 @@ namespace Thumbnails
         {
             int rowsAffected = 0;
             ThumbnailClearCache();
-            
-            var sqlTransaction = dbTools.TransactionBegin();
-            try
+
+            Mono.Data.Sqlite.SqliteTransaction sqlTransaction;
+            do
             {
+                sqlTransaction = dbTools.TransactionBegin();
+
                 #region DELETE FROM MediaThumbnail 
                 string sqlCommand = "DELETE FROM MediaThumbnail WHERE FileDirectory = @FileDirectory";
                 using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
@@ -267,14 +263,9 @@ namespace Thumbnails
                     rowsAffected = commandDatabase.ExecuteNonQuery();      // Execute the query
                 }
                 #endregion
-                dbTools.TransactionCommit(sqlTransaction);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                dbTools.TransactionRollback(sqlTransaction);
-                throw new Exception(ex.Message);
-            }
+
+            } while (!dbTools.TransactionCommit(sqlTransaction));
+            
             return rowsAffected;
         }
         #endregion
@@ -284,36 +275,39 @@ namespace Thumbnails
         {
             List<FileEntry> fileEntries = new List<FileEntry>();
 
-            var sqlTransactionSelect = dbTools.TransactionBeginSelect();
-
-            #region SELECT DISTINCT FileDirectory, FileName, FileDateModified FROM MediaThumbnail
-            string sqlCommand = "SELECT DISTINCT FileDirectory, FileName, FileDateModified FROM MediaThumbnail " +
-                "WHERE FileDirectory = @FileDirectory AND FileName = @FileName";
-            using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
+            Mono.Data.Sqlite.SqliteTransaction sqlTransactionSelect;
+            do
             {
-                //commandDatabase.Prepare();
-                commandDatabase.Parameters.AddWithValue("@FileDirectory", fileDirectory);
-                commandDatabase.Parameters.AddWithValue("@FileName", fileName);
+                sqlTransactionSelect = dbTools.TransactionBeginSelect();
 
-                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                #region SELECT DISTINCT FileDirectory, FileName, FileDateModified FROM MediaThumbnail
+                string sqlCommand = "SELECT DISTINCT FileDirectory, FileName, FileDateModified FROM MediaThumbnail " +
+                "WHERE FileDirectory = @FileDirectory AND FileName = @FileName";
+                using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
                 {
-                    while (reader.Read())
+                    //commandDatabase.Prepare();
+                    commandDatabase.Parameters.AddWithValue("@FileDirectory", fileDirectory);
+                    commandDatabase.Parameters.AddWithValue("@FileName", fileName);
+
+                    using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                     {
-                        FileEntry fileEntry = new FileEntry
-                            (
-                            dbTools.ConvertFromDBValString(reader["FileDirectory"]),
-                            dbTools.ConvertFromDBValString(reader["FileName"]),
-                            (DateTime)dbTools.ConvertFromDBValDateTimeLocal(reader["FileDateModified"])
-                            );
-                        fileEntries.Add(fileEntry);
+                        while (reader.Read())
+                        {
+                            FileEntry fileEntry = new FileEntry
+                                (
+                                dbTools.ConvertFromDBValString(reader["FileDirectory"]),
+                                dbTools.ConvertFromDBValString(reader["FileName"]),
+                                (DateTime)dbTools.ConvertFromDBValDateTimeLocal(reader["FileDateModified"])
+                                );
+                            fileEntries.Add(fileEntry);
+                        }
                     }
+
+                    //fileEntries.Sort();
                 }
+                #endregion
 
-                //fileEntries.Sort();
-            }
-            #endregion
-
-            dbTools.TransactionCommitSelect(sqlTransactionSelect);
+            } while (!dbTools.TransactionCommitSelect(sqlTransactionSelect));
 
             return fileEntries;
         }

@@ -62,24 +62,31 @@ namespace SqliteDatabase
         }
         #endregion
 
+        int transactionCount = 0;
+        int transactionCountSelect = 0;
+
         #region TransactionBeginSelect
         public SqliteTransaction TransactionBeginSelect()
         {
+            transactionCountSelect++;
             return connectionDatabase.BeginTransaction();
         }
         #endregion
 
         #region TransactionCommitSelect
-        public void TransactionCommitSelect(SqliteTransaction sqliteTransaction)
+        public bool TransactionCommitSelect(SqliteTransaction sqliteTransaction)
         {
             try
             {
+                transactionCountSelect--;
                 if (sqliteTransaction != null) sqliteTransaction.Commit();
+                return true;
             }
             catch (Exception ex)
             {
                 Logger.Warn(ex + "\r\nLast knwon command: " + LastKnownCommand);
                 //throw new Exception(ex + "\r\nLast knwon command: " + LastKnownCommand);
+                return false;
             }
         }
         #endregion
@@ -95,6 +102,7 @@ namespace SqliteDatabase
         {
             if (connectionDatabase.State == System.Data.ConnectionState.Open)
             {
+                transactionCount++;
                 return connectionDatabase.BeginTransaction(); 
             }
             else
@@ -106,7 +114,7 @@ namespace SqliteDatabase
 
         #region TransactionCommit
         #if MonoSqlite
-        public void TransactionCommit(SqliteTransaction sqliteTransaction)
+        public bool TransactionCommit(SqliteTransaction sqliteTransaction)
         #elif MicrosoftDataSqlite
         TransactionCommitBatch(SqliteTransaction sqliteTransaction)
         #else
@@ -115,12 +123,15 @@ namespace SqliteDatabase
         {
             try
             {
+                transactionCount--;
                 if (sqliteTransaction != null) sqliteTransaction.Commit();
+                return true;
             }
             catch (Exception ex)
             {
                 Logger.Warn(ex + "\r\nLast knwon command: " + LastKnownCommand);
-                throw new Exception(ex + "\r\nLast knwon command: " + LastKnownCommand);
+                //throw new Exception(ex + "\r\nLast knwon command: " + LastKnownCommand);
+                return false;
             }
         }
         #endregion
@@ -144,26 +155,6 @@ namespace SqliteDatabase
             }
         }
         #endregion
-
-//        #region SqliteCommand
-//#if MonoSqlite
-//        public SqliteCommand SqliteCommand()
-//        {
-//            return new SqliteCommand(connectionDatabase);
-//        }
-//        #elif MicrosoftDataSqlite
-//        public SqliteCommand SqliteCommand()
-//        {
-//            return new SqliteCommand();
-//        }
-//        #else
-//        public SQLiteCommand SqliteCommand()
-//        {
-//            return new SQLiteCommand(connectionDatabase);
-//        }
-//        #endif
-
-//        #endregion
 
         #region Debug - ConvertToSqliteCommand
         public string DebugConvertToSqliteCommand(string sqlCommand, CommonSqliteCommand commandDatabase)

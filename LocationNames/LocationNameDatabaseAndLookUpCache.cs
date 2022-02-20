@@ -21,9 +21,11 @@ namespace LocationNames
         #region Database - WriteLocationName
         public void WriteLocationName(LocationCoordinate locationCoordinateSearch, LocationCoordinateAndDescription locationInDatabaseCoordinateAndDescription)
         {
-            var sqlTransaction = dbTools.TransactionBegin();
-            try
+            Mono.Data.Sqlite.SqliteTransaction sqlTransaction;
+            do
             {
+                sqlTransaction = dbTools.TransactionBegin();
+
                 #region INSERT INTO LocationName 
                 string sqlCommand =
                     "INSERT INTO LocationName (Latitude, Longitude, Name, City, Province, Country) " +
@@ -46,14 +48,8 @@ namespace LocationNames
                     LocationCoordinateAndDescriptionUpdate(locationCoordinateSearch, locationInDatabaseCoordinateAndDescription.Coordinate, locationInDatabaseCoordinateAndDescription.Description);
                 }
                 #endregion
-                dbTools.TransactionCommit(sqlTransaction);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                dbTools.TransactionRollback(sqlTransaction);
-                throw new Exception(ex.Message);
-            }
+
+            } while (!dbTools.TransactionCommit(sqlTransaction));
         }
         #endregion 
 
@@ -170,10 +166,13 @@ namespace LocationNames
         {
             LocationCoordinateAndDescription locationCoordinateAndDescriptionInDatabase = null;
 
-            var sqlTransactionSelect = dbTools.TransactionBeginSelect();
+            Mono.Data.Sqlite.SqliteTransaction sqlTransactionSelect;
+            do
+            {
+                sqlTransactionSelect = dbTools.TransactionBeginSelect();
 
-            #region SELECT FROM LocationName 
-            string sqlCommand = "SELECT Latitude, Longitude, Name, City, Province, Country, " +
+                #region SELECT FROM LocationName 
+                string sqlCommand = "SELECT Latitude, Longitude, Name, City, Province, Country, " +
                 "Max(Abs(Latitude - @Latitude), Abs(Longitude - @Longitude)) AS Distance " +
                 "FROM LocationName WHERE Latitude >= (@Latitude - @LocationAccuracyLatitude) AND Latitude <= (@Latitude + @LocationAccuracyLatitude) " +
                 "AND Longitude >= (@Longitude - @LocationAccuracyLongitude) AND Longitude <= (@Longitude + @LocationAccuracyLongitude) " +
@@ -207,9 +206,9 @@ namespace LocationNames
                     }
                 }
             }
-            #endregion
+                #endregion
 
-            dbTools.TransactionCommitSelect(sqlTransactionSelect);
+            } while (!dbTools.TransactionCommitSelect(sqlTransactionSelect));
 
             return locationCoordinateAndDescriptionInDatabase;
         }
@@ -220,10 +219,13 @@ namespace LocationNames
         {
             Dictionary<LocationCoordinate, LocationDescription> locations = new Dictionary<LocationCoordinate, LocationDescription>();
 
-            var sqlTransactionSelect = dbTools.TransactionBeginSelect();
+            Mono.Data.Sqlite.SqliteTransaction sqlTransactionSelect;
+            do
+            {
+                sqlTransactionSelect = dbTools.TransactionBeginSelect();
 
-            #region SELECT Latitude, Longitude, Name, City, Province, Country FROM LocationName
-            string sqlCommand = "SELECT Latitude, Longitude, Name, City, Province, Country FROM LocationName";
+                #region SELECT Latitude, Longitude, Name, City, Province, Country FROM LocationName
+                string sqlCommand = "SELECT Latitude, Longitude, Name, City, Province, Country FROM LocationName";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
             {
                 //commandDatabase.Prepare();
@@ -247,9 +249,9 @@ namespace LocationNames
                     }
                 }
             }
-            #endregion
+                #endregion
 
-            dbTools.TransactionCommitSelect(sqlTransactionSelect);
+            } while (!dbTools.TransactionCommitSelect(sqlTransactionSelect));
 
             return locations;
         }
