@@ -612,7 +612,8 @@ namespace PhotoTagsSynchronizer
                             {
                                 count--;
                                 FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails[0]);
-
+                                
+                                #region Check if need to read column
                                 bool readColumn = false;
                                 switch (fileEntryAttribute.FileEntryVersion)
                                 {
@@ -650,6 +651,7 @@ namespace PhotoTagsSynchronizer
                                     default:
                                         throw new Exception("Not implemeneted");
                                 }
+                                #endregion
 
                                 bool isMetadataExiftoolFound = false;
                                 bool isMetadataExiftoolErrorFound = false;
@@ -657,101 +659,147 @@ namespace PhotoTagsSynchronizer
                                 if (readColumn)
                                 {
                                     #region Exiftool with or without Error
-                                    MetadataBrokerType metadataBrokerType = MetadataBrokerType.ExifTool;
-                                    
-                                    //If error Broker type attribute, set correct Broker type
-                                    if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.Error) 
-                                        metadataBrokerType |= MetadataBrokerType.ExifToolWriteError;
-
-                                    FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(fileEntryAttribute, metadataBrokerType);
-                                    Metadata metadataExiftool = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftool);
-
-                                    if (metadataExiftool == null) //If Null, need retry, until Exiftool save metadata in Database,
-                                                                  //if exiftool failes a dummy error record will be create
+                                    try
                                     {
-                                        FileEntryBroker fileEntryBrokerExiftoolError = new FileEntryBroker(fileEntryAttribute,
-                                        MetadataBrokerType.ExifTool | MetadataBrokerType.ExifToolWriteError);
 
-                                        bool test = databaseAndCacheMetadataExiftool.IsMetadataInCache(fileEntryBrokerExiftoolError);
-                                        Metadata metadataExiftoolError = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftoolError);
-                                        if (metadataExiftoolError == null)
+                                        MetadataBrokerType metadataBrokerType = MetadataBrokerType.ExifTool;
+
+                                        //If error Broker type attribute, set correct Broker type
+                                        if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.Error)
+                                            metadataBrokerType |= MetadataBrokerType.ExifToolWriteError;
+
+                                        FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(fileEntryAttribute, metadataBrokerType);
+                                        Metadata metadataExiftool = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftool);
+
+
+                                        if (metadataExiftool == null) //If Null, need retry, until Exiftool save metadata in Database,
+                                                                      //if exiftool failes a dummy error record will be create
                                         {
-                                            AddQueueReadFromSourceExiftoolLock(fileEntryAttribute); //Didn't exists in Database, need read from source
+                                            FileEntryBroker fileEntryBrokerExiftoolError = new FileEntryBroker(fileEntryAttribute,
+                                            MetadataBrokerType.ExifTool | MetadataBrokerType.ExifToolWriteError);
+
+                                            bool test = databaseAndCacheMetadataExiftool.IsMetadataInCache(fileEntryBrokerExiftoolError);
+                                            Metadata metadataExiftoolError = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftoolError);
+                                            if (metadataExiftoolError == null)
+                                            {
+                                                AddQueueReadFromSourceExiftoolLock(fileEntryAttribute); //Didn't exists in Database, need read from source
+                                            }
+                                            else
+                                            {
+                                                FileStatus fileStaus = FileHandler.GetFileStatus(fileEntryBrokerExiftoolError.FileFullPath,
+                                                    exiftoolProcessStatus: ExiftoolProcessStatus.FileInaccessibleOrError,
+                                                    fileErrorMessage: "File has error recorded, you can retry read again", checkLockedStatus: true);
+                                                ImageListView_UpdateItemFileStatusInvoke(fileEntryBrokerExiftoolError.FileFullPath, fileStaus);
+                                                isMetadataExiftoolErrorFound = true;
+                                            }
                                         }
                                         else
                                         {
-                                            FileStatus fileStaus = FileHandler.GetFileStatus(fileEntryBrokerExiftoolError.FileFullPath,
-                                                exiftoolProcessStatus: ExiftoolProcessStatus.FileInaccessibleOrError,
-                                                fileErrorMessage: "File has error recorded, you can retry read again", checkLockedStatus: true);
-                                            ImageListView_UpdateItemFileStatusInvoke(fileEntryBrokerExiftoolError.FileFullPath, fileStaus);
-                                            isMetadataExiftoolErrorFound = true;
+                                            isMetadataExiftoolFound = true;
+                                            //Check if Region Thumnbail missing, if yes, then create
+                                            if (metadataExiftool.PersonalRegionIsThumbnailMissing())
+                                                AddQueueSaveToDatabaseRegionAndThumbnailLock(metadataExiftool);
+
+                                            FileStatus fileStaus = FileHandler.GetFileStatus(metadataExiftool.FileFullPath,
+                                            exiftoolProcessStatus: ExiftoolProcessStatus.WaitAction);
+                                            ImageListView_UpdateItemFileStatusInvoke(metadataExiftool.FileFullPath, fileStaus);
+
                                         }
                                     }
-                                    else
+                                    catch (Exception ex)
                                     {
-                                        isMetadataExiftoolFound = true;
-                                        //Check if Region Thumnbail missing, if yes, then create
-                                        if (metadataExiftool.PersonalRegionIsThumbnailMissing()) 
-                                            AddQueueSaveToDatabaseRegionAndThumbnailLock(metadataExiftool);
-
-                                        FileStatus fileStaus = FileHandler.GetFileStatus(metadataExiftool.FileFullPath,
-                                        exiftoolProcessStatus: ExiftoolProcessStatus.WaitAction);
-                                        ImageListView_UpdateItemFileStatusInvoke(metadataExiftool.FileFullPath, fileStaus);
-                                        
+                                        KryptonMessageBox.Show("ThreadLazyLoadingAllSourcesMetadataAndRegionThumbnails crashed.\r\n" +
+                                            "Read Exiftool data.\r\n" +
+                                            "Exception message:" + ex.Message + "\r\n",
+                                            "Lazy loading queue failed", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                                        Logger.Error(ex, "ThreadLazyLoadingAllSourcesMetadataAndRegionThumbnails");
                                     }
                                     #endregion
 
                                     #region Microsoft Photos
-                                    FileEntryBroker fileEntryBrokerMicrosoftPhotos = new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.MicrosoftPhotos);
-                                    Metadata metadataMicrosoftPhotos = null;
-                                    if (!databaseAndCacheMetadataMicrosoftPhotos.IsMetadataInCache(fileEntryBrokerMicrosoftPhotos))
-                                    {   
-                                        metadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOrDatabase(fileEntryBrokerMicrosoftPhotos);
-                                        if (metadataMicrosoftPhotos != null)
+                                    try
+                                    {
+                                        FileEntryBroker fileEntryBrokerMicrosoftPhotos = new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.MicrosoftPhotos);
+                                        Metadata metadataMicrosoftPhotos = null;
+                                        if (!databaseAndCacheMetadataMicrosoftPhotos.IsMetadataInCache(fileEntryBrokerMicrosoftPhotos))
                                         {
-                                            //Check if Region Thumnbail missing, if yes, then create
-                                            if (metadataMicrosoftPhotos.PersonalRegionIsThumbnailMissing()) AddQueueSaveToDatabaseRegionAndThumbnailLock(metadataMicrosoftPhotos);
+                                            metadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOrDatabase(fileEntryBrokerMicrosoftPhotos);
+                                            if (metadataMicrosoftPhotos != null)
+                                            {
+                                                //Check if Region Thumnbail missing, if yes, then create
+                                                if (metadataMicrosoftPhotos.PersonalRegionIsThumbnailMissing()) AddQueueSaveToDatabaseRegionAndThumbnailLock(metadataMicrosoftPhotos);
+                                            }
+                                            else AddQueueReadFromSourceMetadataMicrosoftPhotosLock(fileEntryAttribute); //Didn't exists in Database, need read from source
                                         }
-                                        else AddQueueReadFromSourceMetadataMicrosoftPhotosLock(fileEntryAttribute); //Didn't exists in Database, need read from source
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        KryptonMessageBox.Show("ThreadLazyLoadingAllSourcesMetadataAndRegionThumbnails crashed.\r\n" +
+                                            "Read Microsoft Photos data.\r\n" +
+                                            "Exception message:" + ex.Message + "\r\n",
+                                            "Lazy loading queue failed", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                                        Logger.Error(ex, "ThreadLazyLoadingAllSourcesMetadataAndRegionThumbnails");
                                     }
                                     #endregion
 
                                     #region WindowsLivePhotoGallery
-                                    FileEntryBroker fileEntryBrokerWindowsLivePhotoGallery = new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.WindowsLivePhotoGallery);
-                                    Metadata metadataWindowsLivePhotoGallery = null;
-                                    if (!databaseAndCacheMetadataWindowsLivePhotoGallery.IsMetadataInCache(fileEntryBrokerWindowsLivePhotoGallery))
+                                    try
                                     {
-                                        metadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOrDatabase(fileEntryBrokerWindowsLivePhotoGallery);                                        
-                                        if (metadataWindowsLivePhotoGallery != null)
+                                        FileEntryBroker fileEntryBrokerWindowsLivePhotoGallery = new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.WindowsLivePhotoGallery);
+                                        Metadata metadataWindowsLivePhotoGallery = null;
+                                        if (!databaseAndCacheMetadataWindowsLivePhotoGallery.IsMetadataInCache(fileEntryBrokerWindowsLivePhotoGallery))
                                         {
-                                            //Check if Region Thumnbail missing, if yes, then create
-                                            if (metadataWindowsLivePhotoGallery.PersonalRegionIsThumbnailMissing()) AddQueueSaveToDatabaseRegionAndThumbnailLock(metadataWindowsLivePhotoGallery);
+                                            metadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOrDatabase(fileEntryBrokerWindowsLivePhotoGallery);
+                                            if (metadataWindowsLivePhotoGallery != null)
+                                            {
+                                                //Check if Region Thumnbail missing, if yes, then create
+                                                if (metadataWindowsLivePhotoGallery.PersonalRegionIsThumbnailMissing()) AddQueueSaveToDatabaseRegionAndThumbnailLock(metadataWindowsLivePhotoGallery);
+                                            }
+                                            else AddQueueReadFromSourceWindowsLivePhotoGalleryLock(fileEntryAttribute); //Didn't exists in Database, need read from source
                                         }
-                                        else AddQueueReadFromSourceWindowsLivePhotoGalleryLock(fileEntryAttribute); //Didn't exists in Database, need read from source
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        KryptonMessageBox.Show("ThreadLazyLoadingAllSourcesMetadataAndRegionThumbnails crashed.\r\n" +
+                                            "Read WindowsLiveGallery data.\r\n" +
+                                            "Exception message:" + ex.Message + "\r\n",
+                                            "Lazy loading queue failed", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                                        Logger.Error(ex, "ThreadLazyLoadingAllSourcesMetadataAndRegionThumbnails");
                                     }
                                     #endregion
 
                                     #region WebScraper
-                                    //Metadata folder will change to common folder name "WebScraper"
-                                    FileEntryBroker fileEntryBrokerWebScraper = new FileEntryBroker(MetadataDatabaseCache.WebScapingFolderName,
-                                            fileEntryAttribute.FileName, (DateTime)fileEntryAttribute.LastWriteDateTime, MetadataBrokerType.WebScraping);
-
-                                    if (!databaseAndCacheMetadataExiftool.IsMetadataInCache(fileEntryBrokerWebScraper))
+                                    try
                                     {
-                                        Metadata metadata = databaseAndCacheMetadataExiftool.ReadWebScraperMetadataFromCacheOrDatabase(fileEntryBrokerWebScraper);
+                                        //Metadata folder will change to common folder name "WebScraper"
+                                        FileEntryBroker fileEntryBrokerWebScraper = new FileEntryBroker(MetadataDatabaseCache.WebScapingFolderName,
+                                                fileEntryAttribute.FileName, (DateTime)fileEntryAttribute.LastWriteDateTime, MetadataBrokerType.WebScraping);
 
-                                        if (metadata != null)
+                                        if (!databaseAndCacheMetadataExiftool.IsMetadataInCache(fileEntryBrokerWebScraper))
                                         {
-                                            //Check if Region Thumnbail missing, if yes, then create
-                                            if (metadata.PersonalRegionIsThumbnailMissing())
+                                            Metadata metadata = databaseAndCacheMetadataExiftool.ReadWebScraperMetadataFromCacheOrDatabase(fileEntryBrokerWebScraper);
+
+                                            if (metadata != null)
                                             {
-                                                Metadata metadataWithFullPath = new Metadata(metadata);
-                                                metadataWithFullPath.FileName = fileEntryAttribute.FileName;
-                                                metadataWithFullPath.FileDirectory = fileEntryAttribute.Directory;
-                                                metadataWithFullPath.FileDateModified = fileEntryAttribute.LastWriteDateTime;
-                                                AddQueueSaveToDatabaseRegionAndThumbnailLock(metadataWithFullPath);
+                                                //Check if Region Thumnbail missing, if yes, then create
+                                                if (metadata.PersonalRegionIsThumbnailMissing())
+                                                {
+                                                    Metadata metadataWithFullPath = new Metadata(metadata);
+                                                    metadataWithFullPath.FileName = fileEntryAttribute.FileName;
+                                                    metadataWithFullPath.FileDirectory = fileEntryAttribute.Directory;
+                                                    metadataWithFullPath.FileDateModified = fileEntryAttribute.LastWriteDateTime;
+                                                    AddQueueSaveToDatabaseRegionAndThumbnailLock(metadataWithFullPath);
+                                                }
                                             }
                                         }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        KryptonMessageBox.Show("ThreadLazyLoadingAllSourcesMetadataAndRegionThumbnails crashed.\r\n" +
+                                            "Read WebScaping data.\r\n" +
+                                            "Exception message:" + ex.Message + "\r\n",
+                                            "Lazy loading queue failed", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                                        Logger.Error(ex, "ThreadLazyLoadingAllSourcesMetadataAndRegionThumbnails");
                                     }
                                     #endregion
 

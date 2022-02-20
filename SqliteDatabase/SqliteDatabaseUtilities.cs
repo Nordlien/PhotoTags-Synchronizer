@@ -122,7 +122,7 @@ namespace SqliteDatabase
                 if (sqliteTransaction != null) sqliteTransaction.Rollback();
             } catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Warn(ex);
             }
         }
         #endregion

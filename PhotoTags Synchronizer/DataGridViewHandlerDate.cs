@@ -81,7 +81,7 @@ namespace PhotoTagsSynchronizer
 
         #region GetUserInputChanges
         //Check what data has been updated by users
-        public static void GetUserInputChanges(ref KryptonDataGridView dataGridView, Metadata metadata, FileEntryAttribute fileEntryColumn)
+        public static void GetUserInputChanges(DataGridView dataGridView, ref Metadata metadata, FileEntryAttribute fileEntryColumn)
         {
             int columnIndex = DataGridViewHandler.GetColumnIndexUserInput(dataGridView, fileEntryColumn);
             if (columnIndex == -1) return; //Column has not yet become aggregated or has already been removed

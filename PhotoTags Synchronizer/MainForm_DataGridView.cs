@@ -1397,10 +1397,10 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                if (GlobalData.IsAgregatedTags) DataGridViewHandlerTagsAndKeywords.GetUserInputChanges(ref dataGridViewTagsAndKeywords, metadataFromDataGridView, fileEntryAttribute);
-                if (GlobalData.IsAgregatedMap) DataGridViewHandlerMap.GetUserInputChanges(ref dataGridViewMap, metadataFromDataGridView, fileEntryAttribute);
-                if (GlobalData.IsAgregatedPeople) DataGridViewHandlerPeople.GetUserInputChanges(ref dataGridViewPeople, metadataFromDataGridView, fileEntryAttribute);
-                if (GlobalData.IsAgregatedDate) DataGridViewHandlerDate.GetUserInputChanges(ref dataGridViewDate, metadataFromDataGridView, fileEntryAttribute);
+                if (GlobalData.IsAgregatedTags) DataGridViewHandlerTagsAndKeywords.GetUserInputChanges(dataGridViewTagsAndKeywords, ref metadataFromDataGridView, fileEntryAttribute);
+                if (GlobalData.IsAgregatedMap) DataGridViewHandlerMap.GetUserInputChanges(dataGridViewMap, ref metadataFromDataGridView, fileEntryAttribute);
+                if (GlobalData.IsAgregatedPeople) DataGridViewHandlerPeople.GetUserInputChanges(dataGridViewPeople, ref metadataFromDataGridView, fileEntryAttribute);
+                if (GlobalData.IsAgregatedDate) DataGridViewHandlerDate.GetUserInputChanges(dataGridViewDate, ref metadataFromDataGridView, fileEntryAttribute);
                 
             }
             catch (Exception ex)

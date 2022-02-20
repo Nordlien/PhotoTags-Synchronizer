@@ -867,6 +867,7 @@ namespace PhotoTagsSynchronizer
                     LocationCoordinateAndDescription locationData = locationNameLookUpCache.AddressLookupAndReverseGeocoder(
                         metadataCopy?.LocationCoordinate, locationAccuracyLatitude, locationAccuracyLongitude, onlyFromCache: false, canReverseGeocoder: true,
                         metadataLocationDescription: null, forceReloadUsingReverseGeocoder: false);
+                    
                     if (locationData != null)
                     {
                         if (!UpdateLocationOnlyWhenEmpty || string.IsNullOrWhiteSpace(metadataCopy?.LocationName))

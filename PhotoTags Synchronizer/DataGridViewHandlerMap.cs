@@ -50,9 +50,14 @@ namespace PhotoTagsSynchronizer
         public const string tagCountry = "Country";
 
         #region GetUserInputChanges
-        public static void GetUserInputChanges(ref KryptonDataGridView dataGridView, Metadata metadata, FileEntryAttribute fileEntryAttribute)
+        public static void GetUserInputChanges(DataGridView dataGridView, ref Metadata metadata, FileEntryAttribute fileEntryAttribute, int columnIndex = -1)
         {
-            int columnIndex = DataGridViewHandler.GetColumnIndexUserInput(dataGridView, fileEntryAttribute);
+            if (fileEntryAttribute == null && columnIndex == -1)
+            {
+                //DEBUG
+                return;
+            }
+            if (columnIndex == -1) columnIndex = DataGridViewHandler.GetColumnIndexUserInput(dataGridView, fileEntryAttribute);
             if (columnIndex == -1) return; //Column has not yet become aggregated or has already been removed
             if (!DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex)) return;
 
@@ -302,54 +307,57 @@ namespace PhotoTagsSynchronizer
                 float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
                 float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
 
+                //LocationDescription locationDescription = null;
                 LocationDescription locationDescription = null;
+
                 #region Get Location Info from User when allowed
                 DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
                 if (!forceReloadUsingReverseGeocoder && dataGridViewGenericColumn?.Metadata != null)
                 {
-                    if (!string.IsNullOrEmpty(dataGridViewGenericColumn?.Metadata.LocationName) ||
-                        !string.IsNullOrEmpty(dataGridViewGenericColumn?.Metadata.LocationCity) ||
-                        !string.IsNullOrEmpty(dataGridViewGenericColumn?.Metadata.LocationState) ||
-                        !string.IsNullOrEmpty(dataGridViewGenericColumn?.Metadata.LocationCountry))
+                    #region Get UserInput Location data
+                    Metadata metadataUser = new Metadata(MetadataBrokerType.Empty);
+                    GetUserInputChanges(dataGridView, ref metadataUser, null, columnIndex);
+                    #endregion
+
+                    if (!string.IsNullOrEmpty(metadataUser.LocationName) || !string.IsNullOrEmpty(metadataUser.LocationCity) ||
+                        !string.IsNullOrEmpty(metadataUser.LocationState) || !string.IsNullOrEmpty(metadataUser.LocationCountry))
                     {
-                        locationDescription = new LocationDescription(
-                            dataGridViewGenericColumn?.Metadata.LocationName,
-                            dataGridViewGenericColumn?.Metadata.LocationCity,
-                            dataGridViewGenericColumn?.Metadata.LocationState,
-                            dataGridViewGenericColumn?.Metadata.LocationCountry
-                        );
+                        locationDescription = new LocationDescription(metadataUser.LocationName, metadataUser.LocationCity, metadataUser.LocationState, metadataUser.LocationCountry);
+
+                        #region createNewAccurateLocationUsingSearchLocation
+                        if (createNewAccurateLocationUsingSearchLocation)
+                        {
+                            try
+                            {
+                                LocationCoordinateAndDescription locationCoordinateAndDescriptionFromUserInput = new LocationCoordinateAndDescription(
+                                    locationCoordinateSearch, locationDescription);
+                                DatabaseAndCacheLocationAddress.WriteLocationName(locationCoordinateSearch, locationCoordinateAndDescriptionFromUserInput);
+
+                                dataGridView.EndEdit();
+                                //Remove + sign
+                                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagMediaCoordinates,
+                                    ReadWriteAccess.AllowCellReadAndWrite), locationCoordinateSearch.ToString(), false);
+                            }
+                            catch
+                            {
+                                //DEBUG
+                            }
+
+                        }
+                        #endregion
                     }
                 }
                 #endregion
 
                 if (locationCoordinateSearch != null)
                 {
-                    #region Get Nearby Location Coordinate and Info in Database            
+                    #region Get Nearby Location Coordinate and Info in Database
                     locationCoordinateAndDescriptionInDatabase = DatabaseAndCacheLocationAddress.AddressLookupAndReverseGeocoder(
                     locationCoordinateSearch, locationAccuracyLatitude, locationAccuracyLongitude, onlyFromCache: onlyFromCache,
                     canReverseGeocoder: canReverseGeocoder, metadataLocationDescription: locationDescription, forceReloadUsingReverseGeocoder: false);
                     #endregion
 
-                    #region createNewAccurateLocationUsingSearchLocation
-                    if (createNewAccurateLocationUsingSearchLocation)
-                    {
-                        try
-                        {
-                            locationCoordinateAndDescriptionInDatabase = new LocationCoordinateAndDescription(locationCoordinateSearch, locationCoordinateAndDescriptionInDatabase.Description);
-                            DatabaseAndCacheLocationAddress.WriteLocationName(locationCoordinateSearch, locationCoordinateAndDescriptionInDatabase);
-
-                            dataGridView.EndEdit();
-                            //Remove + sign
-                            AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagMediaCoordinates,
-                                ReadWriteAccess.AllowCellReadAndWrite), locationCoordinateSearch.ToString(), false);
-                        }
-                        catch
-                        {
-                            //DEBUG
-                        }
-                        
-                    }
-                    #endregion
+                    
 
                     #region If Asked to Reload, reload from UsingReverseGeocoder
                     if (forceReloadUsingReverseGeocoder && locationCoordinateAndDescriptionInDatabase != null)

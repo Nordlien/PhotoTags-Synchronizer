@@ -53,7 +53,11 @@ namespace Thumbnails
                     commandDatabase.Parameters.AddWithValue("@FileName", fileEntry.FileName);
                     commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntry.LastWriteDateTime));
                     commandDatabase.Parameters.AddWithValue("@Image", dbTools.ImageToByteArray(image));
-                    commandDatabase.ExecuteNonQuery();      // Execute the query
+                    int rowsAffected = commandDatabase.ExecuteNonQuery();
+                    if (rowsAffected != 1)
+                    {
+                        //DEBUG
+                    }      // Execute the query
                 }
                 #endregion
                 dbTools.TransactionCommit(sqlTransaction);

@@ -28,7 +28,7 @@ namespace PhotoTagsSynchronizer
         public static string RenameDateFormats { get; set; } = "";
 
         #region GetUserInputChanges
-        public static void GetUserInputChanges(ref KryptonDataGridView dataGridView, Metadata metadata, FileEntryAttribute fileEntry)
+        public static void GetUserInputChanges(DataGridView dataGridView, ref Metadata metadata, FileEntryAttribute fileEntry)
         {
             int columnIndex = DataGridViewHandler.GetColumnIndexUserInput(dataGridView, fileEntry);
             if (columnIndex == -1) return; //Column has not yet become aggregated or has already been removed
