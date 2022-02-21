@@ -20,7 +20,7 @@ namespace PhotoTagsSynchronizer
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-        private static string headerConvertAndMergeFilename = "Filename";
+        public static string headerConvertAndMergeFilename = "Filename";
         public static string headerConvertAndMergeInfo = "Drag and drop to re-order";
 
         public static bool HasBeenInitialized { get; set; } = false;

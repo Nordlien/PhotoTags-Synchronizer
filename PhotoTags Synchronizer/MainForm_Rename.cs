@@ -60,13 +60,6 @@ namespace PhotoTagsSynchronizer
             {
                 if (IsFileInAnyQueueLock(imageListView1.SelectedItems))
                 {
-                    //if (
-                    //    KryptonMessageBox.Show(
-                    //    "Can't start rename process right now, because files being updated in background\r\n" +
-                    //    "You need wait files to be finished updating or add rename into the queue.\r\n" +
-                    //    "Will you add rename into task queue, and then rename process will start when ready?",
-                    //    "Can't start rename right now", MessageBoxButtons.OKCancel, MessageBoxIcon.Error, showCtrlCopy: true) == DialogResult.OK)
-                    //{
                     DataGridViewHandlerRename.RenameVaribale = Properties.Settings.Default.RenameVariable;
 
                     using (new WaitCursor())
@@ -94,9 +87,6 @@ namespace PhotoTagsSynchronizer
                             }
                         }
                     }
-                    //}
-                
-                
                 }
                 else
                 {                    

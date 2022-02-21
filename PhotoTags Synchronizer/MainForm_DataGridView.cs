@@ -6,6 +6,7 @@ using MetadataLibrary;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using WindowsProperty;
@@ -975,8 +976,6 @@ namespace PhotoTagsSynchronizer
                     List<FileEntryAttribute> lazyLoading;
                     DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, true);
 
-                   
-
                     #region PopulateSelectedFiles
                     switch (GetActiveTabTag())
                     {
@@ -1363,7 +1362,88 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        private void DataGridViewUpdatedFilename(DataGridView dataGridView, string oldFullFileName, string newFullFileName)
+        #region DataGridView - UpdatedFilename
+        private void DataGridViewUpdatedFilenameRenameRows(DataGridView dataGridView, string oldFullFileName, string newFullFileName)
+        {
+            string headerNewFilename = DataGridViewHandlerRename.headerNewFilename;
+            
+            try
+            {
+                int columnIndex = DataGridViewHandler.GetColumnIndexFirstFullFilePath(dataGridView, headerNewFilename, false);
+                if (columnIndex != -1)
+                {
+                    for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCount(dataGridView); rowIndex++)
+                    {
+                        DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
+                        if (!dataGridViewGenericRow.IsHeader)
+                        {
+                            if (dataGridViewGenericRow.FileEntryAttribute != null)
+                            {
+                                if (dataGridViewGenericRow.FileEntryAttribute.FileFullPath == oldFullFileName)
+                                {
+                                    dataGridViewGenericRow.FileEntryAttribute = new FileEntryAttribute(
+                                        newFullFileName,
+                                        dataGridViewGenericRow.FileEntryAttribute.LastWriteDateTime,
+                                        dataGridViewGenericRow.FileEntryAttribute.FileEntryVersion);
+                                    dataGridViewGenericRow.RowName = dataGridViewGenericRow.FileEntryAttribute.FileName;
+                                    DataGridViewHandler.SetRowHeaderNameAndFontStyle(dataGridView, rowIndex, dataGridViewGenericRow);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion
+
+        #region DataGridView - UpdatedFilename
+        private void DataGridViewUpdatedFilenameConvertAndMergeRows(DataGridView dataGridView, string oldFullFileName, string newFullFileName)
+        {
+            string headerDirectory = DataGridViewHandlerConvertAndMerge.headerConvertAndMergeInfo;
+            string headerNewFilename = DataGridViewHandlerConvertAndMerge.headerConvertAndMergeFilename;
+
+            try
+            {
+                int columnIndex = DataGridViewHandler.GetColumnIndexFirstFullFilePath(dataGridView, headerNewFilename, false);
+                if (columnIndex != -1)
+                {
+                    for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCount(dataGridView); rowIndex++)
+                    {
+                        DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
+                        if (!dataGridViewGenericRow.IsHeader)
+                        {
+                            if (dataGridViewGenericRow.FileEntryAttribute != null)
+                            {
+                                if (dataGridViewGenericRow.FileEntryAttribute.FileFullPath == oldFullFileName)
+                                {
+                                    dataGridViewGenericRow.FileEntryAttribute = new FileEntryAttribute(
+                                        newFullFileName,
+                                        dataGridViewGenericRow.FileEntryAttribute.LastWriteDateTime,
+                                        dataGridViewGenericRow.FileEntryAttribute.FileEntryVersion);
+                                    dataGridViewGenericRow.RowName = newFullFileName;
+                                    DataGridViewHandler.SetRowHeaderNameAndFontStyle(dataGridView, rowIndex, dataGridViewGenericRow);
+                                    DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, dataGridViewGenericRow.FileEntryAttribute.FileName, false);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion
+
+        #region DataGridView - UpdatedFilename
+        private void DataGridViewUpdatedFilenameColumns(DataGridView dataGridView, string oldFullFileName, string newFullFileName)
         {
             try
             {
@@ -1378,7 +1458,7 @@ namespace PhotoTagsSynchronizer
                             {
                                 dataGridViewGenericColumn.FileEntryAttribute = new FileEntryAttribute(
                                     newFullFileName,
-                                    dataGridViewGenericColumn.FileEntryAttribute.LastWriteDateTime, 
+                                    dataGridViewGenericColumn.FileEntryAttribute.LastWriteDateTime,
                                     dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion);
                             }
                         }
@@ -1391,6 +1471,7 @@ namespace PhotoTagsSynchronizer
                 KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
+        #endregion
 
         #region DataGridView - CollectMetadataFromAllDataGridViewData - FileEntry
         private void CollectedMetadataFromAllDataGridView(FileEntryAttribute fileEntryAttribute, ref Metadata metadataFromDataGridView)

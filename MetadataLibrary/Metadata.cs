@@ -882,7 +882,8 @@ namespace MetadataLibrary
             }
             
             TimeSpan? timeDiffrence = TimeZoneLibrary.CalulateTimeDiffrentWithoutTimeZone(mediaTakenUtc, (DateTime)LocationDateTime);
-            if (timeDiffrence == null || Math.Abs(((TimeSpan)timeDiffrence).TotalSeconds) > 30*60) return false; //Accept GPS to use time to find time
+            if (timeDiffrence == null || Math.Abs(((TimeSpan)timeDiffrence).TotalSeconds) > 30*60) 
+                return false; //Accept GPS to use time to find time
             
             dateTime = mediaTakenUtc;
 
