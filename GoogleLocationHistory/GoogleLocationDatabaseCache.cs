@@ -51,9 +51,11 @@ namespace GoogleLocationHistory
         {
             if (File.Exists(fileNamePath))
             {
-                var sqlTransaction = dbTools.TransactionBegin();
-                try
+                Mono.Data.Sqlite.SqliteTransaction sqlTransaction;
+                do
                 {
+                    sqlTransaction = dbTools.TransactionBegin();
+
                     #region INSERT INTO LocationSource 
                     string sqlCommand =
                         "INSERT INTO LocationSource (UserAccount, FileDirectory, FileName, FileDateModified, FileDateImported) " +
@@ -69,14 +71,9 @@ namespace GoogleLocationHistory
                         commandDatabase.ExecuteNonQuery();      // Execute the query
                     }
                     #endregion
+                    
                     dbTools.TransactionCommit(sqlTransaction);
-                }
-                catch (Exception ex)
-                {
-                    Logger.Error(ex);
-                    dbTools.TransactionRollback(sqlTransaction);
-                    throw new Exception(ex.Message);
-                }
+                } while (!dbTools.TransactionCommit(sqlTransaction)) ;
             }
         }
         #endregion

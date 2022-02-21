@@ -56,9 +56,10 @@ namespace LocationNames
         #region Database - DeleteLocationName
         private void DeleteLocationName(LocationCoordinate locationCoordinateInDatabase, float locationAccuracyLatitude, float locationAccuracyLongitude)
         {
-            var sqlTransaction = dbTools.TransactionBegin();
-            try
+            Mono.Data.Sqlite.SqliteTransaction sqlTransaction;
+            do
             {
+                sqlTransaction = dbTools.TransactionBegin();
                 #region DELETE FROM LocationName 
                 string sqlCommand = "DELETE FROM LocationName " +
                     //"WHERE Latitude = @Latitude AND Longitude = @Longitude";
@@ -88,14 +89,7 @@ namespace LocationNames
                     LocationCoordinateAndDescriptionDelete(locationCoordinateInDatabase: locationCoordinateInDatabase);
                 }
                 #endregion
-                dbTools.TransactionCommit(sqlTransaction);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                dbTools.TransactionRollback(sqlTransaction);
-                throw new Exception(ex.Message);
-            }
+            } while (!dbTools.TransactionCommit(sqlTransaction));
         }
         #endregion 
 
