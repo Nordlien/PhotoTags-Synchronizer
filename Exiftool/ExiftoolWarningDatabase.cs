@@ -77,9 +77,26 @@ namespace Exiftool
         #region Write
         public void Write(ExiftoolData exifToolOldValue, ExiftoolData exifToolNewValue, string warning)
         {
-            Mono.Data.Sqlite.SqliteTransaction sqlTransaction;
+            int resultRowsAffected = 1;
+            Mono.Data.Sqlite.SqliteTransaction sqlTransaction = null;
             do
             {
+                #region If failed to updated data, delete and retry
+                if (resultRowsAffected == -1)
+                {
+                    Logger.Error("Delete MediaExiftoolTagsWarning data due to previous application crash for file: " + exifToolNewValue.FullFilePath);
+
+                    try
+                    {
+                        dbTools.TransactionRollback(sqlTransaction);
+                    }
+                    catch { }
+
+                    //Delete all extries due to crash.
+                    DeleteFileEntryFromMediaExiftoolTagsWarning(new FileEntry(exifToolNewValue.FileDirectory, exifToolNewValue.FileName, exifToolNewValue.FileDateModified));
+                }
+                #endregion
+
                 sqlTransaction = dbTools.TransactionBegin();
 
                 #region SELECT Warning FROM MediaExiftoolTagsWarning
@@ -132,46 +149,40 @@ namespace Exiftool
                         commandDatabase.Parameters.AddWithValue("@OldCommand", exifToolOldValue.Command);
                         commandDatabase.Parameters.AddWithValue("@NewRegion", exifToolNewValue.Region);
                         commandDatabase.Parameters.AddWithValue("@NewCommand", exifToolNewValue.Command);
-                        commandDatabase.ExecuteNonQuery();
+                        resultRowsAffected = commandDatabase.ExecuteNonQuery();
                     }
                 }
                 #endregion
 
                 #region INSERT INTO MediaExiftoolTagsWarning 
-                string sqlCommand =
+                if (resultRowsAffected != -1)
+                {
+                    string sqlCommand =
                     "INSERT INTO MediaExiftoolTagsWarning (FileDirectory, FileName, FileDateModified, OldRegion, OldCommand, OldParameter, NewRegion, NewCommand, NewParameter, Warning) " +
                     "Values (@FileDirectory, @FileName, @FileDateModified, @OldRegion, @OldCommand, @OldParameter, @NewRegion, @NewCommand, @NewParameter, @Warning)";
 
-                using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
-                {
-                    //commandDatabase.Prepare();
-                    commandDatabase.Parameters.AddWithValue("@FileDirectory", exifToolNewValue.FileDirectory);
-                    commandDatabase.Parameters.AddWithValue("@FileName", exifToolNewValue.FileName);
-                    commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(exifToolNewValue.FileDateModified));
-                    commandDatabase.Parameters.AddWithValue("@OldRegion", exifToolOldValue.Region);
-                    commandDatabase.Parameters.AddWithValue("@OldCommand", exifToolOldValue.Command);
-                    commandDatabase.Parameters.AddWithValue("@OldParameter", exifToolOldValue.Parameter);
-                    commandDatabase.Parameters.AddWithValue("@NewRegion", exifToolNewValue.Region);
-                    commandDatabase.Parameters.AddWithValue("@NewCommand", exifToolNewValue.Command);
-                    commandDatabase.Parameters.AddWithValue("@NewParameter", exifToolNewValue.Parameter);
-                    commandDatabase.Parameters.AddWithValue("@Warning", warning);
-
-                    //commandDatabase.ExecuteNonQuery();      // Execute the query
-                    if (commandDatabase.ExecuteNonQuery() == -1)
+                    using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransaction))
                     {
-                        Logger.Error("Delete MediaExiftoolTagsWarning data due to previous application crash for file: " + exifToolNewValue.FullFilePath);
+                        //commandDatabase.Prepare();
+                        commandDatabase.Parameters.AddWithValue("@FileDirectory", exifToolNewValue.FileDirectory);
+                        commandDatabase.Parameters.AddWithValue("@FileName", exifToolNewValue.FileName);
+                        commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(exifToolNewValue.FileDateModified));
+                        commandDatabase.Parameters.AddWithValue("@OldRegion", exifToolOldValue.Region);
+                        commandDatabase.Parameters.AddWithValue("@OldCommand", exifToolOldValue.Command);
+                        commandDatabase.Parameters.AddWithValue("@OldParameter", exifToolOldValue.Parameter);
+                        commandDatabase.Parameters.AddWithValue("@NewRegion", exifToolNewValue.Region);
+                        commandDatabase.Parameters.AddWithValue("@NewCommand", exifToolNewValue.Command);
+                        commandDatabase.Parameters.AddWithValue("@NewParameter", exifToolNewValue.Parameter);
+                        commandDatabase.Parameters.AddWithValue("@Warning", warning);
 
-                        dbTools.TransactionRollback(sqlTransaction);
-                        //Delete all extries due to crash.
-                        DeleteFileEntryFromMediaExiftoolTagsWarning(new FileEntry(exifToolNewValue.FileDirectory, exifToolNewValue.FileName, exifToolNewValue.FileDateModified));
+                        resultRowsAffected = commandDatabase.ExecuteNonQuery();
 
-                        sqlTransaction = dbTools.TransactionBegin();
-                        commandDatabase.ExecuteNonQuery();
+
                     }
                 }
                 #endregion
 
-            } while (!dbTools.TransactionCommit(sqlTransaction));
+            } while (resultRowsAffected == -1 || !dbTools.TransactionCommit(sqlTransaction));
         }
         #endregion
 

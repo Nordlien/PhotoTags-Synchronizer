@@ -1796,14 +1796,28 @@ namespace PhotoTagsSynchronizer
                                                             metadata?.MediaDateTaken < DateTime.Now &&
                                                             Math.Abs(((DateTime)dateTakenWithOffset.Value.ToUniversalTime() - (DateTime)metadata?.FileDateCreated.Value.ToUniversalTime()).TotalSeconds) > writeCreatedDateAndTimeAttributeTimeIntervalAccepted) //No need to change
                                                         {
-                                                            try
+                                                            #region SetCreationTime and retry if locked
+                                                            int retrySetCreationTime = 3;
+                                                            do
                                                             {
-                                                                File.SetCreationTime(metadata.FileFullPath, (DateTime)dateTakenWithOffset);
-                                                            }
-                                                            catch (Exception ex)
-                                                            {
-                                                                Logger.Error(ex, "File.SetCreationTime failed...");
-                                                            }
+                                                                try
+                                                                {
+                                                                    File.SetCreationTime(metadata.FileFullPath, (DateTime)dateTakenWithOffset);
+                                                                    retrySetCreationTime = 0;
+                                                                }
+                                                                catch (Exception ex)
+                                                                {
+                                                                    Logger.Error(ex, "File.SetCreationTime failed...");
+                                                                    FileStatus fileStatus = FileHandler.GetFileStatus(metadata.FileFullPath, checkLockedStatus: true);
+                                                                    if (fileStatus.IsFileLockedReadAndWrite)
+                                                                    {
+                                                                        Thread.Sleep(1000);
+                                                                        retrySetCreationTime--;
+                                                                    }
+                                                                    else retrySetCreationTime = 0;
+                                                                }
+                                                            } while (retrySetCreationTime > 0);
+                                                            #endregion
                                                         }
                                                     }
                                                     else

@@ -3154,8 +3154,6 @@ namespace DataGridViewGeneric
 
         #endregion
 
-         
-
         #region Cell Paint handling
         private const int roundedRadius = 8;
 

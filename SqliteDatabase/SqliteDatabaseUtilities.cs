@@ -84,7 +84,7 @@ namespace SqliteDatabase
             }
             catch (Exception ex)
             {
-                Logger.Warn(ex + "\r\nLast knwon command: " + LastKnownCommand);
+                Logger.Warn(ex + "\r\nLast known command: " + LastKnownCommand);
                 //throw new Exception(ex + "\r\nLast knwon command: " + LastKnownCommand);
                 return false;
             }
@@ -129,7 +129,7 @@ namespace SqliteDatabase
             }
             catch (Exception ex)
             {
-                Logger.Warn(ex + "\r\nLast knwon command: " + LastKnownCommand);
+                Logger.Warn(ex + "\r\nLast known command: " + LastKnownCommand);
                 //throw new Exception(ex + "\r\nLast knwon command: " + LastKnownCommand);
                 return false;
             }
@@ -150,8 +150,8 @@ namespace SqliteDatabase
                 if (sqliteTransaction != null) sqliteTransaction.Rollback();
             } catch (Exception ex)
             {
-                Logger.Warn(ex + "\r\nLast knwon command: " + LastKnownCommand);
-                throw new Exception(ex + "\r\nLast knwon command: " + LastKnownCommand);
+                Logger.Warn(ex + "\r\nLast known command: " + LastKnownCommand);
+                //throw new Exception(ex + "\r\nLast knwon command: " + LastKnownCommand);
             }
         }
         #endregion

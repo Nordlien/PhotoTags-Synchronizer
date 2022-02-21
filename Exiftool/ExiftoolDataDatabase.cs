@@ -72,13 +72,23 @@ namespace Exiftool
         #endregion
 
         #region Write
-        public bool Write(ExiftoolData exifToolData)
+        public void Write(ExiftoolData exifToolData)
         {
-            bool success = false;
-            Mono.Data.Sqlite.SqliteTransaction sqlTransaction;
+            int resultRowsAffected = 1;
+            Mono.Data.Sqlite.SqliteTransaction sqlTransaction = null;
             do
             {
+                #region If failed to updated data, delete and retry
+                if (resultRowsAffected == -1)
+                {
+                    Logger.Error("Delete MediaExiftoolTags data due to previous application crash for file: " + exifToolData.FullFilePath);
+                    dbTools.TransactionRollback(sqlTransaction);
+                    DeleteFileEntryMediaExiftoolTags(new FileEntry(exifToolData.FileDirectory, exifToolData.FileName, exifToolData.FileDateModified));
+                }   
+                #endregion
+
                 sqlTransaction = dbTools.TransactionBegin();
+
                 #region INSERT INTO MediaExiftoolTags
                 string sqlCommand =
                     "INSERT INTO MediaExiftoolTags (FileDirectory, FileName, FileDateModified, Region, Command, Parameter) " +
@@ -93,20 +103,11 @@ namespace Exiftool
                     commandDatabase.Parameters.AddWithValue("@Command", exifToolData.Command);
                     commandDatabase.Parameters.AddWithValue("@Parameter", exifToolData.Parameter);
 
-                    if (commandDatabase.ExecuteNonQuery() != -1) success = true;
-                    if (!success)
-                    {
-                        Logger.Error("Delete MediaExiftoolTags data due to previous application crash for file: " + exifToolData.FullFilePath);
-                        dbTools.TransactionRollback(sqlTransaction);
-                        //Delete all extries due to crash.
-                        DeleteFileEntryMediaExiftoolTags(new FileEntry(exifToolData.FileDirectory, exifToolData.FileName, exifToolData.FileDateModified));
-                        sqlTransaction = dbTools.TransactionBegin();
-                        commandDatabase.ExecuteNonQuery();
-                    }   // Execute the query
+                    resultRowsAffected = commandDatabase.ExecuteNonQuery();
                 }
                 #endregion
-            } while (!dbTools.TransactionCommit(sqlTransaction));
-            return success;
+
+            } while (resultRowsAffected == -1 || !dbTools.TransactionCommit(sqlTransaction));
         }
         #endregion
 
