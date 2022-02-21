@@ -486,8 +486,10 @@ riff=UTF8
 {PersonalKeywordItemsAdd}
 -Categories={PersonalKeywordsXML}
 -XPKeywords={PersonalKeywordsList}
-{FileFullPath}
--execute</Value>
+{IfFilePathChanged}-Filename={FileFullPath}
+{OriginalFileFullPath}
+-execute
+</Value>
     </Setting>
     <Setting Name="WriteMetadataKeywordAdd" Type="System.String" Scope="User">
       <Value Profile="(Default)">-Keywords={KeywordItem}

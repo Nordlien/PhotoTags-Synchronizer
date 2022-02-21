@@ -12,7 +12,7 @@ namespace PhotoTagsSynchronizer.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.1.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.2.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -425,7 +425,8 @@ namespace PhotoTagsSynchronizer.Properties {
             "XMP-microsoft:LastKeywordXMP=\r\n-XMP:XMP-microsoft:LastKeywordIPTC=\r\n-XMP:XMP-dig" +
             "iKam:TagsList=\r\n-IPTC:CatalogSets=\r\n-IPTC:Keywords=\r\n-XMP:XMP-dc:Subject=\r\n{Pers" +
             "onalKeywordItemsAdd}\r\n-Categories={PersonalKeywordsXML}\r\n-XPKeywords={PersonalKe" +
-            "ywordsList}\r\n{FileFullPath}\r\n-execute")]
+            "ywordsList}\r\n{IfFilePathChanged}-Filename={FileFullPath}\r\n{OriginalFileFullPath}" +
+            "\r\n-execute\r\n")]
         public string WriteMetadataTags {
             get {
                 return ((string)(this["WriteMetadataTags"]));
@@ -2746,9 +2747,9 @@ explorer ms-photos?filename=""{FileFullPath}""")]
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("-GPS-")]
-        public string MicosoftOneDriveLocationHackPostfix {
+        public string MicosoftOneDriveLocationHackPrefix {
             get {
-                return ((string)(this["MicosoftOneDriveLocationHackPostfix"]));
+                return ((string)(this["MicosoftOneDriveLocationHackPrefix"]));
             }
             set {
                 this["MicosoftOneDriveLocationHackPrefix"] = value;

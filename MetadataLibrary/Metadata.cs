@@ -473,6 +473,7 @@ namespace MetadataLibrary
                 if (fileDirectory == null || FileName == null)
                 {
                     //DEBUG
+                    return null;
                 }
                 return Path.Combine(fileDirectory, FileName); 
             }

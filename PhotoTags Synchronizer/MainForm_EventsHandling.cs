@@ -5878,6 +5878,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region MicrosoftLocationHack
         private void MicrosoftLocationHack(ref Metadata metadataToSave, Metadata metadataListOriginal, bool useMicrosoftLocationHack, string filenamePostfix)
         {
             if (useMicrosoftLocationHack)
@@ -5936,6 +5937,7 @@ namespace PhotoTagsSynchronizer
                 }
             }
         }
+        #endregion
 
         #region Save - SaveDataGridViewMetadata
         private void SaveDataGridViewMetadata(bool useAutoCorrect)
@@ -8931,7 +8933,7 @@ namespace PhotoTagsSynchronizer
                                 if (Properties.Settings.Default.WriteAutoKeywordsSynonyms) AutoKeywords(ref metadataToSave);
                                 if (Properties.Settings.Default.WriteUsingCompatibilityCheck) AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave, fixDateTaken: false);
                                 DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
-                                AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
+                                AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(metadataInCache));
                                 AddQueueRenameMediaFilesLock(item.FileFullPath, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
                             }
                         }
@@ -8990,7 +8992,7 @@ namespace PhotoTagsSynchronizer
                                 if (Properties.Settings.Default.WriteAutoKeywordsSynonyms) AutoKeywords(ref metadataToSave);
                                 if (Properties.Settings.Default.WriteUsingCompatibilityCheck) AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave, fixDateTaken: false);
                                 DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
-                                AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
+                                AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(metadataInCache));
                                 AddQueueRenameMediaFilesLock(file.Path, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
                             }
                         }
@@ -9238,7 +9240,7 @@ namespace PhotoTagsSynchronizer
                                     if (Properties.Settings.Default.WriteAutoKeywordsSynonyms) AutoKeywords(ref metadataToSave);
                                     if (Properties.Settings.Default.WriteUsingCompatibilityCheck) AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave, fixDateTaken: false);
                                     DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
-                                    AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
+                                    AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(metadataInCache));
                                     AddQueueRenameMediaFilesLock(item.FileFullPath, autoCorrect.RenameVariable);
                                 }
                             }
@@ -9306,7 +9308,7 @@ namespace PhotoTagsSynchronizer
                                     AutoCorrectFormVaraibles.UseAutoCorrectFormData(ref metadataToSave, autoCorrectFormVaraibles);
                                     if (Properties.Settings.Default.WriteUsingCompatibilityCheck) AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave, fixDateTaken: false);
                                     DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
-                                    AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
+                                    AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(metadataInCache));
                                     AddQueueRenameMediaFilesLock(fileData.Path, autoCorrect.RenameVariable);
                                 }
                             }

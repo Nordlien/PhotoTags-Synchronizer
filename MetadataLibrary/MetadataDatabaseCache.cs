@@ -2803,20 +2803,20 @@ namespace MetadataLibrary
                 string sqlCommand =
                 "SELECT Name, Count(1) AS CountNames FROM MediaPersonalRegions WHERE Broker = @Broker GROUP BY Name";
 
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
-            {
-                //commandDatabase.Prepare();
-                commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
-
-                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
                 {
-                    while (reader.Read())
+                    //commandDatabase.Prepare();
+                    commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
+
+                    using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                     {
-                        string name = dbTools.ConvertFromDBValString(reader["Name"]);
-                        metadataRegionNameCountDictionary.Add(new StringNullable(name), (int)dbTools.ConvertFromDBValInt(reader["CountNames"]));
+                        while (reader.Read())
+                        {
+                            string name = dbTools.ConvertFromDBValString(reader["Name"]);
+                            metadataRegionNameCountDictionary.Add(new StringNullable(name), (int)dbTools.ConvertFromDBValInt(reader["CountNames"]));
+                        }
                     }
                 }
-            }
                 #endregion
 
             } while (!dbTools.TransactionCommitSelect(sqlTransactionSelect));
