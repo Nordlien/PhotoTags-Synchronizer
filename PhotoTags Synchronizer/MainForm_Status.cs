@@ -108,7 +108,7 @@ namespace PhotoTagsSynchronizer
                 DateTime? lastWriteTime = null;
                 try
                 {
-                    if (File.Exists(fullFileName)) lastWriteTime = File.GetLastWriteTime(fullFileName);
+                    if (File.Exists(fullFileName)) lastWriteTime = FileHandler.GetLastWriteTime(fullFileName);
                 } catch { }                
                 fileTasks[fullFileName].Add("  " + modifiedDate.ToString() + " vs. " + (lastWriteTime == modifiedDate ? "" : (lastWriteTime == null ? "File not exists or can't read last access time" : lastWriteTime.ToString())));                
             } 

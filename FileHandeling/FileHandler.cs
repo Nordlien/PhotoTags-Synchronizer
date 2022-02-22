@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -18,6 +19,29 @@ namespace FileHandeling
         public static int WaitFileGetUnlockedTimeout { get; set; } = 1000;
         public static int WaitTimeBetweenCheckFileIsUnlocked { get; set; } = 500;
         public static int WaitNumberOfRetryBeforeShowMessage { get; set; } = 3;
+
+        public static DateTime GetCreationTime(string fullFileName)
+        {
+            DateTime currentCreationTime = File.GetLastAccessTime(fullFileName);
+            if (currentCreationTime < new DateTime(1700, 1, 1, 1, 1, 1))
+            {
+                Thread.Sleep(1000);
+                currentCreationTime = File.GetLastAccessTime(fullFileName);
+                //DEBUG
+            }
+            return currentCreationTime;
+        }
+        public static DateTime GetLastWriteTime(string fullFileName)
+        {
+            DateTime currentLastWrittenDateTime = File.GetLastAccessTime(fullFileName);
+            if (currentLastWrittenDateTime < new DateTime(1700, 1, 1, 1, 1, 1))
+            {
+                Thread.Sleep(1000);
+                currentLastWrittenDateTime = File.GetLastAccessTime(fullFileName);
+                //DEBUG
+            }
+            return currentLastWrittenDateTime;
+        }
 
         #region GetFileStatusText
         public static string GetFileStatusText(string fullFileName,
@@ -129,7 +153,7 @@ namespace FileHandeling
                 catch { }
                 try
                 {
-                    status = status + "\r\nLast Write Time: " + File.GetLastWriteTime(fullFileName).ToString();
+                    status = status + "\r\nLast Write Time: " + FileHandler.GetLastWriteTime(fullFileName).ToString();
                 }
                 catch { }
             }

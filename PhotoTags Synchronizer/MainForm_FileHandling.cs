@@ -128,7 +128,7 @@ namespace PhotoTagsSynchronizer
                         DateTime dateTimeLastWriteTime = DateTime.Now;
                         try
                         {
-                            dateTimeLastWriteTime = File.GetLastWriteTime(sourceFullFilename);
+                            dateTimeLastWriteTime = FileHandler.GetLastWriteTime(sourceFullFilename);
                         }
                         catch { }
 
@@ -230,7 +230,7 @@ namespace PhotoTagsSynchronizer
                             DateTime dateTimeLastWriteTime = DateTime.Now;
                             try
                             {
-                                dateTimeLastWriteTime = File.GetLastWriteTime(sourceFullFilename);
+                                dateTimeLastWriteTime = FileHandler.GetLastWriteTime(sourceFullFilename);
                             }
                             catch { }
 
@@ -374,7 +374,7 @@ namespace PhotoTagsSynchronizer
                         DateTime dateTimeLastWriteTime = DateTime.Now;
                         try
                         {
-                            dateTimeLastWriteTime = File.GetLastWriteTime(sourceFullFilename);
+                            dateTimeLastWriteTime = FileHandler.GetLastWriteTime(sourceFullFilename);
                         }
                         catch { }
 
@@ -451,7 +451,7 @@ namespace PhotoTagsSynchronizer
                         DateTime dateTimeLastWriteTime = DateTime.Now;
                         try
                         {
-                            dateTimeLastWriteTime = File.GetLastWriteTime(sourceFileData.Path);
+                            dateTimeLastWriteTime = FileHandler.GetLastWriteTime(sourceFileData.Path);
                         }
                         catch { }
 

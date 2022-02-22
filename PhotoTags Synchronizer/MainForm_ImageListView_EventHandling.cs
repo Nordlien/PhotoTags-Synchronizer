@@ -253,7 +253,7 @@ namespace PhotoTagsSynchronizer
             if (DoNotTrigger_ImageListView_ItemUpdate()) return;
             if (imageListView1.IsDisposed) return;
 
-            FileEntryBroker fileEntryBroker = new FileEntryBroker(e.FileName, File.GetLastWriteTime(e.FileName), MetadataBrokerType.ExifTool);
+            FileEntryBroker fileEntryBroker = new FileEntryBroker(e.FileName, FileHandler.GetLastWriteTime(e.FileName), MetadataBrokerType.ExifTool);
             Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBroker);
 
             //PS. Note: Make sure that the RetrieveItemMetadataDetails don't go in endless loop. Read data, flags as still dirty, read again, etc..
@@ -283,8 +283,8 @@ namespace PhotoTagsSynchronizer
 
                     if (fileStatus.FileExists)
                     {
-                        try { e.FileMetadata.FileDateCreated = File.GetCreationTime(e.FileName); } catch { }
-                        try { e.FileMetadata.FileDateModified = File.GetLastWriteTime(e.FileName); } catch { }
+                        try { e.FileMetadata.FileDateCreated = FileHandler.GetCreationTime(e.FileName); } catch { }
+                        try { e.FileMetadata.FileDateModified = FileHandler.GetLastWriteTime(e.FileName); } catch { }
                         try
                         {
                             DateTime? fileSmartDate = fileDateTimeReader.SmartDateTime(e.FileName, e.FileMetadata.FileDateCreated, e.FileMetadata.FileDateModified);
@@ -399,7 +399,7 @@ namespace PhotoTagsSynchronizer
                 FileStatus fileStatus = FileHandler.GetFileStatus(e.FileName);
                 if (fileStatus.FileExists)
                 {
-                    FileEntry fileEntry = new FileEntry(e.FileName, File.GetLastWriteTime(e.FileName)); //Get last Write Time of Media file
+                    FileEntry fileEntry = new FileEntry(e.FileName, FileHandler.GetLastWriteTime(e.FileName)); //Get last Write Time of Media file
 
                     bool dontReadFileFromCloud = Properties.Settings.Default.AvoidOfflineMediaFiles;
                     try
@@ -1233,7 +1233,7 @@ namespace PhotoTagsSynchronizer
                         DateTime dateTimeLastWriteTime = DateTime.Now;
                         try
                         {
-                            dateTimeLastWriteTime = File.GetLastWriteTime(filename);
+                            dateTimeLastWriteTime = FileHandler.GetLastWriteTime(filename);
                         }
                         catch { }
 

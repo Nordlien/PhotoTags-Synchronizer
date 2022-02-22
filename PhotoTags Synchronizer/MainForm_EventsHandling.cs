@@ -8731,7 +8731,7 @@ namespace PhotoTagsSynchronizer
                             {
                                 Logger.Warn("Metadata was not loaded for file, check if file is only in cloud:" + fileEntry.FileFullPath);
                             }
-                            metadataListEmpty.Add(new Metadata(MetadataBrokerType.Empty));
+                            metadataListEmpty.Add(new Metadata(metadataInCache));
                         }
                     }
 
@@ -8972,7 +8972,7 @@ namespace PhotoTagsSynchronizer
                     IEnumerable<FileData> fileDatas = ImageAndMovieFileExtentionsUtility.GetFilesByEnumerableFast(selectedFolder, false);
                     foreach (FileData file in fileDatas)
                     {
-                        FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(file.Path, File.GetLastWriteTime(file.Path), MetadataBrokerType.ExifTool);
+                        FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(file.Path, FileHandler.GetLastWriteTime(file.Path), MetadataBrokerType.ExifTool);
                         Metadata metadataInCache = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftool);
                         if (metadataInCache != null)
                         {
@@ -9285,7 +9285,7 @@ namespace PhotoTagsSynchronizer
                         IEnumerable<FileData> fileDatas = ImageAndMovieFileExtentionsUtility.GetFilesByEnumerableFast(selectedFolder, false);
                         foreach (FileData fileData in fileDatas)
                         {
-                            FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(fileData.Path, File.GetLastWriteTime(fileData.Path), MetadataBrokerType.ExifTool);
+                            FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(fileData.Path, FileHandler.GetLastWriteTime(fileData.Path), MetadataBrokerType.ExifTool);
                             Metadata metadataInCache = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftool);
                             if (metadataInCache != null)
                             {

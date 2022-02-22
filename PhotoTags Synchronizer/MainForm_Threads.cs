@@ -544,7 +544,8 @@ namespace PhotoTagsSynchronizer
             {
                 List<FileEntryAttribute> fileEntryAttributeDateVersions =
                     databaseAndCacheMetadataExiftool.ListFileEntryAttributesCache(MetadataBrokerType.ExifTool,
-                    fileEntry.FileFullPath, File.GetLastWriteTime(fileEntry.FileFullPath));
+                    fileEntry.FileFullPath, FileHandler.GetLastWriteTime(fileEntry.FileFullPath));
+
                 lazyLoadingAllExiftoolVersionOfMediaFile.AddRange(fileEntryAttributeDateVersions);
 
                 FileStatus fileStaus = FileHandler.GetFileStatus(fileEntry.FileFullPath,
@@ -1311,8 +1312,7 @@ namespace PhotoTagsSynchronizer
 
                                         if (argumnetLength > maxParameterCommandLength) range--;
                                         useExiftoolOnThisSubsetOfFiles = new List<string>();
-                                        if (range > 100)
-                                            range = 100;
+                                        if (range > 100) range = 100;
                                         for (int index = 0; index < range; index++)
                                             useExiftoolOnThisSubsetOfFiles.Add(exiftool_MediaFilesNotInDatabase[index].FileFullPath);
                                     }
@@ -1326,6 +1326,7 @@ namespace PhotoTagsSynchronizer
                                     try
                                     {
                                         if (argumnetLength < maxParameterCommandLength) useArgFile = false;
+
                                         #region Update ImageListView Exiftool - process status
                                         foreach (string fullFilename in useExiftoolOnThisSubsetOfFiles)
                                         {
@@ -1333,6 +1334,7 @@ namespace PhotoTagsSynchronizer
                                             ImageListView_UpdateItemFileStatusInvoke(fullFilename, fileStatus);
                                         }
                                         #endregion
+                                        
                                         exiftoolReader.Read(MetadataBrokerType.ExifTool, useExiftoolOnThisSubsetOfFiles, 
                                             out metadataReadFromExiftool,
                                             out exiftoolErrorMessageOnFiles, out lastKownExiftoolGenericErrorMessage,
@@ -1346,12 +1348,12 @@ namespace PhotoTagsSynchronizer
                                     }
                                     #endregion
 
-                                    #region NOT READ CHECK - Check if all files are read by Exiftool - Check against - metadataReadFromExiftool - if not read, no need to verify
+                                    #region CHECK IF READ OR NOT - Check if all files are read by Exiftool - Check against - metadataReadFromExiftool - if not read, no need to verify
                                     try
                                     {                                        
                                         foreach (string fullFilePath in useExiftoolOnThisSubsetOfFiles)
                                         {
-                                            #region File put for Read, failed to be Read
+                                            #region Check if Files added for Read, but failed to be Read
                                             if (!Metadata.IsFullFilenameInList(metadataReadFromExiftool, fullFilePath))
                                             {
                                                 #region FileStatus - Find Error Message for file or use Genral Exiftool error
@@ -1448,6 +1450,16 @@ namespace PhotoTagsSynchronizer
                                                 }
                                                 #endregion
                                             }
+                                            #endregion
+
+                                            #region Check if still missing data in Database, if yes, read again
+                                            FileEntry fileEntry = new FileEntry(fullFilePath, File.GetLastAccessTime(fullFilePath));
+                                            Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
+                                            if (metadata == null)
+                                            {
+                                                metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool | MetadataBrokerType.ExifToolWriteError));
+                                                if (metadata == null) AddQueueReadFromSourceExiftoolLock(fileEntry);
+                                            }
                                             #endregion 
                                         }
                                     }
@@ -1510,7 +1522,6 @@ namespace PhotoTagsSynchronizer
                                                 {
                                                     fileStatus.FileInaccessibleOrError = true;
                                                     fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.FileInaccessibleOrError;
-                                                    
                                                 }
                                                 else 
                                                     fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.WaitAction;
@@ -1861,11 +1872,7 @@ namespace PhotoTagsSynchronizer
                                             #endregion
 
                                             #region Check if - Write using Exiftool failed?
-                                            DateTime currentLastWrittenDateTime = File.GetLastWriteTime(fileSuposeToBeUpdated.FileFullPath);
-                                            if (currentLastWrittenDateTime < new DateTime(1700, 1, 1, 1,1,1))
-                                            {
-                                                //DEBUG
-                                            }
+                                            DateTime currentLastWrittenDateTime = FileHandler.GetLastWriteTime(fileSuposeToBeUpdated.FileFullPath);
                                             DateTime previousLastWrittenDateTime = (DateTime)fileSuposeToBeUpdated.LastWriteDateTime;
 
                                             //Find last known writtenDate for file
@@ -2353,7 +2360,7 @@ namespace PhotoTagsSynchronizer
                                                             fileExists = true;
 
                                                             if (current_FileEntryBrokerRegion.Broker == MetadataBrokerType.WebScraping || //If source WebScraper, date and time will not match                                                        
-                                                                File.GetLastWriteTime(current_FileEntryBrokerRegion.FileFullPath) == current_FileEntryBrokerRegion.LastWriteDateTime) //Check if the current Metadata are same as newest file 
+                                                                FileHandler.GetLastWriteTime(current_FileEntryBrokerRegion.FileFullPath) == current_FileEntryBrokerRegion.LastWriteDateTime) //Check if the current Metadata are same as newest file 
                                                                 fileHasCorrectDate = true;
                                                             else 
                                                                 fileHasCorrectDate = false;
@@ -2364,7 +2371,7 @@ namespace PhotoTagsSynchronizer
                                                             fileHasCorrectDate = false;
                                                         }
 
-                                                        if (fileExists && fileHasCorrectDate)
+                                                        if (fileExists)
                                                         {
                                                             #region Is Only Full size Thumbnails
                                                             bool isFullSizeThumbnail = true;
@@ -2487,6 +2494,28 @@ namespace PhotoTagsSynchronizer
                                                                         writeErrorDesciption);
                                                                 }
                                                                 #endregion
+                                                            } else 
+                                                            {
+                                                                #region Log warning about wrong file date
+                                                                if (!fileHasCorrectDate)
+                                                                {
+                                                                    FileStatus fileStatus = FileHandler.GetFileStatus(
+                                                                    current_FileEntryBrokerRegion.FileFullPath, checkLockedStatus: true,
+                                                                    fileInaccessibleOrError: true);
+
+                                                                    fileStatus.FileErrorMessage +=
+                                                                        "File date has changed. Need create thumbnail for different date. Requested: " +
+                                                                        current_FileEntryBrokerRegion.LastWriteDateTime.ToString() + " vs. File date: " +
+                                                                        FileHandler.GetLastWriteTime(current_FileEntryBrokerRegion.FileFullPath);
+
+                                                                    string errorDesciption =
+                                                                        "Issue: Issue while create thumbnails for regions.\r\n" +
+                                                                        "File Name: " + current_FileEntryBrokerRegion.FileFullPath + "\r\n" +
+                                                                        "File Status: " + FileHandler.ConvertFileStatusToText(fileStatus) + "\r\n" +
+                                                                        "Error Message: " + fileStatus.FileErrorMessage;
+                                                                    Logger.Warn(errorDesciption);
+                                                                }
+                                                                #endregion
                                                             }
                                                             #endregion
                                                         }
@@ -2497,31 +2526,17 @@ namespace PhotoTagsSynchronizer
                                                             FileStatus fileStatus = FileHandler.GetFileStatus(
                                                                     current_FileEntryBrokerRegion.FileFullPath, checkLockedStatus: true,
                                                                     fileInaccessibleOrError: true);
-                                                            if (!fileStatus.FileExists) fileStatus.FileErrorMessage = "File not found.";
-                                                            if (!fileHasCorrectDate) fileStatus.FileErrorMessage += 
-                                                                "File date has changed. Need create thumbnail for different date. Requested: " + 
-                                                                current_FileEntryBrokerRegion.LastWriteDateTime.ToString() + " vs. File date: " +
-                                                                File.GetLastWriteTime(current_FileEntryBrokerRegion.FileFullPath);
-
-                                                            //if (fileStatus.FileInaccessibleOrError) fileStatus.FileErrorMessage = "Loading Media Poster failed.";
-                                                            ImageListView_UpdateItemFileStatusInvoke(current_FileEntryBrokerRegion.FileFullPath, fileStatus);
-
-                                                            #region Fallback on Low resolution
-                                                            if (image == null) image = databaseAndCacheThumbnailPoster.ReadThumbnailFromCacheOrDatabase(current_FileEntryBrokerRegion);
-                                                            if (image == null)
-                                                            {
-                                                                image = LoadMediaCoverArtThumbnail(current_FileEntryBrokerRegion.FileFullPath, ThumbnailSaveSize, fileStatus);
-                                                                if (image != null) fileStatus.FileErrorMessage += " Creating Poster Region Thumbnails for " + current_FileEntryBrokerRegion.Broker + " from Media file, with low resolution.";
-                                                            }
-                                                            #endregion
-
+                                                            fileStatus.FileErrorMessage = "File not found.";
+                                                            
                                                             string errorDesciption =
                                                                 "Issue: Issue while create thumbnails for regions.\r\n" +
                                                                 "File Name: " + current_FileEntryBrokerRegion.FileFullPath + "\r\n" +
                                                                 "File Status: " + FileHandler.ConvertFileStatusToText(fileStatus) + "\r\n" +
                                                                 "Error Message: " + fileStatus.FileErrorMessage;
 
-                                                            Logger.Error(errorDesciption);
+                                                            ImageListView_UpdateItemFileStatusInvoke(current_FileEntryBrokerRegion.FileFullPath, fileStatus);
+                                                            
+                                                            Logger.Warn(errorDesciption);
 
                                                             AddError(
                                                                 current_FileEntryBrokerRegion.Directory,
@@ -3167,8 +3182,13 @@ namespace PhotoTagsSynchronizer
                                 {
                                     if (!fileInUse)
                                     {
-                                        Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fullFilename, File.GetLastWriteTime(fullFilename), MetadataBrokerType.ExifTool));
-
+                                        DateTime currentLastWrittenDateTime = FileHandler.GetLastWriteTime(fullFilename);
+                                        if (currentLastWrittenDateTime < new DateTime(1700, 1, 1, 1, 1, 1))
+                                        {
+                                            //DEBUG
+                                        }
+                                        Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fullFilename, currentLastWrittenDateTime, MetadataBrokerType.ExifTool));
+                                        
                                         if (metadata != null)
                                         {
                                             DataGridViewHandlerRename.FileDateTimeFormats = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
@@ -3206,7 +3226,7 @@ namespace PhotoTagsSynchronizer
                                             Logger.Error(error);
 
                                             AddError(
-                                                Path.GetDirectoryName(fullFilename), Path.GetFileName(fullFilename), File.GetLastWriteTime(fullFilename),
+                                                Path.GetDirectoryName(fullFilename), Path.GetFileName(fullFilename), FileHandler.GetLastWriteTime(fullFilename),
                                                 AddErrorFileSystemRegion, AddErrorFileSystemMove, fullFilename, "New name is unknown (missing metadata)",
                                                 error);
                                         }

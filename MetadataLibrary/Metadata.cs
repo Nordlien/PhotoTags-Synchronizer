@@ -2176,7 +2176,8 @@ namespace MetadataLibrary
                     if (this.FileFullPath != metadata.FileFullPath) result = true;
                     break;
                 case "{IfFileNameChanged}":
-                    if (this.FileName != metadata.FileName) result = true;
+                    if (this.FileName != metadata.FileName) 
+                        result = true;
                     break;
                 case "{IfFileDirectoryChanged}":
                     if (this.FileDirectory != metadata.FileDirectory) result = true;

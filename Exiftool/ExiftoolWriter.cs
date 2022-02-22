@@ -126,7 +126,7 @@ namespace Exiftool
 
                             windowsPropertyWriter.Close();
 
-                            filesUpdatedByXtraAtom.Add(new FileEntry(metadataToWrite.FileFullPath, File.GetLastWriteTime(metadataToWrite.FileFullPath)));
+                            filesUpdatedByXtraAtom.Add(new FileEntry(metadataToWrite.FileFullPath, FileHandler.GetLastWriteTime(metadataToWrite.FileFullPath)));
                         }
                     }
                     catch (Exception ex)

@@ -2747,12 +2747,12 @@ explorer ms-photos?filename=""{FileFullPath}""")]
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("-GPS-")]
-        public string MicosoftOneDriveLocationHackPrefix {
+        public string MicosoftOneDriveLocationHackPostfix {
             get {
-                return ((string)(this["MicosoftOneDriveLocationHackPrefix"]));
+                return ((string)(this["MicosoftOneDriveLocationHackPostfix"]));
             }
             set {
-                this["MicosoftOneDriveLocationHackPrefix"] = value;
+                this["MicosoftOneDriveLocationHackPostfix"] = value;
             }
         }
     }

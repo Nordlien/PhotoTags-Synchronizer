@@ -1929,6 +1929,11 @@ namespace MetadataLibrary
         /// <returns></returns>
         public List<FileEntryAttribute> ListFileEntryAttributesCache(MetadataBrokerType broker, string fullFileName, DateTime currentLastWriteTime)
         {
+            if (currentLastWriteTime < new DateTime(1700, 1, 1, 1, 1, 1))
+            {
+                //DEBUG
+            }
+
             List<FileEntryAttribute> fileEntryAttributes = new List<FileEntryAttribute>();
             try
             {

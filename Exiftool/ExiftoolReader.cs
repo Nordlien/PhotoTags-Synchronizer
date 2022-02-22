@@ -646,7 +646,7 @@ namespace Exiftool
                     {
                         filesFound = true;
                         string shortFileName = NativeMethods.ShortFileName(file);
-                        Logger.Info("ReadMetadata: " + file + " " + shortFileName + " " + File.GetLastWriteTime(file).ToString());
+                        Logger.Info("ReadMetadata: " + file + " " + shortFileName + " " + FileHandler.GetLastWriteTime(file).ToString());
                         if (!string.IsNullOrWhiteSpace(shortFileName))
                         {
                             shortfilesNames.Add(shortFileName, file);
@@ -786,7 +786,7 @@ namespace Exiftool
 
                                 metadata.FileName = Path.GetFileName(longFilename);
                                 metadata.FileDirectory = Path.GetDirectoryName(longFilename);
-                                exiftoolDataFileDateModified = File.GetLastWriteTime(Path.Combine(metadata.FileDirectory, metadata.FileName));
+                                exiftoolDataFileDateModified = FileHandler.GetLastWriteTime(Path.Combine(metadata.FileDirectory, metadata.FileName));
                                 metadata.FileDateModified = exiftoolDataFileDateModified;
 
                                 if (metadata.Broker == MetadataBrokerType.Empty)
