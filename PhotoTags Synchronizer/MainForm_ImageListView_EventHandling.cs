@@ -90,7 +90,7 @@ namespace PhotoTagsSynchronizer
                     ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fileEntryAttribute.FileFullPath);
                     if (foundItem != null)
                     {
-                        if (foundItem.DateModified <= fileEntryAttribute.LastWriteDateTime)
+                        //if (foundItem.DateModified <= fileEntryAttribute.LastWriteDateTime)
                         {
                             Utility.ShellImageFileInfo fileMetadata = new Utility.ShellImageFileInfo();
                             ConvertMetadataToShellImageFileInfo(ref fileMetadata, metadata);
@@ -105,10 +105,10 @@ namespace PhotoTagsSynchronizer
                             foundItem.UpdateDetails(fileMetadata);
                             //foundItem.Invalidate();
                         }
-                        else
-                        {
-                            //DEBUG, Looks as this happen after two save fast after each other
-                        }
+                        //else
+                        //{
+                        //    //DEBUG, Looks as this happen after two save fast after each other
+                        //}
                         KeepTrackOfMetadataLoadedRemoveFromList(fileEntryAttribute.FileFullPath);
                     }
                 } else
@@ -253,9 +253,19 @@ namespace PhotoTagsSynchronizer
             if (DoNotTrigger_ImageListView_ItemUpdate()) return;
             if (imageListView1.IsDisposed) return;
 
-            FileEntryBroker fileEntryBroker = new FileEntryBroker(e.FileName, FileHandler.GetLastWriteTime(e.FileName), MetadataBrokerType.ExifTool);
-            Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBroker);
-
+            Metadata metadata;
+            FileEntryBroker fileEntryBroker;
+            if (File.Exists(e.FileName))
+            {
+                fileEntryBroker = new FileEntryBroker(e.FileName, FileHandler.GetLastWriteTime(e.FileName), MetadataBrokerType.ExifTool);
+                metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBroker);
+            }
+            else
+            {
+                fileEntryBroker = new FileEntryBroker(e.FileName, DateTime.MinValue, MetadataBrokerType.ExifTool);
+                metadata = null;
+            }
+            
             //PS. Note: Make sure that the RetrieveItemMetadataDetails don't go in endless loop. Read data, flags as still dirty, read again, etc..
             try
             {

@@ -1385,13 +1385,7 @@ namespace PhotoTagsSynchronizer
                                                         fileEntryMetadataNotRead = new FileEntry(exiftool_MediaFilesNotInDatabase[indexFileEntry]);
                                                     else
                                                     {
-                                                        try
-                                                        {
-                                                            fileEntryMetadataNotRead = new FileEntry(fullFilePath, File.GetLastAccessTime(fullFilePath));
-                                                        }
-                                                        catch {
-                                                            fileEntryMetadataNotRead = new FileEntry(fullFilePath, DateTime.Now);
-                                                        }
+                                                        fileEntryMetadataNotRead = new FileEntry(fullFilePath, FileHandler.GetLastWriteTime(fullFilePath));
                                                     }
                                                 }
                                                 #endregion
@@ -1453,7 +1447,7 @@ namespace PhotoTagsSynchronizer
                                             #endregion
 
                                             #region Check if still missing data in Database, if yes, read again
-                                            FileEntry fileEntry = new FileEntry(fullFilePath, File.GetLastAccessTime(fullFilePath));
+                                            FileEntry fileEntry = new FileEntry(fullFilePath, FileHandler.GetLastWriteTime(fullFilePath));
                                             Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
                                             if (metadata == null)
                                             {

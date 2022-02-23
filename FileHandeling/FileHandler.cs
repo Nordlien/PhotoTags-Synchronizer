@@ -17,31 +17,36 @@ namespace FileHandeling
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         public static int GetFileLockedStatusTimeout { get; set; } = 500;
         public static int WaitFileGetUnlockedTimeout { get; set; } = 1000;
-        public static int WaitTimeBetweenCheckFileIsUnlocked { get; set; } = 500;
-        public static int WaitNumberOfRetryBeforeShowMessage { get; set; } = 3;
+        //public static int WaitTimeBetweenCheckFileIsUnlocked { get; set; } = 500;
+        //public static int WaitNumberOfRetryBeforeShowMessage { get; set; } = 3;
 
+        #region GetCreationTime
         public static DateTime GetCreationTime(string fullFileName)
         {
-            DateTime currentCreationTime = File.GetLastAccessTime(fullFileName);
+            DateTime currentCreationTime = File.GetCreationTime(fullFileName);
             if (currentCreationTime < new DateTime(1700, 1, 1, 1, 1, 1))
             {
                 Thread.Sleep(1000);
-                currentCreationTime = File.GetLastAccessTime(fullFileName);
+                currentCreationTime = File.GetCreationTime(fullFileName);
                 //DEBUG
             }
             return currentCreationTime;
         }
+        #endregion
+
+        #region GetLastWriteTime
         public static DateTime GetLastWriteTime(string fullFileName)
         {
-            DateTime currentLastWrittenDateTime = File.GetLastAccessTime(fullFileName);
+            DateTime currentLastWrittenDateTime = File.GetLastWriteTime(fullFileName);
             if (currentLastWrittenDateTime < new DateTime(1700, 1, 1, 1, 1, 1))
             {
                 Thread.Sleep(1000);
-                currentLastWrittenDateTime = File.GetLastAccessTime(fullFileName);
+                currentLastWrittenDateTime = File.GetLastWriteTime(fullFileName);
                 //DEBUG
             }
             return currentLastWrittenDateTime;
         }
+        #endregion
 
         #region GetFileStatusText
         public static string GetFileStatusText(string fullFileName,
