@@ -276,14 +276,14 @@ namespace TimeZone
         }
 
         #region Check DateTime Equal -accept one secound mismatch
-        public static bool IsDateTimeEqualWithinOneSecond(DateTime? c1, DateTime? c2)
+        public static bool IsDateTimeEqualWithinOneSecond(DateTime? c1, DateTime? c2, int numberOfSeconds = 1)
         {
             if (c1 == null && c2 == null) return true;
             if (c1 == null && c2 != null) return false;
             if (c1 != null && c2 == null) return false;
 
             TimeSpan t = ((DateTime)c1).Subtract((DateTime)c2);
-            if (System.Math.Abs(t.TotalSeconds) < 1)
+            if (System.Math.Abs(t.TotalSeconds) <= numberOfSeconds)
             {
                 return true;
             }

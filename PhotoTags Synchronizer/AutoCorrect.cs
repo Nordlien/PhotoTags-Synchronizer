@@ -991,22 +991,29 @@ namespace PhotoTagsSynchronizer
             #endregion
 
             #region Backup/TrackChanges In keywords
-            if (BackupFileCreatedBeforeUpdate && metadata?.FileDateCreated != null && metadata?.FileDateCreated != metadataCopy?.FileDateCreated)
+            int numberOfSecondsAccepted = 60;
+            if (BackupFileCreatedBeforeUpdate && metadata?.FileDateCreated != null && 
+                !TimeZoneLibrary.IsDateTimeEqualWithinOneSecond (metadata?.FileDateCreated, metadataCopy?.FileDateCreated, numberOfSecondsAccepted))
                 metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag("File created: " + TimeZoneLibrary.ToStringSortable(metadata?.FileDateCreated) + " before update"));
 
-            if (BackupDateTakenBeforeUpdate && metadata?.MediaDateTaken != null && metadata?.MediaDateTaken != metadataCopy?.MediaDateTaken)
+            if (BackupDateTakenBeforeUpdate && metadata?.MediaDateTaken != null &&
+                !TimeZoneLibrary.IsDateTimeEqualWithinOneSecond(metadata?.MediaDateTaken, metadataCopy?.MediaDateTaken, numberOfSecondsAccepted))
                 metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag("Media taken: " + TimeZoneLibrary.ToStringSortable(metadata?.MediaDateTaken) + " before update"));
 
-            if (BackupGPGDateTimeUTCBeforeUpdate && metadata?.LocationDateTime != null && metadata?.LocationDateTime != metadataCopy?.LocationDateTime)
+            if (BackupGPGDateTimeUTCBeforeUpdate && metadata?.LocationDateTime != null &&
+                !TimeZoneLibrary.IsDateTimeEqualWithinOneSecond(metadata?.LocationDateTime, metadataCopy?.LocationDateTime, numberOfSecondsAccepted))
                 metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag("UTC time: " + TimeZoneLibrary.ToStringW3CDTF_UTC(metadata?.LocationDateTime) + " before update"));
 
-            if (BackupFileCreatedAfterUpdate && metadataCopy?.FileDateCreated != null && metadata?.FileDateCreated != metadataCopy?.FileDateCreated)
+            if (BackupFileCreatedAfterUpdate && metadataCopy?.FileDateCreated != null &&
+                !TimeZoneLibrary.IsDateTimeEqualWithinOneSecond(metadata?.FileDateCreated, metadataCopy?.FileDateCreated, numberOfSecondsAccepted))
                 metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag("File created: " + TimeZoneLibrary.ToStringSortable(metadataCopy?.FileDateCreated) + " after update"));
 
-            if (BackupDateTakenAfterUpdate && metadataCopy?.MediaDateTaken != null && metadata?.MediaDateTaken != metadataCopy?.MediaDateTaken)
+            if (BackupDateTakenAfterUpdate && metadataCopy?.MediaDateTaken != null &&
+                !TimeZoneLibrary.IsDateTimeEqualWithinOneSecond(metadata?.MediaDateTaken, metadataCopy?.MediaDateTaken, numberOfSecondsAccepted))
                 metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag("Media taken: " + TimeZoneLibrary.ToStringSortable(metadataCopy?.MediaDateTaken) + " after update"));
 
-            if (BackupGPGDateTimeUTCAfterUpdate && metadataCopy?.LocationDateTime != null && metadata?.LocationDateTime != metadataCopy?.LocationDateTime)
+            if (BackupGPGDateTimeUTCAfterUpdate && metadataCopy?.LocationDateTime != null &&
+                !TimeZoneLibrary.IsDateTimeEqualWithinOneSecond(metadata?.LocationDateTime, metadataCopy?.LocationDateTime, numberOfSecondsAccepted))
                 metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag("UTC time: " + TimeZoneLibrary.ToStringW3CDTF_UTC(metadataCopy?.LocationDateTime) + " after update"));
             #endregion
 

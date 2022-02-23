@@ -91,7 +91,7 @@ namespace MetadataLibrary
             switch (fileEntryVersion)
             {
                 case FileEntryVersion.MetadataToSave:
-                    return "Save and Compatibility checked";
+                    return "Saving and Compatibility checked";
                 case FileEntryVersion.CompatibilityFixedAndAutoUpdated:
                     return "AutoCorrected";
                 case FileEntryVersion.CurrentVersionInDatabase:
