@@ -512,9 +512,9 @@ namespace PhotoTagsSynchronizer
             if (autoCorrect == null) autoCorrect = new AutoCorrect();
 
             //Set defaults
-            if (autoCorrect.DateTakenPriority == null) autoCorrect.DateTakenPriority = new List<DateTimeSources>();            
-            if (!autoCorrect.DateTakenPriority.Contains(DateTimeSources.DateTaken)) autoCorrect.DateTakenPriority.Add(DateTimeSources.DateTaken);
+            if (autoCorrect.DateTakenPriority == null) autoCorrect.DateTakenPriority = new List<DateTimeSources>();
             if (!autoCorrect.DateTakenPriority.Contains(DateTimeSources.GPSDateAndTime)) autoCorrect.DateTakenPriority.Add(DateTimeSources.GPSDateAndTime);
+            if (!autoCorrect.DateTakenPriority.Contains(DateTimeSources.DateTaken)) autoCorrect.DateTakenPriority.Add(DateTimeSources.DateTaken);
             if (!autoCorrect.DateTakenPriority.Contains(DateTimeSources.SmartDate)) autoCorrect.DateTakenPriority.Add(DateTimeSources.SmartDate);
             if (!autoCorrect.DateTakenPriority.Contains(DateTimeSources.FirstDateFoundInFilename)) autoCorrect.DateTakenPriority.Add(DateTimeSources.FirstDateFoundInFilename);
             if (!autoCorrect.DateTakenPriority.Contains(DateTimeSources.LastDateFoundInFilename)) autoCorrect.DateTakenPriority.Add(DateTimeSources.LastDateFoundInFilename);

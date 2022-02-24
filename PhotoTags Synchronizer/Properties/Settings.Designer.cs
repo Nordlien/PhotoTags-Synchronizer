@@ -1115,7 +1115,8 @@ explorer ms-photos?filename=""{FileFullPath}""")]
             "XMP-microsoft:LastKeywordXMP=\r\n-XMP:XMP-microsoft:LastKeywordIPTC=\r\n-XMP:XMP-dig" +
             "iKam:TagsList=\r\n-IPTC:CatalogSets=\r\n-IPTC:Keywords=\r\n-XMP:XMP-dc:Subject=\r\n{Pers" +
             "onalKeywordItemsAdd}\r\n-Categories={PersonalKeywordsXML}\r\n-XPKeywords={PersonalKe" +
-            "ywordsList}\r\n{FileFullPath}\r\n-execute")]
+            "ywordsList}\r\n{IfFilePathChanged}-Filename={FileFullPath}\r\n{OriginalFileFullPath}" +
+            "\r\n-execute")]
         public string RunArgumentBuildKeywordTags {
             get {
                 return ((string)(this["RunArgumentBuildKeywordTags"]));

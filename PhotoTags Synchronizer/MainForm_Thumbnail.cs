@@ -77,7 +77,7 @@ namespace PhotoTagsSynchronizer
             try
             {
                 int indexFound = -1;
-                FileEntry fileEntry = new FileEntry(fullFileName, FileHandler.GetLastWriteTime(fullFileName));
+                FileEntry fileEntry = new FileEntry(fullFileName, FileHandler.GetLastWriteTime(fullFileName, waitAndRetry: false));
 
                 lock (posterCacheLock)
                 {

@@ -791,7 +791,8 @@ riff=UTF8
 {PersonalKeywordItemsAdd}
 -Categories={PersonalKeywordsXML}
 -XPKeywords={PersonalKeywordsList}
-{FileFullPath}
+{IfFilePathChanged}-Filename={FileFullPath}
+{OriginalFileFullPath}
 -execute</Value>
     </Setting>
     <Setting Name="SuggestRegionNameNearByCount" Type="System.Int32" Scope="User">
