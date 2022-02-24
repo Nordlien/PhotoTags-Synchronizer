@@ -9,8 +9,6 @@ using NLog;
 using WindowsProperty;
 using ApplicationAssociations;
 using FileHandeling;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Threading;
 
 namespace Exiftool
@@ -49,7 +47,7 @@ namespace Exiftool
             string writeXtraAtomSubjectVariable, bool writeXtraAtomSubjectPicture, bool writeXtraAtomSubjectVideo,
             string writeXtraAtomSubtitleVariable, bool writeXtraAtomSubtitleVideo,
             string writeXtraAtomArtistVariable, bool writeXtraAtomArtistVideo,
-            out Dictionary<string, string> writeXtraAtomErrorMessageForFile, Form form)
+            out Dictionary<string, string> writeXtraAtomErrorMessageForFile)
 
         {
             Logger.Debug("WriteXtraAtom - started");

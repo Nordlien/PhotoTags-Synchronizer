@@ -8932,9 +8932,11 @@ namespace PhotoTagsSynchronizer
                             {
                                 if (Properties.Settings.Default.WriteAutoKeywordsSynonyms) AutoKeywords(ref metadataToSave);
                                 if (Properties.Settings.Default.WriteUsingCompatibilityCheck) AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave, fixDateTaken: false);
+                                
                                 DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
                                 AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(metadataInCache));
-                                AddQueueRenameMediaFilesLock(item.FileFullPath, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
+                                //Need use metadataToSave.FullFilePath, Because When Exiftool output filename can be diffrent to input filename
+                                AddQueueRenameMediaFilesLock(metadataToSave.FileFullPath, autoCorrect.RenameVariable);  
                             }
                         }
                     }
@@ -8993,7 +8995,8 @@ namespace PhotoTagsSynchronizer
                                 if (Properties.Settings.Default.WriteUsingCompatibilityCheck) AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave, fixDateTaken: false);
                                 DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
                                 AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(metadataInCache));
-                                AddQueueRenameMediaFilesLock(file.Path, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
+                                //Need use metadataToSave.FullFilePath, Because When Exiftool output filename can be diffrent to input filename
+                                AddQueueRenameMediaFilesLock(metadataToSave.FileFullPath, autoCorrect.RenameVariable); 
                             }
                         }
                     }
@@ -9241,7 +9244,8 @@ namespace PhotoTagsSynchronizer
                                     if (Properties.Settings.Default.WriteUsingCompatibilityCheck) AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave, fixDateTaken: false);
                                     DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
                                     AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(metadataInCache));
-                                    AddQueueRenameMediaFilesLock(item.FileFullPath, autoCorrect.RenameVariable);
+                                    //Need use metadataToSave.FullFilePath, Because When Exiftool output filename can be diffrent to input filename
+                                    AddQueueRenameMediaFilesLock(metadataToSave.FileFullPath, autoCorrect.RenameVariable);
                                 }
                             }
                         }
@@ -9309,7 +9313,8 @@ namespace PhotoTagsSynchronizer
                                     if (Properties.Settings.Default.WriteUsingCompatibilityCheck) AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave, fixDateTaken: false);
                                     DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
                                     AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(metadataInCache));
-                                    AddQueueRenameMediaFilesLock(fileData.Path, autoCorrect.RenameVariable);
+                                    //Need use metadataToSave.FullFilePath, Because When Exiftool output filename can be diffrent to input filename
+                                    AddQueueRenameMediaFilesLock(metadata.FileFullPath, autoCorrect.RenameVariable);
                                 }
                             }
                         }

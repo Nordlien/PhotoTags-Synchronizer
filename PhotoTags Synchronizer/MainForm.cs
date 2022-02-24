@@ -698,11 +698,11 @@ namespace PhotoTagsSynchronizer
         private bool isClosingProcesAlreadyStarted = false;
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (exiftoolSave_QueueSaveUsingExiftoolMetadataUpdatedByUser.Count > 0 || IsAnyDataUnsaved())
+            if (exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser.Count > 0 || IsAnyDataUnsaved())
             {
                 if (KryptonMessageBox.Show(
-                    (exiftoolSave_QueueSaveUsingExiftoolMetadataUpdatedByUser.Count > 0 ? 
-                        "There are " + exiftoolSave_QueueSaveUsingExiftoolMetadataUpdatedByUser.Count + " unsaved media files in queue.\r\n" : "") +
+                    (exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser.Count > 0 ? 
+                        "There are " + exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser.Count + " unsaved media files in queue.\r\n" : "") +
                     (IsAnyDataUnsaved() ? 
                         "You have unsaved changes in DataGridView\r\n" : "") +
                     "\r\nAre you sure you will close application?",

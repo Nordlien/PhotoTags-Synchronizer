@@ -230,7 +230,7 @@ namespace PhotoTagsSynchronizer
             try
             {
                 //lock (commonQueueSaveMetadataUpdatedByUserLock)
-                    foreach (Metadata fileEntry in exiftoolSave_QueueSaveUsingExiftoolMetadataUpdatedByUser)
+                    foreach (Metadata fileEntry in exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser)
                         AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.FileDateModified, "In queue for: Wait to be saved with " + fileEntry.PersonalRegionList.Count.ToString() + " regions");
             }
             catch { }
@@ -238,7 +238,7 @@ namespace PhotoTagsSynchronizer
             try
             {
                 //lock (commonQueueSubsetMetadataToSaveLock)
-                    foreach (Metadata fileEntry in exiftoolSave_QueueSubsetMetadataToSave)
+                    foreach (Metadata fileEntry in exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser)
                         AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.FileDateModified, "In queue for: Saving bulk using exiftool with " + fileEntry.PersonalRegionList.Count.ToString() + " regions");                
             }
             catch { }

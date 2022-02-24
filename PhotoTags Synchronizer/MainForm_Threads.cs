@@ -113,11 +113,11 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Exiftool Save
-        private static List<Metadata> exiftoolSave_QueueSaveUsingExiftoolMetadataUpdatedByUser = new List<Metadata>();
-        private static readonly Object exiftoolSave_QueueSaveUsingExiftoolMetadataUpdatedByUserLock = new Object();
+        private static List<Metadata> exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser = new List<Metadata>();
+        private static readonly Object exiftoolSave_QueueSaveUsingExiftool_MetadataUpdatedByUserLock = new Object();
 
-        private static List<Metadata> exiftoolSave_OrigialMetadataBeforeUserUpdate = new List<Metadata>();
-        private static readonly Object exiftoolSave_OrigialMetadataBeforeUserUpdateLock = new Object();
+        private static List<Metadata> exiftoolSave_QueueSaveUsingExiftool_MetadataOrigialBeforeUserUpdate = new List<Metadata>();
+        private static readonly Object exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUserLock = new Object();
 
         private static List<Metadata> exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerify = new List<Metadata>();
         private static readonly Object exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerifyLock = new Object();
@@ -125,8 +125,8 @@ namespace PhotoTagsSynchronizer
         private static List<FileEntry> exiftool_MediaFilesNotInDatabase = new List<FileEntry>(); //It's globale, just to manage to show count status
         private static readonly Object exiftool_MediaFilesNotInDatabaseLock = new Object();
 
-        private static List<Metadata> exiftoolSave_QueueSubsetMetadataToSave = new List<Metadata>();
-        private static readonly Object exiftoolSave_QueueSubsetMetadataToSaveLock = new Object();
+        private static List<Metadata> exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser = new List<Metadata>();
+        private static readonly Object exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUserLock = new Object();
         #endregion
 
         #endregion
@@ -254,12 +254,12 @@ namespace PhotoTagsSynchronizer
         /// <returns>Number of items in queue</returns>
         private int CommonQueueSaveUsingExiftoolMetadataUpdatedByUserCountLock()
         {
-            lock   (exiftoolSave_QueueSaveUsingExiftoolMetadataUpdatedByUserLock) return exiftoolSave_QueueSaveUsingExiftoolMetadataUpdatedByUser.Count;
+            lock   (exiftoolSave_QueueSaveUsingExiftool_MetadataUpdatedByUserLock) return exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser.Count;
         }
 
         private int CommonQueueSaveUsingExiftoolMetadataUpdatedByUserCountDirty()
         {
-            return exiftoolSave_QueueSaveUsingExiftoolMetadataUpdatedByUser.Count;
+            return exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser.Count;
         }
 
         /// <summary>
@@ -1602,8 +1602,8 @@ namespace PhotoTagsSynchronizer
         #region Exiftool - SaveMetadata UpdatedByUser - Add Queue
         public void AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(Metadata metadataToSave, Metadata metadataOriginal)
         {
-            lock (exiftoolSave_QueueSaveUsingExiftoolMetadataUpdatedByUserLock) exiftoolSave_QueueSaveUsingExiftoolMetadataUpdatedByUser.Add(metadataToSave);
-            lock (exiftoolSave_OrigialMetadataBeforeUserUpdateLock) exiftoolSave_OrigialMetadataBeforeUserUpdate.Add(metadataOriginal);
+            lock (exiftoolSave_QueueSaveUsingExiftool_MetadataUpdatedByUserLock) exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser.Add(metadataToSave);
+            lock (exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUserLock) exiftoolSave_QueueSaveUsingExiftool_MetadataOrigialBeforeUserUpdate.Add(metadataOriginal);
         }
         #endregion
 
@@ -1674,40 +1674,61 @@ namespace PhotoTagsSynchronizer
                                 List<string> allowedFileNameDateTimeFormats = FileDateTimeReader.ConvertStringOfDatesToList(Properties.Settings.Default.RenameDateFormats);
                                 #endregion
 
+                                #region Clear data
                                 int writeCount = Math.Min(Properties.Settings.Default.ExiftoolMaximumWriteBach, CommonQueueSaveUsingExiftoolMetadataUpdatedByUserCountLock());
-                                lock (exiftoolSave_QueueSubsetMetadataToSaveLock) exiftoolSave_QueueSubsetMetadataToSave = new List<Metadata>();    //This new values for saving (changes done by user)
-                                List<Metadata> queueSubsetMetadataOrginalBeforeUserEdit = new List<Metadata>(); //Before updated by user, need this to check if any updates
+                                //List<Metadata> exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser -- Globale just to show status 
+                                List<Metadata> exiftoolSave_QueueSubset_MetadataOrigialBeforeUserUpdate;
 
+                                lock (exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUserLock)
+                                {
+                                    exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser = new List<Metadata>();    //This new values for saving (changes done by user)
+                                    exiftoolSave_QueueSubset_MetadataOrigialBeforeUserUpdate = new List<Metadata>(); //Before updated by user, need this to check if any updates
+                                }
+                                #endregion
+
+                                //Queue in:     List<Metadata>exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser
+                                //              List<Metadata>exiftoolSave_QueueSaveUsingExiftool_MetadataOrigialBeforeUserUpdate
+                                //          
+                                //Result:       Dictonary<string filename, long size>fileSaveSizeWatcher (Just to show written size on media file)
+                                //              List<Metadata>exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser
+                                //              List<Metadata>exiftoolSave_QueueSubset_MetadataOrigialBeforeUserUpdate
                                 #region Create a subset queue for writing
                                 try
                                 {
                                     for (int i = 0; i < writeCount; i++)
                                     {
                                         //Remeber 
-                                        Metadata metadataWrite;
+                                        Metadata metadataToWrite;
                                         Metadata metadataOrginal;
 
-                                        lock (exiftoolSave_QueueSaveUsingExiftoolMetadataUpdatedByUserLock)
+                                        lock (exiftoolSave_QueueSaveUsingExiftool_MetadataUpdatedByUserLock)
                                         {
-                                            metadataWrite = exiftoolSave_QueueSaveUsingExiftoolMetadataUpdatedByUser[0];
-                                            lock (exiftoolSave_OrigialMetadataBeforeUserUpdateLock) metadataOrginal = exiftoolSave_OrigialMetadataBeforeUserUpdate[0];
+                                            lock (exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUserLock)
+                                            {
+                                                metadataToWrite = exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser[0];
+                                                metadataOrginal = exiftoolSave_QueueSaveUsingExiftool_MetadataOrigialBeforeUserUpdate[0];
+                                            }
 
                                             lock (commonQueueReadMetadataFromSourceExiftoolLock)
                                             {
                                                 if (!GlobalData.IsApplicationClosing)
                                                 {
-                                                    //Also include Metadata ToBeSaved that are Equal with OrgianalBeforeUserEdit 
-                                                    if (metadataOrginal != metadataWrite) AddWatcherShowExiftoolSaveProcessQueue(metadataWrite.FileEntryBroker.FileFullPath);
+                                                    if (metadataOrginal != metadataToWrite) AddWatcherShowExiftoolSaveProcessQueue(metadataToWrite.FileEntryBroker.FileFullPath);
 
-                                                    lock (exiftoolSave_QueueSubsetMetadataToSaveLock) exiftoolSave_QueueSubsetMetadataToSave.Add(metadataWrite);
-                                                    queueSubsetMetadataOrginalBeforeUserEdit.Add(metadataOrginal);
+                                                    lock (exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUserLock)
+                                                    {
+                                                        exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser.Add(metadataToWrite);
+                                                        exiftoolSave_QueueSubset_MetadataOrigialBeforeUserUpdate.Add(metadataOrginal);
+                                                    }
                                                 }
                                             }
 
                                             //Remove
-                                            exiftoolSave_QueueSaveUsingExiftoolMetadataUpdatedByUser.RemoveAt(0);
-                                            lock (exiftoolSave_OrigialMetadataBeforeUserUpdateLock) exiftoolSave_OrigialMetadataBeforeUserUpdate.RemoveAt(0);
-
+                                            lock (exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUserLock)
+                                            {
+                                                exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser.RemoveAt(0);
+                                                exiftoolSave_QueueSaveUsingExiftool_MetadataOrigialBeforeUserUpdate.RemoveAt(0);
+                                            }
                                         }
                                     }
                                 }
@@ -1717,6 +1738,11 @@ namespace PhotoTagsSynchronizer
                                 }
                                 #endregion
 
+                                //Queue in:     List<Metadata>exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser
+                                //              List<Metadata>exiftoolSave_QueueSubset_MetadataOrigialBeforeUserUpdate
+                                //    
+                                //Result:       List<FileEntry>mediaFilesUpdatedByExiftool,
+                                //              (When old and New metadata is diffrent, all when exiftool failed)
                                 #region Save Metadatas using Exiftool  
                                 List<FileEntry> mediaFilesUpdatedByExiftool = new List<FileEntry>();
                                 string exiftoolErrorMessage = "";
@@ -1725,11 +1751,11 @@ namespace PhotoTagsSynchronizer
                                 {
                                     try
                                     {
-                                        lock (exiftoolSave_QueueSubsetMetadataToSaveLock)
+                                        lock (exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUserLock)
                                         {
-                                            UpdateStatusAction("Batch update a subset of " + exiftoolSave_QueueSubsetMetadataToSave.Count + " media files...");
+                                            UpdateStatusAction("Batch update a subset of " + exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser.Count + " media files...");
                                             ExiftoolWriter.WriteMetadata(
-                                                exiftoolSave_QueueSubsetMetadataToSave, queueSubsetMetadataOrginalBeforeUserEdit, allowedFileNameDateTimeFormats,
+                                                exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser, exiftoolSave_QueueSubset_MetadataOrigialBeforeUserUpdate, allowedFileNameDateTimeFormats,
                                                 writeMetadataTagsConfiguration, writeMetadataKeywordAddConfiguration, out mediaFilesUpdatedByExiftool,
                                                 showCliWindow, processPriorityClass);
                                         }
@@ -1737,9 +1763,9 @@ namespace PhotoTagsSynchronizer
                                     catch (Exception ex)
                                     {
                                         //Something did go wrong, need to tell users, what was saved and not, in general nothing was saved
-                                        lock (exiftoolSave_QueueSubsetMetadataToSaveLock)
+                                        lock (exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUserLock)
                                         {
-                                            foreach (Metadata metadataCopy in exiftoolSave_QueueSubsetMetadataToSave)
+                                            foreach (Metadata metadataCopy in exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser)
                                             {
                                                 if (!FileEntry.Contains(mediaFilesUpdatedByExiftool, metadataCopy.FileEntry)) mediaFilesUpdatedByExiftool.Add(metadataCopy.FileEntry);
                                             }
@@ -1751,18 +1777,23 @@ namespace PhotoTagsSynchronizer
                                 }
                                 #endregion
 
+                                //Queue in:     List<Metadata>exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser
+                                //              List<Metadata>exiftoolSave_QueueSubset_MetadataOrigialBeforeUserUpdate
+                                //    
+                                //Return:       List<FileEntry>writeXtraAtom_FilesUpdated
+                                //              Dictionary<string fullFileName, string errorMessage>writeXtraAtom_ErrorMessageForFile
                                 #region Write Xtra Atom properites
-                                Dictionary<string, string> writeXtraAtomErrorMessageForFile = new Dictionary<string, string>();
-                                List<FileEntry> filesUpdatedByWriteXtraAtom = new List<FileEntry>();
+                                Dictionary<string, string> writeXtraAtom_ErrorMessageForFile = new Dictionary<string, string>();
+                                List<FileEntry> writeXtraAtom_FilesUpdated = new List<FileEntry>();
                                 try
                                 {
                                     if (!GlobalData.IsApplicationClosing)
                                     {
-                                        UpdateStatusAction("Write Xtra Atom to " + exiftoolSave_QueueSubsetMetadataToSave.Count + " media files...");
+                                        UpdateStatusAction("Write Xtra Atom to " + exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser.Count + " media files...");
                                         if (writeXtraAtomOnMediaFile)
                                         {
-                                            filesUpdatedByWriteXtraAtom = ExiftoolWriter.WriteXtraAtom(
-                                                exiftoolSave_QueueSubsetMetadataToSave, queueSubsetMetadataOrginalBeforeUserEdit, allowedFileNameDateTimeFormats,
+                                            writeXtraAtom_FilesUpdated = ExiftoolWriter.WriteXtraAtom(
+                                                exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser, exiftoolSave_QueueSubset_MetadataOrigialBeforeUserUpdate, allowedFileNameDateTimeFormats,
                                                 writeXtraAtomAlbumVariable, writeXtraAtomAlbumVideo,
                                                 writeXtraAtomCategoriesVariable, writeXtraAtomCategoriesVideo,
                                                 writeXtraAtomCommentVariable, writeXtraAtomCommentPicture, writeXtraAtomCommentVideo,
@@ -1771,7 +1802,7 @@ namespace PhotoTagsSynchronizer
                                                 writeXtraAtomSubjectVariable, writeXtraAtomSubjectPicture, wtraAtomSubjectVideo,
                                                 writeXtraAtomSubtitleVariable, writeXtraAtomSubtitleVideo,
                                                 writeXtraAtomArtistVariable, writeXtraAtomArtistVideo,
-                                                out writeXtraAtomErrorMessageForFile, this);
+                                                out writeXtraAtom_ErrorMessageForFile);
                                         }
                                     }
                                 }
@@ -1781,6 +1812,7 @@ namespace PhotoTagsSynchronizer
                                 }
                                 #endregion
 
+                                //Queue in:     List<Metadata>exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser
                                 #region File Create date and Time attribute
                                 try
                                 {
@@ -1788,7 +1820,9 @@ namespace PhotoTagsSynchronizer
                                     {
                                         if (writeCreatedDateAndTimeAttribute)
                                         {
-                                            lock (exiftoolSave_QueueSubsetMetadataToSaveLock) foreach (Metadata metadata in exiftoolSave_QueueSubsetMetadataToSave)
+                                            lock (exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUserLock)
+                                            {
+                                                foreach (Metadata metadata in exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser)
                                                 {
                                                     if (metadata.TryParseDateTakenToUtc(out DateTime? dateTakenWithOffset))
                                                     {
@@ -1823,9 +1857,10 @@ namespace PhotoTagsSynchronizer
                                                     }
                                                     else
                                                     {
-                                                        Logger.Warn("ThreadSaveMetadata - Was not able to convert time, missing UTC and/or MediaTaken time");
+                                                        Logger.Warn("ThreadSaveMetadata - Was not able to convert time, missing UTC and/or MediaTaken time on file: " + metadata.FileFullPath);
                                                     }
                                                 }
+                                            }
                                         }
                                     }
                                 }
@@ -1835,6 +1870,9 @@ namespace PhotoTagsSynchronizer
                                 }
                                 #endregion
 
+                                //Queue in:     List<FileEntry>mediaFilesUpdatedByExiftool
+                                //Remove from:  List<Metadata>exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser
+                                //              List<Metadata>exiftoolSave_QueueSubset_MetadataOrigialBeforeUserUpdate
                                 #region Check if all files was updated, if updated, add to verify queue
                                 if (!GlobalData.IsApplicationClosing)
                                 {
@@ -1842,12 +1880,12 @@ namespace PhotoTagsSynchronizer
                                     {
                                         try
                                         {
-                                            #region Check if - Write to Xtra Atom failed?
-                                            if (writeXtraAtomErrorMessageForFile.ContainsKey(fileSuposeToBeUpdated.FileFullPath))
+                                            #region AddError - When Write Xtra Atoms failed?
+                                            if (writeXtraAtom_ErrorMessageForFile.ContainsKey(fileSuposeToBeUpdated.FileFullPath))
                                             {
                                                 FileStatus fileStatus = FileHandler.GetFileStatus(
                                                     fileSuposeToBeUpdated.FileFullPath, checkLockedStatus: true,
-                                                    hasErrorOccured: true, errorMessage: writeXtraAtomErrorMessageForFile[fileSuposeToBeUpdated.FileFullPath],
+                                                    hasErrorOccured: true, errorMessage: writeXtraAtom_ErrorMessageForFile[fileSuposeToBeUpdated.FileFullPath],
                                                     exiftoolProcessStatus: ExiftoolProcessStatus.FileInaccessibleOrError);
                                                 ImageListView_UpdateItemFileStatusInvoke(fileSuposeToBeUpdated.FileFullPath, fileStatus);
                                                 
@@ -1857,32 +1895,27 @@ namespace PhotoTagsSynchronizer
                                                     "Issue: Failed write Xtra Atom property to file.\r\n" +
                                                     "File Name:   " + fileSuposeToBeUpdated.FileFullPath + "\r\n" +
                                                     "File Status: " + fileStatus.ToString() + "\r\n" +
-                                                    "Error message:" + writeXtraAtomErrorMessageForFile[fileSuposeToBeUpdated.FileFullPath]);
+                                                    "Error message:" + writeXtraAtom_ErrorMessageForFile[fileSuposeToBeUpdated.FileFullPath]);
                                             }
                                             #endregion
 
-                                            #region Check if - Write using Exiftool failed?
-                                            DateTime currentLastWrittenDateTime = FileHandler.GetLastWriteTime(fileSuposeToBeUpdated.FileFullPath);
+                                            DateTime currentLastWrittenDateTime = FileHandler.GetLastWriteTime(fileSuposeToBeUpdated.FileFullPath, waitAndRetry: false);
                                             DateTime previousLastWrittenDateTime = (DateTime)fileSuposeToBeUpdated.LastWriteDateTime;
 
                                             //Find last known writtenDate for file
                                             //Check if file is updated, if file LastWrittenDateTime has changed, file is updated
+                                            //If file not found, current will become 1601.01.01, ref. Microsoft documentation
                                             if (currentLastWrittenDateTime <= previousLastWrittenDateTime)
                                             {
+                                                #region Updated ImageListView Error Status
                                                 FileStatus fileStatus = FileHandler.GetFileStatus(
                                                     fileSuposeToBeUpdated.FileFullPath, checkLockedStatus: true,
                                                     hasErrorOccured: true, errorMessage: exiftoolErrorMessage,
                                                     exiftoolProcessStatus: ExiftoolProcessStatus.FileInaccessibleOrError);
                                                 ImageListView_UpdateItemFileStatusInvoke(fileSuposeToBeUpdated.FileFullPath, fileStatus);
-                                                
-                                                #region Exiftool failed to write, no need to verify data that hasn't been written
-                                                int indexExiftoolFailedOn = Metadata.FindFileEntryInList(exiftoolSave_QueueSubsetMetadataToSave, fileSuposeToBeUpdated);
-                                                if (indexExiftoolFailedOn > -1 && indexExiftoolFailedOn < exiftoolSave_QueueSubsetMetadataToSave.Count)
-                                                {
-                                                    exiftoolSave_QueueSubsetMetadataToSave.RemoveAt(indexExiftoolFailedOn);
-                                                }
                                                 #endregion
 
+                                                #region AddError - Exiftool failed
                                                 string lockedByProcessesText = "";
                                                 if (fileStatus.HasAnyLocks) lockedByProcessesText = FileHandler.GetLockedByText(fileSuposeToBeUpdated.FileFullPath);
                                                 
@@ -1892,23 +1925,37 @@ namespace PhotoTagsSynchronizer
                                                     "Issue: EXIFTOOL.EXE failed write to file." + "\r\n" +
                                                     "File Name:  " + fileSuposeToBeUpdated.FileFullPath + "\r\n" +
                                                     "File Status: " + FileHandler.GetFileStatusText(fileSuposeToBeUpdated.FileFullPath, checkLockedStatus: true, showLockedByProcess: true) + "\r\n" +
-                                                    "Error Message: " + exiftoolErrorMessage); 
+                                                    "Error Message: " + exiftoolErrorMessage);
+                                                #endregion
+
+                                                #region Remove from SubsetQueue (Exiftool failed to write, no need to verify data that hasn't been written)
+                                                int indexExiftoolFailedOn = Metadata.FindFileEntryInList(exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser, fileSuposeToBeUpdated);
+                                                if (indexExiftoolFailedOn > -1 && indexExiftoolFailedOn < exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser.Count)
+                                                {
+                                                    lock (exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUserLock)
+                                                    {
+                                                        exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser.RemoveAt(indexExiftoolFailedOn);
+                                                        exiftoolSave_QueueSubset_MetadataOrigialBeforeUserUpdate.RemoveAt(indexExiftoolFailedOn);
+                                                    }
+                                                }
+                                                #endregion
                                             }
-                                            #endregion
 
                                             #region Add to Verify queue, clear thumbnail on ImageListView (exiftoolSave_QueueSubsetMetadataToSave contains only written)
-                                            //When Exiftool - Write - Fail, then not in "exiftoolSave_QueueSubsetMetadataToSave"
-                                            int indexInVerifyQueue = Metadata.FindFileEntryInList(exiftoolSave_QueueSubsetMetadataToSave, fileSuposeToBeUpdated);
-                                            if (indexInVerifyQueue > -1 && indexInVerifyQueue < exiftoolSave_QueueSubsetMetadataToSave.Count)
+                                            //When Write With Exiftool Fail, then file was removed from "exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser"
+                                            int indexInVerifyQueue = Metadata.FindFileEntryInList(exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser, fileSuposeToBeUpdated);
+                                            if (indexInVerifyQueue > -1 && indexInVerifyQueue < exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser.Count)
                                             {
                                                 Metadata currentMetadata;
-                                                lock (exiftoolSave_QueueSubsetMetadataToSaveLock) currentMetadata = 
-                                                    new Metadata(exiftoolSave_QueueSubsetMetadataToSave[indexInVerifyQueue]);
+                                                lock (exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUserLock)
+                                                {
+                                                    currentMetadata = new Metadata(exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser[indexInVerifyQueue]);
+                                                }
                                                 currentMetadata.FileDateModified = currentLastWrittenDateTime;
 
                                                 #region Save the metatdata into DataGridView(s) - saved metadata should also be readed back, if not, verify will tell save failed
-                                                DataGridViewSetMetadataOnAllDataGridView(currentMetadata);
-                                                DataGridViewSetDirtyFlagAfterSave(currentMetadata, false);
+                                                DataGridViewSetMetadataOnAllDataGridView(currentMetadata); //PS: Sets only Metadata, not updates the content
+                                                DataGridViewSetDirtyFlagAfterSave(currentMetadata, false); //Not set Dirty flag is fals, not edit by user (yet)
                                                 #endregion
 
                                                 #region If file was updated - Add to Verify queue
@@ -1921,9 +1968,9 @@ namespace PhotoTagsSynchronizer
                                                 AddQueueLazyLoadningAllSourcesMetadataAndRegionThumbnailsLock(fileEntryAttribute);
                                                 ImageListView_UpdateItemThumbnailUpdateAllInvoke(currentMetadata.FileEntryBroker);
 
-                                                FileEntryAttribute fileEntryAttributeHistoricalc = 
+                                                FileEntryAttribute fileEntryAttributeHistorical = 
                                                     new FileEntryAttribute(fileSuposeToBeUpdated, FileEntryVersion.Historical);
-                                                AddQueueLazyLoadningAllSourcesMetadataAndRegionThumbnailsLock(fileEntryAttributeHistoricalc);
+                                                AddQueueLazyLoadningAllSourcesMetadataAndRegionThumbnailsLock(fileEntryAttributeHistorical);
                                             }
                                             else
                                             {
@@ -1940,8 +1987,11 @@ namespace PhotoTagsSynchronizer
                                 #endregion
 
                                 #region Clean up
-                                lock (exiftoolSave_QueueSubsetMetadataToSaveLock) exiftoolSave_QueueSubsetMetadataToSave.Clear();
-                                queueSubsetMetadataOrginalBeforeUserEdit.Clear();
+                                lock (exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUserLock)
+                                {
+                                    exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser.Clear();
+                                    exiftoolSave_QueueSubset_MetadataOrigialBeforeUserUpdate.Clear();
+                                }
                                 mediaFilesUpdatedByExiftool.Clear();
                                 #endregion
 
@@ -1951,8 +2001,8 @@ namespace PhotoTagsSynchronizer
 
                             if (GlobalData.IsApplicationClosing)
                             {
-                                lock (exiftoolSave_QueueSaveUsingExiftoolMetadataUpdatedByUserLock) exiftoolSave_QueueSaveUsingExiftoolMetadataUpdatedByUser.Clear();
-                                lock (exiftoolSave_OrigialMetadataBeforeUserUpdateLock) exiftoolSave_OrigialMetadataBeforeUserUpdate.Clear();
+                                lock (exiftoolSave_QueueSaveUsingExiftool_MetadataUpdatedByUserLock) exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser.Clear();
+                                lock (exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUserLock) exiftoolSave_QueueSaveUsingExiftool_MetadataOrigialBeforeUserUpdate.Clear();
                             }
 
                             TriggerAutoResetEventQueueEmpty();
@@ -1963,7 +2013,7 @@ namespace PhotoTagsSynchronizer
                                 "The ThreadSaveMetadata queue was cleared. Nothing was saved.\r\n" +
                                 "Exception message:" + ex.Message + "\r\n",
                                 "Saving ThreadSaveMetadata failed", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-                            lock (exiftoolSave_QueueSubsetMetadataToSaveLock) exiftoolSave_QueueSubsetMetadataToSave.Clear();
+                            lock (exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUserLock) exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser.Clear();
                             Logger.Error(ex, "ThreadSaveMetadata: ");
                         }
                         finally
@@ -2863,8 +2913,8 @@ namespace PhotoTagsSynchronizer
                     }
 
             if (!folderInUse)
-                lock (exiftoolSave_QueueSaveUsingExiftoolMetadataUpdatedByUserLock)
-                    foreach (Metadata metadata in exiftoolSave_QueueSaveUsingExiftoolMetadataUpdatedByUser)
+                lock (exiftoolSave_QueueSaveUsingExiftool_MetadataUpdatedByUserLock)
+                    foreach (Metadata metadata in exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser)
                     {
                         if (metadata.FileFullPath.StartsWith(folder, comparisonType: StringComparison.OrdinalIgnoreCase))
                         {
@@ -2875,8 +2925,8 @@ namespace PhotoTagsSynchronizer
             
 
             if (!folderInUse)
-                lock (exiftoolSave_QueueSubsetMetadataToSaveLock)
-                    foreach (Metadata metadata in exiftoolSave_QueueSubsetMetadataToSave)
+                lock (exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUserLock)
+                    foreach (Metadata metadata in exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser)
                     {
                         if (metadata.FileFullPath.StartsWith(folder, comparisonType: StringComparison.OrdinalIgnoreCase))
                         {
@@ -2903,8 +2953,8 @@ namespace PhotoTagsSynchronizer
                         }
                     }
             if (!fileInUse)                      
-                lock (exiftoolSave_QueueSaveUsingExiftoolMetadataUpdatedByUserLock)
-                    foreach (Metadata metadata in exiftoolSave_QueueSaveUsingExiftoolMetadataUpdatedByUser)
+                lock (exiftoolSave_QueueSaveUsingExiftool_MetadataUpdatedByUserLock)
+                    foreach (Metadata metadata in exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser)
                     {
                         if (FilesCutCopyPasteDrag.IsFilenameEqual(metadata.FileFullPath, fullFilename))
                         {
@@ -2914,8 +2964,8 @@ namespace PhotoTagsSynchronizer
                     }
             
             if (!fileInUse)
-                lock (exiftoolSave_QueueSubsetMetadataToSaveLock)
-                    foreach (Metadata metadata in exiftoolSave_QueueSubsetMetadataToSave)
+                lock (exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUserLock)
+                    foreach (Metadata metadata in exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser)
                     {
                         if (FilesCutCopyPasteDrag.IsFilenameEqual(metadata.FileFullPath, fullFilename))
                         {
