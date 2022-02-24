@@ -296,10 +296,6 @@ namespace LocationNames
 
                 if (locationCoordinateAndDescriptionInDatbaseCache.ContainsKey(locationCoordinateInDatabase))
                     locationCoordinateAndDescriptionInDatbaseCache.Remove(locationCoordinateInDatabase);
-                else
-                {
-                    //DEBUG
-                }
             }
         }
         #endregion

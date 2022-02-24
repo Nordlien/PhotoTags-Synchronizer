@@ -18,10 +18,6 @@ namespace PhotoTagsSynchronizer
     {
         private AutoResetEvent ReadImageOutOfMemoryWillWaitCacheEmpty = null; //When out of memory, then wait for all data ready = new AutoResetEvent(false);
 
-        //private AutoResetEvent WaitThread_PopulateTreeViewFolderFilter_Stopped = null;
-        //private Dictionary<string, FileStatus> cacheFileStatus = new Dictionary<string, FileStatus>();
-        //private object cacheFileStatusLock = new object();
-        
         #region ImageListView - Item updates
 
         #region ImageListView - Update Thumbnail - UpdateAll - Invoke (ImageListViewItem.Update)
@@ -103,7 +99,6 @@ namespace PhotoTagsSynchronizer
                                 fileMetadata.FileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.FileInaccessibleOrError; //Error Metadata found
 
                             foundItem.UpdateDetails(fileMetadata);
-                            //foundItem.Invalidate();
                         }
                         //else
                         //{
@@ -111,12 +106,7 @@ namespace PhotoTagsSynchronizer
                         //}
                         KeepTrackOfMetadataLoadedRemoveFromList(fileEntryAttribute.FileFullPath);
                     }
-                } else
-                {
-                    //DEBUG - Not found
-                    //Got this when Delete Hstory twice
-                }
-
+                } 
             }
             catch (Exception ex)
             {
@@ -253,25 +243,28 @@ namespace PhotoTagsSynchronizer
             if (DoNotTrigger_ImageListView_ItemUpdate()) return;
             if (imageListView1.IsDisposed) return;
 
-            Metadata metadata;
-            FileEntryBroker fileEntryBroker;
-            if (File.Exists(e.FileName))
-            {
-                fileEntryBroker = new FileEntryBroker(e.FileName, FileHandler.GetLastWriteTime(e.FileName), MetadataBrokerType.ExifTool);
-                metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBroker);
-            }
-            else
-            {
-                fileEntryBroker = new FileEntryBroker(e.FileName, DateTime.MinValue, MetadataBrokerType.ExifTool);
-                metadata = null;
-            }
+            
             
             //PS. Note: Make sure that the RetrieveItemMetadataDetails don't go in endless loop. Read data, flags as still dirty, read again, etc..
             try
             {
+                Metadata metadata;
+                FileEntryBroker fileEntryBroker;
+
                 #region Update FileStatus
                 FileStatus fileStatus = FileHandler.GetFileStatus(e.FileName, exiftoolProcessStatus: ExiftoolProcessStatus.WaitAction);
                 #endregion
+
+                if (fileStatus.FileExists)
+                {
+                    fileEntryBroker = new FileEntryBroker(e.FileName, FileHandler.GetLastWriteTime(e.FileName), MetadataBrokerType.ExifTool);
+                    metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBroker);
+                }
+                else
+                {
+                    fileEntryBroker = new FileEntryBroker(e.FileName, DateTime.MinValue, MetadataBrokerType.ExifTool);
+                    metadata = null;
+                }
 
                 if (metadata == null || metadata.FileName == null)
                 {
@@ -354,7 +347,7 @@ namespace PhotoTagsSynchronizer
                     #endregion
 
                     #region Add to read queue, when data missing and not marked as Error record
-                    if (metadataError == null) 
+                    if (metadataError == null && fileStatus.FileExists) 
                         AddQueueLazyLoadningAllSourcesMetadataAndRegionThumbnailsLock(fileEntryAttribute);
                     #endregion
 

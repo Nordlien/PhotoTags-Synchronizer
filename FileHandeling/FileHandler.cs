@@ -35,10 +35,10 @@ namespace FileHandeling
         #endregion
 
         #region GetLastWriteTime
-        public static DateTime GetLastWriteTime(string fullFileName)
+        public static DateTime GetLastWriteTime(string fullFileName, bool waitAndRetry = true)
         {
             DateTime currentLastWrittenDateTime = File.GetLastWriteTime(fullFileName);
-            if (currentLastWrittenDateTime < new DateTime(1700, 1, 1, 1, 1, 1))
+            if (waitAndRetry && currentLastWrittenDateTime < new DateTime(1700, 1, 1, 1, 1, 1))
             {
                 Thread.Sleep(1000);
                 currentLastWrittenDateTime = File.GetLastWriteTime(fullFileName);
