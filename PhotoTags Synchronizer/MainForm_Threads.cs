@@ -585,10 +585,6 @@ namespace PhotoTagsSynchronizer
                     if (commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.Contains(fileEntryAttribute))
                         commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.Remove(fileEntryAttribute);
                     commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.Insert(0, fileEntryAttribute);
-
-                    //Need add last when not thread safe
-                    //if (!commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.Contains(fileEntryAttribute))
-                    //    commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.Add(fileEntryAttribute);
                 }
             }
         }
@@ -640,8 +636,8 @@ namespace PhotoTagsSynchronizer
 
                                         if (commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails[0].FileEntry == fileEntryAttribute.FileEntry)
                                         {
-                                            FileStatus fileStatus = FileHandler.GetFileStatus(fileEntryAttribute.FileFullPath, fileInaccessibleOrError: true,
-                                                fileErrorMessage: "Exitfool failed", exiftoolProcessStatus: ExiftoolProcessStatus.FileInaccessibleOrError);
+                                            FileStatus fileStatus = FileHandler.GetFileStatus(fileEntryAttribute.FileFullPath, hasErrorOccured: true,
+                                                errorMessage: "Exitfool failed", exiftoolProcessStatus: ExiftoolProcessStatus.FileInaccessibleOrError);
                                             ImageListView_UpdateItemFileStatusInvoke(fileEntryAttribute.FileFullPath, fileStatus);
                                         }
                                         break;
@@ -689,7 +685,7 @@ namespace PhotoTagsSynchronizer
                                             {
                                                 FileStatus fileStaus = FileHandler.GetFileStatus(fileEntryBrokerExiftoolError.FileFullPath,
                                                     exiftoolProcessStatus: ExiftoolProcessStatus.FileInaccessibleOrError,
-                                                    fileErrorMessage: "File has error recorded, you can retry read again", checkLockedStatus: true);
+                                                    errorMessage: "File has error recorded, you can retry read again", checkLockedStatus: true);
                                                 ImageListView_UpdateItemFileStatusInvoke(fileEntryBrokerExiftoolError.FileFullPath, fileStaus);
                                                 isMetadataExiftoolErrorFound = true;
                                             }
@@ -1365,7 +1361,7 @@ namespace PhotoTagsSynchronizer
                                                 
                                                 FileStatus fileStatus = FileHandler.GetFileStatus(
                                                     fullFilePath, checkLockedStatus: true, checkLockStatusTimeout: FileHandler.GetFileLockedStatusTimeout,
-                                                    fileInaccessibleOrError: true, fileErrorMessage: exiftoolErrorMessageForFile,
+                                                    hasErrorOccured: true, errorMessage: exiftoolErrorMessageForFile,
                                                     exiftoolProcessStatus: ExiftoolProcessStatus.FileInaccessibleOrError);
 
                                                 exiftoolErrorMessageForFile =
@@ -1514,7 +1510,7 @@ namespace PhotoTagsSynchronizer
                                                 FileStatus fileStatus = FileHandler.GetFileStatus(metadataRead.FileFullPath);
                                                 if (isMetadataHavingErrors)
                                                 {
-                                                    fileStatus.FileInaccessibleOrError = true;
+                                                    fileStatus.HasErrorOccured = true;
                                                     fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.FileInaccessibleOrError;
                                                 }
                                                 else 
@@ -1851,7 +1847,7 @@ namespace PhotoTagsSynchronizer
                                             {
                                                 FileStatus fileStatus = FileHandler.GetFileStatus(
                                                     fileSuposeToBeUpdated.FileFullPath, checkLockedStatus: true,
-                                                    fileInaccessibleOrError: true, fileErrorMessage: writeXtraAtomErrorMessageForFile[fileSuposeToBeUpdated.FileFullPath],
+                                                    hasErrorOccured: true, errorMessage: writeXtraAtomErrorMessageForFile[fileSuposeToBeUpdated.FileFullPath],
                                                     exiftoolProcessStatus: ExiftoolProcessStatus.FileInaccessibleOrError);
                                                 ImageListView_UpdateItemFileStatusInvoke(fileSuposeToBeUpdated.FileFullPath, fileStatus);
                                                 
@@ -1875,7 +1871,7 @@ namespace PhotoTagsSynchronizer
                                             {
                                                 FileStatus fileStatus = FileHandler.GetFileStatus(
                                                     fileSuposeToBeUpdated.FileFullPath, checkLockedStatus: true,
-                                                    fileInaccessibleOrError: true, fileErrorMessage: exiftoolErrorMessage,
+                                                    hasErrorOccured: true, errorMessage: exiftoolErrorMessage,
                                                     exiftoolProcessStatus: ExiftoolProcessStatus.FileInaccessibleOrError);
                                                 ImageListView_UpdateItemFileStatusInvoke(fileSuposeToBeUpdated.FileFullPath, fileStatus);
                                                 
@@ -2439,7 +2435,7 @@ namespace PhotoTagsSynchronizer
                                                             {
                                                                 FileStatus fileStatus = FileHandler.GetFileStatus(
                                                                     current_FileEntryBrokerRegion.FileFullPath, checkLockedStatus: true,
-                                                                    fileInaccessibleOrError: true, fileErrorMessage: exceptionError);
+                                                                    hasErrorOccured: true, errorMessage: exceptionError);
 
                                                                 if (fileStatus.IsInCloudOrVirtualOrOffline)
                                                                 {
@@ -2495,7 +2491,7 @@ namespace PhotoTagsSynchronizer
                                                                 {
                                                                     FileStatus fileStatus = FileHandler.GetFileStatus(
                                                                     current_FileEntryBrokerRegion.FileFullPath, checkLockedStatus: true,
-                                                                    fileInaccessibleOrError: true);
+                                                                    hasErrorOccured: true);
 
                                                                     fileStatus.FileErrorMessage +=
                                                                         "File date has changed. Need create thumbnail for different date. Requested: " +
@@ -2519,7 +2515,7 @@ namespace PhotoTagsSynchronizer
                                                             fileNeedRemoveFromList = true; //File not exist or to old, remove from list
                                                             FileStatus fileStatus = FileHandler.GetFileStatus(
                                                                     current_FileEntryBrokerRegion.FileFullPath, checkLockedStatus: true,
-                                                                    fileInaccessibleOrError: true);
+                                                                    hasErrorOccured: true);
                                                             fileStatus.FileErrorMessage = "File not found.";
                                                             
                                                             string errorDesciption =
@@ -3208,7 +3204,7 @@ namespace PhotoTagsSynchronizer
                                             
                                             FileStatus fileStatus = FileHandler.GetFileStatus(
                                                 fullFilename, checkLockedStatus: true,
-                                                fileInaccessibleOrError: true, fileErrorMessage: error);
+                                                hasErrorOccured: true, errorMessage: error);
                                             ImageListView_UpdateItemFileStatusInvoke(fullFilename, fileStatus);
 
                                             error =

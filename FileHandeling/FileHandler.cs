@@ -58,8 +58,8 @@ namespace FileHandeling
             bool showLockedByProcess = false)
         {
             FileStatus fileStatus = FileHandler.GetFileStatus(fullFileName,
-                fileInaccessibleOrError: fileInaccessibleOrError,
-                fileErrorMessage: fileErrorMessage,
+                hasErrorOccured: fileInaccessibleOrError,
+                errorMessage: fileErrorMessage,
                 exiftoolProcessStatus: exiftoolProcessStatus,
                 checkLockedStatus: checkLockedStatus,
                 checkLockStatusTimeout: checkLockStatusTimeout);
@@ -73,8 +73,8 @@ namespace FileHandeling
 
         #region GetItemFileStatus
         public static FileStatus GetFileStatus(string fullFileName, 
-            bool fileInaccessibleOrError = false,
-            string fileErrorMessage = null,
+            bool hasErrorOccured = false,
+            string errorMessage = null,
             ExiftoolProcessStatus exiftoolProcessStatus = ExiftoolProcessStatus.DoNotUpdate, 
             bool checkLockedStatus = false, 
             int checkLockStatusTimeout = 100)
@@ -87,8 +87,8 @@ namespace FileHandeling
                 fileStatus.FileExists = File.Exists(fullFileName);
                 FileInfo fileInfo = null;
                 if (fileStatus.FileExists) fileInfo = new FileInfo(fullFileName);
-                fileStatus.FileInaccessibleOrError = fileInaccessibleOrError;
-                fileStatus.FileErrorMessage = fileErrorMessage;
+                fileStatus.HasErrorOccured = hasErrorOccured;
+                fileStatus.FileErrorMessage = errorMessage;
                 #endregion
 
                 #region File - Location on Device or in Cloud
@@ -115,7 +115,7 @@ namespace FileHandeling
                 #region File - Exists, Dirty or has Error
                 fileStatus.IsDirty = false;
                 fileStatus.FileExists = false;
-                fileStatus.FileInaccessibleOrError = true;
+                fileStatus.HasErrorOccured = true;
                 fileStatus.FileErrorMessage = ex.Message;
                 #endregion
 

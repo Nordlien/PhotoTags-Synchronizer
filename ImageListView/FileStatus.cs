@@ -32,7 +32,7 @@ namespace Manina.Windows.Forms
     {
         #region Exists
         public bool FileExists { get; set; } = true;
-        public bool FileInaccessibleOrError { get; set; } = false;
+        public bool HasErrorOccured { get; set; } = false;
         public string FileErrorMessage { get; set; } = null;
         public bool IsDirty { get; set; } = true;
         #endregion
@@ -74,7 +74,7 @@ namespace Manina.Windows.Forms
                 return
                     #region Exists
                     (FileExists ? 128 : 0) +
-                    (FileInaccessibleOrError ? 64 : 0) +
+                    (HasErrorOccured ? 64 : 0) +
                     #endregion
 
                     #region Access
@@ -110,7 +110,7 @@ namespace Manina.Windows.Forms
             
             string status = "";
             if (!FileExists) status = "File not exists";
-            else if (FileInaccessibleOrError) status = "File is inaccessible";
+            else if (HasErrorOccured) status = "Error occured";
             else if (IsDirty) status = "Status sill unknown";
             else if (ExiftoolProcessStatus == ExiftoolProcessStatus.WaitAction) status = "";
             else if (ExiftoolProcessStatus == ExiftoolProcessStatus.ExiftoolProcessing) status = "Exiftool processing";

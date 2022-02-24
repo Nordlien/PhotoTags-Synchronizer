@@ -340,7 +340,7 @@ namespace PhotoTagsSynchronizer
                     Metadata metadataError = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBrokerError);
                     if (metadataError != null)
                     {
-                        fileStatus.FileInaccessibleOrError = true;
+                        fileStatus.HasErrorOccured = true;
                         fileStatus.FileErrorMessage = "Error record in database";
                         fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.FileInaccessibleOrError;
                     }
@@ -375,7 +375,7 @@ namespace PhotoTagsSynchronizer
                 {
                     FileStatus fileStatus = FileHandler.GetFileStatus(
                         e.FileName, checkLockedStatus: true,
-                        fileInaccessibleOrError: true, fileErrorMessage: ex.Message,
+                        hasErrorOccured: true, errorMessage: ex.Message,
                         exiftoolProcessStatus: ExiftoolProcessStatus.FileInaccessibleOrError);
                     e.FileMetadata.FileStatus = fileStatus;
                     e.FileMetadata.SetPropertyStatusOnAll(PropertyStatus.IsSet);
@@ -420,7 +420,7 @@ namespace PhotoTagsSynchronizer
                             //if (!fileStatus.FileExists) //It's already checked
                             if (fileStatus.IsVirtual) e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorOneDriveNotRunning;
                             else if (fileStatus.IsInCloudOrVirtualOrOffline) e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorFileInCloud;
-                            else if (fileStatus.FileInaccessibleOrError) e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorGeneral;
+                            else if (fileStatus.HasErrorOccured) e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorGeneral;
                             else e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorNoThumbnail;
                         }
                     }
@@ -429,7 +429,7 @@ namespace PhotoTagsSynchronizer
                         if (!string.IsNullOrWhiteSpace(e.FileName))
                         {
                             FileStatus fileStatusError = FileHandler.GetFileStatus(
-                                e.FileName, checkLockedStatus: true, fileInaccessibleOrError: true, fileErrorMessage: ioe.Message);
+                                e.FileName, checkLockedStatus: true, hasErrorOccured: true, errorMessage: ioe.Message);
                             ImageListView_UpdateItemFileStatusInvoke(e.FileName, fileStatusError);
                         }
                         
@@ -441,7 +441,7 @@ namespace PhotoTagsSynchronizer
                         if (!string.IsNullOrWhiteSpace(e.FileName))
                         {
                             FileStatus fileStatusError = FileHandler.GetFileStatus(
-                                e.FileName, checkLockedStatus: true, fileInaccessibleOrError: true, fileErrorMessage: ex.Message);
+                                e.FileName, checkLockedStatus: true, hasErrorOccured: true, errorMessage: ex.Message);
                             ImageListView_UpdateItemFileStatusInvoke(e.FileName, fileStatusError);
                         }
 
@@ -454,7 +454,7 @@ namespace PhotoTagsSynchronizer
                     if (!string.IsNullOrWhiteSpace(e.FileName))
                     {
                         FileStatus fileStatusError = FileHandler.GetFileStatus(
-                            e.FileName, checkLockedStatus: true, fileInaccessibleOrError: true, fileErrorMessage: "File not exist: " + e.FileName);
+                            e.FileName, checkLockedStatus: true, hasErrorOccured: true, errorMessage: "File not exist: " + e.FileName);
                         ImageListView_UpdateItemFileStatusInvoke(e.FileName, fileStatusError);
                     }
 
@@ -466,7 +466,7 @@ namespace PhotoTagsSynchronizer
                 if (!string.IsNullOrWhiteSpace(e.FileName))
                 {
                     FileStatus fileStatusError = FileHandler.GetFileStatus(
-                        e.FileName, checkLockedStatus: true, fileInaccessibleOrError: true, fileErrorMessage: ex.Message);
+                        e.FileName, checkLockedStatus: true, hasErrorOccured: true, errorMessage: ex.Message);
                     ImageListView_UpdateItemFileStatusInvoke(e.FileName, fileStatusError);
                 }
 
@@ -525,7 +525,7 @@ namespace PhotoTagsSynchronizer
                     if (!string.IsNullOrWhiteSpace(e.FullFilePath))
                     {
                         FileStatus fileStatusError = FileHandler.GetFileStatus(
-                            e.FullFilePath, checkLockedStatus: true, fileInaccessibleOrError: true, fileErrorMessage: ioex.Message);
+                            e.FullFilePath, checkLockedStatus: true, hasErrorOccured: true, errorMessage: ioex.Message);
                         ImageListView_UpdateItemFileStatusInvoke(e.FullFilePath, fileStatusError);
                     }
 
@@ -534,27 +534,27 @@ namespace PhotoTagsSynchronizer
                 catch (Exception ex)
                 {
                     FileStatus fileStatus = FileHandler.GetFileStatus(
-                            e.FullFilePath, checkLockedStatus: true, fileInaccessibleOrError: true, fileErrorMessage: ex.Message);
+                            e.FullFilePath, checkLockedStatus: true, hasErrorOccured: true, errorMessage: ex.Message);
                     ImageListView_UpdateItemFileStatusInvoke(e.FullFilePath, fileStatus);
                     
                     e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorGeneral;                    
                     if (!fileStatus.FileExists) e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorFileNotExist; //File has become deleted
                     else if (fileStatus.IsVirtual) e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorOneDriveNotRunning;
                     else if (fileStatus.IsInCloudOrVirtualOrOffline) e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorFileInCloud;
-                    else if (fileStatus.FileInaccessibleOrError) e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorGeneral;
+                    else if (fileStatus.HasErrorOccured) e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorGeneral;
                 }
 
                 
                 if (e.LoadedImage == null)
                 {
                     FileStatus fileStatus = FileHandler.GetFileStatus(
-                        e.FullFilePath, checkLockedStatus: true, fileInaccessibleOrError: true, fileErrorMessage: "Failed to load poster");
+                        e.FullFilePath, checkLockedStatus: true, hasErrorOccured: true, errorMessage: "Failed to load poster");
                     ImageListView_UpdateItemFileStatusInvoke(e.FullFilePath, fileStatus);
 
                     if (!fileStatus.FileExists) e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorFileNotExist; //File has become deleted
                     else if (fileStatus.IsVirtual) e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorOneDriveNotRunning;
                     else if (fileStatus.IsInCloudOrVirtualOrOffline) e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorFileInCloud;
-                    else if (fileStatus.FileInaccessibleOrError) e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorGeneral;
+                    else if (fileStatus.HasErrorOccured) e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorGeneral;
 
                     e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorOneDriveNotRunning;
                 }
@@ -1242,7 +1242,7 @@ namespace PhotoTagsSynchronizer
 
                         FileStatus fileStatus = FileHandler.GetFileStatus(
                             filename, checkLockedStatus: true,
-                            fileInaccessibleOrError: true, fileErrorMessage: renameFailed[filename].ErrorMessage);
+                            hasErrorOccured: true, errorMessage: renameFailed[filename].ErrorMessage);
                         ImageListView_UpdateItemFileStatusInvoke(filename, fileStatus);
 
                         FileStatus fileStatusRenameFailed = FileHandler.GetFileStatus(

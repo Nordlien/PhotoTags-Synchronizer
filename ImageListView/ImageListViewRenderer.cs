@@ -860,7 +860,7 @@ namespace Manina.Windows.Forms
                 if (drawThumbnail) g.DrawImage(img, pos);
 
                 if (!item.FileStatus.FileExists) g.DrawImage(mImageListView.StatusIconFileNotExists, pos.Left, pos.Top);
-                else if (item.FileStatus.FileInaccessibleOrError) g.DrawImage(mImageListView.StatusIconProcessFileInaccessible, pos.Left, pos.Top);
+                else if (item.FileStatus.HasErrorOccured) g.DrawImage(mImageListView.StatusIconProcessFileInaccessible, pos.Left, pos.Top);
                 else if (item.FileStatus.IsDirty) g.DrawImage(mImageListView.StatusIconProcessExiftoolStatusUnknown, pos.Left, pos.Top);
                 else if (item.FileStatus.ExiftoolProcessStatus == ExiftoolProcessStatus.ExiftoolProcessing) g.DrawImage(mImageListView.StatusIconProcessExiftoolProcessing, pos.Left, pos.Top);
                 else if (item.FileStatus.ExiftoolProcessStatus == ExiftoolProcessStatus.ExiftoolWillNotProcessingFileInCloud) g.DrawImage(mImageListView.StatusIconProcessExiftoolWillNotProcessingFileInCloud, pos.Left, pos.Top);

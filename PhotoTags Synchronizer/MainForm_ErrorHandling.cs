@@ -95,7 +95,7 @@ namespace PhotoTagsSynchronizer
             {
                 if (!queueErrorQueue.ContainsKey(fullFilePath)) queueErrorQueue.Add(fullFilePath, warning);
             }
-            FileStatus fileStatus = FileHandler.GetFileStatus(fullFilePath, fileErrorMessage: warning, exiftoolProcessStatus: ExiftoolProcessStatus.FileInaccessibleOrError);
+            FileStatus fileStatus = FileHandler.GetFileStatus(fullFilePath, errorMessage: warning, exiftoolProcessStatus: ExiftoolProcessStatus.FileInaccessibleOrError);
             ImageListView_UpdateItemFileStatusInvoke(fullFilePath, fileStatus);
 
             listOfErrors += warning + "\r\n------\r\n\r\n";
