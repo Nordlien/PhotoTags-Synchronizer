@@ -5988,7 +5988,6 @@ namespace PhotoTagsSynchronizer
                         else
                         {
                             metadataToSave = new Metadata(metadataFromDataGridView);
-                            //AutoKeywords(ref metadataToSave);
                             if (Properties.Settings.Default.WriteUsingCompatibilityCheck) AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave, fixDateTaken: true);
                         }
 
@@ -8932,7 +8931,8 @@ namespace PhotoTagsSynchronizer
                             {
                                 if (Properties.Settings.Default.WriteAutoKeywordsSynonyms) AutoKeywords(ref metadataToSave);
                                 if (Properties.Settings.Default.WriteUsingCompatibilityCheck) AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave, fixDateTaken: false);
-                                
+
+                                MicrosoftLocationHack(ref metadataToSave, metadataInCache, Properties.Settings.Default.MicosoftOneDriveLocationHackUse, Properties.Settings.Default.MicosoftOneDriveLocationHackPostfix);
                                 DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
                                 AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(metadataInCache));
                                 //Need use metadataToSave.FullFilePath, Because When Exiftool output filename can be diffrent to input filename
@@ -8993,6 +8993,8 @@ namespace PhotoTagsSynchronizer
                             {
                                 if (Properties.Settings.Default.WriteAutoKeywordsSynonyms) AutoKeywords(ref metadataToSave);
                                 if (Properties.Settings.Default.WriteUsingCompatibilityCheck) AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave, fixDateTaken: false);
+
+                                MicrosoftLocationHack(ref metadataToSave, metadata, Properties.Settings.Default.MicosoftOneDriveLocationHackUse, Properties.Settings.Default.MicosoftOneDriveLocationHackPostfix);
                                 DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
                                 AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(metadataInCache));
                                 //Need use metadataToSave.FullFilePath, Because When Exiftool output filename can be diffrent to input filename
@@ -9054,6 +9056,8 @@ namespace PhotoTagsSynchronizer
                             {
                                 if (Properties.Settings.Default.WriteAutoKeywordsSynonyms) AutoKeywords(ref metadataToSave);
                                 if (Properties.Settings.Default.WriteUsingCompatibilityCheck) AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave, fixDateTaken: false);
+
+                                //MicrosoftLocationHack(ref metadataToSave, metadataListOriginalExiftool[index], Properties.Settings.Default.MicosoftOneDriveLocationHackUse, Properties.Settings.Default.MicosoftOneDriveLocationHackPostfix);
                                 DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
                                 //MakeEqualBetweenMetadataAndDataGridViewContent(metadataToSave, isDirty);
                             }
@@ -9242,6 +9246,8 @@ namespace PhotoTagsSynchronizer
                                 {
                                     if (Properties.Settings.Default.WriteAutoKeywordsSynonyms) AutoKeywords(ref metadataToSave);
                                     if (Properties.Settings.Default.WriteUsingCompatibilityCheck) AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave, fixDateTaken: false);
+
+                                    MicrosoftLocationHack(ref metadataToSave, metadata, Properties.Settings.Default.MicosoftOneDriveLocationHackUse, Properties.Settings.Default.MicosoftOneDriveLocationHackPostfix);
                                     DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
                                     AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(metadataInCache));
                                     //Need use metadataToSave.FullFilePath, Because When Exiftool output filename can be diffrent to input filename
@@ -9311,6 +9317,8 @@ namespace PhotoTagsSynchronizer
                                     if (Properties.Settings.Default.WriteAutoKeywordsSynonyms) AutoKeywords(ref metadataToSave);
                                     AutoCorrectFormVaraibles.UseAutoCorrectFormData(ref metadataToSave, autoCorrectFormVaraibles);
                                     if (Properties.Settings.Default.WriteUsingCompatibilityCheck) AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave, fixDateTaken: false);
+
+                                    MicrosoftLocationHack(ref metadataToSave, metadata, Properties.Settings.Default.MicosoftOneDriveLocationHackUse, Properties.Settings.Default.MicosoftOneDriveLocationHackPostfix);
                                     DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
                                     AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(metadataInCache));
                                     //Need use metadataToSave.FullFilePath, Because When Exiftool output filename can be diffrent to input filename
@@ -9383,6 +9391,7 @@ namespace PhotoTagsSynchronizer
                                 {
                                     if (Properties.Settings.Default.WriteAutoKeywordsSynonyms) AutoKeywords(ref metadataToSave);
                                     if (Properties.Settings.Default.WriteUsingCompatibilityCheck) AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave, fixDateTaken: false);
+                                    //MicrosoftLocationHack(ref metadataToSave, metadataListOriginalExiftool[index], Properties.Settings.Default.MicosoftOneDriveLocationHackUse, Properties.Settings.Default.MicosoftOneDriveLocationHackPostfix);
                                     DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
                                     //MakeEqualBetweenMetadataAndDataGridViewContent(metadataToSave, isDirty);
                                 }

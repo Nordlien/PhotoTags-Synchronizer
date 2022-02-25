@@ -685,7 +685,6 @@ namespace PhotoTagsSynchronizer
         #region DataGridView - Populate File - FileEntryAttribute -> DataGridView_Populate_FileEntryAttribute();
         private void DataGridView_Populate_FileEntryAttribute(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, string tabTag, Metadata metadataAutoCorrect = null)
         {
-            //if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.ExtractedNowUsingReadMediaFile) return; //When call from ThreadSaveToDatabaseRegionAndThumbnail
             lock (GlobalData.populateSelectedLock)
             {
                 #region isFileInDataGridView
@@ -694,15 +693,15 @@ namespace PhotoTagsSynchronizer
 
                 if (isFilSelectedInImageListView)
                 {
-                    DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, isFilSelectedInImageListView); //Will not suspend when Column Don't exist, but counter will increase
+                        DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, isFilSelectedInImageListView); //Will not suspend when Column Don't exist, but counter will increase
 
-                    DataGridViewHandlerRename.RenameVaribale = Properties.Settings.Default.RenameVariable;
-                    DataGridViewHandlerRename.ShowFullPath = Properties.Settings.Default.RenameShowFullPath;
-                    DataGridViewHandlerConvertAndMerge.FileDateTimeFormats = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
-                    DataGridViewHandlerConvertAndMerge.RenameVaribale = Properties.Settings.Default.RenameVariable;
-                    DataGridViewHandlerPeople.SuggestRegionNameNearByDays = Properties.Settings.Default.SuggestRegionNameNearbyDays;
-                    DataGridViewHandlerPeople.SuggestRegionNameNearByTopMostCount = Properties.Settings.Default.SuggestRegionNameNearByCount;
-                    DataGridViewHandlerPeople.RenameDateFormats = Properties.Settings.Default.RenameDateFormats;
+                        DataGridViewHandlerRename.RenameVaribale = Properties.Settings.Default.RenameVariable;
+                        DataGridViewHandlerRename.ShowFullPath = Properties.Settings.Default.RenameShowFullPath;
+                        DataGridViewHandlerConvertAndMerge.FileDateTimeFormats = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
+                        DataGridViewHandlerConvertAndMerge.RenameVaribale = Properties.Settings.Default.RenameVariable;
+                        DataGridViewHandlerPeople.SuggestRegionNameNearByDays = Properties.Settings.Default.SuggestRegionNameNearbyDays;
+                        DataGridViewHandlerPeople.SuggestRegionNameNearByTopMostCount = Properties.Settings.Default.SuggestRegionNameNearByCount;
+                        DataGridViewHandlerPeople.RenameDateFormats = Properties.Settings.Default.RenameDateFormats;
                     #region Popuate File
                     switch (tabTag)
                     {
