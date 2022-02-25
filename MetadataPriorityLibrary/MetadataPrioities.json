@@ -741,8 +741,8 @@
   },
   {
     "MetadataPriorityKey": {
-      "Region": "EXIF:ExifIFD",
-      "Tag": "ApertureValue"
+      "Region": "Composite",
+      "Tag": "Flash"
     },
     "MetadataPriorityValues": {
       "Composite": "Not defined",
@@ -861,8 +861,8 @@
   },
   {
     "MetadataPriorityKey": {
-      "Region": "EXIF:ExifIFD",
-      "Tag": "SceneCaptureType"
+      "Region": "XMP:XMP-prefix3",
+      "Tag": "DateUTC"
     },
     "MetadataPriorityValues": {
       "Composite": "Not defined",
@@ -1211,8 +1211,8 @@
   },
   {
     "MetadataPriorityKey": {
-      "Region": "XMP:XMP-exif",
-      "Tag": "ExposureProgram"
+      "Region": "Composite",
+      "Tag": "DateTimeCreated"
     },
     "MetadataPriorityValues": {
       "Composite": "Not defined",
@@ -1221,8 +1221,8 @@
   },
   {
     "MetadataPriorityKey": {
-      "Region": "XMP:XMP-exif",
-      "Tag": "ExposureTime"
+      "Region": "ICC_Profile:ICC-header",
+      "Tag": "DeviceAttributes"
     },
     "MetadataPriorityValues": {
       "Composite": "Not defined",
@@ -1831,8 +1831,8 @@
   },
   {
     "MetadataPriorityKey": {
-      "Region": "ICC_Profile:ICC-header",
-      "Tag": "DeviceAttributes"
+      "Region": "XMP:XMP-exif",
+      "Tag": "ExposureTime"
     },
     "MetadataPriorityValues": {
       "Composite": "Not defined",
@@ -2151,8 +2151,8 @@
   },
   {
     "MetadataPriorityKey": {
-      "Region": "Composite",
-      "Tag": "DateTimeCreated"
+      "Region": "XMP:XMP-exif",
+      "Tag": "ExposureProgram"
     },
     "MetadataPriorityValues": {
       "Composite": "Not defined",
@@ -2171,8 +2171,8 @@
   },
   {
     "MetadataPriorityKey": {
-      "Region": "Composite",
-      "Tag": "Flash"
+      "Region": "EXIF:ExifIFD",
+      "Tag": "ApertureValue"
     },
     "MetadataPriorityValues": {
       "Composite": "Not defined",
@@ -6251,8 +6251,8 @@
   },
   {
     "MetadataPriorityKey": {
-      "Region": "XMP:XMP-prefix3",
-      "Tag": "DateUTC"
+      "Region": "EXIF:ExifIFD",
+      "Tag": "SceneCaptureType"
     },
     "MetadataPriorityValues": {
       "Composite": "Not defined",
@@ -6263,6 +6263,4656 @@
     "MetadataPriorityKey": {
       "Region": "XMP:XMP-prefix3",
       "Tag": "ModificationDate"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "File:System",
+      "Tag": "ZoneIdentifier"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "IPTC",
+      "Tag": "OriginalTransmissionReference"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-pdf",
+      "Tag": "Keywords"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Keywords Struct",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "EXIF:IFD0",
+      "Tag": "ProcessingSoftware"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-exif",
+      "Tag": "SensingMethod"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-exif",
+      "Tag": "SubjectDistanceRange"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-ics",
+      "Tag": "AppVersion"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-ics",
+      "Tag": "ImageRef"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-ics",
+      "Tag": "TagStructure"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-ics",
+      "Tag": "TimeStamp"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-tiff",
+      "Tag": "BitsPerSample"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-tiff",
+      "Tag": "Compression"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "IPTC",
+      "Tag": "ProgramVersion"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "IPTC",
+      "Tag": "SpecialInstructions"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-prefix0",
+      "Tag": "Brightness"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-prefix0",
+      "Tag": "CameraModelID"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-prefix0",
+      "Tag": "Contrast"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-prefix0",
+      "Tag": "ExposureCompensation"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-prefix0",
+      "Tag": "PipelineVersion"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-prefix0",
+      "Tag": "StreamType"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-prefix0",
+      "Tag": "WhiteBalance0"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-prefix0",
+      "Tag": "WhiteBalance1"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-prefix0",
+      "Tag": "WhiteBalance2"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "QuickTime:Track1",
+      "Tag": "Balance"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "QuickTime:Track1",
+      "Tag": "AudioFormat"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "QuickTime:Track1",
+      "Tag": "AudioChannels"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "QuickTime:Track1",
+      "Tag": "AudioBitsPerSample"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "QuickTime:Track1",
+      "Tag": "AudioSampleRate"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "QuickTime:Track2",
+      "Tag": "ImageWidth"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Media Width",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "QuickTime:Track2",
+      "Tag": "ImageHeight"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Media Height",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "QuickTime:Track2",
+      "Tag": "GraphicsMode"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "QuickTime:Track2",
+      "Tag": "OpColor"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "QuickTime:Track2",
+      "Tag": "CompressorID"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "QuickTime:Track2",
+      "Tag": "SourceImageWidth"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Media Width",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "QuickTime:Track2",
+      "Tag": "SourceImageHeight"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Media Height",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "QuickTime:Track2",
+      "Tag": "XResolution"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "QuickTime:Track2",
+      "Tag": "YResolution"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "QuickTime:Track2",
+      "Tag": "BitDepth"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "QuickTime:Track2",
+      "Tag": "VideoFrameRate"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "QuickTime:Microsoft",
+      "Tag": "EncodingTime"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "EXIF:IFD0",
+      "Tag": "Copyright"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "EXIF:ExifIFD",
+      "Tag": "SensitivityType"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "EXIF:ExifIFD",
+      "Tag": "RecommendedExposureIndex"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "EXIF:ExifIFD",
+      "Tag": "LensSerialNumber"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "IPTC",
+      "Tag": "CopyrightNotice"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-aux",
+      "Tag": "LensSerialNumber"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-photoshop",
+      "Tag": "LegacyIPTCDigest"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-dc",
+      "Tag": "Rights"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-exif",
+      "Tag": "SubjectDistance"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Samsung",
+      "Tag": "MakerNoteVersion"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Samsung",
+      "Tag": "DeviceType"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Samsung",
+      "Tag": "RawDataByteOrder"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Samsung",
+      "Tag": "RawDataCFAPattern"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Samsung",
+      "Tag": "FaceDetect"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "QuickTime:UserData",
+      "Tag": "PlayMode"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "ImageQuality"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "FirmwareVersion"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "WhiteBalance"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "FocusMode"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "AFAreaMode"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "ImageStabilization"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "MacroMode"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "ShootingMode"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "Audio"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "DataDump"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "WhiteBalanceBias"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "FlashBias"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "InternalSerialNumber"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "PanasonicExifVersion"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "VideoFrameRate"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "ColorEffect"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "TimeSincePowerOn"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "BurstMode"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "SequenceNumber"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "ContrastMode"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "NoiseReduction"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "SelfTimer"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "Rotation"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "AFAssistLamp"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "ColorMode"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "BabyAge"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "OpticalZoomMode"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "ConversionLens"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "TravelDay"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "BatteryLevel"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "WorldTimeLocation"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "TextStamp"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "ProgramISO"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "AdvancedSceneType"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "FacesDetected"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "AFPointPosition"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "NumFacePositions"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "Transform"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "IntelligentExposure"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "FacesRecognized"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "FlashWarning"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "Title"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Title",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "BabyName"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "Location"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Ignore",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "Country"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Ignore",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "State"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Ignore",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "City"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Ignore",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "Landmark"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "IntelligentResolution"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "HDRShot"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "BurstSpeed"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "ClearRetouch"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "City2"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "AccelerometerZ"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "AccelerometerX"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "AccelerometerY"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "WBShiftCreativeControl"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "SweepPanoramaDirection"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "SweepPanoramaFieldOfView"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "InternalNDFilter"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "FilterEffect"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "ClearRetouchValue"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "OutputLUT"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "TimeLapseShotNumber"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "MakerNoteVersion"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "SceneMode"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "HighlightWarning"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "DarkFocusEnvironment"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "WBRedLevel"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "WBGreenLevel"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "WBBlueLevel"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "EXIF:GPS",
+      "Tag": "GPSStatus"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "EXIF:GPS",
+      "Tag": "GPSMeasureMode"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "EXIF:GPS",
+      "Tag": "GPSDOP"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "EXIF:GPS",
+      "Tag": "GPSImgDirectionRef"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "EXIF:GPS",
+      "Tag": "GPSImgDirection"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "EXIF:GPS",
+      "Tag": "GPSMapDatum"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "EXIF:GPS",
+      "Tag": "GPSAreaInformation"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "EXIF:IFD1",
+      "Tag": "YCbCrPositioning"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-exif",
+      "Tag": "GPSStatus"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-exif",
+      "Tag": "GPSMeasureMode"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-exif",
+      "Tag": "GPSDOP"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-exif",
+      "Tag": "GPSImgDirectionRef"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-exif",
+      "Tag": "GPSImgDirection"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-exif",
+      "Tag": "GPSMapDatum"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-exif",
+      "Tag": "GPSAreaInformation"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MPF:MPF0",
+      "Tag": "MPFVersion"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MPF:MPF0",
+      "Tag": "NumberOfImages"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MPF:MPImage1",
+      "Tag": "MPImageFlags"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MPF:MPImage1",
+      "Tag": "MPImageFormat"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MPF:MPImage1",
+      "Tag": "MPImageType"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MPF:MPImage1",
+      "Tag": "MPImageLength"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MPF:MPImage1",
+      "Tag": "MPImageStart"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MPF:MPImage1",
+      "Tag": "DependentImage1EntryNumber"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MPF:MPImage1",
+      "Tag": "DependentImage2EntryNumber"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MPF:MPImage2",
+      "Tag": "MPImageFlags"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MPF:MPImage2",
+      "Tag": "MPImageFormat"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MPF:MPImage2",
+      "Tag": "MPImageType"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MPF:MPImage2",
+      "Tag": "MPImageLength"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MPF:MPImage2",
+      "Tag": "MPImageStart"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MPF:MPImage2",
+      "Tag": "DependentImage1EntryNumber"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MPF:MPImage2",
+      "Tag": "DependentImage2EntryNumber"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MPF:MPImage2",
+      "Tag": "PreviewImage"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "Composite",
+      "Tag": "BlueBalance"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "Composite",
+      "Tag": "RedBalance"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "Composite",
+      "Tag": "AdvancedSceneMode"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "APP14:Adobe",
+      "Tag": "DCTEncodeVersion"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "APP14:Adobe",
+      "Tag": "APP14Flags0"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "APP14:Adobe",
+      "Tag": "APP14Flags1"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "APP14:Adobe",
+      "Tag": "ColorTransform"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "EXIF:ExifIFD",
+      "Tag": "CFAPattern"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-aux",
+      "Tag": "ApproximateFocusDistance"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "ColorNoiseReductionSmoothness"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "PerspectiveAspect"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "PerspectiveUpright"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "PerspectiveX"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "PerspectiveY"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "DefringePurpleAmount"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "DefringePurpleHueLo"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "DefringePurpleHueHi"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "DefringeGreenAmount"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "DefringeGreenHueLo"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "DefringeGreenHueHi"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "Dehaze"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "ToneMapStrength"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "OverrideLookVignette"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "UprightVersion"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "UprightCenterMode"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "UprightCenterNormX"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "UprightCenterNormY"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "UprightFocalMode"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "UprightFocalLength35mm"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "UprightPreview"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "UprightTransformCount"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "UprightFourSegmentsCount"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "CropTop"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "CropLeft"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "CropBottom"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "CropRight"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "CropAngle"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "CropConstrainToWarp"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "PaintBasedCorrections"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "GradientBasedCorrections"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "Look"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "Composite",
+      "Tag": "DOF"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "GrayMixerRed"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "GrayMixerOrange"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "GrayMixerYellow"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "GrayMixerGreen"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "GrayMixerAqua"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "GrayMixerBlue"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "GrayMixerPurple"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "GrayMixerMagenta"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "MacroMode"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "SelfTimer"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "Quality"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "CanonFlashMode"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "ContinuousDrive"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "FocusMode"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "RecordMode"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "CanonImageSize"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "EasyMode"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "DigitalZoom"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "Contrast"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "Saturation"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "MeteringMode"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "FocusRange"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "CanonExposureMode"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "LensType"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "MaxFocalLength"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "MinFocalLength"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "FocalUnits"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "MaxAperture"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "MinAperture"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "FlashActivity"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "FlashBits"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "ZoomSourceWidth"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "ZoomTargetWidth"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "ManualFlashOutput"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "ColorTone"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "FocalLength"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "AutoISO"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "BaseISO"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "MeasuredEV"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "TargetAperture"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "TargetExposureTime"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "ExposureCompensation"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "WhiteBalance"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "SlowShutter"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "SequenceNumber"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "OpticalZoomCode"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "CameraTemperature"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "FlashGuideNumber"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "FlashExposureComp"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "AutoExposureBracketing"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "AEBBracketValue"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "ControlMode"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "FNumber"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "ExposureTime"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "MeasuredEV2"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "BulbDuration"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "CameraType"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "NDFilter"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "CanonImageType"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "CanonFirmwareVersion"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "OwnerName"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "CanonModelID"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "ThumbnailImageValidArea"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "AFAreaMode"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "NumAFPoints"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "ValidAFPoints"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "CanonImageWidth"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "CanonImageHeight"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "AFImageWidth"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "AFImageHeight"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "AFAreaWidths"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "AFAreaHeights"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "AFAreaXPositions"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "AFAreaYPositions"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "AFPointsInFocus"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "AFPointsSelected"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "TimeZone"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "TimeZoneCity"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "DaylightSavings"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "BatteryType"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "BracketMode"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "BracketValue"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "BracketShotNumber"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "RawJpgSize"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "WBBracketMode"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "WBBracketValueAB"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "WBBracketValueGM"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "LiveViewShooting"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "FocusDistanceUpper"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "FocusDistanceLower"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "ShutterMode"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "FlashExposureLock"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "LensModel"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "InternalSerialNumber"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "DustRemovalData"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "CropLeftMargin"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "CropRightMargin"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "CropTopMargin"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "CropBottomMargin"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "AspectRatio"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "CroppedImageWidth"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "CroppedImageHeight"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "CroppedImageLeft"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "CroppedImageTop"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "ToneCurve"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "Sharpness"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "SharpnessFrequency"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "SensorRedLevel"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "SensorBlueLevel"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "WhiteBalanceRed"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "WhiteBalanceBlue"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "ColorTemperature"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "PictureStyle"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "DigitalGain"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "WBShiftAB"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "WBShiftGM"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "MeasuredRGGB"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "ColorSpace"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "VRDOffset"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "SensorWidth"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "SensorHeight"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "SensorLeftBorder"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "SensorTopBorder"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "SensorRightBorder"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "SensorBottomBorder"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "BlackMaskLeftBorder"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "BlackMaskTopBorder"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "BlackMaskRightBorder"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "BlackMaskBottomBorder"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "ColorDataVersion"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "WB_RGGBLevelsAsShot"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "ColorTempAsShot"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "WB_RGGBLevelsAuto"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "ColorTempAuto"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "WB_RGGBLevelsMeasured"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "ColorTempMeasured"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "WB_RGGBLevelsDaylight"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "ColorTempDaylight"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "WB_RGGBLevelsShade"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "ColorTempShade"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "WB_RGGBLevelsCloudy"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "ColorTempCloudy"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "WB_RGGBLevelsTungsten"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "ColorTempTungsten"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "WB_RGGBLevelsFluorescent"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "ColorTempFluorescent"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "WB_RGGBLevelsKelvin"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "ColorTempKelvin"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "WB_RGGBLevelsFlash"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "ColorTempFlash"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "AverageBlackLevel"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "RawMeasuredRGGB"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "PerChannelBlackLevel"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "NormalWhiteLevel"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "SpecularWhiteLevel"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "LinearityUpperMargin"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "PictureStyleUserDef"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "PictureStylePC"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "CustomPictureStyleFileName"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "AFMicroAdjMode"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "AFMicroAdjValue"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "VignettingCorrVersion"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "PeripheralLightingSetting"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "ChromaticAberrationSetting"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "DistortionCorrectionSetting"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "PeripheralIlluminationCorr"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "AutoLightingOptimizer"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "HighlightTonePriority"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "LongExposureNoiseReduction"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "HighISONoiseReduction"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "LensSerialNumber"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "MultiExposure"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "MultiExposureControl"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "MultiExposureShots"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "HDR"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "HDREffect"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "AFConfigTool"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "AFTrackingSensitivity"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "AFAccelDecelTracking"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "AFPointSwitching"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "AIServoFirstImage"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "AIServoSecondImage"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "USMLensElectronicMF"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "AFAssistBeam"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "OneShotAFRelease"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "AutoAFPointSelEOSiTRAF"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "LensDriveWhenAFImpossible"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "SelectAFAreaSelectionMode"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "AFAreaSelectionMethod"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "OrientationLinkedAF"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "ManualAFPointSelPattern"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "AFPointDisplayDuringFocus"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "VFDisplayIllumination"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:CanonCustom",
+      "Tag": "ExposureLevelIncrements"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:CanonCustom",
+      "Tag": "ISOSpeedIncrements"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:CanonCustom",
+      "Tag": "AEBAutoCancel"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:CanonCustom",
+      "Tag": "AEBSequence"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:CanonCustom",
+      "Tag": "AEBShotCount"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:CanonCustom",
+      "Tag": "SafetyShift"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:CanonCustom",
+      "Tag": "SameExposureForNewAperture"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:CanonCustom",
+      "Tag": "ShutterSpeedRange"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:CanonCustom",
+      "Tag": "ApertureRange"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:CanonCustom",
+      "Tag": "FocusingScreen"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:CanonCustom",
+      "Tag": "LVShootingAreaDisplay"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:CanonCustom",
+      "Tag": "ViewfinderWarnings"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:CanonCustom",
+      "Tag": "ContinuousShootingSpeed"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:CanonCustom",
+      "Tag": "CustomControls"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:CanonCustom",
+      "Tag": "DialDirectionTvAv"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:CanonCustom",
+      "Tag": "MultiFunctionLock"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:CanonCustom",
+      "Tag": "AddAspectRatioInfo"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:CanonCustom",
+      "Tag": "DefaultEraseOption"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "Composite",
+      "Tag": "DriveMode"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "Composite",
+      "Tag": "ISO"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "Composite",
+      "Tag": "Lens"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "Composite",
+      "Tag": "ShootingMode"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "Composite",
+      "Tag": "WB_RGGBLevels"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "Composite",
+      "Tag": "Lens35efl"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-aux",
+      "Tag": "LateralChromaticAberrationCorrectionAlreadyApplied"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-exifEX",
+      "Tag": "LensModel"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "IncrementalTemperature"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "IncrementalTint"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "SerialNumber"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "ISO"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "FlashMeteringMode"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Canon",
+      "Tag": "OriginalDecisionDataOffset"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-exif",
+      "Tag": "FocalPlaneXResolution"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-exif",
+      "Tag": "FocalPlaneYResolution"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-exif",
+      "Tag": "FocalPlaneResolutionUnit"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "EXIF:ExifIFD",
+      "Tag": "OffsetTime"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "ColorGradeBlending"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "ColorGradeGlobalHue"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "ColorGradeGlobalLum"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "ColorGradeGlobalSat"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "ColorGradeHighlightLum"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "ColorGradeMidtoneHue"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "ColorGradeMidtoneLum"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "ColorGradeMidtoneSat"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "ColorGradeShadowLum"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "PostCropVignetteFeather"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "PostCropVignetteHighlightContrast"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "PostCropVignetteMidpoint"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "PostCropVignetteRoundness"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "PostCropVignetteStyle"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-crs",
+      "Tag": "Texture"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "PNG",
+      "Tag": "Description"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Description",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "PNG",
+      "Tag": "CreateDate"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Date Time Digitized",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "QuickTime:UserData",
+      "Tag": "Author"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-tiff",
+      "Tag": "Software"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-exif",
+      "Tag": "GPSLatitudeRef"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-exif",
+      "Tag": "GPSLongitudeRef"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "Face1Position"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "Face2Position"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "Face3Position"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "Face4Position"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "Face5Position"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "PanasonicDateTime"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "RecognizedFace1Name"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "RecognizedFace1Position"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "RecognizedFace1Age"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "RecognizedFace2Name"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "RecognizedFace2Position"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "RecognizedFace2Age"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "RecognizedFace3Name"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "RecognizedFace3Position"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Panasonic",
+      "Tag": "RecognizedFace3Age"
     },
     "MetadataPriorityValues": {
       "Composite": "Not defined",
