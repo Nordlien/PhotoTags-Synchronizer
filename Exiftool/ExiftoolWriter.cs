@@ -129,8 +129,8 @@ namespace Exiftool
                     }
                     catch (Exception ex)
                     {
-                        string error = "Failed to write Microsoft's own Xtra Atom Propery on file. Exception message: " + ex.Message;
-                        Logger.Error("File name: " + metadataToWrite.FileFullPath + " Error Message: " + error);
+                        string error = "Failed to write Microsoft's own Xtra Atom Propery on file.: " + metadataToWrite.FileFullPath;
+                        Logger.Error(ex, error);
                         writeXtraAtomErrorMessageForFile.Add(metadataToWrite.FileFullPath, error);
                     }
 

@@ -912,7 +912,8 @@ namespace MetadataLibrary
                 if (LocationLatitude != null && LocationLongitude != null)
                 {
                     TimeZoneInfo timeZoneInfoGPSLocation = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation((double)LocationLatitude, (double)LocationLongitude);
-
+                    if (timeZoneInfoGPSLocation == null) return null;
+                    
                     DateTime findOffsettDateTime;
                     if (LocationDateTime != null) findOffsettDateTime = (DateTime)LocationDateTime;
                     else if (LocationDateTime != null) findOffsettDateTime = (DateTime)MediaDateTaken;
