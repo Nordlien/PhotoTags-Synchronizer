@@ -675,27 +675,29 @@ namespace PhotoTagsSynchronizer
                 if (metadataCopy?.LocationLatitude == null || metadataCopy?.LocationLongitude == null)
                 {
                     DateTime? dateTimeUTC = null;
-                    string cameraOwner = cameraOwnersDatabaseCache.GetOwenerForCameraMakeModel(metadataCopy?.CameraMake, metadataCopy?.CameraModel);
-                    
+
+                    #region Estimate Location Latitude Longitude (From Location Coordinates History Database)
+                    string cameraOwner = cameraOwnersDatabaseCache.GetOwenerForCameraMakeModel(metadataCopy?.CameraMake, metadataCopy?.CameraModel);                   
                     if (!string.IsNullOrEmpty(cameraOwner))
                     {
-                        #region Find or Guess UTC time   
                         Logger.Debug("FixAndSave: -Try Find or Guess UTC time-");
                         if (metadataCopy?.LocationDateTime != null) //If has UTC time
                         {
+                            #region dateTimeUTC = LocationDateTime
                             dateTimeUTC = new DateTime(((DateTime)metadataCopy?.LocationDateTime).Ticks, DateTimeKind.Utc);
                             Logger.Debug("FixAndSave: Have UTC time, dateTimeUTC = LocationDateTime: " + dateTimeUTC.ToString());
+                            #endregion
                         }
                         else if (metadataCopy?.MediaDateTaken != null) //Don't have UTC time, need try to Guess
                         {
                             Logger.Debug("FixAndSave: Don't have UTC time, need try to Guess");
 
+                            #region Find NearBy Location using "MediaTaken DateTime" even with wrong TimeZone however (Can be ±24 hours wrong)
                             DateTime mediaDateTimeUnspecified = new DateTime(((DateTime)metadataCopy?.MediaDateTaken).Ticks, DateTimeKind.Unspecified);
-
-                            //Try find a location nearby
                             Metadata metadataLocationTimeZone = databaseGoogleLocationHistory.FindLocationBasedOnTime(cameraOwner, mediaDateTimeUnspecified, LocationTimeZoneGuessHours * 60 * 60);
+                            #endregion
 
-                            //Found a location for time zone, however it's up to ±24 hours wrong
+                            #region Get TimeZone when found location
                             if (metadataLocationTimeZone != null && metadataLocationTimeZone?.LocationLatitude != null && metadataLocationTimeZone?.LocationLongitude != null)
                             {
                                 TimeZoneInfo timeZoneInfo = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation((double)metadataLocationTimeZone?.LocationLatitude, (double)metadataLocationTimeZone?.LocationLongitude);
@@ -707,9 +709,9 @@ namespace PhotoTagsSynchronizer
                             {
                                 Logger.Debug("FixAndSave: No location found (±24 hours) for camera owner: " + cameraOwner);
                             }
+                            #endregion
                         }
-                        #endregion
-                        
+
                         #region Find best GPS location
                         if (dateTimeUTC != null) //UTC time found, guess location based on UTC time
                         {
@@ -734,8 +736,9 @@ namespace PhotoTagsSynchronizer
                     {
                         Logger.Debug("FixAndSave: cameraOwner not found - can't search Location history");
                     }
+                    #endregion
 
-                    #region UpdateGPSLocationNearByMedia - if still missing location
+                    #region #region Estimate Location Latitude Longitude (From Location Near By Photos)
                     if (UpdateGPSLocationNearByMedia)
                     {
                         if (metadataCopy?.LocationLatitude == null || metadataCopy?.LocationLongitude == null)
@@ -764,8 +767,7 @@ namespace PhotoTagsSynchronizer
             }
             #endregion
 
-            #region DateAndTime Digitized
-            DateTime? dateTimeGPSLocal = null;
+            #region MediaDateTaken DateTime
             string sourceMediaDateTaken = null;
             if (UpdateDateTaken)
             {
@@ -788,7 +790,7 @@ namespace PhotoTagsSynchronizer
                             if (metadataCopy?.LocationLatitude != null && metadataCopy?.LocationLongitude != null && metadataCopy?.LocationDateTime != null)
                             {
                                 TimeZoneInfo timeZoneInfo = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation((double)metadataCopy?.LocationLatitude, (double)metadataCopy?.LocationLongitude);
-                                dateTimeGPSLocal = TimeZoneInfo.ConvertTimeFromUtc(new DateTime(((DateTime)metadataCopy?.LocationDateTime).Ticks, DateTimeKind.Utc), timeZoneInfo);
+                                DateTime? dateTimeGPSLocal = TimeZoneInfo.ConvertTimeFromUtc(new DateTime(((DateTime)metadataCopy?.LocationDateTime).Ticks, DateTimeKind.Utc), timeZoneInfo);
                                 newDateTime = dateTimeGPSLocal;
                                 if (newDateTime != null) Logger.Debug("FixAndSave: DateAndTime Digitized was found at DateTimeSources.GPSDateAndTime: " + newDateTime.ToString());
                                 sourceMediaDateTaken = "GPS Date And Time";
@@ -838,14 +840,9 @@ namespace PhotoTagsSynchronizer
             #endregion
 
             #region UpdateGPSDateTime (only if location coordinates exists)
-            if (UpdateGPSDateTime && metadataCopy?.LocationLatitude != null && metadataCopy?.LocationLongitude != null)
+            if (UpdateGPSDateTime)
             {
-                if (metadataCopy?.LocationDateTime != null)
-                {
-                    Logger.Debug("FixAndSave: Location date time before update: " + metadataCopy.LocationDateTime.ToString());
-                }
-
-                if (metadataCopy?.MediaDateTaken != null)
+                if (metadataCopy?.LocationDateTime == null && metadataCopy?.MediaDateTaken != null && metadataCopy?.LocationLatitude != null && metadataCopy?.LocationLongitude != null)
                 {
                     DateTime mediaDateTimeUnspecified = new DateTime(((DateTime)metadataCopy?.MediaDateTaken).Ticks, DateTimeKind.Unspecified);
                     TimeZoneInfo timeZoneInfo = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation((double)metadataCopy?.LocationLatitude, (double)metadataCopy?.LocationLongitude);
@@ -858,11 +855,13 @@ namespace PhotoTagsSynchronizer
             #region Location name, city, state, country
             if (UpdateLocation && metadataCopy?.LocationLatitude != null && metadataCopy?.LocationLongitude != null)
             {
-                if (!UpdateLocationOnlyWhenEmpty || 
-                    string.IsNullOrWhiteSpace(metadataCopy?.LocationName) ||
-                    string.IsNullOrWhiteSpace(metadataCopy?.LocationState) ||
-                    string.IsNullOrWhiteSpace(metadataCopy?.LocationCity) ||
+                if (!UpdateLocationOnlyWhenEmpty ||
+                    (UpdateLocationOnlyWhenEmpty && 
+                    string.IsNullOrWhiteSpace(metadataCopy?.LocationName) &&
+                    string.IsNullOrWhiteSpace(metadataCopy?.LocationState) &&
+                    string.IsNullOrWhiteSpace(metadataCopy?.LocationCity) &&
                     string.IsNullOrWhiteSpace(metadataCopy?.LocationCountry))
+                   )
                 {
                     LocationCoordinateAndDescription locationData = locationNameLookUpCache.AddressLookupAndReverseGeocoder(
                         metadataCopy?.LocationCoordinate, locationAccuracyLatitude, locationAccuracyLongitude, onlyFromCache: false, canReverseGeocoder: true,
@@ -956,8 +955,9 @@ namespace PhotoTagsSynchronizer
             #endregion
 
             #region Backup/TrackChanges In Comments
-            DateTime? newDateTimeFileCreated = metadata.FileDateCreated;
-            
+
+            #region Convert FileDateCreated to UTC
+            DateTime? newDateTimeFileCreated = metadata.FileDateCreated;            
             if (metadata.TryParseDateTakenToUtc(out DateTime? dateTakenWithOffset))
             {
                 if (metadata?.FileDateCreated != null &&
@@ -968,6 +968,7 @@ namespace PhotoTagsSynchronizer
                     newDateTimeFileCreated = (DateTime)dateTakenWithOffset;
                 }
             }
+            #endregion
 
             if (TrackChangesInComments)
             {

@@ -77,8 +77,17 @@ namespace TimeZone
 
         public static TimeZoneInfo GetTimeZoneInfoOnGeoLocation(double latitude, double longitude)
         {
-            TimeZoneResult timeZoneResult = TimeZoneLookup.GetTimeZone(latitude, longitude);
-            return TZConvert.GetTimeZoneInfo(timeZoneResult.Result);
+            TimeZoneInfo timeZoneInfo = null;
+            try
+            {
+                TimeZoneResult timeZoneResult = TimeZoneLookup.GetTimeZone(latitude, longitude);
+                timeZoneInfo = TZConvert.GetTimeZoneInfo(timeZoneResult.Result);
+            }
+            catch 
+            {
+
+            }
+            return timeZoneInfo;
         }
 
         public static string TimeZoneNameStandarOrDaylight (TimeZoneInfo timeZoneInfo, DateTime date)
