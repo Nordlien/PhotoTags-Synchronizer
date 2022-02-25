@@ -1483,7 +1483,10 @@ namespace PhotoTagsSynchronizer
                                                         AddErrorExiftooParameterVerify, AddErrorExiftooParameterVerify, 
                                                         "Issue: Verified Metadata is not equal with written.\r\n" + 
                                                         "File Name: " + metadataUpdatedByUserCopy.FileFullPath + "\r\n" +
-                                                        "Error Message: " + writeErrorDesciption);
+                                                        "Error Message: " + writeErrorDesciption + "\r\n" +
+                                                        "Reason: 3rd party applicatoin are doing correction on file, e.g OneDrive -> Microsoft Photos -> Synced back with changes\r\n" +
+                                                        "Reason: There's tags from Manifactors or other applications store metadata same type of metadata.\r\n" +
+                                                        "Solution: 1) Config Write Metadata to overwite old infomtation with new. 2) Config the tag with lower priority or ignor it.");
                                                     #endregion
 
                                                     #region Save Metadata with Broker Exiftool | WriteError 
