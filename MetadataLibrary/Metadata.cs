@@ -874,8 +874,16 @@ namespace MetadataLibrary
             if (LocationLatitude != null && LocationLongitude != null)
             {
                 TimeZoneInfo timeZoneInfoGPSLocation = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation((double)LocationLatitude, (double)LocationLongitude);
-                DateTimeOffset locationOffset = new DateTimeOffset(locationDateTomeUtc.Ticks, timeZoneInfoGPSLocation.GetUtcOffset(locationDateTomeUtc));
-                mediaTakenUtc = new DateTime(((DateTime)MediaDateTaken).Add(-locationOffset.Offset).Ticks, DateTimeKind.Utc);
+                if (timeZoneInfoGPSLocation != null)
+                {
+                    DateTimeOffset locationOffset = new DateTimeOffset(locationDateTomeUtc.Ticks, timeZoneInfoGPSLocation.GetUtcOffset(locationDateTomeUtc));
+                    mediaTakenUtc = new DateTime(((DateTime)MediaDateTaken).Add(-locationOffset.Offset).Ticks, DateTimeKind.Utc);
+                }
+                else
+                {
+                    TimeSpan diff = (new DateTime(((DateTime)MediaDateTaken).Ticks, DateTimeKind.Utc)) - locationDateTomeUtc;
+                    mediaTakenUtc = new DateTime(((DateTime)MediaDateTaken).Add(-diff).Ticks, DateTimeKind.Utc);
+                }
             } else
             {
                 TimeSpan diff = (new DateTime( ((DateTime)MediaDateTaken).Ticks, DateTimeKind.Utc)) - locationDateTomeUtc;

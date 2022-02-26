@@ -106,7 +106,7 @@ namespace TimeZone
             if (timeSpan == null) return "Unknown time zone";
             string timeZoneName = "";
             
-            if (Regex.IsMatch(prefredTimeZoneName, @"^\((\+|\-)(00|01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23):(0|1|2|3|4|5)\d\)[ ]"))
+            if (prefredTimeZoneName != null && Regex.IsMatch(prefredTimeZoneName, @"^\((\+|\-)(00|01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23):(0|1|2|3|4|5)\d\)[ ]"))
             {
                 prefredTimeZoneName = prefredTimeZoneName.Remove(0, 9);
             }
@@ -304,18 +304,32 @@ namespace TimeZone
             DateTime dateTimeMediaTakenWithoutZone = new DateTime(dateTimeMediaTaken.Ticks);
             DateTime dateTimeLocationUTC = new DateTime(dateTimeLocation.ToUniversalTime().Ticks, DateTimeKind.Utc);
             TimeZoneInfo timeZoneInfoGPSLocation = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation(metadataLocationLatitude, metadataLocationLongitude);
-            TimeSpan timeSpanForDate = timeZoneInfoGPSLocation.GetUtcOffset(dateTimeLocation);
-            
-            TimeZoneVerfification = 
-                "Media Digitized: " + dateTimeMediaTakenWithoutZone.ToString() + "\r\n" +
-                "GPS UTC date/time: " + dateTimeLocationUTC.ToString() + "\r\n" +
-                "Time zone name (Lat,Long): " + timeZoneInfoGPSLocation.DisplayName + "\r\n" +
-                "Base UTC offset (Lat,Long): " + timeZoneInfoGPSLocation.BaseUtcOffset.ToString() + "\r\n" +
-                "Daylight/Standard time (GPS clock):" + (timeZoneInfoGPSLocation.IsDaylightSavingTime(dateTimeLocationUTC) ? timeZoneInfoGPSLocation.DaylightName : timeZoneInfoGPSLocation.StandardName) + "\r\n" +
-                "Offset UTC offset (GPS clock): " + timeZoneInfoGPSLocation.GetUtcOffset(dateTimeLocationUTC).ToString() + "\r\n" +
-                "Time Span between GPS and Digitized: " + timeSpanForDate.ToString();
+            if (timeZoneInfoGPSLocation != null)
+            {
+                TimeSpan timeSpanForDate = timeZoneInfoGPSLocation.GetUtcOffset(dateTimeLocation);
 
-            return IsTimeSpanEqual(timeSpanForDate, timeZoneInfoGPSLocation.GetUtcOffset(dateTimeLocationUTC), 15);
+                TimeZoneVerfification =
+                    "Media Digitized: " + dateTimeMediaTakenWithoutZone.ToString() + "\r\n" +
+                    "GPS UTC date/time: " + dateTimeLocationUTC.ToString() + "\r\n" +
+                    "Time zone name (Lat,Long): " + timeZoneInfoGPSLocation.DisplayName + "\r\n" +
+                    "Base UTC offset (Lat,Long): " + timeZoneInfoGPSLocation.BaseUtcOffset.ToString() + "\r\n" +
+                    "Daylight/Standard time (GPS clock):" + (timeZoneInfoGPSLocation.IsDaylightSavingTime(dateTimeLocationUTC) ? timeZoneInfoGPSLocation.DaylightName : timeZoneInfoGPSLocation.StandardName) + "\r\n" +
+                    "Offset UTC offset (GPS clock): " + timeZoneInfoGPSLocation.GetUtcOffset(dateTimeLocationUTC).ToString() + "\r\n" +
+                    "Time Span between GPS and Digitized: " + timeSpanForDate.ToString();
+
+                return IsTimeSpanEqual(timeSpanForDate, timeZoneInfoGPSLocation.GetUtcOffset(dateTimeLocationUTC), 15);
+            } else
+            {
+                TimeZoneVerfification =
+                                    "Media Digitized: " + dateTimeMediaTakenWithoutZone.ToString() + "\r\n" +
+                                    "GPS UTC date/time: " + dateTimeLocationUTC.ToString() + "\r\n" +
+                                    "Time zone name (Lat,Long): GPS location incorrect\r\n" +
+                                    "Base UTC offset (Lat,Long): GPS location incorrect\r\n" +
+                                    "Daylight/Standard time (GPS clock): GPS location incorrect\r\n" +
+                                    "Offset UTC offset (GPS clock): GPS location incorrect\r\n" +
+                                    "Time Span between GPS and Digitized: Unknown: GPS Location unknown";
+                return false;
+            }
         }
     }
 }

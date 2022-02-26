@@ -494,8 +494,11 @@ namespace PhotoTagsSynchronizer
             if (metadataCopy?.MediaDateTaken == null && metadataCopy?.LocationLatitude != null && metadataCopy?.LocationLongitude != null && metadataCopy?.LocationDateTime != null)
             {
                 TimeZoneInfo timeZoneInfo = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation((double)metadataCopy?.LocationLatitude, (double)metadataCopy?.LocationLongitude);
-                DateTime dateTime = TimeZoneInfo.ConvertTimeFromUtc(new DateTime(((DateTime)metadataCopy?.LocationDateTime).Ticks, DateTimeKind.Utc), timeZoneInfo);
-                metadataCopy.MediaDateTaken = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second, dateTime.Millisecond, DateTimeKind.Local);                
+                if (timeZoneInfo != null)
+                {
+                    DateTime dateTime = TimeZoneInfo.ConvertTimeFromUtc(new DateTime(((DateTime)metadataCopy?.LocationDateTime).Ticks, DateTimeKind.Utc), timeZoneInfo);
+                    metadataCopy.MediaDateTaken = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second, dateTime.Millisecond, DateTimeKind.Local);
+                }
             }
         }
         #endregion
@@ -701,9 +704,13 @@ namespace PhotoTagsSynchronizer
                             if (metadataLocationTimeZone != null && metadataLocationTimeZone?.LocationLatitude != null && metadataLocationTimeZone?.LocationLongitude != null)
                             {
                                 TimeZoneInfo timeZoneInfo = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation((double)metadataLocationTimeZone?.LocationLatitude, (double)metadataLocationTimeZone?.LocationLongitude);
-                                dateTimeUTC = TimeZoneInfo.ConvertTimeToUtc(mediaDateTimeUnspecified, timeZoneInfo);
-
-                                Logger.Debug("FixAndSave: Found a location (±24 hours), estimated dateTimeUTC: " + dateTimeUTC.ToString() + "for camera owner: " + cameraOwner);
+                                if (timeZoneInfo != null)
+                                {
+                                    dateTimeUTC = TimeZoneInfo.ConvertTimeToUtc(mediaDateTimeUnspecified, timeZoneInfo);
+                                    Logger.Debug("FixAndSave: Found a location (±24 hours), estimated dateTimeUTC: " + dateTimeUTC.ToString() + "for camera owner: " + cameraOwner);
+                                }
+                                else 
+                                    Logger.Debug("FixAndSave: No time zone found for, invalid location");
                             }
                             else
                             {
@@ -726,7 +733,8 @@ namespace PhotoTagsSynchronizer
                                 metadataCopy.LocationLongitude = metadataLocationBasedOnBestGuess.LocationLongitude;
 
                                 Logger.Debug("FixAndSave: Found a location (±" + LocationFindMinutes + " minutes), estimated dateTimeUTC: " + dateTimeUTC.ToString() + "for camera owner: " + cameraOwner);
-                            } else
+                            } 
+                            else
                             {
                                 Logger.Debug("FixAndSave: No location found (±" + LocationFindMinutes + " minutes) for camera owner: " + cameraOwner);
                             }
@@ -790,10 +798,13 @@ namespace PhotoTagsSynchronizer
                             if (metadataCopy?.LocationLatitude != null && metadataCopy?.LocationLongitude != null && metadataCopy?.LocationDateTime != null)
                             {
                                 TimeZoneInfo timeZoneInfo = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation((double)metadataCopy?.LocationLatitude, (double)metadataCopy?.LocationLongitude);
-                                DateTime? dateTimeGPSLocal = TimeZoneInfo.ConvertTimeFromUtc(new DateTime(((DateTime)metadataCopy?.LocationDateTime).Ticks, DateTimeKind.Utc), timeZoneInfo);
-                                newDateTime = dateTimeGPSLocal;
-                                if (newDateTime != null) Logger.Debug("FixAndSave: DateAndTime Digitized was found at DateTimeSources.GPSDateAndTime: " + newDateTime.ToString());
-                                sourceMediaDateTaken = "GPS Date And Time";
+                                if (timeZoneInfo != null)
+                                {
+                                    DateTime? dateTimeGPSLocal = TimeZoneInfo.ConvertTimeFromUtc(new DateTime(((DateTime)metadataCopy?.LocationDateTime).Ticks, DateTimeKind.Utc), timeZoneInfo);
+                                    newDateTime = dateTimeGPSLocal;
+                                    if (newDateTime != null) Logger.Debug("FixAndSave: DateAndTime Digitized was found at DateTimeSources.GPSDateAndTime: " + newDateTime.ToString());
+                                    sourceMediaDateTaken = "GPS Date And Time";
+                                }
                             }                           
                             break;
                         case DateTimeSources.FirstDateFoundInFilename:
@@ -846,7 +857,7 @@ namespace PhotoTagsSynchronizer
                 {
                     DateTime mediaDateTimeUnspecified = new DateTime(((DateTime)metadataCopy?.MediaDateTaken).Ticks, DateTimeKind.Unspecified);
                     TimeZoneInfo timeZoneInfo = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation((double)metadataCopy?.LocationLatitude, (double)metadataCopy?.LocationLongitude);
-                    metadataCopy.LocationDateTime = TimeZoneInfo.ConvertTimeToUtc(mediaDateTimeUnspecified, timeZoneInfo);
+                    if (timeZoneInfo != null) metadataCopy.LocationDateTime = TimeZoneInfo.ConvertTimeToUtc(mediaDateTimeUnspecified, timeZoneInfo);
                     if (metadataCopy?.LocationDateTime != null) Logger.Debug("FixAndSave: Location date time updated. Location was known." + metadataCopy.LocationDateTime.ToString());
                 }
             }

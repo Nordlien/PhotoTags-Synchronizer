@@ -141,48 +141,56 @@ namespace PhotoTagsSynchronizer
             {
                 TimeZoneInfo timeZoneInfoGPSLocation = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation((double)metadataLocationLatitude, (double)metadataLocationLongitude);
 
-                DateTime findOffsettDateTime;
-                if (metadataLocationDateTime != null) findOffsettDateTime = (DateTime)metadataLocationDateTime;
-                else if (metadataLocationDateTime != null) findOffsettDateTime = (DateTime)metadataMediaDateTaken;
-                else findOffsettDateTime = DateTime.Now;
-
-                //Media header
-                DateTime findOffsettDateTimeUTC = findOffsettDateTime.ToUniversalTime();
-                DateTimeOffset locationOffset = new DateTimeOffset(findOffsettDateTimeUTC.Ticks, timeZoneInfoGPSLocation.GetUtcOffset(findOffsettDateTimeUTC));
-
-                DataGridViewHandler.AddRow(dataGridViewDateTime, columnIndex, new DataGridViewGenericRow(headerMedia, tagLocationOffsetTimeZone),
-                        TimeZoneLibrary.ToStringOffset(locationOffset.Offset) + " " + TimeZoneLibrary.TimeZoneNameStandarOrDaylight(timeZoneInfoGPSLocation, findOffsettDateTimeUTC), true, false);
-
-                DataGridViewHandler.AddRow(dataGridViewDateTime, columnIndex, new DataGridViewGenericRow(headerMedia, tagCalulatedOffsetZimeZone), "", true, false);
-
-                //
-                if (metadataLocationDateTime != null)
+                if (timeZoneInfoGPSLocation != null)
                 {
-                    DateTime locationDateTimeUTC = ((DateTime)metadataLocationDateTime).ToUniversalTime();
-                    DateTime dateTimeFromGPS = new DateTime(locationDateTimeUTC.Ticks).Add(locationOffset.Offset);
-                    DataGridViewHandler.AddRow(dataGridViewDateTime, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagSuggestedLocationTime),
-                        TimeZoneLibrary.ToStringSortable(dateTimeFromGPS) + TimeZoneLibrary.ToStringOffset(locationOffset.Offset, false), true, false);
-                }
-                else
-                {
-                    DataGridViewHandler.AddRow(dataGridViewDateTime, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagSuggestedLocationTime), "No GPS time found", true, false);
-                }
+                    DateTime findOffsettDateTime;
+                    if (metadataLocationDateTime != null) findOffsettDateTime = (DateTime)metadataLocationDateTime;
+                    else if (metadataLocationDateTime != null) findOffsettDateTime = (DateTime)metadataMediaDateTaken;
+                    else findOffsettDateTime = DateTime.Now;
 
-                if (metadataMediaDateTaken != null)
-                {
-                    DateTime mediaTakenDateTimeUTC = ((DateTime)metadataMediaDateTaken).ToUniversalTime();
-                    DateTimeOffset mediaTakenDateTimeOffsetUTC = new DateTimeOffset(mediaTakenDateTimeUTC.Ticks, timeZoneInfoGPSLocation.GetUtcOffset(mediaTakenDateTimeUTC));
+                    //Media header
+                    DateTime findOffsettDateTimeUTC = findOffsettDateTime.ToUniversalTime();
+                    DateTimeOffset locationOffset = new DateTimeOffset(findOffsettDateTimeUTC.Ticks, timeZoneInfoGPSLocation.GetUtcOffset(findOffsettDateTimeUTC));
 
-                    TimeSpan timeZoneDifferenceLocalAndLocation = timeZoneInfoGPSLocation.BaseUtcOffset - TimeZoneInfo.Local.BaseUtcOffset;
-                    DateTime dateTimeUsedHomeClockOnTravel = new DateTime(((DateTime)metadataMediaDateTaken).Ticks).Add(timeZoneDifferenceLocalAndLocation);
+                    DataGridViewHandler.AddRow(dataGridViewDateTime, columnIndex, new DataGridViewGenericRow(headerMedia, tagLocationOffsetTimeZone),
+                            TimeZoneLibrary.ToStringOffset(locationOffset.Offset) + " " + TimeZoneLibrary.TimeZoneNameStandarOrDaylight(timeZoneInfoGPSLocation, findOffsettDateTimeUTC), true, false);
 
-                    DataGridViewHandler.AddRow(dataGridViewDateTime, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagWhenUsedHomeClock),
-                        TimeZoneLibrary.ToStringSortable(dateTimeUsedHomeClockOnTravel) + TimeZoneLibrary.ToStringOffset(mediaTakenDateTimeOffsetUTC.Offset, false), true, false);
+                    DataGridViewHandler.AddRow(dataGridViewDateTime, columnIndex, new DataGridViewGenericRow(headerMedia, tagCalulatedOffsetZimeZone), "", true, false);
 
-                    timeZoneDifferenceLocalAndLocation = TimeZoneInfo.Local.BaseUtcOffset - timeZoneInfoGPSLocation.BaseUtcOffset;
-                    dateTimeUsedHomeClockOnTravel = new DateTime(((DateTime)metadataMediaDateTaken).Ticks).Add(timeZoneDifferenceLocalAndLocation);
-                    DataGridViewHandler.AddRow(dataGridViewDateTime, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagTravelClockAtHome),
-                        TimeZoneLibrary.ToStringSortable(dateTimeUsedHomeClockOnTravel) + TimeZoneLibrary.ToStringOffset(mediaTakenDateTimeOffsetUTC.Offset, false), true, false);
+                    //
+                    if (metadataLocationDateTime != null)
+                    {
+                        DateTime locationDateTimeUTC = ((DateTime)metadataLocationDateTime).ToUniversalTime();
+                        DateTime dateTimeFromGPS = new DateTime(locationDateTimeUTC.Ticks).Add(locationOffset.Offset);
+                        DataGridViewHandler.AddRow(dataGridViewDateTime, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagSuggestedLocationTime),
+                            TimeZoneLibrary.ToStringSortable(dateTimeFromGPS) + TimeZoneLibrary.ToStringOffset(locationOffset.Offset, false), true, false);
+                    }
+                    else
+                    {
+                        DataGridViewHandler.AddRow(dataGridViewDateTime, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagSuggestedLocationTime), "No GPS time found", true, false);
+                    }
+
+                    if (metadataMediaDateTaken != null)
+                    {
+                        DateTime mediaTakenDateTimeUTC = ((DateTime)metadataMediaDateTaken).ToUniversalTime();
+                        DateTimeOffset mediaTakenDateTimeOffsetUTC = new DateTimeOffset(mediaTakenDateTimeUTC.Ticks, timeZoneInfoGPSLocation.GetUtcOffset(mediaTakenDateTimeUTC));
+
+                        TimeSpan timeZoneDifferenceLocalAndLocation = timeZoneInfoGPSLocation.BaseUtcOffset - TimeZoneInfo.Local.BaseUtcOffset;
+                        DateTime dateTimeUsedHomeClockOnTravel = new DateTime(((DateTime)metadataMediaDateTaken).Ticks).Add(timeZoneDifferenceLocalAndLocation);
+
+                        DataGridViewHandler.AddRow(dataGridViewDateTime, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagWhenUsedHomeClock),
+                            TimeZoneLibrary.ToStringSortable(dateTimeUsedHomeClockOnTravel) + TimeZoneLibrary.ToStringOffset(mediaTakenDateTimeOffsetUTC.Offset, false), true, false);
+
+                        timeZoneDifferenceLocalAndLocation = TimeZoneInfo.Local.BaseUtcOffset - timeZoneInfoGPSLocation.BaseUtcOffset;
+                        dateTimeUsedHomeClockOnTravel = new DateTime(((DateTime)metadataMediaDateTaken).Ticks).Add(timeZoneDifferenceLocalAndLocation);
+                        DataGridViewHandler.AddRow(dataGridViewDateTime, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagTravelClockAtHome),
+                            TimeZoneLibrary.ToStringSortable(dateTimeUsedHomeClockOnTravel) + TimeZoneLibrary.ToStringOffset(mediaTakenDateTimeOffsetUTC.Offset, false), true, false);
+                    }
+                    else
+                    {
+                        DataGridViewHandler.AddRow(dataGridViewDateTime, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagWhenUsedHomeClock), "Can't find local time, location error", true, false);
+                        DataGridViewHandler.AddRow(dataGridViewDateTime, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagTravelClockAtHome), "Can't find local time, location error", true, false);
+                    }
                 }
                 else
                 {
