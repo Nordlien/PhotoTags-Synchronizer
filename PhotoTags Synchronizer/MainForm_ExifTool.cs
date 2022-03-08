@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
-using DataGridViewGeneric;
-using MetadataPriorityLibrary;
+﻿using System.Windows.Forms;
 using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
@@ -11,9 +6,6 @@ namespace PhotoTagsSynchronizer
 
     public partial class MainForm : KryptonForm
     {
-        
-        
-
         private void dataGridViewExifTool_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
             DataGridView dataGridView = dataGridViewExiftool;
@@ -25,6 +17,5 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = ((DataGridView)sender);
             if (e.RowIndex == -1) RegionSelectorLoadAndSelect(dataGridView, e.RowIndex, e.ColumnIndex);
         }
-
     }
 }

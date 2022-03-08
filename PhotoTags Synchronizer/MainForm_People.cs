@@ -7,14 +7,13 @@ using DataGridViewGeneric;
 using MetadataLibrary;
 using Thumbnails;
 using Krypton.Toolkit;
-using System.Linq;
 
 namespace PhotoTagsSynchronizer
 {
 
     public partial class MainForm : KryptonForm
     {
-        #region CellMouseClick
+        #region CellMouseClick - Changes PushToUndoStack
         private void dataGridViewPeople_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.Button != MouseButtons.Left) return;
@@ -34,16 +33,19 @@ namespace PhotoTagsSynchronizer
                 if (dataGridViewSelectedCellCollection.Count < 1) return;
 
                 Dictionary<CellLocation, DataGridViewGenericCell> updatedCells = DataGridViewHandler.ToggleCells(dataGridView, DataGridViewHandlerPeople.headerPeople, NewState.Toggle, e.ColumnIndex, e.RowIndex);
-                //DataGridViewHandler.Refresh(dataGridView);
+                List<int> updatedColumns = new List<int>();
                 if (updatedCells != null && updatedCells.Count > 0)
                 {
-
                     ClipboardUtility.PushToUndoStack(dataGridView, updatedCells);
                     foreach (CellLocation cellLocation in updatedCells.Keys)
                     {
-                        DataGridViewHandler.SetColumnDirtyFlag(dataGridView, cellLocation.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, cellLocation.ColumnIndex, out string diffrences), diffrences);
+                        if (!updatedColumns.Contains(cellLocation.ColumnIndex)) updatedColumns.Add(cellLocation.ColumnIndex);
                         DataGridViewHandler.InvalidateCell(dataGridView, cellLocation.ColumnIndex, cellLocation.RowIndex);
+                    }
 
+                    foreach (int columnIndex in updatedColumns)
+                    {
+                        DataGridViewHandler.SetColumnDirtyFlag(dataGridView, columnIndex, IsDataGridViewColumnDirty(dataGridView, columnIndex, out string diffrences), diffrences);
                     }
                 }
             }
@@ -74,7 +76,7 @@ namespace PhotoTagsSynchronizer
                 region.Name = (string)e.Value;
                 e.Value = region;
                 e.ParsingApplied = true;
-                PeopleAddNewLastUseName(region.Name);
+                //PeopleAddNewLastUseName(region.Name);
             }
             catch (Exception ex)
             {
@@ -235,7 +237,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region Cell header - Face region - CellMouseUp
+        #region Cell header - Face region - CellMouseUp - PushToUndoStack
         private void dataGridViewPeople_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
             drawingRegion = false;
@@ -670,25 +672,30 @@ namespace PhotoTagsSynchronizer
                     dataGridViewGenericRow.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite &&
                     !dataGridViewGenericRow.IsHeader)
                 {
-                    DataGridViewGenericCell dataGridViewGenericCell = DataGridViewHandler.GetCellDataGridViewGenericCellCopy(dataGridView, cell.ColumnIndex, cell.RowIndex);
-                    if (!dataGridViewGenericCell.CellStatus.CellReadOnly)
+                    DataGridViewGenericCell dataGridViewGenericCellOriginal = DataGridViewHandler.GetCellDataGridViewGenericCellCopy(dataGridView, cell.ColumnIndex, cell.RowIndex);
+                    if (!dataGridViewGenericCellOriginal.CellStatus.CellReadOnly)
                     {
                         CellLocation cellLocation = new CellLocation(cell.ColumnIndex, cell.RowIndex);
-                        if (!updatedCells.ContainsKey(cellLocation)) updatedCells.Add(cellLocation, new DataGridViewGenericCell(dataGridViewGenericCell));
+                        
                         cellUpdated = true;
 
-                        if (dataGridViewGenericCell.Value is RegionStructure)
+                        if (dataGridViewGenericCellOriginal.Value is RegionStructure)
                         {
-                            RegionStructure region = (RegionStructure)dataGridViewGenericCell.Value;
+                            RegionStructure region = (RegionStructure)dataGridViewGenericCellOriginal.Value;
                             if (region != null)
                             {
-                                region.Name = nameSelected;
-                                PeopleAddNewLastUseName(nameSelected);
-                                DataGridViewHandler.SetCellValue(dataGridView, cell.ColumnIndex, cell.RowIndex, region, true);
+                                if (region.Name != nameSelected) 
+                                {
+                                    if (!updatedCells.ContainsKey(cellLocation)) updatedCells.Add(cellLocation, new DataGridViewGenericCell(dataGridViewGenericCellOriginal));
+                                    region.Name = nameSelected;
+                                    PeopleAddNewLastUseName(nameSelected);
+                                    DataGridViewHandler.SetCellValue(dataGridView, cell.ColumnIndex, cell.RowIndex, region, true);
+                                }
                             }
                         }
+
                         DataGridViewHandlerPeople.SetCellDefault(dataGridView, MetadataBrokerType.Empty, cell.ColumnIndex, cell.RowIndex); //No DirtyFlagSet
-                                                                                                                                           //SetValue will do the trick DataGridViewHandler.SetColumnDirtyFlag(dataGridView, cell.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, cell.ColumnIndex));
+                        //SetValue will do the trick DataGridViewHandler.SetColumnDirtyFlag(dataGridView, cell.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, cell.ColumnIndex));
                     }
 
                 }
@@ -804,23 +811,6 @@ namespace PhotoTagsSynchronizer
             }
         }
         #endregion 
-
-        #region CellEndEdit        
-        private void dataGridViewPeople_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-            try
-            {
-                if (((KryptonDataGridView)sender)[e.ColumnIndex, e.RowIndex].Value is RegionStructure regionStructure) regionStructure.ShowNameInToString = false; //Just a hack so KryptonDataGridView don't print name also
-                DataGridView dataGridView = dataGridViewPeople;
-                CheckRowAndSetDefaults(dataGridView, e.ColumnIndex, e.RowIndex);
-                DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex, out string diffrences), diffrences);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-            }
-        }
-        #endregion
 
         #region FormRegionSelect
         FormRegionSelect formRegionSelect = new FormRegionSelect();
@@ -1039,6 +1029,8 @@ namespace PhotoTagsSynchronizer
                         if (dataGridViewCell.Value != null) PeopleRenameCell(dataGridView, dataGridViewCell, dataGridViewCell.Value.ToString(), updatedCells);
                     }
                 }
+
+                if (updatedCells != null && updatedCells.Count > 0) ClipboardUtility.PushToUndoStack(dataGridView, updatedCells);
 
                 DataGridViewHandler.Refresh(dataGridView);
             }

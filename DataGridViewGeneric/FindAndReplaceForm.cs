@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 using Krypton.Toolkit;
@@ -9,36 +8,28 @@ namespace DataGridViewGeneric
 {
     public partial class FindAndReplaceForm : KryptonForm
     {
-        private DataGridView dataGridViewActive;
-        //private int searchStartRowTableFind;
-        //private int searchStartColumnTableFind;
+        public DataGridView dataGridViewActive { get; set; }
         private int searchSelectionIndexSelectionFind;
-
         private List<DataGridViewCell> m_SelectedCells;
-
-        //private bool restoreCellSelectionWhenCloseForm = true;
         private bool isSearchModeFindInSelectedCells = true;
-        //private DataGridViewCell lastCellLocationUsed = null;
 
         private Dictionary<CellLocation, DataGridViewGenericCell> updatedCells;
 
-
-        public FindAndReplaceForm( DataGridView dataGridView, bool setReplaceTabAsActive)
+        #region FindAndReplaceForm
+        public FindAndReplaceForm(DataGridView dataGridView, bool setReplaceTabAsActive)
         {
             m_SelectedCells = new List<DataGridViewCell>();
             InitializeComponent();            
             InitializeForm(dataGridView, setReplaceTabAsActive);
         }
+        #endregion
 
+        #region InitializeForm
         public void InitializeForm( DataGridView dataGridView, bool setReplaceTabAsActive)
         {
-            if ( dataGridViewActive != dataGridView )
-            {
-                dataGridViewActive = dataGridView;
-            }
-
+            if (dataGridViewActive != dataGridView) dataGridViewActive = dataGridView;
+            
             comboBoxFindMode.SelectedIndex = 0;
-            //restoreCellSelectionWhenCloseForm = true;
             searchSelectionIndexSelectionFind = 0;
 
             m_SelectedCells.Clear();
@@ -77,20 +68,9 @@ namespace DataGridViewGeneric
                 FindWhatTextBox1.Select();
             }
 
-            if (dataGridViewActive.CurrentCell != null)
-            {
-                updatedCells = new Dictionary<CellLocation, DataGridViewGenericCell>();
-
-                //searchStartRowTableFind = dataGridViewActive.CurrentCell.RowIndex;
-                //searchStartColumnTableFind = dataGridViewActive.CurrentCell.ColumnIndex;                
-                //lastCellLocationUsed = dataGridView.CurrentCell;
-
-            }
-            
+            if (dataGridViewActive.CurrentCell != null) updatedCells = new Dictionary<CellLocation, DataGridViewGenericCell>();
         }
-
-       
-        
+        #endregion
 
         #region Sync Find with Find and Replace tab
         void FindWhatTextBox1_TextChanged(object sender, System.EventArgs e)
@@ -156,11 +136,14 @@ namespace DataGridViewGeneric
 
         #endregion
 
+        #region FindButton2_Click
         void FindButton2_Click(object sender, System.EventArgs e)
         {
             FindButton1_Click(sender, e);
         }
+        #endregion
 
+        #region FindButton1_Click
         void FindButton1_Click(object sender, System.EventArgs e)
         {
             DataGridViewCell findCell = null;
@@ -178,12 +161,16 @@ namespace DataGridViewGeneric
                 dataGridViewActive.CurrentCell = findCell;
             }
         }
+        #endregion
 
+        #region buttonFindAll2_Click
         private void buttonFindAll2_Click(object sender, EventArgs e)
         {
             buttonFindAll1_Click(sender, e);
         }
+        #endregion
 
+        #region buttonFindAll1_Click
         private void buttonFindAll1_Click(object sender, EventArgs e)
         {
             DataGridViewCell FindCell = null;
@@ -191,11 +178,11 @@ namespace DataGridViewGeneric
                 FindCell = FindAndReplaceInSelection(false, false, true, null); //Just mark cells where text is found
             else
                 FindCell = FindAndReplaceInTable(false, false, true, this.checkBoxSearchAlsoRowHeaders.Checked, null); //Just mark cells where text is found
-            
-            //restoreCellSelectionWhenCloseForm = false;
             Close();
         }
+        #endregion
 
+        #region ReplaceAllButton_Click
         void ReplaceAllButton_Click(object sender, System.EventArgs e)
         {
             DataGridViewCell FindCell = null;
@@ -205,10 +192,11 @@ namespace DataGridViewGeneric
             else
                 FindCell = FindAndReplaceInTable(true, false, true, false, this.ReplaceWithTextBox.Text);
 
-            //restoreCellSelectionWhenCloseForm = false;
             Close();
         }
+        #endregion
 
+        #region ReplaceButton_Click
         void ReplaceButton_Click(object sender, System.EventArgs e)
         {
             DataGridViewCell findCell = null;
@@ -219,15 +207,13 @@ namespace DataGridViewGeneric
             
             if (findCell != null)
             {
-                //lastCellLocationUsed = findCell; //When close, this cell will become active
-
                 dataGridViewActive.ClearSelection();
                 dataGridViewActive.CurrentCell = findCell;
             }
         }
+        #endregion
 
-        
-
+        #region FindAndReplaceInSelection
         DataGridViewCell FindAndReplaceInSelection(bool bReplace, bool bStopOnFind, bool markCell, String replaceString)
         {
             
@@ -295,7 +281,9 @@ namespace DataGridViewGeneric
 
             return null;
         }
+        #endregion
 
+        #region FindAndReplaceInTable
         DataGridViewCell FindAndReplaceInTable(bool bReplace, bool bStopOnFind, bool markCell, bool bSearchRow, String replaceString)
         {
             if (dataGridViewActive.CurrentCell == null) return null;
@@ -374,7 +362,9 @@ namespace DataGridViewGeneric
 
             return null;
         }
+        #endregion
 
+        #region FindStringInRow
         bool FindStringInRow(string SearchInString, String Find, bool bMatchCase, bool bMatchCell, int iSearchMethod)
         {
             
@@ -420,7 +410,9 @@ namespace DataGridViewGeneric
             }
             return false;
         }
+        #endregion
 
+        #region FindAndReplaceString
         bool FindAndReplaceString(bool bReplace, DataGridViewCell SearchCell, String FindString, String ReplaceString, bool bMatchCase, bool bMatchCell, int iSearchMethod )
         {
             String SearchString = SearchCell.FormattedValue.ToString();
@@ -533,15 +525,21 @@ namespace DataGridViewGeneric
             }
             return false;
         }
+        #endregion
 
+        #region FindAndReplaceForm_FormClosing - Put changes to UndoStack
         private void FindAndReplaceForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (updatedCells.Count > 0)
+            if (updatedCells.Count > 0) ClipboardUtility.PushToUndoStack(dataGridViewActive, updatedCells);
+            
+            foreach (CellLocation cellLocation in updatedCells.Keys)
             {
-                ClipboardUtility.PushToUndoStack(dataGridViewActive, updatedCells);
+                DataGridViewHandler.SetColumnDirtyFlag(dataGridViewActive, cellLocation.ColumnIndex, true); //IsDataGridViewColumnDirty(dataGridView, columnIndex, out string diffrences), diffrences);
             }
         }
+        #endregion
 
+        #region kryptonNavigatorFindAndReplace_TabIndexChanged
         private void kryptonNavigatorFindAndReplace_TabIndexChanged(object sender, EventArgs e)
         {
             switch (kryptonNavigatorFindAndReplace.SelectedIndex)
@@ -554,5 +552,6 @@ namespace DataGridViewGeneric
                     break;
             }
         }
+        #endregion
     }
 }

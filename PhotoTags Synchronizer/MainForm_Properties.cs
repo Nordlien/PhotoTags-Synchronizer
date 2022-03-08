@@ -1,9 +1,4 @@
-﻿using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.IO;
-using SqliteDatabase;
-using DataGridViewGeneric;
+﻿using System.Windows.Forms;
 using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
@@ -22,7 +17,5 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = ((DataGridView)sender);
             if (e.RowIndex == -1) RegionSelectorLoadAndSelect(dataGridView, e.RowIndex, e.ColumnIndex);
         }
-
-
     }
 }

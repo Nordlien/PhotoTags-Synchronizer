@@ -566,7 +566,5 @@ namespace PhotoTagsSynchronizer
             isDataGridViewMaps_CellValueChanging = false;
         }
         #endregion 
-
-        
     }
 }

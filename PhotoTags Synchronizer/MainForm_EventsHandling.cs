@@ -2092,7 +2092,7 @@ namespace PhotoTagsSynchronizer
                 GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
                 ClipboardUtility.PasteDataGridViewSelectedCellsFromClipboard(dataGridView, -1, -1, -1, -1, false, 
                     out bool textBoxSelectionCanRestore, out int textBoxSelectionStart, out int textBoxSelectionLength);
-                ValitedatePastePeople(dataGridView, DataGridViewHandlerPeople.headerPeople);
+                //ValitedatePastePeople(dataGridView, DataGridViewHandlerPeople.headerPeople);
                 if (!textBoxSelectionCanRestore) DataGridViewHandler.Refresh(dataGridView);
                 ClipboardUtility.DataGridViewRestoreEditMode(dataGridView, textBoxSelectionCanRestore, textBoxSelectionStart, textBoxSelectionLength);
 
@@ -2828,7 +2828,7 @@ namespace PhotoTagsSynchronizer
                 if (!dataGridView.Enabled) return;
                 GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
                 ClipboardUtility.UndoDataGridView(dataGridView);
-                ValitedatePastePeople(dataGridView, DataGridViewHandlerPeople.headerPeople);
+                //ValitedatePastePeople(dataGridView, DataGridViewHandlerPeople.headerPeople);
                 DataGridViewHandler.Refresh(dataGridView);
             }
             catch (Exception ex)
@@ -3117,7 +3117,7 @@ namespace PhotoTagsSynchronizer
             {
                 GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
                 ClipboardUtility.RedoDataGridView(dataGridView);
-                ValitedatePastePeople(dataGridView, DataGridViewHandlerPeople.headerPeople);
+                //ValitedatePastePeople(dataGridView, DataGridViewHandlerPeople.headerPeople);
                 DataGridViewHandler.Refresh(dataGridView);
             }
             catch (Exception ex)

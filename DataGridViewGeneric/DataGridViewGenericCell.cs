@@ -1,4 +1,5 @@
-﻿using WinProps;
+﻿using System.Collections.Generic;
+using WinProps;
 
 namespace DataGridViewGeneric
 {
@@ -43,7 +44,37 @@ namespace DataGridViewGeneric
         public object Value { get; set; }
         public DataGridViewGenericCellStatus CellStatus { get; set; }
 
-        
+        public override bool Equals(object obj)
+        {
+            if (obj is DataGridViewGenericCell cellCheck && 
+                cellCheck.Value != null &&
+                !(cellCheck.Value is string) &&
+                !(cellCheck.Value is MetadataLibrary.RegionStructure))
+            {
+                //DEBUG
+            }
 
+            return obj is DataGridViewGenericCell cell &&
+                   EqualityComparer<object>.Default.Equals(Value, cell.Value) &&
+                   EqualityComparer<DataGridViewGenericCellStatus>.Default.Equals(CellStatus, cell.CellStatus);
+        }
+
+        public override int GetHashCode()
+        {
+            int hashCode = -1235765383;
+            hashCode = hashCode * -1521134295 + EqualityComparer<object>.Default.GetHashCode(Value);
+            hashCode = hashCode * -1521134295 + EqualityComparer<DataGridViewGenericCellStatus>.Default.GetHashCode(CellStatus);
+            return hashCode;
+        }
+
+        public static bool operator ==(DataGridViewGenericCell left, DataGridViewGenericCell right)
+        {
+            return EqualityComparer<DataGridViewGenericCell>.Default.Equals(left, right);
+        }
+
+        public static bool operator !=(DataGridViewGenericCell left, DataGridViewGenericCell right)
+        {
+            return !(left == right);
+        }
     }
 }

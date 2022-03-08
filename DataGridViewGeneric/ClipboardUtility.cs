@@ -1,4 +1,5 @@
 ﻿using Krypton.Toolkit;
+using MetadataLibrary;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -21,7 +22,7 @@ namespace DataGridViewGeneric
         #endregion
 
         #region PushToUndoStack
-        public static void PushToUndoStack(DataGridView dataGridView)
+        public static void PushSelectedCellsToUndoStack(DataGridView dataGridView)
         {
             if (IsDoingUndoRedo) return;
             if (dataGridView.TopLeftHeaderCell.Tag == null)
@@ -33,6 +34,25 @@ namespace DataGridViewGeneric
         }
         #endregion
 
+        //DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex, out string diffrences), diffrences);
+        public static void PushNotEqualToUndoStack(DataGridView dataGridView, Dictionary<CellLocation, DataGridViewGenericCell> cells)
+        {
+            Dictionary<CellLocation, DataGridViewGenericCell> peek = ClipboardUtility.PeekUndoStack(dataGridView);
+
+            //foreach (CellLocation cellLocation in peek.Keys)
+            //{
+            //    DataGridViewGenericCell dataGridViewGenericCell = DataGridViewHandler.GetCellDataGridViewGenericCellCopy(dataGridView, cellLocation.ColumnIndex, cellLocation.RowIndex);
+            //    if (dataGridViewGenericCell.Value is RegionStructure regionStructureForPeek)
+            //    {
+            //        if (!string.IsNullOrWhiteSpace(regionStructureForPeek.Name)) PeopleAddNewLastUseName(regionStructureForPeek.Name);
+            //    }
+            //    else
+            //    {
+            //        //DEBUG
+            //    }
+            //}
+        }
+
         #region PushToUndoStack
         public static void PushToUndoStack(DataGridView dataGridView, Dictionary<CellLocation, DataGridViewGenericCell> cells)
         {
@@ -41,7 +61,54 @@ namespace DataGridViewGeneric
             if (dataGridView.TopLeftHeaderCell.Tag.GetType() != typeof(DataGridViewGenericData)) return;
             
             DataGridViewGenericData undoAndRedo = (DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag;
+            Dictionary<CellLocation, DataGridViewGenericCell> peekCells = undoAndRedo.UndoCellsStack.Count == 0 ? null : undoAndRedo.UndoCellsStack.Peek();
             undoAndRedo.UndoCellsStack.Push(cells);
+            
+        }
+        #endregion
+
+        #region PushToUndoStack
+        public static Dictionary<CellLocation, DataGridViewGenericCell> PeekUndoStack(DataGridView dataGridView)
+        {
+            if (IsDoingUndoRedo) return null;
+            if (dataGridView.TopLeftHeaderCell.Tag == null) dataGridView.TopLeftHeaderCell.Tag = new DataGridViewGenericData();
+            if (dataGridView.TopLeftHeaderCell.Tag.GetType() != typeof(DataGridViewGenericData)) return null;
+
+            DataGridViewGenericData undoAndRedo = (DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag;
+            return undoAndRedo.UndoCellsStack.Count == 0 ? null : undoAndRedo.UndoCellsStack.Peek();
+        }
+        #endregion
+
+        #region PushToUndoStack
+        public static bool CancelPushUndoStackIfNoChanges(DataGridView dataGridView)
+        {
+            if (IsDoingUndoRedo) return true;
+            if (dataGridView.TopLeftHeaderCell.Tag == null) dataGridView.TopLeftHeaderCell.Tag = new DataGridViewGenericData();
+            if (dataGridView.TopLeftHeaderCell.Tag.GetType() != typeof(DataGridViewGenericData)) return true;
+
+            DataGridViewGenericData undoAndRedo = (DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag;
+            Dictionary<CellLocation, DataGridViewGenericCell> peekCells = undoAndRedo.UndoCellsStack.Count == 0 ? null : undoAndRedo.UndoCellsStack.Peek();
+
+            bool isEqual = true;
+            if (peekCells == null) isEqual = false;
+
+            if (isEqual)
+            {
+                foreach (CellLocation cellLocation in peekCells.Keys)
+                {
+                    DataGridViewGenericCell dataGridViewGenericCell = 
+                        DataGridViewHandler.CopyCellDataGridViewGenericCell(dataGridView, cellLocation.ColumnIndex, cellLocation.RowIndex);
+
+                    if (peekCells[cellLocation] != dataGridViewGenericCell)
+                    {
+                        isEqual = false;
+                        break;
+                    }
+                }
+            }
+            if (isEqual) undoAndRedo.UndoCellsStack.Pop();
+
+            return isEqual;
         }
         #endregion
 
@@ -243,7 +310,45 @@ namespace DataGridViewGeneric
                 else
                 {
                     dataGridView.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
-                    DataObject dataObj = dataGridView.GetClipboardContent();
+
+                    DataGridView dataGridViewCopy = new DataGridView();
+                    DataGridViewHandler.DataGridViewInit(dataGridViewCopy, allowUserToAddRows: false);
+                    dataGridViewCopy.TopLeftHeaderCell.Value = dataGridView.TopLeftHeaderCell.Value;
+
+                    #region Add Columns
+                    List<int> selectedColumns = DataGridViewHandler.GetColumnSelected(dataGridView);
+                    selectedColumns.Sort();
+                    foreach (int columnIndex in selectedColumns)
+                    {
+                        string columnName = DataGridViewHandler.GetColumnDataGridViewName(dataGridView, columnIndex);
+                        dataGridViewCopy.Columns.Add(columnName, columnName);
+                    }
+                    #endregion
+
+                    List<int> selectedRows = DataGridViewHandler.GetRowSelected(dataGridView);
+                    selectedRows.Sort();
+                    foreach (int rowIndex in selectedRows)
+                    {
+                        string rowName = DataGridViewHandler.GetRowValue(dataGridView, rowIndex);
+                        int destinationRow = dataGridViewCopy.Rows.Add();
+                        dataGridViewCopy.Rows[destinationRow].HeaderCell.Value = rowName;
+
+                        int destinationColumn = 0;
+                        foreach (int columnIndex in selectedColumns)
+                        {
+                            var cellValue = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, rowIndex);
+                            if (cellValue is RegionStructure)
+                                DataGridViewHandler.SetCellValue(dataGridViewCopy, destinationColumn, destinationRow, ((RegionStructure)cellValue).Name, true);
+                            else
+                                DataGridViewHandler.SetCellValue(dataGridViewCopy, destinationColumn, destinationRow, cellValue, true);
+                            destinationColumn++;
+                        }
+                    }
+
+                    dataGridViewCopy.SelectAll();
+                    dataGridViewCopy.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
+
+                    DataObject dataObj = dataGridViewCopy.GetClipboardContent();
                     if (dataObj != null) Clipboard.SetDataObject(dataObj, true);
                 }
             }
@@ -284,7 +389,7 @@ namespace DataGridViewGeneric
                 }
                 return;
             }
-            PushToUndoStack(dataGridView);
+            PushSelectedCellsToUndoStack(dataGridView);
 
             NuberOfItemsToEdit = dataGridViewSelectedCellCollection.Count;
             IsClipboardActive = false;
@@ -300,6 +405,8 @@ namespace DataGridViewGeneric
                 }
             }
             NuberOfItemsToEdit = 0;
+
+            ClipboardUtility.CancelPushUndoStackIfNoChanges(dataGridView);
             IsClipboardActive = false;
         }
         #endregion
@@ -422,7 +529,7 @@ namespace DataGridViewGeneric
 
             Stack<CellLocation> selectedCells = new Stack<CellLocation>();
 
-            #region Find topRow and leftColumn
+            #region Find all - SelectedCells - and - topRow and leftColumn -
             int topRow = int.MaxValue;
             int leftColumn = int.MaxValue;
             foreach (DataGridViewCell dataGridViewCell in dataGridView.SelectedCells)
@@ -502,10 +609,10 @@ namespace DataGridViewGeneric
             #region Count rows and columns in selctions
             List<int> columnsSelected = new List<int>();
             List<int> rowsSelected = new List<int>();
-            foreach (DataGridViewCell dataGridViewCell in dataGridView.SelectedCells)
+            foreach (CellLocation cellLocationCount in selectedCells)
             {
-                if (!columnsSelected.Contains(dataGridViewCell.ColumnIndex)) columnsSelected.Add(dataGridViewCell.ColumnIndex);
-                if (!rowsSelected.Contains(dataGridViewCell.RowIndex)) rowsSelected.Add(dataGridViewCell.RowIndex);
+                if (!columnsSelected.Contains(cellLocationCount.ColumnIndex)) columnsSelected.Add(cellLocationCount.ColumnIndex);
+                if (!rowsSelected.Contains(cellLocationCount.RowIndex)) rowsSelected.Add(cellLocationCount.RowIndex);
             }
             #endregion 
 
@@ -513,13 +620,13 @@ namespace DataGridViewGeneric
             if (rowContents.Count > 0) columnConentsCount = rowContents[0].Count;
 
             #region Paste one clipboard "cell/text" to all selected (Only one text to more than one selected cell)
-            #region Paste - Nothing selected - nothing to do
+            #region Paste - Source: Nothing selected - nothing to do
             if (rowContents.Count == 0 && columnConentsCount == 0)
             { 
                 //Nothing found
             }
             #endregion
-            #region Paste - rowContents.Count == 1 && columnConentsCount == 
+            #region Paste - Sourec: One Cell Selected (rowContents.Count == 1 && columnConentsCount == 1)
             else if (rowContents.Count == 1 && columnConentsCount == 1) 
             {
                 NuberOfItemsToEdit = dataGridView.SelectedCells.Count;
@@ -662,10 +769,10 @@ namespace DataGridViewGeneric
                 NuberOfItemsToEdit = columnsSelected.Count * rowsSelected.Count;
                 IsClipboardActive = true;
 
-                foreach (List<String> rowContent in rowContents)
+                foreach (List<string> rowContent in rowContents)
                 {
                     int iCol = leftColumn;
-                    foreach (String cellContent in rowContent)
+                    foreach (string cellContent in rowContent)
                     {
                         try
                         {
@@ -723,7 +830,8 @@ namespace DataGridViewGeneric
             }
             #endregion
             #endregion
-            foreach (CellLocation cellLocation in undoCells.Keys) dataGridView[cellLocation.ColumnIndex, cellLocation.RowIndex].Selected = true;
+            
+            //CAN BE REMOVED foreach (CellLocation cellLocation in undoCells.Keys) dataGridView[cellLocation.ColumnIndex, cellLocation.RowIndex].Selected = true; //Already done, can be removed after check
             PushToUndoStack (dataGridView, undoCells);
         }
         #endregion

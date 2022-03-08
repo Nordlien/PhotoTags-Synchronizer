@@ -331,11 +331,9 @@ namespace DataGridViewGeneric
         {
         }
 
-        public DataGridViewHandler(DataGridView dataGridView, KryptonPalette palette, string dataGridViewName, string topLeftHeaderCellName, 
-            DataGridViewSize cellSize, List<ColumnNameAndWidth> columnNameAndWidthsLarge, List<ColumnNameAndWidth> columnNameAndWidthsMedium, List<ColumnNameAndWidth> columnNameAndWidthsSmall)
+        #region DataGridViewInit
+        public static void DataGridViewInit(DataGridView dataGridView, bool allowUserToAddRows = true)
         {
-            this.dataGridView = dataGridView;
-
             //Increase speed
             typeof(DataGridView).InvokeMember(
                    "DoubleBuffered",
@@ -343,7 +341,7 @@ namespace DataGridViewGeneric
                    null,
                    dataGridView,
                    new object[] { true });
-            
+
             dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
             dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
 
@@ -357,6 +355,15 @@ namespace DataGridViewGeneric
             dataGridView.ShowRowErrors = false;
             dataGridView.ShowCellToolTips = true;
 
+            dataGridView.AllowUserToAddRows = allowUserToAddRows;
+        }
+        #endregion
+
+        #region DataGridViewInitGenericData
+        private static void DataGridViewInitGenericData(
+            DataGridView dataGridView, KryptonPalette palette, string dataGridViewName, string topLeftHeaderCellName, DataGridViewSize cellSize, 
+            List<ColumnNameAndWidth> columnNameAndWidthsLarge, List<ColumnNameAndWidth> columnNameAndWidthsMedium, List<ColumnNameAndWidth> columnNameAndWidthsSmall)
+        {
             DataGridViewGenericData dataGridViewGenricData = new DataGridViewGenericData();
             dataGridViewGenricData.KryptonPalette = palette;
             dataGridViewGenricData.TopCellName = topLeftHeaderCellName;
@@ -366,9 +373,14 @@ namespace DataGridViewGeneric
             dataGridViewGenricData.ColumnNameAndWidthsLarge = columnNameAndWidthsLarge;
             dataGridViewGenricData.ColumnNameAndWidthsMedium = columnNameAndWidthsMedium;
             dataGridViewGenricData.ColumnNameAndWidthsSmall = columnNameAndWidthsSmall;
-
+            dataGridView.TopLeftHeaderCell.Value = topLeftHeaderCellName;
             dataGridView.TopLeftHeaderCell.Tag = dataGridViewGenricData;
+        }
+        #endregion
 
+        #region DataGridViewInitEvents
+        private void DataGridViewInitEvents(DataGridView dataGridView)
+        {
             dataGridView.CellValueNeeded += DataGridView_CellValueNeeded;
             dataGridView.CellValuePushed += DataGridView_CellValuePushed;
             dataGridView.NewRowNeeded += DataGridView_NewRowNeeded;
@@ -379,6 +391,18 @@ namespace DataGridViewGeneric
             dataGridView.CellMouseDown += DataGridView_CellMouseDown;
             dataGridView.CurrentCellDirtyStateChanged += DataGridView_CurrentCellDirtyStateChanged;
             dataGridView.KeyDown += DataGridView_KeyDown;
+        }
+        #endregion 
+
+        public DataGridViewHandler(DataGridView dataGridView, KryptonPalette palette, string dataGridViewName, string topLeftHeaderCellName, 
+            DataGridViewSize cellSize, List<ColumnNameAndWidth> columnNameAndWidthsLarge, List<ColumnNameAndWidth> columnNameAndWidthsMedium, List<ColumnNameAndWidth> columnNameAndWidthsSmall)
+        {
+            this.dataGridView = dataGridView;
+
+            DataGridViewInit(dataGridView);
+            DataGridViewInitGenericData(dataGridView, palette, dataGridViewName, topLeftHeaderCellName, cellSize,
+                columnNameAndWidthsLarge, columnNameAndWidthsMedium, columnNameAndWidthsSmall);
+            DataGridViewInitEvents(dataGridView);
         }
 
         
@@ -397,9 +421,7 @@ namespace DataGridViewGeneric
             dataGridView.EnableHeadersVisualStyles = false;
 
             dataGridView.ColumnHeadersHeight = GetTopColumnHeaderHeigth(cellSize);
-            //dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
             dataGridView.RowHeadersWidth = GetFirstRowHeaderWidth(cellSize);
-            //dataGridView.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.EnableResizing;
             dataGridView.EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2;
         }
         #endregion
@@ -1318,6 +1340,7 @@ namespace DataGridViewGeneric
                 dataGridViewColumn.FillWeight = 0.1f;                                   //Expand limit of 65535 witdth
                 dataGridViewColumn.Width = GetCellColumnsWidth(dataGridView, fileEntryAttribute.FileFullPath);          //Layout
                 dataGridViewColumn.ToolTipText = fileEntryAttribute.LastWriteDateTime.ToString() + "\r\n" + fileEntryAttribute.FileFullPath;
+                dataGridViewColumn.HeaderText = fileEntryAttribute.FileFullPath;
                 dataGridViewColumn.Tag = new DataGridViewGenericColumn(fileEntryAttribute, thumbnail, metadata, readWriteAccessForColumn);
                 #endregion
 
@@ -1532,6 +1555,21 @@ namespace DataGridViewGeneric
             if (columnIndex < 0) return null; 
             if (columnIndex >= dataGridView.ColumnCount) return null; //This can happen when using cache and switch between tabs
             return dataGridView.Columns[columnIndex].Tag as DataGridViewGenericColumn;
+        }
+        #endregion
+
+        #region Column handling - GetColumnDataGridViewGenericColumn
+        public static string GetColumnDataGridViewName(DataGridView dataGridView, int columnIndex)
+        {
+            if (columnIndex < 0) return null;
+            if (columnIndex >= dataGridView.ColumnCount) return null; //This can happen when using cache and switch between tabs
+            DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+            if (dataGridViewGenericColumn.FileEntryAttribute.FileFullPath != dataGridView.Columns[columnIndex].HeaderText)
+            {
+                //DEBUG
+            }
+            //return dataGridViewGenericColumn.FileEntryAttribute.FileFullPath;
+            return dataGridView.Columns[columnIndex].HeaderText;
         }
         #endregion
 
@@ -1907,7 +1945,14 @@ namespace DataGridViewGeneric
         public static string GetRowName(DataGridView dataGridView, int rowIndex)
         {
             DataGridViewGenericRow dataGridViewGenericRow = GetRowDataGridViewGenericRow(dataGridView, rowIndex);
-            return dataGridViewGenericRow == null ? "" : dataGridViewGenericRow.RowName;
+            return dataGridViewGenericRow == null ? "" : (dataGridViewGenericRow.IsHeader ? dataGridViewGenericRow.HeaderName : dataGridViewGenericRow.RowName);
+        }
+        #endregion
+
+        #region Rows handling - GetRowValue
+        public static string GetRowValue(DataGridView dataGridView, int rowIndex)
+        {
+            return (string)dataGridView.Rows[rowIndex].HeaderCell.Value;
         }
         #endregion
 
@@ -2174,13 +2219,6 @@ namespace DataGridViewGeneric
         public static void InvalidateCellColumnHeader(DataGridView dataGridView, int columnIndex)
         {
             dataGridView.InvalidateCell(dataGridView.Columns[columnIndex].HeaderCell);
-        }
-        #endregion
-
-        #region Cell handling - InvalidateCellColumnHeader
-        public static void InvalidateCellRowHeader(DataGridView dataGridView, int rowIndex)
-        {
-            dataGridView.InvalidateCell(dataGridView.Rows[rowIndex].HeaderCell);
         }
         #endregion
 
@@ -2696,9 +2734,14 @@ namespace DataGridViewGeneric
                 ))
                 {
                     CellLocation cellLocation = new CellLocation(columnIndex, targetRowIndex);
-                    if (!updatedCells.ContainsKey(cellLocation)) updatedCells.Add(cellLocation, DataGridViewHandler.CopyCellDataGridViewGenericCell(dataGridView, columnIndex, targetRowIndex));
+                    DataGridViewGenericCell dataGridViewGenericCellTarget = DataGridViewHandler.CopyCellDataGridViewGenericCell(dataGridView, columnIndex, targetRowIndex);
+                    DataGridViewGenericCell dataGridViewGenericCellCopyFrom = DataGridViewHandler.CopyCellDataGridViewGenericCell(dataGridView, columnIndex, rowIndex);
 
-                    DataGridViewHandler.SetCellValue(dataGridView, columnIndex, targetRowIndex, DataGridViewHandler.GetCellValue(dataGridView, columnIndex, rowIndex), true );
+                    if (dataGridViewGenericCellTarget != dataGridViewGenericCellCopyFrom)
+                    {
+                        if (!updatedCells.ContainsKey(cellLocation)) updatedCells.Add(cellLocation, DataGridViewHandler.CopyCellDataGridViewGenericCell(dataGridView, columnIndex, targetRowIndex));
+                        DataGridViewHandler.SetCellValue(dataGridView, columnIndex, targetRowIndex, DataGridViewHandler.GetCellValue(dataGridView, columnIndex, rowIndex), true);
+                    }
                 }
             }            
             return updatedCells;
@@ -2719,7 +2762,6 @@ namespace DataGridViewGeneric
                     Dictionary<CellLocation, DataGridViewGenericCell> updatedCellsDelta =
                         CopyCellFromBrokerToMedia(dataGridView, targetHeader, targetRowName, dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex, overwrite);
                     
-
                     if (updatedCellsDelta != null && updatedCellsDelta.Count > 0)
                     {
                         foreach (CellLocation cellLocation in updatedCellsDelta.Keys)
@@ -3062,20 +3104,21 @@ namespace DataGridViewGeneric
 
             if (gridViewGenericDataRow.HeaderName.Equals(header))
             {
-                if (columnIndex > -1) SetColumnDirtyFlag(dataGridView, columnIndex, true);
-                //All click 
+                #region All click 
                 if (gridViewGenericDataRow.IsHeader && columnIndex == -1)
                 {
                     updatedCells = SetNextTriState(dataGridView, header, newState,
                         keywordHeaderStart, keywordsStarts, keywordsEnds,
                         0, keywordsStarts, 1, 1);
                 }
-                //Row click - click on a tristate buttons 
+                #endregion
+                #region Row click - click on a tristate buttons 
                 else if (!gridViewGenericDataRow.IsHeader && columnIndex == -1) // 
                 {
                     updatedCells = SetNextTriState(dataGridView, header, newState, keywordHeaderStart, keywordsStarts, keywordsEnds, 0, rowIndex, 1, 0);
                 }
-                //Column click - click on a tristate buttons 
+                #endregion
+                #region Column click - click on a tristate buttons 
                 else if (gridViewGenericDataRow.IsHeader && columnIndex > -1) //Tag heading, on given column
                 {
                     DataGridViewGenericColumn dataGridViewGenericDataColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
@@ -3085,7 +3128,8 @@ namespace DataGridViewGeneric
                         updatedCells = SetNextTriState(dataGridView, header, newState, keywordHeaderStart, keywordsStarts, keywordsEnds, columnIndex, keywordHeaderStart, 0, 1);
                     }
                 }
-                //Cell - click on a tristate buttons 
+                #endregion
+                #region Cell - click on a tristate buttons 
                 else if (!gridViewGenericDataRow.IsHeader && columnIndex > -1)
                 {
                     DataGridViewGenericColumn dataGridViewGenericDataColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
@@ -3112,6 +3156,9 @@ namespace DataGridViewGeneric
                         }
                     }
                 }
+                #endregion
+
+                if (columnIndex > -1) SetColumnDirtyFlag(dataGridView, columnIndex, true);
             }
 
             return updatedCells;
@@ -3362,13 +3409,12 @@ namespace DataGridViewGeneric
         {
             bool updated = false;
 
-            ClipboardUtility.PushToUndoStack(dataGridView);
+            ClipboardUtility.PushSelectedCellsToUndoStack(dataGridView);
 
             foreach (DataGridViewCell cells in dataGridView.SelectedCells)
             {
                 if (cells.ColumnIndex == columnIndex)
                 {
-                    //DataGridViewHandler.SetColumnDirtyFlag(dataGridView, columnIndex, true);
                     RegionStructure regionStructure = GetCellRegionStructure(dataGridView, cells.ColumnIndex, cells.RowIndex);
                     if (regionStructure == null)
                     {
@@ -3403,6 +3449,9 @@ namespace DataGridViewGeneric
                     SetCellValue(dataGridView, cells.ColumnIndex, cells.RowIndex, regionStructure, true); //This will set IsDirty flag
                 }
             }
+            
+            ClipboardUtility.CancelPushUndoStackIfNoChanges(dataGridView);
+
             return updated;
         }
         #endregion 
@@ -3532,8 +3581,6 @@ namespace DataGridViewGeneric
                 string cellTextTop = "";
                 string cellTextBottom = "";
                 bool hasFileKnownErrors = errorFileEntries.ContainsKey(fileEntryAttributeColumn.FileEntry.FileFullPath);
-
-                
 
                 if (hasFileKnownErrors)
                 {

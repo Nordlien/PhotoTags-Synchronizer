@@ -1084,7 +1084,14 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = ((DataGridView)sender);
             if (!dataGridView.Enabled) return;
-            ClipboardUtility.PushToUndoStack(dataGridView);
+            ClipboardUtility.PushSelectedCellsToUndoStack(dataGridView);
+        }
+
+        private void dataGridViewCameraOwner_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView dataGridView = ((DataGridView)sender);
+            if (!dataGridView.Enabled) return;
+            ClipboardUtility.CancelPushUndoStackIfNoChanges(dataGridView);
         }
         #endregion
 
@@ -1380,7 +1387,14 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = ((DataGridView)sender);
             if (!dataGridView.Enabled) return;
 
-            ClipboardUtility.PushToUndoStack(dataGridView);
+            ClipboardUtility.PushSelectedCellsToUndoStack(dataGridView);
+        }
+
+        private void dataGridViewLocationNames_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView dataGridView = ((DataGridView)sender);
+            if (!dataGridView.Enabled) return;
+            ClipboardUtility.CancelPushUndoStackIfNoChanges(dataGridView);
         }
         #endregion 
 
@@ -2201,14 +2215,21 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = ((DataGridView)sender);
             if (!dataGridView.Enabled) return;
 
-            ClipboardUtility.PushToUndoStack(dataGridView);
+            ClipboardUtility.PushSelectedCellsToUndoStack(dataGridView);
+        }
+
+        private void dataGridViewAutoKeywords_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView dataGridView = ((DataGridView)sender);
+            if (!dataGridView.Enabled) return;
+            ClipboardUtility.CancelPushUndoStackIfNoChanges(dataGridView);
         }
         #endregion
 
         #endregion
 
         #region Metadata Read - Keydown and Item Click, Clipboard
-        
+
         #region Metadata Read - Cut
         private void KryptonContextMenuItemMetadataReadCut_Click(object sender, EventArgs e)
         {
@@ -2329,7 +2350,14 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = ((DataGridView)sender);
             if (!dataGridView.Enabled) return;
 
-            ClipboardUtility.PushToUndoStack(dataGridView);
+            ClipboardUtility.PushSelectedCellsToUndoStack(dataGridView);
+        }
+
+        private void dataGridViewMetadataReadPriority_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView dataGridView = ((DataGridView)sender);
+            if (!dataGridView.Enabled) return;
+            ClipboardUtility.CancelPushUndoStackIfNoChanges(dataGridView);
         }
         #endregion
 
@@ -3276,8 +3304,10 @@ namespace PhotoTagsSynchronizer
             KryptonPaletteHandler.SetImageListViewPalettes(kryptonManager1, imageListView1);
         }
         #endregion
-        
+
         #endregion
+
+        
     }
 }
 

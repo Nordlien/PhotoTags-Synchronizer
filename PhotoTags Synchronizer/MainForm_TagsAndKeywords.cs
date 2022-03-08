@@ -62,7 +62,7 @@ namespace PhotoTagsSynchronizer
                 foundTagBefore = false;
                 for (int rowIndex = keywordsStarts; rowIndex <= keywordsEnds; rowIndex++) // < Don't check new added line
                 {
-                    if (DataGridViewHandler.GetRowName(dataGridView, rowIndex) == validTag.ToString()) //Whithout ToString it was Object Compare and never become "true"
+                    if (DataGridViewHandler.GetRowName(dataGridView, rowIndex) == (string)validTag) //Whithout ToString it was Object Compare and never become "true"
                     {
                         foundTagBefore = true;
                         number++;
@@ -180,57 +180,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region CellEndEdit
-        private bool cellEndEditInProcess = false;
-        private void dataGridViewTagsAndKeywords_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-            if (cellEndEditInProcess) return;
-            cellEndEditInProcess = true;
-            try
-            {
-                DataGridView dataGridView = ((DataGridView)sender);
-                DataGridViewGenericRow gridViewGenericDataRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, e.RowIndex);
-                if (gridViewGenericDataRow != null)
-                {
-                    string newValue = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, e.ColumnIndex, e.RowIndex);
-                    if (gridViewGenericDataRow.RowName == DataGridViewHandlerTagsAndKeywords.tagTitle)
-                    {
-                        ComboBoxHandler.AddLastTextFirstInAutoCompleteStringCollection(autoCompleteStringCollectionTitle, newValue);
-                        Properties.Settings.Default.AutoCorrectFormTitle = ComboBoxHandler.AutoCompleteStringCollectionToString(autoCompleteStringCollectionTitle);
-                    }
-                    if (gridViewGenericDataRow.RowName == DataGridViewHandlerTagsAndKeywords.tagDescription)
-                    {
-                        ComboBoxHandler.AddLastTextFirstInAutoCompleteStringCollection(autoCompleteStringCollectionDescription, newValue);
-                        Properties.Settings.Default.AutoCorrectFormDescription = ComboBoxHandler.AutoCompleteStringCollectionToString(autoCompleteStringCollectionDescription);
-                    }
-                    if (gridViewGenericDataRow.RowName == DataGridViewHandlerTagsAndKeywords.tagComments)
-                    {
-                        ComboBoxHandler.AddLastTextFirstInAutoCompleteStringCollection(autoCompleteStringCollectionComments, newValue);
-                        Properties.Settings.Default.AutoCorrectFormComments = ComboBoxHandler.AutoCompleteStringCollectionToString(autoCompleteStringCollectionComments);
-                    }
-                    if (gridViewGenericDataRow.RowName == DataGridViewHandlerTagsAndKeywords.tagAlbum)
-                    {
-                        ComboBoxHandler.AddLastTextFirstInAutoCompleteStringCollection(autoCompleteStringCollectionAlbum, newValue);
-                        Properties.Settings.Default.AutoCorrectFormAlbum = ComboBoxHandler.AutoCompleteStringCollectionToString(autoCompleteStringCollectionAlbum);
-                    }
-                    if (gridViewGenericDataRow.RowName == DataGridViewHandlerTagsAndKeywords.tagAuthor)
-                    {
-                        ComboBoxHandler.AddLastTextFirstInAutoCompleteStringCollection(autoCompleteStringCollectionAuthor, newValue);
-                        Properties.Settings.Default.AutoCorrectFormAuthor = ComboBoxHandler.AutoCompleteStringCollectionToString(autoCompleteStringCollectionAuthor);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-            }
-            finally
-            {
-                cellEndEditInProcess = false;
-            }
-        }
-        #endregion
-
         #region CellValueChanged
         private bool isDataGridViewTagsAndKeywords_CellValueChanging = false;
         private void dataGridViewTagsAndKeywords_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -336,7 +285,7 @@ namespace PhotoTagsSynchronizer
                         DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, newText, true);
                     }
                 }
-                if (updatedCells != null && updatedCells.Count > 0) ClipboardUtility.PushToUndoStack(dataGridView, updatedCells);
+                if (updatedCells != null && updatedCells.Count > 0) ClipboardUtility.PushNotEqualToUndoStack(dataGridView, updatedCells);
             }
             catch (Exception ex)
             {

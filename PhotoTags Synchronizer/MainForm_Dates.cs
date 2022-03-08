@@ -9,8 +9,6 @@ namespace PhotoTagsSynchronizer
 
     public partial class MainForm : KryptonForm
     {
-
-
         #region Date description
         /*
         JPEG:
@@ -148,5 +146,7 @@ namespace PhotoTagsSynchronizer
             if (e.RowIndex == -1) RegionSelectorLoadAndSelect(dataGridView, e.RowIndex, e.ColumnIndex);
         }
         #endregion 
+
+        
     }
 }

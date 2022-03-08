@@ -1,4 +1,5 @@
 ﻿using MetadataLibrary;
+using System.Collections.Generic;
 using WinProps;
 
 namespace DataGridViewGeneric
@@ -9,6 +10,24 @@ namespace DataGridViewGeneric
         {
             return new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true);
         }
+
+        public override bool Equals(object obj)
+        {
+            return obj is DataGridViewGenericCellStatus status &&
+                   MetadataBrokerType == status.MetadataBrokerType &&
+                   SwitchState == status.SwitchState &&
+                   CellReadOnly == status.CellReadOnly;
+        }
+
+        public override int GetHashCode()
+        {
+            int hashCode = 677046786;
+            hashCode = hashCode * -1521134295 + MetadataBrokerType.GetHashCode();
+            hashCode = hashCode * -1521134295 + SwitchState.GetHashCode();
+            hashCode = hashCode * -1521134295 + CellReadOnly.GetHashCode();
+            return hashCode;
+        }
+
         public DataGridViewGenericCellStatus()
         {
             MetadataBrokerType = MetadataBrokerType.Empty;
@@ -33,6 +52,15 @@ namespace DataGridViewGeneric
         public MetadataBrokerType MetadataBrokerType { get; set; }
         public SwitchStates SwitchState { get; set; }
         public bool CellReadOnly { get; set; }
-        
+
+        public static bool operator ==(DataGridViewGenericCellStatus left, DataGridViewGenericCellStatus right)
+        {
+            return EqualityComparer<DataGridViewGenericCellStatus>.Default.Equals(left, right);
+        }
+
+        public static bool operator !=(DataGridViewGenericCellStatus left, DataGridViewGenericCellStatus right)
+        {
+            return !(left == right);
+        }
     }
 }

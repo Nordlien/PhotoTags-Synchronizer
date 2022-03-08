@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="kryptonContextMenuGenericBase.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 5</value>
-  </metadata>
   <data name="kryptonPageToolboxDates.ToolTipTitle" xml:space="preserve">
     <value>For JPEG-EXIF images, the DateTimeOriginal does not include the time zone suffix and should be rendered in local time which the photo was taken.
 
@@ -792,6 +789,9 @@ When enter a date and time in   HYPERLINK "https://www.w3.org/TR/NOTE-datetime"
         vPq3LN0Fzj9gNBrvT05OvrBarddY+i/Q4EGMG7j/EpWx4jzeHwQ0xDo44yOlAAAAAElFTkSuQmCC
 </value>
   </data>
+  <metadata name="kryptonContextMenuGenericBase.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 5</value>
+  </metadata>
   <data name="pictureBox1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
@@ -839,7 +839,7 @@ When enter a date and time in   HYPERLINK "https://www.w3.org/TR/NOTE-datetime"
   <metadata name="kryptonManager1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>237, 5</value>
   </metadata>
-  <data name="kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.ToolTipBody" xml:space="preserve">
+  <data name="kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.ToolTipValues.Description" xml:space="preserve">
     <value>
 Select one and many cells.
 This will copy text from Source and Paste in correct Metadata fields.
@@ -849,7 +849,7 @@ Microsoft Photos / Title -&gt; Your Media / Title
 Already existing text will NOT become overwritten.
 </value>
   </data>
-  <data name="kryptonRibbonGroupButtonHomeFastCopyOverwrite.ToolTipBody" xml:space="preserve">
+  <data name="kryptonRibbonGroupButtonHomeFastCopyOverwrite.ToolTipValues.Description" xml:space="preserve">
     <value>Select one and many cells.
 This will copy text from Source and Paste in correct Metadata fields.
 Example: 
@@ -858,7 +858,7 @@ Microsoft Photos / Title -&gt; Your Media / Title
 Already existing text will BE overwritten.
 </value>
   </data>
-  <data name="kryptonRibbonGroupButtonDatGridShowPoster.ToolTipBody" xml:space="preserve">
+  <data name="kryptonRibbonGroupButtonDatGridShowPoster.ToolTipValues.Description" xml:space="preserve">
     <value>Show media file as Poster
 Picture can be zoomed and showen
 First image in a movie will be shown.
@@ -867,13 +867,13 @@ In People tab:
 First select a cell with face/region name and then select region for this face/region
 </value>
   </data>
-  <data name="kryptonRibbonGroupButtonToolsImportLocations.ToolTipBody" xml:space="preserve">
+  <data name="kryptonRibbonGroupButtonToolsImportLocations.ToolTipValues.Description" xml:space="preserve">
     <value>Import GPS locations. 
 For example import locationg from your GPS tracker og Google Location History.
 When a media file as picture or movie missing locations infromation.
 The locations can be found when matching UTC time and date between media file and locations time stamp. </value>
   </data>
-  <data name="kryptonRibbonGroupButtonToolsLocationAnalytics.ToolTipBody" xml:space="preserve">
+  <data name="kryptonRibbonGroupButtonToolsLocationAnalytics.ToolTipValues.Description" xml:space="preserve">
     <value>Location analytics. 
 
 Get an overview about what location on given time visualized on a map.

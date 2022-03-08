@@ -6,7 +6,6 @@ using MetadataLibrary;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using WindowsProperty;
@@ -63,6 +62,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        
         #region Cell BeginEdit
 
         #region Cell BeginEdit - Date
@@ -73,13 +73,20 @@ namespace PhotoTagsSynchronizer
                 DataGridView dataGridView = ((DataGridView)sender);
                 if (!dataGridView.Enabled) return;
 
-                ClipboardUtility.PushToUndoStack(dataGridView);
+                ClipboardUtility.PushSelectedCellsToUndoStack(dataGridView);
             }
             catch (Exception ex)
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
+        }
+
+        private void dataGridViewDate_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView dataGridView = ((DataGridView)sender);
+            if (!dataGridView.Enabled) return;
+            ClipboardUtility.CancelPushUndoStackIfNoChanges(dataGridView);
         }
         #endregion
 
@@ -91,13 +98,20 @@ namespace PhotoTagsSynchronizer
                 DataGridView dataGridView = ((DataGridView)sender);
                 if (!dataGridView.Enabled) return;
 
-                ClipboardUtility.PushToUndoStack(dataGridView);
+                ClipboardUtility.PushSelectedCellsToUndoStack(dataGridView);
             }
             catch (Exception ex)
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
+        }
+
+        private void dataGridViewExiftool_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView dataGridView = ((DataGridView)sender);
+            if (!dataGridView.Enabled) return;
+            ClipboardUtility.CancelPushUndoStackIfNoChanges(dataGridView);
         }
         #endregion
 
@@ -109,13 +123,20 @@ namespace PhotoTagsSynchronizer
                 DataGridView dataGridView = ((DataGridView)sender);
                 if (!dataGridView.Enabled) return;
 
-                ClipboardUtility.PushToUndoStack(dataGridView);
+                ClipboardUtility.PushSelectedCellsToUndoStack(dataGridView);
             }
             catch (Exception ex)
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
+        }
+
+        private void dataGridViewExiftoolWarning_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView dataGridView = ((DataGridView)sender);
+            if (!dataGridView.Enabled) return;
+            ClipboardUtility.CancelPushUndoStackIfNoChanges(dataGridView);
         }
         #endregion
 
@@ -127,13 +148,20 @@ namespace PhotoTagsSynchronizer
                 DataGridView dataGridView = ((DataGridView)sender);
                 if (!dataGridView.Enabled) return;
 
-                ClipboardUtility.PushToUndoStack(dataGridView);
+                ClipboardUtility.PushSelectedCellsToUndoStack(dataGridView);
             }
             catch (Exception ex)
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
+        }
+
+        private void dataGridViewMap_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView dataGridView = ((DataGridView)sender);
+            if (!dataGridView.Enabled) return;
+            ClipboardUtility.CancelPushUndoStackIfNoChanges(dataGridView);
         }
         #endregion
 
@@ -153,12 +181,51 @@ namespace PhotoTagsSynchronizer
                 DataGridView dataGridView = ((DataGridView)sender);
                 if (!dataGridView.Enabled) return;
 
-                ClipboardUtility.PushToUndoStack(dataGridView);
+
+                ClipboardUtility.PushSelectedCellsToUndoStack(dataGridView);
             }
             catch (Exception ex)
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+
+        private void dataGridViewPeople_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (((KryptonDataGridView)sender)[e.ColumnIndex, e.RowIndex].Value is RegionStructure regionStructure) regionStructure.ShowNameInToString = false; //Just a hack so KryptonDataGridView don't print name also
+                DataGridView dataGridView = dataGridViewPeople;
+                CheckRowAndSetDefaults(dataGridView, e.ColumnIndex, e.RowIndex);
+                DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex, out string diffrences), diffrences);
+
+                //DataGridView dataGridView = ((DataGridView)sender);
+                if (!dataGridView.Enabled) return;
+                
+                if (!ClipboardUtility.CancelPushUndoStackIfNoChanges(dataGridView))
+                {
+                    #region Find New names
+                    Dictionary<CellLocation, DataGridViewGenericCell> peek = ClipboardUtility.PeekUndoStack(dataGridView);
+
+                    foreach (CellLocation cellLocation in peek.Keys)
+                    {
+                        DataGridViewGenericCell dataGridViewGenericCell = DataGridViewHandler.GetCellDataGridViewGenericCellCopy(dataGridView, cellLocation.ColumnIndex, cellLocation.RowIndex);
+                        if (dataGridViewGenericCell.Value is RegionStructure regionStructureForPeek)
+                        {
+                            if (!string.IsNullOrWhiteSpace(regionStructureForPeek.Name)) PeopleAddNewLastUseName(regionStructureForPeek.Name);
+                        }
+                        else
+                        {
+                            //DEBUG
+                        }
+                    }
+                    #endregion
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
             }
         }
         #endregion
@@ -171,13 +238,20 @@ namespace PhotoTagsSynchronizer
                 DataGridView dataGridView = ((DataGridView)sender);
                 if (!dataGridView.Enabled) return;
 
-                ClipboardUtility.PushToUndoStack(dataGridView);
+                ClipboardUtility.PushSelectedCellsToUndoStack(dataGridView);
             }
             catch (Exception ex)
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
+        }
+
+        private void dataGridViewProperties_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView dataGridView = ((DataGridView)sender);
+            if (!dataGridView.Enabled) return;
+            ClipboardUtility.CancelPushUndoStackIfNoChanges(dataGridView);
         }
         #endregion
 
@@ -189,7 +263,7 @@ namespace PhotoTagsSynchronizer
                 DataGridView dataGridView = ((DataGridView)sender);
                 if (!dataGridView.Enabled) return;
 
-                ClipboardUtility.PushToUndoStack(dataGridView);
+                ClipboardUtility.PushSelectedCellsToUndoStack(dataGridView);
             }
             catch (Exception ex)
             {
@@ -198,6 +272,12 @@ namespace PhotoTagsSynchronizer
             }
         }
 
+        private void dataGridViewRename_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView dataGridView = ((DataGridView)sender);
+            if (!dataGridView.Enabled) return;
+            ClipboardUtility.CancelPushUndoStackIfNoChanges(dataGridView);
+        }
         #endregion
 
         #region Cell BeginEdit - TagsAndKeywords
@@ -214,7 +294,7 @@ namespace PhotoTagsSynchronizer
                 DataGridView dataGridView = ((DataGridView)sender);
                 if (!dataGridView.Enabled) return;
 
-                ClipboardUtility.PushToUndoStack(dataGridView);
+                ClipboardUtility.PushSelectedCellsToUndoStack(dataGridView);
             }
             catch (Exception ex)
             {
@@ -222,6 +302,60 @@ namespace PhotoTagsSynchronizer
                 KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
+
+        private bool cellEndEditInProcess = false;
+        private void dataGridViewTagsAndKeywords_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            if (cellEndEditInProcess) return;
+            cellEndEditInProcess = true;
+            try
+            {
+                DataGridView dataGridView = ((DataGridView)sender);
+                DataGridViewGenericRow gridViewGenericDataRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, e.RowIndex);
+                if (gridViewGenericDataRow != null)
+                {
+                    string newValue = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, e.ColumnIndex, e.RowIndex);
+                    if (gridViewGenericDataRow.RowName == DataGridViewHandlerTagsAndKeywords.tagTitle)
+                    {
+                        ComboBoxHandler.AddLastTextFirstInAutoCompleteStringCollection(autoCompleteStringCollectionTitle, newValue);
+                        Properties.Settings.Default.AutoCorrectFormTitle = ComboBoxHandler.AutoCompleteStringCollectionToString(autoCompleteStringCollectionTitle);
+                    }
+                    if (gridViewGenericDataRow.RowName == DataGridViewHandlerTagsAndKeywords.tagDescription)
+                    {
+                        ComboBoxHandler.AddLastTextFirstInAutoCompleteStringCollection(autoCompleteStringCollectionDescription, newValue);
+                        Properties.Settings.Default.AutoCorrectFormDescription = ComboBoxHandler.AutoCompleteStringCollectionToString(autoCompleteStringCollectionDescription);
+                    }
+                    if (gridViewGenericDataRow.RowName == DataGridViewHandlerTagsAndKeywords.tagComments)
+                    {
+                        ComboBoxHandler.AddLastTextFirstInAutoCompleteStringCollection(autoCompleteStringCollectionComments, newValue);
+                        Properties.Settings.Default.AutoCorrectFormComments = ComboBoxHandler.AutoCompleteStringCollectionToString(autoCompleteStringCollectionComments);
+                    }
+                    if (gridViewGenericDataRow.RowName == DataGridViewHandlerTagsAndKeywords.tagAlbum)
+                    {
+                        ComboBoxHandler.AddLastTextFirstInAutoCompleteStringCollection(autoCompleteStringCollectionAlbum, newValue);
+                        Properties.Settings.Default.AutoCorrectFormAlbum = ComboBoxHandler.AutoCompleteStringCollectionToString(autoCompleteStringCollectionAlbum);
+                    }
+                    if (gridViewGenericDataRow.RowName == DataGridViewHandlerTagsAndKeywords.tagAuthor)
+                    {
+                        ComboBoxHandler.AddLastTextFirstInAutoCompleteStringCollection(autoCompleteStringCollectionAuthor, newValue);
+                        Properties.Settings.Default.AutoCorrectFormAuthor = ComboBoxHandler.AutoCompleteStringCollectionToString(autoCompleteStringCollectionAuthor);
+                    }
+                }
+
+                //DataGridView dataGridView = ((DataGridView)sender);
+                if (!dataGridView.Enabled) return;
+                ClipboardUtility.CancelPushUndoStackIfNoChanges(dataGridView);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
+            finally
+            {
+                cellEndEditInProcess = false;
+            }
+        }
+
         #endregion
 
         #endregion
