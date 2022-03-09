@@ -1989,6 +1989,7 @@ namespace PhotoTagsSynchronizer
                 ClipboardUtility.PasteDataGridViewSelectedCellsFromClipboard(dataGridView, out bool textBoxSelectionCanRestore, out int textBoxSelectionStart, out int textBoxSelectionLength);
                 if (!textBoxSelectionCanRestore) DataGridViewHandler.Refresh(dataGridView);
                 ClipboardUtility.DataGridViewRestoreEditMode(dataGridView, textBoxSelectionCanRestore, textBoxSelectionStart, textBoxSelectionLength);
+                DataGridView_UpdatedDirtyFlags(dataGridView);
             }
             catch (Exception ex)
             {
@@ -2095,7 +2096,7 @@ namespace PhotoTagsSynchronizer
                 //ValitedatePastePeople(dataGridView, DataGridViewHandlerPeople.headerPeople);
                 if (!textBoxSelectionCanRestore) DataGridViewHandler.Refresh(dataGridView);
                 ClipboardUtility.DataGridViewRestoreEditMode(dataGridView, textBoxSelectionCanRestore, textBoxSelectionStart, textBoxSelectionLength);
-
+                DataGridView_UpdatedDirtyFlags(dataGridView);
             }
             catch (Exception ex)
             {
@@ -2187,6 +2188,7 @@ namespace PhotoTagsSynchronizer
                         if (!textBoxSelectionCanRestore) ValitedatePasteKeywords(dataGridView, header);
                         if (!textBoxSelectionCanRestore) DataGridViewHandler.Refresh(dataGridView);
                         ClipboardUtility.DataGridViewRestoreEditMode(dataGridView, textBoxSelectionCanRestore, textBoxSelectionStart, textBoxSelectionLength);
+                        DataGridView_UpdatedDirtyFlags(dataGridView);
                         //DataGridViewHandler.ResumeLayoutDelayed(dataGridView);
                     }
                     catch (Exception ex)
@@ -2725,6 +2727,7 @@ namespace PhotoTagsSynchronizer
             {
                 GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
                 ClipboardUtility.UndoDataGridView(dataGridView);
+                DataGridView_UpdatedDirtyFlags(dataGridView);
                 DataGridViewHandler.Refresh(dataGridView);
             }
             catch (Exception ex)
@@ -2829,6 +2832,7 @@ namespace PhotoTagsSynchronizer
                 GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
                 ClipboardUtility.UndoDataGridView(dataGridView);
                 //ValitedatePastePeople(dataGridView, DataGridViewHandlerPeople.headerPeople);
+                DataGridView_UpdatedDirtyFlags(dataGridView);
                 DataGridViewHandler.Refresh(dataGridView);
             }
             catch (Exception ex)
@@ -2887,6 +2891,7 @@ namespace PhotoTagsSynchronizer
                 string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
                 ClipboardUtility.UndoDataGridView(dataGridView);
                 ValitedatePasteKeywords(dataGridView, header);
+                DataGridView_UpdatedDirtyFlags(dataGridView);
                 DataGridViewHandler.Refresh(dataGridView);
             }
             catch (Exception ex)
@@ -3014,6 +3019,7 @@ namespace PhotoTagsSynchronizer
                 //string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
                 ClipboardUtility.RedoDataGridView(dataGridView);
                 //ValitedatePaste(dataGridView, header);
+                DataGridView_UpdatedDirtyFlags(dataGridView);
                 DataGridViewHandler.Refresh(dataGridView);
             }
             catch (Exception ex)
@@ -3118,6 +3124,7 @@ namespace PhotoTagsSynchronizer
                 GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
                 ClipboardUtility.RedoDataGridView(dataGridView);
                 //ValitedatePastePeople(dataGridView, DataGridViewHandlerPeople.headerPeople);
+                DataGridView_UpdatedDirtyFlags(dataGridView);
                 DataGridViewHandler.Refresh(dataGridView);
             }
             catch (Exception ex)
@@ -5361,6 +5368,7 @@ namespace PhotoTagsSynchronizer
                 DataGridViewHandler.ToggleSelected(dataGridView, header, newState);
                 ValitedatePasteKeywords(dataGridView, header);
                 DataGridViewHandler.Refresh(dataGridView);
+                DataGridView_UpdatedDirtyFlags(dataGridView);
             }
             catch (Exception ex)
             {

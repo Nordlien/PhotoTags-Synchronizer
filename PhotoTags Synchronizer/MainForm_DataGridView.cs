@@ -197,10 +197,7 @@ namespace PhotoTagsSynchronizer
             {
                 if (((KryptonDataGridView)sender)[e.ColumnIndex, e.RowIndex].Value is RegionStructure regionStructure) regionStructure.ShowNameInToString = false; //Just a hack so KryptonDataGridView don't print name also
                 DataGridView dataGridView = dataGridViewPeople;
-                CheckRowAndSetDefaults(dataGridView, e.ColumnIndex, e.RowIndex);
-                DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex, out string diffrences), diffrences);
-
-                //DataGridView dataGridView = ((DataGridView)sender);
+                CheckRowAndSetDefaults(dataGridView, e.ColumnIndex, e.RowIndex);                
                 if (!dataGridView.Enabled) return;
                 
                 if (!ClipboardUtility.CancelPushUndoStackIfNoChanges(dataGridView))
@@ -222,6 +219,8 @@ namespace PhotoTagsSynchronizer
                     }
                     #endregion
                 }
+
+                DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex, out string diffrences), diffrences);
             }
             catch (Exception ex)
             {
@@ -1511,27 +1510,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region DataGridView - UpdatedDirtyFlags
-        private void DataGridView_UpdatedDirtyFlags(DataGridView dataGridView)
-        {
-            try
-            {
-                if (DataGridViewHandler.GetIsAgregated(dataGridView))
-                {
-                    for (int columnIndex = 0; columnIndex < DataGridViewHandler.GetColumnCount(dataGridView); columnIndex++)
-                    {
-                        DataGridViewHandler.SetColumnDirtyFlag(dataGridView, columnIndex, IsDataGridViewColumnDirty(dataGridView, columnIndex, out string differences), differences);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-            }
-        }
-        #endregion
-
         #region DataGridView - UpdatedFilename
         private void DataGridViewUpdatedFilenameRenameRows(DataGridView dataGridView, string oldFullFileName, string newFullFileName)
         {
@@ -1603,6 +1581,7 @@ namespace PhotoTagsSynchronizer
                         }
                     }
                 }
+                DataGridView_UpdatedDirtyFlags(dataGridView);
             }
             catch (Exception ex)
             {
@@ -1746,6 +1725,27 @@ namespace PhotoTagsSynchronizer
                     Logger.Warn("Column updated between user action and thread");
                 }
 
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion
+
+        #region DataGridView - UpdatedDirtyFlags
+        private void DataGridView_UpdatedDirtyFlags(DataGridView dataGridView)
+        {
+            try
+            {
+                if (DataGridViewHandler.GetIsAgregated(dataGridView))
+                {
+                    for (int columnIndex = 0; columnIndex < DataGridViewHandler.GetColumnCount(dataGridView); columnIndex++)
+                    {
+                        DataGridViewHandler.SetColumnDirtyFlag(dataGridView, columnIndex, IsDataGridViewColumnDirty(dataGridView, columnIndex, out string differences), differences);
+                    }
+                }
             }
             catch (Exception ex)
             {

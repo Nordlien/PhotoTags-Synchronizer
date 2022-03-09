@@ -2337,7 +2337,6 @@ namespace PhotoTagsSynchronizer
             this.radioButtonRating1.Size = new System.Drawing.Size(32, 18);
             this.radioButtonRating1.TabIndex = 0;
             this.radioButtonRating1.Values.Text = "1";
-            this.radioButtonRating1.CheckedChanged += new System.EventHandler(this.radioButtonRating1_CheckedChanged);
             this.radioButtonRating1.Click += new System.EventHandler(this.radioButtonRating1_Click);
             // 
             // radioButtonRating5
@@ -2355,7 +2354,6 @@ namespace PhotoTagsSynchronizer
             this.radioButtonRating5.Size = new System.Drawing.Size(32, 18);
             this.radioButtonRating5.TabIndex = 4;
             this.radioButtonRating5.Values.Text = "5";
-            this.radioButtonRating5.CheckedChanged += new System.EventHandler(this.radioButtonRating5_CheckedChanged);
             this.radioButtonRating5.Click += new System.EventHandler(this.radioButtonRating5_Click);
             // 
             // radioButtonRating2
@@ -2373,7 +2371,6 @@ namespace PhotoTagsSynchronizer
             this.radioButtonRating2.Size = new System.Drawing.Size(32, 18);
             this.radioButtonRating2.TabIndex = 1;
             this.radioButtonRating2.Values.Text = "2";
-            this.radioButtonRating2.CheckedChanged += new System.EventHandler(this.radioButtonRating2_CheckedChanged);
             this.radioButtonRating2.Click += new System.EventHandler(this.radioButtonRating2_Click);
             // 
             // radioButtonRating4
@@ -2391,7 +2388,6 @@ namespace PhotoTagsSynchronizer
             this.radioButtonRating4.Size = new System.Drawing.Size(32, 18);
             this.radioButtonRating4.TabIndex = 3;
             this.radioButtonRating4.Values.Text = "4";
-            this.radioButtonRating4.CheckedChanged += new System.EventHandler(this.radioButtonRating4_CheckedChanged);
             this.radioButtonRating4.Click += new System.EventHandler(this.radioButtonRating4_Click);
             // 
             // radioButtonRating3
@@ -2409,7 +2405,6 @@ namespace PhotoTagsSynchronizer
             this.radioButtonRating3.Size = new System.Drawing.Size(32, 18);
             this.radioButtonRating3.TabIndex = 2;
             this.radioButtonRating3.Values.Text = "3";
-            this.radioButtonRating3.CheckedChanged += new System.EventHandler(this.radioButtonRating3_CheckedChanged);
             this.radioButtonRating3.Click += new System.EventHandler(this.radioButtonRating3_Click);
             // 
             // kryptonWorkspaceCellToolboxTagsDetails

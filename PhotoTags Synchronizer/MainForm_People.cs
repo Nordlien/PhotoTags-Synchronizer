@@ -42,11 +42,7 @@ namespace PhotoTagsSynchronizer
                         if (!updatedColumns.Contains(cellLocation.ColumnIndex)) updatedColumns.Add(cellLocation.ColumnIndex);
                         DataGridViewHandler.InvalidateCell(dataGridView, cellLocation.ColumnIndex, cellLocation.RowIndex);
                     }
-
-                    foreach (int columnIndex in updatedColumns)
-                    {
-                        DataGridViewHandler.SetColumnDirtyFlag(dataGridView, columnIndex, IsDataGridViewColumnDirty(dataGridView, columnIndex, out string diffrences), diffrences);
-                    }
+                    DataGridView_UpdatedDirtyFlags(dataGridView);
                 }
             }
             catch (Exception ex)
@@ -725,6 +721,7 @@ namespace PhotoTagsSynchronizer
                 }
 
                 if (updatedCells != null && updatedCells.Count > 0) ClipboardUtility.PushToUndoStack(dataGridView, updatedCells);
+                DataGridView_UpdatedDirtyFlags(dataGridView);
             }
             catch (Exception ex)
             {
@@ -1032,6 +1029,7 @@ namespace PhotoTagsSynchronizer
 
                 if (updatedCells != null && updatedCells.Count > 0) ClipboardUtility.PushToUndoStack(dataGridView, updatedCells);
 
+                DataGridView_UpdatedDirtyFlags(dataGridView);
                 DataGridViewHandler.Refresh(dataGridView);
             }
             catch (Exception ex)

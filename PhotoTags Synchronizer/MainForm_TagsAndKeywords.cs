@@ -169,8 +169,7 @@ namespace PhotoTagsSynchronizer
                 if (updatedCells != null && updatedCells.Count > 0)
                 {
                     ClipboardUtility.PushToUndoStack(dataGridView, updatedCells);
-                    foreach (CellLocation cellLocation in updatedCells.Keys)
-                        DataGridViewHandler.SetColumnDirtyFlag(dataGridView, cellLocation.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, cellLocation.ColumnIndex, out string diffrences), diffrences);
+                    DataGridView_UpdatedDirtyFlags(dataGridView);
                 }
             }
             catch (Exception ex)
@@ -206,8 +205,6 @@ namespace PhotoTagsSynchronizer
                 if (gridViewGenericDataRow == null || //new row 
                     gridViewGenericDataRow.HeaderName.Equals(DataGridViewHandlerTagsAndKeywords.headerKeywords)) //Check if one of Keywords row(s)
                 {
-                    DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex, out string diffrences), diffrences);
-
                     if (DataGridViewHandler.IsCellNullOrWhiteSpace(dataGridView, e.ColumnIndex, e.RowIndex))
                     {
                         DataGridViewHandler.SetCellStatusSwichStatus(dataGridView, e.ColumnIndex, e.RowIndex, SwitchStates.Off);
@@ -224,7 +221,6 @@ namespace PhotoTagsSynchronizer
                         }
 
                         newTag = ValidateAndReturnTag(dataGridView, DataGridViewHandlerTagsAndKeywords.headerKeywords, newTag);
-
 
                         DataGridViewHandler.SetRowHeaderNameAndFontStyle(dataGridView, e.RowIndex,
                             new DataGridViewGenericRow(DataGridViewHandlerTagsAndKeywords.headerKeywords, newTag, ReadWriteAccess.AllowCellReadAndWrite));
@@ -243,6 +239,8 @@ namespace PhotoTagsSynchronizer
                             }
                         }
                     }
+
+                    DataGridViewHandler.SetColumnDirtyFlag(dataGridView, e.ColumnIndex, IsDataGridViewColumnDirty(dataGridView, e.ColumnIndex, out string diffrences), diffrences);
                 }
             }
             catch (Exception ex)
@@ -315,7 +313,8 @@ namespace PhotoTagsSynchronizer
                         DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, newText, true);
                     }
                 }
-                //if (updatedCells != null && updatedCells.Count > 0) ClipboardUtility.PushNotEqualToUndoStack(dataGridView, updatedCells);
+                
+                DataGridView_UpdatedDirtyFlags(dataGridView);
             }
             catch (Exception ex)
             {
@@ -618,6 +617,7 @@ namespace PhotoTagsSynchronizer
                 }
 
                 ClipboardUtility.CancelPushUndoStackIfNoChanges(dataGridView);
+                DataGridView_UpdatedDirtyFlags(dataGridView);
             }
             catch (Exception ex)
             {

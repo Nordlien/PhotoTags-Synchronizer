@@ -2380,7 +2380,8 @@ namespace DataGridViewGeneric
         {
             if (rowIndex > -1 && columnIndex > -1)
             {
-                if (setDirtyFalgWhenValueChanged && dataGridView.Rows[rowIndex].Cells[columnIndex].Value != value) SetColumnDirtyFlag(dataGridView, columnIndex, true); 
+                if (setDirtyFalgWhenValueChanged && dataGridView.Rows[rowIndex].Cells[columnIndex].Value != value) 
+                    SetColumnDirtyFlag(dataGridView, columnIndex, true); 
                 dataGridView.Rows[rowIndex].Cells[columnIndex].Value = value;
             }
         }
@@ -3157,8 +3158,6 @@ namespace DataGridViewGeneric
                     }
                 }
                 #endregion
-
-                if (columnIndex > -1) SetColumnDirtyFlag(dataGridView, columnIndex, true);
             }
 
             return updatedCells;
