@@ -49,6 +49,7 @@ namespace DataGridViewGeneric
             if (obj is DataGridViewGenericCell cellCheck && 
                 cellCheck.Value != null &&
                 !(cellCheck.Value is string) &&
+                !(cellCheck.Value is byte) &&
                 !(cellCheck.Value is MetadataLibrary.RegionStructure))
             {
                 //DEBUG

@@ -258,6 +258,37 @@ namespace PhotoTagsSynchronizer
 
         #region Populate DataGridView view when Text changed
 
+        #region ActionChangeCommonPushToStack
+        private void ActionChangeCommonPushToStack(DataGridView dataGridView, string header, string tag)
+        {
+            if (isFormLoading) return;
+            if (GlobalData.IsApplicationClosing) return;
+            if (isSettingDefaultComboxValues) return;
+            if (GlobalData.IsPopulatingTags) return;
+
+            try
+            {
+                int rowIndex = DataGridViewHandler.GetRowIndex(dataGridView, header, tag);
+                Dictionary<CellLocation, DataGridViewGenericCell> pushToStack = new Dictionary<CellLocation, DataGridViewGenericCell>();
+                for (int columnIndex = 0; columnIndex < dataGridView.Columns.Count; columnIndex++)
+                {
+                    DataGridViewGenericColumn dataGridViewGenericDataColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+                    if (dataGridViewGenericDataColumn.Metadata != null && dataGridViewGenericDataColumn.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite)
+                    {
+                        CellLocation cellLocation = new CellLocation(columnIndex, rowIndex);
+                        DataGridViewGenericCell dataGridViewGenericCell = DataGridViewHandler.GetCellDataGridViewGenericCellCopy(dataGridView, columnIndex, rowIndex);
+                        pushToStack.Add(cellLocation, dataGridViewGenericCell);
+                    }
+                }
+                if (pushToStack != null && pushToStack.Count > 0) ClipboardUtility.PushToUndoStack(dataGridView, pushToStack);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
+        }
+        #endregion
+
         #region ActionChangeCommon
         private void ActionChangeCommon(DataGridView dataGridView, string header, string tag, string newText)
         {
@@ -270,14 +301,13 @@ namespace PhotoTagsSynchronizer
             {
                 int rowIndex = DataGridViewHandler.GetRowIndex(dataGridView, header, tag);
 
-                Dictionary<CellLocation, DataGridViewGenericCell> updatedCells = new Dictionary<CellLocation, DataGridViewGenericCell>();
-
+                //Dictionary<CellLocation, DataGridViewGenericCell> updatedCells = new Dictionary<CellLocation, DataGridViewGenericCell>();
 
                 for (int columnIndex = 0; columnIndex < dataGridView.Columns.Count; columnIndex++)
                 {
                     CellLocation cellLocation = new CellLocation(columnIndex, rowIndex);
                     DataGridViewGenericCell dataGridViewGenericCell = DataGridViewHandler.GetCellDataGridViewGenericCellCopy(dataGridView, columnIndex, rowIndex);
-                    updatedCells.Add(cellLocation, dataGridViewGenericCell);
+                    //updatedCells.Add(cellLocation, dataGridViewGenericCell);
 
                     DataGridViewGenericColumn dataGridViewGenericDataColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
                     if (dataGridViewGenericDataColumn.Metadata != null && dataGridViewGenericDataColumn.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite)
@@ -285,7 +315,7 @@ namespace PhotoTagsSynchronizer
                         DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, newText, true);
                     }
                 }
-                if (updatedCells != null && updatedCells.Count > 0) ClipboardUtility.PushNotEqualToUndoStack(dataGridView, updatedCells);
+                //if (updatedCells != null && updatedCells.Count > 0) ClipboardUtility.PushNotEqualToUndoStack(dataGridView, updatedCells);
             }
             catch (Exception ex)
             {
@@ -311,6 +341,23 @@ namespace PhotoTagsSynchronizer
         {
             ComboBoxHandler.ComboBoxAddLastTextFirstInList(comboBoxTitle);
             ComboBoxHandler.AddLastTextFirstInAutoCompleteStringCollection(autoCompleteStringCollectionTitle, comboBoxTitle.Text);
+        }
+
+        private void comboBoxTitle_Enter(object sender, EventArgs e)
+        {
+            controlPasteWithFocusTag = (Control)sender;
+
+            DataGridView dataGridView = dataGridViewTagsAndKeywords;
+            ActionChangeCommonPushToStack(dataGridView, DataGridViewHandlerTagsAndKeywords.headerMedia, DataGridViewHandlerTagsAndKeywords.tagTitle);
+        }
+
+        private void comboBoxTitle_Leave(object sender, EventArgs e)
+        {
+            controlPasteWithFocusTag = null;
+            ActionUpdateTitle();
+
+            DataGridView dataGridView = dataGridViewTagsAndKeywords;
+            ClipboardUtility.CancelPushUndoStackIfNoChanges(dataGridView);
         }
 
         private void comboBoxTitle_TextUpdate(object sender, EventArgs e)
@@ -347,6 +394,22 @@ namespace PhotoTagsSynchronizer
             ComboBoxHandler.AddLastTextFirstInAutoCompleteStringCollection(autoCompleteStringCollectionDescription, comboBoxDescription.Text);
         }
 
+        private void comboBoxDescription_Enter(object sender, EventArgs e)
+        {
+            controlPasteWithFocusTag = (Control)sender;
+
+            DataGridView dataGridView = dataGridViewTagsAndKeywords;
+            ActionChangeCommonPushToStack(dataGridView, DataGridViewHandlerTagsAndKeywords.headerMedia, DataGridViewHandlerTagsAndKeywords.tagDescription);
+        }
+
+        private void comboBoxDescription_Leave(object sender, EventArgs e)
+        {
+            controlPasteWithFocusTag = null;
+            ActionUpdateDescription();
+
+            DataGridView dataGridView = dataGridViewTagsAndKeywords;
+            ClipboardUtility.CancelPushUndoStackIfNoChanges(dataGridView);
+        }
         private void comboBoxDescription_TextUpdate(object sender, EventArgs e)
         {
             ActionChangeDescription(((KryptonComboBox)sender).Text);
@@ -378,6 +441,23 @@ namespace PhotoTagsSynchronizer
         {
             ComboBoxHandler.ComboBoxAddLastTextFirstInList(comboBoxComments);
             ComboBoxHandler.AddLastTextFirstInAutoCompleteStringCollection(autoCompleteStringCollectionComments, comboBoxComments.Text);
+        }
+
+        private void comboBoxComments_Enter(object sender, EventArgs e)
+        {
+            controlPasteWithFocusTag = (Control)sender;
+
+            DataGridView dataGridView = dataGridViewTagsAndKeywords;
+            ActionChangeCommonPushToStack(dataGridView, DataGridViewHandlerTagsAndKeywords.headerMedia, DataGridViewHandlerTagsAndKeywords.tagComments);
+        }
+
+        private void comboBoxComments_Leave(object sender, EventArgs e)
+        {
+            controlPasteWithFocusTag = null;
+            ActionUpdateComments();
+
+            DataGridView dataGridView = dataGridViewTagsAndKeywords;
+            ClipboardUtility.CancelPushUndoStackIfNoChanges(dataGridView);
         }
 
         private void comboBoxComments_TextUpdate(object sender, EventArgs e)
@@ -412,6 +492,23 @@ namespace PhotoTagsSynchronizer
             ComboBoxHandler.AddLastTextFirstInAutoCompleteStringCollection(autoCompleteStringCollectionAlbum, comboBoxAlbum.Text);
         }
 
+        private void comboBoxAlbum_Enter(object sender, EventArgs e)
+        {
+            controlPasteWithFocusTag = (Control)sender;
+
+            DataGridView dataGridView = dataGridViewTagsAndKeywords;
+            ActionChangeCommonPushToStack(dataGridView, DataGridViewHandlerTagsAndKeywords.headerMedia, DataGridViewHandlerTagsAndKeywords.tagAlbum);
+        }
+
+        private void comboBoxAlbum_Leave(object sender, EventArgs e)
+        {
+            controlPasteWithFocusTag = null;
+            ActionUpdateAlbum();
+
+            DataGridView dataGridView = dataGridViewTagsAndKeywords;
+            ClipboardUtility.CancelPushUndoStackIfNoChanges(dataGridView);
+        }
+
         private void comboBoxAlbum_TextUpdate(object sender, EventArgs e)
         {
             ActionChangeAlbum(((KryptonComboBox)sender).Text);
@@ -431,8 +528,6 @@ namespace PhotoTagsSynchronizer
             {
                 DataGridView dataGridView = dataGridViewTagsAndKeywords;
                 ActionChangeCommon(dataGridView, DataGridViewHandlerTagsAndKeywords.headerMedia, DataGridViewHandlerTagsAndKeywords.tagAuthor, newText);
-
-                
             }
             catch (Exception ex)
             {
@@ -445,6 +540,23 @@ namespace PhotoTagsSynchronizer
         {
             ComboBoxHandler.ComboBoxAddLastTextFirstInList(comboBoxAuthor);
             ComboBoxHandler.AddLastTextFirstInAutoCompleteStringCollection(autoCompleteStringCollectionAuthor, comboBoxAuthor.Text);
+        }
+
+        private void comboBoxAuthor_Enter(object sender, EventArgs e)
+        {
+            controlPasteWithFocusTag = (Control)sender;
+
+            DataGridView dataGridView = dataGridViewTagsAndKeywords;
+            ActionChangeCommonPushToStack(dataGridView, DataGridViewHandlerTagsAndKeywords.headerMedia, DataGridViewHandlerTagsAndKeywords.tagAuthor);
+        }
+
+        private void comboBoxAuthor_Leave(object sender, EventArgs e)
+        {
+            controlPasteWithFocusTag = null;
+            ActionUpdateAuthor();
+
+            DataGridView dataGridView = dataGridViewTagsAndKeywords;
+            ClipboardUtility.CancelPushUndoStackIfNoChanges(dataGridView);
         }
 
         private void comboBoxAuthor_TextUpdate(object sender, EventArgs e)
@@ -463,60 +575,6 @@ namespace PhotoTagsSynchronizer
 
         #region Control with focus (For Cut/Copy/Paste)
         private Control controlPasteWithFocusTag = null;
-        private void comboBoxAlbum_Enter(object sender, EventArgs e)
-        {
-            controlPasteWithFocusTag = (Control)sender;
-        }
-
-        private void comboBoxAlbum_Leave(object sender, EventArgs e)
-        {
-            controlPasteWithFocusTag = null;
-            ActionUpdateAlbum();
-        }
-
-        private void comboBoxTitle_Enter(object sender, EventArgs e)
-        {
-            controlPasteWithFocusTag = (Control)sender;
-        }
-
-        private void comboBoxTitle_Leave(object sender, EventArgs e)
-        {
-            controlPasteWithFocusTag = null;
-            ActionUpdateTitle();
-        }
-
-        private void comboBoxDescription_Enter(object sender, EventArgs e)
-        {
-            controlPasteWithFocusTag = (Control)sender;
-        }
-
-        private void comboBoxDescription_Leave(object sender, EventArgs e)
-        {
-            controlPasteWithFocusTag = null;
-            ActionUpdateDescription();
-        }
-
-        private void comboBoxComments_Enter(object sender, EventArgs e)
-        {
-            controlPasteWithFocusTag = (Control)sender;
-        }
-
-        private void comboBoxComments_Leave(object sender, EventArgs e)
-        {
-            controlPasteWithFocusTag = null;
-            ActionUpdateComments();
-        }
-
-        private void comboBoxAuthor_Enter(object sender, EventArgs e)
-        {
-            controlPasteWithFocusTag = (Control)sender;
-        }
-
-        private void comboBoxAuthor_Leave(object sender, EventArgs e)
-        {
-            controlPasteWithFocusTag = null;
-            ActionUpdateAuthor();
-        }
 
         private void dataGridViewTagsAndKeywords_Enter(object sender, EventArgs e)
         {
@@ -529,14 +587,16 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Populate DataGridView view when Stars changed
+        #region Rating
 
-        #region radioButtonRating_Common_CheckedChanged
+        #region RadioButtonRating_Common
         private void radioButtonRating_Common_CheckedChanged()
         {
             try 
             { 
                 DataGridView dataGridView = dataGridViewTagsAndKeywords;
+                ActionChangeCommonPushToStack(dataGridView, DataGridViewHandlerTagsAndKeywords.headerMedia, DataGridViewHandlerTagsAndKeywords.tagRating);
+
                 byte? rating = null;
                 if (radioButtonRating1.Checked) rating = 1;
                 if (radioButtonRating2.Checked) rating = 2;
@@ -553,11 +613,11 @@ namespace PhotoTagsSynchronizer
                     DataGridViewGenericColumn dataGridViewGenericDataColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
                     if (dataGridViewGenericDataColumn.Metadata != null)
                     {
-                        //SetValue will do the DirtyFalg if (DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, rowIndex) != (rating == null ? "" :rating.ToString()) )
-                        //    DataGridViewHandler.SetColumnDirtyFlag(dataGridView, columnIndex, IsDataGridViewColumnDirty(dataGridView, columnIndex));
                         DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, rating, true);
                     }
                 }
+
+                ClipboardUtility.CancelPushUndoStackIfNoChanges(dataGridView);
             }
             catch (Exception ex)
             {
@@ -566,36 +626,37 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Rating1_CheckedChanged
-        private void radioButtonRating1_CheckedChanged(object sender, EventArgs e)
+        #region Rating1_Click
+        private void radioButtonRating1_Click(object sender, EventArgs e)
         {
             radioButtonRating_Common_CheckedChanged();
         }
         #endregion
 
-        #region Rating2_CheckedChanged
-        private void radioButtonRating2_CheckedChanged(object sender, EventArgs e)
+        #region Rating2_Click
+        private void radioButtonRating2_Click(object sender, EventArgs e)
         {
             radioButtonRating_Common_CheckedChanged();
         }
         #endregion
 
-        #region Rating3_CheckedChanged
-        private void radioButtonRating3_CheckedChanged(object sender, EventArgs e)
+        #region Rating3_Click
+        private void radioButtonRating3_Click(object sender, EventArgs e)
         {
             radioButtonRating_Common_CheckedChanged();
         }
         #endregion
 
-        #region Rating4_CheckedChanged
-        private void radioButtonRating4_CheckedChanged(object sender, EventArgs e)
+        #region Rating4_Click
+        private void radioButtonRating4_Click(object sender, EventArgs e)
         {
             radioButtonRating_Common_CheckedChanged();
         }
+
         #endregion
 
-        #region Rating5_CheckedChanged
-        private void radioButtonRating5_CheckedChanged(object sender, EventArgs e)
+        #region Rating5_Click
+        private void radioButtonRating5_Click(object sender, EventArgs e)
         {
             radioButtonRating_Common_CheckedChanged();
         }
