@@ -51,6 +51,6 @@
     <ProjectReference Include="..\SqliteDatabase\SqliteDatabase.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="6.0.3" />
   </ItemGroup>
 </Project>
