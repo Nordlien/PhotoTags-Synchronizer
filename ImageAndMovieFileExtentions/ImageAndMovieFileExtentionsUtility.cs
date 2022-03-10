@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Collections.Generic;
-using System.Linq;
 using MetadataLibrary;
 using ImageMagick;
 using System.Drawing;
@@ -8,7 +7,6 @@ using System;
 using System.Text;
 using System.Globalization;
 using Manina.Windows.Forms;
-using LibVLCSharp.Shared;
 using FileHandeling;
 using System.Threading;
 
@@ -108,6 +106,7 @@ namespace ImageAndMovieFileExtentions
             {
                 using (var image = new MagickImage(fullFilename))
                 {
+                    image.AutoOrient(); //Rotate picture for Viewing
                     imageReturn = image.ToBitmap();
                 }
             } catch (Exception ex)
