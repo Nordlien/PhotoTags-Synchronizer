@@ -987,7 +987,7 @@ namespace PhotoTagsSynchronizer
                 #region Check for OneDrive duplicate files in folder
                 wasOneDriveDublicatedFoundAndremoved = false;
                 UpdateStatusImageListView("Check for OneDrive duplicate files in folder: " + selectedFolder);
-                if (FileHandeling.FileHandler.FixOneDriveIssues(fileEntries, this, oneDriveNetworkNames, fixError: false, letNewestFileWin: false))
+                if (FileHandeling.FileHandler.FixOneDriveIssues(fileEntries, oneDriveNetworkNames, fixError: false, letNewestFileWin: false))
                 {
                     switch (KryptonMessageBox.Show("OneDrive duplicated files found.\r\n" +
                         "\r\n" +
@@ -997,11 +997,11 @@ namespace PhotoTagsSynchronizer
                         "Cancel - Cancel the operation, Leave the files intact", "OneDrive duplicated files found.", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, showCtrlCopy: true))
                     {
                         case DialogResult.Yes:
-                            FileHandeling.FileHandler.FixOneDriveIssues(fileEntries, this, oneDriveNetworkNames, fixError: true, letNewestFileWin: true);
+                            FileHandeling.FileHandler.FixOneDriveIssues(fileEntries, oneDriveNetworkNames, fixError: true, letNewestFileWin: true);
                             wasOneDriveDublicatedFoundAndremoved = false;
                             break;
                         case DialogResult.No:
-                            FileHandeling.FileHandler.FixOneDriveIssues(fileEntries, this, oneDriveNetworkNames, fixError: true, letNewestFileWin: false);
+                            FileHandeling.FileHandler.FixOneDriveIssues(fileEntries, oneDriveNetworkNames, fixError: true, letNewestFileWin: false);
                             wasOneDriveDublicatedFoundAndremoved = true;
                             break;
                     }

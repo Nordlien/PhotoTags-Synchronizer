@@ -586,7 +586,7 @@ namespace FileHandeling
         #endregion
 
         #region FixOneDriveIssues 
-        public static bool FixOneDriveIssues(HashSet<FileEntry> fileEntries, Form form, List<string> listOfNetworkNames, bool fixError = false, bool letNewestFileWin = true)
+        public static bool FixOneDriveIssues(HashSet<FileEntry> fileEntries, List<string> listOfNetworkNames, bool fixError = false, bool letNewestFileWin = true)
         {
 
             foreach (string networkName in listOfNetworkNames)
@@ -631,13 +631,15 @@ namespace FileHandeling
                         //string filenameWithoutMachineName = fileEntryMaybeHasMachineName
                         string pathWithoutMachineName = filenameWithoutExtension.Substring(0, indexOfMachineName);
                         FileEntry fileEntryWithoutMachineName = new FileEntry(
-                            Path.Combine(Path.GetDirectoryName(fileEntryMaybeHasMachineName.FileFullPath),
+                            Path.Combine(
+                                Path.GetDirectoryName(fileEntryMaybeHasMachineName.FileFullPath),
                             pathWithoutMachineName + Path.GetExtension(fileEntryMaybeHasMachineName.FileFullPath)), 
                             fileEntryMaybeHasMachineName.LastWriteDateTime);
 
                         if (machineNameFound && !fixError)
                         {
-                            return fileEntries.Contains(fileEntryWithoutMachineName);
+                            return FileEntry.FullFileNameExist(fileEntries, fileEntryWithoutMachineName.FileFullPath);
+                            //return fileEntries.Contains(fileEntryWithoutMachineName);
                         }
 
                         if (fixError)
