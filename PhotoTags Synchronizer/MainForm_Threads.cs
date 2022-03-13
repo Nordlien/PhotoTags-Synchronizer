@@ -3359,8 +3359,6 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region MapNomnatatim - LazyLoading - Thread 
-        //private static readonly Object _ThreadLazyLoadingMapNomnatatimLock = new Object();
-        //private static Thread _ThreadLazyLoadingMapNomnatatim = null; //
         public void ThreadQueueLazyLoadingMapNomnatatim()
         {
             if (!DataGridViewHandler.GetIsAgregated(dataGridViewMap)) return;
@@ -3450,7 +3448,6 @@ namespace PhotoTagsSynchronizer
 
         }
         #endregion
-
 
         #endregion
     }

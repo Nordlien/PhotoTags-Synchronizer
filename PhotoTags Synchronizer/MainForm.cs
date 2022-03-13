@@ -53,7 +53,7 @@ namespace PhotoTagsSynchronizer
         private string nameDataGridViewProperties;
         private string nameDataGridViewRename;
         private string nameDataGridViewTagsAndKeywords;
-        private List<string> oneDriveNetworkNames = new List<string>(); 
+        private List<string> oneDriveNetworkNames = new List<string>();
 
         private ProgressBar progressBarBackground = new ProgressBar();
         private ProgressBar progressBarSaveConvert = new ProgressBar();
@@ -102,7 +102,7 @@ namespace PhotoTagsSynchronizer
 
         private List<AutoKeywordConvertion> autoKeywordConvertions = new List<AutoKeywordConvertion>();
 
-        private FileDateTimeReader fileDateTimeReader = null; 
+        private FileDateTimeReader fileDateTimeReader = null;
         //Cache level
         private int cacheNumberOfPosters;
         private bool cacheAllMetadatas = false;
@@ -473,35 +473,35 @@ namespace PhotoTagsSynchronizer
             #region Setup Global Variables - Link Tab and DataGridView
             //kryptonPageToolboxTags
             kryptonPageToolboxTags.Tag = LinkTabAndDataGridViewNameTags;
-            GlobalData.dataGridViewHandlerTags = new DataGridViewHandler(dataGridViewTagsAndKeywords, (KryptonPalette)kryptonManager1.GlobalPalette, 
+            GlobalData.dataGridViewHandlerTags = new DataGridViewHandler(dataGridViewTagsAndKeywords, (KryptonPalette)kryptonManager1.GlobalPalette,
                 LinkTabAndDataGridViewNameTags, "Metadata/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeKeywords);
 
             kryptonPageToolboxMap.Tag = LinkTabAndDataGridViewNameMap;
-            GlobalData.dataGridViewHandlerMap = new DataGridViewHandler(dataGridViewMap, (KryptonPalette)kryptonManager1.GlobalPalette, 
+            GlobalData.dataGridViewHandlerMap = new DataGridViewHandler(dataGridViewMap, (KryptonPalette)kryptonManager1.GlobalPalette,
                 LinkTabAndDataGridViewNameMap, "Location/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeMap);
 
             kryptonPageToolboxPeople.Tag = LinkTabAndDataGridViewNamePeople;
-            GlobalData.dataGridViewHandlerPeople = new DataGridViewHandler(dataGridViewPeople, (KryptonPalette)kryptonManager1.GlobalPalette, 
+            GlobalData.dataGridViewHandlerPeople = new DataGridViewHandler(dataGridViewPeople, (KryptonPalette)kryptonManager1.GlobalPalette,
                 LinkTabAndDataGridViewNamePeople, "Name/Files", (DataGridViewSize)Properties.Settings.Default.CellSizePeoples);
 
             kryptonPageToolboxDates.Tag = LinkTabAndDataGridViewNameDates;
-            GlobalData.dataGridViewHandlerDates = new DataGridViewHandler(dataGridViewDate, (KryptonPalette)kryptonManager1.GlobalPalette, 
+            GlobalData.dataGridViewHandlerDates = new DataGridViewHandler(dataGridViewDate, (KryptonPalette)kryptonManager1.GlobalPalette,
                 LinkTabAndDataGridViewNameDates, "Name/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeDates);
 
             kryptonPageToolboxExiftool.Tag = LinkTabAndDataGridViewNameExiftool;
-            GlobalData.dataGridViewHandlerExiftoolTags = new DataGridViewHandler(dataGridViewExiftool, (KryptonPalette)kryptonManager1.GlobalPalette, 
+            GlobalData.dataGridViewHandlerExiftoolTags = new DataGridViewHandler(dataGridViewExiftool, (KryptonPalette)kryptonManager1.GlobalPalette,
                 LinkTabAndDataGridViewNameExiftool, "File/Tag Description", (DataGridViewSize)Properties.Settings.Default.CellSizeExiftool);
 
             kryptonPageToolboxWarnings.Tag = LinkTabAndDataGridViewNameWarnings;
-            GlobalData.dataGridViewHandlerExiftoolWarning = new DataGridViewHandler(dataGridViewExiftoolWarning, (KryptonPalette)kryptonManager1.GlobalPalette, 
+            GlobalData.dataGridViewHandlerExiftoolWarning = new DataGridViewHandler(dataGridViewExiftoolWarning, (KryptonPalette)kryptonManager1.GlobalPalette,
                 LinkTabAndDataGridViewNameWarnings, "File and version/Tag region and command", (DataGridViewSize)Properties.Settings.Default.CellSizeWarnings);
 
             kryptonPageToolboxProperties.Tag = LinkTabAndDataGridViewNameProperties;
-            GlobalData.dataGridViewHandlerProperties = new DataGridViewHandler(dataGridViewProperties, (KryptonPalette)kryptonManager1.GlobalPalette, 
+            GlobalData.dataGridViewHandlerProperties = new DataGridViewHandler(dataGridViewProperties, (KryptonPalette)kryptonManager1.GlobalPalette,
                 LinkTabAndDataGridViewNameProperties, "File/Properties", (DataGridViewSize)Properties.Settings.Default.CellSizeProperties);
 
             kryptonPageToolboxRename.Tag = LinkTabAndDataGridViewNameRename;
-            GlobalData.dataGridViewHandlerRename = new DataGridViewHandler(dataGridViewRename, (KryptonPalette)kryptonManager1.GlobalPalette, 
+            GlobalData.dataGridViewHandlerRename = new DataGridViewHandler(dataGridViewRename, (KryptonPalette)kryptonManager1.GlobalPalette,
                 LinkTabAndDataGridViewNameRename, "Filename/Values", ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize),
                     ColumnNamesAndWidthHandler.ConvertConfigStringToColumnNameAndWidths(Properties.Settings.Default.ColumnNameAndWithsRenameLarge),
                     ColumnNamesAndWidthHandler.ConvertConfigStringToColumnNameAndWidths(Properties.Settings.Default.ColumnNameAndWithsRenameMedium),
@@ -509,8 +509,8 @@ namespace PhotoTagsSynchronizer
                 );
 
             kryptonPageToolboxConvertAndMerge.Tag = LinkTabAndDataGridViewNameConvertAndMerge;
-            GlobalData.dataGridViewHandlerConvertAndMerge = new DataGridViewHandler(dataGridViewConvertAndMerge, (KryptonPalette)kryptonManager1.GlobalPalette, 
-                LinkTabAndDataGridViewNameConvertAndMerge, "Full path of media file", 
+            GlobalData.dataGridViewHandlerConvertAndMerge = new DataGridViewHandler(dataGridViewConvertAndMerge, (KryptonPalette)kryptonManager1.GlobalPalette,
+                LinkTabAndDataGridViewNameConvertAndMerge, "Full path of media file",
                 ((DataGridViewSize)Properties.Settings.Default.CellSizeConvertAndMerge | DataGridViewSize.RenameConvertAndMergeSize),
                     ColumnNamesAndWidthHandler.ConvertConfigStringToColumnNameAndWidths(Properties.Settings.Default.ColumnNameAndWithsConvertAndMergeLarge),
                     ColumnNamesAndWidthHandler.ConvertConfigStringToColumnNameAndWidths(Properties.Settings.Default.ColumnNameAndWithsConvertAndMergeMedium),
@@ -587,8 +587,8 @@ namespace PhotoTagsSynchronizer
 
             #region Initialize layout setup - Initialize layout toolstrip: People
             FormSplash.UpdateStatus("Initialize layout toolstrip: People...");
-            PopulatePeopleToolStripMenuItems(null, 
-                Properties.Settings.Default.SuggestRegionNameNearbyDays, 
+            PopulatePeopleToolStripMenuItems(null,
+                Properties.Settings.Default.SuggestRegionNameNearbyDays,
                 Properties.Settings.Default.SuggestRegionNameNearByContextMenuCount,
                 Properties.Settings.Default.SuggestRegionNameMostUsedContextMenuCount,
                 Properties.Settings.Default.ApplicationSizeOfRegionNamesGroup,
@@ -666,7 +666,7 @@ namespace PhotoTagsSynchronizer
                     }
                 });
                 _ThreadHttp.Priority = (ThreadPriority)Properties.Settings.Default.ApplicationDebugBackgroundThreadPrioity;
-                _ThreadHttp.Start();                
+                _ThreadHttp.Start();
             }
             catch (Exception ex)
             {
@@ -701,9 +701,9 @@ namespace PhotoTagsSynchronizer
             if (exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser.Count > 0 || IsAnyDataUnsaved())
             {
                 if (KryptonMessageBox.Show(
-                    (exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser.Count > 0 ? 
+                    (exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser.Count > 0 ?
                         "There are " + exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser.Count + " unsaved media files in queue.\r\n" : "") +
-                    (IsAnyDataUnsaved() ? 
+                    (IsAnyDataUnsaved() ?
                         "You have unsaved changes in DataGridView\r\n" : "") +
                     "\r\nAre you sure you will close application?",
                     "Press Ok will quit application and changed will get lost.\r\n" +
@@ -711,7 +711,8 @@ namespace PhotoTagsSynchronizer
                 {
                     e.Cancel = true;
                     return;
-                } else
+                }
+                else
                 {
                     GlobalData.IsApplicationClosing = true;
                     ImageListViewHandler.ClearAllAndCaches(imageListView1);
@@ -917,7 +918,7 @@ namespace PhotoTagsSynchronizer
                     {
                         TreeViewFolderBrowserHandler.RefreshTreeNode(treeViewFolderBrowser1, treeViewFolderBrowser1.Nodes[0]);
                     }
-                    
+
                 }
                 catch (Exception ee)
                 {
@@ -948,7 +949,7 @@ namespace PhotoTagsSynchronizer
 
             ImageListView_FetchListOfMediaFiles_FromFolder_and_Aggregate(false, true);
             ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
-            
+
             MaximizeOrRestoreWorkspaceMainCellAndChilds();
             SetNavigatorModeSearch((NavigatorMode)Properties.Settings.Default.WorkspaceCellFolderSearchFilterNavigatorMode);
         }
@@ -966,7 +967,7 @@ namespace PhotoTagsSynchronizer
             {
                 kryptonWorkspaceCellFolderSearchFilter.Button.ButtonSpecs[0].Visible = false;
 
-                Size newSize = new System.Drawing.Size(400, Math.Max(200, this.Size.Height - 200));                
+                Size newSize = new System.Drawing.Size(400, Math.Max(200, this.Size.Height - 200));
                 this.kryptonPageFolderSearchFilterFolder.MinimumSize = newSize;
                 this.kryptonPageFolderSearchFilterSearch.MinimumSize = newSize;
                 this.kryptonPageFolderSearchFilterFilter.MinimumSize = newSize;
@@ -995,7 +996,7 @@ namespace PhotoTagsSynchronizer
             kryptonWorkspaceCellMediaFiles.ResumeLayout();
             kryptonWorkspaceCellToolbox.ResumeLayout();
 
-            
+
         }
 
         private void buttonSpecNavigatorExpandCollapse_Click(object sender, EventArgs e)
@@ -1086,6 +1087,7 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
+    }
 }
 
 

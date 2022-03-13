@@ -17,8 +17,6 @@ namespace FileHandeling
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         public static int GetFileLockedStatusTimeout { get; set; } = 500;
         public static int WaitFileGetUnlockedTimeout { get; set; } = 1000;
-        //public static int WaitTimeBetweenCheckFileIsUnlocked { get; set; } = 500;
-        //public static int WaitNumberOfRetryBeforeShowMessage { get; set; } = 3;
 
         #region GetCreationTime
         public static DateTime GetCreationTime(string fullFileName)

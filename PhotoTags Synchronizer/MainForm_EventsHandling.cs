@@ -1,5 +1,4 @@
 ﻿using ApplicationAssociations;
-using CameraOwners;
 using ColumnNamesAndWidth;
 using DataGridViewGeneric;
 using Exiftool;
@@ -10335,10 +10334,10 @@ namespace PhotoTagsSynchronizer
             }
         }
         #endregion
-    }
+    
 
-    //----  ----
-    #region AssignCompositeTag 
+        //----  ----
+        #region AssignCompositeTag 
 
     #region PopulateExiftoolToolStripMenuItems
     public void PopulateExiftoolToolStripMenuItems()

@@ -77,7 +77,7 @@ namespace PhotoTagsSynchronizer
 
         private void ValitedatePasteKeywords(DataGridView dataGridView, string header)
         {
-            //int keywordsHeadingIndex = DataGridViewHandler.GetRowHeadingIndex(dataGridView, header);
+            
             int keywordsStarts = DataGridViewHandler.GetRowHeaderItemStarts(dataGridView, header);
 
             int rowIndex = keywordsStarts;
