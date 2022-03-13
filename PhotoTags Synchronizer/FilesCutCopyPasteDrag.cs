@@ -55,7 +55,9 @@ namespace PhotoTagsSynchronizer
         public int DeleteDirectoryAndHistory(string folder)
         {
             int rowsAffected = 0;
-            rowsAffected += databaseAndCacheMetadataExiftool.DeleteDirectoryAndHistory(MetadataBrokerType.ExifTool, folder); //Also delete When Broker = @Broker
+            rowsAffected += databaseAndCacheMetadataExiftool.DeleteDirectoryAndHistory(MetadataBrokerType.ExifTool, folder);
+            rowsAffected += databaseAndCacheMetadataExiftool.DeleteDirectoryAndHistory(MetadataBrokerType.ExifTool | MetadataBrokerType.ExifToolWriteError, folder);
+            rowsAffected += databaseAndCacheMetadataExiftool.DeleteDirectoryAndHistory(MetadataBrokerType.UserSavedData, folder);
             rowsAffected += databaseAndCacheMetadataMicrosoftPhotos.DeleteDirectoryAndHistory(MetadataBrokerType.MicrosoftPhotos, folder);
             rowsAffected += databaseAndCacheMetadataWindowsLivePhotoGallery.DeleteDirectoryAndHistory(MetadataBrokerType.WindowsLivePhotoGallery, folder);
             rowsAffected += databaseExiftoolData.DeleteDirectoryAndHistory(folder);
@@ -84,6 +86,7 @@ namespace PhotoTagsSynchronizer
             {
                 fileEntryBrokersExifTool.Add(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
                 fileEntryBrokersExifTool.Add(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool | MetadataBrokerType.ExifToolWriteError));
+                fileEntryBrokersExifTool.Add(new FileEntryBroker(fileEntry, MetadataBrokerType.UserSavedData));
                 fileEntryBrokersMicrosoftPhotos.Add(new FileEntryBroker(fileEntry, MetadataBrokerType.MicrosoftPhotos));
                 fileEntryBrokersWindowsPhotoGallary.Add(new FileEntryBroker(fileEntry, MetadataBrokerType.WindowsLivePhotoGallery));
             }
@@ -111,6 +114,10 @@ namespace PhotoTagsSynchronizer
             databaseAndCacheMetadataExiftool.DeleteFileEntries(fileEntryBrokers);
 
             fileEntryBrokers = databaseAndCacheMetadataExiftool.ListFileEntryBrokerDateVersions(MetadataBrokerType.ExifTool | MetadataBrokerType.ExifToolWriteError, fullFilePath);
+            databaseAndCacheMetadataExiftool.MetadataCacheRemove(fileEntryBrokers);
+            databaseAndCacheMetadataExiftool.DeleteFileEntries(fileEntryBrokers);
+
+            fileEntryBrokers = databaseAndCacheMetadataExiftool.ListFileEntryBrokerDateVersions(MetadataBrokerType.UserSavedData, fullFilePath);
             databaseAndCacheMetadataExiftool.MetadataCacheRemove(fileEntryBrokers);
             databaseAndCacheMetadataExiftool.DeleteFileEntries(fileEntryBrokers);
 

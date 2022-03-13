@@ -952,7 +952,46 @@ namespace PhotoTagsSynchronizer
 
             ImageListView_Aggregate_FromDatabaseSearchResult_and_Aggregate(GlobalData.SerachFilterResult, true); //True = New search result needs to aggregate and poplate filters
         }
-        #endregion 
+        #endregion
+
+        #region ImageListView - SelectFiles
+        private void ImageListView_SelectFiles(List<string> notFixed)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            try
+            {
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
+                ImageListViewHandler.SuspendLayout(imageListView1);
+
+                using (new WaitCursor())
+                {
+
+                    ImageListViewSuspendLayoutInvoke(imageListView1);
+
+                    imageListView1.ClearSelection();
+                    foreach (string fullFilename in notFixed)
+                    {
+                        ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fullFilename);
+                        if (foundItem != null) foundItem.Selected = true;
+                    }
+                    ImageListViewResumeLayoutInvoke(imageListView1);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                ImageListViewHandler.ResumeLayout(imageListView1);
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+
+                ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
+            }
+        }
+        #endregion
 
         #region ImageListView - Fetch List of Media Files - FromFolder and Aggregate
         private void ImageListView_FetchListOfMediaFiles_FromFolder_and_Aggregate(bool recursive, bool runPopulateFilter)
@@ -973,42 +1012,35 @@ namespace PhotoTagsSynchronizer
             string selectedFolder = GetSelectedNodeFullRealPath();
             Properties.Settings.Default.LastFolder = GetSelectedNodeFullLinkPath();
 
-            bool wasOneDriveDublicatedFoundAndremoved;
-            do
+            LoadingItemsImageListView(1, 6);
+            UpdateStatusImageListView("Read files in folder: " + selectedFolder);
+
+            #region Read folder files - and - Populate ImageListView
+            IEnumerable<FileData> fileDatas = GetFilesInSelectedFolder(selectedFolder, recursive);
+            HashSet<FileEntry> fileEntries = ImageListView_Populate_ListOfMediaFiles_AddFilter(fileDatas, null, selectedFolder, runPopulateFilter);
+            #endregion
+
+            UpdateStatusImageListView("Check for OneDrive duplicate files in folder: " + selectedFolder);
+            #region Check for OneDrive duplicate files in folder
+            List<string> dublicatedFound = FileHandler.FixOneDriveIssues(fileEntries, out List<string> notFixed, oneDriveNetworkNames, fixError: false, databaseAndCacheMetadataExiftool);
+            if (dublicatedFound.Count > 0)
             {
-                LoadingItemsImageListView(1, 6);
-                UpdateStatusImageListView("Read files in folder: " + selectedFolder);
-
-                #region Read folder files - and - Populate ImageListView
-                IEnumerable<FileData> fileDatas = GetFilesInSelectedFolder(selectedFolder, recursive);
-                HashSet<FileEntry> fileEntries = ImageListView_Populate_ListOfMediaFiles_AddFilter(fileDatas, null, selectedFolder, runPopulateFilter);
-                #endregion
-
-                #region Check for OneDrive duplicate files in folder
-                wasOneDriveDublicatedFoundAndremoved = false;
-                UpdateStatusImageListView("Check for OneDrive duplicate files in folder: " + selectedFolder);
-                if (FileHandeling.FileHandler.FixOneDriveIssues(fileEntries, oneDriveNetworkNames, fixError: false, letNewestFileWin: false))
+                string filesExampleFound = "";
+                for (int fileIndex = 0; fileIndex < Math.Min(dublicatedFound.Count, 5); fileIndex++)
                 {
-                    switch (KryptonMessageBox.Show("OneDrive duplicated files found.\r\n" +
-                        "\r\n" +
-                        "Will you replace older files with newest files\r\n" +
-                        "Yes - keep the newest files\r\n" +
-                        "No - delete OneDrive marked files regardless who is newest\r\n" +
-                        "Cancel - Cancel the operation, Leave the files intact", "OneDrive duplicated files found.", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, showCtrlCopy: true))
-                    {
-                        case DialogResult.Yes:
-                            FileHandeling.FileHandler.FixOneDriveIssues(fileEntries, oneDriveNetworkNames, fixError: true, letNewestFileWin: true);
-                            wasOneDriveDublicatedFoundAndremoved = false;
-                            break;
-                        case DialogResult.No:
-                            FileHandeling.FileHandler.FixOneDriveIssues(fileEntries, oneDriveNetworkNames, fixError: true, letNewestFileWin: false);
-                            wasOneDriveDublicatedFoundAndremoved = true;
-                            break;
-                    }
+                    filesExampleFound += (string.IsNullOrWhiteSpace(filesExampleFound) ? "" : "\r\n") + dublicatedFound[fileIndex];
                 }
-                #endregion
-
-            } while (wasOneDriveDublicatedFoundAndremoved);
+                if (KryptonMessageBox.Show("OneDrive duplicated files found.\r\n" +
+                    "You can use the Tool: Remove OneDrive Duplicates.\r\n\r\n" +
+                    "Examples files:\r\n\r\n" + filesExampleFound + "\r\n\r\n" +
+                    "Select files where dulicates found?",
+                    "OneDrive duplicated files found.", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, showCtrlCopy: true) == DialogResult.OK)
+                {
+                    ImageListView_SelectFiles(dublicatedFound);
+                }
+            }
+            #endregion
+            
             #endregion
         }
         #endregion

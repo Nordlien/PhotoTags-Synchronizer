@@ -733,6 +733,16 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ImageListViewSelectFromDataGridViewCells {
+            get {
+                object obj = ResourceManager.GetObject("ImageListViewSelectFromDataGridViewCells", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ImageListViewStatusError {
             get {
                 object obj = ResourceManager.GetObject("ImageListViewStatusError", resourceCulture);
@@ -1136,6 +1146,16 @@ namespace PhotoTagsSynchronizer.Properties {
         internal static System.Drawing.Bitmap MetadataSaveAndAutoCorrect {
             get {
                 object obj = ResourceManager.GetObject("MetadataSaveAndAutoCorrect", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap OneDriveFixRemoveDuplicates {
+            get {
+                object obj = ResourceManager.GetObject("OneDriveFixRemoveDuplicates", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

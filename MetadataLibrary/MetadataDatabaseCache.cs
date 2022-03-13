@@ -1295,6 +1295,7 @@ namespace MetadataLibrary
             listOfBrokers.Add(MetadataBrokerType.MicrosoftPhotos);
             listOfBrokers.Add(MetadataBrokerType.WindowsLivePhotoGallery);
             listOfBrokers.Add(MetadataBrokerType.WebScraping);
+            listOfBrokers.Add(MetadataBrokerType.UserSavedData);
 
             foreach (MetadataBrokerType broker in listOfBrokers)
             {

@@ -107,14 +107,20 @@ namespace MetadataLibrary
             return -1;
         }
 
+        public static FileEntry FindFileEntryByFullFileName(HashSet<FileEntry> fileEntries, string fullFilePath)
+        {
+            if (fileEntries == null) return null;
+            foreach (FileEntry fileEntry in fileEntries)
+            {
+                if (string.Compare(fileEntry.FileFullPath, fullFilePath, true) == 0) return fileEntry;
+            }
+            return null;
+        }
+
         public static bool FullFileNameExist(HashSet<FileEntry> fileEntries, string fullFilePath)
         {
             if (fileEntries == null) return false;
-            foreach (FileEntry fileEntry in fileEntries)
-            {
-                if (string.Compare(fileEntry.FileFullPath, fullFilePath, true) == 0) return true;
-            }
-            return false;
+            return FindFileEntryByFullFileName(fileEntries, fullFilePath) != null;
         }
 
         public static bool Contains(List<FileEntry> fileEntries, FileEntry fileEntryToFind)

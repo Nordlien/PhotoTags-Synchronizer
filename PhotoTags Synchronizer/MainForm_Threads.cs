@@ -1756,6 +1756,15 @@ namespace PhotoTagsSynchronizer
                                     {
                                         lock (exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUserLock)
                                         {
+                                            foreach (Metadata metadata in exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser)
+                                            {
+                                                Metadata metadataToSave = new Metadata(metadata);
+                                                metadataToSave.Broker = MetadataBrokerType.UserSavedData;
+                                                metadataToSave.FileDateModified = DateTime.MinValue;
+                                                databaseAndCacheMetadataExiftool.DeleteFileEntry(metadataToSave.FileEntryBroker);
+                                                //databaseAndCacheMetadataExiftool.DeleteDirectoryAndHistory(MetadataBrokerType.UserSavedData, metadataToSave.FileFullPath);
+                                                databaseAndCacheMetadataExiftool.Write(metadataToSave);
+                                            }
                                             UpdateStatusAction("Batch update a subset of " + exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser.Count + " media files...");
                                             ExiftoolWriter.WriteMetadata(
                                                 exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser, exiftoolSave_QueueSubset_MetadataOrigialBeforeUserUpdate, allowedFileNameDateTimeFormats,
