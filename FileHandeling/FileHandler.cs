@@ -8,11 +8,9 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Runtime.InteropServices;
 
 namespace FileHandeling
 {
-
     public static class FileHandler
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
@@ -65,17 +63,17 @@ namespace FileHandeling
 
             string fileStatusText = ConvertFileStatusToText(fileStatus, fullFileName);
             if (showLockedByProcess && fileStatus.HasAnyLocks) fileStatusText += "\r\n" + GetLockedByText(fullFileName);
-            
+
             return fileStatusText;
         }
         #endregion
 
         #region GetItemFileStatus
-        public static FileStatus GetFileStatus(string fullFileName, 
+        public static FileStatus GetFileStatus(string fullFileName,
             bool hasErrorOccured = false,
             string errorMessage = null,
-            ExiftoolProcessStatus exiftoolProcessStatus = ExiftoolProcessStatus.DoNotUpdate, 
-            bool checkLockedStatus = false, 
+            ExiftoolProcessStatus exiftoolProcessStatus = ExiftoolProcessStatus.DoNotUpdate,
+            bool checkLockedStatus = false,
             int checkLockStatusTimeout = 100)
         {
             FileStatus fileStatus = new FileStatus();
@@ -97,8 +95,8 @@ namespace FileHandeling
                 #endregion
 
                 #region File - Locks and Access rights
-                fileStatus.IsReadOnly = 
-                    fileStatus.FileExists && (fileInfo == null ? false : (fileInfo.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly); 
+                fileStatus.IsReadOnly =
+                    fileStatus.FileExists && (fileInfo == null ? false : (fileInfo.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly);
                 fileStatus.IsFileLockedReadAndWrite = fileStatus.IsInCloudOrVirtualOrOffline ||
                     (!fileStatus.IsInCloudOrVirtualOrOffline && fileStatus.FileExists && checkLockedStatus && IsFileLockedForReadAndWriteCached(fullFileName, checkLockStatusTimeout));
                 fileStatus.IsFileLockedForRead = fileStatus.IsFileLockedReadAndWrite || fileStatus.IsInCloudOrVirtualOrOffline ||
@@ -109,7 +107,8 @@ namespace FileHandeling
                 if (exiftoolProcessStatus != ExiftoolProcessStatus.DoNotUpdate) fileStatus.ExiftoolProcessStatus = exiftoolProcessStatus;
                 #endregion
 
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 #region File - Exists, Dirty or has Error
                 fileStatus.IsDirty = false;
@@ -195,9 +194,9 @@ namespace FileHandeling
                 if (File.Exists(fullFileName)) fileAttributes = File.GetAttributes(fullFileName);
                 if ((((int)fileAttributes) & 0x000400000) == 0x000400000) return true;
             }
-            catch 
-            { 
-                return false; 
+            catch
+            {
+                return false;
             }
             return false;
         }
@@ -297,7 +296,7 @@ namespace FileHandeling
             {
                 if (cloundFileTouchedAndWhen.ContainsKey(fullFileName))
                 {
-                    if ((DateTime.Now - cloundFileTouchedAndWhen[fullFileName]).TotalMilliseconds < TouchTimeout) 
+                    if ((DateTime.Now - cloundFileTouchedAndWhen[fullFileName]).TotalMilliseconds < TouchTimeout)
                         isTounch = true;
                 }
             }
@@ -313,7 +312,7 @@ namespace FileHandeling
             {
                 if (cloundFileTouchedFailedAndWhen.ContainsKey(fullFileName))
                 {
-                    if ((DateTime.Now - cloundFileTouchedFailedAndWhen[fullFileName]).TotalMilliseconds < TouchTimeoutFailed) 
+                    if ((DateTime.Now - cloundFileTouchedFailedAndWhen[fullFileName]).TotalMilliseconds < TouchTimeoutFailed)
                         isTounch = true;
                 }
             }
@@ -337,7 +336,7 @@ namespace FileHandeling
             {
                 lock (cloundFileTouchedFailedAndWhenLock)
                 {
-                    if (!cloundFileTouchedFailedAndWhen.ContainsKey(fullFileName)) 
+                    if (!cloundFileTouchedFailedAndWhen.ContainsKey(fullFileName))
                         cloundFileTouchedFailedAndWhen.Add(fullFileName, DateTime.Now);
                 }
             }
@@ -347,11 +346,11 @@ namespace FileHandeling
         #region Touch Offline File To Get File Online
         public static void TouchOfflineFileToGetFileOnline(string fullFileName)
         {
-            if (IsOfflineFileTouchedAndFailedWithoutTimedOut(fullFileName)) 
+            if (IsOfflineFileTouchedAndFailedWithoutTimedOut(fullFileName))
                 return;
             RemoveOldOfflineFileTouchedFailed(fullFileName);
 
-            if (IsOfflineFileTouchedAndWithoutTimeout(fullFileName)) 
+            if (IsOfflineFileTouchedAndWithoutTimeout(fullFileName))
                 return;
             RemoveOldOfflineFileTouched(fullFileName);
 
@@ -389,7 +388,7 @@ namespace FileHandeling
                 inProcessIsFileLockedForRead.Add(fullFilePath);
             }
             catch
-            {                
+            {
                 try
                 {
                     inProcessIsFileLockedForRead.Clear();
@@ -405,7 +404,8 @@ namespace FileHandeling
             {
                 inProcessIsFileLockedForRead.Remove(fullFilePath);
             }
-            catch {
+            catch
+            {
                 try
                 {
                     inProcessIsFileLockedForRead.Clear();
@@ -427,7 +427,8 @@ namespace FileHandeling
                     isLockedForRead = !fs.CanRead;
                     var canWrite = fs.CanWrite;
                 }
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 Logger.Debug(ex, "IsFileLockedForRead");
                 isLockedForRead = true;
@@ -440,7 +441,7 @@ namespace FileHandeling
         private static List<string> inProcessIsFileLockedByProcess = new List<string>();
         private static object inProcessIsFileLockedByProcessLock = new object();
         public static bool IsFileLockedForReadAndWriteCached(string fullFilePath, int millisecondsTimeout)
-        {   
+        {
             bool result = false;
             try
             {
@@ -636,7 +637,7 @@ namespace FileHandeling
                         FileEntry fileEntryWithoutMachineName = new FileEntry(
                             Path.Combine(
                                 Path.GetDirectoryName(fileEntryMaybeHasMachineName.FileFullPath),
-                            pathWithoutMachineName + Path.GetExtension(fileEntryMaybeHasMachineName.FileFullPath)), 
+                            pathWithoutMachineName + Path.GetExtension(fileEntryMaybeHasMachineName.FileFullPath)),
                             fileEntryMaybeHasMachineName.LastWriteDateTime);
                         #endregion
 
@@ -650,7 +651,7 @@ namespace FileHandeling
                             }
                             #endregion
                         }
-                        else 
+                        else
                         if (fixError)
                         {
                             FileEntry fileEntryFoundfileWithoutMachineName = FileEntry.FindFileEntryByFullFileName(fileEntries, fileEntryWithoutMachineName.FileFullPath);
@@ -737,7 +738,8 @@ namespace FileHandeling
                                     {
                                         winnerHasMachineName = true;
                                         winnerWithoutMachineName = true;
-                                    } else
+                                    }
+                                    else
                                     {
                                         if (winnerHasMachineName && winnerWithoutMachineName)
                                         {
@@ -746,7 +748,7 @@ namespace FileHandeling
                                         }
                                     }
 
-                                    
+
                                     #endregion
 
 
@@ -862,7 +864,7 @@ namespace FileHandeling
             return path;
         }
         public static string TrimFolderName(string path)
-        {      
+        {
             return TrimFolderName(path, " \\", "\\"); //https://docs.microsoft.com/en-us/dotnet/api/system.io.directory.createdirectory?view=net-5.0
         }
         #endregion
@@ -876,48 +878,15 @@ namespace FileHandeling
         #endregion
 
         #region Delete
-        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto, Pack = 1)]
-        public struct SHFILEOPSTRUCT
-        {
-            public IntPtr hwnd;
-            [MarshalAs(UnmanagedType.U4)]
-            public int wFunc;
-            public string pFrom;
-            public string pTo;
-            public short fFlags;
-            [MarshalAs(UnmanagedType.Bool)]
-            public bool fAnyOperationsAborted;
-            public IntPtr hNameMappings;
-            public string lpszProgressTitle;
-        }
-
-        [System.Runtime.InteropServices.DllImport("shell32.dll", CharSet = CharSet.Auto)]
-        public static extern int SHFileOperation(ref SHFILEOPSTRUCT FileOp);
-
-        public const int FO_DELETE = 3;
-        public const int FOF_ALLOWUNDO = 0x40;
-        public const int FOF_NOCONFIRMATION = 0x10; // Don't prompt the user
-        public static void MoveToRecycleBin(string path)
-        {
-            if (File.Exists(path))
-            {
-                var shf = new SHFILEOPSTRUCT();
-                shf.wFunc = FO_DELETE;
-                shf.fFlags = FOF_ALLOWUNDO | FOF_NOCONFIRMATION;
-                shf.pFrom = path;
-                SHFileOperation(ref shf);
-            }
-        }
-
         public static void Delete(string path, bool moveToRecycleBin)
         {
-            if (moveToRecycleBin) MoveToRecycleBin(path);
+            if (moveToRecycleBin) FileOperationAPIWrapper.MoveToRecycleBin(path);
             else File.Delete(path);
         }
 
         public static void DirectoryDelete(string path, bool moveToRecycleBin)
         {
-            if (moveToRecycleBin) MoveToRecycleBin(path);
+            if (moveToRecycleBin) FileOperationAPIWrapper.MoveToRecycleBin(path);
             else Directory.Delete(path);
         }
 
