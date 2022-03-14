@@ -10189,8 +10189,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        
-
         #region Action_CheckAndFixOneDriveIssues_ReturnWasFoundAndRemoved
         private void Action_CheckAndFixOneDriveIssues_ReturnWasFoundAndRemoved()
         {
@@ -10275,19 +10273,13 @@ namespace PhotoTagsSynchronizer
 
                 using (new WaitCursor())
                 {
-
                     ImageListViewSuspendLayoutInvoke(imageListView1);
-                    DataGridView dataGridView = GetActiveTabDataGridView();
-                    List<int> columnsIndexSelected = DataGridViewHandler.GetColumnSelected(dataGridView);
                     imageListView1.ClearSelection();
-                    foreach (int columnIndex in columnsIndexSelected)
+                    HashSet<FileEntry> selectedFileEntries = DataGridView_GetSelectedFilesFromActive();
+                    foreach (FileEntry fileEntry in selectedFileEntries)
                     {
-                        DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-                        if (dataGridViewGenericColumn != null)
-                        {
-                            ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, dataGridViewGenericColumn.FileEntryAttribute.FileFullPath);
-                            if (foundItem != null) foundItem.Selected = true;
-                        }
+                        ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fileEntry.FileFullPath);
+                        if (foundItem != null) foundItem.Selected = true;
                     }
                     ImageListViewResumeLayoutInvoke(imageListView1);
                 }

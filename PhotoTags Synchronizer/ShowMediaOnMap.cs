@@ -241,7 +241,7 @@ namespace PhotoTagsSynchronizer
 
                         //Create directory, filename and remove old arg file
                         string exiftoolArgFile = FileHandler.GetLocalApplicationDataPath("openstreetmap.html", true, null);
-                        if (File.Exists(exiftoolArgFile)) FileHandler.Delete(exiftoolArgFile, Properties.Settings.Default.MoveToRecycleBin);
+                        if (File.Exists(exiftoolArgFile)) FileHandler.Delete(exiftoolArgFile, false);
 
                         using (StreamWriter sw = new StreamWriter(exiftoolArgFile, false, Encoding.UTF8))
                         {

@@ -1511,7 +1511,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region DataGridView - UpdatedFilename
+        #region DataGridView - UpdatedFilename - RenameRows
         private void DataGridViewUpdatedFilenameRenameRows(DataGridView dataGridView, string oldFullFileName, string newFullFileName)
         {
             string headerNewFilename = DataGridViewHandlerRename.headerNewFilename;
@@ -1550,7 +1550,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region DataGridView - UpdatedFilename
+        #region DataGridView - UpdatedFilename - ConvertAndMergeRows
         private void DataGridViewUpdatedFilenameConvertAndMergeRows(DataGridView dataGridView, string oldFullFileName, string newFullFileName)
         {
             string headerDirectory = DataGridViewHandlerConvertAndMerge.headerConvertAndMergeInfo;
@@ -1592,7 +1592,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region DataGridView - UpdatedFilename
+        #region DataGridView - UpdatedFilename - Columns
         private void DataGridViewUpdatedFilenameColumns(DataGridView dataGridView, string oldFullFileName, string newFullFileName)
         {
             try
@@ -1610,6 +1610,8 @@ namespace PhotoTagsSynchronizer
                                     newFullFileName,
                                     dataGridViewGenericColumn.FileEntryAttribute.LastWriteDateTime,
                                     dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion);
+
+                                DataGridViewHandler.SetColumnDataGridViewName(dataGridView, columnIndex, dataGridViewGenericColumn.FileEntryAttribute.FileFullPath);
                             }
                         }
                     }

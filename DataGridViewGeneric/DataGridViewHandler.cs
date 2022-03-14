@@ -1558,7 +1558,7 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-        #region Column handling - GetColumnDataGridViewGenericColumn
+        #region Column handling - GetColumnDataGridViewName
         public static string GetColumnDataGridViewName(DataGridView dataGridView, int columnIndex)
         {
             if (columnIndex < 0) return null;
@@ -1570,6 +1570,15 @@ namespace DataGridViewGeneric
             }
             //return dataGridViewGenericColumn.FileEntryAttribute.FileFullPath;
             return dataGridView.Columns[columnIndex].HeaderText;
+        }
+        #endregion
+
+        #region Column handling - SetColumnDataGridViewName
+        public static void SetColumnDataGridViewName(DataGridView dataGridView, int columnIndex, string headerText)
+        {
+            if (columnIndex < 0) return;
+            if (columnIndex >= dataGridView.ColumnCount) return; //This can happen when using cache and switch between tabs
+            dataGridView.Columns[columnIndex].HeaderText = headerText;
         }
         #endregion
 
