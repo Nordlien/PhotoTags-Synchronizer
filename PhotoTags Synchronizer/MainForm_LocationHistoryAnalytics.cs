@@ -128,6 +128,9 @@ namespace PhotoTagsSynchronizer
                     if (index == 0) dateTimeFoundFrom = datesFound[index];
                     if (datesFound[index].AddDays(1) != datesFound[index + 1]) dateTimeFoundTo = datesFound[index];
                     if (index == datesFound.Count - 2) dateTimeFoundTo = datesFound[index + 1];
+                    if (dateTimeFoundFrom != null && dateTimeFoundTo == null) dateTimeFoundTo = ((DateTime)dateTimeFoundFrom).AddDays(1);
+                    if (dateTimeFoundFrom == null && dateTimeFoundTo != null) dateTimeFoundFrom = ((DateTime)dateTimeFoundTo).AddDays(-1);
+
                     if (dateTimeFoundFrom != null && dateTimeFoundTo != null)
                     {
                         formLocationHistoryAnalytics.PopulateMetadataLocationsAdd(formLocationHistoryAnalytics.DataGridView, (DateTime)dateTimeFoundFrom, ((DateTime)dateTimeFoundTo).AddDays(1).AddMilliseconds(-1), Properties.Settings.Default.LocationAnalyticsMinimumTimeInterval * 60, (float)Properties.Settings.Default.LocationAnalyticsMinimumDistance);

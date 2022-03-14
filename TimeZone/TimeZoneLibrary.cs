@@ -211,7 +211,10 @@ namespace TimeZone
             return dateTime == null ? "" : ((DateTimeOffset)dateTime).ToString(DateTimeExiftool) + "Z";
         }
 
-        
+        public static string ToStringSortableUTC(DateTime? dateTime)
+        {
+            return dateTime == null ? "" : ((DateTimeOffset)dateTime).ToString(DateTimeSortable) + "Z";
+        }
         #endregion
 
         #region To DateStamp TimeStamp       

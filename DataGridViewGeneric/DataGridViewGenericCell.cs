@@ -50,6 +50,7 @@ namespace DataGridViewGeneric
                 cellCheck.Value != null &&
                 !(cellCheck.Value is string) &&
                 !(cellCheck.Value is byte) &&
+                !(cellCheck.Value is LocationNames.LocationCoordinate) &&
                 !(cellCheck.Value is MetadataLibrary.RegionStructure))
             {
                 //DEBUG

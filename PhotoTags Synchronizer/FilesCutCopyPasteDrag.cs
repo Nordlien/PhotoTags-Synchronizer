@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using Thumbnails;
 using Raccoom.Windows.Forms;
 using Krypton.Toolkit;
+using FileHandeling;
 
 namespace PhotoTagsSynchronizer
 {
@@ -163,7 +164,7 @@ namespace PhotoTagsSynchronizer
                         try
                         {
                             mainForm.UpdateStatusAction("Deleting the file " + fileEntry.FileFullPath + " and records in database");
-                            if (deleteFromFileSystemAlso) File.Delete(fileEntry.FileFullPath);
+                            if (deleteFromFileSystemAlso) FileHandler.Delete(fileEntry.FileFullPath, Properties.Settings.Default.MoveToRecycleBin);
                             this.DeleteFileAndHistory(fileEntry.FileFullPath);
                             imageListView.Items.Remove(ImageListViewHandler.FindItem(imageListView.Items, fileEntry.FileFullPath));
                         }
@@ -194,7 +195,7 @@ namespace PhotoTagsSynchronizer
         {
             string[] subFolders = Directory.GetDirectories(folder + (folder.EndsWith(@"\") ? "" : @"\"), "*", SearchOption.AllDirectories);
 
-            Directory.Delete(folder, true);
+            FileHandler.DirectoryDelete(folder, true);
 
             int recordAffected = 0;
             

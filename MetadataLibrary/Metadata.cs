@@ -193,10 +193,11 @@ namespace MetadataLibrary
             if (ReferenceEquals(m1, m2)) return true;
             //return m1.GetHashCode() == m2.GetHashCode() ;
 
-            //Broker
+            #region  Broker
             if (m1.Broker != m2.Broker) return false;
+            #endregion
 
-            //File
+            #region File
             if (String.Compare(m1.FileName, m2.FileName, comparisonType: StringComparison.OrdinalIgnoreCase) != 0) return false;
             if (String.Compare(m1.fileDirectory, m2.fileDirectory, comparisonType: StringComparison.OrdinalIgnoreCase) != 0) return false;
             if (m1.FileSize != m2.FileSize) return false;
@@ -204,31 +205,45 @@ namespace MetadataLibrary
             if (!TimeZoneLibrary.IsDateTimeEqualWithinOneSecond(m1.FileDateModified, m2.FileDateModified)) return false;
             if (!TimeZoneLibrary.IsDateTimeEqualWithinOneSecond(m1.FileDateAccessed, m2.FileDateAccessed)) return false;
             if (m1.FileMimeType != m2.FileMimeType) return false;
+            #endregion
 
-            //Personal
-            if (m1.PersonalTitle != m2.PersonalTitle) return false;
-            if (m1.PersonalDescription != m2.PersonalDescription) return false;
-            if (m1.PersonalComments != m2.PersonalComments) return false;
+            #region Personal
+            if (!(string.IsNullOrWhiteSpace(m1.PersonalTitle) && string.IsNullOrWhiteSpace(m2.PersonalTitle)) && 
+                m1.PersonalTitle != m2.PersonalTitle) return false;
+            if (!(string.IsNullOrWhiteSpace(m1.PersonalDescription) && string.IsNullOrWhiteSpace(m2.PersonalDescription)) &&
+                m1.PersonalDescription != m2.PersonalDescription) return false;
+            if (!(string.IsNullOrWhiteSpace(m1.PersonalComments) && string.IsNullOrWhiteSpace(m2.PersonalComments)) &&
+                m1.PersonalComments != m2.PersonalComments) return false;
             if (m1.personalRating != m2.personalRating) return false;
             if (m1.personalRatingPercent != m2.personalRatingPercent) return false;
-            if (m1.PersonalAuthor != m2.PersonalAuthor) return false;
-            if (m1.PersonalAlbum != m2.PersonalAlbum) return false;
+            if (!(string.IsNullOrWhiteSpace(m1.PersonalAuthor) && string.IsNullOrWhiteSpace(m2.PersonalAuthor)) &&
+                m1.PersonalAuthor != m2.PersonalAuthor) return false;
+            if (!(string.IsNullOrWhiteSpace(m1.PersonalAlbum) && string.IsNullOrWhiteSpace(m2.PersonalAlbum)) &&
+                m1.PersonalAlbum != m2.PersonalAlbum) return false;
+            #endregion
 
+            #region RegionStructureList
             if (VerifyRegionStructureList(m1.personalRegionList, m2.personalRegionList) == false) return false;
-            if (VerifyKeywordList(m1.personalTagList, m2.personalTagList) == false) return false;
+            #endregion
 
-            //Camera
+            #region KeywordList
+            if (VerifyKeywordList(m1.personalTagList, m2.personalTagList) == false) return false;
+            #endregion
+
+            #region Camera
             if (m1.CameraMake != m2.CameraMake) return false;
             if (m1.CameraModel != m2.CameraModel) return false;
+            #endregion
 
-            //Media
+            #region Media
             if (!TimeZoneLibrary.IsDateTimeEqualWithinOneSecond(m1.mediaDateTaken, m2.mediaDateTaken)) return false;
             if (m1.mediaWidth != m2.mediaWidth) return false;
             if (m1.mediaHeight != m2.mediaHeight) return false;
             if (m1.mediaOrientation != m2.mediaOrientation) return false;
             if (m1.mediaVideoLength != m2.mediaVideoLength) return false;
+            #endregion
 
-            //Location
+            #region Location
             if (m1.locationAltitude != m2.locationAltitude) return false;
             if (m1.locationLatitude != m2.locationLatitude) return false;
             if (m1.locationLongitude != m2.locationLongitude) return false;
@@ -237,7 +252,7 @@ namespace MetadataLibrary
             if (m1.locationCountry != m2.locationCountry) return false;
             if (m1.locationCity != m2.locationCity) return false;
             if (m1.locationState != m2.locationState) return false;
-
+            #endregion 
             return true;
         }
         #endregion

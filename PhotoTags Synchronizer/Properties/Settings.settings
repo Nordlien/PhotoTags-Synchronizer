@@ -1314,5 +1314,8 @@ Unknown 5
     <Setting Name="MicosoftOneDriveLocationHackPostfix" Type="System.String" Scope="User">
       <Value Profile="(Default)">-GPS-</Value>
     </Setting>
+    <Setting Name="MoveToRecycleBin" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

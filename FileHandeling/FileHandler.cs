@@ -8,6 +8,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
 
 namespace FileHandeling
 {
@@ -566,7 +567,7 @@ namespace FileHandeling
             string exiftoolArgFileFullPath = Path.Combine(exiftoolArgFileDirecory, tempfilename);
             try
             {
-                if (deleteOldTempFile && File.Exists(exiftoolArgFileFullPath)) File.Delete(exiftoolArgFileFullPath);
+                if (deleteOldTempFile && File.Exists(exiftoolArgFileFullPath)) FileHandler.Delete(exiftoolArgFileFullPath, false);
             }
             catch (Exception ex)
             {
@@ -584,7 +585,9 @@ namespace FileHandeling
         #endregion
 
         #region FixOneDriveIssues 
-        public static List<string> FixOneDriveIssues(HashSet<FileEntry> fileEntries, out List<string> notFixed, List<string> listOfNetworkNames, bool fixError = false, MetadataDatabaseCache metadataDatabaseCache = null)
+        public static List<string> FixOneDriveIssues(HashSet<FileEntry> fileEntries, out List<string> notFixed, List<string> listOfNetworkNames,
+            bool fixError = false, bool moveToRecycleBin = true,
+            MetadataDatabaseCache metadataDatabaseCache = null)
         {
             List<string> foundOrRemovedFiles = new List<string>();
             notFixed = new List<string>();
@@ -763,8 +766,8 @@ namespace FileHandeling
                                                 {
                                                     foundOrRemovedFiles.Add(fileEntryWithoutMachineName.FileFullPath);
 
-                                                    File.Delete(fileEntryWithoutMachineName.FileFullPath);
-                                                    File.Move(fileEntryMaybeHasMachineName.FileFullPath, fileEntryWithoutMachineName.FileFullPath);
+                                                    FileHandler.Delete(fileEntryWithoutMachineName.FileFullPath, moveToRecycleBin);
+                                                    FileHandler.Move(fileEntryMaybeHasMachineName.FileFullPath, fileEntryWithoutMachineName.FileFullPath);
                                                 }
                                                 catch (Exception ex)
                                                 {
@@ -778,7 +781,7 @@ namespace FileHandeling
                                                 try
                                                 {
                                                     foundOrRemovedFiles.Add(fileEntryMaybeHasMachineName.FileFullPath);
-                                                    File.Delete(fileEntryMaybeHasMachineName.FileFullPath);
+                                                    FileHandler.Delete(fileEntryMaybeHasMachineName.FileFullPath, moveToRecycleBin);
                                                 }
                                                 catch (Exception ex)
                                                 {
@@ -802,8 +805,8 @@ namespace FileHandeling
                                         try
                                         {
                                             foundOrRemovedFiles.Add(fileEntryWithoutMachineName.FileFullPath);
-                                            File.Delete(fileEntryWithoutMachineName.FileFullPath);
-                                            File.Move(fileEntryMaybeHasMachineName.FileFullPath, fileEntryWithoutMachineName.FileFullPath);
+                                            FileHandler.Delete(fileEntryWithoutMachineName.FileFullPath, moveToRecycleBin);
+                                            FileHandler.Move(fileEntryMaybeHasMachineName.FileFullPath, fileEntryWithoutMachineName.FileFullPath);
                                         }
                                         catch (Exception ex)
                                         {
@@ -819,7 +822,7 @@ namespace FileHandeling
                                         try
                                         {
                                             foundOrRemovedFiles.Add(fileEntryMaybeHasMachineName.FileFullPath);
-                                            File.Delete(fileEntryMaybeHasMachineName.FileFullPath);
+                                            FileHandler.Delete(fileEntryMaybeHasMachineName.FileFullPath, moveToRecycleBin);
                                         }
                                         catch (Exception ex)
                                         {
@@ -869,6 +872,58 @@ namespace FileHandeling
         {
             string path = Path.GetFullPath(Path.Combine(folder.TrimEnd(), filename));   //Trailing spaces are removed from the end of the path parameter before creating the directory.            
             return path;
+        }
+        #endregion
+
+        #region Delete
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto, Pack = 1)]
+        public struct SHFILEOPSTRUCT
+        {
+            public IntPtr hwnd;
+            [MarshalAs(UnmanagedType.U4)]
+            public int wFunc;
+            public string pFrom;
+            public string pTo;
+            public short fFlags;
+            [MarshalAs(UnmanagedType.Bool)]
+            public bool fAnyOperationsAborted;
+            public IntPtr hNameMappings;
+            public string lpszProgressTitle;
+        }
+
+        [System.Runtime.InteropServices.DllImport("shell32.dll", CharSet = CharSet.Auto)]
+        public static extern int SHFileOperation(ref SHFILEOPSTRUCT FileOp);
+
+        public const int FO_DELETE = 3;
+        public const int FOF_ALLOWUNDO = 0x40;
+        public const int FOF_NOCONFIRMATION = 0x10; // Don't prompt the user
+        public static void MoveToRecycleBin(string path)
+        {
+            if (File.Exists(path))
+            {
+                var shf = new SHFILEOPSTRUCT();
+                shf.wFunc = FO_DELETE;
+                shf.fFlags = FOF_ALLOWUNDO | FOF_NOCONFIRMATION;
+                shf.pFrom = path;
+                SHFileOperation(ref shf);
+            }
+        }
+
+        public static void Delete(string path, bool moveToRecycleBin)
+        {
+            if (moveToRecycleBin) MoveToRecycleBin(path);
+            else File.Delete(path);
+        }
+
+        public static void DirectoryDelete(string path, bool moveToRecycleBin)
+        {
+            if (moveToRecycleBin) MoveToRecycleBin(path);
+            else Directory.Delete(path);
+        }
+
+        public static void Move(string sourceFileName, string destFileName)
+        {
+            File.Move(sourceFileName, destFileName);
         }
         #endregion
     }

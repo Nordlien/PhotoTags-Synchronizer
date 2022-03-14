@@ -1022,7 +1022,8 @@ namespace PhotoTagsSynchronizer
 
             UpdateStatusImageListView("Check for OneDrive duplicate files in folder: " + selectedFolder);
             #region Check for OneDrive duplicate files in folder
-            List<string> dublicatedFound = FileHandler.FixOneDriveIssues(fileEntries, out List<string> notFixed, oneDriveNetworkNames, fixError: false, databaseAndCacheMetadataExiftool);
+            List<string> dublicatedFound = FileHandler.FixOneDriveIssues(fileEntries, out List<string> notFixed, oneDriveNetworkNames, fixError: false,
+                moveToRecycleBin: Properties.Settings.Default.MoveToRecycleBin, databaseAndCacheMetadataExiftool);
             if (dublicatedFound.Count > 0)
             {
                 string filesExampleFound = "";

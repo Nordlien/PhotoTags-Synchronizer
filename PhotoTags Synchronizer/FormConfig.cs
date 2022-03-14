@@ -384,6 +384,7 @@ namespace PhotoTagsSynchronizer
                 Properties.Settings.Default.AvoidOfflineMediaFiles = checkBoxApplicationAvoidReadMediaFromCloud.Checked;
                 Properties.Settings.Default.AvoidReadExifFromCloud = checkBoxApplicationAvoidReadExifFromCloud.Checked;
                 Properties.Settings.Default.ImageViewLoadThumbnailOnDemandMode = checkBoxApplicationImageListViewCacheModeOnDemand.Checked;
+                Properties.Settings.Default.MoveToRecycleBin = kryptonCheckBoxFileMoveToRecycleBin.Checked;
 
                 Properties.Settings.Default.CacheNumberOfPosters = (int)numericUpDownCacheNumberOfPosters.Value;
                 Properties.Settings.Default.CacheAllMetadatas = checkBoxCacheAllMetadatas.Checked;
@@ -592,7 +593,7 @@ namespace PhotoTagsSynchronizer
             checkBoxApplicationAvoidReadMediaFromCloud.Checked = Properties.Settings.Default.AvoidOfflineMediaFiles;
             checkBoxApplicationAvoidReadExifFromCloud.Checked = Properties.Settings.Default.AvoidReadExifFromCloud;
             checkBoxApplicationImageListViewCacheModeOnDemand.Checked = Properties.Settings.Default.ImageViewLoadThumbnailOnDemandMode;
-            
+            kryptonCheckBoxFileMoveToRecycleBin.Checked = Properties.Settings.Default.MoveToRecycleBin;
             //Cache
             numericUpDownCacheNumberOfPosters.Value = (int)Properties.Settings.Default.CacheNumberOfPosters;
             checkBoxCacheAllMetadatas.Checked = Properties.Settings.Default.CacheAllMetadatas;
@@ -2706,10 +2707,10 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                if (File.Exists(GetLogFilenameApplication())) File.Delete(GetLogFilenameApplication());
+                if (File.Exists(GetLogFilenameApplication())) FileHandler.Delete(GetLogFilenameApplication(), Properties.Settings.Default.MoveToRecycleBin);
                 fastColoredTextBoxShowLog.Clear();
 
-                if (File.Exists(GetLogFilenameServer())) File.Delete(GetLogFilenameServer());
+                if (File.Exists(GetLogFilenameServer())) FileHandler.Delete(GetLogFilenameServer(), Properties.Settings.Default.MoveToRecycleBin);
                 fastColoredTextBoxShowPipe32Log.Clear();
             } catch (Exception ex)
             {

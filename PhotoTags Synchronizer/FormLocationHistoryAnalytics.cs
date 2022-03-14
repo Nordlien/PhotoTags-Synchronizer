@@ -226,7 +226,7 @@ namespace PhotoTagsSynchronizer
 
                     DataGridViewHandler.AddRow(dataGridView, columnIndexTimestamp,
                         new DataGridViewGenericRow(group, rowId, value),
-                        TimeZone.TimeZoneLibrary.ToStringExiftoolUTC(locationsHistory.Timestamp), true, false);
+                        TimeZone.TimeZoneLibrary.ToStringSortableUTC(locationsHistory.Timestamp), true, false);
 
                     DataGridViewHandler.AddRow(dataGridView, columnIndexUserAccount,
                         new DataGridViewGenericRow(group, rowId, value),
@@ -292,6 +292,7 @@ namespace PhotoTagsSynchronizer
         {
             HashSet<LocationsHistory> locationsHistories = GoogleLocationHistoryDatabaseCache.LoadLocationHistory(dateTimeFrom, dateTimeTo);
             PopulateMetadataLocationNames(dataGridView, locationsHistories, minimumTimeInterval, minimumDistance);
+            DataGridViewHandler.SetIsAgregated(dataGridView, true);
         }
 
         #region kryptonButtonSearch_Click

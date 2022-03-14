@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using Krypton.Toolkit;
+using FileHandeling;
 
 namespace PhotoTagsSynchronizer
 {
@@ -82,8 +83,8 @@ namespace PhotoTagsSynchronizer
 
                     if (coverted && new System.IO.FileInfo(tempOutputfile).Length > 0)
                     {
-                        File.Delete(fileEntry.FileFullPath);
-                        File.Move(tempOutputfile, fileEntry.FileFullPath);
+                        FileHandler.Delete(fileEntry.FileFullPath, Properties.Settings.Default.MoveToRecycleBin);
+                        FileHandler.Move(tempOutputfile, fileEntry.FileFullPath);
                     }
                     else File.Delete(tempOutputfile);
                 }

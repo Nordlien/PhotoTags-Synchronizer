@@ -633,7 +633,7 @@ namespace Exiftool
                 if (!filesFound)
                 {
                     //if (useArguFile)
-                    if (File.Exists(exiftoolArgFileFullpath)) File.Delete(exiftoolArgFileFullpath);
+                    if (File.Exists(exiftoolArgFileFullpath)) FileHandler.Delete(exiftoolArgFileFullpath, false);
                     return; // metaDataCollections;
                 }
             }
@@ -1803,7 +1803,7 @@ namespace Exiftool
             catch (Exception ex)
             {
                 Logger.Error("Exiftool.Read(): " + ex.ToString() + "\r\n" + filesToRead.ToString());
-                if (useArguFile) if (File.Exists(exiftoolArgFileFullpath)) File.Delete(exiftoolArgFileFullpath);
+                if (useArguFile) if (File.Exists(exiftoolArgFileFullpath)) FileHandler.Delete(exiftoolArgFileFullpath, false);
                 
                 try
                 {
@@ -1827,7 +1827,7 @@ namespace Exiftool
                 catch { }
             }
 
-            if (useArguFile) if (File.Exists(exiftoolArgFileFullpath)) File.Delete(exiftoolArgFileFullpath);
+            if (useArguFile) if (File.Exists(exiftoolArgFileFullpath)) FileHandler.Delete(exiftoolArgFileFullpath, false);
 
             genericExiftoolErrorMessage = genericExiftoolError = "";
             return; // metaDataCollections;

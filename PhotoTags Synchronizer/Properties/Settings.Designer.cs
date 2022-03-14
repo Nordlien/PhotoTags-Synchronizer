@@ -2756,5 +2756,17 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["MicosoftOneDriveLocationHackPostfix"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool MoveToRecycleBin {
+            get {
+                return ((bool)(this["MoveToRecycleBin"]));
+            }
+            set {
+                this["MoveToRecycleBin"] = value;
+            }
+        }
     }
 }

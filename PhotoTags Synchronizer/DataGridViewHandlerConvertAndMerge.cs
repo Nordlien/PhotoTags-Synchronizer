@@ -1,8 +1,6 @@
 ﻿using System.Windows.Forms;
 using MetadataLibrary;
 using DataGridViewGeneric;
-using Manina.Windows.Forms;
-using static Manina.Windows.Forms.ImageListView;
 using System;
 using System.IO;
 using FileDateTime;
@@ -1908,7 +1906,7 @@ namespace PhotoTagsSynchronizer
                 {
                     try
                     {
-                        File.Delete(tempfile);
+                        FileHandler.Delete(tempfile, Properties.Settings.Default.MoveToRecycleBin);
                         formTerminalWindow.LogInfo("Temp file deleted: " + tempfile + "\r\n");
                     }
                     catch (Exception ex)

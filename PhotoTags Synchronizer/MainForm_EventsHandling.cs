@@ -10145,7 +10145,7 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsApplicationClosing) return;
             if (IsPerforminAButtonAction("LocationAnalytics")) return;
             if (IsPopulatingAnything("LocationAnalytics")) return;
-            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
 
             try
             {
@@ -10169,7 +10169,7 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsApplicationClosing) return;
             if (IsPerforminAButtonAction("LocationAnalytics")) return;
             if (IsPopulatingAnything("LocationAnalytics")) return;
-            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
 
             try 
             { 
@@ -10195,7 +10195,8 @@ namespace PhotoTagsSynchronizer
         private void Action_CheckAndFixOneDriveIssues_ReturnWasFoundAndRemoved()
         {
             HashSet<FileEntry> fileEntries = ImageListViewHandler.GetFileEntriesItems(imageListView1);
-            List<string> deletedFiles = FileHandeling.FileHandler.FixOneDriveIssues(fileEntries, out List<string> notFixed, oneDriveNetworkNames, fixError: true, databaseAndCacheMetadataExiftool);
+            List<string> deletedFiles = FileHandeling.FileHandler.FixOneDriveIssues(fileEntries, out List<string> notFixed, oneDriveNetworkNames, fixError: true,
+                moveToRecycleBin: Properties.Settings.Default.MoveToRecycleBin, databaseAndCacheMetadataExiftool);
 
             #region Remove delete files form ImageListView
             foreach (string fullFileName in deletedFiles)
