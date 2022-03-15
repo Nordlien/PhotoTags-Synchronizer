@@ -638,6 +638,7 @@ namespace PhotoTagsSynchronizer
                                         {
                                             FileStatus fileStatus = FileHandler.GetFileStatus(fileEntryAttribute.FileFullPath, hasErrorOccured: true,
                                                 errorMessage: "Exitfool failed", exiftoolProcessStatus: ExiftoolProcessStatus.FileInaccessibleOrError);
+                                            
                                             ImageListView_UpdateItemFileStatusInvoke(fileEntryAttribute.FileFullPath, fileStatus);
                                         }
                                         break;

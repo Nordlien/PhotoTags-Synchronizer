@@ -86,27 +86,27 @@ namespace PhotoTagsSynchronizer
                     ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fileEntryAttribute.FileFullPath);
                     if (foundItem != null)
                     {
-                        //if (foundItem.DateModified <= fileEntryAttribute.LastWriteDateTime)
-                        {
-                            Utility.ShellImageFileInfo fileMetadata = new Utility.ShellImageFileInfo();
-                            ConvertMetadataToShellImageFileInfo(ref fileMetadata, metadata);
+                        Utility.ShellImageFileInfo fileMetadata = new Utility.ShellImageFileInfo();
+                        ConvertMetadataToShellImageFileInfo(ref fileMetadata, metadata);
 
-                            FileStatus fileStatus = FileHandler.GetFileStatus(fileEntryAttribute.FileFullPath,
-                                exiftoolProcessStatus: ExiftoolProcessStatus.WaitAction, //Metadata is found
-                                checkLockedStatus: true);
+                        FileStatus fileStatus = FileHandler.GetFileStatus(fileEntryAttribute.FileFullPath,
+                            exiftoolProcessStatus: ExiftoolProcessStatus.WaitAction, //Metadata is found
+                            checkLockedStatus: true);
 
-                            if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.Error)
-                                fileMetadata.FileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.FileInaccessibleOrError; //Error Metadata found
+                        if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.Error)
+                            fileMetadata.FileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.FileInaccessibleOrError; //Error Metadata found
 
-                            foundItem.UpdateDetails(fileMetadata);
-                        }
-                        //else
-                        //{
-                        //    //DEBUG, Looks as this happen after two save fast after each other
-                        //}
+                        foundItem.UpdateDetails(fileMetadata);
                         KeepTrackOfMetadataLoadedRemoveFromList(fileEntryAttribute.FileFullPath);
+                    } else
+                    {
+                        //DEBUG
                     }
-                } 
+                }
+                else
+                {
+                    //DEBUG
+                }
             }
             catch (Exception ex)
             {

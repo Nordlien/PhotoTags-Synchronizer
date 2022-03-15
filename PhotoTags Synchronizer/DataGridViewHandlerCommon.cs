@@ -1,13 +1,10 @@
 ﻿using DataGridViewGeneric;
 using Manina.Windows.Forms;
 using MetadataLibrary;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using Thumbnails;
-using static Manina.Windows.Forms.ImageListView;
 
 namespace PhotoTagsSynchronizer
 {

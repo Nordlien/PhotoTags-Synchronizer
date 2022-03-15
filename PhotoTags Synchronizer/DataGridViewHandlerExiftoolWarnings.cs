@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using Exiftool;
 using MetadataLibrary;
 using DataGridViewGeneric;
-using static Manina.Windows.Forms.ImageListView;
-using Manina.Windows.Forms;
-using System;
 using MetadataPriorityLibrary;
 using Thumbnails;
 using System.Drawing;
+using System.Diagnostics;
 
 namespace PhotoTagsSynchronizer
 {
@@ -44,10 +42,17 @@ namespace PhotoTagsSynchronizer
             //-----------------------------------------------------------------
             List<ExiftoolWarningData> exifToolWarningDataList = DatabaseExiftoolWarning.Read(fileEntryAttribute);
 
+            //Debug.WriteLine(fileEntryAttribute.FileFullPath);
+            //Debug.WriteLine(fileEntryAttribute.FileEntryVersion);
+            //Debug.WriteLine(fileEntryAttribute.LastWriteDateTime);
+            //Debug.WriteLine(exifToolWarningDataList.Count);
             if (exifToolWarningDataList.Count > 0)
             {
                 Image thumbnail = DatabaseAndCacheThumbnail.ReadThumbnailFromCacheOnly(fileEntryAttribute);
-
+                if (thumbnail == null)
+                {
+                    //DEBUG
+                }
                 int columnIndex = DataGridViewHandler.AddColumnOrUpdateNew(
                     dataGridView, fileEntryAttribute, thumbnail, null, ReadWriteAccess.ForceCellToReadOnly, showWhatColumns,
                     new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true), out FileEntryVersionCompare fileEntryVersionCompareReason);
@@ -120,13 +125,18 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.SetIsAgregated(dataGridView, true);
             //-----------------------------------------------------------------
 
+            DataGridViewHandlerCommon.AddColumnSelectedFiles(dataGridView, DatabaseAndCacheThumbnail, imageListViewSelectItems, ReadWriteAccess.ForceCellToReadOnly, showWhatColumns,
+                new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true)); //ReadOnly until data is read //Add all default rows
+
+            //Temp
             List<FileEntryAttribute> allFileEntryAttributeDateVersions = new List<FileEntryAttribute>();
-            //Populate one and one of selected files
-            foreach (FileEntry imageListViewItem in imageListViewSelectItems)
-            {
-                List<FileEntryAttribute> fileEntryAttributeDateVersions = DataGridViewHandlerExiftoolWarnings.ListFileEntryDateVersions(imageListViewItem.FileFullPath);
-                allFileEntryAttributeDateVersions.AddRange(fileEntryAttributeDateVersions);
-            }
+            ////Populate one and one of selected files
+            //foreach (FileEntry imageListViewItem in imageListViewSelectItems)
+            //{
+            //    List<FileEntryAttribute> fileEntryAttributeDateVersions = DataGridViewHandlerExiftoolWarnings.ListFileEntryDateVersions(imageListViewItem.FileFullPath);
+            //    allFileEntryAttributeDateVersions.AddRange(fileEntryAttributeDateVersions);
+            //}
+            
 
             //-----------------------------------------------------------------
             //Unlock
