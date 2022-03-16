@@ -337,6 +337,7 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsApplicationClosing) return;
             if (isSettingDefaultComboxValues) return;
             if (GlobalData.IsPopulatingMap) return;
+            if (dataGridViewMap.CurrentCell == null) return;
 
             Properties.Settings.Default.ComboBoxGoogleLocationInterval = comboBoxGoogleLocationInterval.SelectedIndex;    //30 minutes Index 2
             

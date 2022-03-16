@@ -255,6 +255,7 @@ namespace PhotoTagsSynchronizer
         {
             DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridView, KryptonPalette, "LocationDates", "Location dates", DataGridViewSize.ConfigSize);
             DataGridViewHandler.Clear(dataGridView, DataGridViewSize.ConfigSize);
+            DataGridViewHandler.SetIsAgregated(dataGridView, true);
 
             DateTime dateTimeEditable = DateTime.Now;
 
