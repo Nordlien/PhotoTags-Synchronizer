@@ -1035,7 +1035,7 @@ namespace PhotoTagsSynchronizer
             isCellValueUpdating = true;
             DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridView, (KryptonPalette)kryptonManager1.GlobalPalette, "CameraMakeModelOwner", "Camera Make/Model", DataGridViewSize.ConfigSize);
             DataGridViewHandler.Clear(dataGridView, DataGridViewSize.ConfigSize);
-            //contextMenuStripMetadataRead contextMenuStripMetadataRead
+            DataGridViewHandler.SetIsAgregated(dataGridView, true);
 
             DateTime dateTimeEditable = DateTime.Now;
 
@@ -1217,6 +1217,7 @@ namespace PhotoTagsSynchronizer
             isCellValueUpdating = true;
             DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridView, (KryptonPalette)kryptonManager1.GlobalPalette, "LocationNames", "Location names", DataGridViewSize.ConfigSize);
             DataGridViewHandler.Clear(dataGridView, DataGridViewSize.ConfigSize);
+            DataGridViewHandler.SetIsAgregated(dataGridView, true);
 
             DateTime dateTimeEditable = DateTime.Now;
 
@@ -1915,7 +1916,7 @@ namespace PhotoTagsSynchronizer
             isCellValueUpdating = true;
             DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridView, (KryptonPalette)kryptonManager1.GlobalPalette, "MetadataRead", "Tags", DataGridViewSize.ConfigSize);
             DataGridViewHandler.Clear(dataGridView, DataGridViewSize.ConfigSize);
-            //contextMenuStripMetadataRead contextMenuStripMetadataRead
+            DataGridViewHandler.SetIsAgregated(dataGridView, true);
 
             DateTime dateTimeEditable = DateTime.Now;
 
