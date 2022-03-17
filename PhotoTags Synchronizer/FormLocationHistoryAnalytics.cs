@@ -289,12 +289,14 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region Location names - PopulateMetadataLocationsAdd
         public void PopulateMetadataLocationsAdd(DataGridView dataGridView, DateTime dateTimeFrom, DateTime dateTimeTo, int minimumTimeInterval, float minimumDistance)
         {
             HashSet<LocationsHistory> locationsHistories = GoogleLocationHistoryDatabaseCache.LoadLocationHistory(dateTimeFrom, dateTimeTo);
             PopulateMetadataLocationNames(dataGridView, locationsHistories, minimumTimeInterval, minimumDistance);
             DataGridViewHandler.SetIsAgregated(dataGridView, true);
         }
+        #endregion
 
         #region kryptonButtonSearch_Click
         private void kryptonButtonSearch_Click(object sender, EventArgs e)
