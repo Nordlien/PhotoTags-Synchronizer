@@ -253,7 +253,7 @@ namespace PhotoTagsSynchronizer
         #region Location names - PopulateMetadataLocationNames
         public void PopulateMetadataLocationsClear(DataGridView dataGridView)
         {
-            DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridView, KryptonPalette, "LocationDates", "Location dates", DataGridViewSize.ConfigSize);
+            DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridView, KryptonPalette, "LocationDates", "Location dates", DataGridViewSize.ConfigSize, allowUserToAddRow: false);
             DataGridViewHandler.Clear(dataGridView, DataGridViewSize.ConfigSize);
             DataGridViewHandler.SetIsAgregated(dataGridView, true);
 

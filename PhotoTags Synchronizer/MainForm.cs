@@ -474,38 +474,38 @@ namespace PhotoTagsSynchronizer
             //kryptonPageToolboxTags
             kryptonPageToolboxTags.Tag = LinkTabAndDataGridViewNameTags;
             GlobalData.dataGridViewHandlerTags = new DataGridViewHandler(dataGridViewTagsAndKeywords, (KryptonPalette)kryptonManager1.GlobalPalette,
-                LinkTabAndDataGridViewNameTags, "Metadata/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeKeywords);
+                LinkTabAndDataGridViewNameTags, "Metadata/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeKeywords, allowUserToAddRow: true);
 
             kryptonPageToolboxMap.Tag = LinkTabAndDataGridViewNameMap;
             GlobalData.dataGridViewHandlerMap = new DataGridViewHandler(dataGridViewMap, (KryptonPalette)kryptonManager1.GlobalPalette,
-                LinkTabAndDataGridViewNameMap, "Location/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeMap);
+                LinkTabAndDataGridViewNameMap, "Location/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeMap, allowUserToAddRow: false);
 
             kryptonPageToolboxPeople.Tag = LinkTabAndDataGridViewNamePeople;
             GlobalData.dataGridViewHandlerPeople = new DataGridViewHandler(dataGridViewPeople, (KryptonPalette)kryptonManager1.GlobalPalette,
-                LinkTabAndDataGridViewNamePeople, "Name/Files", (DataGridViewSize)Properties.Settings.Default.CellSizePeoples);
+                LinkTabAndDataGridViewNamePeople, "Name/Files", (DataGridViewSize)Properties.Settings.Default.CellSizePeoples, allowUserToAddRow: true);
 
             kryptonPageToolboxDates.Tag = LinkTabAndDataGridViewNameDates;
             GlobalData.dataGridViewHandlerDates = new DataGridViewHandler(dataGridViewDate, (KryptonPalette)kryptonManager1.GlobalPalette,
-                LinkTabAndDataGridViewNameDates, "Name/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeDates);
+                LinkTabAndDataGridViewNameDates, "Name/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeDates, allowUserToAddRow: false);
 
             kryptonPageToolboxExiftool.Tag = LinkTabAndDataGridViewNameExiftool;
             GlobalData.dataGridViewHandlerExiftoolTags = new DataGridViewHandler(dataGridViewExiftool, (KryptonPalette)kryptonManager1.GlobalPalette,
-                LinkTabAndDataGridViewNameExiftool, "File/Tag Description", (DataGridViewSize)Properties.Settings.Default.CellSizeExiftool);
+                LinkTabAndDataGridViewNameExiftool, "File/Tag Description", (DataGridViewSize)Properties.Settings.Default.CellSizeExiftool, allowUserToAddRow: false);
 
             kryptonPageToolboxWarnings.Tag = LinkTabAndDataGridViewNameWarnings;
             GlobalData.dataGridViewHandlerExiftoolWarning = new DataGridViewHandler(dataGridViewExiftoolWarning, (KryptonPalette)kryptonManager1.GlobalPalette,
-                LinkTabAndDataGridViewNameWarnings, "File and version/Tag region and command", (DataGridViewSize)Properties.Settings.Default.CellSizeWarnings);
+                LinkTabAndDataGridViewNameWarnings, "File and version/Tag region and command", (DataGridViewSize)Properties.Settings.Default.CellSizeWarnings, allowUserToAddRow: false);
 
             kryptonPageToolboxProperties.Tag = LinkTabAndDataGridViewNameProperties;
             GlobalData.dataGridViewHandlerProperties = new DataGridViewHandler(dataGridViewProperties, (KryptonPalette)kryptonManager1.GlobalPalette,
-                LinkTabAndDataGridViewNameProperties, "File/Properties", (DataGridViewSize)Properties.Settings.Default.CellSizeProperties);
+                LinkTabAndDataGridViewNameProperties, "File/Properties", (DataGridViewSize)Properties.Settings.Default.CellSizeProperties, allowUserToAddRow: false);
 
             kryptonPageToolboxRename.Tag = LinkTabAndDataGridViewNameRename;
             GlobalData.dataGridViewHandlerRename = new DataGridViewHandler(dataGridViewRename, (KryptonPalette)kryptonManager1.GlobalPalette,
                 LinkTabAndDataGridViewNameRename, "Filename/Values", ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize),
                     ColumnNamesAndWidthHandler.ConvertConfigStringToColumnNameAndWidths(Properties.Settings.Default.ColumnNameAndWithsRenameLarge),
                     ColumnNamesAndWidthHandler.ConvertConfigStringToColumnNameAndWidths(Properties.Settings.Default.ColumnNameAndWithsRenameMedium),
-                    ColumnNamesAndWidthHandler.ConvertConfigStringToColumnNameAndWidths(Properties.Settings.Default.ColumnNameAndWithsRenameSmall)
+                    ColumnNamesAndWidthHandler.ConvertConfigStringToColumnNameAndWidths(Properties.Settings.Default.ColumnNameAndWithsRenameSmall), allowUserToAddRow: false
                 );
 
             kryptonPageToolboxConvertAndMerge.Tag = LinkTabAndDataGridViewNameConvertAndMerge;
@@ -514,7 +514,7 @@ namespace PhotoTagsSynchronizer
                 ((DataGridViewSize)Properties.Settings.Default.CellSizeConvertAndMerge | DataGridViewSize.RenameConvertAndMergeSize),
                     ColumnNamesAndWidthHandler.ConvertConfigStringToColumnNameAndWidths(Properties.Settings.Default.ColumnNameAndWithsConvertAndMergeLarge),
                     ColumnNamesAndWidthHandler.ConvertConfigStringToColumnNameAndWidths(Properties.Settings.Default.ColumnNameAndWithsConvertAndMergeMedium),
-                    ColumnNamesAndWidthHandler.ConvertConfigStringToColumnNameAndWidths(Properties.Settings.Default.ColumnNameAndWithsConvertAndMergeSmall)
+                    ColumnNamesAndWidthHandler.ConvertConfigStringToColumnNameAndWidths(Properties.Settings.Default.ColumnNameAndWithsConvertAndMergeSmall), allowUserToAddRow: false
                 );
             #endregion
 

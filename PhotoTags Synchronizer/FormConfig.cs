@@ -316,7 +316,7 @@ namespace PhotoTagsSynchronizer
             isSettingDefaultComboxValuesZoomLevel = false;
 
             //AutoCorrect
-            DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridViewAutoKeywords, (KryptonPalette)kryptonManager1.GlobalPalette, "AutoKeywords", "AutoKeywords", DataGridViewSize.ConfigSize);
+            DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridViewAutoKeywords, (KryptonPalette)kryptonManager1.GlobalPalette, "AutoKeywords", "AutoKeywords", DataGridViewSize.ConfigSize, allowUserToAddRow: false);
             autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
             PopulateAutoCorrectPoperties();
 
@@ -1033,7 +1033,7 @@ namespace PhotoTagsSynchronizer
         private void PopulateMetadataCameraOwner(DataGridView dataGridView)
         {
             isCellValueUpdating = true;
-            DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridView, (KryptonPalette)kryptonManager1.GlobalPalette, "CameraMakeModelOwner", "Camera Make/Model", DataGridViewSize.ConfigSize);
+            DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridView, (KryptonPalette)kryptonManager1.GlobalPalette, "CameraMakeModelOwner", "Camera Make/Model", DataGridViewSize.ConfigSize, allowUserToAddRow: false);
             DataGridViewHandler.Clear(dataGridView, DataGridViewSize.ConfigSize);
             DataGridViewHandler.SetIsAgregated(dataGridView, true);
 
@@ -1064,11 +1064,11 @@ namespace PhotoTagsSynchronizer
         #region Camera owner - SaveMetadataCameraOwner
         private void SaveMetadataCameraOwner(DataGridView dataGridView)
         {
-            int rowCount = DataGridViewHandler.GetRowCount(dataGridView);
+            int rowCount = DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView);
             for (int row = 0; row < rowCount; row++) 
             {
                 DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, row);
-                if (!dataGridViewGenericRow.IsHeader)
+                if (dataGridViewGenericRow != null && !dataGridViewGenericRow.IsHeader)
                 {
                     string camerMakeModelOwner = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndexOwner, row);
                     if (camerMakeModelOwner == CameraOwnersDatabaseCache.MissingLocationsOwners) camerMakeModelOwner = null;
@@ -1152,10 +1152,9 @@ namespace PhotoTagsSynchronizer
             try
             {
                 DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, e.RowIndex);
-                if (!dataGridViewGenericRow.IsHeader)
+                if (dataGridViewGenericRow != null && !dataGridViewGenericRow.IsHeader)
                 {
                     AddCameraOwnerAutoComplete((string)e.FormattedValue);
-                    
                 }
             }
             catch (Exception ex)
@@ -1215,7 +1214,7 @@ namespace PhotoTagsSynchronizer
         private void PopulateMetadataLocationNames(DataGridView dataGridView)
         {
             isCellValueUpdating = true;
-            DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridView, (KryptonPalette)kryptonManager1.GlobalPalette, "LocationNames", "Location names", DataGridViewSize.ConfigSize);
+            DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridView, (KryptonPalette)kryptonManager1.GlobalPalette, "LocationNames", "Location names", DataGridViewSize.ConfigSize, allowUserToAddRow: false);
             DataGridViewHandler.Clear(dataGridView, DataGridViewSize.ConfigSize);
             DataGridViewHandler.SetIsAgregated(dataGridView, true);
 
@@ -1350,7 +1349,7 @@ namespace PhotoTagsSynchronizer
         #region Location names - SaveMetadataLocation
         private void SaveMetadataLocation(DataGridView dataGridView)
         {
-            int rowCount = DataGridViewHandler.GetRowCount(dataGridView);
+            int rowCount = DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView);
 
             float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
             float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
@@ -1358,7 +1357,7 @@ namespace PhotoTagsSynchronizer
             for (int row = 0; row < rowCount; row++)
             {
                 DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, row);
-                if (!dataGridViewGenericRow.IsHeader)
+                if (dataGridViewGenericRow != null && !dataGridViewGenericRow.IsHeader)
                 {
                     LocationCoordinate locationCoordinateSearch = dataGridViewGenericRow.LocationCoordinate;
                     LocationDescription locationDescription = new LocationDescription(
@@ -1914,7 +1913,7 @@ namespace PhotoTagsSynchronizer
         private void PopulateMetadataRead(DataGridView dataGridView)
         {
             isCellValueUpdating = true;
-            DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridView, (KryptonPalette)kryptonManager1.GlobalPalette, "MetadataRead", "Tags", DataGridViewSize.ConfigSize);
+            DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridView, (KryptonPalette)kryptonManager1.GlobalPalette, "MetadataRead", "Tags", DataGridViewSize.ConfigSize, allowUserToAddRow: false);
             DataGridViewHandler.Clear(dataGridView, DataGridViewSize.ConfigSize);
             DataGridViewHandler.SetIsAgregated(dataGridView, true);
 
@@ -2954,7 +2953,7 @@ namespace PhotoTagsSynchronizer
         private void AddDummyDataPaletteDataGridView()
         {
             kryptonDataGridViewShowPalette.Rows.Clear();
-            dataGridViewHandlerPalette = new DataGridViewHandler(kryptonDataGridViewShowPalette, (KryptonPalette)kryptonManager1.GlobalPalette, "Palette", "Test", DataGridViewSize.Small);
+            dataGridViewHandlerPalette = new DataGridViewHandler(kryptonDataGridViewShowPalette, (KryptonPalette)kryptonManager1.GlobalPalette, "Palette", "Test", DataGridViewSize.Small, allowUserToAddRow: false);
 
             //Header
             kryptonDataGridViewShowPalette.Columns[0].HeaderCell.Style.BackColor = DataGridViewHandler.ColorBackHeaderNormal(kryptonDataGridViewShowPalette);            

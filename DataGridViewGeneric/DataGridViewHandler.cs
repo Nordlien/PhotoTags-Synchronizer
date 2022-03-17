@@ -326,13 +326,13 @@ namespace DataGridViewGeneric
 
         #region DataGridView Handling - Constructor
         public DataGridViewHandler(DataGridView dataGridView, KryptonPalette palette, string dataGridViewName, string topLeftHeaderCellName,
-            DataGridViewSize cellSize) : this
-            (dataGridView, palette, dataGridViewName, topLeftHeaderCellName, cellSize, null, null, null)
+            DataGridViewSize cellSize, bool allowUserToAddRow) : this
+            (dataGridView, palette, dataGridViewName, topLeftHeaderCellName, cellSize, null, null, null, allowUserToAddRow)
         {
         }
 
         #region DataGridViewInit
-        public static void DataGridViewInit(DataGridView dataGridView, bool allowUserToAddRows = true)
+        public static void DataGridViewInit(DataGridView dataGridView, bool allowUserToAddRows)
         {
             //Increase speed
             typeof(DataGridView).InvokeMember(
@@ -395,11 +395,12 @@ namespace DataGridViewGeneric
         #endregion 
 
         public DataGridViewHandler(DataGridView dataGridView, KryptonPalette palette, string dataGridViewName, string topLeftHeaderCellName, 
-            DataGridViewSize cellSize, List<ColumnNameAndWidth> columnNameAndWidthsLarge, List<ColumnNameAndWidth> columnNameAndWidthsMedium, List<ColumnNameAndWidth> columnNameAndWidthsSmall)
+            DataGridViewSize cellSize, List<ColumnNameAndWidth> columnNameAndWidthsLarge, List<ColumnNameAndWidth> columnNameAndWidthsMedium, 
+            List<ColumnNameAndWidth> columnNameAndWidthsSmall, bool allowUserToAddRow)
         {
             this.dataGridView = dataGridView;
 
-            DataGridViewInit(dataGridView);
+            DataGridViewInit(dataGridView, allowUserToAddRow);
             DataGridViewInitGenericData(dataGridView, palette, dataGridViewName, topLeftHeaderCellName, cellSize,
                 columnNameAndWidthsLarge, columnNameAndWidthsMedium, columnNameAndWidthsSmall);
             DataGridViewInitEvents(dataGridView);
