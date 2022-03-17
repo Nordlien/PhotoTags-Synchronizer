@@ -117,11 +117,11 @@ namespace PhotoTagsSynchronizer
                 else if (string.IsNullOrEmpty(dataTimeString))
                     DataGridViewHandler.AddRow(dataGridView, e.ColumnIndex,
                         new DataGridViewGenericRow(DataGridViewHandlerDate.headerMedia, DataGridViewHandlerDate.tagGPSLocationDateTime),
-                        "Error", false, false);
+                        "", false, false);
                 else
                     DataGridViewHandler.AddRow(dataGridView, e.ColumnIndex,
                         new DataGridViewGenericRow(DataGridViewHandlerDate.headerMedia, DataGridViewHandlerDate.tagGPSLocationDateTime),
-                        "", false, false);
+                        "Error", false, false);
             }
 
             DataGridViewHandlerDate.PopulateTimeZone(dataGridView, e.ColumnIndex, null);

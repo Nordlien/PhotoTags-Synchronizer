@@ -3240,7 +3240,11 @@ namespace PhotoTagsSynchronizer
                                         {
                                             //DEBUG
                                         }
-                                        Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fullFilename, currentLastWrittenDateTime, MetadataBrokerType.ExifTool));
+
+                                        FileEntry fileEntry = new FileEntry(fullFilename, currentLastWrittenDateTime);
+
+                                        FileEntryBroker fileEntryBroker = new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool);
+                                        Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBroker);
                                         
                                         if (metadata != null)
                                         {
@@ -3261,27 +3265,38 @@ namespace PhotoTagsSynchronizer
                                         }
                                         else
                                         {
-                                            string error = 
-                                                "Failed rename " + fullFilename + " to : New name is unknown(missing metadata)";
-                                            Logger.Error(error);
-                                            
-                                            FileStatus fileStatus = FileHandler.GetFileStatus(
-                                                fullFilename, checkLockedStatus: true,
-                                                hasErrorOccured: true, errorMessage: error);
-                                            ImageListView_UpdateItemFileStatusInvoke(fullFilename, fileStatus);
+                                            FileEntryBroker fileEntryBrokerError = new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool | MetadataBrokerType.ExifToolWriteError);
+                                            Metadata metadataError = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerError);
 
-                                            error =
-                                                "Issue: Failed to rename file. Missing metadata for creating new filename\r\n" +
-                                                "File Name:   " + fullFilename + "\r\n" +
-                                                "File Status: " + fileStatus.ToString() + "\r\n" +
-                                                "Error Message: Missing Metatdata, can't create new filename";
+                                            if (metadataError == null)
+                                            {
+                                                FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fileEntry, FileEntryVersion.CurrentVersionInDatabase);
+                                                AddQueueLazyLoadningAllSourcesMetadataAndRegionThumbnailsLock(fileEntryAttribute);
+                                            }
+                                            else 
+                                            {
+                                                string error =
+                                                    "Failed rename " + fullFilename + " to : New name is unknown(missing metadata)";
+                                                Logger.Error(error);
 
-                                            Logger.Error(error);
+                                                FileStatus fileStatus = FileHandler.GetFileStatus(
+                                                    fullFilename, checkLockedStatus: true,
+                                                    hasErrorOccured: true, errorMessage: error);
+                                                ImageListView_UpdateItemFileStatusInvoke(fullFilename, fileStatus);
 
-                                            AddError(
-                                                Path.GetDirectoryName(fullFilename), Path.GetFileName(fullFilename), FileHandler.GetLastWriteTime(fullFilename),
-                                                AddErrorFileSystemRegion, AddErrorFileSystemMove, fullFilename, "New name is unknown (missing metadata)",
-                                                error);
+                                                error =
+                                                    "Issue: Failed to rename file. Missing metadata for creating new filename\r\n" +
+                                                    "File Name:   " + fullFilename + "\r\n" +
+                                                    "File Status: " + fileStatus.ToString() + "\r\n" +
+                                                    "Error Message: Missing Metatdata, can't create new filename";
+
+                                                Logger.Error(error);
+
+                                                AddError(
+                                                    Path.GetDirectoryName(fullFilename), Path.GetFileName(fullFilename), FileHandler.GetLastWriteTime(fullFilename),
+                                                    AddErrorFileSystemRegion, AddErrorFileSystemMove, fullFilename, "New name is unknown (missing metadata)",
+                                                    error);
+                                            }
                                         }
 
                                     }
