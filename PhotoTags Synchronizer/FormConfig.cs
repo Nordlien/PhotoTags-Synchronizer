@@ -316,7 +316,7 @@ namespace PhotoTagsSynchronizer
             isSettingDefaultComboxValuesZoomLevel = false;
 
             //AutoCorrect
-            DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridViewAutoKeywords, (KryptonPalette)kryptonManager1.GlobalPalette, "AutoKeywords", "AutoKeywords", DataGridViewSize.ConfigSize, allowUserToAddRow: false);
+            DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridViewAutoKeywords, (KryptonPalette)kryptonManager1.GlobalPalette, "AutoKeywords", "AutoKeywords", DataGridViewSize.ConfigSize, allowUserToAddRow: true);
             autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
             PopulateAutoCorrectPoperties();
 
