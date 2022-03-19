@@ -848,6 +848,11 @@ namespace PhotoTagsSynchronizer
                             DataGridViewHandlerPeople.PopulateFile(dataGridViewPeople, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, false);
                             DataGridViewHandlerMap.PopulateFile(dataGridViewMap, dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, false);
                             DataGridViewHandlerDate.PopulateFile(dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, false);
+
+                            if (DataGridViewHandlerExiftool.HasBeenInitialized) DataGridViewHandlerExiftool.PopulateFile(dataGridViewExiftool, fileEntryAttribute, showWhatColumns);
+                            if (DataGridViewHandlerExiftoolWarnings.HasBeenInitialized) DataGridViewHandlerExiftoolWarnings.PopulateFile(dataGridViewExiftoolWarning, fileEntryAttribute, showWhatColumns);
+                            if (DataGridViewHandlerRename.HasBeenInitialized) DataGridViewHandlerRename.PopulateFile(dataGridViewRename, fileEntryAttribute, DataGridViewHandlerRename.ShowFullPath, metadataAutoCorrect, true);
+                            if (DataGridViewHandlerConvertAndMerge.HasBeenInitialized) DataGridViewHandlerConvertAndMerge.PopulateFile(dataGridViewConvertAndMerge, fileEntryAttribute);
                             break;
                         case LinkTabAndDataGridViewNameExiftool:
                             DataGridViewHandlerExiftool.PopulateFile(dataGridViewExiftool, fileEntryAttribute, showWhatColumns);
@@ -856,7 +861,11 @@ namespace PhotoTagsSynchronizer
                             if (DataGridViewHandlerPeople.HasBeenInitialized) DataGridViewHandlerPeople.PopulateFile(dataGridViewPeople, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             if (DataGridViewHandlerMap.HasBeenInitialized) DataGridViewHandlerMap.PopulateFile(dataGridViewMap, dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             if (DataGridViewHandlerDate.HasBeenInitialized) DataGridViewHandlerDate.PopulateFile(dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
+                            
+                            //if (DataGridViewHandlerExiftool.HasBeenInitialized) DataGridViewHandlerExiftool.PopulateFile(dataGridViewExiftool, fileEntryAttribute, showWhatColumns);
+                            if (DataGridViewHandlerExiftoolWarnings.HasBeenInitialized) DataGridViewHandlerExiftoolWarnings.PopulateFile(dataGridViewExiftoolWarning, fileEntryAttribute, showWhatColumns);
                             if (DataGridViewHandlerRename.HasBeenInitialized) DataGridViewHandlerRename.PopulateFile(dataGridViewRename, fileEntryAttribute, DataGridViewHandlerRename.ShowFullPath, metadataAutoCorrect, true);
+                            if (DataGridViewHandlerConvertAndMerge.HasBeenInitialized) DataGridViewHandlerConvertAndMerge.PopulateFile(dataGridViewConvertAndMerge, fileEntryAttribute);
                             break;
                         case LinkTabAndDataGridViewNameWarnings:
                             DataGridViewHandlerExiftoolWarnings.PopulateFile(dataGridViewExiftoolWarning, fileEntryAttribute, showWhatColumns);
@@ -865,7 +874,11 @@ namespace PhotoTagsSynchronizer
                             if (DataGridViewHandlerPeople.HasBeenInitialized) DataGridViewHandlerPeople.PopulateFile(dataGridViewPeople, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             if (DataGridViewHandlerMap.HasBeenInitialized) DataGridViewHandlerMap.PopulateFile(dataGridViewMap, dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             if (DataGridViewHandlerDate.HasBeenInitialized) DataGridViewHandlerDate.PopulateFile(dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
+                            
+                            if (DataGridViewHandlerExiftool.HasBeenInitialized) DataGridViewHandlerExiftool.PopulateFile(dataGridViewExiftool, fileEntryAttribute, showWhatColumns);
+                            //if (DataGridViewHandlerExiftoolWarnings.HasBeenInitialized) DataGridViewHandlerExiftoolWarnings.PopulateFile(dataGridViewExiftoolWarning, fileEntryAttribute, showWhatColumns);
                             if (DataGridViewHandlerRename.HasBeenInitialized) DataGridViewHandlerRename.PopulateFile(dataGridViewRename, fileEntryAttribute, DataGridViewHandlerRename.ShowFullPath, metadataAutoCorrect, true);
+                            if (DataGridViewHandlerConvertAndMerge.HasBeenInitialized) DataGridViewHandlerConvertAndMerge.PopulateFile(dataGridViewConvertAndMerge, fileEntryAttribute);
                             break;
                         case LinkTabAndDataGridViewNameProperties:
                             DataGridViewHandlerProperties.PopulateFile(dataGridViewProperties, fileEntryAttribute, showWhatColumns);
@@ -874,7 +887,11 @@ namespace PhotoTagsSynchronizer
                             if (DataGridViewHandlerPeople.HasBeenInitialized) DataGridViewHandlerPeople.PopulateFile(dataGridViewPeople, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             if (DataGridViewHandlerMap.HasBeenInitialized) DataGridViewHandlerMap.PopulateFile(dataGridViewMap, dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             if (DataGridViewHandlerDate.HasBeenInitialized) DataGridViewHandlerDate.PopulateFile(dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
+                            
+                            if (DataGridViewHandlerExiftool.HasBeenInitialized) DataGridViewHandlerExiftool.PopulateFile(dataGridViewExiftool, fileEntryAttribute, showWhatColumns);
+                            if (DataGridViewHandlerExiftoolWarnings.HasBeenInitialized) DataGridViewHandlerExiftoolWarnings.PopulateFile(dataGridViewExiftoolWarning, fileEntryAttribute, showWhatColumns);
                             if (DataGridViewHandlerRename.HasBeenInitialized) DataGridViewHandlerRename.PopulateFile(dataGridViewRename, fileEntryAttribute, DataGridViewHandlerRename.ShowFullPath, metadataAutoCorrect, true);
+                            if (DataGridViewHandlerConvertAndMerge.HasBeenInitialized) DataGridViewHandlerConvertAndMerge.PopulateFile(dataGridViewConvertAndMerge, fileEntryAttribute);
                             break;
                         case LinkTabAndDataGridViewNameRename:
                             DataGridViewHandlerRename.PopulateFile(dataGridViewRename, fileEntryAttribute, DataGridViewHandlerRename.ShowFullPath, metadataAutoCorrect, true);
@@ -883,14 +900,24 @@ namespace PhotoTagsSynchronizer
                             if (DataGridViewHandlerPeople.HasBeenInitialized) DataGridViewHandlerPeople.PopulateFile(dataGridViewPeople, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             if (DataGridViewHandlerMap.HasBeenInitialized) DataGridViewHandlerMap.PopulateFile(dataGridViewMap, dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             if (DataGridViewHandlerDate.HasBeenInitialized) DataGridViewHandlerDate.PopulateFile(dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
+
+                            if (DataGridViewHandlerExiftool.HasBeenInitialized) DataGridViewHandlerExiftool.PopulateFile(dataGridViewExiftool, fileEntryAttribute, showWhatColumns);
+                            if (DataGridViewHandlerExiftoolWarnings.HasBeenInitialized) DataGridViewHandlerExiftoolWarnings.PopulateFile(dataGridViewExiftoolWarning, fileEntryAttribute, showWhatColumns);
+                            //if (DataGridViewHandlerRename.HasBeenInitialized) DataGridViewHandlerRename.PopulateFile(dataGridViewRename, fileEntryAttribute, DataGridViewHandlerRename.ShowFullPath, metadataAutoCorrect, true);
+                            if (DataGridViewHandlerConvertAndMerge.HasBeenInitialized) DataGridViewHandlerConvertAndMerge.PopulateFile(dataGridViewConvertAndMerge, fileEntryAttribute);
                             break;
                         case LinkTabAndDataGridViewNameConvertAndMerge:
                             DataGridViewHandlerConvertAndMerge.PopulateFile(dataGridViewConvertAndMerge, fileEntryAttribute);
+
                             if (DataGridViewHandlerTagsAndKeywords.HasBeenInitialized) DataGridViewHandlerTagsAndKeywords.PopulateFile(dataGridViewTagsAndKeywords, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             if (DataGridViewHandlerPeople.HasBeenInitialized) DataGridViewHandlerPeople.PopulateFile(dataGridViewPeople, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             if (DataGridViewHandlerMap.HasBeenInitialized) DataGridViewHandlerMap.PopulateFile(dataGridViewMap, dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             if (DataGridViewHandlerDate.HasBeenInitialized) DataGridViewHandlerDate.PopulateFile(dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
+                            
+                            if (DataGridViewHandlerExiftool.HasBeenInitialized) DataGridViewHandlerExiftool.PopulateFile(dataGridViewExiftool, fileEntryAttribute, showWhatColumns);
+                            if (DataGridViewHandlerExiftoolWarnings.HasBeenInitialized) DataGridViewHandlerExiftoolWarnings.PopulateFile(dataGridViewExiftoolWarning, fileEntryAttribute, showWhatColumns);
                             if (DataGridViewHandlerRename.HasBeenInitialized) DataGridViewHandlerRename.PopulateFile(dataGridViewRename, fileEntryAttribute, DataGridViewHandlerRename.ShowFullPath, metadataAutoCorrect, true);
+                            //if (DataGridViewHandlerConvertAndMerge.HasBeenInitialized) DataGridViewHandlerConvertAndMerge.PopulateFile(dataGridViewConvertAndMerge, fileEntryAttribute);
                             break;
                         default:
                             throw new NotImplementedException();

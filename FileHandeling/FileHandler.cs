@@ -632,7 +632,7 @@ namespace FileHandeling
                         }
                         #endregion
 
-                        #region
+                        #region pathWithoutMachineName
                         string pathWithoutMachineName = filenameWithoutExtension.Substring(0, indexOfMachineName);
                         FileEntry fileEntryWithoutMachineName = new FileEntry(
                             Path.Combine(
@@ -733,6 +733,8 @@ namespace FileHandeling
                                     if (metadataExiftoolHasMachineNameCopy == metadataSavedHasMachineNameCopy) winnerHasMachineName = true;
                                     if (metadataExiftoolHasMachineNameCopy == metadataSavedWithoutMachineNameCopy) winnerHasMachineName = true;
 
+
+
                                     //Both version is Equal
                                     if (metadataExiftoolHasMachineNameCopy == metadataExiftoolWithoutMachineNameCopy)
                                     {
@@ -748,9 +750,17 @@ namespace FileHandeling
                                         }
                                     }
 
+                                    //If no winner, Find a winner, even when has error
+                                    if (!winnerHasMachineName && !winnerWithoutMachineName)
+                                    {
+                                        if (metadataExiftoolWithoutMachineNameCopy != null && metadataSavedWithoutMachineNameCopy == null &&
+                                            metadataExiftoolHasMachineNameCopy != null && metadataSavedHasMachineNameCopy != null) winnerHasMachineName = true;
+
+                                        if (metadataExiftoolWithoutMachineNameCopy != null && metadataSavedWithoutMachineNameCopy != null &&
+                                            metadataExiftoolHasMachineNameCopy != null && metadataSavedHasMachineNameCopy == null) winnerWithoutMachineName = true;
+                                    }
 
                                     #endregion
-
 
                                     #region Delete loser
 

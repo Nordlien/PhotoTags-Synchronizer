@@ -3215,7 +3215,26 @@ namespace PhotoTagsSynchronizer
                                         fullFilename = keyValuePair.Key;
                                         renameVaiable = keyValuePair.Value;
                                         fileInUse = IsFileInAnyQueueLock(fullFilename);
-                                        if (!fileInUse) break; //File not in use found, start rename it
+                                        if (!fileInUse)
+                                        {
+                                            DateTime currentLastWrittenDateTime = FileHandler.GetLastWriteTime(fullFilename);
+                                            if (currentLastWrittenDateTime > new DateTime(1700, 1, 1, 1, 1, 1))
+                                            {
+                                                FileEntry fileEntry = new FileEntry(fullFilename, currentLastWrittenDateTime);
+                                                FileEntryBroker fileEntryBroker = new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool);
+                                                Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBroker);
+                                                if (metadata != null) break; //Metadata found -> contine to rename
+
+                                                FileEntryBroker fileEntryBrokerError = new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool | MetadataBrokerType.ExifToolWriteError);
+                                                Metadata metadataError = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerError);
+
+                                                if (metadataError != null) break; //Metadata found -> contine to rename
+                                                FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fileEntry, FileEntryVersion.CurrentVersionInDatabase);
+                                                AddQueueLazyLoadningAllSourcesMetadataAndRegionThumbnailsLock(fileEntryAttribute);
+                                                fileInUse = true;
+                                            }
+                                            break; //File not in use found, start rename it
+                                        }
                                     }
                                 }
                                 #endregion

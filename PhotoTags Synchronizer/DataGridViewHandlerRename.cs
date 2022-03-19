@@ -279,6 +279,7 @@ namespace PhotoTagsSynchronizer
 
                 if (!dataGridViewGenericRow.IsHeader)
                 {
+                    
                     PopulateFile(dataGridView, dataGridViewGenericRow.FileEntryAttribute, showFullPath, dataGridViewGenericRow.Metadata, true);
                 }
             }
