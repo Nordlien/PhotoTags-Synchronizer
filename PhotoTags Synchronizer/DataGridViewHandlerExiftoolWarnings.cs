@@ -42,10 +42,6 @@ namespace PhotoTagsSynchronizer
             //-----------------------------------------------------------------
             List<ExiftoolWarningData> exifToolWarningDataList = DatabaseExiftoolWarning.Read(fileEntryAttribute);
 
-            //Debug.WriteLine(fileEntryAttribute.FileFullPath);
-            //Debug.WriteLine(fileEntryAttribute.FileEntryVersion);
-            //Debug.WriteLine(fileEntryAttribute.LastWriteDateTime);
-            //Debug.WriteLine(exifToolWarningDataList.Count);
             if (exifToolWarningDataList.Count > 0)
             {
                 Image thumbnail = DatabaseAndCacheThumbnail.ReadThumbnailFromCacheOnly(fileEntryAttribute);
