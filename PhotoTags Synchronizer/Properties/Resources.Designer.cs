@@ -163,6 +163,26 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap DataGridViewMatchDataGridView {
+            get {
+                object obj = ResourceManager.GetObject("DataGridViewMatchDataGridView", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DataGridViewMatchMediaFilesCells {
+            get {
+                object obj = ResourceManager.GetObject("DataGridViewMatchMediaFilesCells", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap DataGridViewNormal32x32 {
             get {
                 object obj = ResourceManager.GetObject("DataGridViewNormal32x32", resourceCulture);
@@ -726,16 +746,6 @@ namespace PhotoTagsSynchronizer.Properties {
         internal static System.Drawing.Bitmap ImageListViewPictureLoading32x32 {
             get {
                 object obj = ResourceManager.GetObject("ImageListViewPictureLoading32x32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap ImageListViewSelectFromDataGridViewCells {
-            get {
-                object obj = ResourceManager.GetObject("ImageListViewSelectFromDataGridViewCells", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

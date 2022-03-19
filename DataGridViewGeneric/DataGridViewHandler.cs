@@ -1038,6 +1038,13 @@ namespace DataGridViewGeneric
         }
         #endregion
 
+        #region ColumnC handling - SelectColumnRows
+        public static void SelectColumnRows(DataGridView dataGridView, int selectColumnIndex, bool selected = true)
+        {
+            for (int rowIndex = 0; rowIndex < dataGridView.RowCount; rowIndex++) dataGridView[selectColumnIndex, rowIndex].Selected = selected;
+        }
+        #endregion
+
         #region Column handling - IsColumnSelected
         public static bool IsColumnSelected(DataGridView dataGridView, int columnIndex)
         {

@@ -722,31 +722,31 @@ namespace PhotoTagsSynchronizer
                         break;
                     case KryptonPages.kryptonPageToolboxTags:
                         if (controlPasteWithFocusTag is KryptonComboBox) ComboBoxSelectNext();
-                        if (controlPasteWithFocusTag is KryptonDataGridView) DataGridViewSelectNext(GetActiveTabDataGridView());
+                        if (controlPasteWithFocusTag is KryptonDataGridView) DataGridViewSelectNextColumn(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxPeople:
-                        DataGridViewSelectNext(GetActiveTabDataGridView());
+                        DataGridViewSelectNextColumn(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxMap:
-                        DataGridViewSelectNext(GetActiveTabDataGridView());
+                        DataGridViewSelectNextColumn(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxDates:
-                        DataGridViewSelectNext(GetActiveTabDataGridView());
+                        DataGridViewSelectNextColumn(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxExiftool:
-                        DataGridViewSelectNext(GetActiveTabDataGridView());
+                        DataGridViewSelectNextColumn(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxWarnings:
-                        DataGridViewSelectNext(GetActiveTabDataGridView());
+                        DataGridViewSelectNextColumn(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxProperties:
-                        DataGridViewSelectNext(GetActiveTabDataGridView());
+                        DataGridViewSelectNextColumn(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxRename:
-                        DataGridViewSelectNext(GetActiveTabDataGridView());
+                        DataGridViewSelectNextRow(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxConvertAndMerge:
-                        DataGridViewSelectNext(GetActiveTabDataGridView());
+                        DataGridViewSelectNextRow(GetActiveTabDataGridView());
                         break;
                     default:
                         throw new NotImplementedException();
@@ -806,14 +806,26 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region DataGridViewSelectNext
-        private void DataGridViewSelectNext(DataGridView dataGridView)
+        #region DataGridViewSelectNextColumn
+        private void DataGridViewSelectNextColumn(DataGridView dataGridView)
         {
             if (dataGridView == null || dataGridView.ColumnCount == 0 || dataGridView.RowCount == 0) return;
             int selectColumnIndex = dataGridView.CurrentCell.ColumnIndex + 1;
             if (selectColumnIndex > dataGridView.ColumnCount - 1) selectColumnIndex = 0;
             dataGridView.CurrentCell = dataGridView[selectColumnIndex, 0];
-            for (int rowIndex = 0; rowIndex < dataGridView.RowCount; rowIndex++) dataGridView[selectColumnIndex, rowIndex].Selected = true;
+            DataGridViewHandler.SelectColumnRows(dataGridView, selectColumnIndex);
+        }
+        #endregion
+
+        #region DataGridViewSelectNextRow
+        private void DataGridViewSelectNextRow(DataGridView dataGridView)
+        {
+            if (dataGridView == null || dataGridView.ColumnCount == 0 || dataGridView.RowCount == 0) return;
+            int selectRowIndex = dataGridView.CurrentCell.RowIndex + 1;
+            if (selectRowIndex > dataGridView.RowCount - 1) selectRowIndex = 0;
+            dataGridView.ClearSelection();
+            dataGridView.CurrentCell = dataGridView[0, selectRowIndex];
+            dataGridView.Rows[selectRowIndex].Selected = true;
         }
         #endregion
 
@@ -1046,31 +1058,31 @@ namespace PhotoTagsSynchronizer
                         break;
                     case KryptonPages.kryptonPageToolboxTags:
                         if (controlPasteWithFocusTag is KryptonComboBox) ComboBoxSelectPrevious();
-                        if (controlPasteWithFocusTag is KryptonDataGridView) DataGridViewSelectPrevious(GetActiveTabDataGridView());
+                        if (controlPasteWithFocusTag is KryptonDataGridView) DataGridViewSelectPreviousColumn(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxPeople:
-                        DataGridViewSelectPrevious(GetActiveTabDataGridView());
+                        DataGridViewSelectPreviousColumn(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxMap:
-                        DataGridViewSelectPrevious(GetActiveTabDataGridView());
+                        DataGridViewSelectPreviousColumn(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxDates:
-                        DataGridViewSelectPrevious(GetActiveTabDataGridView());
+                        DataGridViewSelectPreviousColumn(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxExiftool:
-                        DataGridViewSelectPrevious(GetActiveTabDataGridView());
+                        DataGridViewSelectPreviousColumn(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxWarnings:
-                        DataGridViewSelectPrevious(GetActiveTabDataGridView());
+                        DataGridViewSelectPreviousColumn(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxProperties:
-                        DataGridViewSelectPrevious(GetActiveTabDataGridView());
+                        DataGridViewSelectPreviousColumn(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxRename:
-                        DataGridViewSelectPrevious(GetActiveTabDataGridView());
+                        DataGridViewSelectPreviousRow(GetActiveTabDataGridView());
                         break;
                     case KryptonPages.kryptonPageToolboxConvertAndMerge:
-                        DataGridViewSelectPrevious(GetActiveTabDataGridView());
+                        DataGridViewSelectPreviousRow(GetActiveTabDataGridView());
                         break;
                     default:
                         throw new NotImplementedException();
@@ -1130,15 +1142,27 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region DataGridViewSelectPrevious
-        private void DataGridViewSelectPrevious(DataGridView dataGridView)
+        #region DataGridViewSelectPreviousColumn
+        private void DataGridViewSelectPreviousColumn(DataGridView dataGridView)
         {
             if (dataGridView == null || dataGridView.ColumnCount == 0 || dataGridView.RowCount == 0) return;
             int selectColumnIndex = dataGridView.CurrentCell.ColumnIndex - 1;
             if (selectColumnIndex < 0) selectColumnIndex = dataGridView.ColumnCount - 1;
             dataGridView.ClearSelection();
             dataGridView.CurrentCell = dataGridView[selectColumnIndex, 0];
-            for (int rowIndex = 0; rowIndex < dataGridView.RowCount; rowIndex++) dataGridView[selectColumnIndex, rowIndex].Selected = true;
+            DataGridViewHandler.SelectColumnRows(dataGridView, selectColumnIndex);
+        }
+        #endregion
+
+        #region DataGridViewSelectPreviousRow
+        private void DataGridViewSelectPreviousRow(DataGridView dataGridView)
+        {
+            if (dataGridView == null || dataGridView.ColumnCount == 0 || dataGridView.RowCount == 0) return;
+            int selectRowIndex = dataGridView.CurrentCell.RowIndex - 1;
+            if (selectRowIndex < 0) selectRowIndex = dataGridView.RowCount - 1;
+            dataGridView.ClearSelection();
+            dataGridView.CurrentCell = dataGridView[0, selectRowIndex];
+            dataGridView.Rows[selectRowIndex].Selected = true;
         }
         #endregion
 
@@ -9419,6 +9443,7 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
+        #region TouchFiles
         private void TouchFiles(HashSet<FileEntry> fileEntries)
         {
             #region Touch Offline files so they get downloaded
@@ -9444,6 +9469,7 @@ namespace PhotoTagsSynchronizer
             }
             #endregion
         }
+        #endregion
 
         #region Metadata - Refresh - Last (Files in Folder, ImageListView, NOT Grid)
 
@@ -10300,11 +10326,9 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView_Click
-        private void kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView_Click(object sender, EventArgs e)
+        #region kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView_Click_1
+        private void kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView_Click_1(object sender, EventArgs e)
         {
-
-
             if (GlobalData.IsApplicationClosing) return;
             if (IsPerforminAButtonAction("Select Media Files Match Cells")) return;
             if (IsPopulatingAnything("Select Media Files Match Cells")) return;
@@ -10327,13 +10351,94 @@ namespace PhotoTagsSynchronizer
             }
         }
         #endregion
-    
+
+        #region ActionSelectMediaFilesMatchCells
+        private void SelectDataGridViewColumn(DataGridView dataGridView, HashSet<FileEntry> selectedFileEntries)
+        {
+            dataGridView.ClearSelection();
+            for (int columnIndex = 0; columnIndex < DataGridViewHandler.GetColumnCount(dataGridView); columnIndex++)
+            {
+                DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+                if (dataGridViewGenericColumn != null && selectedFileEntries.Contains(dataGridViewGenericColumn.FileEntryAttribute.FileEntry))
+                    DataGridViewHandler.SelectColumnRows(dataGridView, columnIndex, true);
+                else
+                    DataGridViewHandler.SelectColumnRows(dataGridView, columnIndex, false);
+            }
+        }
+
+        private void SelectAndMatchDataGridViewRows(DataGridView dataGridView, HashSet<FileEntry> selectedFileEntries)
+        {
+            dataGridView.ClearSelection();
+            for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
+            {
+                DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
+                if (dataGridViewGenericRow?.FileEntryAttribute != null && selectedFileEntries.Contains(dataGridViewGenericRow?.FileEntryAttribute.FileEntry))
+                    dataGridView.Rows[rowIndex].Selected = true;
+                else
+                    dataGridView.Rows[rowIndex].Selected = false;
+            }
+        }
+
+        private void ActionSelectDataGridViewMatchCells()
+        {
+
+            if (GlobalData.IsApplicationClosing) return;
+            try
+            {
+                using (new WaitCursor())
+                {
+                    HashSet<FileEntry> selectedFileEntries = DataGridView_GetSelectedFilesFromActive();
+                    SelectAndMatchDataGridViewRows(dataGridViewConvertAndMerge, selectedFileEntries);
+                    SelectDataGridViewColumn(dataGridViewDate, selectedFileEntries);
+                    SelectDataGridViewColumn(dataGridViewExiftool, selectedFileEntries);
+                    SelectDataGridViewColumn(dataGridViewExiftoolWarning, selectedFileEntries);
+                    SelectDataGridViewColumn(dataGridViewMap, selectedFileEntries);
+                    SelectDataGridViewColumn(dataGridViewPeople, selectedFileEntries);
+                    SelectDataGridViewColumn(dataGridViewProperties, selectedFileEntries);
+                    SelectAndMatchDataGridViewRows(dataGridViewRename, selectedFileEntries);
+                    SelectDataGridViewColumn(dataGridViewTagsAndKeywords, selectedFileEntries);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion
+
+        #region kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView_Click
+        private void kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView_Click(object sender, EventArgs e)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Select DataGridView Match Cells")) return;
+            if (IsPopulatingAnything("Select DataGridView Match Cells")) return;
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            try
+            {
+                GlobalData.IsPerformingAButtonAction = true;
+                ActionSelectDataGridViewMatchCells();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                GlobalData.IsPerformingAButtonAction = false;
+            }
+        }
+        #endregion
 
         //----  ----
         #region AssignCompositeTag 
 
-    #region PopulateExiftoolToolStripMenuItems
-    public void PopulateExiftoolToolStripMenuItems()
+        #region PopulateExiftoolToolStripMenuItems
+        public void PopulateExiftoolToolStripMenuItems()
         {
             try
             {

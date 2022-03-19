@@ -1086,7 +1086,6 @@ namespace PhotoTagsSynchronizer
 
 
         #endregion
-
     }
 }
 

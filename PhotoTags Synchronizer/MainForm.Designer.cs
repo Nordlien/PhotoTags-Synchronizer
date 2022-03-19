@@ -406,6 +406,9 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonSelectAll = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButtonSelectNone = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButtonSelectToggle = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupTriple4 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroup2 = new Krypton.Ribbon.KryptonRibbonGroup();
             this.kryptonRibbonGroupLinesLocatonDatePriorities = new Krypton.Ribbon.KryptonRibbonGroupLines();
             this.kryptonRibbonGroupCheckBoxSelectFileCreated = new Krypton.Ribbon.KryptonRibbonGroupCheckBox();
@@ -439,7 +442,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupTripleTool = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButtonToolsDatabaseCleaner = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButtonToolsRemoveOneDriveDuplicates = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroup1 = new Krypton.Ribbon.KryptonRibbonGroup();
             this.kryptonRibbonGroupTriple8 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButtonToolsConfig = new Krypton.Ribbon.KryptonRibbonGroupButton();
@@ -5014,7 +5016,8 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupImageListViewSelect.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
             this.kryptonRibbonGroupTripleSelectForwardBackwards,
             this.kryptonRibbonGroupSeparator2,
-            this.kryptonRibbonGroupTripleSelectAllNoneToggle});
+            this.kryptonRibbonGroupTripleSelectAllNoneToggle,
+            this.kryptonRibbonGroupTriple4});
             this.kryptonRibbonGroupImageListViewSelect.TextLine1 = "Select group";
             // 
             // kryptonRibbonGroupTripleSelectForwardBackwards
@@ -5112,6 +5115,28 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonSelectToggle.ToolTipValues.Heading = "Invert selection (Ctrl+I)";
             this.kryptonRibbonGroupButtonSelectToggle.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.SelectToggle;
             this.kryptonRibbonGroupButtonSelectToggle.Click += new System.EventHandler(this.kryptonRibbonGroupButtonSelectToggle_Click);
+            // 
+            // kryptonRibbonGroupTriple4
+            // 
+            this.kryptonRibbonGroupTriple4.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView,
+            this.kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView});
+            // 
+            // kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView
+            // 
+            this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewMatchMediaFilesCells;
+            this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewMatchMediaFilesCells;
+            this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView.TextLine1 = "Reselect files";
+            this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView.TextLine2 = "match cells";
+            this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView.Click += new System.EventHandler(this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView_Click_1);
+            // 
+            // kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView
+            // 
+            this.kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewMatchDataGridView;
+            this.kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewMatchDataGridView;
+            this.kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView.TextLine1 = "Match selection";
+            this.kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView.TextLine2 = "all DataGridViews";
+            this.kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView.Click += new System.EventHandler(this.kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView_Click);
             // 
             // kryptonRibbonGroup2
             // 
@@ -5333,8 +5358,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.kryptonRibbonGroupTripleTool.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
             this.kryptonRibbonGroupButtonToolsDatabaseCleaner,
-            this.kryptonRibbonGroupButtonToolsRemoveOneDriveDuplicates,
-            this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView});
+            this.kryptonRibbonGroupButtonToolsRemoveOneDriveDuplicates});
             // 
             // kryptonRibbonGroupButtonToolsDatabaseCleaner
             // 
@@ -5357,15 +5381,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonToolsRemoveOneDriveDuplicates.TextLine1 = "Remove OneDrive";
             this.kryptonRibbonGroupButtonToolsRemoveOneDriveDuplicates.TextLine2 = "Duplicates";
             this.kryptonRibbonGroupButtonToolsRemoveOneDriveDuplicates.Click += new System.EventHandler(this.kryptonRibbonGroupButtonToolsRemoveOneDriveDuplicates_Click);
-            // 
-            // kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView
-            // 
-            this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.ImageListViewSelectFromDataGridViewCells;
-            this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.ImageListViewSelectFromDataGridViewCells;
-            this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView.KeyTip = "M";
-            this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView.TextLine1 = "Reselect files";
-            this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView.TextLine2 = "Match cells";
-            this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView.Click += new System.EventHandler(this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView_Click);
             // 
             // kryptonRibbonGroup1
             // 
@@ -6891,7 +6906,9 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelStatusAction;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelStatusProcess;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonToolsRemoveOneDriveDuplicates;
+        private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple4;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView;
     }
 }
 
