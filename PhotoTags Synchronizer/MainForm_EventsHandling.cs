@@ -8081,7 +8081,7 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-                GlobalData.IsPerformingAButtonAction = true;
+                //GlobalData.IsPerformingAButtonAction = true;
                 ActionFileSystemVerbOpen(null, null);
             }
             catch (Exception ex)
@@ -8092,7 +8092,7 @@ namespace PhotoTagsSynchronizer
             }
             finally
             {
-                GlobalData.IsPerformingAButtonAction = false;
+                //GlobalData.IsPerformingAButtonAction = false;
             }
         }
 
@@ -10332,7 +10332,7 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsApplicationClosing) return;
             if (IsPerforminAButtonAction("Select Media Files Match Cells")) return;
             if (IsPopulatingAnything("Select Media Files Match Cells")) return;
-            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
 
             try
             {
@@ -10414,7 +10414,7 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsApplicationClosing) return;
             if (IsPerforminAButtonAction("Select DataGridView Match Cells")) return;
             if (IsPopulatingAnything("Select DataGridView Match Cells")) return;
-            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
 
             try
             {
@@ -11374,10 +11374,13 @@ namespace PhotoTagsSynchronizer
 
         #region ImageListViewSortByCheckedRadioButton
         private SortOrder lastUsedSortOrder = SortOrder.Ascending;
+        private bool isSortingImageListView = false;
         private void ImageListViewSortByCheckedRadioButton(bool toogle)
         {
             try
             {
+                if (isSortingImageListView) return;
+                isSortingImageListView = true;
                 #region Clear all ExtraText
                 this.kryptonContextMenuRadioButtonFileSystemColumnSortFilename.ExtraText = "";
                 this.kryptonContextMenuRadioButtonFileSystemColumnSortSmarteDate.ExtraText = "";
@@ -11502,6 +11505,9 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            } finally
+            {
+                isSortingImageListView = false;
             }
         }
         #endregion

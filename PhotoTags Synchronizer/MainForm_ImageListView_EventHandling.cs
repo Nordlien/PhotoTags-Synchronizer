@@ -571,8 +571,8 @@ namespace PhotoTagsSynchronizer
         {
             if (GlobalData.IsApplicationClosing) return;
             if (GlobalData.DoNotTrigger_ImageListView_SelectionChanged) return;
-            if (IsPerforminAButtonAction("Select media files")) return;
-            if (IsPopulatingAnything("Select media files")) return;
+            if (IsPerforminAButtonAction("Selection Changed for Media files")) return;
+            if (IsPopulatingAnything("Selection Changed for Media files")) return;
             if (!GlobalData.IsPopulatingImageListViewFromFolderOrDatabaseList) SaveBeforeContinue(false);
 
             GlobalData.IsPerformingAButtonAction = true;
@@ -1202,7 +1202,6 @@ namespace PhotoTagsSynchronizer
                     {
                         LoadingItemsImageListView(4, 6);
                         UpdateStatusImageListView("Started the cache process...");
-                        //PreloadCacheFileEntries(fileEntries, selectedFolder);
                     }
                     #endregion
                     StartThreads();
