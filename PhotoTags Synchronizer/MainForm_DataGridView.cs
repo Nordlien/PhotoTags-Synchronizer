@@ -1816,7 +1816,7 @@ namespace PhotoTagsSynchronizer
                             foreach (int rowIndex in DataGridViewHandler.GetRowSelected(GetActiveTabDataGridView()))
                             {
                                 DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(GetActiveTabDataGridView(), rowIndex);
-                                FileEntry fileEntry = dataGridViewGenericRow.FileEntryAttribute.FileEntry;
+                                FileEntry fileEntry = dataGridViewGenericRow?.FileEntryAttribute?.FileEntry;
                                 if (dataGridViewGenericRow != null && !dataGridViewGenericRow.IsHeader && !files.Contains(fileEntry)) files.Add(fileEntry);
                             }
                         }

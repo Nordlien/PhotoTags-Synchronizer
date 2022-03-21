@@ -100,7 +100,7 @@ namespace PhotoTagsSynchronizer
                         KeepTrackOfMetadataLoadedRemoveFromList(fileEntryAttribute.FileFullPath);
                     } else
                     {
-                        //DEBUG
+                        //DEBUG, Due to Change Folder on ImageListView
                     }
                 }
                 else
