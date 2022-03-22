@@ -151,7 +151,7 @@ namespace PhotoTagsSynchronizer
                             "To   File name : " + targetFullFilename + "\r\n" +
                             "To   File staus: " + fileStatusTarget.ToString() + "\r\n" +
                             "Error message: " + ex.Message);
-                        Logger.Error(ex, "Error when move file.");
+                        Logger.Error(ex, "Error when move file. From: " + sourceFullFilename + " to:" + targetFullFilename);
                     }
                 }
             }

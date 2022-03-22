@@ -1031,7 +1031,7 @@ namespace PhotoTagsSynchronizer
                 {
                     filesExampleFound += (string.IsNullOrWhiteSpace(filesExampleFound) ? "" : "\r\n") + dublicatedFound[fileIndex];
                 }
-                if (KryptonMessageBox.Show("OneDrive duplicated files found.\r\n" +
+                if (KryptonMessageBox.Show(dublicatedFound.Count + " OneDrive duplicated files found.\r\n" +
                     "You can use the Tool: Remove OneDrive Duplicates.\r\n\r\n" +
                     "Examples files:\r\n\r\n" + filesExampleFound + "\r\n\r\n" +
                     "Select files where dulicates found?",

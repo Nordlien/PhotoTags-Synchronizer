@@ -1855,7 +1855,7 @@ namespace PhotoTagsSynchronizer
                                                                 }
                                                                 catch (Exception ex)
                                                                 {
-                                                                    Logger.Error(ex, "File.SetCreationTime failed...");
+                                                                    Logger.Error(ex, "File.SetCreationTime failed... " + metadata.FileFullPath);
                                                                     FileStatus fileStatus = FileHandler.GetFileStatus(metadata.FileFullPath, checkLockedStatus: true);
                                                                     if (fileStatus.IsFileLockedReadAndWrite)
                                                                     {

@@ -596,7 +596,18 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = GetActiveTabDataGridView();
             if (dataGridView == null) return;
 
-            lock (GlobalData.populateSelectedLock) DataGridViewHandler.SetColumnHeaderThumbnail(dataGridView, fileEntryAttribute, image);
+            lock (GlobalData.populateSelectedLock)
+            {
+                //DataGridViewHandler.SetColumnHeaderThumbnail(dataGridView, fileEntryAttribute, image);
+                if (DataGridViewHandlerTagsAndKeywords.HasBeenInitialized) DataGridViewHandler.SetColumnHeaderThumbnail(dataGridViewTagsAndKeywords, fileEntryAttribute, image);
+                if (DataGridViewHandlerPeople.HasBeenInitialized) DataGridViewHandler.SetColumnHeaderThumbnail(dataGridViewPeople, fileEntryAttribute, image);
+                if (DataGridViewHandlerMap.HasBeenInitialized) DataGridViewHandler.SetColumnHeaderThumbnail(dataGridViewMap, fileEntryAttribute, image);
+                if (DataGridViewHandlerDate.HasBeenInitialized) DataGridViewHandler.SetColumnHeaderThumbnail(dataGridViewDate, fileEntryAttribute, image);
+                if (DataGridViewHandlerExiftool.HasBeenInitialized) DataGridViewHandler.SetColumnHeaderThumbnail(dataGridViewExiftool, fileEntryAttribute, image);
+                if (DataGridViewHandlerExiftoolWarnings.HasBeenInitialized) DataGridViewHandler.SetColumnHeaderThumbnail(dataGridViewExiftoolWarning, fileEntryAttribute, image);
+                //if (DataGridViewHandlerRename.HasBeenInitialized) DataGridViewHandler.SetColumnHeaderThumbnail(dataGridViewRename, fileEntryAttribute, image);
+                //if (DataGridViewHandlerConvertAndMerge.HasBeenInitialized) DataGridViewHandler.SetColumnHeaderThumbnail(dataGridViewConvertAndMerge, fileEntryAttribute, image);
+            }
         }
         #endregion
 
@@ -925,9 +936,13 @@ namespace PhotoTagsSynchronizer
                     #endregion
 
                     #region Check if got thumbnail, if not, push to read queue
-                    Image thumbnailImage = databaseAndCacheThumbnailPoster.ReadThumbnailFromCacheOnly(fileEntryAttribute);
-                    if (thumbnailImage == null)
-                        AddQueueLazyLoadningMediaThumbnailLock(fileEntryAttribute);
+                    int columnIndex = DataGridViewHandler.GetColumnIndexWhenAddColumn(dataGridView, fileEntryAttribute, out FileEntryVersionCompare _);
+                    DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+                    if (dataGridViewGenericColumn?.Thumbnail == null) AddQueueLazyLoadningMediaThumbnailLock(fileEntryAttribute);
+
+                    //Image thumbnailImage = databaseAndCacheThumbnailPoster.ReadThumbnailFromCacheOnly(fileEntryAttribute);
+                    //if (thumbnailImage == null)
+                    //    AddQueueLazyLoadningMediaThumbnailLock(fileEntryAttribute);
                     #endregion
 
                     int queueCount = GetDataGridView_ColumnsEntriesInReadQueues_Count();
