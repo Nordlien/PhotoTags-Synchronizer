@@ -10,8 +10,6 @@ using System.IO;
 using System.Windows.Forms;
 using Thumbnails;
 using TimeZone;
-using static Manina.Windows.Forms.ImageListView;
-using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
@@ -51,6 +49,194 @@ namespace PhotoTagsSynchronizer
         public static MetadataDatabaseCache DatabaseAndCacheMetadataMicrosoftPhotos { get; set; }
         public static MetadataDatabaseCache DatabaseAndCacheMetadataWindowsLivePhotoGallery { get; set; }
         public static ExiftoolDataDatabase DatabaseExiftoolData { get; set; }
+
+        #region CopySelectedCellFromToDateCell
+        public static void CopySelectedCellFromToDateCell(DataGridView dataGridView, bool overwrite, bool copyDate, bool copyTime)
+        {
+            Dictionary<CellLocation, DataGridViewGenericCell> updatedCells = new Dictionary<CellLocation, DataGridViewGenericCell>();
+
+            string targetHeader = headerMedia;
+            string targetRowName = tagMediaDateTaken;
+            string targetRowNameUtc = tagGPSLocationDateTime;
+
+            foreach (DataGridViewCell dataGridViewSelectedCell in dataGridView.SelectedCells)
+            {
+                DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, dataGridViewSelectedCell.ColumnIndex);
+                if (dataGridViewGenericColumn.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite)
+                {
+                    int columnIndex = dataGridViewSelectedCell.ColumnIndex;
+                    int rowIndex = dataGridViewSelectedCell.RowIndex;
+                    int targetRowIndex = DataGridViewHandler.GetRowIndex(dataGridView, targetHeader, targetRowName);
+                    int targetRowIndexUtc = DataGridViewHandler.GetRowIndex(dataGridView, targetHeader, targetRowNameUtc);
+
+                    DateTime? targetDateTime = GetUserInputDateTaken(dataGridView, columnIndex, null);
+                    DateTime? targetDateTimeUtc = GetUserInputLocationDate(dataGridView, columnIndex, null);
+
+                    if (targetRowIndex != -1)
+                    {
+                        if (overwrite || (!overwrite && targetDateTime == null))
+                        {
+                            CellLocation cellLocation = new CellLocation(columnIndex, targetRowIndex);
+                            DataGridViewGenericCell dataGridViewGenericCellCopyFrom = DataGridViewHandler.CopyCellDataGridViewGenericCell(dataGridView, columnIndex, rowIndex);
+
+                            if (dataGridViewGenericCellCopyFrom.Value != null)
+                            {
+                                bool sourceHasDate = false;
+                                bool sourceHasTime = false;
+                                bool sourceHasUTC = false;
+                                DateTime? sourceDateTime = null;
+                                DateTime? sourceDateTimeUtc = null;
+
+                                DateTimeOffset? sourceDateTimeOffset = TimeZoneLibrary.ParseExcatDateTimeOffset(dataGridViewGenericCellCopyFrom.Value.ToString());
+                                if (sourceDateTimeOffset != null)
+                                {
+                                    sourceHasUTC = true;
+                                    sourceHasDate = true;
+                                    sourceHasTime = true;
+                                    sourceDateTime = new DateTime(
+                                        ((DateTimeOffset)sourceDateTimeOffset).Year, ((DateTimeOffset)sourceDateTimeOffset).Month, ((DateTimeOffset)sourceDateTimeOffset).Day,
+                                        ((DateTimeOffset)sourceDateTimeOffset).Hour, ((DateTimeOffset)sourceDateTimeOffset).Minute, ((DateTimeOffset)sourceDateTimeOffset).Second, ((DateTimeOffset)sourceDateTimeOffset).Millisecond);
+                                    sourceDateTimeUtc = ((DateTimeOffset)sourceDateTimeOffset).UtcDateTime;
+                                }
+                                else
+                                {
+                                    sourceDateTimeOffset = TimeZoneLibrary.ParseExcatTimeOffset(dataGridViewGenericCellCopyFrom.Value.ToString());
+                                    if (sourceDateTimeOffset != null)
+                                    {
+                                        sourceHasUTC = true;
+                                        sourceHasDate = false;
+                                        sourceHasTime = true;
+                                        sourceDateTime = new DateTime(1601, 1, 1,
+                                            ((DateTimeOffset)sourceDateTimeOffset).Hour, ((DateTimeOffset)sourceDateTimeOffset).Minute, ((DateTimeOffset)sourceDateTimeOffset).Second, ((DateTimeOffset)sourceDateTimeOffset).Millisecond);
+                                        sourceDateTimeUtc = ((DateTimeOffset)sourceDateTimeOffset).UtcDateTime;
+                                    }
+                                }
+
+                                if (!sourceHasUTC)
+                                {
+                                    sourceDateTime = TimeZoneLibrary.ParseExactDateTimeAsLocal(dataGridViewGenericCellCopyFrom.Value.ToString());
+                                    if (sourceDateTime != null)
+                                    {
+                                        sourceHasDate = true;
+                                        sourceHasTime = true;
+                                    }
+                                    else
+                                    {
+                                        sourceDateTime = TimeZoneLibrary.ParseExactDateAsLocal(dataGridViewGenericCellCopyFrom.Value.ToString());
+                                        if (sourceDateTime != null)
+                                        {
+                                            sourceHasDate = true;
+                                            sourceHasTime = false;
+                                        }
+                                        else
+                                        {
+                                            sourceDateTime = TimeZoneLibrary.ParseExactTimeAsLocal(dataGridViewGenericCellCopyFrom.Value.ToString());
+                                            if (sourceDateTime != null)
+                                            {
+                                                sourceHasDate = false;
+                                                sourceHasTime = true;
+                                            }
+                                        }
+                                    }
+                                }
+
+                                DateTime newTargetDateTime = new DateTime(1601, 1, 1, 0, 0, 0, DateTimeKind.Local);
+                                DateTime newTargetDateTimeUtc = new DateTime(1601, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+                                if (targetDateTime == null) targetDateTime = new DateTime(1601, 1, 1, 0, 0, 0, DateTimeKind.Local);
+                                if (targetDateTimeUtc == null) targetDateTimeUtc = new DateTime(1601, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
+                                if (copyDate && copyTime && sourceHasDate && sourceHasTime)
+                                {
+                                    newTargetDateTime = (DateTime)sourceDateTime; 
+                                    if (sourceHasUTC) newTargetDateTimeUtc = (DateTime)sourceDateTimeUtc;
+                                }
+                                else if (copyDate && sourceHasDate)
+                                {
+                                    newTargetDateTime = new DateTime(((DateTime)sourceDateTime).Year, ((DateTime)sourceDateTime).Month, ((DateTime)sourceDateTime).Day,
+                                        ((DateTime)targetDateTime).Hour, ((DateTime)targetDateTime).Minute, ((DateTime)targetDateTime).Second, ((DateTime)targetDateTime).Millisecond, DateTimeKind.Local);
+
+                                    if (sourceHasUTC)
+                                        newTargetDateTimeUtc = new DateTime(((DateTime)sourceDateTimeUtc).Year, ((DateTime)sourceDateTimeUtc).Month, ((DateTime)sourceDateTimeUtc).Day,
+                                        ((DateTime)targetDateTimeUtc).Hour, ((DateTime)targetDateTimeUtc).Minute, ((DateTime)targetDateTimeUtc).Second, ((DateTime)targetDateTimeUtc).Millisecond, DateTimeKind.Utc);
+
+                                }
+                                else if (copyTime && sourceHasTime)
+                                {
+                                    newTargetDateTime = new DateTime(((DateTime)targetDateTime).Year, ((DateTime)targetDateTime).Month, ((DateTime)targetDateTime).Day,
+                                        ((DateTime)sourceDateTime).Hour, ((DateTime)sourceDateTime).Minute, ((DateTime)sourceDateTime).Second, ((DateTime)sourceDateTime).Millisecond, DateTimeKind.Local);
+
+                                    if (sourceHasUTC)
+                                        newTargetDateTimeUtc = new DateTime(((DateTime)targetDateTimeUtc).Year, ((DateTime)targetDateTimeUtc).Month, ((DateTime)targetDateTimeUtc).Day,
+                                        ((DateTime)sourceDateTimeUtc).Hour, ((DateTime)sourceDateTimeUtc).Minute, ((DateTime)sourceDateTimeUtc).Second, ((DateTime)sourceDateTimeUtc).Millisecond, DateTimeKind.Utc);
+                                }
+
+                                if ((sourceHasDate || sourceHasTime) && targetDateTime != null && newTargetDateTime != (DateTime)targetDateTime)
+                                {
+                                    if (!updatedCells.ContainsKey(cellLocation)) updatedCells.Add(cellLocation, DataGridViewHandler.CopyCellDataGridViewGenericCell(dataGridView, columnIndex, targetRowIndex));
+                                    DataGridViewHandler.SetCellValue(dataGridView, columnIndex, targetRowIndex, TimeZoneLibrary.ToStringSortable(newTargetDateTime), true);
+                                }
+
+                                if (sourceHasUTC && newTargetDateTimeUtc != targetDateTimeUtc)
+                                {
+                                    if (!updatedCells.ContainsKey(cellLocation)) updatedCells.Add(cellLocation, DataGridViewHandler.CopyCellDataGridViewGenericCell(dataGridView, columnIndex, targetRowIndexUtc));
+                                    DataGridViewHandler.SetCellValue(dataGridView, columnIndex, targetRowIndexUtc, TimeZoneLibrary.ToStringSortable(newTargetDateTimeUtc), true);
+                                }
+                            }
+                           
+                        }
+                    }
+                }
+            }
+
+            if (updatedCells != null && updatedCells.Count > 0) ClipboardUtility.PushToUndoStack(dataGridView, updatedCells);
+        }
+        #endregion
+
+        #region AdjustSelectedCell
+        public static void AdjustSelectedCell(DataGridView dataGridView, int adjustMinutes)
+        {
+            Dictionary<CellLocation, DataGridViewGenericCell> updatedCells = new Dictionary<CellLocation, DataGridViewGenericCell>();
+
+            foreach (DataGridViewCell dataGridViewSelectedCell in dataGridView.SelectedCells)
+            {
+                int columnIndex = dataGridViewSelectedCell.ColumnIndex;
+                int rowIndex = dataGridViewSelectedCell.RowIndex;
+                DataGridViewGenericCell dataGridViewGenericCell = DataGridViewHandler.CopyCellDataGridViewGenericCell(dataGridView, columnIndex, rowIndex);
+                
+                if (!dataGridViewGenericCell.CellStatus.CellReadOnly && dataGridViewGenericCell.Value != null)
+                {
+                    CellLocation cellLocation = new CellLocation(columnIndex, rowIndex);
+
+                    string dateTimeString = dataGridViewGenericCell.Value.ToString();
+                    if (dateTimeString.ToUpper().EndsWith("Z"))
+                    {
+                        DateTime? newSourceDateTimeUtc = TimeZoneLibrary.ParseDateTimeAsUTC(dateTimeString);
+                        if (newSourceDateTimeUtc != null)
+                        {
+                            newSourceDateTimeUtc = ((DateTime)newSourceDateTimeUtc).AddMinutes(adjustMinutes);
+                            if (!updatedCells.ContainsKey(cellLocation))
+                                updatedCells.Add(cellLocation, DataGridViewHandler.CopyCellDataGridViewGenericCell(dataGridView, columnIndex, rowIndex));
+                            DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, TimeZoneLibrary.ToStringSortable(newSourceDateTimeUtc), true);
+                        }
+                    }
+                    else
+                    {
+                        DateTime? newSourceDateTime = TimeZoneLibrary.ParseDateTimeAsLocal(dateTimeString);
+                        if (newSourceDateTime != null)
+                        {
+                            newSourceDateTime = ((DateTime)newSourceDateTime).AddMinutes(adjustMinutes);
+                            if (!updatedCells.ContainsKey(cellLocation))
+                                updatedCells.Add(cellLocation, DataGridViewHandler.CopyCellDataGridViewGenericCell(dataGridView, columnIndex, rowIndex));
+                            DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, TimeZoneLibrary.ToStringSortable(newSourceDateTime), true);
+                        }
+                    }
+
+                }
+            }
+
+            if (updatedCells != null && updatedCells.Count > 0) ClipboardUtility.PushToUndoStack(dataGridView, updatedCells);
+        }
+        #endregion
 
         #region GetDateTaken
         public static DateTime? GetUserInputDateTaken(DataGridView dataGridView, int? columnIndex, FileEntryAttribute fileEntryAttribute)

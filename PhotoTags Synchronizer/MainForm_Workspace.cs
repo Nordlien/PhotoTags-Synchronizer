@@ -187,7 +187,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region kryptonContextMenuGenericBase_Opening
+        #region ContextMenu - kryptonContextMenuGenericBase_Opening
         private void kryptonContextMenuGenericBase_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             try
@@ -358,7 +358,7 @@ namespace PhotoTagsSynchronizer
                         ContextMenuGenericClipboard(
                             visibleCopy: true, visibleCutPaste: true, visibleUndoRedo: true, visibleCopyText: false,
                             visibleFind: true, visibleReplace: true,
-                            visibleDelete: true, visibleRenameEdit: true, visibleSave: false, visibleFastCopy: false);
+                            visibleDelete: true, visibleRenameEdit: true, visibleSave: false, visibleFastCopy: true);
                         ContextMenuGenericFileSystem(
                             visibleRefreshFolder: false, visibleReadSubfolders: false, visibleOpenBrowserOnLocation: false, visibleOpenRunEdit: false);
                         ContextMenuGenericMetadata(false);
@@ -543,13 +543,14 @@ namespace PhotoTagsSynchronizer
             }
         }
 
-        private void RibbonGroupButtonHomeFastCopytext(bool enabledFastCopyPathText = false, bool enabledFastCopyGridOverwrite = false)
+        private void RibbonGroupButtonHomeFastCopytext(bool enabledFastCopyPathText = false, bool enabledFastCopyGridOverwrite = false, bool showFastCopyDateAndTime = false)
         {
             try
             {
                 kryptonRibbonGroupButtonHomeCopyText.Enabled = enabledFastCopyPathText;
                 kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.Enabled = enabledFastCopyGridOverwrite;
                 kryptonRibbonGroupButtonHomeFastCopyOverwrite.Enabled = enabledFastCopyGridOverwrite;
+                kryptonRibbonGroupHomeDateAndTime.Visible = showFastCopyDateAndTime;
             }
             catch (Exception ex)
             {
@@ -614,7 +615,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region UpdateRibbonsWhenWorkspaceChanged()
+        #region Ribbons - UpdateRibbonsWhenWorkspaceChanged()
         private void UpdateRibbonsWhenWorkspaceChanged()
         {
             try
@@ -667,7 +668,7 @@ namespace PhotoTagsSynchronizer
                         //Home - Clipboard
                         RibbonGroupButtonHomeClipboard(enabledCopy: true, enabledCutPaste: true, enabledUndoRedo: false);
                         //Home - Fast copy text
-                        RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: true, enabledFastCopyGridOverwrite: false);
+                        RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: true, enabledFastCopyGridOverwrite: false, showFastCopyDateAndTime: false);
                         kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "Folder path";
                         //Home - Find and Replace
                         RibbonGroupButtonHomeFineAndReplace(enabledFind: true, enabledRplace: false);
@@ -702,7 +703,7 @@ namespace PhotoTagsSynchronizer
                         //Home - Clipboard
                         RibbonGroupButtonHomeClipboard(enabledCopy: false, enabledCutPaste: false, enabledUndoRedo: false);
                         //Home - Fast Copy text
-                        RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: false, enabledFastCopyGridOverwrite: false);
+                        RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: false, enabledFastCopyGridOverwrite: false, showFastCopyDateAndTime: false);
                         kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "Text";
 
                         //Home - Find and Replace
@@ -739,7 +740,7 @@ namespace PhotoTagsSynchronizer
                         //Home - Clipboard
                         RibbonGroupButtonHomeClipboard(enabledCopy: false, enabledCutPaste: false, enabledUndoRedo: false);
                         //Home - Fast Copy text
-                        RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: false, enabledFastCopyGridOverwrite: false);
+                        RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: false, enabledFastCopyGridOverwrite: false, showFastCopyDateAndTime: false);
                         kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "Text";
                         //Home - Find and Replace
                         RibbonGroupButtonHomeFineAndReplace(enabledFind: true, enabledRplace: false);
@@ -774,7 +775,7 @@ namespace PhotoTagsSynchronizer
                         //Home - Clipboard
                         RibbonGroupButtonHomeClipboard(enabledCopy: isSomethingSelected, enabledCutPaste: isSomethingSelected, enabledUndoRedo: false);
                         //Home - Fast Copy text
-                        RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: isSomethingSelected, enabledFastCopyGridOverwrite: false);
+                        RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: isSomethingSelected, enabledFastCopyGridOverwrite: false, showFastCopyDateAndTime: false);
                         if (isMoreThatOneSelected) kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "Filenames";
                         else if (isSomethingSelected) kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "Filename";
                         else kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "Filenames";
@@ -845,7 +846,7 @@ namespace PhotoTagsSynchronizer
                         //Home - Clipboard
                         RibbonGroupButtonHomeClipboard(enabledCopy: isSomethingSelected, enabledCutPaste: isSomethingSelected, enabledUndoRedo: isSomethingSelected);
                         //Home - Fast Copy text
-                        RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: false, enabledFastCopyGridOverwrite: isSomethingSelected);
+                        RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: false, enabledFastCopyGridOverwrite: isSomethingSelected, showFastCopyDateAndTime: false);
                         kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "Text";
                         //Home - Find and Replace
                         RibbonGroupButtonHomeFineAndReplace(enabledFind: isSomethingSelected, enabledRplace: isSomethingSelected);
@@ -881,7 +882,7 @@ namespace PhotoTagsSynchronizer
                         //Home - Clipboard
                         RibbonGroupButtonHomeClipboard(enabledCopy: isSomethingSelected, enabledCutPaste: isSomethingSelected, enabledUndoRedo: isSomethingSelected);
                         //Home - Fast Copy text
-                        RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: false, enabledFastCopyGridOverwrite: false);
+                        RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: false, enabledFastCopyGridOverwrite: false, showFastCopyDateAndTime: false);
                         kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "Text";
                         //Home - Find and Replace
                         RibbonGroupButtonHomeFineAndReplace(enabledFind: isSomethingSelected, enabledRplace: isSomethingSelected);
@@ -916,7 +917,7 @@ namespace PhotoTagsSynchronizer
                         //Home - Clipboard
                         RibbonGroupButtonHomeClipboard(enabledCopy: isSomethingSelected, enabledCutPaste: isSomethingSelected, enabledUndoRedo: isSomethingSelected);
                         //Home - Fast Copy text
-                        RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: false, enabledFastCopyGridOverwrite: isSomethingSelected);
+                        RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: false, enabledFastCopyGridOverwrite: isSomethingSelected, showFastCopyDateAndTime: false);
                         kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "Text";
                         //Home - Find and Replace
                         RibbonGroupButtonHomeFineAndReplace(enabledFind: isSomethingSelected, enabledRplace: isSomethingSelected);
@@ -951,7 +952,7 @@ namespace PhotoTagsSynchronizer
                         //Home - Clipboard
                         RibbonGroupButtonHomeClipboard(enabledCopy: isSomethingSelected, enabledCutPaste: isSomethingSelected, enabledUndoRedo: isSomethingSelected);
                         //Home - Fast Copy text
-                        RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: false, enabledFastCopyGridOverwrite: false);
+                        RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: true, enabledFastCopyGridOverwrite: true, showFastCopyDateAndTime: true);
                         kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "Text";
                         //Home - Find and Replace
                         RibbonGroupButtonHomeFineAndReplace(enabledFind: isSomethingSelected, enabledRplace: isSomethingSelected);
@@ -979,7 +980,7 @@ namespace PhotoTagsSynchronizer
                         //Home - Clipboard
                         RibbonGroupButtonHomeClipboard(enabledCopy: isSomethingSelected, enabledCutPaste: false, enabledUndoRedo: false);
                         //Home - Fast Copy text
-                        RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: false, enabledFastCopyGridOverwrite: false);
+                        RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: false, enabledFastCopyGridOverwrite: false, showFastCopyDateAndTime: false);
                         kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "Text";
                         //Home - Find and Replace
                         RibbonGroupButtonHomeFineAndReplace(enabledFind: isSomethingSelected, enabledRplace: false);
@@ -1014,7 +1015,7 @@ namespace PhotoTagsSynchronizer
                         //Home - Clipboard
                         RibbonGroupButtonHomeClipboard(enabledCopy: isSomethingSelected, enabledCutPaste: false, enabledUndoRedo: false);
                         //Home - Fast Copy text
-                        RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: false, enabledFastCopyGridOverwrite: false);
+                        RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: false, enabledFastCopyGridOverwrite: false, showFastCopyDateAndTime: false);
                         kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "Text";
                         //Home - Find and Replace
                         RibbonGroupButtonHomeFineAndReplace(enabledFind: isSomethingSelected, enabledRplace: false);
@@ -1049,7 +1050,7 @@ namespace PhotoTagsSynchronizer
                         //Home - Clipboard
                         RibbonGroupButtonHomeClipboard(enabledCopy: isSomethingSelected, enabledCutPaste: false, enabledUndoRedo: false);
                         //Home - Fast Copy text
-                        RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: false, enabledFastCopyGridOverwrite: false);
+                        RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: false, enabledFastCopyGridOverwrite: false, showFastCopyDateAndTime: false);
                         kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "Text";
                         //Home - Find and Replace
                         RibbonGroupButtonHomeFineAndReplace(enabledFind: isSomethingSelected, enabledRplace: isSomethingSelected);
@@ -1084,7 +1085,7 @@ namespace PhotoTagsSynchronizer
                         //Home - Clipboard
                         RibbonGroupButtonHomeClipboard(enabledCopy: isSomethingSelected, enabledCutPaste: isSomethingSelected, enabledUndoRedo: isSomethingSelected);
                         //Home - Fast Copy text
-                        RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: false, enabledFastCopyGridOverwrite: false);
+                        RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: false, enabledFastCopyGridOverwrite: false, showFastCopyDateAndTime: false);
                         kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "Text";
                         //Home - Find and Replace
                         RibbonGroupButtonHomeFineAndReplace(enabledFind: isSomethingSelected, enabledRplace: isSomethingSelected);
@@ -1119,7 +1120,7 @@ namespace PhotoTagsSynchronizer
                         //Home - Clipboard
                         RibbonGroupButtonHomeClipboard(enabledCopy: isSomethingSelected, enabledCutPaste: isSomethingSelected, enabledUndoRedo: isSomethingSelected);
                         //Home - Fast Copy text
-                        RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: false, enabledFastCopyGridOverwrite: false);
+                        RibbonGroupButtonHomeFastCopytext(enabledFastCopyPathText: false, enabledFastCopyGridOverwrite: false, showFastCopyDateAndTime: false);
                         kryptonRibbonGroupButtonHomeCopyText.TextLine2 = "Text";
                         //Home - Find and Replace
                         RibbonGroupButtonHomeFineAndReplace(enabledFind: isSomethingSelected, enabledRplace: isSomethingSelected);

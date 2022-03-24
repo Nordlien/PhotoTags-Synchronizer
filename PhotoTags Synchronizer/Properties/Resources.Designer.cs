@@ -203,6 +203,66 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap DateAndTimeMinus15minutes {
+            get {
+                object obj = ResourceManager.GetObject("DateAndTimeMinus15minutes", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DateAndTimeMinus30minutes {
+            get {
+                object obj = ResourceManager.GetObject("DateAndTimeMinus30minutes", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DateAndTimeMinus60minutes {
+            get {
+                object obj = ResourceManager.GetObject("DateAndTimeMinus60minutes", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DateAndTimePlus15minutes {
+            get {
+                object obj = ResourceManager.GetObject("DateAndTimePlus15minutes", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DateAndTimePlus30minutes {
+            get {
+                object obj = ResourceManager.GetObject("DateAndTimePlus30minutes", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DateAndTimePlus60minutes {
+            get {
+                object obj = ResourceManager.GetObject("DateAndTimePlus60minutes", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap EditCopy32x32 {
             get {
                 object obj = ResourceManager.GetObject("EditCopy32x32", resourceCulture);

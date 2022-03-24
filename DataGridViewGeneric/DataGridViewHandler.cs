@@ -2729,7 +2729,7 @@ namespace DataGridViewGeneric
         #region Copy Text within Grid
         #region Copy Text within Grid - CopyCellFromBrokerToMedia
         //Copy select Media Broker as Windows Life Photo Gallery, Microsoft Photots, Google Location History, etc... to correct Media File Tag
-        private static Dictionary<CellLocation, DataGridViewGenericCell> CopyCellFromBrokerToMedia(DataGridView dataGridView, string targetHeader, string targetRowNameStartWithAndTrunc, int columnIndex, int rowIndex, bool doOwerwriteData)
+        public static Dictionary<CellLocation, DataGridViewGenericCell> CopyCellFromBrokerToMedia(DataGridView dataGridView, string targetHeader, string targetRowNameStartWithAndTrunc, int columnIndex, int rowIndex, bool doOwerwriteData)
         {
             Dictionary<CellLocation, DataGridViewGenericCell> updatedCells = new Dictionary<CellLocation, DataGridViewGenericCell>();
 

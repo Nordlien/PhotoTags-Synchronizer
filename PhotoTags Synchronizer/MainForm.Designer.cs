@@ -31,7 +31,7 @@ namespace PhotoTagsSynchronizer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Filter");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Filter");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.panelMain = new Krypton.Toolkit.KryptonPanel();
             this.kryptonWorkspaceMain = new Krypton.Workspace.KryptonWorkspace();
@@ -314,6 +314,19 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupTripleHomeUndoRedo = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButtonHomeUndo = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButtonRedo = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupHomeDateAndTime = new Krypton.Ribbon.KryptonRibbonGroup();
+            this.kryptonRibbonGroupLines1 = new Krypton.Ribbon.KryptonRibbonGroupLines();
+            this.kryptonRibbonGroupRadioButtonHomeDateAndTimeDateAndTime = new Krypton.Ribbon.KryptonRibbonGroupRadioButton();
+            this.kryptonRibbonGroupRadioButtonHomeDateAndTimeDate = new Krypton.Ribbon.KryptonRibbonGroupRadioButton();
+            this.kryptonRibbonGroupRadioButtonHomeDateAndTimeTime = new Krypton.Ribbon.KryptonRibbonGroupRadioButton();
+            this.kryptonRibbonGroupTriple3 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.kryptonRibbonGroupButtonHomeDateAndTimeMinus15m = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButtonHomeDateAndTimeMinus30m = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButtonHomeDateAndTimeMinus60m = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupTriple5 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.kryptonRibbonGroupButtonHomeDateAndTimePlus15m = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButtonHomeDateAndTimePlus30m = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButtonHomeDateAndTimePlus60m = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupHomeManage = new Krypton.Ribbon.KryptonRibbonGroup();
             this.kryptonRibbonGroupTripleHomeCopy = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButtonHomeCopyText = new Krypton.Ribbon.KryptonRibbonGroupButton();
@@ -1827,11 +1840,11 @@ namespace PhotoTagsSynchronizer
             this.treeViewFilter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeViewFilter.Location = new System.Drawing.Point(0, 0);
             this.treeViewFilter.Name = "treeViewFilter";
-            treeNode1.Name = "NodeFolder";
-            treeNode1.Tag = "Filter";
-            treeNode1.Text = "Filter";
+            treeNode2.Name = "NodeFolder";
+            treeNode2.Tag = "Filter";
+            treeNode2.Text = "Filter";
             this.treeViewFilter.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1});
+            treeNode2});
             this.treeViewFilter.Size = new System.Drawing.Size(399, 638);
             this.treeViewFilter.TabIndex = 0;
             this.treeViewFilter.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewFilter_AfterCheck);
@@ -3976,6 +3989,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonTabSelect,
             this.kryptonRibbonTabTools,
             this.kryptonRibbonTabPreview});
+            this.kryptonRibbonMain.SelectedContext = null;
             this.kryptonRibbonMain.SelectedTab = this.kryptonRibbonTabHome;
             this.kryptonRibbonMain.Size = new System.Drawing.Size(1214, 115);
             this.kryptonRibbonMain.TabIndex = 12;
@@ -4119,6 +4133,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.kryptonRibbonTabHome.Groups.AddRange(new Krypton.Ribbon.KryptonRibbonGroup[] {
             this.kryptonRibbonGroupHomeClipboard,
+            this.kryptonRibbonGroupHomeDateAndTime,
             this.kryptonRibbonGroupHomeManage,
             this.kryptonRibbonGroupHomeFileSystem,
             this.kryptonRibbonGroupHomeRotate,
@@ -4211,6 +4226,92 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonRedo.ToolTipValues.Heading = "Redo (Ctrl+Y)";
             this.kryptonRibbonGroupButtonRedo.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditRedo32x32;
             this.kryptonRibbonGroupButtonRedo.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeRedo_Click);
+            // 
+            // kryptonRibbonGroupHomeDateAndTime
+            // 
+            this.kryptonRibbonGroupHomeDateAndTime.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
+            this.kryptonRibbonGroupLines1,
+            this.kryptonRibbonGroupTriple3,
+            this.kryptonRibbonGroupTriple5});
+            this.kryptonRibbonGroupHomeDateAndTime.TextLine1 = "Date & Time";
+            // 
+            // kryptonRibbonGroupLines1
+            // 
+            this.kryptonRibbonGroupLines1.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupRadioButtonHomeDateAndTimeDateAndTime,
+            this.kryptonRibbonGroupRadioButtonHomeDateAndTimeDate,
+            this.kryptonRibbonGroupRadioButtonHomeDateAndTimeTime});
+            // 
+            // kryptonRibbonGroupRadioButtonHomeDateAndTimeDateAndTime
+            // 
+            this.kryptonRibbonGroupRadioButtonHomeDateAndTimeDateAndTime.Checked = true;
+            this.kryptonRibbonGroupRadioButtonHomeDateAndTimeDateAndTime.TextLine1 = "Date & Time";
+            // 
+            // kryptonRibbonGroupRadioButtonHomeDateAndTimeDate
+            // 
+            this.kryptonRibbonGroupRadioButtonHomeDateAndTimeDate.TextLine1 = "Date";
+            // 
+            // kryptonRibbonGroupRadioButtonHomeDateAndTimeTime
+            // 
+            this.kryptonRibbonGroupRadioButtonHomeDateAndTimeTime.TextLine1 = "Time";
+            // 
+            // kryptonRibbonGroupTriple3
+            // 
+            this.kryptonRibbonGroupTriple3.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupButtonHomeDateAndTimeMinus15m,
+            this.kryptonRibbonGroupButtonHomeDateAndTimeMinus30m,
+            this.kryptonRibbonGroupButtonHomeDateAndTimeMinus60m});
+            this.kryptonRibbonGroupTriple3.MaximumSize = Krypton.Ribbon.GroupItemSize.Medium;
+            // 
+            // kryptonRibbonGroupButtonHomeDateAndTimeMinus15m
+            // 
+            this.kryptonRibbonGroupButtonHomeDateAndTimeMinus15m.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.DateAndTimeMinus15minutes;
+            this.kryptonRibbonGroupButtonHomeDateAndTimeMinus15m.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.DateAndTimeMinus15minutes;
+            this.kryptonRibbonGroupButtonHomeDateAndTimeMinus15m.TextLine1 = "-0:15";
+            this.kryptonRibbonGroupButtonHomeDateAndTimeMinus15m.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeDateAndTimeMinus15m_Click);
+            // 
+            // kryptonRibbonGroupButtonHomeDateAndTimeMinus30m
+            // 
+            this.kryptonRibbonGroupButtonHomeDateAndTimeMinus30m.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.DateAndTimeMinus30minutes;
+            this.kryptonRibbonGroupButtonHomeDateAndTimeMinus30m.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.DateAndTimeMinus30minutes;
+            this.kryptonRibbonGroupButtonHomeDateAndTimeMinus30m.TextLine1 = "-0:30";
+            this.kryptonRibbonGroupButtonHomeDateAndTimeMinus30m.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeDateAndTimeMinus30m_Click);
+            // 
+            // kryptonRibbonGroupButtonHomeDateAndTimeMinus60m
+            // 
+            this.kryptonRibbonGroupButtonHomeDateAndTimeMinus60m.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.DateAndTimeMinus60minutes;
+            this.kryptonRibbonGroupButtonHomeDateAndTimeMinus60m.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.DateAndTimeMinus60minutes;
+            this.kryptonRibbonGroupButtonHomeDateAndTimeMinus60m.TextLine1 = "-1:00";
+            this.kryptonRibbonGroupButtonHomeDateAndTimeMinus60m.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeDateAndTimeMinus60m_Click);
+            // 
+            // kryptonRibbonGroupTriple5
+            // 
+            this.kryptonRibbonGroupTriple5.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupButtonHomeDateAndTimePlus15m,
+            this.kryptonRibbonGroupButtonHomeDateAndTimePlus30m,
+            this.kryptonRibbonGroupButtonHomeDateAndTimePlus60m});
+            this.kryptonRibbonGroupTriple5.MaximumSize = Krypton.Ribbon.GroupItemSize.Medium;
+            // 
+            // kryptonRibbonGroupButtonHomeDateAndTimePlus15m
+            // 
+            this.kryptonRibbonGroupButtonHomeDateAndTimePlus15m.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.DateAndTimePlus15minutes;
+            this.kryptonRibbonGroupButtonHomeDateAndTimePlus15m.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.DateAndTimePlus15minutes;
+            this.kryptonRibbonGroupButtonHomeDateAndTimePlus15m.TextLine1 = "+0:15";
+            this.kryptonRibbonGroupButtonHomeDateAndTimePlus15m.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeDateAndTimePlus15m_Click);
+            // 
+            // kryptonRibbonGroupButtonHomeDateAndTimePlus30m
+            // 
+            this.kryptonRibbonGroupButtonHomeDateAndTimePlus30m.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.DateAndTimePlus30minutes;
+            this.kryptonRibbonGroupButtonHomeDateAndTimePlus30m.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.DateAndTimePlus30minutes;
+            this.kryptonRibbonGroupButtonHomeDateAndTimePlus30m.TextLine1 = "+0:30";
+            this.kryptonRibbonGroupButtonHomeDateAndTimePlus30m.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeDateAndTimePlus30m_Click);
+            // 
+            // kryptonRibbonGroupButtonHomeDateAndTimePlus60m
+            // 
+            this.kryptonRibbonGroupButtonHomeDateAndTimePlus60m.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.DateAndTimePlus60minutes;
+            this.kryptonRibbonGroupButtonHomeDateAndTimePlus60m.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.DateAndTimePlus60minutes;
+            this.kryptonRibbonGroupButtonHomeDateAndTimePlus60m.TextLine1 = "+1:00";
+            this.kryptonRibbonGroupButtonHomeDateAndTimePlus60m.Click += new System.EventHandler(this.kryptonRibbonGroupButtonHomeDateAndTimePlus60m_Click);
             // 
             // kryptonRibbonGroupHomeManage
             // 
@@ -6909,6 +7010,19 @@ namespace PhotoTagsSynchronizer
         private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple4;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView;
+        private Krypton.Ribbon.KryptonRibbonGroup kryptonRibbonGroupHomeDateAndTime;
+        private Krypton.Ribbon.KryptonRibbonGroupLines kryptonRibbonGroupLines1;
+        private Krypton.Ribbon.KryptonRibbonGroupRadioButton kryptonRibbonGroupRadioButtonHomeDateAndTimeDateAndTime;
+        private Krypton.Ribbon.KryptonRibbonGroupRadioButton kryptonRibbonGroupRadioButtonHomeDateAndTimeDate;
+        private Krypton.Ribbon.KryptonRibbonGroupRadioButton kryptonRibbonGroupRadioButtonHomeDateAndTimeTime;
+        private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple3;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonHomeDateAndTimeMinus15m;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonHomeDateAndTimeMinus30m;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonHomeDateAndTimeMinus60m;
+        private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple5;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonHomeDateAndTimePlus15m;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonHomeDateAndTimePlus30m;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonHomeDateAndTimePlus60m;
     }
 }
 

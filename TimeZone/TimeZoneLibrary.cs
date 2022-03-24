@@ -20,6 +20,18 @@ namespace TimeZone
         private const string DateTimeExiftoolTimeStamp = "HH:mm:ss";
         private const string DateTimeFilenameTimeStamp = "HH-mm-ss";
 
+        public static readonly string[] AllowedTimeFormatsWithoutTimeZone = new string[]
+        {
+            DateTimeExiftoolTimeStamp,
+            DateTimeFilenameTimeStamp
+        };
+
+        public static readonly string[] AllowedTimeFormatsWithTimeZone = new string[]
+        {
+            "HH:mm:sszzz",
+            "HH-mm-sszzz"
+        };
+
         public static readonly string[] AllowedDateTimeFormatsWithTimeZone = new string[]
         {
             "yyyy:MM:ddTHH:mm:sszzz",
@@ -43,6 +55,12 @@ namespace TimeZone
             "yyyy-MM-dd HH-mm-ss"
         };
 
+        public static readonly string[] AllowedDateFormatsWithoutTimeZone = new string[]
+        {
+            "yyyy:MM:dd",
+            "yyyy-MM-dd"
+        };
+
         public static DateTime? ParseDateTimeAsLocal(string dataTimeString)
         {
             if (
@@ -50,6 +68,51 @@ namespace TimeZone
                 DateTime.TryParse(dataTimeString, CultureInfo.CurrentCulture, DateTimeStyles.AssumeLocal, out dateTime))
             {
                 return dateTime;
+            }
+            return null;
+        }
+
+        public static DateTime? ParseExactDateTimeAsLocal(string dataTimeString)
+        {
+            if (DateTime.TryParseExact(dataTimeString, TimeZoneLibrary.AllowedDateTimeFormatsWithoutTimeZone, CultureInfo.CurrentCulture, DateTimeStyles.AssumeLocal, out DateTime dateTime))
+            {
+                return dateTime;
+            }
+            return null;
+        }
+
+        public static DateTime? ParseExactTimeAsLocal(string dataTimeString)
+        {
+            if (DateTime.TryParseExact(dataTimeString, TimeZoneLibrary.AllowedTimeFormatsWithoutTimeZone, CultureInfo.CurrentCulture, DateTimeStyles.AssumeLocal, out DateTime dateTime)) 
+            {
+                return dateTime;
+            }
+            return null;
+        }
+
+        public static DateTime? ParseExactDateAsLocal(string dataTimeString)
+        {
+            if (DateTime.TryParseExact(dataTimeString, TimeZoneLibrary.AllowedDateFormatsWithoutTimeZone, CultureInfo.CurrentCulture, DateTimeStyles.AssumeLocal, out DateTime dateTime))
+            {
+                return dateTime;
+            }
+            return null;
+        }
+
+        public static DateTimeOffset? ParseExcatDateTimeOffset(string dataTimeString)
+        {
+            if (DateTimeOffset.TryParseExact(dataTimeString, TimeZoneLibrary.AllowedDateTimeFormatsWithTimeZone, CultureInfo.CurrentCulture, DateTimeStyles.AssumeLocal, out DateTimeOffset dateTimeZoneResult))
+            {
+                return dateTimeZoneResult;
+            }
+            return null;
+        }
+
+        public static DateTimeOffset? ParseExcatTimeOffset(string dataTimeString)
+        {
+            if (DateTimeOffset.TryParseExact(dataTimeString, TimeZoneLibrary.AllowedTimeFormatsWithTimeZone, CultureInfo.CurrentCulture, DateTimeStyles.AssumeLocal, out DateTimeOffset dateTimeZoneResult))
+            {
+                return dateTimeZoneResult;
             }
             return null;
         }
@@ -66,7 +129,7 @@ namespace TimeZone
             return null;
         }
 
-        public static DateTimeOffset? ParseDateTimeOffsetAsUTC(string dataTimeString)
+        public static DateTimeOffset? ParseExcatDateTimeOffsetAsUTC(string dataTimeString)
         {
             if (DateTimeOffset.TryParseExact(dataTimeString, TimeZoneLibrary.AllowedDateTimeFormatsWithTimeZone, CultureInfo.CurrentCulture, DateTimeStyles.AdjustToUniversal, out DateTimeOffset dateTimeZoneResult))
             {
@@ -74,6 +137,8 @@ namespace TimeZone
             }
             return null;
         }
+
+
 
         public static TimeZoneInfo GetTimeZoneInfoOnGeoLocation(double latitude, double longitude)
         {

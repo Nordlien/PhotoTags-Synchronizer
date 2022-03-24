@@ -70,7 +70,7 @@ namespace PhotoTagsSynchronizer
             {
                 string dataTimeString = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, e.ColumnIndex, e.RowIndex);
 
-                DateTimeOffset? dateTimeZoneResult = TimeZoneLibrary.ParseDateTimeOffsetAsUTC(dataTimeString);
+                DateTimeOffset? dateTimeZoneResult = TimeZoneLibrary.ParseExcatDateTimeOffsetAsUTC(dataTimeString);
                 if (dateTimeZoneResult != null) //If date and time has +00:00 offset
                 {
                     DateTime? dateTimeLocal = TimeZoneLibrary.ParseDateTimeAsLocal(dataTimeString.Substring(0, TimeZoneLibrary.AllowedDateTimeFormatsWithoutTimeZone[0].Length));
@@ -145,8 +145,54 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = ((DataGridView)sender);
             if (e.RowIndex == -1) RegionSelectorLoadAndSelect(dataGridView, e.RowIndex, e.ColumnIndex);
         }
-        #endregion 
+        #endregion
 
-        
+        #region kryptonRibbonGroupButtonHomeDateAndTimePlus15m_Click
+        private void kryptonRibbonGroupButtonHomeDateAndTimePlus15m_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewDate;
+            DataGridViewHandlerDate.AdjustSelectedCell(dataGridView, 15);
+        }
+        #endregion
+
+        #region kryptonRibbonGroupButtonHomeDateAndTimePlus30m_Click
+        private void kryptonRibbonGroupButtonHomeDateAndTimePlus30m_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewDate;
+            DataGridViewHandlerDate.AdjustSelectedCell(dataGridView, 30);
+        }
+        #endregion
+
+        #region kryptonRibbonGroupButtonHomeDateAndTimePlus60m_Click
+        private void kryptonRibbonGroupButtonHomeDateAndTimePlus60m_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewDate;
+            DataGridViewHandlerDate.AdjustSelectedCell(dataGridView, 60);
+        }
+        #endregion
+
+        #region kryptonRibbonGroupButtonHomeDateAndTimeMinus15m_Click
+        private void kryptonRibbonGroupButtonHomeDateAndTimeMinus15m_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewDate;
+            DataGridViewHandlerDate.AdjustSelectedCell(dataGridView, -15);
+        }
+        #endregion
+
+        #region kryptonRibbonGroupButtonHomeDateAndTimeMinus30m_Click
+        private void kryptonRibbonGroupButtonHomeDateAndTimeMinus30m_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewDate;
+            DataGridViewHandlerDate.AdjustSelectedCell(dataGridView, -30);
+        }
+        #endregion
+
+        #region kryptonRibbonGroupButtonHomeDateAndTimeMinus60m_Click
+        private void kryptonRibbonGroupButtonHomeDateAndTimeMinus60m_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewDate;
+            DataGridViewHandlerDate.AdjustSelectedCell(dataGridView, -60);
+        }
+        #endregion
     }
 }

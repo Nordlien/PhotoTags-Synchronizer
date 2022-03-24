@@ -6220,6 +6220,7 @@ namespace PhotoTagsSynchronizer
                         MapFastCopyTextNoOverwrite();
                         break;
                     case KryptonPages.kryptonPageToolboxDates:
+                        DateFastCopyTextNoOverwrite();
                         break;
                     case KryptonPages.kryptonPageToolboxExiftool:
                         break;
@@ -6274,8 +6275,27 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region DateFastCopyTextNoOverwrite
+        private void DateFastCopyTextNoOverwrite()
+        {
+            try
+            {
+                DataGridView dataGridView = dataGridViewDate;
+
+                DataGridViewHandlerDate.CopySelectedCellFromToDateCell(dataGridView, overwrite: false,
+                    copyDate: kryptonRibbonGroupRadioButtonHomeDateAndTimeDateAndTime.Checked | kryptonRibbonGroupRadioButtonHomeDateAndTimeDate.Checked,
+                    copyTime: kryptonRibbonGroupRadioButtonHomeDateAndTimeDateAndTime.Checked | kryptonRibbonGroupRadioButtonHomeDateAndTimeTime.Checked);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
         #endregion
-        
+
+        #endregion
+
         #region FastCopyOverwrite
 
         #region FastCopyOverwrite - Click Events Sources
@@ -6316,6 +6336,7 @@ namespace PhotoTagsSynchronizer
                         MapFastCopyTextAndOverwrite();
                         break;
                     case KryptonPages.kryptonPageToolboxDates:
+                        DateFastCopyTextAndOverwrite();
                         break;
                     case KryptonPages.kryptonPageToolboxExiftool:
                         break;
@@ -6362,6 +6383,26 @@ namespace PhotoTagsSynchronizer
                 DataGridView dataGridView = dataGridViewMap;
                 DataGridViewHandler.CopySelectedCellFromBrokerToMedia(dataGridView, DataGridViewHandlerMap.headerMedia, DataGridViewHandlerMap.tagMediaCoordinates, true);
                 
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+
+        #endregion
+
+        #region DateFastCopyTextAndOverwrite_Click       
+        private void DateFastCopyTextAndOverwrite()
+        {
+            try
+            {
+                DataGridView dataGridView = dataGridViewDate;
+
+                DataGridViewHandlerDate.CopySelectedCellFromToDateCell(dataGridView, overwrite: true, 
+                    copyDate: kryptonRibbonGroupRadioButtonHomeDateAndTimeDateAndTime.Checked | kryptonRibbonGroupRadioButtonHomeDateAndTimeDate.Checked, 
+                    copyTime: kryptonRibbonGroupRadioButtonHomeDateAndTimeDateAndTime.Checked | kryptonRibbonGroupRadioButtonHomeDateAndTimeTime.Checked);
             }
             catch (Exception ex)
             {
