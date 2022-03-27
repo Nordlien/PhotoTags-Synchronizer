@@ -32,16 +32,18 @@
             this.kryptonWorkspaceLoactionHistoryAnalytics = new Krypton.Workspace.KryptonWorkspace();
             this.kryptonPage1 = new Krypton.Navigator.KryptonPage();
             this.tableLayoutPanelSearch = new System.Windows.Forms.TableLayoutPanel();
-            this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
-            this.kryptonLabel2 = new Krypton.Toolkit.KryptonLabel();
+            this.kryptonLabelFromeDate = new Krypton.Toolkit.KryptonLabel();
+            this.kryptonLabelToDate = new Krypton.Toolkit.KryptonLabel();
             this.kryptonDateTimePickerDateFrom = new Krypton.Toolkit.KryptonDateTimePicker();
             this.kryptonDateTimePickerDateTo = new Krypton.Toolkit.KryptonDateTimePicker();
             this.kryptonLabelTimeInterval = new Krypton.Toolkit.KryptonLabel();
             this.kryptonNumericUpDownTimeInterval = new Krypton.Toolkit.KryptonNumericUpDown();
-            this.kryptonLabel3 = new Krypton.Toolkit.KryptonLabel();
+            this.kryptonLabelDistance = new Krypton.Toolkit.KryptonLabel();
             this.kryptonNumericUpDownDistance = new Krypton.Toolkit.KryptonNumericUpDown();
             this.kryptonButtonSearch = new Krypton.Toolkit.KryptonButton();
-            this.kryptonLabel4 = new Krypton.Toolkit.KryptonLabel();
+            this.kryptonLabelMaxResultRows = new Krypton.Toolkit.KryptonLabel();
+            this.kryptonButtonMarkRows = new Krypton.Toolkit.KryptonButton();
+            this.kryptonLabelMarkRowsFitCells = new Krypton.Toolkit.KryptonLabel();
             this.kryptonWorkspaceCell1 = new Krypton.Workspace.KryptonWorkspaceCell();
             this.kryptonWorkspaceCell2 = new Krypton.Workspace.KryptonWorkspaceCell();
             this.kryptonPage3 = new Krypton.Navigator.KryptonPage();
@@ -72,6 +74,14 @@
             this.kryptonPage4 = new Krypton.Navigator.KryptonPage();
             this.kryptonPage6 = new Krypton.Navigator.KryptonPage();
             this.kryptonPage8 = new Krypton.Navigator.KryptonPage();
+            this.kryptonButtonBrowseRowPrevious = new Krypton.Toolkit.KryptonButton();
+            this.kryptonButtonBrowseRowNext = new Krypton.Toolkit.KryptonButton();
+            this.kryptonButtonSearchFitCells = new Krypton.Toolkit.KryptonButton();
+            this.kryptonLabelSplit1 = new Krypton.Toolkit.KryptonLabel();
+            this.kryptonLabelSplit2 = new Krypton.Toolkit.KryptonLabel();
+            this.kryptonLabelSplit3 = new Krypton.Toolkit.KryptonLabel();
+            this.kryptonLabelBrosweRows = new Krypton.Toolkit.KryptonLabel();
+            this.kryptonLabelRowsSelected = new Krypton.Toolkit.KryptonLabel();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceLoactionHistoryAnalytics)).BeginInit();
             this.kryptonWorkspaceLoactionHistoryAnalytics.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage1)).BeginInit();
@@ -105,6 +115,10 @@
             // kryptonWorkspaceLoactionHistoryAnalytics
             // 
             this.kryptonWorkspaceLoactionHistoryAnalytics.ActivePage = this.kryptonPage1;
+            this.kryptonWorkspaceLoactionHistoryAnalytics.CompactFlags = ((Krypton.Workspace.CompactFlags)((((Krypton.Workspace.CompactFlags.RemoveEmptyCells | Krypton.Workspace.CompactFlags.RemoveEmptySequences) 
+            | Krypton.Workspace.CompactFlags.PromoteLeafs) 
+            | Krypton.Workspace.CompactFlags.AtLeastOneVisibleCell)));
+            this.kryptonWorkspaceLoactionHistoryAnalytics.ContainerBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelClient;
             this.kryptonWorkspaceLoactionHistoryAnalytics.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonWorkspaceLoactionHistoryAnalytics.Location = new System.Drawing.Point(0, 0);
             this.kryptonWorkspaceLoactionHistoryAnalytics.Name = "kryptonWorkspaceLoactionHistoryAnalytics";
@@ -121,6 +135,7 @@
             this.kryptonWorkspaceLoactionHistoryAnalytics.Root.WorkspaceControl = this.kryptonWorkspaceLoactionHistoryAnalytics;
             this.kryptonWorkspaceLoactionHistoryAnalytics.SeparatorStyle = Krypton.Toolkit.SeparatorStyle.HighProfile;
             this.kryptonWorkspaceLoactionHistoryAnalytics.Size = new System.Drawing.Size(916, 567);
+            this.kryptonWorkspaceLoactionHistoryAnalytics.SplitterWidth = 5;
             this.kryptonWorkspaceLoactionHistoryAnalytics.TabIndex = 0;
             this.kryptonWorkspaceLoactionHistoryAnalytics.TabStop = true;
             // 
@@ -132,14 +147,14 @@
             this.kryptonPage1.LastVisibleSet = true;
             this.kryptonPage1.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPage1.Name = "kryptonPage1";
-            this.kryptonPage1.Size = new System.Drawing.Size(914, 58);
+            this.kryptonPage1.Size = new System.Drawing.Size(914, 88);
             this.kryptonPage1.Text = "Search";
             this.kryptonPage1.ToolTipTitle = "Page ToolTip";
             this.kryptonPage1.UniqueName = "90b2c32b48e6462984ec7530fea88e61";
             // 
             // tableLayoutPanelSearch
             // 
-            this.tableLayoutPanelSearch.ColumnCount = 7;
+            this.tableLayoutPanelSearch.ColumnCount = 8;
             this.tableLayoutPanelSearch.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelSearch.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelSearch.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -147,40 +162,53 @@
             this.tableLayoutPanelSearch.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelSearch.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelSearch.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanelSearch.Controls.Add(this.kryptonLabel1, 0, 0);
-            this.tableLayoutPanelSearch.Controls.Add(this.kryptonLabel2, 2, 0);
-            this.tableLayoutPanelSearch.Controls.Add(this.kryptonDateTimePickerDateFrom, 0, 1);
-            this.tableLayoutPanelSearch.Controls.Add(this.kryptonDateTimePickerDateTo, 2, 1);
-            this.tableLayoutPanelSearch.Controls.Add(this.kryptonLabelTimeInterval, 4, 0);
-            this.tableLayoutPanelSearch.Controls.Add(this.kryptonNumericUpDownTimeInterval, 4, 1);
-            this.tableLayoutPanelSearch.Controls.Add(this.kryptonLabel3, 5, 0);
-            this.tableLayoutPanelSearch.Controls.Add(this.kryptonNumericUpDownDistance, 5, 1);
-            this.tableLayoutPanelSearch.Controls.Add(this.kryptonButtonSearch, 6, 1);
-            this.tableLayoutPanelSearch.Controls.Add(this.kryptonLabel4, 6, 0);
+            this.tableLayoutPanelSearch.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 172F));
+            this.tableLayoutPanelSearch.Controls.Add(this.kryptonLabelFromeDate, 0, 0);
+            this.tableLayoutPanelSearch.Controls.Add(this.kryptonLabelToDate, 0, 1);
+            this.tableLayoutPanelSearch.Controls.Add(this.kryptonLabelMaxResultRows, 0, 2);
+            this.tableLayoutPanelSearch.Controls.Add(this.kryptonDateTimePickerDateFrom, 1, 0);
+            this.tableLayoutPanelSearch.Controls.Add(this.kryptonButtonSearch, 2, 2);
+            this.tableLayoutPanelSearch.Controls.Add(this.kryptonDateTimePickerDateTo, 1, 1);
+            this.tableLayoutPanelSearch.Controls.Add(this.kryptonLabelTimeInterval, 2, 0);
+            this.tableLayoutPanelSearch.Controls.Add(this.kryptonLabelMarkRowsFitCells, 5, 0);
+            this.tableLayoutPanelSearch.Controls.Add(this.kryptonLabelDistance, 2, 1);
+            this.tableLayoutPanelSearch.Controls.Add(this.kryptonNumericUpDownTimeInterval, 3, 0);
+            this.tableLayoutPanelSearch.Controls.Add(this.kryptonLabelSplit1, 4, 0);
+            this.tableLayoutPanelSearch.Controls.Add(this.kryptonNumericUpDownDistance, 3, 1);
+            this.tableLayoutPanelSearch.Controls.Add(this.kryptonLabelSplit2, 4, 1);
+            this.tableLayoutPanelSearch.Controls.Add(this.kryptonLabelSplit3, 4, 2);
+            this.tableLayoutPanelSearch.Controls.Add(this.kryptonButtonMarkRows, 7, 0);
+            this.tableLayoutPanelSearch.Controls.Add(this.kryptonButtonBrowseRowNext, 7, 1);
+            this.tableLayoutPanelSearch.Controls.Add(this.kryptonButtonBrowseRowPrevious, 6, 1);
+            this.tableLayoutPanelSearch.Controls.Add(this.kryptonButtonSearchFitCells, 6, 2);
+            this.tableLayoutPanelSearch.Controls.Add(this.kryptonLabelBrosweRows, 5, 1);
+            this.tableLayoutPanelSearch.Controls.Add(this.kryptonLabelRowsSelected, 5, 2);
             this.tableLayoutPanelSearch.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelSearch.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanelSearch.Name = "tableLayoutPanelSearch";
-            this.tableLayoutPanelSearch.RowCount = 2;
+            this.tableLayoutPanelSearch.RowCount = 3;
             this.tableLayoutPanelSearch.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelSearch.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelSearch.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanelSearch.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanelSearch.Size = new System.Drawing.Size(914, 58);
+            this.tableLayoutPanelSearch.Size = new System.Drawing.Size(914, 88);
             this.tableLayoutPanelSearch.TabIndex = 0;
             // 
-            // kryptonLabel1
+            // kryptonLabelFromeDate
             // 
-            this.kryptonLabel1.Location = new System.Drawing.Point(3, 3);
-            this.kryptonLabel1.Name = "kryptonLabel1";
-            this.kryptonLabel1.Size = new System.Drawing.Size(65, 18);
-            this.kryptonLabel1.TabIndex = 0;
-            this.kryptonLabel1.Values.Text = "From date:";
+            this.kryptonLabelFromeDate.Location = new System.Drawing.Point(3, 3);
+            this.kryptonLabelFromeDate.Name = "kryptonLabelFromeDate";
+            this.kryptonLabelFromeDate.Size = new System.Drawing.Size(69, 20);
+            this.kryptonLabelFromeDate.TabIndex = 0;
+            this.kryptonLabelFromeDate.Values.Text = "From date:";
             // 
-            // kryptonLabel2
+            // kryptonLabelToDate
             // 
-            this.kryptonLabel2.Location = new System.Drawing.Point(179, 3);
-            this.kryptonLabel2.Name = "kryptonLabel2";
-            this.kryptonLabel2.Size = new System.Drawing.Size(52, 18);
-            this.kryptonLabel2.TabIndex = 2;
-            this.kryptonLabel2.Values.Text = "To date:";
+            this.kryptonLabelToDate.Location = new System.Drawing.Point(3, 34);
+            this.kryptonLabelToDate.Name = "kryptonLabelToDate";
+            this.kryptonLabelToDate.Size = new System.Drawing.Size(54, 20);
+            this.kryptonLabelToDate.TabIndex = 2;
+            this.kryptonLabelToDate.Values.Text = "To date:";
             // 
             // kryptonDateTimePickerDateFrom
             // 
@@ -188,9 +216,9 @@
             this.kryptonDateTimePickerDateFrom.CalendarTodayDate = new System.DateTime(2021, 11, 2, 0, 0, 0, 0);
             this.kryptonDateTimePickerDateFrom.CustomFormat = "yyyy-MM-dd";
             this.kryptonDateTimePickerDateFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.kryptonDateTimePickerDateFrom.Location = new System.Drawing.Point(3, 27);
+            this.kryptonDateTimePickerDateFrom.Location = new System.Drawing.Point(78, 3);
             this.kryptonDateTimePickerDateFrom.Name = "kryptonDateTimePickerDateFrom";
-            this.kryptonDateTimePickerDateFrom.Size = new System.Drawing.Size(170, 18);
+            this.kryptonDateTimePickerDateFrom.Size = new System.Drawing.Size(170, 21);
             this.kryptonDateTimePickerDateFrom.TabIndex = 1;
             // 
             // kryptonDateTimePickerDateTo
@@ -199,29 +227,29 @@
             this.kryptonDateTimePickerDateTo.CalendarTodayDate = new System.DateTime(2021, 11, 2, 0, 0, 0, 0);
             this.kryptonDateTimePickerDateTo.CustomFormat = "yyyy-MM-dd";
             this.kryptonDateTimePickerDateTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.kryptonDateTimePickerDateTo.Location = new System.Drawing.Point(179, 27);
+            this.kryptonDateTimePickerDateTo.Location = new System.Drawing.Point(78, 34);
             this.kryptonDateTimePickerDateTo.Name = "kryptonDateTimePickerDateTo";
-            this.kryptonDateTimePickerDateTo.Size = new System.Drawing.Size(169, 18);
+            this.kryptonDateTimePickerDateTo.Size = new System.Drawing.Size(169, 21);
             this.kryptonDateTimePickerDateTo.TabIndex = 3;
             // 
             // kryptonLabelTimeInterval
             // 
-            this.kryptonLabelTimeInterval.Location = new System.Drawing.Point(354, 3);
+            this.kryptonLabelTimeInterval.Location = new System.Drawing.Point(254, 3);
             this.kryptonLabelTimeInterval.Name = "kryptonLabelTimeInterval";
-            this.kryptonLabelTimeInterval.Size = new System.Drawing.Size(90, 18);
+            this.kryptonLabelTimeInterval.Size = new System.Drawing.Size(98, 20);
             this.kryptonLabelTimeInterval.TabIndex = 5;
             this.kryptonLabelTimeInterval.Values.Text = "Minutes interval";
             // 
             // kryptonNumericUpDownTimeInterval
             // 
-            this.kryptonNumericUpDownTimeInterval.Location = new System.Drawing.Point(354, 27);
+            this.kryptonNumericUpDownTimeInterval.Location = new System.Drawing.Point(358, 3);
             this.kryptonNumericUpDownTimeInterval.Maximum = new decimal(new int[] {
             3600,
             0,
             0,
             0});
             this.kryptonNumericUpDownTimeInterval.Name = "kryptonNumericUpDownTimeInterval";
-            this.kryptonNumericUpDownTimeInterval.Size = new System.Drawing.Size(76, 19);
+            this.kryptonNumericUpDownTimeInterval.Size = new System.Drawing.Size(51, 22);
             this.kryptonNumericUpDownTimeInterval.TabIndex = 6;
             this.kryptonNumericUpDownTimeInterval.Value = new decimal(new int[] {
             10,
@@ -230,13 +258,13 @@
             0});
             this.kryptonNumericUpDownTimeInterval.ValueChanged += new System.EventHandler(this.kryptonNumericUpDownTimeInterval_ValueChanged);
             // 
-            // kryptonLabel3
+            // kryptonLabelDistance
             // 
-            this.kryptonLabel3.Location = new System.Drawing.Point(450, 3);
-            this.kryptonLabel3.Name = "kryptonLabel3";
-            this.kryptonLabel3.Size = new System.Drawing.Size(54, 18);
-            this.kryptonLabel3.TabIndex = 7;
-            this.kryptonLabel3.Values.Text = "Distance";
+            this.kryptonLabelDistance.Location = new System.Drawing.Point(254, 34);
+            this.kryptonLabelDistance.Name = "kryptonLabelDistance";
+            this.kryptonLabelDistance.Size = new System.Drawing.Size(57, 20);
+            this.kryptonLabelDistance.TabIndex = 7;
+            this.kryptonLabelDistance.Values.Text = "Distance";
             // 
             // kryptonNumericUpDownDistance
             // 
@@ -247,9 +275,9 @@
             0,
             0,
             262144});
-            this.kryptonNumericUpDownDistance.Location = new System.Drawing.Point(450, 27);
+            this.kryptonNumericUpDownDistance.Location = new System.Drawing.Point(358, 34);
             this.kryptonNumericUpDownDistance.Name = "kryptonNumericUpDownDistance";
-            this.kryptonNumericUpDownDistance.Size = new System.Drawing.Size(90, 19);
+            this.kryptonNumericUpDownDistance.Size = new System.Drawing.Size(78, 22);
             this.kryptonNumericUpDownDistance.TabIndex = 8;
             this.kryptonNumericUpDownDistance.Value = new decimal(new int[] {
             50,
@@ -260,20 +288,40 @@
             // 
             // kryptonButtonSearch
             // 
-            this.kryptonButtonSearch.Location = new System.Drawing.Point(546, 27);
+            this.tableLayoutPanelSearch.SetColumnSpan(this.kryptonButtonSearch, 2);
+            this.kryptonButtonSearch.Location = new System.Drawing.Point(254, 65);
             this.kryptonButtonSearch.Name = "kryptonButtonSearch";
-            this.kryptonButtonSearch.Size = new System.Drawing.Size(90, 25);
+            this.kryptonButtonSearch.Size = new System.Drawing.Size(193, 20);
             this.kryptonButtonSearch.TabIndex = 4;
-            this.kryptonButtonSearch.Values.Text = "Search";
+            this.kryptonButtonSearch.Values.Text = "Load fit search";
             this.kryptonButtonSearch.Click += new System.EventHandler(this.kryptonButtonSearch_Click);
             // 
-            // kryptonLabel4
+            // kryptonLabelMaxResultRows
             // 
-            this.kryptonLabel4.Location = new System.Drawing.Point(546, 3);
-            this.kryptonLabel4.Name = "kryptonLabel4";
-            this.kryptonLabel4.Size = new System.Drawing.Size(192, 18);
-            this.kryptonLabel4.TabIndex = 9;
-            this.kryptonLabel4.Values.Text = "Search result is limited to 1000 rows";
+            this.tableLayoutPanelSearch.SetColumnSpan(this.kryptonLabelMaxResultRows, 2);
+            this.kryptonLabelMaxResultRows.Location = new System.Drawing.Point(3, 65);
+            this.kryptonLabelMaxResultRows.Name = "kryptonLabelMaxResultRows";
+            this.kryptonLabelMaxResultRows.Size = new System.Drawing.Size(197, 20);
+            this.kryptonLabelMaxResultRows.TabIndex = 9;
+            this.kryptonLabelMaxResultRows.Values.Text = "Load result is limited to 1000 rows";
+            // 
+            // kryptonButtonMarkRows
+            // 
+            this.kryptonButtonMarkRows.Location = new System.Drawing.Point(662, 3);
+            this.kryptonButtonMarkRows.Name = "kryptonButtonMarkRows";
+            this.kryptonButtonMarkRows.Size = new System.Drawing.Size(90, 25);
+            this.kryptonButtonMarkRows.TabIndex = 10;
+            this.kryptonButtonMarkRows.Values.Text = "Mark rows";
+            this.kryptonButtonMarkRows.Click += new System.EventHandler(this.kryptonButtonMarkRows_Click);
+            // 
+            // kryptonLabelMarkRowsFitCells
+            // 
+            this.tableLayoutPanelSearch.SetColumnSpan(this.kryptonLabelMarkRowsFitCells, 2);
+            this.kryptonLabelMarkRowsFitCells.Location = new System.Drawing.Point(472, 3);
+            this.kryptonLabelMarkRowsFitCells.Name = "kryptonLabelMarkRowsFitCells";
+            this.kryptonLabelMarkRowsFitCells.Size = new System.Drawing.Size(184, 20);
+            this.kryptonLabelMarkRowsFitCells.TabIndex = 11;
+            this.kryptonLabelMarkRowsFitCells.Values.Text = "Mark rows fits cells time stamps";
             // 
             // kryptonWorkspaceCell1
             // 
@@ -292,7 +340,7 @@
             this.kryptonWorkspaceCell1.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
             this.kryptonPage1});
             this.kryptonWorkspaceCell1.SelectedIndex = 0;
-            this.kryptonWorkspaceCell1.StarSize = "50*,60";
+            this.kryptonWorkspaceCell1.StarSize = "50*,90";
             this.kryptonWorkspaceCell1.UniqueName = "50688b0b542b4123b87c751541d9b9c7";
             // 
             // kryptonWorkspaceCell2
@@ -322,7 +370,7 @@
             this.kryptonPage3.LastVisibleSet = true;
             this.kryptonPage3.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPage3.Name = "kryptonPage3";
-            this.kryptonPage3.Size = new System.Drawing.Size(914, 223);
+            this.kryptonPage3.Size = new System.Drawing.Size(914, 209);
             this.kryptonPage3.Text = "Location History Coordinates";
             this.kryptonPage3.ToolTipTitle = "Page ToolTip";
             this.kryptonPage3.UniqueName = "7984ad9d95e948b088251ab1c544d601";
@@ -335,7 +383,7 @@
             this.kryptonDataGridViewLocationHistory.KryptonContextMenu = this.kryptonContextMenuLocationNames;
             this.kryptonDataGridViewLocationHistory.Location = new System.Drawing.Point(0, 0);
             this.kryptonDataGridViewLocationHistory.Name = "kryptonDataGridViewLocationHistory";
-            this.kryptonDataGridViewLocationHistory.Size = new System.Drawing.Size(914, 223);
+            this.kryptonDataGridViewLocationHistory.Size = new System.Drawing.Size(914, 209);
             this.kryptonDataGridViewLocationHistory.TabIndex = 0;
             this.kryptonDataGridViewLocationHistory.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.kryptonDataGridViewLocationHistory_CellPainting);
             this.kryptonDataGridViewLocationHistory.SelectionChanged += new System.EventHandler(this.kryptonDataGridViewLocationHistory_SelectionChanged);
@@ -439,7 +487,7 @@
             this.kryptonPage5.LastVisibleSet = true;
             this.kryptonPage5.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPage5.Name = "kryptonPage5";
-            this.kryptonPage5.Size = new System.Drawing.Size(914, 225);
+            this.kryptonPage5.Size = new System.Drawing.Size(914, 209);
             this.kryptonPage5.Text = "Browser Map";
             this.kryptonPage5.ToolTipTitle = "Page ToolTip";
             this.kryptonPage5.UniqueName = "a67ef1083e744e70a2449c0bc080dca2";
@@ -449,7 +497,7 @@
             this.kryptonPanelBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanelBrowser.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanelBrowser.Name = "kryptonPanelBrowser";
-            this.kryptonPanelBrowser.Size = new System.Drawing.Size(914, 225);
+            this.kryptonPanelBrowser.Size = new System.Drawing.Size(914, 209);
             this.kryptonPanelBrowser.TabIndex = 0;
             // 
             // kryptonWorkspaceCell4
@@ -551,7 +599,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.kryptonTextBoxUrl.Location = new System.Drawing.Point(130, 3);
             this.kryptonTextBoxUrl.Name = "kryptonTextBoxUrl";
-            this.kryptonTextBoxUrl.Size = new System.Drawing.Size(781, 20);
+            this.kryptonTextBoxUrl.Size = new System.Drawing.Size(781, 23);
             this.kryptonTextBoxUrl.TabIndex = 0;
             this.kryptonTextBoxUrl.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.kryptonTextBoxUrl_KeyPress);
             // 
@@ -602,6 +650,74 @@
             this.kryptonPage8.Text = "kryptonPage8";
             this.kryptonPage8.ToolTipTitle = "Page ToolTip";
             this.kryptonPage8.UniqueName = "cba9424b11024ff3a5e62a8fda949df7";
+            // 
+            // kryptonButtonBrowseRowPrevious
+            // 
+            this.kryptonButtonBrowseRowPrevious.Location = new System.Drawing.Point(566, 34);
+            this.kryptonButtonBrowseRowPrevious.Name = "kryptonButtonBrowseRowPrevious";
+            this.kryptonButtonBrowseRowPrevious.Size = new System.Drawing.Size(90, 25);
+            this.kryptonButtonBrowseRowPrevious.TabIndex = 12;
+            this.kryptonButtonBrowseRowPrevious.Values.Text = "<<";
+            this.kryptonButtonBrowseRowPrevious.Click += new System.EventHandler(this.kryptonButtonBrowseRowPrevious_Click);
+            // 
+            // kryptonButtonBrowseRowNext
+            // 
+            this.kryptonButtonBrowseRowNext.Location = new System.Drawing.Point(662, 34);
+            this.kryptonButtonBrowseRowNext.Name = "kryptonButtonBrowseRowNext";
+            this.kryptonButtonBrowseRowNext.Size = new System.Drawing.Size(90, 25);
+            this.kryptonButtonBrowseRowNext.TabIndex = 13;
+            this.kryptonButtonBrowseRowNext.Values.Text = ">>";
+            this.kryptonButtonBrowseRowNext.Click += new System.EventHandler(this.kryptonButtonBrowseRowNext_Click);
+            // 
+            // kryptonButtonSearchFitCells
+            // 
+            this.tableLayoutPanelSearch.SetColumnSpan(this.kryptonButtonSearchFitCells, 2);
+            this.kryptonButtonSearchFitCells.Location = new System.Drawing.Point(566, 65);
+            this.kryptonButtonSearchFitCells.Name = "kryptonButtonSearchFitCells";
+            this.kryptonButtonSearchFitCells.Size = new System.Drawing.Size(186, 20);
+            this.kryptonButtonSearchFitCells.TabIndex = 14;
+            this.kryptonButtonSearchFitCells.Values.Text = "Load, fit selected cells dates";
+            this.kryptonButtonSearchFitCells.Click += new System.EventHandler(this.kryptonButtonSearchFitCells_Click);
+            // 
+            // kryptonLabelSplit1
+            // 
+            this.kryptonLabelSplit1.Location = new System.Drawing.Point(453, 3);
+            this.kryptonLabelSplit1.Name = "kryptonLabelSplit1";
+            this.kryptonLabelSplit1.Size = new System.Drawing.Size(13, 20);
+            this.kryptonLabelSplit1.TabIndex = 15;
+            this.kryptonLabelSplit1.Values.Text = "|";
+            // 
+            // kryptonLabelSplit2
+            // 
+            this.kryptonLabelSplit2.Location = new System.Drawing.Point(453, 34);
+            this.kryptonLabelSplit2.Name = "kryptonLabelSplit2";
+            this.kryptonLabelSplit2.Size = new System.Drawing.Size(13, 20);
+            this.kryptonLabelSplit2.TabIndex = 16;
+            this.kryptonLabelSplit2.Values.Text = "|";
+            // 
+            // kryptonLabelSplit3
+            // 
+            this.kryptonLabelSplit3.Location = new System.Drawing.Point(453, 65);
+            this.kryptonLabelSplit3.Name = "kryptonLabelSplit3";
+            this.kryptonLabelSplit3.Size = new System.Drawing.Size(13, 20);
+            this.kryptonLabelSplit3.TabIndex = 17;
+            this.kryptonLabelSplit3.Values.Text = "|";
+            // 
+            // kryptonLabelBrosweRows
+            // 
+            this.kryptonLabelBrosweRows.Location = new System.Drawing.Point(472, 34);
+            this.kryptonLabelBrosweRows.Name = "kryptonLabelBrosweRows";
+            this.kryptonLabelBrosweRows.Size = new System.Drawing.Size(82, 20);
+            this.kryptonLabelBrosweRows.TabIndex = 18;
+            this.kryptonLabelBrosweRows.Values.Text = "Browse rows:";
+            // 
+            // kryptonLabelRowsSelected
+            // 
+            this.kryptonLabelRowsSelected.Location = new System.Drawing.Point(472, 65);
+            this.kryptonLabelRowsSelected.Name = "kryptonLabelRowsSelected";
+            this.kryptonLabelRowsSelected.Size = new System.Drawing.Size(88, 20);
+            this.kryptonLabelRowsSelected.TabIndex = 19;
+            this.kryptonLabelRowsSelected.Values.Text = "Selected: 0 / 0";
             // 
             // FormLocationHistoryAnalytics
             // 
@@ -664,18 +780,18 @@
         private Krypton.Toolkit.KryptonDataGridView kryptonDataGridViewLocationHistory;
         private Krypton.Toolkit.KryptonPanel kryptonPanelBrowser;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelSearch;
-        private Krypton.Toolkit.KryptonLabel kryptonLabel1;
+        private Krypton.Toolkit.KryptonLabel kryptonLabelFromeDate;
         private Krypton.Toolkit.KryptonDateTimePicker kryptonDateTimePickerDateFrom;
-        private Krypton.Toolkit.KryptonLabel kryptonLabel2;
+        private Krypton.Toolkit.KryptonLabel kryptonLabelToDate;
         private Krypton.Toolkit.KryptonDateTimePicker kryptonDateTimePickerDateTo;
         private Krypton.Toolkit.KryptonButton kryptonButtonSearch;
         private Krypton.Toolkit.KryptonLabel kryptonLabelTimeInterval;
         private Krypton.Toolkit.KryptonNumericUpDown kryptonNumericUpDownTimeInterval;
-        private Krypton.Toolkit.KryptonLabel kryptonLabel3;
+        private Krypton.Toolkit.KryptonLabel kryptonLabelDistance;
         private Krypton.Toolkit.KryptonNumericUpDown kryptonNumericUpDownDistance;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private Krypton.Toolkit.KryptonTextBox kryptonTextBoxUrl;
-        private Krypton.Toolkit.KryptonLabel kryptonLabel4;
+        private Krypton.Toolkit.KryptonLabel kryptonLabelMaxResultRows;
         private System.Windows.Forms.PictureBox pictureBox1;
         private Krypton.Toolkit.KryptonComboBox comboBoxMapZoomLevel;
         private Krypton.Toolkit.KryptonContextMenu kryptonContextMenuLocationNames;
@@ -691,5 +807,15 @@
         private Krypton.Toolkit.KryptonContextMenuSeparator kryptonContextMenuSeparatorLocationNames6;
         private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItemLocationNamesShowCoordinateOpenStreetMap;
         private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItemLocationNamesShowCoordinateGoogleMap;
+        private Krypton.Toolkit.KryptonButton kryptonButtonMarkRows;
+        private Krypton.Toolkit.KryptonLabel kryptonLabelMarkRowsFitCells;
+        private Krypton.Toolkit.KryptonLabel kryptonLabelSplit1;
+        private Krypton.Toolkit.KryptonLabel kryptonLabelSplit2;
+        private Krypton.Toolkit.KryptonLabel kryptonLabelSplit3;
+        private Krypton.Toolkit.KryptonButton kryptonButtonBrowseRowNext;
+        private Krypton.Toolkit.KryptonButton kryptonButtonBrowseRowPrevious;
+        private Krypton.Toolkit.KryptonButton kryptonButtonSearchFitCells;
+        private Krypton.Toolkit.KryptonLabel kryptonLabelBrosweRows;
+        private Krypton.Toolkit.KryptonLabel kryptonLabelRowsSelected;
     }
 }

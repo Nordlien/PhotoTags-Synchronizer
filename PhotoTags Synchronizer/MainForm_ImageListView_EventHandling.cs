@@ -581,6 +581,7 @@ namespace PhotoTagsSynchronizer
             {
                 ImageListViewHandler.ClearCacheFileEntriesSelectedItems(imageListView1);
                 FastGroupSelection_Clear();
+                SetDataGridViewForLocationAnalytics();
 
                 ImageListViewSuspendLayoutInvoke(imageListView1);
                 ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);

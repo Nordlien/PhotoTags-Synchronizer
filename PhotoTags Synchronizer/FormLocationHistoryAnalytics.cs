@@ -8,6 +8,7 @@ using LocationNames;
 using MetadataLibrary;
 using CefSharp.WinForms;
 using CefSharp;
+using TimeZone;
 
 namespace PhotoTagsSynchronizer
 {
@@ -16,7 +17,16 @@ namespace PhotoTagsSynchronizer
         #region Properties
         public GoogleLocationHistoryDatabaseCache GoogleLocationHistoryDatabaseCache { get; set; }
         public KryptonPalette KryptonPalette { get; set; }
-        public KryptonDataGridView DataGridView { get { return kryptonDataGridViewLocationHistory; } }
+        public KryptonDataGridView DataGridViewLocationHistory { get { return kryptonDataGridViewLocationHistory; } }
+        public DataGridView DataGridViewDateTime { get; set; }
+        public DataGridView ActiveDataGridView { get; set; }
+        public DataGridViewHandler.GetSelectFileEntriesMode ActiveDataGridViewSelectedFilesMode { get; set; }
+
+        private List<int> selectedRowsSorted = new List<int>();
+        private int visibleRowIndex = 0;
+        private bool selectionChanged = true;
+        private bool isPopulatingSelectRows = false;
+
         public DateTime DefaultDateTimeFrom
         {
             get { return kryptonDateTimePickerDateFrom.Value; }
@@ -77,6 +87,7 @@ namespace PhotoTagsSynchronizer
             browser.AddressChanged += Browser_AddressChanged;
             isInitProcessing = false;
 
+            DataGridViewHandler.DataGridViewInit(kryptonDataGridViewLocationHistory, false);
         }
         #endregion
 
@@ -185,6 +196,7 @@ namespace PhotoTagsSynchronizer
             DateTime? lastDateTime = null;
             LocationCoordinate lastLocationCoordinate = null;
 
+            DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, true);
             foreach (LocationsHistory locationsHistory in locationsHistories)
             {
                 bool isNewFund = false;
@@ -236,12 +248,12 @@ namespace PhotoTagsSynchronizer
                         locationsHistory.Accuracy, true, false);
                 }
             }
-
+            DataGridViewHandler.ResumeLayoutDelayed(dataGridView);
             //isCellValueUpdating = false;
         }
         #endregion 
 
-        #region Location names - PopulateMetadataLocationNames
+        #region Location names - PopulateMetadataLocations - Clear
         public void PopulateMetadataLocationsClear(DataGridView dataGridView)
         {
             DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridView, KryptonPalette, "LocationDates", "Location dates", DataGridViewSize.ConfigSize, allowUserToAddRow: false);
@@ -280,7 +292,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Location names - PopulateMetadataLocationsAdd
+        #region Location names - PopulateMetadataLocations - Add
         public void PopulateMetadataLocationsAdd(DataGridView dataGridView, DateTime dateTimeFrom, DateTime dateTimeTo, int minimumTimeInterval, float minimumDistance)
         {
             HashSet<LocationsHistory> locationsHistories = GoogleLocationHistoryDatabaseCache.LoadLocationHistory(dateTimeFrom, dateTimeTo);
@@ -307,24 +319,38 @@ namespace PhotoTagsSynchronizer
         #region GetLocationAndShow
         private void GetLocationAndShow(MapProvider mapProvider)
         {
-            List<LocationCoordinate> locationCoordinates = new List<LocationCoordinate>();
-
-            DataGridView dataGridView = kryptonDataGridViewLocationHistory;
-            foreach (int rowIndex in DataGridViewHandler.GetRowSelected(dataGridView))
+            try
             {
-                DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
-                if (dataGridViewGenericRow != null && !dataGridViewGenericRow.IsHeader && dataGridViewGenericRow.LocationCoordinate != null)
-                if (!locationCoordinates.Contains(dataGridViewGenericRow.LocationCoordinate)) locationCoordinates.Add(dataGridViewGenericRow.LocationCoordinate);
+                if (isPopulatingSelectRows) return;
+
+                List<LocationCoordinate> locationCoordinates = new List<LocationCoordinate>();
+
+                DataGridView dataGridView = kryptonDataGridViewLocationHistory;
+                foreach (int rowIndex in DataGridViewHandler.GetRowSelected(dataGridView))
+                {
+                    DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
+                    if (dataGridViewGenericRow != null && !dataGridViewGenericRow.IsHeader && dataGridViewGenericRow.LocationCoordinate != null)
+                        if (!locationCoordinates.Contains(dataGridViewGenericRow.LocationCoordinate)) locationCoordinates.Add(dataGridViewGenericRow.LocationCoordinate);
+                }
+                ShowMediaOnMap.UpdatedBroswerMap(browser, locationCoordinates, GetZoomLevel(), mapProvider);
             }
-            ShowMediaOnMap.UpdatedBroswerMap(browser, locationCoordinates, GetZoomLevel(), mapProvider);
+            catch (Exception ex)
+            {
+                //Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                
+            }
         }
         #endregion
 
         #region kryptonDataGridViewLocationHistory_SelectionChanged
         private void kryptonDataGridViewLocationHistory_SelectionChanged(object sender, EventArgs e)
         {
-            DataGridView dataGridView = ((DataGridView)sender);
-
+            selectionChanged = true;
             GetLocationAndShow(MapProvider.OpenStreetMap);
         }
         #endregion 
@@ -371,6 +397,271 @@ namespace PhotoTagsSynchronizer
         {
             Properties.Settings.Default.LocationAnalyticsMinimumDistance = kryptonNumericUpDownDistance.Value;
         }
-        #endregion 
+        #endregion
+
+        #region FindAndSelect
+        private void FindAndSelect(DateTime? dateTimeTaken, DateTime? dateTimeLocationUtc, DateTime? dateTimeSuggestionFromGPSDateTime)
+        {
+            try
+            {
+                isPopulatingSelectRows = true;
+                DataGridView dataGridView = DataGridViewLocationHistory;
+
+                if (dateTimeSuggestionFromGPSDateTime != null) dateTimeTaken = dateTimeSuggestionFromGPSDateTime;
+                int columnIndex = columnIndexTimestamp;
+                bool dateTimeTakenFound = dateTimeTaken == null;
+                bool dateTimeLocationUtcFound = dateTimeLocationUtc == null;
+
+                for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
+                {
+                    string dateTimeUtcOnRowString = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, rowIndex);
+                    DateTime? dateTimeOnRow = TimeZoneLibrary.ParseDateTimeAsUTC(dateTimeUtcOnRowString);
+                    if (!dateTimeTakenFound && dateTimeOnRow != null && dateTimeTaken != null && dateTimeOnRow > dateTimeTaken)
+                    {
+                        if (rowIndex > 0) dataGridView.Rows[rowIndex - 1].Selected = true;
+                        dataGridView.Rows[rowIndex].Selected = true;
+                        dateTimeTakenFound = true;
+                    }
+
+                    if (!dateTimeLocationUtcFound && dateTimeOnRow != null && dateTimeLocationUtc != null && dateTimeOnRow > dateTimeLocationUtc)
+                    {
+                        if (rowIndex > 0) dataGridView.Rows[rowIndex - 1].Selected = true;
+                        dataGridView.Rows[rowIndex].Selected = true;
+                        dateTimeLocationUtcFound = true;                        
+                    }
+
+                    if (dateTimeTakenFound && dateTimeLocationUtcFound)
+                    {     
+                        break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                //Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                isPopulatingSelectRows = false;
+            }
+        }
+        #endregion
+
+        #region MarkRows
+        private void ActionMarkRows()
+        {
+            DataGridView dataGridView = DataGridViewLocationHistory;
+            dataGridView.ClearSelection();
+
+            HashSet<FileEntry> files = DataGridViewHandler.GetSelectFileEntries(ActiveDataGridView, ActiveDataGridViewSelectedFilesMode);
+            for (int columnIndex = 0; columnIndex < DataGridViewHandler.GetColumnCount(DataGridViewDateTime); columnIndex++)
+            {
+                DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(DataGridViewDateTime, columnIndex);
+                if (dataGridViewGenericColumn != null)
+                {
+                    if (files.Contains(dataGridViewGenericColumn.FileEntryAttribute.FileEntry))
+                    {
+                        DateTime? dataTimeTaken = DataGridViewHandlerDate.GetUserInputDateTaken(DataGridViewDateTime, columnIndex, null);
+                        DateTime? dataTimeLocationUtc = DataGridViewHandlerDate.GetUserInputLocationDate(DataGridViewDateTime, columnIndex, null);
+                        DateTime? dateTimeSuggestionFromGPSDateTime = DataGridViewHandlerDate.GetSuggestionFromGPSDate(DataGridViewDateTime, columnIndex, null);
+                        FindAndSelect(dataTimeTaken, dataTimeLocationUtc, dateTimeSuggestionFromGPSDateTime);
+                    }
+                }
+            }
+
+
+            if (dataGridView.SelectedRows.Count > 0)
+            {
+                selectedRowsSorted.Clear();
+                foreach (DataGridViewRow dataGridViewRow in dataGridView.SelectedRows) selectedRowsSorted.Add(dataGridViewRow.Index);
+                selectedRowsSorted.Sort();
+
+                SetRowVisbible(visibleRowIndex);
+                SetButtonStatus(enabledPreviousNext: selectedRowsSorted.Count > 0);
+            }
+            else
+            {
+                selectedRowsSorted.Clear();
+                SetButtonStatus(enabledPreviousNext: selectedRowsSorted.Count > 0);
+            }
+            Properties.Settings.Default.LocationAnalyticsZoomLevel = (byte)comboBoxMapZoomLevel.SelectedIndex;
+            GetLocationAndShow(MapProvider.OpenStreetMap);
+            selectionChanged = false;
+        }
+        #endregion
+
+        #region 
+        private void kryptonButtonMarkRows_Click(object sender, EventArgs e)
+        {
+            visibleRowIndex = 0;
+            ActionMarkRows();
+        }
+        #endregion
+
+        private void SetRowVisbible(int rowIndex, bool markTheRow = false)
+        {
+            DataGridView dataGridView = DataGridViewLocationHistory;
+            dataGridView.FirstDisplayedScrollingRowIndex = selectedRowsSorted[rowIndex];
+            //dataGridView.CurrentCell = dataGridView[0, dataGridView.SelectedRows[0].Index];
+            if (markTheRow) dataGridView.Rows[selectedRowsSorted[rowIndex]].Selected = true;
+            kryptonLabelRowsSelected.Text = "Selected: " + (rowIndex + 1) + " / " + selectedRowsSorted.Count;
+        }
+
+        public void SetButtonStatus(bool enabledPreviousNext)
+        {
+            kryptonButtonBrowseRowPrevious.Enabled = enabledPreviousNext;
+            kryptonButtonBrowseRowNext.Enabled = enabledPreviousNext;
+        }
+        private void kryptonButtonBrowseRowPrevious_Click(object sender, EventArgs e)
+        {
+            if (selectionChanged) ActionMarkRows();
+            if (selectedRowsSorted.Count == 0) SetButtonStatus(enabledPreviousNext: selectedRowsSorted.Count > 0);
+            else
+            {
+                visibleRowIndex--;
+                if (visibleRowIndex < 0) visibleRowIndex = selectedRowsSorted.Count - 1;
+                SetRowVisbible(visibleRowIndex, markTheRow: true);
+            }
+            
+            
+        }
+
+        private void kryptonButtonBrowseRowNext_Click(object sender, EventArgs e)
+        {
+            if (selectionChanged) ActionMarkRows();
+            if (selectedRowsSorted.Count == 0) SetButtonStatus(enabledPreviousNext: selectedRowsSorted.Count > 0);
+            else
+            {
+                visibleRowIndex++;
+                if (visibleRowIndex > selectedRowsSorted.Count - 1) visibleRowIndex = 0;
+                SetRowVisbible(visibleRowIndex, markTheRow: true);
+            }
+        }
+
+        #region AddDatesFound
+        private void AddDatesFound(DateTime dateTime, ref List<DateTime> dates)
+        {
+            DateTime dateTimeFound = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 0, 0, 0, DateTimeKind.Utc);
+            if (!dates.Contains(dateTimeFound.AddDays(-1))) dates.Add(dateTimeFound.AddDays(-1));
+            if (!dates.Contains(dateTimeFound)) dates.Add(dateTimeFound);
+            if (!dates.Contains(dateTimeFound.AddDays(1))) dates.Add(dateTimeFound.AddDays(1));
+        }
+        #endregion
+
+        #region ShowFormLocationHistoryAnalytics
+        private void ShowFormLocationHistoryAnalytics(DataGridView dataGridViewLocationHistory, DataGridView dataGridViewDate, DataGridView dataGridViewActive)
+        {
+            using (new WaitCursor())
+            {
+                List<DateTime> datesFound = new List<DateTime>();
+                DateTime? dateTimeFrom = null;
+                DateTime? dateTimeTo = null;
+
+                if (DataGridViewHandler.GetIsAgregated(dataGridViewActive))
+                {
+                    //ShowFormLocationHistoryAnalyticsInit();
+                    PopulateMetadataLocationsClear(dataGridViewLocationHistory);
+
+                    foreach (int columnIndex in DataGridViewHandler.GetColumnSelected(dataGridViewActive))
+                    {
+                        DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridViewActive, columnIndex);
+
+                        if (dataGridViewGenericColumn != null)
+                        {
+                            DateTime? date = DataGridViewHandlerDate.GetUserInputDateTaken(dataGridViewDate, null, dataGridViewGenericColumn.FileEntryAttribute);
+                            if (date != null)
+                            {
+                                AddDatesFound((DateTime)date, ref datesFound);
+                                if (dateTimeFrom == null || date < dateTimeFrom) dateTimeFrom = date;
+                                if (dateTimeTo == null || date > dateTimeTo) dateTimeTo = date;
+                            }
+
+                            date = DataGridViewHandlerDate.GetUserInputLocationDate(dataGridViewDate, null, dataGridViewGenericColumn.FileEntryAttribute);
+                            if (date != null)
+                            {
+                                AddDatesFound((DateTime)date, ref datesFound);
+                                if (dateTimeFrom == null || date < dateTimeFrom) dateTimeFrom = date;
+                                if (dateTimeTo == null || date > dateTimeTo) dateTimeTo = date;
+                            }
+
+                            if (dataGridViewGenericColumn != null && dataGridViewGenericColumn.Metadata != null)
+                            {
+                                date = dataGridViewGenericColumn.Metadata.MediaDateTaken;
+                                if (date != null)
+                                {
+                                    AddDatesFound((DateTime)date, ref datesFound);
+                                    if (dateTimeFrom == null || date < dateTimeFrom) dateTimeFrom = date;
+                                    if (dateTimeTo == null || date > dateTimeTo) dateTimeTo = date;
+                                }
+
+                                date = dataGridViewGenericColumn.Metadata.LocationDateTime;
+                                if (date != null)
+                                {
+                                    AddDatesFound((DateTime)date, ref datesFound);
+                                    if (dateTimeFrom == null || date < dateTimeFrom) dateTimeFrom = date;
+                                    if (dateTimeTo == null || date > dateTimeTo) dateTimeTo = date;
+                                }
+
+                                //date = dataGridViewGenericColumn.Metadata.FileDateCreated;
+                                //if (date != null)
+                                //{
+                                //    if (dateTimeFrom == null || date < dateTimeFrom) dateTimeFrom = date;
+                                //    if (dateTimeTo == null || date > dateTimeTo) dateTimeTo = date;
+                                //}
+
+                                //date = dataGridViewGenericColumn.Metadata.FileDateModified;
+                                //if (date != null)
+                                //{
+                                //    if (dateTimeFrom == null || date < dateTimeFrom) dateTimeFrom = date;
+                                //    if (dateTimeTo == null || date > dateTimeTo) dateTimeTo = date;
+                                //}
+
+                                if (dataGridViewGenericColumn.Metadata.FileDateCreated != null && dataGridViewGenericColumn.Metadata.FileDateModified != null)
+                                {
+                                    date = (dataGridViewGenericColumn.Metadata.FileDateCreated < dataGridViewGenericColumn.Metadata.FileDateModified ? dataGridViewGenericColumn.Metadata.FileDateCreated : dataGridViewGenericColumn.Metadata.FileDateModified);
+                                    AddDatesFound((DateTime)date, ref datesFound);
+                                }
+                            }
+
+                        }
+                    }
+
+                    DateTime? dateTimeFoundFrom = null;
+                    DateTime? dateTimeFoundTo = null;
+                    for (int index = 0; index < datesFound.Count - 1; index++)
+                    {
+                        if (index == 0) dateTimeFoundFrom = datesFound[index];
+                        if (datesFound[index].AddDays(1) != datesFound[index + 1]) dateTimeFoundTo = datesFound[index];
+                        if (index == datesFound.Count - 2) dateTimeFoundTo = datesFound[index + 1];
+                        if (dateTimeFoundFrom != null && dateTimeFoundTo == null) dateTimeFoundTo = ((DateTime)dateTimeFoundFrom).AddDays(1);
+                        if (dateTimeFoundFrom == null && dateTimeFoundTo != null) dateTimeFoundFrom = ((DateTime)dateTimeFoundTo).AddDays(-1);
+
+                        if (dateTimeFoundFrom != null && dateTimeFoundTo != null)
+                        {
+                            PopulateMetadataLocationsAdd(dataGridViewLocationHistory, (DateTime)dateTimeFoundFrom, ((DateTime)dateTimeFoundTo).AddDays(1).AddMilliseconds(-1), Properties.Settings.Default.LocationAnalyticsMinimumTimeInterval * 60, (float)Properties.Settings.Default.LocationAnalyticsMinimumDistance);
+                            dateTimeFoundFrom = datesFound[index + 1];
+                            dateTimeFoundTo = null;
+                        }
+                    }
+
+                }
+
+                if (dateTimeFrom != null) DefaultDateTimeFrom = new DateTime(((DateTime)dateTimeFrom).Year, ((DateTime)dateTimeFrom).Month, ((DateTime)dateTimeFrom).Day, 0, 0, 0, DateTimeKind.Utc);
+                if (dateTimeTo != null) DefaultDateTimeTo = new DateTime(((DateTime)dateTimeTo).Year, ((DateTime)dateTimeTo).Month, ((DateTime)dateTimeTo).Day, 0, 0, 0, DateTimeKind.Utc).AddDays(1);
+            }
+        }
+        #endregion
+
+        public void ShowFormLocationHistoryAnalytics()
+        {
+            ShowFormLocationHistoryAnalytics(kryptonDataGridViewLocationHistory, DataGridViewDateTime, ActiveDataGridView);
+        }
+
+        private void kryptonButtonSearchFitCells_Click(object sender, EventArgs e)
+        {
+            ShowFormLocationHistoryAnalytics();
+        }
     }
 }

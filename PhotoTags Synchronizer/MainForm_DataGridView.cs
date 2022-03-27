@@ -1792,53 +1792,44 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region DataGridView - GetSelectedFilesFromActiveDataGridView
+        private DataGridViewHandler.GetSelectFileEntriesMode DataGridView_GetSelectedFilesModeFromActive()
+        {
+            DataGridViewHandler.GetSelectFileEntriesMode mode = DataGridViewHandler.GetSelectFileEntriesMode.None;
+            switch (ActiveKryptonPage)
+            {
+                case KryptonPages.None:
+                case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                case KryptonPages.kryptonPageFolderSearchFilterSearch:
+                case KryptonPages.kryptonPageFolderSearchFilterFilter:
+                case KryptonPages.kryptonPageMediaFiles:
+                    mode = DataGridViewHandler.GetSelectFileEntriesMode.None;
+                    break;
+                case KryptonPages.kryptonPageToolboxTags:
+                case KryptonPages.kryptonPageToolboxPeople:
+                case KryptonPages.kryptonPageToolboxMap:
+                case KryptonPages.kryptonPageToolboxDates:
+                case KryptonPages.kryptonPageToolboxExiftool:
+                case KryptonPages.kryptonPageToolboxWarnings:
+                case KryptonPages.kryptonPageToolboxProperties:
+                    mode = DataGridViewHandler.GetSelectFileEntriesMode.Columns;
+                    break;
+                case KryptonPages.kryptonPageToolboxRename:
+                case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                    mode = DataGridViewHandler.GetSelectFileEntriesMode.Rows;
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+            return mode;
+        }
+
         private HashSet<FileEntry> DataGridView_GetSelectedFilesFromActive()
         {
             HashSet<FileEntry> files = new HashSet<FileEntry>();
             try
             {
-                DataGridView dataGridView;
-                switch (ActiveKryptonPage)
-                {
-                    case KryptonPages.None:
-                    case KryptonPages.kryptonPageFolderSearchFilterFolder:
-                    case KryptonPages.kryptonPageFolderSearchFilterSearch:
-                    case KryptonPages.kryptonPageFolderSearchFilterFilter:
-                    case KryptonPages.kryptonPageMediaFiles:
-                        break;
-                    case KryptonPages.kryptonPageToolboxTags:
-                    case KryptonPages.kryptonPageToolboxPeople:
-                    case KryptonPages.kryptonPageToolboxMap:
-                    case KryptonPages.kryptonPageToolboxDates:
-                    case KryptonPages.kryptonPageToolboxExiftool:
-                    case KryptonPages.kryptonPageToolboxWarnings:
-                    case KryptonPages.kryptonPageToolboxProperties:
-                        dataGridView = GetActiveTabDataGridView();
-                        if (dataGridView != null)
-                        {
-                            foreach (int columnIndex in DataGridViewHandler.GetColumnSelected(GetActiveTabDataGridView()))
-                            {
-                                DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(GetActiveTabDataGridView(), columnIndex);
-                                if (dataGridViewGenericColumn != null && !files.Contains(dataGridViewGenericColumn.FileEntryAttribute.FileEntry)) files.Add(dataGridViewGenericColumn.FileEntryAttribute.FileEntry);
-                            }
-                        }
-                        break;
-                    case KryptonPages.kryptonPageToolboxRename:
-                    case KryptonPages.kryptonPageToolboxConvertAndMerge:
-                        dataGridView = GetActiveTabDataGridView();
-                        if (dataGridView != null)
-                        {
-                            foreach (int rowIndex in DataGridViewHandler.GetRowSelected(GetActiveTabDataGridView()))
-                            {
-                                DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(GetActiveTabDataGridView(), rowIndex);
-                                FileEntry fileEntry = dataGridViewGenericRow?.FileEntryAttribute?.FileEntry;
-                                if (dataGridViewGenericRow != null && !dataGridViewGenericRow.IsHeader && !files.Contains(fileEntry)) files.Add(fileEntry);
-                            }
-                        }
-                        break;
-                    default:
-                        throw new NotImplementedException();
-                }
+                DataGridViewHandler.GetSelectFileEntriesMode mode = DataGridView_GetSelectedFilesModeFromActive();
+                files = DataGridViewHandler.GetSelectFileEntries(GetActiveTabDataGridView(), mode);
             }
             catch (Exception ex)
             {

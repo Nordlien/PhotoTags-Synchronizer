@@ -265,6 +265,20 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region
+        public static DateTime? GetSuggestionFromGPSDate(DataGridView dataGridView, int? columnIndex, FileEntryAttribute fileEntryAttribute)
+        {
+            if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return null;
+            if (columnIndex == null) columnIndex = DataGridViewHandler.GetColumnIndexUserInput(dataGridView, fileEntryAttribute);
+            if (columnIndex == -1) return null;
+            if (!DataGridViewHandler.IsColumnPopulated(dataGridView, (int)columnIndex)) return null;
+
+            string dateTimeStringLocation = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, (int)columnIndex, headerSuggestion, tagSuggestedLocationTime);
+            DateTime? date = TimeZoneLibrary.ParseDateTimeAsUTC(dateTimeStringLocation);
+            return date;
+        }
+        #endregion
+
         #region GetUserInputChanges
         //Check what data has been updated by users
         public static void GetUserInputChanges(DataGridView dataGridView, ref Metadata metadata, FileEntryAttribute fileEntryColumn)

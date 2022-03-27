@@ -150,6 +150,7 @@ namespace PhotoTagsSynchronizer
             if (e.NewPage == kryptonPageFolderSearchFilterSearch) PopulateDatabaseFilter();
             e.OldPage.Text = e.OldPage.TextTitle = e.OldPage.Text.TrimEnd('*');
             e.NewPage.Text = e.NewPage.TextTitle = e.NewPage.Text.TrimEnd('*') + "*";
+            SetDataGridViewForLocationAnalytics();
         }
         #endregion
 
@@ -174,6 +175,7 @@ namespace PhotoTagsSynchronizer
                     case LinkTabAndDataGridViewNameProperties:
                     case LinkTabAndDataGridViewNameRename:
                     case LinkTabAndDataGridViewNameConvertAndMerge:
+                        SetDataGridViewForLocationAnalytics();
                         break;
                     default: throw new NotImplementedException();
                 }

@@ -2536,7 +2536,7 @@ namespace PhotoTagsSynchronizer
                                                                         "File Name:   " + current_FileEntryBrokerRegion.FileFullPath + "\r\n" +
                                                                         "File Status: " + FileHandler.ConvertFileStatusToText(fileStatus) + "\r\n" +
                                                                         "Error Message: " + exceptionError;
-                                                                    Logger.Error(writeErrorDesciption);
+                                                                    Logger.Warn(writeErrorDesciption);
 
                                                                     AddError(
                                                                         current_FileEntryBrokerRegion.Directory,

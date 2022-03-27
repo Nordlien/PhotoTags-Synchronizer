@@ -10216,8 +10216,11 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-                GlobalData.IsPerformingAButtonAction = true;
-                ShowFormLocationHistoryAnalytics();
+                using (new WaitCursor())
+                {
+                    GlobalData.IsPerformingAButtonAction = true;
+                    ShowFormLocationHistoryAnalytics();
+                }
             }
             catch (Exception ex)
             {
@@ -10236,12 +10239,14 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsApplicationClosing) return;
             if (IsPerforminAButtonAction("LocationAnalytics")) return;
             if (IsPopulatingAnything("LocationAnalytics")) return;
-            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
 
             try 
             { 
-                GlobalData.IsPerformingAButtonAction = true;
-                ShowFormLocationHistoryAnalytics();
+                using (new WaitCursor())
+                {
+                    GlobalData.IsPerformingAButtonAction = true;
+                    ShowFormLocationHistoryAnalytics();
+                }
             }
             catch (Exception ex)
             {
@@ -11966,7 +11971,6 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         //--
-        
 
         #region SeeProcessQueue_Clcik
         private void kryptonRibbonGroupButtonToolsProgressLazyloadingShowStatus_Click(object sender, EventArgs e)

@@ -188,7 +188,6 @@
     <PackageReference Include="VideoLAN.LibVLC.Windows" Version="3.0.16" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="System.Design" />
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>

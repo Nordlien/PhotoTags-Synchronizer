@@ -353,7 +353,8 @@ namespace GoogleLocationHistory
                             #endregion
 
                             #region If diff < acceptDiffrentSecound - Set result metadata
-                            if (Math.Min(lowDiffInSeconds, highDiffInSeconds) < acceptDiffrentSecound)
+                            //if (Math.Min(lowDiffInSeconds, highDiffInSeconds) < acceptDiffrentSecound)
+                            if (totalDifInSeconds < acceptDiffrentSecound)
                             {
                                 metadata.LocationAltitude = (float)
                                         (((minAltitude * (totalDifInSeconds - lowDiffInSeconds)) +

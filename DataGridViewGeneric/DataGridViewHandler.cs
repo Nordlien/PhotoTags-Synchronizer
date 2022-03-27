@@ -972,6 +972,44 @@ namespace DataGridViewGeneric
 
         #region Column handling 
 
+        #region Column handling - GetSelectFileEntriesMode
+        public enum GetSelectFileEntriesMode
+        {
+            None,
+            Columns,
+            Rows
+        }
+        #endregion
+
+        #region Column handling - GetSelectFileEntries
+        public static HashSet<FileEntry> GetSelectFileEntries(DataGridView dataGridView, GetSelectFileEntriesMode mode)
+        {
+            HashSet<FileEntry> files = new HashSet<FileEntry>();
+            if (dataGridView != null)
+            {
+                switch (mode)
+                {
+                    case GetSelectFileEntriesMode.Columns:
+                        foreach (int columnIndex in DataGridViewHandler.GetColumnSelected(dataGridView))
+                        {
+                            DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+                            if (dataGridViewGenericColumn != null && !files.Contains(dataGridViewGenericColumn.FileEntryAttribute.FileEntry)) files.Add(dataGridViewGenericColumn.FileEntryAttribute.FileEntry);
+                        }
+                        break;
+                    case GetSelectFileEntriesMode.Rows:
+                        foreach (int rowIndex in DataGridViewHandler.GetRowSelected(dataGridView))
+                        {
+                            DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
+                            FileEntry fileEntry = dataGridViewGenericRow?.FileEntryAttribute?.FileEntry;
+                            if (dataGridViewGenericRow != null && !dataGridViewGenericRow.IsHeader && !files.Contains(fileEntry)) files.Add(fileEntry);
+                        }
+                        break;
+                }
+            }
+            return files;
+        }
+        #endregion
+
         #region Column handling - SetColumnDirtyFlag
         public static void SetColumnDirtyFlag(DataGridView dataGridView, int columnIndex, bool isDirty, string diffrences = null)
         {
@@ -1680,6 +1718,14 @@ namespace DataGridViewGeneric
         {
             rowFound = false;
             int lastHeaderRowFound = -1;
+
+            int rowIndexFound = GetRowIndex(dataGridView, dataGridViewGenericRow.RowIndenifier);
+            if (rowIndexFound >= startSearchRow)
+            {
+                rowFound = true;
+                return rowIndexFound;
+            }
+
 
             for (int rowIndex = startSearchRow; rowIndex < GetRowCountWithoutEditRow(dataGridView); rowIndex++)
             {
