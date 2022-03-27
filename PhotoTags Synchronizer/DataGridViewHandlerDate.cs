@@ -265,7 +265,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region
+        #region GetSuggestionFromGPSDate
         public static DateTime? GetSuggestionFromGPSDate(DataGridView dataGridView, int? columnIndex, FileEntryAttribute fileEntryAttribute)
         {
             if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return null;
