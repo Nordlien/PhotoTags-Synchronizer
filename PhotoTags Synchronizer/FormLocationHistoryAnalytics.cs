@@ -54,6 +54,7 @@ namespace PhotoTagsSynchronizer
         {
             isInitProcessing = true;
             InitializeComponent();
+            SetButtonStatus(false);
 
             this.kryptonContextMenuItemLocationNamesCopy.Click += KryptonContextMenuItemLocationNamesCopy_Click;
             this.kryptonContextMenuItemLocationNamesFind.Click += KryptonContextMenuItemLocationNamesFind_Click;
@@ -492,7 +493,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region 
+        #region kryptonButtonMarkRows_Click
         private void kryptonButtonMarkRows_Click(object sender, EventArgs e)
         {
             visibleRowIndex = 0;
@@ -500,6 +501,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region SetRowVisbible
         private void SetRowVisbible(int rowIndex, bool markTheRow = false)
         {
             DataGridView dataGridView = DataGridViewLocationHistory;
@@ -508,12 +510,17 @@ namespace PhotoTagsSynchronizer
             if (markTheRow) dataGridView.Rows[selectedRowsSorted[rowIndex]].Selected = true;
             kryptonLabelRowsSelected.Text = "Selected: " + (rowIndex + 1) + " / " + selectedRowsSorted.Count;
         }
+        #endregion 
 
+        #region SetButtonStatus
         public void SetButtonStatus(bool enabledPreviousNext)
         {
             kryptonButtonBrowseRowPrevious.Enabled = enabledPreviousNext;
             kryptonButtonBrowseRowNext.Enabled = enabledPreviousNext;
         }
+        #endregion
+
+        #region kryptonButtonBrowseRowPrevious_Click
         private void kryptonButtonBrowseRowPrevious_Click(object sender, EventArgs e)
         {
             if (selectionChanged) ActionMarkRows();
@@ -527,7 +534,9 @@ namespace PhotoTagsSynchronizer
             
             
         }
+        #endregion
 
+        #region kryptonButtonBrowseRowNext_Click
         private void kryptonButtonBrowseRowNext_Click(object sender, EventArgs e)
         {
             if (selectionChanged) ActionMarkRows();
@@ -539,6 +548,7 @@ namespace PhotoTagsSynchronizer
                 SetRowVisbible(visibleRowIndex, markTheRow: true);
             }
         }
+        #endregion 
 
         #region AddDatesFound
         private void AddDatesFound(DateTime dateTime, ref List<DateTime> dates)
@@ -555,6 +565,8 @@ namespace PhotoTagsSynchronizer
         {
             using (new WaitCursor())
             {
+                SetButtonStatus(false);
+
                 List<DateTime> datesFound = new List<DateTime>();
                 DateTime? dateTimeFrom = null;
                 DateTime? dateTimeTo = null;
@@ -654,14 +666,18 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region ShowFormLocationHistoryAnalytics
         public void ShowFormLocationHistoryAnalytics()
         {
             ShowFormLocationHistoryAnalytics(kryptonDataGridViewLocationHistory, DataGridViewDateTime, ActiveDataGridView);
         }
+        #endregion
 
+        #region kryptonButtonSearchFitCells_Click
         private void kryptonButtonSearchFitCells_Click(object sender, EventArgs e)
         {
             ShowFormLocationHistoryAnalytics();
         }
+        #endregion
     }
 }

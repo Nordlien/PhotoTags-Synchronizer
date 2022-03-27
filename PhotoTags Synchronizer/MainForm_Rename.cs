@@ -92,9 +92,18 @@ namespace PhotoTagsSynchronizer
                 {                    
                     Dictionary<string, string> renameSuccess;
                     Dictionary<string, RenameToNameAndResult> renameFailed;
+                    HashSet<string> directoriesCreated;
                     
-                    DataGridViewHandlerRename.Write(dataGridViewRename, out renameSuccess, out renameFailed, checkBoxRenameShowFullPath.Checked);
+                    DataGridViewHandlerRename.Write(dataGridViewRename, out renameSuccess, out renameFailed, out directoriesCreated, checkBoxRenameShowFullPath.Checked);
                     UpdateImageViewListeAfterRename(imageListView1, renameSuccess, renameFailed, true);
+
+                    foreach (string newDirector in directoriesCreated)
+                    {
+                        GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect = true;
+                        TreeViewFolderBrowserHandler.RefreshFolderWithName(treeViewFolderBrowser1, newDirector, true);
+                        GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect = false;
+                    }
+
                     ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
                 }
             }

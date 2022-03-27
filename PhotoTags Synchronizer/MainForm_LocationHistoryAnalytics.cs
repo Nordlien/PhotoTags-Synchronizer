@@ -35,11 +35,13 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region ShowFormLocationHistoryAnalytics
         public void ShowFormLocationHistoryAnalytics()
         {
             ShowFormLocationHistoryAnalyticsInit();
             SetDataGridViewForLocationAnalytics();
             formLocationHistoryAnalytics.ShowFormLocationHistoryAnalytics();
         }
+        #endregion
     }
 }

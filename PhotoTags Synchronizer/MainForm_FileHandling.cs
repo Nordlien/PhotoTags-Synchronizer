@@ -122,7 +122,7 @@ namespace PhotoTagsSynchronizer
                     }
                     catch (Exception ex)
                     {
-
+                        #region Error Handling
                         DateTime dateTimeLastWriteTime = DateTime.Now;
                         try
                         {
@@ -152,6 +152,7 @@ namespace PhotoTagsSynchronizer
                             "To   File staus: " + fileStatusTarget.ToString() + "\r\n" +
                             "Error message: " + ex.Message);
                         Logger.Error(ex, "Error when move file. From: " + sourceFullFilename + " to:" + targetFullFilename);
+                        #endregion 
                     }
                 }
             }

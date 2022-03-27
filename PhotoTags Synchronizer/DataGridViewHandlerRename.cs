@@ -219,12 +219,13 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region Write
-        public static void Write(DataGridView dataGridView, out Dictionary<string, string> renameSuccess, out Dictionary<string, RenameToNameAndResult> renameFailed, bool showFullPathIsUsed)
+        public static void Write(DataGridView dataGridView, out Dictionary<string, string> renameSuccess, out Dictionary<string, RenameToNameAndResult> renameFailed, out HashSet<string> directoryCreated, bool showFullPathIsUsed)
         {
             using (new WaitCursor())
             {
                 renameSuccess = new Dictionary<string, string>();
                 renameFailed = new Dictionary<string, RenameToNameAndResult>();
+                directoryCreated = new HashSet<string>();
 
                 int columnIndex = DataGridViewHandler.GetColumnIndexFirstFullFilePath(dataGridView, headerNewFilename, false);
                 if (columnIndex == -1) return;
@@ -247,11 +248,12 @@ namespace PhotoTagsSynchronizer
                         if (dataGridViewGenericRow.Metadata != null)
                         {
                             string newFullFilename = FileHandler.CombinePathAndName(oldDirectory, DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, rowIndex));
+
+                            string newDirectory = Path.GetDirectoryName(newFullFilename);
+                            if (!Directory.Exists(newDirectory) && !directoryCreated.Contains(newDirectory)) directoryCreated.Add(newDirectory);
                             FilesCutCopyPasteDrag.RenameFile(oldFullFilename, newFullFilename, ref renameSuccess, ref renameFailed);
                         }
                         #endregion
-
-
                     }
                 }
             }

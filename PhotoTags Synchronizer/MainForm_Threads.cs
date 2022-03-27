@@ -2538,13 +2538,13 @@ namespace PhotoTagsSynchronizer
                                                                         "Error Message: " + exceptionError;
                                                                     Logger.Warn(writeErrorDesciption);
 
-                                                                    AddError(
-                                                                        current_FileEntryBrokerRegion.Directory,
-                                                                        current_FileEntryBrokerRegion.FileName,
-                                                                        current_FileEntryBrokerRegion.LastWriteDateTime,
-                                                                        AddErrorFileSystemRegion, AddErrorFileSystemRead,
-                                                                        AddErrorFileSystemRead, AddErrorFileSystemRead,
-                                                                        writeErrorDesciption);
+                                                                    //AddError(
+                                                                    //    current_FileEntryBrokerRegion.Directory,
+                                                                    //    current_FileEntryBrokerRegion.FileName,
+                                                                    //    current_FileEntryBrokerRegion.LastWriteDateTime,
+                                                                    //    AddErrorFileSystemRegion, AddErrorFileSystemRead,
+                                                                    //    AddErrorFileSystemRead, AddErrorFileSystemRead,
+                                                                    //    writeErrorDesciption);
                                                                 }
                                                                 #endregion
                                                             } else 
@@ -2591,13 +2591,13 @@ namespace PhotoTagsSynchronizer
                                                             
                                                             Logger.Warn(errorDesciption);
 
-                                                            AddError(
-                                                                current_FileEntryBrokerRegion.Directory,
-                                                                current_FileEntryBrokerRegion.FileName,
-                                                                current_FileEntryBrokerRegion.LastWriteDateTime,
-                                                                AddErrorFileSystemRegion, AddErrorFileSystemRead,
-                                                                AddErrorFileSystemRead, AddErrorFileSystemRead,
-                                                                errorDesciption);
+                                                            //AddError(
+                                                            //    current_FileEntryBrokerRegion.Directory,
+                                                            //    current_FileEntryBrokerRegion.FileName,
+                                                            //    current_FileEntryBrokerRegion.LastWriteDateTime,
+                                                            //    AddErrorFileSystemRegion, AddErrorFileSystemRead,
+                                                            //    AddErrorFileSystemRead, AddErrorFileSystemRead,
+                                                            //    errorDesciption);
                                                             #endregion
                                                         }
                                                     }
@@ -3327,7 +3327,6 @@ namespace PhotoTagsSynchronizer
                                 #endregion
 
                             }
-
                             #endregion
                             
                         }
