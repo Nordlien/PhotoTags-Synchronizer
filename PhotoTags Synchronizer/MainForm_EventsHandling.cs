@@ -8985,32 +8985,34 @@ namespace PhotoTagsSynchronizer
                     foreach (ImageListViewItem item in imageListView1.SelectedItems)
                     {
                         FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(item.FileFullPath, item.DateModified, MetadataBrokerType.ExifTool);
-                        Metadata metadataInCache = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftool);
-                        if (metadataInCache != null)
-                        {
-                            Metadata metadataToSave = autoCorrect.RunAlgorithmReturnCopy(metadataInCache,
-                                databaseAndCacheMetadataExiftool,
-                                databaseAndCacheMetadataMicrosoftPhotos,
-                                databaseAndCacheMetadataWindowsLivePhotoGallery,
-                                databaseAndCahceCameraOwner,
-                                databaseLocationNameAndLookUp,
-                                databaseGoogleLocationHistory,
-                                locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
-                                autoKeywordConvertions,
-                                Properties.Settings.Default.RenameDateFormats);
-                            
-                            if (metadataToSave != null)
-                            {
-                                if (Properties.Settings.Default.WriteAutoKeywordsSynonyms) AutoKeywords(ref metadataToSave);
-                                if (Properties.Settings.Default.WriteUsingCompatibilityCheck) AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave, fixDateTaken: false);
+                        AddQueueAutoCorrectLock(fileEntryBrokerExiftool, null); 
 
-                                MicrosoftLocationHack(ref metadataToSave, metadataInCache, Properties.Settings.Default.MicosoftOneDriveLocationHackUse, Properties.Settings.Default.MicosoftOneDriveLocationHackPostfix);
-                                DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
-                                AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(metadataInCache));
-                                //Need use metadataToSave.FullFilePath, Because When Exiftool output filename can be diffrent to input filename
-                                AddQueueRenameMediaFilesLock(metadataToSave.FileFullPath, autoCorrect.RenameVariable);  
-                            }
-                        }
+                        //Metadata metadataInCache = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftool);
+                        //if (metadataInCache != null)
+                        //{
+                        //    Metadata metadataToSave = autoCorrect.RunAlgorithmReturnCopy(metadataInCache,
+                        //        databaseAndCacheMetadataExiftool,
+                        //        databaseAndCacheMetadataMicrosoftPhotos,
+                        //        databaseAndCacheMetadataWindowsLivePhotoGallery,
+                        //        databaseAndCahceCameraOwner,
+                        //        databaseLocationNameAndLookUp,
+                        //        databaseGoogleLocationHistory,
+                        //        locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
+                        //        autoKeywordConvertions,
+                        //        Properties.Settings.Default.RenameDateFormats);
+                            
+                        //    if (metadataToSave != null)
+                        //    {
+                        //        if (Properties.Settings.Default.WriteAutoKeywordsSynonyms) AutoKeywords(ref metadataToSave);
+                        //        if (Properties.Settings.Default.WriteUsingCompatibilityCheck) AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave, fixDateTaken: false);
+
+                        //        MicrosoftLocationHack(ref metadataToSave, metadataInCache, Properties.Settings.Default.MicosoftOneDriveLocationHackUse, Properties.Settings.Default.MicosoftOneDriveLocationHackPostfix);
+                        //        DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
+                        //        AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(metadataInCache));
+                        //        //Need use metadataToSave.FullFilePath, Because When Exiftool output filename can be diffrent to input filename
+                        //        AddQueueRenameMediaFilesLock(metadataToSave.FileFullPath, autoCorrect.RenameVariable);  
+                        //    }
+                        //}
                     }
                 }
                 StartThreads();
@@ -9047,32 +9049,34 @@ namespace PhotoTagsSynchronizer
                     foreach (FileData file in fileDatas)
                     {
                         FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(file.Path, FileHandler.GetLastWriteTime(file.Path), MetadataBrokerType.ExifTool);
-                        Metadata metadataInCache = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftool);
-                        if (metadataInCache != null)
-                        {
-                            Metadata metadata = new Metadata(metadataInCache);
+                        AddQueueAutoCorrectLock(fileEntryBrokerExiftool, null); 
 
-                            Metadata metadataToSave = autoCorrect.RunAlgorithmReturnCopy(metadata,
-                            databaseAndCacheMetadataExiftool,
-                            databaseAndCacheMetadataMicrosoftPhotos,
-                            databaseAndCacheMetadataWindowsLivePhotoGallery,
-                            databaseAndCahceCameraOwner,
-                            databaseLocationNameAndLookUp,
-                            databaseGoogleLocationHistory, locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
-                            autoKeywordConvertions,
-                            Properties.Settings.Default.RenameDateFormats);
-                            if (metadataToSave != null)
-                            {
-                                if (Properties.Settings.Default.WriteAutoKeywordsSynonyms) AutoKeywords(ref metadataToSave);
-                                if (Properties.Settings.Default.WriteUsingCompatibilityCheck) AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave, fixDateTaken: false);
+                        //Metadata metadataInCache = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftool);
+                        //if (metadataInCache != null)
+                        //{
+                        //    Metadata metadata = new Metadata(metadataInCache);
 
-                                MicrosoftLocationHack(ref metadataToSave, metadata, Properties.Settings.Default.MicosoftOneDriveLocationHackUse, Properties.Settings.Default.MicosoftOneDriveLocationHackPostfix);
-                                DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
-                                AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(metadataInCache));
-                                //Need use metadataToSave.FullFilePath, Because When Exiftool output filename can be diffrent to input filename
-                                AddQueueRenameMediaFilesLock(metadataToSave.FileFullPath, autoCorrect.RenameVariable); 
-                            }
-                        }
+                        //    Metadata metadataToSave = autoCorrect.RunAlgorithmReturnCopy(metadata,
+                        //    databaseAndCacheMetadataExiftool,
+                        //    databaseAndCacheMetadataMicrosoftPhotos,
+                        //    databaseAndCacheMetadataWindowsLivePhotoGallery,
+                        //    databaseAndCahceCameraOwner,
+                        //    databaseLocationNameAndLookUp,
+                        //    databaseGoogleLocationHistory, locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
+                        //    autoKeywordConvertions,
+                        //    Properties.Settings.Default.RenameDateFormats);
+                        //    if (metadataToSave != null)
+                        //    {
+                        //        if (Properties.Settings.Default.WriteAutoKeywordsSynonyms) AutoKeywords(ref metadataToSave);
+                        //        if (Properties.Settings.Default.WriteUsingCompatibilityCheck) AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave, fixDateTaken: false);
+
+                        //        MicrosoftLocationHack(ref metadataToSave, metadata, Properties.Settings.Default.MicosoftOneDriveLocationHackUse, Properties.Settings.Default.MicosoftOneDriveLocationHackPostfix);
+                        //        DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
+                        //        AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(metadataInCache));
+                        //        //Need use metadataToSave.FullFilePath, Because When Exiftool output filename can be diffrent to input filename
+                        //        AddQueueRenameMediaFilesLock(metadataToSave.FileFullPath, autoCorrect.RenameVariable); 
+                        //    }
+                        //}
                     }
                 }
                 StartThreads();
@@ -9296,36 +9300,39 @@ namespace PhotoTagsSynchronizer
                         foreach (ImageListViewItem item in imageListView1.SelectedItems)
                         {
                             FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(item.FileFullPath, item.DateModified, MetadataBrokerType.ExifTool);
-                            Metadata metadataInCache = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftool);
-                            if (metadataInCache != null)
-                            {
-                                Metadata metadata = new Metadata(metadataInCache);
+
+                            AddQueueAutoCorrectLock(fileEntryBrokerExiftool, autoCorrectFormVaraibles); 
+
+                            //Metadata metadataInCache = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftool);
+                            //if (metadataInCache != null)
+                            //{
+                            //    Metadata metadata = new Metadata(metadataInCache);
                                 
-                                AutoCorrectFormVaraibles.UseAutoCorrectFormData(ref metadata, autoCorrectFormVaraibles);
+                            //    AutoCorrectFormVaraibles.UseAutoCorrectFormData(ref metadata, autoCorrectFormVaraibles);
 
-                                Metadata metadataToSave = autoCorrect.RunAlgorithmReturnCopy(metadata,
-                                    databaseAndCacheMetadataExiftool,
-                                    databaseAndCacheMetadataMicrosoftPhotos,
-                                    databaseAndCacheMetadataWindowsLivePhotoGallery,
-                                    databaseAndCahceCameraOwner,
-                                    databaseLocationNameAndLookUp,
-                                    databaseGoogleLocationHistory,
-                                    locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
-                                    autoKeywordConvertions,
-                                    Properties.Settings.Default.RenameDateFormats);
+                            //    Metadata metadataToSave = autoCorrect.RunAlgorithmReturnCopy(metadata,
+                            //        databaseAndCacheMetadataExiftool,
+                            //        databaseAndCacheMetadataMicrosoftPhotos,
+                            //        databaseAndCacheMetadataWindowsLivePhotoGallery,
+                            //        databaseAndCahceCameraOwner,
+                            //        databaseLocationNameAndLookUp,
+                            //        databaseGoogleLocationHistory,
+                            //        locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
+                            //        autoKeywordConvertions,
+                            //        Properties.Settings.Default.RenameDateFormats);
 
-                                if (metadataToSave != null)
-                                {
-                                    if (Properties.Settings.Default.WriteAutoKeywordsSynonyms) AutoKeywords(ref metadataToSave);
-                                    if (Properties.Settings.Default.WriteUsingCompatibilityCheck) AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave, fixDateTaken: false);
+                            //    if (metadataToSave != null)
+                            //    {
+                            //        if (Properties.Settings.Default.WriteAutoKeywordsSynonyms) AutoKeywords(ref metadataToSave);
+                            //        if (Properties.Settings.Default.WriteUsingCompatibilityCheck) AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave, fixDateTaken: false);
 
-                                    MicrosoftLocationHack(ref metadataToSave, metadata, Properties.Settings.Default.MicosoftOneDriveLocationHackUse, Properties.Settings.Default.MicosoftOneDriveLocationHackPostfix);
-                                    DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
-                                    AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(metadataInCache));
-                                    //Need use metadataToSave.FullFilePath, Because When Exiftool output filename can be diffrent to input filename
-                                    AddQueueRenameMediaFilesLock(metadataToSave.FileFullPath, autoCorrect.RenameVariable);
-                                }
-                            }
+                            //        MicrosoftLocationHack(ref metadataToSave, metadata, Properties.Settings.Default.MicosoftOneDriveLocationHackUse, Properties.Settings.Default.MicosoftOneDriveLocationHackPostfix);
+                            //        DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
+                            //        AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(metadataInCache));
+                            //        //Need use metadataToSave.FullFilePath, Because When Exiftool output filename can be diffrent to input filename
+                            //        AddQueueRenameMediaFilesLock(metadataToSave.FileFullPath, autoCorrect.RenameVariable);
+                            //    }
+                            //}
                         }
                     }
                     StartThreads();
@@ -9368,35 +9375,37 @@ namespace PhotoTagsSynchronizer
                         foreach (FileData fileData in fileDatas)
                         {
                             FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(fileData.Path, FileHandler.GetLastWriteTime(fileData.Path), MetadataBrokerType.ExifTool);
-                            Metadata metadataInCache = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftool);
-                            if (metadataInCache != null)
-                            {
-                                Metadata metadata = new Metadata(metadataInCache);
+                            AddQueueAutoCorrectLock(fileEntryBrokerExiftool, autoCorrectFormVaraibles); 
 
-                                Metadata metadataToSave = autoCorrect.RunAlgorithmReturnCopy(metadata,
-                                databaseAndCacheMetadataExiftool,
-                                databaseAndCacheMetadataMicrosoftPhotos,
-                                databaseAndCacheMetadataWindowsLivePhotoGallery,
-                                databaseAndCahceCameraOwner,
-                                databaseLocationNameAndLookUp,
-                                databaseGoogleLocationHistory,
-                                locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
-                                autoKeywordConvertions,
-                                Properties.Settings.Default.RenameDateFormats);
+                            //Metadata metadataInCache = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftool);
+                            //if (metadataInCache != null)
+                            //{
+                            //    Metadata metadata = new Metadata(metadataInCache);
 
-                                if (metadataToSave != null)
-                                {
-                                    if (Properties.Settings.Default.WriteAutoKeywordsSynonyms) AutoKeywords(ref metadataToSave);
-                                    AutoCorrectFormVaraibles.UseAutoCorrectFormData(ref metadataToSave, autoCorrectFormVaraibles);
-                                    if (Properties.Settings.Default.WriteUsingCompatibilityCheck) AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave, fixDateTaken: false);
+                            //    Metadata metadataToSave = autoCorrect.RunAlgorithmReturnCopy(metadata,
+                            //    databaseAndCacheMetadataExiftool,
+                            //    databaseAndCacheMetadataMicrosoftPhotos,
+                            //    databaseAndCacheMetadataWindowsLivePhotoGallery,
+                            //    databaseAndCahceCameraOwner,
+                            //    databaseLocationNameAndLookUp,
+                            //    databaseGoogleLocationHistory,
+                            //    locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
+                            //    autoKeywordConvertions,
+                            //    Properties.Settings.Default.RenameDateFormats);
 
-                                    MicrosoftLocationHack(ref metadataToSave, metadata, Properties.Settings.Default.MicosoftOneDriveLocationHackUse, Properties.Settings.Default.MicosoftOneDriveLocationHackPostfix);
-                                    DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
-                                    AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(metadataInCache));
-                                    //Need use metadataToSave.FullFilePath, Because When Exiftool output filename can be diffrent to input filename
-                                    AddQueueRenameMediaFilesLock(metadata.FileFullPath, autoCorrect.RenameVariable);
-                                }
-                            }
+                            //    if (metadataToSave != null)
+                            //    {
+                            //        if (Properties.Settings.Default.WriteAutoKeywordsSynonyms) AutoKeywords(ref metadataToSave);
+                            //        AutoCorrectFormVaraibles.UseAutoCorrectFormData(ref metadataToSave, autoCorrectFormVaraibles);
+                            //        if (Properties.Settings.Default.WriteUsingCompatibilityCheck) AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave, fixDateTaken: false);
+
+                            //        MicrosoftLocationHack(ref metadataToSave, metadata, Properties.Settings.Default.MicosoftOneDriveLocationHackUse, Properties.Settings.Default.MicosoftOneDriveLocationHackPostfix);
+                            //        DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
+                            //        AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(metadataInCache));
+                            //        //Need use metadataToSave.FullFilePath, Because When Exiftool output filename can be diffrent to input filename
+                            //        AddQueueRenameMediaFilesLock(metadata.FileFullPath, autoCorrect.RenameVariable);
+                            //    }
+                            //}
                         }
                     }
                     StartThreads();

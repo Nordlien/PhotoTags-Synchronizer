@@ -67,6 +67,9 @@ namespace PhotoTagsSynchronizer
 
         private static readonly Object _ThreadRenameMediaFilesLock = new Object();
         private static Thread _ThreadRenameMediaFiles = null; //
+
+        private static readonly Object _ThreadAutoCorrectLock = new Object();
+        private static Thread _ThreadAutoCorrect = null; //
         #endregion
 
         #endregion
@@ -110,6 +113,10 @@ namespace PhotoTagsSynchronizer
         //Rename
         private static Dictionary<string, string> commonQueueRenameMediaFiles = new Dictionary<string, string>();
         private static readonly Object            commonQueueRenameMediaFilesLock = new Object();
+
+        //AutoCorrect
+        private static Dictionary<FileEntryBroker, AutoCorrectFormVaraibles> commonQueueAutoCorrect = new Dictionary<FileEntryBroker, AutoCorrectFormVaraibles>();
+        private static readonly Object commonQueueAutoCorrectLock = new Object();
         #endregion
 
         #region Exiftool Save
@@ -299,6 +306,16 @@ namespace PhotoTagsSynchronizer
         {
             return commonQueueRenameMediaFiles.Count;
         }
+
+        private int CommonQueueAutoCorrectLock()
+        {
+            lock (commonQueueAutoCorrectLock) return commonQueueAutoCorrect.Count;
+        }
+
+        private int CommonQueueAutoCorrectDirty()
+        {
+            return commonQueueAutoCorrect.Count;
+        }
         #endregion
 
         #region Start Thread, IsAnyThreadRunning, Tell when all queues are empty
@@ -330,9 +347,11 @@ namespace PhotoTagsSynchronizer
             ThreadSaveToDatabaseRegionAndThumbnail();
 
             ThreadRenameMediaFiles();
+            ThreadAutoCorrect();
+
             ThreadLazyLoadingAllSourcesMetadataAndRegionThumbnails();
             ThreadLazyLoadingMediaThumbnail();
-            ThreadQueueLazyLoadingMapNomnatatim();
+            ThreadQueueLazyLoadingMapNomnatatim();            
         }
 
         /// <summary>
@@ -1701,37 +1720,117 @@ namespace PhotoTagsSynchronizer
                                 {
                                     for (int i = 0; i < writeCount; i++)
                                     {
+                                        FileEntry fileEntry = exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser[0].FileEntry;
+
+                                        #region Check file status
+                                        FileStatus fileStatus = FileHandler.GetFileStatus(fileEntry.FileFullPath);
+
+                                        #region File not Exist, forget file
+                                        if (!fileStatus.FileExists)
+                                        {
+                                            fileStatus.FileExists = false;
+                                            fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.FileInaccessibleOrError;
+
+                                            FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fileEntry, FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist);
+                                            DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute);
+                                        }
+                                        #endregion
+                                        #region File exist and not in clud, proceed
+                                        else if (fileStatus.FileExists && !fileStatus.IsInCloudOrVirtualOrOffline)
+                                        {
+                                            fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.InExiftoolReadQueue;
+                                            //lock (exiftool_MediaFilesNotInDatabaseLock) exiftool_MediaFilesNotInDatabase.Add(fileEntry); //File in not in clode, process with file
+                                        }
+                                        #endregion
+                                        #region File exist and offline, touch file and put back last in queue
+                                        else if (fileStatus.FileExists && fileStatus.IsInCloudOrVirtualOrOffline)
+                                        {
+                                            #region Touched file failed
+                                            if (FileHandler.IsOfflineFileTouchedAndFailedWithoutTimedOut(fileEntry.FileFullPath))
+                                            {
+                                                fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.FileInaccessibleOrError; //TimeOut Error
+                                                fileStatus.FileErrorMessage = "Failed download";
+
+                                                FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fileEntry, FileEntryVersion.ExtractedNowUsingExiftoolTimeout);
+                                                DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute);
+                                            }
+                                            #endregion
+                                            else
+                                            #region Touch file and put back in queue
+                                            {
+                                                FileHandler.TouchOfflineFileToGetFileOnline(fileEntry.FileFullPath);
+                                                fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.WaitOfflineBecomeLocal;
+
+                                                AddQueueReadFromSourceExiftoolLock(fileEntry); //Add last in queue and wait for become downloaded
+                                            }
+                                            #endregion
+                                        }
+                                        #endregion
+
+                                        ImageListView_UpdateItemFileStatusInvoke(fileEntry.FileFullPath, fileStatus);
+
+                                        #endregion
+
                                         //Remeber 
                                         Metadata metadataToWrite;
                                         Metadata metadataOrginal;
 
                                         lock (exiftoolSave_QueueSaveUsingExiftool_MetadataUpdatedByUserLock)
                                         {
-                                            lock (exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUserLock)
+                                            if (!fileStatus.FileExists)
                                             {
-                                                metadataToWrite = exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser[0];
-                                                metadataOrginal = exiftoolSave_QueueSaveUsingExiftool_MetadataOrigialBeforeUserUpdate[0];
-                                            }
-
-                                            lock (commonQueueReadMetadataFromSourceExiftoolLock)
-                                            {
-                                                if (!GlobalData.IsApplicationClosing)
-                                                {
-                                                    if (metadataOrginal != metadataToWrite) AddWatcherShowExiftoolSaveProcessQueue(metadataToWrite.FileEntryBroker.FileFullPath);
-
-                                                    lock (exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUserLock)
-                                                    {
-                                                        exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser.Add(metadataToWrite);
-                                                        exiftoolSave_QueueSubset_MetadataOrigialBeforeUserUpdate.Add(metadataOrginal);
-                                                    }
-                                                }
-                                            }
-
-                                            //Remove
-                                            lock (exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUserLock)
-                                            {
+                                                #region File doesn't exist anymore, remove from queue
                                                 exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser.RemoveAt(0);
                                                 exiftoolSave_QueueSaveUsingExiftool_MetadataOrigialBeforeUserUpdate.RemoveAt(0);
+                                                #endregion
+                                            }
+                                            else if (fileStatus.IsInCloudOrVirtualOrOffline)
+                                            {
+                                                #region When in cloud, move back in queue
+                                                lock (exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUserLock)
+                                                {
+                                                    metadataToWrite = exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser[0];
+                                                    metadataOrginal = exiftoolSave_QueueSaveUsingExiftool_MetadataOrigialBeforeUserUpdate[0];
+                                                
+                                                    exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser.RemoveAt(0);
+                                                    exiftoolSave_QueueSaveUsingExiftool_MetadataOrigialBeforeUserUpdate.RemoveAt(0);
+                                                
+                                                    exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser.Add(metadataToWrite);
+                                                    exiftoolSave_QueueSaveUsingExiftool_MetadataOrigialBeforeUserUpdate.Add(metadataOrginal);
+                                                }
+                                                #endregion
+                                            }
+                                            else if (!fileStatus.IsInCloudOrVirtualOrOffline)
+                                            {
+                                                #region File ready to be written to, add to write qeue
+                                                
+                                                lock (exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUserLock)
+                                                {
+                                                    metadataToWrite = exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser[0];
+                                                    metadataOrginal = exiftoolSave_QueueSaveUsingExiftool_MetadataOrigialBeforeUserUpdate[0];
+                                                }
+
+                                                lock (commonQueueReadMetadataFromSourceExiftoolLock)
+                                                {
+                                                    if (!GlobalData.IsApplicationClosing)
+                                                    {
+                                                        if (metadataOrginal != metadataToWrite) AddWatcherShowExiftoolSaveProcessQueue(metadataToWrite.FileEntryBroker.FileFullPath);
+
+                                                        lock (exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUserLock)
+                                                        {
+                                                            exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser.Add(metadataToWrite);
+                                                            exiftoolSave_QueueSubset_MetadataOrigialBeforeUserUpdate.Add(metadataOrginal);
+                                                        }
+                                                    }
+                                                }
+
+                                                //Remove
+                                                lock (exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUserLock)
+                                                {
+                                                    exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser.RemoveAt(0);
+                                                    exiftoolSave_QueueSaveUsingExiftool_MetadataOrigialBeforeUserUpdate.RemoveAt(0);
+                                                }
+                                                #endregion
                                             }
                                         }
                                     }
@@ -1850,6 +1949,7 @@ namespace PhotoTagsSynchronizer
                                                             {
                                                                 try
                                                                 {
+//FILE NOT EXIST ANYMORE ********
                                                                     File.SetCreationTime(metadata.FileFullPath, (DateTime)dateTakenWithOffset);
                                                                     retrySetCreationTime = 0;
                                                                 }
@@ -2010,6 +2110,8 @@ namespace PhotoTagsSynchronizer
 
                                 //Status updated for user
                                 ShowExiftoolSaveProgressClear();
+                                
+                                Thread.Sleep(10);
                             }
 
                             if (GlobalData.IsApplicationClosing)
@@ -3365,8 +3467,170 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
+
+        #region AutoCorrect
+
+        #region AutoCorrect - AddQueueAutoCorrectLock
+        public void AddQueueAutoCorrectLock(FileEntryBroker fileEntryBroker, AutoCorrectFormVaraibles autoCorrectFormVaraibles)
+        {
+            lock (commonQueueAutoCorrectLock)
+            {
+                if (commonQueueAutoCorrect.ContainsKey(fileEntryBroker))
+                {
+                    commonQueueAutoCorrect[fileEntryBroker] = autoCorrectFormVaraibles;
+                }
+                else
+                {
+                    commonQueueAutoCorrect.Add(fileEntryBroker, autoCorrectFormVaraibles);
+                }
+            }
+        }
+        #endregion
+
+        #region AutoCorrect - ThreadAutoCorrect
+        public void ThreadAutoCorrect()
+        {
+            try
+            {
+                lock (_ThreadAutoCorrectLock) if (_ThreadAutoCorrect != null || CommonQueueAutoCorrectDirty() <= 0) return;
+
+                lock (_ThreadAutoCorrectLock)
+                {
+
+                    _ThreadAutoCorrect = new Thread(() =>
+                    {
+                        try
+                        {
+                            #region AutoCorrect
+                            Logger.Trace("ThreadCorrect - started");
+                            int count = CommonQueueAutoCorrectLock();
+                            while (count > 0 && CommonQueueAutoCorrectLock() > 0 && !GlobalData.IsApplicationClosing)
+                            {
+                                count--;
+
+                                Dictionary<FileEntryBroker, AutoCorrectFormVaraibles> hasMetadataExiftool = new Dictionary<FileEntryBroker, AutoCorrectFormVaraibles>();
+                                HashSet<FileEntryBroker> hasMetadataExiftoolError = new HashSet<FileEntryBroker>();
+
+                                #region Find all that has metadata or error
+                                lock (commonQueueAutoCorrectLock)
+                                {
+                                    foreach (KeyValuePair<FileEntryBroker, AutoCorrectFormVaraibles> keyValuePair in commonQueueAutoCorrect)
+                                    {
+                                        Metadata metadataInCache = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(keyValuePair.Key);
+                                        if (metadataInCache != null) hasMetadataExiftool.Add(keyValuePair.Key, keyValuePair.Value);
+                                        else
+                                        {
+                                            FileEntryBroker fileEntryBrokerError = new FileEntryBroker(keyValuePair.Key, MetadataBrokerType.ExifTool | MetadataBrokerType.ExifToolWriteError);
+                                            Metadata metadataErrorInCache = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerError);
+                                            if (metadataErrorInCache != null) hasMetadataExiftoolError.Add(keyValuePair.Key);
+                                        }
+                                    } 
+                                }
+                                #endregion
+
+                                #region Remove from Queue
+                                lock (commonQueueAutoCorrectLock)
+                                {
+                                    foreach (FileEntryBroker fileEntryBroker in hasMetadataExiftoolError)
+                                    {
+                                        commonQueueAutoCorrect.Remove(fileEntryBroker);
+                                    }
+                                    foreach (FileEntryBroker fileEntryBroker in hasMetadataExiftool.Keys)
+                                    {
+                                        commonQueueAutoCorrect.Remove(fileEntryBroker);
+                                    }
+                                }
+                                #endregion
+                                
+
+                                AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
+                                float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
+                                float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
+                                int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
+
+                                FileEntryVersion fileEntryVersion = FileEntryVersion.MetadataToSave;
+
+
+                                foreach (KeyValuePair<FileEntryBroker, AutoCorrectFormVaraibles> keyValuePair in hasMetadataExiftool)
+                                {
+                                    FileEntryBroker fileEntryBroker = keyValuePair.Key;
+                                    AutoCorrectFormVaraibles autoCorrectFormVaraibles = keyValuePair.Value;
+                                    //autoCorrectFormVaraibles.WriteAlbumOnDescription = autoCorrect.UpdateDescription;
+
+                                    Metadata metadataInCache = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBroker);
+                                    if (metadataInCache != null)
+                                    {
+                                        Metadata metadata = new Metadata(metadataInCache);
+
+                                        Metadata metadataToSave = autoCorrect.RunAlgorithmReturnCopy(metadata,
+                                        databaseAndCacheMetadataExiftool,
+                                        databaseAndCacheMetadataMicrosoftPhotos,
+                                        databaseAndCacheMetadataWindowsLivePhotoGallery,
+                                        databaseAndCahceCameraOwner,
+                                        databaseLocationNameAndLookUp,
+                                        databaseGoogleLocationHistory,
+                                        locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
+                                        autoKeywordConvertions,
+                                        Properties.Settings.Default.RenameDateFormats);
+
+                                        if (metadataToSave != null)
+                                        {
+                                            if (Properties.Settings.Default.WriteAutoKeywordsSynonyms) AutoKeywords(ref metadataToSave);
+                                            if (autoCorrectFormVaraibles != null) AutoCorrectFormVaraibles.UseAutoCorrectFormData(ref metadataToSave, autoCorrectFormVaraibles);
+                                            if (Properties.Settings.Default.WriteUsingCompatibilityCheck) AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave, fixDateTaken: false);
+
+                                            MicrosoftLocationHack(ref metadataToSave, metadata, Properties.Settings.Default.MicosoftOneDriveLocationHackUse, Properties.Settings.Default.MicosoftOneDriveLocationHackPostfix);
+                                            DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
+                                            AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(metadataInCache));
+                                            //Need use metadataToSave.FullFilePath, Because When Exiftool output filename can be diffrent to input filename
+                                            AddQueueRenameMediaFilesLock(metadata.FileFullPath, autoCorrect.RenameVariable);
+                                        }
+                                    }
+                                }
+                                Thread.Sleep(100);
+                            }
+                            #endregion
+
+                        }
+                        catch (Exception ex)
+                        {
+                            KryptonMessageBox.Show("ThreadAutoCorrect crashed.\r\n" +
+                                "The ThreadAutoCorrect queue was cleared. Nothing was saved.\r\n" +
+                                "Exception message:" + ex.Message + "\r\n",
+                                "Saving ThreadAutoCorrect failed", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                            lock (commonQueueAutoCorrectLock) commonQueueAutoCorrect.Clear();
+                            Logger.Error(ex, "ThreadAutoCorrect");
+                        }
+                        finally
+                        {
+                            lock (_ThreadAutoCorrectLock) _ThreadAutoCorrect = null;
+                            Logger.Trace("ThreadAutoCorrect - ended");
+                        }
+                    });
+
+                    lock (_ThreadAutoCorrectLock) if (_ThreadAutoCorrect != null)
+                        {
+                            _ThreadAutoCorrect.Priority = threadPriority;
+                            _ThreadAutoCorrect.Start();
+                        }
+                        else Logger.Error("_ThreadAutoCorrectLock was not able to start");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "_ThreadAutoCorrect.Start failed. ");
+            }
+
+
+        }
+        #endregion
+
+        #endregion
+
+
         #region MapNomnatatim
-        
+
         #region MapNomnatatim - LazyLoading - Add Read Queue
         public void AddQueueLazyLoadingMapNomnatatimLock(FileEntryAttribute fileEntryAttribute, bool forceReloadUsingReverseGeocoder)
         {

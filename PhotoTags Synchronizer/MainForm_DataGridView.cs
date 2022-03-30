@@ -821,6 +821,12 @@ namespace PhotoTagsSynchronizer
         #region DataGridView - Populate File - FileEntryVersion - CompatibilityCheckedMetadataToSave
         private void DataGridView_Populate_CompatibilityCheckedMetadataToSave(Metadata metadataToSave, FileEntryVersion fileEntryVersion)
         {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<Metadata, FileEntryVersion>(DataGridView_Populate_CompatibilityCheckedMetadataToSave), metadataToSave, fileEntryVersion);
+                return;
+            }
+
             DataGridView_Populate_FileEntryAttribute(GetActiveTabDataGridView(),
                 new FileEntryAttribute(metadataToSave.FileFullPath, DateTime.Now, fileEntryVersion), GetActiveTabTag(), metadataToSave);
         }
